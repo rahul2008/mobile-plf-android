@@ -92,9 +92,12 @@ import com.janrain.android.engage.ui.JRFragmentHostActivity;
 import com.janrain.android.engage.ui.JRPublishFragment;
 import com.janrain.android.engage.ui.JRUiFragment;
 import com.janrain.android.utils.AndroidUtils;
+import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
 import com.janrain.android.utils.UiUtils;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -527,7 +530,7 @@ public class JREngage {
      */
     public void showAuthenticationDialog(Activity fromActivity,
                                          Class<? extends JRCustomInterface> uiCustomization) {
-        showAuthenticationDialog(fromActivity, false, null, uiCustomization);
+        showAuthenticationDialog(fromActivity, false, null, uiCustomization, null);
     }
 
     /**
@@ -576,7 +579,7 @@ public class JREngage {
      * setAlwaysForceReauthentication().
      */
     public void showAuthenticationDialog(Activity fromActivity, String provider) {
-        showAuthenticationDialog(fromActivity, null, provider, null);
+        showAuthenticationDialog(fromActivity, null, provider, null, null);
     }
 
     /**
@@ -607,7 +610,7 @@ public class JREngage {
     public void showAuthenticationDialog(Activity fromActivity,
                                          Boolean skipReturningUserLandingPage,
                                          String provider) {
-        showAuthenticationDialog(fromActivity, skipReturningUserLandingPage, provider, null);
+        showAuthenticationDialog(fromActivity, skipReturningUserLandingPage, provider, null, null);
     }
 
     /**
@@ -620,7 +623,7 @@ public class JREngage {
     public void showAuthenticationDialog(Boolean skipReturningUserLandingPage,
                                          String provider,
                                          Class<? extends JRCustomInterface> uiCustomization) {
-        showAuthenticationDialog(mActivityContext, skipReturningUserLandingPage, provider, uiCustomization);
+        showAuthenticationDialog(mActivityContext, skipReturningUserLandingPage, provider, uiCustomization,null);
     }
 
     /**
@@ -632,7 +635,7 @@ public class JREngage {
      *                                     page when \c true.  That is, the dialog will always open straight
      *                                     to the list of providers.  The dialog falls back to the default
      *                                     behavior when \c false
-     * @param provider                     Specify a provider to start authentication with. No provider
+     * @param providerName                     Specify a provider by name to start authentication with. No provider
      *                                     selection list will be shown, the user will be brought directly
      *                                     to authentication with this provider. If null the user will be
      *                                     shown the provider list as usual.
@@ -643,17 +646,24 @@ public class JREngage {
      */
     public void showAuthenticationDialog(final Activity fromActivity,
                                          final Boolean skipReturningUserLandingPage,
-                                         final String provider,
-                                         final Class<? extends JRCustomInterface> uiCustomization) {
+                                         final String providerName,
+                                         final Class<? extends JRCustomInterface> uiCustomization,
+                                         final Boolean linkAccount) {
         blockOnInitialization();
         if (checkSessionDataError()) return;
         checkNullActivity(fromActivity);
+
+        if (linkAccount != null) {
+            mSession.setLinkAccount(linkAccount);
+        }
 
         if (skipReturningUserLandingPage != null) {
             mSession.setSkipLandingPage(skipReturningUserLandingPage);
         }
 
-        if (provider != null && mSession.getProviderByName(provider) == null && !mSession.isConfigDone()) {
+        final JRProvider provider = mSession.getProviderByName(providerName);
+
+        if (provider != null && provider == null && !mSession.isConfigDone()) {
             final Dialog progressDialog = UiUtils.getProgressDialog(fromActivity);
             progressDialog.show();
 
@@ -662,31 +672,39 @@ public class JREngage {
                 public void configDidFinish() {
                     mConfigFinishListeners.remove(this);
                     checkSessionDataError();
-                    showAuthFlowInternal(fromActivity, provider, uiCustomization);
+                    showWebAuthFlowInternal(fromActivity, providerName, provider, uiCustomization);
                     progressDialog.dismiss();
                 }
             });
         } else {
-            showAuthFlowInternal(fromActivity, provider, uiCustomization);
+            showWebAuthFlowInternal(fromActivity, providerName, provider, uiCustomization);
         }
     }
 
     /**
-     * Sign out of the Native Google+ SDK
-     * @param fromActivity
+     * Begins authentication. The library will start a new Android Activity and take the user through the
+     * sign-in process.
+     *
+     * @param fromActivity The Activity from which to show the authentication dialog
+     * @param skipReturningUserLandingPage Prevents the dialog from opening to the returning-user landing page
+     * when \c true. That is, the dialog will always open straight to the
+     * list of providers. The dialog falls back to the default behavior
+     * when \c false
+     * @param provider Specify a provider to start authentication with. No provider
+     * selection list will be shown, the user will be brought directly to
+     * authentication with this provider. If null the user will be shown
+     * the provider list as usual.
+     * @param permissions                  If Native Authentication is used pass these Permissions/Scopes
+     *                                     selection list will be shown, the user will be brought directly
+     *                                     to Facebook/GooglePlus.  Otherwise ignored.
+     * @param uiCustomization The custom sign-in object to display in the provider list. May be
+     * null for no custom sign-in.
+     * @param linkAccount The boolean to trigger account linking .This is true for account
+     * linking.
+     * @note If you always want to force the user to re-enter his/her credentials, pass \c true to the method
+     * setAlwaysForceReauthentication().
      */
-    public void signOutNativeGooglePlus(Activity fromActivity) {
-        mSession.signOutNativeProviders(fromActivity);
-    }
-
-    /**
-     * Revoke the Google+ access token and disconnect the app
-     * After calling this you must delete whatever information you've obtained from Google+
-     * @param fromActivity
-     */
-    public void revokeAndDisconnectNativeGooglePlus(Activity fromActivity) {
-        mSession.revokeAndDisconnectNativeGooglePlus(fromActivity);
-    }
+ 
 
     /**
      * Change the engage app ID and reload the Engage configuration data
@@ -725,51 +743,78 @@ public class JREngage {
         void configDidFinish();
     }
 
-    /**
-     * @internal
-     * @hide
-     */
-    private void showAuthFlowInternal(final Activity fromActivity,
-                                      final String providerName,
-                                      final Class<? extends JRCustomInterface> uiCustomization) {
+
+    public static enum NativeAuthError {
+        ENGAGE_ERROR
+    }
+
+    public void getAuthInfoTokenForNativeProvider(final Activity fromActivity,
+                                                  final String providerName,
+                                                  final String accessToken,
+                                                  final String tokenSecret) {
+        blockOnInitialization();
+        if (checkSessionDataError()) return;
+        checkNullActivity(fromActivity);
+
         JRProvider provider = mSession.getProviderByName(providerName);
 
-        if (provider != null && JRNativeAuth.canHandleProvider(provider)) {
-            showNativeAuthFlowInternal(fromActivity, provider, uiCustomization);
-        } else {
-            showWebAuthFlowInternal(fromActivity, providerName, provider, uiCustomization);
-        }
-    }
-
-    private void showNativeAuthFlowInternal(final Activity fromActivity,
-                                            final JRProvider provider,
-                                            final Class<? extends JRCustomInterface> uiCustomization) {
         mSession.setCurrentlyAuthenticatingProvider(provider);
-        mUiCustomization = uiCustomization;
 
-        Intent i = JRFragmentHostActivity.createNativeAuthIntent(fromActivity);
-        i.putExtra(JRFragmentHostActivity.JR_PROVIDER, provider.getName());
-        fromActivity.startActivity(i);
-    }
+        ApiConnection.FetchJsonCallback handler = new ApiConnection.FetchJsonCallback() {
+            public void run(JSONObject json) {
 
-    public JRNativeAuth.NativeAuthCallback getNativeAuthCallback(final Activity fromActivity,
-            final Class<? extends JRCustomInterface> uiCustomization) {
-        final JRProvider provider = mSession.getCurrentlyAuthenticatingProvider();
+                if (json == null) {
+                    triggerOnFailure("Bad Response", NativeAuthError.ENGAGE_ERROR);
+                    return;
+                }
 
-        return new JRNativeAuth.NativeAuthCallback() {
-            public void onSuccess(JRDictionary payload) {
-                mSession.saveLastUsedAuthProvider();
-                mSession.triggerAuthenticationDidCompleteWithPayload(payload);
-            }
+                String status = json.optString("stat");
 
-            public boolean shouldTriggerAuthenticationDidCancel() {
-                return true;
-            }
+                if (json == null || json.optString("stat") == null || !json.optString("stat").equals("ok")) {
+                    triggerOnFailure("Bad Json: " + json, NativeAuthError.ENGAGE_ERROR);
+                    return;
+                }
 
-            public void tryWebViewAuthentication() {
-                showWebAuthFlowInternal(fromActivity, provider.getName(), provider, uiCustomization);
+                String auth_token = json.optString("token");
+
+                JRDictionary payload = new JRDictionary();
+                payload.put("token", auth_token);
+                payload.put("auth_info", new JRDictionary());
+
+                triggerOnSuccess(payload);
             }
         };
+
+        ApiConnection connection =
+                new ApiConnection(JRSession.getInstance().getRpBaseUrl() + "/signin/oauth_token");
+        if(tokenSecret != null){
+            connection.addAllToParams("token", accessToken, "token_secret", tokenSecret, "provider", providerName);
+        }else{
+            connection.addAllToParams("token", accessToken, "provider", providerName);
+        }
+
+        connection.fetchResponseAsJson(handler);
+
+
+    }
+
+    /*package*/ void triggerOnSuccess(JRDictionary payload) {
+        mSession.saveLastUsedAuthProvider();
+        mSession.triggerAuthenticationDidCompleteWithPayload(payload);
+    }
+
+    /*package*/ void triggerOnFailure(String message, NativeAuthError errorCode) {
+        triggerOnFailure(message, errorCode, null, false);
+    }
+
+    /*package*/void triggerOnFailure(final String message, NativeAuthError errorCode, Exception exception,
+                                     boolean shouldTryWebViewAuthentication) {
+        //completion.onFailure(message, errorCode, exception, shouldTryWebViewAuthentication);
+        LogUtils.loge("triggerOnFailure message: " + message);
+        LogUtils.loge("triggerOnFailure errorCode: " + errorCode.toString());
+
+        if(exception != null) LogUtils.loge("triggerOnFailure exception: " + exception.getMessage());
+
     }
 
     private void showWebAuthFlowInternal(final Activity fromActivity,
@@ -1109,28 +1154,7 @@ public class JREngage {
 /*@}*/
 
 
-    /**
-     * Set this to "true" if you want the Janrain SDK to silently fail, then attempt WebView authentication
-     * when the Google+ SDK is integrated but Google Play Services is unavailable.
-     *
-     * When false, if the Google Play error is SERVICE_MISSING, SERVICE_VERSION_UPDATE_REQUIRE, or
-     * SERVICE_DISABLED, then the SDK will present Google's dialog suggesting that the user install or update
-     * Google Play Services. After the dialog is dismissed it will call your onFailure method. If the Google
-     * Play error is something else, then the SDK will silently fail and attempt WebView authentication.
-     *
-     * Reference: https://developer.android.com/google/play-services/setup.html#ensure
-     *
-     * This defaults to true.
-     */
-
-    public void setTryWebViewAuthenticationWhenGooglePlayIsUnavailable(boolean newValue) {
-        tryWebViewAuthenticationWhenGooglePlayIsUnavailable = newValue;
-    }
-
-    public static boolean shouldTryWebViewAuthenticationWhenGooglePlayIsUnavailable() {
-        return getInstance().tryWebViewAuthenticationWhenGooglePlayIsUnavailable;
-    }
-
+    
     private JRSessionDelegate mJrsd = new JRSessionDelegate.SimpleJRSessionDelegate() {
         public void authenticationDidCancel() {
             LogUtils.logd();
@@ -1232,34 +1256,7 @@ public class JREngage {
         return new ArrayList<JREngageDelegate>(mDelegates);
     }
 
-    /**
-     * Begins authentication. The library will start a new Android Activity and take the user through the
-     * sign-in process.
-     *
-     * @param fromActivity The Activity from which to show the authentication dialog
-     * @param skipReturningUserLandingPage Prevents the dialog from opening to the returning-user landing page
-     * when \c true. That is, the dialog will always open straight to the
-     * list of providers. The dialog falls back to the default behavior
-     * when \c false
-     * @param provider Specify a provider to start authentication with. No provider
-     * selection list will be shown, the user will be brought directly to
-     * authentication with this provider. If null the user will be shown
-     * the provider list as usual.
-     * @param uiCustomization The custom sign-in object to display in the provider list. May be
-     * null for no custom sign-in.
-     * @param linkAccount The boolean to trigger account linking .This is true for account
-     * linking.
-     * @note If you always want to force the user to re-enter his/her credentials, pass \c true to the method
-     * setAlwaysForceReauthentication().
-     */
-    public void showAuthenticationDialog(final Activity fromActivity,
-                                         final Boolean skipReturningUserLandingPage,
-                                         final String provider,
-                                         final Class<? extends JRCustomInterface> uiCustomization,
-                                         final boolean linkAccount) {
-        mSession.setLinkAccount(linkAccount);
-        showAuthenticationDialog(fromActivity, skipReturningUserLandingPage, provider, uiCustomization);
-    }
+    
 }
 
 /**

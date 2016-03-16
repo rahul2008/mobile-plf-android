@@ -11,11 +11,11 @@ import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
-import com.philips.cdp.registration.controller.RegisterSocial;
 import com.philips.cdp.registration.controller.ForgotPassword;
 import com.philips.cdp.registration.controller.LoginSocialProvider;
 import com.philips.cdp.registration.controller.LoginTraditional;
 import com.philips.cdp.registration.controller.RefreshUserSession;
+import com.philips.cdp.registration.controller.RegisterSocial;
 import com.philips.cdp.registration.controller.RegisterTraditional;
 import com.philips.cdp.registration.controller.ResendVerificationEmail;
 import com.philips.cdp.registration.controller.UpdateReceiveMarketingEmail;
@@ -39,7 +39,6 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.security.SecureStorage;
 
@@ -471,7 +470,7 @@ public class User {
             handler.onRefreshUserFailed(0);
             return;
         }
-        Jump.fetchCaptureUserFromServer(new CaptureApiResultHandler() {
+        Jump.performFetchCaptureData(new CaptureApiResultHandler() {
 
             @Override
             public void onSuccess(JSONObject response) {

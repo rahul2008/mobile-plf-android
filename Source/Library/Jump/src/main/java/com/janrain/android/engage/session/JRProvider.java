@@ -49,12 +49,8 @@ import com.janrain.android.utils.WebViewUtils;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.ref.SoftReference;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -96,17 +92,22 @@ public class JRProvider implements Serializable {
                     put("icon_bw_myspace", R.drawable.jr_icon_bw_myspace);
                     put("icon_bw_twitter", R.drawable.jr_icon_bw_twitter);
                     put("icon_bw_yahoo", R.drawable.jr_icon_bw_yahoo);
+                    put("icon_bw_yahoo_oauth2", R.drawable.jr_icon_bw_yahoo_oauth2);
                     put("icon_bw_amazon", R.drawable.jr_icon_bw_amazon);
                     put("icon_bw_tumblr", R.drawable.jr_icon_bw_tumblr);
                     put("icon_bw_googleplus", R.drawable.jr_icon_bw_googleplus);
                     put("icon_bw_microsoftaccount", R.drawable.jr_icon_bw_microsoftaccount);
-
+                    put("icon_bw_instagram", R.drawable.jr_icon_bw_instagram);
+                    put("icon_bw_paypal", R.drawable.jr_icon_bw_paypal);
+                    put("icon_bw_paypal_openidconnect", R.drawable.jr_icon_bw_paypal_openidconnect);
                     put("icon_aol", R.drawable.jr_icon_aol);
                     put("icon_blogger", R.drawable.jr_icon_blogger);
                     put("icon_facebook", R.drawable.jr_icon_facebook);
                     put("icon_flickr", R.drawable.jr_icon_flickr);
                     put("icon_foursquare", R.drawable.jr_icon_foursquare);
                     put("icon_google", R.drawable.jr_icon_google);
+                    put("icon_googleplus", R.drawable.jr_icon_googleplus);
+                    put("icon_instagram", R.drawable.jr_icon_instagram);
                     put("icon_hyves", R.drawable.jr_icon_hyves);
                     put("icon_linkedin", R.drawable.jr_icon_linkedin);
                     put("icon_live_id", R.drawable.jr_icon_live_id);
@@ -117,15 +118,16 @@ public class JRProvider implements Serializable {
                     put("icon_openid", R.drawable.jr_icon_openid);
                     put("icon_orkut", R.drawable.jr_icon_orkut);
                     put("icon_paypal", R.drawable.jr_icon_paypal);
+                    put("icon_paypal_openidconnect", R.drawable.jr_icon_paypal_openidconnect);
                     put("icon_salesforce", R.drawable.jr_icon_salesforce);
                     put("icon_twitter", R.drawable.jr_icon_twitter);
                     put("icon_verisign", R.drawable.jr_icon_verisign);
                     put("icon_vzn", R.drawable.jr_icon_vzn);
                     put("icon_wordpress", R.drawable.jr_icon_wordpress);
                     put("icon_yahoo", R.drawable.jr_icon_yahoo);
+                    put("icon_yahoo_oauth2", R.drawable.jr_icon_yahoo_oauth2);
                     put("icon_amazon", R.drawable.jr_icon_amazon);
                     put("icon_tumblr", R.drawable.jr_icon_tumblr);
-                    put("icon_googleplus", R.drawable.jr_icon_googleplus);
                     put("icon_microsoftaccount", R.drawable.jr_icon_microsoftaccount);
                 }
             };
@@ -145,6 +147,7 @@ public class JRProvider implements Serializable {
                     put("logo_foursquare", R.drawable.jr_logo_foursquare);
                     put("logo_google", R.drawable.jr_logo_google);
                     put("logo_hyves", R.drawable.jr_logo_hyves);
+                    put("logo_instagram", R.drawable.jr_logo_instagram);
                     put("logo_linkedin", R.drawable.jr_logo_linkedin);
                     put("logo_live_id", R.drawable.jr_logo_live_id);
                     put("logo_livejournal", R.drawable.jr_logo_livejournal);
@@ -154,11 +157,13 @@ public class JRProvider implements Serializable {
                     put("logo_openid", R.drawable.jr_logo_openid);
                     put("logo_orkut", R.drawable.jr_logo_orkut);
                     put("logo_paypal", R.drawable.jr_logo_paypal);
+                    put("logo_paypal_openidconnect", R.drawable.jr_logo_paypal_openidconnect);
                     put("logo_salesforce", R.drawable.jr_logo_salesforce);
                     put("logo_twitter", R.drawable.jr_logo_twitter);
                     put("logo_verisign", R.drawable.jr_logo_verisign);
                     put("logo_vzn", R.drawable.jr_logo_vzn);
                     put("logo_yahoo", R.drawable.jr_logo_yahoo);
+                    put("logo_yahoo_oauth2", R.drawable.jr_logo_yahoo_oauth2);
                     put("logo_amazon", R.drawable.jr_logo_amazon);
                     put("logo_tumblr", R.drawable.jr_logo_tumblr);
                     put("logo_googleplus", R.drawable.jr_logo_googleplus);
@@ -452,9 +457,16 @@ public class JRProvider implements Serializable {
     }
 
     public static String getLocalizedName(String conflictingIdentityProvider) {
+    	String result = "";
         if (conflictingIdentityProvider.equals("capture")) {
-            return JREngage.getApplicationContext().getString(R.string.jr_traditional_account_name);
+            result = JREngage.getApplicationContext().getString(R.string.jr_traditional_account_name);
+        }else{
+            try {
+                result = JRSession.getInstance().getProviderByName(conflictingIdentityProvider).getFriendlyName();
+            } catch (NullPointerException e) {
+                throwDebugException(new RuntimeException("Original Provider ("+ conflictingIdentityProvider + ") not found in list of configured providers", e));
+            }
         }
-        return JRSession.getInstance().getProviderByName(conflictingIdentityProvider).getFriendlyName();
+        return result;
     }
 }

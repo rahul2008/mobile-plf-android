@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
-import com.janrain.android.capture.Capture;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import java.io.EOFException;

@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
-import com.janrain.android.capture.Capture;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import java.io.EOFException;
@@ -89,7 +88,7 @@ public class TestingRegistrationSettings extends RegistrationSettings {
             jumpConfig.captureRedirectUri = TEST_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
         }
 
-        jumpConfig.captureRecoverUri = TEST_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
+        jumpConfig.captureRedirectUri = TEST_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
         jumpConfig.captureLocale = locale;
 
         mPreferredCountryCode = countryCode;

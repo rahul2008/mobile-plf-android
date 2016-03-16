@@ -24,10 +24,10 @@ public class RegistrationApplication extends Application {
 		Tagging.enableAppTagging(true);
 		Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 		Tagging.setLaunchingPageName("demoapp:home");
-		RegistrationConfiguration.getInstance().setCoppaFlow(false);
+		RegistrationConfiguration.getInstance().setCoppaFlow(true);
 		RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 		initRegistration();
-    	//	RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(), Locale.getDefault());
+		//	RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(), Locale.getDefault());
 		//	Tagging.init(Locale.getDefault(), getApplicationContext());
 	}
 
@@ -85,7 +85,7 @@ public class RegistrationApplication extends Application {
 		hsdpInfo.setApplicationName("uGrowApp");
 		hsdpInfo.setSharedId("f129afcc-55f4-11e5-885d-feff819cdc9f");
 		hsdpInfo.setSecretId("f129b5a8-55f4-11e5-885d-feff819cdc9f");
-		hsdpInfo.setBaseURL("https://ugrow-ds-development.cloud.pcftest.com");
+		hsdpInfo.setBaseURL("https://newuser-registration-assembly15.cloud.pcftest.com");
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.EVALUATION,hsdpInfo);
 
 		RegistrationHelper.getInstance().initializeUserRegistration(this, Locale.getDefault());

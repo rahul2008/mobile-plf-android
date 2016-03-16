@@ -137,3 +137,8 @@
 
 #notification
 -dontwarn android.app.Notification
+-dontwarn okio.**
+-keep class com.squareup.** { *; }
+-keep class java.nio.**
+-keep class org.codehaus.**
+

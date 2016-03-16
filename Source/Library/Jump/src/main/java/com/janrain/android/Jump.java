@@ -40,7 +40,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.v4.content.LocalBroadcastManager;
-
 import com.janrain.android.capture.Capture;
 import com.janrain.android.capture.CaptureApiError;
 import com.janrain.android.capture.CaptureFlowUtils;
@@ -50,6 +49,8 @@ import com.janrain.android.engage.JREngageDelegate;
 import com.janrain.android.engage.JREngageError;
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
+
+import com.janrain.android.engage.ui.JRCustomInterface;
 import com.janrain.android.utils.AndroidUtils;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
@@ -77,6 +78,11 @@ import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureRe
 import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.CAPTURE_API_ERROR;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.ENGAGE_ERROR;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.JUMP_NOT_INITIALIZED;
+import static com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError;
+import static com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError.FailureReason.
+        FORGOTPASSWORD_JUMP_NOT_INITIALIZED;
+import static com.janrain.android.Jump.CaptureApiResultHandler.CaptureAPIError;
+import static com.janrain.android.Jump.CaptureApiResultHandler.CaptureAPIError.FailureReason.CAPTURE_API_FORMAT_ERROR;
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 
 /**
@@ -181,8 +187,6 @@ public class Jump {
         state.context = context;
         state.jrEngage = JREngage.initInstance(context.getApplicationContext(), jumpConfig.engageAppId,
                 null, null, jumpConfig.customProviders);
-        state.jrEngage.setTryWebViewAuthenticationWhenGooglePlayIsUnavailable(
-                jumpConfig.tryWebViewAuthenticationWhenGooglePlayIsUnavailable);
         state.captureSocialRegistrationFormName = jumpConfig.captureSocialRegistrationFormName;
         state.captureTraditionalRegistrationFormName = jumpConfig.captureTraditionalRegistrationFormName;
         state.captureEditUserProfileFormName = jumpConfig.captureEditUserProfileFormName;
@@ -193,12 +197,16 @@ public class Jump {
         state.captureAppId = jumpConfig.captureAppId;
         state.captureClientId = jumpConfig.captureClientId;
         state.traditionalSignInType = jumpConfig.traditionalSignInType;
-        state.captureRedirectUri = jumpConfig.captureRedirectUri;
-		state.captureRecoverUri = jumpConfig.captureRecoverUri;
         state.captureLocale = jumpConfig.captureLocale;
         state.captureTraditionalSignInFormName = jumpConfig.captureTraditionalSignInFormName;
         state.captureForgotPasswordFormName = jumpConfig.captureForgotPasswordFormName;
         state.captureResendEmailVerificationFormName = jumpConfig.captureResendEmailVerificationFormName;
+        if(jumpConfig.captureRedirectUri == null){
+            state.captureRedirectUri = "http://android.library";
+        }else{
+            state.captureRedirectUri = jumpConfig.captureRedirectUri;
+        }
+        state.captureRecoverUri = jumpConfig.captureRecoverUri;
 
         final Context tempContext = context;
         ThreadUtils.executeInBg(new Runnable() {
@@ -214,6 +222,7 @@ public class Jump {
             }
         });
     }
+
 
     public static String getCaptureDomain() {
         return state.captureDomain;
@@ -318,9 +327,9 @@ public class Jump {
     public static String getRedirectUri() {
         return state.captureRedirectUri;
     }
-    
-    public static String getRecoverUri() {
-        return state.captureRecoverUri;
+
+    public static void setRedirectUri(String redirectUri) {
+        state.captureRedirectUri = redirectUri;
     }
 
     public static boolean getCaptureEnableThinRegistration() {
@@ -354,6 +363,39 @@ public class Jump {
     }
 
     /**
+     * Starts the Capture sign-in flow with Permissions/Scopes from JumpConfig.
+     *
+     * If the providerName parameter is not null and is a valid provider name string then authentication
+     * begins directly with that provider.
+     *
+     * If providerName is null than a list of available providers is displayed first.
+     *
+     * @param fromActivity the activity from which to start the dialog activity
+     * @param providerName the name of the provider to show the sign-in flow for. May be null.
+     *                     If null, a list of providers (and a traditional sign-in form) is displayed to the
+     *                     end-user.
+     * @param permissions  the Permissions/Scopes from the JumpConfig 
+     *                     Used for Native Authentication of Facebook and Google+
+     * @param handler your result handler, called upon completion on the UI thread
+     * @param mergeToken an Engage auth_info token retrieved from an EMAIL_ADDRESS_IN_USE Capture API error,
+     *                   or null for none.
+     */
+    public static void showSignInDialog(Activity fromActivity, String providerName, String[] permissions, 
+                                        SignInResultHandler handler, final String mergeToken) {
+        if (state.jrEngage == null || state.captureDomain == null) {
+            handler.onFailure(new SignInError(JUMP_NOT_INITIALIZED, null, null));
+            return;
+        }
+
+        state.signInHandler = handler;
+        if ("capture".equals(providerName)) {
+            TradSignInUi.showStandAloneDialog(fromActivity, mergeToken);
+        } else {
+            showSocialSignInDialog(fromActivity, providerName, mergeToken);
+        }
+    }
+
+    /**
      * Starts the Capture sign-in flow.
      *
      * If the providerName parameter is not null and is a valid provider name string then authentication
@@ -384,8 +426,7 @@ public class Jump {
         }
     }
 
-    private static void showSocialSignInDialog(Activity fromActivity, String providerName,
-                                               final String mergeToken) {
+    private static void showSocialSignInDialog(Activity fromActivity, String providerName, final String mergeToken) {
         state.jrEngage.addDelegate(new JREngageDelegate.SimpleJREngageDelegate() {
             @Override
             public void jrAuthenticationDidSucceedForUser(JRDictionary auth_info, String provider) {
@@ -421,7 +462,57 @@ public class Jump {
         }
     }
 
+    public static void startTokenAuthForNativeProvider(final Activity fromActivity,
+                                                       final String providerName,
+                                                       final String accessToken,
+                                                       final String tokenSecret,
+                                                       SignInResultHandler handler,
+                                                       final String mergeToken) {
+        if (state.jrEngage == null || state.captureDomain == null) {
+            handler.onFailure(new SignInError(JUMP_NOT_INITIALIZED, null, null));
+            return;
+        }
 
+        state.signInHandler = handler;
+        nextTokenAuthForNativeProvider(fromActivity,providerName,accessToken,tokenSecret,mergeToken);
+
+    }
+
+    private static void nextTokenAuthForNativeProvider(Activity fromActivity,
+                                                       String providerName,
+                                                       final String accessToken,
+                                                       final String tokenSecret,
+                                                       final String mergeToken) {
+        state.jrEngage.addDelegate(new JREngageDelegate.SimpleJREngageDelegate() {
+            @Override
+            public void jrAuthenticationDidSucceedForUser(JRDictionary auth_info, String provider) {
+                handleEngageAuthenticationSuccess(auth_info, provider, mergeToken);
+                state.jrEngage.removeDelegate(this);
+            }
+
+            @Override
+            public void jrAuthenticationDidNotComplete() {
+                fireHandlerFailure(new SignInError(AUTHENTICATION_CANCELED_BY_USER, null, null));
+            }
+
+            @Override
+            public void jrAuthenticationDidFailWithError(JREngageError error, String provider) {
+                fireHandlerFailure(new SignInError(ENGAGE_ERROR, null, error));
+            }
+
+            private void fireHandlerFailure(SignInError err) {
+                state.jrEngage.removeDelegate(this);
+                Jump.fireHandlerOnFailure(err);
+            }
+        });
+
+
+        if (providerName != null && accessToken != null) {
+            state.jrEngage.getAuthInfoTokenForNativeProvider(fromActivity, providerName, accessToken, tokenSecret);
+        }else{
+            LogUtils.logd("Provider Name or Access Token can not be null");
+        }
+    }
 
     private static void handleEngageAuthenticationSuccess(final JRDictionary auth_info, String provider,
                                                           String mergeToken) {
@@ -434,7 +525,7 @@ public class Jump {
             }
 
             public void onFailure(CaptureApiError error) {
-                Jump.fireHandlerOnFailure(new SignInError(CAPTURE_API_ERROR, error, null,auth_info));
+                Jump.fireHandlerOnFailure(new SignInError(CAPTURE_API_ERROR, error, null, auth_info));
             }
         }, provider, mergeToken);
     }
@@ -445,41 +536,6 @@ public class Jump {
     public static void showSignInDialog(Activity fromActivity, String providerName,
                                         SignInResultHandler handler) {
         showSignInDialog(fromActivity, providerName, handler, null);
-    }
-    
-    public static void fetchCaptureUserFromServer(CaptureApiResultHandler handler){
-         state.captureAPIHandler = handler;
-         Capture.performUpdateSignedUserData(new Capture.CaptureApiResultHandler() {
-             @Override
-             public void onSuccess(JSONObject response) {
-                 CaptureApiError error = null;
-                 if ("ok".equals(response.opt("stat"))) {
-                     Object userRecord = response.opt("result");
-                     if (userRecord instanceof JSONObject){
-                         JsonUtils.deepCopy((JSONObject) userRecord, state.signedInUser);
-                         LogUtils.logd("Deep copy to the signedInUser finish");
-                         Jump.fireHandlerOnCaptureAPISuccess(response);
-                     }else {
-                        LogUtils.loge("User Record object error");
-                        Jump.fireHandlerOnCaptureAPIFailure(new CaptureAPIError(CAPTURE_API_FORMAT_ERROR,
-                                error,
-                                null));
-                     }
-                 }else{
-                     LogUtils.loge("result stat incorrect");
-                     Jump.fireHandlerOnCaptureAPIFailure(new CaptureAPIError(CAPTURE_API_FORMAT_ERROR,
-                             error,
-                             null));
-                 }
-             }
-
-             @Override
-             public void onFailure(CaptureApiError error) {
-                 Jump.fireHandlerOnCaptureAPIFailure(new CaptureAPIError(CAPTURE_API_FORMAT_ERROR,
-                         error,
-                         null));
-             }
-         });
     }
 
     /**
@@ -492,22 +548,7 @@ public class Jump {
         CaptureRecord.deleteFromDisk(applicationContext);
     }
 
-    /**
-     * Sign out of the Native Google+ SDK
-     * @param fromActivity
-     */
-    public static void signOutNativeGooglePlus(Activity fromActivity) {
-        state.jrEngage.signOutNativeGooglePlus(fromActivity);
-    }
 
-    /**
-     * Revoke the Google+ access token and disconnect the app
-     * After calling this you must delete whatever information you've obtained from Google+
-     * @param fromActivity
-     */
-    public static void revokeAndDisconnectNativeGooglePlus(Activity fromActivity) {
-        state.jrEngage.revokeAndDisconnectNativeGooglePlus(fromActivity);
-    }
 
     /*package*/ static void fireHandlerOnFailure(SignInError failureParam) {
         SignInResultHandler handler_ = state.signInHandler;
@@ -613,6 +654,7 @@ public class Jump {
          */
         public static class SignInError {
             public enum FailureReason {
+
                 /**
                  * A well formed response could not be retrieved from the Capture server
                  */
@@ -644,7 +686,7 @@ public class Jump {
                 ENGAGE_ERROR
             }
 
-            public JRDictionary auth_info ;
+            public JRDictionary auth_info;
             public final FailureReason reason;
             public final CaptureApiError captureApiError;
             public final JREngageError engageError;
@@ -697,6 +739,22 @@ public class Jump {
          *             for use with a server side application like the Capture Drupal Plugin.
          */
         void onCode(String code);
+    }
+
+    /**
+     * An interface to receive a callback which handles the Facebook closeAndClearTokenInformation call.
+     */
+    public interface FacebookRevokedHandler {
+        /**
+         * Called when Facebook closeAndClearTokenInformation has succeeded. 
+         */
+        void onSuccess();
+
+        /**
+         * Called when Facebook closeAndClearTokenInformation has failed.
+         * Should be enhanced with some error messaging
+         */
+        void onFailure();
     }
 
     /**
@@ -781,7 +839,7 @@ public class Jump {
         loadUserFromDiskInternal(context);
     }
 
-    public /*package*/ static void loadUserFromDiskInternal(Context context) {
+    /*package*/ public static void loadUserFromDiskInternal(Context context) {
         state.signedInUser = CaptureRecord.loadFromDisk(context);
     }
 
@@ -867,10 +925,10 @@ public class Jump {
                 } else {
                     state.captureFlow = JsonUtils.jsonToCollection(jsonObject);
                     LogUtils.logd("Parsed flow, version: " + CaptureFlowUtils.getFlowVersion(state.captureFlow));
-                    storeCaptureFlow();
                     Intent intent = new Intent(JR_DOWNLOAD_FLOW_SUCCESS);
                     intent.putExtra("message", "Download flow Success!!");
                     LocalBroadcastManager.getInstance(state.context).sendBroadcast(intent);
+                    storeCaptureFlow();
                 }
             }
         });
@@ -962,7 +1020,18 @@ public class Jump {
         }
 
         final String mergeToken = error.captureApiError.getMergeToken();
-        final String existingProvider = error.captureApiError.getExistingAccountIdentityProvider();
+        String tempExistingProvider = error.captureApiError.getExistingAccountIdentityProvider();
+        /**
+         * Work around to address how engage returns the provider for both older Google
+         * and newer Google+ as just "google".
+         * If you are using the older Google IDP configuration remove the following three
+         * lines of code.
+         */
+        if(tempExistingProvider.equals("google")){
+            tempExistingProvider = "googleplus";
+        }
+        final String existingProvider = tempExistingProvider;
+        
         String conflictingIdentityProvider = error.captureApiError.getConflictingIdentityProvider();
         String conflictingIdpNameLocalized = JRProvider.getLocalizedName(conflictingIdentityProvider);
         String existingIdpNameLocalized = JRProvider.getLocalizedName(existingProvider);
@@ -983,10 +1052,20 @@ public class Jump {
                                 //
                                 // ... instead of showSignInDialog if you wish to present your own dialog
                                 // and then use the headless API to perform the traditional sign-in.
+                                
+                                // For the Merge Account workflow it is recommended to use the standard 
+                                // web based (non-native) authentication dialog.  This allows the end 
+                                // user to manually enter the social account that "owns" the Janrain user 
+                                // record.  If the user did not have this account stored on their 
+                                // phone or had multiple accounts stored the user interface could be overly 
+                                // complicated. The standard web based sign in dialog can be forced by 
+                                // passing a null permissions parameter in the method call below
                                 Jump.showSignInDialog(fromActivity,
                                         existingProvider,
+                                        null,
                                         signInResultHandler,
                                         mergeToken);
+
                             }
                         })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -1119,8 +1198,26 @@ public class Jump {
      * @param mDelegate    an Engage Delegate to handle the JRSession response.
      */
 
-    public static void showSocialSignInDialog(Activity fromActivity, String providerName,
+    public static void showSocialSignInDialog(Activity fromActivity, String providerName, boolean linkAccount, JREngageDelegate mDelegate) {
+        state.jrEngage.showAuthenticationDialog(fromActivity, null, providerName, null, linkAccount);
+        state.jrEngage.addDelegate(mDelegate);
+    }
+    
+    /**
+     * Starts the Engage account linking flow. <p/> If the providerName parameter is not null and is a valid
+     * provider name string then authentication begins directly with that provider. <p/> If providerName is
+     * null than a list of available providers is displayed first.
+     *
+     * @param fromActivity the activity from which to start the dialog activity
+     * @param providerName the name of the provider to show the sign-in flow for. May be null. If null, a list
+     *                     of providers (and a traditional sign-in form) is displayed to the end-user.
+     * @param linkAccount  the boolean set to true for account linking
+     * @param mDelegate    an Engage Delegate to handle the JRSession response.
+     */
+
+    public static void showSocialSignInDialog(Activity fromActivity, String providerName, String[] permissions, 
                                               boolean linkAccount, JREngageDelegate mDelegate) {
+
         state.jrEngage.showAuthenticationDialog(fromActivity, null, providerName, null, linkAccount);
         state.jrEngage.addDelegate(mDelegate);
     }
@@ -1181,6 +1278,18 @@ public class Jump {
         Capture.performUpdateSignedUserData(new Capture.CaptureApiResultHandler() {
             @Override
             public void onSuccess(JSONObject response) {
+                Object userRecord = response.opt("result");
+               /* JsonUtils.deepCopy((JSONObject) userRecord, state.signedInUser);
+                LogUtils.logd("Deep copy to the signedInUser finish");
+                Jump.fireHandlerOnCaptureAPISuccess(response);*/
+                if (userRecord instanceof JSONObject){
+                    JsonUtils.deepCopy((JSONObject) userRecord, state.signedInUser);
+                    LogUtils.logd("Deep copy to the signedInUser finish");
+                    Jump.fireHandlerOnCaptureAPISuccess(response);
+                }else {
+                    LogUtils.loge("User Record object error");
+                    Jump.fireHandlerOnCaptureAPIFailure(new CaptureAPIError(CAPTURE_API_FORMAT_ERROR, null,null));
+                }
                 fireHandlerOnCaptureAPISuccess(response);
             }
 
@@ -1220,4 +1329,7 @@ public class Jump {
         return BuildConfig.VERSION_NAME;
     }
 
+    public static String getRecoverUri() {
+        return state.captureRecoverUri;
+    }
 }

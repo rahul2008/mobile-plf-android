@@ -565,9 +565,6 @@ public abstract class JRUiFragment extends Fragment {
         }
     }
 
-    /*package*/ void startNativeAuth() {
-        showFragment(JRNativeAuthFragment.class, REQUEST_NATIVE);
-    }
 
     /*package*/ void showUserLanding() {
         if (getActivity() instanceof JRFragmentHostActivity || isSharingFlow()) {

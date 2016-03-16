@@ -79,15 +79,16 @@ public class ColorButton extends Button {
 
     private void processAttributes(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs,
-            R.styleable.ColorButton);
+                R.styleable.ColorButton);
 
         final int N = a.getIndexCount();
         for (int i = 0; i < N; ++i) {
             int attr = a.getIndex(i);
-            if (attr==R.styleable.ColorButton_jr_color){
-            	mColor = a.getColor(attr, 0);
+
+            if (attr == R.styleable.ColorButton_jr_color) {
+                mColor = a.getColor(attr, 0);
                 colorify();
-                break;
+            
             }
         }
         a.recycle();
@@ -101,13 +102,13 @@ public class ColorButton extends Button {
             return;
         }
         // I tried all this fancy state manipulating code, but it didn't work and I don't know why.
-    //    setColor(color, new int[]{android.R.attr.state_enabled});
-    //    setColor(color, new int[]{});
-    //    setColor(color, new int[]{-android.R.attr.state_window_focused, android.R.attr.state_enabled});
-    //    setColor(color, new int[]{-android.R.attr.state_window_focused, -android.R.attr.state_enabled});
-    //}
-    //
-    //public void setColor(int color, int[] stateSet) {
+        //    setColor(color, new int[]{android.R.attr.state_enabled});
+        //    setColor(color, new int[]{});
+        //    setColor(color, new int[]{-android.R.attr.state_window_focused, android.R.attr.state_enabled});
+        //    setColor(color, new int[]{-android.R.attr.state_window_focused, -android.R.attr.state_enabled});
+        //}
+        //
+        //public void setColor(int color, int[] stateSet) {
         StateListDrawable sld = (StateListDrawable) getBackground();
         //2910 enabled
         //2908 focused
@@ -342,4 +343,3 @@ public class ColorButton extends Button {
         }
     }
 }
-

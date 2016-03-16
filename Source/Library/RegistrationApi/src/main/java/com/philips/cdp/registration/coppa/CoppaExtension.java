@@ -43,7 +43,7 @@ public class CoppaExtension implements CoppaExtensionHandler {
             handler.didCoppaStatusFectchingFailedWIthError(null);
             return;
         }
-        Jump.fetchCaptureUserFromServer(new CaptureApiResultHandler() {
+        Jump.performFetchCaptureData(new CaptureApiResultHandler() {
 
             @Override
             public void onSuccess(JSONObject response) {

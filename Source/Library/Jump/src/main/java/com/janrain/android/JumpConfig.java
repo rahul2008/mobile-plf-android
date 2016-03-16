@@ -81,16 +81,6 @@ public final class JumpConfig {
      * version of the flow.
      */
     public String captureFlowVersion;
-    
-    /**
-     *  Redirect uri for traditional login. 
-     */
-    public String captureRedirectUri;
-    
-    /**
-     * Recover uri for Forgot password.
-     */
-    public String captureRecoverUri;
 
     /**
      * The name of the locale to use in the Capture flow
@@ -140,7 +130,7 @@ public final class JumpConfig {
      *
      * This defaults to true.
      */
-     public Boolean tryWebViewAuthenticationWhenGooglePlayIsUnavailable = true;
+    public Boolean tryWebViewAuthenticationWhenGooglePlayIsUnavailable = true;
 
     /**
      * A list of custom identity providers. See `Engage_Custom_Provider_Guide.md` for details on
@@ -174,7 +164,7 @@ public final class JumpConfig {
      * @param friendlyName A string representing the user-facing name of the provider
      * @param openIdIdentifier The OpenID identifier of your for your custom OpenID provider
      * @param opxBlob An optional custom "opx_blob" parameter for use with Janrain Identity Service's OpenID
-                      providers
+    providers
      * @param iconResourceId an optional Resource ID of a 30x30 icon for your custom provider
      */
     public void addCustomOpenIdProvider(String providerId, String friendlyName,
@@ -203,4 +193,12 @@ public final class JumpConfig {
      * The name of the form used for resending the verification email
      */
     public String captureResendEmailVerificationFormName;
+
+    /**
+     * Allows for customization of the redirectUri
+     */
+    public String captureRedirectUri;
+
+    public String captureRecoverUri;
+
 }
