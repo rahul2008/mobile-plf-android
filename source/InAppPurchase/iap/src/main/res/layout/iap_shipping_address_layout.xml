@@ -15,10 +15,10 @@
 
         <TextView
             android:id="@+id/tv_title"
+            style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_shipping_address_margin_top_bottom"
-            android:layout_marginLeft="@dimen/iap_shipping_address_margin_left"
             android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
             android:layout_marginTop="@dimen/iap_shipping_address_margin_top_bottom"
             android:gravity="center_horizontal"
@@ -36,12 +36,18 @@
 
             <TextView
                 android:id="@+id/billing_address_tv"
-                style="@style/PhilipsTextInputLayoutTextViewStyle"
-                android:layout_width="match_parent"
+                style="@style/iapCentralesansBoldFont"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="6dp"
                 android:layout_weight="0.5"
+                android:background="@color/uikit_white"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
                 android:text="@string/iap_billing_address_is_same"
                 android:textColor="?attr/uikit_baseColor"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <com.philips.cdp.uikit.customviews.PuiSwitch
@@ -50,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/iap_billing_toggle_margin_bottom"
                 android:layout_marginEnd="@dimen/iap_billing_toggle_margin_right"
-                android:layout_marginRight="@dimen/iap_billing_toggle_margin_right"
                 android:layout_marginTop="@dimen/iap_billing_toggle_margin_top"
                 android:checked="true" />
 

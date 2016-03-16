@@ -27,7 +27,6 @@
         <TextView
             style="@style/tvHeaderTitle"
             android:layout_marginBottom="0dp"
-            android:layout_marginLeft="0dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:text="@string/iap_shipping_address" />
@@ -65,7 +64,6 @@
         <TextView
             style="@style/tvHeaderTitle"
             android:layout_marginBottom="0dp"
-            android:layout_marginLeft="0dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="10dp"
             android:text="@string/iap_billing_address" />
@@ -104,7 +102,7 @@
         <TextView
             style="@style/tvHeaderTitle"
             android:layout_marginBottom="0dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="10dp"
             android:text="@string/iap_payment_method" />
 
@@ -144,10 +142,8 @@
             <TextView
                 android:id="@+id/tv_voucher"
                 style="@style/tvBoldTitle"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
                 android:layout_marginStart="0dp"
                 android:text="@string/iap_voucher" />
 
@@ -155,9 +151,7 @@
                 android:id="@+id/tv_voucher_price"
                 style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
                 android:layout_marginStart="0dp" />
         </RelativeLayout>
     </LinearLayout>
@@ -187,10 +181,8 @@
             <TextView
                 android:id="@+id/tv_delivery"
                 style="@style/tvBoldTitle"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
                 android:layout_marginStart="0dp"
                 android:text="@string/iap_deliver_via_parcel" />
 
@@ -198,9 +190,7 @@
                 android:id="@+id/tv_delivery_price"
                 style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
                 android:layout_marginStart="0dp"
                 android:text="@string/zeroval" />
         </RelativeLayout>
@@ -233,10 +223,8 @@
             <TextView
                 android:id="@+id/tv_vat"
                 style="@style/tvTitle"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
                 android:layout_marginStart="0dp"
                 android:includeFontPadding="false"
                 android:text="@string/iap_vat" />
@@ -245,9 +233,7 @@
                 android:id="@+id/tv_vat_price"
                 style="@style/tvTitle"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
                 android:layout_marginStart="0dp"
                 android:text="@string/zeroval"
                 android:textStyle="bold" />
@@ -264,10 +250,8 @@
             <TextView
                 android:id="@+id/tv_total_lable"
                 style="@style/tvBoldTitle"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
                 android:layout_marginStart="0dp"
                 android:includeFontPadding="false"
                 android:text="@string/iap_total_val" />
@@ -276,9 +260,7 @@
                 android:id="@+id/tv_total_price"
                 style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
                 android:layout_marginStart="0dp"
                 android:text="@string/zeroval" />
         </RelativeLayout>
