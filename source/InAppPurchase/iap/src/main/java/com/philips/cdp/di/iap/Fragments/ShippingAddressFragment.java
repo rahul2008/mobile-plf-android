@@ -89,7 +89,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
+        View rootView = inflater.inflate(R.layout.iap_shipping_address_layout, container, false);
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
 
         mlLState = (LinearLayout) rootView.findViewById(R.id.ll_state);

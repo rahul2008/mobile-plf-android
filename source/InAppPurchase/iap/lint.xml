@@ -17,4 +17,5 @@
     <issue id="NegativeMargin" severity="ignore" />SelectableText
     <issue id="SelectableText" severity="ignore" />
     <issue id="TypographyQuotes" severity="ignore" />
+    <issue id="VectorRaster" severity="ignore" />
 </lint>

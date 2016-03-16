@@ -1,7 +1,4 @@
 <resources>
-    <string name="iap_name">InAppPurchase</string>
-    <string name="adding_to_cart">Adding To Cart</string>
-    <string name="loading_cart">Loading Cart</string>
     <string name="iap_please_wait">Please Wait</string>
     <string name="iap_shopping_cart">Shopping Cart</string>
     <string name="iap_shopping_cart_item">Shopping Cart item</string>
@@ -18,7 +15,6 @@
     <string name="iap_out_of_stock">Out of stock</string>
     <string name="iap_add_to_cart">Add to cart</string>
     <string name="no_stock_description">No enough stock</string>
-    <string name="something_went_wrong">Something went wrong!</string>
     <string name="iap_deleting_item">Deleting Item</string>
     <string name="iap_total">Total</string>
     <string name="iap_items"> items</string>
@@ -90,8 +86,6 @@
     <string name="iap_ok">OK</string>
     <string name="iap_network_error">Network Error</string>
     <string name="iap_check_connection">Please check the connection</string>
-    <string name="iap_time_out">Time-out</string>
-    <string name="iap_time_out_description">Time out while hitting to server</string>
     <!-- Payment -->
     <string name="iap_confirmation">Confirmation</string>
     <string name="iap_thank_for_order">Thank you for your order</string>
@@ -100,5 +94,10 @@
     <string name="iap_get_image_url">getting images from server</string>
 
     <string name="iap_time_out_error">Network timeout reached!</string>
+
+    <string name="iap_redeem_voucher">Redeem voucher</string>
+    <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
+    <string name="iap_delivery_description">Delivery is FREE when you spend $100 or more</string>
+    <string name="iap_vat">VAT</string>
 
 </resources>

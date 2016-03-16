@@ -34,7 +34,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         IAPLog.d(IAPLog.LOG, "OnCreate");
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.iap_activity);
         addActionBar();
         addShoppingFragment();
 
