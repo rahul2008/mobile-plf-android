@@ -159,6 +159,7 @@
 -keep class org.codehaus.**
 
 -dontwarn java.nio.**
+-dontwarn com.squareup.okhttp.**
 
 
 -keepattributes Signature

@@ -143,4 +143,5 @@
 -keep class java.nio.**
 -keep class org.codehaus.**
 -dontwarn java.nio.**
+-dontwarn com.squareup.okhttp.**
 
