@@ -218,16 +218,19 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     @Override
     public void onUserLogoutSuccess() {
         RLog.d(RLog.HSDP, "RegistrationSampleActivity : onUserLogoutSuccess");
+        showToast("UserLogoutSuccess ");
     }
 
     @Override
     public void onUserLogoutFailure() {
         RLog.d(RLog.HSDP, "  RegistrationSampleActivity : onUserLogoutFailure");
+        showToast("UserLogoutFailure ");
     }
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
         RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onUserLogoutSuccessWithInvalidAccessToken");
+        showToast("onUserLogoutSuccessWithInvalidAccessToken ");
     }
 
     @Override

@@ -152,8 +152,11 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
                             + pilLocaleInstance.getCountrycode().toUpperCase());
         } else {
             Log.i("LolaleMatch", "REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
-            String verifiedLocale = verifyInputLocale(mLanguageCode + "-" + mCountryCode);
-            initialiseConfigParameters(verifiedLocale);
+            String localeCode = mLanguageCode + "-" + mCountryCode;
+            if ("zh-TW".equals(localeCode)) {
+                localeCode = "zh-HK";
+            }
+            initialiseConfigParameters(localeCode);
         }
 
     }
