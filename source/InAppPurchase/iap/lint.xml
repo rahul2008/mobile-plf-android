@@ -14,8 +14,11 @@
     <issue id="BackButton" severity="ignore" />
     <issue id="EasterEgg" severity="ignore" />
     <issue id="LogConditional" severity="ignore" />
-    <issue id="NegativeMargin" severity="ignore" />SelectableText
+    <issue id="NegativeMargin" severity="ignore" />
     <issue id="SelectableText" severity="ignore" />
     <issue id="TypographyQuotes" severity="ignore" />
     <issue id="VectorRaster" severity="ignore" />
+    <issue id="RtlSymmetry" severity="ignore" />
+    <issue id="SetTextI18n" severity="ignore" />
+    <issue id="ContentDescription" severity="ignore" />
 </lint>

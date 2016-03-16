@@ -99,5 +99,11 @@
     <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
     <string name="iap_delivery_description">Delivery is FREE when you spend $100 or more</string>
     <string name="iap_vat">VAT</string>
+    <string name="iap_product_id">HX9332/05</string>
+    <string name="Settings">Settings</string>
+    <string name="mastercard">Master card</string>
+    <string name="zeroval">0.0</string>
+    <string name="iap_total_val">Total(0 Items)</string>
+    <string name="iap_validity">Validity</string>
 
 </resources>

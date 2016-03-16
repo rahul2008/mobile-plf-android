@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_shipping_address_margin_top_bottom"
             android:layout_marginLeft="@dimen/iap_shipping_address_margin_left"
+            android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
             android:layout_marginTop="@dimen/iap_shipping_address_margin_top_bottom"
             android:gravity="center_horizontal"
             android:text="@string/iap_shipping_address"
@@ -48,6 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/iap_billing_toggle_margin_bottom"
+                android:layout_marginEnd="@dimen/iap_billing_toggle_margin_right"
                 android:layout_marginRight="@dimen/iap_billing_toggle_margin_right"
                 android:layout_marginTop="@dimen/iap_billing_toggle_margin_top"
                 android:checked="true" />
@@ -343,8 +345,10 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/iap_shipping_address_cancel_button_height"
             android:layout_marginBottom="@dimen/iap_shipping_address_cancel_button_margin_bottom"
+            android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
             android:layout_marginLeft="@dimen/iap_shipping_address_cancel_button_margin_left_right"
             android:layout_marginRight="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+            android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
             android:text="@string/iap_cancel" />
     </LinearLayout>
 </ScrollView>
