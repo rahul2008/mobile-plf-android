@@ -158,7 +158,6 @@
 -keep class java.nio.**
 -keep class org.codehaus.**
 
--dontwarn com.janrain.android.**
 -dontwarn java.nio.**
 
 
