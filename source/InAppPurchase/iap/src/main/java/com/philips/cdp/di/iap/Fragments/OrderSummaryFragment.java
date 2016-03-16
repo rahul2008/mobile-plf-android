@@ -141,11 +141,17 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             }
         } else if (v.getId() == R.id.btn_cancel) {
             if (isOrderPlaced()) {
-                finishActivity();
+                showCancelDialog();
+//                finishActivity();
             } else {
                 addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             }
         }
+    }
+
+    private void showCancelDialog() {
+        TwoButtonDailogFragment dialog = new TwoButtonDailogFragment();
+        dialog.show(getActivity().getSupportFragmentManager(), null);
     }
 
     private boolean paymentMethodAvailable() {
@@ -200,11 +206,11 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private void checkForOutOfStock(final IAPNetworkError iapNetworkError) {
         com.philips.cdp.di.iap.response.error.Error error = iapNetworkError.getServerError().getErrors().get(0);
         String type = error.getType();
-        if(type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
+        if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
             String subject = error.getMessage();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_out_of_stock), subject);
-        }else {
+        } else {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
