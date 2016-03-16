@@ -3,7 +3,6 @@ package com.philips.cdp.dicommclientsample;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.port.DICommPort;
 
 class AirPurifier extends DICommAppliance {
 
@@ -19,7 +18,7 @@ class AirPurifier extends DICommAppliance {
 
     @Override
     public String getDeviceType() {
-        return null;
+        return MODELNAME;
     }
 
     public AirPort getAirPort() {
