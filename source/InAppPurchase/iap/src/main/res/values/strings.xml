@@ -99,6 +99,6 @@
     <string name="iap_confirmation_email_msg">You will receive a confirmation e-mail shortly at %s</string>
     <string name="iap_get_image_url">getting images from server</string>
 
-
+    <string name="iap_time_out_error">Network timeout reached!</string>
 
 </resources>

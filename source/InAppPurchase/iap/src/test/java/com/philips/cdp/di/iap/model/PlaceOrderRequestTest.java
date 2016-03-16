@@ -51,13 +51,13 @@ public class PlaceOrderRequestTest {
     @Test
     public void testTestingUrilIsNotNull() {
         PlaceOrderRequest request = new PlaceOrderRequest(mStore, null, null);
-        assertNotNull(request.getTestUrl());
+        assertNotNull(request.getUrl());
     }
 
     @Test
     public void testTestingUrilIsForPlaceOrder() {
         PlaceOrderRequest request = new PlaceOrderRequest(mStore, null, null);
-        assertEquals(request.getTestUrl(), NetworkConstants.PLACE_ORDER_URL);
+        assertEquals(request.getUrl(), NetworkConstants.PLACE_ORDER_URL);
     }
 
     @Test

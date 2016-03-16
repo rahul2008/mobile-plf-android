@@ -40,14 +40,14 @@ public class SetPaymentDetailsRequestTest {
 //    @Test
 //    public void testQueryParamsIsNotNull() {
 //        SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
-//        Mockito.when(mockSetPaymentDetailsRequest.getTestUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
+//        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
 //        assertNotNull(mockSetPaymentDetailsRequest.requestBody());
 //    }
 
 //    @Test
 //    public void testQueryParamsHasBody() {
 //        SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
-//        Mockito.when(mockSetPaymentDetailsRequest.getTestUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
+//        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
 //        Map<String, String> params = new HashMap<String, String>();
 //
 //        assertEquals(mockSetPaymentDetailsRequest.requestBody(), params);
@@ -56,15 +56,15 @@ public class SetPaymentDetailsRequestTest {
 //    @Test
 //    public void testTestingUriIsNotNull() {
 //        SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
-//        Mockito.when(mockSetPaymentDetailsRequest.getTestUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
-//        assertNotNull(mockSetPaymentDetailsRequest.getTestUrl());
+//        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
+//        assertNotNull(mockSetPaymentDetailsRequest.getUrl());
 //    }
 
 //    @Test
 //    public void testTestingUrilIsForSetPaymentDetailsRequest() {
 //        SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
-//        Mockito.when(mockSetPaymentDetailsRequest.getTestUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
-//        assertEquals(mockSetPaymentDetailsRequest.getTestUrl(), NetworkConstants.SET_PAYMENT_DETAILS_URL);
+//        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
+//        assertEquals(mockSetPaymentDetailsRequest.getUrl(), NetworkConstants.SET_PAYMENT_DETAILS_URL);
 //    }
 
     @Test

@@ -48,8 +48,8 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         mProgress.startAnimation(100);
         mPaymentWebView.setWebViewClient(new PaymentWebViewClient());
         mPaymentWebView.getSettings().setJavaScriptEnabled(true);
-        if (BuildConfig.DEBUG)
-            mPaymentWebView.setWebContentsDebuggingEnabled(true);
+//        if (BuildConfig.DEBUG)
+//            mPaymentWebView.setWebContentsDebuggingEnabled(true);
         mUrl = getPaymentURL();
         return group;
     }

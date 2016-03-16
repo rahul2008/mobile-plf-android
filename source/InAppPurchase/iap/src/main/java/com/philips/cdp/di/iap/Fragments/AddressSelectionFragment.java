@@ -17,19 +17,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.controller.AddressController;
-import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
+import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.AddressController;
+import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.model.ModelConstants;
-import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
-import com.philips.cdp.di.iap.session.IAPHandler;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
@@ -55,6 +55,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private Context mContext;
 
     private boolean mIsAddressUpdateAfterDelivery;
+    private String mJanRainEmail;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -64,6 +65,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         mCancelButton = (Button) view.findViewById(R.id.btn_cancel);
         bindCancelListener();
         sendShippingAddressesRequest();
+
+        mJanRainEmail = HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail();
 
         registerEvents();
         return view;
@@ -154,7 +157,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 mAddresses.remove(mAdapter.getOptionsClickPosition());
                 mAdapter.setAddresses(mAddresses);
                 mAdapter.notifyDataSetChanged();
-            } else {
+            } else if(isVisible()){
                 if (msg.obj instanceof GetShippingAddressData) {
                     GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                     mAddresses = shippingAddresses.getAddresses();
@@ -308,7 +311,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (address.getEmail() != null)
             addressHashMap.put(ModelConstants.EMAIL_ADDRESS, address.getEmail());
         else
-            addressHashMap.put(ModelConstants.EMAIL_ADDRESS, IAPHandler.getJanrainEmail());
+            addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mJanRainEmail);
 
         return addressHashMap;
     }
@@ -390,7 +393,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (addr.getEmail() != null) {
             fields.setEmail(addr.getEmail());
         } else {
-            fields.setEmail(IAPHandler.getJanrainEmail()); // Since there is no email response from hybris
+            fields.setEmail(mJanRainEmail); // Since there is no email response from hybris
         }
 
         if (addr.getPhone() != null) {

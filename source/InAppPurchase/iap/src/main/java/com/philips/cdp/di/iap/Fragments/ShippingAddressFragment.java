@@ -31,7 +31,7 @@ import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
-import com.philips.cdp.di.iap.session.IAPHandler;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
@@ -85,6 +85,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private Addresses mAddresses;
     private Drawable imageArrow;
 
+    private String mJanRainEmail;
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
@@ -116,7 +118,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mPaymentController = new PaymentController(mContext, this);
         mAddressFields = new AddressFields();
 
-        mEtEmail.setText(IAPHandler.getJanrainEmail());
+        mJanRainEmail = HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail();
+        mEtEmail.setText(mJanRainEmail);
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));

@@ -52,8 +52,8 @@ public class CartUpdateProductQuantityRequestTest extends TestCase {
 //        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
 //        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
 //        CartUpdateProductQuantityRequest mockCartUpdateProductQuantityRequest = Mockito.mock(CartUpdateProductQuantityRequest.class);
-//        Mockito.when(mockCartUpdateProductQuantityRequest.getTestUrl()).thenReturn(NetworkConstants.UPDATE_QUANTITY_URL);
-//        assertNotNull(mockCartUpdateProductQuantityRequest.getTestUrl());
+//        Mockito.when(mockCartUpdateProductQuantityRequest.getUrl()).thenReturn(NetworkConstants.UPDATE_QUANTITY_URL);
+//        assertNotNull(mockCartUpdateProductQuantityRequest.getUrl());
 //    }
 
     @Test
