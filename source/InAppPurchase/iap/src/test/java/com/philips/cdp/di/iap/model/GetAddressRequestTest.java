@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConfiguration;
@@ -42,9 +41,9 @@ public class GetAddressRequestTest {
     public void testTestingUrilIsNotNull() {
         GetAddressRequest request = new GetAddressRequest(mStore, null, null);
         IAPConfiguration iapConfiguration = Mockito.mock(IAPConfiguration.class);
-        CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
-        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
-        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
+//        CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
+//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
+//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
         assertNotNull(request.getUrl());
     }
 

@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.carts.AddToCartData;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConfiguration;
@@ -18,7 +17,6 @@ import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 
 /**
  * Created by 310164421 on 3/8/2016.
@@ -48,9 +46,9 @@ public class CartAddProductRequestTest {
     public void testTestingUrilIsNotNull() {
         CartAddProductRequest request = new CartAddProductRequest(mStore, null, null);
         IAPConfiguration iapConfiguration = Mockito.mock(IAPConfiguration.class);
-        CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
-        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
-        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
+//        CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
+//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
+//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
         assertNotNull(request.getUrl());
     }
 
