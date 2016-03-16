@@ -62,7 +62,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
+        View rootView = inflater.inflate(R.layout.iap_shipping_address_layout, container, false);
 
         LinearLayout mSameAsBillingAddress = (LinearLayout) rootView.findViewById(R.id.same_as_shipping_ll);
         TextView mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);

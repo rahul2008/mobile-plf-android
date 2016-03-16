@@ -23,16 +23,19 @@
             android:id="@+id/frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true">
 
             <ImageView
                 android:id="@+id/dots"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
+                android:layout_marginEnd="@dimen/iap_shopping_cart_image_margin_top"
                 android:layout_marginLeft="@dimen/iap_shopping_cart_dots_margin_left"
                 android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
+                android:layout_marginStart="@dimen/iap_shopping_cart_dots_margin_left"
                 android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top" />
         </FrameLayout>
 
@@ -44,8 +47,8 @@
             android:layout_marginBottom="@dimen/iap_shopping_cart_price_margin_bottom"
             android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
             android:layout_toLeftOf="@id/frame"
+            android:layout_toStartOf="@id/frame"
             android:includeFontPadding="false"
-            android:text="€ 209,99"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="16sp" />
 
@@ -57,13 +60,15 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/price"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_marginBottom="@dimen/iap_shopping_cart_price_margin_bottom"
+            android:layout_marginEnd="@dimen/iap_shopping_cart_image_right"
             android:layout_marginRight="@dimen/iap_shopping_cart_image_right"
             android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
             android:layout_toLeftOf="@id/price"
+            android:layout_toStartOf="@id/price"
             android:includeFontPadding="false"
             android:scrollHorizontally="false"
-            android:text="DiamondClean"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/title" />
 
@@ -81,6 +86,7 @@
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/iap_shopping_cart_image_right"
                 android:layout_marginRight="@dimen/iap_shopping_cart_image_right"
                 android:includeFontPadding="false"
                 android:text="@string/iap_product_item_quantity"
@@ -91,6 +97,7 @@
                 android:id="@+id/text2value"
                 style="@style/tvTitle"
                 android:layout_alignBaseline="@id/from"
+                android:layout_toEndOf="@id/from"
                 android:layout_toRightOf="@id/from"
                 android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
                 android:textColor="?attr/uikit_baseColor"
@@ -104,6 +111,8 @@
             android:layout_alignBaseline="@id/quantity_count_layout"
             android:layout_below="@+id/text1Name"
             android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@id/quantity_count_layout"
             android:layout_toRightOf="@id/quantity_count_layout"
             android:textColor="@android:color/holo_red_dark"
             android:visibility="gone" />

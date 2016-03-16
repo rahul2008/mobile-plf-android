@@ -24,8 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Settings"
+        android:text="@string/Settings"
         android:textColor="#FFFFFF"
-        android:textSize="20dp" />
+        android:textSize="@dimen/header" />
 
 </RelativeLayout>

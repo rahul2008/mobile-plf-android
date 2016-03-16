@@ -29,8 +29,10 @@
         android:layout_height="@dimen/iap_shipping_address_cancel_button_height"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/iap_shipping_address_cancel_button_margin_bottom"
+        android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
         android:layout_marginLeft="@dimen/iap_shipping_address_cancel_button_margin_left_right"
         android:layout_marginRight="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+        android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
         android:text="@string/iap_cancel" />
 
     <Button
@@ -39,8 +41,10 @@
         android:layout_height="@dimen/iap_shipping_address_continue_button_height"
         android:layout_above="@id/btn_cancel"
         android:layout_marginBottom="@dimen/iap_shipping_address_continue_margin_bottom"
+        android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
         android:layout_marginLeft="@dimen/iap_shipping_address_cancel_button_margin_left_right"
         android:layout_marginRight="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+        android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
         android:background="@color/uikit_philips_bright_orange"
         android:text="@string/iap_pay_now" />
 

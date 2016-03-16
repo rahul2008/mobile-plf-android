@@ -57,7 +57,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
         IAPLog.d(IAPLog.FRAGMENT_LIFECYCLE, "ShoppingCartFragment onCreateView");
-        View rootView = inflater.inflate(R.layout.shopping_cart_view, container, false);
+        View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.shopping_cart_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
