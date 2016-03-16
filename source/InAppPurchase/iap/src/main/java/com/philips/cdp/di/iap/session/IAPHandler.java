@@ -8,57 +8,23 @@ package com.philips.cdp.di.iap.session;
 import android.content.Context;
 import android.os.Message;
 
-import com.google.gson.Gson;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
-import com.philips.cdp.di.iap.utils.IAPConfiguration;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 
 public class IAPHandler {
     private Context mContext;
-    static String mJanrainEmail, mJanrainId;
-
-    public static String getJanrainEmail() {
-        return mJanrainEmail;
-    }
-
-    public static String getJanrainId() {
-        return mJanrainId;
-    }
 
     public void initApp(Context context, String janrainEmail, String janRainID) {
         //We register with app context to avoid any memory leaks
         mContext = context.getApplicationContext();
-        HybrisDelegate.getInstance(mContext).initStore(mContext, janrainEmail, janRainID);
-        mJanrainEmail = janrainEmail;
-        mJanrainId = janRainID;
-        loadConfigurationFromAsset();
-    }
-
-
-    private void loadConfigurationFromAsset() {
-        try {
-            InputStream fromAsset = mContext.getResources().getAssets().open("PhilipsInAppPurchaseConfiguration.json");
-            Reader reader = new BufferedReader(new InputStreamReader(fromAsset));
-            IAPConfiguration iapConfiguration = new Gson().fromJson(reader, IAPConfiguration.class);
-            CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 //    public void launchIAP(String pStoreID, String pLanguage, String pCountry, int pThemeIndex) {

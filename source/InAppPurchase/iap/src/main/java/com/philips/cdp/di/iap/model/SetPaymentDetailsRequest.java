@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 
 import java.util.HashMap;
@@ -12,11 +11,6 @@ public class SetPaymentDetailsRequest extends AbstractModel{
     public SetPaymentDetailsRequest(final Store store, final Map<String, String> query,
                                     final DataLoadListener listener) {
         super(store, query, listener);
-    }
-
-    @Override
-    public String getProductionUrl() {
-        return null;
     }
 
     @Override
@@ -37,7 +31,7 @@ public class SetPaymentDetailsRequest extends AbstractModel{
     }
 
     @Override
-    public String getTestUrl() {
-        return NetworkConstants.SET_PAYMENT_DETAILS_URL;
+    public String getUrl() {
+        return store.getPaymentDetailsUrl();
     }
 }

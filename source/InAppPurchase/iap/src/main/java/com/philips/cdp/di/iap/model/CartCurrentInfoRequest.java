@@ -40,11 +40,6 @@ public class CartCurrentInfoRequest extends AbstractModel {
     }
 
     @Override
-    public String getProductionUrl() {
-        return null;
-    }
-
-    @Override
     public Object parseResponse(final Object response) {
         return new Gson().fromJson(response.toString(), Carts.class);
     }
@@ -60,7 +55,7 @@ public class CartCurrentInfoRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
-        return NetworkConstants.GET_CURRENT_CART_URL;
+    public String getUrl() {
+        return store.getCurrentCartDetailsUrl();
     }
 }

@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 
 import java.util.HashMap;
@@ -18,11 +17,6 @@ import java.util.Map;
 public class PaymentRequest extends AbstractModel {
     public PaymentRequest(final Store store, final Map<String, String> query, final DataLoadListener listener) {
         super(store, query, listener);
-    }
-
-    @Override
-    public String getProductionUrl() {
-        return null;
     }
 
     @Override
@@ -54,7 +48,7 @@ public class PaymentRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
-        return String.format(NetworkConstants.PAYMENT_URL, params.get(ModelConstants.ORDER_NUMBER));
+    public String getUrl() {
+        return store.getSetPaymentUrl(params.get(ModelConstants.ORDER_NUMBER));
     }
 }

@@ -45,7 +45,7 @@ public class GetAddressRequestTest {
         CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
         Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
         Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
-        assertNotNull(request.getTestUrl());
+        assertNotNull(request.getUrl());
     }
 
     @Test

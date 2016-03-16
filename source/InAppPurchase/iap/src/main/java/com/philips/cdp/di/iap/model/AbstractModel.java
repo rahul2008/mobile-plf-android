@@ -56,13 +56,11 @@ public abstract class AbstractModel implements RequestListener {
         }
     }
 
-    public abstract String getProductionUrl();
-
     public abstract Object parseResponse(Object response);
 
     public abstract int getMethod();
 
     public abstract Map<String, String> requestBody();
 
-    public abstract String getTestUrl();
+    public abstract String getUrl();
 }

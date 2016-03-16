@@ -3,12 +3,9 @@ package com.philips.cdp.di.iap.model;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.carts.AddToCartData;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConfiguration;
-
-import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,7 +51,7 @@ public class CartAddProductRequestTest {
         CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
         Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
         Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
-        assertNotNull(request.getTestUrl());
+        assertNotNull(request.getUrl());
     }
 
     @Test

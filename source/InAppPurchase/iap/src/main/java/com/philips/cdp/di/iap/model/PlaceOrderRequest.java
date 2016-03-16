@@ -4,7 +4,6 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 
 import java.util.HashMap;
@@ -17,11 +16,6 @@ import java.util.Map;
 public class PlaceOrderRequest extends AbstractModel {
     public PlaceOrderRequest(final Store store, final Map<String, String> query, final DataLoadListener listener) {
         super(store, query, listener);
-    }
-
-    @Override
-    public String getProductionUrl() {
-        return null;
     }
 
     @Override
@@ -43,7 +37,7 @@ public class PlaceOrderRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
-        return NetworkConstants.PLACE_ORDER_URL;
+    public String getUrl() {
+        return store.getPlaceOrderUrl();
     }
 }
