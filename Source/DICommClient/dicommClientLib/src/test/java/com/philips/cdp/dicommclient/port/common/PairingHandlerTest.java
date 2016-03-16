@@ -11,18 +11,18 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
-public class PairingHandlerTest   {
+public class PairingHandlerTest {
 
     @Test
     public void testGenerateRandomSecretKeyNotNull() {
-        PairingHandler manager = new PairingHandler(null, null);
+        PairingHandler manager = new PairingHandler(null, (PairingListener) null);
         String randomKey = manager.generateRandomSecretKey();
         assertNotNull(randomKey);
     }
 
     @Test
     public void testGenerateRandomSecretKeyNotEqual() {
-        PairingHandler manager = new PairingHandler(null, null);
+        PairingHandler manager = new PairingHandler(null, (PairingListener) null);
         String randomKey = manager.generateRandomSecretKey();
         String randomKey1 = manager.generateRandomSecretKey();
         assertFalse(randomKey.equals(randomKey1));

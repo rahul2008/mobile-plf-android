@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
         applianceAdapter = new ArrayAdapter<DICommAppliance>(this, android.R.layout.simple_list_item_2, android.R.id.text1) {
             public View getView(final int position, final View convertView, final ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position).getName());
-                ((TextView) view.findViewById(android.R.id.text2)).setText(getItem(position).getDeviceType());
+                DICommAppliance appliance = getItem(position);
+                ((TextView) view.findViewById(android.R.id.text1)).setText(appliance.getName());
+                ((TextView) view.findViewById(android.R.id.text2)).setText(String.format("%s - %s", appliance.getDeviceType(), appliance.getNetworkNode().getCppId()));
                 return view;
             }
         };
