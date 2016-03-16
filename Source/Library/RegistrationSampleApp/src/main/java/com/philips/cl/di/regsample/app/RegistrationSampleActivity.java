@@ -19,7 +19,6 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.CoppaExtension;
 import com.philips.cdp.registration.coppa.CoppaResendError;
 import com.philips.cdp.registration.coppa.ResendCoppaEmailConsentHandler;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -64,7 +63,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         mProgressDialog = new ProgressDialog(RegistrationSampleActivity.this);
         mProgressDialog.setCancelable(false);
      //  if (RegistrationHelper.getInstance().isHsdpFlow()) {
-            mBtnHsdpRefreshAccessToken.setVisibility(View.VISIBLE);
+            mBtnHsdpRefreshAccessToken.setVisibility(View.GONE);
       //  }
         if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
             mBtnResendCoppaMail.setVisibility(View.VISIBLE);
@@ -175,10 +174,12 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 @Override
                 public void onRefreshLoginSessionSuccess() {
                     System.out.println("Access token : "+user.getAccessToken());
+                    showToast("Success to refresh access token");
                 }
 
                 @Override
                 public void onRefreshLoginSessionFailedWithError(int error) {
+                    showToast("Failed to refresh access token");
 
                 }
 

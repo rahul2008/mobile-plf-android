@@ -80,13 +80,9 @@ public class RegistrationApplication extends Application {
 
 		/*HSDPInfo hsdpInfo = new HSDPInfo();
 		hsdpInfo.setApplicationName("uGrowApp");
-	/*	ApplicationName = uGrowApp;
-		secret = ;
-		shared = ;
-		url = "https://newuser-registration-assembly15.cloud.pcftest.com";*/
 		hsdpInfo.setSharedId("f129afcc-55f4-11e5-885d-feff819cdc9f");
 		hsdpInfo.setSecretId("f129b5a8-55f4-11e5-885d-feff819cdc9f");
-		hsdpInfo.setBaseURL("https://newuser-registration-assembly15.cloud.pcftest.com");
+		hsdpInfo.setBaseURL("https://ugrow-ds-development.cloud.pcftest.com");
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.EVALUATION,hsdpInfo);
 */
 		RegistrationHelper.getInstance().initializeUserRegistration(this, Locale.getDefault());
