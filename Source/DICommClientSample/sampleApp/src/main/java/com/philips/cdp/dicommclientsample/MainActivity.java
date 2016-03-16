@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         discoveryManager = DiscoveryManager.getInstance();
+
+        ((TextView)findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
     }
 
     @Override
