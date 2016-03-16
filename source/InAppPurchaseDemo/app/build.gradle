@@ -56,7 +56,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:+'
 //    compile(name: 'uikitLib-release', ext: 'aar')
     compile 'com.shamanland:fonticon:0.1.8'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: "4.1.0", ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: "5.0.0-rc.1", ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
