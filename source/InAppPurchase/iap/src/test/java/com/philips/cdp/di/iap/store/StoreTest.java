@@ -2,35 +2,54 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.session.OAuthHandler;
-
-import junit.framework.Assert;
-
+import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class StoreTest {
-    @Test
-    public void getBaseUrlIsNotNull() throws Exception {
-        Context context = Mockito.mock(Context.class);
-        Store store = new Store(context,"hostport","webroot","userid","janRainID");
-        assertEquals(store.getBaseURl(),"https://hostport/webroot");
+    private static final String HOST_PORT = "acc.occ.shop.philips.com";
+    private static final String SITE = "US_TUSCANY";
+    private static final String JANRAIN_EMAIL = "a@b.com";
+    private static final String JANRAIN_ID = "sometoken";
+    private static final String OAUTH_URL ="https://" + HOST_PORT + "/pilcommercewebservices/oauth/token?janrain=%s&grant_type=janrain&client_id=mobile_android&client_secret=secret" ;
+
+    private String BASE_URL ="https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/" + SITE +
+            "/users/" + JANRAIN_EMAIL;
+
+    @Mock Context mContext;
+    @Mock IAPUser mIAPUser;
+    @Mock StoreConfiguration mStoreConfig;
+    private Store mStore;
+
+    @Before
+    public void setUp() {
+        when(mStoreConfig.getHostPort()).thenReturn(HOST_PORT);
+        when(mStoreConfig.getSite()).thenReturn(SITE);
+        when(mIAPUser.getJanRainEmail()).thenReturn(JANRAIN_EMAIL);
+        when(mIAPUser.getJanRainID()).thenReturn(JANRAIN_ID);
+        mStore =  getStore();
     }
 
     @Test
-    public void verifySameUserID() {
-        Context context = Mockito.mock(Context.class);
-        Store store = new Store(context,"hostport","webroot","userid","janRainID");
-        assertEquals(store.getUser(),"userid");
-        assertNotNull(store.getUser());
+    public void checkBaseUrl() throws Exception {
+        assertEquals(mStore.mBaseURl, BASE_URL);
+
     }
 
+    @Test
+    public void checkOAuthUrl() {
+        assertEquals(mStore.getOauthUrl(), String.format(OAUTH_URL,JANRAIN_ID));
+    }
+/*@Test
     @Test
     public void verifySameJanRainID() {
         Context context = Mockito.mock(Context.class);
@@ -60,5 +79,14 @@ public class StoreTest {
         Mockito.when(oAuth.generateToken(context,"userid","janRaindID")).thenReturn("dummyToken");
 
         assertEquals(store.getAuthToken(),oAuth.generateToken(context,"userid","janRaindID"));
+    }*/
+
+    private Store getStore() {
+        return new Store(mContext, mIAPUser) {
+            @Override
+            protected StoreConfiguration setStoreConfig(final Context context) {
+                return mStoreConfig;
+            }
+        };
     }
 }
