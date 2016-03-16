@@ -13,11 +13,9 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
 public class WebPaymentFragment extends BaseAnimationSupportFragment {
@@ -41,7 +39,7 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, null);
+        ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
 
         mPaymentWebView = (WebView) group.findViewById(R.id.wv_payment);
         mProgress = (CircularLineProgressBar) group.findViewById(R.id.cl_progress);

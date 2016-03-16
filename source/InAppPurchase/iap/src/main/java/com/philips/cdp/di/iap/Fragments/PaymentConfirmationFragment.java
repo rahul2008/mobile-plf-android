@@ -17,14 +17,13 @@ import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 
 public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
-    private TextView mThank;
     private TextView mOrderNumber;
     private TextView mConfimWithEmail;
-    private Button mOKButton;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.iap_payment_confirmation, null);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.iap_payment_confirmation,
+                container, false);
         bindViews(view);
         assignValues();
         return view;
@@ -59,10 +58,9 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     }
 
     private void bindViews(ViewGroup viewGroup) {
-        mThank = (TextView) viewGroup.findViewById(R.id.tv_thank);
         mOrderNumber = (TextView) viewGroup.findViewById(R.id.tv_order_num);
         mConfimWithEmail = (TextView) viewGroup.findViewById(R.id.tv_confirm_email);
-        mOKButton = (Button) viewGroup.findViewById(R.id.tv_confirm_ok);
+        final Button mOKButton = (Button) viewGroup.findViewById(R.id.tv_confirm_ok);
         mOKButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
