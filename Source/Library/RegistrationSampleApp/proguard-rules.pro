@@ -158,6 +158,9 @@
 -keep class java.nio.**
 -keep class org.codehaus.**
 
+-dontwarn com.janrain.android.**
+-dontwarn java.nio.**
+
 
 -keepattributes Signature
 -keepattributes InnerClasses,EnclosingMethod
