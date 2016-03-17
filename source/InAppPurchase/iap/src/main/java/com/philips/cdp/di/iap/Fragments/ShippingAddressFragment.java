@@ -280,7 +280,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     private void showErrorFromServer(Error error) {
-        if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
+        if (error != null && (error.getSubject() != null) && error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
             String errorMessage = getResources().getString(R.string.iap_country_error);
             mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError(mEtCountry);
@@ -376,6 +376,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (!result) {
             mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError((EditText) editText);
+            mBtnContinue.setEnabled(false);
         } else {
             mInlineFormsParent.removeError(editText);
             checkFields();

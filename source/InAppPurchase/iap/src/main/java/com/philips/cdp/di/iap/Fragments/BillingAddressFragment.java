@@ -244,6 +244,9 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtTown.setEnabled(false);
         mEtPostalCode.setEnabled(false);
         mEtCountry.setEnabled(false);
+        if(mlLState.getVisibility() == View.VISIBLE){
+            mEtState.setEnabled(false);
+        }
         mEtEmail.setEnabled(false);
         mEtPhoneNumber.setEnabled(false);
     }

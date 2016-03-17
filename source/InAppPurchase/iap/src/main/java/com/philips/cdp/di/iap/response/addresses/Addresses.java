@@ -21,6 +21,9 @@ public class Addresses {
     private String town;
     private String email;
     private String state;
+    private String formattedAddress;
+    private Region region;
+    private boolean visibleInAddressBook;
 
     public String getEmail() {
         return email;
@@ -29,8 +32,6 @@ public class Addresses {
     public String getState() {
         return state;
     }
-
-    private boolean visibleInAddressBook;
 
     public Country getCountry() {
         return country;
@@ -84,5 +85,13 @@ public class Addresses {
 
     public boolean isVisibleInAddressBook() {
         return visibleInAddressBook;
+    }
+
+    public String getFormattedAddress() {
+        return formattedAddress;
+    }
+
+    public Region getRegion() {
+        return region;
     }
 }
