@@ -33,7 +33,7 @@ public class SHNDeviceScanner {
     }
 
     public interface SHNDeviceScannerListener {
-        void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo);
+        void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo);
 
         void scanStopped(SHNDeviceScanner shnDeviceScanner);
     }
@@ -47,7 +47,7 @@ public class SHNDeviceScanner {
     protected FutureTask<Boolean> startScanningWithFuture(final SHNDeviceScannerListener shnDeviceScannerListener, final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS) {
         final SHNDeviceScannerListener wrappedSHNDeviceScannerListener = new SHNDeviceScannerListener() {
             @Override
-            public void deviceFound(SHNDeviceScanner shnDeviceScanner, final SHNDeviceFoundInfo shnDeviceFoundInfo) {
+            public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull final SHNDeviceFoundInfo shnDeviceFoundInfo) {
                 userHandler.post(new Runnable() {
                     @Override
                     public void run() {
