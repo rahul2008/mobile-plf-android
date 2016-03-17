@@ -114,6 +114,10 @@ public class Store {
         return mIAPUser.getJanRainEmail();
     }
 
+    public IAPUser getUser() {
+        return mIAPUser;
+    }
+
     //Request Urls
     public String getCurrentCartDetailsUrl() {
         return mGetCartUrl;

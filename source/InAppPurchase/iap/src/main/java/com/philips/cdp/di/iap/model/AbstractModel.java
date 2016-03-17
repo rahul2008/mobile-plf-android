@@ -56,6 +56,10 @@ public abstract class AbstractModel implements RequestListener {
         }
     }
 
+    public Store getStore() {
+        return store;
+    }
+
     public abstract Object parseResponse(Object response);
 
     public abstract int getMethod();
