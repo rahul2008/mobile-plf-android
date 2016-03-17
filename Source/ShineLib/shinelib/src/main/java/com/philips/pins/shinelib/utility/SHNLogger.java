@@ -4,6 +4,7 @@ import android.os.*;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,7 +42,9 @@ public class SHNLogger {
      * @param logger The logger instance that should receive log calls
      */
     public static void registerLogger(LoggerImplementation logger) {
-        ROOT_LOGGER.loggers.add(logger);
+        synchronized (ROOT_LOGGER.loggers) {
+            ROOT_LOGGER.loggers.add(logger);
+        }
     }
 
     /**
@@ -50,7 +53,9 @@ public class SHNLogger {
      * @param logger The logger instance that should no longer receive log calls
      */
     public static void unregisterLogger(LoggerImplementation logger) {
-        ROOT_LOGGER.loggers.remove(logger);
+        synchronized (ROOT_LOGGER.loggers) {
+            ROOT_LOGGER.loggers.remove(logger);
+        }
     }
 
     /* ---------------------------------------------------------------------------- */
@@ -234,20 +239,26 @@ public class SHNLogger {
 
         @Override
         public void logLine(final int priority, final String tag, final String msg, final Throwable tr) {
+            final List<LoggerImplementation> loggersCopy;
+            synchronized (loggers) {
+                loggersCopy = Collections.unmodifiableList(loggers);
+            }
             if (loggingHandler != null) {
                 final String logMsg = String.format("[TID: %d] %s", android.os.Process.myTid(), msg);
-                for (final LoggerImplementation logger : loggers) {
-                    loggingHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            logger.logLine(priority, tag, logMsg, tr);
-                        }
-                    });
-                }
+                loggingHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        logLineToLoggers(loggersCopy, priority, tag, logMsg, tr);
+                    }
+                });
             } else {
-                for (final LoggerImplementation logger : loggers) {
-                    logger.logLine(priority, tag, msg, tr);
-                }
+                logLineToLoggers(loggersCopy, priority, tag, msg, tr);
+            }
+        }
+
+        private void logLineToLoggers(List<LoggerImplementation> loggersCopy, int priority, String tag, String logMsg, Throwable tr) {
+            for (final LoggerImplementation logger : loggersCopy) {
+                logger.logLine(priority, tag, logMsg, tr);
             }
         }
 
