@@ -256,7 +256,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     private PairingRelationship getPairingRelationshipData(
             String relationshipType, String[] permission) {
         PairingRelationship pairingRelationshipData = new PairingRelationship();
-        pairingRelationshipData.pairingRelationshipIsAllowDelegation = true;
+        pairingRelationshipData.pairingRelationshipIsAllowDelegation = false;
         pairingRelationshipData.pairingRelationshipMetadata = null;
         pairingRelationshipData.pairingRelationshipRelationType = relationshipType;
         pairingRelationshipData.pairingRelationshipTTL = PAIRING_RELATIONSHIPDURATION_SEC;
