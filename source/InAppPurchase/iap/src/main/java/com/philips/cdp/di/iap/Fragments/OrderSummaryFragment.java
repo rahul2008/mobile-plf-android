@@ -17,7 +17,6 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.model.ModelConstants;
-import com.philips.cdp.di.iap.response.error.*;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
@@ -91,7 +90,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
         if (Utility.isInternetConnected(getContext())) {
             if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
+                Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
                 updateCartDetails(presenter);
             }
         } else {

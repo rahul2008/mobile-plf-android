@@ -158,4 +158,8 @@ public class Store {
     public String getPlaceOrderUrl() {
         return mPlaceOrderUrl;
     }
+
+    public String getSetPaymentDetailsUrl(){
+        return mSetPaymentDetails;
+    }
 }
