@@ -32,6 +32,6 @@ public class SetPaymentDetailsRequest extends AbstractModel{
 
     @Override
     public String getUrl() {
-        return store.getPaymentDetailsUrl();
+        return store.getSetPaymentDetailsUrl();
     }
 }
