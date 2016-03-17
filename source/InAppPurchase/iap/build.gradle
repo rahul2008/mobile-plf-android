@@ -1,7 +1,12 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'jacoco'
+
+def libVersionNumber = new File('../../VERSION').text.trim()
+libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
+
 jacoco {
     toolVersion = "0.7.1.201405082137"
 }
@@ -12,19 +17,31 @@ def coverageSourceDirs = [
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'com.shamanland:fonticon:0.1.+'
         classpath 'com.mcxiaoke.volley:library:1.0.+'
         classpath 'com.google.code.gson:gson:2.2.+'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0"
     }
 }
 
 allprojects {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
         }
@@ -34,6 +51,7 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
+
         flatDir {
             dirs 'libs'
         }
@@ -114,8 +132,41 @@ dependencies {
     }
 }
 
+//maven configuration stuff required for artifactory plugin
+group = 'com.philips.cdp'
+version = libVersionNumber
 
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = 'libs-release-local'
+            username = 'admin'
+            password = 'password'
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = false
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+        }
+    }
+}
 
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+artifactoryPublish {
+    dependsOn sourceJar
+}
+
+artifacts {
+    archives sourceJar
+}
 
 
 
