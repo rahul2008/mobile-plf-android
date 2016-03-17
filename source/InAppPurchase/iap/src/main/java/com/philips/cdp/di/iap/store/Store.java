@@ -12,7 +12,7 @@ public class Store {
     private static final String HTTPS = "https://";
     private static final String WEB_ROOT = "pilcommercewebservices";
     private static final String V2 = "v2";
-    public static final String USER = "users";
+    private static final String USER = "users";
     private static final String SEPERATOR = "/";
 
     //Oauth
@@ -51,22 +51,33 @@ public class Store {
     private String mPlaceOrderUrl;
     private String mCreateCartUrl;
     private String mAddToCartUrl;
-    protected String mBaseURl;
+    private String mBaseURl;
     private String mCurrentCartUrl;
 
     private String mOauthUrl;
     private String mGetCartUrl;
 
-    public Store(Context context, IAPUser iapUser) {
-        mIAPUser = iapUser;
+    public Store(Context context) {
+        mIAPUser = initIAPUser(context);
         mStoreConfig = setStoreConfig(context);
+        generateStoreUrls();
+    }
+
+    IAPUser initIAPUser(Context context) {
+        if (mIAPUser == null) {
+            mIAPUser = new IAPUser(context, this);
+        }
+        return mIAPUser;
+    }
+
+    StoreConfiguration setStoreConfig(final Context context) {
+        return new StoreConfiguration(context);
+    }
+
+    private void generateStoreUrls() {
         createBaseUrl();
         createOauthUrl();
         generateGenericUrls();
-    }
-
-    protected StoreConfiguration setStoreConfig(final Context context) {
-        return new StoreConfiguration(context);
     }
 
     private void createBaseUrl() {
@@ -104,6 +115,12 @@ public class Store {
         mDeliveryModeUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_MODE);
         mDeliveryAddressUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_ADDRESS);
         mSetPaymentDetails = mCurrentCartUrl.concat(SUFFIX_SET_PAYMENT_DETAILS);
+    }
+
+    //Package level access
+    //Called when janrain token is changed
+    void updateJanRainIDBasedUrls() {
+        createOauthUrl();
     }
 
     public String getOauthUrl() {
@@ -163,7 +180,7 @@ public class Store {
         return mPlaceOrderUrl;
     }
 
-    public String getSetPaymentDetailsUrl(){
+    public String getSetPaymentDetailsUrl() {
         return mSetPaymentDetails;
     }
 }

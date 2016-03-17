@@ -5,7 +5,10 @@
 
 package com.philips.cdp.di.iap.session;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.model.AbstractModel;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,11 +19,12 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
 public class TestEnvOAuthHandler implements OAuthHandler {
-    String access_token;
-    private String mOauthUrl;
+    private String access_token;
+    private Context mContext;
+    private AbstractModel mModel;
 
-    public TestEnvOAuthHandler(String url) {
-        mOauthUrl = url;
+    public TestEnvOAuthHandler(Context context) {
+        mContext = context;
     }
 
     @Override
@@ -29,15 +33,22 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         return access_token;
     }
 
+    public void setModel(AbstractModel model) {
+        mModel = model;
+    }
     // HTTP GET request
     private void sendOAuthRequest() {
         try {
-            URL obj = new URL(mOauthUrl);
+            URL obj = new URL(HybrisDelegate.getInstance(mContext).getStore().getOauthUrl());
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
             con.setRequestMethod("POST");
             con.setHostnameVerifier(hostnameVerifier);
 
             int responseCode = con.getResponseCode();
+
+//            if(responseCode != 200) {
+//                new TokenErrorHandler(mModel,null);
+//            }
 
             InputStreamReader inputStreamReader = new InputStreamReader(con.getInputStream());
             BufferedReader in = new BufferedReader(inputStreamReader);
