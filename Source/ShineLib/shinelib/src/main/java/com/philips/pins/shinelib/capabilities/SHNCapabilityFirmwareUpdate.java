@@ -9,9 +9,6 @@ import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNFirmwareInfoResultListener;
 import com.philips.pins.shinelib.SHNResult;
 
-/**
- * Created by 310188215 on 16/06/15.
- */
 public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
 
     enum SHNFirmwareUpdateState {
@@ -38,10 +35,15 @@ public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
 
     interface SHNCapabilityFirmwareUpdateListener {
         void onStateChanged(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
+
         void onProgressUpdate(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, float progress);
+
         void onUploadFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult);
+
         void onUploadFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
+
         void onDeployFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult);
-        void onDeployFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
+
+        void onDeployFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult);
     }
 }
