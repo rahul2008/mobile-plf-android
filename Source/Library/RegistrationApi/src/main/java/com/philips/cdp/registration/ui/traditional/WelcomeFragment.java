@@ -1,7 +1,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,8 +11,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.janrain.android.Jump;
@@ -20,7 +18,6 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -49,7 +46,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     private XRegError mRegError;
 
-    private ProgressBar mPbLogout;
+    private ProgressDialog mProgressDialog;
 
 
     @Override
@@ -153,8 +150,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mBtnSignOut.setOnClickListener(this);
         mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
         mBtnContinue.setOnClickListener(this);
-        mPbLogout = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_spinner);
-
+        mProgressDialog = new ProgressDialog(getParentFragment().getActivity());
+        mProgressDialog.setCancelable(false);
 
         mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
 
@@ -236,12 +233,15 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     }
 
     private void showLogoutSpinner() {
-        mPbLogout.setVisibility(View.VISIBLE);
+        mProgressDialog.setMessage("Please wait...");
+        mProgressDialog.show();
         mBtnSignOut.setEnabled(false);
     }
 
     private void hideLogoutSpinner() {
-        mPbLogout.setVisibility(View.GONE);
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
         mBtnSignOut.setEnabled(true);
     }
 
