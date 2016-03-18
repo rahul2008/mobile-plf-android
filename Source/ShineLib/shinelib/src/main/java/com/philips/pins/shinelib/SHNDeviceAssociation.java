@@ -237,17 +237,16 @@ public class SHNDeviceAssociation {
         return new SHNDevice.SHNDeviceListener() {
             @Override
             public void onStateUpdated(final SHNDevice shnDevice) {
-                final SHNDevice.SHNDeviceListener shnDeviceListener = this;
-                shnCentral.getInternalHandler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        SHNDevice.State state = shnDevice.getState();
-                        if (state.equals(SHNDevice.State.Disconnected) || state.equals(SHNDevice.State.Disconnecting)) {
+                SHNDevice.State state = shnDevice.getState();
+                if (state.equals(SHNDevice.State.Disconnected) || state.equals(SHNDevice.State.Disconnecting)) {
+                    shnDevice.unregisterSHNDeviceListener(this);
+                    shnCentral.getInternalHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
                             persistentStorageFactory.getPersistentStorageCleaner().clearDeviceData(shnDeviceToRemove);
-                            shnDevice.unregisterSHNDeviceListener(shnDeviceListener);
                         }
-                    }
-                });
+                    });
+                }
             }
 
             @Override
