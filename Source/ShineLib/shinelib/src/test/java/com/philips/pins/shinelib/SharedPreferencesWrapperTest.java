@@ -19,7 +19,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SharedPreferencesWrapperTest {
 
-    private static final long THREAD_ID = 100L;
     private static final String S = "S";
     private static final String S_1 = "S1";
 

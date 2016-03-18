@@ -2,7 +2,6 @@ package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -11,7 +10,11 @@ import java.util.Set;
 
 public class SharedPreferencesWrapper implements SharedPreferences {
 
-    private static String TAG = SharedPreferencesProvider.class.getSimpleName();
+    private interface Getter<T> {
+        T get(SharedPreferences sharedPreferences, String key, T defaultValue);
+    }
+
+    private static String TAG = SharedPreferencesWrapper.class.getSimpleName();
 
     private static final int DELAY_MILLIS = 50;
     private SharedPreferences sharedPreferences;
@@ -33,96 +36,106 @@ public class SharedPreferencesWrapper implements SharedPreferences {
         this.internalThreadId = internalThreadId;
     }
 
+    private <T> T getValue(String key, T defaultValue, Getter<T> getter) {
+        assertCorrectThread();
+        handler.postDelayed(timeOut, DELAY_MILLIS);
+        T val = getter.get(sharedPreferences, key, defaultValue);
+        handler.removeCallbacks(timeOut);
+        return val;
+    }
+
+    private <T> T getValue(Getter<T> getter) {
+        return getValue("", null, getter);
+    }
+
+    @Override
+    public int getInt(String key, int defaultValue) {
+        return getValue(key, defaultValue, new Getter<Integer>() {
+            @Override
+            public Integer get(SharedPreferences sharedPreferences, String key, Integer defaultValue) {
+                return sharedPreferences.getInt(key, defaultValue);
+            }
+        });
+    }
+
+    @Override
+    public String getString(String key, String defaultValue) {
+        return getValue(key, defaultValue, new Getter<String>() {
+            @Override
+            public String get(SharedPreferences sharedPreferences, String key, String defaultValue) {
+                return sharedPreferences.getString(key, defaultValue);
+            }
+        });
+    }
+
     @Override
     public Map<String, ?> getAll() {
-        assertCorrectThread();
-
-        handler.postDelayed(timeOut, DELAY_MILLIS);
-        Map<String, ?> map = sharedPreferences.getAll();
-        handler.removeCallbacks(timeOut);
-        return map;
-    }
-
-    @Nullable
-    @Override
-    public String getString(String s, String s1) {
-        assertCorrectThread();
-
-        handler.postDelayed(timeOut, DELAY_MILLIS);
-        String string = sharedPreferences.getString(s, s1);
-        handler.removeCallbacks(timeOut);
-        return string;
-    }
-
-    @Nullable
-    @Override
-    public Set<String> getStringSet(String s, Set<String> set) {
-        assertCorrectThread();
-
-        handler.postDelayed(timeOut, DELAY_MILLIS);
-        Set<String> stringSet = sharedPreferences.getStringSet(s, set);
-        handler.removeCallbacks(timeOut);
-        return stringSet;
+        return getValue(new Getter<Map<String, ?>>() {
+            @Override
+            public Map<String, ?> get(SharedPreferences sharedPreferences, String key, Map<String, ?> defaultValue) {
+                return sharedPreferences.getAll();
+            }
+        });
     }
 
     @Override
-    public int getInt(String s, int i) {
-        assertCorrectThread();
-
-        handler.postDelayed(timeOut, DELAY_MILLIS);
-        int anInt = sharedPreferences.getInt(s, i);
-        handler.removeCallbacks(timeOut);
-        return anInt;
+    public Set<String> getStringSet(String key, Set<String> set) {
+        return getValue(key, set, new Getter<Set<String>>() {
+            @Override
+            public Set<String> get(SharedPreferences sharedPreferences, String key, Set<String> defaultValue) {
+                return sharedPreferences.getStringSet(key, defaultValue);
+            }
+        });
     }
 
     @Override
-    public long getLong(String s, long l) {
-        assertCorrectThread();
-
-        handler.postDelayed(timeOut, DELAY_MILLIS);
-        long aLong = sharedPreferences.getLong(s, l);
-        handler.removeCallbacks(timeOut);
-        return aLong;
+    public long getLong(String key, long defaultValue) {
+        return getValue(key, defaultValue, new Getter<Long>() {
+            @Override
+            public Long get(SharedPreferences sharedPreferences, String key, Long defaultValue) {
+                return sharedPreferences.getLong(key, defaultValue);
+            }
+        });
     }
 
     @Override
-    public float getFloat(String s, float v) {
-        assertCorrectThread();
-
-        handler.postDelayed(timeOut, DELAY_MILLIS);
-        float aFloat = sharedPreferences.getFloat(s, v);
-        handler.removeCallbacks(timeOut);
-        return aFloat;
+    public float getFloat(String key, float defaultValue) {
+        return getValue(key, defaultValue, new Getter<Float>() {
+            @Override
+            public Float get(SharedPreferences sharedPreferences, String key, Float defaultValue) {
+                return sharedPreferences.getFloat(key, defaultValue);
+            }
+        });
     }
 
     @Override
-    public boolean getBoolean(String s, boolean b) {
-        assertCorrectThread();
-
-        handler.postDelayed(timeOut, DELAY_MILLIS);
-        boolean aBoolean = sharedPreferences.getBoolean(s, b);
-        handler.removeCallbacks(timeOut);
-        return aBoolean;
+    public boolean getBoolean(String key, boolean defaultValue) {
+        return getValue(key, defaultValue, new Getter<Boolean>() {
+            @Override
+            public Boolean get(SharedPreferences sharedPreferences, String key, Boolean defaultValue) {
+                return sharedPreferences.getBoolean(key, defaultValue);
+            }
+        });
     }
 
     @Override
-    public boolean contains(String s) {
-        assertCorrectThread();
-
-        handler.postDelayed(timeOut, DELAY_MILLIS);
-        boolean contains = sharedPreferences.contains(s);
-        handler.removeCallbacks(timeOut);
-        return contains;
+    public boolean contains(String key) {
+        return getValue(key, false, new Getter<Boolean>() {
+            @Override
+            public Boolean get(SharedPreferences sharedPreferences, String key, Boolean defaultValue) {
+                return sharedPreferences.contains(key);
+            }
+        });
     }
 
     @Override
     public Editor edit() {
-        assertCorrectThread();
-
-        handler.postDelayed(timeOut, DELAY_MILLIS);
-        Editor edit = sharedPreferences.edit();
-        handler.removeCallbacks(timeOut);
-        return edit;
+        return getValue(new Getter<Editor>() {
+            @Override
+            public Editor get(SharedPreferences sharedPreferences, String key, Editor defaultValue) {
+                return sharedPreferences.edit();
+            }
+        });
     }
 
     @Override
