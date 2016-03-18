@@ -61,10 +61,12 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (mShoppingCartDataList.size() == 0) return;
         if (holder instanceof FooterOrderSummaryViewHolder) {
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
-            footerHolder.mShippingFirstName.setText(getLastValidItem().getDeliveryAddressEntity().getFirstName());
+            String shippingName = getLastValidItem().getDeliveryAddressEntity().getFirstName() + " " + getLastValidItem().getDeliveryAddressEntity().getLastName();
+            footerHolder.mShippingFirstName.setText(shippingName);
             footerHolder.mShippingAddress.setText(Utility.createAddress(getLastValidItem().getDeliveryAddressEntity()));
             if (null != mBillingAddress) {
-                footerHolder.mBillingFirstName.setText(mBillingAddress.getFirstName());
+                String billingName = mBillingAddress.getFirstName() + " " + mBillingAddress.getLastName();
+                footerHolder.mBillingFirstName.setText(billingName);
                 footerHolder.mBillingAddress.setText(Utility.createAddress(mBillingAddress));
             }
             if (null != mPaymentMethod) {
