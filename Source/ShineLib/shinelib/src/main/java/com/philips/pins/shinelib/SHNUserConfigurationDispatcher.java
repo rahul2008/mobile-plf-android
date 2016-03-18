@@ -31,7 +31,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void clear() {
+    public void clear() {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -41,7 +41,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized ClockFormat getClockFormat() {
+    public ClockFormat getClockFormat() {
         return executeOnInternalThreadAndReturnResult(new Callable<ClockFormat>() {
             @Override
             public ClockFormat call() throws Exception {
@@ -51,7 +51,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setClockFormat(@NonNull final ClockFormat clockFormat) {
+    public void setClockFormat(@NonNull final ClockFormat clockFormat) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -61,7 +61,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized String getIsoLanguageCode() {
+    public String getIsoLanguageCode() {
         return executeOnInternalThreadAndReturnResult(new Callable<String>() {
             @Override
             public String call() throws Exception {
@@ -71,7 +71,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setIsoLanguageCode(final String isoLanguageCode) {
+    public void setIsoLanguageCode(final String isoLanguageCode) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -81,7 +81,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized String getIsoCountryCode() {
+    public String getIsoCountryCode() {
         return executeOnInternalThreadAndReturnResult(new Callable<String>() {
             @Override
             public String call() throws Exception {
@@ -91,7 +91,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setIsoCountryCode(final String isoCountryCode) {
+    public void setIsoCountryCode(final String isoCountryCode) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -101,7 +101,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized Boolean getUseMetricSystem() {
+    public Boolean getUseMetricSystem() {
         return executeOnInternalThreadAndReturnResult(new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
@@ -111,7 +111,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setUseMetricSystem(final Boolean useMetricSystem) {
+    public void setUseMetricSystem(final Boolean useMetricSystem) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -121,7 +121,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized Sex getSex() {
+    public Sex getSex() {
         return executeOnInternalThreadAndReturnResult(new Callable<Sex>() {
             @Override
             public Sex call() throws Exception {
@@ -131,7 +131,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setSex(final Sex sex) {
+    public void setSex(final Sex sex) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -141,7 +141,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized Integer getRestingHeartRate() {
+    public Integer getRestingHeartRate() {
         return executeOnInternalThreadAndReturnResult(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
@@ -151,7 +151,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setRestingHeartRate(final Integer restingHeartRate) {
+    public void setRestingHeartRate(final Integer restingHeartRate) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -161,7 +161,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized Integer getHeightInCm() {
+    public Integer getHeightInCm() {
         return executeOnInternalThreadAndReturnResult(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
@@ -171,7 +171,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setHeightInCm(final Integer heightInCm) {
+    public void setHeightInCm(final Integer heightInCm) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -181,7 +181,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized Double getWeightInKg() {
+    public Double getWeightInKg() {
         return executeOnInternalThreadAndReturnResult(new Callable<Double>() {
             @Override
             public Double call() throws Exception {
@@ -191,7 +191,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setWeightInKg(final Double weightInKg) {
+    public void setWeightInKg(final Double weightInKg) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -201,7 +201,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized Handedness getHandedness() {
+    public Handedness getHandedness() {
         return executeOnInternalThreadAndReturnResult(new Callable<Handedness>() {
             @Override
             public Handedness call() throws Exception {
@@ -211,7 +211,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setHandedness(final Handedness handedness) {
+    public void setHandedness(final Handedness handedness) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -221,7 +221,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized Character getDecimalSeparator() {
+    public Character getDecimalSeparator() {
         return executeOnInternalThreadAndReturnResult(new Callable<Character>() {
             @Override
             public Character call() throws Exception {
@@ -231,7 +231,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setDecimalSeparator(final Character decimalSeparator) {
+    public void setDecimalSeparator(final Character decimalSeparator) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -241,7 +241,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized Date getDateOfBirth() {
+    public Date getDateOfBirth() {
         return executeOnInternalThreadAndReturnResult(new Callable<Date>() {
             @Override
             public Date call() throws Exception {
@@ -251,7 +251,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setDateOfBirth(final Date dateOfBirth) {
+    public void setDateOfBirth(final Date dateOfBirth) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -261,7 +261,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized Integer getMaxHeartRate() {
+    public Integer getMaxHeartRate() {
         return executeOnInternalThreadAndReturnResult(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
@@ -271,7 +271,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized void setMaxHeartRate(final Integer maxHeartRate) {
+    public void setMaxHeartRate(final Integer maxHeartRate) {
         executeOnInternalThreadAndReturnResult(new VoidCallable() {
             @Override
             public void run() {
@@ -281,7 +281,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized Integer getAge() {
+    public Integer getAge() {
         return executeOnInternalThreadAndReturnResult(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
@@ -291,7 +291,7 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized Integer getBaseMetabolicRate() {
+    public Integer getBaseMetabolicRate() {
         return executeOnInternalThreadAndReturnResult(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
