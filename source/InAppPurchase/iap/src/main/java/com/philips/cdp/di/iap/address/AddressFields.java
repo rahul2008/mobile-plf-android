@@ -21,18 +21,12 @@ public class AddressFields implements Serializable {
     private String postalCode;
     private String town;
     private String phoneNumber;
-    private String state;
 
-    public String getState() {
-        return state;
-    }
+    private String regionIsoCode;
+    private String regionName;
 
     public String getEmail() {
         return email;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public void setEmail(String email) {
@@ -109,5 +103,21 @@ public class AddressFields implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getRegionIsoCode() {
+        return regionIsoCode;
+    }
+
+    public void setRegionIsoCode(String regionIsoCode) {
+        this.regionIsoCode = regionIsoCode;
+    }
+
+    public String getRegionName() {
+        return regionName;
+    }
+
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
     }
 }

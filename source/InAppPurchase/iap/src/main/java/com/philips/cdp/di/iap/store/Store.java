@@ -14,6 +14,7 @@ public class Store {
     private static final String V2 = "v2";
     public static final String USER = "users";
     private static final String SEPERATOR = "/";
+    private static final String LANG = "?fields=FULL&lang=en";
 
     //Oauth
     private static final String SUFFIX_OAUTH =
@@ -29,7 +30,7 @@ public class Store {
     private static final String SUFFIX_SET_PAYMENT_DETAILS = "/paymentdetails";
     private static final String SUFFIX_SET_PAYMENT_URL = "/orders/%s/pay";
 
-    private static final String SUFFIX_ADDRESSES_FULL = "/addresses?fields=FULL";
+    private static final String SUFFIX_ADDRESSES_FULL = "/addresses"+LANG;
     private static final String SUFFIX_ADDRESSES_ALTER = "/addresses/%s";
 
     private static final String SUFFIX_DELIVERY_MODE = "/deliverymode";

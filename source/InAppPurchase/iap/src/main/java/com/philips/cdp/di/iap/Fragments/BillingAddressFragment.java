@@ -112,6 +112,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
         mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
         mEtPhoneNumber.addTextChangedListener(new IAPTextWatcher(mEtPhoneNumber));
+        mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
+        mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
 
         mSwitchBillingAddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -182,8 +184,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             mEtEmail.setText(mAddressFields.getEmail());
             mEtPhoneNumber.setText(mAddressFields.getPhoneNumber());
 
-            if(mAddressFields.getState() != null){
-                mEtState.setText(mAddressFields.getState());
+            if(mAddressFields.getRegionIsoCode() != null){
+                mEtState.setText(mAddressFields.getRegionIsoCode());
                 mlLState.setVisibility(View.VISIBLE);
             }else{
                 mlLState.setVisibility(View.GONE);
@@ -207,7 +209,9 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
                 && mValidator.isValidAddress(addressLineOne) && (addressLineTwo.trim().equals("") || mValidator.isValidAddress(addressLineTwo))
                 && mValidator.isValidPostalCode(postalCode)
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phoneNumber)
-                && mValidator.isValidTown(town) && mValidator.isValidCountry(country)) {
+                && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
+                && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
+                && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
 
             mBtnContinue.setEnabled(true);
         } else {
@@ -366,7 +370,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mAddressFields.setEmail(mEtEmail.getText().toString());
 
         if (mlLState.getVisibility() == View.VISIBLE) {
-            mAddressFields.setState(mEtState.getText().toString());
+            mAddressFields.setRegionIsoCode(mEtState.getText().toString());
         }
     }
 
@@ -394,6 +398,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         if (editText.getId() == R.id.et_country && !hasFocus) {
             result = mValidator.isValidCountry(mEtCountry.getText().toString());
             errorMessage = getResources().getString(R.string.iap_country_error);
+            showUSRegions();
         }
         if (editText.getId() == R.id.et_postal_code && !hasFocus) {
             result = mValidator.isValidPostalCode(mEtPostalCode.getText().toString());
@@ -416,12 +421,25 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             }
         }
 
+        if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus) {
+            checkFields();
+        }
+
         if (!result) {
             mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError((EditText) editText);
+            mBtnContinue.setEnabled(false);
         } else {
             mInlineFormsParent.removeError(editText);
             checkFields();
+        }
+    }
+
+    private void showUSRegions() {
+        if (mEtCountry.getText().toString().equals("US")) {
+            mlLState.setVisibility(View.VISIBLE);
+        } else {
+            mlLState.setVisibility(View.GONE);
         }
     }
 
@@ -440,6 +458,11 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onStateSelect(String state) {
         mEtState.setText(state);
+    }
+
+    @Override
+    public void stateRegionCode(String regionCode) {
+
     }
 
     private class IAPTextWatcher implements TextWatcher {

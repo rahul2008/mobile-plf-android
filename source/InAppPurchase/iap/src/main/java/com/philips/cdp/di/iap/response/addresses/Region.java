@@ -4,6 +4,7 @@ public class Region {
     private String countryIso;
     private String isocode;
     private String isocodeShort;
+    private String name;
 
     public String getCountryIso() {
         return countryIso;
@@ -15,5 +16,9 @@ public class Region {
 
     public String getIsocodeShort() {
         return isocodeShort;
+    }
+
+    public String getName() {
+        return name;
     }
 }

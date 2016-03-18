@@ -41,6 +41,7 @@ public class CreateAddressRequest extends AbstractModel {
         payload.put(ModelConstants.POSTAL_CODE, this.params.get(ModelConstants.POSTAL_CODE));
         payload.put(ModelConstants.TOWN, this.params.get(ModelConstants.TOWN));
         payload.put(ModelConstants.PHONE_NUMBER, this.params.get(ModelConstants.PHONE_NUMBER));
+        payload.put(ModelConstants.REGION_ISOCODE, this.params.get(ModelConstants.REGION_ISOCODE));
         return payload;
     }
 

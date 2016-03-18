@@ -16,22 +16,13 @@ public class Addresses {
     private String line2;
     private String phone;
     private String postalCode;
+    private Region region;
     private boolean shippingAddress;
     private String titleCode;
     private String town;
-    private String email;
-    private String state;
-    private String formattedAddress;
-    private Region region;
     private boolean visibleInAddressBook;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getState() {
-        return state;
-    }
+    private String formattedAddress;
+    private String email;
 
     public Country getCountry() {
         return country;
@@ -68,6 +59,10 @@ public class Addresses {
         return postalCode;
     }
 
+    public Region getRegion() {
+        return region;
+    }
+
     public boolean isShippingAddress() {
         return shippingAddress;
     }
@@ -87,11 +82,12 @@ public class Addresses {
         return visibleInAddressBook;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public String getFormattedAddress() {
         return formattedAddress;
     }
 
-    public Region getRegion() {
-        return region;
-    }
 }

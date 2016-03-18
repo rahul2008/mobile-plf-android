@@ -157,7 +157,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 mAddresses.remove(mAdapter.getOptionsClickPosition());
                 mAdapter.setAddresses(mAddresses);
                 mAdapter.notifyDataSetChanged();
-            } else if(isVisible()){
+            } else if (isVisible()) {
                 if (msg.obj instanceof GetShippingAddressData) {
                     GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                     mAddresses = shippingAddresses.getAddresses();
@@ -294,7 +294,9 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         HashMap<String, String> addressHashMap = new HashMap<>();
 
         String titleCode = address.getTitleCode();
-        titleCode = titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1);
+
+        if (titleCode.trim().length() == 2)
+            titleCode = titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1);
 
         addressHashMap.put(ModelConstants.FIRST_NAME, address.getFirstName());
         addressHashMap.put(ModelConstants.LAST_NAME, address.getLastName());
@@ -307,6 +309,9 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         addressHashMap.put(ModelConstants.ADDRESS_ID, address.getId());
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, address.getLine1());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, address.getPhone());
+
+        if (address.getRegion() != null)
+            addressHashMap.put(ModelConstants.REGION_ISOCODE, address.getRegion().getName());
 
         if (address.getEmail() != null)
             addressHashMap.put(ModelConstants.EMAIL_ADDRESS, address.getEmail());
@@ -372,7 +377,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         }
         if (addr.getTitleCode() != null) {
             String titleCode = addr.getTitleCode();
-            fields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1));
+            if (titleCode.trim().length() == 2)
+                fields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1));
         }
         if (addr.getLine1() != null) {
             fields.setLine1(addr.getLine1());
@@ -398,6 +404,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
         if (addr.getPhone() != null) {
             fields.setPhoneNumber(addr.getPhone());
+        }
+
+        if(addr.getRegion() != null){
+            fields.setRegionIsoCode(addr.getRegion().getName());
         }
 
         return fields;
