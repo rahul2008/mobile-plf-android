@@ -517,13 +517,24 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void ShouldInformDeviceRemovedListener_WhenDeviceIsRemoved() {
+    public void ShouldInformGenericDeviceRemovedListener_WhenDeviceIsRemoved() {
         String macAddress1 = "11:11:11:11:11:11";
         SHNDevice shnDevice1 = mock(SHNDevice.class);
         startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
 
         shnDeviceAssociation.addDeviceRemovedListeners(deviceRemovedListenerMock);
         shnDeviceAssociation.removeAllAssociatedDevices();
+
+        verify(deviceRemovedListenerMock).onAssociatedDeviceRemoved(shnDevice1);
+    }
+
+    @Test
+    public void ShouldInformSpecificDeviceRemovedListener_WhenDeviceIsRemoved() {
+        String macAddress1 = "11:11:11:11:11:11";
+        SHNDevice shnDevice1 = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
+
+        shnDeviceAssociation.removeAllAssociatedDevices(deviceRemovedListenerMock);
 
         verify(deviceRemovedListenerMock).onAssociatedDeviceRemoved(shnDevice1);
     }

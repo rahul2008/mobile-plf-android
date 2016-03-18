@@ -185,26 +185,34 @@ public class SHNDeviceAssociation {
     }
 
     public void removeAllAssociatedDevices() {
+        removeAllAssociatedDevices(new NullDeviceRemovedListener());
+    }
+
+    public void removeAllAssociatedDevices(@NonNull final DeviceRemovedListener deviceRemovedListener) {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
             public void run() {
                 while (!associatedDevices.isEmpty()) {
-                    removeAssociatedDeviceInternal(associatedDevices.get(0));
+                    removeAssociatedDeviceInternal(associatedDevices.get(0), deviceRemovedListener);
                 }
             }
         });
     }
 
     public void removeAssociatedDevice(@NonNull final SHNDevice shnDeviceToRemove) {
+        removeAssociatedDevice(shnDeviceToRemove, new NullDeviceRemovedListener());
+    }
+
+    public void removeAssociatedDevice(@NonNull final SHNDevice shnDeviceToRemove, @NonNull final DeviceRemovedListener deviceRemovedListener) {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
             public void run() {
-                removeAssociatedDeviceInternal(shnDeviceToRemove);
+                removeAssociatedDeviceInternal(shnDeviceToRemove, deviceRemovedListener);
             }
         });
     }
 
-    private void removeAssociatedDeviceInternal(@NonNull final SHNDevice shnDeviceToRemove) {
+    private void removeAssociatedDeviceInternal(@NonNull final SHNDevice shnDeviceToRemove, @NonNull final DeviceRemovedListener deviceRemovedListener) {
         boolean removed = removeAssociatedDeviceFromList(shnDeviceToRemove);
         if (removed) {
             persistAssociatedDeviceList();
@@ -215,6 +223,7 @@ public class SHNDeviceAssociation {
             shnCentral.getUserHandler().post(new Runnable() {
                 @Override
                 public void run() {
+                    deviceRemovedListener.onAssociatedDeviceRemoved(shnDeviceToRemove);
                     for (final DeviceRemovedListener listener : copyOfDeviceRemovedListeners) {
                         listener.onAssociatedDeviceRemoved(shnDeviceToRemove);
                     }
@@ -375,5 +384,11 @@ public class SHNDeviceAssociation {
 
     public void removeDeviceRemovedListeners(@NonNull final DeviceRemovedListener listener) {
         deviceRemovedListeners.remove(listener);
+    }
+
+    private static class NullDeviceRemovedListener implements DeviceRemovedListener {
+        @Override
+        public void onAssociatedDeviceRemoved(@NonNull final SHNDevice device) {
+        }
     }
 }
