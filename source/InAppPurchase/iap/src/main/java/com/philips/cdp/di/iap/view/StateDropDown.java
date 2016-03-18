@@ -21,11 +21,13 @@ import java.util.List;
 public class StateDropDown {
     public interface StateListener {
         void onStateSelect(String state);
+        void stateRegionCode(String regionCode);
     }
 
     UIKitListPopupWindow mPopUp;
     StateListener mStateListener;
     Context mContext;
+    RegionsList mRegionList;
 
     public StateDropDown(Context context, View anchor, StateListener stateListener) {
         mStateListener = stateListener;
@@ -46,10 +48,10 @@ public class StateDropDown {
         try {
             InputStream fromAsset = mContext.getResources().getAssets().open("USRegions.json");
             Reader reader = new BufferedReader(new InputStreamReader(fromAsset));
-            RegionsList regionsList = new Gson().fromJson(reader, RegionsList.class);
+            mRegionList = new Gson().fromJson(reader, RegionsList.class);
 
-            for (int i = 0; i < regionsList.getRegions().size(); i++) {
-                rowItems.add(new RowItem(regionsList.getRegions().get(i).getName()));
+            for (int i = 0; i < mRegionList.getRegions().size(); i++) {
+                rowItems.add(new RowItem(mRegionList.getRegions().get(i).getName()));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -63,6 +65,7 @@ public class StateDropDown {
         public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
             String state = ((RowItem) parent.getItemAtPosition(position)).getDesc();
             mStateListener.onStateSelect(state);
+            mStateListener.stateRegionCode(mRegionList.getRegions().get(position).getIsocode());
             dismiss();
         }
     };

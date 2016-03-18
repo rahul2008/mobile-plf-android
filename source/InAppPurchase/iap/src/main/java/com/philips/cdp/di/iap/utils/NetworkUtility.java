@@ -70,17 +70,18 @@ public class NetworkUtility {
         setOnline(false);
     }
 
-    public void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription){
+    public void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT,pButtonText);
+        bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
         bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
         bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
         //In case Fragment is active already here exception is thrown
         try {
             mModalAlertDemoFragment.setArguments(bundle);
             mModalAlertDemoFragment.show(pFragmentManager, "dialog");
-        }catch (Exception e){
-
+        } catch (Exception e) {
+            if (mModalAlertDemoFragment.isAdded())
+                mModalAlertDemoFragment.dismiss();
         }
 
     }

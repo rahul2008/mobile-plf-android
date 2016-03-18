@@ -293,7 +293,9 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         HashMap<String, String> addressHashMap = new HashMap<>();
 
         String titleCode = address.getTitleCode();
-        titleCode = titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1);
+
+        if (titleCode.trim().length() == 2)
+            titleCode = titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1);
 
         addressHashMap.put(ModelConstants.FIRST_NAME, address.getFirstName());
         addressHashMap.put(ModelConstants.LAST_NAME, address.getLastName());
@@ -306,6 +308,9 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         addressHashMap.put(ModelConstants.ADDRESS_ID, address.getId());
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, address.getLine1());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, address.getPhone());
+
+        if (address.getRegion() != null)
+            addressHashMap.put(ModelConstants.REGION_ISOCODE, address.getRegion().getName());
 
         if (address.getEmail() != null)
             addressHashMap.put(ModelConstants.EMAIL_ADDRESS, address.getEmail());
@@ -371,7 +376,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         }
         if (isNotNullNorEmpty(addr.getTitleCode())) {
             String titleCode = addr.getTitleCode();
-            fields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1));
+            if (titleCode.trim().length() == 2)
+                fields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1));
         }
         if (isNotNullNorEmpty(addr.getLine1())) {
             fields.setLine1(addr.getLine1());
@@ -397,6 +403,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
         if (isNotNullNorEmpty(addr.getPhone())) {
             fields.setPhoneNumber(addr.getPhone());
+        }
+
+        if(addr.getRegion() != null){
+            fields.setRegionIsoCode(addr.getRegion().getName());
         }
 
         return fields;

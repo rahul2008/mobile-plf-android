@@ -115,7 +115,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     public void countUpdate(final int oldCount, final int newCount) {
                         if (Utility.isInternetConnected(mContext)) {
                             if (!Utility.isProgressDialogShowing()) {
-                                Utility.showProgressDialog(mContext, "Updating Cart Details");
+                                Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
                                 mPresenter.updateProductQuantity(mData.get(position), newCount);
                             }
                         } else {
@@ -138,7 +138,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.iap_trash_bin), descriptions[0]));
         rowItems.add(new RowItem(ContextCompat.getDrawable(mContext, R.drawable.iap_info), descriptions[1]));
-        mPopupWindow =  new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
+        mPopupWindow = new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
 
         mPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -147,11 +147,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     case DELETE:
                         if (Utility.isInternetConnected(mContext)) {
                             if (!Utility.isProgressDialogShowing()) {
-                                Utility.showProgressDialog(mContext,mContext.getString(R.string.iap_deleting_item));
+                                Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_deleting_item));
                                 mPresenter.deleteProduct(mData.get(selectedItem));
                                 mPopupWindow.dismiss();
                             }
-                        }else{
+                        } else {
                             NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
                         }
                         break;
@@ -172,7 +172,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if(mData.size()==0)
+        if (mData.size() == 0)
             return;
         if (holder instanceof ShoppingCartProductHolder) {
             //Product Layout
@@ -184,47 +184,47 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             shoppingCartProductHolder.mTvPrice.setText(cartData.getTotalPriceFormatedPrice());
             shoppingCartProductHolder.mTvQuantity.setText(cartData.getQuantity() + "");
 
-            checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(),shoppingCartProductHolder);
+            checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
 
             getNetworkImage(shoppingCartProductHolder, imageURL);
 
             shoppingCartProductHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    bindDeleteOrInfoPopUP(view,position);
+                    bindDeleteOrInfoPopUP(view, position);
                 }
             });
             //Add arrow mark
-            shoppingCartProductHolder.mTvQuantity.setCompoundDrawables(null,null,countArrow,null);
+            shoppingCartProductHolder.mTvQuantity.setCompoundDrawables(null, null, countArrow, null);
             bindCountView(shoppingCartProductHolder.mQuantityLayout, position);
         } else {
             //Footer Layout
             FooterShoppingCartViewHolder shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
-                ShoppingCartData data;
-                if (mData.get(0) != null) {
-                    data = mData.get(0);
+            ShoppingCartData data;
+            if (mData.get(0) != null) {
+                data = mData.get(0);
 
-                    shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total) + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
-                    shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
-                    if(null != data.getDeliveryCost()) {
-                        shoppingCartFooter.mDeliveryPrice.setText(data.getDeliveryCost().getFormattedValue());
-                    }else{
-                        shoppingCartFooter.mDeliveryPrice.setText("$0.0");
-                    }
+                shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total) + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
+                shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
+                if (null != data.getDeliveryCost()) {
+                    shoppingCartFooter.mDeliveryPrice.setText(data.getDeliveryCost().getFormattedValue());
+                } else {
+                    shoppingCartFooter.mDeliveryPrice.setText("$0.0");
                 }
+            }
         }
     }
 
     private void checkForOutOfStock(int pStockLevel, int pQuantity, ShoppingCartProductHolder pShoppingCartProductHolder) {
-        if(pStockLevel == 0){
+        if (pStockLevel == 0) {
             pShoppingCartProductHolder.mTvStock.setVisibility(View.VISIBLE);
             pShoppingCartProductHolder.mTvStock.setText(mResources.getString(R.string.iap_out_of_stock));
             mOutOfStock.onOutOfStock(true);
-        }else if(pStockLevel < pQuantity){
+        } else if (pStockLevel < pQuantity) {
             pShoppingCartProductHolder.mTvStock.setVisibility(View.VISIBLE);
             pShoppingCartProductHolder.mTvStock.setText("Only " + pStockLevel + " left");
             mOutOfStock.onOutOfStock(true);
-        }else {
+        } else {
             pShoppingCartProductHolder.mTvStock.setVisibility(View.GONE);
             /*mOutOfStock.onOutOfStock(false);*/
         }
@@ -248,7 +248,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public ShoppingCartData getTheProductDataForDisplayingInProductDetailPage(){
+    public ShoppingCartData getTheProductDataForDisplayingInProductDetailPage() {
         return shoppingCartDataForProductDetailPage;
     }
 
@@ -288,7 +288,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.image);
             mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
             mTvPrice = (TextView) itemView.findViewById(R.id.price);
-            mTvProductTitle = (TextView)itemView.findViewById(R.id.text1Name);
+            mTvProductTitle = (TextView) itemView.findViewById(R.id.text1Name);
             mQuantityLayout = (RelativeLayout) itemView.findViewById(R.id.quantity_count_layout);
             mTvStock = (TextView) itemView.findViewById(R.id.out_of_stock);
             mTvQuantity = (TextView) itemView.findViewById(R.id.text2value);

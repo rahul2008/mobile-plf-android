@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.carts.CountryEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
+import com.philips.cdp.di.iap.response.payment.BillingAddress;
 
 import java.util.Locale;
 
@@ -156,6 +157,15 @@ public class Utility {
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getPostalCode());
             String country = getCountryName(((Addresses) addressObj).getCountry().getIsocode());
+            if (country != null) {
+                sb.append(country);
+            }
+        } else if (addressObj instanceof BillingAddress) {
+            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine1());
+            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine2());
+            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getTown());
+            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getPostalCode());
+            String country = getCountryName(((BillingAddress) addressObj).getCountry().getIsocode());
             if (country != null) {
                 sb.append(country);
             }
