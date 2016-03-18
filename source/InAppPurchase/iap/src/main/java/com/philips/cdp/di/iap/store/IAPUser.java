@@ -16,6 +16,7 @@ public class IAPUser {
     private Context mContext;
     private Store mStore;
 
+    boolean debug = true;
     public IAPUser(final Context context, final Store store) {
         mContext = context;
         mStore = store;
@@ -23,6 +24,10 @@ public class IAPUser {
     }
 
     public String getJanRainID() {
+        if(debug) {
+            debug = false;
+            return "12";
+        }
         return mJanRainUser.getAccessToken();
     }
 
@@ -35,12 +40,32 @@ public class IAPUser {
             @Override
             public void onRefreshLoginSessionSuccess() {
                 mStore.updateJanRainIDBasedUrls();
+                notifyOAuthHandler();
             }
 
             @Override
             public void onRefreshLoginSessionFailedWithError(final int i) {
                 mStore.updateJanRainIDBasedUrls();
+                notifyOAuthHandler();
             }
         }, mContext);
+        putOAuthOnWait();
+    }
+
+    private  void putOAuthOnWait() {
+        synchronized (mLock) {
+            try {
+                mLock.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void notifyOAuthHandler() {
+        synchronized (mLock) {
+            mLock.notifyAll();
+        }
     }
 }

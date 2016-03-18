@@ -23,13 +23,14 @@ public class SynchronizedNetwork {
         mBasicNetwork = new BasicNetwork(stack);
     }
 
-    public void performRequest(IAPJsonRequest request) {
+    public void performRequest(IAPJsonRequest request, SynchronizedNetworkCallBack callBack) {
         try {
             NetworkResponse response = mBasicNetwork.performRequest(request);
             Response<JSONObject> jsonObjectResponse = request.parseNetworkResponse(response);
-            request.deliverResponse(jsonObjectResponse.result);
+            callBack.onSyncRequestSuccess(jsonObjectResponse);
+
         } catch (VolleyError volleyError) {
-            request.deliverError(volleyError);
+            callBack.onSyncRequestError(volleyError);
         }
     }
 }

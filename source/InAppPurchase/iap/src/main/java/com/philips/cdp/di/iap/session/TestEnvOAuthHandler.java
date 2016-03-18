@@ -6,14 +6,15 @@
 package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HostnameVerifier;
@@ -39,6 +40,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     public void setModel(AbstractModel model) {
         mModel = model;
     }
+
     // HTTP GET request
     private void sendOAuthRequest() {
         try {
@@ -49,25 +51,45 @@ public class TestEnvOAuthHandler implements OAuthHandler {
 
             int responseCode = con.getResponseCode();
 
-            if (responseCode != 200) {
-                TokenErrorHandler handler = new TokenErrorHandler(mModel, null);
-                handler.proceedCallWithOAuth();
-                if (handler.getAccessToken() != null) {
-                    access_token = handler.getAccessToken();
-                    Log.d("Amit", "return access token" + Thread.currentThread().getName());
-                    return;
-                }
-            }
-            InputStreamReader inputStreamReader = new InputStreamReader(con.getInputStream());
-            BufferedReader in = new BufferedReader(inputStreamReader);
-            String inputLine;
-            StringBuffer response = new StringBuffer();
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                InputStreamReader errorStream = new InputStreamReader(con.getErrorStream());
+                BufferedReader in = new BufferedReader(errorStream);
+                String inputLine;
+                StringBuffer errorString = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                while ((inputLine = in.readLine()) != null) {
+                    errorString.append(inputLine);
+                }
+                errorStream.close();
+
+                Gson gson = new Gson();
+                Object result = gson.fromJson(errorString.toString(), ServerError.class);
+
+                ServerError iapNetworkError = (ServerError) result;
+                com.philips.cdp.di.iap.response.error.Error error = iapNetworkError.getErrors().get(0);
+                String type = error.getType();
+                String message = error.getMessage();
+                if (type.equalsIgnoreCase("InvalidGrantError")) {
+                    TokenErrorHandler handler = new TokenErrorHandler(mModel, null);
+                    handler.proceedCallWithOAuth();
+                    if (handler.getAccessToken() != null) {
+                        access_token = handler.getAccessToken();
+                        return;
+                    }
+                }
+            } else {
+
+                InputStreamReader inputStreamReader = new InputStreamReader(con.getInputStream());
+                BufferedReader in = new BufferedReader(inputStreamReader);
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                assignTokenFromResponse(response);
             }
-            in.close();
-            assignTokenFromResponse(response);
         } catch (Exception e) {
             e.printStackTrace();
         }

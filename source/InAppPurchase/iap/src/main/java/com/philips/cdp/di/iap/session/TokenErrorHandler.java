@@ -13,8 +13,6 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.NewOAuthRequest;
 import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
 
-import org.json.JSONObject;
-
 public class TokenErrorHandler {
     private RequestListener mRequestListener;
     private AbstractModel mModel;
@@ -37,24 +35,26 @@ public class TokenErrorHandler {
     public void proceedCallWithOAuth() {
         NewOAuthRequest request = new NewOAuthRequest(mModel.getStore(), null);
         SynchronizedNetwork network = new SynchronizedNetwork(new IAPHurlStack(request).getHurlStack());
-        network.performRequest(createOAuthRequest(request));
+        network.performRequest(createOAuthRequest(request), new SynchronizedNetworkCallBack() {
+            @Override
+            public void onSyncRequestSuccess(final Response response) {
+                if (response != null && response.result != null) {
+                    final OAuthResponse authResponse = new Gson().fromJson(response.result.toString(),
+                            OAuthResponse.class);
+                    mAccessToken = authResponse.getAccessToken();
+                }
+            }
+
+            @Override
+            public void onSyncRequestError(final VolleyError volleyError) {
+
+            }
+        });
     }
 
     private IAPJsonRequest createOAuthRequest(final NewOAuthRequest request) {
-        IAPJsonRequest jsonRequest = new IAPJsonRequest(request.getMethod(), request.getUrl(), null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(final JSONObject response) {
-                        final OAuthResponse authResponse = new Gson().fromJson(response.toString(), OAuthResponse.class);
-                        mAccessToken = authResponse.getAccessToken();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(final VolleyError error) {
-
-                    }
-                });
+        IAPJsonRequest jsonRequest = new IAPJsonRequest(request.getMethod(), request.getUrl(),
+                null,null,null);
         return jsonRequest;
     }
 
