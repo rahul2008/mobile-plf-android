@@ -15,3 +15,38 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+#------------------ Required by moonshine plugin ---------------------------#
+-keep class com.philips.pins.packetcommunication.EnergyIntakeConfiguration { *; }
+-keepclassmembers class com.philips.pins.packetcommunication.EnergyIntakeConfiguration { *; }
+#------------------ End: Required by moonshine plugin ----------------------#
+
+
+#------------------ For when enums are persistently stored -----------------#
+-keep enum com.philips.pins.shinelib.** { *; }
+-keepnames enum com.philips.pins.shinelib.**
+-keepclassmembers enum com.philips.pins.shinelib.** {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+    public protected *;
+}
+#------------------ End: For when enums are persistently stored ------------#
+
+
+#----------------- For serializable classes --------------------------------#
+-keep class com.philips.pins.shinelib.* implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+
+-keepnames class com.philips.pins.shinelib.* implements java.io.Serializable
+
+-keepclassmembers class com.philips.pins.shinelib.* implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    !static !transient <fields>;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+#----------------- End: For serializable classes ---------------------------#

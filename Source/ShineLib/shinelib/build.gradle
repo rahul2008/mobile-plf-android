@@ -17,6 +17,8 @@ android {
         targetSdkVersion _targetSdkVersion
         versionCode _versionCode
         versionName getLibVersionName(shineLibVersion)
+
+        consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
 
     buildTypes {
