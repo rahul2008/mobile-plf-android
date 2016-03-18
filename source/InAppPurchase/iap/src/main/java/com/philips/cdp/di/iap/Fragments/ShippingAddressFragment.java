@@ -82,6 +82,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private StateDropDown mStateDropDown;
 
     private HashMap<String, String> mAddressFieldsHashmap = null;
+    private HashMap<String, String> addressHashMap = null;
     private Addresses mAddresses;
     private Drawable imageArrow;
 
@@ -127,9 +128,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
         mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
         mEtPhoneNumber.addTextChangedListener(new IAPTextWatcher(mEtPhoneNumber));
+        mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
+        mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
 
         Bundle bundle = getArguments();
         if (null != bundle) {
+            addressHashMap = new HashMap<>();
             updateFields();
         }
 
@@ -177,7 +181,10 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             CartModelContainer.getInstance().setShippingAddressFields(mAddressFields);
             Bundle bundle = new Bundle();
+            if (mlLState.getVisibility() == View.VISIBLE)
+                mAddressFields.setRegionIsoCode(mEtState.getText().toString());
             bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mAddressFields);
+
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof IAPNetworkError)) {
@@ -285,6 +292,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError(mEtCountry);
             mBtnContinue.setEnabled(false);
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
     }
 
@@ -303,7 +313,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 && mValidator.isValidAddress(addressLineOne) && (addressLineTwo.trim().equals("") || mValidator.isValidAddress(addressLineTwo))
                 && mValidator.isValidPostalCode(postalCode)
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phoneNumber)
-                && mValidator.isValidTown(town) && mValidator.isValidCountry(country)) {
+                && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
+                && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
+                && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
 
             mAddressFields.setFirstName(firstName);
             mAddressFields.setLastName(lastName);
@@ -315,10 +327,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mAddressFields.setTown(town);
             mAddressFields.setPhoneNumber(phoneNumber);
             mAddressFields.setEmail(email);
-
-            if (mlLState.getVisibility() == View.VISIBLE) {
-                mAddressFields.setState(mEtState.getText().toString());
-            }
 
             mBtnContinue.setEnabled(true);
         } else {
@@ -372,6 +380,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 errorMessage = getResources().getString(R.string.iap_address_error);
             }
         }
+        if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus) {
+            checkFields();
+        }
 
         if (!result) {
             mInlineFormsParent.setErrorMessage(errorMessage);
@@ -387,6 +398,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_address);
+        if (CartModelContainer.getInstance().getRegionIsoCode() != null)
+            mAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
     }
 
     public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {
@@ -430,6 +443,15 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtState.setText(state);
     }
 
+    @Override
+    public void stateRegionCode(String regionCode) {
+        mAddressFields.setRegionIsoCode(regionCode);
+        if (addressHashMap != null) {
+            addressHashMap.put(ModelConstants.REGION_ISOCODE, regionCode);
+        }
+        CartModelContainer.getInstance().setRegionIsoCode(regionCode);
+    }
+
     private void showUSRegions() {
         if (mEtCountry.getText().toString().equals("US")) {
             mlLState.setVisibility(View.VISIBLE);
@@ -458,7 +480,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     private HashMap<String, String> addressPayload() {
-        HashMap<String, String> addressHashMap = new HashMap<>();
+
         addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
         addressHashMap.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
         addressHashMap.put(ModelConstants.LINE_1, mEtAddressLineOne.getText().toString());
@@ -471,10 +493,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
-
-        if (mlLState.getVisibility() == View.VISIBLE) {
-            mAddressFields.setState(mEtState.getText().toString());
-        }
 
         return addressHashMap;
     }
@@ -498,9 +516,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtPhoneNumber.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_NUMBER));
         mEtEmail.setText(mAddressFieldsHashmap.get(ModelConstants.EMAIL_ADDRESS));
 
-        if (mAddressFieldsHashmap.containsKey(ModelConstants.STATE) &&
-                mAddressFieldsHashmap.get(ModelConstants.STATE) != null) {
-            mEtState.setText(mAddressFieldsHashmap.get(ModelConstants.STATE));
+        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_ISOCODE) &&
+                mAddressFieldsHashmap.get(ModelConstants.REGION_ISOCODE) != null) {
+            mEtState.setText(mAddressFieldsHashmap.get(ModelConstants.REGION_ISOCODE));
             mlLState.setVisibility(View.VISIBLE);
         } else {
             mlLState.setVisibility(View.GONE);

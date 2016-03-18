@@ -112,9 +112,11 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (isOrderPlaced()) {
-            finishActivity();
+            //finishActivity();
+            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -139,19 +141,10 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
                 }
             }
         } else if (v.getId() == R.id.btn_cancel) {
-            if (isOrderPlaced()) {
-                showCancelDialog();
-//                finishActivity();
-            } else {
-                addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-            }
+            addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         }
     }
 
-    private void showCancelDialog() {
-        TwoButtonDailogFragment dialog = new TwoButtonDailogFragment();
-        dialog.show(getActivity().getSupportFragmentManager(), null);
-    }
 
     private boolean paymentMethodAvailable() {
         return mPaymentMethod != null;

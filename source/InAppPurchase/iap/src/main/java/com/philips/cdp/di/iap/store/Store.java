@@ -12,8 +12,9 @@ public class Store {
     private static final String HTTPS = "https://";
     private static final String WEB_ROOT = "pilcommercewebservices";
     private static final String V2 = "v2";
-    public static final String USER = "users";
+    private static final String USER = "users";
     private static final String SEPERATOR = "/";
+    private static final String LANG = "?fields=FULL&lang=en";
 
     //Oauth
     private static final String SUFFIX_OAUTH =
@@ -29,7 +30,7 @@ public class Store {
     private static final String SUFFIX_SET_PAYMENT_DETAILS = "/paymentdetails";
     private static final String SUFFIX_SET_PAYMENT_URL = "/orders/%s/pay";
 
-    private static final String SUFFIX_ADDRESSES_FULL = "/addresses?fields=FULL";
+    private static final String SUFFIX_ADDRESSES_FULL = "/addresses"+LANG;
     private static final String SUFFIX_ADDRESSES_ALTER = "/addresses/%s";
 
     private static final String SUFFIX_DELIVERY_MODE = "/deliverymode";
@@ -51,22 +52,33 @@ public class Store {
     private String mPlaceOrderUrl;
     private String mCreateCartUrl;
     private String mAddToCartUrl;
-    protected String mBaseURl;
+    private String mBaseURl;
     private String mCurrentCartUrl;
 
     private String mOauthUrl;
     private String mGetCartUrl;
 
-    public Store(Context context, IAPUser iapUser) {
-        mIAPUser = iapUser;
+    public Store(Context context) {
+        mIAPUser = initIAPUser(context);
         mStoreConfig = setStoreConfig(context);
+        generateStoreUrls();
+    }
+
+    IAPUser initIAPUser(Context context) {
+        if (mIAPUser == null) {
+            mIAPUser = new IAPUser(context, this);
+        }
+        return mIAPUser;
+    }
+
+    StoreConfiguration setStoreConfig(final Context context) {
+        return new StoreConfiguration(context);
+    }
+
+    private void generateStoreUrls() {
         createBaseUrl();
         createOauthUrl();
         generateGenericUrls();
-    }
-
-    protected StoreConfiguration setStoreConfig(final Context context) {
-        return new StoreConfiguration(context);
     }
 
     private void createBaseUrl() {
@@ -106,12 +118,22 @@ public class Store {
         mSetPaymentDetails = mCurrentCartUrl.concat(SUFFIX_SET_PAYMENT_DETAILS);
     }
 
+    //Package level access
+    //Called when janrain token is changed
+    void updateJanRainIDBasedUrls() {
+        createOauthUrl();
+    }
+
     public String getOauthUrl() {
         return mOauthUrl;
     }
 
     public String getJanRainEmail() {
         return mIAPUser.getJanRainEmail();
+    }
+
+    public IAPUser getUser() {
+        return mIAPUser;
     }
 
     //Request Urls
@@ -159,7 +181,7 @@ public class Store {
         return mPlaceOrderUrl;
     }
 
-    public String getSetPaymentDetailsUrl(){
+    public String getSetPaymentDetailsUrl() {
         return mSetPaymentDetails;
     }
 }

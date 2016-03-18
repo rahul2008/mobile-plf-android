@@ -1,7 +1,7 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:width="@dimen/iap_options_icon_width"
-    android:height="@dimen/iap_options_icon_height"
+    android:width="5dp"
+    android:height="17dp"
     android:viewportHeight="26.5"
     android:viewportWidth="6.5"
 
