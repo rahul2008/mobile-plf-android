@@ -155,8 +155,7 @@ public class SHNCentral {
 
     SHNUserConfiguration createUserConfiguration() {
         SHNUserConfigurationImpl shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
-        return shnUserConfigurationImpl;
-//        return new SHNUserConfigurationDispatcher(shnUserConfigurationImpl, internalHandler); Disabled for now, want to verify its correct working in a live situation first
+        return new SHNUserConfigurationDispatcher(shnUserConfigurationImpl, internalHandler);
     }
 
     /* package */ SharedPreferencesMigrator createSharedPreferencesMigrator(PersistentStorageFactory source, PersistentStorageFactory destination) {
