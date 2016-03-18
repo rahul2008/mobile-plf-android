@@ -6,10 +6,8 @@ import android.os.Message;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
@@ -18,8 +16,6 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -28,16 +24,14 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 public class NetworkController {
+    IAPHurlStack mIAPHurlStack;
     RequestQueue hybirsVolleyQueue;
     Context context;
     private Store store;
@@ -45,23 +39,24 @@ public class NetworkController {
 
     public NetworkController(Context context) {
         this.context = context;
-        initUserAndStore();
-        this.oAuthHandler = new TestEnvOAuthHandler(store.getOauthUrl());
+        initStore();
+        oAuthHandler = new TestEnvOAuthHandler(context);
+        mIAPHurlStack = new IAPHurlStack(oAuthHandler);
         hybrisVolleyCreateConnection(context);
     }
 
-    private void initUserAndStore() {
-        store = new Store(context, new IAPUser(context));
+    private void initStore() {
+        store = new Store(context);
     }
 
     public void hybrisVolleyCreateConnection(Context context) {
-        hybirsVolleyQueue = Volley.newRequestQueue(context,getTestEnvHurlStack(context));
+        hybirsVolleyQueue = Volley.newRequestQueue(context, mIAPHurlStack.getHurlStack());
     }
 
 
     public void sendHybrisRequest(final int requestCode, final AbstractModel model, final
     RequestListener requestListener) {
-
+        ((TestEnvOAuthHandler)oAuthHandler).setModel(model);
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
@@ -144,25 +139,6 @@ public class NetworkController {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private HurlStack getTestEnvHurlStack(Context context) {
-       return new HurlStack(/*null, buildSslSocketFactory(context)*/) {
-            @Override
-            protected HttpURLConnection createConnection(final URL url) throws IOException {
-                HttpURLConnection connection = super.createConnection(url);
-                if (connection instanceof HttpsURLConnection) {
-                    ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
-                        @Override
-                        public boolean verify(final String hostname, final SSLSession session) {
-                            return hostname.contains("philips.com");
-                        }
-                    });
-                connection.setRequestProperty("Authorization", "Bearer " + oAuthHandler.generateToken());
-                }
-                return connection;
-            }
-       };
     }
 
     public Store getStore() {

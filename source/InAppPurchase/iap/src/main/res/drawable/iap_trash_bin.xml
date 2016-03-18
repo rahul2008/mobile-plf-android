@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:width="@dimen/iap_trash_icon_width"
-        android:height="@dimen/iap_trash_icon_height"
+        android:width="19dp"
+        android:height="24dp"
         android:viewportHeight="42.5"
         android:viewportWidth="32.7"
 

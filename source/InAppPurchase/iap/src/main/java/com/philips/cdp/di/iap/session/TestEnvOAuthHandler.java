@@ -5,7 +5,12 @@
 
 package com.philips.cdp.di.iap.session;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,11 +21,13 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
 public class TestEnvOAuthHandler implements OAuthHandler {
-    String access_token;
-    private String mOauthUrl;
 
-    public TestEnvOAuthHandler(String url) {
-        mOauthUrl = url;
+    private String access_token;
+    private Context mContext;
+    private AbstractModel mModel;
+
+    public TestEnvOAuthHandler(Context context) {
+        mContext = context;
     }
 
     @Override
@@ -29,16 +36,28 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         return access_token;
     }
 
+    public void setModel(AbstractModel model) {
+        mModel = model;
+    }
     // HTTP GET request
     private void sendOAuthRequest() {
         try {
-            URL obj = new URL(mOauthUrl);
+            URL obj = new URL(HybrisDelegate.getInstance(mContext).getStore().getOauthUrl());
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
             con.setRequestMethod("POST");
             con.setHostnameVerifier(hostnameVerifier);
 
             int responseCode = con.getResponseCode();
 
+            if (responseCode != 200) {
+                TokenErrorHandler handler = new TokenErrorHandler(mModel, null);
+                handler.proceedCallWithOAuth();
+                if (handler.getAccessToken() != null) {
+                    access_token = handler.getAccessToken();
+                    Log.d("Amit", "return access token" + Thread.currentThread().getName());
+                    return;
+                }
+            }
             InputStreamReader inputStreamReader = new InputStreamReader(con.getInputStream());
             BufferedReader in = new BufferedReader(inputStreamReader);
             String inputLine;
@@ -56,8 +75,8 @@ public class TestEnvOAuthHandler implements OAuthHandler {
 
     private void assignTokenFromResponse(final StringBuffer response) {
         Gson gson = new Gson();
-        TestEnvOAuthHandler result = gson.fromJson(response.toString(), TestEnvOAuthHandler.class);
-        access_token = result.access_token;
+        OAuthResponse result = gson.fromJson(response.toString(), OAuthResponse.class);
+        access_token = result.getAccessToken();
     }
 
     private HostnameVerifier hostnameVerifier = new HostnameVerifier() {
