@@ -85,8 +85,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private Addresses mAddresses;
     private Drawable imageArrow;
 
-    private String mJanRainEmail;
-
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_shipping_address_layout, container, false);
@@ -118,8 +116,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mPaymentController = new PaymentController(mContext, this);
         mAddressFields = new AddressFields();
 
-        mJanRainEmail = HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail();
-        mEtEmail.setText(mJanRainEmail);
+        mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
@@ -141,7 +138,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
         mEtState.setCompoundDrawables(null, null, imageArrow, null);
         mStateDropDown = new StateDropDown(mContext, mEtState, this);
-
 
         mEtSalutation.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -284,7 +280,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     private void showErrorFromServer(Error error) {
-        if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
+        if (error != null && (error.getSubject() != null) && error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
             String errorMessage = getResources().getString(R.string.iap_country_error);
             mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError(mEtCountry);
@@ -380,6 +376,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (!result) {
             mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError((EditText) editText);
+            mBtnContinue.setEnabled(false);
         } else {
             mInlineFormsParent.removeError(editText);
             checkFields();

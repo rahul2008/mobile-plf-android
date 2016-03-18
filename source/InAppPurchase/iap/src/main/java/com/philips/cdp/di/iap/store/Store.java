@@ -51,7 +51,7 @@ public class Store {
     private String mPlaceOrderUrl;
     private String mCreateCartUrl;
     private String mAddToCartUrl;
-    private String mBaseURl;
+    protected String mBaseURl;
     private String mCurrentCartUrl;
 
     private String mOauthUrl;
@@ -59,30 +59,34 @@ public class Store {
 
     public Store(Context context, IAPUser iapUser) {
         mIAPUser = iapUser;
-        mStoreConfig = new StoreConfiguration(context);
-        createBaseUrl(iapUser.getJanRainEmail());
-        createOauthUrl(iapUser.getJanRainID());
+        mStoreConfig = setStoreConfig(context);
+        createBaseUrl();
+        createOauthUrl();
         generateGenericUrls();
     }
 
-    protected void createBaseUrl(final String userID) {
+    protected StoreConfiguration setStoreConfig(final Context context) {
+        return new StoreConfiguration(context);
+    }
+
+    private void createBaseUrl() {
         StringBuilder builder = new StringBuilder(HTTPS);
         builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
         builder.append(WEB_ROOT).append(SEPERATOR);
         builder.append(V2).append(SEPERATOR);
         builder.append(mStoreConfig.getSite()).append(SEPERATOR);
-        builder.append(USER).append(SEPERATOR).append(userID);
+        builder.append(USER).append(SEPERATOR).append(mIAPUser.getJanRainEmail());
 
         mBaseURl = builder.toString();
     }
 
-    private void createOauthUrl(final String janRainID) {
+    private void createOauthUrl() {
         StringBuilder builder = new StringBuilder(HTTPS);
         builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
         builder.append(WEB_ROOT).append(SEPERATOR);
         builder.append(SUFFIX_OAUTH);
 
-        mOauthUrl = String.format(builder.toString(), janRainID);
+        mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
     }
 
     protected void generateGenericUrls() {
@@ -153,5 +157,9 @@ public class Store {
 
     public String getPlaceOrderUrl() {
         return mPlaceOrderUrl;
+    }
+
+    public String getSetPaymentDetailsUrl(){
+        return mSetPaymentDetails;
     }
 }

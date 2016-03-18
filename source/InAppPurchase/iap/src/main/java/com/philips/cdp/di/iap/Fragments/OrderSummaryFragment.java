@@ -17,7 +17,6 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.model.ModelConstants;
-import com.philips.cdp.di.iap.response.error.*;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
@@ -91,7 +90,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
         if (Utility.isInternetConnected(getContext())) {
             if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
+                Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
                 updateCartDetails(presenter);
             }
         } else {
@@ -141,11 +140,17 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             }
         } else if (v.getId() == R.id.btn_cancel) {
             if (isOrderPlaced()) {
-                finishActivity();
+                showCancelDialog();
+//                finishActivity();
             } else {
                 addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             }
         }
+    }
+
+    private void showCancelDialog() {
+        TwoButtonDailogFragment dialog = new TwoButtonDailogFragment();
+        dialog.show(getActivity().getSupportFragmentManager(), null);
     }
 
     private boolean paymentMethodAvailable() {
@@ -200,11 +205,11 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private void checkForOutOfStock(final IAPNetworkError iapNetworkError) {
         com.philips.cdp.di.iap.response.error.Error error = iapNetworkError.getServerError().getErrors().get(0);
         String type = error.getType();
-        if(type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
+        if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
             String subject = error.getMessage();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_out_of_stock), subject);
-        }else {
+        } else {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
