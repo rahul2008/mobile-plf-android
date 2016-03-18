@@ -541,7 +541,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     @Override
     public void onICPCallbackEventOccurred(int eventType, int status,
                                            ICPClient obj) {
-        DICommLog.i(DICommLog.ICPCLIENT, "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
+        DICommLog.i(DICommLog.ICPCLIENT, "onICPCallbackEventOccurred eventType " + CppCommand.fromCommandCode(eventType) + " status " + CppError.fromErrorCode(status));
         switch (eventType) {
 
             case Commands.SIGNON:
