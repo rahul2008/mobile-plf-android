@@ -70,8 +70,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mBillingAddress.setText(Utility.createAddress(mBillingAddress));
             }
             if (null != mPaymentMethod) {
-
-                footerHolder.mBillingFirstName.setText(mPaymentMethod.getBillingAddress().getFirstName());
+                String paymentBillingName = mPaymentMethod.getBillingAddress().getFirstName() + " " + mPaymentMethod.getBillingAddress().getLastName();
+                footerHolder.mBillingFirstName.setText(paymentBillingName);
                 footerHolder.mBillingAddress.setText(Utility.createAddress(mPaymentMethod.getBillingAddress()));
 
                 footerHolder.mLLPaymentMode.setVisibility(View.VISIBLE);
