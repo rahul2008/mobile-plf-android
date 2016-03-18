@@ -17,7 +17,15 @@ public class CartModelContainer {
     private ArrayList<ShoppingCartData> mShoppingCartData;
     private AddressFields mShippingAddressFields;
     private String cartNumber;
+    private String regionIsoCode;
 
+    public String getRegionIsoCode() {
+        return regionIsoCode;
+    }
+
+    public void setRegionIsoCode(String regionIsoCode) {
+        this.regionIsoCode = regionIsoCode;
+    }
 
     public static CartModelContainer getInstance() {
         synchronized (CartModelContainer.class) {
@@ -63,6 +71,7 @@ public class CartModelContainer {
     public void setOrderPlaced(final boolean pIsOrderPlaced) {
         this.isOrderPlaced = pIsOrderPlaced;
     }
+
 
     public boolean isOrderPlaced() {
         return isOrderPlaced;

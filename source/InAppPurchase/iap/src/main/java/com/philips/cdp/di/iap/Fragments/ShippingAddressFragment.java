@@ -184,6 +184,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             if (mlLState.getVisibility() == View.VISIBLE)
                 mAddressFields.setRegionIsoCode(mEtState.getText().toString());
             bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mAddressFields);
+
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof IAPNetworkError)) {
@@ -397,6 +398,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_address);
+        if (CartModelContainer.getInstance().getRegionIsoCode() != null)
+            mAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
     }
 
     public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {
@@ -446,6 +449,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (addressHashMap != null) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, regionCode);
         }
+        CartModelContainer.getInstance().setRegionIsoCode(regionCode);
     }
 
     private void showUSRegions() {
