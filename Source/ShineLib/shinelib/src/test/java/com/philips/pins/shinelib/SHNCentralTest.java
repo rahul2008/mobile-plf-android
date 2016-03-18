@@ -104,6 +104,11 @@ public class SHNCentralTest extends RobolectricTest {
             PersistentStorageFactory createPersistentStorageFactory(SharedPreferencesProvider sharedPreferencesProvider) {
                 return persistentStorageFactoryMock;
             }
+
+            @Override
+            SHNUserConfiguration createUserConfiguration() {
+               return mock(SHNUserConfiguration.class);
+            }
         };
     }
 

@@ -47,7 +47,7 @@ public class SHNCentral {
     }
 
     private static final String TAG = SHNCentral.class.getSimpleName();
-    private SHNUserConfigurationImpl shnUserConfigurationImpl;
+    private SHNUserConfiguration shnUserConfiguration;
     private final SHNDeviceScanner shnDeviceScanner;
     private final Handler userHandler;
     private final Context applicationContext;
@@ -150,7 +150,13 @@ public class SHNCentral {
 
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
-        shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
+        shnUserConfiguration = createUserConfiguration();
+    }
+
+    SHNUserConfiguration createUserConfiguration() {
+        SHNUserConfigurationImpl shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
+        return shnUserConfigurationImpl;
+//        return new SHNUserConfigurationDispatcher(shnUserConfigurationImpl, internalHandler); Disabled for now, want to verify its correct working in a live situation first
     }
 
     /* package */ SharedPreferencesMigrator createSharedPreferencesMigrator(PersistentStorageFactory source, PersistentStorageFactory destination) {
@@ -324,7 +330,7 @@ public class SHNCentral {
     }
 
     public SHNUserConfiguration getSHNUserConfiguration() {
-        return shnUserConfigurationImpl;
+        return shnUserConfiguration;
     }
 
     public SHNDeviceScanner getShnDeviceScanner() {
