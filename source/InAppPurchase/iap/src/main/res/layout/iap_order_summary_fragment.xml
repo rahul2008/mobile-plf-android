@@ -45,7 +45,7 @@
         android:layout_marginLeft="@dimen/iap_shipping_address_cancel_button_margin_left_right"
         android:layout_marginRight="@dimen/iap_shipping_address_cancel_button_margin_left_right"
         android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
-        android:background="@color/uikit_philips_bright_orange"
+        style="@style/Button.Solid.BrightOrange"
         android:text="@string/iap_pay_now" />
 
     <android.support.v7.widget.RecyclerView

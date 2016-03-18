@@ -28,7 +28,7 @@
         android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:enabled="true"
-        android:background="@color/uikit_philips_bright_orange"
+        style="@style/Button.Solid.BrightOrange"
         android:text="@string/iap_checkout"
         />
 

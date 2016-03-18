@@ -208,11 +208,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onOutOfStock(boolean isOutOfStockReached) {
         if(isOutOfStockReached) {
             mCheckoutBtn.setEnabled(false);
-            mCheckoutBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.uikit_enricher4));
         }
         else {
             mCheckoutBtn.setEnabled(true);
-            mCheckoutBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.uikit_philips_bright_orange));
         }
     }
 }
