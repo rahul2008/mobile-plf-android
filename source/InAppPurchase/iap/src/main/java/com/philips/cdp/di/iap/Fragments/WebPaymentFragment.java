@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
 public class WebPaymentFragment extends BaseAnimationSupportFragment {
@@ -126,9 +127,17 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         }
 
         @Override
+        public void onReceivedError(WebView view, int errorCode,
+                                    String description, String failingUrl) {
+            // TODO Auto-generated method stub
+            super.onReceivedError(view, errorCode, description, failingUrl);
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        }
+
+        @Override
         public void onPageFinished(final WebView view, final String url) {
             super.onPageFinished(view, url);
-            if (mProgress != null && mShowProgressBar) {
+            if (mProgress != null && mShowProgressBar ) {
                 mShowProgressBar = false;
                 mProgress.setVisibility(View.GONE);
             }
