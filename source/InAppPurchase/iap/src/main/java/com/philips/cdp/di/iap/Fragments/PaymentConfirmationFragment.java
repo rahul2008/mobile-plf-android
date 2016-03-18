@@ -5,6 +5,7 @@
 
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,20 +15,27 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 
 public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
-    private TextView mThank;
     private TextView mOrderNumber;
     private TextView mConfimWithEmail;
-    private Button mOKButton;
+    private Context mContext;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.iap_payment_confirmation, null);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.iap_payment_confirmation,
+                container, false);
         bindViews(view);
         assignValues();
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -48,21 +56,20 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
             if (arguments.containsKey(ModelConstants.ORDER_NUMBER)) {
                 mOrderNumber.setText(arguments.getString(ModelConstants.ORDER_NUMBER));
             }
-            String email = "";
+            String email = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
             if(arguments.containsKey(ModelConstants.EMAIL_ADDRESS)) {
                 email = arguments.getString(ModelConstants.EMAIL_ADDRESS);
             }
-            String emailConfirmation = String.format(getContext().getString(R.string
+            String emailConfirmation = String.format(mContext.getString(R.string
                     .iap_confirmation_email_msg), email);
             mConfimWithEmail.setText(emailConfirmation);
         }
     }
 
     private void bindViews(ViewGroup viewGroup) {
-        mThank = (TextView) viewGroup.findViewById(R.id.tv_thank);
         mOrderNumber = (TextView) viewGroup.findViewById(R.id.tv_order_num);
         mConfimWithEmail = (TextView) viewGroup.findViewById(R.id.tv_confirm_email);
-        mOKButton = (Button) viewGroup.findViewById(R.id.tv_confirm_ok);
+        final Button mOKButton = (Button) viewGroup.findViewById(R.id.tv_confirm_ok);
         mOKButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {

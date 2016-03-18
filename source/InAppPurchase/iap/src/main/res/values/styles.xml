@@ -12,6 +12,7 @@
     </style>
 
     <style name="tvBoldTitle">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?attr/uikit_baseColor</item>
@@ -36,7 +37,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">@dimen/header</item>
-
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
         <item name="android:layout_marginLeft">@dimen/iap_shipping_address_margin_left</item>
         <item name="android:layout_marginTop">@dimen/iap_shipping_address_margin_top_bottom</item>
     </style>
@@ -202,14 +203,4 @@
         <item name="android:layout_marginLeft">@dimen/iap_shipping_address_margin_left</item>
         <item name="android:layout_marginTop">@dimen/iap_shipping_address_margin_top_bottom</item>
     </style>
-
-    <dimen name="iap_shopping_cart_footer_min_height">52dp</dimen>
-    <dimen name="iap_redeem_vochur_text_size">16sp</dimen>
-    <dimen name="iap_shopping_cart_delivery_margin_bottom">7dp</dimen>
-    <dimen name="iap_shopping_cart_footer_vat_text_size">14sp</dimen>
-    <dimen name="iap_shopping_cart_footer_total_size">16sp</dimen>
-    <string name="iap_redeem_voucher">Redeem voucher</string>
-    <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
-    <string name="iap_delivery_description">Delivery is FREE when you spend $100 or more</string>
-    <string name="iap_vat">VAT</string>
 </resources>

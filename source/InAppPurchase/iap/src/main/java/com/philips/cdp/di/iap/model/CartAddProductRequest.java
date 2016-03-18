@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.model;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.carts.AddToCartData;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 
 import java.util.HashMap;
@@ -17,11 +16,6 @@ public class CartAddProductRequest extends AbstractModel {
     public CartAddProductRequest(final Store store, final Map<String, String> query,
                                  DataLoadListener loadListener) {
         super(store, query, loadListener);
-    }
-
-    @Override
-    public String getProductionUrl() {
-        return null;
     }
 
     @Override
@@ -42,7 +36,7 @@ public class CartAddProductRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
-        return NetworkConstants.ADD_TO_CART_URL;
+    public String getUrl() {
+        return store.getAddToCartUrl();
     }
 }

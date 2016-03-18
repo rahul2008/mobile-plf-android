@@ -3,7 +3,6 @@ package com.philips.cdp.di.iap.adapters;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +15,13 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressFields;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.response.addresses.Addresses;
-import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
-import com.philips.cdp.di.iap.response.carts.CountryEntity;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -70,18 +61,25 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (mShoppingCartDataList.size() == 0) return;
         if (holder instanceof FooterOrderSummaryViewHolder) {
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
-            footerHolder.mShippingFirstName.setText(getLastValidItem().getDeliveryAddressEntity().getFirstName());
+            String shippingName = getLastValidItem().getDeliveryAddressEntity().getFirstName() + " " + getLastValidItem().getDeliveryAddressEntity().getLastName();
+            footerHolder.mShippingFirstName.setText(shippingName);
             footerHolder.mShippingAddress.setText(Utility.createAddress(getLastValidItem().getDeliveryAddressEntity()));
             if (null != mBillingAddress) {
-                footerHolder.mBillingFirstName.setText(mBillingAddress.getFirstName());
+                String billingName = mBillingAddress.getFirstName() + " " + mBillingAddress.getLastName();
+                footerHolder.mBillingFirstName.setText(billingName);
                 footerHolder.mBillingAddress.setText(Utility.createAddress(mBillingAddress));
             }
             if (null != mPaymentMethod) {
+
+                footerHolder.mBillingFirstName.setText(mPaymentMethod.getBillingAddress().getFirstName());
+                footerHolder.mBillingAddress.setText(Utility.createAddress(mPaymentMethod.getBillingAddress()));
+
                 footerHolder.mLLPaymentMode.setVisibility(View.VISIBLE);
                 footerHolder.mPaymentCardName.setText(mPaymentMethod.getCardNumber());
+
                 footerHolder.mPaymentCardHolderName.setText(mPaymentMethod.getAccountHolderName()
-                        + "\nValid until "
-                        + mPaymentMethod.getExpiryMonth() + " " + mPaymentMethod.getExpiryYear());
+                        + "\n" + (mContext.getResources().getString(R.string.iap_valid_until)) + " "
+                        + mPaymentMethod.getExpiryMonth() + "/" + mPaymentMethod.getExpiryYear());
             }
             if (getLastValidItem().getDeliveryCost() != null) {
                 footerHolder.mDeliveryPrice.setText(getLastValidItem().getDeliveryCost().getFormattedValue());
@@ -126,7 +124,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return mShoppingCartDataList.size()+1;
+        return mShoppingCartDataList.size() + 1;
     }
 
     @Override

@@ -41,8 +41,8 @@ public class CartDeleteProductRequestTest extends TestCase {
 //    public void testTestingUrilIsNotNull() {
 //
 //        CartDeleteProductRequest mockCartDeleteProductRequest = Mockito.mock(CartDeleteProductRequest.class);
-//        Mockito.when(mockCartDeleteProductRequest.getTestUrl()).thenReturn(NetworkConstants.DELETE_PRODUCT_URL);
-//        assertNotNull(mockCartDeleteProductRequest.getTestUrl());
+//        Mockito.when(mockCartDeleteProductRequest.getUrl()).thenReturn(NetworkConstants.DELETE_PRODUCT_URL);
+//        assertNotNull(mockCartDeleteProductRequest.getUrl());
 //    }
 
     @Test

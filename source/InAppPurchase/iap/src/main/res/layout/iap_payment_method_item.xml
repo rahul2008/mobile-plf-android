@@ -8,7 +8,7 @@
         android:id="@+id/radio_btn_payment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/iap_selection_address_layout_margin"
+        android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
         android:layout_marginTop="@dimen/iap_selection_address_layout_margin_top" />
 
     <TextView
@@ -16,10 +16,10 @@
         style="@style/iapCentralesansBoldFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/iap_selection_address_margin_left"
+        android:layout_marginStart="@dimen/iap_selection_address_margin_left"
         android:layout_marginTop="@dimen/iap_selection_address_name_margin_top"
         android:includeFontPadding="false"
-        android:text="Master Card"
+        android:text="@string/mastercard"
         android:textColor="?attr/uikit_baseColor"
         android:textSize="@dimen/iap_selection_address_text_size" />
 
@@ -29,10 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_card_name"
-        android:layout_marginLeft="@dimen/iap_selection_address_margin_left"
+        android:layout_marginStart="@dimen/iap_selection_address_margin_left"
         android:layout_marginTop="@dimen/iap_selection_address_margin_top"
         android:includeFontPadding="false"
-        android:text="Susan jones"
         android:textColor="@color/iap_address_text_color"
         android:textSize="@dimen/iap_selection_address_text_size" />
 
@@ -42,10 +41,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_card_holder_name"
-        android:layout_marginLeft="@dimen/iap_selection_address_margin_left"
+        android:layout_marginStart="@dimen/iap_selection_address_margin_left"
         android:layout_marginTop="@dimen/iap_selection_address_margin_top"
         android:includeFontPadding="false"
-        android:text="Validity"
+        android:text="@string/iap_validity"
         android:textColor="@color/iap_address_text_color"
         android:textSize="@dimen/iap_selection_address_text_size" />
 

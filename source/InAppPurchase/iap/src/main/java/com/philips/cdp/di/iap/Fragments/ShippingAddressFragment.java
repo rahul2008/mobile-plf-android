@@ -31,7 +31,7 @@ import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
-import com.philips.cdp.di.iap.session.IAPHandler;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
@@ -87,7 +87,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
+        View rootView = inflater.inflate(R.layout.iap_shipping_address_layout, container, false);
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
 
         mlLState = (LinearLayout) rootView.findViewById(R.id.ll_state);
@@ -116,7 +116,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mPaymentController = new PaymentController(mContext, this);
         mAddressFields = new AddressFields();
 
-        mEtEmail.setText(IAPHandler.getJanrainEmail());
+        mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
@@ -138,7 +138,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
         mEtState.setCompoundDrawables(null, null, imageArrow, null);
         mStateDropDown = new StateDropDown(mContext, mEtState, this);
-
 
         mEtSalutation.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -281,7 +280,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     private void showErrorFromServer(Error error) {
-        if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
+        if (error != null && (error.getSubject() != null) && error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
             String errorMessage = getResources().getString(R.string.iap_country_error);
             mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError(mEtCountry);
@@ -377,6 +376,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (!result) {
             mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError((EditText) editText);
+            mBtnContinue.setEnabled(false);
         } else {
             mInlineFormsParent.removeError(editText);
             checkFields();

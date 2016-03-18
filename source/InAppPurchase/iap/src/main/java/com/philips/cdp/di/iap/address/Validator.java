@@ -28,7 +28,7 @@ public class Validator {
                     ")+";
 
     private boolean isValidString(String stringToBeValidated) {
-        return stringToBeValidated != null && !stringToBeValidated.equalsIgnoreCase("");
+        return stringToBeValidated != null && !stringToBeValidated.trim().equalsIgnoreCase("");
     }
 
     public boolean isValidFirstName(String stringToBeValidated) {

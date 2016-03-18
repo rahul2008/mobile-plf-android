@@ -11,10 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="E-Commerce Demo App"
+        android:text="@string/app_title"
         android:textSize="20sp"
         android:textStyle="bold" />
-
 
     <FrameLayout
         android:id="@+id/fl_mainFragmentContainer"
@@ -30,6 +29,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:visibility="gone">
 
@@ -37,20 +37,19 @@
             android:id="@+id/cart_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/app_title"
             android:src="@drawable/shopping_cart" />
 
         <TextView
             android:id="@+id/count_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top|right"
+            android:layout_gravity="top|end"
             android:background="@drawable/count_badge"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="gone" />
-
-
     </FrameLayout>
 
 
@@ -62,29 +61,11 @@
         android:layout_marginTop="20dp"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/infotext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/product_list"
-        android:layout_centerHorizontal="true"
-        android:text="Press Back button once logged in from user registeration."
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-
-
-        <Button
-            android:id="@+id/btn_submit"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Please register yourself before using App" />
-    </LinearLayout>
-
+        android:text="@string/register" />
 
 </RelativeLayout>

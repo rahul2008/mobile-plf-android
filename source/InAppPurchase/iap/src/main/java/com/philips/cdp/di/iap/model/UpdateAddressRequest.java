@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 
 import java.util.HashMap;
@@ -15,11 +14,6 @@ public class UpdateAddressRequest extends AbstractModel{
 
     public UpdateAddressRequest(final Store store, final Map<String, String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
-    }
-
-    @Override
-    public String getProductionUrl() {
-        return null;
     }
 
     @Override
@@ -52,12 +46,12 @@ public class UpdateAddressRequest extends AbstractModel{
     }
 
     @Override
-    public String getTestUrl() {
+    public String getUrl() {
         if (params == null || !params.containsKey(ModelConstants.ADDRESS_ID) ||
                 !params.containsKey(ModelConstants.ADDRESS_ID)) {
             throw new RuntimeException("Address Id must be specified");
         }
         String addressId = params.get(ModelConstants.ADDRESS_ID);
-        return String.format(NetworkConstants.UPDATE_OR_DELETE_ADDRESS_URL, addressId);
+        return store.getAddressAlterUrl(addressId);
     }
 }

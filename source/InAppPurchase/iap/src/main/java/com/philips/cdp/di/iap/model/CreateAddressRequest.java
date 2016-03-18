@@ -8,7 +8,6 @@ package com.philips.cdp.di.iap.model;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 
 import java.util.HashMap;
@@ -18,11 +17,6 @@ public class CreateAddressRequest extends AbstractModel {
 
     public CreateAddressRequest(final Store store, final Map<String, String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
-    }
-
-    @Override
-    public String getProductionUrl() {
-        return null;
     }
 
     @Override
@@ -51,7 +45,7 @@ public class CreateAddressRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
-        return NetworkConstants.ADDRESS_URL;
+    public String getUrl() {
+        return store.getAddressDetailsUrl();
     }
 }
