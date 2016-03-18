@@ -173,8 +173,11 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mCbTerms.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mPbWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_welcome_spinner);
-        mLogoutProgressDialog = new ProgressDialog(getParentFragment().getActivity());
+
+        mLogoutProgressDialog = new ProgressDialog(getParentFragment().getActivity(),R.style.reg_custom_dialog);
         mLogoutProgressDialog.setCancelable(false);
+        mLogoutProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+
         mTvEmailDetails = (TextView) view.findViewById(R.id.tv_reg_email_details_container);
         mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
         mBtnLogOut = (Button) view.findViewById(R.id.btn_reg_sign_out);
@@ -208,7 +211,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
                 AppTagingConstants.SIGN_OUT);
         mUser.logout(this);
     }
-
 
     private void handleUpdate() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -327,7 +329,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     private void showLogoutSpinner() {
-        mLogoutProgressDialog.setMessage("Please wait...");
         mLogoutProgressDialog.show();
         mBtnLogOut.setEnabled(false);
         mCbTerms.setEnabled(false);

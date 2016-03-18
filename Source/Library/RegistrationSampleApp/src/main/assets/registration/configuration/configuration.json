@@ -1,24 +1,21 @@
 {
   "JanRainConfiguration": {
     "RegistrationClientID": {
-      "Development": "fgpfgkdmwnkkqya2bjsk43fvt2y7vr9x",
-      "Testing": "xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7",
-      "Evaluation": "rtzauc7my4pdrmvfuhpusa4xprwt4bxd",
-      "Production": "8ksbmshunmccyynzrh5bajdg33em3ypv"
+      "Development": "yjcktbvtvp5wtbtanu3398ymhc5t4mdg",
+      "Testing": "auy6rtk5zbwwxnzsq52vr9p7dgtyzhc5",
+      "Evaluation": "fc39pbyxwc6255yma54e547yhvzb76vr",
+      "Production": "tpqhkn3zd4yxqegyyhd7xyysq4gmh6ee"
     }
   },
   "PILConfiguration": {
     "MicrositeID": 77000,
-    "RegistrationEnvironment": "Evaluation",
-    "CampaignID": "CL20150501_PC_TB_COPPA"
+    "RegistrationEnvironment": "Evaluation"
   },
   "Flow": {
     "EmailVerificationRequired": "true"
   },
+
   "SigninProviders": {
-    "default": [
-      "googleplus",
-      "facebook"
-    ]
+    "default": []
   }
 }

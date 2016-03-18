@@ -150,8 +150,10 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mBtnSignOut.setOnClickListener(this);
         mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
         mBtnContinue.setOnClickListener(this);
-        mProgressDialog = new ProgressDialog(getParentFragment().getActivity());
+
+        mProgressDialog = new ProgressDialog(getParentFragment().getActivity(),R.style.reg_custom_dialog);
         mProgressDialog.setCancelable(false);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 
         mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
 
