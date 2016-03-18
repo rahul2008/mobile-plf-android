@@ -103,7 +103,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 		}
 
 		if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
-			RegistrationHelper.getInstance().initializeUserRegistration(mContext,RegistrationHelper.getInstance().getLocale());
+			RegistrationHelper.getInstance().initializeUserRegistration(mContext,RegistrationHelper.getInstance().getLocale(mContext));
 		}
 
 	}

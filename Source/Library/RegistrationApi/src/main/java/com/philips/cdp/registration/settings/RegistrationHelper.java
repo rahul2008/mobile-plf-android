@@ -3,7 +3,9 @@ package com.philips.cdp.registration.settings;
 
 import android.content.Context;
 
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.configuration.PILConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
 import com.philips.cdp.registration.datamigration.DataMigration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -138,8 +140,14 @@ public class RegistrationHelper {
     }
 
 
-    public Locale getLocale() {
-        return mLocale;
+    public Locale getLocale(Context context) {
+        RLog.i("Locale","Locale locale  "+mLocale);
+        if(null != mLocale){
+            return mLocale;
+        }
+        String locale = PILLocaleManager.getInputLocale(context);
+        RLog.i("Locale","Locale from LOcale match"+locale);
+        return new Locale(locale);
     }
 
     public static String getRegistrationApiVersion() {

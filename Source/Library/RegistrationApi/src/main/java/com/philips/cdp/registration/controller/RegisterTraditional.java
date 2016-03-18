@@ -142,7 +142,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
         }
         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RLog.i(LOG_TAG, "Jump not initialized, initializing");
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale(mContext));
         }
 
 
