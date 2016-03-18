@@ -49,7 +49,7 @@ public class SHNUserConfigurationCalculations {
                 baseMetabolicRate = (sex == SHNUserConfiguration.Sex.Male)
                         ? (16.6 * weightInKg) + (77 * heightInMeters) + 572
                         : (7.4 * weightInKg) + (482 * heightInMeters) + 217;
-            } else if (age >= 18 && age <= 31) {
+            } else if (age >= 18 && age <= 30) {
                 baseMetabolicRate = (sex == SHNUserConfiguration.Sex.Male)
                         ? (15.4 * weightInKg) - (27 * heightInMeters) + 717
                         : (13.3 * weightInKg) + (334 * heightInMeters) + 35;
