@@ -8,9 +8,10 @@ import android.content.Context;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.NewOAuthRequest;
-import com.philips.cdp.di.iap.store.IAPUser;
+import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
 
 import org.json.JSONObject;
 
@@ -21,6 +22,7 @@ public class TokenErrorHandler {
     private Context mContext;
 
     private String mJanRainToken;
+    private String mAccessToken;
 
     public TokenErrorHandler(AbstractModel model, RequestListener requestListener) {
         mModel = model;
@@ -29,19 +31,10 @@ public class TokenErrorHandler {
     }
 
     public void handleJanRainFailure() {
-        mModel.getStore().getUser().refreshUser(new IAPUser.TokenRefreshCallBack() {
-            @Override
-            public void onTokenRefresh(boolean success) {
-                if (!success) {
-                    proceedCallWithOAuth();
-                } else {
-                    //Todo add notify back logic
-                }
-            }
-        });
+        mModel.getStore().getUser().refreshLoginSession();
     }
 
-    private void proceedCallWithOAuth() {
+    public void proceedCallWithOAuth() {
         NewOAuthRequest request = new NewOAuthRequest(mModel.getStore(), null);
         SynchronizedNetwork network = new SynchronizedNetwork(new IAPHurlStack(request).getHurlStack());
         network.performRequest(createOAuthRequest(request));
@@ -52,7 +45,8 @@ public class TokenErrorHandler {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(final JSONObject response) {
-                        proceedWithOriginalRequest(request);
+                        final OAuthResponse authResponse = new Gson().fromJson(response.toString(), OAuthResponse.class);
+                        mAccessToken = authResponse.getAccessToken();
                     }
                 },
                 new Response.ErrorListener() {
@@ -64,24 +58,7 @@ public class TokenErrorHandler {
         return jsonRequest;
     }
 
-    private void proceedWithOriginalRequest(OAuthHandler handler) {
-        SynchronizedNetwork network = new SynchronizedNetwork(new IAPHurlStack(handler).getHurlStack());
-        network.performRequest(createOriginalRequest(mModel));
-    }
-
-    private IAPJsonRequest createOriginalRequest(final AbstractModel request) {
-        IAPJsonRequest jsonRequest = new IAPJsonRequest(request.getMethod(), request.getUrl(), null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(final JSONObject response) {
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(final VolleyError error) {
-
-                    }
-                });
-        return jsonRequest;
+    public String getAccessToken() {
+        return mAccessToken;
     }
 }

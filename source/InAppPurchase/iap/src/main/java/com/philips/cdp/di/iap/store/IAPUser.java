@@ -8,22 +8,18 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.handlers.RefreshUserHandler;
 
 public class IAPUser {
+
+    private Object mLock = new Object();
     private User mJanRainUser;
     private Context mContext;
     private Store mStore;
-
-    public interface TokenRefreshCallBack {
-        void onTokenRefresh(boolean result);
-    }
 
     public IAPUser(final Context context, final Store store) {
         mContext = context;
         mStore = store;
         mJanRainUser = new User(context);
-
     }
 
     public String getJanRainID() {
@@ -34,39 +30,17 @@ public class IAPUser {
         return mJanRainUser.getUserInstance(mContext).getEmail();
     }
 
-    public void refreshUser(final TokenRefreshCallBack callBack) {
+    public void refreshLoginSession() {
         mJanRainUser.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                if (callBack != null) {
-                    mStore.updateJanRainIDBasedUrls();
-                    callBack.onTokenRefresh(true);
-                }
+                mStore.updateJanRainIDBasedUrls();
             }
 
             @Override
             public void onRefreshLoginSessionFailedWithError(final int i) {
-                if (callBack != null) {
-                    mStore.updateJanRainIDBasedUrls();
-                    callBack.onTokenRefresh(false);
-                }
+                mStore.updateJanRainIDBasedUrls();
             }
         }, mContext);
-        mJanRainUser.refreshUser(mContext, new RefreshUserHandler() {
-            @Override
-            public void onRefreshUserSuccess() {
-                if (callBack != null) {
-                    mStore.updateJanRainIDBasedUrls();
-                    callBack.onTokenRefresh(true);
-                }
-            }
-
-            @Override
-            public void onRefreshUserFailed(final int i) {
-                if (callBack != null) {
-                    callBack.onTokenRefresh(false);
-                }
-            }
-        });
     }
 }

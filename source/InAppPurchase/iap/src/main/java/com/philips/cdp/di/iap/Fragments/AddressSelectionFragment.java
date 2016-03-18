@@ -157,7 +157,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 mAddresses.remove(mAdapter.getOptionsClickPosition());
                 mAdapter.setAddresses(mAddresses);
                 mAdapter.notifyDataSetChanged();
-            } else if(isVisible()){
+            } else if (isVisible()) {
                 if (msg.obj instanceof GetShippingAddressData) {
                     GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                     mAddresses = shippingAddresses.getAddresses();
@@ -165,7 +165,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                     mAddressListView.setAdapter(mAdapter);
                 }
             }
-
         }
     }
 
@@ -364,42 +363,46 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private AddressFields prepareAddressFields(Addresses addr) {
         AddressFields fields = new AddressFields();
-        if (addr.getFirstName() != null) {
+        if (isNotNullNorEmpty(addr.getFirstName())) {
             fields.setFirstName(addr.getFirstName());
         }
-        if (addr.getLastName() != null) {
+        if (isNotNullNorEmpty(addr.getLastName())) {
             fields.setLastName(addr.getLastName());
         }
-        if (addr.getTitleCode() != null) {
+        if (isNotNullNorEmpty(addr.getTitleCode())) {
             String titleCode = addr.getTitleCode();
             fields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1));
         }
-        if (addr.getLine1() != null) {
+        if (isNotNullNorEmpty(addr.getLine1())) {
             fields.setLine1(addr.getLine1());
         }
-        if (addr.getLine2() != null) {
+        if (isNotNullNorEmpty(addr.getLine2())) {
             fields.setLine2(addr.getLine2());
         }
-        if (addr.getTown() != null) {
+        if (isNotNullNorEmpty(addr.getTown())) {
             fields.setTown(addr.getTown());
         }
-        if (addr.getPostalCode() != null) {
+        if (isNotNullNorEmpty(addr.getPostalCode())) {
             fields.setPostalCode(addr.getPostalCode());
         }
-        if (addr.getCountry().getIsocode() != null) {
+        if (isNotNullNorEmpty(addr.getCountry().getIsocode())) {
             fields.setCountryIsocode(addr.getCountry().getIsocode());
         }
 
-        if (addr.getEmail() != null) {
+        if (isNotNullNorEmpty(addr.getEmail())) {
             fields.setEmail(addr.getEmail());
         } else {
             fields.setEmail(mJanRainEmail); // Since there is no email response from hybris
         }
 
-        if (addr.getPhone() != null) {
+        if (isNotNullNorEmpty(addr.getPhone())) {
             fields.setPhoneNumber(addr.getPhone());
         }
 
         return fields;
+    }
+
+    private boolean isNotNullNorEmpty(String field) {
+        return !TextUtils.isEmpty(field);
     }
 }
