@@ -1,0 +1,53 @@
+Product Registration for Android Release Notes
+===============================================
+
+Version - 0.0.1                             Date: 24-02-2016
+-----------------------------------------------------------
+  
+     1.	Registering and Login user via User registration.
+     2.	Register a product after successful user registration.
+     3.	Enter CTN , serial number and Purchase date from UI.
+     4.	Microsite id is getting from user-registration component , needs user to be logged in 
+
+
+
+
+
+Version - 0.0.2                             Date: 03-03-2016
+-----------------------------------------------------------
+
+
+  Following features has fixed :
+
+     1 : PRA-95  No action taken place, when user tapping on continue button.
+     2 : PRA-96  No error message for invalid date format.
+     3 : PRA-97  Old values getting retained instead of hint text in product registration page
+     4 : PRA-93  Product getting registered, with invalid Serial number:  Issue with digital services , which throws error code as 500 saying Serial number is not valid
+     5 : PRA-94  User is able to registered the Product, which is already registered through different app/website : Validation to be done from server side with specific error messages and error codes
+
+
+ Following features can be tested:
+   
+    1.	Registering and Login user via User registration.
+    2.	Register a product after successful user registration.
+    3.	Enter CTN , serial number and Purchase date from UI.
+    4.	Microsite id is getting from user-registration component , needs user to be logged in 
+
+
+
+Version - 0.0.3                             Date: 09-03-2016
+-------------------------------------------------------------
+
+  Following features has fixed :
+
+     1 : PRA-95  No action taken place, when user tapping on continue button. Fixed
+     2 : PRA-73  Register product manually via sample application. Fixed
+     3 : PRA-93  Product getting registered, with invalid Serial number:  Issue with digital services , which throws error code as 500 saying Serial number is not valid
+     4 : PRA-94  User is able to registered the Product, which is already registered through different app/website : Validation to be done from server side with specific error messages and error codes
+
+
+  Following features can be tested:
+     1.	Handled validation for serial number.
+     2.	Handled validation for purchase date.
+     3.	Validated Invalid CTN number.
+     4.	Metadata validation before registering a product.
