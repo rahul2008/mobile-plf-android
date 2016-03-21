@@ -126,13 +126,13 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
             return verifyResultCallBacks(url);
         }
 
-        @Override
-        public void onReceivedError(WebView view, int errorCode,
-                                    String description, String failingUrl) {
-            // TODO Auto-generated method stub
-            super.onReceivedError(view, errorCode, description, failingUrl);
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-        }
+//        @Override
+//        public void onReceivedError(WebView view, int errorCode,
+//                                    String description, String failingUrl) {
+//            // TODO Auto-generated method stub
+//            super.onReceivedError(view, errorCode, description, failingUrl);
+//            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+//        }
 
         @Override
         public void onPageFinished(final WebView view, final String url) {

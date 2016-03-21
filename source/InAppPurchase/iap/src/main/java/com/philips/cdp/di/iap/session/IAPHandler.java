@@ -22,7 +22,7 @@ import java.util.List;
 public class IAPHandler {
     private Context mContext;
 
-    public void initApp(Context context, String janrainEmail, String janRainID) {
+    public void initApp(Context context) {
         //We register with app context to avoid any memory leaks
         mContext = context.getApplicationContext();
     }
