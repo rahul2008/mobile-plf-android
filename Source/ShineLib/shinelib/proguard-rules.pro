@@ -16,12 +16,6 @@
 #   public *;
 #}
 
-#------------------ Required by moonshine plugin ---------------------------#
--keep class com.philips.pins.packetcommunication.EnergyIntakeConfiguration { *; }
--keepclassmembers class com.philips.pins.packetcommunication.EnergyIntakeConfiguration { *; }
-#------------------ End: Required by moonshine plugin ----------------------#
-
-
 #------------------ For when enums are persistently stored -----------------#
 -keep enum com.philips.pins.shinelib.** { *; }
 -keepnames enum com.philips.pins.shinelib.**
@@ -31,7 +25,6 @@
     public protected *;
 }
 #------------------ End: For when enums are persistently stored ------------#
-
 
 #----------------- For serializable classes --------------------------------#
 -keep class com.philips.pins.shinelib.* implements android.os.Parcelable {
