@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.backend.ProdRegHelper;
 import com.philips.cdp.backend.ProdRegRequestInfo;
-import com.philips.cdp.com.philips.cdp.Util;
 import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.localematch.enums.Catalog;
