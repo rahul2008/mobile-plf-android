@@ -14,8 +14,7 @@ public class Timer {
     private static Handler tempStaticHandler; // TODO: remove when constructor is made private and all clients use CreateTimer
     private final Handler handler;
     private final Runnable runnable;
-    private final long timeoutTimeMS;
-    private long timeoutInMS;
+    private long timeoutTimeMS;
 
     public static Timer createTimer(Runnable runnable, long timeoutTimeMS) {
         return new Timer(Timer.tempStaticHandler, runnable, timeoutTimeMS);
@@ -45,6 +44,6 @@ public class Timer {
     }
 
     public void setTimeoutForSubsequentRestartsInMS(long timeoutInMS) {
-        this.timeoutInMS = timeoutInMS;
+        this.timeoutTimeMS = timeoutInMS;
     }
 }

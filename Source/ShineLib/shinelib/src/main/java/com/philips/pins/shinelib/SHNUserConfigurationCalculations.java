@@ -45,17 +45,22 @@ public class SHNUserConfigurationCalculations {
             double heightInMeters = heightInCm / 100;
             double baseMetabolicRate = 0;
 
-            if (age >= 10 && age < 18) {
-                baseMetabolicRate = (sex == SHNUserConfiguration.Sex.Male) ? (16.6 * weightInKg) + (77 * heightInMeters) + 572 : (7.4 * weightInKg) + (482 * heightInMeters) + 217;
-            }
-            if (age >= 18 && age < 30) {
-                baseMetabolicRate = (sex == SHNUserConfiguration.Sex.Male) ? (15.4 * weightInKg) - (27 * heightInMeters) + 717 : (13.3 * weightInKg) + (334 * heightInMeters) + 35;
-            }
-            if (age >= 30 && age < 60) {
-                baseMetabolicRate = (sex == SHNUserConfiguration.Sex.Male) ? (11.3 * weightInKg) + (16 * heightInMeters) + 901 : (8.7 * weightInKg) - (25 * heightInMeters) + 865;
-            }
-            if (age >= 60) {
-                baseMetabolicRate = (sex == SHNUserConfiguration.Sex.Male) ? (8.8 * weightInKg) + (1128 * heightInMeters) - 1071 : (9.2 * weightInKg) + (673 * heightInMeters) + 302;
+            if (age >= 10 && age <= 17) {
+                baseMetabolicRate = (sex == SHNUserConfiguration.Sex.Male)
+                        ? (16.6 * weightInKg) + (77 * heightInMeters) + 572
+                        : (7.4 * weightInKg) + (482 * heightInMeters) + 217;
+            } else if (age >= 18 && age <= 30) {
+                baseMetabolicRate = (sex == SHNUserConfiguration.Sex.Male)
+                        ? (15.4 * weightInKg) - (27 * heightInMeters) + 717
+                        : (13.3 * weightInKg) + (334 * heightInMeters) + 35;
+            } else if (age >= 31 && age <= 60) {
+                baseMetabolicRate = (sex == SHNUserConfiguration.Sex.Male)
+                        ? (11.3 * weightInKg) + (16 * heightInMeters) + 901
+                        : (8.7 * weightInKg) - (25 * heightInMeters) + 865;
+            } else if (age >= 61) {
+                baseMetabolicRate = (sex == SHNUserConfiguration.Sex.Male)
+                        ? (8.8 * weightInKg) + (1128 * heightInMeters) - 1071
+                        : (9.2 * weightInKg) + (637 * heightInMeters) - 302;
             }
             result = (int) baseMetabolicRate;
         }

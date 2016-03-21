@@ -74,12 +74,12 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     }
 
     @Override
-    public synchronized String getIsoLanguageCode() {
+    public String getIsoLanguageCode() {
         return persistentStorage.get(ISO_LANGUAGE_CODE_KEY, Locale.getDefault().getLanguage());
     }
 
     @Override
-    public synchronized void setIsoLanguageCode(String isoLanguageCode) {
+    public void setIsoLanguageCode(String isoLanguageCode) {
         putValueIfChanged(ISO_LANGUAGE_CODE_KEY, isoLanguageCode);
     }
 
@@ -94,96 +94,96 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     }
 
     @Override
-    public synchronized Boolean getUseMetricSystem() {
+    public Boolean getUseMetricSystem() {
         return persistentStorage.get(USE_METRIC_SYSTEM_KEY, DEFAULT_USE_METRIC_SYSTEM);
     }
 
     @Override
-    public synchronized void setUseMetricSystem(Boolean useMetricSystem) {
+    public void setUseMetricSystem(Boolean useMetricSystem) {
         putValueIfChanged(USE_METRIC_SYSTEM_KEY, useMetricSystem);
     }
 
     @Override
-    public synchronized Sex getSex() {
+    public Sex getSex() {
         return persistentStorage.get(SEX_KEY, DEFAULT_SEX);
     }
 
     @Override
-    public synchronized void setSex(Sex sex) {
+    public void setSex(Sex sex) {
         putValueIfChanged(SEX_KEY, sex);
     }
 
     @Override
-    public synchronized Integer getRestingHeartRate() {
+    public Integer getRestingHeartRate() {
         return persistentStorage.get(RESTING_HEART_RATE_KEY, DEFAULT_RESTING_HEART_RATE);
     }
 
     @Override
-    public synchronized void setRestingHeartRate(Integer restingHeartRate) {
+    public void setRestingHeartRate(Integer restingHeartRate) {
         putValueIfChanged(RESTING_HEART_RATE_KEY, restingHeartRate);
     }
 
     @Override
-    public synchronized Integer getHeightInCm() {
+    public Integer getHeightInCm() {
         return persistentStorage.get(HEIGHT_IN_CM_KEY, DEFAULT_HEIGHT_IN_CM);
     }
 
     @Override
-    public synchronized void setHeightInCm(Integer heightInCm) {
+    public void setHeightInCm(Integer heightInCm) {
         putValueIfChanged(HEIGHT_IN_CM_KEY, heightInCm);
     }
 
     @Override
-    public synchronized Double getWeightInKg() {
+    public Double getWeightInKg() {
         return persistentStorage.get(WEIGHT_IN_KG_KEY, DEFAULT_WEIGHT_IN_KG);
     }
 
     @Override
-    public synchronized void setWeightInKg(Double weightInKg) {
+    public void setWeightInKg(Double weightInKg) {
         putValueIfChanged(WEIGHT_IN_KG_KEY, weightInKg);
     }
 
     @Override
-    public synchronized Handedness getHandedness() {
+    public Handedness getHandedness() {
         return persistentStorage.get(HANDEDNESS_KEY, Handedness.Unknown);
     }
 
     @Override
-    public synchronized void setHandedness(Handedness handedness) {
+    public void setHandedness(Handedness handedness) {
         putValueIfChanged(HANDEDNESS_KEY, (handedness == null ? DEFAULT_HANDEDNESS : handedness));
     }
 
     @Override
-    public synchronized Character getDecimalSeparator() {
+    public Character getDecimalSeparator() {
         int numericValue = persistentStorage.get(DECIMAL_SEPARATOR_KEY, (int) DEFAULT_DECIMAL_SEPARATOR);
         return (char) numericValue;
     }
 
     @Override
-    public synchronized void setDecimalSeparator(Character decimalSeparator) {
+    public void setDecimalSeparator(Character decimalSeparator) {
         char dc = decimalSeparator == null ? DEFAULT_DECIMAL_SEPARATOR : decimalSeparator;
         putValueIfChanged(DECIMAL_SEPARATOR_KEY, (int) dc);
     }
 
     @Override
-    public synchronized Date getDateOfBirth() {
+    public Date getDateOfBirth() {
         long millis = persistentStorage.get(DATE_OF_BIRTH_KEY, 0L);
         return (millis == 0 ? DEFAULT_DATE_OF_BIRTH : new Date(millis));
     }
 
     @Override
-    public synchronized void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         putValueIfChanged(DATE_OF_BIRTH_KEY, (dateOfBirth == null ? 0L : dateOfBirth.getTime()));
     }
 
     @Override
-    public synchronized Integer getMaxHeartRate() {
+    public Integer getMaxHeartRate() {
         Integer maxHeartRate = persistentStorage.get(MAX_HEART_RATE_KEY, DEFAULT_MAX_HEART_RATE);
         return userConfigurationCalculations.getMaxHeartRate(maxHeartRate, getAge());
     }
 
     @Override
-    public synchronized void setMaxHeartRate(Integer maxHeartRate) {
+    public void setMaxHeartRate(Integer maxHeartRate) {
         putValueIfChanged(MAX_HEART_RATE_KEY, maxHeartRate);
     }
 
@@ -204,7 +204,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     }
 
     @Override
-    public synchronized Integer getAge() {
+    public Integer getAge() {
         Date dateOfBirth = getDateOfBirth();
         if (dateOfBirth == null) {
             return null;
@@ -214,7 +214,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     }
 
     @Override
-    public synchronized Integer getBaseMetabolicRate() {
+    public Integer getBaseMetabolicRate() {
         Integer age = getAge();
         Sex sex = getSex();
         Double weightInKg = getWeightInKg();

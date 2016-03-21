@@ -108,7 +108,7 @@ public class SHNDeviceAssociation {
     private boolean scanStoppedIndicatesScanTimeout;
     private SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
         @Override
-        public void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo) {
+        public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
             if (shnDeviceFoundInfo.getShnDeviceDefinitionInfo().getDeviceTypeName().equals(associatingWithDeviceTypeName)) {
                 SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(shnDeviceFoundInfo.getDeviceAddress(), shnDeviceFoundInfo.getShnDeviceDefinitionInfo());
                 if (shnAssociationProcedure != null) {
@@ -124,6 +124,7 @@ public class SHNDeviceAssociation {
             }
         }
     };
+    private SHNInternalScanRequest shnInternalScanRequest;
 
     public SHNDeviceAssociation(final @NonNull SHNCentral shnCentral, final @NonNull SHNDeviceScannerInternal shnDeviceScannerInternal, final @NonNull PersistentStorageFactory persistentStorageFactory) {
         this.shnCentral = shnCentral;
@@ -184,26 +185,34 @@ public class SHNDeviceAssociation {
     }
 
     public void removeAllAssociatedDevices() {
+        removeAllAssociatedDevices(new NullDeviceRemovedListener());
+    }
+
+    public void removeAllAssociatedDevices(@NonNull final DeviceRemovedListener deviceRemovedListener) {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
             public void run() {
                 while (!associatedDevices.isEmpty()) {
-                    removeAssociatedDeviceInternal(associatedDevices.get(0));
+                    removeAssociatedDeviceInternal(associatedDevices.get(0), deviceRemovedListener);
                 }
             }
         });
     }
 
     public void removeAssociatedDevice(@NonNull final SHNDevice shnDeviceToRemove) {
+        removeAssociatedDevice(shnDeviceToRemove, new NullDeviceRemovedListener());
+    }
+
+    public void removeAssociatedDevice(@NonNull final SHNDevice shnDeviceToRemove, @NonNull final DeviceRemovedListener deviceRemovedListener) {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
             public void run() {
-                removeAssociatedDeviceInternal(shnDeviceToRemove);
+                removeAssociatedDeviceInternal(shnDeviceToRemove, deviceRemovedListener);
             }
         });
     }
 
-    private void removeAssociatedDeviceInternal(@NonNull final SHNDevice shnDeviceToRemove) {
+    private void removeAssociatedDeviceInternal(@NonNull final SHNDevice shnDeviceToRemove, @NonNull final DeviceRemovedListener deviceRemovedListener) {
         boolean removed = removeAssociatedDeviceFromList(shnDeviceToRemove);
         if (removed) {
             persistAssociatedDeviceList();
@@ -214,6 +223,7 @@ public class SHNDeviceAssociation {
             shnCentral.getUserHandler().post(new Runnable() {
                 @Override
                 public void run() {
+                    deviceRemovedListener.onAssociatedDeviceRemoved(shnDeviceToRemove);
                     for (final DeviceRemovedListener listener : copyOfDeviceRemovedListeners) {
                         listener.onAssociatedDeviceRemoved(shnDeviceToRemove);
                     }
@@ -227,17 +237,16 @@ public class SHNDeviceAssociation {
         return new SHNDevice.SHNDeviceListener() {
             @Override
             public void onStateUpdated(final SHNDevice shnDevice) {
-                final SHNDevice.SHNDeviceListener shnDeviceListener = this;
-                shnCentral.getInternalHandler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        SHNDevice.State state = shnDevice.getState();
-                        if (state.equals(SHNDevice.State.Disconnected) || state.equals(SHNDevice.State.Disconnecting)) {
+                SHNDevice.State state = shnDevice.getState();
+                if (state.equals(SHNDevice.State.Disconnected) || state.equals(SHNDevice.State.Disconnecting)) {
+                    shnDevice.unregisterSHNDeviceListener(this);
+                    shnCentral.getInternalHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
                             persistentStorageFactory.getPersistentStorageCleaner().clearDeviceData(shnDeviceToRemove);
-                            shnDevice.unregisterSHNDeviceListener(shnDeviceListener);
                         }
-                    }
-                });
+                    });
+                }
             }
 
             @Override
@@ -347,12 +356,17 @@ public class SHNDeviceAssociation {
 
     private void stopScanning() {
         scanStoppedIndicatesScanTimeout = false;
-        shnDeviceScannerInternal.stopScanning();
+        if (shnInternalScanRequest != null) {
+            shnDeviceScannerInternal.stopScanning(shnInternalScanRequest);
+            shnInternalScanRequest = null;
+        }
     }
 
     private void startScanning() {
+        stopScanning();
         scanStoppedIndicatesScanTimeout = true;
-        if (!shnDeviceScannerInternal.startScanning(shnDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, 90000l)) {
+        shnInternalScanRequest = new SHNInternalScanRequest(null, null, true, 90000l, shnDeviceScannerListener);
+        if (!shnDeviceScannerInternal.startScanning(shnInternalScanRequest)) {
             SHNLogger.e(TAG, "Could not start scanning (already scanning)");
             reportFailure(SHNResult.SHNErrorInvalidState);
         }
@@ -369,5 +383,11 @@ public class SHNDeviceAssociation {
 
     public void removeDeviceRemovedListeners(@NonNull final DeviceRemovedListener listener) {
         deviceRemovedListeners.remove(listener);
+    }
+
+    private static class NullDeviceRemovedListener implements DeviceRemovedListener {
+        @Override
+        public void onAssociatedDeviceRemoved(@NonNull final SHNDevice device) {
+        }
     }
 }

@@ -322,7 +322,7 @@ public class SHNDeviceImplForBondingDuringConnectDeviceTest {
 
     // Test the timeouts during connecting
     @Test
-    public void whenInStateConnectingAfterConnectigATimeoutOccursThenTheStateIsChangedToDisconnected() {
+    public void whenInStateConnectingAfterConnectingATimeoutOccursThenTheStateIsChangedToDisconnected() {
         shnDevice.connect();
         assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
         mockedInternalHandler.executeFirstScheduledExecution();
@@ -509,6 +509,16 @@ public class SHNDeviceImplForBondingDuringConnectDeviceTest {
         connectTillGATTConnected();
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
         mockedInternalHandler.executeFirstScheduledExecution();
+        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
+    }
+
+    @Test
+    public void whenBondingIsFinishedInStateConnectedReadyTimerIsNotRestarted() {
+        getDeviceInConnectedState();
+
+        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDING, BluetoothDevice.BOND_NONE);
+        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDED, BluetoothDevice.BOND_BONDING);
+
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 }

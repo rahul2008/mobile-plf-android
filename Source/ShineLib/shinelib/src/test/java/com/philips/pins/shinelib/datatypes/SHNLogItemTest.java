@@ -18,7 +18,7 @@ public class SHNLogItemTest {
     public void setUp() throws Exception {
         dataTypes = new HashSet<>();
         dataTypes.add(SHNDataType.EnergyExpenditure);
-        dataTypes.add(SHNDataType.ActiveEnergyExpenditureDebugMoonshine);
+        dataTypes.add(SHNDataType.ActiveEnergyExpenditure);
         dataByDataTypeMap = new HashMap<>();
     }
 

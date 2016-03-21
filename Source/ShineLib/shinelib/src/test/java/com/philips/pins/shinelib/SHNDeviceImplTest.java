@@ -189,7 +189,7 @@ public class SHNDeviceImplTest {
     @Test
     public void whenInStateConnectingThenTheStateChangesToDisconnectedThenTheOnFailedToConnectGetsCalled() {
         shnDevice.connect();
-        btGattCallback.onConnectionStateChange(null, 0, BluetoothProfile.STATE_DISCONNECTED);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, 0, BluetoothProfile.STATE_DISCONNECTED);
         verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
     }
     @Test
@@ -293,10 +293,19 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenInStateConnectingAndDisconnectIsCalledThenTheStateBecomesDisconnected() {
+    public void whenInStateConnectingAndDisconnectIsCalledThenTheStateBecomesDisconnecting() {
         shnDevice.connect();
         assertEquals(SHNDeviceImpl.State.Connecting, shnDevice.getState());
         shnDevice.disconnect();
+        assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
+    }
+
+    @Test
+    public void whenInStateConnecting_AndDisconnectIsCalled_AndAStateUpdateOccurs_ThenItWillBeIgnored() {
+        shnDevice.connect();
+        shnDevice.disconnect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
+
         assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
     }
 

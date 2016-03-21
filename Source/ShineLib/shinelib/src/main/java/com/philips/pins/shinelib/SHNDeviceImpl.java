@@ -159,14 +159,15 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void disconnect() {
-        if (internalState != InternalState.Disconnected && internalState != InternalState.Disconnecting) {
+
+        if (internalState == InternalState.Connecting) {
+            SHNLogger.d(TAG, "Cancelling running connection attempt");
+            cleanUpAfterDisconnectOrError();
+
+        } else if (internalState != InternalState.Disconnected && internalState != InternalState.Disconnecting) {
             SHNLogger.i(TAG, "disconnect");
 
-            if (internalState == InternalState.Connecting) {
-                setInternalState(InternalState.Disconnected);
-            } else {
-                setInternalState(InternalState.Disconnecting);
-            }
+            setInternalState(InternalState.Disconnecting);
 
             connectTimer.stop();
             waitingUntilBondedTimer.stop();
@@ -258,27 +259,35 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         return "SHNDevice - " + btDevice.getName() + " [" + btDevice.getAddress() + "]";
     }
 
+    private void cleanUpAfterDisconnectOrError() {
+        if (btGatt != null) {
+            btGatt.disconnect();    // It's not a problem to call disconnect when already disconnected.
+            btGatt.close();
+            btGatt = null;
+        }
+        for (SHNService shnService : registeredServices.values()) {
+            shnService.disconnectFromBLELayer();
+        }
+        if (getState() == State.Connecting) {
+            shnDeviceListener.onFailedToConnect(SHNDeviceImpl.this, SHNResult.SHNErrorInvalidState);
+        }
+        setInternalState(InternalState.Disconnected);
+        shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
+        connectTimer.stop();
+        waitingUntilBondedTimer.stop();
+    }
+
     private BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
         @Override
         public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
+            if (SHNDeviceImpl.this.btGatt != gatt) {
+                return;
+            }
+
             SHNLogger.i(TAG, "BTGattCallback - onConnectionStateChange (newState = '" + bluetoothStateToString(newState) + "', status = " + status + ")");
 
             if (status != BluetoothGatt.GATT_SUCCESS || newState == BluetoothProfile.STATE_DISCONNECTED) {
-                if (btGatt != null) {
-                    btGatt.disconnect();    // It's not a problem to call disconnect when already disconnected.
-                    btGatt.close();
-                    btGatt = null;
-                }
-                for (SHNService shnService : registeredServices.values()) {
-                    shnService.disconnectFromBLELayer();
-                }
-                if (getState() == State.Connecting) {
-                    shnDeviceListener.onFailedToConnect(SHNDeviceImpl.this, SHNResult.SHNErrorInvalidState);
-                }
-                setInternalState(InternalState.Disconnected);
-                shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
-                connectTimer.stop();
-                waitingUntilBondedTimer.stop();
+                cleanUpAfterDisconnectOrError();
             } else if (newState == BluetoothProfile.STATE_CONNECTED) {
                 if (shouldWaitUntilBonded()) {
                     setInternalState(InternalState.ConnectedWaitingUntilBonded);
@@ -292,6 +301,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         @Override
         public void onServicesDiscovered(BTGatt gatt, int status) {
+            if (SHNDeviceImpl.this.btGatt != gatt) {
+                return;
+            }
+
             if (internalState == InternalState.ConnectedDiscoveringServices) {
                 if (status == BluetoothGatt.GATT_SUCCESS) {
 
@@ -304,7 +317,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                             shnService.connectToBLELayer(gatt, bluetoothGattService);
                         }
                     }
-
                 } else {
                     SHNLogger.e(TAG, "onServicedDiscovered: error discovering services (status = '" + status + "'); disconnecting");
                     disconnect();
@@ -316,46 +328,77 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         @Override
         public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
+            if (SHNDeviceImpl.this.btGatt != gatt) {
+                return;
+            }
+
             SHNService shnService = getSHNService(characteristic.getService().getUuid());
             shnService.onCharacteristicReadWithData(gatt, characteristic, status, data);
         }
 
         @Override
         public void onCharacteristicWrite(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            if (SHNDeviceImpl.this.btGatt != gatt) {
+                return;
+            }
+
             SHNService shnService = getSHNService(characteristic.getService().getUuid());
             shnService.onCharacteristicWrite(gatt, characteristic, status);
         }
 
         @Override
         public void onCharacteristicChangedWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, byte[] data) {
+            if (SHNDeviceImpl.this.btGatt != gatt) {
+                return;
+            }
+
             SHNService shnService = getSHNService(characteristic.getService().getUuid());
             shnService.onCharacteristicChangedWithData(gatt, characteristic, data);
         }
 
         @Override
         public void onDescriptorReadWithData(BTGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
+            if (SHNDeviceImpl.this.btGatt != gatt) {
+                return;
+            }
+
             SHNService shnService = getSHNService(descriptor.getCharacteristic().getService().getUuid());
             shnService.onDescriptorReadWithData(gatt, descriptor, status, data);
         }
 
         @Override
         public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            if (SHNDeviceImpl.this.btGatt != gatt) {
+                return;
+            }
+
             SHNService shnService = getSHNService(descriptor.getCharacteristic().getService().getUuid());
             shnService.onDescriptorWrite(gatt, descriptor, status);
         }
 
         @Override
         public void onReliableWriteCompleted(BTGatt gatt, int status) {
+            if (SHNDeviceImpl.this.btGatt != gatt) {
+                return;
+            }
+
             throw new UnsupportedOperationException("onReliableWriteCompleted");
         }
 
         @Override
         public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {
+            if (SHNDeviceImpl.this.btGatt != gatt) {
+                return;
+            }
+
             throw new UnsupportedOperationException("onReadRemoteRssi");
         }
 
         @Override
         public void onMtuChanged(BTGatt gatt, int mtu, int status) {
+            if (SHNDeviceImpl.this.btGatt != gatt) {
+                return;
+            }
         }
     };
 
@@ -372,7 +415,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             if (bondState == BluetoothDevice.BOND_BONDING) {
                 connectTimer.stop();
             } else {
-                connectTimer.restart();
+                if (getState() != State.Connected) {
+                    connectTimer.restart();
+                }
             }
 
             if (internalState == InternalState.ConnectedWaitingUntilBonded) {

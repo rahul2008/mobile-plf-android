@@ -158,12 +158,12 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
     }
 
     @Override
-    public void onDeployFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate) {
+    public void onDeployFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, final SHNResult shnResult) {
         Runnable callback = new Runnable() {
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onDeployFinished(SHNCapabilityFirmwareUpdateWrapper.this);
+                    shnCapabilityFirmwareUpdateListener.onDeployFinished(SHNCapabilityFirmwareUpdateWrapper.this, shnResult);
                 }
             }
         };

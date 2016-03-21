@@ -1,6 +1,7 @@
 package com.philips.pins.shinelib.utility;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNDevice;
@@ -25,12 +26,12 @@ public class PersistentStorageFactory {
 
     @NonNull
     public PersistentStorage getPersistentStorage() {
-        return new PersistentStorage(sharedPreferencesProvider.getSharedPreferences(SHINELIB_KEY, Context.MODE_PRIVATE));
+        return new PersistentStorage(getSharedPreferences(SHINELIB_KEY));
     }
 
     @NonNull
     public PersistentStorage getPersistentStorageForUser() {
-        return new PersistentStorage(sharedPreferencesProvider.getSharedPreferences(USER_KEY, Context.MODE_PRIVATE));
+        return new PersistentStorage(getSharedPreferences(USER_KEY));
     }
 
     @NonNull
@@ -42,7 +43,7 @@ public class PersistentStorageFactory {
     public PersistentStorage getPersistentStorageForDevice(@NonNull final String deviceAddress) {
         String key = getDeviceKey(deviceAddress);
         saveDeviceAddress(deviceAddress);
-        return new PersistentStorage(sharedPreferencesProvider.getSharedPreferences(key, Context.MODE_PRIVATE));
+        return new PersistentStorage(getSharedPreferences(key));
     }
 
     @NonNull
@@ -59,10 +60,16 @@ public class PersistentStorageFactory {
 
     @NonNull
     PersistentStorage getPersistentStorageForDeviceAddresses() {
-        return new PersistentStorage(sharedPreferencesProvider.getSharedPreferences(DEVICE_ADDRESS_KEY, Context.MODE_PRIVATE));
+        return new PersistentStorage(getSharedPreferences(DEVICE_ADDRESS_KEY));
     }
 
     public PersistentStorageCleaner getPersistentStorageCleaner() {
         return new PersistentStorageCleaner(this);
+    }
+
+    @NonNull
+    private SharedPreferences getSharedPreferences(String key) {
+        key = String.format("%s%s", sharedPreferencesProvider.getSharedPreferencesPrefix(), key);
+        return sharedPreferencesProvider.getSharedPreferences(key, Context.MODE_PRIVATE);
     }
 }

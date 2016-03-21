@@ -2,6 +2,7 @@ package com.philips.pins.shinelib;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
@@ -49,6 +50,12 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
             @Override
             public SharedPreferences getSharedPreferences(String key, int mode) {
                 return RuntimeEnvironment.application.getSharedPreferences(key, Context.MODE_PRIVATE);
+            }
+
+            @NonNull
+            @Override
+            public String getSharedPreferencesPrefix() {
+                return "TEST";
             }
         });
 
