@@ -1,7 +1,6 @@
 package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
-import android.os.Handler;
 
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -17,31 +16,30 @@ class ThreadGuardedEditorWrapper implements SharedPreferences.Editor {
 
     private static final int DELAY_MILLIS = 50;
     private SharedPreferences.Editor editor;
-    private Handler handler;
 
-    private Runnable timeOut = new Runnable() {
-        @Override
-        public void run() {
-            SHNLogger.wtf(TAG, "The internal thread is not responding! Custom SharedPreference's execution time has exceeded expected execution time of 50 ms!");
-
-            assert (false);
-        }
-    };
-
-    public ThreadGuardedEditorWrapper(SharedPreferences.Editor editor, Handler handler) {
+    public ThreadGuardedEditorWrapper(SharedPreferences.Editor editor) {
         this.editor = editor;
-        this.handler = handler;
     }
 
     private <T, E> E putValue(String key, T value, Putter<T, E> putter) {
-        handler.postDelayed(timeOut, DELAY_MILLIS);
+        long startTime = getCurrentTimeInMillis();
         E val = putter.put(editor, key, value);
-        handler.removeCallbacks(timeOut);
+        long dif = getCurrentTimeInMillis() - startTime;
+
+        if (dif > DELAY_MILLIS) {
+            SHNLogger.wtf(TAG, "The internal thread is not responding! Custom SharedPreference's execution time has exceeded expected execution time of 50 ms! Execution time is " + dif);
+            assert (false);
+        }
+
         return val;
     }
 
     private <T, E> E putValue(Putter<T, E> putter) {
         return putValue("", null, putter);
+    }
+
+    protected long getCurrentTimeInMillis() {
+        return System.currentTimeMillis();
     }
 
     @Override

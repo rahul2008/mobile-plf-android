@@ -1,19 +1,14 @@
 package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
-import android.os.Handler;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Collections;
 import java.util.Set;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -21,6 +16,8 @@ public class ThreadGuardedSharedPreferencesWrapperTest {
 
     private static final String S = "S";
     private static final String S_1 = "S1";
+    public static final long NORMAL_EXECUTION_TIME = 40L;
+    public static final long EXCEEDED_EXECUTION_TIME = 60L;
 
     private ThreadGuardedSharedPreferencesWrapper threadGuardedSharedPreferencesWrapper;
 
@@ -28,20 +25,14 @@ public class ThreadGuardedSharedPreferencesWrapperTest {
     private SharedPreferences sharedPreferencesMock;
 
     @Mock
-    private Handler handlerMock;
-
-    @Captor
-    private ArgumentCaptor<Runnable> runnableCaptor;
-
-    @Mock
     private SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListenerMock;
+    public static final long THREAD_ID = Thread.currentThread().getId();
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        long threadId = Thread.currentThread().getId();
-        threadGuardedSharedPreferencesWrapper = new ThreadGuardedSharedPreferencesWrapper(sharedPreferencesMock, handlerMock, threadId);
+        threadGuardedSharedPreferencesWrapper = new ThreadGuardedSharedPreferencesWrapperForTest(sharedPreferencesMock, THREAD_ID, NORMAL_EXECUTION_TIME);
     }
 
     @Test
@@ -51,31 +42,16 @@ public class ThreadGuardedSharedPreferencesWrapperTest {
         verify(sharedPreferencesMock).getAll();
     }
 
-    @Test
-    public void whenGetAllIsCalledThenPostDelayedIsCalledOnTheHandler() throws Exception {
-        threadGuardedSharedPreferencesWrapper.getAll();
-
-        verify(handlerMock).postDelayed(any(Runnable.class), anyLong());
-    }
-
-    @Test
-    public void whenGetAllReturnsValueThenRemoveCallbacksIsCalledOnTheHandler() throws Exception {
-        threadGuardedSharedPreferencesWrapper.getAll();
-
-        verify(handlerMock).removeCallbacks(any(Runnable.class));
-    }
-
     @Test(expected = AssertionError.class)
     public void whenTimeOutExpiresThenAssertErrorIsGiven() throws Exception {
-        threadGuardedSharedPreferencesWrapper.getAll();
-        verify(handlerMock).postDelayed(runnableCaptor.capture(), anyLong());
+        threadGuardedSharedPreferencesWrapper = new ThreadGuardedSharedPreferencesWrapperForTest(sharedPreferencesMock, THREAD_ID, EXCEEDED_EXECUTION_TIME);
 
-        runnableCaptor.getValue().run();
+        threadGuardedSharedPreferencesWrapper.getAll();
     }
 
     @Test(expected = RuntimeException.class)
     public void whenThreadIdDoesNotMatchThenExceptionIsGenerated() throws Exception {
-        threadGuardedSharedPreferencesWrapper = new ThreadGuardedSharedPreferencesWrapper(sharedPreferencesMock, handlerMock, 0);
+        threadGuardedSharedPreferencesWrapper = new ThreadGuardedSharedPreferencesWrapper(sharedPreferencesMock, 0);
 
         threadGuardedSharedPreferencesWrapper.getAll();
     }
@@ -149,5 +125,21 @@ public class ThreadGuardedSharedPreferencesWrapperTest {
         threadGuardedSharedPreferencesWrapper.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListenerMock);
 
         verify(sharedPreferencesMock).unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListenerMock);
+    }
+
+    class ThreadGuardedSharedPreferencesWrapperForTest extends ThreadGuardedSharedPreferencesWrapper {
+
+        private long start = 100;
+        private long increment;
+
+        public ThreadGuardedSharedPreferencesWrapperForTest(SharedPreferences sharedPreferences, long threadId, long increment) {
+            super(sharedPreferences, threadId);
+            this.increment = increment;
+        }
+
+        @Override
+        protected long getCurrentTimeInMillis() {
+            return start += increment;
+        }
     }
 }

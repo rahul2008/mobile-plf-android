@@ -1,20 +1,15 @@
 package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
-import android.os.Handler;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Collections;
 import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -23,21 +18,19 @@ public class ThreadGuardedEditorWrapperTest {
     public static final String KEY = "key";
     public static final String VALUE = "value";
 
+    public static final long NORMAL_EXECUTION_TIME = 10L;
+    public static final long EXCEEDED_EXECUTION_TIME = 60L;
+
     private ThreadGuardedEditorWrapper wrapper;
 
     @Mock
     private SharedPreferences.Editor editorMock;
 
-    @Mock
-    private Handler handlerMock;
-    @Captor
-    private ArgumentCaptor<Runnable> runnableCaptor;
-
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        wrapper = new ThreadGuardedEditorWrapper(editorMock, handlerMock);
+        wrapper = new ThreadGuardedEditorWrapperForTest(editorMock, NORMAL_EXECUTION_TIME);
     }
 
     @Test
@@ -47,27 +40,11 @@ public class ThreadGuardedEditorWrapperTest {
         verify(editorMock).putString(KEY, VALUE);
     }
 
-    @Test
-    public void whenPutStringIsCalledThenPostDelayedIsCalledOnTheHandler() throws Exception {
-        wrapper.putString(KEY, VALUE);
-
-        verify(handlerMock).postDelayed(any(Runnable.class), anyLong());
-    }
-
-    @Test
-    public void whenPutStringReturnsValueThenRemoveCallbacksIsCalledOnTheHandler() throws Exception {
-        wrapper.putString(KEY, VALUE);
-
-        verify(handlerMock).removeCallbacks(any(Runnable.class));
-    }
-
     @Test(expected = AssertionError.class)
     public void whenTimeOutExpiresThenAssertErrorIsGiven() throws Exception {
+        wrapper = new ThreadGuardedEditorWrapperForTest(editorMock, EXCEEDED_EXECUTION_TIME);
+
         wrapper.putString(KEY, VALUE);
-
-        verify(handlerMock).postDelayed(runnableCaptor.capture(), anyLong());
-
-        runnableCaptor.getValue().run();
     }
 
     @Test
@@ -146,5 +123,21 @@ public class ThreadGuardedEditorWrapperTest {
         wrapper.apply();
 
         verify(editorMock).apply();
+    }
+
+    class ThreadGuardedEditorWrapperForTest extends ThreadGuardedEditorWrapper {
+
+        private long start = 100;
+        private long increment;
+
+        public ThreadGuardedEditorWrapperForTest(SharedPreferences.Editor editor, long increment) {
+            super(editor);
+            this.increment = increment;
+        }
+
+        @Override
+        protected long getCurrentTimeInMillis() {
+            return start += increment;
+        }
     }
 }

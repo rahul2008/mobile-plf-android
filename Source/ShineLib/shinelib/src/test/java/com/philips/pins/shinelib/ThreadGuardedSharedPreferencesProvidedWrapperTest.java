@@ -1,7 +1,6 @@
 package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
-import android.os.Handler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,14 +20,11 @@ public class ThreadGuardedSharedPreferencesProvidedWrapperTest {
     @Mock
     SharedPreferencesProvider sharedPreferencesProviderMock;
 
-    @Mock
-    Handler handlerMock;
-
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        threadGuardedSharedPreferencesProvidedWrapper = new ThreadGuardedSharedPreferencesProvidedWrapper(sharedPreferencesProviderMock, handlerMock, 0);
+        threadGuardedSharedPreferencesProvidedWrapper = new ThreadGuardedSharedPreferencesProvidedWrapper(sharedPreferencesProviderMock, 0);
     }
 
     @Test
