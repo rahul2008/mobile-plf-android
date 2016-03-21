@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.ProductLog;
+import com.philips.cdp.Util;
 import com.philips.cdp.backend.ProdRegHelper;
 import com.philips.cdp.backend.ProdRegRequestInfo;
 import com.philips.cdp.demo.R;
@@ -30,6 +32,8 @@ import com.philips.cdp.model.ProductResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -176,7 +180,21 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        registerProduct();
+        final User mUser = new User(this);
+
+        if (mUser.isUserSignIn(DetailActivity.this) && mUser.getEmailVerificationStatus(DetailActivity.this)) {
+            if (ctn.getText().toString().equalsIgnoreCase("")) {
+                Toast.makeText(DetailActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(DetailActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
+                registerProduct();
+            }
+        } else {
+            Toast.makeText(DetailActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
+            ProductLog.producrlog(ProductLog.ONCLICK, "On Click : User Registration");
+            RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
+            Util.navigateFromUserRegistration();
+        }
     }
 
     private void registerProduct() {
@@ -185,6 +203,7 @@ public class DetailActivity extends AppCompatActivity {
         ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(ctn.getText().toString(), serial_number.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.setLocale("en", "GB");
+        prodRegRequestInfo.setPurchaseDate("2016-03-21");
         final ResponseListener listener = new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
