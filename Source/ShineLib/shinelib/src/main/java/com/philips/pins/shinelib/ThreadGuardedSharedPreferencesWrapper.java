@@ -8,13 +8,13 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 import java.util.Map;
 import java.util.Set;
 
-public class SharedPreferencesWrapper implements SharedPreferences {
+class ThreadGuardedSharedPreferencesWrapper implements SharedPreferences {
 
     private interface Getter<T> {
         T get(SharedPreferences sharedPreferences, String key, T defaultValue);
     }
 
-    private static String TAG = SharedPreferencesWrapper.class.getSimpleName();
+    private static String TAG = "SharedPrefsWrapper";
 
     private static final int DELAY_MILLIS = 50;
     private SharedPreferences sharedPreferences;
@@ -24,13 +24,13 @@ public class SharedPreferencesWrapper implements SharedPreferences {
     private Runnable timeOut = new Runnable() {
         @Override
         public void run() {
-            SHNLogger.wtf(TAG, "The internal thread was not responding! Custom SharedPreference's execution time has exceeded expected!");
+            SHNLogger.wtf(TAG, "The internal thread is not responding! Custom SharedPreference's execution time has exceeded expected execution time of 50 ms!");
 
             assert (false);
         }
     };
 
-    public SharedPreferencesWrapper(SharedPreferences sharedPreferences, Handler handler, long internalThreadId) {
+    public ThreadGuardedSharedPreferencesWrapper(SharedPreferences sharedPreferences, Handler handler, long internalThreadId) {
         this.sharedPreferences = sharedPreferences;
         this.handler = handler;
         this.internalThreadId = internalThreadId;

@@ -4,13 +4,13 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-public class SharedPreferencesProviderWrapper implements SharedPreferencesProvider {
+class ThreadGuardedSharedPreferencesProvidedWrapper implements SharedPreferencesProvider {
 
     private SharedPreferencesProvider sharedPreferencesProvider;
     private Handler handler;
     private long internalThreadID;
 
-    public SharedPreferencesProviderWrapper(SharedPreferencesProvider sharedPreferencesProvider, Handler handler, long internalThreadID) {
+    public ThreadGuardedSharedPreferencesProvidedWrapper(SharedPreferencesProvider sharedPreferencesProvider, Handler handler, long internalThreadID) {
         this.sharedPreferencesProvider = sharedPreferencesProvider;
         this.handler = handler;
         this.internalThreadID = internalThreadID;
@@ -19,7 +19,7 @@ public class SharedPreferencesProviderWrapper implements SharedPreferencesProvid
     @NonNull
     @Override
     public SharedPreferences getSharedPreferences(String name, int mode) {
-        return new SharedPreferencesWrapper(sharedPreferencesProvider.getSharedPreferences(name, mode), handler, internalThreadID);
+        return new ThreadGuardedSharedPreferencesWrapper(sharedPreferencesProvider.getSharedPreferences(name, mode), handler, internalThreadID);
     }
 
     @NonNull

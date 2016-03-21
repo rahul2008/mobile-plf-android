@@ -18,12 +18,12 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class EditorWrapperTest {
+public class ThreadGuardedEditorWrapperTest {
 
     public static final String KEY = "key";
     public static final String VALUE = "value";
 
-    private EditorWrapper wrapper;
+    private ThreadGuardedEditorWrapper wrapper;
 
     @Mock
     private SharedPreferences.Editor editorMock;
@@ -37,7 +37,7 @@ public class EditorWrapperTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        wrapper = new EditorWrapper(editorMock, handlerMock);
+        wrapper = new ThreadGuardedEditorWrapper(editorMock, handlerMock);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class EditorWrapperTest {
     public void whenPutStringIsCalledThenReturnTypeIsWrapper() throws Exception {
         SharedPreferences.Editor editor = wrapper.putString(KEY, VALUE);
 
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
     }
 
     @Test
@@ -83,7 +83,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putStringSet(KEY, empty);
 
         verify(editorMock).putStringSet(KEY, empty);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
     }
 
     @Test
@@ -91,7 +91,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putInt(KEY, 0);
 
         verify(editorMock).putInt(KEY, 0);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
     }
 
     @Test
@@ -99,7 +99,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putLong(KEY, 0);
 
         verify(editorMock).putLong(KEY, 0);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
     }
 
     @Test
@@ -107,7 +107,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putFloat(KEY, 0);
 
         verify(editorMock).putFloat(KEY, 0);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
     }
 
     @Test
@@ -115,7 +115,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putBoolean(KEY, false);
 
         verify(editorMock).putBoolean(KEY, false);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
     }
 
     @Test
@@ -123,7 +123,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.remove(KEY);
 
         verify(editorMock).remove(KEY);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
     }
 
     @Test
@@ -131,7 +131,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.clear();
 
         verify(editorMock).clear();
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
     }
 
     @Test

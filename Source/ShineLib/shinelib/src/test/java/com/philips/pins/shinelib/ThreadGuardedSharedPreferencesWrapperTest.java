@@ -17,12 +17,12 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class SharedPreferencesWrapperTest {
+public class ThreadGuardedSharedPreferencesWrapperTest {
 
     private static final String S = "S";
     private static final String S_1 = "S1";
 
-    private SharedPreferencesWrapper sharedPreferencesWrapper;
+    private ThreadGuardedSharedPreferencesWrapper threadGuardedSharedPreferencesWrapper;
 
     @Mock
     private SharedPreferences sharedPreferencesMock;
@@ -41,33 +41,33 @@ public class SharedPreferencesWrapperTest {
         initMocks(this);
 
         long threadId = Thread.currentThread().getId();
-        sharedPreferencesWrapper = new SharedPreferencesWrapper(sharedPreferencesMock, handlerMock, threadId);
+        threadGuardedSharedPreferencesWrapper = new ThreadGuardedSharedPreferencesWrapper(sharedPreferencesMock, handlerMock, threadId);
     }
 
     @Test
     public void testGetAll() throws Exception {
-        sharedPreferencesWrapper.getAll();
+        threadGuardedSharedPreferencesWrapper.getAll();
 
         verify(sharedPreferencesMock).getAll();
     }
 
     @Test
     public void whenGetAllIsCalledThenPostDelayedIsCalledOnTheHandler() throws Exception {
-        sharedPreferencesWrapper.getAll();
+        threadGuardedSharedPreferencesWrapper.getAll();
 
         verify(handlerMock).postDelayed(any(Runnable.class), anyLong());
     }
 
     @Test
     public void whenGetAllReturnsValueThenRemoveCallbacksIsCalledOnTheHandler() throws Exception {
-        sharedPreferencesWrapper.getAll();
+        threadGuardedSharedPreferencesWrapper.getAll();
 
         verify(handlerMock).removeCallbacks(any(Runnable.class));
     }
 
     @Test(expected = AssertionError.class)
     public void whenTimeOutExpiresThenAssertErrorIsGiven() throws Exception {
-        sharedPreferencesWrapper.getAll();
+        threadGuardedSharedPreferencesWrapper.getAll();
         verify(handlerMock).postDelayed(runnableCaptor.capture(), anyLong());
 
         runnableCaptor.getValue().run();
@@ -75,14 +75,14 @@ public class SharedPreferencesWrapperTest {
 
     @Test(expected = RuntimeException.class)
     public void whenThreadIdDoesNotMatchThenExceptionIsGenerated() throws Exception {
-        sharedPreferencesWrapper = new SharedPreferencesWrapper(sharedPreferencesMock, handlerMock, 0);
+        threadGuardedSharedPreferencesWrapper = new ThreadGuardedSharedPreferencesWrapper(sharedPreferencesMock, handlerMock, 0);
 
-        sharedPreferencesWrapper.getAll();
+        threadGuardedSharedPreferencesWrapper.getAll();
     }
 
     @Test
     public void testGetString() throws Exception {
-        sharedPreferencesWrapper.getString(S, S_1);
+        threadGuardedSharedPreferencesWrapper.getString(S, S_1);
 
         verify(sharedPreferencesMock).getString(S, S_1);
     }
@@ -90,63 +90,63 @@ public class SharedPreferencesWrapperTest {
     @Test
     public void testGetStringSet() throws Exception {
         Set<String> empty = Collections.emptySet();
-        sharedPreferencesWrapper.getStringSet(S, empty);
+        threadGuardedSharedPreferencesWrapper.getStringSet(S, empty);
 
         verify(sharedPreferencesMock).getStringSet(S, empty);
     }
 
     @Test
     public void testGetInt() throws Exception {
-        sharedPreferencesWrapper.getInt(S, 0);
+        threadGuardedSharedPreferencesWrapper.getInt(S, 0);
 
         verify(sharedPreferencesMock).getInt(S, 0);
     }
 
     @Test
     public void testGetLong() throws Exception {
-        sharedPreferencesWrapper.getLong(S, 0);
+        threadGuardedSharedPreferencesWrapper.getLong(S, 0);
 
         verify(sharedPreferencesMock).getLong(S, 0);
     }
 
     @Test
     public void testGetFloat() throws Exception {
-        sharedPreferencesWrapper.getFloat(S, 0);
+        threadGuardedSharedPreferencesWrapper.getFloat(S, 0);
 
         verify(sharedPreferencesMock).getFloat(S, 0);
     }
 
     @Test
     public void testGetBoolean() throws Exception {
-        sharedPreferencesWrapper.getBoolean(S, false);
+        threadGuardedSharedPreferencesWrapper.getBoolean(S, false);
 
         verify(sharedPreferencesMock).getBoolean(S, false);
     }
 
     @Test
     public void testContains() throws Exception {
-        sharedPreferencesWrapper.contains(S);
+        threadGuardedSharedPreferencesWrapper.contains(S);
 
         verify(sharedPreferencesMock).contains(S);
     }
 
     @Test
     public void testEdit() throws Exception {
-        sharedPreferencesWrapper.edit();
+        threadGuardedSharedPreferencesWrapper.edit();
 
         verify(sharedPreferencesMock).edit();
     }
 
     @Test
     public void testRegisterOnSharedPreferenceChangeListener() throws Exception {
-        sharedPreferencesWrapper.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListenerMock);
+        threadGuardedSharedPreferencesWrapper.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListenerMock);
 
         verify(sharedPreferencesMock).registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListenerMock);
     }
 
     @Test
     public void testUnregisterOnSharedPreferenceChangeListener() throws Exception {
-        sharedPreferencesWrapper.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListenerMock);
+        threadGuardedSharedPreferencesWrapper.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListenerMock);
 
         verify(sharedPreferencesMock).unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListenerMock);
     }

@@ -14,9 +14,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class SharedPreferencesProviderWrapperTest {
+public class ThreadGuardedSharedPreferencesProvidedWrapperTest {
 
-    SharedPreferencesProviderWrapper sharedPreferencesProviderWrapper;
+    ThreadGuardedSharedPreferencesProvidedWrapper threadGuardedSharedPreferencesProvidedWrapper;
 
     @Mock
     SharedPreferencesProvider sharedPreferencesProviderMock;
@@ -28,17 +28,17 @@ public class SharedPreferencesProviderWrapperTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        sharedPreferencesProviderWrapper = new SharedPreferencesProviderWrapper(sharedPreferencesProviderMock, handlerMock, 0);
+        threadGuardedSharedPreferencesProvidedWrapper = new ThreadGuardedSharedPreferencesProvidedWrapper(sharedPreferencesProviderMock, handlerMock, 0);
     }
 
     @Test
     public void canCreate() throws Exception {
-        assertNotNull(sharedPreferencesProviderWrapper);
+        assertNotNull(threadGuardedSharedPreferencesProvidedWrapper);
     }
 
     @Test
     public void whenGetPrefixIsCalledThenCallIsPassedToWrappedProvider() throws Exception {
-        sharedPreferencesProviderWrapper.getSharedPreferencesPrefix();
+        threadGuardedSharedPreferencesProvidedWrapper.getSharedPreferencesPrefix();
 
         verify(sharedPreferencesProviderMock).getSharedPreferencesPrefix();
     }
@@ -48,7 +48,7 @@ public class SharedPreferencesProviderWrapperTest {
         String mockedPrefix = "prefix";
         when(sharedPreferencesProviderMock.getSharedPreferencesPrefix()).thenReturn(mockedPrefix);
 
-        String prefix = sharedPreferencesProviderWrapper.getSharedPreferencesPrefix();
+        String prefix = threadGuardedSharedPreferencesProvidedWrapper.getSharedPreferencesPrefix();
 
         assertEquals(mockedPrefix, prefix);
     }
@@ -57,7 +57,7 @@ public class SharedPreferencesProviderWrapperTest {
     public void whenGetSharedPreferencesIsCalledThenCallIsPassedToWrappedProvider() throws Exception {
         String name = "name";
         int mode = 0;
-        sharedPreferencesProviderWrapper.getSharedPreferences(name, mode);
+        threadGuardedSharedPreferencesProvidedWrapper.getSharedPreferences(name, mode);
 
         verify(sharedPreferencesProviderMock).getSharedPreferences(name, mode);
     }
@@ -66,8 +66,8 @@ public class SharedPreferencesProviderWrapperTest {
     public void whenGetSharedPreferencesIsCalledThenReturnedTypeIsWrapper() throws Exception {
         String name = "name";
         int mode = 0;
-        SharedPreferences sharedPreferences = sharedPreferencesProviderWrapper.getSharedPreferences(name, mode);
+        SharedPreferences sharedPreferences = threadGuardedSharedPreferencesProvidedWrapper.getSharedPreferences(name, mode);
 
-        assertTrue(sharedPreferences instanceof SharedPreferencesWrapper);
+        assertTrue(sharedPreferences instanceof ThreadGuardedSharedPreferencesWrapper);
     }
 }
