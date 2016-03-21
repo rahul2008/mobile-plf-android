@@ -3,9 +3,6 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'jacoco'
 
-def libVersionNumber = new File('../../VERSION').text.trim()
-libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
-
 jacoco {
     toolVersion = "0.7.1.201405082137"
 }
@@ -148,7 +145,7 @@ dependencies {
 
 //maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
-version = libVersionNumber
+version = objcdp.getVersion()
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
@@ -160,13 +157,12 @@ artifactory {
             publishPom = true
             publishIvy = false
             publishBuildInfo = true
-			//publications('aar')
 			publishArtifacts = true
         }
     }
     resolve {
         repository {
-            repoKey = 'libs-release-local'
+            repoKey = 'libs-release-local-android'
         }
     }
 }
