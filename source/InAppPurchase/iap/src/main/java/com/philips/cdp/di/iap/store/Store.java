@@ -52,7 +52,7 @@ public class Store {
     private String mPlaceOrderUrl;
     private String mCreateCartUrl;
     private String mAddToCartUrl;
-    private String mBaseURl;
+    protected String mBaseURl;
     private String mCurrentCartUrl;
 
     private String mOauthUrl;

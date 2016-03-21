@@ -82,7 +82,7 @@ public class StoreTest {
     }*/
 
     private Store getStore() {
-        return new Store(mContext, mIAPUser) {
+        return new Store(mContext) {
             @Override
             protected StoreConfiguration setStoreConfig(final Context context) {
                 return mStoreConfig;
