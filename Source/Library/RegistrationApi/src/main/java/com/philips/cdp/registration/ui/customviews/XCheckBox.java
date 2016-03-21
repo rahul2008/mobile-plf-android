@@ -49,8 +49,8 @@ public class XCheckBox extends LinearLayout {
         checkBoxTick = (TextView) parentView.findViewById(R.id.reg_check);
         typedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.Registration_CheckBox, 0, 0);
-        isChecked = typedArray.getBoolean(R.styleable.Registration_CheckBox_checked, false);
-        text = typedArray.getString(R.styleable.Registration_CheckBox_textValue);
+        isChecked = typedArray.getBoolean(R.styleable.Registration_CheckBox_reg_checked, false);
+        text = typedArray.getString(R.styleable.Registration_CheckBox_reg_textValue);
         checkBoxText.setText(text);
         typedArray.recycle();
         changeBackGround();

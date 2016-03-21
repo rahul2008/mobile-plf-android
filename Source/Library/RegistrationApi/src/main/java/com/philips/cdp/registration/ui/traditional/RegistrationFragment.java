@@ -20,7 +20,6 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -200,28 +199,22 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
 
+        //account setting true or no
+        //if true follow bellow else cckech for sign in status and repave with wel come screen on sing els ehome
         if (isAccountSettings) {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
             }
-            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
-                AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
-                replaceWithLogoutFragment();
-                return;
-            }
-
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
         } else {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
-                replaceWithWelcomeFragment();
-                return;
-            }
-            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
-                AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
+                replaceWithLogoutFragment();
+                // replaceWithLogoutFragment();
+                //replace with welcome
                 replaceWithWelcomeFragment();
                 return;
             }
@@ -230,7 +223,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         }
 
     }
-
     private void trackPage(String currPage) {
         AppTagging.trackPage(currPage);
     }

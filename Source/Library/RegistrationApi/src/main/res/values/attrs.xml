@@ -79,8 +79,8 @@
     </declare-styleable>
 
     <declare-styleable name="Registration_CheckBox">
-        <attr name="checked" format="boolean" />
-        <attr name="textValue" format="string" />k
+        <attr name="reg_checked" format="boolean" />
+        <attr name="reg_textValue" format="string" />k
     </declare-styleable>
 
 </resources>
