@@ -62,6 +62,9 @@
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
+-keepattributes InnerClasses,Exceptions
+-dontwarn com.philips.cdp.registration.**
+
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
@@ -76,13 +79,16 @@
 -keep public class com.philips.cdp.tagging.** {*;}
 
 #Janrain lib
--keep public class com.janrain.android.** {*;}
+
+
 
 #Locale match
 -keep public class com.philips.cdp.localematch.** {*;}
 
 #Registration API
--keep public class com.philips.cdp.registration.** {*;}
+-keep class com.philips.cdp.registration.** {*;}
+
+
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}

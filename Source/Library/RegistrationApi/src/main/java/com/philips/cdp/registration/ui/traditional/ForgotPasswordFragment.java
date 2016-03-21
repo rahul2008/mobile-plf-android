@@ -23,7 +23,6 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -61,6 +60,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
     private ScrollView mSvRootLayout;
+
+    private final int BAD_RESPONSE_CODE = 7004;
 
     @Override
     public void onAttach(Activity activity) {
@@ -178,11 +179,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                mRegError.hideError();
-            } else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
-            }
+            mRegError.hideError();
         } else {
             mRegError.setError(getString(R.string.NoNetworkConnection));
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
@@ -191,8 +188,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     private void updateUiStatus() {
-        if (NetworkUtility.isNetworkAvailable(mContext)
-                && UserRegistrationInitializer.getInstance().isJanrainIntialized() && mEtEmail.isValidEmail()) {
+        if (NetworkUtility.isNetworkAvailable(mContext)&& mEtEmail.isValidEmail()) {
             mBtnContinue.setEnabled(true);
             mRegError.hideError();
         } else {
@@ -299,31 +295,36 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     private void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
         hideForgotPasswordSpinner();
-
-        if (userRegistrationFailureInfo.getError().code == SOCIAL_SIGIN_IN_ONLY_CODE) {
-            mEtEmail.showInvalidAlert();
-            mEtEmail.setErrDescription(getString(R.string.TraditionalSignIn_ForgotPwdSocialError_lbltxt));
-            mEtEmail.showErrPopUp();
-        } else {
-            mEtEmail.showErrPopUp();
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
-            mEtEmail.showInvalidAlert();
-        }
-
-        if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
-            mEtEmail.showErrPopUp();
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
-            mEtEmail.showInvalidAlert();
+        if(userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE){
+            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
             return;
-        }
+        }else{
+            if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
+                mEtEmail.showInvalidAlert();
+                mEtEmail.setErrDescription(getString(R.string.TraditionalSignIn_ForgotPwdSocialError_lbltxt));
+                mEtEmail.showErrPopUp();
+            } else {
+                mEtEmail.showErrPopUp();
+                mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
+                mEtEmail.showInvalidAlert();
+            }
 
-        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-            mEtEmail.showInvalidAlert();
-            mEtEmail.showErrPopUp();
+            if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
+                mEtEmail.showErrPopUp();
+                mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
+                mEtEmail.showInvalidAlert();
+                return;
+            }
+
+            if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+                mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+                mEtEmail.showInvalidAlert();
+                mEtEmail.showErrPopUp();
+            }
         }
         scrollViewAutomatically(mEtEmail, mSvRootLayout);
-        trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
+        trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
     }
 
     private View.OnClickListener mContinueBtnClick = new View.OnClickListener() {

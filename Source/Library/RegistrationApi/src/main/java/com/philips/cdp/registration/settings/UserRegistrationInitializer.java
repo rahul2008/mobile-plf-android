@@ -22,6 +22,16 @@ import java.util.Locale;
 
 public class UserRegistrationInitializer {
 
+    private boolean mIsJumpInitializationInProgress;
+
+    private boolean mReceivedDownloadFlowSuccess;
+
+    private boolean mReceivedProviderFlowSuccess;
+
+    private boolean mJanrainIntialized = false;
+
+    private boolean isRefreshUserSessionInProgress = false;
+
     private static UserRegistrationInitializer mUserRegistrationInitializer;
 
     private UserRegistrationInitializer() {
@@ -45,12 +55,6 @@ public class UserRegistrationInitializer {
         this.mIsJumpInitializationInProgress = isInitializationInProgress;
     }
 
-    private boolean mIsJumpInitializationInProgress;
-    private boolean mReceivedDownloadFlowSuccess;
-    private boolean mReceivedProviderFlowSuccess;
-
-
-    private boolean mJanrainIntialized = false;
 
     public JumpFlowDownloadStatusListener getJumpFlowDownloadStatusListener() {
         return mJumpFlowDownloadStatusListener;
@@ -204,6 +208,24 @@ public class UserRegistrationInitializer {
         }
         LocalBroadcastManager.getInstance(context).registerReceiver(UserRegistrationInitializer.getInstance().janrainStatusReceiver,
                 flowFilter);
+    }
+
+    public boolean isJumpInitializated() {
+
+        return !isJumpInitializationInProgress() && isJanrainIntialized();
+    }
+
+    public boolean isRegInitializationInProgress() {
+        return isJumpInitializationInProgress() && !isJanrainIntialized();
+
+    }
+
+    public boolean isRefreshUserSessionInProgress() {
+        return isRefreshUserSessionInProgress;
+    }
+
+    public void setRefreshUserSessionInProgress(boolean refreshUserSessionInProgress) {
+        isRefreshUserSessionInProgress = refreshUserSessionInProgress;
     }
 
 

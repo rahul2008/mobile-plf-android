@@ -3,7 +3,7 @@ package com.philips.cdp.registration.dao;
 
 import java.io.Serializable;
 
-public class DIUserProfile implements Serializable{
+public class DIUserProfile implements Serializable {
 
     private String email;
 
@@ -26,55 +26,12 @@ public class DIUserProfile implements Serializable{
     private boolean isReceiveMarketingEmail;
 
     private String hsdpUUID;
-    
+
     private String hsdpAccessToken;
-
-    public String getHsdpUUID() {
-        return hsdpUUID;
-    }
-
-    public void setHsdpUUID(String hsdpUUID) {
-        this.hsdpUUID = hsdpUUID;
-    }
-
-    public String getHsdpAccessToken() {
-        return hsdpAccessToken;
-    }
-
-    public void setHsdpAccessToken(String hsdpAccessToken) {
-        this.hsdpAccessToken = hsdpAccessToken;
-    }
-
-
-    public String getLanguageCode() {
-        return languageCode;
-    }
-
-    public void setLanguageCode(String languageCode) {
-        this.languageCode = languageCode;
-    }
-
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
-
 
     public DIUserProfile() {
     }
-
-    public DIUserProfile(String email, String givenName, String password,
-                         boolean isOlderThanAgeLimit, boolean isReceiveMarketingEmail) {
-        this.email = email;
-        this.givenName = givenName;
-        this.password = password;
-        this.isOlderThanAgeLimit = isOlderThanAgeLimit;
-        this.isReceiveMarketingEmail = isReceiveMarketingEmail;
-    }
-
+    
     public String getEmail() {
         return email;
     }
@@ -137,6 +94,39 @@ public class DIUserProfile implements Serializable{
 
     public void setJanrainUUID(String janrainUUID) {
         this.janrainUUID = janrainUUID;
+    }
+
+    public String getHsdpUUID() {
+        return hsdpUUID;
+    }
+
+    public void setHsdpUUID(String hsdpUUID) {
+        this.hsdpUUID = hsdpUUID;
+    }
+
+    public String getHsdpAccessToken() {
+        return hsdpAccessToken;
+    }
+
+    public void setHsdpAccessToken(String hsdpAccessToken) {
+        this.hsdpAccessToken = hsdpAccessToken;
+    }
+
+
+    public String getLanguageCode() {
+        return languageCode;
+    }
+
+    public void setLanguageCode(String languageCode) {
+        this.languageCode = languageCode;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
 

@@ -72,7 +72,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     private String CONSUMER_PRIMARY_ADDRESS = "primaryAddress";
 
-    private String LOG_TAG = "ContinueSocialProviderLogin";
+    private String LOG_TAG = "RegisterSocial";
 
     public UpdateUserRecord(Context context) {
         mContext = context;

@@ -8,13 +8,12 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
 import org.json.JSONObject;
-import org.mockito.Mockito;
 
 /**
  * Created by 310202337 on 11/27/2015.
  */
 public class ContinueSocialProviderLoginTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
-    ContinueSocialProviderLogin continueSocialProviderLogin;
+    RegisterSocial continueSocialProviderLogin;
 
     public ContinueSocialProviderLoginTest() {
         super(RegistrationActivity.class);
@@ -25,7 +24,7 @@ public class ContinueSocialProviderLoginTest extends ActivityInstrumentationTest
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
 
-        continueSocialProviderLogin = new ContinueSocialProviderLogin(new SocialProviderLoginHandler() {
+        continueSocialProviderLogin = new RegisterSocial(new SocialProviderLoginHandler() {
             @Override
             public void onLoginSuccess() {
 
@@ -73,7 +72,7 @@ public class ContinueSocialProviderLoginTest extends ActivityInstrumentationTest
     }
 
     public void test_onSuccess(){
-       /* ContinueSocialProviderLogin continuesocialLogin = Mockito.mock(ContinueSocialProviderLogin.class);
+       /* RegisterSocial continuesocialLogin = Mockito.mock(RegisterSocial.class);
         UpdateUserRecordHandler updateUserRecordHandler = Mockito.mock(UpdateUserRecordHandler.class);
         continueSocialProviderLogin.onSuccess();
 

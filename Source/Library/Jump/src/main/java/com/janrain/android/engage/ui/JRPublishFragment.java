@@ -634,8 +634,7 @@ public class JRPublishFragment extends JRUiFragment implements TabHost.OnTabChan
         /* Label */
         TextView label = new TextView(getActivity());
         label.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
-        label.setText(labelText);
-        label.setGravity(Gravity.CENTER);
+        label.setText(labelText);label.setGravity(Gravity.CENTER);
         label.setPadding(
                 AndroidUtils.scaleDipToPixels(0),
                 AndroidUtils.scaleDipToPixels(0),
@@ -662,38 +661,44 @@ public class JRPublishFragment extends JRUiFragment implements TabHost.OnTabChan
     private void configureViewElementsBasedOnProvider() {
         JRDictionary socialSharingProperties = mSelectedProvider.getSocialSharingProperties();
 
-        if (socialSharingProperties.getAsBoolean("content_replaces_action")) {
-            updatePreviewTextWhenContentReplacesAction();
-        } else {
-            updatePreviewTextWhenContentDoesNotReplaceAction();
+        if(socialSharingProperties != null) {
+            if (socialSharingProperties.getAsBoolean("content_replaces_action")) {
+                updatePreviewTextWhenContentReplacesAction();
+            } else {
+                updatePreviewTextWhenContentDoesNotReplaceAction();
+            }
+
+            if (isPublishThunk()) {
+                mMaxCharacters = socialSharingProperties
+                        .getAsDictionary("set_status_properties").getAsInt("max_characters");
+            } else {
+                mMaxCharacters = socialSharingProperties.getAsInt("max_characters");
+            }
+
+            setViewVisible(mCharacterCountView, mMaxCharacters != -1);
+
+            updateCharacterCount();
+
+            boolean canShareMedia = socialSharingProperties.getAsBoolean("can_share_media");
+            setViewVisible(mMediaContentView, mJrActivity.getMedia().size() > 0 && canShareMedia);
+
+            //int lightenedProviderColor = mSelectedProvider.getProviderColor(true);
+            int providerColor = mSelectedProvider.getProviderColor(false);
+
+            int alphaProviderColor = (providerColor & 0x00FFFFFF) | 0x44000000;
+
+            mUserProfileInformationAndShareButtonContainer.setBackgroundColor(alphaProviderColor);
+
+            mShareButton.setColor(providerColor);
+            mConnectAndShareButton.setColor(providerColor);
+            mPreviewBoxBorder.getBackground().setColorFilter(providerColor, PorterDuff.Mode.SRC_ATOP);
+
+            mProviderIcon.setImageDrawable(mSelectedProvider.getProviderIcon(getActivity()));
+        }else{
+            LogUtils.logd("Invalid Share Provider Configured - V2/V3 Conflict");
         }
 
-        if (isPublishThunk()) {
-            mMaxCharacters = socialSharingProperties
-                    .getAsDictionary("set_status_properties").getAsInt("max_characters");
-        } else {
-            mMaxCharacters = socialSharingProperties.getAsInt("max_characters");
-        }
 
-        setViewVisible(mCharacterCountView, mMaxCharacters != -1);
-
-        updateCharacterCount();
-
-        boolean canShareMedia = socialSharingProperties.getAsBoolean("can_share_media");
-        setViewVisible(mMediaContentView, mJrActivity.getMedia().size() > 0 && canShareMedia);
-
-        //int lightenedProviderColor = mSelectedProvider.getProviderColor(true);
-        int providerColor = mSelectedProvider.getProviderColor(false);
-
-        int alphaProviderColor = (providerColor & 0x00FFFFFF) | 0x44000000;
-
-        mUserProfileInformationAndShareButtonContainer.setBackgroundColor(alphaProviderColor);
-
-        mShareButton.setColor(providerColor);
-        mConnectAndShareButton.setColor(providerColor);
-        mPreviewBoxBorder.getBackground().setColorFilter(providerColor, PorterDuff.Mode.SRC_ATOP);
-
-        mProviderIcon.setImageDrawable(mSelectedProvider.getProviderIcon(getActivity()));
     }
 
     public void onTabChanged(String tabTag) {
@@ -776,7 +781,9 @@ public class JRPublishFragment extends JRUiFragment implements TabHost.OnTabChan
             if (mSelectedProvider.getSocialSharingProperties().getAsBoolean("content_replaces_action")) {
                 /* Twitter, MySpace, LinkedIn */
                 updatePreviewTextWhenContentReplacesAction();
-            } /* ... else Yahoo or Facebook */
+            } else {/* ... else Yahoo or Facebook */
+                updatePreviewTextWhenContentDoesNotReplaceAction();
+            }
 
             updateCharacterCount();
 
@@ -1010,7 +1017,13 @@ public class JRPublishFragment extends JRUiFragment implements TabHost.OnTabChan
     }
 
     private void updatePreviewTextWhenContentDoesNotReplaceAction() {
-        mPreviewLabelView.setText(Html.fromHtml("<b>" + getAvatarName() + "</b> " + mJrActivity.getAction()));
+        String newText;
+        if (mUserCommentView.getText().toString().equals("")) {
+            newText = mJrActivity.getAction();
+        } else {
+            newText = mUserCommentView.getText().toString();
+        }
+        mPreviewLabelView.setText(Html.fromHtml("<b>" + getAvatarName() + "</b> " + newText));
     }
 
     private void loadUserNameAndProfilePicForUserForProvider(

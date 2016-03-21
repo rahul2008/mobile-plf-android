@@ -129,13 +129,15 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles  'proguard-rules.pro'
         }
 
         debug {
+            minifyEnabled true
             debuggable true
             testCoverageEnabled true
+            proguardFile 'proguard-rules.pro'
         }
     }
 }

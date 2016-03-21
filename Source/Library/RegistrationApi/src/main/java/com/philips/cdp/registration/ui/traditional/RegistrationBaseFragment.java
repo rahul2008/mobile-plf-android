@@ -67,15 +67,9 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     private void setCustomLocale() {
-        Locale locale;
-        if (RegistrationHelper.getInstance().getLocale() != null) {
-            locale = RegistrationHelper.getInstance().getLocale();
-        } else {
-            locale = RegistrationHelper.getInstance().getLocale();
-        }
-        Locale.setDefault(locale);
+        Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
         Configuration config = new Configuration();
-        config.locale = locale;
+        config.locale = RegistrationHelper.getInstance().getLocale(getContext());
         getActivity().getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
     }
 

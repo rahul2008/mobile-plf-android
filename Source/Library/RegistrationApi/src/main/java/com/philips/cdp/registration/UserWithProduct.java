@@ -238,7 +238,12 @@ public class UserWithProduct extends User implements LocaleMatchListener {
                 public void onRefreshLoginSessionFailedWithError(int error) {
                     productRegister.onRegisterFailedWithFailure(6);
                 }
-            },mContext);
+
+                @Override
+                public void onRefreshLoginSessionInProgress(String message) {
+                    //
+                }
+            });
         }
     }
 

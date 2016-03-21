@@ -533,7 +533,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         hideProviderProgress();
         enableControls(true);
         User user = new User(mContext);
-        if (user.getEmailVerificationStatus(mContext)) {
+        if (user.getEmailVerificationStatus()) {
             launchWelcomeFragment();
         } else {
             launchAccountActivationFragment();
@@ -546,8 +546,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 
     private void launchWelcomeFragment() {
-        DIUserProfile diUserProfile = mUser.getUserInstance(mContext);
-        String emailId = diUserProfile.getEmail();
+        String emailId = mUser.getEmail();
         if (emailId != null && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.isAvailableIn(mContext, emailId)) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;

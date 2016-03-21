@@ -11,17 +11,21 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.CoppaConfiguration;
 import com.philips.cdp.registration.coppa.CoppaExtension;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.hsdp.HsdpUserRecord;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler {
+public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
 
 
     private Context mContext;
@@ -43,6 +47,33 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         mPassword = password;
     }
 
+
+
+    public void loginTraditionally(final String email, final String password) {
+        if(!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+            UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+        }else{
+            Jump.performTraditionalSignIn(email, password, this, null);
+            return;
+        }
+        if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale(mContext));
+        }
+    }
+
+    public void mergeTraditionally(final String email, final String password, final String token) {
+        if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+            UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+        }
+        else {
+            Jump.performTraditionalSignIn(email, password, this, token);
+            return;
+        }
+        if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale(mContext));
+        }
+    }
+
     @Override
     public void onSuccess() {
         Jump.saveToDisk(mContext);
@@ -50,10 +81,10 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         user.buildCoppaConfiguration();
         if (CoppaConfiguration.getCoppaCommunicationSentAt() != null && RegistrationConfiguration.getInstance().isCoppaFlow()) {
             CoppaExtension coppaExtension = new CoppaExtension();
-            coppaExtension.triggerSendCoppaMailAfterLogin(user.getUserInstance(mContext).getEmail());
+            coppaExtension.triggerSendCoppaMailAfterLogin(user.getEmail());
         }
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus(mContext)) {
+        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
 
             HsdpUser login = new HsdpUser(mContext);
             login.login(mEmail, mPassword, new TraditionalLoginHandler() {
@@ -126,7 +157,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         }
     }
 
-    private void handleInvalidCredentials(CaptureApiError error,UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    private void handleInvalidCredentials(CaptureApiError error, UserRegistrationFailureInfo userRegistrationFailureInfo) {
         if (null != error && null != error.error
                 && error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
             try {
@@ -159,6 +190,44 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             return null;
         }
         return (String) jsonArray.get(0);
+    }
+
+    @Override
+    public void onFlowDownloadSuccess() {
+        Jump.performTraditionalSignIn(mEmail, mPassword, this, null);
+        UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
+    }
+
+    @Override
+    public void onFlowDownloadFailure() {
+        if (mTraditionalLoginHandler != null) {
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorCode(RegConstants.MERGE_TRADITIONAL_FAILED_SERVER_ERROR);
+            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+        }
+        UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
+
+    }
+
+
+    public void loginIntoHsdp() {
+        HsdpUser hsdpUser = new HsdpUser(mContext);
+        HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
+        if (hsdpUserRecord == null) {
+            hsdpUser.login(mEmail, mPassword, new TraditionalLoginHandler() {
+                @Override
+                public void onLoginSuccess() {
+                    mTraditionalLoginHandler.onLoginSuccess();
+
+                }
+
+                @Override
+                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                }
+            });
+        }
     }
 
 }

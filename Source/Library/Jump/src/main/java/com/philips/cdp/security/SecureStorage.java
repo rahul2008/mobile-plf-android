@@ -6,6 +6,8 @@ import android.util.Base64;
 import android.util.Base64InputStream;
 import android.util.Base64OutputStream;
 
+import com.philips.securekey.SKey;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -48,7 +50,8 @@ public class SecureStorage {
     private static byte[] SECRET_KEY;
 
     public static byte[] encrypt(String text) {
-        storeSecretKey();
+      //  storeSecretKey();
+        SECRET_KEY = SKey.generateSecretKey();
         try {
             Key key = (Key) new SecretKeySpec(SECRET_KEY, "AES");
             Cipher cipher = Cipher.getInstance("AES");
@@ -236,7 +239,8 @@ public class SecureStorage {
 
 
     public static byte[] decrypt(byte[] encByte) {
-        storeSecretKey();
+        //storeSecretKey();
+        SECRET_KEY = SKey.generateSecretKey();
         try {
             Key key = (Key) new SecretKeySpec(SECRET_KEY, "AES");
             Cipher cipher = Cipher.getInstance("AES");
@@ -252,7 +256,8 @@ public class SecureStorage {
 
     public static void generateSecretKey() {
         if (SECRET_KEY == null) {
-            storeSecretKey();
+            //storeSecretKey();
+            SECRET_KEY = SKey.generateSecretKey();
         }
     }
 

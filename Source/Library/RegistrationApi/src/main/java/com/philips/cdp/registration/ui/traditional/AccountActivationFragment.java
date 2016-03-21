@@ -182,7 +182,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleActivate() {
         showActivateSpinner();
         mBtnActivate.setEnabled(false);
-       	mUser.refreshUser(mContext, this);
+       	mUser.refreshUser( this);
     }
 
     private void initUI(View view) {
@@ -207,8 +207,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mTvContent.setVisibility(View.GONE);
         }
 
-        DIUserProfile userProfile = mUser.getUserInstance(mContext);
-        mEmailId = userProfile.getEmail();
+        mEmailId = mUser.getEmail();
 
         String email = getString(R.string.VerifyEmail_EmailSentto_lbltxt);
         email = String.format(email, mEmailId);
@@ -258,7 +257,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void updateActivationUIState() {
         hideActivateSpinner();
         mBtnActivate.setEnabled(true);
-        if (mUser.getEmailVerificationStatus(mContext)) {
+        if (mUser.getEmailVerificationStatus()) {
             mBtnResend.setVisibility(View.GONE);
             mEMailVerifiedError.hideError();
             mRegError.hideError();

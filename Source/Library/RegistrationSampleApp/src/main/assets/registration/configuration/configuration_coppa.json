@@ -12,21 +12,12 @@
     "RegistrationEnvironment": "Evaluation",
     "CampaignID": "CL20150501_PC_TB_COPPA"
   },
+  "Flow": {
+    "EmailVerificationRequired": "true"
+  },
   "SigninProviders": {
-    "NL": [
-      "googleplus",
-      "myphilips",
-      "facebook"
-    ],
-    "US": [
-      "myphilips",
-      "twitter",
-      "facebook",
-      "googleplus"
-    ],
     "default": [
-      "myphilips",
-      "twitter",
+      "googleplus",
       "facebook"
     ]
   }

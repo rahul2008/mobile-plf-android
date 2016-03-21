@@ -19,7 +19,7 @@
             android:layout_centerVertical="true"
             android:padding="@dimen/reg_header_iv_back_padding"
             android:text="@string/ic_reg_left"
-            android:textColor="@color/reg_provider_text_color"
+            android:textColor="@color/reg_back_arrow_color"
             android:textSize="@dimen/reg_back_arrow_size" />
 
         <com.philips.cdp.registration.ui.customviews.XTextView

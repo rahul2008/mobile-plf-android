@@ -3,7 +3,7 @@ package com.philips.cdp.registration;
 /**
  * Created by 310190722 on 19-Feb-16.
  */
- class ABCD {
+class ABCD {
     private static ABCD mABCD;
 
     public String getmP() {

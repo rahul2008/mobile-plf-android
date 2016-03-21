@@ -82,6 +82,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
+    private final int BAD_RESPONSE_CODE = 7004;
+
     private ScrollView mSvRootLayout;
 
 
@@ -275,9 +277,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-
             mRegError.hideError();
-
         } else {
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             mRegError.setError(getString(R.string.NoNetworkConnection));
@@ -311,21 +311,26 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, " SignInAccountFragment : onLoginFailedWithError :"+userRegistrationFailureInfo.getErrorCode());
+        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
         mBtnForgot.setEnabled(true);
         mBtnResend.setEnabled(true);
         hideSignInSpinner();
-
         mBtnSignInAccount.setEnabled(false);
-        if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
-            scrollViewAutomatically(mRegError, mSvRootLayout);
-            mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-            trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
-            scrollViewAutomatically(mRegError, mSvRootLayout);
-        } else {
-            scrollViewAutomatically(mRegError, mSvRootLayout);
-            mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
-            trackActionLoginError(userRegistrationFailureInfo.getError().code);
+        if(userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE){
+            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+        }else {
+            if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
+                //HSDP related error description
+                scrollViewAutomatically(mRegError, mSvRootLayout);
+                mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+                trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
+                scrollViewAutomatically(mRegError, mSvRootLayout);
+            } else {
+                //Need to show password errors only
+                scrollViewAutomatically(mRegError, mSvRootLayout);
+                mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
+                trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
+            }
         }
     }
 
@@ -374,7 +379,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(true);
         hideForgotPasswordSpinner();
 
-        if (userRegistrationFailureInfo.getError().code == SOCIAL_SIGIN_IN_ONLY_CODE) {
+        if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
             mLlattentionBox.setVisibility(View.VISIBLE);
             mEtEmail.showInvalidAlert();
             mTvResendDetails.setVisibility(View.VISIBLE);
@@ -384,18 +389,21 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showErrPopUp();
             trackActionStatus(AppTagingConstants.SEND_DATA,
                     AppTagingConstants.USER_ERROR, AppTagingConstants.ALREADY_SIGN_IN_SOCIAL);
-            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
+            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
             mBtnForgot.setEnabled(false);
             return;
         } else {
             mLlattentionBox.setVisibility(View.GONE);
+            if(userRegistrationFailureInfo.getErrorCode() == -1) {
+                mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+            }
         }
 
         if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
             mEtEmail.showErrPopUp();
             mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
             mEtEmail.showInvalidAlert();
-            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
+            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
             return;
         }
 
@@ -404,7 +412,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
         }
-        trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
+        trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
     }
 
     private void showSignInSpinner() {
@@ -541,7 +549,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.i(RLog.CALLBACK,
                 "SignInAccountFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
-        trackActionResendVerificationFailure(userRegistrationFailureInfo.getError().code);
+        trackActionResendVerificationFailure(userRegistrationFailureInfo.getErrorCode());
         mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
                 + userRegistrationFailureInfo.getEmailErrorMessage());
         mBtnResend.setEnabled(true);
@@ -562,7 +570,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(true);
         mRegError.hideError();
 
-        if (mUser.getEmailVerificationStatus(getActivity()) || !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+        if (mUser.getEmailVerificationStatus()) {
             if (RegPreferenceUtility.isAvailableIn(mContext, mEmail)) {
                 launchWelcomeFragment();
             } else {

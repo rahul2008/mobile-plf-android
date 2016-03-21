@@ -201,7 +201,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         User mUser = new User(mActivity.getApplicationContext());
 
         if (isAccountSettings) {
-            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
+            if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
@@ -215,7 +215,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
         } else {
-            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
+            if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 replaceWithWelcomeFragment();
                 return;
@@ -421,10 +421,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
             registrationSettings
                     .initializeUserRegistration(mActivity
-                            .getApplicationContext(), RegistrationHelper.getInstance().getLocale());
+                            .getApplicationContext(), RegistrationHelper.getInstance().getLocale(getContext()));
             RLog.d(RLog.JANRAIN_INITIALIZE,
                     "RegistrationFragment : Janrain reinitialization with locale : "
-                            + RegistrationHelper.getInstance().getLocale());
+                            + RegistrationHelper.getInstance().getLocale(getContext()));
         }
     }
 

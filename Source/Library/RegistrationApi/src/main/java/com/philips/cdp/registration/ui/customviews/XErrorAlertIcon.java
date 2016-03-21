@@ -54,7 +54,7 @@ public class XErrorAlertIcon extends TextView {
         super(context, attrs, defStyle);
         validateIsSmallView(attrs, getContext());
         resources = getResources();
-        DEFAULT_ICON_COLOR = resources.getColor(R.color.reg_error_box_color);
+        DEFAULT_ICON_COLOR = resources.getColor(R.color.reg_error_symbol_color);
 
         if (getText().length() > 1)
             setBackgroundDrawable(getSquareRoundBackground());

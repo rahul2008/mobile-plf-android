@@ -21,14 +21,12 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.XEmail;
@@ -121,7 +119,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         View view = inflater.inflate(R.layout.fragment_social_almost_done, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
-        handleUiState();
+        updateUiStatus();
         handleOrientation(view);
         return view;
     }
@@ -271,7 +269,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 .findViewById(R.id.rl_reg_btn_continue_container);
 
         mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
-        //FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
 
         TextView acceptTermsView = (TextView) view.findViewById(R.id.tv_reg_accept_terms);
@@ -328,20 +325,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     };
 
-    private void handleUiState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                mRegError.hideError();
-            } else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
-            }
-        } else {
-            mRegError.setError(getString(R.string.NoNetworkConnection));
-            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
-            scrollViewAutomatically(mRegError, mSvRootLayout);
-        }
-    }
-
     private void handleUiAcceptTerms(View view) {
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
             if (isEmailExist && RegPreferenceUtility.isAvailableIn(mContext, mEmail)) {
@@ -365,20 +348,27 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void updateUiStatus() {
         if (isEmailExist) {
-            if (NetworkUtility.isNetworkAvailable(mContext)
-                    && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+            if (NetworkUtility.isNetworkAvailable(mContext)) {
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
             } else {
+                mRegError.setError(getString(R.string.NoNetworkConnection));
+                trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 mBtnContinue.setEnabled(false);
+                scrollViewAutomatically(mRegError, mSvRootLayout);
             }
         } else {
-            if (NetworkUtility.isNetworkAvailable(mContext)
-                    && UserRegistrationInitializer.getInstance().isJanrainIntialized() && mEtEmail.isValidEmail()) {
+            if (NetworkUtility.isNetworkAvailable(mContext) && mEtEmail.isValidEmail() && mEtEmail.isShown()) {
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
-            } else {
+            }else if(NetworkUtility.isNetworkAvailable(mContext)){
+                mBtnContinue.setEnabled(true);
+                mRegError.hideError();
+            }else {
+                mRegError.setError(getString(R.string.NoNetworkConnection));
+                trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 mBtnContinue.setEnabled(false);
+                scrollViewAutomatically(mRegError, mSvRootLayout);
             }
         }
     }
@@ -447,11 +437,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             RegPreferenceUtility.storePreference(mContext, mEmail, true);
         } else {
             User user = new User(mContext);
-            DIUserProfile diUserProfile = user.getUserInstance(mContext);
-            String email = null;
-            if (diUserProfile != null) {
-                email = diUserProfile.getEmail();
-            }
+            String email = user.getEmail();
             if (email != null) {
                 RegPreferenceUtility.storePreference(mContext, email, true);
             }
@@ -583,7 +569,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();
         User user = new User(mContext);
-        if (user.getEmailVerificationStatus(mContext)) {
+        if (user.getEmailVerificationStatus()) {
             launchWelcomeFragment();
         } else {
             launchAccountActivateFragment();
@@ -640,7 +626,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "AlmostDone :onNetWorkStateReceived state :" + isOnline);
-        handleUiState();
+        //handleUiState();
         updateUiStatus();
     }
 
