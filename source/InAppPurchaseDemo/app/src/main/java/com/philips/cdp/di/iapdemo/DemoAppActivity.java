@@ -82,7 +82,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         if (user.isUserSignIn(this)) {
             mShoppingCart.setVisibility(View.VISIBLE);
             mProductListView.setVisibility(View.VISIBLE);
-            mIapHandler.initApp(this, user.getUserInstance(this).getEmail(), user.getAccessToken());
+            mIapHandler.initApp(this);
             if (!(Utility.isProgressDialogShowing())) {
                 if (Utility.isInternetConnected(this)) {
                     Utility.showProgressDialog(this, getString(R.string.loading_cart));
