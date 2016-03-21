@@ -12,7 +12,7 @@ artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
         repository {
-            repoKey = 'libs-release-local-android'
+            repoKey = 'libs-release-local'
             username = 'readerwriter'
             password = 'ReaderWriter'
             publishPom = true
