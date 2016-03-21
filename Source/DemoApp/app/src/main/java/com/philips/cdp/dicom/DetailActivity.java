@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.backend.ProdRegHelper;
+import com.philips.cdp.backend.ProdRegRequestInfo;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
@@ -21,6 +24,12 @@ import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.model.ProductResponse;
+import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.prxclient.response.ResponseListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -32,6 +41,10 @@ public class DetailActivity extends AppCompatActivity {
     private EditText editTextName;
     private SwitchCompat lightSwitch;
     private AirPurifier currentPurifier;
+    private TextView ctn;
+    private TextView serial_number;
+    private Button register;
+
     private DICommApplianceListener diCommApplianceListener = new DICommApplianceListener() {
 
         @Override
@@ -56,6 +69,7 @@ public class DetailActivity extends AppCompatActivity {
         currentPurifier = (AirPurifier) CurrentApplianceManager.getInstance().getCurrentAppliance();
 
         editTextName = (EditText) findViewById(R.id.editTextName);
+        register = (Button) findViewById(R.id.register);
 
         lightSwitch = (SwitchCompat) findViewById(R.id.switchLight);
         lightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -113,7 +127,12 @@ public class DetailActivity extends AppCompatActivity {
     private void updateDeviceNameView(final DevicePort devicePort) {
         DevicePortProperties properties = devicePort.getPortProperties();
         if (properties != null) {
+            register.setVisibility(View.VISIBLE);
             editTextName.setText(properties.getCtn() + "Serial No" + properties.getSerial());
+            ctn = (TextView) findViewById(R.id.ctn);
+            serial_number = (TextView) findViewById(R.id.serial_number);
+            ctn.setText(properties.getCtn());
+            serial_number.setText(properties.getSerial());
         }
     }
 
@@ -154,5 +173,33 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(DetailActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void onClick(View view) {
+        registerProduct();
+    }
+
+    private void registerProduct() {
+        PrxLogger.enablePrxLogger(true);
+
+        ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(ctn.getText().toString(), serial_number.getText().toString(), Sector.B2C, Catalog.CONSUMER);
+        ProdRegHelper prodRegHelper = new ProdRegHelper();
+        prodRegHelper.setLocale("en", "GB");
+        final ResponseListener listener = new ResponseListener() {
+            @Override
+            public void onResponseSuccess(ResponseData responseData) {
+                Toast.makeText(DetailActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();
+                ProductResponse productResponse = (ProductResponse) responseData;
+                if (productResponse.getData() != null)
+                    Log.d(TAG, " Response Data : " + productResponse.getData());
+            }
+
+            @Override
+            public void onResponseError(String error, int code) {
+                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
+                Toast.makeText(DetailActivity.this, error, Toast.LENGTH_SHORT).show();
+            }
+        };
+        prodRegHelper.registerProduct(this, prodRegRequestInfo, listener);
     }
 }
