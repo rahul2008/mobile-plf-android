@@ -18,6 +18,7 @@ import android.webkit.WebViewClient;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
@@ -136,14 +137,6 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
 //            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
 //        }
 
-
-        @Override
-        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-            super.onReceivedError(view, request, error);
-            if (400 == error.getErrorCode()) {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-            }
-        }
 
         @Override
         public void onPageFinished(final WebView view, final String url) {

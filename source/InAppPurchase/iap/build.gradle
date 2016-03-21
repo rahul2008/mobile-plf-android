@@ -4,7 +4,7 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'jacoco'
 
-def libVersionNumber = new File('../../VERSION').text.trim()
+def libVersionNumber = new File('../../../VERSION').text.trim()
 libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
 
 jacoco {
