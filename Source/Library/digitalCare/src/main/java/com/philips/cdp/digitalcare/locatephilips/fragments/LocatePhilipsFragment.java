@@ -99,7 +99,7 @@ import java.util.Map;
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         OnItemClickListener, onMapReadyListener, OnMarkerClickListener,
         ResponseCallback, GpsStatus.Listener, OnMapClickListener {
-    private static final String ATOS_URL_PORT = "http://www.philips.com/search/search?q=%s&subcategory=%s&country=%s&type=servicers&sid=cp-dlr&output=json";
+    private static final String ATOS_URL_PORT = "https://www.philips.com/search/search?q=%s&subcategory=%s&country=%s&type=servicers&sid=cp-dlr&output=json";
     private static final String TAG = LocatePhilipsFragment.class
             .getSimpleName();
     private static View mView = null;

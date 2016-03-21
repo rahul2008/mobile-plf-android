@@ -37,7 +37,7 @@ public class FaqFragment extends DigitalCareBaseFragment {
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
 
-    private String FAQ_URL = "http://%s/content/%s/%s_%s/standalone-faqs/%s.html";
+    private String FAQ_URL = "https://%s/content/%s/%s_%s/standalone-faqs/%s.html";
     private String TAG = FaqFragment.class.getSimpleName();
 
     @Override

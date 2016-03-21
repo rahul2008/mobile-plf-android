@@ -37,7 +37,7 @@ public class PhilipsPageFragment extends DigitalCareBaseFragment {
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
 
-    private String PRODUCT_PAGE_URL = "http://%s%s";
+    private String PRODUCT_PAGE_URL = "https://%s%s";
     private String TAG = PhilipsPageFragment.class.getSimpleName();
 
     @Override

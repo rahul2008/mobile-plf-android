@@ -37,7 +37,7 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
 
-    private static final String PRODUCT_REVIEW_URL = "http://%s%s/%s";
+    private static final String PRODUCT_REVIEW_URL = "https://%s%s/%s";
     private String TAG = ProductReviewFragment.class.getSimpleName();
 
     @Override

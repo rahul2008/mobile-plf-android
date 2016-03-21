@@ -2,10 +2,12 @@ package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -36,7 +38,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private String EMAIL_URL = "http://%s/content/%s/%s_%s/support-home/support-contact-form.html?param1=%s";
+    private String EMAIL_URL = "https://%s/content/%s/%s_%s/support-home/support-contact-form.html?param1=%s";
     private String TAG = EmailFragment.class.getSimpleName();
 
     @Override
@@ -72,13 +74,28 @@ public class EmailFragment extends DigitalCareBaseFragment {
 
     private void loadEmail() {
         if (getEmailUrl() == null) {
-            mProgressBar.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
         } else {
             String url = getEmailUrl() + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
             DigiCareLogger.d(TAG, url);
-            mWebView.loadUrl(url);
+            mProgressBar.setVisibility(View.VISIBLE);
             mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.setWebViewClient(new WebViewClient() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+                mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
+                mWebView.getSettings().setDomStorageEnabled(true);
+            }
+            mWebView.setWebChromeClient(new WebChromeClient() {
+                @Override
+                public void onProgressChanged(WebView view, int newProgress) {
+                    super.onProgressChanged(view, newProgress);
+                    if (newProgress > 80) {
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+                }
+            });
+            mWebView.loadUrl(url);
+           /* mWebView.setWebViewClient(new WebViewClient() {
 
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -98,7 +115,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
                     mProgressBar.setVisibility(View.GONE);
                 }
 
-            });
+            });*/
         }
     }
 

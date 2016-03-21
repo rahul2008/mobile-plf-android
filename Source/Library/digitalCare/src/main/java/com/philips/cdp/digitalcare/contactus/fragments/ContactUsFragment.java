@@ -70,7 +70,7 @@ import com.philips.cdp.digitalcare.social.twitter.TwitterSupportFragment;*/
  */
 public class ContactUsFragment extends DigitalCareBaseFragment implements
         /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback,Observer {
-    private static final String CDLS_URL_PORT = "http://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
+    private static final String CDLS_URL_PORT = "https://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
     private static final String TAG = ContactUsFragment.class.getSimpleName();
     private static View mView = null;
     private LinearLayout mContactUsParent = null;
