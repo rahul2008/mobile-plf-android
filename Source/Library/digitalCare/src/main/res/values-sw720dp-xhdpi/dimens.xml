@@ -30,4 +30,5 @@
     <dimen name="chat_button_top_margin">8dp</dimen>
     <dimen name="chatnowhelptext_padding_right">500dp</dimen>
     <dimen name="chatnowhelptext_padding_right_land">1000dp</dimen>
+    <dimen name="actionbar_icon_margin">60dp</dimen>
 </resources>

@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -32,7 +33,8 @@ import java.util.Locale;
  */
 public abstract class DigitalCareBaseActivity extends FragmentActivity {
     private static String TAG = DigitalCareBaseActivity.class.getSimpleName();
-    ;
+
+    private RelativeLayout mActionbarlayout = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private DigitalCareFontTextView mActionBarTitle = null;
@@ -43,7 +45,12 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
         @Override
         public void onClick(View view) {
             int _id = view.getId();
-            if (_id == R.id.home_icon) {
+            if (_id == R.id.action_bar_icon_parent) {
+                if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
+                    finish();
+                else if (mActionBarArrow.getVisibility() == View.VISIBLE)
+                    backstackFragment();
+            } else if (_id == R.id.home_icon) {
                 finish();
             } else if (_id == R.id.back_to_home_img)
                 backstackFragment();
@@ -60,12 +67,14 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
     }
 
     protected void initActionBar() throws ClassCastException {
+        mActionbarlayout = (RelativeLayout) findViewById(R.id.action_bar_icon_parent);
         mActionBarMenuIcon = (ImageView) findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) findViewById(R.id.back_to_home_img);
         mActionBarTitle = (DigitalCareFontTextView) findViewById(R.id.action_bar_title);
 
         mActionBarMenuIcon.setOnClickListener(actionBarClickListener);
         mActionBarArrow.setOnClickListener(actionBarClickListener);
+        mActionbarlayout.setOnClickListener(actionBarClickListener);
     }
 
     @Override

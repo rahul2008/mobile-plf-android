@@ -22,6 +22,7 @@
     <dimen name="supportHomeHelpText_margin_top">15dp</dimen>
     <dimen name="locate_layout_margin">110dp</dimen>
     <dimen name="locate_search_layout_margin">110dp</dimen>
+    <dimen name="actionbar_icon_margin">60dp</dimen>
     
     <dimen name="showlayout_padding_top">20dp</dimen>
     <dimen name="showlayout_padding_bottom">20dp</dimen>

@@ -18,6 +18,8 @@
     <dimen name="marginTopRegisterButton">50dp</dimen>
     <dimen name="social_support_closebutton">10dp</dimen>
     <dimen name="supportHomeHelpText_margin_top">10dp</dimen>
+    <dimen name="actionbar_icon_margin">30dp</dimen>
+
 
     <dimen name="locate_layout_margin">0dp</dimen>
     <dimen name="locate_search_layout_margin">10dp</dimen>

@@ -27,6 +27,7 @@
     <dimen name="showlayout_margin_top">100dp</dimen>
     <dimen name="placelistview_margin_top">200dp</dimen>
     <dimen name="supportHomeHelpText_margin_top">20dp</dimen>
+    <dimen name="actionbar_icon_margin">45dp</dimen>
 
     <dimen name="app_review_divider_margin">30dp</dimen>
     <dimen name="chat_button_top_margin">8dp</dimen>
