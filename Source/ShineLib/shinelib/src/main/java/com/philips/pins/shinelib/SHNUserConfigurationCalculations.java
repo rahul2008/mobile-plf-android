@@ -42,7 +42,7 @@ public class SHNUserConfigurationCalculations {
     public Integer getBaseMetabolicRate(final Double weightInKg, final Integer heightInCm, final Integer age, final SHNUserConfiguration.Sex sex) {
         Integer result = null;
         if (weightInKg != null && heightInCm != null && age != null && sex != null) {
-            double heightInMeters = heightInCm / 100;
+            double heightInMeters = heightInCm / 100.0f;
             double baseMetabolicRate = 0;
 
             if (age >= 10 && age <= 17) {
