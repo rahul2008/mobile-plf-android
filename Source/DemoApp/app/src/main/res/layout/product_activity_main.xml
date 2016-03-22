@@ -26,7 +26,8 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/fab_margin"
             android:editable="false"
-            android:hint="Registration Channel"/>
+            android:hint="Registration Channel"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/edt_purchase_date"
