@@ -12,6 +12,10 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -125,5 +129,15 @@ public class BTGattTest {
         btGatt.setBluetoothGatt(null);
 
         btGatt.getServices();
+    }
+
+    @Test
+    public void whenBluetoothGattIsClosed_AndAStateUpdateOccurs_ThenItWillNotForwardIt() {
+        btGatt.setBluetoothGatt(mockedBluetoothGatt);
+        btGatt.close();
+
+        btGatt.onConnectionStateChange(mockedBluetoothGatt, 8, 9);
+
+        verify(mockedCallback, never()).onConnectionStateChange(any(BTGatt.class), anyInt(), anyInt());
     }
 }
