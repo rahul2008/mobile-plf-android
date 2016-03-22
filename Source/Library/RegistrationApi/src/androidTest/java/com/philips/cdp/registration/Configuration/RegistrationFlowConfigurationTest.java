@@ -25,6 +25,7 @@ public class RegistrationFlowConfigurationTest extends ActivityInstrumentationTe
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         String CONFIGURATION_JSON_PATH = "registration/configuration/configuration_for_test_cases.json";
         RegistrationStaticConfiguration.getInstance().parseConfigurationJson(getInstrumentation().getTargetContext(), CONFIGURATION_JSON_PATH);
     }
@@ -42,15 +43,18 @@ public class RegistrationFlowConfigurationTest extends ActivityInstrumentationTe
             assertTrue(false);
         }
 
-        if (!flowConfiguration.getMinAgeLimit().get("NL").equalsIgnoreCase("12")) {
+       /* if (!flowConfiguration.getMinAgeLimit().get("NL").equalsIgnoreCase("12")) {
+            assertTrue(false);
+        }*/
+        if (!flowConfiguration.getMinAgeLimit().get("NL").equals("12")) {
             assertTrue(false);
         }
 
-        if (!flowConfiguration.getMinAgeLimit().get("GB").equalsIgnoreCase("0")) {
+        if (!flowConfiguration.getMinAgeLimit().get("GB").equals("0")) {
             assertTrue(false);
         }
 
-        if (!flowConfiguration.getMinAgeLimit().get("default").equalsIgnoreCase("16")) {
+        if (!flowConfiguration.getMinAgeLimit().get("default").equals("16")) {
             assertTrue(false);
         }
 
@@ -81,15 +85,15 @@ public class RegistrationFlowConfigurationTest extends ActivityInstrumentationTe
             assertTrue(false);
         }
 
-        if (!flowConfiguration.getMinAgeLimit().get("NL").equalsIgnoreCase("40")) {
+        if (!flowConfiguration.getMinAgeLimit().get("NL").equals("40")) {
             assertTrue(false);
         }
 
-        if (!flowConfiguration.getMinAgeLimit().get("GB").equalsIgnoreCase("20")) {
+        if (!flowConfiguration.getMinAgeLimit().get("GB").equals("20")) {
             assertTrue(false);
         }
 
-        if (!flowConfiguration.getMinAgeLimit().get("IN").equalsIgnoreCase("80")) {
+        if (!flowConfiguration.getMinAgeLimit().get("IN").equals("80")) {
             assertTrue(false);
         }
 
@@ -121,15 +125,15 @@ public class RegistrationFlowConfigurationTest extends ActivityInstrumentationTe
             assertTrue(false);
         }
 
-        if (!flowConfiguration.getMinAgeLimit().get("NL").equalsIgnoreCase("40")) {
+        if (!flowConfiguration.getMinAgeLimit().get("NL").equals("40")) {
             assertTrue(false);
         }
 
-        if (!flowConfiguration.getMinAgeLimit().get("GB").equalsIgnoreCase("20")) {
+        if (!flowConfiguration.getMinAgeLimit().get("GB").equals("20")) {
             assertTrue(false);
         }
 
-        if (!flowConfiguration.getMinAgeLimit().get("IN").equalsIgnoreCase("80")) {
+        if (!flowConfiguration.getMinAgeLimit().get("IN").equals("80")) {
             assertTrue(false);
         }
 

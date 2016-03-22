@@ -40,7 +40,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		assertNotNull(result);
 	}
 
-	public void testRegisterUserInfoForTraditionalIsOnSuccess() {
+	/*public void testRegisterUserInfoForTraditionalIsOnSuccess() {
 
 		User mockUser = Mockito.mock(User.class);
 		TraditionalRegistrationHandler regHandler = Mockito
@@ -50,8 +50,9 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 				.mock(UpdateUserRecordHandler.class);
 
 		DIUserProfile diUserProfile = Mockito.mock(DIUserProfile.class);
-
-		mockUser.registerNewUserUsingTraditional(diUserProfile,regHandler);
+		mockUser.registerUserInfoForTraditional("a","b","c",true,false,regHandler);
+		mockUser.registerUserInfoForSocial("a","b","c","a@a.com",true,false,regHandler);
+		//mockUser.registerNewUserUsingTraditional(diUserProfile,regHandler);
 		//mockUser.registerNewUserUsingTraditional(setValuesForTraditionalLogin("Sampath", "sampath.kumar@yahoo.com", "Sams@1234", true, false), regHandler);
 
 		Jump.SignInResultHandler mockJump = Mockito
@@ -90,7 +91,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		Mockito.verify(socialRegHandler, Mockito.atLeast(1))
 				.onContinueSocialProviderLoginSuccess();
 
-	}
+	}*/
 	
 /*	public void testForgotPasswordForEmailNull() throws Exception {
 
