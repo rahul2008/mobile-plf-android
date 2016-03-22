@@ -20,6 +20,8 @@ public enum ErrorType {
     REQUEST_TIME_OUT(504, "Time out Exception"),
     INVALID_DATE(1, "Invalid date"),
     USER_NOT_SIGNED_IN(2, "User not signed in"),
+    PRODUCT_ALREADY_REGISTERED(2, "Product already registered"),
+    FETCH_REGISTERED_PRODUCTS_FAILED(2, "Failed to fetch registered products"),
     METADATA_FAILED(3, "Failed to get Metadata");
 
     private final int id;

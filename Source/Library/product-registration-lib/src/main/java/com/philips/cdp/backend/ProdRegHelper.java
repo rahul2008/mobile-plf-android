@@ -10,6 +10,10 @@ import com.philips.cdp.error.ErrorType;
 import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.handler.Product;
 import com.philips.cdp.handler.UserProduct;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.model.RegisteredDataResponse;
+import com.philips.cdp.model.Results;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
@@ -46,11 +50,30 @@ public class ProdRegHelper {
             listener.onProdRegFailed(ErrorType.USER_NOT_SIGNED_IN);
         } else {
             if (!validator.isValidaDate(prodRegRequestInfo.getPurchaseDate())) {
-                listener.onProdRegFailed(ErrorType.MISSING_DATE);
-            } else
-                processMetadata(context, prodRegRequestInfo, listener);
-        }
+                listener.onProdRegFailed(ErrorType.INVALID_DATE);
+            } else {
+                final ProdRegListener listenerTest = new ProdRegListener() {
+                    @Override
+                    public void onProdRegSuccess(final ResponseData responseData) {
+                        RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
+                        Results[] results = registeredDataResponse.getResults();
+                        for (int i = 0; i < results.length; i++) {
+                            if (prodRegRequestInfo.getCtn().equalsIgnoreCase(results[i].getProductModelNumber())) {
+                                listener.onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
+                                return;
+                            }
+                        }
+                        processMetadata(context, prodRegRequestInfo, listener);
+                    }
 
+                    @Override
+                    public void onProdRegFailed(final ErrorType errorType) {
+                        listener.onProdRegFailed(ErrorType.FETCH_REGISTERED_PRODUCTS_FAILED);
+                    }
+                };
+                getRegisteredProduct(context, new ProdRegRequestInfo(null, null, Sector.B2C, Catalog.CONSUMER), listenerTest);
+            }
+        }
     }
 
     /**
