@@ -3,5 +3,3 @@ include ':product-registration-lib'
 project(':product-registration-lib').projectDir = new File('../Library/product-registration-lib')
 include ':prx'
 project(':prx').projectDir = new File('../Library/prx')
-include ':dicommClientLib'
-project(':dicommClientLib').projectDir = new File('../Library/DICommClient/dicommClientLib')

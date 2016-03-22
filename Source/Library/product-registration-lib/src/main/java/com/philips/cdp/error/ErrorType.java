@@ -18,7 +18,7 @@ public enum ErrorType {
     INVALID_PURCHASE_DATE(400, "Invalid Purchase Date"),
     NO_INTERNET_CONNECTION(501, "No internet connection available"),
     REQUEST_TIME_OUT(504, "Time out Exception"),
-    MISSING_DATE(1, "Required date field is missing"),
+    INVALID_DATE(1, "Invalid date"),
     USER_NOT_SIGNED_IN(2, "User not signed in"),
     METADATA_FAILED(3, "Failed to get Metadata");
 
