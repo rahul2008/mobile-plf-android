@@ -34,7 +34,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
@@ -50,7 +49,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private AddressController mAddrController;
     AddressSelectionAdapter mAdapter;
     private List<Addresses> mAddresses;
-    private List<PaymentMethod> mPaymentMethodsList;
     private Button mCancelButton;
     private Context mContext;
 
@@ -84,7 +82,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                //Go back to shopping cart
                 moveToShoppingCart();
             }
         });
@@ -182,7 +179,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             mAddrController.setDefaultAddress(selectedAddress);
             mAddrController.setDeliveryMode();
         } else {
-            Toast.makeText(getContext(), "Error in setting delivery address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getResources().getString(R.string.set_delivery_address_error), Toast.LENGTH_SHORT).show();
             Utility.dismissProgressDialog();
         }
     }
@@ -196,7 +193,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             checkPaymentDetails();
         } else {
-            Toast.makeText(getContext(), "Error in setting delivery address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getResources().getString(R.string.set_delivery_address_error), Toast.LENGTH_SHORT).show();
             Utility.dismissProgressDialog();
         }
     }
@@ -220,7 +217,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onEventReceived(final String event) {
-        IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "onEventReceived = " + event);
         if (!TextUtils.isEmpty(event)) {
             if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
                 HashMap<String, String> addressHashMap = updateShippingAddress();
@@ -245,7 +241,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
-            //addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
             if (!Utility.isProgressDialogShowing()) {
@@ -287,7 +282,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         }
     }
 
-    private HashMap updateShippingAddress() {
+    private HashMap<String, String> updateShippingAddress() {
         int pos = mAdapter.getOptionsClickPosition();
         Addresses address = mAddresses.get(pos);
         HashMap<String, String> addressHashMap = new HashMap<>();
@@ -346,7 +341,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
 
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
-            mPaymentMethodsList = mPaymentMethods.getPayments();
+            List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
 
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);
