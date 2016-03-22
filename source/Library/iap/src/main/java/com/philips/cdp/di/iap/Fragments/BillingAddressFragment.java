@@ -1,119 +1,53 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
-import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.di.iap.view.SalutationDropDown;
-import com.philips.cdp.di.iap.view.StateDropDown;
-import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 
-public class BillingAddressFragment extends BaseAnimationSupportFragment
-        implements View.OnClickListener, InlineForms.Validator,
-        SalutationDropDown.SalutationListener, StateDropDown.StateListener {
+public class BillingAddressFragment extends ShippingAddressFragment{
 
     private Context mContext;
     private PuiSwitch mSwitchBillingAddress;
-    private LinearLayout mlLState;
-    private EditText mEtFirstName;
-    private EditText mEtLastName;
-    private EditText mEtAddresslineOne;
-    private EditText mEtAddresslineTwo;
-    private EditText mEtTown;
-    private EditText mEtPostalCode;
-    private EditText mEtCountry;
-    private EditText mEtEmail;
-    private EditText mEtPhoneNumber;
-    private EditText mEtSalutation;
-    private EditText mEtState;
 
-    private Button mBtnContinue;
-    private Button mBtnCancel;
-
-    private AddressFields mAddressFields;
-
-    private InlineForms mInlineFormsParent;
-    private Validator mValidator = null;
-
-    private Drawable imageArrow;
-
-    private SalutationDropDown mSalutationDropDown;
-    private StateDropDown mStateDropDown;
+    private AddressFields mBillingAddressFields;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.iap_shipping_address_layout, container, false);
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
 
+        assert rootView != null;
         LinearLayout mSameAsBillingAddress = (LinearLayout) rootView.findViewById(R.id.same_as_shipping_ll);
         TextView mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
         mSwitchBillingAddress = (PuiSwitch) rootView.findViewById(R.id.switch_billing_address);
-        mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
-
-        mlLState = (LinearLayout) rootView.findViewById(R.id.ll_state);
-        mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
-        mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
-        mEtAddresslineOne = (EditText) rootView.findViewById(R.id.et_address_line_one);
-        mEtAddresslineTwo = (EditText) rootView.findViewById(R.id.et_address_line_two);
-        mEtTown = (EditText) rootView.findViewById(R.id.et_town);
-        mEtPostalCode = (EditText) rootView.findViewById(R.id.et_postal_code);
-        mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
-        mEtState = (EditText) rootView.findViewById(R.id.et_state);
-        mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
-        mEtPhoneNumber = (EditText) rootView.findViewById(R.id.et_phone_number);
-        mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
-
-        mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
-        mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
 
         mTvTitle.setText(getResources().getString(R.string.iap_billing_address));
         mSameAsBillingAddress.setVisibility(View.VISIBLE);
 
-        mBtnContinue.setOnClickListener(this);
-        mBtnCancel.setOnClickListener(this);
-
-        mValidator = new Validator();
-        mInlineFormsParent.setValidator(this);
-
         Bundle bundle = getArguments();
 
         if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
-            mAddressFields = (AddressFields) bundle.getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS);
+            mBillingAddressFields = (AddressFields) bundle.getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS);
             disableAllFields();
             prePopulateShippingAddress();
             mBtnContinue.setEnabled(true);
         }
-
-        mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
-        mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
-        mEtAddresslineOne.addTextChangedListener(new IAPTextWatcher(mEtAddresslineOne));
-        mEtAddresslineTwo.addTextChangedListener(new IAPTextWatcher(mEtAddresslineTwo));
-        mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
-        mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
-        mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
-        mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
-        mEtPhoneNumber.addTextChangedListener(new IAPTextWatcher(mEtPhoneNumber));
-        mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
-        mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
 
         mSwitchBillingAddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -129,36 +63,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             }
         });
 
-        setImageArrow();
-        mEtSalutation.setCompoundDrawables(null, null, imageArrow, null);
-        mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
-        mEtState.setCompoundDrawables(null, null, imageArrow, null);
-        mStateDropDown = new StateDropDown(mContext, mEtState, this);
-
-        mEtSalutation.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mSalutationDropDown.show();
-                return false;
-            }
-        });
-
-        mEtState.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mStateDropDown.show();
-                return false;
-            }
-        });
-
         return rootView;
-    }
-
-    private void setImageArrow() {
-        imageArrow = VectorDrawable.create(mContext, R.drawable.iap_product_count_drop_down);
-        int width = (int) getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
-        int height = (int) getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
-        imageArrow.setBounds(0, 0, width, height);
     }
 
     @Override
@@ -172,50 +77,24 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     }
 
     private void prePopulateShippingAddress() {
-        if (mAddressFields != null) {
-            mEtFirstName.setText(mAddressFields.getFirstName());
-            mEtLastName.setText(mAddressFields.getLastName());
-            mEtSalutation.setText(mAddressFields.getTitleCode());
-            mEtAddresslineOne.setText(mAddressFields.getLine1());
-            mEtAddresslineTwo.setText(mAddressFields.getLine2());
-            mEtTown.setText(mAddressFields.getTown());
-            mEtPostalCode.setText(mAddressFields.getPostalCode());
-            mEtCountry.setText(mAddressFields.getCountryIsocode());
-            mEtEmail.setText(mAddressFields.getEmail());
-            mEtPhoneNumber.setText(mAddressFields.getPhoneNumber());
+        if (mBillingAddressFields != null) {
+            mEtFirstName.setText(mBillingAddressFields.getFirstName());
+            mEtLastName.setText(mBillingAddressFields.getLastName());
+            mEtSalutation.setText(mBillingAddressFields.getTitleCode());
+            mEtAddressLineOne.setText(mBillingAddressFields.getLine1());
+            mEtAddressLineTwo.setText(mBillingAddressFields.getLine2());
+            mEtTown.setText(mBillingAddressFields.getTown());
+            mEtPostalCode.setText(mBillingAddressFields.getPostalCode());
+            mEtCountry.setText(mBillingAddressFields.getCountryIsocode());
+            mEtEmail.setText(mBillingAddressFields.getEmail());
+            mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
 
-            if(mAddressFields.getRegionIsoCode() != null){
-                mEtState.setText(mAddressFields.getRegionIsoCode());
+            if (mBillingAddressFields.getRegionIsoCode() != null) {
+                mEtState.setText(mBillingAddressFields.getRegionIsoCode());
                 mlLState.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 mlLState.setVisibility(View.GONE);
             }
-        }
-    }
-
-    public void checkFields() {
-
-        String firstName = mEtFirstName.getText().toString();
-        String lastName = mEtLastName.getText().toString();
-        String addressLineOne = mEtAddresslineOne.getText().toString();
-        String addressLineTwo = mEtAddresslineTwo.getText().toString();
-        String postalCode = mEtPostalCode.getText().toString();
-        String phoneNumber = mEtPhoneNumber.getText().toString();
-        String town = mEtTown.getText().toString();
-        String country = mEtCountry.getText().toString();
-        String email = mEtEmail.getText().toString();
-
-        if (mValidator.isValidFirstName(firstName) && mValidator.isValidLastName(lastName)
-                && mValidator.isValidAddress(addressLineOne) && (addressLineTwo.trim().equals("") || mValidator.isValidAddress(addressLineTwo))
-                && mValidator.isValidPostalCode(postalCode)
-                && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phoneNumber)
-                && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
-                && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
-                && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
-
-            mBtnContinue.setEnabled(true);
-        } else {
-            mBtnContinue.setEnabled(false);
         }
     }
 
@@ -223,8 +102,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtFirstName.setText("");
         mEtLastName.setText("");
         mEtSalutation.setText("");
-        mEtAddresslineOne.setText("");
-        mEtAddresslineTwo.setText("");
+        mEtAddressLineOne.setText("");
+        mEtAddressLineTwo.setText("");
         mEtTown.setText("");
         mEtPostalCode.setText("");
         mEtCountry.setText("");
@@ -237,84 +116,29 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         removeErrorInAllFields();
     }
 
+    private void enableAllFields() {
+        setFieldsEnabled(true);
+    }
+
     private void disableAllFields() {
         removeErrorInAllFields();
         disableFocus();
-        mEtFirstName.setEnabled(false);
-        mEtLastName.setEnabled(false);
-        mEtSalutation.setEnabled(false);
-        mEtAddresslineOne.setEnabled(false);
-        mEtAddresslineTwo.setEnabled(false);
-        mEtTown.setEnabled(false);
-        mEtPostalCode.setEnabled(false);
-        mEtCountry.setEnabled(false);
-        if(mlLState.getVisibility() == View.VISIBLE){
-            mEtState.setEnabled(false);
-        }
-        mEtEmail.setEnabled(false);
-        mEtPhoneNumber.setEnabled(false);
-    }
-
-    private void disableFocus() {
-        mEtFirstName.setFocusable(false);
-        mEtLastName.setFocusable(false);
-        mEtSalutation.setFocusable(false);
-        mEtAddresslineOne.setFocusable(false);
-        mEtAddresslineTwo.setFocusable(false);
-        mEtTown.setFocusable(false);
-        mEtPostalCode.setFocusable(false);
-        mEtCountry.setFocusable(false);
-        if(mlLState.getVisibility() == View.VISIBLE){
-            mEtState.setFocusable(false);
-        }
-        mEtEmail.setFocusable(false);
-        mEtPhoneNumber.setFocusable(false);
-    }
-
-    private void enableAllFields() {
-        mEtFirstName.setEnabled(true);
-        mEtLastName.setEnabled(true);
-        mEtSalutation.setEnabled(true);
-        mEtAddresslineOne.setEnabled(true);
-        mEtAddresslineTwo.setEnabled(true);
-        mEtTown.setEnabled(true);
-        mEtPostalCode.setEnabled(true);
-        mEtCountry.setEnabled(true);
-        mEtState.setEnabled(true);
-        mEtEmail.setEnabled(true);
-        mEtPhoneNumber.setEnabled(true);
+        setFieldsEnabled(false);
     }
 
     private void enableFocus() {
-        mEtFirstName.setFocusable(true);
-        mEtFirstName.setFocusableInTouchMode(true);
-        mEtLastName.setFocusable(true);
-        mEtLastName.setFocusableInTouchMode(true);
-        mEtSalutation.setFocusable(true);
-        mEtSalutation.setFocusableInTouchMode(true);
-        mEtAddresslineOne.setFocusable(true);
-        mEtAddresslineOne.setFocusableInTouchMode(true);
-        mEtAddresslineTwo.setFocusable(true);
-        mEtAddresslineTwo.setFocusableInTouchMode(true);
-        mEtTown.setFocusable(true);
-        mEtTown.setFocusableInTouchMode(true);
-        mEtPostalCode.setFocusable(true);
-        mEtPostalCode.setFocusableInTouchMode(true);
-        mEtCountry.setFocusable(true);
-        mEtCountry.setFocusableInTouchMode(true);
-        mEtState.setFocusable(true);
-        mEtState.setFocusableInTouchMode(true);
-        mEtEmail.setFocusable(true);
-        mEtEmail.setFocusableInTouchMode(true);
-        mEtPhoneNumber.setFocusable(true);
-        mEtPhoneNumber.setFocusableInTouchMode(true);
+        setFieldsFocusable(true);
+    }
+
+    private void disableFocus() {
+        setFieldsFocusable(false);
     }
 
     private void removeErrorInAllFields() {
         mInlineFormsParent.removeError(mEtFirstName);
         mInlineFormsParent.removeError(mEtLastName);
-        mInlineFormsParent.removeError(mEtAddresslineOne);
-        mInlineFormsParent.removeError(mEtAddresslineTwo);
+        mInlineFormsParent.removeError(mEtAddressLineOne);
+        mInlineFormsParent.removeError(mEtAddressLineTwo);
         mInlineFormsParent.removeError(mEtTown);
         mInlineFormsParent.removeError(mEtPostalCode);
         mInlineFormsParent.removeError(mEtCountry);
@@ -334,14 +158,14 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         Utility.hideKeypad(mContext);
 
         if (v == mBtnContinue) {
-            setBillingAddressFields();
-            if(!Utility.isProgressDialogShowing()) {
-                if(Utility.isInternetConnected(mContext)) {
+            setAddressFields(mBillingAddressFields);
+            if (!Utility.isProgressDialogShowing()) {
+                if (Utility.isInternetConnected(mContext)) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mAddressFields);
+                    bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mBillingAddressFields);
                     addFragment(
                             OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
-                }else {
+                } else {
                     NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                             getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
@@ -357,92 +181,6 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         }
     }
 
-    private void setBillingAddressFields() {
-        mAddressFields.setFirstName(mEtFirstName.getText().toString());
-        mAddressFields.setLastName(mEtLastName.getText().toString());
-        mAddressFields.setTitleCode(mEtSalutation.getText().toString());
-        mAddressFields.setCountryIsocode(mEtCountry.getText().toString());
-        mAddressFields.setLine1(mEtAddresslineOne.getText().toString());
-        mAddressFields.setLine2(mEtAddresslineTwo.getText().toString());
-        mAddressFields.setPostalCode(mEtPostalCode.getText().toString());
-        mAddressFields.setTown(mEtTown.getText().toString());
-        mAddressFields.setPhoneNumber(mEtPhoneNumber.getText().toString());
-        mAddressFields.setEmail(mEtEmail.getText().toString());
-
-        if (mlLState.getVisibility() == View.VISIBLE) {
-            mAddressFields.setRegionIsoCode(mEtState.getText().toString());
-        }
-    }
-
-    @Override
-    public void validate(View editText, boolean hasFocus) {
-        boolean result = true;
-        String errorMessage = null;
-
-        if (editText.getId() == R.id.et_first_name && !hasFocus) {
-            result = mValidator.isValidFirstName(mEtFirstName.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_first_name_error);
-        }
-        if (editText.getId() == R.id.et_last_name && !hasFocus) {
-            result = mValidator.isValidLastName(mEtLastName.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_last_name_error);
-        }
-        if (editText.getId() == R.id.et_town && !hasFocus) {
-            result = mValidator.isValidTown(mEtTown.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_town_error);
-        }
-        if (editText.getId() == R.id.et_phone_number && !hasFocus) {
-            result = mValidator.isValidPhoneNumber(mEtPhoneNumber.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_phone_error);
-        }
-        if (editText.getId() == R.id.et_country && !hasFocus) {
-            result = mValidator.isValidCountry(mEtCountry.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_country_error);
-            showUSRegions();
-        }
-        if (editText.getId() == R.id.et_postal_code && !hasFocus) {
-            result = mValidator.isValidPostalCode(mEtPostalCode.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_postal_code_error);
-        }
-        if (editText.getId() == R.id.et_email && !hasFocus) {
-            result = mValidator.isValidEmail(mEtEmail.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_email_error);
-        }
-        if (editText.getId() == R.id.et_address_line_one && !hasFocus) {
-            result = mValidator.isValidAddress(mEtAddresslineOne.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_address_error);
-        }
-        if (editText.getId() == R.id.et_address_line_two && !hasFocus) {
-            if(mEtAddresslineTwo.getText().toString().trim().equals("")){
-                result = true;
-            }else {
-                result = mValidator.isValidAddress(mEtAddresslineTwo.getText().toString());
-                errorMessage = getResources().getString(R.string.iap_address_error);
-            }
-        }
-
-        if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus) {
-            checkFields();
-        }
-
-        if (!result) {
-            mInlineFormsParent.setErrorMessage(errorMessage);
-            mInlineFormsParent.showError((EditText) editText);
-            mBtnContinue.setEnabled(false);
-        } else {
-            mInlineFormsParent.removeError(editText);
-            checkFields();
-        }
-    }
-
-    private void showUSRegions() {
-        if (mEtCountry.getText().toString().equals("US")) {
-            mlLState.setVisibility(View.VISIBLE);
-        } else {
-            mlLState.setVisibility(View.GONE);
-        }
-    }
-
     public static BillingAddressFragment createInstance(Bundle args, AnimationType animType) {
         BillingAddressFragment fragment = new BillingAddressFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
@@ -450,39 +188,51 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         return fragment;
     }
 
-    @Override
-    public void onSalutationSelect(String salutation) {
-        mEtSalutation.setText(salutation);
-    }
-
-    @Override
-    public void onStateSelect(String state) {
-        mEtState.setText(state);
-    }
-
-    @Override
-    public void stateRegionCode(String regionCode) {
-
-    }
-
-    private class IAPTextWatcher implements TextWatcher {
-
-        private EditText mEditText;
-
-        public IAPTextWatcher(EditText editText) {
-            mEditText = editText;
+    private void setFieldsEnabled(boolean enable){
+        mEtFirstName.setEnabled(enable);
+        mEtLastName.setEnabled(enable);
+        mEtSalutation.setEnabled(enable);
+        mEtAddressLineOne.setEnabled(enable);
+        mEtAddressLineTwo.setEnabled(enable);
+        mEtTown.setEnabled(enable);
+        mEtPostalCode.setEnabled(enable);
+        mEtCountry.setEnabled(enable);
+        if (mlLState.getVisibility() == View.VISIBLE) {
+            mEtState.setEnabled(enable);
         }
+        mEtEmail.setEnabled(enable);
+        mEtPhoneNumber.setEnabled(enable);
+    }
 
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    private void setFieldsFocusable(boolean focusable){
+        mEtFirstName.setFocusable(focusable);
+        mEtLastName.setFocusable(focusable);
+        mEtSalutation.setFocusable(focusable);
+        mEtAddressLineOne.setFocusable(focusable);
+        mEtAddressLineTwo.setFocusable(focusable);
+        mEtTown.setFocusable(focusable);
+        mEtPostalCode.setFocusable(focusable);
+        mEtCountry.setFocusable(focusable);
+        if (mlLState.getVisibility() == View.VISIBLE) {
+            mEtState.setFocusable(focusable);
         }
+        mEtEmail.setFocusable(focusable);
+        mEtPhoneNumber.setFocusable(focusable);
 
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (s.length() > 0) {
-                validate(mEditText, false);
+        if(focusable) {
+            mEtFirstName.setFocusableInTouchMode(true);
+            mEtLastName.setFocusableInTouchMode(true);
+            mEtSalutation.setFocusableInTouchMode(true);
+            mEtAddressLineOne.setFocusableInTouchMode(true);
+            mEtAddressLineTwo.setFocusableInTouchMode(true);
+            mEtTown.setFocusableInTouchMode(true);
+            mEtPostalCode.setFocusableInTouchMode(true);
+            mEtCountry.setFocusableInTouchMode(true);
+            if (mlLState.getVisibility() == View.VISIBLE) {
+                mEtState.setFocusableInTouchMode(true);
             }
-        }
-
-        public void afterTextChanged(Editable s) {
+            mEtEmail.setFocusableInTouchMode(true);
+            mEtPhoneNumber.setFocusableInTouchMode(true);
         }
     }
 }
