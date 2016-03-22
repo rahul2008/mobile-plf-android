@@ -11,7 +11,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.philips.cdp.prxclient.ErrorType;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.PrxVolleyRequest;
 import com.philips.cdp.prxclient.SSLCertificateManager;
@@ -89,11 +88,11 @@ public class NetworkWrapper {
                         if (networkResponse != null)
                             listener.onResponseError(error.toString(), networkResponse.statusCode);
                         else if (error instanceof NoConnectionError) {
-                            listener.onResponseError(mContext.getString(R.string.no_internet_message), ErrorType.NO_INTERNET_CONNECTION.getId());
+                            listener.onResponseError(mContext.getString(R.string.no_internet_message), 501);
                         } else if (error instanceof TimeoutError) {
-                            listener.onResponseError(ErrorType.REQUEST_TIME_OUT.getDescription(), ErrorType.REQUEST_TIME_OUT.getId());
+                            listener.onResponseError("Time out Exception", 504);
                         } else
-                            listener.onResponseError(ErrorType.UNKNOWN.getDescription(), ErrorType.UNKNOWN.getId());
+                            listener.onResponseError("Unknown exception", -1);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

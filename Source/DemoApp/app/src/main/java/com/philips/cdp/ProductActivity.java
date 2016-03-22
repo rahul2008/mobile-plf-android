@@ -14,13 +14,14 @@ import com.philips.cdp.backend.ProdRegRequestInfo;
 import com.philips.cdp.com.philips.cdp.Util;
 import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.demo.R;
+import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProductResponse;
 import com.philips.cdp.model.RegisteredDataResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
@@ -133,9 +134,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.setLocale("en", "GB");
         prodRegRequestInfo.setPurchaseDate(purchaseDate.getText().toString());
-        final ResponseListener listener = new ResponseListener() {
+        final ProdRegListener listener = new ProdRegListener() {
             @Override
-            public void onResponseSuccess(ResponseData responseData) {
+            public void onProdRegSuccess(ResponseData responseData) {
                 Toast.makeText(ProductActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();
                 ProductResponse productResponse = (ProductResponse) responseData;
                 if (productResponse.getData() != null)
@@ -143,9 +144,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             @Override
-            public void onResponseError(String error, int code) {
-                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
-                Toast.makeText(ProductActivity.this, error, Toast.LENGTH_SHORT).show();
+            public void onProdRegFailed(ErrorType errorType) {
+                Log.d(TAG, "Negative Response Data : " + errorType.getDescription() + " with error code : " + errorType.getCode());
+                Toast.makeText(ProductActivity.this, errorType.getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
         prodRegHelper.registerProduct(this, prodRegRequestInfo, listener);
@@ -153,9 +154,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
     private void registeredProduct() {
         ProdRegHelper prodRegHelper = new ProdRegHelper();
-        final ResponseListener listener = new ResponseListener() {
+        final ProdRegListener listener = new ProdRegListener() {
             @Override
-            public void onResponseSuccess(final ResponseData responseData) {
+            public void onProdRegSuccess(final ResponseData responseData) {
                 Log.d(TAG, responseData.toString());
                 RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
 
@@ -163,8 +164,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             @Override
-            public void onResponseError(final String errorMessage, final int responseCode) {
-                Log.d(TAG, errorMessage);
+            public void onProdRegFailed(final ErrorType errorType) {
+                Log.d(TAG, errorType.getDescription());
             }
         };
         ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(null, null, Sector.B2C, Catalog.CONSUMER);

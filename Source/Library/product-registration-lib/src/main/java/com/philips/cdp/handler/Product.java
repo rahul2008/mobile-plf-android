@@ -6,10 +6,9 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.backend.PRXDataBuilderFactory;
 import com.philips.cdp.backend.PRXRequestType;
 import com.philips.cdp.backend.ProdRegRequestInfo;
+import com.philips.cdp.error.ErrorType;
 import com.philips.cdp.model.ProductData;
 import com.philips.cdp.model.ProductMetaData;
-import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.prxclient.ErrorType;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -28,7 +27,7 @@ public class Product {
 
     }
 
-    public void getProductMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener helperListener, final ResponseListener listener) {
+    public void getProductMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener helperListener, final ProdRegListener listener) {
         mContext = context;
         final PRXDataBuilderFactory prxDataBuilderFactory = new PRXDataBuilderFactory();
         final PrxRequest prxRequest = prxDataBuilderFactory.createPRXBuilder(PRXRequestType.METADATA, prodRegRequestInfo, new User(context).getAccessToken());
@@ -58,23 +57,23 @@ public class Product {
         return mRequestManager;
     }
 
-    private void handleError(final int statusCode, final ResponseListener listener) {
-        if (statusCode == ErrorType.INVALID_PRODUCT.getId()) {
-            listener.onResponseError(ErrorType.INVALID_PRODUCT.getDescription(), statusCode);
-        } else if (statusCode == ErrorType.INVALID_VALIDATION.getId()) {
-            listener.onResponseError(ErrorType.INVALID_VALIDATION.getDescription(), statusCode);
-        } else if (statusCode == ErrorType.INVALID_SERIAL_NUMBER.getId()) {
-            listener.onResponseError(ErrorType.INVALID_SERIAL_NUMBER.getDescription(), statusCode);
-        } else if (statusCode == ErrorType.NO_INTERNET_CONNECTION.getId()) {
-            listener.onResponseError(ErrorType.NO_INTERNET_CONNECTION.getDescription(), statusCode);
-        } else if (statusCode == ErrorType.REQUEST_TIME_OUT.getId()) {
-            listener.onResponseError(ErrorType.REQUEST_TIME_OUT.getDescription(), statusCode);
+    private void handleError(final int statusCode, final ProdRegListener listener) {
+        if (statusCode == ErrorType.INVALID_PRODUCT.getCode()) {
+            listener.onProdRegFailed(ErrorType.INVALID_PRODUCT);
+        } else if (statusCode == ErrorType.INVALID_VALIDATION.getCode()) {
+            listener.onProdRegFailed(ErrorType.INVALID_VALIDATION);
+        } else if (statusCode == ErrorType.INVALID_SERIAL_NUMBER.getCode()) {
+            listener.onProdRegFailed(ErrorType.INVALID_SERIAL_NUMBER);
+        } else if (statusCode == ErrorType.NO_INTERNET_CONNECTION.getCode()) {
+            listener.onProdRegFailed(ErrorType.NO_INTERNET_CONNECTION);
+        } else if (statusCode == ErrorType.REQUEST_TIME_OUT.getCode()) {
+            listener.onProdRegFailed(ErrorType.REQUEST_TIME_OUT);
         } else {
-            listener.onResponseError(ErrorType.UNKNOWN.getDescription(), statusCode);
+            listener.onProdRegFailed(ErrorType.UNKNOWN);
         }
     }
 
-    private boolean validateSerialNumberFromMetadata(final ProductData data, final ProdRegRequestInfo prodRegRequestInfo, ResponseListener listener) {
+    private boolean validateSerialNumberFromMetadata(final ProductData data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
             if (processSerialNumber(data, listener, prodRegRequestInfo)) return false;
         } else {
@@ -83,24 +82,24 @@ public class Product {
         return true;
     }
 
-    private boolean processSerialNumber(final ProductData data, final ResponseListener listener, ProdRegRequestInfo prodRegRequestInfo) {
+    private boolean processSerialNumber(final ProductData data, final ProdRegListener listener, ProdRegRequestInfo prodRegRequestInfo) {
         if (prodRegRequestInfo.getSerialNumber() == null || prodRegRequestInfo.getSerialNumber().length() < 1) {
-            listener.onResponseError(mContext.getString(R.string.serial_number_not_entered), -1);
+            listener.onProdRegFailed(ErrorType.MISSING_SERIAL_NUMBER);
             return true;
         } else if (!prodRegRequestInfo.getSerialNumber().matches(data.getSerialNumberFormat())) {
-            listener.onResponseError(mContext.getString(R.string.serial_number_error), -1);
+            listener.onProdRegFailed(ErrorType.INVALID_SERIAL_NUMBER_FORMAT);
             return true;
         }
         return false;
     }
 
-    private boolean validatePurchaseDateFromMetadata(final ProductData data, final ProdRegRequestInfo prodRegRequestInfo, ResponseListener listener) {
+    private boolean validatePurchaseDateFromMetadata(final ProductData data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         final String purchaseDate = prodRegRequestInfo.getPurchaseDate();
         if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
             if (purchaseDate != null && purchaseDate.length() > 0) {
                 return true;
             } else {
-                listener.onResponseError(mContext.getString(R.string.date_format_error), -1);
+                listener.onProdRegFailed(ErrorType.INVALID_PURCHASE_DATE);
                 return false;
             }
         } else
