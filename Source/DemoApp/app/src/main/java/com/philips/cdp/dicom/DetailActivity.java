@@ -186,7 +186,6 @@ public class DetailActivity extends AppCompatActivity {
             if (ctn.getText().toString().equalsIgnoreCase("")) {
                 Toast.makeText(DetailActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(DetailActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
                 registerProduct();
             }
         } else {
