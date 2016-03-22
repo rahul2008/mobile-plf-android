@@ -1,4 +1,4 @@
-package com.philips.cdp.com.philips.cdp;
+package com.philips.cdp;
 
 import android.app.Activity;
 
