@@ -10,7 +10,7 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class UpdateAddressRequest extends AbstractModel{
+public class UpdateAddressRequest extends AbstractModel {
 
     public UpdateAddressRequest(final Store store, final Map<String, String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
@@ -42,7 +42,7 @@ public class UpdateAddressRequest extends AbstractModel{
         if (params.containsKey(ModelConstants.DEFAULT_ADDRESS)) {
             addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, this.params.get(ModelConstants.DEFAULT_ADDRESS));
         }
-        //payload.put(ModelConstants.ADDRESS_ID,this.params.get(ModelConstants.ADDRESS_ID));
+        addressHashMap.put(ModelConstants.ADDRESS_ID, this.params.get(ModelConstants.ADDRESS_ID));
         return addressHashMap;
     }
 

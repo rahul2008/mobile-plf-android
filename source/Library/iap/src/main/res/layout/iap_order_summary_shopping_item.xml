@@ -32,7 +32,7 @@
 
             <TextView
                 android:id="@+id/tv_total_price"
-                style="@style/tvTitle"
+                style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
                 android:layout_marginTop="3dp"
