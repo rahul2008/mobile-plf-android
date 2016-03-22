@@ -2,8 +2,8 @@ package com.philips.cdp.backend;
 
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.handler.UserProduct;
-import com.philips.cdp.prxclient.response.ResponseListener;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -24,7 +24,7 @@ public class ProdRegHelperTest extends InstrumentationTestCase {
    @Test
     public void testProcessMetadata() {
        ProdRegRequestInfo prodRegRequestInfo = Mockito.mock(ProdRegRequestInfo.class);
-       ResponseListener listener = Mockito.mock(ResponseListener.class);
+       ProdRegListener listener = Mockito.mock(ProdRegListener.class);
        ProdRegHelper prodRegHelperMock = Mockito.mock(ProdRegHelper.class);
        UserProduct userProduct=Mockito.mock(UserProduct.class);
      //Process Metadata
