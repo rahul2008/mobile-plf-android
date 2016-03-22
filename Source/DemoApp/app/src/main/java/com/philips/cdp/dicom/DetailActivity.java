@@ -26,12 +26,13 @@ import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
+import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProductResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
@@ -203,9 +204,9 @@ public class DetailActivity extends AppCompatActivity {
         ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.setLocale("en", "GB");
         prodRegRequestInfo.setPurchaseDate("2016-03-21");
-        final ResponseListener listener = new ResponseListener() {
+        final ProdRegListener listener = new ProdRegListener() {
             @Override
-            public void onResponseSuccess(ResponseData responseData) {
+            public void onProdRegSuccess(ResponseData responseData) {
                 Toast.makeText(DetailActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();
                 ProductResponse productResponse = (ProductResponse) responseData;
                 if (productResponse.getData() != null)
@@ -213,9 +214,9 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onResponseError(String error, int code) {
-                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
-                Toast.makeText(DetailActivity.this, error, Toast.LENGTH_SHORT).show();
+            public void onProdRegFailed(ErrorType errorType) {
+                Log.d(TAG, "Negative Response Data : " + errorType.getDescription() + " with error code : " + errorType.getCode());
+                Toast.makeText(DetailActivity.this, errorType.getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
         prodRegHelper.registerProduct(this, prodRegRequestInfo, listener);
