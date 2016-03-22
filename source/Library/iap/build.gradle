@@ -37,7 +37,7 @@ buildscript {
  		}
 }
 
-//apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
