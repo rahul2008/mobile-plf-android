@@ -20,6 +20,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -207,14 +208,24 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
                 replaceWithLogoutFragment();
                 return;
             }
+
+            if(mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()){
+                AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
+                replaceWithLogoutFragment();
+                return;
+            }
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
         } else {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
-                replaceWithLogoutFragment();
                 // replaceWithLogoutFragment();
                 //replace with welcome
+                replaceWithWelcomeFragment();
+                return;
+            }
+            if(mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()){
+                AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 replaceWithWelcomeFragment();
                 return;
             }

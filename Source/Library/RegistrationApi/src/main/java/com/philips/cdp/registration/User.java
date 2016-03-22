@@ -314,6 +314,9 @@ public class User {
             signedIn = signedIn && !capturedRecord.isNull(USER_EMAIL_VERIFIED);
         }
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
+            if(!RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()){
+                throw new RuntimeException("Please set emailVerificationRequired field as true");
+            }
             HsdpUser hsdpUser = new HsdpUser(mContext);
             signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
         }
@@ -562,7 +565,6 @@ public class User {
             @Override
             public void onLogoutSuccess() {
                 clearData();
-                hsdpUser.deleteFromDisk();
                 if (logoutHandler != null) {
                     logoutHandler.onLogoutSuccess();
                     RegistrationHelper.getInstance().getUserRegistrationListener()
@@ -745,7 +747,7 @@ public class User {
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }
-        CaptureRecord.deleteFromDisk(mContext);
+        Jump.signOutCaptureUser(mContext);
 
     }
 

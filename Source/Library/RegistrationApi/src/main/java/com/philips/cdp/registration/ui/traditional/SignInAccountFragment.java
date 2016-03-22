@@ -570,7 +570,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(true);
         mRegError.hideError();
 
-        if (mUser.getEmailVerificationStatus()) {
+        if (mUser.getEmailVerificationStatus() || !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
             if (RegPreferenceUtility.isAvailableIn(mContext, mEmail)) {
                 launchWelcomeFragment();
             } else {
