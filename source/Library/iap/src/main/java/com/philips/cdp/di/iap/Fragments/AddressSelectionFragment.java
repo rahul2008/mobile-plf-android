@@ -294,7 +294,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
         String titleCode = address.getTitleCode();
 
-        if (titleCode.trim().length() == 2)
+        if (titleCode.trim().length() > 0)
             titleCode = titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1);
 
         addressHashMap.put(ModelConstants.FIRST_NAME, address.getFirstName());
@@ -376,7 +376,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         }
         if (isNotNullNorEmpty(addr.getTitleCode())) {
             String titleCode = addr.getTitleCode();
-            if (titleCode.trim().length() == 2)
+            if (titleCode.trim().length() > 0)
                 fields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1));
         }
         if (isNotNullNorEmpty(addr.getLine1())) {

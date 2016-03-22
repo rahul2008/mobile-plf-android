@@ -75,7 +75,7 @@
 
                 <TextView
                     android:id="@+id/tv_first_name"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    style="@style/inlineform_textview_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -101,7 +101,7 @@
 
                 <TextView
                     android:id="@+id/tv_last_name"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    style="@style/inlineform_textview_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -126,7 +126,7 @@
 
                 <TextView
                     android:id="@+id/tv_salutation"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    style="@style/inlineform_textview_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -151,7 +151,7 @@
 
                 <TextView
                     android:id="@+id/tv_address_line_one"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    style="@style/inlineform_textview_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -164,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:hint="@string/iap_address_line_one_hint"
-                    android:inputType="textCapSentences"
+                    android:inputType="textCapWords"
                     android:maxLength="35" />
             </LinearLayout>
 
@@ -176,7 +176,7 @@
 
                 <TextView
                     android:id="@+id/tv_address_line_two"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    style="@style/inlineform_textview_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -189,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:hint="@string/iap_address_line_two_hint"
-                    android:inputType="textCapSentences"
+                    android:inputType="textCapWords"
                     android:maxLength="35" />
             </LinearLayout>
 
@@ -201,7 +201,7 @@
 
                 <TextView
                     android:id="@+id/tv_town"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    style="@style/inlineform_textview_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -225,7 +225,7 @@
 
                 <TextView
                     android:id="@+id/tv_postal_code"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    style="@style/inlineform_textview_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -249,7 +249,7 @@
 
                 <TextView
                     android:id="@+id/tv_country"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    style="@style/inlineform_textview_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -274,7 +274,7 @@
 
                 <TextView
                     android:id="@+id/tv_state"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    style="@style/inlineform_textview_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -299,7 +299,7 @@
 
                 <TextView
                     android:id="@+id/tv_email"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    style="@style/inlineform_textview_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -323,7 +323,7 @@
 
                 <TextView
                     android:id="@+id/tv_phone_number"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    style="@style/inlineform_textview_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
