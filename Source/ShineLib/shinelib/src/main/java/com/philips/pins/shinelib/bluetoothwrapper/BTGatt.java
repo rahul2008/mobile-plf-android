@@ -46,7 +46,7 @@ public class BTGatt extends BluetoothGattCallback {
         void onMtuChanged(BTGatt gatt, int mtu, int status);
     }
 
-    class BTGattCallbackDummy implements BTGattCallback {
+    class NullBTGattCallback implements BTGattCallback {
 
         @Override
         public void onConnectionStateChange(BTGatt gatt, int status, int newState) {}
@@ -99,7 +99,7 @@ public class BTGatt extends BluetoothGattCallback {
         bluetoothGatt.close();
         bluetoothGatt = null;
         commandQueue.clear();
-        btGattCallback = new BTGattCallbackDummy();
+        btGattCallback = new NullBTGattCallback();
     }
 
     public void disconnect() {
