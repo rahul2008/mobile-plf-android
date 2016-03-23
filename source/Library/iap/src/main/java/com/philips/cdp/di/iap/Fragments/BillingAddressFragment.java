@@ -158,15 +158,10 @@ public class BillingAddressFragment extends ShippingAddressFragment{
         if (v == mBtnContinue) {
             setAddressFields(mBillingAddressFields);
             if (!Utility.isProgressDialogShowing()) {
-                if (Utility.isInternetConnected(mContext)) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mBillingAddressFields);
                     addFragment(
                             OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
-                } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                            getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-                }
             }
         } else if (v == mBtnCancel) {
             if (getArguments().containsKey(IAPConstant.FROM_PAYMENT_SELECTION) &&

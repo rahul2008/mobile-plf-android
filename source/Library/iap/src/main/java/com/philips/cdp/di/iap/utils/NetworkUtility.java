@@ -73,7 +73,7 @@ public class NetworkUtility {
 
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
-            if(error.getMessage().equalsIgnoreCase(mContext.getString(R.string.iap_check_connection))){
+            if(error.getMessage()!=null && error.getMessage().equalsIgnoreCase(mContext.getString(R.string.iap_check_connection))){
                 NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
                         mContext.getString(R.string.iap_network_error), error.getMessage());
             }else if(error.getMessage()!=null && !error.getMessage().equalsIgnoreCase("")) {

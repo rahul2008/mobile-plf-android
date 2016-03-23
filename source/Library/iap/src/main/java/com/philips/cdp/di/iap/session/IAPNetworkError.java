@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.response.error.ServerError;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
 public class IAPNetworkError implements IAPNetworkErrorListener {
@@ -56,9 +57,13 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     }
 
     private void setServerError(VolleyError error) {
-        if (error.networkResponse != null) {
-            String errorString = new String(error.networkResponse.data);
-            mServerError = new Gson().fromJson(errorString, ServerError.class);
+        try {
+            if (error.networkResponse != null) {
+                String errorString = new String(error.networkResponse.data);
+                mServerError = new Gson().fromJson(errorString, ServerError.class);
+            }
+        }catch (Exception e){
+            IAPLog.d(IAPNetworkError.class.getName(), error.getMessage());
         }
     }
 

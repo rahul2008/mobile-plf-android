@@ -78,7 +78,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void makeAssetRequest() {
-        if(Utility.isInternetConnected(getContext())) {
             if(!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(),getString(R.string.iap_get_image_url));
                 String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
@@ -86,9 +85,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                         this);
                 builder.build();
             }
-        }else{
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),getString(R.string.iap_ok),getString(R.string.iap_network_error),getString(R.string.iap_check_connection));
-        }
     }
 
     @Override

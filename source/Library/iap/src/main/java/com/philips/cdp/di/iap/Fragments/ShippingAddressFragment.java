@@ -218,24 +218,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             //Edit and save address
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
                 if (!Utility.isProgressDialogShowing()) {
-                    if (Utility.isInternetConnected(mContext)) {
                         Utility.showProgressDialog(mContext, getString(R.string.iap_update_address));
                         HashMap<String, String> addressHashMap = addressPayload();
                         mAddressController.updateAddress(addressHashMap);
-                    } else {
-                        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                                getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-                    }
                 }
             } else {//Add new address
                 if (!Utility.isProgressDialogShowing()) {
-                    if (Utility.isInternetConnected(mContext)) {
                         Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                         mAddressController.createAddress(mShippingAddressFields);
-                    } else {
-                        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                                getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-                    }
                 }
             }
         } else if (v == mBtnCancel) {

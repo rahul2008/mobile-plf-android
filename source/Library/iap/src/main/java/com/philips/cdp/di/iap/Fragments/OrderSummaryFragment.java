@@ -90,14 +90,10 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     private void updateCartOnResume() {
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
-        if (Utility.isInternetConnected(getContext())) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
                 updateCartDetails(presenter);
             }
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-        }
     }
 
     private void updateCartDetails(ShoppingCartPresenter presenter) {
@@ -130,17 +126,12 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     public void onClick(final View v) {
         if (v.getId() == R.id.btn_paynow) {
             if (!Utility.isProgressDialogShowing()) {
-                if (Utility.isInternetConnected(getContext())) {
                     Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
                     if (!isOrderPlaced() || paymentMethodAvailable()) {
                         mPaymentController.placeOrder();
                     } else {
                         mPaymentController.makPayment(orderID);
                     }
-                } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                            getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-                }
             }
         } else if (v.getId() == R.id.btn_cancel) {
             addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);

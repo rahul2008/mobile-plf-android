@@ -92,13 +92,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private void sendShippingAddressesRequest() {
         String msg = getContext().getString(R.string.iap_please_wait);
         if (!Utility.isProgressDialogShowing()) {
-            if (Utility.isInternetConnected(mContext)) {
                 Utility.showProgressDialog(getContext(), msg);
                 mAddrController.getShippingAddresses();
-            } else {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-            }
         }
     }
 
@@ -227,41 +222,22 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
             if (!Utility.isProgressDialogShowing()) {
-                if (Utility.isInternetConnected(mContext)) {
                     Utility.showProgressDialog(getContext(), getResources().getString(R.string.iap_please_wait));
                     mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
-                } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),
-                            getString(R.string.iap_ok), getString(R.string.iap_network_error),
-                            getString(R.string.iap_check_connection));
-                }
             }
         }
     }
 
     public void checkPaymentDetails() {
         PaymentController paymentController = new PaymentController(mContext, this);
-
-        if (Utility.isInternetConnected(mContext)) {
             paymentController.getPaymentDetails();
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-            Utility.dismissProgressDialog();
-        }
     }
 
     private void deleteShippingAddress() {
         if (!Utility.isProgressDialogShowing()) {
-            if (Utility.isInternetConnected(mContext)) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_delete_address));
                 int pos = mAdapter.getOptionsClickPosition();
                 mAddrController.deleteAddress(mAddresses.get(pos).getId());
-            } else {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),
-                        getString(R.string.iap_ok), getString(R.string.iap_network_error),
-                        getString(R.string.iap_check_connection));
-            }
         }
     }
 
