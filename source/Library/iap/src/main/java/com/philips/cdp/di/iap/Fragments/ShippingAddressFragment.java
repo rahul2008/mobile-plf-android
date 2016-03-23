@@ -454,7 +454,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (mTvTitle.getText().toString().equalsIgnoreCase(getResources().getString(R.string.iap_billing_address))) {
+            if(isBillingAddressFragment()){
                 if (s.length() > 0)
                     validate(mEditText, false);
             } else
@@ -576,4 +576,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+   private boolean isBillingAddressFragment(){
+        return this instanceof BillingAddressFragment;
+    }
+
 }
