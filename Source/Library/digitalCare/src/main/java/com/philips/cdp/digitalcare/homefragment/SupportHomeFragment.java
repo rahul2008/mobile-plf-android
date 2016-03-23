@@ -59,10 +59,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
     private static boolean isFirstTimeProductComponentlaunch = true;
-    private static boolean isProductSelectionFirstTime;
     SharedPreferences prefs = null;
     ActivityLauncher uiLauncher = null;
-    private boolean isfragmentFirstTimeVisited;
     private LinearLayout mOptionParent = null;
     private FrameLayout.LayoutParams mParams = null;
     private int ButtonMarginTop = 0;
@@ -75,27 +73,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private ProductModelSelectionHelper mProductSelectionHelper = null;
     private PrxProductData mPrxProductData = null;
     private ConsumerProductInfo mProductInfo = null;
-    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
-
-        @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-//            mActionBarTitle.setText(titleActionbar);
-//            if (hamburgerIconAvailable) {
-//                enableActionBarHome();
-//            } else {
-//                enableActionBarLeftArrow();
-//            }
-        }
-    };
     private String mCtnFromPreference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DigiCareLogger.d(TAG, "OnCreate Method");
-        isProductSelectionFirstTime = true;
-        isfragmentFirstTimeVisited = true;
-
     }
 
     @Override
@@ -129,31 +112,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             }
         } else
             createMainMenu();
-
-        DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
-        if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == "") {
-            if (isProductSelectionFirstTime) {
-
-                if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher) {
-                    if (isfragmentFirstTimeVisited) {
-                        isfragmentFirstTimeVisited = false;
-                        launchProductSelectionComponent();
-                    }
-                } else {
-                    launchProductSelectionComponent();
-                }
-            }
-        }
-
-        if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1) && mCtnFromPreference == "") {
-            isFirstTimeProductComponentlaunch = false;
-            if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher)
-                isfragmentFirstTimeVisited = false;
-            launchProductSelectionComponent();
-
-        }
-
-
         return mView;
     }
 
