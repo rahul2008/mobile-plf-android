@@ -18,45 +18,20 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     ServerError mServerError = null;
     VolleyError mVolleyError = null;
     Context mContext;
-    IAPNoNetworkError mIapNoNetworkError;
-    private static IAPNetworkError mIapNetworkError;
 
-    public interface IAPNoNetworkError{
-        void noConnectionError(Message msg);
-    }
-
-
-    public void setListner(IAPNoNetworkError listener){
-        mIapNoNetworkError = listener;
-    }
-
-    public static IAPNetworkError getInstance() {
-        synchronized (IAPNetworkError.class) {
-            if (mIapNetworkError == null) {
-                mIapNetworkError = new IAPNetworkError();
-            }
-        }
-        return mIapNetworkError;
-    }
-
-    private IAPNetworkError(){
-
-    }
-
-    public void init(Context context, VolleyError error, int requestCode,
+    public IAPNetworkError(Context context, VolleyError error, int requestCode,
                            RequestListener requestListener) {
         mContext = context;
 
-        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+        /*if (error instanceof TimeoutError || error instanceof NoConnectionError) {
             Utility.dismissProgressDialog();
-            /*Toast.makeText(mContext, mContext.getResources().getString(R.string.iap_time_out_error),
-                    Toast.LENGTH_SHORT).show();*/
+            *//*Toast.makeText(mContext, mContext.getResources().getString(R.string.iap_time_out_error),
+                    Toast.LENGTH_SHORT).show();*//*
             Message msg = Message.obtain();
             msg.what = requestCode;
             msg.obj = this;
-            mIapNoNetworkError.noConnectionError(msg);
             return;
-        } else if(error instanceof com.android.volley.ServerError){
+        } else */if(error instanceof com.android.volley.ServerError){
             setServerError(error);
         }else{
             mVolleyError = error;
@@ -71,8 +46,10 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     public String getMessage() {
         if (mServerError != null) {
             return mServerError.getErrors().get(0).getMessage();
-        } else {
+        } else if(mVolleyError!=null){
             return mVolleyError.getMessage();
+        }else{
+            return mContext.getString(R.string.iap_something_went_wrong);
         }
     }
 
