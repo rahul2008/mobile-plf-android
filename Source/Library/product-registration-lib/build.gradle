@@ -91,7 +91,6 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestCompile "com.squareup.assertj:assertj-android:1.1.1"
 }
 
 //maven configuration stuff required for artifactory plugin
