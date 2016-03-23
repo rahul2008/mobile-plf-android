@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
@@ -34,7 +33,6 @@ public class BillingAddressFragment extends ShippingAddressFragment{
 
         assert rootView != null;
         LinearLayout mSameAsBillingAddress = (LinearLayout) rootView.findViewById(R.id.same_as_shipping_ll);
-        TextView mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
         mSwitchBillingAddress = (PuiSwitch) rootView.findViewById(R.id.switch_billing_address);
 
         mTvTitle.setText(getResources().getString(R.string.iap_billing_address));
