@@ -69,7 +69,7 @@ public class NetworkController {
             }
         };
 
-        Response.Listener response = new Response.Listener<JSONObject>() {
+        Response.Listener<JSONObject> response = new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(final JSONObject response) {

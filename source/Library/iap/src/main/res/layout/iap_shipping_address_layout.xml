@@ -139,6 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:cursorVisible="false"
+                    android:maxLines="1"
                     android:hint="@string/iap_salutation_none"
                     android:inputType="none" />
             </LinearLayout>
@@ -288,6 +289,7 @@
                     android:layout_weight="0.5"
                     android:cursorVisible="false"
                     android:hint="@string/iap_state_hint"
+                    android:maxLines="1"
                     android:inputType="none" />
             </LinearLayout>
 
