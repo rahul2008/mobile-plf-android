@@ -19,9 +19,6 @@ public class PRXDataBuilderFactoryTest extends MockitoTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        System.setProperty(
-                "dexmaker.dexcache",
-                getInstrumentation().getTargetContext().getCacheDir().getPath());
     }
 
     @Test
