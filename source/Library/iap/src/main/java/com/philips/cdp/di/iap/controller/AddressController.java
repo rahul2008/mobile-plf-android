@@ -150,7 +150,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         updateAddress(getAddressesMap(address, Boolean.TRUE));
     }
 
-    public HashMap getAddressesMap(Addresses addr, Boolean isDefaultAddress) {
+    public HashMap<String, String> getAddressesMap(Addresses addr, Boolean isDefaultAddress) {
         HashMap<String, String> addressHashMap = new HashMap<>();
         addressHashMap.put(ModelConstants.FIRST_NAME, addr.getFirstName());
         addressHashMap.put(ModelConstants.LAST_NAME, addr.getLastName());
