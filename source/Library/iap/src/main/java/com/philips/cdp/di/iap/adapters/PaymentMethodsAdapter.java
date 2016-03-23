@@ -18,7 +18,6 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsHo
 
     private Context mContext;
     private List<PaymentMethod> mPaymentMethodList;
-    private PaymentMethod mSelectedPaymentMethod;
     private int mSelectedIndex;
 
     public PaymentMethodsAdapter(final Context context, final List<PaymentMethod> paymentMethods) {
@@ -43,21 +42,21 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsHo
                 paymentMethod.getExpiryMonth() + "/" + paymentMethod.getExpiryYear());
 
         //Update payment options buttons
-        updatePaymentOptionBtnVisiblity(holder.paymentOptions, position);
+        updatePaymentOptionBtnVisibility(holder.paymentOptions, position);
 
         //bind radio button state
         setPaymentRadioBtnState(holder.paymentRadioBtn, position);
         bindPaymentRadioBtn(holder, holder.paymentRadioBtn);
 
         //bind use payment button
-        bindUsePaymentBtn(holder.usePayment, position);
+        bindUsePaymentBtn(holder.usePayment);
 
         //bind add new payment button
-        bindAddNewPaymentBtn(holder.addNewPayment, position);
+        bindAddNewPaymentBtn(holder.addNewPayment);
     }
 
-    private void bindUsePaymentBtn(final Button newAddress, final int position) {
-        newAddress.setOnClickListener(new View.OnClickListener() {
+    private void bindUsePaymentBtn(final Button newPayment) {
+        newPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 EventHelper.getInstance().notifyEventOccurred(IAPConstant.USE_PAYMENT);
@@ -65,7 +64,7 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsHo
         });
     }
 
-    private void bindAddNewPaymentBtn(Button deliver, final int position) {
+    private void bindAddNewPaymentBtn(Button deliver) {
         deliver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -104,11 +103,11 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsHo
 
     private void setSelectedPaymentMethod(int position) {
         if (mPaymentMethodList.size() > 0 && position < mPaymentMethodList.size()) {
-            mSelectedPaymentMethod = mPaymentMethodList.get(position);
+            PaymentMethod mSelectedPaymentMethod = mPaymentMethodList.get(position);
         }
     }
 
-    private void updatePaymentOptionBtnVisiblity(final ViewGroup paymentOptions, final int position) {
+    private void updatePaymentOptionBtnVisibility(final ViewGroup paymentOptions, final int position) {
         if (mSelectedIndex == position) {
             paymentOptions.setVisibility(View.VISIBLE);
         } else {
