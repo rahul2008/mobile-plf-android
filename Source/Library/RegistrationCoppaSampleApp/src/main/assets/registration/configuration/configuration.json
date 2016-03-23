@@ -1,0 +1,21 @@
+{
+  "JanRainConfiguration": {
+    "RegistrationClientID": {
+      "Development": "yjcktbvtvp5wtbtanu3398ymhc5t4mdg",
+      "Testing": "auy6rtk5zbwwxnzsq52vr9p7dgtyzhc5",
+      "Evaluation": "fc39pbyxwc6255yma54e547yhvzb76vr",
+      "Production": "tpqhkn3zd4yxqegyyhd7xyysq4gmh6ee"
+    }
+  },
+  "PILConfiguration": {
+    "MicrositeID": 77000,
+    "RegistrationEnvironment": "Evaluation"
+  },
+  "Flow": {
+    "EmailVerificationRequired": "true"
+  },
+
+  "SigninProviders": {
+    "default": []
+  }
+}
