@@ -138,24 +138,11 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     public void onSetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            showErrorMessage(msg);
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());
             addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
-        }
-    }
-
-    private void showErrorMessage(final Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            IAPNetworkError error = (IAPNetworkError) msg.obj;
-            if(error.getMessage()!=null && !error.getMessage().equalsIgnoreCase("")) {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getContext().getString(R.string.iap_ok),
-                        getContext().getString(R.string.iap_server_error), error.getMessage());
-            }
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getContext().getString(R.string.iap_ok),
-                    getContext().getString(R.string.iap_server_error), getContext().getString(R.string.iap_something_went_wrong));
         }
     }
 }

@@ -130,19 +130,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
         if(Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
-        showErrorMessage(msg);
-    }
-
-    private void showErrorMessage(final Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            IAPNetworkError error = (IAPNetworkError) msg.obj;
-            if(error.getMessage()!=null && !error.getMessage().equalsIgnoreCase("")) {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getContext().getString(R.string.iap_ok),
-                        getContext().getString(R.string.iap_server_error), error.getMessage());
-            }
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getContext().getString(R.string.iap_ok),
-                    getContext().getString(R.string.iap_server_error), getContext().getString(R.string.iap_something_went_wrong));
-        }
+        NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
     }
 }

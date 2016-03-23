@@ -196,7 +196,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            showErrorMessage(msg);
+            NetworkUtility.getInstance().showErrorMessage(msg,getFragmentManager(),getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
@@ -261,7 +261,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                         showErrorFromServer(error);
                     }
                 } else {
-                    showErrorMessage(msg);
+                    NetworkUtility.getInstance().showErrorMessage(msg,getFragmentManager(),getContext());
                 }
             } else {
                 getFragmentManager().popBackStackImmediate();
@@ -285,7 +285,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     showErrorFromServer(error);
                 }
             } else {
-                showErrorMessage(msg);
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             }
         }
     }
@@ -411,7 +411,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mAddressController.setDeliveryMode();
         } else {
             Utility.dismissProgressDialog();
-            showErrorMessage(msg);
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 
@@ -421,14 +421,13 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mPaymentController.getPaymentDetails();
         } else {
             Utility.dismissProgressDialog();
-            showErrorMessage(msg);
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 
     @Override
     public void onSalutationSelect(String salutation) {
         mEtSalutation.setText(salutation);
-
     }
 
     @Override
@@ -586,18 +585,5 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    private void showErrorMessage(final Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            IAPNetworkError error = (IAPNetworkError) msg.obj;
-            if(error.getMessage()!=null && !error.getMessage().equalsIgnoreCase("")) {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), mContext.getString(R.string.iap_ok),
-                        mContext.getString(R.string.iap_server_error), error.getMessage());
-            }
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), mContext.getString(R.string.iap_ok),
-                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
-        }
     }
 }

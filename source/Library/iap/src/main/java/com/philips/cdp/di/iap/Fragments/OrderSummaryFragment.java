@@ -162,7 +162,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (msg.obj instanceof IAPNetworkError) {
-            showErrorMessage(msg);
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 
@@ -190,7 +190,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             if (null != iapNetworkError.getServerError()) {
                 checkForOutOfStock(iapNetworkError,msg);
             } else {
-                showErrorMessage(msg);
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             }
         }
     }
@@ -203,20 +203,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_out_of_stock), subject);
         } else {
-            showErrorMessage(msg);
-        }
-    }
-
-    private void showErrorMessage(final Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            IAPNetworkError error = (IAPNetworkError) msg.obj;
-            if(error.getMessage()!=null && !error.getMessage().equalsIgnoreCase("")) {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getContext().getString(R.string.iap_ok),
-                        getContext().getString(R.string.iap_server_error), error.getMessage());
-            }
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getContext().getString(R.string.iap_ok),
-                    getContext().getString(R.string.iap_server_error), getContext().getString(R.string.iap_something_went_wrong));
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 }

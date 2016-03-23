@@ -16,10 +16,14 @@ Revision History: version 1:
 
 package com.philips.cdp.di.iap.utils;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
+import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 
 public class NetworkUtility {
 
@@ -60,5 +64,28 @@ public class NetworkUtility {
                 mModalAlertDemoFragment.dismiss();
         }
 
+    }
+
+    public void showErrorMessage(final Message msg,FragmentManager pFragmentManager, Context mContext) {
+
+        if(Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
+
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError error = (IAPNetworkError) msg.obj;
+            if(error.getMessage().equalsIgnoreCase(mContext.getString(R.string.iap_check_connection))){
+                NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_network_error), error.getMessage());
+            }else if(error.getMessage()!=null && !error.getMessage().equalsIgnoreCase("")) {
+                NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_server_error), error.getMessage());
+            }else {
+                NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+            }
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+        }
     }
 }
