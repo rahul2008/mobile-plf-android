@@ -37,10 +37,8 @@ public class SHNCapabilityConfigTargetsWrapperTest extends SHNCapabilityWrapperT
     private ArgumentCaptor<ResultListener<Set<SHNDataType>>> setResultListenerArgumentCaptor;
 
     @Captor
-    private ArgumentCaptor<ResultListener<Double>> douListenerArgumentCaptor;
+    private ArgumentCaptor<ResultListener<Double>> doubleListenerArgumentCaptor;
 
-    @Captor
-    private ArgumentCaptor<Boolean> booleanArgumentCaptor;
 
     private SHNCapabilityConfigTargetsWrapper capabilityWrapper;
 
@@ -79,14 +77,14 @@ public class SHNCapabilityConfigTargetsWrapperTest extends SHNCapabilityWrapperT
 
         captureInternalHandlerRunnable().run();
 
-        verify(capabilityMock).getTargetForType(any(SHNDataType.class), douListenerArgumentCaptor.capture());
+        verify(capabilityMock).getTargetForType(any(SHNDataType.class), doubleListenerArgumentCaptor.capture());
     }
 
     @Test
     public void shouldReceiveCorrectResultForTargetsOnUserThread_whenResultReturnOnInternalThread() {
         shouldReceiveCallToGetTargetForTypOnInternalThread_whenGetConfigTargetsIsCalledOnWrapper();
 
-        ResultListener<Double> internalResultListener = douListenerArgumentCaptor.getValue();
+        ResultListener<Double> internalResultListener = doubleListenerArgumentCaptor.getValue();
 
         internalResultListener.onActionCompleted(VALUE, EXPECTED_RESULT);
         captureUserHandlerRunnable().run();
@@ -100,14 +98,14 @@ public class SHNCapabilityConfigTargetsWrapperTest extends SHNCapabilityWrapperT
 
         captureInternalHandlerRunnable().run();
 
-        verify(capabilityMock).setTarget(any(SHNDataType.class), anyDouble(), douListenerArgumentCaptor.capture());
+        verify(capabilityMock).setTarget(any(SHNDataType.class), anyDouble(), doubleListenerArgumentCaptor.capture());
     }
 
     @Test
     public void shouldReceiveCorrectResultForSetTargetsOnUserThread_whenResultReturnOnInternalThread() {
         shouldReceiveCallToSetTargetForTypOnInternalThread_whenGetConfigTargetsIsCalledOnWrapper();
 
-        ResultListener<Double> internalResultListener = douListenerArgumentCaptor.getValue();
+        ResultListener<Double> internalResultListener = doubleListenerArgumentCaptor.getValue();
 
         internalResultListener.onActionCompleted(VALUE, EXPECTED_RESULT);
         captureUserHandlerRunnable().run();
