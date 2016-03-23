@@ -166,8 +166,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            showErrorMessage(msg);
         } else {
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(
@@ -211,6 +210,19 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         }
         else {
             mCheckoutBtn.setEnabled(true);
+        }
+    }
+
+    private void showErrorMessage(final Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError error = (IAPNetworkError) msg.obj;
+            if(error.getMessage()!=null && !error.getMessage().equalsIgnoreCase("")) {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_server_error), error.getMessage());
+            }
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
     }
 }

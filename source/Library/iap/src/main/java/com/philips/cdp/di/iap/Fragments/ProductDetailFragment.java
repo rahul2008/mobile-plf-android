@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.adapters.ImageAdaptor;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -127,10 +128,21 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     @Override
     public void onFetchAssetFailure(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
-        //Toast.makeText(getContext(),"FAILURE",Toast.LENGTH_SHORT).show();
         if(Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
-        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        showErrorMessage(msg);
+    }
+
+    private void showErrorMessage(final Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError error = (IAPNetworkError) msg.obj;
+            if(error.getMessage()!=null && !error.getMessage().equalsIgnoreCase("")) {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getContext().getString(R.string.iap_ok),
+                        getContext().getString(R.string.iap_server_error), error.getMessage());
+            }
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getContext().getString(R.string.iap_ok),
+                    getContext().getString(R.string.iap_server_error), getContext().getString(R.string.iap_something_went_wrong));
+        }
     }
 }

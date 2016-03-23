@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -111,8 +112,9 @@ public class ShoppingCartPresenter {
                     public void onModelDataError(final Message msg) {
                         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
                         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                        NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok),
-                                mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
+
+                        showErrorMessage(msg);
+
                         if(Utility.isProgressDialogShowing()) {
                             Utility.dismissProgressDialog();
                         }
@@ -120,6 +122,19 @@ public class ShoppingCartPresenter {
                 });
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
+    }
+
+    private void showErrorMessage(final Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError error = (IAPNetworkError) msg.obj;
+            if(error.getMessage()!=null && !error.getMessage().equalsIgnoreCase("")) {
+                NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_server_error), error.getMessage());
+            }
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+        }
     }
 
     public void deleteProduct(final ShoppingCartData summary) {
@@ -157,8 +172,7 @@ public class ShoppingCartPresenter {
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok),
-                        mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
+                showErrorMessage(msg);
                 Utility.dismissProgressDialog();
             }
         });

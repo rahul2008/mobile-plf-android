@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
@@ -146,8 +145,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            showErrorMessage(msg);
             moveToShoppingCart();
         } else {
             if (msg.what == RequestCode.DELETE_ADDRESS) {
@@ -179,7 +177,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             mAddrController.setDefaultAddress(selectedAddress);
             mAddrController.setDeliveryMode();
         } else {
-            Toast.makeText(getContext(), getResources().getString(R.string.set_delivery_address_error), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "Error in setting delivery address", Toast.LENGTH_SHORT).show();
+            showErrorMessage(msg);
             Utility.dismissProgressDialog();
         }
     }
@@ -193,7 +192,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             checkPaymentDetails();
         } else {
-            Toast.makeText(getContext(), getResources().getString(R.string.set_delivery_address_error), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getContext(), "Error in setting delivery address", Toast.LENGTH_SHORT).show();
+            showErrorMessage(msg);
             Utility.dismissProgressDialog();
         }
     }
@@ -334,8 +334,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            showErrorMessage(msg);
         } else if ((msg.obj instanceof PaymentMethods)) {
             AddressFields selectedAddress = prepareAddressFields(retrieveSelectedAddress());
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
@@ -409,5 +408,18 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private boolean isNotNullNorEmpty(String field) {
         return !TextUtils.isEmpty(field);
+    }
+
+    private void showErrorMessage(final Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError error = (IAPNetworkError) msg.obj;
+            if(error.getMessage()!=null && !error.getMessage().equalsIgnoreCase("")) {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_server_error), error.getMessage());
+            }
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+        }
     }
 }

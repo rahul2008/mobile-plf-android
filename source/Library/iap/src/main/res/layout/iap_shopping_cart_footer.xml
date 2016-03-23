@@ -29,16 +29,12 @@
         style="@style/iap_delivery_price"
         android:layout_alignBaseline="@id/iap_tv_delivery_via_ups" />
 
-    <TextView
-        android:id="@+id/iap_tv_delivery_description"
-        style="@style/iap_delivery_description"
-        android:layout_below="@id/iap_tv_delivery_via_ups" />
 
     <View
         android:id="@+id/iap_divider_bottom_delivery"
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:layout_below="@id/iap_tv_delivery_description"
+        android:layout_below="@id/iap_tv_delivery_via_ups"
         android:background="?attr/uikit_listDividerColor" />
 
     <TextView

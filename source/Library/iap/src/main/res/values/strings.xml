@@ -105,7 +105,7 @@
     <string name="iap_total_val">Total(0 Items)</string>
     <string name="iap_validity">Validity</string>
     <string name="cancelPaymentMsg">Do you want to cancel the payment? Your cart will be empty.</string>
-
-    <string name="set_delivery_address_error">Error in setting delivery address</string>
+    <string name="iap_server_error">Server Error</string>
+    <string name="iap_something_went_wrong">Something went wrong!</string>
 
 </resources>
