@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.adapters;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,14 +21,12 @@ import com.philips.cdp.uikit.customviews.UIKitRadioButton;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.List;
-import java.util.Locale;
 
 public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionHolder> {
     private Context mContext;
     private List<Addresses> mAddresses;
 
     private EditDeletePopUP mPopUP;
-    private Addresses mSelectedAddress;
     private int mSelectedIndex;
     private Drawable mOptionsDrawable;
 
@@ -78,10 +75,10 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         bindToggleButton(holder, holder.toggle);
 
         //bind deliver to address
-        bindDeliverToAddress(holder.deliver, position);
+        bindDeliverToAddress(holder.deliver);
 
         //bind add new address
-        bindNewAddress(holder.newAddress, position);
+        bindNewAddress(holder.newAddress);
     }
 
     private void handleLastItemDeletion(int position) {
@@ -94,7 +91,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         return position == (mAddresses.size() - 1);
     }
 
-    private void bindNewAddress(final Button newAddress, final int position) {
+    private void bindNewAddress(final Button newAddress) {
         newAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -103,11 +100,10 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         });
     }
 
-    private void bindDeliverToAddress(Button deliver, final int position) {
+    private void bindDeliverToAddress(Button deliver) {
         deliver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Addresses addr = mAddresses.get(position);
                 EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADD_DELIVERY_ADDRESS);
             }
         });

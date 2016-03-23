@@ -10,18 +10,18 @@ public class ValidatorTest extends TestCase {
 
     @Test
     public void testIsValidFirstName() {
-        assertTrue(validator.isValidFirstName("android"));
-        assertFalse(validator.isValidFirstName("android1"));
-        assertFalse(validator.isValidFirstName(""));
-        assertFalse(validator.isValidFirstName(null));
+        assertTrue(validator.isValidName("android"));
+        assertFalse(validator.isValidName("android1"));
+        assertFalse(validator.isValidName(""));
+        assertFalse(validator.isValidName(null));
     }
 
     @Test
     public void testIsValidLastName() {
-        assertTrue(validator.isValidLastName("android"));
-        assertFalse(validator.isValidLastName("android1"));
-        assertFalse(validator.isValidLastName(""));
-        assertFalse(validator.isValidLastName(null));
+        assertTrue(validator.isValidName("android"));
+        assertFalse(validator.isValidName("android1"));
+        assertFalse(validator.isValidName(""));
+        assertFalse(validator.isValidName(null));
     }
 
     @Test
