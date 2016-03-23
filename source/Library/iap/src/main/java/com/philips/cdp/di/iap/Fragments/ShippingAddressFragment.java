@@ -255,16 +255,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         Utility.dismissProgressDialog();
         if (msg.what == RequestCode.UPDATE_ADDRESS) {
             if (msg.obj instanceof IAPNetworkError) {
-                IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
-                if (null != iapNetworkError.getServerError()) {
-                    for (int i = 0; i < iapNetworkError.getServerError().getErrors().size(); i++) {
-                        Error error = iapNetworkError.getServerError().getErrors().get(i);
-                        showErrorFromServer(error);
-                    }
-                } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                            getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-                }
+                handleError(msg);
             } else {
                 getFragmentManager().popBackStackImmediate();
             }
@@ -279,17 +270,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
             Utility.dismissProgressDialog();
-
-            IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
-            if (null != iapNetworkError.getServerError()) {
-                for (int i = 0; i < iapNetworkError.getServerError().getErrors().size(); i++) {
-                    Error error = iapNetworkError.getServerError().getErrors().get(i);
-                    showErrorFromServer(error);
-                }
-            } else {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-            }
+            handleError(msg);
         }
     }
 
@@ -568,6 +549,23 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         return addressFields;
     }
 
+    private boolean isBillingAddressFragment(){
+        return this instanceof BillingAddressFragment;
+    }
+
+    private void handleError(Message msg){
+        IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+        if (null != iapNetworkError.getServerError()) {
+            for (int i = 0; i < iapNetworkError.getServerError().getErrors().size(); i++) {
+                Error error = iapNetworkError.getServerError().getErrors().get(i);
+                showErrorFromServer(error);
+            }
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        }
+    }
+
     @Override
     public void onGetDeliveryModes(final Message msg) {
         //NOP
@@ -591,10 +589,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-   private boolean isBillingAddressFragment(){
-        return this instanceof BillingAddressFragment;
     }
 
 }
