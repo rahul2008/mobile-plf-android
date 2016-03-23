@@ -1,7 +1,6 @@
 package com.philips.cdp.backend;
 
-import android.test.InstrumentationTestCase;
-
+import com.philips.cdp.MockitoTestCase;
 import com.philips.cdp.productrequest.ProductMetaRequest;
 import com.philips.cdp.productrequest.RegisteredRequest;
 import com.philips.cdp.productrequest.RegistrationRequest;
@@ -15,7 +14,7 @@ import static org.mockito.Mockito.mock;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class PRXDataBuilderFactoryTest extends InstrumentationTestCase {
+public class PRXDataBuilderFactoryTest extends MockitoTestCase {
 
     @Override
     protected void setUp() throws Exception {

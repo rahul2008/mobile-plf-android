@@ -1,7 +1,6 @@
 package com.philips.cdp.handler;
 
-
-import junit.framework.TestCase;
+import com.philips.cdp.MockitoTestCase;
 
 import org.junit.Test;
 
@@ -9,7 +8,7 @@ import org.junit.Test;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProductTest extends TestCase {
+public class ProductTest extends MockitoTestCase {
 
     Product product;
 

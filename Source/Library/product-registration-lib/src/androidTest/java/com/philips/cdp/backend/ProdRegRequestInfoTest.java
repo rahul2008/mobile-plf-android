@@ -1,13 +1,12 @@
 package com.philips.cdp.backend;
 
-import android.test.InstrumentationTestCase;
-
+import com.philips.cdp.MockitoTestCase;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegRequestInfoTest extends InstrumentationTestCase {
+public class ProdRegRequestInfoTest extends MockitoTestCase {
 
     ProdRegRequestInfo prodRegRequestInfo;
 
@@ -15,9 +14,6 @@ public class ProdRegRequestInfoTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         prodRegRequestInfo = new ProdRegRequestInfo(null, null, null, null);
-        System.setProperty(
-                "dexmaker.dexcache",
-                getInstrumentation().getTargetContext().getCacheDir().getPath());
     }
 
     public void testGetSerialNumber() throws Exception {

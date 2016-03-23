@@ -1,7 +1,6 @@
 package com.philips.cdp.backend;
 
-import android.test.InstrumentationTestCase;
-
+import com.philips.cdp.MockitoTestCase;
 import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.handler.UserProduct;
 
@@ -12,7 +11,7 @@ import org.mockito.Mockito;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegHelperTest extends InstrumentationTestCase {
+public class ProdRegHelperTest extends MockitoTestCase {
 
     ProdRegHelper prodRegHelper;
 

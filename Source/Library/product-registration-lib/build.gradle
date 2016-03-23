@@ -85,13 +85,13 @@ dependencies {
     }
     compile 'com.philips.cdp:registrationApi:5.0.0-rc.1'
 
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'org.mockito:mockito-core:1.10.8'
     compile 'com.philips.cdp:dicommClientLib:1.0.7'
 
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-
+    androidTestCompile "com.squareup.assertj:assertj-android:1.1.1"
 }
 
 //maven configuration stuff required for artifactory plugin
