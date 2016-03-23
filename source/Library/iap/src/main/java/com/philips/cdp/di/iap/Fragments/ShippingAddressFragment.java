@@ -266,8 +266,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                             getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
             } else {
-                addFragment(AddressSelectionFragment.createInstance(new Bundle(),
-                        AnimationType.NONE), null);
+                getFragmentManager().popBackStackImmediate();
             }
         }
     }
