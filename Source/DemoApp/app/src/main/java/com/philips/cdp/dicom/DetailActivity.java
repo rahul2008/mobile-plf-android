@@ -29,7 +29,7 @@ import com.philips.cdp.error.ErrorType;
 import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.model.ProductResponse;
+import com.philips.cdp.model.ProdRegResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
@@ -207,9 +207,9 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onProdRegSuccess(ResponseData responseData) {
                 Toast.makeText(DetailActivity.this, getResources().getString(R.string.product_registered_successfully), Toast.LENGTH_SHORT).show();
-                ProductResponse productResponse = (ProductResponse) responseData;
-                if (productResponse.getData() != null)
-                    Log.d(TAG, " Response Data : " + productResponse.getData());
+                ProdRegResponse prodRegResponse = (ProdRegResponse) responseData;
+                if (prodRegResponse.getData() != null)
+                    Log.d(TAG, " Response Data : " + prodRegResponse.getData());
             }
 
             @Override

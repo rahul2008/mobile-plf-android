@@ -46,8 +46,8 @@ public class ProductMetaDataResponseTest extends InstrumentationTestCase {
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
 
-            ProductMetaData productResponse = (ProductMetaData) mProductAssetBuilder.getResponseData(new JSONObject(sb.toString()));
-            ProductData mResponseData = productResponse.getData();
+            ProductMetaData productMetaData = (ProductMetaData) mProductAssetBuilder.getResponseData(new JSONObject(sb.toString()));
+            ProductData mResponseData = productMetaData.getData();
             assertNotNull(mResponseData);
 
             ProductData productData = setMetadataObject(mResponseData);

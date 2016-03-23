@@ -9,7 +9,7 @@ import org.json.JSONObject;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProductResponse extends ResponseData {
+public class ProdRegResponse extends ResponseData {
     private Data data;
 
     private String success;
@@ -28,12 +28,12 @@ public class ProductResponse extends ResponseData {
 
     @Override
     public String toString() {
-        return "ProductResponse [data = " + data + ", success = " + success + "]";
+        return "ProdRegResponse [data = " + data + ", success = " + success + "]";
     }
 
     public ResponseData parseJsonResponseData(JSONObject response) {
-        ProductResponse productResponse;
-        productResponse = new Gson().fromJson(response.toString(), ProductResponse.class);
-        return productResponse;
+        ProdRegResponse prodRegResponse;
+        prodRegResponse = new Gson().fromJson(response.toString(), ProdRegResponse.class);
+        return prodRegResponse;
     }
 }

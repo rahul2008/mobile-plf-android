@@ -5,7 +5,7 @@ import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import com.philips.cdp.model.Data;
-import com.philips.cdp.model.ProductResponse;
+import com.philips.cdp.model.ProdRegResponse;
 import com.philips.cdp.productrequest.RegistrationRequest;
 
 import org.json.JSONObject;
@@ -19,7 +19,7 @@ import java.io.InputStreamReader;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProductResponseTest extends InstrumentationTestCase {
+public class ProdRegResponseTest extends InstrumentationTestCase {
     @Mock
     String string1, string2, string3;
     RegistrationRequest mProductAssetBuilder = new RegistrationRequest(string1, string2, string3);
@@ -47,8 +47,8 @@ public class ProductResponseTest extends InstrumentationTestCase {
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
 
-            ProductResponse productResponse = (ProductResponse) mProductAssetBuilder.getResponseData(new JSONObject(sb.toString()));
-            Data mResponseData = productResponse.getData();
+            ProdRegResponse prodRegResponse = (ProdRegResponse) mProductAssetBuilder.getResponseData(new JSONObject(sb.toString()));
+            Data mResponseData = prodRegResponse.getData();
             assertNotNull(mResponseData);
 
             Data data = setDataObject(mResponseData);

@@ -18,9 +18,6 @@
     <string name="user_signed_in">user signed in</string>
     <string name="integratingApplicationAppsId">integratingApplicationAppsId</string>
     <string name="demo_app_home">demoapp:home</string>
-    <string name="past_year">1999</string>
-    <string name="past_date">31</string>
-    <string name="past_month">12</string>
     <string name="past_purchase_date_error">error in date selection</string>
 
 </resources>
