@@ -84,12 +84,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             mProductListView.setVisibility(View.VISIBLE);
             mIapHandler.initApp(this);
             if (!(Utility.isProgressDialogShowing())) {
-                if (Utility.isInternetConnected(this)) {
                     Utility.showProgressDialog(this, getString(R.string.loading_cart));
                     mIapHandler.getCartQuantity(this);
-                } else {
-                    showNetworkError();
-                }
             }
         }
     }
@@ -110,13 +106,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     void addToCart(String ctnNumber) {
         if (!(Utility.isProgressDialogShowing())) {
-            if (Utility.isInternetConnected(this)) {
                 Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
                 mIapHandler.addItemtoCart(ctnNumber, this, false);
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "addItemtoCart");
-            } else {
-                showNetworkError();
-            }
         }
     }
 
@@ -127,12 +119,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
      */
     void buyNow(String ctnNumber) {
         if (!(Utility.isProgressDialogShowing())) {
-            if (Utility.isInternetConnected(this)) {
                 Utility.showProgressDialog(this, getString(R.string.please_wait));
                 mIapHandler.buyNow(ctnNumber, this);
-            } else {
-                showNetworkError();
-            }
         }
     }
 
@@ -140,12 +128,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.shoppingCart:
-                if (Utility.isInternetConnected(DemoAppActivity.this)) {
                     Intent myIntent = new Intent(DemoAppActivity.this, IAPActivity.class);
                     startActivity(myIntent);
-                } else {
-                    showNetworkError();
-                }
                 break;
             case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");

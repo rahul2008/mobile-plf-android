@@ -83,14 +83,10 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     private void updateCartOnResume() {
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
-        if (Utility.isInternetConnected(mContext)) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
                 updateCartDetails(presenter);
             }
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-        }
     }
 
     @Override
@@ -116,12 +112,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
             if (!Utility.isProgressDialogShowing()) {
-                if (Utility.isInternetConnected(getContext())) {
                     Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
                     mAddressController.getShippingAddresses();
-                } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-                }
             }
         }
         if (v == mContinuesBtn) {
@@ -166,8 +158,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(

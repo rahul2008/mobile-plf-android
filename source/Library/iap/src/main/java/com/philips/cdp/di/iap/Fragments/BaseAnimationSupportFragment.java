@@ -18,9 +18,8 @@ import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
-public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
+public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener{
     private IAPFragmentListener mActivityListener;
-
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);

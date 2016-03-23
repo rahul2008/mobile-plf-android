@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.adapters.ImageAdaptor;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -77,7 +78,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void makeAssetRequest() {
-        if(Utility.isInternetConnected(getContext())) {
             if(!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(),getString(R.string.iap_get_image_url));
                 String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
@@ -85,9 +85,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                         this);
                 builder.build();
             }
-        }else{
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),getString(R.string.iap_ok),getString(R.string.iap_network_error),getString(R.string.iap_check_connection));
-        }
     }
 
     @Override
@@ -127,10 +124,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     @Override
     public void onFetchAssetFailure(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
-        //Toast.makeText(getContext(),"FAILURE",Toast.LENGTH_SHORT).show();
         if(Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
-        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
     }
 }

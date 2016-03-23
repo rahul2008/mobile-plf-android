@@ -90,14 +90,10 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     private void updateCartOnResume() {
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
-        if (Utility.isInternetConnected(getContext())) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
                 updateCartDetails(presenter);
             }
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-        }
     }
 
     private void updateCartDetails(ShoppingCartPresenter presenter) {
@@ -130,17 +126,12 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     public void onClick(final View v) {
         if (v.getId() == R.id.btn_paynow) {
             if (!Utility.isProgressDialogShowing()) {
-                if (Utility.isInternetConnected(getContext())) {
                     Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
                     if (!isOrderPlaced() || paymentMethodAvailable()) {
                         mPaymentController.placeOrder();
                     } else {
                         mPaymentController.makPayment(orderID);
                     }
-                } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                            getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-                }
             }
         } else if (v.getId() == R.id.btn_cancel) {
             addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
@@ -162,8 +153,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 
@@ -189,15 +179,14 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             Utility.dismissProgressDialog();
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
-                checkForOutOfStock(iapNetworkError);
+                checkForOutOfStock(iapNetworkError,msg);
             } else {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             }
         }
     }
 
-    private void checkForOutOfStock(final IAPNetworkError iapNetworkError) {
+    private void checkForOutOfStock(final IAPNetworkError iapNetworkError, Message msg) {
         com.philips.cdp.di.iap.response.error.Error error = iapNetworkError.getServerError().getErrors().get(0);
         String type = error.getType();
         if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
@@ -205,8 +194,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_out_of_stock), subject);
         } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 }

@@ -33,4 +33,5 @@ public class IAPConstant {
     public static final String PRODUCT_DETAIL_FRAGMENT_IMAGE_URL = "PRODUCT_DETAIL_FRAGMENT_IMAGE_URL";
     public final static String NEW_LINE_ESCAPE_CHARACTER = "\n";
     public static final String INSUFFICIENT_STOCK_LEVEL_ERROR = "InsufficientStockLevelError";
+    public static final String NO_CONNECTION_ERROR = "NO_CONNECTION_ERROR";
 }

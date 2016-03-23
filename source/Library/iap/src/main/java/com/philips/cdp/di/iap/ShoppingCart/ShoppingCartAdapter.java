@@ -113,14 +113,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
-                        if (Utility.isInternetConnected(mContext)) {
                             if (!Utility.isProgressDialogShowing()) {
                                 Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
                                 mPresenter.updateProductQuantity(mData.get(position), newCount);
                             }
-                        } else {
-                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
-                        }
                     }
                 });
                 mPopupWindow = countPopUp.getPopUpWindow();
@@ -145,15 +141,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 switch (position) {
                     case DELETE:
-                        if (Utility.isInternetConnected(mContext)) {
                             if (!Utility.isProgressDialogShowing()) {
                                 Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_deleting_item));
                                 mPresenter.deleteProduct(mData.get(selectedItem));
                                 mPopupWindow.dismiss();
                             }
-                        } else {
-                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
-                        }
                         break;
                     case INFO:
                         setTheProductDataForDisplayingInProductDetailPage(selectedItem);

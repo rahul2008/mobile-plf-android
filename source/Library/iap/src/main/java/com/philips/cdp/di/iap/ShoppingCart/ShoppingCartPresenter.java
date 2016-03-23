@@ -9,7 +9,6 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -111,8 +110,7 @@ public class ShoppingCartPresenter {
                     public void onModelDataError(final Message msg) {
                         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
                         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                        NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok),
-                                mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
+                        NetworkUtility.getInstance().showErrorMessage(msg,mFragmentManager,mContext);
                         if(Utility.isProgressDialogShowing()) {
                             Utility.dismissProgressDialog();
                         }
@@ -157,8 +155,7 @@ public class ShoppingCartPresenter {
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok),
-                        mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
+                NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
                 Utility.dismissProgressDialog();
             }
         });

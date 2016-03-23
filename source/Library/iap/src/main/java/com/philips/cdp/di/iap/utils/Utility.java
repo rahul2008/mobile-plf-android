@@ -56,54 +56,6 @@ public class Utility {
         }
     }
 
-    /**
-     * Checks for internet connection
-     *
-     * @return True if internet exists otherwise false
-     */
-    public static boolean isInternetConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Network[] netInfo = cm.getAllNetworks();
-
-            for (Network network : netInfo) {
-                NetworkInfo networkInfo = cm.getNetworkInfo(network);
-
-                if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI)
-                    if (networkInfo.isConnected())
-                        return true;
-
-                if (networkInfo.getType() == ConnectivityManager.TYPE_WIMAX) // WIMAX//
-                    if (networkInfo.isConnected())
-                        return true;
-
-                if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)
-                    if (networkInfo.isConnected())
-                        return true;
-            }
-        } else {
-            @SuppressWarnings("deprecation")
-            NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-
-            for (NetworkInfo networkInfo : netInfo) {
-
-                if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI)
-                    if (networkInfo.isConnected())
-                        return true;
-
-                if (networkInfo.getType() == ConnectivityManager.TYPE_WIMAX) // WIMAX//
-                    if (networkInfo.isConnected())
-                        return true;
-
-                if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)
-                    if (networkInfo.isConnected())
-                        return true;
-            }
-        }
-        return false;
-    }
-
     public static void hideKeypad(Context pContext) {
         InputMethodManager inputMethodManager = (InputMethodManager) pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
