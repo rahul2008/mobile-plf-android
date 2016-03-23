@@ -31,7 +31,7 @@
             android:layout_height="@dimen/actionbar_height"
             android:layout_marginTop="35dp"
             android:padding="1dp"
-            android:background="@drawable/selector_find_product_button_bg">
+            android:background="?attr/uikit_baseColor">
             <RelativeLayout
                 android:id="@+id/welcome_screen_parent_three"
                 android:layout_width="match_parent"

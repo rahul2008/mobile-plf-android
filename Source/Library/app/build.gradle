@@ -2,8 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.1'
-
+    buildToolsVersion "23.0.1"
     defaultConfig {
         applicationId "com.philips.hor_productselection_android"
         minSdkVersion 14
@@ -12,7 +11,7 @@ android {
         renderscriptSupportModeEnabled true
         generatedDensities = []
         versionCode 3
-        versionName "1.0.2"
+        versionName "1.0.3"
         multiDexEnabled true
     }
 
@@ -34,10 +33,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.0'
     compile 'com.philips.cdp:Tagging:2.0.0@aar'
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1'
-   // compile 'com.philips.cdp:uikitLib:2.0.0'
-    compile 'com.shamanland:fonticon:0.1.8'
-    compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1'
-    compile project(':uikitLib-release')
+    compile 'com.philips.cdp:uikitLib:3.0.0'
 }
 
 allprojects {

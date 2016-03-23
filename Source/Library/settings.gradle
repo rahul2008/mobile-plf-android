@@ -1,4 +1,4 @@
 
 rootProject.setName 'productselection'
-include ':app', ':productselection', ':uikitLib-release'
+include ':app', ':productselection'
 

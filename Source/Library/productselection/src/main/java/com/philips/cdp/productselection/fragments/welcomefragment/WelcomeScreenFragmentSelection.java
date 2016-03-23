@@ -39,24 +39,17 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (mRootView != null) {
-            ViewGroup parent = (ViewGroup) mRootView.getParent();
-            if (parent != null)
-                parent.removeView(mRootView);
-        }
-        try {
-            mRootView = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
-        } catch (InflateException e) {
-        }
+        mRootView = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
+        mSelectProduct = (RelativeLayout) mRootView.findViewById(R.id.welcome_screen_parent_two);
+        mWelcomeScreenParent = (LinearLayout) mRootView.findViewById(
+                R.id.welcome_screen_parent_one);
         return mRootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSelectProduct = (RelativeLayout) getActivity().findViewById(R.id.welcome_screen_parent_two);
-        mWelcomeScreenParent = (LinearLayout) getActivity().findViewById(
-                R.id.welcome_screen_parent_one);
+
         mParams = (FrameLayout.LayoutParams) mWelcomeScreenParent.getLayoutParams();
         mSelectProduct.setOnClickListener(this);
 
@@ -99,7 +92,7 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
             if (isConnectionAvailable()) {
                 Configuration configuration = getResources().getConfiguration();
                 ProductModelSelectionHelper.getInstance().
-                        setLaunchedAsTabletLandscape (isTablet() && configuration.orientation == Configuration.ORIENTATION_LANDSCAPE);
+                        setLaunchedAsTabletLandscape(isTablet() && configuration.orientation == Configuration.ORIENTATION_LANDSCAPE);
 
                 if (isLaunchedAsTabletLandscape()) {
                     showFragment(new ProductSelectionListingTabletFragment());
@@ -119,10 +112,9 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
     }
 
     public void trackFirstPage(String currPage) {
-        if(getPreviousName() != null && !(getPreviousName().equalsIgnoreCase(Constants.PAGE_WELCOME_SCREEN))){
+        if (getPreviousName() != null && !(getPreviousName().equalsIgnoreCase(Constants.PAGE_WELCOME_SCREEN))) {
             Tagging.trackPage(currPage, getPreviousName());
-        }
-        else if (null != Tagging.getLaunchingPageName()) {
+        } else if (null != Tagging.getLaunchingPageName()) {
             Tagging.trackPage(currPage, Tagging.getLaunchingPageName());
         } else {
             Tagging.trackPage(currPage, null);
