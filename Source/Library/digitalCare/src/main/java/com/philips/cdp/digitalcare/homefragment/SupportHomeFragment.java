@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,15 +120,27 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         if (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) {
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSector(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getSector());
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCatalog(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getCatalog());
-          /*  if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 1)
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList()[0]);
-        */
         }
 
-        mCtnFromPreference = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+        mCtnFromPreference = getCtnFromPreference();
 
         if (mCtnFromPreference != null && mCtnFromPreference != "")
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(mCtnFromPreference);
+    }
+
+    @NonNull
+    private String getCtnFromPreference() {
+        return prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+    }
+
+    private boolean isProductSelected() {
+        mCtnFromPreference = getCtnFromPreference();
+        if (mCtnFromPreference == null || mCtnFromPreference == "") {
+            launchProductSelectionComponent();
+            return false;
+        } else
+            return true;
+
     }
 
     @Override
@@ -353,7 +366,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
         if (tag.equals(getStringKey(R.string.contact_us))) {
             if (isConnectionAvailable())
-                showFragment(new ContactUsFragment());
+                if (isProductSelected())
+                    showFragment(new ContactUsFragment());
         } else if (tag.equals(getStringKey(R.string.view_product_details))) {
             if (isConnectionAvailable())
                 showFragment(new ProductDetailsFragment());
@@ -362,21 +376,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 showFragment(new LocatePhilipsFragment());
         } else if (tag.equals(getStringKey(R.string.view_faq))) {
             if (isConnectionAvailable())
-                showFragment(new FaqFragment());
+                if (isProductSelected())
+                    showFragment(new FaqFragment());
         } else if (tag.equals(getStringKey(R.string.feedback))) {
             if (isConnectionAvailable())
-                showFragment(new RateThisAppFragment());
+                if (isProductSelected())
+                    showFragment(new RateThisAppFragment());
         } else if (tag.equals(getStringKey(R.string.Change_Selected_Product))) {
             if (isConnectionAvailable()) {
-                DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
-
-                if (digitalCareConfigManager.getUiLauncher() instanceof ActivityLauncher) {
-                    launchProductSelectionActivityComponent();
-                } else if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher) {
-                    Configuration configuration = getResources().getConfiguration();
-                    ProductModelSelectionHelper.getInstance().setCurrentOrientation(configuration);
-                    launchProductSelectionFragmentComponent();
-                }
+                launchProductSelectionComponent();
             }
         }
     }
