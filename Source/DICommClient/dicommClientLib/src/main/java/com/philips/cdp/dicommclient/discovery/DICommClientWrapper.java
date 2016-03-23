@@ -49,7 +49,7 @@ public class DICommClientWrapper {
         return isCppAppIdAvailable() ? CppController.getInstance().getAppCppId() : mTemporaryAppId;
     }
 
-    private static boolean isCppAppIdAvailable() {
+    public static boolean isCppAppIdAvailable() {
         return CppController.getInstance() != null && CppController.getInstance().getAppCppId() != null;
     }
 }
