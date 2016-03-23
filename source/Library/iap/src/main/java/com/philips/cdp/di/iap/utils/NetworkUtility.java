@@ -16,17 +16,11 @@ Revision History: version 1:
 
 package com.philips.cdp.di.iap.utils;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 
-/**
- * @author Vinayak Udikeri
- */
 public class NetworkUtility {
 
     private static NetworkUtility mNetworkUtility;
@@ -50,24 +44,6 @@ public class NetworkUtility {
 
     public void setOnline(boolean isOnline) {
         this.isOnline = isOnline;
-    }
-
-    public void checkIsOnline(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                        setOnline(true);
-                        return;
-                    }
-                }
-            }
-        }
-        setOnline(false);
     }
 
     public void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
