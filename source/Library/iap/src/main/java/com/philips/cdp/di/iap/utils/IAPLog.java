@@ -20,7 +20,6 @@ public class IAPLog {
     public static boolean isLoggingEnabled = true;
 
     public static String APP_SOURCE_VALUE = "Develop";
-    public static final String ORDER_SUMMARY_FRAGMENT = "OrderSummaryFragment";
 
     public static void enableLogging() {
         isLoggingEnabled = true;

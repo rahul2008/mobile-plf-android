@@ -72,7 +72,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void registerEvents() {
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_DELETE, this);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.ORDER_SUMMARY_FRAGMENT, this);
         EventHelper.getInstance().registerEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
         EventHelper.getInstance().registerEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, this);
     }
@@ -131,7 +130,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void unregisterEvents() {
         EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_EDIT, this);
         EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_DELETE, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ORDER_SUMMARY_FRAGMENT, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, this);
     }
@@ -225,19 +223,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 deleteShippingAddress();
             }
         }
-        if (event.equalsIgnoreCase(IAPConstant.ORDER_SUMMARY_FRAGMENT)) {
-
-            PaymentController paymentController = new PaymentController(mContext, this);
-
-            if (!Utility.isProgressDialogShowing()) {
-                if (Utility.isInternetConnected(mContext)) {
-                    Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
-                    paymentController.getPaymentDetails();
-                } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-                }
-            }
-        }
         if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
@@ -304,8 +289,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, address.getLine1());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, address.getPhone());
 
-        if (address.getRegion() != null)
+        if (address.getRegion() != null) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, address.getRegion().getName());
+            addressHashMap.put(ModelConstants.REGION_CODE, address.getRegion().getIsocode());
+        }
 
         if (address.getEmail() != null)
             addressHashMap.put(ModelConstants.EMAIL_ADDRESS, address.getEmail());

@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
@@ -56,6 +57,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private Context mContext;
 
     protected LinearLayout mlLState;
+    protected TextView mTvTitle;
     protected EditText mEtFirstName;
     protected EditText mEtLastName;
     protected EditText mEtSalutation;
@@ -92,6 +94,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
 
         mlLState = (LinearLayout) rootView.findViewById(R.id.ll_state);
+        mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
         mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
         mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
         mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
@@ -261,8 +264,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     showErrorMessage(msg);
                 }
             } else {
-                addFragment(AddressSelectionFragment.createInstance(new Bundle(),
-                        AnimationType.NONE), null);
+                getFragmentManager().popBackStackImmediate();
             }
         }
     }
@@ -463,9 +465,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (s.length() > 0) {
+            if (mTvTitle.getText().toString().equalsIgnoreCase(getResources().getString(R.string.iap_billing_address))) {
+                if (s.length() > 0)
+                    validate(mEditText, false);
+            } else
                 validate(mEditText, false);
-            }
         }
 
         public void afterTextChanged(Editable s) {
@@ -486,7 +490,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
-        addressHashMap.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
         return addressHashMap;
     }
 
@@ -517,6 +520,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mlLState.setVisibility(View.GONE);
         }
 
+        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
+                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
+            addressHashMap.put(ModelConstants.REGION_ISOCODE,
+                    mAddressFieldsHashmap.get(ModelConstants.REGION_CODE));
+        }
+
         setRequestFocus();
     }
 
@@ -536,7 +545,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
     }
 
-    protected AddressFields setAddressFields(AddressFields addressFields){
+    protected AddressFields setAddressFields(AddressFields addressFields) {
         addressFields.setFirstName(mEtFirstName.getText().toString());
         addressFields.setLastName(mEtLastName.getText().toString());
         addressFields.setTitleCode(mEtSalutation.getText().toString());
