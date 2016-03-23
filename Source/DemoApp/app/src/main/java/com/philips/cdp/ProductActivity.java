@@ -18,7 +18,6 @@ import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProductResponse;
-import com.philips.cdp.model.RegisteredDataResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
@@ -66,15 +65,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 mDisplayDate = dateFormat.parse(arg1 + "-" + mMonth + "-" + mDate);
                 mDeviceDate = dateFormat.parse(mGetDeviceDate);
                 mPastdate = dateFormat.parse(getResources().getString(R.string.past_year) + "-" + getResources().getString(R.string.past_month) + "-" + getResources().getString(R.string.past_date));
-                if (mPastdate.before(mDisplayDate)) {
-                    if (mDisplayDate.after(mDeviceDate)) {
-                        Log.d(TAG, " Response Data : " + "Error in Date");
-                    } else {
-                        purchaseDate.setText(arg1 + "-" + mMonth + "-" + mDate);
-                    }
-                } else {
-                    Toast.makeText(ProductActivity.this, getResources().getString(R.string.past_purchase_date_error), Toast.LENGTH_SHORT).show();
 
+                if (mDisplayDate.after(mDeviceDate)) {
+                    Log.d(TAG, " Response Data : " + "Error in Date");
+                } else {
+                    purchaseDate.setText(arg1 + "-" + mMonth + "-" + mDate);
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -115,27 +110,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             }
         };
         prodRegHelper.registerProduct(this, prodRegRequestInfo, listener);
-    }
-
-    private void registeredProduct() {
-        ProdRegHelper prodRegHelper = new ProdRegHelper();
-        final ProdRegListener listener = new ProdRegListener() {
-            @Override
-            public void onProdRegSuccess(final ResponseData responseData) {
-                Log.d(TAG, responseData.toString());
-                RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
-
-                Toast.makeText(ProductActivity.this, registeredDataResponse.getResults().toString(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onProdRegFailed(final ErrorType errorType) {
-                Log.d(TAG, errorType.getDescription());
-            }
-        };
-        ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(null, null, Sector.B2C, Catalog.CONSUMER);
-        prodRegHelper.setLocale("en", "GB");
-        prodRegHelper.getRegisteredProduct(this, prodRegRequestInfo, listener);
     }
 
     @Override

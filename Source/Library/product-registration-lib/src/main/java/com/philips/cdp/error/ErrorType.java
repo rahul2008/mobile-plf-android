@@ -9,7 +9,7 @@ public enum ErrorType {
     UNKNOWN(-1, "unknown"),
     ACCESS_TOKEN_INVALID(403, "malformed access token"),
     ACCESS_TOKEN_EXPIRED(500, "access token expired"),
-    REFRESH_ACCESS_TOKEN_FAILED(500, "access token expired"),
+    REFRESH_ACCESS_TOKEN_FAILED(500, "error in getting access token"),
     INVALID_VALIDATION(422, "Invalid input"),
     INVALID_PRODUCT(404, "CTN not found"),
     INVALID_SERIAL_NUMBER(400, "Invalid Serial Number"),

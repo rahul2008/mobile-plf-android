@@ -45,6 +45,7 @@ public class ProdRegHelper {
      * @param listener           - Callback listener
      */
     public void registerProduct(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+        testMethod();
         Validator validator = new Validator();
         if (!validator.isUserSignedIn(new User(context), context)) {
             listener.onProdRegFailed(ErrorType.USER_NOT_SIGNED_IN);
@@ -57,8 +58,8 @@ public class ProdRegHelper {
                     public void onProdRegSuccess(final ResponseData responseData) {
                         RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
                         Results[] results = registeredDataResponse.getResults();
-                        for (int i = 0; i < results.length; i++) {
-                            if (prodRegRequestInfo.getCtn().equalsIgnoreCase(results[i].getProductModelNumber())) {
+                        for (Results result : results) {
+                            if (prodRegRequestInfo.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
                                 listener.onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
                                 return;
                             }
@@ -68,12 +69,16 @@ public class ProdRegHelper {
 
                     @Override
                     public void onProdRegFailed(final ErrorType errorType) {
-                        listener.onProdRegFailed(ErrorType.FETCH_REGISTERED_PRODUCTS_FAILED);
+                        listener.onProdRegFailed(errorType);
                     }
                 };
                 getRegisteredProduct(context, new ProdRegRequestInfo(null, null, Sector.B2C, Catalog.CONSUMER), getRegisteredProductsListener);
             }
         }
+    }
+
+    protected void testMethod() {
+
     }
 
     /**
