@@ -73,7 +73,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void registerEvents() {
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_DELETE, this);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.ORDER_SUMMARY_FRAGMENT, this);
         EventHelper.getInstance().registerEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
         EventHelper.getInstance().registerEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, this);
     }
@@ -132,7 +131,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void unregisterEvents() {
         EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_EDIT, this);
         EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_DELETE, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ORDER_SUMMARY_FRAGMENT, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, this);
     }
@@ -223,19 +221,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 moveToShippingAddressFragment(addressHashMap);
             } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
                 deleteShippingAddress();
-            }
-        }
-        if (event.equalsIgnoreCase(IAPConstant.ORDER_SUMMARY_FRAGMENT)) {
-
-            PaymentController paymentController = new PaymentController(mContext, this);
-
-            if (!Utility.isProgressDialogShowing()) {
-                if (Utility.isInternetConnected(mContext)) {
-                    Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
-                    paymentController.getPaymentDetails();
-                } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-                }
             }
         }
         if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
