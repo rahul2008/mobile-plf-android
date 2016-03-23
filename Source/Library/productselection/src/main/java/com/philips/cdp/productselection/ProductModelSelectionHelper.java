@@ -95,7 +95,7 @@ public class ProductModelSelectionHelper {
         }
     }
 
-	public void initializeTagging(Boolean taggingEnabled, String appName, String appId, String launchingPage){
+    public void initializeTagging(Boolean taggingEnabled, String appName, String appId, String launchingPage) {
         ProductSelectionLogger.i("testing", "Tagging init");
         Tagging.enableAppTagging(taggingEnabled);
         Tagging.setTrackingIdentifier(appId);
@@ -108,7 +108,7 @@ public class ProductModelSelectionHelper {
 
         Tagging.init(getLocale(), getContext(), appName);
     }
-	
+
     public UiLauncher getLauncherType() {
         return mLauncherType;
     }
@@ -136,7 +136,11 @@ public class ProductModelSelectionHelper {
             @Override
             public void onSuccess(List<SummaryModel> summaryModels) {
                 if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing())
-                    mProgressDialog.cancel();
+                    try {
+                        mProgressDialog.cancel();
+                    } catch (IllegalArgumentException e) {
+                       ProductSelectionLogger.e(TAG, "Progress Dialog Exception " + e);
+                    }
                 if (summaryModels.size() >= 1) {
                     SummaryModel[] ctnArray = new SummaryModel[summaryModels.size()];
                     for (int i = 0; i < summaryModels.size(); i++)
@@ -179,7 +183,7 @@ public class ProductModelSelectionHelper {
                     actionbarUpdateListener, enterAnim, exitAnim);
         } else {
             setLaunchedAsTabletLandscape(isTablet(context) && (mVerticalOrientation.orientation == Configuration.ORIENTATION_LANDSCAPE));
-            if ( isLaunchedAsTabletLandscape()) {
+            if (isLaunchedAsTabletLandscape()) {
                 ProductSelectionListingTabletFragment productselectionListingTabletFragment = new ProductSelectionListingTabletFragment();
                 productselectionListingTabletFragment.showFragment(context, parentContainerResId, productselectionListingTabletFragment,
                         actionbarUpdateListener, enterAnim, exitAnim);
@@ -196,12 +200,12 @@ public class ProductModelSelectionHelper {
      *  While setting this boolean pls keep in mind that landscape status and
      *   tablet status has to be set.
     */
-    public void setLaunchedAsTabletLandscape(boolean tabletLandscape){
+    public void setLaunchedAsTabletLandscape(boolean tabletLandscape) {
         isTabletLandscape = tabletLandscape;
     }
 
     // Need this API @ activity level for Tablet Landscape GUI alignment.
-    public  boolean isLaunchedAsTabletLandscape(){
+    public boolean isLaunchedAsTabletLandscape() {
         return isTabletLandscape;
     }
 
@@ -221,7 +225,7 @@ public class ProductModelSelectionHelper {
     }
 
     /*  Thsi is required to set, in order to achieve proper GUI for tablet. */
-    public void setCurrentOrientation(Configuration config){
+    public void setCurrentOrientation(Configuration config) {
         mVerticalOrientation = config;
     }
 
