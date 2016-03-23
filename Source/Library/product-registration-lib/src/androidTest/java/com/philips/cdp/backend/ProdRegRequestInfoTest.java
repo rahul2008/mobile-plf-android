@@ -11,6 +11,15 @@ public class ProdRegRequestInfoTest extends InstrumentationTestCase {
 
     ProdRegRequestInfo prodRegRequestInfo;
 
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        prodRegRequestInfo = new ProdRegRequestInfo(null, null, null, null);
+        System.setProperty(
+                "dexmaker.dexcache",
+                getInstrumentation().getTargetContext().getCacheDir().getPath());
+    }
+
     public void testGetSerialNumber() throws Exception {
         prodRegRequestInfo.setSerialNumber("1344");
         assertEquals("1344", prodRegRequestInfo.getSerialNumber());
