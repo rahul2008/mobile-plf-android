@@ -24,8 +24,8 @@ import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 
 public class DiComActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
 
+    private String TAG = getClass().toString();
     private DiscoveryManager<?> discoveryManager;
     private ArrayAdapter<DICommAppliance> applianceAdapter;
     private DICommPortListener wifiPortListener = new DICommPortListener() {

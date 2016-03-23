@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.ProductLog;
 import com.philips.cdp.Util;
 import com.philips.cdp.backend.ProdRegHelper;
 import com.philips.cdp.backend.ProdRegRequestInfo;
@@ -41,8 +40,8 @@ import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
  * All rights reserved.
  */
 public class DetailActivity extends AppCompatActivity {
-    private static final String TAG = "DetailActivity";
 
+    private String TAG = getClass().toString();
     private EditText editTextName;
     private SwitchCompat lightSwitch;
     private AirPurifier currentPurifier;
@@ -191,7 +190,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         } else {
             Toast.makeText(DetailActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
-            ProductLog.producrlog(ProductLog.ONCLICK, "On Click : User Registration");
+            Log.d(TAG, "On Click : User Registration");
             RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
             Util.navigateFromUserRegistration();
         }

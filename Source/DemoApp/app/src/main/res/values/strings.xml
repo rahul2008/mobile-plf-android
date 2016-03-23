@@ -4,14 +4,19 @@
     <string name="enter_ctn_number">Enter CTN number</string>
     <string name="user_registration">User Registration</string>
     <string name="product_registration">Product Registration</string>
-    <string name="past_year">1999</string>
-    <string name="past_date">31</string>
-    <string name="past_month">12</string>
-    <string name="past_purchase_date_error">error in date selection</string>
     <string name="my_id">My ID:</string>
     <string name="device_name">Device name</string>
     <string name="diCom_integration">DiCom Integration</string>
     <string name="light_state">Light state</string>
     <string name="set">Set</string>
     <string name="pair">Pair</string>
+    <string name="product_registered_successfully">Product registered successfully</string>
+    <string name="user_signed_in">user signed in</string>
+    <string name="integratingApplicationAppsId">integratingApplicationAppsId</string>
+    <string name="demo_app_home">demoapp:home</string>
+    <string name="past_year">1999</string>
+    <string name="past_date">31</string>
+    <string name="past_month">12</string>
+    <string name="past_purchase_date_error">error in date selection</string>
+
 </resources>

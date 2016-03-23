@@ -30,32 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * <b> Steps to register a product </b>
- * <br></br>
- * <pre>
- *       RegistrationRequest registrationRequest = new RegistrationRequest("HC5410/83", "ww6bsdquca864kbt", "1344");
- *       registrationRequest.setSector(Sector.B2C);
- *       registrationRequest.setCatalog(Catalog.CONSUMER);
- *       registrationRequest.setmLocale("en_GB");
- *       registrationRequest.setmCatalogCode(mCatalogCode);
- *
- *       ProdRegHelper prodRegHelper = new ProdRegHelper(this);
- *       prodRegHelper.setLocale("en", "GB");
- *       prodRegHelper.registerProduct(this, registrationRequest, new ResponseListener() {
- *           @Override
- *            public void onResponseSuccess(ResponseData responseData) {
- *            Toast.makeText(ProductActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();
- *          }
- *
- *           @Override
- *             public void onResponseError(String error, int code) {
- *               Toast.makeText(ProductActivity.this, error, Toast.LENGTH_SHORT).show();
- *           }
- *         });
- *
- *  </pre>
- */
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText regChannel, serialNumber, purchaseDate, ctn;
@@ -116,14 +90,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         serialNumber = (EditText) findViewById(R.id.edt_serial_number);
         purchaseDate = (EditText) findViewById(R.id.edt_purchase_date);
         ctn = (EditText) findViewById(R.id.edt_ctn);
-        initEditText();
-    }
-
-    private void initEditText() {
-        regChannel.setText("");
-        serialNumber.setText("");
-        purchaseDate.setText("");
-        ctn.setText("");
     }
 
     private void registerProduct() {
@@ -136,7 +102,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         final ProdRegListener listener = new ProdRegListener() {
             @Override
             public void onProdRegSuccess(ResponseData responseData) {
-                Toast.makeText(ProductActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProductActivity.this, getResources().getString(R.string.product_registered_successfully), Toast.LENGTH_SHORT).show();
                 ProductResponse productResponse = (ProductResponse) responseData;
                 if (productResponse.getData() != null)
                     Log.d(TAG, " Response Data : " + productResponse.getData());
@@ -179,13 +145,13 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             if (ctn.getText().toString().equalsIgnoreCase("")) {
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(ProductActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_signed_in), Toast.LENGTH_SHORT).show();
                 regChannel.setText(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
                 registerProduct();
             }
         } else {
-            Toast.makeText(ProductActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
-            ProductLog.producrlog(ProductLog.ONCLICK, "On Click : User Registration");
+            Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_signed_in), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "On Click : User Registration");
             RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
             Util.navigateFromUserRegistration();
         }
