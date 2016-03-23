@@ -39,7 +39,7 @@ import java.util.List;
     @author: ritesh.jha@philips.com
  */
 
-public class LaunchDigitalCare extends FragmentActivity implements OnClickListener,
+public class  LaunchDigitalCare extends FragmentActivity implements OnClickListener,
         MainMenuListener, ProductMenuListener, SocialProviderListener {
 
     public static final String HOCKEY_APP_ID = "9d6c50153b0c5394faa920d9dda951c7";

@@ -282,9 +282,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         if (buttonTitle.equals(getStringKey(R.string.view_product_details))) {
             mProductViewProductButton = (View) relativeLayout;
             ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-            if ((model.getCtnName() != null)
-                    || (model.getProductName() != null))
-                mProductViewProductButton.setVisibility(View.VISIBLE);
+            if (model != null)
+                if ((model.getCtnName() != null)
+                        || (model.getProductName() != null))
+                    mProductViewProductButton.setVisibility(View.VISIBLE);
+                else
+                    mProductViewProductButton.setVisibility(View.GONE);
             else
                 mProductViewProductButton.setVisibility(View.GONE);
         }
@@ -574,8 +577,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
     @Override
     public void onResponseReceived(SummaryModel productSummaryModel) {
-        DigiCareLogger.v(TAG, "Response Received from Data Received null");
-
         if (productSummaryModel == null)
             createMainMenu();
         else {
