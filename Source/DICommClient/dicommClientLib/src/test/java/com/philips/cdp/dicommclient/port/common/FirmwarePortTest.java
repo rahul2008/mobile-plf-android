@@ -67,7 +67,7 @@ public class FirmwarePortTest extends RobolectricTest {
         String parseData = "{\"name\":\"HCN_DEVGEN\",\"upgrade\":\"1.1\",\"state\":\"idle\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
 
         FirmwarePortProperties result = parseFirmwarePortData(parseData);
-        assertEquals(result.getVersion(), "");
+        assertNull(result);
     }
 
     @Test

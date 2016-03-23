@@ -7,6 +7,8 @@ package com.philips.cdp.dicommclient.port.common;
 
 public class FirmwarePortProperties {
 
+	public static int INVALID_INT_VALUE = Integer.MIN_VALUE;
+
 	public enum FirmwareState {
 		IDLE, DOWNLOADING, CHECKING, READY, PROGRAMMING, CANCELING, ERROR
 	}
@@ -75,11 +77,6 @@ public class FirmwarePortProperties {
 	}
 
 	public boolean isValid() {
-		if (name.equals("") && version.equals("") && upgrade.equals("")
-				&& state.equals("") && progress == -1 && statusmsg.equals("")) {
-			// All values still unintialized
-			return false;
-		}
-		return true;
+		return !(name.isEmpty() || version.isEmpty() || progress == INVALID_INT_VALUE);
 	}
 }
