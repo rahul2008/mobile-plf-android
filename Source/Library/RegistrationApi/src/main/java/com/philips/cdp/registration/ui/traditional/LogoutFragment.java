@@ -30,6 +30,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.utils.CustomCircularProgress;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -66,7 +67,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     public static final int BAD_RESPONSE_ERROR_CODE = 7008;
 
-    private ProgressDialog mLogoutProgressDialog;
+    private CustomCircularProgress mLogoutProgressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -174,9 +175,8 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mPbWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_welcome_spinner);
 
-        mLogoutProgressDialog = new ProgressDialog(getParentFragment().getActivity(),R.style.reg_custom_dialog);
+        mLogoutProgressDialog = new CustomCircularProgress(getActivity());
         mLogoutProgressDialog.setCancelable(false);
-        mLogoutProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 
         mTvEmailDetails = (TextView) view.findViewById(R.id.tv_reg_email_details_container);
         mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);

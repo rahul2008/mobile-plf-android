@@ -23,6 +23,7 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.utils.CustomCircularProgress;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 
@@ -46,7 +47,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     private XRegError mRegError;
 
-    private ProgressDialog mProgressDialog;
+    private CustomCircularProgress mLogoutProgressDialog;
 
 
     @Override
@@ -151,9 +152,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
         mBtnContinue.setOnClickListener(this);
 
-        mProgressDialog = new ProgressDialog(getParentFragment().getActivity(),R.style.reg_custom_dialog);
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        mLogoutProgressDialog = new CustomCircularProgress(getParentFragment().getActivity());
+        mLogoutProgressDialog.setCancelable(false);
 
         mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
 
@@ -235,14 +235,13 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     }
 
     private void showLogoutSpinner() {
-        mProgressDialog.setMessage("Please wait...");
-        mProgressDialog.show();
+        mLogoutProgressDialog.show();
         mBtnSignOut.setEnabled(false);
     }
 
     private void hideLogoutSpinner() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
+        if (mLogoutProgressDialog != null && mLogoutProgressDialog.isShowing()) {
+            mLogoutProgressDialog.dismiss();
         }
         mBtnSignOut.setEnabled(true);
     }
