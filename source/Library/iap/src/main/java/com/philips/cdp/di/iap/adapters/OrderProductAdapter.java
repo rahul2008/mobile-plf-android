@@ -75,7 +75,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mBillingAddress.setText(Utility.createAddress(mPaymentMethod.getBillingAddress()));
 
                 footerHolder.mLLPaymentMode.setVisibility(View.VISIBLE);
-                footerHolder.mPaymentCardName.setText(mPaymentMethod.getCardNumber());
+                footerHolder.mPaymentCardName.setText(mPaymentMethod.getCardType().getCode() + " " + mPaymentMethod.getCardNumber());
 
                 footerHolder.mPaymentCardHolderName.setText(mPaymentMethod.getAccountHolderName()
                         + "\n" + (mContext.getResources().getString(R.string.iap_valid_until)) + " "
@@ -100,7 +100,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             String price = cartData.getTotalPriceFormatedPrice();
 
             orderProductHolder.mTvtotalPrice.setText(price);
-            // orderProductHolder.mTvtotalPrice.setTypeface(null, Typeface.BOLD);
             orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
         }
     }
