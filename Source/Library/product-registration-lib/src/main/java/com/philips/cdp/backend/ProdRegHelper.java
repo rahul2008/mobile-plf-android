@@ -52,7 +52,7 @@ public class ProdRegHelper {
             if (!validator.isValidaDate(prodRegRequestInfo.getPurchaseDate())) {
                 listener.onProdRegFailed(ErrorType.INVALID_DATE);
             } else {
-                final ProdRegListener listenerTest = new ProdRegListener() {
+                final ProdRegListener getRegisteredProductsListener = new ProdRegListener() {
                     @Override
                     public void onProdRegSuccess(final ResponseData responseData) {
                         RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
@@ -71,7 +71,7 @@ public class ProdRegHelper {
                         listener.onProdRegFailed(ErrorType.FETCH_REGISTERED_PRODUCTS_FAILED);
                     }
                 };
-                getRegisteredProduct(context, new ProdRegRequestInfo(null, null, Sector.B2C, Catalog.CONSUMER), listenerTest);
+                getRegisteredProduct(context, new ProdRegRequestInfo(null, null, Sector.B2C, Catalog.CONSUMER), getRegisteredProductsListener);
             }
         }
     }
