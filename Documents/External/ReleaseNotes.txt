@@ -51,3 +51,18 @@ Version - 0.0.3                             Date: 09-03-2016
      2.	Handled validation for purchase date.
      3.	Validated Invalid CTN number.
      4.	Metadata validation before registering a product.
+
+Version - 0.0.4                             Date: 23-03-2016
+-------------------------------------------------------------
+
+  Following features has fixed :
+
+     1 : PRA-99 Incorrect purchase date is accepted by the app
+     
+  Following features can be tested:
+  
+     1.	Implemented registred the product with DI-Comm .
+     
+
+	 
+	 
