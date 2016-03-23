@@ -21,14 +21,11 @@ import com.philips.cdp.registration.User;
  */
 public class Product {
 
-    private Context mContext;
-
     public void getProductSummary() {
 
     }
 
     public void getProductMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener helperListener, final ProdRegListener listener) {
-        mContext = context;
         final PRXDataBuilderFactory prxDataBuilderFactory = new PRXDataBuilderFactory();
         final PrxRequest prxRequest = prxDataBuilderFactory.createPRXBuilder(PRXRequestType.METADATA, prodRegRequestInfo, new User(context).getAccessToken());
         RequestManager mRequestManager = getRequestManager(context);
@@ -57,7 +54,7 @@ public class Product {
         return mRequestManager;
     }
 
-    private void handleError(final int statusCode, final ProdRegListener listener) {
+    protected void handleError(final int statusCode, final ProdRegListener listener) {
         if (statusCode == ErrorType.INVALID_PRODUCT.getCode()) {
             listener.onProdRegFailed(ErrorType.INVALID_PRODUCT);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getCode()) {

@@ -46,7 +46,7 @@ public class ProdRegHelper {
      * @param listener           - Callback listener
      */
     public void registerProduct(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
-        Validator validator = new Validator();
+        Validator validator = getValidator();
         if (!validator.isUserSignedIn(new User(context), context)) {
             listener.onProdRegFailed(ErrorType.USER_NOT_SIGNED_IN);
         } else {
@@ -57,6 +57,11 @@ public class ProdRegHelper {
                 getRegisteredProduct(context, new ProdRegRequestInfo(null, null, Sector.B2C, Catalog.CONSUMER), getRegisteredProductsListener);
             }
         }
+    }
+
+    @NonNull
+    private Validator getValidator() {
+        return new Validator();
     }
 
     @NonNull

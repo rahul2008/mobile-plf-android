@@ -22,9 +22,6 @@ public class ValidatorTest extends MockitoTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        System.setProperty(
-                "dexmaker.dexcache",
-                getInstrumentation().getTargetContext().getCacheDir().getPath());
         validator = new Validator();
         userMock = mock(User.class);
         context = getInstrumentation().getContext();
