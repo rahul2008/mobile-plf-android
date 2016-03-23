@@ -18,6 +18,7 @@ import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProductResponse;
+import com.philips.cdp.model.RegisteredDataResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
@@ -31,10 +32,10 @@ import java.util.Date;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText regChannel, serialNumber, purchaseDate, ctn;
+    private EditText mRegChannel, mSerialNumber, mPurchaseDate, mCtn;
     private String TAG = getClass().toString();
-    private Calendar calendar;
-    private int monthInt, mdateInt, year, month, day;
+    private Calendar mCalendar;
+    private int mMonthInt, mDateInt, mYear, mDay;
     private String mMonth, mDate;
     private String[] mEditDisplayDate;
     private String mGetDeviceDate;
@@ -44,33 +45,32 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
             Log.d(TAG, "Response Data : " + arg1 + "-" + arg2 + "-" + arg3);
-            monthInt = (arg2 + 1);
-            mdateInt = arg3;
-            if (monthInt < 10) {
-                mMonth = "0" + monthInt;
+            mMonthInt = (arg2 + 1);
+            mDateInt = arg3;
+            if (mMonthInt < 10) {
+                mMonth = getResources().getString(R.string.zero) + mMonthInt;
             } else {
-                mMonth = Integer.toString(monthInt);
+                mMonth = Integer.toString(mMonthInt);
             }
-            if (mdateInt < 10) {
-                mDate = "0" + mdateInt;
+            if (mDateInt < 10) {
+                mDate = getResources().getString(R.string.zero) + mDateInt;
             } else {
-                mDate = Integer.toString(mdateInt);
+                mDate = Integer.toString(mDateInt);
             }
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            calendar = Calendar.getInstance();
-            mGetDeviceDate = dateFormat.format(calendar.getTime());
+            SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_formate));
+            mCalendar = Calendar.getInstance();
+            mGetDeviceDate = dateFormat.format(mCalendar.getTime());
             mDisplayDate = new Date();
             mDeviceDate = new Date();
             try {
                 mDisplayDate = dateFormat.parse(arg1 + "-" + mMonth + "-" + mDate);
                 mDeviceDate = dateFormat.parse(mGetDeviceDate);
                 mPastdate = dateFormat.parse(getResources().getString(R.string.past_year) + "-" + getResources().getString(R.string.past_month) + "-" + getResources().getString(R.string.past_date));
-
-                if (mDisplayDate.after(mDeviceDate)) {
-                    Log.d(TAG, " Response Data : " + "Error in Date");
-                } else {
-                    purchaseDate.setText(arg1 + "-" + mMonth + "-" + mDate);
-                }
+                    if (mDisplayDate.after(mDeviceDate)) {
+                        Log.d(TAG, " Response Data : " + "Error in Date");
+                    } else {
+                        mPurchaseDate.setText(arg1 + "-" + mMonth + "-" + mDate);
+                    }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -81,19 +81,19 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_activity_main);
-        regChannel = (EditText) findViewById(R.id.edt_reg_channel);
-        serialNumber = (EditText) findViewById(R.id.edt_serial_number);
-        purchaseDate = (EditText) findViewById(R.id.edt_purchase_date);
-        ctn = (EditText) findViewById(R.id.edt_ctn);
+        mRegChannel = (EditText) findViewById(R.id.edt_reg_channel);
+        mSerialNumber = (EditText) findViewById(R.id.edt_serial_number);
+        mPurchaseDate = (EditText) findViewById(R.id.edt_purchase_date);
+        mCtn = (EditText) findViewById(R.id.edt_ctn);
     }
 
     private void registerProduct() {
         PrxLogger.enablePrxLogger(true);
 
-        ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(ctn.getText().toString(), serialNumber.getText().toString(), Sector.B2C, Catalog.CONSUMER);
+        ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(mCtn.getText().toString(), mSerialNumber.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.setLocale("en", "GB");
-        prodRegRequestInfo.setPurchaseDate(purchaseDate.getText().toString());
+        prodRegRequestInfo.setPurchaseDate(mPurchaseDate.getText().toString());
         final ProdRegListener listener = new ProdRegListener() {
             @Override
             public void onProdRegSuccess(ResponseData responseData) {
@@ -116,11 +116,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         final User mUser = new User(this);
         if (mUser.isUserSignIn(ProductActivity.this) && mUser.getEmailVerificationStatus(ProductActivity.this)) {
-            if (ctn.getText().toString().equalsIgnoreCase("")) {
+            if (mCtn.getText().toString().equalsIgnoreCase("")) {
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_signed_in), Toast.LENGTH_SHORT).show();
-                regChannel.setText(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+                mRegChannel.setText(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
                 registerProduct();
             }
         } else {
@@ -132,18 +132,18 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void onClickPurchaseDate(View view) {
-        if (!purchaseDate.getText().toString().equalsIgnoreCase("")) {
-            mEditDisplayDate = purchaseDate.getText().toString().split("-");
-            year = Integer.parseInt(mEditDisplayDate[0]);
-            month = Integer.parseInt(mEditDisplayDate[1]) - 1;
-            day = Integer.parseInt(mEditDisplayDate[2]);
+        if (!mPurchaseDate.getText().toString().equalsIgnoreCase("")) {
+            mEditDisplayDate = mPurchaseDate.getText().toString().split("-");
+            mYear = Integer.parseInt(mEditDisplayDate[0]);
+            mMonthInt = Integer.parseInt(mEditDisplayDate[1]) - 1;
+            mDay = Integer.parseInt(mEditDisplayDate[2]);
         } else {
-            calendar = Calendar.getInstance();
-            year = calendar.get(Calendar.YEAR);
-            month = calendar.get(Calendar.MONTH);
-            day = calendar.get(Calendar.DAY_OF_MONTH);
+            mCalendar = Calendar.getInstance();
+            mYear = mCalendar.get(Calendar.YEAR);
+            mMonthInt = mCalendar.get(Calendar.MONTH);
+            mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
         }
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, mYear, mMonthInt, mDay);
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }

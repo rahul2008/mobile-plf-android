@@ -42,12 +42,12 @@ import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 public class DetailActivity extends AppCompatActivity {
 
     private String TAG = getClass().toString();
-    private EditText editTextName;
-    private SwitchCompat lightSwitch;
-    private AirPurifier currentPurifier;
-    private TextView ctn;
-    private TextView serial_number;
-    private Button register;
+    private EditText mEditTextName;
+    private SwitchCompat mLightSwitch;
+    private AirPurifier mCurrentPurifier;
+    private TextView mCtn;
+    private TextView mSerial_number;
+    private Button mRegister;
 
     private DICommApplianceListener diCommApplianceListener = new DICommApplianceListener() {
 
@@ -70,13 +70,13 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detail);
-        currentPurifier = (AirPurifier) CurrentApplianceManager.getInstance().getCurrentAppliance();
+        mCurrentPurifier = (AirPurifier) CurrentApplianceManager.getInstance().getCurrentAppliance();
 
-        editTextName = (EditText) findViewById(R.id.editTextName);
-        register = (Button) findViewById(R.id.register);
+        mEditTextName = (EditText) findViewById(R.id.editTextName);
+        mRegister = (Button) findViewById(R.id.register);
 
-        lightSwitch = (SwitchCompat) findViewById(R.id.switchLight);
-        lightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mLightSwitch = (SwitchCompat) findViewById(R.id.switchLight);
+        mLightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(final CompoundButton compoundButton, final boolean isChecked) {
                 updateLightProperty(isChecked);
@@ -87,7 +87,7 @@ public class DetailActivity extends AppCompatActivity {
         buttonSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                updateNameProperty(editTextName.getText().toString());
+                updateNameProperty(mEditTextName.getText().toString());
             }
         });
 
@@ -98,19 +98,19 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        updateLightSwitchView(currentPurifier.getAirPort());
-        updateDeviceNameView(currentPurifier.getDevicePort());
+        updateLightSwitchView(mCurrentPurifier.getAirPort());
+        updateDeviceNameView(mCurrentPurifier.getDevicePort());
     }
 
     private void updateNameProperty(final String name) {
-        DevicePort devicePort = currentPurifier.getDevicePort();
+        DevicePort devicePort = mCurrentPurifier.getDevicePort();
         if (devicePort != null) {
             devicePort.setDeviceName(name);
         }
     }
 
     private void updateLightProperty(final boolean isChecked) {
-        AirPort airPort = currentPurifier.getAirPort();
+        AirPort airPort = mCurrentPurifier.getAirPort();
         if (airPort != null) {
             airPort.setLight(isChecked);
         }
@@ -131,39 +131,39 @@ public class DetailActivity extends AppCompatActivity {
     private void updateDeviceNameView(final DevicePort devicePort) {
         DevicePortProperties properties = devicePort.getPortProperties();
         if (properties != null) {
-            register.setVisibility(View.VISIBLE);
-            editTextName.setText(properties.getCtn() + "Serial No" + properties.getSerial());
-            ctn = (TextView) findViewById(R.id.ctn);
-            serial_number = (TextView) findViewById(R.id.serial_number);
-            ctn.setText(properties.getCtn());
-            serial_number.setText(properties.getSerial());
+            mRegister.setVisibility(View.VISIBLE);
+            mEditTextName.setText(properties.getCtn() + "Serial No" + properties.getSerial());
+            mCtn = (TextView) findViewById(R.id.ctn);
+            mSerial_number = (TextView) findViewById(R.id.serial_number);
+            mCtn.setText(properties.getCtn());
+            mSerial_number.setText(properties.getSerial());
         }
     }
 
     private void updateLightSwitchView(final AirPort port) {
         AirPortProperties properties = port.getPortProperties();
         if (properties != null) {
-            lightSwitch.setChecked(properties.getLightOn());
+            mLightSwitch.setChecked(properties.getLightOn());
         }
     }
 
     private void startPairing() {
 
-        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(currentPurifier, new PairingListener() {
+        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(mCurrentPurifier, new PairingListener() {
             @Override
             public void onPairingSuccess(final NetworkNode networkNode) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "networkNode = [" + networkNode + "]");
 
                 DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
-                discoveryManager.insertApplianceToDatabase(currentPurifier);
+                discoveryManager.insertApplianceToDatabase(mCurrentPurifier);
 
-                showToast("Pairing successful");
+                showToast(getResources().getString(R.string.pairing_successful));
             }
 
             @Override
             public void onPairingFailed(final NetworkNode networkNode) {
                 Log.d(TAG, "onPairingFailed() called with: " + "networkNode = [" + networkNode + "]");
-                showToast("Pairing failed");
+                showToast(getResources().getString(R.string.pairing_failed));
             }
         });
 
@@ -183,13 +183,13 @@ public class DetailActivity extends AppCompatActivity {
         final User mUser = new User(this);
 
         if (mUser.isUserSignIn(DetailActivity.this) && mUser.getEmailVerificationStatus(DetailActivity.this)) {
-            if (ctn.getText().toString().equalsIgnoreCase("")) {
+            if (mCtn.getText().toString().equalsIgnoreCase("")) {
                 Toast.makeText(DetailActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
             } else {
                 registerProduct();
             }
         } else {
-            Toast.makeText(DetailActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
+            Toast.makeText(DetailActivity.this, getResources().getString(R.string.Account_Merge_EnterPassword_Placeholder_txtFiled), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "On Click : User Registration");
             RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
             Util.navigateFromUserRegistration();
@@ -199,14 +199,14 @@ public class DetailActivity extends AppCompatActivity {
     private void registerProduct() {
         PrxLogger.enablePrxLogger(true);
 
-        ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(ctn.getText().toString(), serial_number.getText().toString(), Sector.B2C, Catalog.CONSUMER);
+        ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(mCtn.getText().toString(), mSerial_number.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.setLocale("en", "GB");
         prodRegRequestInfo.setPurchaseDate("2016-03-21");
         final ProdRegListener listener = new ProdRegListener() {
             @Override
             public void onProdRegSuccess(ResponseData responseData) {
-                Toast.makeText(DetailActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailActivity.this, getResources().getString(R.string.product_registered_successfully), Toast.LENGTH_SHORT).show();
                 ProductResponse productResponse = (ProductResponse) responseData;
                 if (productResponse.getData() != null)
                     Log.d(TAG, " Response Data : " + productResponse.getData());

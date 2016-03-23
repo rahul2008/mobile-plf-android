@@ -26,9 +26,9 @@ import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 public class DiComActivity extends AppCompatActivity {
 
     private String TAG = getClass().toString();
-    private DiscoveryManager<?> discoveryManager;
-    private ArrayAdapter<DICommAppliance> applianceAdapter;
-    private DICommPortListener wifiPortListener = new DICommPortListener() {
+    private DiscoveryManager<?> mDiscoveryManager;
+    private ArrayAdapter<DICommAppliance> mApplianceAdapter;
+    private DICommPortListener mWifiPortListener = new DICommPortListener() {
 
         @Override
         public void onPortUpdate(final DICommPort<?> port) {
@@ -52,13 +52,13 @@ public class DiComActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    applianceAdapter.clear();
-                    applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());
+                    mApplianceAdapter.clear();
+                    mApplianceAdapter.addAll(mDiscoveryManager.getAllDiscoveredAppliances());
                 }
             });
 
-            for (DICommAppliance appliance : discoveryManager.getAllDiscoveredAppliances()) {
-                appliance.getWifiPort().addPortListener(wifiPortListener);
+            for (DICommAppliance appliance : mDiscoveryManager.getAllDiscoveredAppliances()) {
+                appliance.getWifiPort().addPortListener(mWifiPortListener);
             }
         }
     };
@@ -68,7 +68,7 @@ public class DiComActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dicom);
 
-        applianceAdapter = new ArrayAdapter<DICommAppliance>(this, android.R.layout.simple_list_item_2, android.R.id.text1) {
+        mApplianceAdapter = new ArrayAdapter<DICommAppliance>(this, android.R.layout.simple_list_item_2, android.R.id.text1) {
             public View getView(final int position, final View convertView, final ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 DICommAppliance appliance = getItem(position);
@@ -79,16 +79,16 @@ public class DiComActivity extends AppCompatActivity {
         };
 
         final ListView listViewAppliances = (ListView) findViewById(R.id.listViewAppliances);
-        listViewAppliances.setAdapter(applianceAdapter);
+        listViewAppliances.setAdapter(mApplianceAdapter);
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                CurrentApplianceManager.getInstance().setCurrentAppliance(applianceAdapter.getItem(position));
+                CurrentApplianceManager.getInstance().setCurrentAppliance(mApplianceAdapter.getItem(position));
                 startActivity(new Intent(DiComActivity.this, DetailActivity.class));
             }
         });
 
-        discoveryManager = DiscoveryManager.getInstance();
+        mDiscoveryManager = DiscoveryManager.getInstance();
 
         ((TextView) findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
     }
@@ -97,19 +97,19 @@ public class DiComActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        discoveryManager.addDiscoveryEventListener(discoveryEventListener);
-        discoveryManager.start();
+        mDiscoveryManager.addDiscoveryEventListener(discoveryEventListener);
+        mDiscoveryManager.start();
 
-        applianceAdapter.clear();
-        applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());
+        mApplianceAdapter.clear();
+        mApplianceAdapter.addAll(mDiscoveryManager.getAllDiscoveredAppliances());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        discoveryManager.removeDiscoverEventListener(discoveryEventListener);
-        discoveryManager.stop();
+        mDiscoveryManager.removeDiscoverEventListener(discoveryEventListener);
+        mDiscoveryManager.stop();
     }
 }
 

@@ -7,6 +7,10 @@
     <string name="my_id">My ID:</string>
     <string name="device_name">Device name</string>
     <string name="diCom_integration">DiCom Integration</string>
+    <string name="pairing_successful">Pairing successful</string>
+    <string name="pairing_failed">Pairing failed</string>
+    <string name="date_formate">yyyy-MM-dd</string>
+    <string name="zero">0</string>
     <string name="light_state">Light state</string>
     <string name="set">Set</string>
     <string name="pair">Pair</string>
