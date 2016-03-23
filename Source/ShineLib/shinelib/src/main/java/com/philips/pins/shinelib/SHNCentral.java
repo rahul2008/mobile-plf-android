@@ -106,7 +106,10 @@ public class SHNCentral {
         applicationContext = context.getApplicationContext();
         BleUtilities.init(applicationContext);
 
-        persistentStorageFactory = setUpPersistentStorageFactory(context, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
+        internalHandler = createInternalHandler();
+        if (internalHandler != null) {
+            Timer.setHandler(internalHandler);
+        }
 
         // The handler is used for callbacks to the usercode. When no handler is provided, the MainLoop a.k.a. UI Thread is used.
         if (handler == null) {
@@ -114,6 +117,7 @@ public class SHNCentral {
         }
         this.userHandler = handler;
 
+        persistentStorageFactory = setUpPersistentStorageFactory(context, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
         // Check that the device supports BLE.
         if (!BleUtilities.deviceHasBle()) {
             throw new SHNBluetoothHardwareUnavailableException();
@@ -134,11 +138,6 @@ public class SHNCentral {
         setupBondStatusListener();
 
         shnDeviceDefinitions = new SHNDeviceDefinitions();
-
-        internalHandler = createInternalHandler();
-        if (internalHandler != null) {
-            Timer.setHandler(internalHandler);
-        }
 
         shnDeviceScannerInternal = new SHNDeviceScannerInternal(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
         shnDeviceScanner = new SHNDeviceScanner(shnDeviceScannerInternal, internalHandler, userHandler);
@@ -245,14 +244,15 @@ public class SHNCentral {
             migrateDataFromOldKeysToNewKeys(context, defaultSharedpreferencesProvider);
             return defaultPersistentStorageFactory;
         } else {
-            PersistentStorageFactory customPersistentStorageFactory = createPersistentStorageFactory(customSharedPreferencesProvider);
+            TimeGuardedSharedPreferencesProviderWrapper timeGuardedSharedPreferencesProviderWrapper = new TimeGuardedSharedPreferencesProviderWrapper(customSharedPreferencesProvider, internalHandler.getLooper().getThread().getId());
+            PersistentStorageFactory customPersistentStorageFactory = createPersistentStorageFactory(timeGuardedSharedPreferencesProviderWrapper);
 
             SharedPreferencesMigrator sharedPreferencesMigrator = createSharedPreferencesMigrator(defaultPersistentStorageFactory, customPersistentStorageFactory);
             if (!sharedPreferencesMigrator.destinationPersistentStorageContainsData() && migrateDataToCustomSharedPreferencesProvider) {
                 migrateDataFromOldKeysToNewKeys(context, defaultSharedpreferencesProvider);
                 sharedPreferencesMigrator.execute();
             } else {
-                migrateDataFromOldKeysToNewKeys(context, customSharedPreferencesProvider); // This call is needed to make the destinationPersistentStorageContainsData method return true after the first time creation with the same custom provider.
+                migrateDataFromOldKeysToNewKeys(context, timeGuardedSharedPreferencesProviderWrapper); // This call is needed to make the destinationPersistentStorageContainsData method return true after the first time creation with the same custom provider.
             }
             return customPersistentStorageFactory;
         }

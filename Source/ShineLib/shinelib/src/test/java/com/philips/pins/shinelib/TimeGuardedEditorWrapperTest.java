@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class ThreadGuardedEditorWrapperTest {
+public class TimeGuardedEditorWrapperTest {
 
     public static final String KEY = "key";
     public static final String VALUE = "value";
@@ -21,7 +21,7 @@ public class ThreadGuardedEditorWrapperTest {
     public static final long NORMAL_EXECUTION_TIME = 10L;
     public static final long EXCEEDED_EXECUTION_TIME = 60L;
 
-    private ThreadGuardedEditorWrapper wrapper;
+    private TimeGuardedEditorWrapper wrapper;
 
     @Mock
     private SharedPreferences.Editor editorMock;
@@ -30,7 +30,7 @@ public class ThreadGuardedEditorWrapperTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        wrapper = new ThreadGuardedEditorWrapperForTest(editorMock, NORMAL_EXECUTION_TIME);
+        wrapper = new TimeGuardedEditorWrapperForTest(editorMock, NORMAL_EXECUTION_TIME);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class ThreadGuardedEditorWrapperTest {
 
     @Test(expected = AssertionError.class)
     public void whenTimeOutExpiresThenAssertErrorIsGiven() throws Exception {
-        wrapper = new ThreadGuardedEditorWrapperForTest(editorMock, EXCEEDED_EXECUTION_TIME);
+        wrapper = new TimeGuardedEditorWrapperForTest(editorMock, EXCEEDED_EXECUTION_TIME);
 
         wrapper.putString(KEY, VALUE);
     }
@@ -51,7 +51,7 @@ public class ThreadGuardedEditorWrapperTest {
     public void whenPutStringIsCalledThenReturnTypeIsWrapper() throws Exception {
         SharedPreferences.Editor editor = wrapper.putString(KEY, VALUE);
 
-        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class ThreadGuardedEditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putStringSet(KEY, empty);
 
         verify(editorMock).putStringSet(KEY, empty);
-        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class ThreadGuardedEditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putInt(KEY, 0);
 
         verify(editorMock).putInt(KEY, 0);
-        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class ThreadGuardedEditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putLong(KEY, 0);
 
         verify(editorMock).putLong(KEY, 0);
-        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class ThreadGuardedEditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putFloat(KEY, 0);
 
         verify(editorMock).putFloat(KEY, 0);
-        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -92,7 +92,7 @@ public class ThreadGuardedEditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putBoolean(KEY, false);
 
         verify(editorMock).putBoolean(KEY, false);
-        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -100,7 +100,7 @@ public class ThreadGuardedEditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.remove(KEY);
 
         verify(editorMock).remove(KEY);
-        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class ThreadGuardedEditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.clear();
 
         verify(editorMock).clear();
-        assertTrue(editor instanceof ThreadGuardedEditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -125,12 +125,12 @@ public class ThreadGuardedEditorWrapperTest {
         verify(editorMock).apply();
     }
 
-    class ThreadGuardedEditorWrapperForTest extends ThreadGuardedEditorWrapper {
+    class TimeGuardedEditorWrapperForTest extends TimeGuardedEditorWrapper {
 
         private long start = 100;
         private long increment;
 
-        public ThreadGuardedEditorWrapperForTest(SharedPreferences.Editor editor, long increment) {
+        public TimeGuardedEditorWrapperForTest(SharedPreferences.Editor editor, long increment) {
             super(editor);
             this.increment = increment;
         }
