@@ -95,16 +95,9 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsHo
             @Override
             public void onClick(final View v) {
                 mSelectedIndex = holder.getAdapterPosition();
-                setSelectedPaymentMethod(mSelectedIndex);
                 notifyDataSetChanged();
             }
         });
-    }
-
-    private void setSelectedPaymentMethod(int position) {
-        if (mPaymentMethodList.size() > 0 && position < mPaymentMethodList.size()) {
-            PaymentMethod mSelectedPaymentMethod = mPaymentMethodList.get(position);
-        }
     }
 
     private void updatePaymentOptionBtnVisibility(final ViewGroup paymentOptions, final int position) {
