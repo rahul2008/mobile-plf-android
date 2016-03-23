@@ -5,6 +5,7 @@
 package com.philips.cdp.backend;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.cdp.error.ErrorType;
 import com.philips.cdp.handler.ProdRegListener;
@@ -45,7 +46,6 @@ public class ProdRegHelper {
      * @param listener           - Callback listener
      */
     public void registerProduct(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
-        testMethod();
         Validator validator = new Validator();
         if (!validator.isUserSignedIn(new User(context), context)) {
             listener.onProdRegFailed(ErrorType.USER_NOT_SIGNED_IN);
@@ -53,32 +53,33 @@ public class ProdRegHelper {
             if (!validator.isValidaDate(prodRegRequestInfo.getPurchaseDate())) {
                 listener.onProdRegFailed(ErrorType.INVALID_DATE);
             } else {
-                final ProdRegListener getRegisteredProductsListener = new ProdRegListener() {
-                    @Override
-                    public void onProdRegSuccess(final ResponseData responseData) {
-                        RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
-                        Results[] results = registeredDataResponse.getResults();
-                        for (Results result : results) {
-                            if (prodRegRequestInfo.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
-                                listener.onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
-                                return;
-                            }
-                        }
-                        processMetadata(context, prodRegRequestInfo, listener);
-                    }
-
-                    @Override
-                    public void onProdRegFailed(final ErrorType errorType) {
-                        listener.onProdRegFailed(errorType);
-                    }
-                };
+                final ProdRegListener getRegisteredProductsListener = getRegisteredProductsListener(context, prodRegRequestInfo, listener);
                 getRegisteredProduct(context, new ProdRegRequestInfo(null, null, Sector.B2C, Catalog.CONSUMER), getRegisteredProductsListener);
             }
         }
     }
 
-    protected void testMethod() {
+    @NonNull
+    private ProdRegListener getRegisteredProductsListener(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+        return new ProdRegListener() {
+            @Override
+            public void onProdRegSuccess(final ResponseData responseData) {
+                RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
+                Results[] results = registeredDataResponse.getResults();
+                for (Results result : results) {
+                    if (prodRegRequestInfo.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
+                        listener.onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
+                        return;
+                    }
+                }
+                processMetadata(context, prodRegRequestInfo, listener);
+            }
 
+            @Override
+            public void onProdRegFailed(final ErrorType errorType) {
+                listener.onProdRegFailed(errorType);
+            }
+        };
     }
 
     /**
