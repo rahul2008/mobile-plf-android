@@ -33,7 +33,7 @@
             android:layout_marginTop="47dp"
             android:lineSpacingExtra="8dp"
             android:paddingRight="30dp"
-            android:textColor="?attr/baseColor"
+            android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/title_text_size_small"
             android:textStyle="bold"
             custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
