@@ -35,6 +35,8 @@ import java.util.ArrayList;
  */
 public class OrderSummaryFragment extends BaseAnimationSupportFragment implements View.OnClickListener,
         PaymentController.MakePaymentListener {
+    private final static String TAG = OrderSummaryFragment.class.getSimpleName();
+
     private RecyclerView mOrderListView;
     private OrderProductAdapter mAdapter;
     private AddressFields mBillingAddress;
@@ -55,7 +57,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
-        IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "OrderSummaryFragment ");
+        IAPLog.d(TAG, "OrderSummaryFragment ");
         mPaymentController = new PaymentController(getContext(), this);
 
         mBtnPayNow = (Button) rootView.findViewById(R.id.btn_paynow);

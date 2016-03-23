@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +27,8 @@ import java.util.List;
  * All rights reserved.
  */
 public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ShoppingCartPresenter.LoadListener {
+    private final static String TAG = OrderProductAdapter.class.getSimpleName();
+
     private List<ShoppingCartData> mShoppingCartDataList;
     private Context mContext;
     private ShoppingCartData cartData;
@@ -90,7 +91,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             footerHolder.mTotalPrice.setText(getLastValidItem().getTotalPriceWithTaxFormatedPrice());
         } else {
             OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
-            IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "Size of ShoppingCarData is " + String.valueOf(mShoppingCartDataList.size()));
+            IAPLog.d(TAG, "Size of ShoppingCarData is " + String.valueOf(mShoppingCartDataList.size()));
             cartData = mShoppingCartDataList.get(position);
             String imageURL = cartData.getImageURL();
             ImageLoader mImageLoader = NetworkImageLoader.getInstance(mContext)
@@ -111,7 +112,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(final int position) {
-        IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "getItemViewType= " + position);
+        IAPLog.d(TAG, "getItemViewType= " + position);
         if (isPositionFooter(position)) {
             return TYPE_FOOTER;
         }
