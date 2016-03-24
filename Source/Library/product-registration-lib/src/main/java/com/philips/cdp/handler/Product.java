@@ -7,8 +7,8 @@ import com.philips.cdp.backend.PRXDataBuilderFactory;
 import com.philips.cdp.backend.PRXRequestType;
 import com.philips.cdp.backend.ProdRegRequestInfo;
 import com.philips.cdp.error.ErrorType;
-import com.philips.cdp.model.ProductData;
-import com.philips.cdp.model.ProductMetaData;
+import com.philips.cdp.model.ProdRegMetaDataResponse;
+import com.philips.cdp.model.ProdRegMetaData;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -32,8 +32,8 @@ public class Product {
         final ResponseListener localListener = new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                ProductMetaData productMetaData = (ProductMetaData) responseData;
-                ProductData productData = productMetaData.getData();
+                ProdRegMetaData productMetaData = (ProdRegMetaData) responseData;
+                ProdRegMetaDataResponse productData = productMetaData.getData();
                 if (validateSerialNumberFromMetadata(productData, prodRegRequestInfo, listener)
                         && validatePurchaseDateFromMetadata(productData, prodRegRequestInfo, listener))
                     helperListener.onResponseSuccess(null);
@@ -70,7 +70,7 @@ public class Product {
         }
     }
 
-    private boolean validateSerialNumberFromMetadata(final ProductData data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+    private boolean validateSerialNumberFromMetadata(final ProdRegMetaDataResponse data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
             if (processSerialNumber(data, listener, prodRegRequestInfo)) return false;
         } else {
@@ -79,7 +79,7 @@ public class Product {
         return true;
     }
 
-    private boolean processSerialNumber(final ProductData data, final ProdRegListener listener, ProdRegRequestInfo prodRegRequestInfo) {
+    private boolean processSerialNumber(final ProdRegMetaDataResponse data, final ProdRegListener listener, ProdRegRequestInfo prodRegRequestInfo) {
         if (prodRegRequestInfo.getSerialNumber() == null || prodRegRequestInfo.getSerialNumber().length() < 1) {
             listener.onProdRegFailed(ErrorType.MISSING_SERIAL_NUMBER);
             return true;
@@ -90,7 +90,7 @@ public class Product {
         return false;
     }
 
-    private boolean validatePurchaseDateFromMetadata(final ProductData data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+    private boolean validatePurchaseDateFromMetadata(final ProdRegMetaDataResponse data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         final String purchaseDate = prodRegRequestInfo.getPurchaseDate();
         if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
             if (purchaseDate != null && purchaseDate.length() > 0) {

@@ -3,8 +3,8 @@ package com.philips.cdp;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.model.ProductData;
-import com.philips.cdp.model.ProductMetaData;
+import com.philips.cdp.model.ProdRegMetaDataResponse;
+import com.philips.cdp.model.ProdRegMetaData;
 import com.philips.cdp.productrequest.RegistrationRequest;
 
 import org.json.JSONObject;
@@ -46,18 +46,18 @@ public class ProductMetaDataResponseTest extends InstrumentationTestCase {
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
 
-            ProductMetaData productMetaData = (ProductMetaData) mProductAssetBuilder.getResponseData(new JSONObject(sb.toString()));
-            ProductData mResponseData = productMetaData.getData();
+            ProdRegMetaData productMetaData = (ProdRegMetaData) mProductAssetBuilder.getResponseData(new JSONObject(sb.toString()));
+            ProdRegMetaDataResponse mResponseData = productMetaData.getData();
             assertNotNull(mResponseData);
 
-            ProductData productData = setMetadataObject(mResponseData);
+            ProdRegMetaDataResponse productData = setMetadataObject(mResponseData);
             TestAssertionOnResponse(mResponseData, productData);
         } catch (Exception e) {
             Log.d(TAG, "IO " + e);
         }
     }
 
-    private void TestAssertionOnResponse(final ProductData mResponseData, final ProductData productData) {
+    private void TestAssertionOnResponse(final ProdRegMetaDataResponse mResponseData, final ProdRegMetaDataResponse productData) {
         assertEquals(mResponseData.getMessage(), productData.getMessage());
         assertEquals(mResponseData.getIsConnectedDevice(), productData.getIsConnectedDevice());
         assertEquals(mResponseData.getRequiresDateOfPurchase(), productData.getRequiresDateOfPurchase());
@@ -68,8 +68,8 @@ public class ProductMetaDataResponseTest extends InstrumentationTestCase {
         assertEquals(mResponseData.getSerialNumberSampleContent(), productData.getSerialNumberSampleContent());
     }
 
-    private ProductData setMetadataObject(final ProductData mResponseData) {
-        ProductData productData = new ProductData();
+    private ProdRegMetaDataResponse setMetadataObject(final ProdRegMetaDataResponse mResponseData) {
+        ProdRegMetaDataResponse productData = new ProdRegMetaDataResponse();
         productData.setMessage(mResponseData.getMessage());
         productData.setIsConnectedDevice(mResponseData.getIsConnectedDevice());
         productData.setRequiresDateOfPurchase(mResponseData.getRequiresDateOfPurchase());

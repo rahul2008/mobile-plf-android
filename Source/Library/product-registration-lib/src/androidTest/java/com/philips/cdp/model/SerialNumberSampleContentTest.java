@@ -8,11 +8,11 @@ import junit.framework.TestCase;
  */
 public class SerialNumberSampleContentTest extends TestCase {
 
-    SerialNumberSampleContent serialNumberSampleContentTest;
+    ProdRegSerNumbSampleContent serialNumberSampleContentTest;
 
     @Override
     public void setUp() throws Exception {
-        serialNumberSampleContentTest = new SerialNumberSampleContent();
+        serialNumberSampleContentTest = new ProdRegSerNumbSampleContent();
     }
 
     public void ShouldGetTitle() throws Exception {

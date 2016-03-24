@@ -8,11 +8,11 @@ import junit.framework.TestCase;
  */
 public class ProductDataTest extends TestCase {
 
-    ProductData productDataTest;
+    ProdRegMetaDataResponse productDataTest;
 
     @Override
     public void setUp() throws Exception {
-        productDataTest = new ProductData();
+        productDataTest = new ProdRegMetaDataResponse();
     }
 
     public void ShouldGetMessage() throws Exception {

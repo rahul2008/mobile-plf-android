@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.model.Data;
+import com.philips.cdp.model.ProdRegData;
 import com.philips.cdp.model.ProdRegResponse;
 import com.philips.cdp.productrequest.RegistrationRequest;
 
@@ -48,10 +48,10 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
             Log.d(TAG, "Parsed Data : " + sb.toString());
 
             ProdRegResponse prodRegResponse = (ProdRegResponse) mProductAssetBuilder.getResponseData(new JSONObject(sb.toString()));
-            Data mResponseData = prodRegResponse.getData();
+            ProdRegData mResponseData = prodRegResponse.getData();
             assertNotNull(mResponseData);
 
-            Data data = setDataObject(mResponseData);
+            ProdRegData data = setDataObject(mResponseData);
 
             TestAssertionOnResponse(mResponseData, data);
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
         }
     }
 
-    private void TestAssertionOnResponse(final Data mResponseData, final Data data) {
+    private void TestAssertionOnResponse(final ProdRegData mResponseData, final ProdRegData data) {
         assertEquals(mResponseData.getLocale(), data.getLocale());
         assertEquals(mResponseData.getModelNumber(), data.getModelNumber());
         assertEquals(mResponseData.getRegistrationDate(), data.getRegistrationDate());
@@ -71,8 +71,8 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
     }
 
     @NonNull
-    private Data setDataObject(final Data mResponseData) {
-        Data data = new Data();
+    private ProdRegData setDataObject(final ProdRegData mResponseData) {
+        ProdRegData data = new ProdRegData();
         data.setLocale(mResponseData.getLocale());
         data.setModelNumber(mResponseData.getModelNumber());
         data.setRegistrationDate(mResponseData.getRegistrationDate());

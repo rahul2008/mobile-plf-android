@@ -13,8 +13,8 @@ import com.philips.cdp.handler.Product;
 import com.philips.cdp.handler.UserProduct;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.model.RegisteredDataResponse;
-import com.philips.cdp.model.Results;
+import com.philips.cdp.model.ProdRegRegisteredDataResponse;
+import com.philips.cdp.model.ProdRegRegisteredResults;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
@@ -69,9 +69,9 @@ public class ProdRegHelper {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(final ResponseData responseData) {
-                RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
-                Results[] results = registeredDataResponse.getResults();
-                for (Results result : results) {
+                ProdRegRegisteredDataResponse registeredDataResponse = (ProdRegRegisteredDataResponse) responseData;
+                ProdRegRegisteredResults[] results = registeredDataResponse.getResults();
+                for (ProdRegRegisteredResults result : results) {
                     if (prodRegRequestInfo.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
                         listener.onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
                         return;

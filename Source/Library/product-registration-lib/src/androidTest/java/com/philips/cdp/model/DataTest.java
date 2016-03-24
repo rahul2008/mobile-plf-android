@@ -10,11 +10,11 @@ import org.junit.Test;
  */
 public class DataTest extends InstrumentationTestCase {
 
-    Data dataTest;
+    ProdRegData dataTest;
 
     @Override
     public void setUp() throws Exception {
-        dataTest = new Data();
+        dataTest = new ProdRegData();
     }
 
     @Test

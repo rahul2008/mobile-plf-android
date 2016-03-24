@@ -8,11 +8,11 @@ import junit.framework.TestCase;
  */
 public class ResultsTest extends TestCase {
 
-    Results resultsTest;
+    ProdRegRegisteredResults resultsTest;
 
     @Override
     public void setUp() throws Exception {
-        resultsTest = new Results();
+        resultsTest = new ProdRegRegisteredResults();
     }
 
     public void ShouldGetLastModified() throws Exception {

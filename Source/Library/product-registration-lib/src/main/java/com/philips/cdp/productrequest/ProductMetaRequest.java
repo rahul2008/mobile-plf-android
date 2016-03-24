@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.model.ProductMetaData;
+import com.philips.cdp.model.ProdRegMetaData;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -28,7 +28,7 @@ public class ProductMetaRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-        return new ProductMetaData().parseJsonResponseData(jsonObject);
+        return new ProdRegMetaData().parseJsonResponseData(jsonObject);
     }
 
     @Override
