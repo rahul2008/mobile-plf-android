@@ -64,7 +64,7 @@ public class ProdRegHelper {
     }
 
     @NonNull
-    private ProdRegListener getRegisteredProductsListener(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+    protected ProdRegListener getRegisteredProductsListener(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(final ResponseData responseData) {

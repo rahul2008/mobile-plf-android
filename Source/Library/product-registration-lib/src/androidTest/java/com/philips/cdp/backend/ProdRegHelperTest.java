@@ -8,8 +8,6 @@ import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
 
-import org.junit.Test;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +28,6 @@ public class ProdRegHelperTest extends MockitoTestCase {
         mContext = getInstrumentation().getContext();
     }
 
-    @Test
     public void testRegistrationWhenUserNotSignedIn() {
         ProdRegRequestInfo prodRegRequestInfo = mock(ProdRegRequestInfo.class);
         Validator validator = mock(Validator.class);
@@ -51,7 +48,6 @@ public class ProdRegHelperTest extends MockitoTestCase {
         }, validator, user);
     }
 
-    @Test
     public void testRegistrationWhenEnteredInvalidDate() {
         ProdRegRequestInfo prodRegRequestInfo = mock(ProdRegRequestInfo.class);
         Validator validator = mock(Validator.class);
@@ -70,6 +66,12 @@ public class ProdRegHelperTest extends MockitoTestCase {
                 assertEquals(ErrorType.INVALID_DATE, errorType);
             }
         }, validator, user);
-
     }
+
+    public void testGettingRegistrationListener() throws Exception {
+        ProdRegRequestInfo prodRegRequestInfo = mock(ProdRegRequestInfo.class);
+        ProdRegListener listener = mock(ProdRegListener.class);
+        assertTrue(prodRegHelper.getRegisteredProductsListener(mContext, prodRegRequestInfo, listener) instanceof ProdRegListener);
+    }
+
 }
