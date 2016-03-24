@@ -8,6 +8,7 @@ import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
 
+import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.mock;
@@ -17,6 +18,7 @@ import static org.mockito.Mockito.when;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+
 public class ProdRegHelperTest extends MockitoTestCase {
 
     ProdRegHelper prodRegHelper;
@@ -29,6 +31,7 @@ public class ProdRegHelperTest extends MockitoTestCase {
 //        mContext = getInstrumentation().getContext();
     }
 
+    @Test
     public void testRegistrationWhenUserNotSignedIn() {
         ProdRegHelper helper = getProductHelper();
         ProdRegRequestInfo prodRegRequestInfo = mock(ProdRegRequestInfo.class);
