@@ -92,7 +92,7 @@ public class ShoppingCartPresenter {
                         if (msg.obj instanceof ArrayList) {
                             mProductData = (ArrayList<ShoppingCartData>) msg.obj;
                             if (mProductData == null || mProductData.size() == 0) {
-                                EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
+                                EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
                                 Utility.dismissProgressDialog();
                                 return;
                             }
@@ -100,7 +100,7 @@ public class ShoppingCartPresenter {
                             refreshList(mProductData);
                             CartModelContainer.getInstance().setShoppingCartData(mProductData);
                         } else{
-                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
+                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
                             Utility.dismissProgressDialog();
                         }
                         Utility.dismissProgressDialog();

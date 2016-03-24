@@ -114,12 +114,13 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
                     mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
             }
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
-            Bundle bundle = new Bundle();
-            if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
+           /* if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
                 bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS,
                         getArguments().getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS));
                 bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
-            }
+            }*/
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
             addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         }
     }

@@ -87,6 +87,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private HashMap<String, String> addressHashMap = null;
     private Addresses mAddresses;
     private Drawable imageArrow;
+    protected boolean mIgnoreTextChangeListener = false;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -186,23 +187,24 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
+        if (mlLState.getVisibility() == View.VISIBLE)
+            mShippingAddressFields.setRegionIsoCode(mEtState.getText().toString());
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
-            Bundle bundle = new Bundle();
-            if (mlLState.getVisibility() == View.VISIBLE)
-                mShippingAddressFields.setRegionIsoCode(mEtState.getText().toString());
-            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mShippingAddressFields);
+
+            /*Bundle bundle = new Bundle();
+            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mShippingAddressFields);*/
 
             addFragment(
-                    BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
+                    BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg,getFragmentManager(),getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
-
+            CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mShippingAddressFields);
+//            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mShippingAddressFields);
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
@@ -218,14 +220,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             //Edit and save address
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
                 if (!Utility.isProgressDialogShowing()) {
-                        Utility.showProgressDialog(mContext, getString(R.string.iap_update_address));
-                        HashMap<String, String> addressHashMap = addressPayload();
-                        mAddressController.updateAddress(addressHashMap);
+                    Utility.showProgressDialog(mContext, getString(R.string.iap_update_address));
+                    HashMap<String, String> addressHashMap = addressPayload();
+                    mAddressController.updateAddress(addressHashMap);
                 }
             } else {//Add new address
                 if (!Utility.isProgressDialogShowing()) {
-                        Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-                        mAddressController.createAddress(mShippingAddressFields);
+                    Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                    mAddressController.createAddress(mShippingAddressFields);
                 }
             }
         } else if (v == mBtnCancel) {
@@ -437,11 +439,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if(isBillingAddressFragment()){
-                if (s.length() > 0)
-                    validate(mEditText, false);
-            } else
+            if(!mIgnoreTextChangeListener) {
                 validate(mEditText, false);
+            }
         }
 
         public void afterTextChanged(Editable s) {
@@ -535,11 +535,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         return addressFields;
     }
 
-    private boolean isBillingAddressFragment(){
-        return this instanceof BillingAddressFragment;
-    }
-
-    private void handleError(Message msg){
+    private void handleError(Message msg) {
         IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
         if (null != iapNetworkError.getServerError()) {
             for (int i = 0; i < iapNetworkError.getServerError().getErrors().size(); i++) {
