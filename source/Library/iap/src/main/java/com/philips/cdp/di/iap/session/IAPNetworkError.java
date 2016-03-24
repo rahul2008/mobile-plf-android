@@ -19,9 +19,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     public IAPNetworkError(Context context, VolleyError error, int requestCode,
                            RequestListener requestListener) {
         mContext = context;
-        if(error instanceof com.android.volley.ServerError){
+        if (error instanceof com.android.volley.ServerError) {
             setServerError(error);
-        }else{
+        } else {
             mVolleyError = error;
         }
         Message msg = Message.obtain();
