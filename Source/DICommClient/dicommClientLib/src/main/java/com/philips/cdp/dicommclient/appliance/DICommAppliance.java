@@ -5,9 +5,6 @@
 
 package com.philips.cdp.dicommclient.appliance;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -20,6 +17,9 @@ import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiUIPort;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class DICommAppliance {
 
@@ -53,6 +53,7 @@ public abstract class DICommAppliance {
     }
 
     // TODO DIComm Refactor - remove from public interface
+
     /**
      * @return DeviceType used by CPP to identify this appliance
      */
@@ -113,8 +114,8 @@ public abstract class DICommAppliance {
         return mWifiUIPort;
     }
 
-    protected List<DICommPort<?>> getAllPorts(){
-    	return mPortList;
+    protected List<DICommPort<?>> getAllPorts() {
+        return mPortList;
     }
 
     public synchronized String getName() {
@@ -126,24 +127,24 @@ public abstract class DICommAppliance {
     }
 
     public void addListenerForAllPorts(DICommPortListener portListener) {
-		for (DICommPort<?> port : getAllPorts()) {
-			port.addPortListener(portListener);
-		}
-	}
+        for (DICommPort<?> port : getAllPorts()) {
+            port.addPortListener(portListener);
+        }
+    }
 
-	public void removeListenerForAllPorts(DICommPortListener portListener) {
-		for (DICommPort<?> port : getAllPorts()) {
-			port.removePortListener(portListener);
-		}
-	}
+    public void removeListenerForAllPorts(DICommPortListener portListener) {
+        for (DICommPort<?> port : getAllPorts()) {
+            port.removePortListener(portListener);
+        }
+    }
 
-	public void enableSubscription() {
-		mCommunicationStrategy.enableSubscription(mSubscriptionEventListener, mNetworkNode);
-	}
+    public void enableSubscription() {
+        mCommunicationStrategy.enableSubscription(mSubscriptionEventListener, mNetworkNode);
+    }
 
-	public void disableSubscription() {
-		mCommunicationStrategy.disableSubscription();
-	}
+    public void disableSubscription() {
+        mCommunicationStrategy.disableSubscription();
+    }
 
     private SubscriptionEventListener mSubscriptionEventListener = new SubscriptionEventListener() {
 
