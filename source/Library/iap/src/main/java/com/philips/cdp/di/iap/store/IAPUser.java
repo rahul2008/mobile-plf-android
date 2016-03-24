@@ -26,7 +26,7 @@ public class IAPUser {
     }
 
     public String getJanRainEmail() {
-        return mJanRainUser.getUserInstance(mContext).getEmail();
+        return mJanRainUser.getEmail();
     }
 
     public void refreshLoginSession() {
@@ -40,6 +40,10 @@ public class IAPUser {
             public void onRefreshLoginSessionFailedWithError(final int i) {
                 mStore.updateJanRainIDBasedUrls();
             }
-        }, mContext);
+
+            @Override
+            public void onRefreshLoginSessionInProgress(final String s) {
+            }
+        });
     }
 }

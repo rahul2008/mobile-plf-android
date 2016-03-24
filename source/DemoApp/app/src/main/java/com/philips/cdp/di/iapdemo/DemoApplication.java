@@ -31,6 +31,7 @@ public class DemoApplication extends Application {
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(),
                 Locale.getDefault());
-        Tagging.init(RegistrationHelper.getInstance().getLocale(), getApplicationContext(), "Philips Registartion Sample demo");
+        Tagging.init(RegistrationHelper.getInstance().getLocale(getApplicationContext()), getApplicationContext(),
+                "Philips Registartion Sample demo");
     }
 }

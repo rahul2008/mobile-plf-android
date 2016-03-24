@@ -74,7 +74,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         });
 
         User user = new User(this);
-        if (user.isUserSignIn(this)) {
+        if (user.isUserSignIn()) {
             mShoppingCart.setVisibility(View.VISIBLE);
             mProductListView.setVisibility(View.VISIBLE);
 //            mIapHandler.initApp(this);
