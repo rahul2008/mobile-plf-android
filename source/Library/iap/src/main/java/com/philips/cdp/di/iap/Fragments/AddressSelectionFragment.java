@@ -290,10 +290,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             AddressFields selectedAddress = prepareAddressFields(address);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
 
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);
+            /*Bundle bundle = new Bundle();
+            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);*/
             addFragment(
-                    BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
+                    BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
@@ -304,7 +304,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);
+//            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);

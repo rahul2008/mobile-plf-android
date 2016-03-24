@@ -14,13 +14,13 @@ import android.widget.LinearLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 
-public class BillingAddressFragment extends ShippingAddressFragment{
+public class BillingAddressFragment extends ShippingAddressFragment {
 
     private Context mContext;
     private PuiSwitch mSwitchBillingAddress;
@@ -38,10 +38,15 @@ public class BillingAddressFragment extends ShippingAddressFragment{
         mTvTitle.setText(getResources().getString(R.string.iap_billing_address));
         mSameAsBillingAddress.setVisibility(View.VISIBLE);
 
-        Bundle bundle = getArguments();
-
-        if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
+       /* if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
             mBillingAddressFields = (AddressFields) bundle.getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS);
+            disableAllFields();
+            prePopulateShippingAddress();
+            mBtnContinue.setEnabled(true);
+        }*/
+
+        if (CartModelContainer.getInstance().getShippingAddressFields() != null) {
+            mBillingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
             disableAllFields();
             prePopulateShippingAddress();
             mBtnContinue.setEnabled(true);
@@ -97,6 +102,7 @@ public class BillingAddressFragment extends ShippingAddressFragment{
     }
 
     private void clearAllFields() {
+        mIgnoreTextChangeListener = true;
         mEtFirstName.setText("");
         mEtLastName.setText("");
         mEtSalutation.setText("");
@@ -109,6 +115,7 @@ public class BillingAddressFragment extends ShippingAddressFragment{
         mEtPhoneNumber.setText("");
         mlLState.setVisibility(View.VISIBLE);
         mEtState.setText("");
+        mIgnoreTextChangeListener = false;
         enableAllFields();
         enableFocus();
         removeErrorInAllFields();
@@ -156,12 +163,12 @@ public class BillingAddressFragment extends ShippingAddressFragment{
         Utility.hideKeypad(mContext);
 
         if (v == mBtnContinue) {
-            setAddressFields(mBillingAddressFields);
+            mBillingAddressFields = setAddressFields(mBillingAddressFields.clone());
             if (!Utility.isProgressDialogShowing()) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mBillingAddressFields);
-                    addFragment(
-                            OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mBillingAddressFields);
+                addFragment(
+                        OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
             }
         } else if (v == mBtnCancel) {
             if (getArguments().containsKey(IAPConstant.FROM_PAYMENT_SELECTION) &&
@@ -181,7 +188,7 @@ public class BillingAddressFragment extends ShippingAddressFragment{
         return fragment;
     }
 
-    private void setFieldsEnabled(boolean enable){
+    private void setFieldsEnabled(boolean enable) {
         mEtFirstName.setEnabled(enable);
         mEtLastName.setEnabled(enable);
         mEtSalutation.setEnabled(enable);
@@ -197,7 +204,7 @@ public class BillingAddressFragment extends ShippingAddressFragment{
         mEtPhoneNumber.setEnabled(enable);
     }
 
-    private void setFieldsFocusable(boolean focusable){
+    private void setFieldsFocusable(boolean focusable) {
         mEtFirstName.setFocusable(focusable);
         mEtLastName.setFocusable(focusable);
         mEtSalutation.setFocusable(focusable);
@@ -212,7 +219,7 @@ public class BillingAddressFragment extends ShippingAddressFragment{
         mEtEmail.setFocusable(focusable);
         mEtPhoneNumber.setFocusable(focusable);
 
-        if(focusable) {
+        if (focusable) {
             mEtFirstName.setFocusableInTouchMode(true);
             mEtLastName.setFocusableInTouchMode(true);
             mEtSalutation.setFocusableInTouchMode(true);

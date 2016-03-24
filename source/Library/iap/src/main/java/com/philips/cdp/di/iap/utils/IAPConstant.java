@@ -10,7 +10,7 @@ public class IAPConstant {
     public static final String IAP_KEY_ACTIVITY_THEME = "IAP_KEY_ACTIVITY_THEME";
     public static final boolean TEST_MODE = true;
     public static final Boolean BUTTON_STATE_CHANGED = false;
-    public static final String EMPTY_CART_FRGMENT_REPLACED = "EMPTY_CART_FRGMENT_REPLACED";
+    public static final String EMPTY_CART_FRAGMENT_REPLACED = "EMPTY_CART_FRAGMENT_REPLACED";
     public static final String SHOPPING_CART_PRESENTER = "SHOPPING_CART_PRESENTER";
     public static final String SHIPPING_ADDRESS_FRAGMENT = "SHIPPING_ADDRESS_FRAGMENT";
     public static final String PRODUCT_DETAIL_FRAGMENT = "PRODUCT_DETAIL_FRAGMENT ";
@@ -25,7 +25,6 @@ public class IAPConstant {
     public static final String IS_SECOND_USER = "IS_SECOND_USER";
     public static final String PAYMENT_METHOD_LIST = "PAYMENT_METHOD_LIST";
     public static final String ADD_DELIVERY_ADDRESS = "ADD_DELIVERY_ADDRESS";
-    public static final String SHIPPING_ADDRESS_FIELDS = "SHIPPING_ADDRESS_FIELDS";
     public static final String FROM_PAYMENT_SELECTION = "FROM_PAYMENT_SELECTION";
     public static final String BILLING_ADDRESS_FIELDS = "BILLING_ADDRESS_FIELDS";
     public static final String USE_PAYMENT = "USE_PAYMENT";
@@ -34,5 +33,4 @@ public class IAPConstant {
     public static final String PRODUCT_DETAIL_FRAGMENT_IMAGE_URL = "PRODUCT_DETAIL_FRAGMENT_IMAGE_URL";
     public final static String NEW_LINE_ESCAPE_CHARACTER = "\n";
     public static final String INSUFFICIENT_STOCK_LEVEL_ERROR = "InsufficientStockLevelError";
-    public static final String NO_CONNECTION_ERROR = "NO_CONNECTION_ERROR";
 }

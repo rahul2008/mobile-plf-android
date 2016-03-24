@@ -7,7 +7,7 @@ package com.philips.cdp.di.iap.address;
 
 import java.io.Serializable;
 
-public class AddressFields implements Serializable {
+public class AddressFields implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 8533528348900570462L;
 
@@ -119,5 +119,23 @@ public class AddressFields implements Serializable {
 
     public void setRegionName(String regionName) {
         this.regionName = regionName;
+    }
+
+    @Override
+    public AddressFields clone() {
+        AddressFields newFields = new AddressFields();
+        newFields.firstName = firstName;
+        newFields.lastName = lastName;
+        newFields.titleCode = titleCode;
+        newFields.countryIsocode = countryIsocode;
+        newFields.email = email;
+        newFields.line1 = line1;
+        newFields.line2 = line2;
+        newFields.postalCode = postalCode;
+        newFields.town = town;
+        newFields.phoneNumber = phoneNumber;
+        newFields.regionIsoCode = regionIsoCode;
+        newFields.regionName = regionName;
+        return newFields;
     }
 }
