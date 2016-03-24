@@ -52,7 +52,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
 
     private ICPCallbackHandler callbackHandler;
     private String currentRelationshipType;
-    private PairingListener pairingListener;
+    private PairingListener<T> pairingListener;
     private String secretKey;
 
     private PermissionListener permissionListener = null;
@@ -68,29 +68,39 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     private ENTITY entity_state;
     private T mAppliance;
 
+
     /**
-     * Constructor for Pairinghandler.
+     * Constructor for PairingHandler.
+     *
+     * @param appliance       T
+     */
+    public PairingHandler(T appliance) {
+        this(appliance, null);
+    }
+
+    /**
+     * Constructor for PairingHandler.
      *
      * @param appliance       T
      * @param pairingListener PairingListener
      */
-    public PairingHandler(T appliance, PairingListener pairingListener) {
-        this(pairingListener, appliance);
+    public PairingHandler(T appliance, PairingListener<T> pairingListener) {
+        if (appliance == null) return;
+        this.mAppliance = appliance;
+        this.pairingListener = pairingListener;
+        callbackHandler = new ICPCallbackHandler();
+        callbackHandler.setHandler(this);
+        cppController = CppController.getInstance();
     }
 
     /**
-     * Constructor for Pairinghandler.
+     * Constructor for PairingHandler.
      *
      * @param iPairingListener PairingListener
      * @param appliance        T
      */
-    public PairingHandler(PairingListener iPairingListener, T appliance) {
-        if (appliance == null) return;
-        this.mAppliance = appliance;
-        pairingListener = iPairingListener;
-        callbackHandler = new ICPCallbackHandler();
-        callbackHandler.setHandler(this);
-        cppController = CppController.getInstance();
+    public PairingHandler(PairingListener<T> iPairingListener, T appliance) {
+        this(appliance, iPairingListener);
     }
 
     public void setPermissionListener(PermissionListener iPermissionListener) {
@@ -99,9 +109,6 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
 
     /**
      * Method startPairing- starts pairing procedure
-     *
-     * @param relationshipType String
-     * @param permission       String[]
      */
     public void startPairing() {
         if (mAppliance == null) return;
@@ -151,7 +158,6 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
      *
      * @param relationshipType String
      * @param permission       String[]
-     * @param context          Context
      */
     private void startPairingPortTask(final String relationshipType,
                                       final String[] permission) {
@@ -189,7 +195,6 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
      * Method addRelationship.
      *
      * @param relationshipType String
-     * @param permission       String[]
      * @param secretKey        String
      */
     private void addRelationship(String relationshipType, String secretKey) {
@@ -267,8 +272,6 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     /**
      * add Trustee data
      *
-     * @param purifierEui64
-     * @param pairingTrustee
      * @return PairingEntitiyReference
      */
     private PairingEntitiyReference getDICommApplianceEntity() {
@@ -289,8 +292,6 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     /**
      * add Trustee data
      *
-     * @param purifierEui64
-     * @param pairingTrustee
      * @return PairingEntitiyReference
      */
     private PairingEntitiyReference getAppEntity() {
@@ -517,7 +518,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
 
     private void notifyListenerSuccess() {
         if (pairingListener == null) return;
-        pairingListener.onPairingSuccess(mAppliance.getNetworkNode());
+        pairingListener.onPairingSuccess(mAppliance);
     }
 
     private void notifyListenerFailed(boolean isPairingPortTaskFailed) {
@@ -535,7 +536,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         } else {
             mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
             if (pairingListener == null) return;
-            pairingListener.onPairingFailed(mAppliance.getNetworkNode());
+            pairingListener.onPairingFailed(mAppliance);
         }
     }
 
