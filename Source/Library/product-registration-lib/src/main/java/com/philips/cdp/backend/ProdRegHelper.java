@@ -46,8 +46,12 @@ public class ProdRegHelper {
      * @param listener           - Callback listener
      */
     public void registerProduct(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
-        Validator validator = getValidator();
-        if (!validator.isUserSignedIn(new User(context), context)) {
+        Validator validator = new Validator();
+        processForReg(context, prodRegRequestInfo, listener, validator, new User(context));
+    }
+
+    protected void processForReg(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener, final Validator validator, final User user) {
+        if (!validator.isUserSignedIn(user, context)) {
             listener.onProdRegFailed(ErrorType.USER_NOT_SIGNED_IN);
         } else {
             if (!validator.isValidaDate(prodRegRequestInfo.getPurchaseDate())) {
@@ -57,11 +61,6 @@ public class ProdRegHelper {
                 getRegisteredProduct(context, new ProdRegRequestInfo(null, null, Sector.B2C, Catalog.CONSUMER), getRegisteredProductsListener);
             }
         }
-    }
-
-    @NonNull
-    private Validator getValidator() {
-        return new Validator();
     }
 
     @NonNull
