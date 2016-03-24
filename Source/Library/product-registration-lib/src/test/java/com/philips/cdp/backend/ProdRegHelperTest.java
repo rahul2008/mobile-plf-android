@@ -25,10 +25,10 @@ public class ProdRegHelperTest extends MockitoTestCase {
     @Mock
     Context mContext;
 
-    public void testUser() throws Exception {
+    @Override
+    protected void setUp() throws Exception {
         super.setUp();
         prodRegHelper = new ProdRegHelper();
-//        mContext = getInstrumentation().getContext();
     }
 
     @Test
