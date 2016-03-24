@@ -68,7 +68,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private boolean mIsFirstScreenLaunch = false;
     private View mView = null;
     private View mProductViewProductButton = null;
-    private View mProductLocatePhilipsButton = null;
+    //  private View mProductLocatePhilipsButton = null;
     private View mProductChangeButton = null;
     private ProductModelSelectionHelper mProductSelectionHelper = null;
     private PrxProductData mPrxProductData = null;
@@ -262,7 +262,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 mProductViewProductButton.setVisibility(View.GONE);
         }
 
-        if (buttonTitle.equals(getStringKey(R.string.find_philips_near_you))) {
+       /* if (buttonTitle.equals(getStringKey(R.string.find_philips_near_you))) {
             mProductLocatePhilipsButton = (View) relativeLayout;
 
             if (DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory() == null)
@@ -270,7 +270,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             else
                 mProductLocatePhilipsButton.setVisibility(View.VISIBLE);
 
-        }
+        }*/
         return relativeLayout;
     }
 
@@ -369,10 +369,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                     showFragment(new ContactUsFragment());
         } else if (tag.equals(getStringKey(R.string.view_product_details))) {
             if (isConnectionAvailable())
-                showFragment(new ProductDetailsFragment());
+                if (isProductSelected())
+                    showFragment(new ProductDetailsFragment());
         } else if (tag.equals(getStringKey(R.string.find_philips_near_you))) {
             if (isConnectionAvailable())
-                showFragment(new LocatePhilipsFragment());
+                if (isProductSelected())
+                    showFragment(new LocatePhilipsFragment());
         } else if (tag.equals(getStringKey(R.string.view_faq))) {
             if (isConnectionAvailable())
                 if (isProductSelected())
