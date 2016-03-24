@@ -42,13 +42,6 @@ public class DetailActivity extends AppCompatActivity {
         editTextName = (EditText) findViewById(R.id.editTextName);
 
         lightSwitch = (SwitchCompat) findViewById(R.id.switchLight);
-        lightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton compoundButton, final boolean isChecked) {
-                updateLightProperty(isChecked);
-            }
-        });
-
         final Button buttonSet = (Button) findViewById(R.id.buttonSet);
         buttonSet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +59,14 @@ public class DetailActivity extends AppCompatActivity {
 
         updateLightSwitchView(currentPurifier.getAirPort());
         updateDeviceNameView(currentPurifier.getDevicePort());
+
+        lightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final CompoundButton compoundButton, final boolean isChecked) {
+                updateLightProperty(isChecked);
+            }
+        });
+
     }
 
     private void updateNameProperty(final String name) {
