@@ -9,6 +9,7 @@ import com.philips.cdp.model.ProdRegResponse;
 import com.philips.cdp.productrequest.RegistrationRequest;
 
 import org.json.JSONObject;
+import org.junit.Test;
 import org.mockito.Mock;
 
 import java.io.BufferedReader;
@@ -29,7 +30,7 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
     }
-
+    @Test
     public void testSummaryResponseObject() {
         try {
             StringBuilder sb = new StringBuilder();
@@ -58,7 +59,7 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
             Log.d(TAG, "IO " + e);
         }
     }
-
+    @Test
     private void TestAssertionOnResponse(final ProdRegData mResponseData, final ProdRegData data) {
         assertEquals(mResponseData.getLocale(), data.getLocale());
         assertEquals(mResponseData.getModelNumber(), data.getModelNumber());
@@ -70,7 +71,7 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
         assertEquals(mResponseData.getEmailStatus(), data.getEmailStatus());
     }
 
-    @NonNull
+    @Test
     private ProdRegData setDataObject(final ProdRegData mResponseData) {
         ProdRegData data = new ProdRegData();
         data.setLocale(mResponseData.getLocale());

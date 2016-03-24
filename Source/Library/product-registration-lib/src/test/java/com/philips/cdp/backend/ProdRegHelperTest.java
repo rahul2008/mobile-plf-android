@@ -46,7 +46,7 @@ public class ProdRegHelperTest extends MockitoTestCase {
             }
         });
     }
-
+    @Test
     private ProdRegHelper getProductHelper() {
         return new ProdRegHelper() {
             protected Validator getValidator() {

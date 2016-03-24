@@ -8,6 +8,7 @@ import com.philips.cdp.model.ProdRegMetaDataResponse;
 import com.philips.cdp.productrequest.RegistrationRequest;
 
 import org.json.JSONObject;
+import org.junit.Test;
 import org.mockito.Mock;
 
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ public class ProductMetaDataResponseTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
     }
-
+    @Test
     public void testSummaryResponseObject() {
         try {
             StringBuilder sb = new StringBuilder();
@@ -56,7 +57,7 @@ public class ProductMetaDataResponseTest extends InstrumentationTestCase {
             Log.d(TAG, "IO " + e);
         }
     }
-
+    @Test
     private void TestAssertionOnResponse(final ProdRegMetaDataResponse mResponseData, final ProdRegMetaDataResponse productData) {
         assertEquals(mResponseData.getMessage(), productData.getMessage());
         assertEquals(mResponseData.getIsConnectedDevice(), productData.getIsConnectedDevice());
@@ -67,7 +68,7 @@ public class ProductMetaDataResponseTest extends InstrumentationTestCase {
         assertEquals(mResponseData.getRequiresDateOfPurchase(), productData.getRequiresDateOfPurchase());
         assertEquals(mResponseData.getSerialNumberSampleContent(), productData.getSerialNumberSampleContent());
     }
-
+    @Test
     private ProdRegMetaDataResponse setMetadataObject(final ProdRegMetaDataResponse mResponseData) {
         ProdRegMetaDataResponse productData = new ProdRegMetaDataResponse();
         productData.setMessage(mResponseData.getMessage());

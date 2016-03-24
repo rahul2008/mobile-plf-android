@@ -8,6 +8,7 @@ import com.philips.cdp.model.ProdRegRegisteredResults;
 import com.philips.cdp.productrequest.RegistrationRequest;
 
 import org.json.JSONObject;
+import org.junit.Test;
 import org.mockito.Mock;
 
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ public class ProductRegisteredResponseTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
     }
-
+    @Test
     public void testSummaryResponseObject() {
         try {
             StringBuilder sb = new StringBuilder();
@@ -57,7 +58,7 @@ public class ProductRegisteredResponseTest extends InstrumentationTestCase {
             Log.d(TAG, "IO " + e);
         }
     }
-
+    @Test
     private void TestAssertionOnResponse(final ProdRegRegisteredResults[] mResponseData, final ProdRegRegisteredResults[] resultses) {
 
         assertEquals(mResponseData[0].getProductRegistrationID(), resultses[0].getProductRegistrationID());
@@ -84,7 +85,7 @@ public class ProductRegisteredResponseTest extends InstrumentationTestCase {
         assertEquals(mResponseData[0].getUuid(), resultses[0].getUuid());
         assertEquals(mResponseData[0].getRegistrationChannel(), resultses[0].getRegistrationChannel());
     }
-
+    @Test
     private ProdRegRegisteredResults[] setProductRegister(final ProdRegRegisteredResults[] mResponseData) {
 
         ProdRegRegisteredResults[] pResults = new ProdRegRegisteredResults[0];
