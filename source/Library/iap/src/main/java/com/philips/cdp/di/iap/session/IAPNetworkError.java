@@ -2,17 +2,14 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 import android.os.Message;
-import android.widget.Toast;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.Utility;
 
 public class IAPNetworkError implements IAPNetworkErrorListener {
 
@@ -63,7 +60,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
             }
         }catch (Exception e){
-            IAPLog.d(IAPNetworkError.class.getName(), error.getMessage());
+            IAPLog.d(IAPNetworkError.class.getName(), e.getMessage());
         }
     }
 

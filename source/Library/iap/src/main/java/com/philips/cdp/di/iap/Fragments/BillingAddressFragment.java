@@ -38,8 +38,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mTvTitle.setText(getResources().getString(R.string.iap_billing_address));
         mSameAsBillingAddress.setVisibility(View.VISIBLE);
 
-        Bundle bundle = getArguments();
-
        /* if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
             mBillingAddressFields = (AddressFields) bundle.getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS);
             disableAllFields();
@@ -165,7 +163,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         Utility.hideKeypad(mContext);
 
         if (v == mBtnContinue) {
-            setAddressFields(mBillingAddressFields);
+            mBillingAddressFields = setAddressFields(mBillingAddressFields.clone());
             if (!Utility.isProgressDialogShowing()) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mBillingAddressFields);
