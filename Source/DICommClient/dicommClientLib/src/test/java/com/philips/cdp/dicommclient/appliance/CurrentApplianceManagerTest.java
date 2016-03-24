@@ -50,7 +50,11 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         appliance1 = Mockito.spy(appliance1);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);
 
-        verifyAddedPurifier(appliance1);
+        verify(appliance1, never()).enableSubscription();
+        verify(appliance1, never()).subscribe();
+
+        verify(appliance1, never()).disableSubscription();
+        verify(appliance1, never()).stopResubscribe();
     }
 
     @Test
@@ -94,7 +98,6 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.setCurrentAppliance(appliance2);
 
         verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
     }
 
     @Test
@@ -160,7 +163,6 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.setCurrentAppliance(appliance2);
 
         verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
     }
 
     @Test
@@ -224,7 +226,6 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.setCurrentAppliance(appliance2);
 
         verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
     }
 
     @Test
@@ -286,7 +287,6 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         mCurrentApplianceMan.setCurrentAppliance(appliance2);
 
         verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
     }
 
     @Test
@@ -422,9 +422,9 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         appliance1.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 
         verify(appliance1).disableSubscription();
-        verify(appliance1).enableSubscription();
+        verify(appliance1, never()).enableSubscription();
 
-        verify(appliance1).subscribe();
+        verify(appliance1, never()).subscribe();
         verify(appliance1).stopResubscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
@@ -546,8 +546,8 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         verify(appliance1).disableSubscription();
         verify(appliance1).stopResubscribe();
 
-        verify(appliance1).enableSubscription();
-        verify(appliance1).subscribe();
+        verify(appliance1, never()).enableSubscription();
+        verify(appliance1, never()).subscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
     }
