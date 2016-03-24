@@ -30,7 +30,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        testApplicationId "com.philips.cdp.androidTest"
+        testApplicationId "com.philips.cdp.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     buildTypes {
@@ -88,9 +88,7 @@ dependencies {
     compile 'com.philips.cdp:dicommClientLib:1.0.7'
 
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.9.5'
-    testCompile 'com.google.dexmaker:dexmaker:1.2'
-    testCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    testCompile 'org.mockito:mockito-all:1.10.17'
 }
 
 //maven configuration stuff required for artifactory plugin
