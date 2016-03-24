@@ -60,7 +60,7 @@ public class UserProduct {
         mRequestManager.executeRequest(registrationRequest, getLocalResponseListener(prodRegRequestInfo, listener));
     }
 
-    private void handleError(final int statusCode, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+    protected void handleError(final int statusCode, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         if (statusCode == ErrorType.INVALID_PRODUCT.getCode()) {
             listener.onProdRegFailed(ErrorType.INVALID_PRODUCT);
         } else if (statusCode == ErrorType.ACCESS_TOKEN_EXPIRED.getCode()) {
@@ -127,4 +127,9 @@ public class UserProduct {
             }
         };
     }
+
+    public String getRequestType() {
+        return requestType;
+    }
+
 }
