@@ -9,7 +9,6 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
 
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -22,13 +21,13 @@ import static org.mockito.Mockito.when;
 public class ProdRegHelperTest extends MockitoTestCase {
 
     ProdRegHelper prodRegHelper;
-    @Mock
     Context mContext;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         prodRegHelper = new ProdRegHelper();
+        mContext = getInstrumentation().getContext();
     }
 
     @Test
@@ -46,6 +45,7 @@ public class ProdRegHelperTest extends MockitoTestCase {
             }
         });
     }
+
     @Test
     private ProdRegHelper getProductHelper() {
         return new ProdRegHelper() {

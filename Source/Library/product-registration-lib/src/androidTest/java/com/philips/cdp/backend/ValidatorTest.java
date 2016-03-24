@@ -28,7 +28,7 @@ public class ValidatorTest extends MockitoTestCase {
         super.setUp();
         validator = new Validator();
         userMock = mock(User.class);
-//        context = getInstrumentation().getContext();
+        context = getInstrumentation().getContext();
     }
 
     @Test

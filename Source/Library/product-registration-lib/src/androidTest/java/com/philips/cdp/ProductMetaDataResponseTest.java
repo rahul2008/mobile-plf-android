@@ -29,6 +29,7 @@ public class ProductMetaDataResponseTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
     }
+
     @Test
     public void testSummaryResponseObject() {
         try {
@@ -57,6 +58,7 @@ public class ProductMetaDataResponseTest extends InstrumentationTestCase {
             Log.d(TAG, "IO " + e);
         }
     }
+
     @Test
     private void TestAssertionOnResponse(final ProdRegMetaDataResponse mResponseData, final ProdRegMetaDataResponse productData) {
         assertEquals(mResponseData.getMessage(), productData.getMessage());
@@ -68,6 +70,7 @@ public class ProductMetaDataResponseTest extends InstrumentationTestCase {
         assertEquals(mResponseData.getRequiresDateOfPurchase(), productData.getRequiresDateOfPurchase());
         assertEquals(mResponseData.getSerialNumberSampleContent(), productData.getSerialNumberSampleContent());
     }
+
     @Test
     private ProdRegMetaDataResponse setMetadataObject(final ProdRegMetaDataResponse mResponseData) {
         ProdRegMetaDataResponse productData = new ProdRegMetaDataResponse();

@@ -1,6 +1,5 @@
 package com.philips.cdp;
 
-import android.support.annotation.NonNull;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
@@ -30,6 +29,7 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
     }
+
     @Test
     public void testSummaryResponseObject() {
         try {
@@ -59,6 +59,7 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
             Log.d(TAG, "IO " + e);
         }
     }
+
     @Test
     private void TestAssertionOnResponse(final ProdRegData mResponseData, final ProdRegData data) {
         assertEquals(mResponseData.getLocale(), data.getLocale());
