@@ -5,10 +5,10 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 
 
-public interface PairingListener {	
-	void onPairingSuccess(NetworkNode networkNode);
-	void onPairingFailed(NetworkNode networkNode);
+public interface PairingListener<T extends DICommAppliance> {
+	void onPairingSuccess(T appliance);
+	void onPairingFailed(T appliance);
 }

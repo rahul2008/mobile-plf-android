@@ -126,13 +126,14 @@ public class DetailActivity extends AppCompatActivity {
 
     private void startPairing() {
 
-        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(currentPurifier, new PairingListener() {
+        final AirPurifier purifier = this.currentPurifier;
+        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(purifier, new PairingListener() {
             @Override
             public void onPairingSuccess(final NetworkNode networkNode) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "networkNode = [" + networkNode + "]");
 
                 DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
-                discoveryManager.insertApplianceToDatabase(currentPurifier);
+                discoveryManager.insertApplianceToDatabase(purifier);
 
                 showToast("Pairing successful");
             }
