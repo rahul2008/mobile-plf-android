@@ -160,10 +160,14 @@ public class CurrentApplianceManager implements Observer {
 
         DICommAppliance appliance = getCurrentAppliance();
 
-        if (appliance == null) return;
+        if (appliance == null) {
+            return;
+        }
 
-        appliance.subscribe();
-        appliance.enableSubscription();
+        if (!appliance.getNetworkNode().getConnectionState().equals(ConnectionState.DISCONNECTED)) {
+            appliance.subscribe();
+            appliance.enableSubscription();
+        }
     }
 
     private synchronized void stopCurrentSubscription() {
