@@ -7,8 +7,8 @@ import com.philips.cdp.backend.PRXDataBuilderFactory;
 import com.philips.cdp.backend.PRXRequestType;
 import com.philips.cdp.backend.ProdRegRequestInfo;
 import com.philips.cdp.error.ErrorType;
-import com.philips.cdp.model.ProdRegMetaDataResponse;
 import com.philips.cdp.model.ProdRegMetaData;
+import com.philips.cdp.model.ProdRegMetaDataResponse;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -70,7 +70,7 @@ public class Product {
         }
     }
 
-    private boolean validateSerialNumberFromMetadata(final ProdRegMetaDataResponse data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+    protected boolean validateSerialNumberFromMetadata(final ProdRegMetaDataResponse data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
             if (processSerialNumber(data, listener, prodRegRequestInfo)) return false;
         } else {
@@ -90,7 +90,7 @@ public class Product {
         return false;
     }
 
-    private boolean validatePurchaseDateFromMetadata(final ProdRegMetaDataResponse data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+    protected boolean validatePurchaseDateFromMetadata(final ProdRegMetaDataResponse data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         final String purchaseDate = prodRegRequestInfo.getPurchaseDate();
         if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
             if (purchaseDate != null && purchaseDate.length() > 0) {
