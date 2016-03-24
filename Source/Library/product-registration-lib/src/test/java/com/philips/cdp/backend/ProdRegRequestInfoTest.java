@@ -30,6 +30,4 @@ public class ProdRegRequestInfoTest extends MockitoTestCase {
         prodRegRequestInfo.setLocale("en_GB");
         assertEquals("en_GB", prodRegRequestInfo.getLocale());
     }
-
-
 }

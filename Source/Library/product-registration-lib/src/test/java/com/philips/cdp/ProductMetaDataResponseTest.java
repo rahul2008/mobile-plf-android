@@ -3,8 +3,8 @@ package com.philips.cdp;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.model.ProdRegMetaDataResponse;
 import com.philips.cdp.model.ProdRegMetaData;
+import com.philips.cdp.model.ProdRegMetaDataResponse;
 import com.philips.cdp.productrequest.RegistrationRequest;
 
 import org.json.JSONObject;

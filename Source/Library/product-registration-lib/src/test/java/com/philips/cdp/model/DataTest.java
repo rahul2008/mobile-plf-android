@@ -23,6 +23,7 @@ public class DataTest extends InstrumentationTestCase {
         assertEquals("28-02-2016", dataTest.getRegistrationDate());
     }
 
+    @Test
     public void ShouldGetLocale() throws Exception {
         dataTest.setLocale("en_GB");
         assertEquals("en_GB", dataTest.getLocale());

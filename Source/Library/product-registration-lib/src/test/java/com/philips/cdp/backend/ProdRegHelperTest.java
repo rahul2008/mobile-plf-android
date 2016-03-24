@@ -8,6 +8,8 @@ import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
 
+import org.mockito.Mock;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -18,12 +20,13 @@ import static org.mockito.Mockito.when;
 public class ProdRegHelperTest extends MockitoTestCase {
 
     ProdRegHelper prodRegHelper;
+    @Mock
     Context mContext;
 
     public void testUser() throws Exception {
         super.setUp();
         prodRegHelper = new ProdRegHelper();
-        mContext = getInstrumentation().getContext();
+//        mContext = getInstrumentation().getContext();
     }
 
     public void testRegistrationWhenUserNotSignedIn() {
@@ -52,5 +55,4 @@ public class ProdRegHelperTest extends MockitoTestCase {
             }
         };
     }
-
 }

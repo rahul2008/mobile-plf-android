@@ -16,11 +16,9 @@ public class ProductTest extends MockitoTestCase {
         super.setUp();
         product = new Product();
     }
-    @Test
-    public void  testProductMetadata(){
 
+    @Test
+    public void testProductMetadata() {
 
     }
-
-
 }
