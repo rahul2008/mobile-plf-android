@@ -9,7 +9,6 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.response.error.ServerError;
-import com.philips.cdp.di.iap.utils.IAPLog;
 
 public class IAPNetworkError implements IAPNetworkErrorListener {
 
@@ -20,9 +19,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     public IAPNetworkError(Context context, VolleyError error, int requestCode,
                            RequestListener requestListener) {
         mContext = context;
-        if(error instanceof com.android.volley.ServerError){
+        if (error instanceof com.android.volley.ServerError) {
             setServerError(error);
-        }else{
+        } else {
             mVolleyError = error;
         }
         Message msg = Message.obtain();
@@ -35,13 +34,15 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     public String getMessage() {
         if (mServerError != null) {
             return mServerError.getErrors().get(0).getMessage();
-        } else if(mVolleyError!=null){
-            if(mVolleyError instanceof TimeoutError || mVolleyError instanceof NoConnectionError){
+        } else if (mVolleyError != null) {
+            if (mVolleyError instanceof NoConnectionError) {
                 return mContext.getString(R.string.iap_check_connection);
-            }else {
+            } else if (mVolleyError instanceof TimeoutError) {
+                return mContext.getString(R.string.iap_time_out_error);
+            } else {
                 return mVolleyError.getMessage();
             }
-        }else {
+        } else {
             return mContext.getString(R.string.iap_something_went_wrong);
         }
     }
@@ -59,13 +60,12 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
                 String errorString = new String(error.networkResponse.data);
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
             }
-        }catch (Exception e){
-            IAPLog.d(IAPNetworkError.class.getName(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public ServerError getServerError() {
         return mServerError;
     }
-
 }
