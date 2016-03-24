@@ -25,11 +25,12 @@ import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 
+import static com.philips.cdp.di.iap.R.string.iap_check_connection;
+
 public class NetworkUtility {
 
     private static NetworkUtility mNetworkUtility;
     private static ErrorDialogFragment mModalAlertDemoFragment;
-
     private boolean isOnline;
 
     public static NetworkUtility getInstance() {
@@ -66,24 +67,50 @@ public class NetworkUtility {
 
     }
 
-    public void showErrorMessage(final Message msg,FragmentManager pFragmentManager, Context mContext) {
-
+    public void showErrorMessage(final Message msg,FragmentManager pFragmentManager, Context mContext){
+        /*
+         *  Dismiss The Dialog if it not yet dismissed as Error Occured
+         */
         if(Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
 
+        /*
+         * Check if The Error is of the type IAPNetworkError , else display something went wrong
+         */
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
-            if(error.getMessage()!=null && error.getMessage().equalsIgnoreCase(mContext.getString(R.string.iap_check_connection))){
-                NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
-                        mContext.getString(R.string.iap_network_error), error.getMessage());
-            }else if(error.getMessage()!=null && !error.getMessage().equalsIgnoreCase("")) {
-                NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
-                        mContext.getString(R.string.iap_server_error), error.getMessage());
-            }else {
+            String errorMessage = "";
+
+            if(error!=null) {
+                errorMessage = error.getMessage();
+            }
+
+            //If error message is null or "" - We dont know the exact error, hence display something went wrong
+            if(errorMessage.equalsIgnoreCase("") || null==errorMessage){
                 NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
                         mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+                return;
             }
-        } else {
+
+            //If error message is of the Type Network Error display Network Error
+            if(errorMessage.equalsIgnoreCase(mContext.getString(iap_check_connection))){
+                NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
+                return;
+            }
+
+            //If error message is of the Type Timeout Error display Timeout Error
+            if(errorMessage.equalsIgnoreCase(mContext.getString(R.string.iap_time_out_error))){
+                NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_time_out_error));
+                return;
+            }
+
+            //Default Case
+            NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_server_error), error.getMessage());
+
+        }else {
             NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
