@@ -35,7 +35,6 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
@@ -71,6 +70,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private View mProductViewProductButton = null;
     private View mProductLocatePhilipsButton = null;
     private View mProductChangeButton = null;
+    private View mProductFAQButton = null;
     private ProductModelSelectionHelper mProductSelectionHelper = null;
     private PrxProductData mPrxProductData = null;
     private ConsumerProductInfo mProductInfo = null;
@@ -157,6 +157,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
         if (mCtnFromPreference != null && mCtnFromPreference != "")
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(mCtnFromPreference);
+    }
+
+    private boolean isProductSelected() {
+        String ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+        if (ctn != null && ctn != "") {
+            return false;
+        } else
+            return true;
     }
 
     @Override
@@ -276,10 +284,18 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 mProductViewProductButton.setVisibility(View.GONE);
         }
 
+        if (buttonTitle.equals(getStringKey(R.string.view_faq))) {
+            mProductFAQButton = (View) relativeLayout;
+            if (isProductSelected())
+                mProductFAQButton.setVisibility(View.GONE);
+            else
+                mProductFAQButton.setVisibility(View.VISIBLE);
+        }
+
         if (buttonTitle.equals(getStringKey(R.string.find_philips_near_you))) {
             mProductLocatePhilipsButton = (View) relativeLayout;
 
-            if (DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory() == null)
+            if (isProductSelected())
                 mProductLocatePhilipsButton.setVisibility(View.GONE);
             else
                 mProductLocatePhilipsButton.setVisibility(View.VISIBLE);
@@ -487,6 +503,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryModel.getData().getCtn());
             if (mProductViewProductButton != null)
                 mProductViewProductButton.setVisibility(View.VISIBLE);
+            if (mProductLocatePhilipsButton != null)
+                mProductLocatePhilipsButton.setVisibility(View.VISIBLE);
+            if (mProductFAQButton != null)
+                mProductFAQButton.setVisibility(View.VISIBLE);
 
 
             if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
