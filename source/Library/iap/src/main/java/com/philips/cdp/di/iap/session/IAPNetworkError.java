@@ -61,6 +61,10 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
             }
         } catch (Exception e) {
+            if(error instanceof TimeoutError) {
+                mVolleyError = error;
+                mServerError = null;
+            }
             e.printStackTrace();
         }
     }
