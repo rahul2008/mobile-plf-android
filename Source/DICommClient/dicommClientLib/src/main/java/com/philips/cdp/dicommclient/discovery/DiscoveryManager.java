@@ -767,10 +767,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
             return -1;
         }
 
-        long rowId = mNetworkNodeDatabase.save(appliance.getNetworkNode());
-        mApplianceDatabase.save(appliance);
-
-        return rowId;
+        return insertApplianceToDatabase(appliance);
     }
 
     // TODO DIComm refactor: improve interface
