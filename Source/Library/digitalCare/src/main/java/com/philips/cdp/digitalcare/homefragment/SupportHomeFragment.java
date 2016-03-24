@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,6 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
@@ -59,10 +59,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
     private static boolean isFirstTimeProductComponentlaunch = true;
-    private static boolean isProductSelectionFirstTime;
     SharedPreferences prefs = null;
     ActivityLauncher uiLauncher = null;
-    private boolean isfragmentFirstTimeVisited;
     private LinearLayout mOptionParent = null;
     private FrameLayout.LayoutParams mParams = null;
     private int ButtonMarginTop = 0;
@@ -75,27 +73,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private ProductModelSelectionHelper mProductSelectionHelper = null;
     private PrxProductData mPrxProductData = null;
     private ConsumerProductInfo mProductInfo = null;
-    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
-
-        @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-//            mActionBarTitle.setText(titleActionbar);
-//            if (hamburgerIconAvailable) {
-//                enableActionBarHome();
-//            } else {
-//                enableActionBarLeftArrow();
-//            }
-        }
-    };
     private String mCtnFromPreference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DigiCareLogger.d(TAG, "OnCreate Method");
-        isProductSelectionFirstTime = true;
-        isfragmentFirstTimeVisited = true;
-
     }
 
     @Override
@@ -129,31 +112,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             }
         } else
             createMainMenu();
-
-        DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
-        if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == "") {
-            if (isProductSelectionFirstTime) {
-
-                if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher) {
-                    if (isfragmentFirstTimeVisited) {
-                        isfragmentFirstTimeVisited = false;
-                        launchProductSelectionComponent();
-                    }
-                } else {
-                    launchProductSelectionComponent();
-                }
-            }
-        }
-
-        if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1) && mCtnFromPreference == "") {
-            isFirstTimeProductComponentlaunch = false;
-            if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher)
-                isfragmentFirstTimeVisited = false;
-            launchProductSelectionComponent();
-
-        }
-
-
         return mView;
     }
 
@@ -161,15 +119,27 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         if (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) {
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSector(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getSector());
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCatalog(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getCatalog());
-          /*  if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 1)
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList()[0]);
-        */
         }
 
-        mCtnFromPreference = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+        mCtnFromPreference = getCtnFromPreference();
 
         if (mCtnFromPreference != null && mCtnFromPreference != "")
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(mCtnFromPreference);
+    }
+
+    @NonNull
+    private String getCtnFromPreference() {
+        return prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+    }
+
+    private boolean isProductSelected() {
+        mCtnFromPreference = getCtnFromPreference();
+        if (mCtnFromPreference == null || mCtnFromPreference == "") {
+            launchProductSelectionComponent();
+            return false;
+        } else
+            return true;
+
     }
 
     @Override
@@ -282,9 +252,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         if (buttonTitle.equals(getStringKey(R.string.view_product_details))) {
             mProductViewProductButton = (View) relativeLayout;
             ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-            if ((model.getCtnName() != null)
-                    || (model.getProductName() != null))
-                mProductViewProductButton.setVisibility(View.VISIBLE);
+            if (model != null)
+                if ((model.getCtnName() != null)
+                        || (model.getProductName() != null))
+                    mProductViewProductButton.setVisibility(View.VISIBLE);
+                else
+                    mProductViewProductButton.setVisibility(View.GONE);
             else
                 mProductViewProductButton.setVisibility(View.GONE);
         }
@@ -392,7 +365,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
         if (tag.equals(getStringKey(R.string.contact_us))) {
             if (isConnectionAvailable())
-                showFragment(new ContactUsFragment());
+                if (isProductSelected())
+                    showFragment(new ContactUsFragment());
         } else if (tag.equals(getStringKey(R.string.view_product_details))) {
             if (isConnectionAvailable())
                 showFragment(new ProductDetailsFragment());
@@ -401,21 +375,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 showFragment(new LocatePhilipsFragment());
         } else if (tag.equals(getStringKey(R.string.view_faq))) {
             if (isConnectionAvailable())
-                showFragment(new FaqFragment());
+                if (isProductSelected())
+                    showFragment(new FaqFragment());
         } else if (tag.equals(getStringKey(R.string.feedback))) {
             if (isConnectionAvailable())
-                showFragment(new RateThisAppFragment());
+                if (isProductSelected())
+                    showFragment(new RateThisAppFragment());
         } else if (tag.equals(getStringKey(R.string.Change_Selected_Product))) {
             if (isConnectionAvailable()) {
-                DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
-
-                if (digitalCareConfigManager.getUiLauncher() instanceof ActivityLauncher) {
-                    launchProductSelectionActivityComponent();
-                } else if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher) {
-                    Configuration configuration = getResources().getConfiguration();
-                    ProductModelSelectionHelper.getInstance().setCurrentOrientation(configuration);
-                    launchProductSelectionFragmentComponent();
-                }
+                launchProductSelectionComponent();
             }
         }
     }
@@ -574,8 +542,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
     @Override
     public void onResponseReceived(SummaryModel productSummaryModel) {
-        DigiCareLogger.v(TAG, "Response Received from Data Received null");
-
         if (productSummaryModel == null)
             createMainMenu();
         else {

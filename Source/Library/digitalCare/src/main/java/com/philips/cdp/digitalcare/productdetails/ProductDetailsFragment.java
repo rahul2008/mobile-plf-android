@@ -152,7 +152,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
   */
     }
 
-    private void initView(List<String> mVideoLength) {
+    private void initView(List<String> mVideoLength) throws NullPointerException {
 
         DigiCareLogger.d(TAG, "Video's Length : " + mVideoLength.size());
         if (mVideoLength != null && mVideoLength.size() > 0) {

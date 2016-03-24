@@ -186,6 +186,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
         createSocialProviderMenu();
+        float density = getResources().getDisplayMetrics().density;
+        setHelpButtonParams(density);
 
 		/*
          * Live chat is configurable parameter. Developer can enable/disable it.
