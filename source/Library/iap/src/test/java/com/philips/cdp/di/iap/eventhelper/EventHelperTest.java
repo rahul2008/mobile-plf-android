@@ -1,6 +1,5 @@
 package com.philips.cdp.di.iap.eventhelper;
 
-import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import junit.framework.TestCase;
@@ -9,9 +8,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 310164421 on 3/9/2016.
@@ -29,7 +26,7 @@ public class EventHelperTest extends TestCase {
     public void testRegisterEventNotification() throws Exception {
         List<String> list = new ArrayList<>();
         list.add(IAPConstant.ADD_DELIVERY_ADDRESS);
-        list.add(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
+        list.add(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
         list.add(IAPConstant.BILLING_ADDRESS_FIELDS);
         eventHelper.registerEventNotification(list, listener);
         assertNotNull(list);
