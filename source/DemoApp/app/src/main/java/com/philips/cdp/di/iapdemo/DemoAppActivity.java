@@ -1,24 +1,16 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.activity.IAPActivity;
-import com.philips.cdp.di.iap.response.carts.AddToCartData;
 import com.philips.cdp.di.iap.session.IAPHandler;
-import com.philips.cdp.di.iap.session.IAPHandlerListner;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.registration.User;
@@ -32,7 +24,9 @@ import net.hockeyapp.android.CrashManagerListener;
 import java.util.ArrayList;
 
 public class DemoAppActivity extends Activity implements View.OnClickListener,
-        IAPHandlerListner, UserRegistrationListener {
+         UserRegistrationListener {
+
+    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPurple_WhiteBackground;
 
     private IAPHandler mIapHandler;
     private TextView mCountText = null;
@@ -43,6 +37,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(DEFAULT_THEME);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.demo_app_layout);
@@ -82,12 +77,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         if (user.isUserSignIn(this)) {
             mShoppingCart.setVisibility(View.VISIBLE);
             mProductListView.setVisibility(View.VISIBLE);
-            mIapHandler.initApp(this);
-            if (!(Utility.isProgressDialogShowing())) {
+//            mIapHandler.initApp(this);
                     Utility.showProgressDialog(this, getString(R.string.loading_cart));
-                    mIapHandler.getCartQuantity(this);
+                    mIapHandler.getProductCartCount(this, mProductCountListener);
             }
-        }
     }
 
     @Override
@@ -107,29 +100,21 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     void addToCart(String ctnNumber) {
         if (!(Utility.isProgressDialogShowing())) {
                 Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
-                mIapHandler.addItemtoCart(ctnNumber, this, false);
-                IAPLog.d(IAPLog.DEMOAPPACTIVITY, "addItemtoCart");
+                mIapHandler.addProductToCart(this,ctnNumber, mAddToCartListener);
+                IAPLog.d(IAPLog.DEMOAPPACTIVITY, "addProductToCart");
         }
     }
 
-    /**
-     * Buy Now particular product
-     *
-     * @param ctnNumber product id
-     */
-    void buyNow(String ctnNumber) {
-        if (!(Utility.isProgressDialogShowing())) {
-                Utility.showProgressDialog(this, getString(R.string.please_wait));
-                mIapHandler.buyNow(ctnNumber, this);
-        }
+    void buyProduct(final String ctnNumber) {
+        Utility.showProgressDialog(this, getString(R.string.please_wait));
+        mIapHandler.buyProduct(this, ctnNumber, mBuyProductListener, DEFAULT_THEME);
     }
 
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.shoppingCart:
-                    Intent myIntent = new Intent(DemoAppActivity.this, IAPActivity.class);
-                    startActivity(myIntent);
+                mIapHandler.launchIAP(this,DEFAULT_THEME);
                 break;
             case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
@@ -140,25 +125,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         }
     }
 
-    @Override
-    public void onGetCartQuantity(final int quantity) {
-        if (quantity != -1) {
-            mCountText.setText(String.valueOf(quantity));
-            if (quantity == 0) {
-                mCountText.setVisibility(View.GONE);
-            } else {
-                mCountText.setVisibility(View.VISIBLE);
-            }
-        }
-        Utility.dismissProgressDialog();
-    }
-
-    @Override
-    public void onAddItemToCart(final Message msg) {
+/*    public void onAddItemToCart(final Message msg) {
         if (msg.obj instanceof AddToCartData) {
             AddToCartData addToCartData = (AddToCartData) msg.obj;
             if (addToCartData.getStatusCode().equalsIgnoreCase("success")) {
-                mIapHandler.getCartQuantity(this);
+                mIapHandler.getProductCartCount(this, this);
             } else if (addToCartData.getStatusCode().equalsIgnoreCase("noStock")) {
                 Toast.makeText(this, getString(R.string.no_stock), Toast.LENGTH_SHORT).show();
                 Utility.dismissProgressDialog();
@@ -168,30 +139,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             Utility.dismissProgressDialog();
             Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void onBuyNow() {
-        Utility.dismissProgressDialog();
-        Intent myIntent = new Intent(DemoAppActivity.this, IAPActivity.class);
-        startActivity(myIntent);
-    }
-
-    public void showNetworkError() {
-        String alertTitle = "Network Error";
-        String alertBody = "No network available. Please check your network settings and try again.";
-        AlertDialog.Builder alert = new AlertDialog.Builder(DemoAppActivity.this);
-        alert.setTitle(alertTitle);
-        alert.setMessage(alertBody);
-        alert.setPositiveButton(android.R.string.ok,
-                new android.content.DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alert.show();
-    }
+    }*/
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
@@ -224,4 +172,47 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     public void onUserLogoutSuccessWithInvalidAccessToken() {
 
     }
+
+    private IAPHandlerListener mAddToCartListener = new IAPHandlerListener() {
+        @Override
+        public void onSuccess(final int count) {
+            //// TODO: 24-03-2016 Adding out of stock condition
+            mIapHandler.getProductCartCount(DemoAppActivity.this, mProductCountListener);
+        }
+
+        @Override
+        public void onFailure() {
+            Utility.dismissProgressDialog();
+        }
+    };
+
+    private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
+        @Override
+        public void onSuccess(final int count) {
+            if (count > 0) {
+                mCountText.setText(String.valueOf(count));
+                mCountText.setVisibility(View.VISIBLE);
+            } else {
+                mCountText.setVisibility(View.GONE);
+            }
+            Utility.dismissProgressDialog();
+        }
+
+        @Override
+        public void onFailure() {
+            Utility.dismissProgressDialog();
+        }
+    };
+
+    private IAPHandlerListener mBuyProductListener = new IAPHandlerListener() {
+        @Override
+        public void onSuccess(final int count) {
+            Utility.dismissProgressDialog();
+        }
+
+        @Override
+        public void onFailure() {
+            Utility.dismissProgressDialog();
+        }
+    };
 }

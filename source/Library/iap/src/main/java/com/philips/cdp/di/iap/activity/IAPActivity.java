@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -27,17 +28,28 @@ import java.util.List;
  * All rights reserved.
  */
 public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
+    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
     private TextView mTitleTextView;
     private ImageView mBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initTheme();
         super.onCreate(savedInstanceState);
         IAPLog.d(IAPLog.LOG, "OnCreate");
         setContentView(R.layout.iap_activity);
         addActionBar();
         addShoppingFragment();
 
+    }
+
+    private void initTheme() {
+        int themeIndex = getIntent().getIntExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, DEFAULT_THEME);
+        //Handle invalid index
+        if (themeIndex <= 0) {
+            themeIndex = DEFAULT_THEME;
+        }
+        setTheme(themeIndex);
     }
 
     private void addShoppingFragment() {

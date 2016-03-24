@@ -29,7 +29,7 @@ public class HybrisDelegate {
 
     public static HybrisDelegate getInstance(Context context) {
         if (delegate.controller == null) {
-            delegate.mContext = context;
+            delegate.mContext = context.getApplicationContext();
             delegate.controller = delegate.getNetworkController(context);
         }
         return delegate;
