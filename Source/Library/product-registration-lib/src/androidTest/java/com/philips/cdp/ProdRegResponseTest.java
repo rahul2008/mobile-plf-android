@@ -22,12 +22,13 @@ import java.io.InputStreamReader;
 public class ProdRegResponseTest extends InstrumentationTestCase {
     @Mock
     String string1, string2, string3;
-    RegistrationRequest mProductAssetBuilder = new RegistrationRequest(string1, string2, string3);
+    RegistrationRequest mProductAssetBuilder;
     private String TAG = getClass() + "";
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        mProductAssetBuilder = new RegistrationRequest(string1, string2, string3);
     }
 
     @Test
