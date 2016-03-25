@@ -12,11 +12,9 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 public class IAPUser {
 
     private User mJanRainUser;
-    private Context mContext;
     private Store mStore;
 
     public IAPUser(final Context context, final Store store) {
-        mContext = context;
         mStore = store;
         mJanRainUser = new User(context);
     }
@@ -26,7 +24,7 @@ public class IAPUser {
     }
 
     public String getJanRainEmail() {
-        return mJanRainUser.getUserInstance(mContext).getEmail();
+        return mJanRainUser.getEmail();
     }
 
     public void refreshLoginSession() {
@@ -40,6 +38,10 @@ public class IAPUser {
             public void onRefreshLoginSessionFailedWithError(final int i) {
                 mStore.updateJanRainIDBasedUrls();
             }
-        }, mContext);
+
+            @Override
+            public void onRefreshLoginSessionInProgress(final String s) {
+            }
+        });
     }
 }
