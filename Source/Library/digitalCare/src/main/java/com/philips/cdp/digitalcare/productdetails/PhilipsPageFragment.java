@@ -120,9 +120,6 @@ public class PhilipsPageFragment extends DigitalCareBaseFragment {
         String country = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
                 .getCountry().toUpperCase();
 
-        ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
-                .getInstance().getConsumerProductInfo();
-
         return String.format(PRODUCT_PAGE_URL, LocaleMatchHandler.getPRXUrl(language + "_" + country), DigitalCareConfigManager.getInstance().getViewProductDetailsData().getProductInfoLink());
     }
 
