@@ -78,6 +78,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private PrxProductData mPrxProductData = null;
     private ConsumerProductInfo mProductInfo = null;
     private String mCtnFromPreference;
+    private static boolean isSupportScreenLaunched;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         DigiCareLogger.d(TAG, "OnCreate Method");
         // isProductSelectionFirstTime = true;
         //  isfragmentFirstTimeVisited = true;
-
+        isSupportScreenLaunched = true;
     }
 
     @Override
@@ -265,9 +266,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         int drawable = getResources().getIdentifier(
                 packageName + ":drawable/" + buttonDrawable, null, null);
         RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
-        if (relativeLayout == null) {
+        /*if (relativeLayout == null) {
             return;
-        }
+        }*/
         Button button = createButton(density, title);
         relativeLayout.addView(button);
         setButtonParams(button, density);
@@ -320,12 +321,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 mProductViewProductButton.setVisibility(View.VISIBLE);
             else
                 mProductViewProductButton.setVisibility(View.GONE);*/
+            if (!isSupportScreenLaunched && isProductSelected())
+                mProductViewProductButton.setVisibility(View.GONE);
+            else
+                mProductViewProductButton.setVisibility(View.VISIBLE);
 
         }
 
         if (buttonTitle.equals(getStringKey(R.string.view_faq))) {
             mProductFAQButton = (View) relativeLayout;
-            if (isProductSelected())
+            if (isProductSelected() && !isSupportScreenLaunched)
                 mProductFAQButton.setVisibility(View.GONE);
             else
                 mProductFAQButton.setVisibility(View.VISIBLE);
@@ -442,35 +447,35 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
         if (tag.equals(getStringKey(R.string.contact_us))) {
             if (isConnectionAvailable())
-                if (isProductSelected()) {
+                if (isProductSelected() && isSupportScreenLaunched) {
                     disableSupportButtonClickable();
                     launchProductSelectionComponent();
                 } else
                     showFragment(new ContactUsFragment());
         } else if (tag.equals(getStringKey(R.string.view_product_details))) {
             if (isConnectionAvailable())
-                if (isProductSelected()) {
+                if (isProductSelected() && isSupportScreenLaunched) {
                     disableSupportButtonClickable();
                     launchProductSelectionComponent();
                 } else
                     showFragment(new ProductDetailsFragment());
         } else if (tag.equals(getStringKey(R.string.find_philips_near_you))) {
             if (isConnectionAvailable())
-                if (isProductSelected()) {
+                if (isProductSelected() && isSupportScreenLaunched) {
                     disableSupportButtonClickable();
                     launchProductSelectionComponent();
                 } else
                     showFragment(new LocatePhilipsFragment());
         } else if (tag.equals(getStringKey(R.string.view_faq))) {
             if (isConnectionAvailable())
-                if (isProductSelected()) {
+                if (isProductSelected() && isSupportScreenLaunched) {
                     disableSupportButtonClickable();
                     launchProductSelectionComponent();
                 } else
                     showFragment(new FaqFragment());
         } else if (tag.equals(getStringKey(R.string.feedback))) {
             if (isConnectionAvailable())
-                if (isProductSelected()) {
+                if (isProductSelected() && isSupportScreenLaunched) {
                     disableSupportButtonClickable();
                     launchProductSelectionComponent();
                 } else
@@ -510,12 +515,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel summaryModel) {
+                isSupportScreenLaunched = false;
                 if (summaryModel != null) {
                     mProductChangeButton.setClickable(true);
                     enableSupportButtonClickable();
                     updateSummaryData(summaryModel);
                 } else {
                     disablePrxDependentButtons();
+                    enableSupportButtonClickable();
                 }
             }
         });
@@ -544,6 +551,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel summaryModel) {
+                isSupportScreenLaunched = false;
                 if (summaryModel != null) {
                     if (mProductChangeButton != null) {
                         mProductChangeButton.setClickable(true);
@@ -552,6 +560,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                     }
                 } else {
                     disablePrxDependentButtons();
+                    enableSupportButtonClickable();
                 }
             }
         });
@@ -663,30 +672,20 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     public void onResponseReceived(SummaryModel productSummaryModel) {
         DigiCareLogger.v(TAG, "Summary Response Received from PRX  Received");
 
-        if (productSummaryModel == null)
+        if (productSummaryModel == null) {
             createMainMenu();
-        else {
-            mViewProductSummaryModel = productSummaryModel;
-            SummaryModel summaryModel = productSummaryModel;
-            DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryModel.getData().getCtn());
-            if (mProductViewProductButton != null)
-                mProductViewProductButton.setVisibility(View.VISIBLE);
+            DigiCareLogger.v(TAG, "Summary Response Received from PRX  Received with summaryModel Null");
+        } else {
+
+            try {
+                DigiCareLogger.v(TAG, "Summary Response Received from PRX  Received with summaryModel NotNull");
+                mViewProductSummaryModel = productSummaryModel;
+                SummaryModel summaryModel = productSummaryModel;
+                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryModel.getData().getCtn());
+                if (mProductViewProductButton != null)
+                    mProductViewProductButton.setVisibility(View.VISIBLE);
 
 
-            if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
-                    DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
-              /*  mPrxProductData = new PrxProductData(getActivity(), null);
-
-                mPrxProductData.executePRXAssetRequestWithSummaryData(productSummaryModel);
-
-                 Data data = summaryModel.getData();
-                         if (data != null) {
-                             mProductDetailsObject.setProductName(data.getProductTitle());
-                             mProductDetailsObject.setCtnName(data.getCtn());
-                             mProductDetailsObject.setProductImage(data.getImageURL());
-                             mProductDetailsObject.setProductInfoLink(data.getProductURL());
-                             mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-*/
                 Data summaryData = productSummaryModel.getData();
                 List<String> filterKeys = summaryData.getFilterKeys();
                 String productGroup = null;
@@ -719,7 +718,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());
                 editor.apply();
-
+            } finally {
+                DigiCareLogger.v(TAG, "Menu is creating in NonNull Summary");
                 createMainMenu();
             }
         }

@@ -181,7 +181,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 //                    .getLayoutParams();
 
             if (mActivity != null) {
-                float density = getResources().getDisplayMetrics().density;
+                float density = mActivity.getResources().getDisplayMetrics().density;
 
                 if (mVideoLength.size() > 1 && (mVideoLength.size() - 1) != i && isTablet) {
                     param.rightMargin = (int) (25 * density);
@@ -369,7 +369,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mPrxProductData = new PrxProductData(mActivity, new IPrxCallback() {
             @Override
             public void onResponseReceived(SummaryModel isAvailable) {
-                onUpdateAssetData();
+                if (getContext() != null)
+                    onUpdateAssetData();
             }
         });
 
