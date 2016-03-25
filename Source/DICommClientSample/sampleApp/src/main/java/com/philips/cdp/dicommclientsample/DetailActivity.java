@@ -14,7 +14,6 @@ import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
@@ -66,7 +65,6 @@ public class DetailActivity extends AppCompatActivity {
                 updateLightProperty(isChecked);
             }
         });
-
     }
 
     private void updateNameProperty(final String name) {
@@ -128,20 +126,21 @@ public class DetailActivity extends AppCompatActivity {
     private void startPairing() {
 
         final AirPurifier purifier = this.currentPurifier;
-        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(purifier, new PairingListener() {
+        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(purifier, new PairingListener<AirPurifier>() {
+
             @Override
-            public void onPairingSuccess(final NetworkNode networkNode) {
-                Log.d(TAG, "onPairingSuccess() called with: " + "networkNode = [" + networkNode + "]");
+            public void onPairingSuccess(final AirPurifier appliance) {
+                Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
 
                 DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
-                discoveryManager.insertApplianceToDatabase(purifier);
+                discoveryManager.insertApplianceToDatabase(appliance);
 
                 showToast("Pairing successful");
             }
 
             @Override
-            public void onPairingFailed(final NetworkNode networkNode) {
-                Log.d(TAG, "onPairingFailed() called with: " + "networkNode = [" + networkNode + "]");
+            public void onPairingFailed(final AirPurifier appliance) {
+                Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
                 showToast("Pairing failed");
             }
         });

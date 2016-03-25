@@ -68,11 +68,10 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     private ENTITY entity_state;
     private T mAppliance;
 
-
     /**
      * Constructor for PairingHandler.
      *
-     * @param appliance       T
+     * @param appliance T
      */
     public PairingHandler(T appliance) {
         this(appliance, null);
@@ -191,12 +190,6 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
         }
     }
 
-    /**
-     * Method addRelationship.
-     *
-     * @param relationshipType String
-     * @param secretKey        String
-     */
     private void addRelationship(String relationshipType, String secretKey) {
 
         if (!cppController.isSignOn()) return;
