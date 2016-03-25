@@ -156,15 +156,22 @@ public class PrxProductData {
                 if (responseData != null) {
                     mSummaryModel = (SummaryModel) responseData;
                     DigiCareLogger.d(TAG, "Summary Data Received ? " + mSummaryModel.isSuccess());
-                    Data data = mSummaryModel.getData();
-                    if (data != null) {
-                        mProductDetailsObject.setProductName(data.getProductTitle());
-                        mProductDetailsObject.setCtnName(data.getCtn());
-                        mProductDetailsObject.setProductImage(data.getImageURL());
-                        mProductDetailsObject.setProductInfoLink(data.getProductURL());
+                    if (mSummaryModel.isSuccess()) {
+                        Data data = mSummaryModel.getData();
+                        if (data != null) {
+                            mProductDetailsObject.setProductName(data.getProductTitle());
+                            mProductDetailsObject.setCtnName(data.getCtn());
+                            mProductDetailsObject.setProductImage(data.getImageURL());
+                            mProductDetailsObject.setProductInfoLink(data.getProductURL());
+                            mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+                            if (mPrxCallback != null)
+                                mPrxCallback.onResponseReceived(mSummaryModel);
+                        }
+                    }else
+                    {
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
                         if (mPrxCallback != null)
-                            mPrxCallback.onResponseReceived(mSummaryModel);
+                            mPrxCallback.onResponseReceived(null);
                     }
                     if (mSummaryDialog != null && mSummaryDialog.isShowing())
                         mSummaryDialog.cancel();

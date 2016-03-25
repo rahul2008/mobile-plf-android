@@ -113,6 +113,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCatalog(modelSelectionType.getCatalog());
                     }
 
+                    DigiCareLogger.v(TAG, "Sending PRX Request");
                     mPrxProductData = new PrxProductData(getActivity(), this);
                     mPrxProductData.executeRequests();
                 }
@@ -121,6 +122,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             createMainMenu();
 
         DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
+
        /* if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == "") {
             if (isProductSelectionFirstTime) {
 
@@ -659,7 +661,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
     @Override
     public void onResponseReceived(SummaryModel productSummaryModel) {
-        DigiCareLogger.v(TAG, "Response Received from Data Received null");
+        DigiCareLogger.v(TAG, "Summary Response Received from PRX  Received");
 
         if (productSummaryModel == null)
             createMainMenu();
