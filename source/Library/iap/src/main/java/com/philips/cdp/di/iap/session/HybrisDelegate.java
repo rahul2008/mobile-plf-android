@@ -35,6 +35,14 @@ public class HybrisDelegate {
         return delegate;
     }
 
+    public static HybrisDelegate getInstance() {
+        return delegate;
+    }
+
+    public static NetworkController getNetworkController() {
+        return delegate.controller;
+    }
+
     public void sendRequest(int requestCode, AbstractModel model, final RequestListener
             requestListener) {
         getNetworkController(mContext).sendHybrisRequest(requestCode, model, requestListener);

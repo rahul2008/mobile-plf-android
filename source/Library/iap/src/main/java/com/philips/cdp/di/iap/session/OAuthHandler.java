@@ -11,5 +11,7 @@ public interface OAuthHandler {
      *
      * @return Token that can be used for further transactions
      */
-    public String generateToken();
+    String getAccessToken();
+
+    void refreshToken(RequestListener listener);
 }

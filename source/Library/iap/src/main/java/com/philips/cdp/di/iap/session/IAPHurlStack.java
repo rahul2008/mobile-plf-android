@@ -30,7 +30,7 @@ public class IAPHurlStack {
                             return hostname.contains(PHILIPS_HOST);
                         }
                     });
-                    connection.setRequestProperty("Authorization", "Bearer " + mOAuthHandler.generateToken());
+                    connection.setRequestProperty("Authorization", "Bearer " + mOAuthHandler.getAccessToken());
                 }
                 return connection;
             }

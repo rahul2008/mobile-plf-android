@@ -7,7 +7,11 @@ package com.philips.cdp.di.iap.session;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-public interface SynchronizedNetworkCallBack<T> {
-    void onSyncRequestSuccess(Response<T> response);
+import org.json.JSONObject;
+
+
+public interface SynchronizedNetworkCallBack {
+    void onSyncRequestSuccess(Response<JSONObject> jsonObjectResponse);
+
     void onSyncRequestError(VolleyError volleyError);
 }

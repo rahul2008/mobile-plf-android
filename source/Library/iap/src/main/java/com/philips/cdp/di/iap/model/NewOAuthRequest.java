@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
 import com.philips.cdp.di.iap.session.OAuthHandler;
+import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.store.Store;
 
 import java.util.Map;
@@ -40,10 +41,22 @@ public class NewOAuthRequest extends AbstractModel implements OAuthHandler {
     }
 
     @Override
-    public String generateToken() {
+    public String getAccessToken() {
         if(mOAuthResponse == null) {
             return null;
         }
         return mOAuthResponse.getAccessToken();
+    }
+
+    @Override
+    public void refreshToken(final RequestListener listener) {
+
+    }
+
+    public String getrefreshToken() {
+        if(mOAuthResponse == null) {
+            return null;
+        }
+        return mOAuthResponse.getRefreshToken();
     }
 }

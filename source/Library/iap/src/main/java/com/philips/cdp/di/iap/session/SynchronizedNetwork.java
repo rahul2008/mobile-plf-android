@@ -16,11 +16,11 @@ public class SynchronizedNetwork {
     private BasicNetwork mBasicNetwork;
 
     public SynchronizedNetwork(HurlStack stack) {
-        HurlStack hurlStack = null;
+        HurlStack hurlStack = stack;
         if (stack == null) {
             hurlStack = new HurlStack();
         }
-        mBasicNetwork = new BasicNetwork(stack);
+        mBasicNetwork = new BasicNetwork(hurlStack);
     }
 
     public void performRequest(IAPJsonRequest request, SynchronizedNetworkCallBack callBack) {

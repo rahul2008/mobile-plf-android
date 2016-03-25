@@ -20,12 +20,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 
 import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-
-import static com.philips.cdp.di.iap.R.string.iap_check_connection;
 
 public class NetworkUtility {
 
@@ -43,14 +42,6 @@ public class NetworkUtility {
         return mNetworkUtility;
     }
 
-    public boolean isOnline() {
-        return isOnline;
-    }
-
-    public void setOnline(boolean isOnline) {
-        this.isOnline = isOnline;
-    }
-
     public void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
@@ -64,14 +55,13 @@ public class NetworkUtility {
             if (mModalAlertDemoFragment.isAdded())
                 mModalAlertDemoFragment.dismiss();
         }
-
     }
 
-    public void showErrorMessage(final Message msg,FragmentManager pFragmentManager, Context mContext){
+    public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
         /*
          *  Dismiss The Dialog if it not yet dismissed as Error Occured
          */
-        if(Utility.isProgressDialogShowing())
+        if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
 
         /*
@@ -79,40 +69,44 @@ public class NetworkUtility {
          */
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
-            String errorMessage = "";
 
-            if(error!=null) {
-                errorMessage = error.getMessage();
-            }
-
-            //If error message is null or "" - We dont know the exact error, hence display something went wrong
-            if(errorMessage.equalsIgnoreCase("") || null==errorMessage){
-                NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
-                        mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
-                return;
-            }
-
-            //If error message is of the Type Network Error display Network Error
-            if(errorMessage.equalsIgnoreCase(mContext.getString(iap_check_connection))){
-                NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
-                        mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
-                return;
-            }
-
-            //If error message is of the Type Timeout Error display Timeout Error
-            if(errorMessage.equalsIgnoreCase(mContext.getString(R.string.iap_time_out_error))){
-                NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
-                        mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_time_out_error));
-                return;
-            }
-
-            //Default Case
-            NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
-                    mContext.getString(R.string.iap_server_error), error.getMessage());
-
-        }else {
-            NetworkUtility.getInstance().showErrorDialog(pFragmentManager, mContext.getString(R.string.iap_ok),
-                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+            showErrorDialog(pFragmentManager, context.getString(R.string.iap_ok),
+                    getErrorTitleMessageFromErrorCode(context, error.getIAPErrorCode()),
+                    getErrorDescriptionMessageFromErrorCode(context, error));
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(pFragmentManager, context.getString(R.string.iap_ok),
+                    context.getString(R.string.iap_server_error), context.getString(R.string.iap_something_went_wrong));
         }
+    }
+
+    private String getErrorTitleMessageFromErrorCode(final Context context, int errorCode) {
+        String errorMessage = null;
+        if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
+            errorMessage = context.getString(R.string.iap_network_error);
+        } else {
+            errorMessage = context.getString(R.string.iap_server_error);
+        }
+        return errorMessage;
+    }
+
+    private String getErrorDescriptionMessageFromErrorCode(final Context context,
+                                                           IAPNetworkError error) {
+        if (error.getIAPErrorCode() != IAPConstant.IAP_ERROR_NO_CONNECTION
+                && !TextUtils.isEmpty(error.getMessage())) {
+            return error.getMessage();
+        }
+        //Proceed with custom error message
+        String errorMessage = null;
+        int errorCode = error.getIAPErrorCode();
+        if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
+            errorMessage = context.getString(R.string.iap_check_connection);
+        } else if (errorCode == IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT) {
+            errorMessage = context.getString(R.string.iap_time_out_error);
+        } else if (errorCode == IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE) {
+            errorMessage = context.getString(R.string.iap_authentication_failure);
+        } else {
+            errorMessage = context.getString(R.string.iap_something_went_wrong);
+        }
+        return errorMessage;
     }
 }

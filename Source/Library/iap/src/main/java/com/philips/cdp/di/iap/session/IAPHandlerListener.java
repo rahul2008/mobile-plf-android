@@ -15,6 +15,7 @@ public interface IAPHandlerListener {
 
     /**
      * Error occurred during the request
+     * @param errorCode
      */
-    void onFailure();
+    void onFailure(final int errorCode);
 }

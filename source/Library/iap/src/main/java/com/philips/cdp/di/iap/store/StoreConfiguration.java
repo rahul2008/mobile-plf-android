@@ -36,15 +36,32 @@ public class StoreConfiguration {
     }
 
     private void loadConfigurationFromAsset(Context context) {
+        InputStream fromAsset = null;
+        Reader reader = null;
         try {
-            InputStream fromAsset = context.getResources().getAssets().open("PhilipsInAppPurchaseConfiguration.json");
-            Reader reader = new BufferedReader(new InputStreamReader(fromAsset));
+            fromAsset = context.getResources().getAssets().open("PhilipsInAppPurchaseConfiguration.json");
+            reader = new BufferedReader(new InputStreamReader(fromAsset));
             StoreConfiguration configuration = new Gson().fromJson(reader, StoreConfiguration.class);
             hostport = configuration.hostport;
             site = configuration.site;
             mTheme = configuration.mTheme;
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if(fromAsset != null) {
+                try {
+                    fromAsset.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
