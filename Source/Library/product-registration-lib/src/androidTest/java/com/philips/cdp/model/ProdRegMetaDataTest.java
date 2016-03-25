@@ -8,7 +8,8 @@ import org.json.JSONObject;
 import org.mockito.Mock;
 
 /**
- * Created by 310230979 on 3/24/2016.
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
 public class ProdRegMetaDataTest extends TestCase {
     ProdRegMetaData prodRegMetaData;
