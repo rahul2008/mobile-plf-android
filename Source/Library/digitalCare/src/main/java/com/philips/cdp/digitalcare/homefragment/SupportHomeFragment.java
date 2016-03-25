@@ -72,6 +72,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private View mProductLocatePhilipsButton = null;
     private View mProductChangeButton = null;
     private View mProductFAQButton = null;
+    private View mProductTellUsWhatYouThinkButton = null;
+    private View mProductContactUsButton = null;
     private ProductModelSelectionHelper mProductSelectionHelper = null;
     private PrxProductData mPrxProductData = null;
     private ConsumerProductInfo mProductInfo = null;
@@ -166,6 +168,37 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             return false;
         } else
             return true;
+    }
+
+
+    private void enableSupportButtonClickable() {
+        if (mProductViewProductButton != null && !mProductViewProductButton.isClickable())
+            mProductViewProductButton.setClickable(true);
+        if (mProductLocatePhilipsButton != null && !mProductLocatePhilipsButton.isClickable())
+            mProductLocatePhilipsButton.setClickable(true);
+        if (mProductChangeButton != null && !mProductChangeButton.isClickable())
+            mProductChangeButton.setClickable(true);
+        if (mProductFAQButton != null && !mProductFAQButton.isClickable())
+            mProductFAQButton.setClickable(true);
+        if (mProductTellUsWhatYouThinkButton != null && !mProductTellUsWhatYouThinkButton.isClickable())
+            mProductTellUsWhatYouThinkButton.setClickable(true);
+        if (mProductContactUsButton != null && !mProductContactUsButton.isClickable())
+            mProductContactUsButton.setClickable(true);
+    }
+
+    private void disableSupportButtonClickable() {
+        if (mProductViewProductButton != null)
+            mProductViewProductButton.setClickable(false);
+        if (mProductLocatePhilipsButton != null)
+            mProductLocatePhilipsButton.setClickable(false);
+        if (mProductChangeButton != null)
+            mProductChangeButton.setClickable(false);
+        if (mProductFAQButton != null)
+            mProductFAQButton.setClickable(false);
+        if (mProductTellUsWhatYouThinkButton != null)
+            mProductTellUsWhatYouThinkButton.setClickable(false);
+        if (mProductContactUsButton != null)
+            mProductContactUsButton.setClickable(false);
     }
 
     @Override
@@ -305,6 +338,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 mProductLocatePhilipsButton.setVisibility(View.VISIBLE);*/
 
         }
+
+        if (buttonTitle.equals(getStringKey(R.string.contact_us))) {
+            mProductContactUsButton = (View) relativeLayout;
+        }
+
+        if (buttonTitle.equals(getStringKey(R.string.feedback))) {
+            mProductTellUsWhatYouThinkButton = (View) relativeLayout;
+        }
         return relativeLayout;
     }
 
@@ -399,36 +440,42 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
         if (tag.equals(getStringKey(R.string.contact_us))) {
             if (isConnectionAvailable())
-                if (isProductSelected())
+                if (isProductSelected()) {
+                    disableSupportButtonClickable();
                     launchProductSelectionComponent();
-                else
+                } else
                     showFragment(new ContactUsFragment());
         } else if (tag.equals(getStringKey(R.string.view_product_details))) {
             if (isConnectionAvailable())
-                if (isProductSelected())
+                if (isProductSelected()) {
+                    disableSupportButtonClickable();
                     launchProductSelectionComponent();
-                else
+                } else
                     showFragment(new ProductDetailsFragment());
         } else if (tag.equals(getStringKey(R.string.find_philips_near_you))) {
             if (isConnectionAvailable())
-                if (isProductSelected())
+                if (isProductSelected()) {
+                    disableSupportButtonClickable();
                     launchProductSelectionComponent();
-                else
+                } else
                     showFragment(new LocatePhilipsFragment());
         } else if (tag.equals(getStringKey(R.string.view_faq))) {
             if (isConnectionAvailable())
-                if (isProductSelected())
+                if (isProductSelected()) {
+                    disableSupportButtonClickable();
                     launchProductSelectionComponent();
-                else
+                } else
                     showFragment(new FaqFragment());
         } else if (tag.equals(getStringKey(R.string.feedback))) {
             if (isConnectionAvailable())
-                if (isProductSelected())
+                if (isProductSelected()) {
+                    disableSupportButtonClickable();
                     launchProductSelectionComponent();
-                else
+                } else
                     showFragment(new RateThisAppFragment());
         } else if (tag.equals(getStringKey(R.string.Change_Selected_Product))) {
             if (isConnectionAvailable()) {
+                disableSupportButtonClickable();
                 DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
 
                 if (digitalCareConfigManager.getUiLauncher() instanceof ActivityLauncher) {
@@ -463,6 +510,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             public void onProductModelSelected(SummaryModel summaryModel) {
                 if (summaryModel != null) {
                     mProductChangeButton.setClickable(true);
+                    enableSupportButtonClickable();
                     updateSummaryData(summaryModel);
                 } else {
                     disablePrxDependentButtons();
@@ -497,6 +545,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 if (summaryModel != null) {
                     if (mProductChangeButton != null) {
                         mProductChangeButton.setClickable(true);
+                        enableSupportButtonClickable();
                         updateSummaryData(summaryModel);
                     }
                 } else {
@@ -601,6 +650,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     @Override
     public void onResume() {
         super.onResume();
+        enableSupportButtonClickable();
         if (mProductViewProductButton != null) {
             if (!mProductChangeButton.isClickable())
                 mProductChangeButton.setClickable(true);
