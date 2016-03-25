@@ -16,7 +16,6 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProdRegRegisteredDataResponse;
 import com.philips.cdp.model.ProdRegRegisteredResults;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 
 /**
@@ -104,17 +103,17 @@ public class ProdRegHelper {
     protected void processMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         Product product = new Product();
         prodRegRequestInfo.setLocale(this.locale);
-        product.getProductMetadata(context, prodRegRequestInfo, new ResponseListener() {
+        product.getProductMetadata(context, prodRegRequestInfo, new ProdRegListener() {
             @Override
-            public void onResponseSuccess(final ResponseData responseData) {
+            public void onProdRegSuccess(final ResponseData responseData) {
                 makeRegistrationRequest(context, prodRegRequestInfo, listener);
             }
 
             @Override
-            public void onResponseError(final String errorMessage, final int responseCode) {
-                listener.onProdRegFailed(ErrorType.METADATA_FAILED);
+            public void onProdRegFailed(ErrorType errorType) {
+                listener.onProdRegFailed(errorType);
             }
-        }, listener);
+        });
     }
 
 

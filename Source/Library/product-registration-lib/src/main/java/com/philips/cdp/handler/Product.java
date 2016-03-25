@@ -25,18 +25,24 @@ public class Product {
 
     }
 
-    public void getProductMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener helperListener, final ProdRegListener listener) {
+    public void getProductMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         final PRXDataBuilderFactory prxDataBuilderFactory = new PRXDataBuilderFactory();
         final PrxRequest prxRequest = prxDataBuilderFactory.createPRXBuilder(PRXRequestType.METADATA, prodRegRequestInfo, new User(context).getAccessToken());
         RequestManager mRequestManager = getRequestManager(context);
-        final ResponseListener localListener = new ResponseListener() {
+        final ResponseListener localListener = getMetadataResponseListener(prodRegRequestInfo, listener);
+        mRequestManager.executeRequest(prxRequest, localListener);
+    }
+
+    @NonNull
+    private ResponseListener getMetadataResponseListener(final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+        return new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
                 ProdRegMetaData productMetaData = (ProdRegMetaData) responseData;
                 ProdRegMetaDataResponse productData = productMetaData.getData();
                 if (validateSerialNumberFromMetadata(productData, prodRegRequestInfo, listener)
                         && validatePurchaseDateFromMetadata(productData, prodRegRequestInfo, listener))
-                    helperListener.onResponseSuccess(null);
+                    listener.onProdRegSuccess(null);
             }
 
             @Override
@@ -44,7 +50,6 @@ public class Product {
                 handleError(code, listener);
             }
         };
-        mRequestManager.executeRequest(prxRequest, localListener);
     }
 
     @NonNull
