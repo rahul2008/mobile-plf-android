@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
+import com.philips.cdp.registration.coppa.utils.RegistrationLaunchHelper;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.tagging.Tagging;
 
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
@@ -62,7 +62,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             }
         }
 
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_reg_coppa_registration);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity  Register: NetworStateListener");
         initUI();
     }
@@ -104,6 +104,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     @Override
     public void onBackPressed() {
+
         if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
             // not consumed vertical code goes here // actual code
             super.onBackPressed();

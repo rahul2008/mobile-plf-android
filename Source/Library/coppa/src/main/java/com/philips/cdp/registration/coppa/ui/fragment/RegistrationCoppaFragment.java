@@ -34,6 +34,7 @@ import com.philips.cdp.registration.ui.traditional.ForgotPasswordFragment;
 import com.philips.cdp.registration.ui.traditional.HomeFragment;
 import com.philips.cdp.registration.ui.traditional.LogoutFragment;
 import com.philips.cdp.registration.ui.traditional.PhilipsNewsFragment;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.traditional.SignInAccountFragment;
 import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -134,6 +135,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private boolean handleBackStack() {
         int count = mFragmentManager.getBackStackEntryCount();
+
+        RLog.i("Back count ",""+count);
+
         if (count == 0) {
             return true;
         }
@@ -197,10 +201,25 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     public void loadFirstFragment() {
         try {
-            handleUserLoginStateFragments();
+
+            replaceWithParentalAccess();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
                     "RegistrationCoppaFragment :FragmentTransaction Exception occured in loadFirstFragment  :"
+                            + e.getMessage());
+        }
+    }
+
+    private void replaceWithParentalAccess() {
+
+        try {
+            ParentalAccessFragment parentalAccessFragment = new ParentalAccessFragment();
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalAccessFragment,"Parental Access");
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
                             + e.getMessage());
         }
     }
@@ -471,5 +490,26 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             return false;
         }
         return true;
+    }
+
+
+
+    public void launchRegistrationFragment(boolean isAccountSettings) {
+        try {
+            FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+            RegistrationFragment registrationFragment = new RegistrationFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS,isAccountSettings);
+            registrationFragment.setArguments(bundle);
+            registrationFragment.setOnUpdateTitleListener(mRegistrationUpdateTitleListener);
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.fl_reg_fragment_container, registrationFragment,
+                    RegConstants.REGISTRATION_FRAGMENT_TAG);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+                            + e.getMessage());
+        }
     }
 }

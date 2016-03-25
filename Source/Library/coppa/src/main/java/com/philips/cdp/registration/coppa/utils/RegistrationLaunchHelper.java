@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.registration.coppa.ui.Activity.RegistrationActivity;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class RegistrationLaunchHelper {
@@ -53,9 +56,38 @@ public class RegistrationLaunchHelper {
         Fragment fragment = fragmentManager
                 .findFragmentByTag(RegConstants.REGISTRATION_FRAGMENT_TAG);
         if (fragment != null) {
-            if (((RegistrationCoppaFragment) fragment).onBackPressed()) {
-                return false;
+
+            try {
+                if (((RegistrationCoppaFragment) fragment).onBackPressed()) {
+                    return false;
+                }
+            } catch (ClassCastException e) {
+                RLog.d("known exception", e.toString());
+
+
+
+                if (((RegistrationFragment) fragment).onBackPressed()) {
+
+
+                    //true for restricting Login @ login screen need to think and do
+
+                      //  return false;
+
+
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.remove(fragment);
+                    fragmentTransaction.commitAllowingStateLoss();
+                    // return true;
+
+
+                    // mFragmentManager.popBackStack();
+
+
+                    // return false;
+                }
             }
+
+
         }
         return true;
     }

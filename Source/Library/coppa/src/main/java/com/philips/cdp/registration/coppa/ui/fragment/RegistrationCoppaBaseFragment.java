@@ -161,11 +161,11 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
             mPrevTitleResourceId = (Integer) fragment.getResourceID();
         }
         if (fragment.getFragmentCount() > 1) {
-           // if (this instanceof WelcomeFragment) {
+     /*      if (this instanceof WelcomeFragment) {
                 fragment.getUpdateTitleListener().updateRegistrationTitleWithOutBack(getTitleResourceId());
-           /* } else {
+           } else {*/
                 fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
-            }*/
+          /*  }*/
         } else {
             fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
         }

@@ -2,5 +2,10 @@
     package="com.philips.cdp.registration.coppa">
 
 
+    <application android:allowBackup="true">
+        <activity
+            android:name="com.philips.cdp.registration.coppa.ui.Activity.RegistrationActivity"
+            android:configChanges="orientation|screenSize"></activity>
+    </application>
 
 </manifest>

@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:reglib="http://reg.lib/schema"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/reg_layout_bg">
+
+
+
+    <ScrollView
+        android:id="@+id/sv_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent">
+
+        <LinearLayout
+            android:id="@+id/ll_reg_root_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Under 16 "
+                android:id="@+id/reg_btn_under_age" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Over 16"
+                android:id="@+id/reg_btn_over_age" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
