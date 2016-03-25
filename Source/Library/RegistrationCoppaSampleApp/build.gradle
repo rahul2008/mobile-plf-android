@@ -145,9 +145,8 @@ if (propFile.canRead()){
 }
 repositories { flatDir { dirs 'libs' } }
 dependencies {
-
-    compile project(':registrationApi')
     compile project(':HockeySDK-3.0.2')
+    compile project(':coppa')
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {

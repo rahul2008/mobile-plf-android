@@ -1,4 +1,4 @@
-package com.philips.cdp.registration.ui.utils;
+package com.philips.cdp.registration.coppa.utils;
 
 
 import android.content.Context;
@@ -8,8 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.coppa.ui.Activity.RegistrationActivity;
+import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class RegistrationLaunchHelper {
 
@@ -52,7 +53,7 @@ public class RegistrationLaunchHelper {
         Fragment fragment = fragmentManager
                 .findFragmentByTag(RegConstants.REGISTRATION_FRAGMENT_TAG);
         if (fragment != null) {
-            if (((RegistrationFragment) fragment).onBackPressed()) {
+            if (((RegistrationCoppaFragment) fragment).onBackPressed()) {
                 return false;
             }
         }

@@ -1,5 +1,5 @@
 
-package com.philips.cdp.coppa.registration;
+package com.philips.cdp.registration.coppa;
 
 import com.janrain.android.Jump.CaptureApiResultHandler.CaptureAPIError;
 

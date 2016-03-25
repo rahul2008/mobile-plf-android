@@ -25,12 +25,9 @@ public class RegistrationCoppaApplication extends Application {
 		Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 		Tagging.setLaunchingPageName("demoapp:home");
 		RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
-		initRegistration();
-	}
-
-	private void initRegistration() {
 		RegistrationHelper.getInstance().initializeUserRegistration(this, Locale.getDefault());
 		Tagging.init(Locale.getDefault(), this,"Philips Registration");
 	}
+
 }
 

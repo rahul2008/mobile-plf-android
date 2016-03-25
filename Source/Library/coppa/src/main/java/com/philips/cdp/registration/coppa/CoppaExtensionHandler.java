@@ -1,5 +1,5 @@
 
-package com.philips.cdp.coppa.registration;
+package com.philips.cdp.registration.coppa;
 
 import android.content.Context;
 

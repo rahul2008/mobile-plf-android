@@ -3,6 +3,6 @@ include ':hsdp', ':HockeySDK-3.0.2', ':dexmaker-mockito-1.4', ':dexmaker-1.4', '
 include ':jump'
 include ':registrationApi'
 include ':coppa'
-include ':RegistrationSampleApp'
+include ':registrationSampleApp'
 include ':RegistrationCoppaSampleApp'
 
