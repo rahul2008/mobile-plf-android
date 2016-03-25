@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -125,7 +124,7 @@ public class LocalRequest extends Request {
         }
     }
 
-    private Response handleHttpOk(InputStream inputStream) throws IOException, UnsupportedEncodingException {
+    private Response handleHttpOk(InputStream inputStream) throws IOException {
         String cypher = convertInputStreamToString(inputStream);
         if (cypher == null) {
             DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - null reponse");
@@ -142,7 +141,7 @@ public class LocalRequest extends Request {
         return new Response(data, null, mResponseHandler);
     }
 
-    private Response handleBadRequest(InputStream inputStream) throws IOException, UnsupportedEncodingException {
+    private Response handleBadRequest(InputStream inputStream) throws IOException {
         String errorMessage = convertInputStreamToString(inputStream);
         DICommLog.e(DICommLog.LOCALREQUEST, "BAD REQUEST - " + errorMessage);
 
@@ -227,7 +226,7 @@ public class LocalRequest extends Request {
      * @param inputStream Input stream to convert to string
      * @return Returns converted string
      */
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException, UnsupportedEncodingException {
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         if (inputStream == null) return "";
         Reader reader = new InputStreamReader(inputStream, "UTF-8");
 
