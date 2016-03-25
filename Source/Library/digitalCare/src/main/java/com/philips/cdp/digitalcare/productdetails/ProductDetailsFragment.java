@@ -180,12 +180,13 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 //            RelativeLayout.LayoutParams paramRightArrow = (RelativeLayout.LayoutParams) videoRightArrow
 //                    .getLayoutParams();
 
-            float density = getResources().getDisplayMetrics().density;
+            if (mActivity != null) {
+                float density = getResources().getDisplayMetrics().density;
 
-            if (mVideoLength.size() > 1 && (mVideoLength.size() - 1) != i && isTablet) {
-                param.rightMargin = (int) (25 * density);
-                videoThumbnail.setLayoutParams(param);
-            }
+                if (mVideoLength.size() > 1 && (mVideoLength.size() - 1) != i && isTablet) {
+                    param.rightMargin = (int) (25 * density);
+                    videoThumbnail.setLayoutParams(param);
+                }
 
 //            paramLeftArrow.leftMargin =
 //                    (int) (50 * density) + (int) getResources().getDimension(R.dimen.activity_margin);
@@ -193,10 +194,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 //            videoRightArrow.setLayoutParams(paramRightArrow);
 //            videoLeftArrow.setLayoutParams(paramLeftArrow);
 
-            videoLeftArrow.bringToFront();
-            videoRightArrow.bringToFront();
+                videoLeftArrow.bringToFront();
+                videoRightArrow.bringToFront();
 
-            addNewVideo(i, mVideoLength.get(i), child, videoThumbnail, videoPlay, videoLeftArrow, videoRightArrow);
+                addNewVideo(i, mVideoLength.get(i), child, videoThumbnail, videoPlay, videoLeftArrow, videoRightArrow);
+            }
         }
     }
 
