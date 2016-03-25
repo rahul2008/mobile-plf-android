@@ -1,7 +1,21 @@
 
 ================================================================================
-Release notes for DiComm v1.0.7
+Release notes for DiComm v1.1.0
 ================================================================================
+Version v1.1.0
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+### New features:
+* The following fiels on the Firmware port are now non optional: name, version and progress.
+* When an appliance is disconnected it is not subscribed anymore. As soon as it become connected, the subscription will still occur.
+* The interface of PairingListener has changed, now it know the type of appliance, and will return the appliance instead of just its network node on success or failure.
+--------------------------------------------------------------------------------
+### Bugs fixed:
+--------------------------------------------------------------------------------
+### Known issues:
+================================================================================
+
 Version v1.0.7
 --------------------------------------------------------------------------------
 
