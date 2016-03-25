@@ -131,4 +131,40 @@ public class SHNUserConfigurationDispatcherTest {
 
         verify(userConfigurationMock).clear();
     }
+
+    @Test
+    public void whenCallThrowsException_ThenRuntimeExceptionIsThrownOnInternalThead() throws Exception {
+        currentThreadId = HANDLER_THREAD_ID;
+        futureTaskMock = mock(FutureTask.class);
+
+        RuntimeException causeException = new RuntimeException();
+        when(userConfigurationMock.getClockFormat()).thenThrow(causeException);
+
+        RuntimeException actualException = null;
+        try {
+            userConfiguration.getClockFormat();
+        } catch (RuntimeException ex) {
+            actualException = ex;
+        }
+
+        assertThat(actualException.getCause()).isEqualTo(causeException);
+    }
+
+    @Test
+    public void whenCallThrowsException_ThenRuntimeExceptionIsThrownOnUserThead() throws Exception {
+        currentThreadId = OTHER_THREAD_ID;
+        SHNUserConfiguration.ClockFormat expected = SHNUserConfiguration.ClockFormat._12H;
+        futureTaskMock = mock(FutureTask.class);
+        RuntimeException causeException = new RuntimeException();
+        when(futureTaskMock.get()).thenThrow(causeException);
+
+        RuntimeException actualException = null;
+        try {
+            userConfiguration.getClockFormat();
+        } catch (RuntimeException ex) {
+            actualException = ex;
+        }
+
+        assertThat(actualException.getCause()).isEqualTo(causeException);
+    }
 }
