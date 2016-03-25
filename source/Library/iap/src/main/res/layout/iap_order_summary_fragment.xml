@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_order_summary"
+        style="@style/iapCentralesansBoldFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/iap_selection_address_select_address_margint_bottom"
+        android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
+        android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_top"
+        android:text="@string/iap_order_summary"
+        android:textColor="?attr/uikit_baseColor"
+        android:textSize="@dimen/iap_selection_address_select_address_text_size" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/iap_divider_height"
+        android:layout_below="@id/tv_order_summary"
+        android:background="?attr/uikit_listDividerColor" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        style="?attr/uikit_outlinedButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/iap_shipping_address_cancel_button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/iap_shipping_address_cancel_button_margin_bottom"
+        android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+        android:layout_marginLeft="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+        android:layout_marginRight="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+        android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+        android:text="@string/iap_cancel" />
+
+    <Button
+        android:id="@+id/btn_paynow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/iap_shipping_address_continue_button_height"
+        android:layout_above="@id/btn_cancel"
+        android:layout_marginBottom="@dimen/iap_shipping_address_continue_margin_bottom"
+        android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+        android:layout_marginLeft="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+        android:layout_marginRight="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+        android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+        style="@style/Button.Solid.BrightOrange"
+        android:text="@string/iap_pay_now" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/order_summary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_paynow"
+        android:layout_below="@id/divider" />
+</RelativeLayout>

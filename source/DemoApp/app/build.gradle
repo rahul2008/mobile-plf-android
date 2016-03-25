@@ -1,0 +1,113 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
+
+    defaultConfig {
+        applicationId "com.philips.cdp.di.iapdemo"
+        minSdkVersion 17
+        targetSdkVersion 23
+        multiDexEnabled true
+        generatedDensities = []
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    productFlavors {
+        simulator {
+            applicationId 'com.philips.cdp.di.iapdemo'
+            versionCode 2
+            versionName "0.0.4.5"
+        }
+        device {
+            applicationId 'com.philips.cdp.di.iapdemo'
+            versionCode 2
+            versionName "0.0.4.5"
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+}
+allprojects {
+    repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+        }
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+dependencies {
+    compile project(':iap')
+    compile "net.hockeyapp.android:HockeySDK:3.6.2"
+    compile 'com.android.support:appcompat-v7:23+'
+    compile 'com.android.support:cardview-v7:+'
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: "5.0.0-rc.2", ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+
+}
+
+
+task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+
+    description 'Run findbugs'
+    group 'verification'
+    ignoreFailures = true
+    classes = fileTree('build/intermediates/classes/simulator/debug')
+    source = fileTree('src/main/java')
+    classpath = files()
+
+    effort = 'max'
+
+    excludeFilter = file("findbugs-exclude.xml")
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task pmd(type: Pmd, dependsOn: assembleDebug) {
+
+    description 'Run pmd'
+    group 'verification'
+    ignoreFailures = true
+    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
+    source = fileTree('src/main/java')
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+
