@@ -1,6 +1,7 @@
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -80,6 +81,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private LinearLayout.LayoutParams mScrollerLayoutParams = null;
     private LinearLayout.LayoutParams mProductVideoHeaderParams = null;
     private PrxProductData mPrxProductData = null;
+    private static Activity mActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,6 +89,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         DigiCareLogger.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_view_product,
                 container, false);
+        if (getActivity() != null)
+            mActivity = getActivity();
 
         try {
             AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS,
@@ -102,28 +106,28 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
-        mFirstContainer = (RelativeLayout) getActivity().findViewById(
+        mFirstContainer = (RelativeLayout) mActivity.findViewById(
                 R.id.toplayout);
-        mProdButtonsParent = (LinearLayout) getActivity().findViewById(
+        mProdButtonsParent = (LinearLayout) mActivity.findViewById(
                 R.id.prodbuttonsParent);
 
-        mProdVideoContainer = (LinearLayout) getActivity().findViewById(
+        mProdVideoContainer = (LinearLayout) mActivity.findViewById(
                 R.id.videoContainerParent);
 
         mFirstContainerParams = (LinearLayout.LayoutParams) mFirstContainer
                 .getLayoutParams();
         mSecondContainerParams = (LinearLayout.LayoutParams) mProdButtonsParent
                 .getLayoutParams();
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        mActionBarMenuIcon = (ImageView) mActivity.findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) mActivity.findViewById(R.id.back_to_home_img);
 
-        mProductImageTablet = (ImageView) getActivity().findViewById(R.id.productImageTablet);
-        mProductImage = (ImageView) getActivity().findViewById(R.id.productimage);
+        mProductImageTablet = (ImageView) mActivity.findViewById(R.id.productImageTablet);
+        mProductImage = (ImageView) mActivity.findViewById(R.id.productimage);
 
-        mProductTitle = (DigitalCareFontTextView) getActivity().findViewById(R.id.name);
-        mProductVideoHeader = (DigitalCareFontTextView) getActivity().findViewById(R.id.productVideoText);
-        mCtn = (DigitalCareFontTextView) getActivity().findViewById(R.id.variant);
-        mVideoScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.videoScrollView);
+        mProductTitle = (DigitalCareFontTextView) mActivity.findViewById(R.id.name);
+        mProductVideoHeader = (DigitalCareFontTextView) mActivity.findViewById(R.id.productVideoText);
+        mCtn = (DigitalCareFontTextView) mActivity.findViewById(R.id.variant);
+        mVideoScrollView = (HorizontalScrollView) mActivity.findViewById(R.id.videoScrollView);
         mScrollerLayoutParams = (LinearLayout.LayoutParams) mVideoScrollView
                 .getLayoutParams();
         mProductVideoHeaderParams = (LinearLayout.LayoutParams) mProductVideoHeader
@@ -143,7 +147,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             }
         });
 /*
-        getActivity().runOnUiThread(new Runnable() {
+        mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 initPRX();
@@ -162,7 +166,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
 
         for (int i = 0; i < mVideoLength.size(); i++) {
-            View child = getActivity().getLayoutInflater().inflate(R.layout.viewproduct_video_view, null);
+            View child = mActivity.getLayoutInflater().inflate(R.layout.viewproduct_video_view, null);
             ImageView videoThumbnail = (ImageView) child.findViewById(R.id.videoContainer);
             ImageView videoPlay = (ImageView) child.findViewById(R.id.videoPlay);
             ImageView videoLeftArrow = (ImageView) child.findViewById(R.id.videoLeftArrow);
@@ -198,7 +202,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     private int getDisplayWidth() {
         DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
         int heightPixels = metrics.heightPixels;
         float density = metrics.density;
@@ -215,7 +219,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         isTablet = ((float) mSmallerResolution / density > 360);
 
         if (isTablet) {
-            return (int) getActivity().getResources().getDimension(R.dimen.view_prod_details_video_height);
+            return (int) mActivity.getResources().getDimension(R.dimen.view_prod_details_video_height);
         }
 
         return (int) mSmallerResolution;
@@ -253,7 +257,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         try {
             width = getDisplayWidth();
         } catch (NullPointerException e) {
-            width = (int) getActivity().getResources().getDimension(R.dimen.view_prod_details_video_height);
+            width = (int) mActivity.getResources().getDimension(R.dimen.view_prod_details_video_height);
         }
 
         Bitmap imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -290,7 +294,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.parse(video), "video/mp4");
-                getActivity().startActivity(intent);
+                mActivity.startActivity(intent);
             }
         });
 
@@ -360,7 +364,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void requestPRXAssetData() {
-        mPrxProductData = new PrxProductData(getActivity(), new IPrxCallback() {
+        mPrxProductData = new PrxProductData(mActivity, new IPrxCallback() {
             @Override
             public void onResponseReceived(SummaryModel isAvailable) {
                 onUpdateAssetData();
@@ -413,7 +417,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         String buttonTitle = getResources().getResourceEntryName(buttonTitleResId);
 
         float density = getResources().getDisplayMetrics().density;
-        String packageName = getActivity().getPackageName();
+        String packageName = mActivity.getPackageName();
 
         int title = getResources().getIdentifier(
                 packageName + ":string/" + buttonTitle, null, null);
@@ -434,9 +438,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     @SuppressLint("NewApi")
     private RelativeLayout createRelativeLayout(String buttonTitle, float density) {
-        RelativeLayout relativeLayout = new RelativeLayout(getActivity());
+        RelativeLayout relativeLayout = new RelativeLayout(mActivity);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                LayoutParams.MATCH_PARENT, (int) (mActivity.getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
         relativeLayout.setLayoutParams(params);
         relativeLayout
@@ -453,17 +457,17 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     private Button createButton(float density, int title) {
-        Button button = new Button(getActivity(), null, R.style.fontButton);
+        Button button = new Button(mActivity, null, R.style.fontButton);
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                LayoutParams.MATCH_PARENT, (int) (mActivity.getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
         button.setLayoutParams(params);
 
         button.setGravity(Gravity.START | Gravity.CENTER);
         button.setPadding((int) (20 * density), 0, 0, 0);
-        button.setTextAppearance(getActivity(), R.style.fontButton);
-        Typeface buttonTypeface = Typeface.createFromAsset(getActivity().getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
+        button.setTextAppearance(mActivity, R.style.fontButton);
+        Typeface buttonTypeface = Typeface.createFromAsset(mActivity.getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         button.setTypeface(buttonTypeface);
         button.setText(title);
         return button;
