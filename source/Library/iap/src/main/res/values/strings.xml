@@ -107,5 +107,6 @@
     <string name="cancelPaymentMsg">Do you want to cancel the payment? Your cart will be empty.</string>
     <string name="iap_server_error">Server Error</string>
     <string name="iap_something_went_wrong">Something went wrong!</string>
+    <string name="iap_payment_failed">Payment failed</string>
 
 </resources>

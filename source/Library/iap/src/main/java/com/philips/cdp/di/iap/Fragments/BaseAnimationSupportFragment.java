@@ -43,8 +43,8 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
                             String newFragmentTag) {
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.addToBackStack(null);
         transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+        transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
 
         IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
