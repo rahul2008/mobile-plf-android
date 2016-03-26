@@ -271,7 +271,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError(mEtCountry);
             mBtnContinue.setEnabled(false);
-        } else {
+        } else if(error!= null && error.getMessage() != null) {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), error.getMessage());
+        }
+        else {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
