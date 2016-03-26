@@ -231,9 +231,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         }
     }
 
-    protected  boolean isLaunchedAsTabletLandscape(){
-        return ProductModelSelectionHelper.getInstance().isLaunchedAsTabletLandscape();
-    }
 
     protected boolean isTablet() {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -492,36 +489,14 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
             }
         } else {
-            if (isLaunchedAsTabletLandscape()) {
-                try {
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("ProductSelectionListingFragment");
-                    if (fragmentDetailsTablet != null) {
-                        fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
-                    }
 
-                    Fragment fragmentConfirmTablet = getActivity().getSupportFragmentManager().findFragmentByTag("SavedScreenFragmentSelection");
-                    if (fragmentConfirmTablet != null) {
-                        fragmentTransaction.remove(fragmentConfirmTablet);
-                    }
-
-                    fragmentManager = mActivityContext.getSupportFragmentManager();
-                    fragmentManager.popBackStack();
-
-                    fragmentTransaction.commitAllowingStateLoss();
-                } catch (IllegalStateException e) {
-                    ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
-                    e.printStackTrace();
-                }
-            } else {
-                if (fragmentManager != null && mActivityContext != null) {
-                    fragmentManager = mActivityContext.getSupportFragmentManager();
-                } else if (fragmentManager == null) {
-                    fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-                }
-                for (int i = 1; i < fragmentManager.getFragments().size(); i++) {
-                    fragmentManager.popBackStack();
-                }
+            if (fragmentManager != null && mActivityContext != null) {
+                fragmentManager = mActivityContext.getSupportFragmentManager();
+            } else if (fragmentManager == null) {
+                fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+            }
+            for (int i = 1; i < fragmentManager.getFragments().size(); i++) {
+                fragmentManager.popBackStack();
             }
         }
         return false;
@@ -590,7 +565,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         return mPreviousPageName;
     }
 
-    protected void setPreviousPageName(String pageName){
+    protected void setPreviousPageName(String pageName) {
         mPreviousPageName = pageName;
     }
 }
