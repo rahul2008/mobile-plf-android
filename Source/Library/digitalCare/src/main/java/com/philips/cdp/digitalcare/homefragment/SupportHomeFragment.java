@@ -287,7 +287,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     }
 
     private RelativeLayout createRelativeLayout(String buttonTitle, float density) {
-        DigiCareLogger.v(TAG, "CreateButtonLayout button is generating :" + buttonTitle);
+
         RelativeLayout relativeLayout = new RelativeLayout(getActivity());
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
