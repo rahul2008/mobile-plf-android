@@ -287,6 +287,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     }
 
     private RelativeLayout createRelativeLayout(String buttonTitle, float density) {
+        DigiCareLogger.v(TAG, "CreateButtonLayout button is generating :" + buttonTitle);
         RelativeLayout relativeLayout = new RelativeLayout(getActivity());
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
@@ -339,10 +340,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         if (buttonTitle.equals(getStringKey(R.string.find_philips_near_you))) {
             mProductLocatePhilipsButton = (View) relativeLayout;
 
-            /*if (isProductSelected())
+            if (isProductSelected() && !isSupportScreenLaunched)
                 mProductLocatePhilipsButton.setVisibility(View.GONE);
             else
-                mProductLocatePhilipsButton.setVisibility(View.VISIBLE);*/
+                mProductLocatePhilipsButton.setVisibility(View.VISIBLE);
 
         }
 
@@ -650,11 +651,18 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
      * level.
      */
     private void createMainMenu() {
-        TypedArray titles = getResources().obtainTypedArray(R.array.main_menu_title);
-        TypedArray resources = getResources().obtainTypedArray(R.array.main_menu_resources);
+        //Android OS issue so adding in try/catch control to this code snippet(Issue reproduce is very rare).
+        // java.lang.IllegalStateException:
+        //at android.support.v4.app.Fragment.getResources(Fragment.java:644)
+        try {
+            TypedArray titles = getResources().obtainTypedArray(R.array.main_menu_title);
+            TypedArray resources = getResources().obtainTypedArray(R.array.main_menu_resources);
 
-        for (int i = 0; i < titles.length(); i++) {
-            createButtonLayout(titles.getResourceId(i, 0), resources.getResourceId(i, 0));
+            for (int i = 0; i < titles.length(); i++) {
+                createButtonLayout(titles.getResourceId(i, 0), resources.getResourceId(i, 0));
+            }
+        } catch (IllegalStateException ie) {
+            DigiCareLogger.e(TAG, "Exception while generating SupportScreenButton : " + ie);
         }
     }
 
