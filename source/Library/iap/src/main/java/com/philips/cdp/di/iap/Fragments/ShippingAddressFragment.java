@@ -463,7 +463,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
         addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
-        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
+        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, Boolean.FALSE.toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
         return addressHashMap;
