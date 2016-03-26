@@ -353,11 +353,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         if (mViewProductDetailsModel != null) {
             if (mViewProductDetailsModel.getProductName() != null) {
                 onUpdateSummaryData();
-
-
-                if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
-                        DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null && mViewProductSummaryModel != null)
-                    requestPRXAssetData();
+                requestPRXAssetData();
             } else
                 showAlert(getResources().getString(R.string.no_data_available));
         } else {
@@ -489,6 +485,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onClick(View view) {
 
+        mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         String tag = (String) view.getTag();
 
         boolean actionTaken = false;
@@ -569,11 +566,16 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     public void onUpdateAssetData() {
         ViewProductDetailsModel viewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         mManualPdf = viewProductDetailsModel.getManualLink();
+        if (mManualPdf != null)
+            viewProductDetailsModel.setManualLink(mManualPdf);
         mProductPage = viewProductDetailsModel.getProductInfoLink();
+        if (mProductPage != null)
+            viewProductDetailsModel.setProductInfoLink(mProductPage);
         DigiCareLogger.d(TAG, "Manual Link : " + mManualPdf);
         DigiCareLogger.d(TAG, "Philips Page Link : " + mProductPage);
         List<String> productVideos = viewProductDetailsModel.getVideoLinks();
         if (productVideos != null)
             initView(viewProductDetailsModel.getVideoLinks());
+        DigitalCareConfigManager.getInstance().setViewProductDetailsData(viewProductDetailsModel);
     }
 }
