@@ -4,8 +4,8 @@
 
     <application android:allowBackup="true">
         <activity
-            android:name="com.philips.cdp.registration.coppa.ui.Activity.RegistrationActivity"
-            android:configChanges="orientation|screenSize"></activity>
+            android:name="com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity"
+            android:configChanges="orientation|screenSize"/>
     </application>
 
 </manifest>

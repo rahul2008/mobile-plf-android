@@ -1,4 +1,4 @@
-package com.philips.cdp.registration.coppa;
+package com.philips.cdp.registration.coppa.base;
 
 import android.content.Context;
 import android.util.Log;

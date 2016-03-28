@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.registration.coppa.ui.Activity.RegistrationActivity;
+import com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -17,7 +17,7 @@ import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-public class RegistrationLaunchHelper {
+public class RegistrationCoppaLaunchHelper {
 
     public static void launchDefaultRegistrationActivity(Context context) {
         launchDefaultRegistrationMode(context);
@@ -36,7 +36,7 @@ public class RegistrationLaunchHelper {
     }
 
     public static void launchRegistrationActivityWithOutAccountSettings(Context context) {
-        Intent registrationIntent = new Intent(context, RegistrationActivity.class);
+        Intent registrationIntent = new Intent(context, RegistrationCoppaActivity.class);
         Bundle bundle = new Bundle();
         bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
         registrationIntent.putExtras(bundle);
@@ -44,7 +44,7 @@ public class RegistrationLaunchHelper {
     }
 
     public static void launchRegistrationActivityWithFixedOrientationWithOutAccountSettings(Context context, int orientation) {
-        Intent registrationIntent = new Intent(context, RegistrationActivity.class);
+        Intent registrationIntent = new Intent(context, RegistrationCoppaActivity.class);
         Bundle bundle = new Bundle();
         bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
         bundle.putInt(RegConstants.ORIENTAION, orientation);
@@ -69,11 +69,11 @@ public class RegistrationLaunchHelper {
                 RegistrationFragment registrationFragment = (RegistrationFragment) fragment;
 
                 boolean isWelcomeFragment = false;
-               if(registrationFragment.getWelcomeFragment()!=null){
-                   System.out.println( "Welcome found ");
-                   isWelcomeFragment =true;
+                if (registrationFragment.getWelcomeFragment() != null) {
+                    System.out.println("Welcome found ");
+                    isWelcomeFragment = true;
 
-               }
+                }
 
 
                 if (registrationFragment.onBackPressed()) {
@@ -81,8 +81,8 @@ public class RegistrationLaunchHelper {
 
                     //true for restricting Login @ login screen need to think and do
 
-                      //  return false;
-                    if(isWelcomeFragment) {
+                    //  return false;
+                    if (isWelcomeFragment) {
                         return true;
                     }
 
@@ -105,7 +105,7 @@ public class RegistrationLaunchHelper {
     }
 
     private static void launchDefaultRegistrationMode(Context context) {
-        Intent registrationIntent = new Intent(context, RegistrationActivity.class);
+        Intent registrationIntent = new Intent(context, RegistrationCoppaActivity.class);
         Bundle bundle = new Bundle();
         bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, true);
         registrationIntent.putExtras(bundle);
@@ -113,7 +113,7 @@ public class RegistrationLaunchHelper {
     }
 
     private static void launchFixedOrientationRegistrationActivity(Context context, int orientation) {
-        Intent registrationIntent = new Intent(context, RegistrationActivity.class);
+        Intent registrationIntent = new Intent(context, RegistrationCoppaActivity.class);
         Bundle bundle = new Bundle();
         bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, true);
         bundle.putInt(RegConstants.ORIENTAION, orientation);
@@ -129,7 +129,6 @@ public class RegistrationLaunchHelper {
     public void unRegisterUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
         UserRegistrationHelper.getInstance().unregisterEventNotification(userRegistrationListener);
     }
-
 
 
 }

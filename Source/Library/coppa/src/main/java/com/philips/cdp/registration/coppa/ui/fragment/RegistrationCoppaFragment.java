@@ -16,13 +16,15 @@ import android.view.inputmethod.InputMethodManager;
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.coppa.R;
+import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
@@ -60,6 +62,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private boolean isAccountSettings = true;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onCreate");
@@ -75,7 +78,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         if (bunble != null) {
             isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
         }
-        RLog.d("RegistrationCoppaFragment", "isAccountSettings : "+isAccountSettings);
+        RLog.d("RegistrationCoppaFragment", "isAccountSettings : " + isAccountSettings);
         super.onCreate(savedInstanceState);
     }
 
@@ -136,7 +139,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     private boolean handleBackStack() {
         int count = mFragmentManager.getBackStackEntryCount();
 
-        RLog.i("Back count ",""+count);
+        RLog.i("Back count ", "" + count);
 
         if (count == 0) {
             return true;
@@ -215,7 +218,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         try {
             ParentalAccessFragment parentalAccessFragment = new ParentalAccessFragment();
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalAccessFragment,"Parental Access");
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalAccessFragment, "Parental Access");
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
@@ -236,7 +239,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 return;
             }
 
-            if(mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()){
+            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
@@ -251,7 +254,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 replaceWithWelcomeFragment();
                 return;
             }
-            if(mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()){
+            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 replaceWithWelcomeFragment();
                 return;
@@ -261,6 +264,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
 
     }
+
     private void trackPage(String currPage) {
         AppTagging.trackPage(currPage);
     }
@@ -493,13 +497,12 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     }
 
 
-
     public void launchRegistrationFragment(boolean isAccountSettings) {
         try {
             FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
             Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS,isAccountSettings);
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(mRegistrationUpdateTitleListener);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -508,8 +511,57 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
-                    "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+                    "RegistrationCoppaActivity :FragmentTransaction Exception occured in addFragment  :"
                             + e.getMessage());
         }
     }
+
+    private static UserRegistrationListener mUserRegistrationListener = new UserRegistrationListener() {
+        @Override
+        public void onUserRegistrationComplete(Activity activity) {
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(activity);
+            }
+        }
+
+        @Override
+        public void onPrivacyPolicyClick(Activity activity) {
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyOnPrivacyPolicyClickEventOccurred(activity);
+            }
+        }
+
+        @Override
+        public void onTermsAndConditionClick(Activity activity) {
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyOnTermsAndConditionClickEventOccurred(activity);
+            }
+        }
+
+        @Override
+        public void onUserLogoutSuccess() {
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyOnUserLogoutSuccess();
+            }
+        }
+
+        @Override
+        public void onUserLogoutFailure() {
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyOnUserLogoutFailure();
+            }
+        }
+
+        @Override
+        public void onUserLogoutSuccessWithInvalidAccessToken() {
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
+            }
+        }
+    };
+
+    public static UserRegistrationListener getUserRegistrationListener() {
+        return mUserRegistrationListener;
+    }
+
 }

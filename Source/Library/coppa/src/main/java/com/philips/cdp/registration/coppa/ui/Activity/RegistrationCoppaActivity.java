@@ -14,13 +14,13 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
-import com.philips.cdp.registration.coppa.utils.RegistrationLaunchHelper;
+import com.philips.cdp.registration.coppa.utils.RegistrationCoppaLaunchHelper;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.tagging.Tagging;
 
-public class RegistrationActivity extends FragmentActivity implements OnClickListener,
+public class RegistrationCoppaActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
 
     private  boolean isAccountSettings = true;
@@ -63,19 +63,19 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         }
 
         setContentView(R.layout.activity_reg_coppa_registration);
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity  Register: NetworStateListener");
+        RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity  Register: NetworStateListener");
         initUI();
     }
 
     @Override
     protected void onStart() {
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onStart");
+        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaActivity : onStart");
         super.onStart();
     }
 
     @Override
     protected void onResume() {
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onResume");
+        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaActivity : onResume");
         mSiteCatalistHandler.removeCallbacksAndMessages(null);
         mSiteCatalistHandler.post(mResumeSiteCatalystRunnable);
         super.onResume();
@@ -83,7 +83,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     @Override
     protected void onPause() {
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onPause");
+        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaActivity : onPause");
         mSiteCatalistHandler.removeCallbacksAndMessages(null);
         mSiteCatalistHandler.post(mPauseSiteCatalystRunnable);
         super.onPause();
@@ -91,21 +91,21 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     @Override
     protected void onStop() {
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onStop");
+        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaActivity : onStop");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onDestroy");
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity Unregister: NetworStateListener,Context");
+        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaActivity : onDestroy");
+        RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity Unregister: NetworStateListener,Context");
         super.onDestroy();
     }
 
     @Override
     public void onBackPressed() {
 
-        if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+        if (!RegistrationCoppaLaunchHelper.isBackEventConsumedByRegistration(this)) {
             // not consumed vertical code goes here // actual code
             super.onBackPressed();
         }
@@ -133,7 +133,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
-                    "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+                    "RegistrationCoppaActivity :FragmentTransaction Exception occured in addFragment  :"
                             + e.getMessage());
         }
     }

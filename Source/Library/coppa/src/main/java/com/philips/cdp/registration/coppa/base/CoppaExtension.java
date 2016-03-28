@@ -1,5 +1,5 @@
 
-package com.philips.cdp.registration.coppa;
+package com.philips.cdp.registration.coppa.base;
 
 import android.content.Context;
 import android.support.v4.util.Pair;
@@ -264,7 +264,7 @@ public class CoppaExtension implements CoppaExtensionHandler {
         return false;
     }
 
-    private CoppaStatus getCoppaStatusForConsent(Consent consent) {
+    private CoppaStatus getCoppaStatusForConsent(com.philips.cdp.registration.coppa.base.Consent consent) {
         if (consent == null) {
             return null;
         }

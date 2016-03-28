@@ -16,19 +16,19 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.coppa.CoppaExtension;
-import com.philips.cdp.registration.coppa.CoppaResendError;
-import com.philips.cdp.registration.coppa.ResendCoppaEmailConsentHandler;
+import com.philips.cdp.registration.coppa.base.CoppaExtension;
+import com.philips.cdp.registration.coppa.base.CoppaResendError;
+import com.philips.cdp.registration.coppa.base.ResendCoppaEmailConsentHandler;
+import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaListener;
+import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
+import com.philips.cdp.registration.coppa.utils.RegistrationCoppaLaunchHelper;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.coppa.utils.RegistrationLaunchHelper;
 import com.philips.cdp.tagging.Tagging;
 
 public class RegistrationCoppaSampleActivity extends Activity implements OnClickListener,
-        UserRegistrationListener, RefreshLoginSessionHandler, ResendCoppaEmailConsentHandler{
+        UserRegistrationCoppaListener, RefreshLoginSessionHandler, ResendCoppaEmailConsentHandler {
 
     private Button mBtnRegistrationWithAccountSettings;
     private Button mBtnRegistrationWithOutAccountSettings;
@@ -43,9 +43,9 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaSampleActivity : onCreate");
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaSampleActivity register: UserRegistrationListener");
+        RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaSampleActivity register: UserRegistrationCoppaListener");
         setContentView(R.layout.activity_main);
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
+        RegistrationCoppaHelper.getInstance().registerUserRegistrationListener(this);
         mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.btn_registration_with_account);
         mBtnRegistrationWithAccountSettings.setOnClickListener(this);
 
@@ -90,7 +90,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     protected void onStop() {
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaSampleActivity : onStop");
 
-        if(mProgressDialog != null){
+        if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
         super.onStop();
@@ -98,7 +98,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
     @Override
     protected void onDestroy() {
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
+        RegistrationCoppaHelper.getInstance().unRegisterUserRegistrationListener(this);
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationCoppaSampleActivity unregister : RegisterUserRegistrationListener");
         super.onDestroy();
 
@@ -109,17 +109,17 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         switch (v.getId()) {
             case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
-                RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
+                RegistrationCoppaLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 
             case R.id.btn_registration_without_account:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
-                RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
+                RegistrationCoppaLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
 
             case R.id.btn_refresh_user:
                 RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Refresh User ");
-               handleRefreshAccessToken();
+                handleRefreshAccessToken();
                 break;
 
             case R.id.btn_refresh_token:
@@ -137,7 +137,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
             case R.id.btn_resend_coppa_email:
                 User user = new User(mContext);
                 CoppaExtension coppaExtension = new CoppaExtension();
-                String emailId= user.getEmail();
+                String emailId = user.getEmail();
                 if (null != emailId) {
                     mProgressDialog.setMessage("sending...");
                     mProgressDialog.show();
@@ -153,12 +153,12 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
     private void handleRefreshAccessToken() {
 
-      final  User user = new User(this);
-        if(user.isUserSignIn()){
+        final User user = new User(this);
+        if (user.isUserSignIn()) {
             user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
                 public void onRefreshLoginSessionSuccess() {
-                    System.out.println("Access token : "+user.getAccessToken());
+                    System.out.println("Access token : " + user.getAccessToken());
                     showToast("Success to refresh access token");
                 }
 
@@ -170,12 +170,12 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
                 @Override
                 public void onRefreshLoginSessionInProgress(String message) {
-                    System.out.println("Message "+message);
+                    System.out.println("Message " + message);
                     showToast(message);
                 }
             });
-        }else{
-            Toast.makeText(this,"Plase login",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Plase login", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -188,7 +188,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationCoppaSampleActivity : onPrivacyPolicyClick");
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://"+getResources().getString(
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + getResources().getString(
                 com.philips.cdp.registration.R.string.Philips_URL_txt)));
         activity.startActivity(browserIntent);
     }
@@ -196,7 +196,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     @Override
     public void onTermsAndConditionClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationCoppaSampleActivity : onTermsAndConditionClick");
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://"+getResources().getString(
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + getResources().getString(
                 com.philips.cdp.registration.R.string.Philips_URL_txt)));
         activity.startActivity(browserIntent);
     }
@@ -236,7 +236,9 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
             mProgressDialog.dismiss();
         }
     }
+
     final Handler handler = new Handler();
+
     private void showToast(final String msg) {
         handler.post(new Runnable() {
             @Override
@@ -245,12 +247,13 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
             }
         });
     }
-    User user ;
+
+    User user;
 
     @Override
     public void onRefreshLoginSessionSuccess() {
         dimissDialog();
-        RLog.d(RLog.HSDP, "RegistrationCoppaSampleActivity Access token: "+user.getHsdpAccessToken());
+        RLog.d(RLog.HSDP, "RegistrationCoppaSampleActivity Access token: " + user.getHsdpAccessToken());
         showToast("Success to refresh hsdp access token");
     }
 

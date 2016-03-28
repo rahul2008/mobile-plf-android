@@ -1,5 +1,5 @@
 
-package com.philips.cdp.registration.coppa;
+package com.philips.cdp.registration.coppa.base;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
