@@ -66,7 +66,7 @@ public class ProdRegHelperTest extends MockitoTestCase {
 
             @Override
             public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.MISSING_DATE, errorType);
+                assertEquals(ErrorType.INVALID_DATE, errorType);
             }
         }, validator, user);
     }
