@@ -52,7 +52,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private final String REGISTRATION_VERSION_TAG = "registrationVersion";
 
-    private FragmentManager mFragmentManager;
+    private static FragmentManager mFragmentManager;
 
     private Activity mActivity;
 
@@ -204,7 +204,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     public void loadFirstFragment() {
         try {
-
             replaceWithParentalAccess();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
@@ -499,15 +498,16 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     public void launchRegistrationFragment(boolean isAccountSettings) {
         try {
-            FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(mRegistrationUpdateTitleListener);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
             fragmentTransaction.add(R.id.fl_reg_fragment_container, registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
+
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
@@ -519,8 +519,19 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     private static UserRegistrationListener mUserRegistrationListener = new UserRegistrationListener() {
         @Override
         public void onUserRegistrationComplete(Activity activity) {
-            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(activity);
+            //Launch the Approval fragment
+            if (mFragmentManager != null) {
+                try {
+                    ParentalApprovalFragment parentalAccessFragment = new ParentalApprovalFragment();
+                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.fl_reg_fragment_container, parentalAccessFragment, "Parental Access");
+                    fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
+                    fragmentTransaction.commitAllowingStateLoss();
+                } catch (IllegalStateException e) {
+                    RLog.e(RLog.EXCEPTION,
+                            "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
+                                    + e.getMessage());
+                }
             }
         }
 
@@ -559,6 +570,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             }
         }
     };
+
 
     public static UserRegistrationListener getUserRegistrationListener() {
         return mUserRegistrationListener;

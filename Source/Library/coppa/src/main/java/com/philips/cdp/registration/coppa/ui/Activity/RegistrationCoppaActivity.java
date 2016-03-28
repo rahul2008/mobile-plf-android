@@ -128,8 +128,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(this);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
-                    RegConstants.REGISTRATION_FRAGMENT_TAG);
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,

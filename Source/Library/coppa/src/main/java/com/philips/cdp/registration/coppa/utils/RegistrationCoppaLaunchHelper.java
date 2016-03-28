@@ -56,7 +56,7 @@ public class RegistrationCoppaLaunchHelper {
     public static boolean isBackEventConsumedByRegistration(FragmentActivity fragmentActivity) {
         FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
         Fragment fragment = fragmentManager
-                .findFragmentByTag(RegConstants.REGISTRATION_FRAGMENT_TAG);
+                .findFragmentByTag(RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
         if (fragment != null) {
 
             try {
@@ -82,9 +82,9 @@ public class RegistrationCoppaLaunchHelper {
                     //true for restricting Login @ login screen need to think and do
 
                     //  return false;
-                    if (isWelcomeFragment) {
+                  /*  if (isWelcomeFragment) {
                         return true;
-                    }
+                    }*/
 
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.remove(fragment);
