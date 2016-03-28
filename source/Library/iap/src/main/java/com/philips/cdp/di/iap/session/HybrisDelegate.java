@@ -29,10 +29,18 @@ public class HybrisDelegate {
 
     public static HybrisDelegate getInstance(Context context) {
         if (delegate.controller == null) {
-            delegate.mContext = context;
+            delegate.mContext = context.getApplicationContext();
             delegate.controller = delegate.getNetworkController(context);
         }
         return delegate;
+    }
+
+    public static HybrisDelegate getInstance() {
+        return delegate;
+    }
+
+    public static NetworkController getNetworkController() {
+        return delegate.controller;
     }
 
     public void sendRequest(int requestCode, AbstractModel model, final RequestListener

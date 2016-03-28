@@ -93,6 +93,7 @@
     <string name="iap_get_image_url">getting images from server</string>
 
     <string name="iap_time_out_error">Network timeout reached!</string>
+    <string name="iap_authentication_failure">Authentication failed</string>
 
     <string name="iap_redeem_voucher">Redeem voucher</string>
     <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
@@ -107,5 +108,6 @@
     <string name="cancelPaymentMsg">Do you want to cancel the payment? Your cart will be empty.</string>
     <string name="iap_server_error">Server Error</string>
     <string name="iap_something_went_wrong">Something went wrong!</string>
+    <string name="iap_payment_failed">Payment failed</string>
 
 </resources>

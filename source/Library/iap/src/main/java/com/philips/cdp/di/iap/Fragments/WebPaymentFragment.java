@@ -5,6 +5,7 @@
 
 package com.philips.cdp.di.iap.Fragments;
 
+import android.annotation.TargetApi;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,13 +19,10 @@ import android.webkit.WebViewClient;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
-import android.annotation.TargetApi;
 
 public class WebPaymentFragment extends BaseAnimationSupportFragment {
-    public final static String FRAGMENT_TAG = "WebPaymentFragment";
 
     private static final String SUCCESS_KEY = "successURL";
     private static final String PENDING_KEY = "pendingURL";
@@ -103,15 +101,22 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         if (!TextUtils.isEmpty(url)) {
             // TODO: 04-03-2016 Need to fix with proper logic
             String[] temp = url.split("%5E");
-            if (temp != null && temp.length > 2) {
+            if (temp.length > 2) {
                 temp = temp[2].split("-");
-                if (temp != null && temp.length > 0) {
+                if (temp.length > 0) {
                     orderNum = temp[0];
                 }
             }
         }
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.ORDER_NUMBER, orderNum);
+        bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, true);
+        return bundle;
+    }
+
+    private Bundle createErrorBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, false);
         return bundle;
     }
 
@@ -158,9 +163,9 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
             if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
                 launchConfirmationScreen(createSuccessBundle(url));
             } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
-                goBackToOrderSummary();
+                launchConfirmationScreen(createErrorBundle());
             } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
-                goBackToOrderSummary();
+                launchConfirmationScreen(createErrorBundle());
             } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
                 goBackToOrderSummary();
             } else {

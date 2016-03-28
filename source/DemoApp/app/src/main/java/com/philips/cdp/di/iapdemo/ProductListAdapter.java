@@ -64,7 +64,7 @@ public class ProductListAdapter extends BaseAdapter {
             mViewHolder.buyNow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((DemoAppActivity) mContext).buyNow(currentProduct.getCtnNumber());
+                    ((DemoAppActivity) mContext).buyProduct(currentProduct.getCtnNumber());
                 }
             });
         }
