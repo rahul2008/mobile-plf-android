@@ -15,7 +15,7 @@ public class Validator {
     }
 
     protected boolean isValidaDate(final String date) {
-        if (date != null) {
+        if (date != null && date.length() != 0) {
             String[] dates = date.split("-");
             return dates.length > 1 && Integer.parseInt(dates[0]) > 1999;
         }

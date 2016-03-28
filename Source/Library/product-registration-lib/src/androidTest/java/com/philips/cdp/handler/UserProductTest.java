@@ -36,10 +36,10 @@ public class UserProductTest extends MockitoTestCase {
 
             @Override
             public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.INVALID_PRODUCT, errorType);
+                assertEquals(ErrorType.INVALID_CTN, errorType);
             }
         };
-        userProduct.handleError(ErrorType.INVALID_PRODUCT.getCode(), prodRegRequestInfo, listener);
+        userProduct.handleError(ErrorType.INVALID_CTN.getCode(), prodRegRequestInfo, listener);
     }
 
     public void testReturnCorrectRequestType() {

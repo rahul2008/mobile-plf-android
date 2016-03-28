@@ -66,7 +66,7 @@ public class ProdRegHelperTest extends MockitoTestCase {
 
             @Override
             public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.INVALID_DATE, errorType);
+                assertEquals(ErrorType.MISSING_DATE, errorType);
             }
         }, validator, user);
     }
@@ -94,8 +94,8 @@ public class ProdRegHelperTest extends MockitoTestCase {
         when(responseMock.getResults()).thenReturn(results);
         getRegisteredProductsListener.onProdRegSuccess(responseMock);
         verify(listener).onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
-        getRegisteredProductsListener.onProdRegFailed(ErrorType.INVALID_SERIAL_NUMBER);
-        verify(listener).onProdRegFailed(ErrorType.INVALID_SERIAL_NUMBER);
+        getRegisteredProductsListener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
+        verify(listener).onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
     }
 
 }

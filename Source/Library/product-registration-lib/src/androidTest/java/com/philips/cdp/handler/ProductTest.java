@@ -33,7 +33,7 @@ public class ProductTest extends MockitoTestCase {
     }
 
     public void testHandleErrorCases() {
-        product.handleError(ErrorType.INVALID_PRODUCT.getCode(), new ProdRegListener() {
+        product.handleError(ErrorType.INVALID_CTN.getCode(), new ProdRegListener() {
             @Override
             public void onProdRegSuccess(final ResponseData responseData) {
 
@@ -41,7 +41,7 @@ public class ProductTest extends MockitoTestCase {
 
             @Override
             public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.INVALID_PRODUCT, errorType);
+                assertEquals(ErrorType.INVALID_CTN, errorType);
             }
         });
     }
@@ -56,7 +56,7 @@ public class ProductTest extends MockitoTestCase {
 
             @Override
             public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.MISSING_SERIAL_NUMBER, errorType);
+                assertEquals(ErrorType.MISSING_SERIALNUMBER, errorType);
             }
         };
 
@@ -67,7 +67,7 @@ public class ProductTest extends MockitoTestCase {
 
             @Override
             public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.INVALID_SERIAL_NUMBER_FORMAT, errorType);
+                assertEquals(ErrorType.INVALID_SERIALNUMBER, errorType);
             }
         };
         when(data.getRequiresSerialNumber()).thenReturn("true");
@@ -90,7 +90,7 @@ public class ProductTest extends MockitoTestCase {
 
             @Override
             public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.INVALID_PURCHASE_DATE, errorType);
+                assertEquals(ErrorType.INVALID_DATE, errorType);
             }
         };
         assertFalse(product.validatePurchaseDateFromMetadata(data, prodRegRequestInfo, listener));

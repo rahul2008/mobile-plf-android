@@ -60,16 +60,16 @@ public class Product {
     }
 
     protected void handleError(final int statusCode, final ProdRegListener listener) {
-        if (statusCode == ErrorType.INVALID_PRODUCT.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_PRODUCT);
+        if (statusCode == ErrorType.INVALID_CTN.getCode()) {
+            listener.onProdRegFailed(ErrorType.INVALID_CTN);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getCode()) {
             listener.onProdRegFailed(ErrorType.INVALID_VALIDATION);
-        } else if (statusCode == ErrorType.INVALID_SERIAL_NUMBER.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_SERIAL_NUMBER);
-        } else if (statusCode == ErrorType.NO_INTERNET_CONNECTION.getCode()) {
-            listener.onProdRegFailed(ErrorType.NO_INTERNET_CONNECTION);
-        } else if (statusCode == ErrorType.REQUEST_TIME_OUT.getCode()) {
-            listener.onProdRegFailed(ErrorType.REQUEST_TIME_OUT);
+        } else if (statusCode == ErrorType.INVALID_SERIALNUMBER.getCode()) {
+            listener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
+        } else if (statusCode == ErrorType.NO_INTERNET_AVAILABLE.getCode()) {
+            listener.onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
+        } else if (statusCode == ErrorType.INTERNAL_SERVER_ERROR.getCode()) {
+            listener.onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
         } else {
             listener.onProdRegFailed(ErrorType.UNKNOWN);
         }
@@ -86,10 +86,10 @@ public class Product {
 
     private boolean processSerialNumber(final ProdRegMetaDataResponse data, final ProdRegListener listener, ProdRegRequestInfo prodRegRequestInfo) {
         if (prodRegRequestInfo.getSerialNumber() == null || prodRegRequestInfo.getSerialNumber().length() < 1) {
-            listener.onProdRegFailed(ErrorType.MISSING_SERIAL_NUMBER);
+            listener.onProdRegFailed(ErrorType.MISSING_SERIALNUMBER);
             return true;
         } else if (!prodRegRequestInfo.getSerialNumber().matches(data.getSerialNumberFormat())) {
-            listener.onProdRegFailed(ErrorType.INVALID_SERIAL_NUMBER_FORMAT);
+            listener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
             return true;
         }
         return false;
@@ -101,7 +101,7 @@ public class Product {
             if (purchaseDate != null && purchaseDate.length() > 0) {
                 return true;
             } else {
-                listener.onProdRegFailed(ErrorType.INVALID_PURCHASE_DATE);
+                listener.onProdRegFailed(ErrorType.MISSING_DATE);
                 return false;
             }
         } else

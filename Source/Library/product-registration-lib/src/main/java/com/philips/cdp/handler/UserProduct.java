@@ -61,20 +61,20 @@ public class UserProduct {
     }
 
     protected void handleError(final int statusCode, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
-        if (statusCode == ErrorType.INVALID_PRODUCT.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_PRODUCT);
-        } else if (statusCode == ErrorType.ACCESS_TOKEN_EXPIRED.getCode()) {
+        if (statusCode == ErrorType.INVALID_CTN.getCode()) {
+            listener.onProdRegFailed(ErrorType.INVALID_CTN);
+        } else if (statusCode == ErrorType.USER_TOKEN_EXPIRED.getCode()) {
             onAccessTokenExpire(prodRegRequestInfo, listener);
         } else if (statusCode == ErrorType.ACCESS_TOKEN_INVALID.getCode()) {
             onAccessTokenExpire(prodRegRequestInfo, listener);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getCode()) {
             listener.onProdRegFailed(ErrorType.INVALID_VALIDATION);
-        } else if (statusCode == ErrorType.INVALID_SERIAL_NUMBER.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_SERIAL_NUMBER);
-        } else if (statusCode == ErrorType.NO_INTERNET_CONNECTION.getCode()) {
-            listener.onProdRegFailed(ErrorType.NO_INTERNET_CONNECTION);
-        } else if (statusCode == ErrorType.REQUEST_TIME_OUT.getCode()) {
-            listener.onProdRegFailed(ErrorType.REQUEST_TIME_OUT);
+        } else if (statusCode == ErrorType.INVALID_SERIALNUMBER.getCode()) {
+            listener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
+        } else if (statusCode == ErrorType.NO_INTERNET_AVAILABLE.getCode()) {
+            listener.onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
+        } else if (statusCode == ErrorType.INTERNAL_SERVER_ERROR.getCode()) {
+            listener.onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
         } else {
             listener.onProdRegFailed(ErrorType.UNKNOWN);
         }

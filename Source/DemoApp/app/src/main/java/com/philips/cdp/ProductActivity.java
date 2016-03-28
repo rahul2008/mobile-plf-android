@@ -27,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -87,7 +88,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private void registerProduct() {
         ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(mCtn.getText().toString(), mSerialNumber.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         ProdRegHelper prodRegHelper = new ProdRegHelper();
-        prodRegHelper.setLocale("en", "GB");
+        prodRegHelper.setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
         prodRegRequestInfo.setPurchaseDate(mPurchaseDate.getText().toString());
         final ProdRegListener listener = new ProdRegListener() {
             @Override
