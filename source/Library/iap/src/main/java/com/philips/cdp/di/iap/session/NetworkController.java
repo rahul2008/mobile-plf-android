@@ -41,6 +41,9 @@ public class NetworkController {
 
     public void sendHybrisRequest(final int requestCode, final AbstractModel model, final
     RequestListener requestListener) {
+        if(store.isUserLoggedOut()) {
+            store.setNewUser(context);
+        }
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {

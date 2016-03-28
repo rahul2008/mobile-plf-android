@@ -14,6 +14,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.model.NewOAuthRequest;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
+import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
@@ -25,6 +26,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     private String access_token;
     private NewOAuthRequest mOAuthRequest;
     private Store mStore;
+    private IAPUser mOldUser;
 
     public TestEnvOAuthHandler() {
     }
@@ -33,9 +35,10 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     public String getAccessToken() {
         if (mOAuthRequest == null) {
             mStore = HybrisDelegate.getInstance().getStore();
+            mOldUser = mStore.getUser();
             mOAuthRequest = new NewOAuthRequest(mStore, null);
         }
-        if (access_token == null) {
+        if (access_token == null || isUserChanged()) {
             requestSyncOAuthToken();
         }
         return access_token;
@@ -48,6 +51,14 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         params.put(ModelConstants.REFRESH_TOKEN,mOAuthRequest.getrefreshToken());
         RefreshOAuthRequest request = new RefreshOAuthRequest(mStore, params);
         requestSyncRefreshToken(request, listener);
+    }
+
+    private boolean isUserChanged() {
+        boolean userChanged = mStore.getUser() != mOldUser;
+        if(userChanged) {
+            mOldUser = mStore.getUser();
+        }
+        return userChanged;
     }
 
     private void requestSyncOAuthToken() {

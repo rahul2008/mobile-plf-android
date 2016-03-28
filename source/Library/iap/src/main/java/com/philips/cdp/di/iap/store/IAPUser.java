@@ -4,15 +4,18 @@
  */
 package com.philips.cdp.di.iap.store;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 
 import java.util.concurrent.Semaphore;
 
-public class IAPUser {
+public class IAPUser implements UserRegistrationListener {
     private final static String TAG = IAPUser.class.getSimpleName();
 
     Semaphore mSemaphore = new Semaphore(0);
@@ -21,6 +24,7 @@ public class IAPUser {
     private boolean mTokenRefreshSuccessful;
 
     public IAPUser(final Context context, final Store store) {
+        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mStore = store;
         mJanRainUser = new User(context);
     }
@@ -47,7 +51,7 @@ public class IAPUser {
 
             @Override
             public void onRefreshLoginSessionFailedWithError(final int i) {
-                IAPLog.d(TAG, " refreshLoginSuccessful failed with error=" +i);
+                IAPLog.d(TAG, " refreshLoginSuccessful failed with error=" + i);
                 unlockOAuthThread();
             }
 
@@ -73,5 +77,37 @@ public class IAPUser {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onUserRegistrationComplete(Activity activity) {
+        //NOP
+    }
+
+    @Override
+    public void onPrivacyPolicyClick(Activity activity) {
+        //NOP
+    }
+
+    @Override
+    public void onTermsAndConditionClick(Activity activity) {
+        //NOP
+    }
+
+    @Override
+    public void onUserLogoutSuccess() {
+        IAPLog.e(IAPLog.LOG, "IAPUser ====onUserLogoutSuccess");
+        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
+        mStore.setUserLogout(true);
+    }
+
+    @Override
+    public void onUserLogoutFailure() {
+        //NOP
+    }
+
+    @Override
+    public void onUserLogoutSuccessWithInvalidAccessToken() {
+        //NOP
     }
 }
