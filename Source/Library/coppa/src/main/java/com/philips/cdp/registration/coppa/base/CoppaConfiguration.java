@@ -8,95 +8,115 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CoppaConfiguration {
+ class CoppaConfiguration {
 
-	private static final String CONFIRMATION_COMMUNICATION_TO_SEND_AT = "confirmationCommunicationToSendAt";
 
-	private static final String STORED_AT = "storedAt";
 
-	private static final String ID = "id";
+	 public static final String CONFIRMATION_COMMUNICATION_TO_SEND_AT = "confirmationCommunicationToSendAt";
 
-	private static final String LOCALE = "locale";
+	 public static final String STORED_AT = "storedAt";
 
-	private static final String GIVEN = "given";
+	 public static final String ID = "id";
 
-	private static final String CONFIRMATION_COMMUNICATION_SENT_AT = "confirmationCommunicationSentAt";
+	 public static final String LOCALE = "locale";
 
-	private static final String CONFIRMATION_STORED_AT = "confirmationStoredAt";
+	 public static final String GIVEN = "given";
 
-	private static final String COMMUNICATION_SENT_AT = "communicationSentAt";
+	 public static final String CONFIRMATION_COMMUNICATION_SENT_AT = "confirmationCommunicationSentAt";
 
-	private static final String MICRO_SITE_ID = "microSiteID";
+	 public static final String CONFIRMATION_STORED_AT = "confirmationStoredAt";
 
-	private static final String CONFIRMATION_GIVEN = "confirmationGiven";
+	 public static final String COMMUNICATION_SENT_AT = "communicationSentAt";
 
-	private static final String NULL = "null";
+	 public static final String MICRO_SITE_ID = "microSiteID";
 
-	private static final String CAMPAIGN_ID = "campaignId";
+	 public static final String CONFIRMATION_GIVEN = "confirmationGiven";
 
-	private static final String CONSENTS = "consents";
+	 public static final String NULL = "null";
 
-	private static final String COPPA_COMMUNICATION_SENT_AT = "coppaCommunicationSentAt";
+	 public static final String CAMPAIGN_ID = "campaignId";
 
-	private static String coppaCommunicationSentAt;
+	 public static final String CONSENTS = "consents";
 
-	private static Consent consent;
+	 public static final String COPPA_COMMUNICATION_SENT_AT = "coppaCommunicationSentAt";
 
-	public static Consent getConsent() {
-		return consent;
-	}
+	 private static String coppaCommunicationSentAt;
 
-	public static String getCoppaCommunicationSentAt() {
-		return coppaCommunicationSentAt;
-	}
+	 private static Consent consent;
 
-	public static void clearConfiguration() {
-		coppaCommunicationSentAt = null;
-		consent = null;
-	}
+	 private static int consentIndex;
 
-	public static void getCoopaConfigurationFlields(JSONObject jsonObject) {
+	 private static boolean isCampaignIdPresent;
 
-	
-		
-		if (!jsonObject.isNull(COPPA_COMMUNICATION_SENT_AT)) {
-			coppaCommunicationSentAt = (String) jsonObject.opt(COPPA_COMMUNICATION_SENT_AT);
-			System.out.println("consent sent @ : "+coppaCommunicationSentAt);
-		}
+	 public static Consent getConsent() {
+		 return consent;
+	 }
+	 private static JSONArray consents;
+	 public static JSONArray getCurrentConsentsArray(){
+		 return consents;
+	 }
 
-		if (!jsonObject.isNull(CONSENTS)) {
-			
-			JSONArray consents = (JSONArray) Jump.getSignedInUser().opt(CONSENTS);
-			System.out.println("consent : "+consents);
-			consent = new Consent();
-			for (int i = 0; i < consents.length(); i++) {
-				JSONObject consentObj;
-				try {
-					consentObj = consents.getJSONObject(i);
-					if (!consentObj.isNull(CAMPAIGN_ID)
-					        && !consentObj.optString(CAMPAIGN_ID).equalsIgnoreCase(NULL)
-					        && consentObj.optString(CAMPAIGN_ID).equalsIgnoreCase(
-							RegistrationConfiguration.getInstance().getPilConfiguration().getCampaignID())) {
-						consent.setConfirmationGiven(consentObj.optString(CONFIRMATION_GIVEN));
-						consent.setMicroSiteID(consentObj.optString(MICRO_SITE_ID));
-						consent.setCommunicationSentAt(consentObj.optString(COMMUNICATION_SENT_AT));
-						consent.setConfirmationStoredAt(consentObj
-						        .optString(CONFIRMATION_STORED_AT));
-						consent.setConfirmationCommunicationSentAt(consentObj
-						        .optString(CONFIRMATION_COMMUNICATION_SENT_AT));
-						consent.setCampaignId(consentObj.optString(CAMPAIGN_ID));
-						consent.setGiven(consentObj.optString(GIVEN));
-						consent.setLocale(consentObj.optString(LOCALE));
-						consent.setId(consentObj.optString(ID));
-						consent.setStoredAt(consentObj.optString(STORED_AT));
-						consent.setConfirmationCommunicationToSendAt(consentObj
-						        .optString(CONFIRMATION_COMMUNICATION_TO_SEND_AT));
-					}
+	 public static String getCoppaCommunicationSentAt() {
+		 return coppaCommunicationSentAt;
+	 }
 
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+	 public static void clearConfiguration() {
+		 coppaCommunicationSentAt = null;
+		 consent = null;
+	 }
+
+	 public static int consentIndex(){
+		 return consentIndex;
+	 }
+
+	 public static boolean isCampaignIdPresent(){
+		 return isCampaignIdPresent;
+	 }
+
+	 public static void getCoopaConfigurationFlields(JSONObject jsonObject) {
+		 consentIndex = 0;
+		 isCampaignIdPresent = false;
+
+		 if (!jsonObject.isNull(COPPA_COMMUNICATION_SENT_AT)) {
+			 coppaCommunicationSentAt = (String) jsonObject.opt(COPPA_COMMUNICATION_SENT_AT);
+			 System.out.println("consent sent @ : "+coppaCommunicationSentAt);
+		 }
+
+		 if (!jsonObject.isNull(CONSENTS)) {
+
+			 consents = (JSONArray) Jump.getSignedInUser().opt(CONSENTS);
+			 System.out.println("consent : "+consents);
+			 consent = new Consent();
+			 for (int i = 0; i < consents.length(); i++) {
+				 JSONObject consentObj;
+				 try {
+					 consentObj = consents.getJSONObject(i);
+					 if (!consentObj.isNull(CAMPAIGN_ID)
+							 && !consentObj.optString(CAMPAIGN_ID).equalsIgnoreCase(NULL)
+							 && consentObj.optString(CAMPAIGN_ID).equalsIgnoreCase(
+							 RegistrationConfiguration.getInstance().getPilConfiguration().getCampaignID())) {
+						 consentIndex = i;
+						 isCampaignIdPresent = true;
+						 consent.setConfirmationGiven(consentObj.optString(CONFIRMATION_GIVEN));
+						 consent.setMicroSiteID(consentObj.optString(MICRO_SITE_ID));
+						 consent.setCommunicationSentAt(consentObj.optString(COMMUNICATION_SENT_AT));
+						 consent.setConfirmationStoredAt(consentObj
+								 .optString(CONFIRMATION_STORED_AT));
+						 consent.setConfirmationCommunicationSentAt(consentObj
+								 .optString(CONFIRMATION_COMMUNICATION_SENT_AT));
+						 consent.setCampaignId(consentObj.optString(CAMPAIGN_ID));
+						 consent.setGiven(consentObj.optString(GIVEN));
+						 consent.setLocale(consentObj.optString(LOCALE));
+						 consent.setId(consentObj.optString(ID));
+						 consent.setStoredAt(consentObj.optString(STORED_AT));
+						 consent.setConfirmationCommunicationToSendAt(consentObj
+								 .optString(CONFIRMATION_COMMUNICATION_TO_SEND_AT));
+					 }
+
+				 } catch (JSONException e) {
+					 e.printStackTrace();
+				 }
+			 }
+		 }
+	 }
 }

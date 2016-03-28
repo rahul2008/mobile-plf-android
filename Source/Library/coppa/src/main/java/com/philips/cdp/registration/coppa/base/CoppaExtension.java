@@ -10,6 +10,7 @@ import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.philips.cdp.registration.HttpClient;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 
@@ -290,6 +291,15 @@ public class CoppaExtension implements CoppaExtensionHandler {
             coppaStatus = CoppaStatus.kDICOPPAConsentPending;
         }
         return coppaStatus;
+    }
+
+
+    public void updateCoppaConsentStatus(final Context mContext, final boolean coppaConsentStatus, final CoppaConsentUpdateCallback coppaConsentUpdateCallback){
+        new CoppaConsentUpdater(mContext).updateCoppaConsentStatus(coppaConsentStatus,coppaConsentUpdateCallback);
+    }
+
+    public void updateCoppaConsentConfirmationStatus(final Context mContext, final boolean coppaConsentStatus, final CoppaConsentUpdateCallback coppaConsentUpdateCallback){
+        new CoppaConsentUpdater(mContext).updateCoppaConsentConfirmationStatus(coppaConsentStatus,coppaConsentUpdateCallback);
     }
 
 
