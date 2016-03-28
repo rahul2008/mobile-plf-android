@@ -214,7 +214,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             errorText = "Connection time out";
         } else if(IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
             errorText = "Authentication failure";
+        } else if(IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
+            errorText = "Product out of stock";
         }
+
         Toast toast = Toast.makeText(this,errorText,Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER,0,0);
         toast.show();

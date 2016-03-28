@@ -53,6 +53,11 @@ public class NewOAuthRequest extends AbstractModel implements OAuthHandler {
 
     }
 
+    @Override
+    public void resetAccessToken() {
+        mOAuthResponse = null;
+    }
+
     public String getrefreshToken() {
         if(mOAuthResponse == null) {
             return null;
