@@ -42,6 +42,11 @@ public class NetworkUtility {
         return mNetworkUtility;
     }
 
+    public void dismissErrorDialog() {
+        if (mModalAlertDemoFragment.isAdded())
+            mModalAlertDemoFragment.dismissAllowingStateLoss();
+    }
+
     public void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
