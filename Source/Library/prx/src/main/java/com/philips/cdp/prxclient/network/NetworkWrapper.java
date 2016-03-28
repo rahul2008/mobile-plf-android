@@ -70,6 +70,7 @@ public class NetworkWrapper {
         final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
         final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
         PrxJsonRequest request = new PrxJsonRequest(prxRequest.getRequestType(), prxRequest.getRequestUrl(), prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
+        request.setShouldCache(true);
         if (isHttpsRequest)
             SSLCertificateManager.setSSLSocketFactory();
         mVolleyRequest.add(request);
