@@ -92,6 +92,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onStop() {
         super.onStop();
         mAdapter.onStop();
+        NetworkUtility.getInstance().dismissErrorDialog();
     }
 
     private void updateCartDetails(ShoppingCartPresenter presenter) {
