@@ -299,7 +299,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             relativeLayout
                     .setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
             mProductChangeButton = (View) relativeLayout;
-           // if (isProductSelected() && !isSupportScreenLaunched)
+            // if (isProductSelected() && !isSupportScreenLaunched)
             if (isProductSelected())
                 mProductChangeButton.setVisibility(View.GONE);
 
@@ -581,6 +581,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             mProductFAQButton.setVisibility(View.GONE);
         if (mProductViewProductButton != null)
             mProductViewProductButton.setVisibility(View.GONE);
+
+        if (mProductChangeButton != null) {
+            mProductChangeButton.setVisibility(View.VISIBLE);
+            mProductChangeButton.setClickable(true);
+        }
     }
 
     protected void updateSummaryData(SummaryModel productSummaryModel) {
@@ -681,17 +686,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         DigiCareLogger.v(TAG, "Summary Response Received from PRX  Received");
 
         if (productSummaryModel == null) {
-            synchronized (this) {
-                createMainMenu();
-                if (isProductSelected() && !isSupportScreenLaunched) {
-                    ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-                    if ((model.getCtnName() == null)
-                            || (model.getProductName() == null))
-                        disablePrxDependentButtons();
-                }
+            createMainMenu();
+            if (!isProductSelected() /*&& !isSupportScreenLaunched*/) {
+                    /*ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+                    if ((model.getCtnName() != null)
+                            || (model.getProductName() != null))*/
+                disablePrxDependentButtons();
+            }
                /* if (isProductSelected())
                     disablePrxDependentButtons();*/
-            }
+
             DigiCareLogger.v(TAG, "Summary Response Received from PRX  Received with summaryModel Null");
         } else {
 
