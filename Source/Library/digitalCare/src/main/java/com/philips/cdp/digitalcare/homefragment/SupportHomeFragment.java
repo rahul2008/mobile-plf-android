@@ -97,7 +97,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 false);
         mIsFirstScreenLaunch = true;
         mProductInfo = new ConsumerProductInfo();
-        DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
         DigitalCareConfigManager.getInstance().setConsumerProductInfo(mProductInfo);
         prefs = getActivity().getSharedPreferences(
                 USER_PREFERENCE, Context.MODE_PRIVATE);
@@ -294,11 +293,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 .getDimension(R.dimen.support_btn_height) * density));
 
         relativeLayout.setLayoutParams(params);
+        ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
 
         if (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))) {
             relativeLayout
                     .setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
             mProductChangeButton = (View) relativeLayout;
+           // if (isProductSelected() && !isSupportScreenLaunched)
             if (isProductSelected())
                 mProductChangeButton.setVisibility(View.GONE);
 
@@ -316,8 +317,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
         if (buttonTitle.equals(getStringKey(R.string.view_product_details))) {
             mProductViewProductButton = (View) relativeLayout;
-            ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-           /* if ((model.getCtnName() != null)
+                     /* if ((model.getCtnName() != null)
                     || (model.getProductName() != null))
                 mProductViewProductButton.setVisibility(View.VISIBLE);
             else
@@ -681,7 +681,17 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         DigiCareLogger.v(TAG, "Summary Response Received from PRX  Received");
 
         if (productSummaryModel == null) {
-            createMainMenu();
+            synchronized (this) {
+                createMainMenu();
+                if (isProductSelected() && !isSupportScreenLaunched) {
+                    ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+                    if ((model.getCtnName() == null)
+                            || (model.getProductName() == null))
+                        disablePrxDependentButtons();
+                }
+               /* if (isProductSelected())
+                    disablePrxDependentButtons();*/
+            }
             DigiCareLogger.v(TAG, "Summary Response Received from PRX  Received with summaryModel Null");
         } else {
 
