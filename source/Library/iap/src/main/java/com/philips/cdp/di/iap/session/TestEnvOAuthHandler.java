@@ -5,84 +5,102 @@
 
 package com.philips.cdp.di.iap.session;
 
-import android.content.Context;
-import android.util.Log;
+import android.os.Message;
 
-import com.google.gson.Gson;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
+import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.model.NewOAuthRequest;
+import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
+import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
+import java.util.HashMap;
 
 public class TestEnvOAuthHandler implements OAuthHandler {
+    private final String TAG = TestEnvOAuthHandler.class.getSimpleName();
 
     private String access_token;
-    private Context mContext;
-    private AbstractModel mModel;
+    private NewOAuthRequest mOAuthRequest;
+    private Store mStore;
 
-    public TestEnvOAuthHandler(Context context) {
-        mContext = context;
+    public TestEnvOAuthHandler() {
     }
 
     @Override
-    public String generateToken() {
-        sendOAuthRequest();
+    public String getAccessToken() {
+        if (mOAuthRequest == null) {
+            mStore = HybrisDelegate.getInstance().getStore();
+            mOAuthRequest = new NewOAuthRequest(mStore, null);
+        }
+        if (access_token == null) {
+            requestSyncOAuthToken();
+        }
         return access_token;
     }
 
-    public void setModel(AbstractModel model) {
-        mModel = model;
+    @Override
+    public void refreshToken(RequestListener listener) {
+        IAPLog.d(TAG,"requesting new access token using refreshtoken");
+        HashMap<String, String> params = new HashMap<>();
+        params.put(ModelConstants.REFRESH_TOKEN,mOAuthRequest.getrefreshToken());
+        RefreshOAuthRequest request = new RefreshOAuthRequest(mStore, params);
+        requestSyncRefreshToken(request, listener);
     }
-    // HTTP GET request
-    private void sendOAuthRequest() {
-        try {
-            URL obj = new URL(HybrisDelegate.getInstance(mContext).getStore().getOauthUrl());
-            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-            con.setRequestMethod("POST");
-            con.setHostnameVerifier(hostnameVerifier);
 
-            int responseCode = con.getResponseCode();
-
-            if (responseCode != 200) {
-                TokenErrorHandler handler = new TokenErrorHandler(mModel, null);
-                handler.proceedCallWithOAuth();
-                if (handler.getAccessToken() != null) {
-                    access_token = handler.getAccessToken();
-                    Log.d("Amit", "return access token" + Thread.currentThread().getName());
-                    return;
+    private void requestSyncOAuthToken() {
+        SynchronizedNetwork network = new SynchronizedNetwork(new IAPHurlStack(mOAuthRequest).getHurlStack());
+        network.performRequest(createOAuthRequest(mOAuthRequest), new SynchronizedNetworkCallBack() {
+            @Override
+            public void onSyncRequestSuccess(final Response response) {
+                if (response != null && response.result != null) {
+                    mOAuthRequest.parseResponse(response.result);
+                    access_token = mOAuthRequest.getAccessToken();
                 }
             }
-            InputStreamReader inputStreamReader = new InputStreamReader(con.getInputStream());
-            BufferedReader in = new BufferedReader(inputStreamReader);
-            String inputLine;
-            StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+            @Override
+            public void onSyncRequestError(final VolleyError volleyError) {
+                if(volleyError instanceof ServerError) {
+                    //Try generating new JanRain token.
+                    //Need to optimize this to handle other server errors
+                    mStore.refreshLoginSession();
+                    if(mStore.getUser().isTokenRefreshSuccessful()) {
+                        requestSyncOAuthToken();
+                    }
+
+                }
             }
-            in.close();
-            assignTokenFromResponse(response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
-    private void assignTokenFromResponse(final StringBuffer response) {
-        Gson gson = new Gson();
-        OAuthResponse result = gson.fromJson(response.toString(), OAuthResponse.class);
-        access_token = result.getAccessToken();
+    private void requestSyncRefreshToken(RefreshOAuthRequest requestModel, final RequestListener listener) {
+        SynchronizedNetwork network = new SynchronizedNetwork(new IAPHurlStack(mOAuthRequest).getHurlStack());
+        network.performRequest(createOAuthRequest(requestModel), new SynchronizedNetworkCallBack() {
+            @Override
+            public void onSyncRequestSuccess(final Response response) {
+                if (response != null && response.result != null) {
+                    mOAuthRequest.parseResponse(response.result);
+                    access_token = mOAuthRequest.getAccessToken();
+                    Message msg = Message.obtain();
+                    msg.obj = response;
+                    listener.onSuccess(msg);
+                }
+            }
+
+            @Override
+            public void onSyncRequestError(final VolleyError volleyError) {
+                Message msg = Message.obtain();
+                msg.obj = volleyError;
+                listener.onError(msg);
+            }
+        });
     }
 
-    private HostnameVerifier hostnameVerifier = new HostnameVerifier() {
-        @Override
-        public boolean verify(String hostname, SSLSession session) {
-            return hostname.contains("philips.com");
-        }
-    };
+    private IAPJsonRequest createOAuthRequest(final AbstractModel request) {
+        return new IAPJsonRequest(request.getMethod(), request.getUrl(),
+                request.requestBody(),null,null);
+    }
 }

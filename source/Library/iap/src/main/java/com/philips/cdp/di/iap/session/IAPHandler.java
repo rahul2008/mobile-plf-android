@@ -63,7 +63,7 @@ public class IAPHandler {
             @Override
             public void onError(final Message msg) {
                 if (iapHandlerListener != null) {
-                    iapHandlerListener.onFailure();
+                    iapHandlerListener.onFailure(getIAPErrorCode(msg));
                 }
             }
         });
@@ -87,7 +87,7 @@ public class IAPHandler {
             @Override
             public void onError(final Message msg) {
                 if (iapHandlerListener != null) {
-                    iapHandlerListener.onFailure();
+                    iapHandlerListener.onFailure(getIAPErrorCode(msg));
                 }
             }
         });
@@ -113,8 +113,7 @@ public class IAPHandler {
                     if (iapHandlerListener != null) {
                         iapHandlerListener.onSuccess(0);
                     }
-                }
-                else if (iapHandlerListener != null) {
+                } else if (iapHandlerListener != null) {
                     iapHandlerListener.onSuccess(0);
                 }
             }
@@ -122,7 +121,7 @@ public class IAPHandler {
             @Override
             public void onError(final Message msg) {
                 if (iapHandlerListener != null) {
-                    iapHandlerListener.onFailure();
+                    iapHandlerListener.onFailure(getIAPErrorCode(msg));
                 }
             }
         });
@@ -171,9 +170,16 @@ public class IAPHandler {
             @Override
             public void onError(final Message msg) {
                 if (iapHandlerListener != null) {
-                    iapHandlerListener.onFailure();
+                    iapHandlerListener.onFailure(getIAPErrorCode(msg));
                 }
             }
         });
+    }
+
+    private int getIAPErrorCode(Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            return ((IAPNetworkError) msg.obj).getIAPErrorCode();
+        }
+        return IAPConstant.IAP_ERROR_UNKNOWN;
     }
 }

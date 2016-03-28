@@ -1,5 +1,10 @@
 package com.philips.cdp.di.iap.session;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -20,12 +25,14 @@ public class IAPJsonRequest extends Request<JSONObject> {
     private Listener<JSONObject> mResponseListener;
     private ErrorListener mErrorListener;
     private Map<String, String> params;
+    private Handler mMainHandler;
 
     public IAPJsonRequest(int method, String url, Map<String, String> params,
                           Listener<JSONObject> responseListener, ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mResponseListener = responseListener;
         mErrorListener = errorListener;
+        mMainHandler = new Handler(Looper.getMainLooper());
         this.params = params;
     }
 
@@ -43,7 +50,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
 
             JSONObject result = null;
 
-            if (jsonString != null && jsonString.length() > 0)
+            if (jsonString.length() > 0)
                 result = new JSONObject(jsonString);
 
             return Response.success(result,
@@ -70,11 +77,64 @@ public class IAPJsonRequest extends Request<JSONObject> {
 
     @Override
     protected void deliverResponse(JSONObject response) {
-        mResponseListener.onResponse(response);
+        postSuccessResponseOnUIThread(response);
     }
 
     @Override
     public void deliverError(VolleyError error) {
-        mErrorListener.onErrorResponse(error);
+        handleMiscErrors(error);
+//        mErrorListener.onErrorResponse(error);
+    }
+
+    private void handleMiscErrors(final VolleyError error) {
+        if (error instanceof AuthFailureError) {
+            HybrisDelegate.getInstance().getNetworkController().refreshOAuthToken(new RequestListener() {
+                @Override
+                public void onSuccess(final Message msg) {
+                    postSelfAgain();
+                }
+
+                @Override
+                public void onError(final Message msg) {
+                    postVolleyErrorOnUIThread(error);
+                }
+            });
+        } else {
+            postVolleyErrorOnUIThread(error);
+        }
+    }
+
+    private void postSelfAgain() {
+        SynchronizedNetwork network = new SynchronizedNetwork(HybrisDelegate.getInstance()
+                .getNetworkController().mIAPHurlStack.getHurlStack());
+        network.performRequest(this, new SynchronizedNetworkCallBack() {
+            @Override
+            public void onSyncRequestSuccess(final Response<JSONObject> jsonObjectResponse) {
+                postSuccessResponseOnUIThread(jsonObjectResponse.result);
+            }
+
+            @Override
+            public void onSyncRequestError(final VolleyError volleyError) {
+                mErrorListener.onErrorResponse(volleyError);
+            }
+        });
+    }
+
+    private void postSuccessResponseOnUIThread(final JSONObject jsonObject) {
+        mMainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mResponseListener.onResponse(jsonObject);
+            }
+        });
+    }
+
+    private void postVolleyErrorOnUIThread(final VolleyError volleyError) {
+        mMainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mErrorListener.onErrorResponse(volleyError);
+            }
+        });
     }
 }

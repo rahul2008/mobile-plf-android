@@ -38,6 +38,8 @@ public class Store {
 
     private static final String SUFFIX_PLACE_ORDER = "/orders";
 
+    private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
+
     private StoreConfiguration mStoreConfig;
     private IAPUser mIAPUser;
 
@@ -56,6 +58,7 @@ public class Store {
     private String mCurrentCartUrl;
 
     private String mOauthUrl;
+    private String mOauthRefreshUrl;
     private String mGetCartUrl;
 
     public Store(Context context) {
@@ -116,6 +119,9 @@ public class Store {
         mDeliveryModeUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_MODE);
         mDeliveryAddressUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_ADDRESS);
         mSetPaymentDetails = mCurrentCartUrl.concat(SUFFIX_SET_PAYMENT_DETAILS);
+
+        mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
+                            .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
     }
 
     //Package level access
@@ -126,6 +132,10 @@ public class Store {
 
     public String getOauthUrl() {
         return mOauthUrl;
+    }
+
+    public String getOauthRefreshUrl() {
+        return mOauthRefreshUrl;
     }
 
     public String getJanRainEmail() {
@@ -183,5 +193,9 @@ public class Store {
 
     public String getSetPaymentDetailsUrl() {
         return mSetPaymentDetails;
+    }
+
+    public void refreshLoginSession() {
+        mIAPUser.refreshLoginSession();
     }
 }

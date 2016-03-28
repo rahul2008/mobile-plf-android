@@ -16,20 +16,21 @@ public class SynchronizedNetwork {
     private BasicNetwork mBasicNetwork;
 
     public SynchronizedNetwork(HurlStack stack) {
-        HurlStack hurlStack = null;
+        HurlStack hurlStack = stack;
         if (stack == null) {
             hurlStack = new HurlStack();
         }
-        mBasicNetwork = new BasicNetwork(stack);
+        mBasicNetwork = new BasicNetwork(hurlStack);
     }
 
-    public void performRequest(IAPJsonRequest request) {
+    public void performRequest(IAPJsonRequest request, SynchronizedNetworkCallBack callBack) {
         try {
             NetworkResponse response = mBasicNetwork.performRequest(request);
             Response<JSONObject> jsonObjectResponse = request.parseNetworkResponse(response);
-            request.deliverResponse(jsonObjectResponse.result);
+            callBack.onSyncRequestSuccess(jsonObjectResponse);
+
         } catch (VolleyError volleyError) {
-            request.deliverError(volleyError);
+            callBack.onSyncRequestError(volleyError);
         }
     }
 }

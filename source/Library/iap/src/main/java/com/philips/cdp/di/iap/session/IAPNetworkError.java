@@ -1,24 +1,24 @@
 package com.philips.cdp.di.iap.session;
 
-import android.content.Context;
 import android.os.Message;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.response.error.ServerError;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public class IAPNetworkError implements IAPNetworkErrorListener {
 
-    ServerError mServerError = null;
-    VolleyError mVolleyError = null;
-    Context mContext;
+    private ServerError mServerError;
+    private VolleyError mVolleyError;
+    private int mIAPErrorCode = IAPConstant.IAP_SUCCESS;
 
-    public IAPNetworkError(Context context, VolleyError error, int requestCode,
+    public IAPNetworkError(VolleyError error, int requestCode,
                            RequestListener requestListener) {
-        mContext = context;
+        initErrorCode(error);
         if (error instanceof com.android.volley.ServerError) {
             setServerError(error);
         } else {
@@ -30,28 +30,43 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
         requestListener.onError(msg);
     }
 
+    private void initErrorCode(final VolleyError error) {
+        if (error instanceof NoConnectionError) {
+            mIAPErrorCode = IAPConstant.IAP_ERROR_NO_CONNECTION;
+        } else if (error instanceof AuthFailureError) {
+            mIAPErrorCode = IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE;
+        } else if (error instanceof TimeoutError) {
+            mIAPErrorCode = IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT;
+        } else if (error instanceof com.android.volley.ServerError) {
+            mIAPErrorCode = IAPConstant.IAP_ERROR_SERVER_ERROR;
+        } else {
+            mIAPErrorCode = IAPConstant.IAP_ERROR_UNKNOWN;
+        }
+    }
+
     @Override
     public String getMessage() {
         if (mServerError != null) {
             return mServerError.getErrors().get(0).getMessage();
         } else if (mVolleyError != null) {
-            if (mVolleyError instanceof NoConnectionError) {
-                return mContext.getString(R.string.iap_check_connection);
-            } else if (mVolleyError instanceof TimeoutError) {
-                return mContext.getString(R.string.iap_time_out_error);
-            } else {
-                return mVolleyError.getMessage();
-            }
-        } else {
-            return mContext.getString(R.string.iap_something_went_wrong);
+            return mVolleyError.getMessage();
         }
+        return null;
     }
 
     @Override
     public int getStatusCode() {
         if (mVolleyError.networkResponse != null)
             return mVolleyError.networkResponse.statusCode;
-        return 0;
+        return mIAPErrorCode;
+    }
+
+    public void setIAPErrorCode(int code) {
+        mIAPErrorCode = code;
+    }
+
+    public int getIAPErrorCode() {
+        return mIAPErrorCode;
     }
 
     private void setServerError(VolleyError error) {
@@ -61,10 +76,6 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
             }
         } catch (Exception e) {
-            if(error instanceof TimeoutError) {
-                mVolleyError = error;
-                mServerError = null;
-            }
             e.printStackTrace();
         }
     }

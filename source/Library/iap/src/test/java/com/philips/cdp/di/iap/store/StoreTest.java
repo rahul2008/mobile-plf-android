@@ -76,9 +76,9 @@ import static org.mockito.Mockito.when;
         OAuthHandler oAuth = Mockito.mock(OAuthHandler.class);
         store.setAuthHandler(oAuth);
         Mockito.when(store.getAuthToken()).thenReturn("dummyToken");
-        Mockito.when(oAuth.generateToken(context,"userid","janRaindID")).thenReturn("dummyToken");
+        Mockito.when(oAuth.getAccessToken(context,"userid","janRaindID")).thenReturn("dummyToken");
 
-        assertEquals(store.getAuthToken(),oAuth.generateToken(context,"userid","janRaindID"));
+        assertEquals(store.getAuthToken(),oAuth.getAccessToken(context,"userid","janRaindID"));
     }*/
 
 //    private Store getStore() {

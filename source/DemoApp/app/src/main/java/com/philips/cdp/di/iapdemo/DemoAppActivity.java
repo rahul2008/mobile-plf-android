@@ -2,15 +2,18 @@ package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.registration.User;
@@ -125,22 +128,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         }
     }
 
-/*    public void onAddItemToCart(final Message msg) {
-        if (msg.obj instanceof AddToCartData) {
-            AddToCartData addToCartData = (AddToCartData) msg.obj;
-            if (addToCartData.getStatusCode().equalsIgnoreCase("success")) {
-                mIapHandler.getProductCartCount(this, this);
-            } else if (addToCartData.getStatusCode().equalsIgnoreCase("noStock")) {
-                Toast.makeText(this, getString(R.string.no_stock), Toast.LENGTH_SHORT).show();
-                Utility.dismissProgressDialog();
-            }
-        } else if (msg.obj instanceof IAPNetworkError) {
-            IAPNetworkError error = (IAPNetworkError) msg.obj;
-            Utility.dismissProgressDialog();
-            Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }*/
-
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         mShoppingCart.setVisibility(View.VISIBLE);
@@ -181,8 +168,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         }
 
         @Override
-        public void onFailure() {
+        public void onFailure(final int errorCode) {
             Utility.dismissProgressDialog();
+            showToast(errorCode);
         }
     };
 
@@ -199,8 +187,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         }
 
         @Override
-        public void onFailure() {
+        public void onFailure(final int errorCode) {
             Utility.dismissProgressDialog();
+            showToast(errorCode);
         }
     };
 
@@ -211,8 +200,23 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         }
 
         @Override
-        public void onFailure() {
+        public void onFailure(final int errorCode) {
             Utility.dismissProgressDialog();
+            showToast(errorCode);
         }
     };
+
+    private void showToast(int errorCode) {
+        String errorText = "Unkown error";
+        if(IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
+            errorText = "No connection";
+        } else if(IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
+            errorText = "Connection time out";
+        } else if(IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
+            errorText = "Authentication failure";
+        }
+        Toast toast = Toast.makeText(this,errorText,Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.show();
+    }
 }

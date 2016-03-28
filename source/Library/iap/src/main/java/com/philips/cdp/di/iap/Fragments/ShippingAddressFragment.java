@@ -271,11 +271,10 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError(mEtCountry);
             mBtnContinue.setEnabled(false);
-        } else if(error!= null && error.getMessage() != null) {
+        } else if (error != null && error.getMessage() != null) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), error.getMessage());
-        }
-        else {
+        } else {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
@@ -463,7 +462,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
         addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
-        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, Boolean.FALSE.toString());
+        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
         return addressHashMap;
