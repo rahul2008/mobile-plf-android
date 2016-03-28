@@ -299,7 +299,12 @@ public class CoppaExtension implements CoppaExtensionHandler {
     }
 
     public void updateCoppaConsentConfirmationStatus(final Context mContext, final boolean coppaConsentStatus, final CoppaConsentUpdateCallback coppaConsentUpdateCallback){
-        new CoppaConsentUpdater(mContext).updateCoppaConsentConfirmationStatus(coppaConsentStatus,coppaConsentUpdateCallback);
+        new CoppaConsentUpdater(mContext).updateCoppaConsentConfirmationStatus(coppaConsentStatus, coppaConsentUpdateCallback);
+    }
+
+    public Consent getConsent(){
+        CoppaConfiguration.getCoopaConfigurationFlields(Jump.getSignedInUser());
+        return CoppaConfiguration.getConsent();
     }
 
 
