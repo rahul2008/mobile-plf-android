@@ -114,7 +114,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             if (mCtn.getText().toString().equalsIgnoreCase("")) {
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_signed_in), Toast.LENGTH_SHORT).show();
                 mRegChannel.setText(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
                 registerProduct();
             }
