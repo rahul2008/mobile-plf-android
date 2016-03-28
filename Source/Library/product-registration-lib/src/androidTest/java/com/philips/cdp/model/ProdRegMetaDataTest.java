@@ -26,5 +26,10 @@ public class ProdRegMetaDataTest extends TestCase {
         assertEquals(data, prodRegMetaData.getData());
 
     }
+    public void testSetData() throws Exception {
+        prodRegMetaData.setData(data);
+        assertEquals(data, prodRegMetaData.getData());
+
+    }
 
 }

@@ -26,8 +26,19 @@ public class ProdRegRegisteredDataResponseTest extends TestCase {
         assertEquals(results, prodRegRegisteredDataResponse.getResults());
 
     }
+    public void testSetResults() throws Exception {
+
+        prodRegRegisteredDataResponse.setResults(results);
+        assertEquals(results, prodRegRegisteredDataResponse.getResults());
+
+    }
 
     public void testGetResult_count() throws Exception {
+        prodRegRegisteredDataResponse.setResult_count("2");
+        assertEquals("2", prodRegRegisteredDataResponse.getResult_count());
+
+    }
+    public void testSetResult_count() throws Exception {
         prodRegRegisteredDataResponse.setResult_count("2");
         assertEquals("2", prodRegRegisteredDataResponse.getResult_count());
 

@@ -24,4 +24,9 @@ public class ProdRegResponseTest extends TestCase {
         assertEquals(data, prodRegResponse.getData());
 
     }
+    public void testSetData() throws Exception {
+        prodRegResponse.setData(data);
+        assertEquals(data, prodRegResponse.getData());
+
+    }
 }
