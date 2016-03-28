@@ -37,7 +37,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private String mMonth, mDate;
     private String[] mEditDisplayDate;
     private String mGetDeviceDate;
-    private Date mDisplayDate, mDeviceDate, mPastdate;
+    private Date mDisplayDate, mDeviceDate;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -119,7 +119,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 registerProduct();
             }
         } else {
-            Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_signed_in), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_not_signed), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "On Click : User Registration");
             RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
             Util.navigateFromUserRegistration();
