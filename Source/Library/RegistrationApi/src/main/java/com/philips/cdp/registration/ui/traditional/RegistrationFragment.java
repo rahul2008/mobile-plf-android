@@ -197,6 +197,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         }
     }
 
+    public Fragment  getWelcomeFragment(){
+        return   mFragmentManager.findFragmentByTag(AppTaggingPages.WELCOME);
+    }
+
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
 
@@ -270,7 +274,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         navigateToHome();
         try {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, AppTaggingPages.WELCOME);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
@@ -295,13 +299,13 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     public void addWelcomeFragmentOnVerification() {
         navigateToHome();
         WelcomeFragment welcomeFragment = new WelcomeFragment();
-        replaceFragment(welcomeFragment);
+        replaceFragment(welcomeFragment,AppTaggingPages.WELCOME);
     }
 
-    public void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment,String fragmentTag) {
         try {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, fragmentTag);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
@@ -315,7 +319,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         try {
             WelcomeFragment welcomeFragment = new WelcomeFragment();
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment);
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment,AppTaggingPages.WELCOME);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,

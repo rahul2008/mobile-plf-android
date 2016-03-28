@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.registration.coppa.ui.Activity.RegistrationActivity;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
+import com.philips.cdp.registration.events.UserRegistrationHelper;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -64,15 +66,25 @@ public class RegistrationLaunchHelper {
             } catch (ClassCastException e) {
                 RLog.d("known exception", e.toString());
 
+                RegistrationFragment registrationFragment = (RegistrationFragment) fragment;
+
+                boolean isWelcomeFragment = false;
+               if(registrationFragment.getWelcomeFragment()!=null){
+                   System.out.println( "Welcome found ");
+                   isWelcomeFragment =true;
+
+               }
 
 
-                if (((RegistrationFragment) fragment).onBackPressed()) {
+                if (registrationFragment.onBackPressed()) {
 
 
                     //true for restricting Login @ login screen need to think and do
 
                       //  return false;
-
+                    if(isWelcomeFragment) {
+                        return true;
+                    }
 
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.remove(fragment);
@@ -108,4 +120,16 @@ public class RegistrationLaunchHelper {
         registrationIntent.putExtras(bundle);
         context.startActivity(registrationIntent);
     }
+
+
+    public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
+        UserRegistrationHelper.getInstance().registerEventNotification(userRegistrationListener);
+    }
+
+    public void unRegisterUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
+        UserRegistrationHelper.getInstance().unregisterEventNotification(userRegistrationListener);
+    }
+
+
+
 }
