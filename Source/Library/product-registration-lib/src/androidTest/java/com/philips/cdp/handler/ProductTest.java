@@ -2,6 +2,7 @@ package com.philips.cdp.handler;
 
 import com.philips.cdp.MockitoTestCase;
 import com.philips.cdp.backend.ProdRegRequestInfo;
+import com.philips.cdp.backend.Product;
 import com.philips.cdp.error.ErrorType;
 import com.philips.cdp.model.ProdRegMetaDataResponse;
 import com.philips.cdp.prxclient.response.ResponseData;

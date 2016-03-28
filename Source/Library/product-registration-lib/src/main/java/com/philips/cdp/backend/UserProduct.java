@@ -1,14 +1,11 @@
-package com.philips.cdp.handler;
+package com.philips.cdp.backend;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.backend.PRXDataBuilderFactory;
-import com.philips.cdp.backend.PRXRequestType;
-import com.philips.cdp.backend.ProdRegRequestInfo;
-import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;

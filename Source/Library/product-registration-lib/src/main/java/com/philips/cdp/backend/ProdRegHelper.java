@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.error.ErrorType;
 import com.philips.cdp.handler.ProdRegListener;
-import com.philips.cdp.handler.Product;
-import com.philips.cdp.handler.UserProduct;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProdRegRegisteredDataResponse;
