@@ -1,12 +1,10 @@
-package com.philips.cdp.handler;
+package com.philips.cdp.backend;
 
 import android.content.Context;
 
 import com.philips.cdp.MockitoTestCase;
-import com.philips.cdp.backend.ProdRegConstants;
-import com.philips.cdp.backend.ProdRegRequestInfo;
-import com.philips.cdp.backend.UserProduct;
 import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import static org.mockito.Mockito.mock;
