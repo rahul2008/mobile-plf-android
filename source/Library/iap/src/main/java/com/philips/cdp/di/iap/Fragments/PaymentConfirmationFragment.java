@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +20,12 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 
 public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
+    private TextView mConfirmationText;
+    private TextView mOrderText;
     private TextView mOrderNumber;
-    private TextView mConfimWithEmail;
+    private TextView mConfirmWithEmail;
     private Context mContext;
+    private boolean mPaymentSuccessful;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -47,35 +51,75 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
     @Override
     public void onBackPressed() {
-        finishActivity();
+        handleExit(true);
     }
 
     private void assignValues() {
         Bundle arguments = getArguments();
+        mPaymentSuccessful = arguments.getBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, false);
+        if (mPaymentSuccessful) {
+            updatePaymentSuccessUI(arguments);
+        } else {
+            updatePaymentFailureUI();
+        }
+    }
+
+    private void updatePaymentFailureUI() {
+        setConfirmationTitle(R.string.iap_payment_failed);
+        mOrderText.setVisibility(View.INVISIBLE);
+        mOrderNumber.setVisibility(View.INVISIBLE);
+        mConfirmWithEmail.setVisibility(View.INVISIBLE);
+    }
+
+    private void updatePaymentSuccessUI(final Bundle arguments) {
         if (arguments != null) {
             if (arguments.containsKey(ModelConstants.ORDER_NUMBER)) {
                 mOrderNumber.setText(arguments.getString(ModelConstants.ORDER_NUMBER));
             }
             String email = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
-            if(arguments.containsKey(ModelConstants.EMAIL_ADDRESS)) {
+            if (arguments.containsKey(ModelConstants.EMAIL_ADDRESS)) {
                 email = arguments.getString(ModelConstants.EMAIL_ADDRESS);
             }
             String emailConfirmation = String.format(mContext.getString(R.string
                     .iap_confirmation_email_msg), email);
-            mConfimWithEmail.setText(emailConfirmation);
+            mConfirmWithEmail.setText(emailConfirmation);
+            setConfirmationTitle(R.string.iap_thank_for_order);
         }
     }
 
+    private void setConfirmationTitle(final int iap_thank_for_order) {
+        mConfirmationText.setText(iap_thank_for_order);
+    }
+
     private void bindViews(ViewGroup viewGroup) {
+        mConfirmationText = (TextView) viewGroup.findViewById(R.id.tv_thank);
+        mOrderText = (TextView) viewGroup.findViewById(R.id.tv_your_order_num);
         mOrderNumber = (TextView) viewGroup.findViewById(R.id.tv_order_num);
-        mConfimWithEmail = (TextView) viewGroup.findViewById(R.id.tv_confirm_email);
+        mConfirmWithEmail = (TextView) viewGroup.findViewById(R.id.tv_confirm_email);
         final Button mOKButton = (Button) viewGroup.findViewById(R.id.tv_confirm_ok);
         mOKButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                finishActivity();
+                handleExit(false);
             }
         });
+    }
+
+    private void handleExit(final boolean isBackPressed) {
+        if (mPaymentSuccessful) {
+            finishActivity();
+        } else {
+            goBackToOrderSummary(isBackPressed);
+        }
+    }
+
+    private void goBackToOrderSummary(boolean isBackPressed) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.remove(this);
+        transaction.commitAllowingStateLoss();
+        if (!isBackPressed) {
+            getActivity().getSupportFragmentManager().popBackStackImmediate();
+        }
     }
 
     public static PaymentConfirmationFragment createInstance(final Bundle bundle, final AnimationType animType) {
