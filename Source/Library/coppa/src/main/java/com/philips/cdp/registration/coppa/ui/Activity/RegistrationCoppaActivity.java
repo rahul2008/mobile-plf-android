@@ -165,7 +165,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     @Override
     public void updateRegistrationTitleWithOutBack(int titleResourceID) {
         // update title and show back
-        ivBack.setVisibility(View.INVISIBLE);
+        //ivBack.setVisibility(View.INVISIBLE);
         TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         tvTitle.setText(getString(titleResourceID));
     }

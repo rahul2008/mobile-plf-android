@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.janrain.android.Jump;
-import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
@@ -41,7 +40,6 @@ import com.philips.cdp.registration.ui.traditional.SignInAccountFragment;
 import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.dhpclient.BuildConfig;
 
@@ -138,27 +136,28 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private boolean handleBackStack() {
         int count = mFragmentManager.getBackStackEntryCount();
-
         RLog.i("Back count ", "" + count);
-
         if (count == 0) {
-            return true;
+            return false;
         }
         Fragment fragment = mFragmentManager.getFragments().get(count);
-        if (fragment instanceof WelcomeFragment) {
-            navigateToHome();
-            trackPage(AppTaggingPages.HOME);
-        } else {
-            if (fragment instanceof AlmostDoneFragment) {
-                ((AlmostDoneFragment) (fragment)).clearUserData();
+        if (fragment != null && fragment instanceof RegistrationFragment) {
+            boolean isRegFragHandledBack = ((RegistrationFragment) fragment).onBackPressed();
+            //true  not consumed
+            //false  consumed
+            if (isRegFragHandledBack) {
+                //Message for killing fragmet app but by pass this condition not
+                if (count >= 1) {
+                    mFragmentManager.popBackStack();
+                    return true;
+                } else {
+                    return false;
+                }
             }
-            trackHandler();
+        } else {
             mFragmentManager.popBackStack();
         }
-        if (fragment instanceof AccountActivationFragment) {
-            RegUtility.setCreateAccountStartTime(System.currentTimeMillis());
-        }
-        return false;
+        return true;
     }
 
     private void trackHandler() {
@@ -487,14 +486,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         return titleResourceID;
     }
 
-    public boolean isUserSignIn(Context context) {
-        CaptureRecord captured = CaptureRecord.loadFromDisk(context);
-        if (captured == null) {
-            return false;
-        }
-        return true;
-    }
-
 
     public void launchRegistrationFragment(boolean isAccountSettings) {
         try {
@@ -504,10 +495,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(mRegistrationUpdateTitleListener);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-
+            fragmentTransaction.addToBackStack(registrationFragment.getTag());
             fragmentTransaction.add(R.id.fl_reg_fragment_container, registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
-
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,

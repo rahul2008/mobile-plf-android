@@ -7,14 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class RegistrationCoppaLaunchHelper {
@@ -54,52 +51,15 @@ public class RegistrationCoppaLaunchHelper {
 
 
     public static boolean isBackEventConsumedByRegistration(FragmentActivity fragmentActivity) {
+
+        //true consimned
+        //false not consumed
+
         FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
         Fragment fragment = fragmentManager
                 .findFragmentByTag(RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
         if (fragment != null) {
-
-            try {
-                if (((RegistrationCoppaFragment) fragment).onBackPressed()) {
-                    return false;
-                }
-            } catch (ClassCastException e) {
-                RLog.d("known exception", e.toString());
-
-                RegistrationFragment registrationFragment = (RegistrationFragment) fragment;
-
-                boolean isWelcomeFragment = false;
-                if (registrationFragment.getWelcomeFragment() != null) {
-                    System.out.println("Welcome found ");
-                    isWelcomeFragment = true;
-
-                }
-
-
-                if (registrationFragment.onBackPressed()) {
-
-
-                    //true for restricting Login @ login screen need to think and do
-
-                    //  return false;
-                  /*  if (isWelcomeFragment) {
-                        return true;
-                    }*/
-
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.remove(fragment);
-                    fragmentTransaction.commitAllowingStateLoss();
-                    // return true;
-
-
-                    // mFragmentManager.popBackStack();
-
-
-                    // return false;
-                }
-            }
-
-
+            return ((RegistrationCoppaFragment) fragment).onBackPressed();
         }
         return true;
     }
