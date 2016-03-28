@@ -29,37 +29,40 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 public class NetworkUtility {
 
     private static NetworkUtility mNetworkUtility;
-    private static ErrorDialogFragment mModalAlertDemoFragment;
+    private ErrorDialogFragment mModalAlertDemoFragment;
     private boolean isOnline;
 
     public static NetworkUtility getInstance() {
         synchronized (NetworkUtility.class) {
             if (mNetworkUtility == null) {
                 mNetworkUtility = new NetworkUtility();
-                mModalAlertDemoFragment = new ErrorDialogFragment();
             }
         }
         return mNetworkUtility;
     }
 
     public void dismissErrorDialog() {
-        if (mModalAlertDemoFragment.isAdded())
+        if (null != mModalAlertDemoFragment && mModalAlertDemoFragment.isAdded()) {
             mModalAlertDemoFragment.dismissAllowingStateLoss();
+            mModalAlertDemoFragment = null;
+        }
     }
 
     public void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
+
+        if (mModalAlertDemoFragment != null && mModalAlertDemoFragment.isAdded())
+            return;
+
+        if (mModalAlertDemoFragment == null)
+            mModalAlertDemoFragment = new ErrorDialogFragment();
+
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
         bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
         bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
-        //In case Fragment is active already here exception is thrown
-        try {
-            mModalAlertDemoFragment.setArguments(bundle);
-            mModalAlertDemoFragment.show(pFragmentManager, "dialog");
-        } catch (Exception e) {
-            if (mModalAlertDemoFragment.isAdded())
-                mModalAlertDemoFragment.dismiss();
-        }
+
+        mModalAlertDemoFragment.setArguments(bundle);
+        mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
     }
 
     public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
