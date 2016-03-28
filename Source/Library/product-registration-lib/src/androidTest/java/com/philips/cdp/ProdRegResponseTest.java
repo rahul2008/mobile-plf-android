@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.philips.cdp.model.ProdRegData;
 import com.philips.cdp.model.ProdRegResponse;
-import com.philips.cdp.productrequest.RegistrationRequest;
+import com.philips.cdp.prxrequest.RegistrationRequest;
 
 import org.json.JSONObject;
 import org.junit.Test;

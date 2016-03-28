@@ -1,4 +1,4 @@
-package com.philips.cdp.productrequest;
+package com.philips.cdp.prxrequest;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;

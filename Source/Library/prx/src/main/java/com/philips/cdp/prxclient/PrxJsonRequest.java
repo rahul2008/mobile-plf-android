@@ -16,13 +16,13 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-public class PrxVolleyRequest extends Request<JSONObject> {
+public class PrxJsonRequest extends Request<JSONObject> {
 
     private Listener<JSONObject> mResponseListener;
     private ErrorListener mErrorListener;
     private Map<String, String> params, headers;
 
-    public PrxVolleyRequest(final int method, final String url, final Map<String, String> params, final Map<String, String> headers, Response.Listener<JSONObject> responseListener, final Response.ErrorListener errorListener) {
+    public PrxJsonRequest(final int method, final String url, final Map<String, String> params, final Map<String, String> headers, Response.Listener<JSONObject> responseListener, final Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mErrorListener = errorListener;
         this.params = params;

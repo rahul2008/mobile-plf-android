@@ -1,9 +1,9 @@
 package com.philips.cdp.backend;
 
-import com.philips.cdp.productrequest.ProductMetaRequest;
-import com.philips.cdp.productrequest.RegisteredRequest;
-import com.philips.cdp.productrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
+import com.philips.cdp.prxrequest.ProductMetadataRequest;
+import com.philips.cdp.prxrequest.RegisteredRequest;
+import com.philips.cdp.prxrequest.RegistrationRequest;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -14,11 +14,11 @@ public class PRXDataBuilderFactory {
     public PrxRequest createPRXBuilder(PRXRequestType prxRequestType, ProdRegRequestInfo prodRegRequestInfo, final String accessToken) {
         switch (prxRequestType.getValue()) {
             case 0:
-                ProductMetaRequest productMetaRequest = new ProductMetaRequest(prodRegRequestInfo.getCtn());
-                productMetaRequest.setSector(prodRegRequestInfo.getSector());
-                productMetaRequest.setCatalog(prodRegRequestInfo.getCatalog());
-                productMetaRequest.setmLocale(prodRegRequestInfo.getLocale());
-                return productMetaRequest;
+                ProductMetadataRequest productMetadataRequest = new ProductMetadataRequest(prodRegRequestInfo.getCtn());
+                productMetadataRequest.setSector(prodRegRequestInfo.getSector());
+                productMetadataRequest.setCatalog(prodRegRequestInfo.getCatalog());
+                productMetadataRequest.setmLocale(prodRegRequestInfo.getLocale());
+                return productMetadataRequest;
             case 1:
                 RegistrationRequest registrationRequest = new RegistrationRequest(prodRegRequestInfo.getCtn(), prodRegRequestInfo.getSerialNumber(), accessToken);
                 registrationRequest.setSector(prodRegRequestInfo.getSector());

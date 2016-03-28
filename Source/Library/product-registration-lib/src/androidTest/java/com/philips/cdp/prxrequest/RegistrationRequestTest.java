@@ -1,4 +1,4 @@
-package com.philips.cdp.productrequest;
+package com.philips.cdp.prxrequest;
 
 import junit.framework.TestCase;
 

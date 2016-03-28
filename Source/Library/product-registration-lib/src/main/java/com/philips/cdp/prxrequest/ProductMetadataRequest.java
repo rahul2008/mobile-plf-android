@@ -1,4 +1,4 @@
-package com.philips.cdp.productrequest;
+package com.philips.cdp.prxrequest;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -18,11 +18,11 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProductMetaRequest extends PrxRequest {
+public class ProductMetadataRequest extends PrxRequest {
 
     private String mCtn = null;
 
-    public ProductMetaRequest(String ctn) {
+    public ProductMetadataRequest(String ctn) {
         this.mCtn = ctn;
     }
 

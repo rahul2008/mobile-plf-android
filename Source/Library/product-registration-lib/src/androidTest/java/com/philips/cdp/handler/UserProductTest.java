@@ -31,7 +31,6 @@ public class UserProductTest extends MockitoTestCase {
         final ProdRegListener listener = new ProdRegListener() {
             @Override
             public void onProdRegSuccess(final ResponseData responseData) {
-
             }
 
             @Override
