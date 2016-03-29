@@ -8,7 +8,7 @@ import org.junit.Test;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class DataTest extends InstrumentationTestCase {
+public class ProdRegDataTest extends InstrumentationTestCase {
 
     ProdRegData dataTest;
 

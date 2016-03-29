@@ -8,7 +8,7 @@ import org.junit.Test;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ResultsTest extends TestCase {
+public class ProdRegRegisteredResultsTest extends TestCase {
 
     ProdRegRegisteredResults resultsTest;
 

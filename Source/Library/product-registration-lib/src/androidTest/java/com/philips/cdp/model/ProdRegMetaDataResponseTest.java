@@ -8,7 +8,7 @@ import org.junit.Test;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProductDataTest extends TestCase {
+public class ProdRegMetaDataResponseTest extends TestCase {
 
     ProdRegMetaDataResponse productDataTest;
 
