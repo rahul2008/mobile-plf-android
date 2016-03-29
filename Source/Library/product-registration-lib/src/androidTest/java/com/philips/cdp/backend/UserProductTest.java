@@ -3,7 +3,8 @@ package com.philips.cdp.backend;
 import android.content.Context;
 
 import com.philips.cdp.MockitoTestCase;
-import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ErrorType;
+import com.philips.cdp.handler.ProdRegConstants;
 import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.prxclient.response.ResponseData;
 

@@ -3,7 +3,8 @@ package com.philips.cdp.backend;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ErrorType;
+import com.philips.cdp.handler.PRXRequestType;
 import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.model.ProdRegMetaData;
 import com.philips.cdp.model.ProdRegMetaDataResponse;

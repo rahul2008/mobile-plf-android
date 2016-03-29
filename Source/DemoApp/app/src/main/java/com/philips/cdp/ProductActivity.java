@@ -9,11 +9,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.philips.cdp.backend.ProdRegConstants;
+import com.philips.cdp.handler.ProdRegConstants;
 import com.philips.cdp.backend.ProdRegHelper;
 import com.philips.cdp.backend.ProdRegRequestInfo;
 import com.philips.cdp.demo.R;
-import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ErrorType;
 import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;

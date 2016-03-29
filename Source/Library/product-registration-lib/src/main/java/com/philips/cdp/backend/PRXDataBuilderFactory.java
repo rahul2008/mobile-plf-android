@@ -1,5 +1,6 @@
 package com.philips.cdp.backend;
 
+import com.philips.cdp.handler.PRXRequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxrequest.ProductMetadataRequest;
 import com.philips.cdp.prxrequest.RegisteredRequest;

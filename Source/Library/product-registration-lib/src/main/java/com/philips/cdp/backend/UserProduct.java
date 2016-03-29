@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ErrorType;
+import com.philips.cdp.handler.PRXRequestType;
+import com.philips.cdp.handler.ProdRegConstants;
 import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
