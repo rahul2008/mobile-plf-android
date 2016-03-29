@@ -8,7 +8,7 @@ import org.junit.Test;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SerialNumberSampleContentTest extends TestCase {
+public class ProdRegSerNumbSampleContentTest extends TestCase {
 
     ProdRegSerNumbSampleContent serialNumberSampleContentTest;
 
