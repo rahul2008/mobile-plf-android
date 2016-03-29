@@ -33,6 +33,7 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
                     android:text="@string/Coppa_Confirm_Approval_Title_txt"
+                    android:visibility="gone"
                     android:paddingLeft="0dip"
                     android:textColor="@color/reg_coppa_confirm_title_color"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
@@ -42,6 +43,7 @@
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
+                    android:visibility="gone"
                     android:text="@string/Coppa_Confirm_Approval_Content_txt"
                     android:textSize="@dimen/reg_coppa_text_size"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
@@ -50,6 +52,7 @@
                     android:id="@+id/reg_btn_agree"
                     style="@style/reg_style_btn"
                     android:enabled="true"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/reg_margin_bottom"
                     android:text="@string/Coppa_Agree"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
@@ -60,6 +63,7 @@
                     android:enabled="true"
                     android:background="@drawable/reg_btn_forgot_selector"
                     android:layout_marginTop="@dimen/reg_margin_bottom"
+                    android:visibility="gone"
                     android:text="@string/Coppa_Disagree"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>

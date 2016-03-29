@@ -307,6 +307,10 @@ public class CoppaExtension implements CoppaExtensionHandler {
         return CoppaConfiguration.getConsent();
     }
 
+    public void buildConfiguration(){
+        CoppaConfiguration.getCoopaConfigurationFlields(Jump.getSignedInUser());
+    }
+
 
 
 }
