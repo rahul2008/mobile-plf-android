@@ -25,12 +25,11 @@ import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
-import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ErrorType;
 import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProdRegResponse;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
@@ -197,8 +196,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void registerProduct() {
-        PrxLogger.enablePrxLogger(true);
-
         ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(mCtn.getText().toString(), mSerial_number.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.setLocale("en", "GB");

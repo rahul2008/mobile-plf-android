@@ -1,4 +1,4 @@
-package com.philips.cdp.core;
+package com.philips.cdp.handler;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

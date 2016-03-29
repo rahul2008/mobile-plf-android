@@ -1,10 +1,11 @@
 package com.philips.cdp.backend;
 
 import com.philips.cdp.MockitoTestCase;
-import com.philips.cdp.productrequest.ProductMetaRequest;
-import com.philips.cdp.productrequest.RegisteredRequest;
-import com.philips.cdp.productrequest.RegistrationRequest;
+import com.philips.cdp.handler.PRXRequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
+import com.philips.cdp.prxrequest.ProductMetadataRequest;
+import com.philips.cdp.prxrequest.RegisteredRequest;
+import com.philips.cdp.prxrequest.RegistrationRequest;
 
 import org.junit.Test;
 
@@ -26,7 +27,7 @@ public class PRXDataBuilderFactoryTest extends MockitoTestCase {
         PRXDataBuilderFactory prxDataBuilderFactory = new PRXDataBuilderFactory();
         ProdRegRequestInfo prodRegRequestInfo = mock(ProdRegRequestInfo.class);
         PrxRequest prxRequest = prxDataBuilderFactory.createPRXBuilder(PRXRequestType.METADATA, prodRegRequestInfo, "abcd1234");
-        assertTrue(prxRequest instanceof ProductMetaRequest);
+        assertTrue(prxRequest instanceof ProductMetadataRequest);
         PrxRequest prxRequest1 = prxDataBuilderFactory.createPRXBuilder(PRXRequestType.FETCH_PRODUCTS, prodRegRequestInfo, "abcd1234");
         assertTrue(prxRequest1 instanceof RegisteredRequest);
         PrxRequest prxRequest2 = prxDataBuilderFactory.createPRXBuilder(PRXRequestType.REGISTRATION, prodRegRequestInfo, "abcd1234");

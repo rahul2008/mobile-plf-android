@@ -9,10 +9,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
-import com.philips.cdp.prxclient.PrxVolleyRequest;
+import com.philips.cdp.prxclient.PrxJsonRequest;
 import com.philips.cdp.prxclient.SSLCertificateManager;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -39,7 +37,7 @@ public class NetworkWrapper {
         mVolleyRequest = Volley.newRequestQueue(mContext);
     }
 
-    public void executeJsonObjectRequest(final PrxRequest prxRequest, final ResponseListener listener) {
+   /* public void executeJsonObjectRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         mVolleyRequest = Volley.newRequestQueue(mContext);
         PrxLogger.d(TAG, "Url : " + prxRequest.getRequestUrl());
         JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(0, prxRequest.getRequestUrl(), new Response.Listener<JSONObject>() {
@@ -66,12 +64,13 @@ public class NetworkWrapper {
         if (isHttpsRequest)
             SSLCertificateManager.setSSLSocketFactory();
         mVolleyRequest.add(mJsonObjectRequest);
-    }
+    }*/
 
-    public void executeCustomRequest(final PrxRequest prxRequest, final ResponseListener listener) {
+    public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
         final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
-        PrxVolleyRequest request = new PrxVolleyRequest(prxRequest.getRequestType(), prxRequest.getRequestUrl(), prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
+        PrxJsonRequest request = new PrxJsonRequest(prxRequest.getRequestType(), prxRequest.getRequestUrl(), prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
+        request.setShouldCache(true);
         if (isHttpsRequest)
             SSLCertificateManager.setSSLSocketFactory();
         mVolleyRequest.add(request);

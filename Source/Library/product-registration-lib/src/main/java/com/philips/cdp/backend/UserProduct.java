@@ -1,21 +1,20 @@
-package com.philips.cdp.handler;
+package com.philips.cdp.backend;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.backend.PRXDataBuilderFactory;
-import com.philips.cdp.backend.PRXRequestType;
-import com.philips.cdp.backend.ProdRegRequestInfo;
-import com.philips.cdp.core.ProdRegConstants;
-import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ErrorType;
+import com.philips.cdp.handler.PRXRequestType;
+import com.philips.cdp.handler.ProdRegConstants;
+import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.productrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.prxrequest.RegistrationRequest;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
@@ -60,21 +59,21 @@ public class UserProduct {
         mRequestManager.executeRequest(registrationRequest, getLocalResponseListener(prodRegRequestInfo, listener));
     }
 
-    private void handleError(final int statusCode, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
-        if (statusCode == ErrorType.INVALID_PRODUCT.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_PRODUCT);
-        } else if (statusCode == ErrorType.ACCESS_TOKEN_EXPIRED.getCode()) {
+    protected void handleError(final int statusCode, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+        if (statusCode == ErrorType.INVALID_CTN.getCode()) {
+            listener.onProdRegFailed(ErrorType.INVALID_CTN);
+        } else if (statusCode == ErrorType.USER_TOKEN_EXPIRED.getCode()) {
             onAccessTokenExpire(prodRegRequestInfo, listener);
         } else if (statusCode == ErrorType.ACCESS_TOKEN_INVALID.getCode()) {
             onAccessTokenExpire(prodRegRequestInfo, listener);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getCode()) {
             listener.onProdRegFailed(ErrorType.INVALID_VALIDATION);
-        } else if (statusCode == ErrorType.INVALID_SERIAL_NUMBER.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_SERIAL_NUMBER);
-        } else if (statusCode == ErrorType.NO_INTERNET_CONNECTION.getCode()) {
-            listener.onProdRegFailed(ErrorType.NO_INTERNET_CONNECTION);
-        } else if (statusCode == ErrorType.REQUEST_TIME_OUT.getCode()) {
-            listener.onProdRegFailed(ErrorType.REQUEST_TIME_OUT);
+        } else if (statusCode == ErrorType.INVALID_SERIALNUMBER.getCode()) {
+            listener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
+        } else if (statusCode == ErrorType.NO_INTERNET_AVAILABLE.getCode()) {
+            listener.onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
+        } else if (statusCode == ErrorType.INTERNAL_SERVER_ERROR.getCode()) {
+            listener.onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
         } else {
             listener.onProdRegFailed(ErrorType.UNKNOWN);
         }
@@ -127,4 +126,9 @@ public class UserProduct {
             }
         };
     }
+
+    public String getRequestType() {
+        return requestType;
+    }
+
 }

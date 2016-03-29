@@ -1,10 +1,10 @@
-package com.philips.cdp.productrequest;
+package com.philips.cdp.prxrequest;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.model.ProductMetaData;
+import com.philips.cdp.model.ProdRegMetaData;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -18,17 +18,17 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProductMetaRequest extends PrxRequest {
+public class ProductMetadataRequest extends PrxRequest {
 
     private String mCtn = null;
 
-    public ProductMetaRequest(String ctn) {
+    public ProductMetadataRequest(String ctn) {
         this.mCtn = ctn;
     }
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-        return new ProductMetaData().parseJsonResponseData(jsonObject);
+        return new ProdRegMetaData().parseJsonResponseData(jsonObject);
     }
 
     @Override

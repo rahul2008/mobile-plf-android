@@ -10,15 +10,15 @@ import org.json.JSONObject;
  * All rights reserved.
  */
 public class ProdRegResponse extends ResponseData {
-    private Data data;
+    private ProdRegData data;
 
     private String success;
 
-    public Data getData() {
+    public ProdRegData getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(ProdRegData data) {
         this.data = data;
     }
 

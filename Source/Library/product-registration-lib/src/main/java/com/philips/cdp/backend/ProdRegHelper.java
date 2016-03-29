@@ -7,16 +7,13 @@ package com.philips.cdp.backend;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ErrorType;
 import com.philips.cdp.handler.ProdRegListener;
-import com.philips.cdp.handler.Product;
-import com.philips.cdp.handler.UserProduct;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.model.RegisteredDataResponse;
-import com.philips.cdp.model.Results;
+import com.philips.cdp.model.ProdRegRegisteredDataResponse;
+import com.philips.cdp.model.ProdRegRegisteredResults;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 
 /**
@@ -46,8 +43,12 @@ public class ProdRegHelper {
      * @param listener           - Callback listener
      */
     public void registerProduct(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
-        Validator validator = getValidator();
-        if (!validator.isUserSignedIn(new User(context), context)) {
+        Validator validator = new Validator();
+        processForReg(context, prodRegRequestInfo, listener, validator, new User(context));
+    }
+
+    protected void processForReg(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener, final Validator validator, final User user) {
+        if (!validator.isUserSignedIn(user, context)) {
             listener.onProdRegFailed(ErrorType.USER_NOT_SIGNED_IN);
         } else {
             if (!validator.isValidaDate(prodRegRequestInfo.getPurchaseDate())) {
@@ -60,18 +61,13 @@ public class ProdRegHelper {
     }
 
     @NonNull
-    private Validator getValidator() {
-        return new Validator();
-    }
-
-    @NonNull
-    private ProdRegListener getRegisteredProductsListener(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+    protected ProdRegListener getRegisteredProductsListener(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(final ResponseData responseData) {
-                RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
-                Results[] results = registeredDataResponse.getResults();
-                for (Results result : results) {
+                ProdRegRegisteredDataResponse registeredDataResponse = (ProdRegRegisteredDataResponse) responseData;
+                ProdRegRegisteredResults[] results = registeredDataResponse.getResults();
+                for (ProdRegRegisteredResults result : results) {
                     if (prodRegRequestInfo.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
                         listener.onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
                         return;
@@ -105,17 +101,17 @@ public class ProdRegHelper {
     protected void processMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         Product product = new Product();
         prodRegRequestInfo.setLocale(this.locale);
-        product.getProductMetadata(context, prodRegRequestInfo, new ResponseListener() {
+        product.getProductMetadata(context, prodRegRequestInfo, new ProdRegListener() {
             @Override
-            public void onResponseSuccess(final ResponseData responseData) {
+            public void onProdRegSuccess(final ResponseData responseData) {
                 makeRegistrationRequest(context, prodRegRequestInfo, listener);
             }
 
             @Override
-            public void onResponseError(final String errorMessage, final int responseCode) {
-                listener.onProdRegFailed(ErrorType.METADATA_FAILED);
+            public void onProdRegFailed(ErrorType errorType) {
+                listener.onProdRegFailed(errorType);
             }
-        }, listener);
+        });
     }
 
 

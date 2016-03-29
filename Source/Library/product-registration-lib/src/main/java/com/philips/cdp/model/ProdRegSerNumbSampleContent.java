@@ -4,7 +4,7 @@ package com.philips.cdp.model;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SerialNumberSampleContent {
+public class ProdRegSerNumbSampleContent {
     private String title;
 
     private String asset;

@@ -1,6 +1,5 @@
 package com.philips.cdp.handler;
 
-import com.philips.cdp.error.ErrorType;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 /**

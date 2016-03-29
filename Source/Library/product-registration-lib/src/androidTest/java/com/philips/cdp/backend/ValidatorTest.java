@@ -41,6 +41,7 @@ public class ValidatorTest extends MockitoTestCase {
 
     public void testReturnTrueForValidDate() throws Exception {
         assertTrue(validator.isValidaDate("2016-03-22"));
+        assertTrue(validator.isValidaDate(null));
     }
 
     public void testReturnFalseForInValidDate() throws Exception {

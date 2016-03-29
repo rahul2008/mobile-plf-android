@@ -9,16 +9,15 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.philips.cdp.handler.ProdRegConstants;
 import com.philips.cdp.backend.ProdRegHelper;
 import com.philips.cdp.backend.ProdRegRequestInfo;
-import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.demo.R;
-import com.philips.cdp.error.ErrorType;
+import com.philips.cdp.handler.ErrorType;
 import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProdRegResponse;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -28,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,7 +38,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private String mMonth, mDate;
     private String[] mEditDisplayDate;
     private String mGetDeviceDate;
-    private Date mDisplayDate, mDeviceDate, mPastdate;
+    private Date mDisplayDate, mDeviceDate;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -86,11 +86,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void registerProduct() {
-        PrxLogger.enablePrxLogger(true);
-
         ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(mCtn.getText().toString(), mSerialNumber.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         ProdRegHelper prodRegHelper = new ProdRegHelper();
-        prodRegHelper.setLocale("en", "GB");
+        prodRegHelper.setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
         prodRegRequestInfo.setPurchaseDate(mPurchaseDate.getText().toString());
         final ProdRegListener listener = new ProdRegListener() {
             @Override
@@ -117,12 +115,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             if (mCtn.getText().toString().equalsIgnoreCase("")) {
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_signed_in), Toast.LENGTH_SHORT).show();
                 mRegChannel.setText(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
                 registerProduct();
             }
         } else {
-            Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_signed_in), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_not_signed), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "On Click : User Registration");
             RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
             Util.navigateFromUserRegistration();

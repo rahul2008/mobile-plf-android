@@ -23,7 +23,7 @@ public abstract class PrxRequest {
     private Catalog catalog;
     private String localeMatchResult;
 
-    public String getLocaleMatchResult() {
+    protected String getLocaleMatchResult() {
         if (localeMatchResult != null)
             return localeMatchResult;
         else

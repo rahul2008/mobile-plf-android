@@ -1,14 +1,13 @@
-package com.philips.cdp.handler;
+package com.philips.cdp.backend;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.backend.PRXDataBuilderFactory;
-import com.philips.cdp.backend.PRXRequestType;
-import com.philips.cdp.backend.ProdRegRequestInfo;
-import com.philips.cdp.error.ErrorType;
-import com.philips.cdp.model.ProductData;
-import com.philips.cdp.model.ProductMetaData;
+import com.philips.cdp.handler.ErrorType;
+import com.philips.cdp.handler.PRXRequestType;
+import com.philips.cdp.handler.ProdRegListener;
+import com.philips.cdp.model.ProdRegMetaData;
+import com.philips.cdp.model.ProdRegMetaDataResponse;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -25,18 +24,24 @@ public class Product {
 
     }
 
-    public void getProductMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener helperListener, final ProdRegListener listener) {
+    public void getProductMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         final PRXDataBuilderFactory prxDataBuilderFactory = new PRXDataBuilderFactory();
         final PrxRequest prxRequest = prxDataBuilderFactory.createPRXBuilder(PRXRequestType.METADATA, prodRegRequestInfo, new User(context).getAccessToken());
         RequestManager mRequestManager = getRequestManager(context);
-        final ResponseListener localListener = new ResponseListener() {
+        final ResponseListener localListener = getMetadataResponseListener(prodRegRequestInfo, listener);
+        mRequestManager.executeRequest(prxRequest, localListener);
+    }
+
+    @NonNull
+    private ResponseListener getMetadataResponseListener(final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+        return new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                ProductMetaData productMetaData = (ProductMetaData) responseData;
-                ProductData productData = productMetaData.getData();
+                ProdRegMetaData productMetaData = (ProdRegMetaData) responseData;
+                ProdRegMetaDataResponse productData = productMetaData.getData();
                 if (validateSerialNumberFromMetadata(productData, prodRegRequestInfo, listener)
                         && validatePurchaseDateFromMetadata(productData, prodRegRequestInfo, listener))
-                    helperListener.onResponseSuccess(null);
+                    listener.onProdRegSuccess(null);
             }
 
             @Override
@@ -44,7 +49,6 @@ public class Product {
                 handleError(code, listener);
             }
         };
-        mRequestManager.executeRequest(prxRequest, localListener);
     }
 
     @NonNull
@@ -55,22 +59,22 @@ public class Product {
     }
 
     protected void handleError(final int statusCode, final ProdRegListener listener) {
-        if (statusCode == ErrorType.INVALID_PRODUCT.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_PRODUCT);
+        if (statusCode == ErrorType.INVALID_CTN.getCode()) {
+            listener.onProdRegFailed(ErrorType.INVALID_CTN);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getCode()) {
             listener.onProdRegFailed(ErrorType.INVALID_VALIDATION);
-        } else if (statusCode == ErrorType.INVALID_SERIAL_NUMBER.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_SERIAL_NUMBER);
-        } else if (statusCode == ErrorType.NO_INTERNET_CONNECTION.getCode()) {
-            listener.onProdRegFailed(ErrorType.NO_INTERNET_CONNECTION);
-        } else if (statusCode == ErrorType.REQUEST_TIME_OUT.getCode()) {
-            listener.onProdRegFailed(ErrorType.REQUEST_TIME_OUT);
+        } else if (statusCode == ErrorType.INVALID_SERIALNUMBER.getCode()) {
+            listener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
+        } else if (statusCode == ErrorType.NO_INTERNET_AVAILABLE.getCode()) {
+            listener.onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
+        } else if (statusCode == ErrorType.INTERNAL_SERVER_ERROR.getCode()) {
+            listener.onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
         } else {
             listener.onProdRegFailed(ErrorType.UNKNOWN);
         }
     }
 
-    private boolean validateSerialNumberFromMetadata(final ProductData data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+    protected boolean validateSerialNumberFromMetadata(final ProdRegMetaDataResponse data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
             if (processSerialNumber(data, listener, prodRegRequestInfo)) return false;
         } else {
@@ -79,24 +83,24 @@ public class Product {
         return true;
     }
 
-    private boolean processSerialNumber(final ProductData data, final ProdRegListener listener, ProdRegRequestInfo prodRegRequestInfo) {
+    private boolean processSerialNumber(final ProdRegMetaDataResponse data, final ProdRegListener listener, ProdRegRequestInfo prodRegRequestInfo) {
         if (prodRegRequestInfo.getSerialNumber() == null || prodRegRequestInfo.getSerialNumber().length() < 1) {
-            listener.onProdRegFailed(ErrorType.MISSING_SERIAL_NUMBER);
+            listener.onProdRegFailed(ErrorType.MISSING_SERIALNUMBER);
             return true;
         } else if (!prodRegRequestInfo.getSerialNumber().matches(data.getSerialNumberFormat())) {
-            listener.onProdRegFailed(ErrorType.INVALID_SERIAL_NUMBER_FORMAT);
+            listener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
             return true;
         }
         return false;
     }
 
-    private boolean validatePurchaseDateFromMetadata(final ProductData data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+    protected boolean validatePurchaseDateFromMetadata(final ProdRegMetaDataResponse data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
         final String purchaseDate = prodRegRequestInfo.getPurchaseDate();
         if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
             if (purchaseDate != null && purchaseDate.length() > 0) {
                 return true;
             } else {
-                listener.onProdRegFailed(ErrorType.INVALID_PURCHASE_DATE);
+                listener.onProdRegFailed(ErrorType.MISSING_DATE);
                 return false;
             }
         } else

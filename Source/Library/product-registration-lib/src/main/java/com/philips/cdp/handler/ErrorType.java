@@ -1,4 +1,4 @@
-package com.philips.cdp.error;
+package com.philips.cdp.handler;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -8,17 +8,16 @@ public enum ErrorType {
 
     UNKNOWN(-1, "unknown"),
     ACCESS_TOKEN_INVALID(403, "malformed access token"),
-    ACCESS_TOKEN_EXPIRED(500, "access token expired"),
+    USER_TOKEN_EXPIRED(500, "User access token has expired"),
     REFRESH_ACCESS_TOKEN_FAILED(500, "error in getting access token"),
-    INVALID_VALIDATION(422, "Invalid input"),
-    INVALID_PRODUCT(404, "CTN not found"),
-    INVALID_SERIAL_NUMBER(400, "Invalid Serial Number"),
-    MISSING_SERIAL_NUMBER(400, "Missing Serial Number"),
-    INVALID_SERIAL_NUMBER_FORMAT(400, "Invalid Serial Number Format"),
-    INVALID_PURCHASE_DATE(400, "Invalid Purchase Date"),
-    NO_INTERNET_CONNECTION(501, "No internet connection available"),
-    REQUEST_TIME_OUT(504, "Time out Exception"),
-    INVALID_DATE(1, "Invalid date"),
+    INVALID_VALIDATION(422, "Input validation Error"),
+    INVALID_CTN(404, "Enter valid CTN number"),
+    INVALID_SERIALNUMBER(400, "Enter valid Serial number"),
+    MISSING_SERIALNUMBER(400, "Required serial number is missing"),
+    MISSING_DATE(1, "Required date field is missing"),
+    INVALID_DATE(400, "Date should be less than year 2000"),
+    NO_INTERNET_AVAILABLE(501, "No internet connection available"),
+    INTERNAL_SERVER_ERROR(504, "Internal server error"),
     USER_NOT_SIGNED_IN(2, "User not signed in"),
     PRODUCT_ALREADY_REGISTERED(2, "Product already registered"),
     FETCH_REGISTERED_PRODUCTS_FAILED(2, "Failed to fetch registered products"),

@@ -14,3 +14,4 @@ public class MockitoTestCase extends InstrumentationTestCase {
         super.setUp();
     }
 }
+

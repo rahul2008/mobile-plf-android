@@ -15,7 +15,7 @@
     <string name="set">Set</string>
     <string name="pair">Pair</string>
     <string name="product_registered_successfully">Product registered successfully</string>
-    <string name="user_signed_in">user signed in</string>
+    <string name="user_not_signed">user not signed</string>
     <string name="integratingApplicationAppsId">integratingApplicationAppsId</string>
     <string name="demo_app_home">demoapp:home</string>
     <string name="past_purchase_date_error">error in date selection</string>

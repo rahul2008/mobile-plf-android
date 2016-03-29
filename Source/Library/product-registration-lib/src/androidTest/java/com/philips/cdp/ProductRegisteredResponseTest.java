@@ -3,11 +3,12 @@ package com.philips.cdp;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.model.RegisteredDataResponse;
-import com.philips.cdp.model.Results;
-import com.philips.cdp.productrequest.RegistrationRequest;
+import com.philips.cdp.model.ProdRegRegisteredDataResponse;
+import com.philips.cdp.model.ProdRegRegisteredResults;
+import com.philips.cdp.prxrequest.RegistrationRequest;
 
 import org.json.JSONObject;
+import org.junit.Test;
 import org.mockito.Mock;
 
 import java.io.BufferedReader;
@@ -21,14 +22,16 @@ import java.io.InputStreamReader;
 public class ProductRegisteredResponseTest extends InstrumentationTestCase {
     @Mock
     String string1, string2, string3;
-    RegistrationRequest mProductAssetBuilder = new RegistrationRequest(string1, string2, string3);
+    RegistrationRequest mProductAssetBuilder ;
     private String TAG = getClass() + "";
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        mProductAssetBuilder = new RegistrationRequest(string1, string2, string3);
     }
 
+    @Test
     public void testSummaryResponseObject() {
         try {
             StringBuilder sb = new StringBuilder();
@@ -46,11 +49,11 @@ public class ProductRegisteredResponseTest extends InstrumentationTestCase {
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
 
-            RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) mProductAssetBuilder.getResponseData(new JSONObject(sb.toString()));
-            Results[] mResponseData = registeredDataResponse.getResults();
+            ProdRegRegisteredDataResponse registeredDataResponse = (ProdRegRegisteredDataResponse) mProductAssetBuilder.getResponseData(new JSONObject(sb.toString()));
+            ProdRegRegisteredResults[] mResponseData = registeredDataResponse.getResults();
             assertNotNull(mResponseData);
 
-            Results[] setProductRegister = setProductRegister(mResponseData);
+            ProdRegRegisteredResults[] setProductRegister = setProductRegister(mResponseData);
             TestAssertionOnResponse(mResponseData, setProductRegister);
         } catch (Exception e) {
 
@@ -58,7 +61,8 @@ public class ProductRegisteredResponseTest extends InstrumentationTestCase {
         }
     }
 
-    private void TestAssertionOnResponse(final Results[] mResponseData, final Results[] resultses) {
+    @Test
+    private void TestAssertionOnResponse(final ProdRegRegisteredResults[] mResponseData, final ProdRegRegisteredResults[] resultses) {
 
         assertEquals(mResponseData[0].getProductRegistrationID(), resultses[0].getProductRegistrationID());
         assertEquals(mResponseData[0].getPurchaseDate(), resultses[0].getPurchaseDate());
@@ -85,9 +89,10 @@ public class ProductRegisteredResponseTest extends InstrumentationTestCase {
         assertEquals(mResponseData[0].getRegistrationChannel(), resultses[0].getRegistrationChannel());
     }
 
-    private Results[] setProductRegister(final Results[] mResponseData) {
+    @Test
+    private ProdRegRegisteredResults[] setProductRegister(final ProdRegRegisteredResults[] mResponseData) {
 
-        Results[] pResults = new Results[0];
+        ProdRegRegisteredResults[] pResults = new ProdRegRegisteredResults[0];
         pResults[0].setProductRegistrationID(mResponseData[0].getProductRegistrationID());
         pResults[0].setPurchaseDate(mResponseData[0].getPurchaseDate());
         pResults[0].setProductModelNumber(mResponseData[0].getProductModelNumber());
@@ -112,6 +117,6 @@ public class ProductRegisteredResponseTest extends InstrumentationTestCase {
         pResults[0].setUuid(mResponseData[0].getUuid());
         pResults[0].setRegistrationChannel(mResponseData[0].getRegistrationChannel());
 
-        return new Results[0];
+        return new ProdRegRegisteredResults[0];
     }
 }

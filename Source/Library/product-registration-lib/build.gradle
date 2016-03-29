@@ -30,7 +30,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        testApplicationId "com.philips.cdp.androidTest"
+        testApplicationId "com.philips.cdp.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     buildTypes {

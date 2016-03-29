@@ -36,7 +36,7 @@ public class RequestManager {
     public void cancelRequest(String requestTag) {
     }
 
-    private void setLocale(String languageCode, String countryCode, final PrxRequest prxRequest, final ResponseListener listener) {
+    private void setLocale(final String languageCode, final String countryCode, final PrxRequest prxRequest, final ResponseListener listener) {
         final PILLocaleManager pilLocaleManager = new PILLocaleManager();
         final String[] mLocale = new String[1];
         pilLocaleManager.init(mContext, new LocaleMatchListener() {
@@ -60,7 +60,7 @@ public class RequestManager {
 
     private void makeRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         try {
-            new NetworkWrapper(mContext).executeCustomRequest(prxRequest, listener);
+            new NetworkWrapper(mContext).executeCustomJsonRequest(prxRequest, listener);
         } catch (Exception e) {
             e.printStackTrace();
         }

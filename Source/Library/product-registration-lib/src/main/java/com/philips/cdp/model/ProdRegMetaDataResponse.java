@@ -4,7 +4,7 @@ package com.philips.cdp.model;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProductData {
+public class ProdRegMetaDataResponse {
     private String message;
 
     private String ctn;
@@ -19,7 +19,7 @@ public class ProductData {
 
     private String requiresSerialNumber;
 
-    private SerialNumberSampleContent serialNumberSampleContent;
+    private ProdRegSerNumbSampleContent serialNumberSampleContent;
 
     private String isConnectedDevice;
 
@@ -83,11 +83,11 @@ public class ProductData {
         this.requiresSerialNumber = requiresSerialNumber;
     }
 
-    public SerialNumberSampleContent getSerialNumberSampleContent() {
+    public ProdRegSerNumbSampleContent getSerialNumberSampleContent() {
         return serialNumberSampleContent;
     }
 
-    public void setSerialNumberSampleContent(SerialNumberSampleContent serialNumberSampleContent) {
+    public void setSerialNumberSampleContent(ProdRegSerNumbSampleContent serialNumberSampleContent) {
         this.serialNumberSampleContent = serialNumberSampleContent;
     }
 
