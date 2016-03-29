@@ -66,7 +66,7 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         super.onResume();
         mPaymentWebView.onResume();
         setTitle(R.string.iap_payment);
-        setBackButtonVisibility(View.INVISIBLE);
+        setBackButtonVisibility(View.GONE);
     }
 
     @Override
