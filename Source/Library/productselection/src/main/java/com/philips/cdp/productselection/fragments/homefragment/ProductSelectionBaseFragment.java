@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.customview.NetworkAlertView;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
+import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.NetworkStateListener;
@@ -458,12 +459,12 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         List<Fragment> listFragment = getActivity().getSupportFragmentManager().getFragments();
         for (int i = listFragment.size() - 1; i >= 0; i--) {
             Fragment fragment1 = listFragment.get(i);
-            ProductSelectionLogger.i("testing", "Details Screen : " + fragment1);
+//            ProductSelectionLogger.i("testing", "Details Screen : " + fragment1);
         }
 
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag(oldFragmentAdd);
-        ProductSelectionLogger.i("testing", "Saved screen found  : " + fragmentDetailsTablet);
+//        ProductSelectionLogger.i("testing", "Saved screen found  : " + fragmentDetailsTablet);
         try {
             if (fragmentDetailsTablet != null) {
                 fragmentTransaction.remove(fragmentDetailsTablet);
@@ -495,13 +496,49 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             } else if (fragmentManager == null) {
                 fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
             }
-            for (int i = 1; i < fragmentManager.getFragments().size(); i++) {
+//            for (int i = 1; i < fragmentManager.getFragments().size(); i++) {
+//                if(fragmentManager.getFragments().get(i) == null){
+//                    fragmentManager.popBackStack();
+//                    ProductSelectionLogger.i("testing", "fragmentManager.getFragments() : " + fragmentManager.getFragments().get(i));
+//                }
+//            }
+
+            for (int i = fragmentManager.getFragments().size() - 1; i > 0; i --) {
+//                ProductSelectionLogger.i("testing", "fragmentManager.getFragments() : " + fragmentManager.getFragments().get(i));
+                if(fragmentManager.getFragments().get(i) == null) {
+                    continue;
+                }
+                else if(fragmentManager.getFragments().get(i) instanceof ProductSelectionListingFragment) {
+                    fragmentManager.popBackStack();
+                    removeWelcomeScreen();
+                    break;
+                }
+
                 fragmentManager.popBackStack();
             }
         }
         return false;
     }
 
+    private void removeWelcomeScreen() {
+//        ProductSelectionLogger.i("testing", "removeWelcomeScreen: ");
+        List<Fragment> fragmentList = getActivity().getSupportFragmentManager().getFragments();
+        for (int i = fragmentList.size() - 1; i >= 0; i--) {
+            Fragment frag = fragmentList.get(i);
+//            ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen : " + frag);
+            if (frag instanceof WelcomeScreenFragmentSelection) {
+                FragmentTransaction fragmentTransactionNew = getActivity().getSupportFragmentManager().beginTransaction();
+                if (frag != null) {
+                    try {
+//                        fragmentTransactionNew.remove(frag).commitAllowingStateLoss();
+                        getActivity().getSupportFragmentManager().popBackStack();
+//                        ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen inside : ");
+                    } catch (IllegalStateException e) {
+                    }
+                }
+            }
+        }
+    }
 
     protected void hideKeyboard() {
         View view = getActivity().getCurrentFocus();
