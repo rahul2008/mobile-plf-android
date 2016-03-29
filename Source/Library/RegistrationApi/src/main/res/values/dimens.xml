@@ -123,4 +123,9 @@
 
     <dimen name="reg_check_size">11dp</dimen>
 
+    <!--Added for new coppa flow-->
+    <dimen name="reg_coppa_button_margin_top">50dip</dimen>
+    <dimen name="reg_coppa_layout_margin">5dp</dimen>
+    <dimen name="reg_coppa_text_size">13sp</dimen>
+
 </resources>

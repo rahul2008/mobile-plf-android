@@ -188,6 +188,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationCoppaSampleActivity : onPrivacyPolicyClick");
+        showToast("This call back is for vertical");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + getResources().getString(
                 com.philips.cdp.registration.R.string.Philips_URL_txt)));
         activity.startActivity(browserIntent);

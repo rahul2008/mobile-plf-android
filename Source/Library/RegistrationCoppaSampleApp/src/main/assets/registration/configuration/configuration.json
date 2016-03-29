@@ -13,7 +13,13 @@
     "CampaignID": "CL20150501_PC_TB_COPPA"
   },
   "Flow": {
-    "EmailVerificationRequired": "true"
+    "EmailVerificationRequired": true,
+    "TermsAndConditionsAcceptanceRequired": false,
+    "MinimumAgeLimit": {
+      "NL": 16,
+      "GB": 16,
+      "default": 16
+    }
   },
   "SigninProviders": {
     "default": [

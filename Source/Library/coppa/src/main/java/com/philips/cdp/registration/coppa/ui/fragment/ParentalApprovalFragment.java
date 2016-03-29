@@ -3,20 +3,26 @@ package com.philips.cdp.registration.coppa.ui.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.coppa.R;
+import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment implements OnClickListener {
 
-
+    private LinearLayout mLlConfirmApprovalParent;
+    private TextView tvConfirmApprovalDesc;
     private Button mBtnAgree;
     private Button mBtnDisAgree;
 
@@ -93,7 +99,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     @Override
     public void setViewParams(Configuration config, int width) {
-
+        applyParams(config, mLlConfirmApprovalParent, width);
     }
 
     @Override
@@ -103,11 +109,13 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     private void initUi(View view) {
         consumeTouch(view);
+        mLlConfirmApprovalParent = (LinearLayout) view.findViewById(R.id.ll_reg_confirm_root_container);
+        tvConfirmApprovalDesc = (TextView)view.findViewById(R.id.tv_reg_confirm_approval_details);
         mBtnAgree = (Button) view.findViewById(R.id.reg_btn_agree);
         mBtnAgree.setOnClickListener(this);
-
         mBtnDisAgree = (Button) view.findViewById(R.id.reg_btn_dis_agree);
         mBtnDisAgree.setOnClickListener(this);
+        RegCoppaUtility.linkifyTermAndPolicy(tvConfirmApprovalDesc,getActivity(),privacyLinkClick);
     }
 
     @Override
@@ -129,7 +137,14 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     @Override
     public int getTitleResourceId() {
-        return R.string.parental_access;
+        return R.string.Coppa_Consent_Approval_Screen_Title_txt;
     }
+
+    private ClickableSpan privacyLinkClick = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnPrivacyPolicyClickEventOccurred(getActivity());
+        }
+    };
 
 }

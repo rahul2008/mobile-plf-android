@@ -2,9 +2,9 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="@color/reg_layout_bg">
-
-
+    android:background="@color/reg_layout_bg"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:id="@+id/sv_root_layout"
@@ -18,20 +18,51 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
+            <LinearLayout
+                android:id="@+id/ll_reg_parent_access_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Under 16 "
-                android:id="@+id/reg_btn_under_age" />
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin"
+                android:orientation="vertical">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Over 16"
-                android:id="@+id/reg_btn_over_age" />
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/reg_welcome_id"
+                    style="@style/reg_textStyle"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
+                    android:layout_marginTop="@dimen/reg_header_margin_top"
+                    android:text="@string/Coppa_Parent_Access_Attempt_Txt"
+                    android:textSize="@dimen/reg_title_text_size_medium"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <com.philips.cdp.registration.ui.customviews.XButton
+                        android:id="@+id/btn_reg_under_16"
+                        style="@style/reg_style_btn"
+                        android:layout_marginRight="15dip"
+                        android:layout_weight="1"
+                        android:enabled="true"
+                        android:text="@string/Coppa_Age_Verification_UnderAge_Txt"
+                        reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                    <com.philips.cdp.registration.ui.customviews.XButton
+                        android:id="@+id/btn_reg_over_16"
+                        style="@style/reg_style_btn"
+                        android:layout_weight="1"
+                        android:enabled="true"
+                        android:text="@string/Coppa_Age_Verification_OverAge_Txt"
+                        reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                </LinearLayout>
+            </LinearLayout>
 
 
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>
