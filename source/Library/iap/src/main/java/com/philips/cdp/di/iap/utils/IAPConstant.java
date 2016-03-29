@@ -11,7 +11,8 @@ public class IAPConstant {
     public static final int IAP_ERROR_CONNECTION_TIME_OUT = 3;
     public static final int IAP_ERROR_AUTHENTICATION_FAILURE = 4;
     public static final int IAP_ERROR_SERVER_ERROR = 5;
-    public static final int IAP_ERROR_UNKNOWN = 6;
+    public static final int IAP_ERROR_INSUFFICIENT_STOCK_ERROR = 6;
+    public static final int IAP_ERROR_UNKNOWN = 7;
     public static final String IAP_KEY_ACTIVITY_THEME = "IAP_KEY_ACTIVITY_THEME";
     public static final Boolean BUTTON_STATE_CHANGED = false;
     public static final String EMPTY_CART_FRAGMENT_REPLACED = "EMPTY_CART_FRAGMENT_REPLACED";

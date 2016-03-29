@@ -7,6 +7,8 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.utils.IAPLog;
+
 public class Store {
 
     private static final String HTTPS = "https://";
@@ -30,7 +32,7 @@ public class Store {
     private static final String SUFFIX_SET_PAYMENT_DETAILS = "/paymentdetails";
     private static final String SUFFIX_SET_PAYMENT_URL = "/orders/%s/pay";
 
-    private static final String SUFFIX_ADDRESSES_FULL = "/addresses"+LANG;
+    private static final String SUFFIX_ADDRESSES_FULL = "/addresses" + LANG;
     private static final String SUFFIX_ADDRESSES_ALTER = "/addresses/%s";
 
     private static final String SUFFIX_DELIVERY_MODE = "/deliverymode";
@@ -41,7 +43,7 @@ public class Store {
     private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
 
     private StoreConfiguration mStoreConfig;
-    private IAPUser mIAPUser;
+    public IAPUser mIAPUser;
 
     private String mModifyProductUrl;
     private String mPaymentDetailsUrl;
@@ -60,6 +62,7 @@ public class Store {
     private String mOauthUrl;
     private String mOauthRefreshUrl;
     private String mGetCartUrl;
+    private boolean mUserLoggedout;
 
     public Store(Context context) {
         mIAPUser = initIAPUser(context);
@@ -68,10 +71,15 @@ public class Store {
     }
 
     IAPUser initIAPUser(Context context) {
-        if (mIAPUser == null) {
-            mIAPUser = new IAPUser(context, this);
-        }
+        mUserLoggedout = false;
+        mIAPUser = new IAPUser(context, this);
+        IAPLog.i(IAPLog.LOG, "initIAPUser = " + mIAPUser.getJanRainID());
         return mIAPUser;
+    }
+
+    public void setNewUser(Context context) {
+        initIAPUser(context);
+        generateStoreUrls();
     }
 
     StoreConfiguration setStoreConfig(final Context context) {
@@ -121,7 +129,7 @@ public class Store {
         mSetPaymentDetails = mCurrentCartUrl.concat(SUFFIX_SET_PAYMENT_DETAILS);
 
         mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
-                            .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
+                .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
     }
 
     //Package level access
@@ -197,5 +205,13 @@ public class Store {
 
     public void refreshLoginSession() {
         mIAPUser.refreshLoginSession();
+    }
+
+    public void setUserLogout(boolean userLoggedout) {
+        this.mUserLoggedout = userLoggedout;
+    }
+
+    public boolean isUserLoggedOut() {
+        return mUserLoggedout;
     }
 }

@@ -61,10 +61,6 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
         return mIAPErrorCode;
     }
 
-    public void setIAPErrorCode(int code) {
-        mIAPErrorCode = code;
-    }
-
     public int getIAPErrorCode() {
         return mIAPErrorCode;
     }
@@ -74,9 +70,16 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             if (error.networkResponse != null) {
                 String errorString = new String(error.networkResponse.data);
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
+                checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void checkInsufficientStockError(ServerError serverError) {
+        if("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
+            mIAPErrorCode = IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR;
         }
     }
 

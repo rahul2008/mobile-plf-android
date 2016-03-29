@@ -26,9 +26,6 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     private NewOAuthRequest mOAuthRequest;
     private Store mStore;
 
-    public TestEnvOAuthHandler() {
-    }
-
     @Override
     public String getAccessToken() {
         if (mOAuthRequest == null) {
@@ -48,6 +45,11 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         params.put(ModelConstants.REFRESH_TOKEN,mOAuthRequest.getrefreshToken());
         RefreshOAuthRequest request = new RefreshOAuthRequest(mStore, params);
         requestSyncRefreshToken(request, listener);
+    }
+
+    @Override
+    public void resetAccessToken() {
+        access_token = null;
     }
 
     private void requestSyncOAuthToken() {

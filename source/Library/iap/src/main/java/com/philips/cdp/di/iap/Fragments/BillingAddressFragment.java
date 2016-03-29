@@ -80,6 +80,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     }
 
     private void prePopulateShippingAddress() {
+        mIgnoreTextChangeListener = true;
         if (mBillingAddressFields != null) {
             mEtFirstName.setText(mBillingAddressFields.getFirstName());
             mEtLastName.setText(mBillingAddressFields.getLastName());
@@ -99,6 +100,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 mlLState.setVisibility(View.GONE);
             }
         }
+        mIgnoreTextChangeListener = false;
     }
 
     private void clearAllFields() {

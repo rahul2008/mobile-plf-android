@@ -108,6 +108,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
         mEtPhoneNumber = (EditText) rootView.findViewById(R.id.et_phone_number);
 
+        mEtSalutation.setKeyListener(null);
+        mEtState.setKeyListener(null);
+
         mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
         mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
 
@@ -121,6 +124,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mPaymentController = new PaymentController(mContext, this);
         mShippingAddressFields = new AddressFields();
 
+        mEtEmail.requestFocus();
         mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
@@ -299,7 +303,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
                 && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
 
-            setAddressFields(mShippingAddressFields);
+            mShippingAddressFields = setAddressFields(mShippingAddressFields);
 
             mBtnContinue.setEnabled(true);
         } else {
@@ -465,6 +469,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
+        if(mlLState.getVisibility() == View.GONE){
+            addressHashMap.put(ModelConstants.REGION_ISOCODE, null);
+        }
         return addressHashMap;
     }
 

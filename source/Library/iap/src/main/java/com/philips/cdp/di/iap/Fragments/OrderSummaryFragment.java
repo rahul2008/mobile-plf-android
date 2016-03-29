@@ -160,6 +160,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private void launchConfirmationScreen(PlaceOrder details) {
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.ORDER_NUMBER, details.getCode());
+        bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, Boolean.TRUE);
         replaceFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 

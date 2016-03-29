@@ -14,4 +14,9 @@ public interface OAuthHandler {
     String getAccessToken();
 
     void refreshToken(RequestListener listener);
+
+    /**
+     * To be called when the user is changed
+     */
+    void resetAccessToken();
 }
