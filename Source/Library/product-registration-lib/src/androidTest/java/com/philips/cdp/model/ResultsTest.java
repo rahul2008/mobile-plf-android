@@ -17,6 +17,108 @@ public class ResultsTest extends TestCase {
         resultsTest = new ProdRegRegisteredResults();
     }
 
+
+    public void testSetLastModified() throws Exception {
+        resultsTest.setLastModified("2013-12-03");
+    }
+
+    public void testSetLastSolicitDate() throws Exception {
+        resultsTest.setLastSolicitDate(null);
+    }
+
+
+    public void testSetWarrantyInMonths() throws Exception {
+        resultsTest.setWarrantyInMonths(null);
+    }
+
+    public void testSetLastUpdated() throws Exception {
+        resultsTest.setLastUpdated("2014-02-25 21:31:36.161304 +0000");
+    }
+
+
+    public void testSetExtendedWarranty() throws Exception {
+        resultsTest.setExtendedWarranty("false");
+    }
+
+
+    public void testSetProductCatalogLocaleId() throws Exception {
+        resultsTest.setProductCatalogLocaleId("nl_NL_CONSUMER");
+    }
+
+
+    public void testSetProductModelNumber() throws Exception {
+        resultsTest.setProductModelNumber("HX8002/05");
+    }
+
+
+    public void testSetProductId() throws Exception {
+        resultsTest.setProductId("HX8002_05_NL_CONSUMER");
+    }
+
+
+    public void testSetPurchasePlace() throws Exception {
+        resultsTest.setPurchasePlace(null);
+    }
+
+    public void testSetId() throws Exception {
+        resultsTest.setId("139136402");
+    }
+
+    public void testSetRegistrationDate() throws Exception {
+        resultsTest.setRegistrationDate("2013-12-03 00:00:00 +0000");
+    }
+
+    public void testSetDeviceName() throws Exception {
+        resultsTest.setDeviceName("HX8002/05");
+    }
+
+    public void testSetCreated() throws Exception {
+        resultsTest.setCreated("2014-02-25 21:31:36.161304 +0000");
+    }
+
+    @Test
+    public void testSetProductRegistrationID() throws Exception {
+        resultsTest.setProductRegistrationID("2512000064");
+    }
+
+    public void testSetSlashWinCompetition() throws Exception {
+        resultsTest.setSlashWinCompetition("false");
+    }
+
+    public void testSetPurchaseDate() throws Exception {
+        resultsTest.setPurchaseDate("2013-03-01");
+    }
+
+    public void testSetIsPrimaryUser() throws Exception {
+        resultsTest.setIsPrimaryUser("true");
+    }
+
+    public void testSetIsGenerations() throws Exception {
+
+        resultsTest.setIsGenerations("false");
+    }
+
+    public void testSetUuid() throws Exception {
+        resultsTest.setUuid("973bd103-6c38-4899-8716-aade4f632cb6");
+    }
+
+    public void testSetRegistrationChannel() throws Exception {
+        resultsTest.setRegistrationChannel("web");
+    }
+
+    public void testSetProductSerialNumber() throws Exception {
+
+        resultsTest.setProductSerialNumber(null);
+    }
+
+    public void testSetContractNumber() throws Exception {
+        resultsTest.setContractNumber(null);
+    }
+
+    public void testSetDeviceId() throws Exception {
+        resultsTest.setDeviceId(null);
+    }
+
     @Test
     public void ShouldGetLastModified() throws Exception {
         resultsTest.setLastModified("2013-12-03");
@@ -156,4 +258,7 @@ public class ResultsTest extends TestCase {
         resultsTest.setDeviceId(null);
         assertEquals(null, resultsTest.getDeviceId());
     }
+
+
+
 }

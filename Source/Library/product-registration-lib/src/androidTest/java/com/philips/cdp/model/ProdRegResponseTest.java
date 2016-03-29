@@ -19,14 +19,14 @@ public class ProdRegResponseTest extends TestCase {
         prodRegResponse = new ProdRegResponse();
     }
 
+    public void testSetData() throws Exception {
+        prodRegResponse.setData(data);
+    }
+
     public void testGetData() throws Exception {
         prodRegResponse.setData(data);
         assertEquals(data, prodRegResponse.getData());
 
     }
-    public void testSetData() throws Exception {
-        prodRegResponse.setData(data);
-        assertEquals(data, prodRegResponse.getData());
 
-    }
 }

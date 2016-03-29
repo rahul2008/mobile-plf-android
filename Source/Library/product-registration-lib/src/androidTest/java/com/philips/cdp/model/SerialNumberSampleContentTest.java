@@ -17,6 +17,23 @@ public class SerialNumberSampleContentTest extends TestCase {
         serialNumberSampleContentTest = new ProdRegSerNumbSampleContent();
     }
 
+    public void testSetTitle() throws Exception {
+        serialNumberSampleContentTest.setTitle("Find the serial number");
+    }
+
+       public void testSetAsset() throws Exception {
+
+        serialNumberSampleContentTest.setAsset("/consumerfiles/assets/img/registerproducts/HC.jpg");
+    }
+
+    public void testSetSnExample() throws Exception {
+        serialNumberSampleContentTest.setSnExample("Example: 1344");
+    }
+
+    public void testSetSnFormat() throws Exception {
+        serialNumberSampleContentTest.setSnFormat("cc");
+    }
+
     @Test
     public void ShouldGetTitle() throws Exception {
         serialNumberSampleContentTest.setTitle("Find the serial number");

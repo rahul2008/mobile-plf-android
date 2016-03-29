@@ -17,6 +17,38 @@ public class DataTest extends InstrumentationTestCase {
         dataTest = new ProdRegData();
     }
 
+    public void testSetRegistrationDate() throws Exception {
+        dataTest.setRegistrationDate("28-02-2016");
+    }
+
+    public void testSetLocale() throws Exception {
+        dataTest.setLocale("en_GB");
+    }
+
+    public void testSetDateOfPurchase() throws Exception {
+        dataTest.setDateOfPurchase("2015-02-25");
+    }
+
+    public void testSetProductRegistrationUuid() throws Exception {
+        dataTest.setProductRegistrationUuid("eb26c6d8-693f-4ec0-be60-2c603eaad8a3");
+    }
+
+    public void testSetWarrantyEndDate() throws Exception {
+        dataTest.setWarrantyEndDate("2019-06-12");
+    }
+
+    public void testSetContractNumber() throws Exception {
+        dataTest.setContractNumber("CQ5A000ef");
+    }
+
+    public void testSetModelNumber() throws Exception {
+        dataTest.setModelNumber("HC5450/83");
+    }
+
+    public void testSetEmailStatus() throws Exception {
+        dataTest.setEmailStatus("success");
+    }
+
     @Test
     public void ShouldGetRegistrationDateWhenAsked() throws Exception {
         dataTest.setRegistrationDate("28-02-2016");
@@ -61,7 +93,9 @@ public class DataTest extends InstrumentationTestCase {
 
     @Test
     public void ShouldGetEmailStatus() throws Exception {
-        dataTest.setEmailStatus("succes s");
+        dataTest.setEmailStatus("success");
         assertEquals("success", dataTest.getEmailStatus());
     }
+
+
 }

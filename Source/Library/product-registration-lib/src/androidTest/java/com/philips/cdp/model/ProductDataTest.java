@@ -17,6 +17,44 @@ public class ProductDataTest extends TestCase {
         productDataTest = new ProdRegMetaDataResponse();
     }
 
+    public void testSetMessage() throws Exception {
+        productDataTest.setMessage("If, after the purchase date");
+    }
+
+    public void testSetGetCtn() throws Exception {
+        productDataTest.setCtn("HC5410/83");
+    }
+
+    public void testSetHasGiftPack() throws Exception {
+        productDataTest.setHasGiftPack("true");
+    }
+
+    public void testSetSerialNumberFormat() throws Exception {
+        productDataTest.setSerialNumberFormat("^[1]{1}[3-9]{1}[0-5]{1}[0-9]{1}$");
+    }
+
+
+    public void testSetHasExtendedWarranty() throws Exception {
+        productDataTest.setHasExtendedWarranty("true");
+    }
+
+    public void testSetRequiresSerialNumber() throws Exception {
+        productDataTest.setRequiresSerialNumber("true");
+
+    }
+
+    public void testSetIsConnectedDevice() throws Exception {
+        productDataTest.setIsConnectedDevice("true");
+    }
+
+    public void testSetExtendedWarrantyMonths() throws Exception {
+        productDataTest.setExtendedWarrantyMonths("true");
+    }
+
+    public void testSetRequiresDateOfPurchase() throws Exception {
+        productDataTest.setRequiresDateOfPurchase("true");
+    }
+
     @Test
     public void ShouldGetMessage() throws Exception {
         productDataTest.setMessage("If, after the purchase date");
@@ -70,4 +108,8 @@ public class ProductDataTest extends TestCase {
         productDataTest.setRequiresDateOfPurchase("true");
         assertEquals("true", productDataTest.getRequiresDateOfPurchase());
     }
+
+
+
+
 }
