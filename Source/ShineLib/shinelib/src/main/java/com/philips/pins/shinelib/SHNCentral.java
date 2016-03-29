@@ -54,6 +54,8 @@ public class SHNCentral {
     private final Handler userHandler;
     private final Context applicationContext;
     private boolean bluetoothAdapterEnabled;
+    private BroadcastReceiver bondStateChangedReceiver;
+
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -238,7 +240,7 @@ public class SHNCentral {
     private void setupBondStatusListener() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        BroadcastReceiver bondStateChangedReceiver = new BroadcastReceiver() {
+        bondStateChangedReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, final Intent intent) {
                 internalHandler.post(new Runnable() {
@@ -309,6 +311,10 @@ public class SHNCentral {
     public void shutdown() {
         internalHandler.getLooper().quitSafely();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
+        if (bondStateChangedReceiver != null) {
+            applicationContext.unregisterReceiver(bondStateChangedReceiver);
+            bondStateChangedReceiver = null;
+        }
         shnDeviceScannerInternal.stopScanning();
         shnDeviceScannerInternal = null;
     }
