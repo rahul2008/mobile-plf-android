@@ -17,12 +17,12 @@ public interface SHNDevice {
     State getState();
 
     /**
-     * @return string representation of the peripheral address
+     * @return string representation of the peripheral MAC address {@link android.bluetooth.BluetoothDevice#getAddress()}
      */
     String getAddress();
 
     /**
-     * @return name of the peripheral
+     * @return name of the peripheral {@link android.bluetooth.BluetoothDevice#getName()}
      */
     String getName();
 
