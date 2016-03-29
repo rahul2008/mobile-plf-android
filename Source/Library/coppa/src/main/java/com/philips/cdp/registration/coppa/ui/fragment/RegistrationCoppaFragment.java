@@ -202,13 +202,14 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
 
     public void loadFirstFragment() {
-        try {
+
+        User user = new User(mActivity);
+        if(user.isUserSignIn()){
+            launchRegistrationFragmentOnLoggedIn(isAccountSettings);
+        }else{
             replaceWithParentalAccess();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationCoppaFragment :FragmentTransaction Exception occured in loadFirstFragment  :"
-                            + e.getMessage());
         }
+
     }
 
     private void replaceWithParentalAccess() {
@@ -497,6 +498,25 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(registrationFragment.getTag());
             fragmentTransaction.add(R.id.fl_reg_fragment_container, registrationFragment,
+                    RegConstants.REGISTRATION_FRAGMENT_TAG);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationCoppaActivity :FragmentTransaction Exception occured in addFragment  :"
+                            + e.getMessage());
+        }
+    }
+
+
+    private void launchRegistrationFragmentOnLoggedIn(boolean isAccountSettings) {
+        try {
+            RegistrationFragment registrationFragment = new RegistrationFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
+            registrationFragment.setArguments(bundle);
+            registrationFragment.setOnUpdateTitleListener(mRegistrationUpdateTitleListener);
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
