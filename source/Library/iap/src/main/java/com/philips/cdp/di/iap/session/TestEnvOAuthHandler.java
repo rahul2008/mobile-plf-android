@@ -65,7 +65,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
 
             @Override
             public void onSyncRequestError(final VolleyError volleyError) {
-                if(volleyError instanceof ServerError) {
+                //if(volleyError instanceof ServerError) {
                     //Try generating new JanRain token.
                     //Need to optimize this to handle other server errors
                     mStore.refreshLoginSession();
@@ -73,7 +73,8 @@ public class TestEnvOAuthHandler implements OAuthHandler {
                         requestSyncOAuthToken();
                     }
 
-                }
+                //}
+                //TimeOut Error
             }
         });
     }
