@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 public class SHNCentral {
 
@@ -47,7 +50,7 @@ public class SHNCentral {
 
     private static final String TAG = SHNCentral.class.getSimpleName();
     private SHNUserConfiguration shnUserConfiguration;
-    private final SHNDeviceScanner shnDeviceScanner;
+    private SHNDeviceScanner shnDeviceScanner;
     private final Handler userHandler;
     private final Context applicationContext;
     private boolean bluetoothAdapterEnabled;
@@ -102,9 +105,12 @@ public class SHNCentral {
         this(handler, context, false, null, false);
     }
 
-    SHNCentral(Handler handler, Context context, boolean showPopupIfBLEIsTurnedOff, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
+    SHNCentral(Handler handler, final Context context, final boolean showPopupIfBLEIsTurnedOff, final SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
         BleUtilities.init(applicationContext);
+        if (!BleUtilities.deviceHasBle()) {
+            throw new SHNBluetoothHardwareUnavailableException();
+        }
 
         internalHandler = createInternalHandler();
         if (internalHandler != null) {
@@ -117,11 +123,32 @@ public class SHNCentral {
         }
         this.userHandler = handler;
 
-        persistentStorageFactory = setUpPersistentStorageFactory(context, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
-        // Check that the device supports BLE.
-        if (!BleUtilities.deviceHasBle()) {
-            throw new SHNBluetoothHardwareUnavailableException();
+        Callable<Boolean> initCallable = new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                initializeSHNCentral(showPopupIfBLEIsTurnedOff, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
+                return true;
+            }
+        };
+
+        FutureTask<Boolean> initFuture = new FutureTask<>(initCallable);
+
+        if (internalHandler.post(initFuture)) {
+
+            try {
+                initFuture.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new InternalError("The internal thread is not running");
         }
+    }
+
+    private void initializeSHNCentral(boolean showPopupIfBLEIsTurnedOff, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
+        persistentStorageFactory = setUpPersistentStorageFactory(applicationContext, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
 
         // Check that the adapter is enabled.
         bluetoothAdapterEnabled = BleUtilities.isBluetoothAdapterEnabled();
@@ -149,7 +176,7 @@ public class SHNCentral {
         shnUserConfiguration = createUserConfiguration();
     }
 
-    SHNUserConfiguration createUserConfiguration() {
+    /* package */ SHNUserConfiguration createUserConfiguration() {
         SHNUserConfigurationImpl shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
         return new SHNUserConfigurationDispatcher(shnUserConfigurationImpl, internalHandler);
     }
@@ -160,6 +187,10 @@ public class SHNCentral {
 
     /* package */ PersistentStorageFactory createPersistentStorageFactory(SharedPreferencesProvider sharedPreferencesProvider) {
         return new PersistentStorageFactory(sharedPreferencesProvider);
+    }
+
+    /* package */ long getHandlerThreadId(Handler handler) {
+        return handler.getLooper().getThread().getId();
     }
 
     /* package */ Handler createInternalHandler() {
@@ -244,7 +275,7 @@ public class SHNCentral {
             migrateDataFromOldKeysToNewKeys(context, defaultSharedpreferencesProvider);
             return defaultPersistentStorageFactory;
         } else {
-            TimeGuardedSharedPreferencesProviderWrapper timeGuardedSharedPreferencesProviderWrapper = new TimeGuardedSharedPreferencesProviderWrapper(customSharedPreferencesProvider, internalHandler.getLooper().getThread().getId());
+            TimeGuardedSharedPreferencesProviderWrapper timeGuardedSharedPreferencesProviderWrapper = new TimeGuardedSharedPreferencesProviderWrapper(customSharedPreferencesProvider, getHandlerThreadId(internalHandler));
             PersistentStorageFactory customPersistentStorageFactory = createPersistentStorageFactory(timeGuardedSharedPreferencesProviderWrapper);
 
             SharedPreferencesMigrator sharedPreferencesMigrator = createSharedPreferencesMigrator(defaultPersistentStorageFactory, customPersistentStorageFactory);

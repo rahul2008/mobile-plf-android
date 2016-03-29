@@ -25,6 +25,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -62,6 +63,9 @@ public class SHNCentralTest extends RobolectricTest {
     PersistentStorageFactory persistentStorageFactoryMock;
 
     @Mock
+    FutureTask<Boolean> futureTaskMock;
+
+    @Mock
     private SharedPreferencesMigrator mockedSharedPreferencesMigrator;
 
     @Before
@@ -71,6 +75,7 @@ public class SHNCentralTest extends RobolectricTest {
         mockedContext = Utility.makeThrowingMock(Context.class);
         mockedUserHandler = new MockedHandler();
         mockedInternalHandler = new MockedHandler();
+
         mockedPackageManager = Utility.makeThrowingMock(PackageManager.class);
         mockedBluetoothManager = Utility.makeThrowingMock(BluetoothManager.class);
         mockedBluetoothAdapter = Utility.makeThrowingMock(BluetoothAdapter.class);
@@ -156,7 +161,7 @@ public class SHNCentralTest extends RobolectricTest {
         verify(mockedDataMigrater).execute(mockedContext, persistentStorageFactoryMock);
     }
 
-    private void createSHNCentral(final SharedPreferencesProvider mockedSharedPreferencesProvider, boolean migrateFromDefaultProviderToCustom) throws SHNBluetoothHardwareUnavailableException {
+    private void createSHNCentralWithProvider(final SharedPreferencesProvider mockedSharedPreferencesProvider, boolean migrateFromDefaultProviderToCustom) throws SHNBluetoothHardwareUnavailableException {
         new SHNCentral(mockedUserHandler.getMock(), mockedContext, false, mockedSharedPreferencesProvider, migrateFromDefaultProviderToCustom) {
             @Override
             SharedPreferencesMigrator createSharedPreferencesMigrator(PersistentStorageFactory source, PersistentStorageFactory destination) {
@@ -172,6 +177,21 @@ public class SHNCentralTest extends RobolectricTest {
             PersistentStorageFactory createPersistentStorageFactory(SharedPreferencesProvider sharedPreferencesProvider) {
                 return persistentStorageFactoryMock;
             }
+
+            @Override
+            Handler createInternalHandler() {
+                return mockedInternalHandler.getMock();
+            }
+
+            @Override
+            long getHandlerThreadId(Handler handler) {
+                return 1;
+            }
+
+            @Override
+            SHNUserConfiguration createUserConfiguration() {
+                return mock(SHNUserConfiguration.class);
+            }
         };
     }
 
@@ -179,7 +199,7 @@ public class SHNCentralTest extends RobolectricTest {
     public void whenCreatedWithCustomProviderAndMigrationIsRequestedThenExecuteIsCalled() throws SHNBluetoothHardwareUnavailableException {
         SharedPreferencesProvider mockedSharedPreferencesProvider = mock(SharedPreferencesProvider.class);
 
-        createSHNCentral(mockedSharedPreferencesProvider, true);
+        createSHNCentralWithProvider(mockedSharedPreferencesProvider, true);
 
         verify(mockedSharedPreferencesMigrator).execute();
     }
@@ -188,7 +208,7 @@ public class SHNCentralTest extends RobolectricTest {
     public void whenCreatedWithCustomProviderAndMigrationIsNotRequestedThenExecuteIsNotCalled() throws SHNBluetoothHardwareUnavailableException {
         SharedPreferencesProvider mockedSharedPreferencesProvider = mock(SharedPreferencesProvider.class);
 
-        createSHNCentral(mockedSharedPreferencesProvider, false);
+        createSHNCentralWithProvider(mockedSharedPreferencesProvider, false);
 
         verify(mockedSharedPreferencesMigrator, never()).execute();
     }
@@ -200,15 +220,15 @@ public class SHNCentralTest extends RobolectricTest {
         reset(mockedDataMigrater);
         doNothing().when(mockedDataMigrater).execute(any(Context.class), any(PersistentStorageFactory.class));
 
-        createSHNCentral(mockedSharedPreferencesProvider, false);
+        createSHNCentralWithProvider(mockedSharedPreferencesProvider, false);
 
         verify(mockedDataMigrater).execute(mockedContext, persistentStorageFactoryMock);
     }
 
     @Test
     public void whenCreatedWithNoCustomProviderThenExecuteIsNotCalled() throws SHNBluetoothHardwareUnavailableException {
-        createSHNCentral(null, false);
-        createSHNCentral(null, true);
+        createSHNCentralWithProvider(null, false);
+        createSHNCentralWithProvider(null, true);
 
         verify(mockedSharedPreferencesMigrator, never()).execute();
     }
@@ -218,7 +238,7 @@ public class SHNCentralTest extends RobolectricTest {
         when(mockedSharedPreferencesMigrator.destinationPersistentStorageContainsData()).thenReturn(true);
         SharedPreferencesProvider mockedSharedPreferencesProvider = mock(SharedPreferencesProvider.class);
 
-        createSHNCentral(mockedSharedPreferencesProvider, true);
+        createSHNCentralWithProvider(mockedSharedPreferencesProvider, true);
 
         verify(mockedSharedPreferencesMigrator, never()).execute();
     }
