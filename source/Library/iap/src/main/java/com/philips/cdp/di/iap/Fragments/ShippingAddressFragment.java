@@ -124,7 +124,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mPaymentController = new PaymentController(mContext, this);
         mShippingAddressFields = new AddressFields();
 
-        mEtEmail.requestFocus();
         mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
@@ -195,10 +194,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mShippingAddressFields.setRegionIsoCode(mEtState.getText().toString());
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
-
-            /*Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mShippingAddressFields);*/
-
             addFragment(
                     BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         } else if ((msg.obj instanceof IAPNetworkError)) {
@@ -208,7 +203,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
             CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
             Bundle bundle = new Bundle();
-//            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mShippingAddressFields);
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
@@ -231,17 +225,20 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             } else {//Add new address
                 if (!Utility.isProgressDialogShowing()) {
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                    if (mlLState.getVisibility() == View.GONE)
+                        mShippingAddressFields.setRegionIsoCode(null);
                     mAddressController.createAddress(mShippingAddressFields);
                 }
             }
         } else if (v == mBtnCancel) {
-            if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+            getFragmentManager().popBackStackImmediate();
+           /* if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
                 addFragment
                         (AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             } else {
                 addFragment
                         (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-            }
+            }*/
         }
     }
 
@@ -446,7 +443,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if(!mIgnoreTextChangeListener) {
+            if (!mIgnoreTextChangeListener) {
                 validate(mEditText, false);
             }
         }
@@ -469,7 +466,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
-        if(mlLState.getVisibility() == View.GONE){
+        if (mlLState.getVisibility() == View.GONE) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, null);
         }
         return addressHashMap;

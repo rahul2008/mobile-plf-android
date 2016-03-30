@@ -50,7 +50,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         super.onResume();
         setTitle(R.string.iap_order_summary);
         if (isOrderPlaced()) {
-            setBackButtonVisibility(View.INVISIBLE);
+            setBackButtonVisibility(View.GONE);
         }
     }
 

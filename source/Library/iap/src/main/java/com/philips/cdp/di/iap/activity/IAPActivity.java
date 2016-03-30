@@ -31,6 +31,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
     private TextView mTitleTextView;
     private ImageView mBackButton;
+    private FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mBackButton = (ImageView) mCustomView.findViewById(R.id.arrow);
         mBackButton.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
 
-        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
+        frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -111,6 +112,13 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
 
     @Override
     public void setBackButtonVisibility(final int isVisible) {
+        if(isVisible == View.GONE){
+            frameLayout.setEnabled(false);
+            frameLayout.setClickable(false);
+        }else if (isVisible == View.VISIBLE){
+            frameLayout.setEnabled(true);
+            frameLayout.setClickable(true);
+        }
         mBackButton.setVisibility(isVisible);
     }
 
