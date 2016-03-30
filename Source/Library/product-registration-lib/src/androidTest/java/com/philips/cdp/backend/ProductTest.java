@@ -13,8 +13,6 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.prxrequest.ProductMetadataRequest;
 
-import org.junit.Test;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -33,7 +31,6 @@ public class ProductTest extends MockitoTestCase {
         context = getInstrumentation().getContext();
     }
 
-    @Test
     public void testProductMetadataCallInvoked() {
         final RequestManager requestManager = mock(RequestManager.class);
         final ResponseListener responseListener = mock(ResponseListener.class);
@@ -53,14 +50,14 @@ public class ProductTest extends MockitoTestCase {
 
             @NonNull
             @Override
-            ResponseListener getMetadataResponseListener(final ProdRegListener metadataListener) {
+            ResponseListener getPrxResponseListener(final ProdRegListener metadataListener) {
                 return responseListener;
             }
         };
         product.getProductMetadata(context, prodRegListener);
         verify(requestManager).executeRequest(productMetadataRequest, responseListener);
         final ProductMetadataRequest productMetadataRequest1 = product.getProductMetadataRequest("");
-        assert (productMetadataRequest1 instanceof ProductMetadataRequest);
+        assertTrue(productMetadataRequest1 instanceof ProductMetadataRequest);
     }
 
     public void testHandleErrorCases() {

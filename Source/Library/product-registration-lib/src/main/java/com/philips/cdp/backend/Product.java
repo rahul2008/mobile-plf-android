@@ -43,12 +43,12 @@ public class Product {
         productMetadataRequest.setCatalog(getCatalog());
         productMetadataRequest.setmLocale(getLocale());
         RequestManager mRequestManager = getRequestManager(context);
-        final ResponseListener metadataResponseListener = getMetadataResponseListener(metadataListener);
+        final ResponseListener metadataResponseListener = getPrxResponseListener(metadataListener);
         mRequestManager.executeRequest(productMetadataRequest, metadataResponseListener);
     }
 
     @NonNull
-    ResponseListener getMetadataResponseListener(final ProdRegListener metadataListener) {
+    ResponseListener getPrxResponseListener(final ProdRegListener metadataListener) {
         return new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {

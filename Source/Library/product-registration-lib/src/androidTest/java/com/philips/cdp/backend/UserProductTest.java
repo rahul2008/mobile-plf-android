@@ -127,7 +127,7 @@ public class UserProductTest extends MockitoTestCase {
 
             @NonNull
             @Override
-            ProdRegListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener listener) {
+            ProdRegListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener appListener) {
                 return prodRegListenerMock;
             }
         };
