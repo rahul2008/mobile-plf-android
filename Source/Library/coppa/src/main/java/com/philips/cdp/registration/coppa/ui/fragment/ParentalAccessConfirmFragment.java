@@ -121,7 +121,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
         int id = v.getId();
         if (id == R.id.btn_reg_continue) {
-            getRegistrationFragment().launchRegistrationFragment(false);
+            getRegistrationFragment().launchRegistrationFragment();
         }else if(id == R.id.tv_reg_how_old){
             XNumberPickerDialog dialogCoppaAgeVerification = new XNumberPickerDialog(new NumberPickerListener() {
                 @Override

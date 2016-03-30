@@ -2,7 +2,6 @@
 package com.philips.cdp.registration.coppa.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,14 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
@@ -26,24 +21,11 @@ import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
-import com.philips.cdp.registration.ui.social.MergeAccountFragment;
-import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
-import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
-import com.philips.cdp.registration.ui.traditional.CreateAccountFragment;
-import com.philips.cdp.registration.ui.traditional.ForgotPasswordFragment;
-import com.philips.cdp.registration.ui.traditional.HomeFragment;
-import com.philips.cdp.registration.ui.traditional.LogoutFragment;
-import com.philips.cdp.registration.ui.traditional.PhilipsNewsFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
-import com.philips.cdp.registration.ui.traditional.SignInAccountFragment;
-import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.dhpclient.BuildConfig;
-
-import org.json.JSONObject;
 
 public class RegistrationCoppaFragment extends Fragment implements NetworStateListener, OnClickListener {
 
@@ -59,6 +41,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     private int titleResourceID = -99;
 
     private boolean isAccountSettings = true;
+
+    private static int lastKnownResourceId = -99;
 
 
     @Override
@@ -130,7 +114,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     public boolean onBackPressed() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onBackPressed");
-        hideKeyBoard();
         return handleBackStack();
     }
 
@@ -160,53 +143,13 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         return true;
     }
 
-    private void trackHandler() {
-        int count = mFragmentManager.getBackStackEntryCount();
-        if (count > 0) {
-            String prevPage;
-            String curPage;
-            if (mFragmentManager.getFragments() != null) {
-                Fragment currentFragment = mFragmentManager.getFragments().get(count);
-                Fragment preFragment = mFragmentManager.getFragments().get(count - 1);
-                prevPage = getTackingPageName(currentFragment);
-                curPage = getTackingPageName(preFragment);
-                RLog.i("BAck identification", "Pre Page: " + prevPage + " Current : " + curPage);
-                trackPage(curPage);
-            }
-        }
-
-    }
-
-    private String getTackingPageName(Fragment fragment) {
-        if (fragment instanceof HomeFragment) {
-            return AppTaggingPages.HOME;
-
-        } else if (fragment instanceof CreateAccountFragment) {
-            return AppTaggingPages.CREATE_ACCOUNT;
-
-        } else if (fragment instanceof SignInAccountFragment) {
-            return AppTaggingPages.CREATE_ACCOUNT;
-
-        } else if (fragment instanceof AccountActivationFragment) {
-            return AppTaggingPages.ACCOUNT_ACTIVATION;
-
-        } else if (fragment instanceof WelcomeFragment) {
-            return AppTaggingPages.WELCOME;
-
-        } else if (fragment instanceof AlmostDoneFragment) {
-            return AppTaggingPages.ALMOST_DONE;
-        } else {
-            return AppTaggingPages.MERGE_ACCOUNT;
-        }
-    }
-
 
     public void loadFirstFragment() {
 
         User user = new User(mActivity);
-        if(user.isUserSignIn()){
+        if (user.isUserSignIn()) {
             launchRegistrationFragmentOnLoggedIn(isAccountSettings);
-        }else{
+        } else {
             replaceWithParentalAccess();
         }
 
@@ -226,63 +169,14 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
-    private void handleUserLoginStateFragments() {
-        User mUser = new User(mActivity.getApplicationContext());
 
-        //account setting true or no
-        //if true follow bellow else cckech for sign in status and repave with wel come screen on sing els ehome
-        if (isAccountSettings) {
-            if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
-                replaceWithLogoutFragment();
-                return;
-            }
-
-            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
-                AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
-                replaceWithLogoutFragment();
-                return;
-            }
-            AppTagging.trackFirstPage(AppTaggingPages.HOME);
-            replaceWithHomeFragment();
-        } else {
-            if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
-                // replaceWithLogoutFragment();
-                //replace with welcome
-                replaceWithWelcomeFragment();
-                return;
-            }
-            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
-                AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
-                replaceWithWelcomeFragment();
-                return;
-            }
-            AppTagging.trackFirstPage(AppTaggingPages.HOME);
-            replaceWithHomeFragment();
-        }
-
+    public void addParentalConfirmFragment() {
+        ParentalAccessConfirmFragment parentalAccessConfirmFragment = new ParentalAccessConfirmFragment();
+        addFragment(parentalAccessConfirmFragment);
     }
 
-    private void trackPage(String currPage) {
-        AppTagging.trackPage(currPage);
-    }
 
-    public void replaceWithHomeFragment() {
-        try {
-            if (null != mFragmentManager) {
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
-                fragmentTransaction.commitAllowingStateLoss();
-            }
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-    }
-
-    public void addFragment(Fragment fragment) {
+    private void addFragment(Fragment fragment) {
         try {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
@@ -293,149 +187,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                     "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
                             + e.getMessage());
         }
-        hideKeyBoard();
     }
 
-    public void replaceWelcomeFragmentOnLogin(Fragment fragment) {
-        navigateToHome();
-        try {
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-        hideKeyBoard();
-    }
-
-    public void navigateToHome() {
-        FragmentManager fragmentManager = getChildFragmentManager();
-        int fragmentCount = fragmentManager.getBackStackEntryCount();
-        try {
-            for (int i = fragmentCount; i >= 0; i--) {
-                fragmentManager.popBackStack();
-            }
-        } catch (IllegalStateException ignore) {
-        } catch (Exception ignore) {
-        }
-    }
-
-    public void addWelcomeFragmentOnVerification() {
-        navigateToHome();
-        WelcomeFragment welcomeFragment = new WelcomeFragment();
-        replaceFragment(welcomeFragment);
-    }
-
-    public void replaceFragment(Fragment fragment) {
-        try {
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-        hideKeyBoard();
-    }
-
-    private void replaceWithWelcomeFragment() {
-        try {
-            WelcomeFragment welcomeFragment = new WelcomeFragment();
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-    }
-
-    private void replaceWithLogoutFragment() {
-        try {
-            LogoutFragment logoutFragment = new LogoutFragment();
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, logoutFragment);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-    }
-
-
-    public void addAlmostDoneFragment(JSONObject preFilledRecord, String provider,
-                                      String registrationToken) {
-        AlmostDoneFragment socialAlmostDoneFragment = new AlmostDoneFragment();
-        Bundle socialAlmostDoneFragmentBundle = new Bundle();
-        socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_TWO_STEP_ERROR,
-                preFilledRecord.toString());
-        socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_PROVIDER, provider);
-        socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_REGISTRATION_TOKEN,
-                registrationToken);
-        socialAlmostDoneFragmentBundle.putBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, true);
-        socialAlmostDoneFragment.setArguments(socialAlmostDoneFragmentBundle);
-        addFragment(socialAlmostDoneFragment);
-    }
-
-    public void addPlainAlmostDoneFragment() {
-        AlmostDoneFragment almostDoneFragment = new AlmostDoneFragment();
-        addFragment(almostDoneFragment);
-    }
-
-    public void addAlmostDoneFragmentforTermsAcceptance() {
-        AlmostDoneFragment almostDoneFragment = new AlmostDoneFragment();
-        Bundle almostDoneFragmentBundle = new Bundle();
-        almostDoneFragmentBundle.putBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, true);
-        addFragment(almostDoneFragment);
-    }
-
-    public void addPhilipsNewsFragment() {
-        PhilipsNewsFragment philipsNewsFragment = new PhilipsNewsFragment();
-        addFragment(philipsNewsFragment);
-    }
-
-    public void addMergeAccountFragment(String registrationToken, String provider, String emailId) {
-        MergeAccountFragment mergeAccountFragment = new MergeAccountFragment();
-        Bundle mergeFragmentBundle = new Bundle();
-        mergeFragmentBundle.putString(RegConstants.SOCIAL_PROVIDER, provider);
-        mergeFragmentBundle.putString(RegConstants.SOCIAL_MERGE_TOKEN, registrationToken);
-        mergeFragmentBundle.putString(RegConstants.SOCIAL_MERGE_EMAIL, emailId);
-        mergeAccountFragment.setArguments(mergeFragmentBundle);
-        addFragment(mergeAccountFragment);
-    }
-
-    public void addMergeSocialAccountFragment(Bundle bundle) {
-        MergeSocialToSocialAccountFragment mergeAccountFragment = new MergeSocialToSocialAccountFragment();
-        mergeAccountFragment.setArguments(bundle);
-        addFragment(mergeAccountFragment);
-    }
-
-    public void launchAccountActivationFragmentForLogin() {
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(RegConstants.IS_SOCIAL_PROVIDER, true);
-        trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
-        AccountActivationFragment accountActivationFragment = new AccountActivationFragment();
-        accountActivationFragment.setArguments(bundle);
-        addFragment(accountActivationFragment);
-    }
-
-    public void addResetPasswordFragment() {
-        ForgotPasswordFragment resetPasswordFragment = new ForgotPasswordFragment();
-        addFragment(resetPasswordFragment);
-    }
-
-    public void hideKeyBoard() {
-        InputMethodManager imm = (InputMethodManager) mActivity
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (mActivity.getWindow() != null && mActivity.getWindow().getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(mActivity.getWindow().getCurrentFocus().getWindowToken(), 0);
-        }
-    }
 
     @Override
     public void onClick(View v) {
@@ -488,13 +241,33 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     }
 
 
-    public void launchRegistrationFragment(boolean isAccountSettings) {
+    public void launchRegistrationFragment() {
         try {
             RegistrationFragment registrationFragment = new RegistrationFragment();
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
-            registrationFragment.setOnUpdateTitleListener(mRegistrationUpdateTitleListener);
+            registrationFragment.setPreviousResourceId(titleResourceID);
+            registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
+                @Override
+                public void updateRegistrationTitle(int titleResourceID) {
+                    lastKnownResourceId =titleResourceID;
+                    mRegistrationUpdateTitleListener.updateRegistrationTitle(titleResourceID);
+                }
+
+                @Override
+                public void updateRegistrationTitleWithBack(int titleResourceID) {
+                    lastKnownResourceId =titleResourceID;
+                    mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                }
+
+                @Override
+                public void updateRegistrationTitleWithOutBack(int titleResourceID) {
+                    lastKnownResourceId =titleResourceID;
+                    mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+
+                }
+            });
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(registrationFragment.getTag());
             fragmentTransaction.add(R.id.fl_reg_fragment_container, registrationFragment,
@@ -514,7 +287,26 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
-            registrationFragment.setOnUpdateTitleListener(mRegistrationUpdateTitleListener);
+            registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
+                @Override
+                public void updateRegistrationTitle(int titleResourceID) {
+                    lastKnownResourceId =titleResourceID;
+                    mRegistrationUpdateTitleListener.updateRegistrationTitle(titleResourceID);
+                }
+
+                @Override
+                public void updateRegistrationTitleWithBack(int titleResourceID) {
+                    lastKnownResourceId =titleResourceID;
+                    mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                }
+
+                @Override
+                public void updateRegistrationTitleWithOutBack(int titleResourceID) {
+                    lastKnownResourceId =titleResourceID;
+                    mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+
+                }
+            });
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
                     RegConstants.REGISTRATION_FRAGMENT_TAG);
@@ -526,23 +318,38 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
+
+    private static void addParentalApprovalFragment() {
+        //update coppa with prev as registration and adding on top
+
+        if (mFragmentManager != null) {
+            try {
+                ParentalApprovalFragment parentalAccessFragment = new ParentalApprovalFragment();
+                int count = mFragmentManager.getBackStackEntryCount();
+                RegistrationFragment registrationFragment = null;
+                if (count != 0 && registrationFragment instanceof RegistrationFragment) {
+                   registrationFragment =(RegistrationFragment)mFragmentManager.getFragments().get(count);
+                }
+                if(registrationFragment!=null) {
+                    parentalAccessFragment.setPrevTitleResourceId(lastKnownResourceId);
+                }
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.fl_reg_fragment_container, parentalAccessFragment, "Parental Access");
+                fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
+                fragmentTransaction.commitAllowingStateLoss();
+            } catch (IllegalStateException e) {
+                RLog.e(RLog.EXCEPTION,
+                        "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
+                                + e.getMessage());
+            }
+        }
+    }
+
     private static UserRegistrationListener mUserRegistrationListener = new UserRegistrationListener() {
         @Override
         public void onUserRegistrationComplete(Activity activity) {
             //Launch the Approval fragment
-            if (mFragmentManager != null) {
-                try {
-                    ParentalApprovalFragment parentalAccessFragment = new ParentalApprovalFragment();
-                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    fragmentTransaction.add(R.id.fl_reg_fragment_container, parentalAccessFragment, "Parental Access");
-                    fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
-                    fragmentTransaction.commitAllowingStateLoss();
-                } catch (IllegalStateException e) {
-                    RLog.e(RLog.EXCEPTION,
-                            "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
-                                    + e.getMessage());
-                }
-            }
+            addParentalApprovalFragment();
         }
 
         @Override
@@ -580,7 +387,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             }
         }
     };
-
 
     public static UserRegistrationListener getUserRegistrationListener() {
         return mUserRegistrationListener;

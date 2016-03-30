@@ -127,8 +127,7 @@ public class ParentalAccessFragment extends RegistrationCoppaBaseFragment implem
     public void onClick(View v) {
         int id = v.getId();
         if(id== R.id.btn_reg_over_16){
-            ParentalAccessConfirmFragment parentalAccessConfirmFragment = new ParentalAccessConfirmFragment();
-            getRegistrationFragment().addFragment(parentalAccessConfirmFragment);
+            getRegistrationFragment().addParentalConfirmFragment();
         }
         if (id == R.id.btn_reg_under_16) {
             String minAgeLimitTest = getActivity().getString(R.string.Coppa_Age_Verification_UnderAge_Alert_Txt);

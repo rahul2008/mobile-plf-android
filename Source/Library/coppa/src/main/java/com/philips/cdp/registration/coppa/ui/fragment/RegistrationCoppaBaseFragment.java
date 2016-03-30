@@ -16,11 +16,12 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 
-import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
@@ -38,6 +39,14 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
     protected abstract void handleOrientation(final View view);
 
     public abstract int getTitleResourceId();
+
+    public int getPrevTitleResourceId() {
+        return mPrevTitleResourceId;
+    }
+
+    public void setPrevTitleResourceId(int mPrevTitleResourceId) {
+        this.mPrevTitleResourceId = mPrevTitleResourceId;
+    }
 
     private int mPrevTitleResourceId = -99;
 
@@ -131,16 +140,48 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
-            if (fragment.getFragmentCount() > 2) {
-                fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                        mPrevTitleResourceId);
-            } else {
-                fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);
-            }
 
-            trackBackActionPage();
-            fragment.setResourceID(mPrevTitleResourceId);
+
+            if( this instanceof ParentalApprovalFragment){
+
+                int count = fragment.getChildFragmentManager().getBackStackEntryCount();
+
+                Fragment regFragment = fragment.getChildFragmentManager().getFragments().get(count);
+                if (regFragment != null && regFragment instanceof RegistrationFragment) {
+                    fragment.getUpdateTitleListener().updateRegistrationTitle(((RegistrationFragment)regFragment).getCurrentTitleResource());
+                }
+
+
+
+
+            }else {
+                if (fragment.getFragmentCount() > 2) {
+                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                            mPrevTitleResourceId);
+                } else {
+                    fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);
+                }
+
+                trackBackActionPage();
+                fragment.setResourceID(mPrevTitleResourceId);
+            }
+        }else{
+            if( this instanceof ParentalApprovalFragment){
+
+                int count = fragment.getChildFragmentManager().getBackStackEntryCount();
+
+                Fragment regFragment = fragment.getChildFragmentManager().getFragments().get(count);
+                if (regFragment != null && regFragment instanceof RegistrationFragment) {
+                    fragment.getUpdateTitleListener().updateRegistrationTitle(((RegistrationFragment)regFragment).getCurrentTitleResource());
+                }
+
+
+
+
+            }
         }
+
+
     }
 
     private void trackBackActionPage() {
