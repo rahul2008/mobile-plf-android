@@ -80,4 +80,9 @@ public class ProductMetadataRequest extends PrxRequest {
         Log.d(getClass() + "", url);
         return url;
     }
+
+    public void setCtn(final String mCtn) {
+        this.mCtn = mCtn;
+    }
+
 }

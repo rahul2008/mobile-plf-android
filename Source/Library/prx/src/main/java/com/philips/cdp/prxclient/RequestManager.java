@@ -43,7 +43,8 @@ public class RequestManager {
                     public void onLocaleMatchRefreshed(String locale) {
                         PILLocale pilLocaleInstance = pilLocaleManager.currentLocaleWithCountryFallbackForPlatform(mContext, locale,
                                 Platform.PRX, prxRequest.getSector(), prxRequest.getCatalog());
-                        mLocale[0] = pilLocaleInstance.getLanguageCode() + "_" + pilLocaleInstance.getCountrycode();
+                        if (pilLocaleInstance != null)
+                            mLocale[0] = pilLocaleInstance.getLanguageCode() + "_" + pilLocaleInstance.getCountrycode();
                         prxRequest.setLocaleMatchResult(mLocale[0]);
 
                         makeRequest(prxRequest, listener);

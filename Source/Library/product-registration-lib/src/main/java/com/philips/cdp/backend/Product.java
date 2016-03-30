@@ -4,15 +4,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.handler.ErrorType;
-import com.philips.cdp.handler.PRXRequestType;
 import com.philips.cdp.handler.ProdRegListener;
-import com.philips.cdp.model.ProdRegMetaData;
-import com.philips.cdp.model.ProdRegMetaDataResponse;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.registration.User;
+import com.philips.cdp.prxrequest.ProductMetadataRequest;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -20,39 +18,52 @@ import com.philips.cdp.registration.User;
  */
 public class Product {
 
+    private String ctn;
+    private String serialNumber;
+    private String purchaseDate;
+    private Sector sector;
+    private Catalog catalog;
+    private String locale;
+
+    public Product(String ctn, String serialNumber, String purchaseDate, Sector sector, Catalog catalog) {
+        this.ctn = ctn;
+        this.serialNumber = serialNumber;
+        this.purchaseDate = purchaseDate;
+        this.sector = sector;
+        this.catalog = catalog;
+    }
+
     public void getProductSummary() {
 
     }
 
-    public void getProductMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
-        final PRXDataBuilderFactory prxDataBuilderFactory = new PRXDataBuilderFactory();
-        final PrxRequest prxRequest = prxDataBuilderFactory.createPRXBuilder(PRXRequestType.METADATA, prodRegRequestInfo, new User(context).getAccessToken());
+    public void getProductMetadata(final Context context, final ProdRegListener metadataListener) {
+        ProductMetadataRequest productMetadataRequest = getProductMetadataRequest(getCtn());
+        productMetadataRequest.setSector(getSector());
+        productMetadataRequest.setCatalog(getCatalog());
+        productMetadataRequest.setmLocale(getLocale());
         RequestManager mRequestManager = getRequestManager(context);
-        final ResponseListener localListener = getMetadataResponseListener(prodRegRequestInfo, listener);
-        mRequestManager.executeRequest(prxRequest, localListener);
+        final ResponseListener metadataResponseListener = getMetadataResponseListener(metadataListener);
+        mRequestManager.executeRequest(productMetadataRequest, metadataResponseListener);
     }
 
     @NonNull
-    private ResponseListener getMetadataResponseListener(final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
+    ResponseListener getMetadataResponseListener(final ProdRegListener metadataListener) {
         return new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                ProdRegMetaData productMetaData = (ProdRegMetaData) responseData;
-                ProdRegMetaDataResponse productData = productMetaData.getData();
-                if (validateSerialNumberFromMetadata(productData, prodRegRequestInfo, listener)
-                        && validatePurchaseDateFromMetadata(productData, prodRegRequestInfo, listener))
-                    listener.onProdRegSuccess(null);
+                metadataListener.onProdRegSuccess(responseData);
             }
 
             @Override
             public void onResponseError(String error, int code) {
-                handleError(code, listener);
+                handleError(code, metadataListener);
             }
         };
     }
 
     @NonNull
-    private RequestManager getRequestManager(final Context context) {
+    RequestManager getRequestManager(final Context context) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(context);
         return mRequestManager;
@@ -74,37 +85,43 @@ public class Product {
         }
     }
 
-    protected boolean validateSerialNumberFromMetadata(final ProdRegMetaDataResponse data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
-        if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
-            if (processSerialNumber(data, listener, prodRegRequestInfo)) return false;
-        } else {
-            prodRegRequestInfo.setSerialNumber(null);
-        }
-        return true;
+    public String getCtn() {
+        return ctn;
     }
 
-    private boolean processSerialNumber(final ProdRegMetaDataResponse data, final ProdRegListener listener, ProdRegRequestInfo prodRegRequestInfo) {
-        if (prodRegRequestInfo.getSerialNumber() == null || prodRegRequestInfo.getSerialNumber().length() < 1) {
-            listener.onProdRegFailed(ErrorType.MISSING_SERIALNUMBER);
-            return true;
-        } else if (!prodRegRequestInfo.getSerialNumber().matches(data.getSerialNumberFormat())) {
-            listener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
-            return true;
-        }
-        return false;
+    public String getSerialNumber() {
+        return serialNumber;
     }
 
-    protected boolean validatePurchaseDateFromMetadata(final ProdRegMetaDataResponse data, final ProdRegRequestInfo prodRegRequestInfo, final ProdRegListener listener) {
-        final String purchaseDate = prodRegRequestInfo.getPurchaseDate();
-        if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
-            if (purchaseDate != null && purchaseDate.length() > 0) {
-                return true;
-            } else {
-                listener.onProdRegFailed(ErrorType.MISSING_DATE);
-                return false;
-            }
-        } else
-            prodRegRequestInfo.setPurchaseDate(null);
-        return true;
+    public void setSerialNumber(final String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public Sector getSector() {
+        return sector;
+    }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    public String getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(final String purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public ProductMetadataRequest getProductMetadataRequest(String ctn) {
+        return new ProductMetadataRequest(ctn);
     }
 }

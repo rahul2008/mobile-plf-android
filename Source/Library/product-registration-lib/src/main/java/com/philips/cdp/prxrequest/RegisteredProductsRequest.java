@@ -18,16 +18,16 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegisteredRequest extends PrxRequest {
+public class RegisteredProductsRequest extends PrxRequest {
 
     private String accessToken;
 
-    public RegisteredRequest(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
     public String getAccessToken() {
         return accessToken;
+    }
+
+    public void setAccessToken(final String accessToken) {
+        this.accessToken = accessToken;
     }
 
     @Override

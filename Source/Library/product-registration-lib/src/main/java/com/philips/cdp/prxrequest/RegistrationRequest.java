@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class RegistrationRequest extends PrxRequest {
 
-    private String mCtn = null;
+    private String ctn = null;
     private String accessToken;
     private String productSerialNumber;
     private String mServerInfo = "https://dev.philips.com/prx/registration/";
@@ -38,7 +38,7 @@ public class RegistrationRequest extends PrxRequest {
     private String country;
 
     public RegistrationRequest(String ctn, final String serialNumber, String accessToken) {
-        this.mCtn = ctn;
+        this.ctn = ctn;
         this.productSerialNumber = serialNumber;
         this.accessToken = accessToken;
     }
@@ -136,7 +136,7 @@ public class RegistrationRequest extends PrxRequest {
     }
 
     public String getCtn() {
-        return mCtn;
+        return ctn;
     }
 
     public String getAccessToken() {
@@ -196,7 +196,7 @@ public class RegistrationRequest extends PrxRequest {
                 .appendPath(getLocaleMatchResult())
                 .appendPath(getCatalog().name())
                 .appendPath("products")
-                .appendPath(mCtn + ".register.type.product")
+                .appendPath(ctn + ".register.type.product")
                 .build();
         return getDecodedUrl(builtUri);
     }

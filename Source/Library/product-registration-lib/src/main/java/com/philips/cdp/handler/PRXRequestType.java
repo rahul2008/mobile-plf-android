@@ -5,14 +5,14 @@ package com.philips.cdp.handler;
  * All rights reserved.
  */
 public enum PRXRequestType {
-    METADATA(0), REGISTRATION(1), FETCH_PRODUCTS(2);
-    private int value;
+    METADATA(0), REGISTRATION(1), GET_REGISTERED_PRODUCTS(2);
+    private final int value;
 
     PRXRequestType(int value) {
         this.value = value;
     }
 
     public int getValue() {
-        return this.value;
+        return value;
     }
 }

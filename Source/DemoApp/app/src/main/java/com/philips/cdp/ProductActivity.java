@@ -9,11 +9,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.philips.cdp.handler.ProdRegConstants;
 import com.philips.cdp.backend.ProdRegHelper;
-import com.philips.cdp.backend.ProdRegRequestInfo;
+import com.philips.cdp.backend.Product;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.handler.ErrorType;
+import com.philips.cdp.handler.ProdRegConstants;
 import com.philips.cdp.handler.ProdRegListener;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
@@ -86,10 +86,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void registerProduct() {
-        ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(mCtn.getText().toString(), mSerialNumber.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
-        prodRegRequestInfo.setPurchaseDate(mPurchaseDate.getText().toString());
+        Product product = new Product(mCtn.getText().toString(), mSerialNumber.getText().toString(), mPurchaseDate.getText().toString(),
+                Sector.B2C, Catalog.CONSUMER);
+
         final ProdRegListener listener = new ProdRegListener() {
             @Override
             public void onProdRegSuccess(ResponseData responseData) {
@@ -105,7 +106,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(ProductActivity.this, errorType.getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
-        prodRegHelper.registerProduct(this, prodRegRequestInfo, listener);
+        prodRegHelper.registerProduct(this, product, listener);
     }
 
     @Override

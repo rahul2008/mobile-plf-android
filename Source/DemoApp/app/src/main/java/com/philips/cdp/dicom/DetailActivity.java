@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.Util;
 import com.philips.cdp.backend.ProdRegHelper;
-import com.philips.cdp.backend.ProdRegRequestInfo;
+import com.philips.cdp.backend.Product;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
@@ -33,6 +33,8 @@ import com.philips.cdp.model.ProdRegResponse;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+
+import java.util.Locale;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -196,10 +198,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void registerProduct() {
-        ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(mCtn.getText().toString(), mSerial_number.getText().toString(), Sector.B2C, Catalog.CONSUMER);
-        ProdRegHelper prodRegHelper = new ProdRegHelper();
-        prodRegHelper.setLocale("en", "GB");
-        prodRegRequestInfo.setPurchaseDate("2016-03-21");
         final ProdRegListener listener = new ProdRegListener() {
             @Override
             public void onProdRegSuccess(ResponseData responseData) {
@@ -215,6 +213,10 @@ public class DetailActivity extends AppCompatActivity {
                 Toast.makeText(DetailActivity.this, errorType.getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
-        prodRegHelper.registerProduct(this, prodRegRequestInfo, listener);
+        ProdRegHelper prodRegHelper = new ProdRegHelper();
+        prodRegHelper.setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
+        Product product = new Product(mCtn.getText().toString(), mSerial_number.getText().toString(), "2016-03-21",
+                Sector.B2C, Catalog.CONSUMER);
+        prodRegHelper.registerProduct(this, product, listener);
     }
 }
