@@ -8,7 +8,6 @@ package com.philips.cdp.di.iap.session;
 import android.os.Message;
 
 import com.android.volley.Response;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.ModelConstants;
