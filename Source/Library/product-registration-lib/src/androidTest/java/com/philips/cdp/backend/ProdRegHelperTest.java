@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.MockitoTestCase;
 import com.philips.cdp.handler.ProdRegListener;
-import com.philips.cdp.prxclient.RequestManager;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -41,7 +40,6 @@ public class ProdRegHelperTest extends MockitoTestCase {
                 .class);
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         prodRegHelper.registerProduct(mContext, product, prodRegListener);
-        RequestManager requestManager = mock(RequestManager.class);
         verify(userProduct[0]).registerProduct(mContext, product, prodRegListener);
 
     }
