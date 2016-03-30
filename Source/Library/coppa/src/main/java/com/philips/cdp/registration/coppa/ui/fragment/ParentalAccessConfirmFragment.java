@@ -103,8 +103,8 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
     @Override
     public void setViewParams(Configuration config, int width) {
         applyParams(config, mRlBtnContinueContainer, width);
-        applyParams(config, mTvHowOld, width);
-        applyParams(config, mTvYearOfBirth, width);
+        applyParams(config, mLlSelectAgeContainer, width);
+        applyParams(config, mLlSelectYearContainer, width);
     }
 
     @Override
