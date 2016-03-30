@@ -54,7 +54,7 @@
                     android:enabled="true"
                     android:visibility="gone"
                     android:layout_marginTop="@dimen/reg_margin_bottom"
-                    android:text="@string/Coppa_Agree"
+                    android:text="@string/Coppa_Parent_Access_Agree_Button_Txt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XButton
@@ -64,7 +64,7 @@
                     android:background="@drawable/reg_btn_forgot_selector"
                     android:layout_marginTop="@dimen/reg_margin_bottom"
                     android:visibility="gone"
-                    android:text="@string/Coppa_Disagree"
+                    android:text="@string/Coppa_Parent_Access_Disagree_Button_Txt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
