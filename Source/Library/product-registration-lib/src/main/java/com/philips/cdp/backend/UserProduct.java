@@ -43,31 +43,6 @@ public class UserProduct {
         this.catalog = catalog;
     }
 
-    public void getRegisteredProducts(final Context context, final ProdRegListener listener) {
-        this.mContext = context;
-        this.requestType = ProdRegConstants.FETCH_REGISTERED_PRODUCTS;
-        RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest(context);
-        final RequestManager mRequestManager = getRequestManager(context);
-        mRequestManager.executeRequest(registeredProductsRequest, getLocalResponseListener(listener));
-    }
-
-    @NonNull
-    RegisteredProductsRequest getRegisteredProductsRequest(final Context context) {
-        RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest();
-        registeredProductsRequest.setSector(getSector());
-        registeredProductsRequest.setCatalog(getCatalog());
-        registeredProductsRequest.setAccessToken(new User(context).getAccessToken());
-        registeredProductsRequest.setmLocale(getLocale());
-        return registeredProductsRequest;
-    }
-
-    @NonNull
-    RequestManager getRequestManager(final Context context) {
-        RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(context);
-        return mRequestManager;
-    }
-
     public void registerProduct(final Context context, final Product product, final ProdRegListener appListener) {
         this.mContext = context;
         this.product = product;
@@ -86,20 +61,15 @@ public class UserProduct {
         }
     }
 
-    @NonNull
-    private RegistrationRequest getRegistrationRequest(final Context context, final Product product) {
-        RegistrationRequest registrationRequest = new RegistrationRequest(product.getCtn(), product.getSerialNumber(), new User(context).getAccessToken());
-        registrationRequest.setSector(product.getSector());
-        registrationRequest.setCatalog(product.getCatalog());
-        registrationRequest.setmLocale(product.getLocale());
-        registrationRequest.setProductSerialNumber(product.getSerialNumber());
-        registrationRequest.setAccessToken(new User(context).getAccessToken());
-        registrationRequest.setRegistrationChannel(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
-        registrationRequest.setPurchaseDate(product.getPurchaseDate());
-        return registrationRequest;
+    public void getRegisteredProducts(final Context context, final ProdRegListener listener) {
+        this.mContext = context;
+        this.requestType = ProdRegConstants.FETCH_REGISTERED_PRODUCTS;
+        RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest(context);
+        final RequestManager mRequestManager = getRequestManager(context);
+        mRequestManager.executeRequest(registeredProductsRequest, getLocalResponseListener(listener));
     }
 
-    void handleError(final int statusCode, final ProdRegListener listener) {
+    protected void handleError(final int statusCode, final ProdRegListener listener) {
         if (statusCode == ErrorType.INVALID_CTN.getCode()) {
             listener.onProdRegFailed(ErrorType.INVALID_CTN);
         } else if (statusCode == ErrorType.USER_TOKEN_EXPIRED.getCode()) {
@@ -117,6 +87,128 @@ public class UserProduct {
         } else {
             listener.onProdRegFailed(ErrorType.UNKNOWN);
         }
+    }
+
+    @NonNull
+    protected RegisteredProductsRequest getRegisteredProductsRequest(final Context context) {
+        RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest();
+        registeredProductsRequest.setSector(getSector());
+        registeredProductsRequest.setCatalog(getCatalog());
+        registeredProductsRequest.setAccessToken(new User(context).getAccessToken());
+        registeredProductsRequest.setmLocale(getLocale());
+        return registeredProductsRequest;
+    }
+
+    @NonNull
+    protected RequestManager getRequestManager(final Context context) {
+        RequestManager mRequestManager = new RequestManager();
+        mRequestManager.init(context);
+        return mRequestManager;
+    }
+
+    protected boolean isUserSignedIn(final User mUser, final Context context) {
+        return mUser.isUserSignIn(context) && mUser.getEmailVerificationStatus(context);
+    }
+
+    protected boolean isValidaDate(final String date) {
+        if (date != null && date.length() != 0) {
+            String[] dates = date.split("-");
+            return dates.length > 1 && Integer.parseInt(dates[0]) > 1999;
+        }
+        return true;
+    }
+
+    @NonNull
+    protected UserProduct getUserProduct(final Product product) {
+        return new UserProduct(product.getSector(), product.getCatalog());
+    }
+
+    String getRequestType() {
+        return requestType;
+    }
+
+    @NonNull
+    protected ProdRegListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener listener) {
+        return new ProdRegListener() {
+            @Override
+            public void onProdRegSuccess(ResponseData responseData) {
+                ProdRegRegisteredDataResponse registeredDataResponse = (ProdRegRegisteredDataResponse) responseData;
+                ProdRegRegisteredResults[] results = registeredDataResponse.getResults();
+                if (!isCtnRegistered(results, product, listener))
+                    product.getProductMetadata(context, getMetadataListener(product, listener));
+            }
+
+            @Override
+            public void onProdRegFailed(final ErrorType errorType) {
+                listener.onProdRegFailed(errorType);
+            }
+        };
+    }
+
+    @NonNull
+    protected ProdRegListener getMetadataListener(final Product product, final ProdRegListener listener) {
+        return new ProdRegListener() {
+            @Override
+            public void onProdRegSuccess(final ResponseData responseData) {
+                ProdRegMetaData productMetaData = (ProdRegMetaData) responseData;
+                ProdRegMetaDataResponse productData = productMetaData.getData();
+                if (validateSerialNumberFromMetadata(productData, product, listener)
+                        && validatePurchaseDateFromMetadata(productData, product, listener))
+
+                    makeRegistrationRequest(mContext, product, listener);
+            }
+
+            @Override
+            public void onProdRegFailed(ErrorType errorType) {
+                listener.onProdRegFailed(errorType);
+            }
+        };
+    }
+
+    protected boolean validatePurchaseDateFromMetadata(final ProdRegMetaDataResponse data, final Product product, final ProdRegListener listener) {
+        final String purchaseDate = product.getPurchaseDate();
+        if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
+            if (purchaseDate != null && purchaseDate.length() > 0) {
+                return true;
+            } else {
+                listener.onProdRegFailed(ErrorType.MISSING_DATE);
+                return false;
+            }
+        } else
+            product.setPurchaseDate(null);
+        return true;
+    }
+
+    protected boolean isCtnRegistered(final ProdRegRegisteredResults[] results, final Product product, final ProdRegListener listener) {
+        for (ProdRegRegisteredResults result : results) {
+            if (product.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
+                listener.onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected boolean validateSerialNumberFromMetadata(final ProdRegMetaDataResponse data, final Product product, final ProdRegListener listener) {
+        if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
+            if (processSerialNumber(data, product, listener)) return false;
+        } else {
+            product.setSerialNumber(null);
+        }
+        return true;
+    }
+
+    @NonNull
+    private RegistrationRequest getRegistrationRequest(final Context context, final Product product) {
+        RegistrationRequest registrationRequest = new RegistrationRequest(product.getCtn(), product.getSerialNumber(), new User(context).getAccessToken());
+        registrationRequest.setSector(product.getSector());
+        registrationRequest.setCatalog(product.getCatalog());
+        registrationRequest.setmLocale(product.getLocale());
+        registrationRequest.setProductSerialNumber(product.getSerialNumber());
+        registrationRequest.setAccessToken(new User(context).getAccessToken());
+        registrationRequest.setRegistrationChannel(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        registrationRequest.setPurchaseDate(product.getPurchaseDate());
+        return registrationRequest;
     }
 
     private void onAccessTokenExpire(final ProdRegListener listener) {
@@ -167,65 +259,6 @@ public class UserProduct {
         };
     }
 
-    protected boolean isUserSignedIn(final User mUser, final Context context) {
-        return mUser.isUserSignIn(context) && mUser.getEmailVerificationStatus(context);
-    }
-
-    protected boolean isValidaDate(final String date) {
-        if (date != null && date.length() != 0) {
-            String[] dates = date.split("-");
-            return dates.length > 1 && Integer.parseInt(dates[0]) > 1999;
-        }
-        return true;
-    }
-
-    @NonNull
-    UserProduct getUserProduct(final Product product) {
-        return new UserProduct(product.getSector(), product.getCatalog());
-    }
-
-    String getRequestType() {
-        return requestType;
-    }
-
-    @NonNull
-    ProdRegListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener listener) {
-        return new ProdRegListener() {
-            @Override
-            public void onProdRegSuccess(ResponseData responseData) {
-                ProdRegRegisteredDataResponse registeredDataResponse = (ProdRegRegisteredDataResponse) responseData;
-                ProdRegRegisteredResults[] results = registeredDataResponse.getResults();
-                if (!isCtnRegistered(results, product, listener)) ;
-                product.getProductMetadata(context, getMetadataListener(product, listener));
-            }
-
-            @Override
-            public void onProdRegFailed(final ErrorType errorType) {
-                listener.onProdRegFailed(errorType);
-            }
-        };
-    }
-
-    @NonNull
-    ProdRegListener getMetadataListener(final Product product, final ProdRegListener listener) {
-        return new ProdRegListener() {
-            @Override
-            public void onProdRegSuccess(final ResponseData responseData) {
-                ProdRegMetaData productMetaData = (ProdRegMetaData) responseData;
-                ProdRegMetaDataResponse productData = productMetaData.getData();
-                if (validateSerialNumberFromMetadata(productData, product, listener)
-                        && validatePurchaseDateFromMetadata(productData, product, listener))
-
-                    makeRegistrationRequest(mContext, product, listener);
-            }
-
-            @Override
-            public void onProdRegFailed(ErrorType errorType) {
-                listener.onProdRegFailed(errorType);
-            }
-        };
-    }
-
     private void makeRegistrationRequest(final Context mContext, final Product product, final ProdRegListener listener) {
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, product);
         registrationRequest.setRegistrationChannel(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
@@ -234,25 +267,6 @@ public class UserProduct {
         registrationRequest.setProductSerialNumber(product.getSerialNumber());
         RequestManager mRequestManager = getRequestManager(mContext);
         mRequestManager.executeRequest(registrationRequest, getLocalResponseListener(listener));
-    }
-
-    protected boolean isCtnRegistered(final ProdRegRegisteredResults[] results, final Product product, final ProdRegListener listener) {
-        for (ProdRegRegisteredResults result : results) {
-            if (product.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
-                listener.onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected boolean validateSerialNumberFromMetadata(final ProdRegMetaDataResponse data, final Product product, final ProdRegListener listener) {
-        if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
-            if (processSerialNumber(data, product, listener)) return false;
-        } else {
-            product.setSerialNumber(null);
-        }
-        return true;
     }
 
     private boolean processSerialNumber(final ProdRegMetaDataResponse data, final Product product, final ProdRegListener listener) {
@@ -264,20 +278,6 @@ public class UserProduct {
             return true;
         }
         return false;
-    }
-
-    protected boolean validatePurchaseDateFromMetadata(final ProdRegMetaDataResponse data, final Product product, final ProdRegListener listener) {
-        final String purchaseDate = product.getPurchaseDate();
-        if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
-            if (purchaseDate != null && purchaseDate.length() > 0) {
-                return true;
-            } else {
-                listener.onProdRegFailed(ErrorType.MISSING_DATE);
-                return false;
-            }
-        } else
-            product.setPurchaseDate(null);
-        return true;
     }
 
     public Sector getSector() {
