@@ -142,15 +142,20 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     }
 
     private void removeErrorInAllFields() {
-        mInlineFormsParent.removeError(mEtFirstName);
-        mInlineFormsParent.removeError(mEtLastName);
-        mInlineFormsParent.removeError(mEtAddressLineOne);
-        mInlineFormsParent.removeError(mEtAddressLineTwo);
-        mInlineFormsParent.removeError(mEtTown);
-        mInlineFormsParent.removeError(mEtPostalCode);
-        mInlineFormsParent.removeError(mEtCountry);
-        mInlineFormsParent.removeError(mEtEmail);
-        mInlineFormsParent.removeError(mEtPhoneNumber);
+        mInlineFormsParent.post(new Runnable() {
+            @Override
+            public void run() {
+                mInlineFormsParent.removeError(mEtFirstName);
+                mInlineFormsParent.removeError(mEtLastName);
+                mInlineFormsParent.removeError(mEtAddressLineOne);
+                mInlineFormsParent.removeError(mEtAddressLineTwo);
+                mInlineFormsParent.removeError(mEtTown);
+                mInlineFormsParent.removeError(mEtPostalCode);
+                mInlineFormsParent.removeError(mEtCountry);
+                mInlineFormsParent.removeError(mEtEmail);
+                mInlineFormsParent.removeError(mEtPhoneNumber);
+            }
+        });
     }
 
     @Override
