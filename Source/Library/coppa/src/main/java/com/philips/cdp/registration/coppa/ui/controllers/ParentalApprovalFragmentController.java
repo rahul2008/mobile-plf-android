@@ -2,7 +2,6 @@ package com.philips.cdp.registration.coppa.ui.controllers;
 
 import android.os.Handler;
 import android.view.View;
-import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.coppa.R;
@@ -24,9 +23,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 
-/**
- * Created by 310202337 on 3/29/2016.
- */
  public class ParentalApprovalFragmentController implements RefreshUserHandler, View.OnClickListener {
     private ParentalApprovalFragment mParentalApprovalFragment;
     private CoppaExtension mCoppaExtension;
@@ -42,9 +38,16 @@ import java.util.TimeZone;
         mParentalApprovalFragment.showRefreshProgress();
         User user = new User(mParentalApprovalFragment.getContext());
         user.refreshUser(this);
+    }
 
-
-
+    public  boolean isCountryUS() {
+        boolean isCountryUS ;
+        if (getCoppaExtension().getConsent().getLocale() != null) {
+            isCountryUS = getCoppaExtension().getConsent().getLocale().equalsIgnoreCase("en_US");
+        } else {
+            isCountryUS = RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US");
+        }
+        return isCountryUS;
     }
 
     @Override
