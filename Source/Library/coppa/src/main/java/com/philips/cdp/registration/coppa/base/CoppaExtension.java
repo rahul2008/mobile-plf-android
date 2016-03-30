@@ -280,9 +280,10 @@ public class CoppaExtension implements CoppaExtensionHandler {
                     } else {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationNotGiven;
                     }
-                } else if (null != consent.getConfirmationCommunicationSentAt()
-                        && consent.getConfirmationCommunicationSentAt().length() > 0) {
+                } else if (consent.getGiven() != null && consent.getConfirmationGiven() == null) {
+                    System.out.println("Consent ***" + consent.getConfirmationCommunicationSentAt()+ " " +consent.getConfirmationCommunicationSentAt());
                     coppaStatus = coppaStatus.kDICOPPAConfirmationPending;
+                    System.out.println("Consent coppaconfirmationPending");
                 }
             } else {
                 coppaStatus = CoppaStatus.kDICOPPAConsentNotGiven;

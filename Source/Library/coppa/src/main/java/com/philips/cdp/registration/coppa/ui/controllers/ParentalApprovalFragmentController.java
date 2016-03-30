@@ -30,6 +30,7 @@ import java.util.TimeZone;
  public class ParentalApprovalFragmentController implements RefreshUserHandler, View.OnClickListener {
     private ParentalApprovalFragment mParentalApprovalFragment;
     private CoppaExtension mCoppaExtension;
+    private boolean isCoppaConsent;
 
     public ParentalApprovalFragmentController( ParentalApprovalFragment fragment){
         mParentalApprovalFragment = fragment;
@@ -38,9 +39,10 @@ import java.util.TimeZone;
 
 
     public void refreshUser(){
+        mParentalApprovalFragment.showRefreshProgress();
         User user = new User(mParentalApprovalFragment.getContext());
         user.refreshUser(this);
-        mParentalApprovalFragment.showRefreshProgress();
+
 
 
     }
@@ -76,45 +78,73 @@ import java.util.TimeZone;
 
     }
 
-    private void updateUIBasedOnConsentStatus(CoppaStatus coppaStatus){
-        hoursSinceLastConsent();
+    private void updateUIBasedOnConsentStatus(final CoppaStatus coppaStatus){
+        System.out.println("Consent status " +coppaStatus);
         if(coppaStatus == CoppaStatus.kDICOPPAConsentPending){
             mParentalApprovalFragment.setConfirmApproval();
-        }else if(coppaStatus == CoppaStatus.kDICOPPAConsentGiven){
-            if(RegistrationHelper.getInstance().getLocale(mParentalApprovalFragment.getContext()).toString().equalsIgnoreCase("en-US")) {
-                if (hoursSinceLastConsent() >= 24) {
-                   refreshUser();
+            isCoppaConsent = true;
+            System.out.println("Consent Pending");
+        } else{
+            if(RegistrationHelper.getInstance().getLocale(mParentalApprovalFragment.getContext()).toString().equalsIgnoreCase("en_US")) {
+                if ( (hoursSinceLastConsent() >= 24)) {
+                     new User(mParentalApprovalFragment.getContext()).refreshUser(new RefreshUserHandler() {
+                         @Override
+                         public void onRefreshUserSuccess() {
+                             if (coppaStatus == CoppaStatus.kDICOPPAConfirmationPending) {
+                                 System.out.println("Consent hours" + hoursSinceLastConsent());
+                                 isCoppaConsent = false;
+                                 mParentalApprovalFragment.setIsUSRegionCode();
+                             }else{
+                                 if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                                     RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+                                 }
+                             }
+                         }
+
+                         @Override
+                         public void onRefreshUserFailed(int error) {
+
+                         }
+                     });
 
 
+
+                } else {
+                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+                    }
+                }
+            }else{
+                if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                    RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
                 }
             }
-        }else if(coppaStatus == CoppaStatus.kDICOPPAConfirmationPending){
-            mParentalApprovalFragment.setIsUSRegionCode();
         }
 
     }
 
     private int hoursSinceLastConsent(){
+
         Date date = null;
-        SimpleDateFormat format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
+        SimpleDateFormat format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_COPPA);
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         long diff = 0;
         try {
-             date = format.parse(mCoppaExtension.getConsent().getStoredAt());
+            date = format.parse(mCoppaExtension.getConsent().getStoredAt());
             long millisecondsatConsentGiven = date.getTime();
-            String timeNow = ServerTime.getInstance().getCurrentTime();
-            Date dateNow = format.parse(timeNow);
-            long timeinMillisecondsNow = dateNow.getTime();
-             diff = timeinMillisecondsNow - millisecondsatConsentGiven;
+
+            String timeNow = ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
+            format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            date = format.parse(timeNow);
+            long timeinMillisecondsNow = date.getTime();
+            diff = timeinMillisecondsNow - millisecondsatConsentGiven;
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Hours Since last Consent " +diff/3600000);
-
         return (int)diff/3600000;
-
 
     }
 
@@ -126,19 +156,35 @@ import java.util.TimeZone;
         if (id == R.id.reg_btn_agree) {
             Toast.makeText(mParentalApprovalFragment.getRegistrationFragment().getParentActivity().getApplicationContext(), "Agree", Toast.LENGTH_SHORT).show();
 
-                mCoppaExtension.updateCoppaConsentStatus(mParentalApprovalFragment.getContext(), true, new CoppaConsentUpdateCallback() {
-                    @Override
-                    public void onSuccess() {
-                        if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                            RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+                if(isCoppaConsent) {
+                    mCoppaExtension.updateCoppaConsentStatus(mParentalApprovalFragment.getContext(), true, new CoppaConsentUpdateCallback() {
+                        @Override
+                        public void onSuccess() {
+                            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(String message) {
+                        @Override
+                        public void onFailure(String message) {
 
-                    }
-                });
+                        }
+                    });
+                }else{
+                    mCoppaExtension.updateCoppaConsentConfirmationStatus(mParentalApprovalFragment.getContext(), true, new CoppaConsentUpdateCallback() {
+                        @Override
+                        public void onSuccess() {
+                            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(String message) {
+
+                        }
+                    });
+                }
 
           /*  if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                 RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());

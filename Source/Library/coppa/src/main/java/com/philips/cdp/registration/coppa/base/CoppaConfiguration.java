@@ -97,20 +97,42 @@ import org.json.JSONObject;
 							 RegistrationConfiguration.getInstance().getPilConfiguration().getCampaignID())) {
 						 consentIndex = i;
 						 isCampaignIdPresent = true;
-						 consent.setConfirmationGiven(consentObj.optString(CONFIRMATION_GIVEN));
-						 consent.setMicroSiteID(consentObj.optString(MICRO_SITE_ID));
-						 consent.setCommunicationSentAt(consentObj.optString(COMMUNICATION_SENT_AT));
-						 consent.setConfirmationStoredAt(consentObj
-								 .optString(CONFIRMATION_STORED_AT));
-						 consent.setConfirmationCommunicationSentAt(consentObj
-								 .optString(CONFIRMATION_COMMUNICATION_SENT_AT));
-						 consent.setCampaignId(consentObj.optString(CAMPAIGN_ID));
-						 consent.setGiven(consentObj.optString(GIVEN));
-						 consent.setLocale(consentObj.optString(LOCALE));
-						 consent.setId(consentObj.optString(ID));
-						 consent.setStoredAt(consentObj.optString(STORED_AT));
-						 consent.setConfirmationCommunicationToSendAt(consentObj
-								 .optString(CONFIRMATION_COMMUNICATION_TO_SEND_AT));
+						 if(!consentObj.optString(CONFIRMATION_GIVEN).equalsIgnoreCase(NULL)) {
+							 consent.setConfirmationGiven(consentObj.optString(CONFIRMATION_GIVEN));
+						 }
+						 if(!consentObj.optString(MICRO_SITE_ID).equalsIgnoreCase(NULL)) {
+							 consent.setMicroSiteID(consentObj.optString(MICRO_SITE_ID));
+						 }
+						 if(!consentObj.optString(COMMUNICATION_SENT_AT).equalsIgnoreCase(NULL)) {
+							 consent.setCommunicationSentAt(consentObj.optString(COMMUNICATION_SENT_AT));
+						 }
+						 if(!consentObj.optString(CONFIRMATION_STORED_AT).equalsIgnoreCase(NULL)) {
+							 consent.setConfirmationStoredAt(consentObj
+									 .optString(CONFIRMATION_STORED_AT));
+						 }
+						 if(!consentObj.optString(CONFIRMATION_COMMUNICATION_SENT_AT).equalsIgnoreCase(NULL)) {
+							 consent.setConfirmationCommunicationSentAt(consentObj
+									 .optString(CONFIRMATION_COMMUNICATION_SENT_AT));
+						 }
+						 if(!consentObj.optString(CAMPAIGN_ID).equalsIgnoreCase(NULL)) {
+							 consent.setCampaignId(consentObj.optString(CAMPAIGN_ID));
+						 }
+						 if(!consentObj.optString(GIVEN).equalsIgnoreCase(NULL)) {
+							 consent.setGiven(consentObj.optString(GIVEN));
+						 }
+						 if(!consentObj.optString(LOCALE).equalsIgnoreCase(NULL)) {
+							 consent.setLocale(consentObj.optString(LOCALE));
+						 }
+						 if(!consentObj.optString(ID).equalsIgnoreCase(NULL)) {
+							 consent.setId(consentObj.optString(ID));
+						 }
+						 if(!consentObj.optString(STORED_AT).equalsIgnoreCase(NULL)) {
+							 consent.setStoredAt(consentObj.optString(STORED_AT));
+						 }
+						 if(!consentObj.optString(CONFIRMATION_COMMUNICATION_TO_SEND_AT).equalsIgnoreCase(NULL)) {
+							 consent.setConfirmationCommunicationToSendAt(consentObj
+									 .optString(CONFIRMATION_COMMUNICATION_TO_SEND_AT));
+						 }
 					 }
 
 				 } catch (JSONException e) {
