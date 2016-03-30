@@ -16,10 +16,9 @@ import com.philips.cdp.registration.coppa.R;
  * Created by 310190722 on 25-Mar-16.
  */
 public class RegCoppaUtility {
+    public static void linkifyTermAndPolicy(TextView privacyTextView, final Activity activity, ClickableSpan privacyClickListener ,int stringResourceId) {
 
-    public static void linkifyTermAndPolicy(TextView privacyTextView, final Activity activity, ClickableSpan privacyClickListener) {
-
-        String privacyPolicyText = activity.getString(R.string.Coppa_Confirm_Approval_Content_txt);
+        String privacyPolicyText = activity.getString(stringResourceId);
         String privacyLink = activity.getString(R.string.PrivacyPolicyText);
         privacyPolicyText = String.format(privacyPolicyText, privacyLink);
         privacyTextView.setText(privacyPolicyText);

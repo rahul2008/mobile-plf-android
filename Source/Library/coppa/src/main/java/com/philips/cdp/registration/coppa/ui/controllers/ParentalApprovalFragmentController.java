@@ -78,6 +78,10 @@ import java.util.TimeZone;
 
     }
 
+    public CoppaExtension getCoppaExtension(){
+        return mCoppaExtension;
+    }
+
     private void updateUIBasedOnConsentStatus(final CoppaStatus coppaStatus){
         System.out.println("Consent status " +coppaStatus);
         if(coppaStatus == CoppaStatus.kDICOPPAConsentPending){
@@ -85,14 +89,17 @@ import java.util.TimeZone;
             isCoppaConsent = true;
             System.out.println("Consent Pending");
         } else{
-            if(RegistrationHelper.getInstance().getLocale(mParentalApprovalFragment.getContext()).toString().equalsIgnoreCase("en_US")) {
+
+            if(mCoppaExtension.getConsent().getLocale().equalsIgnoreCase("en_US")) {
                 if ( (hoursSinceLastConsent() >= 24)) {
                      new User(mParentalApprovalFragment.getContext()).refreshUser(new RefreshUserHandler() {
                          @Override
                          public void onRefreshUserSuccess() {
+                             mCoppaExtension.buildConfiguration();
                              if (coppaStatus == CoppaStatus.kDICOPPAConfirmationPending) {
                                  System.out.println("Consent hours" + hoursSinceLastConsent());
                                  isCoppaConsent = false;
+
                                  mParentalApprovalFragment.setIsUSRegionCode();
                              }else{
                                  if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
@@ -120,6 +127,8 @@ import java.util.TimeZone;
                 }
             }
         }
+
+
 
     }
 
@@ -154,12 +163,13 @@ import java.util.TimeZone;
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.reg_btn_agree) {
-            Toast.makeText(mParentalApprovalFragment.getRegistrationFragment().getParentActivity().getApplicationContext(), "Agree", Toast.LENGTH_SHORT).show();
 
                 if(isCoppaConsent) {
+                    mParentalApprovalFragment.showRefreshProgress();
                     mCoppaExtension.updateCoppaConsentStatus(mParentalApprovalFragment.getContext(), true, new CoppaConsentUpdateCallback() {
                         @Override
                         public void onSuccess() {
+                            mParentalApprovalFragment.hideRefreshProgress();
                             if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                                 RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
                             }
@@ -167,13 +177,15 @@ import java.util.TimeZone;
 
                         @Override
                         public void onFailure(String message) {
-
+                            mParentalApprovalFragment.hideRefreshProgress();
                         }
                     });
                 }else{
+                    mParentalApprovalFragment.showRefreshProgress();
                     mCoppaExtension.updateCoppaConsentConfirmationStatus(mParentalApprovalFragment.getContext(), true, new CoppaConsentUpdateCallback() {
                         @Override
                         public void onSuccess() {
+                            mParentalApprovalFragment.hideRefreshProgress();
                             if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                                 RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
                             }
@@ -181,7 +193,7 @@ import java.util.TimeZone;
 
                         @Override
                         public void onFailure(String message) {
-
+                            mParentalApprovalFragment.hideRefreshProgress();
                         }
                     });
                 }
@@ -191,8 +203,24 @@ import java.util.TimeZone;
             }*/
         } else if (id == R.id.reg_btn_dis_agree) {
 
-            if(mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationPending ){
+            if(isCoppaConsent ){
+                mParentalApprovalFragment.showRefreshProgress();
                 mCoppaExtension.updateCoppaConsentStatus(mParentalApprovalFragment.getContext(), false, new CoppaConsentUpdateCallback() {
+                    @Override
+                    public void onSuccess() {
+                        mParentalApprovalFragment.hideRefreshProgress();
+                        if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                            RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        mParentalApprovalFragment.hideRefreshProgress();
+                    }
+                });
+            }else{
+                mCoppaExtension.updateCoppaConsentConfirmationStatus(mParentalApprovalFragment.getContext(), false, new CoppaConsentUpdateCallback() {
                     @Override
                     public void onSuccess() {
                         if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
@@ -205,6 +233,14 @@ import java.util.TimeZone;
 
                     }
                 });
+            }
+
+
+
+            if(mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationNotGiven){
+                if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                    RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+                }
             }
 
         }

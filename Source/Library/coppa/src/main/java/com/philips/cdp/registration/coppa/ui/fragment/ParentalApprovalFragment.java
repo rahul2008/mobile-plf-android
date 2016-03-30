@@ -1,8 +1,10 @@
 
 package com.philips.cdp.registration.coppa.ui.fragment;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ParentalApprovalFragment : onCreateView");
 
         View view = inflater.inflate(R.layout.fragment_reg_coppa_parental_approval, null);
+        mContext = getParentFragment().getActivity().getApplicationContext();
         initUi(view);
         handleOrientation(view);
         return view;
@@ -121,20 +124,51 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
         mBtnAgree.setOnClickListener(mParentalApprovalFragmentController);
         mBtnDisAgree = (Button) view.findViewById(R.id.reg_btn_dis_agree);
         mBtnDisAgree.setOnClickListener(mParentalApprovalFragmentController);
-        RegCoppaUtility.linkifyTermAndPolicy(tvConfirmApprovalDesc, getActivity(), privacyLinkClick);
+
+    }
+    private Context mContext;
+
+    private boolean isCountryUS(){
+        boolean isCountryUS = false;
+        if(mParentalApprovalFragmentController.getCoppaExtension().getConsent().getLocale() != null){
+            isCountryUS = mParentalApprovalFragmentController.getCoppaExtension().getConsent().getLocale().equalsIgnoreCase("en_US");
+        }else{
+            isCountryUS = RegistrationHelper.getInstance().getCountryCode().equalsIgnoreCase("US");
+        }
+        return isCountryUS;
     }
 
+
     public void setConfirmApproval(){
-        tvRegConfirmApproval.setVisibility(View.VISIBLE);
+
+        tvConfirmApprovalDesc.setText( getNonUsText());
+        if( isCountryUS()){
+            tvConfirmApprovalDesc.setText(getUsText());
+        }
+
+        //RegCoppaUtility.linkifyTermAndPolicy(tvConfirmApprovalDesc, getActivity(), privacyLinkClick,);
+        //tvRegConfirmApproval.setVisibility(View.VISIBLE);
         tvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
         mBtnDisAgree.setVisibility(View.VISIBLE);
 
     }
 
+    @NonNull
+    private String getUsText() {
+        return getActivity().getText(R.string.Coppa_Give_Approval_txt) +
+                "\n" +getActivity().getText(R.string.Coppa_Give_Approval_US_txt) +
+                String.format(mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.PrivacyPolicyText));
+    }
+
+    private String getNonUsText(){
+        return mContext.getText(R.string.Coppa_Give_Approval_txt)
+                 + String.format(mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt),mContext.getString(R.string.PrivacyPolicyText));
+    }
+
     public void setIsUSRegionCode(){
-        tvRegConfirmApproval.setVisibility(View.GONE);
-        tvConfirmApprovalDesc.setText(getActivity().getText(R.string.Coppa_Give_Approval_txt));
+        tvRegConfirmApproval.setVisibility(View.VISIBLE);
+        tvConfirmApprovalDesc.setText(String.format(mContext.getString(R.string.Coppa_Confirm_Approval_Content_txt),mContext.getString(R.string.PrivacyPolicyText)));
         tvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
         mBtnDisAgree.setVisibility(View.VISIBLE);

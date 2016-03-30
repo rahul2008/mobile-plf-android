@@ -44,7 +44,7 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
                     android:visibility="gone"
-                    android:text="@string/Coppa_Confirm_Approval_Content_txt"
+
                     android:textSize="@dimen/reg_coppa_text_size"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
