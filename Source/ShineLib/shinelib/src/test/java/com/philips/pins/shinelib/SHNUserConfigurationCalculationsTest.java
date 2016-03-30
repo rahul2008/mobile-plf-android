@@ -45,63 +45,63 @@ public class SHNUserConfigurationCalculationsTest {
     }
 
     @Test
-    public void calculationForMidMen() {
+    public void calculationForAdultMen() {
         Integer base = calculations.getBaseMetabolicRate(0d, 0, 40, SHNUserConfiguration.Sex.Male);
-        assertThat(base).isEqualTo(SHNUserConfigurationCalculations.MID_MEN_BASE);
+        assertThat(base).isEqualTo(SHNUserConfigurationCalculations.ADULT_MEN_BASE);
 
         Integer baseWithWeight1 = calculations.getBaseMetabolicRate(1d, 0, 40, SHNUserConfiguration.Sex.Male);
-        assertThat(baseWithWeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.MID_MEN_BASE + SHNUserConfigurationCalculations.MID_MEN_WEIGHT_KG));
+        assertThat(baseWithWeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ADULT_MEN_BASE + SHNUserConfigurationCalculations.ADULT_MEN_WEIGHT_KG));
 
         Integer baseWithHeight1 = calculations.getBaseMetabolicRate(0d, 1, 40, SHNUserConfiguration.Sex.Male);
-        assertThat(baseWithHeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.MID_MEN_BASE + SHNUserConfigurationCalculations.MID_MEN_HEIGHT_M / 100d));
+        assertThat(baseWithHeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ADULT_MEN_BASE + SHNUserConfigurationCalculations.ADULT_MEN_HEIGHT_M / 100d));
 
         Integer complex = calculations.getBaseMetabolicRate(2d, 2, 40, SHNUserConfiguration.Sex.Male);
-        assertThat(complex).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.MID_MEN_BASE + 2 * SHNUserConfigurationCalculations.MID_MEN_HEIGHT_M / 100d + 2 * SHNUserConfigurationCalculations.MID_MEN_WEIGHT_KG));
+        assertThat(complex).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ADULT_MEN_BASE + 2 * SHNUserConfigurationCalculations.ADULT_MEN_HEIGHT_M / 100d + 2 * SHNUserConfigurationCalculations.ADULT_MEN_WEIGHT_KG));
     }
 
     @Test
-    public void calculationForMidWoman() {
+    public void calculationForAdultWoman() {
         Integer base = calculations.getBaseMetabolicRate(0d, 0, 40, SHNUserConfiguration.Sex.Female);
-        assertThat(base).isEqualTo(SHNUserConfigurationCalculations.MID_WOMEN_BASE);
+        assertThat(base).isEqualTo(SHNUserConfigurationCalculations.ADULT_WOMEN_BASE);
 
         Integer baseWithWeight1 = calculations.getBaseMetabolicRate(1d, 0, 40, SHNUserConfiguration.Sex.Female);
-        assertThat(baseWithWeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.MID_WOMEN_BASE + SHNUserConfigurationCalculations.MID_WOMEN_WEIGHT_KG));
+        assertThat(baseWithWeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ADULT_WOMEN_BASE + SHNUserConfigurationCalculations.ADULT_WOMEN_WEIGHT_KG));
 
         Integer baseWithHeight1 = calculations.getBaseMetabolicRate(0d, 1, 40, SHNUserConfiguration.Sex.Female);
-        assertThat(baseWithHeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.MID_WOMEN_BASE + SHNUserConfigurationCalculations.MID_WOMEN_HEIGHT_M / 100d));
+        assertThat(baseWithHeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ADULT_WOMEN_BASE + SHNUserConfigurationCalculations.ADULT_WOMEN_HEIGHT_M / 100d));
 
         Integer complex = calculations.getBaseMetabolicRate(2d, 2, 40, SHNUserConfiguration.Sex.Female);
-        assertThat(complex).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.MID_WOMEN_BASE + 2 * SHNUserConfigurationCalculations.MID_WOMEN_HEIGHT_M / 100d + 2 * SHNUserConfigurationCalculations.MID_WOMEN_WEIGHT_KG));
+        assertThat(complex).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ADULT_WOMEN_BASE + 2 * SHNUserConfigurationCalculations.ADULT_WOMEN_HEIGHT_M / 100d + 2 * SHNUserConfigurationCalculations.ADULT_WOMEN_WEIGHT_KG));
     }
 
     @Test
-    public void calculationForOldMen() {
+    public void calculationForElderlyMen() {
         Integer base = calculations.getBaseMetabolicRate(0d, 0, 70, SHNUserConfiguration.Sex.Male);
-        assertThat(base).isEqualTo(SHNUserConfigurationCalculations.OLD_MEN_BASE);
+        assertThat(base).isEqualTo(SHNUserConfigurationCalculations.ELDERLY_MEN_BASE);
 
         Integer baseWithWeight1 = calculations.getBaseMetabolicRate(1d, 0, 70, SHNUserConfiguration.Sex.Male);
-        assertThat(baseWithWeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.OLD_MEN_BASE + SHNUserConfigurationCalculations.OLD_MEN_WEIGHT_KG));
+        assertThat(baseWithWeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ELDERLY_MEN_BASE + SHNUserConfigurationCalculations.ELDERLY_MEN_WEIGHT_KG));
 
         Integer baseWithHeight1 = calculations.getBaseMetabolicRate(0d, 1, 70, SHNUserConfiguration.Sex.Male);
-        assertThat(baseWithHeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.OLD_MEN_BASE + SHNUserConfigurationCalculations.OLD_MEN_HEIGHT_M / 100d));
+        assertThat(baseWithHeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ELDERLY_MEN_BASE + SHNUserConfigurationCalculations.ELDERLY_MEN_HEIGHT_M / 100d));
 
         Integer complex = calculations.getBaseMetabolicRate(2d, 2, 70, SHNUserConfiguration.Sex.Male);
-        assertThat(complex).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.OLD_MEN_BASE + 2 * SHNUserConfigurationCalculations.OLD_MEN_HEIGHT_M / 100d + 2 * SHNUserConfigurationCalculations.OLD_MEN_WEIGHT_KG));
+        assertThat(complex).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ELDERLY_MEN_BASE + 2 * SHNUserConfigurationCalculations.ELDERLY_MEN_HEIGHT_M / 100d + 2 * SHNUserConfigurationCalculations.ELDERLY_MEN_WEIGHT_KG));
     }
 
     @Test
-    public void calculationForOldWoman() {
+    public void calculationForElderlyWoman() {
         Integer base = calculations.getBaseMetabolicRate(0d, 0, 70, SHNUserConfiguration.Sex.Female);
-        assertThat(base).isEqualTo(SHNUserConfigurationCalculations.OLD_WOMEN_BASE);
+        assertThat(base).isEqualTo(SHNUserConfigurationCalculations.ELDERLY_WOMEN_BASE);
 
         Integer baseWithWeight1 = calculations.getBaseMetabolicRate(1d, 0, 70, SHNUserConfiguration.Sex.Female);
-        assertThat(baseWithWeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.OLD_WOMEN_BASE + SHNUserConfigurationCalculations.OLD_WOMEN_WEIGHT_KG));
+        assertThat(baseWithWeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ELDERLY_WOMEN_BASE + SHNUserConfigurationCalculations.ELDERLY_WOMEN_WEIGHT_KG));
 
         Integer baseWithHeight1 = calculations.getBaseMetabolicRate(0d, 1, 70, SHNUserConfiguration.Sex.Female);
-        assertThat(baseWithHeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.OLD_WOMEN_BASE + SHNUserConfigurationCalculations.OLD_WOMEN_HEIGHT_M / 100d));
+        assertThat(baseWithHeight1).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ELDERLY_WOMEN_BASE + SHNUserConfigurationCalculations.ELDERLY_WOMEN_HEIGHT_M / 100d));
 
         Integer complex = calculations.getBaseMetabolicRate(2d, 2, 70, SHNUserConfiguration.Sex.Female);
-        assertThat(complex).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.OLD_WOMEN_BASE + 2 * SHNUserConfigurationCalculations.OLD_WOMEN_HEIGHT_M / 100d + 2 * SHNUserConfigurationCalculations.OLD_WOMEN_WEIGHT_KG));
+        assertThat(complex).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.ELDERLY_WOMEN_BASE + 2 * SHNUserConfigurationCalculations.ELDERLY_WOMEN_HEIGHT_M / 100d + 2 * SHNUserConfigurationCalculations.ELDERLY_WOMEN_WEIGHT_KG));
     }
 
     @Test

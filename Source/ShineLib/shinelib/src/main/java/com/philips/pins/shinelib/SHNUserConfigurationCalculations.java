@@ -20,6 +20,8 @@ public class SHNUserConfigurationCalculations {
 
     // -- YOUNG
 
+    public static final int YOUNG_AGE = 18;
+
     public static final int YOUNG_MEN_BASE = 717;
     public static final int YOUNG_MEN_HEIGHT_M = -27;
     public static final double YOUNG_MEN_WEIGHT_KG = 15.4;
@@ -28,25 +30,29 @@ public class SHNUserConfigurationCalculations {
     public static final int YOUNG_WOMEN_HEIGHT_M = 334;
     public static final double YOUNG_WOMEN_WEIGHT_KG = 13.3;
 
-    // -- MID
+    // -- ADULT
 
-    public static final int MID_MEN_BASE = 901;
-    public static final int MID_MEN_HEIGHT_M = 16;
-    public static final double MID_MEN_WEIGHT_KG = 11.3;
+    public static final int ADULT_AGE = 30;
 
-    public static final int MID_WOMEN_BASE = 865;
-    public static final int MID_WOMEN_HEIGHT_M = -25;
-    public static final double MID_WOMEN_WEIGHT_KG = 8.7;
+    public static final int ADULT_MEN_BASE = 901;
+    public static final int ADULT_MEN_HEIGHT_M = 16;
+    public static final double ADULT_MEN_WEIGHT_KG = 11.3;
 
-    // -- OLD
+    public static final int ADULT_WOMEN_BASE = 865;
+    public static final int ADULT_WOMEN_HEIGHT_M = -25;
+    public static final double ADULT_WOMEN_WEIGHT_KG = 8.7;
 
-    public static final int OLD_MEN_BASE = -1071;
-    public static final int OLD_MEN_HEIGHT_M = 1128;
-    public static final double OLD_MEN_WEIGHT_KG = 8.8;
+    // -- ELDERLY
 
-    public static final int OLD_WOMEN_BASE = -302;
-    public static final int OLD_WOMEN_HEIGHT_M = 637;
-    public static final double OLD_WOMEN_WEIGHT_KG = 9.2;
+    public static final int ELDERLY_AGE = 60;
+
+    public static final int ELDERLY_MEN_BASE = -1071;
+    public static final int ELDERLY_MEN_HEIGHT_M = 1128;
+    public static final double ELDERLY_MEN_WEIGHT_KG = 8.8;
+
+    public static final int ELDERLY_WOMEN_BASE = -302;
+    public static final int ELDERLY_WOMEN_HEIGHT_M = 637;
+    public static final double ELDERLY_WOMEN_WEIGHT_KG = 9.2;
 
     // ---
 
@@ -57,13 +63,13 @@ public class SHNUserConfigurationCalculations {
     public SHNUserConfigurationCalculations() {
         maleValuesMap.put(AGE_GROUP.CHILD, childValues);
         maleValuesMap.put(AGE_GROUP.YOUNG, new BmrValues(YOUNG_MEN_BASE, YOUNG_MEN_HEIGHT_M, YOUNG_MEN_WEIGHT_KG));
-        maleValuesMap.put(AGE_GROUP.MID, new BmrValues(MID_MEN_BASE, MID_MEN_HEIGHT_M, MID_MEN_WEIGHT_KG));
-        maleValuesMap.put(AGE_GROUP.OLD, new BmrValues(OLD_MEN_BASE, OLD_MEN_HEIGHT_M, OLD_MEN_WEIGHT_KG));
+        maleValuesMap.put(AGE_GROUP.ADULT, new BmrValues(ADULT_MEN_BASE, ADULT_MEN_HEIGHT_M, ADULT_MEN_WEIGHT_KG));
+        maleValuesMap.put(AGE_GROUP.ELDERLY, new BmrValues(ELDERLY_MEN_BASE, ELDERLY_MEN_HEIGHT_M, ELDERLY_MEN_WEIGHT_KG));
 
         femaleValuesMap.put(AGE_GROUP.CHILD, childValues);
         femaleValuesMap.put(AGE_GROUP.YOUNG, new BmrValues(YOUNG_WOMEN_BASE, YOUNG_WOMEN_HEIGHT_M, YOUNG_WOMEN_WEIGHT_KG));
-        femaleValuesMap.put(AGE_GROUP.MID, new BmrValues(MID_WOMEN_BASE, MID_WOMEN_HEIGHT_M, MID_WOMEN_WEIGHT_KG));
-        femaleValuesMap.put(AGE_GROUP.OLD, new BmrValues(OLD_WOMEN_BASE, OLD_WOMEN_HEIGHT_M, OLD_WOMEN_WEIGHT_KG));
+        femaleValuesMap.put(AGE_GROUP.ADULT, new BmrValues(ADULT_WOMEN_BASE, ADULT_WOMEN_HEIGHT_M, ADULT_WOMEN_WEIGHT_KG));
+        femaleValuesMap.put(AGE_GROUP.ELDERLY, new BmrValues(ELDERLY_WOMEN_BASE, ELDERLY_WOMEN_HEIGHT_M, ELDERLY_WOMEN_WEIGHT_KG));
     }
 
     public Integer getMaxHeartRate(final Integer maxHeartRate, final Integer age) {
@@ -116,11 +122,11 @@ public class SHNUserConfigurationCalculations {
 
     @NonNull
     private AGE_GROUP getAgeGroup(final int age) {
-        if (age > 60) {
-            return AGE_GROUP.OLD;
-        } else if (age > 30) {
-            return AGE_GROUP.MID;
-        } else if (age > 18) {
+        if (age > ELDERLY_AGE) {
+            return AGE_GROUP.ELDERLY;
+        } else if (age > ADULT_AGE) {
+            return AGE_GROUP.ADULT;
+        } else if (age > YOUNG_AGE) {
             return AGE_GROUP.YOUNG;
         } else {
             return AGE_GROUP.CHILD;
@@ -128,7 +134,7 @@ public class SHNUserConfigurationCalculations {
     }
 
     enum AGE_GROUP {
-        CHILD, YOUNG, MID, OLD
+        CHILD, YOUNG, ADULT, ELDERLY
     }
 
     private class BmrValues {
