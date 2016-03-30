@@ -139,14 +139,18 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             // Handle the error
+            if(isVisible()) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            }
         }
 
         @TargetApi(android.os.Build.VERSION_CODES.M)
         @Override
         public void onReceivedError(WebView     view, WebResourceRequest req, WebResourceError rerr) {
             // Redirect to deprecated method, so you can use it in all SDK versions
-            onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
+            if(isVisible()) {
+                onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
+            }
         }
 
         @Override
