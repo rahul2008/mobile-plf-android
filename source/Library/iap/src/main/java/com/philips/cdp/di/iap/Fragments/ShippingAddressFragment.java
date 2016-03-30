@@ -194,10 +194,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mShippingAddressFields.setRegionIsoCode(mEtState.getText().toString());
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
-
-            /*Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mShippingAddressFields);*/
-
             addFragment(
                     BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         } else if ((msg.obj instanceof IAPNetworkError)) {
@@ -207,7 +203,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
             CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
             Bundle bundle = new Bundle();
-//            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mShippingAddressFields);
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
@@ -230,6 +225,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             } else {//Add new address
                 if (!Utility.isProgressDialogShowing()) {
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                    if (mlLState.getVisibility() == View.GONE)
+                        mShippingAddressFields.setRegionIsoCode(null);
                     mAddressController.createAddress(mShippingAddressFields);
                 }
             }
