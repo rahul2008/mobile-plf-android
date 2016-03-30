@@ -119,7 +119,7 @@ public class UserProduct {
     }
 
     @NonNull
-    protected UserProduct getUserProduct(final Product product) {
+    UserProduct getUserProduct(final Product product) {
         return new UserProduct(product.getSector(), product.getCatalog());
     }
 
@@ -128,7 +128,7 @@ public class UserProduct {
     }
 
     @NonNull
-    protected ProdRegListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener listener) {
+    ProdRegListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener listener) {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(ResponseData responseData) {
@@ -146,7 +146,7 @@ public class UserProduct {
     }
 
     @NonNull
-    protected ProdRegListener getMetadataListener(final Product product, final ProdRegListener listener) {
+    ProdRegListener getMetadataListener(final Product product, final ProdRegListener listener) {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(final ResponseData responseData) {
@@ -199,13 +199,11 @@ public class UserProduct {
     }
 
     @NonNull
-    private RegistrationRequest getRegistrationRequest(final Context context, final Product product) {
+    protected RegistrationRequest getRegistrationRequest(final Context context, final Product product) {
         RegistrationRequest registrationRequest = new RegistrationRequest(product.getCtn(), product.getSerialNumber(), new User(context).getAccessToken());
         registrationRequest.setSector(product.getSector());
         registrationRequest.setCatalog(product.getCatalog());
         registrationRequest.setmLocale(product.getLocale());
-        registrationRequest.setProductSerialNumber(product.getSerialNumber());
-        registrationRequest.setAccessToken(new User(context).getAccessToken());
         registrationRequest.setRegistrationChannel(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setPurchaseDate(product.getPurchaseDate());
         return registrationRequest;

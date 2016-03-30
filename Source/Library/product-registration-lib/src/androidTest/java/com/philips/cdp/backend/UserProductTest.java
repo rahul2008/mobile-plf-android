@@ -14,6 +14,7 @@ import com.philips.cdp.model.ProdRegRegisteredDataResponse;
 import com.philips.cdp.model.ProdRegRegisteredResults;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxrequest.RegisteredProductsRequest;
+import com.philips.cdp.prxrequest.RegistrationRequest;
 import com.philips.cdp.registration.User;
 
 import static org.mockito.Mockito.mock;
@@ -286,6 +287,24 @@ public class UserProductTest extends MockitoTestCase {
         assertEquals(registeredProductsRequest.getCatalog(), Catalog.CONSUMER);
         assertEquals(registeredProductsRequest.getSector(), Sector.B2C);
         assertEquals(registeredProductsRequest.getLocale(), "en_GB");
+    }
+
+    public void testRegistrationRequestTest() {
+        Product productMock = mock(Product.class);
+        final String ctn = "HC5410/83";
+        when(productMock.getCtn()).thenReturn(ctn);
+        final String serialNumber = "1344";
+        when(productMock.getSerialNumber()).thenReturn(serialNumber);
+        when(productMock.getSector()).thenReturn(Sector.B2C);
+        when(productMock.getCatalog()).thenReturn(Catalog.CONSUMER);
+        when(productMock.getSerialNumber()).thenReturn(serialNumber);
+        when(productMock.getLocale()).thenReturn("en_GB");
+        RegistrationRequest registrationRequest = userProduct.getRegistrationRequest(context, productMock);
+        assertEquals(registrationRequest.getCatalog(), Catalog.CONSUMER);
+        assertEquals(registrationRequest.getSector(), Sector.B2C);
+        assertEquals(registrationRequest.getLocale(), "en_GB");
+        assertEquals(registrationRequest.getCtn(), ctn);
+        assertEquals(registrationRequest.getProductSerialNumber(), serialNumber);
     }
 
     public void testModelMapping() {
