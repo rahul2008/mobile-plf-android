@@ -126,7 +126,7 @@ dependencies {
     compile 'com.philips.cdp:uikitLib:3.0.0'
     compile 'com.android.support:support-v4:23.1.1'
  //   compile project(':productselection')
-    compile(group: 'com.philips.cdp', name: 'productselection', version: '1.1.1-rc.2', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'productselection', version: '1.1.1-rc.3', ext: 'aar')
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
