@@ -79,19 +79,19 @@
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/solid"
+                android:id="@+id/rbsolid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/solid"/>
 
             <RadioButton
-                android:id="@+id/image"
+                android:id="@+id/rbimage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/image"/>
 
             <RadioButton
-                android:id="@+id/gradient"
+                android:id="@+id/rbgradient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gradient"/>

@@ -64,8 +64,8 @@ public class ThemesActivity extends CatalogActivity implements RadioGroup.OnChec
     }
 
     private void declareViews() {
-        gradientRadioButton = (RadioButton) findViewById(R.id.gradient);
-        solidRadioButton = (RadioButton) findViewById(R.id.solid);
+        gradientRadioButton = (RadioButton) findViewById(R.id.rbgradient);
+        solidRadioButton = (RadioButton) findViewById(R.id.rbsolid);
         colorSwitch = (PuiSwitch) findViewById(R.id.colorSwitch);
         radioGroup = (RadioGroup) findViewById(R.id.radio_group);
     }
@@ -110,7 +110,7 @@ public class ThemesActivity extends CatalogActivity implements RadioGroup.OnChec
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-        if (checkedId == R.id.solid || checkedId == R.id.gradient) {
+        if (checkedId == R.id.rbsolid || checkedId == R.id.rbgradient) {
             changeTheme();
         }
     }
