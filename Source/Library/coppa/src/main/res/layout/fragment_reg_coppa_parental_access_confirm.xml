@@ -21,29 +21,64 @@
             <View
                 style="@style/reg_line"
                 android:layout_marginTop="@dimen/reg_header_margin_top" />
-
-            <com.philips.cdp.registration.ui.customviews.XTextView
-                android:id="@+id/tv_reg_how_old"
-                style="@style/reg_textStyle"
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
-                android:text="@string/Coppa_Age_Verification_How_Old_Txt"
-                android:textSize="@dimen/reg_title_text_size_medium"
-                reglib:fontAssetName="CentraleSans-Book.OTF" />
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_how_old"
+                    style="@style/reg_textStyle"
+                    android:text="@string/Coppa_Age_Verification_How_Old_Txt"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/reg_title_text_size_medium"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_selected_age"
+                    style="@style/reg_textStyle"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/reg_title_text_size_medium"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+            </LinearLayout>
 
             <View
                 style="@style/reg_line"
                 android:layout_marginTop="0dip" />
 
-            <com.philips.cdp.registration.ui.customviews.XTextView
-                android:id="@+id/tv_reg_birth_year"
-                style="@style/reg_textStyle"
-                android:layout_marginTop="0dip"
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
-                android:text="@string/Coppa_Age_Verification_Year_Of_Birth_Txt"
-                android:textSize="@dimen/reg_title_text_size_medium"
-                reglib:fontAssetName="CentraleSans-Book.OTF" />
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_birth_year"
+                    style="@style/reg_textStyle"
+                    android:layout_marginTop="0dip"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/Coppa_Age_Verification_Year_Of_Birth_Txt"
+                    android:textSize="@dimen/reg_title_text_size_medium"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_selected_birth_year"
+                    style="@style/reg_textStyle"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/reg_title_text_size_medium"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+            </LinearLayout>
 
             <View
                 style="@style/reg_line"

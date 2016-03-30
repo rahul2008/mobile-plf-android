@@ -5,12 +5,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
+import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
+import com.philips.cdp.registration.coppa.ui.customviews.RegCoppaAlertDialog;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalApprovalFragment;
-import com.philips.cdp.registration.coppa.utils.RegCoppaAlertDialog;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaLaunchHelper;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -70,7 +70,7 @@ import java.util.TimeZone;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                RegCoppaAlertDialog.showResetPasswordDialog("", "Server Connection Failed", mParentalApprovalFragment.getActivity(), mOkBtnClick);
+                RegCoppaAlertDialog.showCoppaDialogMsg("", "Server Connection Failed", mParentalApprovalFragment.getActivity(), mOkBtnClick);
             }
         }, 1000);
 

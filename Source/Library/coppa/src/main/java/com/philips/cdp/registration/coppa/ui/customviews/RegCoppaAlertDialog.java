@@ -1,5 +1,5 @@
 
-package com.philips.cdp.registration.coppa.utils;
+package com.philips.cdp.registration.coppa.ui.customviews;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,7 +14,7 @@ import com.philips.cdp.registration.coppa.R;
 
 public class RegCoppaAlertDialog {
 	private static AlertDialog alertDialogBuilder;
-	public static void showResetPasswordDialog(String title, String content, Activity activity, View.OnClickListener continueBtnClickListener) {
+	public static void showCoppaDialogMsg(String title, String content, Activity activity, View.OnClickListener continueBtnClickListener) {
 
 		alertDialogBuilder = new AlertDialog.Builder(activity).create();
 		alertDialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
