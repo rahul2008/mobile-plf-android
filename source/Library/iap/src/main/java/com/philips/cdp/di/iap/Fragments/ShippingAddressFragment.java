@@ -231,13 +231,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
             }
         } else if (v == mBtnCancel) {
-            if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+            getFragmentManager().popBackStackImmediate();
+           /* if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
                 addFragment
                         (AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             } else {
                 addFragment
                         (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-            }
+            }*/
         }
     }
 
