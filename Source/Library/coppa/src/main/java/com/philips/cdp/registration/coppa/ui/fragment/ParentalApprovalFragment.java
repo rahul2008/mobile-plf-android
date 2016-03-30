@@ -170,7 +170,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
     }
 
     public void showRefreshProgress() {
-        mCustomCircularProgress = new CustomCircularProgress(mContext);
+        mCustomCircularProgress = new CustomCircularProgress(getActivity());
         mCustomCircularProgress.show();
 
     }
