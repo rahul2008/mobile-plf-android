@@ -267,12 +267,11 @@ public class UserProductTest extends MockitoTestCase {
                 assertEquals(ErrorType.MISSING_DATE, errorType);
             }
         };
-        final boolean condition = userProduct.validatePurchaseDateFromMetadata(data, productMock, listener);
-        assertFalse(condition);
+        assertFalse(userProduct.validatePurchaseDateFromMetadata(data, productMock, listener));
 
         when(productMock.getPurchaseDate()).thenReturn("2016-03-22");
         when(data.getRequiresDateOfPurchase()).thenReturn("false");
-        assertTrue(condition);
+        assertTrue(userProduct.validatePurchaseDateFromMetadata(data, productMock, listener));
         verify(productMock, atLeastOnce()).setPurchaseDate(null);
     }
 
