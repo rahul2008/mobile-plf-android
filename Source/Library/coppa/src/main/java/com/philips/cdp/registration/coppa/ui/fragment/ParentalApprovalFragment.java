@@ -112,7 +112,12 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
     @Override
     public void setViewParams(Configuration config, int width) {
         applyParams(config, mLlConfirmApprovalParent, width);
+        applyParams(config, mBtnAgree, width);
+        applyParams(config, mBtnDisAgree, width);
     }
+
+
+
 
     @Override
     protected void handleOrientation(View view) {
