@@ -13,11 +13,9 @@
         android:background="@color/reg_btn_bg_enabled_color" >
 
         <com.philips.cdp.registration.ui.customviews.XTextView
-            android:id="@+id/tv_reg_age_title"
+            android:id="@+id/tv_reg_coppa_header_title"
             style="@style/reg_style_homescreen_title"
-            android:layout_marginRight="@dimen/reg_header_title_margin_right"
             android:layout_toRightOf="@+id/iv_reg_back"
-            android:layout_marginLeft="@dimen/reg_coppa_header_margin"
             android:textColor="@color/reg_header_text_color"
             reglib:fontAssetName="CentraleSans-Book.OTF" />
     </RelativeLayout>
