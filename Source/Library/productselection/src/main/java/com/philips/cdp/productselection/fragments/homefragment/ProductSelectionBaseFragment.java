@@ -26,6 +26,7 @@ import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.customview.NetworkAlertView;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
+import com.philips.cdp.productselection.fragments.savedscreen.SavedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.NetworkStateListener;
@@ -504,17 +505,16 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 //            }
 
             for (int i = fragmentManager.getFragments().size() - 1; i > 0; i --) {
-//                ProductSelectionLogger.i("testing", "fragmentManager.getFragments() : " + fragmentManager.getFragments().get(i));
+                ProductSelectionLogger.i("testing", "fragmentManager.getFragments() : " + fragmentManager.getFragments().get(i)  + "  --- i  " + i );
                 if(fragmentManager.getFragments().get(i) == null) {
                     continue;
                 }
-                else if(fragmentManager.getFragments().get(i) instanceof ProductSelectionListingFragment) {
+                else if(fragmentManager.getFragments().get(i) instanceof ProductSelectionListingFragment
+                       || fragmentManager.getFragments().get(i) instanceof SavedScreenFragmentSelection
+                        || fragmentManager.getFragments().get(i) instanceof  WelcomeScreenFragmentSelection
+                        || fragmentManager.getFragments().get(i) instanceof DetailedScreenFragmentSelection) {
                     fragmentManager.popBackStack();
-                    removeWelcomeScreen();
-                    break;
                 }
-
-                fragmentManager.popBackStack();
             }
         }
         return false;
