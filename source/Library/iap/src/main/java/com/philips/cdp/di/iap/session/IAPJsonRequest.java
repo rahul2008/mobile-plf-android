@@ -5,12 +5,14 @@ import android.os.Looper;
 import android.os.Message;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
@@ -21,6 +23,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 public class IAPJsonRequest extends Request<JSONObject> {
+
+    private final static int DEFAULT_TIMEOUT_MS = 30000; //30 SECONDS
 
     private Listener<JSONObject> mResponseListener;
     private ErrorListener mErrorListener;
@@ -34,6 +38,14 @@ public class IAPJsonRequest extends Request<JSONObject> {
         mErrorListener = errorListener;
         mMainHandler = new Handler(Looper.getMainLooper());
         this.params = params;
+    }
+
+    @Override
+    public Request<?> setRetryPolicy(final RetryPolicy retryPolicy) {
+        return super.setRetryPolicy(new DefaultRetryPolicy(
+                DEFAULT_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     protected Map<String, String> getParams()
