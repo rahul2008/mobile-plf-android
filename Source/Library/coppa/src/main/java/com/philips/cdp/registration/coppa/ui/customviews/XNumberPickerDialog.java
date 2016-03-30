@@ -24,14 +24,13 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
         mNumberPickerListener = numberPickerListener;
     }
 
-
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
         mNumberPickerChangedVal = newVal;
         mTvSelctedTitleAge.setText(String.valueOf(newVal));
     }
 
-    public void showConfirmAgeDialog(Context context, int minVal, int maxVal)
+    public void showNumberPickerDialog(Context context, int minVal, int maxVal)
     {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -39,10 +38,6 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
         Button ok = (Button) dialog.findViewById(R.id.reg_btn_ok);
         Button cancel = (Button) dialog.findViewById(R.id.reg_btn_cancel);
         mTvSelctedTitleAge = (TextView) dialog.findViewById(R.id.tv_reg_coppa_header_title);
-        if(minVal==0){
-            minVal=1;
-            mTvSelctedTitleAge.setText(String.valueOf(minVal));
-        }
         mTvSelctedTitleAge.setText(String.valueOf(minVal));
         final NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.reg_age_picker);
         numberPicker.setMinValue(minVal);
@@ -60,14 +55,18 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
                         mNumberPickerListener.onNumberSelect(mNumberPickerChangedVal);
                     }
                 }
-                dialog.dismiss();
+                if(dialog!=null){
+                    dialog.dismiss();
+                }
             }
         });
         cancel.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                if(dialog!=null){
+                    dialog.dismiss();
+                }
             }
         });
         dialog.show();

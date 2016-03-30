@@ -8,13 +8,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.listener.NumberPickerListener;
+import com.philips.cdp.registration.coppa.ui.customviews.RegCoppaAlertDialog;
 import com.philips.cdp.registration.coppa.ui.customviews.XNumberPickerDialog;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.servertime.ServerTime;
 
 public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment implements OnClickListener {
 
@@ -22,6 +25,10 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
     private TextView mTvHowOld;
     private TextView mTvYearOfBirth;
     private RelativeLayout mRlBtnContinueContainer;
+    private TextView mTvSelectedAge;
+    private TextView mTvSelectedYear;
+    private LinearLayout mLlSelectAgeContainer;
+    private LinearLayout mLlSelectYearContainer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,6 +121,12 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         mTvYearOfBirth = (TextView) view.findViewById(R.id.tv_reg_birth_year);
         mTvYearOfBirth.setOnClickListener(this);
         mRlBtnContinueContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_continue_container);
+        mTvSelectedAge = (TextView) view.findViewById(R.id.tv_reg_selected_age);
+        mTvSelectedYear = (TextView) view.findViewById(R.id.tv_reg_selected_birth_year);
+        mLlSelectAgeContainer = (LinearLayout) view.findViewById(R.id.ll_reg_age_select_container);
+        mLlSelectAgeContainer.setOnClickListener(this);
+        mLlSelectYearContainer = (LinearLayout) view.findViewById(R.id.ll_reg_age_year_container);
+        mLlSelectYearContainer.setOnClickListener(this);
     }
 
     @Override
@@ -121,25 +134,53 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
         int id = v.getId();
         if (id == R.id.btn_reg_continue) {
-            getRegistrationFragment().launchRegistrationFragment();
-        }else if(id == R.id.tv_reg_how_old){
+            if (isValidAge()) {
+                getRegistrationFragment().launchRegistrationFragment();
+            } else {
+                RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getString(R.string.Coppa_Age_Verification_Alert_Title),
+                        getActivity().getString(R.string.Coppa_Age_Verification_Age_Mismatch_Alert_Message), getActivity(), mOkBtnClick);
+            }
+
+        } else if (id == R.id.ll_reg_age_select_container || id == R.id.tv_reg_how_old) {
+
             XNumberPickerDialog dialogCoppaAgeVerification = new XNumberPickerDialog(new NumberPickerListener() {
                 @Override
                 public void onNumberSelect(int num) {
-                    TextView tvSelectedAge = (TextView) getView().findViewById(R.id.tv_reg_selected_age);
-                    tvSelectedAge.setText(String.valueOf(num));
+                    mTvSelectedAge.setText(String.valueOf(num));
+                    updateUI();
                 }
             });
-            dialogCoppaAgeVerification.showConfirmAgeDialog(getActivity(),0,116);
-        }else if(id == R.id.tv_reg_birth_year){
+            dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(), 1, 116);
+        } else if (id == R.id.ll_reg_age_year_container || id == R.id.tv_reg_birth_year) {
+
             XNumberPickerDialog dialogCoppaAgeVerification = new XNumberPickerDialog(new NumberPickerListener() {
                 @Override
                 public void onNumberSelect(int num) {
-                    TextView tvSelectedYear = (TextView) getView().findViewById(R.id.tv_reg_selected_birth_year);
-                    tvSelectedYear.setText(String.valueOf(num));
+                    mTvSelectedYear.setText(String.valueOf(num));
+                    updateUI();
                 }
             });
-            dialogCoppaAgeVerification.showConfirmAgeDialog(getActivity(),1910,2016);
+            dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(),1910,2016);
+        }
+    }
+
+    private boolean isValidAge() {
+        String currentTime = ServerTime.getInstance().getCurrentTime();
+        int currentYear = Integer.parseInt(currentTime.substring(0, 4));
+        int selectedYear = Integer.parseInt(mTvSelectedYear.getText().toString().trim());
+        int caluculateAge = currentYear - selectedYear;
+        int howMuchOld = Integer.parseInt(mTvSelectedAge.getText().toString().trim());
+        if (howMuchOld == caluculateAge || howMuchOld == caluculateAge -1 ) {
+            return true;
+        }
+        return false;
+    }
+
+    private void updateUI() {
+        if (mTvSelectedAge.length() > 0 && mTvSelectedYear.length() > 0) {
+            mBtnContinue.setEnabled(true);
+        } else {
+            mBtnContinue.setEnabled(false);
         }
     }
 
@@ -148,4 +189,10 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         return R.string.Coppa_Age_Verification_Screen_Title_txt;
     }
 
- }
+    private View.OnClickListener mOkBtnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RegCoppaAlertDialog.dismissDialog();
+        }
+    };
+}

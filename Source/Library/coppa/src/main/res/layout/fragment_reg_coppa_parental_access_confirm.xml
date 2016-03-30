@@ -22,6 +22,7 @@
                 style="@style/reg_line"
                 android:layout_marginTop="@dimen/reg_header_margin_top" />
             <LinearLayout
+                android:id="@+id/ll_reg_age_select_container"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/reg_layout_margin"
@@ -53,6 +54,7 @@
                 android:layout_marginTop="0dip" />
 
             <LinearLayout
+                android:id="@+id/ll_reg_age_year_container"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/reg_layout_margin"
@@ -96,7 +98,7 @@
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/btn_reg_continue"
                     style="@style/reg_style_btn"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:text="@string/Continue_Btntxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </RelativeLayout>
