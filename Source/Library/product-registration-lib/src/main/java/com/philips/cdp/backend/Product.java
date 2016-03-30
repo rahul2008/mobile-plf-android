@@ -48,7 +48,7 @@ public class Product {
     }
 
     @NonNull
-    ResponseListener getMetadataResponseListener(final ProdRegListener metadataListener) {
+    protected ResponseListener getMetadataResponseListener(final ProdRegListener metadataListener) {
         return new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -63,7 +63,7 @@ public class Product {
     }
 
     @NonNull
-    RequestManager getRequestManager(final Context context) {
+    protected RequestManager getRequestManager(final Context context) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(context);
         return mRequestManager;
