@@ -168,9 +168,9 @@ public class SHNDeviceAssociation {
             try {
                 initFuture.get();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                throw new InternalError("Caught unexpected InterruptedException");
             } catch (ExecutionException e) {
-                e.printStackTrace();
+                throw new InternalError("Caught unexpected ExecutionException");
             }
         } else {
             throw new InternalError("The internal thread is not running");
