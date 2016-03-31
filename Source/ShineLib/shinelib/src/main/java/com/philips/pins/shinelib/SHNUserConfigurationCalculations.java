@@ -14,62 +14,62 @@ public class SHNUserConfigurationCalculations {
 
     // -- CHILD
 
-    public static final int CHILD_BASE = 0;
-    public static final int CHILD_HEIGHT_M = 0;
-    public static final double CHILD_WEIGHT_KG = 0;
+    public static final int CHILD_BASE_KILO_CALORIES = 0;
+    public static final int CHILD_HEIGHT_M_KILO_CALORIES = 0;
+    public static final double CHILD_WEIGHT_KG_KILO_CALORIES = 0;
 
     // -- YOUNG
 
     public static final int YOUNG_AGE = 18;
 
-    public static final int YOUNG_MEN_BASE = 717;
-    public static final int YOUNG_MEN_HEIGHT_M = -27;
-    public static final double YOUNG_MEN_WEIGHT_KG = 15.4;
+    public static final int YOUNG_MEN_BASE_KILO_CALORIES = 717;
+    public static final int YOUNG_MEN_HEIGHT_M_KILO_CALORIES = -27;
+    public static final double YOUNG_MEN_WEIGHT_KG_KILO_CALORIES = 15.4;
 
-    public static final int YOUNG_WOMEN_BASE = 35;
-    public static final int YOUNG_WOMEN_HEIGHT_M = 334;
-    public static final double YOUNG_WOMEN_WEIGHT_KG = 13.3;
+    public static final int YOUNG_WOMEN_BASE_KILO_CALORIES = 35;
+    public static final int YOUNG_WOMEN_HEIGHT_M_KILO_CALORIES = 334;
+    public static final double YOUNG_WOMEN_WEIGHT_KG_KILO_CALORIES = 13.3;
 
     // -- ADULT
 
     public static final int ADULT_AGE = 30;
 
-    public static final int ADULT_MEN_BASE = 901;
-    public static final int ADULT_MEN_HEIGHT_M = 16;
-    public static final double ADULT_MEN_WEIGHT_KG = 11.3;
+    public static final int ADULT_MEN_BASE_KILO_CALORIES = 901;
+    public static final int ADULT_MEN_HEIGHT_M_KILO_CALORIES = 16;
+    public static final double ADULT_MEN_WEIGHT_KG_KILO_CALORIES = 11.3;
 
-    public static final int ADULT_WOMEN_BASE = 865;
-    public static final int ADULT_WOMEN_HEIGHT_M = -25;
-    public static final double ADULT_WOMEN_WEIGHT_KG = 8.7;
+    public static final int ADULT_WOMEN_BASE_KILO_CALORIES = 865;
+    public static final int ADULT_WOMEN_HEIGHT_M_KILO_CALORIES = -25;
+    public static final double ADULT_WOMEN_WEIGHT_KG_KILO_CALORIES = 8.7;
 
     // -- ELDERLY
 
     public static final int ELDERLY_AGE = 60;
 
-    public static final int ELDERLY_MEN_BASE = -1071;
-    public static final int ELDERLY_MEN_HEIGHT_M = 1128;
-    public static final double ELDERLY_MEN_WEIGHT_KG = 8.8;
+    public static final int ELDERLY_MEN_BASE_KILO_CALORIES = -1071;
+    public static final int ELDERLY_MEN_HEIGHT_M_KILO_CALORIES = 1128;
+    public static final double ELDERLY_MEN_WEIGHT_KG_KILO_CALORIES = 8.8;
 
-    public static final int ELDERLY_WOMEN_BASE = -302;
-    public static final int ELDERLY_WOMEN_HEIGHT_M = 637;
-    public static final double ELDERLY_WOMEN_WEIGHT_KG = 9.2;
+    public static final int ELDERLY_WOMEN_BASE_KILO_CALORIES = -302;
+    public static final int ELDERLY_WOMEN_HEIGHT_M_KILO_CALORIES = 637;
+    public static final double ELDERLY_WOMEN_WEIGHT_KG_KILO_CALORIES = 9.2;
 
     // ---
 
-    private final BmrValues childValues = new BmrValues(CHILD_BASE, CHILD_HEIGHT_M, CHILD_WEIGHT_KG);
+    private final BmrValues childValues = new BmrValues(CHILD_BASE_KILO_CALORIES, CHILD_HEIGHT_M_KILO_CALORIES, CHILD_WEIGHT_KG_KILO_CALORIES);
     private final Map<AGE_GROUP, BmrValues> maleValuesMap = new HashMap<>();
     private final Map<AGE_GROUP, BmrValues> femaleValuesMap = new HashMap<>();
 
     public SHNUserConfigurationCalculations() {
         maleValuesMap.put(AGE_GROUP.CHILD, childValues);
-        maleValuesMap.put(AGE_GROUP.YOUNG, new BmrValues(YOUNG_MEN_BASE, YOUNG_MEN_HEIGHT_M, YOUNG_MEN_WEIGHT_KG));
-        maleValuesMap.put(AGE_GROUP.ADULT, new BmrValues(ADULT_MEN_BASE, ADULT_MEN_HEIGHT_M, ADULT_MEN_WEIGHT_KG));
-        maleValuesMap.put(AGE_GROUP.ELDERLY, new BmrValues(ELDERLY_MEN_BASE, ELDERLY_MEN_HEIGHT_M, ELDERLY_MEN_WEIGHT_KG));
+        maleValuesMap.put(AGE_GROUP.YOUNG, new BmrValues(YOUNG_MEN_BASE_KILO_CALORIES, YOUNG_MEN_HEIGHT_M_KILO_CALORIES, YOUNG_MEN_WEIGHT_KG_KILO_CALORIES));
+        maleValuesMap.put(AGE_GROUP.ADULT, new BmrValues(ADULT_MEN_BASE_KILO_CALORIES, ADULT_MEN_HEIGHT_M_KILO_CALORIES, ADULT_MEN_WEIGHT_KG_KILO_CALORIES));
+        maleValuesMap.put(AGE_GROUP.ELDERLY, new BmrValues(ELDERLY_MEN_BASE_KILO_CALORIES, ELDERLY_MEN_HEIGHT_M_KILO_CALORIES, ELDERLY_MEN_WEIGHT_KG_KILO_CALORIES));
 
         femaleValuesMap.put(AGE_GROUP.CHILD, childValues);
-        femaleValuesMap.put(AGE_GROUP.YOUNG, new BmrValues(YOUNG_WOMEN_BASE, YOUNG_WOMEN_HEIGHT_M, YOUNG_WOMEN_WEIGHT_KG));
-        femaleValuesMap.put(AGE_GROUP.ADULT, new BmrValues(ADULT_WOMEN_BASE, ADULT_WOMEN_HEIGHT_M, ADULT_WOMEN_WEIGHT_KG));
-        femaleValuesMap.put(AGE_GROUP.ELDERLY, new BmrValues(ELDERLY_WOMEN_BASE, ELDERLY_WOMEN_HEIGHT_M, ELDERLY_WOMEN_WEIGHT_KG));
+        femaleValuesMap.put(AGE_GROUP.YOUNG, new BmrValues(YOUNG_WOMEN_BASE_KILO_CALORIES, YOUNG_WOMEN_HEIGHT_M_KILO_CALORIES, YOUNG_WOMEN_WEIGHT_KG_KILO_CALORIES));
+        femaleValuesMap.put(AGE_GROUP.ADULT, new BmrValues(ADULT_WOMEN_BASE_KILO_CALORIES, ADULT_WOMEN_HEIGHT_M_KILO_CALORIES, ADULT_WOMEN_WEIGHT_KG_KILO_CALORIES));
+        femaleValuesMap.put(AGE_GROUP.ELDERLY, new BmrValues(ELDERLY_WOMEN_BASE_KILO_CALORIES, ELDERLY_WOMEN_HEIGHT_M_KILO_CALORIES, ELDERLY_WOMEN_WEIGHT_KG_KILO_CALORIES));
     }
 
     public Integer getMaxHeartRate(final Integer maxHeartRate, final Integer age) {
@@ -107,7 +107,7 @@ public class SHNUserConfigurationCalculations {
         final AGE_GROUP ageGroup = getAgeGroup(age);
         BmrValues bmrValues = getBmrValues(sex, ageGroup);
 
-        return (int) Math.round(weightInKg * bmrValues.weightInKgValue + heightInCm * bmrValues.heightInMValue / 100d + bmrValues.baseValue);
+        return (int) Math.round(weightInKg * bmrValues.kCalPerKgWeight + heightInCm * bmrValues.kCalPerMeterHeight / 100d + bmrValues.baseKCal);
     }
 
     private BmrValues getBmrValues(final SHNUserConfiguration.Sex sex, final AGE_GROUP ageGroup) {
@@ -138,14 +138,14 @@ public class SHNUserConfigurationCalculations {
     }
 
     private class BmrValues {
-        public final int baseValue;
-        public final int heightInMValue;
-        public final double weightInKgValue;
+        public final int baseKCal;
+        public final int kCalPerMeterHeight;
+        public final double kCalPerKgWeight;
 
-        public BmrValues(final int baseValue, final int heightInMValue, final double weightInKgValue) {
-            this.baseValue = baseValue;
-            this.heightInMValue = heightInMValue;
-            this.weightInKgValue = weightInKgValue;
+        public BmrValues(final int baseKCal, final int kCalPerMeterHeight, final double kCalPerKgWeight) {
+            this.baseKCal = baseKCal;
+            this.kCalPerMeterHeight = kCalPerMeterHeight;
+            this.kCalPerKgWeight = kCalPerKgWeight;
         }
     }
 }
