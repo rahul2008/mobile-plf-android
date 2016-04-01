@@ -7,6 +7,7 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.handler.ErrorType;
+import com.philips.cdp.prodreg.handler.GetRegisteredProductsListener;
 import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.model.ProductMetadataResponseData;
@@ -15,6 +16,7 @@ import com.philips.cdp.prodreg.model.RegisteredResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 
 import static org.mockito.Mockito.mock;
@@ -107,7 +109,7 @@ public class UserProductTest extends MockitoTestCase {
 
     public void testRegisterProductOnValidParameters() {
         final UserProduct userProductMock = mock(UserProduct.class);
-        final ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
+        final GetRegisteredProductsListener prodRegListenerMock = mock(GetRegisteredProductsListener.class);
         final UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
             @Override
             protected boolean isUserSignedIn(final User mUser, final Context context) {
@@ -127,7 +129,7 @@ public class UserProductTest extends MockitoTestCase {
 
             @NonNull
             @Override
-            ProdRegListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener appListener) {
+            GetRegisteredProductsListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener appListener) {
                 return prodRegListenerMock;
             }
         };
@@ -148,7 +150,7 @@ public class UserProductTest extends MockitoTestCase {
         Product product = mock(Product.class);
         ProdRegListener listener = mock(ProdRegListener.class);
         when(product.getCtn()).thenReturn("HD8967/09");
-        ProdRegListener getRegisteredProductsListener = userProduct.
+        GetRegisteredProductsListener getRegisteredProductsListener = userProduct.
                 getRegisteredProductsListener(context, product, listener);
         RegisteredResponse responseMock = mock(RegisteredResponse.class);
         final RegisteredResponseData registeredResponseData = new RegisteredResponseData();
@@ -159,7 +161,7 @@ public class UserProductTest extends MockitoTestCase {
         registeredResponseData2.setProductModelNumber("HD8969/09");
         RegisteredResponseData[] results = {registeredResponseData, registeredResponseData1, registeredResponseData2};
         when(responseMock.getResults()).thenReturn(results);
-        getRegisteredProductsListener.onProdRegSuccess(responseMock);
+        getRegisteredProductsListener.getRegisteredProducts(responseMock);
         verify(listener).onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
     }
 
@@ -175,7 +177,7 @@ public class UserProductTest extends MockitoTestCase {
                 return metadataListener;
             }
         };
-        ProdRegListener getRegisteredProductsListener = userProduct.
+        GetRegisteredProductsListener getRegisteredProductsListener = userProduct.
                 getRegisteredProductsListener(context, product, listener);
         RegisteredResponse responseMock = mock(RegisteredResponse.class);
         final RegisteredResponseData registeredResponseData = new RegisteredResponseData();
@@ -186,7 +188,7 @@ public class UserProductTest extends MockitoTestCase {
         registeredResponseData2.setProductModelNumber("HD8969/09");
         RegisteredResponseData[] results = {registeredResponseData, registeredResponseData1, registeredResponseData2};
         when(responseMock.getResults()).thenReturn(results);
-        getRegisteredProductsListener.onProdRegSuccess(responseMock);
+        getRegisteredProductsListener.getRegisteredProducts(responseMock);
         verify(product).getProductMetadata(context, metadataListener);
     }
 
@@ -204,13 +206,20 @@ public class UserProductTest extends MockitoTestCase {
         userProduct.handleError(ErrorType.INVALID_CTN.getCode(), listener);
     }
 
+    public void testGettingRegisteredListener() {
+        GetRegisteredProductsListener getRegisteredProductsListener = mock(GetRegisteredProductsListener.class);
+        userProduct.getRegisteredProducts(context, getRegisteredProductsListener);
+        assertEquals(getRegisteredProductsListener, userProduct.getGetRegisteredProductsListener());
+    }
+
     public void testReturnCorrectRequestType() {
         Product productMock = mock(Product.class);
+        GetRegisteredProductsListener getRegisteredProductsListener = mock(GetRegisteredProductsListener.class);
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         userProduct.registerProduct(context, productMock, prodRegListener);
         assertTrue(userProduct.getRequestType().equals(ProdRegConstants.PRODUCT_REGISTRATION));
 
-        userProduct.getRegisteredProducts(context, prodRegListener);
+        userProduct.getRegisteredProducts(context, getRegisteredProductsListener);
         assertTrue(userProduct.getRequestType().equals(ProdRegConstants.FETCH_REGISTERED_PRODUCTS));
     }
 
@@ -341,5 +350,15 @@ public class UserProductTest extends MockitoTestCase {
         registeredResponseData2.setProductModelNumber("HD8969/09");
         RegisteredResponseData[] results = {registeredResponseData, registeredResponseData1, registeredResponseData2};
         assertFalse(userProduct.isCtnRegistered(results, product, prodRegListener));
+    }
+
+    public void testGetPrxResponseListenerForRegisteredProducts() {
+        GetRegisteredProductsListener getRegisteredProductsListener = mock(GetRegisteredProductsListener.class);
+        ResponseListener responseListener = userProduct.getPrxResponseListenerForRegisteredProducts(getRegisteredProductsListener);
+        RegisteredResponse registeredResponse = mock(RegisteredResponse.class);
+        responseListener.onResponseSuccess(registeredResponse);
+        verify(getRegisteredProductsListener).getRegisteredProducts(registeredResponse);
+        responseListener.onResponseError("test", 10);
+        verify(getRegisteredProductsListener).onErrorResponse("test", 10);
     }
 }

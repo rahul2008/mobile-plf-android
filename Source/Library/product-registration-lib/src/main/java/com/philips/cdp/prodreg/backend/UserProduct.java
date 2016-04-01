@@ -7,6 +7,7 @@ import android.util.Log;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.handler.ErrorType;
+import com.philips.cdp.prodreg.handler.GetRegisteredProductsListener;
 import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.model.ProductMetadataResponse;
@@ -35,6 +36,7 @@ public class UserProduct {
     private Catalog catalog;
     private String locale;
     private Product product;
+    private GetRegisteredProductsListener getRegisteredProductsListener;
 
     public UserProduct(final Sector sector, final Catalog catalog) {
         this.sector = sector;
@@ -59,12 +61,13 @@ public class UserProduct {
         }
     }
 
-    public void getRegisteredProducts(final Context context, final ProdRegListener getRegisteredProductsListener) {
+    public void getRegisteredProducts(final Context context, final GetRegisteredProductsListener getRegisteredProductsListener) {
         this.mContext = context;
         this.requestType = ProdRegConstants.FETCH_REGISTERED_PRODUCTS;
+        this.getRegisteredProductsListener = getRegisteredProductsListener;
         RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest(context);
         final RequestManager mRequestManager = getRequestManager(context);
-        mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListener(getRegisteredProductsListener));
+        mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(getRegisteredProductsListener));
     }
 
     protected void handleError(final int statusCode, final ProdRegListener listener) {
@@ -126,19 +129,18 @@ public class UserProduct {
     }
 
     @NonNull
-    ProdRegListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener appListener) {
-        return new ProdRegListener() {
+    GetRegisteredProductsListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener appListener) {
+        return new GetRegisteredProductsListener() {
             @Override
-            public void onProdRegSuccess(ResponseData responseData) {
-                RegisteredResponse registeredDataResponse = (RegisteredResponse) responseData;
+            public void getRegisteredProducts(final RegisteredResponse registeredDataResponse) {
                 RegisteredResponseData[] results = registeredDataResponse.getResults();
                 if (!isCtnRegistered(results, product, appListener))
                     product.getProductMetadata(context, getMetadataListener(product, appListener));
             }
 
             @Override
-            public void onProdRegFailed(final ErrorType errorType) {
-                appListener.onProdRegFailed(errorType);
+            public void onErrorResponse(final String errorMessage, final int responseCode) {
+                handleError(responseCode, appListener);
             }
         };
     }
@@ -229,11 +231,31 @@ public class UserProduct {
                 registerProduct(mContext, getProduct(), listener);
                 break;
             case ProdRegConstants.FETCH_REGISTERED_PRODUCTS:
-                getRegisteredProducts(mContext, listener);
+                getRegisteredProducts(mContext, getGetRegisteredProductsListener());
                 break;
             default:
                 break;
         }
+    }
+
+    @NonNull
+    ResponseListener getPrxResponseListenerForRegisteredProducts(final GetRegisteredProductsListener getRegisteredProductsListener) {
+        return new ResponseListener() {
+            @Override
+            public void onResponseSuccess(final ResponseData responseData) {
+                RegisteredResponse registeredDataResponse = (RegisteredResponse) responseData;
+                getRegisteredProductsListener.getRegisteredProducts(registeredDataResponse);
+            }
+
+            @Override
+            public void onResponseError(final String errorMessage, final int responseCode) {
+                try {
+                    getRegisteredProductsListener.onErrorResponse(errorMessage, responseCode);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
     }
 
     @NonNull
@@ -249,7 +271,7 @@ public class UserProduct {
                 try {
                     handleError(responseCode, getRegisteredProductsListener);
                 } catch (Exception e) {
-//                    PrxLogger.e(TAG, mContext.getString(R.string.volley_error) + e.toString());
+                    e.printStackTrace();
                 }
             }
         };
@@ -274,6 +296,10 @@ public class UserProduct {
             return true;
         }
         return false;
+    }
+
+    public GetRegisteredProductsListener getGetRegisteredProductsListener() {
+        return getRegisteredProductsListener;
     }
 
     public Sector getSector() {
