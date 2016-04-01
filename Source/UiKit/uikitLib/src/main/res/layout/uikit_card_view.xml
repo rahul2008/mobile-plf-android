@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="16dp"
-                    android:text="Your title goes here"
+                    android:text="@string/uikit_card_view_title_text"
                     android:textColor="?attr/uikit_verydarkBaseColor"
                     android:textSize="20sp" />
 
@@ -65,12 +65,13 @@
                     android:padding="0dp" />
 
                 <TextView
+                    android:id="@+id/card_favourite_count"
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/cards_title"
                     android:layout_toLeftOf="@+id/cardImage"
-                    android:text="12"
+                    android:text="@string/uikit_card_view_cardimage_text"
                     android:textColor="?attr/uikit_verydarkBaseColor"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -82,7 +83,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, quis nostrud exercitation ullamco laboris nisi ut. Eiusmod tempor incididunt ut labore."
+                android:text="@string/uikit_card_view_card_text"
                 android:textColor="?attr/uikit_verydarkBaseColor"
                 android:textSize="14sp" />
 
@@ -94,7 +95,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="29dp"
-                android:text="Link dolor elit ›"
+                android:text="@string/uikit_card_view_link_text"
                 android:textColor="?attr/uikit_brightColor"
                 android:textSize="14sp" />
         </LinearLayout>
