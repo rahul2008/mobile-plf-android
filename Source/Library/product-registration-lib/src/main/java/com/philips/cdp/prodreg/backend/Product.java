@@ -57,9 +57,13 @@ public class Product {
 
             @Override
             public void onResponseError(String error, int code) {
-                handleError(code, metadataListener);
+                getProduct().handleError(code, metadataListener);
             }
         };
+    }
+
+    protected Product getProduct() {
+        return this;
     }
 
     @NonNull

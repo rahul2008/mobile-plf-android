@@ -73,4 +73,21 @@ public class ProductTest extends MockitoTestCase {
             }
         });
     }
+
+    public void testGetPrxResponseListener() {
+        final Product productMock = mock(Product.class);
+        Product product = new Product(null, null, null, Sector.B2C, Catalog.CONSUMER) {
+            @Override
+            protected Product getProduct() {
+                return productMock;
+            }
+        };
+        ProdRegListener prodRegListener = mock(ProdRegListener.class);
+        ResponseListener responseListener = product.getPrxResponseListener(prodRegListener);
+        ResponseData responseDataMock = mock(ResponseData.class);
+        responseListener.onResponseSuccess(responseDataMock);
+        verify(prodRegListener).onProdRegSuccess(responseDataMock);
+        responseListener.onResponseError("test", 10);
+        verify(productMock).handleError(10, prodRegListener);
+    }
 }

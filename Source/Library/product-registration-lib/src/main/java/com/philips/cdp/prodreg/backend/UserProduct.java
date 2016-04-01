@@ -135,7 +135,7 @@ public class UserProduct {
             public void getRegisteredProducts(final RegisteredResponse registeredDataResponse) {
                 RegisteredResponseData[] results = registeredDataResponse.getResults();
                 if (!isCtnRegistered(results, product, appListener))
-                    product.getProductMetadata(context, getMetadataListener(product, appListener));
+                    product.getProductMetadata(context, getMetadataListener(context, product, appListener));
             }
 
             @Override
@@ -146,7 +146,7 @@ public class UserProduct {
     }
 
     @NonNull
-    ProdRegListener getMetadataListener(final Product product, final ProdRegListener appListener) {
+    ProdRegListener getMetadataListener(final Context mContext, final Product product, final ProdRegListener appListener) {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(final ResponseData responseData) {
@@ -155,7 +155,7 @@ public class UserProduct {
                 if (validateSerialNumberFromMetadata(productData, product, appListener)
                         && validatePurchaseDateFromMetadata(productData, product, appListener))
 
-                    makeRegistrationRequest(mContext, product, appListener);
+                    getUserProduct().makeRegistrationRequest(mContext, product, appListener);
             }
 
             @Override
@@ -282,7 +282,7 @@ public class UserProduct {
         };
     }
 
-    private void makeRegistrationRequest(final Context mContext, final Product product, final ProdRegListener appListener) {
+    protected void makeRegistrationRequest(final Context mContext, final Product product, final ProdRegListener appListener) {
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, product);
         registrationRequest.setRegistrationChannel(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setmLocale(product.getLocale());
