@@ -63,7 +63,7 @@ public class NetworkUtility {
         try {
             mModalAlertDemoFragment.setArguments(bundle);
             mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
