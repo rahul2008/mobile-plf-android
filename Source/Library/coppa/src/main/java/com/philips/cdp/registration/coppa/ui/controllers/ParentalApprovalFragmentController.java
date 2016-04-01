@@ -81,6 +81,8 @@ import java.util.TimeZone;
 
     }
 
+
+
     public CoppaExtension getCoppaExtension(){
         return mCoppaExtension;
     }
@@ -94,7 +96,7 @@ import java.util.TimeZone;
         } else{
 
             if(mCoppaExtension.getConsent().getLocale().equalsIgnoreCase("en_US")) {
-                if ( (hoursSinceLastConsent() >= 24)) {
+                if ( (hoursSinceLastConsent() >= 24L)) {
                      new User(mParentalApprovalFragment.getContext()).refreshUser(new RefreshUserHandler() {
                          @Override
                          public void onRefreshUserSuccess() {
@@ -135,7 +137,7 @@ import java.util.TimeZone;
 
     }
 
-    private int hoursSinceLastConsent(){
+    private long hoursSinceLastConsent(){
 
         Date date = null;
         SimpleDateFormat format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_COPPA);
@@ -156,7 +158,7 @@ import java.util.TimeZone;
             e.printStackTrace();
         }
 
-        return (int)diff/3600000;
+        return diff/3600000;
 
     }
 
