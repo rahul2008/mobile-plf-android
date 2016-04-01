@@ -27,7 +27,7 @@ import net.hockeyapp.android.CrashManagerListener;
 import java.util.ArrayList;
 
 public class DemoAppActivity extends Activity implements View.OnClickListener,
-         UserRegistrationListener {
+         UserRegistrationListener, IAPHandlerListener{
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPurple_WhiteBackground;
 
@@ -221,5 +221,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         Toast toast = Toast.makeText(this,errorText,Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER,0,0);
         toast.show();
+    }
+
+    @Override
+    public void onSuccess(int count) {
+
+    }
+
+    @Override
+    public void onFailure(int errorCode) {
+
     }
 }
