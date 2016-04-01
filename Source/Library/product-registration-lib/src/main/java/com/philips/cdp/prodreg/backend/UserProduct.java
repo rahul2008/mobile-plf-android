@@ -54,7 +54,7 @@ public class UserProduct {
             if (!isValidaDate(product.getPurchaseDate())) {
                 appListener.onProdRegFailed(ErrorType.INVALID_DATE);
             } else {
-                UserProduct userProduct = getUserProduct(product);
+                UserProduct userProduct = getUserProduct();
                 userProduct.setLocale(this.locale);
                 userProduct.getRegisteredProducts(context, getRegisteredProductsListener(context, product, appListener));
             }
@@ -74,9 +74,9 @@ public class UserProduct {
         if (statusCode == ErrorType.INVALID_CTN.getCode()) {
             listener.onProdRegFailed(ErrorType.INVALID_CTN);
         } else if (statusCode == ErrorType.USER_TOKEN_EXPIRED.getCode()) {
-            onAccessTokenExpire(listener);
+            getUserProduct().onAccessTokenExpire(listener);
         } else if (statusCode == ErrorType.ACCESS_TOKEN_INVALID.getCode()) {
-            onAccessTokenExpire(listener);
+            getUserProduct().onAccessTokenExpire(listener);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getCode()) {
             listener.onProdRegFailed(ErrorType.INVALID_VALIDATION);
         } else if (statusCode == ErrorType.INVALID_SERIALNUMBER.getCode()) {
@@ -120,8 +120,8 @@ public class UserProduct {
     }
 
     @NonNull
-    UserProduct getUserProduct(final Product product) {
-        return new UserProduct(product.getSector(), product.getCatalog());
+    UserProduct getUserProduct() {
+        return this;
     }
 
     String getRequestType() {
@@ -146,21 +146,21 @@ public class UserProduct {
     }
 
     @NonNull
-    ProdRegListener getMetadataListener(final Product product, final ProdRegListener listener) {
+    ProdRegListener getMetadataListener(final Product product, final ProdRegListener appListener) {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(final ResponseData responseData) {
                 ProductMetadataResponse productMetaData = (ProductMetadataResponse) responseData;
                 ProductMetadataResponseData productData = productMetaData.getData();
-                if (validateSerialNumberFromMetadata(productData, product, listener)
-                        && validatePurchaseDateFromMetadata(productData, product, listener))
+                if (validateSerialNumberFromMetadata(productData, product, appListener)
+                        && validatePurchaseDateFromMetadata(productData, product, appListener))
 
-                    makeRegistrationRequest(mContext, product, listener);
+                    makeRegistrationRequest(mContext, product, appListener);
             }
 
             @Override
             public void onProdRegFailed(ErrorType errorType) {
-                listener.onProdRegFailed(errorType);
+                appListener.onProdRegFailed(errorType);
             }
         };
     }
@@ -209,12 +209,17 @@ public class UserProduct {
         return registrationRequest;
     }
 
-    private void onAccessTokenExpire(final ProdRegListener listener) {
+    protected void onAccessTokenExpire(final ProdRegListener listener) {
         final User user = new User(mContext);
-        user.refreshLoginSession(new RefreshLoginSessionHandler() {
+        user.refreshLoginSession(getRefreshLoginSessionHandler(listener, mContext), mContext);
+    }
+
+    @NonNull
+    protected RefreshLoginSessionHandler getRefreshLoginSessionHandler(final ProdRegListener listener, final Context mContext) {
+        return new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                retryRequests(mContext, listener);
+                getUserProduct().retryRequests(mContext, listener);
             }
 
             @Override
@@ -222,10 +227,10 @@ public class UserProduct {
                 Log.d(TAG, "error in refreshing session");
                 listener.onProdRegFailed(ErrorType.REFRESH_ACCESS_TOKEN_FAILED);
             }
-        }, mContext);
+        };
     }
 
-    private void retryRequests(final Context mContext, final ProdRegListener listener) {
+    protected void retryRequests(final Context mContext, final ProdRegListener listener) {
         switch (requestType) {
             case ProdRegConstants.PRODUCT_REGISTRATION:
                 registerProduct(mContext, getProduct(), listener);
@@ -259,17 +264,17 @@ public class UserProduct {
     }
 
     @NonNull
-    private ResponseListener getPrxResponseListener(final ProdRegListener getRegisteredProductsListener) {
+    ResponseListener getPrxResponseListener(final ProdRegListener appListener) {
         return new ResponseListener() {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
-                getRegisteredProductsListener.onProdRegSuccess(responseData);
+                appListener.onProdRegSuccess(responseData);
             }
 
             @Override
             public void onResponseError(final String errorMessage, final int responseCode) {
                 try {
-                    handleError(responseCode, getRegisteredProductsListener);
+                    getUserProduct().handleError(responseCode, appListener);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -277,14 +282,14 @@ public class UserProduct {
         };
     }
 
-    private void makeRegistrationRequest(final Context mContext, final Product product, final ProdRegListener listener) {
+    private void makeRegistrationRequest(final Context mContext, final Product product, final ProdRegListener appListener) {
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, product);
         registrationRequest.setRegistrationChannel(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setmLocale(product.getLocale());
         registrationRequest.setPurchaseDate(product.getPurchaseDate());
         registrationRequest.setProductSerialNumber(product.getSerialNumber());
         RequestManager mRequestManager = getRequestManager(mContext);
-        mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(listener));
+        mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(appListener));
     }
 
     private boolean processSerialNumber(final ProductMetadataResponseData data, final Product product, final ProdRegListener listener) {

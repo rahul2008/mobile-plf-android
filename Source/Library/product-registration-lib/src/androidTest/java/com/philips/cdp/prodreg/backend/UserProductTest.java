@@ -18,6 +18,7 @@ import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -123,7 +124,7 @@ public class UserProductTest extends MockitoTestCase {
 
             @NonNull
             @Override
-            UserProduct getUserProduct(final Product product) {
+            UserProduct getUserProduct() {
                 return userProductMock;
             }
 
@@ -173,7 +174,7 @@ public class UserProductTest extends MockitoTestCase {
         UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
             @NonNull
             @Override
-            ProdRegListener getMetadataListener(final Product product, final ProdRegListener listener) {
+            ProdRegListener getMetadataListener(final Product product, final ProdRegListener appListener) {
                 return metadataListener;
             }
         };
@@ -360,5 +361,54 @@ public class UserProductTest extends MockitoTestCase {
         verify(getRegisteredProductsListener).getRegisteredProducts(registeredResponse);
         responseListener.onResponseError("test", 10);
         verify(getRegisteredProductsListener).onErrorResponse("test", 10);
+    }
+
+    public void testGetPrxResponseListenerForRegisteringProducts() {
+        final UserProduct userProductMock = mock(UserProduct.class);
+        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+            @NonNull
+            @Override
+            UserProduct getUserProduct() {
+                return userProductMock;
+            }
+        };
+        ProdRegListener prodRegListener = mock(ProdRegListener.class);
+        ResponseListener responseListener = userProduct.getPrxResponseListener(prodRegListener);
+        ResponseData responseData = mock(ResponseData.class);
+        responseListener.onResponseSuccess(responseData);
+        verify(prodRegListener).onProdRegSuccess(responseData);
+        responseListener.onResponseError("test", 10);
+        verify(userProductMock).handleError(10, prodRegListener);
+    }
+
+    public void testInvokingAccessTokenWhenExpired() {
+        final UserProduct userProductMock = mock(UserProduct.class);
+        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+            @NonNull
+            @Override
+            UserProduct getUserProduct() {
+                return userProductMock;
+            }
+        };
+        ProdRegListener prodRegListener = mock(ProdRegListener.class);
+        userProduct.handleError(500, prodRegListener);
+        verify(userProductMock).onAccessTokenExpire(prodRegListener);
+    }
+
+    public void testGetUserRefreshedLoginSession() {
+        final UserProduct userProductMock = mock(UserProduct.class);
+        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+            @NonNull
+            @Override
+            UserProduct getUserProduct() {
+                return userProductMock;
+            }
+        };
+        ProdRegListener prodRegListener = mock(ProdRegListener.class);
+        RefreshLoginSessionHandler refreshLoginSessionHandler = userProduct.getRefreshLoginSessionHandler(prodRegListener, context);
+        refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(50);
+        verify(prodRegListener).onProdRegFailed(ErrorType.REFRESH_ACCESS_TOKEN_FAILED);
+        refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
+        verify(userProductMock).retryRequests(context, prodRegListener);
     }
 }
