@@ -8,13 +8,13 @@ import org.junit.Test;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegSerNumbSampleContentTest extends TestCase {
+public class MetadataSerNumbSampleContentTest extends TestCase {
 
-    ProdRegSerNumbSampleContent serialNumberSampleContentTest;
+    MetadataSerNumbSampleContent serialNumberSampleContentTest;
 
     @Override
     public void setUp() throws Exception {
-        serialNumberSampleContentTest = new ProdRegSerNumbSampleContent();
+        serialNumberSampleContentTest = new MetadataSerNumbSampleContent();
     }
 
     public void testSetTitle() throws Exception {

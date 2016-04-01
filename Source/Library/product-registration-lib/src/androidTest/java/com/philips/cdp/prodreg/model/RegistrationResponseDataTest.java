@@ -8,13 +8,13 @@ import org.junit.Test;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegDataTest extends InstrumentationTestCase {
+public class RegistrationResponseDataTest extends InstrumentationTestCase {
 
-    ProdRegData dataTest;
+    RegistrationResponseData dataTest;
 
     @Override
     public void setUp() throws Exception {
-        dataTest = new ProdRegData();
+        dataTest = new RegistrationResponseData();
     }
 
     public void testSetRegistrationDate() throws Exception {

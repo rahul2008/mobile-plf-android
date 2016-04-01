@@ -9,10 +9,10 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.handler.ErrorType;
 import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
-import com.philips.cdp.prodreg.model.ProdRegMetaData;
-import com.philips.cdp.prodreg.model.ProdRegMetaDataResponse;
-import com.philips.cdp.prodreg.model.ProdRegRegisteredDataResponse;
-import com.philips.cdp.prodreg.model.ProdRegRegisteredResults;
+import com.philips.cdp.prodreg.model.ProductMetadataResponse;
+import com.philips.cdp.prodreg.model.ProductMetadataResponseData;
+import com.philips.cdp.prodreg.model.RegisteredResponse;
+import com.philips.cdp.prodreg.model.RegisteredResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.RequestManager;
@@ -130,8 +130,8 @@ public class UserProduct {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(ResponseData responseData) {
-                ProdRegRegisteredDataResponse registeredDataResponse = (ProdRegRegisteredDataResponse) responseData;
-                ProdRegRegisteredResults[] results = registeredDataResponse.getResults();
+                RegisteredResponse registeredDataResponse = (RegisteredResponse) responseData;
+                RegisteredResponseData[] results = registeredDataResponse.getResults();
                 if (!isCtnRegistered(results, product, appListener))
                     product.getProductMetadata(context, getMetadataListener(product, appListener));
             }
@@ -148,8 +148,8 @@ public class UserProduct {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(final ResponseData responseData) {
-                ProdRegMetaData productMetaData = (ProdRegMetaData) responseData;
-                ProdRegMetaDataResponse productData = productMetaData.getData();
+                ProductMetadataResponse productMetaData = (ProductMetadataResponse) responseData;
+                ProductMetadataResponseData productData = productMetaData.getData();
                 if (validateSerialNumberFromMetadata(productData, product, listener)
                         && validatePurchaseDateFromMetadata(productData, product, listener))
 
@@ -163,7 +163,7 @@ public class UserProduct {
         };
     }
 
-    protected boolean validatePurchaseDateFromMetadata(final ProdRegMetaDataResponse data, final Product product, final ProdRegListener listener) {
+    protected boolean validatePurchaseDateFromMetadata(final ProductMetadataResponseData data, final Product product, final ProdRegListener listener) {
         final String purchaseDate = product.getPurchaseDate();
         if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
             if (purchaseDate != null && purchaseDate.length() > 0) {
@@ -177,8 +177,8 @@ public class UserProduct {
         return true;
     }
 
-    protected boolean isCtnRegistered(final ProdRegRegisteredResults[] results, final Product product, final ProdRegListener listener) {
-        for (ProdRegRegisteredResults result : results) {
+    protected boolean isCtnRegistered(final RegisteredResponseData[] results, final Product product, final ProdRegListener listener) {
+        for (RegisteredResponseData result : results) {
             if (product.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
                 listener.onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
                 return true;
@@ -187,7 +187,7 @@ public class UserProduct {
         return false;
     }
 
-    protected boolean validateSerialNumberFromMetadata(final ProdRegMetaDataResponse data, final Product product, final ProdRegListener listener) {
+    protected boolean validateSerialNumberFromMetadata(final ProductMetadataResponseData data, final Product product, final ProdRegListener listener) {
         if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
             if (processSerialNumber(data, product, listener)) return false;
         } else {
@@ -265,7 +265,7 @@ public class UserProduct {
         mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(listener));
     }
 
-    private boolean processSerialNumber(final ProdRegMetaDataResponse data, final Product product, final ProdRegListener listener) {
+    private boolean processSerialNumber(final ProductMetadataResponseData data, final Product product, final ProdRegListener listener) {
         if (product.getSerialNumber() == null || product.getSerialNumber().length() < 1) {
             listener.onProdRegFailed(ErrorType.MISSING_SERIALNUMBER);
             return true;

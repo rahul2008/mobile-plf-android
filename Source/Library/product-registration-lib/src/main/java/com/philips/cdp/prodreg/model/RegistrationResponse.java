@@ -9,17 +9,16 @@ import org.json.JSONObject;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegMetaData extends ResponseData {
-
-    private ProdRegMetaDataResponse data;
+public class RegistrationResponse extends ResponseData {
+    private RegistrationResponseData data;
 
     private String success;
 
-    public ProdRegMetaDataResponse getData() {
+    public RegistrationResponseData getData() {
         return data;
     }
 
-    public void setData(ProdRegMetaDataResponse data) {
+    public void setData(RegistrationResponseData data) {
         this.data = data;
     }
 
@@ -29,12 +28,12 @@ public class ProdRegMetaData extends ResponseData {
 
     @Override
     public String toString() {
-        return "ClassPojo [data = " + data + ", success = " + success + "]";
+        return "ProdRegResponse [data = " + data + ", success = " + success + "]";
     }
 
     public ResponseData parseJsonResponseData(JSONObject response) {
-        ProdRegMetaData productMetaData;
-        productMetaData = new Gson().fromJson(response.toString(), ProdRegMetaData.class);
-        return productMetaData;
+        RegistrationResponse registrationResponse;
+        registrationResponse = new Gson().fromJson(response.toString(), RegistrationResponse.class);
+        return registrationResponse;
     }
 }

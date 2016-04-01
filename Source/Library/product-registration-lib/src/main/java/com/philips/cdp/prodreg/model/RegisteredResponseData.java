@@ -4,7 +4,7 @@ package com.philips.cdp.prodreg.model;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegRegisteredResults {
+public class RegisteredResponseData {
 
     private String lastModified;
 

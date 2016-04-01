@@ -8,13 +8,13 @@ import org.junit.Test;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegRegisteredResultsTest extends TestCase {
+public class RegisteredResponseDataTest extends TestCase {
 
-    ProdRegRegisteredResults resultsTest;
+    RegisteredResponseData resultsTest;
 
     @Override
     public void setUp() throws Exception {
-        resultsTest = new ProdRegRegisteredResults();
+        resultsTest = new RegisteredResponseData();
     }
 
     public void testSetLastModified() throws Exception {

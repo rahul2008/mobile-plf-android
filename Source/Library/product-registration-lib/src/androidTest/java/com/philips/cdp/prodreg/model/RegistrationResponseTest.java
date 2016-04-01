@@ -17,11 +17,11 @@ import java.io.InputStreamReader;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegResponseTest extends InstrumentationTestCase {
+public class RegistrationResponseTest extends InstrumentationTestCase {
 
-    ProdRegResponse prodRegResponse;
+    RegistrationResponse registrationResponse;
     @Mock
-    ProdRegData data;
+    RegistrationResponseData data;
     @Mock
     String mCTN, mSerialNumber, mAccessToken;
     RegistrationRequest mRegistrationRequest;
@@ -29,17 +29,17 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
 
     @Override
     public void setUp() throws Exception {
-        prodRegResponse = new ProdRegResponse();
+        registrationResponse = new RegistrationResponse();
         mRegistrationRequest = new RegistrationRequest(mCTN, mSerialNumber, mAccessToken);
     }
 
     public void testSetData() throws Exception {
-        prodRegResponse.setData(data);
+        registrationResponse.setData(data);
     }
 
     public void testGetData() throws Exception {
-        prodRegResponse.setData(data);
-        assertEquals(data, prodRegResponse.getData());
+        registrationResponse.setData(data);
+        assertEquals(data, registrationResponse.getData());
     }
 
     @Test
@@ -60,11 +60,11 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
 
-            ProdRegResponse prodRegResponse = (ProdRegResponse) mRegistrationRequest.getResponseData(new JSONObject(sb.toString()));
-            ProdRegData mResponseData = prodRegResponse.getData();
+            RegistrationResponse registrationResponse = (RegistrationResponse) mRegistrationRequest.getResponseData(new JSONObject(sb.toString()));
+            RegistrationResponseData mResponseData = registrationResponse.getData();
             assertNotNull(mResponseData);
 
-            ProdRegData data = setDataObject(mResponseData);
+            RegistrationResponseData data = setDataObject(mResponseData);
 
             TestAssertionOnResponse(mResponseData, data);
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
     }
 
     @Test
-    private void TestAssertionOnResponse(final ProdRegData mResponseData, final ProdRegData data) {
+    private void TestAssertionOnResponse(final RegistrationResponseData mResponseData, final RegistrationResponseData data) {
         assertEquals(mResponseData.getLocale(), data.getLocale());
         assertEquals(mResponseData.getModelNumber(), data.getModelNumber());
         assertEquals(mResponseData.getRegistrationDate(), data.getRegistrationDate());
@@ -85,8 +85,8 @@ public class ProdRegResponseTest extends InstrumentationTestCase {
     }
 
     @Test
-    private ProdRegData setDataObject(final ProdRegData mResponseData) {
-        ProdRegData data = new ProdRegData();
+    private RegistrationResponseData setDataObject(final RegistrationResponseData mResponseData) {
+        RegistrationResponseData data = new RegistrationResponseData();
         data.setLocale(mResponseData.getLocale());
         data.setModelNumber(mResponseData.getModelNumber());
         data.setRegistrationDate(mResponseData.getRegistrationDate());

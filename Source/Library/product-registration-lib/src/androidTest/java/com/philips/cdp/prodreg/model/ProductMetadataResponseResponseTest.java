@@ -8,13 +8,13 @@ import org.junit.Test;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegMetaDataResponseTest extends TestCase {
+public class ProductMetadataResponseResponseTest extends TestCase {
 
-    ProdRegMetaDataResponse productDataTest;
+    ProductMetadataResponseData productDataTest;
 
     @Override
     public void setUp() throws Exception {
-        productDataTest = new ProdRegMetaDataResponse();
+        productDataTest = new ProductMetadataResponseData();
     }
 
     public void testSetMessage() throws Exception {

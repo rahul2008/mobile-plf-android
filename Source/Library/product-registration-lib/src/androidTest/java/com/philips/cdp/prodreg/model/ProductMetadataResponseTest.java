@@ -17,10 +17,10 @@ import java.io.InputStreamReader;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegMetaDataTest extends InstrumentationTestCase {
-    ProdRegMetaData prodRegMetaData;
+public class ProductMetadataResponseTest extends InstrumentationTestCase {
+    ProductMetadataResponse productMetadataResponse;
     @Mock
-    ProdRegMetaDataResponse data;
+    ProductMetadataResponseData data;
     @Mock
     String mCTN, mSerialNumber, mAccessToken;
     RegistrationRequest mRegistrationRequest;
@@ -28,17 +28,17 @@ public class ProdRegMetaDataTest extends InstrumentationTestCase {
 
     @Override
     public void setUp() throws Exception {
-        prodRegMetaData = new ProdRegMetaData();
+        productMetadataResponse = new ProductMetadataResponse();
         mRegistrationRequest = new RegistrationRequest(mCTN, mSerialNumber, mAccessToken);
     }
 
     public void testSetData() throws Exception {
-        prodRegMetaData.setData(data);
+        productMetadataResponse.setData(data);
     }
 
     public void testGetData() throws Exception {
-        prodRegMetaData.setData(data);
-        assertEquals(data, prodRegMetaData.getData());
+        productMetadataResponse.setData(data);
+        assertEquals(data, productMetadataResponse.getData());
     }
 
     @Test
@@ -59,11 +59,11 @@ public class ProdRegMetaDataTest extends InstrumentationTestCase {
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
 
-            ProdRegMetaData productMetaData = (ProdRegMetaData) mRegistrationRequest.getResponseData(new JSONObject(sb.toString()));
-            ProdRegMetaDataResponse mResponseData = productMetaData.getData();
+            ProductMetadataResponse productMetaData = (ProductMetadataResponse) mRegistrationRequest.getResponseData(new JSONObject(sb.toString()));
+            ProductMetadataResponseData mResponseData = productMetaData.getData();
             assertNotNull(mResponseData);
 
-            ProdRegMetaDataResponse productData = setMetadataObject(mResponseData);
+            ProductMetadataResponseData productData = setMetadataObject(mResponseData);
             TestAssertionOnResponse(mResponseData, productData);
         } catch (Exception e) {
             Log.d(TAG, "IO " + e);
@@ -71,7 +71,7 @@ public class ProdRegMetaDataTest extends InstrumentationTestCase {
     }
 
     @Test
-    private void TestAssertionOnResponse(final ProdRegMetaDataResponse mResponseData, final ProdRegMetaDataResponse productData) {
+    private void TestAssertionOnResponse(final ProductMetadataResponseData mResponseData, final ProductMetadataResponseData productData) {
         assertEquals(mResponseData.getMessage(), productData.getMessage());
         assertEquals(mResponseData.getIsConnectedDevice(), productData.getIsConnectedDevice());
         assertEquals(mResponseData.getRequiresDateOfPurchase(), productData.getRequiresDateOfPurchase());
@@ -83,8 +83,8 @@ public class ProdRegMetaDataTest extends InstrumentationTestCase {
     }
 
     @Test
-    private ProdRegMetaDataResponse setMetadataObject(final ProdRegMetaDataResponse mResponseData) {
-        ProdRegMetaDataResponse productData = new ProdRegMetaDataResponse();
+    private ProductMetadataResponseData setMetadataObject(final ProductMetadataResponseData mResponseData) {
+        ProductMetadataResponseData productData = new ProductMetadataResponseData();
         productData.setMessage(mResponseData.getMessage());
         productData.setIsConnectedDevice(mResponseData.getIsConnectedDevice());
         productData.setRequiresDateOfPurchase(mResponseData.getRequiresDateOfPurchase());

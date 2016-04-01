@@ -29,7 +29,7 @@ import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
 import com.philips.cdp.prodreg.handler.ErrorType;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
-import com.philips.cdp.prodreg.model.ProdRegResponse;
+import com.philips.cdp.prodreg.model.RegistrationResponse;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
@@ -202,9 +202,9 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onProdRegSuccess(ResponseData responseData) {
                 Toast.makeText(DetailActivity.this, getResources().getString(R.string.product_registered_successfully), Toast.LENGTH_SHORT).show();
-                ProdRegResponse prodRegResponse = (ProdRegResponse) responseData;
-                if (prodRegResponse.getData() != null)
-                    Log.d(TAG, " Response Data : " + prodRegResponse.getData());
+                RegistrationResponse registrationResponse = (RegistrationResponse) responseData;
+                if (registrationResponse.getData() != null)
+                    Log.d(TAG, " Response Data : " + registrationResponse.getData());
             }
 
             @Override

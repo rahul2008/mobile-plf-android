@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.cdp.prodreg.handler.ProdRegConstants;
-import com.philips.cdp.prodreg.model.ProdRegResponse;
+import com.philips.cdp.prodreg.model.RegistrationResponse;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -149,7 +149,7 @@ public class RegistrationRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-        return new ProdRegResponse().parseJsonResponseData(jsonObject);
+        return new RegistrationResponse().parseJsonResponseData(jsonObject);
     }
 
     @Override

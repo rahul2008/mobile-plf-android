@@ -9,9 +9,9 @@ import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.handler.ErrorType;
 import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
-import com.philips.cdp.prodreg.model.ProdRegMetaDataResponse;
-import com.philips.cdp.prodreg.model.ProdRegRegisteredDataResponse;
-import com.philips.cdp.prodreg.model.ProdRegRegisteredResults;
+import com.philips.cdp.prodreg.model.ProductMetadataResponseData;
+import com.philips.cdp.prodreg.model.RegisteredResponse;
+import com.philips.cdp.prodreg.model.RegisteredResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -150,14 +150,14 @@ public class UserProductTest extends MockitoTestCase {
         when(product.getCtn()).thenReturn("HD8967/09");
         ProdRegListener getRegisteredProductsListener = userProduct.
                 getRegisteredProductsListener(context, product, listener);
-        ProdRegRegisteredDataResponse responseMock = mock(ProdRegRegisteredDataResponse.class);
-        final ProdRegRegisteredResults prodRegRegisteredResults = new ProdRegRegisteredResults();
-        prodRegRegisteredResults.setProductModelNumber("HD8967/09");
-        final ProdRegRegisteredResults prodRegRegisteredResults1 = new ProdRegRegisteredResults();
-        prodRegRegisteredResults1.setProductModelNumber("HD8968/09");
-        final ProdRegRegisteredResults prodRegRegisteredResults2 = new ProdRegRegisteredResults();
-        prodRegRegisteredResults2.setProductModelNumber("HD8969/09");
-        ProdRegRegisteredResults[] results = {prodRegRegisteredResults, prodRegRegisteredResults1, prodRegRegisteredResults2};
+        RegisteredResponse responseMock = mock(RegisteredResponse.class);
+        final RegisteredResponseData registeredResponseData = new RegisteredResponseData();
+        registeredResponseData.setProductModelNumber("HD8967/09");
+        final RegisteredResponseData registeredResponseData1 = new RegisteredResponseData();
+        registeredResponseData1.setProductModelNumber("HD8968/09");
+        final RegisteredResponseData registeredResponseData2 = new RegisteredResponseData();
+        registeredResponseData2.setProductModelNumber("HD8969/09");
+        RegisteredResponseData[] results = {registeredResponseData, registeredResponseData1, registeredResponseData2};
         when(responseMock.getResults()).thenReturn(results);
         getRegisteredProductsListener.onProdRegSuccess(responseMock);
         verify(listener).onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
@@ -177,14 +177,14 @@ public class UserProductTest extends MockitoTestCase {
         };
         ProdRegListener getRegisteredProductsListener = userProduct.
                 getRegisteredProductsListener(context, product, listener);
-        ProdRegRegisteredDataResponse responseMock = mock(ProdRegRegisteredDataResponse.class);
-        final ProdRegRegisteredResults prodRegRegisteredResults = new ProdRegRegisteredResults();
-        prodRegRegisteredResults.setProductModelNumber("HD8967/09");
-        final ProdRegRegisteredResults prodRegRegisteredResults1 = new ProdRegRegisteredResults();
-        prodRegRegisteredResults1.setProductModelNumber("HD8968/09");
-        final ProdRegRegisteredResults prodRegRegisteredResults2 = new ProdRegRegisteredResults();
-        prodRegRegisteredResults2.setProductModelNumber("HD8969/09");
-        ProdRegRegisteredResults[] results = {prodRegRegisteredResults, prodRegRegisteredResults1, prodRegRegisteredResults2};
+        RegisteredResponse responseMock = mock(RegisteredResponse.class);
+        final RegisteredResponseData registeredResponseData = new RegisteredResponseData();
+        registeredResponseData.setProductModelNumber("HD8967/09");
+        final RegisteredResponseData registeredResponseData1 = new RegisteredResponseData();
+        registeredResponseData1.setProductModelNumber("HD8968/09");
+        final RegisteredResponseData registeredResponseData2 = new RegisteredResponseData();
+        registeredResponseData2.setProductModelNumber("HD8969/09");
+        RegisteredResponseData[] results = {registeredResponseData, registeredResponseData1, registeredResponseData2};
         when(responseMock.getResults()).thenReturn(results);
         getRegisteredProductsListener.onProdRegSuccess(responseMock);
         verify(product).getProductMetadata(context, metadataListener);
@@ -222,7 +222,7 @@ public class UserProductTest extends MockitoTestCase {
     }
 
     public void testValidatingSerialNumber() {
-        ProdRegMetaDataResponse data = mock(ProdRegMetaDataResponse.class);
+        ProductMetadataResponseData data = mock(ProductMetadataResponseData.class);
         Product productMock = mock(Product.class);
         final ProdRegListener listener = new ProdRegListener() {
             @Override
@@ -255,7 +255,7 @@ public class UserProductTest extends MockitoTestCase {
     }
 
     public void testValidatingPurchaseDate() {
-        ProdRegMetaDataResponse data = mock(ProdRegMetaDataResponse.class);
+        ProductMetadataResponseData data = mock(ProductMetadataResponseData.class);
         Product productMock = mock(Product.class);
         when(data.getRequiresDateOfPurchase()).thenReturn("true");
         final ProdRegListener listener = new ProdRegListener() {
@@ -319,13 +319,13 @@ public class UserProductTest extends MockitoTestCase {
         Product product = mock(Product.class);
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         when(product.getCtn()).thenReturn("HD8967/09");
-        final ProdRegRegisteredResults prodRegRegisteredResults = new ProdRegRegisteredResults();
-        prodRegRegisteredResults.setProductModelNumber("HD8967/09");
-        final ProdRegRegisteredResults prodRegRegisteredResults1 = new ProdRegRegisteredResults();
-        prodRegRegisteredResults1.setProductModelNumber("HD8968/09");
-        final ProdRegRegisteredResults prodRegRegisteredResults2 = new ProdRegRegisteredResults();
-        prodRegRegisteredResults2.setProductModelNumber("HD8969/09");
-        ProdRegRegisteredResults[] results = {prodRegRegisteredResults, prodRegRegisteredResults1, prodRegRegisteredResults2};
+        final RegisteredResponseData registeredResponseData = new RegisteredResponseData();
+        registeredResponseData.setProductModelNumber("HD8967/09");
+        final RegisteredResponseData registeredResponseData1 = new RegisteredResponseData();
+        registeredResponseData1.setProductModelNumber("HD8968/09");
+        final RegisteredResponseData registeredResponseData2 = new RegisteredResponseData();
+        registeredResponseData2.setProductModelNumber("HD8969/09");
+        RegisteredResponseData[] results = {registeredResponseData, registeredResponseData1, registeredResponseData2};
         assertTrue(userProduct.isCtnRegistered(results, product, prodRegListener));
     }
 
@@ -333,13 +333,13 @@ public class UserProductTest extends MockitoTestCase {
         Product product = mock(Product.class);
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         when(product.getCtn()).thenReturn("HD8970/09");
-        final ProdRegRegisteredResults prodRegRegisteredResults = new ProdRegRegisteredResults();
-        prodRegRegisteredResults.setProductModelNumber("HD8967/09");
-        final ProdRegRegisteredResults prodRegRegisteredResults1 = new ProdRegRegisteredResults();
-        prodRegRegisteredResults1.setProductModelNumber("HD8968/09");
-        final ProdRegRegisteredResults prodRegRegisteredResults2 = new ProdRegRegisteredResults();
-        prodRegRegisteredResults2.setProductModelNumber("HD8969/09");
-        ProdRegRegisteredResults[] results = {prodRegRegisteredResults, prodRegRegisteredResults1, prodRegRegisteredResults2};
+        final RegisteredResponseData registeredResponseData = new RegisteredResponseData();
+        registeredResponseData.setProductModelNumber("HD8967/09");
+        final RegisteredResponseData registeredResponseData1 = new RegisteredResponseData();
+        registeredResponseData1.setProductModelNumber("HD8968/09");
+        final RegisteredResponseData registeredResponseData2 = new RegisteredResponseData();
+        registeredResponseData2.setProductModelNumber("HD8969/09");
+        RegisteredResponseData[] results = {registeredResponseData, registeredResponseData1, registeredResponseData2};
         assertFalse(userProduct.isCtnRegistered(results, product, prodRegListener));
     }
 }
