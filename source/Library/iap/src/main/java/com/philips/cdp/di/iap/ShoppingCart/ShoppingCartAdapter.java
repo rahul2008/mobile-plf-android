@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,6 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
@@ -52,6 +50,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Drawable mOptionsDrawable;
     OutOfStockListener mOutOfStock;
 
+    private Drawable mTrashDrawable;
+    private Drawable mInfoDrawable;
+
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
     }
@@ -64,12 +65,14 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mPresenter = new ShoppingCartPresenter(context, this,fragmentManager);
         mFragmentManager = fragmentManager;
         setCountArrow(context);
-        initOptionsDrawable();
+        initDrawables();
         mOutOfStock = iOutOfStock;
     }
 
-    void initOptionsDrawable() {
+    void initDrawables() {
         mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.iap_options_icon_5x17);
+        mTrashDrawable = VectorDrawable.create(mContext, R.drawable.iap_trash_bin);
+        mInfoDrawable = VectorDrawable.create(mContext, R.drawable.iap_info);
     }
 
     private void setCountArrow(final Context context) {
@@ -132,8 +135,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         String info = mResources.getString(R.string.iap_info);
         final String[] descriptions = new String[]{delete, info};
 
-        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.iap_trash_bin), descriptions[0]));
-        rowItems.add(new RowItem(ContextCompat.getDrawable(mContext, R.drawable.iap_info), descriptions[1]));
+        rowItems.add(new RowItem(mTrashDrawable, descriptions[0]));
+        rowItems.add(new RowItem(mInfoDrawable, descriptions[1]));
         mPopupWindow = new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
 
         mPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
