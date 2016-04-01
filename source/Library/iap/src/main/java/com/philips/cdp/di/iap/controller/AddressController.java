@@ -163,7 +163,9 @@ public class AddressController implements AbstractModel.DataLoadListener {
         addressHashMap.put(ModelConstants.ADDRESS_ID, addr.getId());
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, isDefaultAddress.toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, addr.getPhone());
-        addressHashMap.put(ModelConstants.REGION_ISOCODE, addr.getRegion().getIsocode());
+
+        if (addr.getRegion() != null)
+            addressHashMap.put(ModelConstants.REGION_ISOCODE, addr.getRegion().getIsocode());
         return addressHashMap;
     }
 
