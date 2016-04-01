@@ -60,9 +60,12 @@ public class NetworkUtility {
         bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
         bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
         bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
-
-        mModalAlertDemoFragment.setArguments(bundle);
-        mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
+        try {
+            mModalAlertDemoFragment.setArguments(bundle);
+            mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
