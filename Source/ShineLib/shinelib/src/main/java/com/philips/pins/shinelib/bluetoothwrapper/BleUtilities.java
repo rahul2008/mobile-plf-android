@@ -14,11 +14,7 @@ import android.content.pm.PackageManager;
 
 import java.util.UUID;
 
-/**
- * Created by 310188215 on 06/03/15.
- */
 public class BleUtilities {
-    private static final String TAG = BleUtilities.class.getSimpleName();
     private static BleUtilities instance;
     private Context applicationContext;
 
@@ -33,10 +29,10 @@ public class BleUtilities {
         instance = bleUtilitiesInstance;
     }
 
-
     public static boolean deviceHasBle() {
         return instance._deviceHasBle();
     }
+
     public boolean _deviceHasBle() {
         return applicationContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
     }
@@ -44,6 +40,7 @@ public class BleUtilities {
     public static boolean isBluetoothAdapterEnabled() {
         return instance._isBluetoothAdapterEnabled();
     }
+
     public boolean _isBluetoothAdapterEnabled() {
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         return bluetoothManager.getAdapter().isEnabled();
@@ -52,6 +49,7 @@ public class BleUtilities {
     public static void startEnableBluetoothActivity() {
         instance._startEnableBluetoothActivity();
     }
+
     private void _startEnableBluetoothActivity() {
         Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -61,6 +59,7 @@ public class BleUtilities {
     public static boolean startLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
         return instance._startLeScan(leScanCallback);
     }
+
     private boolean _startLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
@@ -70,6 +69,7 @@ public class BleUtilities {
     public static boolean startLeScan(UUID[] serviceUUIDs, BluetoothAdapter.LeScanCallback leScanCallback) {
         return instance._startLeScan(serviceUUIDs, leScanCallback);
     }
+
     public boolean _startLeScan(UUID[] serviceUUIDs, BluetoothAdapter.LeScanCallback leScanCallback) {
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
@@ -79,6 +79,7 @@ public class BleUtilities {
     public static void stopLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
         instance._stopLeScan(leScanCallback);
     }
+
     private void _stopLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
@@ -88,6 +89,7 @@ public class BleUtilities {
     public static BluetoothDevice getRemoteDevice(String macAddress) {
         return instance._getRemoteDevice(macAddress);
     }
+
     private BluetoothDevice _getRemoteDevice(String macAddress) {
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();

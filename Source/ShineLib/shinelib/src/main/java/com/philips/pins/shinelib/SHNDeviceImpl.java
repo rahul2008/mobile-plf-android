@@ -280,10 +280,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
         @Override
         public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
-            if (SHNDeviceImpl.this.btGatt != gatt) {
-                return;
-            }
-
             SHNLogger.i(TAG, "BTGattCallback - onConnectionStateChange (newState = '" + bluetoothStateToString(newState) + "', status = " + status + ")");
 
             if (status != BluetoothGatt.GATT_SUCCESS || newState == BluetoothProfile.STATE_DISCONNECTED) {
@@ -301,10 +297,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         @Override
         public void onServicesDiscovered(BTGatt gatt, int status) {
-            if (SHNDeviceImpl.this.btGatt != gatt) {
-                return;
-            }
-
             if (internalState == InternalState.ConnectedDiscoveringServices) {
                 if (status == BluetoothGatt.GATT_SUCCESS) {
 
@@ -328,77 +320,46 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         @Override
         public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
-            if (SHNDeviceImpl.this.btGatt != gatt) {
-                return;
-            }
-
             SHNService shnService = getSHNService(characteristic.getService().getUuid());
             shnService.onCharacteristicReadWithData(gatt, characteristic, status, data);
         }
 
         @Override
         public void onCharacteristicWrite(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            if (SHNDeviceImpl.this.btGatt != gatt) {
-                return;
-            }
-
             SHNService shnService = getSHNService(characteristic.getService().getUuid());
             shnService.onCharacteristicWrite(gatt, characteristic, status);
         }
 
         @Override
         public void onCharacteristicChangedWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, byte[] data) {
-            if (SHNDeviceImpl.this.btGatt != gatt) {
-                return;
-            }
-
             SHNService shnService = getSHNService(characteristic.getService().getUuid());
             shnService.onCharacteristicChangedWithData(gatt, characteristic, data);
         }
 
         @Override
         public void onDescriptorReadWithData(BTGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
-            if (SHNDeviceImpl.this.btGatt != gatt) {
-                return;
-            }
-
             SHNService shnService = getSHNService(descriptor.getCharacteristic().getService().getUuid());
             shnService.onDescriptorReadWithData(gatt, descriptor, status, data);
         }
 
         @Override
         public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            if (SHNDeviceImpl.this.btGatt != gatt) {
-                return;
-            }
-
             SHNService shnService = getSHNService(descriptor.getCharacteristic().getService().getUuid());
             shnService.onDescriptorWrite(gatt, descriptor, status);
         }
 
         @Override
         public void onReliableWriteCompleted(BTGatt gatt, int status) {
-            if (SHNDeviceImpl.this.btGatt != gatt) {
-                return;
-            }
-
             throw new UnsupportedOperationException("onReliableWriteCompleted");
         }
 
         @Override
         public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {
-            if (SHNDeviceImpl.this.btGatt != gatt) {
-                return;
-            }
-
             throw new UnsupportedOperationException("onReadRemoteRssi");
         }
 
         @Override
         public void onMtuChanged(BTGatt gatt, int mtu, int status) {
-            if (SHNDeviceImpl.this.btGatt != gatt) {
-                return;
-            }
         }
     };
 

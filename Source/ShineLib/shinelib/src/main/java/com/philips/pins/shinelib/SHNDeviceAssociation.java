@@ -16,6 +16,9 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 public class SHNDeviceAssociation {
 
@@ -133,23 +136,44 @@ public class SHNDeviceAssociation {
     }
 
     void initAssociatedDevicesList() {
-        SHNDeviceAssociationHelper associationHelper = getShnDeviceAssociationHelper();
-        List<SHNDeviceAssociationHelper.AssociatedDeviceInfo> associatedDeviceInfos = associationHelper.readAssociatedDeviceInfos();
-        associatedDevices = new ArrayList<>();
-        for (SHNDeviceAssociationHelper.AssociatedDeviceInfo associatedDeviceInfo : associatedDeviceInfos) {
-            SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(associatedDeviceInfo.deviceTypeName);
+        Callable<Boolean> initCallable = new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                SHNDeviceAssociationHelper associationHelper = getShnDeviceAssociationHelper();
+                List<SHNDeviceAssociationHelper.AssociatedDeviceInfo> associatedDeviceInfos = associationHelper.readAssociatedDeviceInfos();
+                associatedDevices = new ArrayList<>();
+                for (SHNDeviceAssociationHelper.AssociatedDeviceInfo associatedDeviceInfo : associatedDeviceInfos) {
+                    SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(associatedDeviceInfo.deviceTypeName);
 
-            SHNDevice shnDevice = null;
-            if (shnDeviceDefinitionInfo != null) {
-                shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(associatedDeviceInfo.macAddress,
-                        shnDeviceDefinitionInfo);
-            }
+                    SHNDevice shnDevice = null;
+                    if (shnDeviceDefinitionInfo != null) {
+                        shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(associatedDeviceInfo.macAddress,
+                                shnDeviceDefinitionInfo);
+                    }
 
-            if (shnDevice == null) {
-                SHNLogger.d(TAG, "Could not create device for mac-address: [" + associatedDeviceInfo.macAddress + "] and type: [" + associatedDeviceInfo.deviceTypeName + "]");
-            } else {
-                associatedDevices.add(shnDevice);
+                    if (shnDevice == null) {
+                        SHNLogger.d(TAG, "Could not create device for mac-address: [" + associatedDeviceInfo.macAddress + "] and type: [" + associatedDeviceInfo.deviceTypeName + "]");
+                    } else {
+                        associatedDevices.add(shnDevice);
+                    }
+                }
+                return true;
             }
+        };
+
+        FutureTask<Boolean> initFuture = new FutureTask<>(initCallable);
+
+        if (shnCentral.getInternalHandler().post(initFuture)) {
+
+            try {
+                initFuture.get();
+            } catch (InterruptedException e) {
+                throw new InternalError("Caught unexpected InterruptedException");
+            } catch (ExecutionException e) {
+                throw new InternalError("Caught unexpected ExecutionException");
+            }
+        } else {
+            throw new InternalError("The internal thread is not running");
         }
     }
 

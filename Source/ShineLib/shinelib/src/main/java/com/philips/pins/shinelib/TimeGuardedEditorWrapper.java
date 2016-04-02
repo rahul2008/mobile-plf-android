@@ -1,47 +1,44 @@
 package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
-import android.os.Handler;
 
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Set;
 
-public class EditorWrapper implements SharedPreferences.Editor {
+class TimeGuardedEditorWrapper implements SharedPreferences.Editor {
 
     private interface Putter<T, E> {
         E put(SharedPreferences.Editor editor, String key, T value);
     }
 
-    private static String TAG = EditorWrapper.class.getSimpleName();
+    private static String TAG = "EditorWrapper";
 
-    private static final int DELAY_MILLIS = 50;
     private SharedPreferences.Editor editor;
-    private Handler handler;
 
-    private Runnable timeOut = new Runnable() {
-        @Override
-        public void run() {
-            SHNLogger.wtf(TAG, "The internal thread was not responding! Custom SharedPreference's execution time has exceeded expected!");
-
-            assert (false);
-        }
-    };
-
-    public EditorWrapper(SharedPreferences.Editor editor, Handler handler) {
+    public TimeGuardedEditorWrapper(SharedPreferences.Editor editor) {
         this.editor = editor;
-        this.handler = handler;
     }
 
     private <T, E> E putValue(String key, T value, Putter<T, E> putter) {
-        handler.postDelayed(timeOut, DELAY_MILLIS);
+        long startTime = getCurrentTimeInMillis();
         E val = putter.put(editor, key, value);
-        handler.removeCallbacks(timeOut);
+        long dif = getCurrentTimeInMillis() - startTime;
+
+        if (dif > TimeGuardedSharedPreferencesProviderWrapper.DELAY_MILLIS) {
+            SHNLogger.wtf(TAG, "The internal thread is not responding! Custom SharedPreference's execution time has exceeded expected execution time of 50 ms! Execution time is " + dif);
+            assert (false);
+        }
+
         return val;
     }
 
     private <T, E> E putValue(Putter<T, E> putter) {
         return putValue("", null, putter);
+    }
+
+    protected long getCurrentTimeInMillis() {
+        return System.currentTimeMillis();
     }
 
     @Override
@@ -50,7 +47,7 @@ public class EditorWrapper implements SharedPreferences.Editor {
             @Override
             public SharedPreferences.Editor put(SharedPreferences.Editor editor, String key, String value) {
                 editor.putString(key, value);
-                return EditorWrapper.this;
+                return TimeGuardedEditorWrapper.this;
             }
         });
     }
@@ -61,7 +58,7 @@ public class EditorWrapper implements SharedPreferences.Editor {
             @Override
             public SharedPreferences.Editor put(SharedPreferences.Editor editor, String key, Set<String> value) {
                 editor.putStringSet(key, value);
-                return EditorWrapper.this;
+                return TimeGuardedEditorWrapper.this;
             }
         });
     }
@@ -72,7 +69,7 @@ public class EditorWrapper implements SharedPreferences.Editor {
             @Override
             public SharedPreferences.Editor put(SharedPreferences.Editor editor, String key, Integer value) {
                 editor.putInt(key, value);
-                return EditorWrapper.this;
+                return TimeGuardedEditorWrapper.this;
             }
         });
     }
@@ -83,7 +80,7 @@ public class EditorWrapper implements SharedPreferences.Editor {
             @Override
             public SharedPreferences.Editor put(SharedPreferences.Editor editor, String key, Long value) {
                 editor.putLong(key, value);
-                return EditorWrapper.this;
+                return TimeGuardedEditorWrapper.this;
             }
         });
     }
@@ -94,7 +91,7 @@ public class EditorWrapper implements SharedPreferences.Editor {
             @Override
             public SharedPreferences.Editor put(SharedPreferences.Editor editor, String key, Float value) {
                 editor.putFloat(key, value);
-                return EditorWrapper.this;
+                return TimeGuardedEditorWrapper.this;
             }
         });
     }
@@ -105,7 +102,7 @@ public class EditorWrapper implements SharedPreferences.Editor {
             @Override
             public SharedPreferences.Editor put(SharedPreferences.Editor editor, String key, Boolean value) {
                 editor.putBoolean(key, value);
-                return EditorWrapper.this;
+                return TimeGuardedEditorWrapper.this;
             }
         });
     }
@@ -116,7 +113,7 @@ public class EditorWrapper implements SharedPreferences.Editor {
             @Override
             public SharedPreferences.Editor put(SharedPreferences.Editor editor, String key, Boolean value) {
                 editor.remove(key);
-                return EditorWrapper.this;
+                return TimeGuardedEditorWrapper.this;
             }
         });
     }
@@ -127,7 +124,7 @@ public class EditorWrapper implements SharedPreferences.Editor {
             @Override
             public SharedPreferences.Editor put(SharedPreferences.Editor editor, String key, Boolean value) {
                 editor.clear();
-                return EditorWrapper.this;
+                return TimeGuardedEditorWrapper.this;
             }
         });
     }

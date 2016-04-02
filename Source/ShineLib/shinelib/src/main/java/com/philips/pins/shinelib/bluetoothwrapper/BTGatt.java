@@ -46,7 +46,40 @@ public class BTGatt extends BluetoothGattCallback {
         void onMtuChanged(BTGatt gatt, int mtu, int status);
     }
 
-    private final BTGattCallback btGattCallback;
+    class NullBTGattCallback implements BTGattCallback {
+
+        @Override
+        public void onConnectionStateChange(BTGatt gatt, int status, int newState) {}
+
+        @Override
+        public void onServicesDiscovered(BTGatt gatt, int status) {}
+
+        @Override
+        public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {}
+
+        @Override
+        public void onCharacteristicWrite(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status) {}
+
+        @Override
+        public void onCharacteristicChangedWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, byte[] data) {}
+
+        @Override
+        public void onDescriptorReadWithData(BTGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {}
+
+        @Override
+        public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {}
+
+        @Override
+        public void onReliableWriteCompleted(BTGatt gatt, int status) {}
+
+        @Override
+        public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {}
+
+        @Override
+        public void onMtuChanged(BTGatt gatt, int mtu, int status) {}
+    }
+
+    private BTGattCallback btGattCallback;
     private final Handler handler;
     private BluetoothGatt bluetoothGatt;
     private List<Runnable> commandQueue;
@@ -65,6 +98,8 @@ public class BTGatt extends BluetoothGattCallback {
     public void close() {
         bluetoothGatt.close();
         bluetoothGatt = null;
+        commandQueue.clear();
+        btGattCallback = new NullBTGattCallback();
     }
 
     public void disconnect() {

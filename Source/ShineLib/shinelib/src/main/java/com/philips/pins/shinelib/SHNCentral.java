@@ -26,7 +26,6 @@ import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
-import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
@@ -35,6 +34,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 public class SHNCentral {
 
@@ -48,10 +50,12 @@ public class SHNCentral {
 
     private static final String TAG = SHNCentral.class.getSimpleName();
     private SHNUserConfiguration shnUserConfiguration;
-    private final SHNDeviceScanner shnDeviceScanner;
+    private SHNDeviceScanner shnDeviceScanner;
     private final Handler userHandler;
     private final Context applicationContext;
     private boolean bluetoothAdapterEnabled;
+    private BroadcastReceiver bondStateChangedReceiver;
+
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -103,11 +107,17 @@ public class SHNCentral {
         this(handler, context, false, null, false);
     }
 
-    SHNCentral(Handler handler, Context context, boolean showPopupIfBLEIsTurnedOff, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
+    SHNCentral(Handler handler, final Context context, final boolean showPopupIfBLEIsTurnedOff, final SharedPreferencesProvider customSharedPreferencesProvider, final boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
         BleUtilities.init(applicationContext);
+        if (!BleUtilities.deviceHasBle()) {
+            throw new SHNBluetoothHardwareUnavailableException();
+        }
 
-        persistentStorageFactory = setUpPersistentStorageFactory(context, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
+        internalHandler = createInternalHandler();
+        if (internalHandler != null) {
+            Timer.setHandler(internalHandler);
+        }
 
         // The handler is used for callbacks to the usercode. When no handler is provided, the MainLoop a.k.a. UI Thread is used.
         if (handler == null) {
@@ -115,12 +125,32 @@ public class SHNCentral {
         }
         this.userHandler = handler;
 
-        SHNLogger.setLoggingHandler(this.userHandler);
+        Callable<Boolean> initCallable = new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                initializeSHNCentral(showPopupIfBLEIsTurnedOff, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
+                return true;
+            }
+        };
 
-        // Check that the device supports BLE.
-        if (!BleUtilities.deviceHasBle()) {
-            throw new SHNBluetoothHardwareUnavailableException();
+        FutureTask<Boolean> initFuture = new FutureTask<>(initCallable);
+
+        if (internalHandler.post(initFuture)) {
+
+            try {
+                initFuture.get();
+            } catch (InterruptedException e) {
+                throw new InternalError("Caught unexpected InterruptedException");
+            } catch (ExecutionException e) {
+                throw new InternalError("Caught unexpected ExecutionException");
+            }
+        } else {
+            throw new InternalError("The internal thread is not running");
         }
+    }
+
+    private void initializeSHNCentral(boolean showPopupIfBLEIsTurnedOff, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
+        persistentStorageFactory = setUpPersistentStorageFactory(applicationContext, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
 
         // Check that the adapter is enabled.
         bluetoothAdapterEnabled = BleUtilities.isBluetoothAdapterEnabled();
@@ -138,11 +168,6 @@ public class SHNCentral {
 
         shnDeviceDefinitions = new SHNDeviceDefinitions();
 
-        internalHandler = createInternalHandler();
-        if (internalHandler != null) {
-            Timer.setHandler(internalHandler);
-        }
-
         shnDeviceScannerInternal = new SHNDeviceScannerInternal(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
         shnDeviceScanner = new SHNDeviceScanner(shnDeviceScannerInternal, internalHandler, userHandler);
 
@@ -153,7 +178,7 @@ public class SHNCentral {
         shnUserConfiguration = createUserConfiguration();
     }
 
-    SHNUserConfiguration createUserConfiguration() {
+    /* package */ SHNUserConfiguration createUserConfiguration() {
         SHNUserConfigurationImpl shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
         return new SHNUserConfigurationDispatcher(shnUserConfigurationImpl, internalHandler);
     }
@@ -164,6 +189,10 @@ public class SHNCentral {
 
     /* package */ PersistentStorageFactory createPersistentStorageFactory(SharedPreferencesProvider sharedPreferencesProvider) {
         return new PersistentStorageFactory(sharedPreferencesProvider);
+    }
+
+    /* package */ long getHandlerThreadId(Handler handler) {
+        return handler.getLooper().getThread().getId();
     }
 
     /* package */ Handler createInternalHandler() {
@@ -211,7 +240,7 @@ public class SHNCentral {
     private void setupBondStatusListener() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        BroadcastReceiver bondStateChangedReceiver = new BroadcastReceiver() {
+        bondStateChangedReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, final Intent intent) {
                 internalHandler.post(new Runnable() {
@@ -248,14 +277,15 @@ public class SHNCentral {
             migrateDataFromOldKeysToNewKeys(context, defaultSharedpreferencesProvider);
             return defaultPersistentStorageFactory;
         } else {
-            PersistentStorageFactory customPersistentStorageFactory = createPersistentStorageFactory(customSharedPreferencesProvider);
+            TimeGuardedSharedPreferencesProviderWrapper timeGuardedSharedPreferencesProviderWrapper = new TimeGuardedSharedPreferencesProviderWrapper(customSharedPreferencesProvider, getHandlerThreadId(internalHandler));
+            PersistentStorageFactory customPersistentStorageFactory = createPersistentStorageFactory(timeGuardedSharedPreferencesProviderWrapper);
 
             SharedPreferencesMigrator sharedPreferencesMigrator = createSharedPreferencesMigrator(defaultPersistentStorageFactory, customPersistentStorageFactory);
             if (!sharedPreferencesMigrator.destinationPersistentStorageContainsData() && migrateDataToCustomSharedPreferencesProvider) {
                 migrateDataFromOldKeysToNewKeys(context, defaultSharedpreferencesProvider);
                 sharedPreferencesMigrator.execute();
             } else {
-                migrateDataFromOldKeysToNewKeys(context, customSharedPreferencesProvider); // This call is needed to make the destinationPersistentStorageContainsData method return true after the first time creation with the same custom provider.
+                migrateDataFromOldKeysToNewKeys(context, timeGuardedSharedPreferencesProviderWrapper); // This call is needed to make the destinationPersistentStorageContainsData method return true after the first time creation with the same custom provider.
             }
             return customPersistentStorageFactory;
         }
@@ -281,6 +311,10 @@ public class SHNCentral {
     public void shutdown() {
         internalHandler.getLooper().quitSafely();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
+        if (bondStateChangedReceiver != null) {
+            applicationContext.unregisterReceiver(bondStateChangedReceiver);
+            bondStateChangedReceiver = null;
+        }
         shnDeviceScannerInternal.stopScanning();
         shnDeviceScannerInternal = null;
     }

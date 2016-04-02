@@ -26,16 +26,16 @@ public class MockedHandler {
         scheduledExecutions = new ArrayList<>();
         postedRunnables = new ArrayList<>();
         mockedHandler = mock(Handler.class, new ThrowsException(new RuntimeException("Function not stubbed with doReturn(..).when(mock).method();")));
-        doAnswer(new Answer<Void>() {
+        doAnswer(new Answer<Boolean>() {
             @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
+            public Boolean answer(InvocationOnMock invocation) throws Throwable {
                 Runnable runnable = (Runnable) invocation.getArguments()[0];
                 if (immediateExecuteOnPost) {
                     runnable.run();
                 } else {
                     postedRunnables.add(runnable);
                 }
-                return null;
+                return true;
             }
         }).when(mockedHandler).post(any(Runnable.class));
         doAnswer(new Answer<Void>() {

@@ -7,9 +7,15 @@ package com.philips.pins.shinelib;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+/**
+ * This interface allows to inject a SharedPreferences objects into the BlueLib specifying the way to store information.
+ * Make sure that there are no long blocking calls done during storing or retrieving of data. For instance, opening a
+ * connection to a back end server is considered a long blocking call. For best performance use local storage or local cashing
+ * in case of remote storage.
+ */
 public interface SharedPreferencesProvider {
     /**
-     * see Context getSharedPreferences
+     * see {@link android.content.Context#getSharedPreferences}
      */
     @NonNull
     SharedPreferences getSharedPreferences(String name, int mode);

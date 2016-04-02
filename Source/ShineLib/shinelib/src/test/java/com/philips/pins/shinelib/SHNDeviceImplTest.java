@@ -301,15 +301,6 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenInStateConnecting_AndDisconnectIsCalled_AndAStateUpdateOccurs_ThenItWillBeIgnored() {
-        shnDevice.connect();
-        shnDevice.disconnect();
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
-
-        assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
-    }
-
-    @Test
     public void whenInStateConnectedDisconnectIsCalledThenTheStateIsChangedToDisconnecting() {
         getDeviceInDisconnectingState();
         assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());

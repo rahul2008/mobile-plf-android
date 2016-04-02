@@ -1,51 +1,47 @@
 package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
-import android.os.Handler;
 
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Map;
 import java.util.Set;
 
-public class SharedPreferencesWrapper implements SharedPreferences {
+class TimeGuardedSharedPreferencesWrapper implements SharedPreferences {
 
     private interface Getter<T> {
         T get(SharedPreferences sharedPreferences, String key, T defaultValue);
     }
 
-    private static String TAG = SharedPreferencesWrapper.class.getSimpleName();
+    private static String TAG = "SharedPrefsWrapper";
 
-    private static final int DELAY_MILLIS = 50;
     private SharedPreferences sharedPreferences;
-    private Handler handler;
     private long internalThreadId;
 
-    private Runnable timeOut = new Runnable() {
-        @Override
-        public void run() {
-            SHNLogger.wtf(TAG, "The internal thread was not responding! Custom SharedPreference's execution time has exceeded expected!");
-
-            assert (false);
-        }
-    };
-
-    public SharedPreferencesWrapper(SharedPreferences sharedPreferences, Handler handler, long internalThreadId) {
+    public TimeGuardedSharedPreferencesWrapper(SharedPreferences sharedPreferences, long internalThreadId) {
         this.sharedPreferences = sharedPreferences;
-        this.handler = handler;
         this.internalThreadId = internalThreadId;
     }
 
     private <T> T getValue(String key, T defaultValue, Getter<T> getter) {
         assertCorrectThread();
-        handler.postDelayed(timeOut, DELAY_MILLIS);
+        long startTime = getCurrentTimeInMillis();
         T val = getter.get(sharedPreferences, key, defaultValue);
-        handler.removeCallbacks(timeOut);
+        long dif = getCurrentTimeInMillis() - startTime;
+
+        if (dif > TimeGuardedSharedPreferencesProviderWrapper.DELAY_MILLIS) {
+            SHNLogger.wtf(TAG, "The internal thread is not responding! Custom SharedPreference's execution time has exceeded expected execution time of 50 ms! Execution time is " + dif);
+            assert (false);
+        }
         return val;
     }
 
     private <T> T getValue(Getter<T> getter) {
         return getValue("", null, getter);
+    }
+
+    protected long getCurrentTimeInMillis() {
+        return System.currentTimeMillis();
     }
 
     @Override

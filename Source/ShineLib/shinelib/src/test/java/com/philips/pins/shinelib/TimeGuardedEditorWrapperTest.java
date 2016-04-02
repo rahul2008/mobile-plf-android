@@ -1,43 +1,36 @@
 package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
-import android.os.Handler;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.util.Collections;
 import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class EditorWrapperTest {
+public class TimeGuardedEditorWrapperTest {
 
     public static final String KEY = "key";
     public static final String VALUE = "value";
 
-    private EditorWrapper wrapper;
+    public static final long NORMAL_EXECUTION_TIME = 10L;
+    public static final long EXCEEDED_EXECUTION_TIME = 60L;
+
+    private TimeGuardedEditorWrapper wrapper;
 
     @Mock
     private SharedPreferences.Editor editorMock;
-
-    @Mock
-    private Handler handlerMock;
-    @Captor
-    private ArgumentCaptor<Runnable> runnableCaptor;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        wrapper = new EditorWrapper(editorMock, handlerMock);
+        wrapper = new TimeGuardedEditorWrapperForTest(editorMock, NORMAL_EXECUTION_TIME);
     }
 
     @Test
@@ -47,34 +40,18 @@ public class EditorWrapperTest {
         verify(editorMock).putString(KEY, VALUE);
     }
 
-    @Test
-    public void whenPutStringIsCalledThenPostDelayedIsCalledOnTheHandler() throws Exception {
-        wrapper.putString(KEY, VALUE);
-
-        verify(handlerMock).postDelayed(any(Runnable.class), anyLong());
-    }
-
-    @Test
-    public void whenPutStringReturnsValueThenRemoveCallbacksIsCalledOnTheHandler() throws Exception {
-        wrapper.putString(KEY, VALUE);
-
-        verify(handlerMock).removeCallbacks(any(Runnable.class));
-    }
-
     @Test(expected = AssertionError.class)
     public void whenTimeOutExpiresThenAssertErrorIsGiven() throws Exception {
+        wrapper = new TimeGuardedEditorWrapperForTest(editorMock, EXCEEDED_EXECUTION_TIME);
+
         wrapper.putString(KEY, VALUE);
-
-        verify(handlerMock).postDelayed(runnableCaptor.capture(), anyLong());
-
-        runnableCaptor.getValue().run();
     }
 
     @Test
     public void whenPutStringIsCalledThenReturnTypeIsWrapper() throws Exception {
         SharedPreferences.Editor editor = wrapper.putString(KEY, VALUE);
 
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -83,7 +60,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putStringSet(KEY, empty);
 
         verify(editorMock).putStringSet(KEY, empty);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -91,7 +68,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putInt(KEY, 0);
 
         verify(editorMock).putInt(KEY, 0);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -99,7 +76,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putLong(KEY, 0);
 
         verify(editorMock).putLong(KEY, 0);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -107,7 +84,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putFloat(KEY, 0);
 
         verify(editorMock).putFloat(KEY, 0);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -115,7 +92,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.putBoolean(KEY, false);
 
         verify(editorMock).putBoolean(KEY, false);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -123,7 +100,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.remove(KEY);
 
         verify(editorMock).remove(KEY);
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -131,7 +108,7 @@ public class EditorWrapperTest {
         SharedPreferences.Editor editor = wrapper.clear();
 
         verify(editorMock).clear();
-        assertTrue(editor instanceof EditorWrapper);
+        assertTrue(editor instanceof TimeGuardedEditorWrapper);
     }
 
     @Test
@@ -146,5 +123,21 @@ public class EditorWrapperTest {
         wrapper.apply();
 
         verify(editorMock).apply();
+    }
+
+    class TimeGuardedEditorWrapperForTest extends TimeGuardedEditorWrapper {
+
+        private long start = 100;
+        private long increment;
+
+        public TimeGuardedEditorWrapperForTest(SharedPreferences.Editor editor, long increment) {
+            super(editor);
+            this.increment = increment;
+        }
+
+        @Override
+        protected long getCurrentTimeInMillis() {
+            return start += increment;
+        }
     }
 }

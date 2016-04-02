@@ -307,7 +307,8 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
             try {
                 value = callback.call();
             } catch (Exception e) {
-                SHNLogger.e(TAG, "execute sync exception", e);
+                SHNLogger.wtf(TAG, "execute sync exception", e);
+                throw new RuntimeException(e);
             }
         } else {
             FutureTask<T> futureTask = getFutureTask(callback);
@@ -315,7 +316,8 @@ public class SHNUserConfigurationDispatcher implements SHNUserConfiguration {
             try {
                 value = futureTask.get();
             } catch (Exception e) {
-                SHNLogger.e(TAG, "execute async exception", e);
+                SHNLogger.wtf(TAG, "execute async exception", e);
+                throw new RuntimeException(e);
             }
         }
 
