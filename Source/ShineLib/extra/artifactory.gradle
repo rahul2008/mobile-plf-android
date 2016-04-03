@@ -13,8 +13,10 @@ artifactory {
     publish {
         repository {
             repoKey = 'libs-release-local'
-            username = 'readerwriter'
-            password = 'ReaderWriter'
+            username = 'admin'
+            password = 'password'
+//            username = 'readerwriter'
+//            password = 'ReaderWriter'
             publishPom = true
             publishIvy = false
             publishBuildInfo = false
