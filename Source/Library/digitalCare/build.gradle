@@ -54,6 +54,12 @@ android {
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
+
     resourcePrefix 'digitalCare'
 
     buildTypes {

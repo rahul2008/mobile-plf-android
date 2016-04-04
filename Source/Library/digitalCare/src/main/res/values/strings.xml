@@ -137,5 +137,6 @@
 
     <string name="myphilips_CC">MyPhilips account</string>
     <string name="productselection_erroresponse">No products available</string>
+    <string name="localtephilips_contactus">Go to contact page</string>
 
 </resources>

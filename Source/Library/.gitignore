@@ -1,5 +1,9 @@
+/productselection-release
+/productselection
 /.idea
 /.gradle
 /gradle.properties
 **/*.iml
 /.gradle/**
+/captures
+/build

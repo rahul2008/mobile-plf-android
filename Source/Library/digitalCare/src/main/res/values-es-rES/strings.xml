@@ -136,4 +136,6 @@
     <string name="sign_into_my_philips"> Iniciar sesión en My Philips </string>
     <string name="forgot_my_password"> Olvidé la contraseña &gt;  </string>
     <string name="create_account"> Crear cuenta &gt; </string>
+
+    <string name="localtephilips_contactus">Ir a la página de contacto</string>
 </resources>

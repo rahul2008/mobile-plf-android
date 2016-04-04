@@ -136,4 +136,6 @@
     <string name="sign_into_my_philips"> मेरा Philips में साइन इन करें </string>
     <string name="forgot_my_password"> मैं अपना पासवर्ड भूल गया &gt;  </string>
     <string name="create_account">  खाता बनाएँ &gt; </string>
+
+    <string name="localtephilips_contactus">संपर्क पृष्ठ पर जाएँ</string>
 </resources>

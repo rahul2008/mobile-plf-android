@@ -136,4 +136,6 @@
     <string name="sign_into_my_philips"> My Philips에 로그인 </string>
     <string name="forgot_my_password"> 암호를 잊어버렸습니다 &gt;  </string>
     <string name="create_account"> 계정 만들기 &gt; </string>
+
+    <string name="localtephilips_contactus">문의 페이지로 이동</string>
 </resources>

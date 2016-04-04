@@ -136,4 +136,6 @@
     <string name="sign_into_my_philips"> Sínigh isteach le My Philips </string>
     <string name="forgot_my_password"> Rinne mé dearmad ar mo phasfhocal &gt;  </string>
     <string name="create_account">  Cruthaigh cuntas &gt; </string>
+
+    <string name="localtephilips_contactus">Téigh go dtí an leathanach teagmhála</string>
 </resources>

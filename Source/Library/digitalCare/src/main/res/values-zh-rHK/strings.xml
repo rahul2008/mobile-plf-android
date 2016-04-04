@@ -138,4 +138,6 @@
 <string name="sign_into_my_philips"> 登入到 My Philips </string>
 <string name="forgot_my_password"> 我忘記了我的密碼 &gt;  </string>
 <string name="create_account"> 建立帳戶 &gt; </string>
+
+    <string name="localtephilips_contactus">轉到聯絡頁面。</string>
 </resources>

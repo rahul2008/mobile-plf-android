@@ -137,4 +137,6 @@
     <string name="sign_into_my_philips"> تسجيل الدخول إلى My Philips </string>
     <string name="forgot_my_password"> لقد نسيت كلمة المرور &gt;  </string>
     <string name="create_account"> إنشاء حساب &gt; </string>
+
+    <string name="localtephilips_contactus">انتقل إلى صفحة الاتصال</string>
 </resources>

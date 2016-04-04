@@ -138,4 +138,6 @@
     <string name="sign_into_my_philips"> Влизане в My Philips </string>
     <string name="forgot_my_password"> Забравена парола &gt;  </string>
     <string name="create_account">  Създаване на акаунт &gt; </string>
+
+    <string name="localtephilips_contactus">Към страницата за контакти</string>
 </resources>

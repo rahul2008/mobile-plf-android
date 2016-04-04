@@ -137,4 +137,6 @@
     <string name="sign_into_my_philips"> My Philips жүйесіне кіріңіз </string>
     <string name="forgot_my_password"> Құпия сөзді ұмытып қалдым &gt;  </string>
     <string name="create_account">  Есептік жазба жасау &gt; </string>
+
+    <string name="localtephilips_contactus">Байланысу бетіне өту</string>
 </resources>
