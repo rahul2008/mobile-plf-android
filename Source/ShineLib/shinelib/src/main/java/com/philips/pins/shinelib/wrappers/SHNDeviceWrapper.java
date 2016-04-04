@@ -17,9 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by 310188215 on 05/05/15.
- */
 public class SHNDeviceWrapper implements SHNDevice {
     private static final String TAG = SHNDeviceWrapper.class.getSimpleName();
     private final SHNDevice shnDevice;
@@ -136,7 +133,6 @@ public class SHNDeviceWrapper implements SHNDevice {
         synchronized (shnDeviceListeners) {
             if (!shnDeviceListeners.contains(shnDeviceListener)) {
                 shnDeviceListeners.add(shnDeviceListener);
-                shnDeviceListener.onStateUpdated(this);
             }
         }
     }
