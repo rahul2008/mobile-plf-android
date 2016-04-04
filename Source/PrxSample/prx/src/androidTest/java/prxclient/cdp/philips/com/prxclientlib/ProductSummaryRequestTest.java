@@ -4,8 +4,9 @@ import android.test.InstrumentationTestCase;
 import android.test.mock.MockContext;
 import android.util.Log;
 
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
+import com.philips.cdp.prxclient.request.ProductAssetRequest;
+import com.philips.cdp.prxclient.request.ProductSummaryRequest;
+import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
@@ -16,23 +17,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Description : .
+ * Description :
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 09-Nov-15.
  */
-public class ProductAssetBuilderTest extends InstrumentationTestCase {
+public class ProductSummaryRequestTest extends InstrumentationTestCase {
 
-    private static final String TAG = ProductAssetBuilderTest.class.getSimpleName();
+    private static final String TAG = ProductAssetRequestTest.class.getSimpleName();
     MockContext mContext;
-    PrxDataBuilder mProductAssetBuilder = null;
+    PrxRequest mProductAssetBuilder = null;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        mProductAssetBuilder = new ProductAssetBuilder("125", null);
-        mProductAssetBuilder.setCatalogCode("COnsumer");
-        mProductAssetBuilder.setLocale("nl_NL");
+        mProductAssetBuilder = new ProductSummaryRequest("125", null);
+        mProductAssetBuilder.setmCatalogCode("COnsumer");
+        mProductAssetBuilder.setmLocale("nl_NL");
         mProductAssetBuilder.setmSectorCode("HAIR");
     }
 
@@ -50,7 +51,7 @@ public class ProductAssetBuilderTest extends InstrumentationTestCase {
 
     public void testPrxBuilderServerInfo() {
 
-        String mURL = mProductAssetBuilder.getPRXBaseUrl();
+        String mURL = mProductAssetBuilder.getRequestUrl();
         assertEquals("www.philips.com/prx", mURL);
     }
 
@@ -67,17 +68,18 @@ public class ProductAssetBuilderTest extends InstrumentationTestCase {
     }
 
     public void testPrxBuilderObjectWithQueueParameter() {
-        mProductAssetBuilder = new ProductAssetBuilder("125", "TAGINFO");
+        mProductAssetBuilder = new ProductAssetRequest("125", "TAGINFO");
         assertNotNull(mProductAssetBuilder);
     }
 
-    public void testTheAssetJsonData() {
 
+    public void testSummaryResponseSuccess()
+    {
         JSONObject mJsonObject = null;
         try {
             StringBuilder sb = new StringBuilder();
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("asset_template_one.txt")));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("summary_template_one.txt")));
 
                 // do reading, usually loop until end of file reading
                 String mLine = reader.readLine();
@@ -94,6 +96,7 @@ public class ProductAssetBuilderTest extends InstrumentationTestCase {
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
             mJsonObject = new JSONObject(sb.toString());
+            ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
             assertNotNull(mJsonObject);
         } catch (JSONException e) {
             Log.d(TAG, "JSON : " + e);
@@ -103,13 +106,13 @@ public class ProductAssetBuilderTest extends InstrumentationTestCase {
         }
     }
 
-    public void testResponseDataofAsset()
+    public void testSummaryResponseObject()
     {
         JSONObject mJsonObject = null;
         try {
             StringBuilder sb = new StringBuilder();
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("asset_template_one.txt")));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("summary_template_one.txt")));
 
                 // do reading, usually loop until end of file reading
                 String mLine = reader.readLine();
@@ -128,40 +131,6 @@ public class ProductAssetBuilderTest extends InstrumentationTestCase {
             mJsonObject = new JSONObject(sb.toString());
             ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
             assertNotNull(mResponseData);
-        } catch (JSONException e) {
-            Log.d(TAG, "JSON : " + e);
-
-        } catch (Exception e) {
-            Log.d(TAG, "IO " + e);
-        }
-    }
-
-
-    public void testAssetResponseSuccess()
-    {
-        JSONObject mJsonObject = null;
-        try {
-            StringBuilder sb = new StringBuilder();
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("asset_template_one.txt")));
-
-                // do reading, usually loop until end of file reading
-                String mLine = reader.readLine();
-                while (mLine != null) {
-                    // process line
-                    sb.append(mLine);
-                    mLine = reader.readLine();
-                }
-
-                reader.close();
-            } catch (IOException e) {
-                // log the exception
-                e.printStackTrace();
-            }
-            Log.d(TAG, "Parsed Data : " + sb.toString());
-            mJsonObject = new JSONObject(sb.toString());
-            ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
-            assertNotNull(mJsonObject);
         } catch (JSONException e) {
             Log.d(TAG, "JSON : " + e);
 

@@ -1,6 +1,6 @@
 package com.philips.cdp.prxclient.response;
 
-import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.prxclient.error.PrxError;
 
 /**
  * Description : The Listner interface used by the vertical applications for getting the product,locale,category specific data from
@@ -12,5 +12,5 @@ public interface ResponseListener {
 
     void onResponseSuccess(ResponseData responseData);
 
-    void onResponseError(String errorMessage, int responseCode);
+    void onResponseError(PrxError prxErrorType);
 }

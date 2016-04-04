@@ -3,13 +3,13 @@ package prxclient.cdp.philips.com.prxclientlib;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.summary.Brand;
-import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
-import com.philips.cdp.prxclient.prxdatamodels.summary.Price;
-import com.philips.cdp.prxclient.prxdatamodels.summary.ReviewStatistics;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.request.ProductSummaryRequest;
+import com.philips.cdp.prxclient.request.PrxRequest;
+import com.philips.cdp.prxclient.datamodels.summary.Brand;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.prxclient.datamodels.summary.Price;
+import com.philips.cdp.prxclient.datamodels.summary.ReviewStatistics;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
@@ -18,7 +18,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
 
 /**
  * Description :
@@ -28,7 +27,7 @@ import java.util.List;
 public class SummaryModelTest extends InstrumentationTestCase {
 
     private static final String TAG = SummaryModelTest.class.getSimpleName();
-    private PrxDataBuilder mProductSummaryBuilder = null;
+    private PrxRequest mProductSummaryBuilder = null;
     private ReviewStatistics mReviewStatistics = null;
     private Price mPrice = null;
     private Brand mBrand = null;
@@ -37,9 +36,9 @@ public class SummaryModelTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mProductSummaryBuilder = new ProductSummaryBuilder("125", null);
-        mProductSummaryBuilder.setCatalogCode("Consumer");
-        mProductSummaryBuilder.setLocale("nl_NL");
+        mProductSummaryBuilder = new ProductSummaryRequest("125", null);
+        mProductSummaryBuilder.setmCatalogCode("Consumer");
+        mProductSummaryBuilder.setmLocale("nl_NL");
         mProductSummaryBuilder.setmSectorCode("HAIR");
     }
 

@@ -1,4 +1,4 @@
-package com.philips.cdp.prxclient.prxdatamodels.assets;
+package com.philips.cdp.prxclient.datamodels.assets;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -1,4 +1,4 @@
-package com.philips.cdp.prxclient.prxdatamodels.support;
+package com.philips.cdp.prxclient.datamodels.support;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;

@@ -1,5 +1,10 @@
-package com.philips.cdp.prxclient.prxdatamodels.assets;
+package com.philips.cdp.prxclient.datamodels.summary;
 
+/**
+ * Description :
+ * Project : PRX Common Component.
+ * Created by naveen@philips.com on 02-Nov-15.
+ */
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
@@ -10,12 +15,11 @@ import org.json.JSONObject;
 
 
 
-/**
- * Description :
- * Project : PRX Common Component.
- * Created by naveen@philips.com on 02-Nov-15.
- */
-public class AssetModel extends ResponseData {
+
+public class SummaryModel extends ResponseData {
+
+    @SerializedName("success")
+    @Expose
     private boolean success;
     @SerializedName("data")
     @Expose
@@ -25,7 +29,7 @@ public class AssetModel extends ResponseData {
      * No args constructor for use in serialization
      *
      */
-    public AssetModel() {
+    public SummaryModel() {
     }
 
     /**
@@ -33,7 +37,7 @@ public class AssetModel extends ResponseData {
      * @param data
      * @param success
      */
-    public AssetModel(boolean success, Data data) {
+    public SummaryModel(boolean success, Data data) {
         this.success = success;
         this.data = data;
     }
@@ -75,10 +79,10 @@ public class AssetModel extends ResponseData {
     }
 
     @Override
-    public ResponseData parseJsonResponseData(JSONObject jsonResponse) {
-        AssetModel assetModel = new AssetModel();
+    public ResponseData parseJsonResponseData(JSONObject response) {
+       SummaryModel mSummaryModel = new SummaryModel();
+        mSummaryModel = new Gson().fromJson(response.toString(), SummaryModel.class);
 
-        assetModel = new Gson().fromJson(jsonResponse.toString(), AssetModel.class);
-        return assetModel;
+        return mSummaryModel;
     }
 }

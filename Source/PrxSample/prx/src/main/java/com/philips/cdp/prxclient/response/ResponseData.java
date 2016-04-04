@@ -1,16 +1,6 @@
 package com.philips.cdp.prxclient.response;
 
-import android.util.Log;
-
-import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
-import com.google.gson.Gson;
-
 import org.json.JSONObject;
-
-import com.philips.cdp.prxclient.response.ResponseListener;
 
 /**
  * Description : This class provides the URL

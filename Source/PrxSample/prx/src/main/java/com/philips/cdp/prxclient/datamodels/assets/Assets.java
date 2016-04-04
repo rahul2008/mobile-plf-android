@@ -1,4 +1,4 @@
-package com.philips.cdp.prxclient.prxdatamodels.assets;
+package com.philips.cdp.prxclient.datamodels.assets;
 
 import java.util.ArrayList;
 import java.util.List;

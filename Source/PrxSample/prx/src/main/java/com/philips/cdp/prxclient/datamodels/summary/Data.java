@@ -1,4 +1,4 @@
-package com.philips.cdp.prxclient.prxdatamodels.summary;
+package com.philips.cdp.prxclient.datamodels.summary;
 
 /**
  * Description :
