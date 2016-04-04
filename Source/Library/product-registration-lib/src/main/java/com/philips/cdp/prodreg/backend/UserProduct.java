@@ -71,25 +71,25 @@ public class UserProduct {
         mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(registeredProductsListener));
     }
 
-    protected void handleError(final int statusCode, final ProdRegListener listener) {
+    protected void handleError(final int statusCode, final ProdRegListener appListener) {
         if (statusCode == ErrorType.INVALID_CTN.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_CTN);
+            appListener.onProdRegFailed(ErrorType.INVALID_CTN);
         } else if (statusCode == ErrorType.USER_TOKEN_EXPIRED.getCode()) {
-            getUserProduct().onAccessTokenExpire(listener);
+            getUserProduct().onAccessTokenExpire(appListener);
         } else if (statusCode == ErrorType.ACCESS_TOKEN_INVALID.getCode()) {
-            getUserProduct().onAccessTokenExpire(listener);
+            getUserProduct().onAccessTokenExpire(appListener);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_VALIDATION);
+            appListener.onProdRegFailed(ErrorType.INVALID_VALIDATION);
         } else if (statusCode == ErrorType.INVALID_SERIALNUMBER.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
+            appListener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
         } else if (statusCode == ErrorType.NO_INTERNET_AVAILABLE.getCode()) {
-            listener.onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
+            appListener.onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
         } else if (statusCode == ErrorType.INTERNAL_SERVER_ERROR.getCode()) {
-            listener.onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
+            appListener.onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
         } else if (statusCode == ErrorType.METADATA_FAILED.getCode()) {
-            listener.onProdRegFailed(ErrorType.METADATA_FAILED);
+            appListener.onProdRegFailed(ErrorType.METADATA_FAILED);
         } else {
-            listener.onProdRegFailed(ErrorType.UNKNOWN);
+            appListener.onProdRegFailed(ErrorType.UNKNOWN);
         }
     }
 
@@ -211,23 +211,23 @@ public class UserProduct {
         return registrationRequest;
     }
 
-    protected void onAccessTokenExpire(final ProdRegListener listener) {
+    protected void onAccessTokenExpire(final ProdRegListener appListener) {
         final User user = new User(mContext);
-        user.refreshLoginSession(getRefreshLoginSessionHandler(listener, mContext), mContext);
+        user.refreshLoginSession(getRefreshLoginSessionHandler(appListener, mContext), mContext);
     }
 
     @NonNull
-    protected RefreshLoginSessionHandler getRefreshLoginSessionHandler(final ProdRegListener listener, final Context mContext) {
+    protected RefreshLoginSessionHandler getRefreshLoginSessionHandler(final ProdRegListener appListener, final Context mContext) {
         return new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                getUserProduct().retryRequests(mContext, listener);
+                getUserProduct().retryRequests(mContext, appListener);
             }
 
             @Override
             public void onRefreshLoginSessionFailedWithError(final int error) {
                 Log.d(TAG, "error in refreshing session");
-                listener.onProdRegFailed(ErrorType.REFRESH_ACCESS_TOKEN_FAILED);
+                appListener.onProdRegFailed(ErrorType.REFRESH_ACCESS_TOKEN_FAILED);
             }
         };
     }
