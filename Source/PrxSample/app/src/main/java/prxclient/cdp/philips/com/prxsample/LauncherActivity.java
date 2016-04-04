@@ -1,15 +1,16 @@
 package prxclient.cdp.philips.com.prxsample;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.error.PrxError;
+import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
@@ -19,7 +20,7 @@ public class LauncherActivity extends AppCompatActivity {
 
     private String mCtn = "RQ1250/17";
     private String mSectorCode = "B2C";
-    private String mLocale = "en_GB";
+    private String mLocale = "en_US";
     private String mCatalogCode = "CONSUMER";
     private String mRequestTag = null;
 
@@ -42,10 +43,10 @@ public class LauncherActivity extends AppCompatActivity {
         */
         PrxLogger.enablePrxLogger(true);
 
-        ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(mCtn, mRequestTag);
+        ProductSummaryRequest mProductAssetBuilder = new ProductSummaryRequest(mCtn, mRequestTag);
         mProductAssetBuilder.setmSectorCode(mSectorCode);
-        mProductAssetBuilder.setLocale(mLocale);
-        mProductAssetBuilder.setCatalogCode(mCatalogCode);
+        mProductAssetBuilder.setmLocale(mLocale);
+        mProductAssetBuilder.setmCatalogCode(mCatalogCode);
 
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(getApplicationContext());
@@ -70,8 +71,8 @@ public class LauncherActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onResponseError(String error, int code) {
-                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
+            public void onResponseError(PrxError prxError) {
+                Log.d(TAG, "Negative Response Data : " + prxError + " with error code : " + prxError);
             }
         });
     }
