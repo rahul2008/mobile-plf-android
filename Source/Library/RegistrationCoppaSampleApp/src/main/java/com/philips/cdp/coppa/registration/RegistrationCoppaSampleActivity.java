@@ -57,9 +57,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         mProgressDialog = new ProgressDialog(RegistrationCoppaSampleActivity.this);
         mProgressDialog.setCancelable(false);
 
-        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
-            mBtnResendCoppaMail.setVisibility(View.VISIBLE);
-        }
+        mBtnResendCoppaMail.setVisibility(View.VISIBLE);
         user = new User(mContext);
         mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
         mBtnRefresh.setOnClickListener(this);

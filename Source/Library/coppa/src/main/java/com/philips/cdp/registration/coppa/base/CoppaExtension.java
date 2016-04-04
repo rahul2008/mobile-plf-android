@@ -8,7 +8,6 @@ import android.util.Log;
 import com.janrain.android.Jump;
 import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.philips.cdp.registration.HttpClient;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -49,8 +48,9 @@ public class CoppaExtension implements CoppaExtensionHandler {
             @Override
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(context);
-                User user = new User(context);
-                user.buildCoppaConfiguration();
+                if (Jump.getSignedInUser() != null) {
+                    CoppaConfiguration.getCoopaConfigurationFlields(Jump.getSignedInUser());
+                }
                 handler.didCoppaStatusFetchingSucess(getCoppaEmailConsentStatus());
             }
 
@@ -95,7 +95,7 @@ public class CoppaExtension implements CoppaExtensionHandler {
             public void run() {
                 HttpClient client = new HttpClient();
                 /*String response = client.postData(RegistrationHelper.getInstance()
-				        .getRegistrationSettings().getResendConsentUrl(),
+                        .getRegistrationSettings().getResendConsentUrl(),
 				        geResendMailParams(mailType, email), accessToken);*/
 
                 String response = client.callPost(UserRegistrationInitializer.getInstance().getRegistrationSettings().getResendConsentUrl(),
@@ -191,7 +191,7 @@ public class CoppaExtension implements CoppaExtensionHandler {
                 .getPilConfiguration().getCampaignID()));
         params.add(new Pair("email", email));
         params.add(new Pair("mailType", mailtype));
-        params.add(new Pair("redirect_uri", UserRegistrationInitializer.getInstance().getRegistrationSettings().getRegisterCoppaActivationUrl()));
+        params.add(new Pair("redirect_uri", Jump.getRedirectUri()));
         params.add(new Pair("flow_name",
                 UserRegistrationInitializer.getInstance().getRegistrationSettings().getFlowName()));
         params.add(new Pair("form", "resendConsentForm"));
@@ -204,7 +204,7 @@ public class CoppaExtension implements CoppaExtensionHandler {
     }
 
     private String getResendLocaleParam() {
-        if (Jump.getCaptureLocale().length() > 2 && Jump.getCaptureLocale().contains("-")) {
+        if (Jump.getCaptureLocale() != null && Jump.getCaptureLocale().length() > 2 && Jump.getCaptureLocale().contains("-")) {
             return Jump.getCaptureLocale().replace("-", "_");
         }
         return "en_US";
@@ -218,7 +218,7 @@ public class CoppaExtension implements CoppaExtensionHandler {
         params.add(new Pair("client_id", Jump.getCaptureClientId()));
         params.add(new Pair("locale", Jump.getCaptureLocale()));
         params.add(new Pair("response_type", "token"));
-        params.add(new Pair("redirect_uri",UserRegistrationInitializer.getInstance().getRegistrationSettings().getRegisterCoppaActivationUrl()));
+        params.add(new Pair("redirect_uri", Jump.getRedirectUri()));
         params.add(new Pair("flow", UserRegistrationInitializer.getInstance().getRegistrationSettings().getFlowName()));
         params.add(new Pair("form", "socialSignInConsentCheckForm"));
         params.add(new Pair("traditionalSignIn_emailAddress", email));
@@ -235,8 +235,8 @@ public class CoppaExtension implements CoppaExtensionHandler {
         params.add(new Pair("client_id", Jump.getCaptureClientId()));
         params.add(new Pair("locale", Jump.getCaptureLocale()));
         params.add(new Pair("response_type", "token"));
-        params.add(new Pair("redirect_uri",UserRegistrationInitializer.getInstance().getRegistrationSettings().getRegisterCoppaActivationUrl()));
-        params.add(new Pair("flow",UserRegistrationInitializer.getInstance().getRegistrationSettings().getFlowName()));
+        params.add(new Pair("redirect_uri", Jump.getRedirectUri()));
+        params.add(new Pair("flow", UserRegistrationInitializer.getInstance().getRegistrationSettings().getFlowName()));
         params.add(new Pair("form", "socialSignInConsentCheckForm"));
         params.add(new Pair("traditionalSignIn_emailAddress", email));
         params.add(new Pair("flow_version", Jump.getCaptureFlowVersion()));
@@ -281,7 +281,7 @@ public class CoppaExtension implements CoppaExtensionHandler {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationNotGiven;
                     }
                 } else if (consent.getGiven() != null && consent.getConfirmationGiven() == null) {
-                    System.out.println("Consent ***" + consent.getConfirmationCommunicationSentAt()+ " " +consent.getConfirmationCommunicationSentAt());
+                    System.out.println("Consent ***" + consent.getConfirmationCommunicationSentAt() + " " + consent.getConfirmationCommunicationSentAt());
                     coppaStatus = coppaStatus.kDICOPPAConfirmationPending;
                     System.out.println("Consent coppaconfirmationPending");
                 }
@@ -295,23 +295,22 @@ public class CoppaExtension implements CoppaExtensionHandler {
     }
 
 
-    public void updateCoppaConsentStatus(final Context mContext, final boolean coppaConsentStatus, final CoppaConsentUpdateCallback coppaConsentUpdateCallback){
-        new CoppaConsentUpdater(mContext).updateCoppaConsentStatus(coppaConsentStatus,coppaConsentUpdateCallback);
+    public void updateCoppaConsentStatus(final Context mContext, final boolean coppaConsentStatus, final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
+        new CoppaConsentUpdater(mContext).updateCoppaConsentStatus(coppaConsentStatus, coppaConsentUpdateCallback);
     }
 
-    public void updateCoppaConsentConfirmationStatus(final Context mContext, final boolean coppaConsentStatus, final CoppaConsentUpdateCallback coppaConsentUpdateCallback){
+    public void updateCoppaConsentConfirmationStatus(final Context mContext, final boolean coppaConsentStatus, final CoppaConsentUpdateCallback coppaConsentUpdateCallback) {
         new CoppaConsentUpdater(mContext).updateCoppaConsentConfirmationStatus(coppaConsentStatus, coppaConsentUpdateCallback);
     }
 
-    public Consent getConsent(){
+    public Consent getConsent() {
         CoppaConfiguration.getCoopaConfigurationFlields(Jump.getSignedInUser());
         return CoppaConfiguration.getConsent();
     }
 
-    public void buildConfiguration(){
+    public void buildConfiguration() {
         CoppaConfiguration.getCoopaConfigurationFlields(Jump.getSignedInUser());
     }
-
 
 
 }

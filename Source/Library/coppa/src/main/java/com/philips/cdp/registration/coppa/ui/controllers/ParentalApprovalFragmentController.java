@@ -240,8 +240,6 @@ import java.util.TimeZone;
                 });
             }
 
-
-
             if(mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationNotGiven){
                 if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                     RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
