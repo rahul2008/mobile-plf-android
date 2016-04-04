@@ -102,6 +102,8 @@ public class RegConstants {
 
     public static final String REGISTRATION_FRAGMENT_TAG = "Registration_fragment_tag";
 
+    public static final String REGISTRATION_COPPA_FRAGMENT_TAG = "Registration_Coppa_fragment_tag";
+
     public static final String ORIENTAION = "Orientaion";
 
     public static final String ACCOUNT_SETTINGS = "ACCOUNT_SETTINGS";

@@ -59,6 +59,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+      //  mPrevTitleResourceId = getRegistrationFragment().getResourceID();
         super.onCreate(savedInstanceState);
         setCustomLocale();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onCreate");
@@ -135,8 +136,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
             if (fragment.getFragmentCount() > 2) {
                 fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
                         mPrevTitleResourceId);
+                fragment.setCurrentTitleResource(mPrevTitleResourceId);
             } else {
                 fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);
+                fragment.setCurrentTitleResource(mPrevTitleResourceId);
             }
 
             trackBackActionPage();
@@ -171,6 +174,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
             fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
         }
         fragment.setResourceID(getTitleResourceId());
+        fragment.setCurrentTitleResource(getTitleResourceId());
     }
 
     public RegistrationFragment getRegistrationFragment() {

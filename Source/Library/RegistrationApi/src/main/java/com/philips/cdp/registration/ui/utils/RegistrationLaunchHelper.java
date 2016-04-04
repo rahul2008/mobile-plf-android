@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 

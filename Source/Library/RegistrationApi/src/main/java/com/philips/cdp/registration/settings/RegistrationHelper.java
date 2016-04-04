@@ -69,13 +69,13 @@ public class RegistrationHelper {
 
             @Override
             public void run() {
-                refreshNTPOffset();
                 if (!isJsonRead) {
                     isJsonRead = RegistrationStaticConfiguration.getInstance().parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
                     EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
                 }
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
+                    refreshNTPOffset();
                     UserRegistrationInitializer.getInstance().initializeEnvironment(mContext, locale);
                 } else {
                     if (UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener() != null) {
