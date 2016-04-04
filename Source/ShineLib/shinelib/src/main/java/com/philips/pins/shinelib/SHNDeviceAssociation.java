@@ -7,6 +7,7 @@ package com.philips.pins.shinelib;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.utility.PersistentStorage;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
@@ -21,15 +22,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 public class SHNDeviceAssociation {
-
-    private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
-    private final SHNDeviceScannerInternal shnDeviceScannerInternal;
-    private List<SHNDevice> associatedDevices;
-    private SHNAssociationProcedurePlugin shnAssociationProcedure;
-    private String associatingWithDeviceTypeName;
-
-    @NonNull
-    private final PersistentStorageFactory persistentStorageFactory;
 
     public enum State {
         Idle, Associating
@@ -51,8 +43,18 @@ public class SHNDeviceAssociation {
         void onAssociatedDeviceRemoved(@NonNull final SHNDevice device);
     }
 
+    private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
+
+    private final SHNDeviceScannerInternal shnDeviceScannerInternal;
+    private List<SHNDevice> associatedDevices;
+    private SHNAssociationProcedurePlugin shnAssociationProcedure;
+    private String associatingWithDeviceTypeName;
+
+    @NonNull
+    private final PersistentStorageFactory persistentStorageFactory;
     private List<DeviceRemovedListener> deviceRemovedListeners = new ArrayList<>();
 
+    @Nullable
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
     private final SHNCentral shnCentral;
 
@@ -332,7 +334,9 @@ public class SHNDeviceAssociation {
         shnCentral.getUserHandler().post(new Runnable() {
             @Override
             public void run() {
-                shnDeviceAssociationListener.onAssociationStarted(shnAssociationProcedure);
+                if (shnDeviceAssociationListener != null) {
+                    shnDeviceAssociationListener.onAssociationStarted(shnAssociationProcedure);
+                }
             }
         });
     }
@@ -347,7 +351,9 @@ public class SHNDeviceAssociation {
                     shnCentral.getUserHandler().post(new Runnable() {
                         @Override
                         public void run() {
-                            shnDeviceAssociationListener.onAssociationStopped();
+                            if (shnDeviceAssociationListener != null) {
+                                shnDeviceAssociationListener.onAssociationStopped();
+                            }
                         }
                     });
                 } else {

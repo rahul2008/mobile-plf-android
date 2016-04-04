@@ -194,6 +194,12 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
+    public void whenAssociationIsStartedAndNoListenerIsAttachedThenNoExceptionIsGenerated() {
+        shnDeviceAssociation.setShnDeviceAssociationListener(null);
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+    }
+
+    @Test
     public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcess_ThenStartIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
@@ -249,6 +255,13 @@ public class SHNDeviceAssociationTest {
         shnDeviceAssociation.stopAssociation();
 
         verify(mockedSHNDeviceAssociationListener).onAssociationStopped();
+    }
+
+    @Test
+    public void whenAssociationIsStopAssociationAndNoListenerIsAttachedThenNoExceptionIsGenerated() {
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+        shnDeviceAssociation.setShnDeviceAssociationListener(null);
+        shnDeviceAssociation.stopAssociation();
     }
 
     @Test
