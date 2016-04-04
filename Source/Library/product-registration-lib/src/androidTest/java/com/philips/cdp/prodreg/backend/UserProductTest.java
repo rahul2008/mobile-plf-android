@@ -299,6 +299,8 @@ public class UserProductTest extends MockitoTestCase {
         when(data.getRequiresDateOfPurchase()).thenReturn("false");
         assertTrue(userProduct.validatePurchaseDateFromMetadata(data, productMock, listener));
         verify(productMock, atLeastOnce()).setPurchaseDate(null);
+        when(data.getRequiresDateOfPurchase()).thenReturn("true");
+        assertTrue(userProduct.validatePurchaseDateFromMetadata(data, productMock, listener));
     }
 
     public void testRegisteredTest() {
