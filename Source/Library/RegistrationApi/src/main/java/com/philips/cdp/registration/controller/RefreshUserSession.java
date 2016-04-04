@@ -5,9 +5,7 @@ import android.content.Context;
 
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.coppa.CoppaConfiguration;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
@@ -128,8 +126,6 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
         mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
-        CoppaConfiguration.clearConfiguration();
-
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }

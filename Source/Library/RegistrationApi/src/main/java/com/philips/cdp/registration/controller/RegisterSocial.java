@@ -1,10 +1,6 @@
 
 package com.philips.cdp.registration.controller;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.util.Log;
 
@@ -24,6 +20,10 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInResultHandler,
         Jump.SignInCodeHandler,JumpFlowDownloadStatusListener {
@@ -45,7 +45,6 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 	public void onSuccess() {
 		Jump.saveToDisk(mContext);
 		User user = new User(mContext);
-		user.buildCoppaConfiguration();
 		mUpdateUserRecordHandler.updateUserRecordRegister();
 		mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess();
 	}

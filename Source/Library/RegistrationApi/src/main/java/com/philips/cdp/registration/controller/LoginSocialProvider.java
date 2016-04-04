@@ -9,9 +9,6 @@ import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.coppa.CoppaConfiguration;
-import com.philips.cdp.registration.coppa.CoppaExtension;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.SocialLoginHandler;
@@ -45,13 +42,6 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
     public void onSuccess() {
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
-        user.buildCoppaConfiguration();
-
-        if (CoppaConfiguration.getCoppaCommunicationSentAt() != null && RegistrationConfiguration.getInstance().isCoppaFlow()) {
-            CoppaExtension coppaExtension = new CoppaExtension();
-            coppaExtension.triggerSendCoppaMailAfterLogin(user.getEmail());
-        }
-
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
             HsdpUser hsdpUser = new HsdpUser(mContext);
             hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), new SocialLoginHandler() {

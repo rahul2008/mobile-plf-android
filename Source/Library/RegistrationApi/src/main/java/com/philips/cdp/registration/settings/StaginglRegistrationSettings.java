@@ -5,9 +5,6 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-
-import java.io.EOFException;
 
 public class StaginglRegistrationSettings extends RegistrationSettings {
 
@@ -18,8 +15,6 @@ public class StaginglRegistrationSettings extends RegistrationSettings {
     private String STAGE_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
     private String STAGE_PRX_RESEND_CONSENT_URL = "https://acc.usa.philips.com/prx/registration/resendConsentMail";
-
-    private String STAGE_REGISTER_COPPA_ACTIVATION_URL = "https://acc.philips.com/ps/user-registration/consent.html";
 
     private String STAGE_ENGAGE_APP_ID = "jgehpoggnhbagolnihge";
 
@@ -63,7 +58,6 @@ public class StaginglRegistrationSettings extends RegistrationSettings {
         mProductRegisterListUrl = STAGE_PRODUCT_REGISTER_LIST_URL;
 
         mResendConsentUrl = STAGE_PRX_RESEND_CONSENT_URL;
-        mRegisterCoppaActivationUrl = STAGE_REGISTER_COPPA_ACTIVATION_URL;
         mRegisterBaseCaptureUrl = STAGE_BASE_CAPTURE_URL;
 
         String localeArr[] = locale.split("-");
@@ -78,11 +72,9 @@ public class StaginglRegistrationSettings extends RegistrationSettings {
             countryCode = "US";
         }
 
-        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
-            jumpConfig.captureRedirectUri = STAGE_REGISTER_COPPA_ACTIVATION_URL;
-        } else {
-            jumpConfig.captureRedirectUri = STAGE_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
-        }
+
+        jumpConfig.captureRedirectUri = STAGE_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
+      
 
         jumpConfig.captureRecoverUri = STAGE_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
 
@@ -94,7 +86,7 @@ public class StaginglRegistrationSettings extends RegistrationSettings {
         try {
             Jump.reinitialize(mContext, jumpConfig);
         } catch (Exception e) {
-            if(e instanceof RuntimeException){
+            if (e instanceof RuntimeException) {
                 Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE EOFException");
                 //clear flow file
                 mContext.deleteFile("jr_capture_flow");

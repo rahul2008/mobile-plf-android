@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 public class DevRegistrationSettings extends RegistrationSettings {
 
@@ -25,8 +24,6 @@ public class DevRegistrationSettings extends RegistrationSettings {
     private String DEV_REGISTER_FORGOT_MAIL_URL = "https://www.qat1.consumer.philips.com/myphilips/resetPassword.jsp";
 
     private static String DEV_PRX_RESEND_CONSENT_URL = "https://dev.philips.com/prx/registration/resendConsentMail";
-
-    private static String DEV_REGISTER_COPPA_ACTIVATION_URL = "http://10.128.41.111:4503/content/B2C/en_US/user-registration/coppa-consent.html";
 
     private String LOG_TAG = "RegistrationAPI";
 
@@ -61,7 +58,6 @@ public class DevRegistrationSettings extends RegistrationSettings {
         mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
 
         mResendConsentUrl = DEV_PRX_RESEND_CONSENT_URL;
-        mRegisterCoppaActivationUrl = DEV_REGISTER_COPPA_ACTIVATION_URL;
 
         mRegisterBaseCaptureUrl = DEV_BASE_CAPTURE_URL;
 
@@ -77,11 +73,9 @@ public class DevRegistrationSettings extends RegistrationSettings {
             countryCode = "US";
         }
 
-        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
-            jumpConfig.captureRedirectUri = DEV_REGISTER_COPPA_ACTIVATION_URL;
-        } else {
-            jumpConfig.captureRedirectUri = DEV_REGISTER_ACTIVATION_URL;
-        }
+
+        jumpConfig.captureRedirectUri = DEV_REGISTER_ACTIVATION_URL;
+
 
         jumpConfig.captureRecoverUri = DEV_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
         jumpConfig.captureLocale = locale;
@@ -92,7 +86,7 @@ public class DevRegistrationSettings extends RegistrationSettings {
         try {
             Jump.reinitialize(mContext, jumpConfig);
         } catch (Exception e) {
-            if(e instanceof RuntimeException){
+            if (e instanceof RuntimeException) {
                 Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE EOFException");
                 //clear flow file
                 mContext.deleteFile("jr_capture_flow");

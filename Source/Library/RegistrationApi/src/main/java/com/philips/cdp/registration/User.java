@@ -20,7 +20,6 @@ import com.philips.cdp.registration.controller.RegisterTraditional;
 import com.philips.cdp.registration.controller.ResendVerificationEmail;
 import com.philips.cdp.registration.controller.UpdateReceiveMarketingEmail;
 import com.philips.cdp.registration.controller.UpdateUserRecord;
-import com.philips.cdp.registration.coppa.CoppaConfiguration;
 import com.philips.cdp.registration.dao.ConsumerArray;
 import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.dao.DIUserProfile;
@@ -314,7 +313,7 @@ public class User {
             signedIn = signedIn && !capturedRecord.isNull(USER_EMAIL_VERIFIED);
         }
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
-            if(!RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()){
+            if (!RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
                 throw new RuntimeException("Please set emailVerificationRequired field as true");
             }
             HsdpUser hsdpUser = new HsdpUser(mContext);
@@ -478,7 +477,6 @@ public class User {
             @Override
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(mContext);
-                buildCoppaConfiguration();
                 if (!RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
                     return;
@@ -551,12 +549,6 @@ public class User {
      */
     public void refreshUser(final RefreshUserHandler handler) {
         refreshandUpdateUser(handler);
-    }
-
-    public void buildCoppaConfiguration() {
-        if (Jump.getSignedInUser() != null) {
-            CoppaConfiguration.getCoopaConfigurationFlields(Jump.getSignedInUser());
-        }
     }
 
     private void logoutHsdp(final LogoutHandler logoutHandler) {
@@ -742,8 +734,6 @@ public class User {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
         mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
-        CoppaConfiguration.clearConfiguration();
-
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }

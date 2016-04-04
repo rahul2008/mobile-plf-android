@@ -1,16 +1,12 @@
 
 package com.philips.cdp.registration.errormapping;
 
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-
 import java.util.ArrayList;
 
 public class CheckLocale {
 
 
     static ArrayList<String> stadardLocales = new ArrayList<>();
-    static ArrayList<String> coppaLocales = new ArrayList<>();
 
     static {
         stadardLocales.add("bg-BG");
@@ -74,35 +70,6 @@ public class CheckLocale {
         stadardLocales.add("zh-CN");
         stadardLocales.add("zh-HK");
         stadardLocales.add("zh-TW");
-
-        //COPPA LOCALES
-        coppaLocales.add("bg-BG");
-        coppaLocales.add("cs-CZ");
-        coppaLocales.add("da-DK");
-        coppaLocales.add("de-DE");
-        coppaLocales.add("en-GB");
-        coppaLocales.add("es-MX");
-        coppaLocales.add("et-EE");
-        coppaLocales.add("fi-FI");
-        coppaLocales.add("fr-CA");
-        coppaLocales.add("fr-FR");
-        coppaLocales.add("hu-HU");
-        coppaLocales.add("it-IT");
-        coppaLocales.add("ja-JP");
-        coppaLocales.add("ko-KR");
-        coppaLocales.add("lt-LT");
-        coppaLocales.add("lv-LV");
-        coppaLocales.add("nb-NO");
-        coppaLocales.add("nl-NL");
-        coppaLocales.add("pl-PL");
-        coppaLocales.add("ro-RO");
-        coppaLocales.add("ru-RU");
-        coppaLocales.add("sk-SK");
-        coppaLocales.add("sl-SI");
-        coppaLocales.add("sv-SE");
-        coppaLocales.add("uk-UA");
-        coppaLocales.add("zh-CN");
-        coppaLocales.add("zh-TW");
     }
 
     public CheckLocale() {
@@ -110,23 +77,11 @@ public class CheckLocale {
     }
 
     public String checkLanguage(String locale) {
-        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
-            return getCoppaLocale(locale);
-        }
-
         return getStadardLocale(locale);
-
     }
 
     private String getStadardLocale(String locale) {
         if (!stadardLocales.contains(locale)) {
-            return "en-US";
-        }
-        return locale;
-    }
-
-    private String getCoppaLocale(String locale) {
-        if (!coppaLocales.contains(locale)) {
             return "en-US";
         }
         return locale;

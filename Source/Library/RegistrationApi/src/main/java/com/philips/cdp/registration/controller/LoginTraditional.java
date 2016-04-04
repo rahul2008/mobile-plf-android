@@ -8,8 +8,6 @@ import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.coppa.CoppaConfiguration;
-import com.philips.cdp.registration.coppa.CoppaExtension;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
@@ -78,11 +76,6 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     public void onSuccess() {
         Jump.saveToDisk(mContext);
         final User user = new User(mContext);
-        user.buildCoppaConfiguration();
-        if (CoppaConfiguration.getCoppaCommunicationSentAt() != null && RegistrationConfiguration.getInstance().isCoppaFlow()) {
-            CoppaExtension coppaExtension = new CoppaExtension();
-            coppaExtension.triggerSendCoppaMailAfterLogin(user.getEmail());
-        }
         mUpdateUserRecordHandler.updateUserRecordLogin();
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
 
