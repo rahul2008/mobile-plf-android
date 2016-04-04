@@ -58,10 +58,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
     private static boolean isFirstTimeProductComponentlaunch = true;
-    // private static boolean isProductSelectionFirstTime;
-    private SharedPreferences prefs = null;
     //  private boolean isfragmentFirstTimeVisited;
     private static boolean isPRXComponentChecked;
+    private static boolean isSupportScreenLaunched;
+    // private static boolean isProductSelectionFirstTime;
+    private SharedPreferences prefs = null;
     private LinearLayout mOptionParent = null;
     private FrameLayout.LayoutParams mParams = null;
     private int ButtonMarginTop = 0;
@@ -78,7 +79,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private PrxProductData mPrxProductData = null;
     private ConsumerProductInfo mProductInfo = null;
     private String mCtnFromPreference;
-    private static boolean isSupportScreenLaunched;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -522,6 +522,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                     enableSupportButtonClickable();
                     updateSummaryData(summaryModel);
                 } else {
+                    showAlert(getString(R.string.productselection_erroresponse));
                     disablePrxDependentButtons();
                     enableSupportButtonClickable();
                 }
@@ -560,6 +561,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                         updateSummaryData(summaryModel);
                     }
                 } else {
+                    showAlert(getString(R.string.productselection_erroresponse));
                     disablePrxDependentButtons();
                     enableSupportButtonClickable();
                 }
