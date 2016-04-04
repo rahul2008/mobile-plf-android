@@ -33,7 +33,7 @@ public class ProductMetadataRequest extends PrxRequest {
 
     @Override
     public String getServerInfo() {
-        return "https://acc.philips.co.uk/prx/registration/";
+        return "https://dev.philips.co.uk/prx/registration/";
     }
 
     @Override
