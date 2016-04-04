@@ -64,9 +64,12 @@ import com.philips.cdp.digitalcare.RequestData;
 import com.philips.cdp.digitalcare.ResponseCallback;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.customview.GpsAlertView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.locatephilips.CustomGeoAdapter;
+import com.philips.cdp.digitalcare.locatephilips.GoToContactUsListener;
+import com.philips.cdp.digitalcare.locatephilips.LocateNearCustomDialog;
 import com.philips.cdp.digitalcare.locatephilips.MapDirections;
 import com.philips.cdp.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
 import com.philips.cdp.digitalcare.locatephilips.fragments.GoogleMapFragment.onMapReadyListener;
@@ -147,6 +150,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private FrameLayout.LayoutParams mLocateSearchLayoutParentParams = null;
     private ProgressBar mLocateNearProgressBar;
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private boolean isContactUsScreenLaunched = false;
 
     private LocationListener mLocationListener = new LocationListener() {
 
@@ -193,6 +197,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                         validateAtosResponse(response);
                     }
                 });
+
+                if (!isEulaAccepted()) {
+                    showAlert(getActivity().getResources().getString(R.string.locate_philips_popup_legal));
+                    setEulaPreference();
+                }
             }
         }
     };
@@ -200,10 +209,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (!isEulaAccepted()) {
-            showAlert(getActivity().getResources().getString(R.string.locate_philips_popup_legal));
-            setEulaPreference();
-        }
         try {
             if (Build.VERSION.SDK_INT >= 11)
                 getActivity().getWindow().setFlags(16777216, 16777216);
@@ -325,14 +330,31 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 || mAtosResponse.getCdlsErrorModel() != null) {
             ArrayList<AtosResultsModel> resultModelSet = mAtosResponse
                     .getResultsModel();
-            if (resultModelSet.size() <= 0) {
-                showAlert(getActivity().getString(R.string.servicecenters_not_found));
+            if (resultModelSet.size() <= 0 && !isContactUsScreenLaunched) {
+                showCustomAlert();
+                isContactUsScreenLaunched = false;
                 return;
             }
-            addMarkers(resultModelSet);
+            else {
+                addMarkers(resultModelSet);
+            }
         } else {
-            showAlert(getActivity().getString(R.string.servicecenters_not_found));
+            showCustomAlert();
         }
+    }
+
+    private GoToContactUsListener mGoToContactUsListener = new GoToContactUsListener() {
+        @Override
+        public void goToContactUsSelected() {
+            isContactUsScreenLaunched = true;
+            showFragment(new ContactUsFragment());
+        }
+    };
+
+    private void showCustomAlert(){
+        LocateNearCustomDialog locateNearCustomDialog = new LocateNearCustomDialog(getActivity(),
+                getActivity().getSupportFragmentManager(), mGoToContactUsListener);
+        locateNearCustomDialog.show();
     }
 
     @Override
@@ -786,11 +808,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                                                 AnalyticsConstants.ACTION_SEND_DATA,
                                                 contextData);
                                 if (count == 0) {
-                                    Toast.makeText(
-                                            getActivity(),
-                                            getResources().getString(
-                                                    R.string.no_data_available),
-                                            Toast.LENGTH_SHORT).show();
+                                    showAlert(getResources().getString(
+                                            R.string.no_data_available));
                                 }
 
                                 mListView.setAdapter(adapter);
@@ -803,9 +822,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                                     mArabicMarkerIcon.setVisibility(View.VISIBLE);
                             }
                         });
-            } else
-                showAlert(getResources().getString(R.string.no_data));
-
+            } else {
+                showAlert(getResources().getString(
+                        R.string.no_data_available));
+            }
         } else if (v.getId() == R.id.getdirection) {
             AnalyticsTracker
                     .trackAction(
