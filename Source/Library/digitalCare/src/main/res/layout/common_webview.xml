@@ -2,7 +2,7 @@
     android:id= "@+id/digitalcare_webview_scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_background_color"
+    android:background="@color/transparent"
     android:fillViewport="true" >
 
     <RelativeLayout

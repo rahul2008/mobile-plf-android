@@ -17,7 +17,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:background="@color/activity_background_color"
+            android:background="@color/transparent"
             android:fillViewport="false">
 
 
@@ -93,7 +93,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:background="@color/activity_background_color"
+            android:background="@color/transparent"
             android:fillViewport="false">
 
 

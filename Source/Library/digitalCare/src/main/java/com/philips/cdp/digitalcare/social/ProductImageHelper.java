@@ -88,9 +88,12 @@ public class ProductImageHelper {
 	private void setBackgroundColorToPointerView(TabletPopupWindow mPointerView) {
 		Drawable mPointerImage = mActivity.getResources().getDrawable(
 				android.R.drawable.arrow_up_float);
-		mPointerImage.setColorFilter(
+	/*	mPointerImage.setColorFilter(
 				mActivity.getResources().getColor(
-						R.color.activity_background_color), Mode.LIGHTEN);
+						R.color.activity_background_color), Mode.LIGHTEN);*/
+			mPointerImage.setColorFilter(
+				mActivity.getResources().getColor(
+						R.color.blue), Mode.LIGHTEN);
 		mPointerView.setPointerImageDrawable(mPointerImage);
 	}
 
