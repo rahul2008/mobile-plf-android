@@ -233,10 +233,10 @@ public class UserProduct {
     protected void retryRequests(final Context mContext, final ProdRegListener listener) {
         switch (requestType) {
             case ProdRegConstants.PRODUCT_REGISTRATION:
-                registerProduct(mContext, getProduct(), listener);
+                getUserProduct().registerProduct(mContext, getProduct(), listener);
                 break;
             case ProdRegConstants.FETCH_REGISTERED_PRODUCTS:
-                getRegisteredProducts(mContext, getGetRegisteredProductsListener());
+                getUserProduct().getRegisteredProducts(mContext, getGetRegisteredProductsListener());
                 break;
             default:
                 break;

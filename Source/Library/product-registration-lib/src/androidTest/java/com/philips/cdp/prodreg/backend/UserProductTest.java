@@ -16,6 +16,7 @@ import com.philips.cdp.prodreg.model.RegisteredResponse;
 import com.philips.cdp.prodreg.model.RegisteredResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
+import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
@@ -206,6 +207,19 @@ public class UserProductTest extends MockitoTestCase {
         verify(prodRegListenerMock).onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
         userProduct.handleError(ErrorType.INTERNAL_SERVER_ERROR.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock).onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
+        userProduct.handleError(600, prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ErrorType.UNKNOWN);
+        final UserProduct userProductMock = mock(UserProduct.class);
+
+        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+            @NonNull
+            @Override
+            UserProduct getUserProduct() {
+                return userProductMock;
+            }
+        };
+        userProduct.handleError(ErrorType.ACCESS_TOKEN_INVALID.getCode(), prodRegListenerMock);
+        verify(userProductMock).onAccessTokenExpire(prodRegListenerMock);
     }
 
     public void testGettingRegisteredListener() {
@@ -440,5 +454,74 @@ public class UserProductTest extends MockitoTestCase {
         verify(userProductMock).makeRegistrationRequest(context, productMock, prodRegListenerMock);
         prodRegListener.onProdRegFailed(ErrorType.METADATA_FAILED);
         verify(prodRegListenerMock).onProdRegFailed(ErrorType.METADATA_FAILED);
+    }
+
+    public void testRegistrationRequest() {
+        final RegistrationRequest registrationRequest = new RegistrationRequest(null, null, null);
+        final Product productMock = mock(Product.class);
+        final RequestManager requestManagerMock = mock(RequestManager.class);
+        final ResponseListener responseListenerMock = mock(ResponseListener.class);
+        final ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
+        final String locale = "en_GB";
+        when(productMock.getLocale()).thenReturn(locale);
+        final String purchase_Date = "2016-03-22";
+        when(productMock.getPurchaseDate()).thenReturn(purchase_Date);
+        final String serialNumber = "1344";
+        when(productMock.getSerialNumber()).thenReturn(serialNumber);
+
+        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+            @Override
+            public Product getProduct() {
+                return productMock;
+            }
+
+            @NonNull
+            @Override
+            protected RegistrationRequest getRegistrationRequest(final Context context, final Product product) {
+                return registrationRequest;
+            }
+
+            @NonNull
+            @Override
+            protected RequestManager getRequestManager(final Context context) {
+                return requestManagerMock;
+            }
+
+            @NonNull
+            @Override
+            ResponseListener getPrxResponseListener(final ProdRegListener appListener) {
+                return responseListenerMock;
+            }
+        };
+        userProduct.makeRegistrationRequest(context, productMock, prodRegListenerMock);
+        assertEquals(productMock.getPurchaseDate(), registrationRequest.getPurchaseDate());
+        assertEquals(productMock.getLocale(), registrationRequest.getLocale());
+        assertEquals(productMock.getSerialNumber(), registrationRequest.getProductSerialNumber());
+        verify(requestManagerMock).executeRequest(registrationRequest, responseListenerMock);
+    }
+
+    public void testRetryMethod() {
+        final UserProduct userProductMock = mock(UserProduct.class);
+        final Product productMock = mock(Product.class);
+        ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
+        GetRegisteredProductsListener getRegisteredProductsListenerMock = mock(GetRegisteredProductsListener.class);
+        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+            @NonNull
+            @Override
+            UserProduct getUserProduct() {
+                return userProductMock;
+            }
+
+            @Override
+            public Product getProduct() {
+                return productMock;
+            }
+        };
+        userProduct.registerProduct(context, productMock, prodRegListenerMock);
+        userProduct.retryRequests(context, prodRegListenerMock);
+        verify(userProductMock).registerProduct(context, productMock, prodRegListenerMock);
+        userProduct.getRegisteredProducts(context, getRegisteredProductsListenerMock);
+        userProduct.retryRequests(context, prodRegListenerMock);
+        verify(userProductMock).getRegisteredProducts(context, getRegisteredProductsListenerMock);
     }
 }

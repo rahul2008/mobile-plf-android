@@ -62,16 +62,19 @@ public class ProductTest extends MockitoTestCase {
     }
 
     public void testHandleErrorCases() {
-        product.handleError(ErrorType.INVALID_CTN.getCode(), new ProdRegListener() {
-            @Override
-            public void onProdRegSuccess(final ResponseData responseData) {
-            }
-
-            @Override
-            public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.INVALID_CTN, errorType);
-            }
-        });
+        ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
+        product.handleError(ErrorType.INVALID_CTN.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ErrorType.INVALID_CTN);
+        product.handleError(ErrorType.INVALID_VALIDATION.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ErrorType.INVALID_VALIDATION);
+        product.handleError(ErrorType.INVALID_SERIALNUMBER.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
+        product.handleError(ErrorType.NO_INTERNET_AVAILABLE.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
+        product.handleError(ErrorType.INTERNAL_SERVER_ERROR.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
+        product.handleError(600, prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ErrorType.UNKNOWN);
     }
 
     public void testGetPrxResponseListener() {
@@ -83,11 +86,17 @@ public class ProductTest extends MockitoTestCase {
             }
         };
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
+        assertTrue(product.getPrxResponseListener(prodRegListener) instanceof ResponseListener);
         ResponseListener responseListener = product.getPrxResponseListener(prodRegListener);
         ResponseData responseDataMock = mock(ResponseData.class);
         responseListener.onResponseSuccess(responseDataMock);
         verify(prodRegListener).onProdRegSuccess(responseDataMock);
         responseListener.onResponseError("test", 10);
         verify(productMock).handleError(10, prodRegListener);
+    }
+
+    public void testProductGetMethods() {
+        assertTrue(product.getProduct() instanceof Product);
+        assertTrue(product.getProductMetadataRequest("HD8967/01") instanceof ProductMetadataRequest);
     }
 }
