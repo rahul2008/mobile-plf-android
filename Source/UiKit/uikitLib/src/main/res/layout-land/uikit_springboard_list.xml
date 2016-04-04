@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="13dp"
             android:layout_marginTop="53dp"
-            android:text="@string/uikit_springboard_list_apptitle"
+            android:text="@string/uikit_about_screen_apptitle"
             android:textColor="@color/uikit_white"
             android:textSize="38dp" />
 
