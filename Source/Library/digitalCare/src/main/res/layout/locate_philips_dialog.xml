@@ -33,7 +33,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_below="@id/dialogTextViewDesc"
         android:gravity="center"
-        android:text="Go to Contact page"
+        android:text="@string/localtephilips_contactus"
         style="@style/contactUsHelpText"
         custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf"/>
 
