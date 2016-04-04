@@ -6,7 +6,8 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.handler.ErrorType;
-import com.philips.cdp.prodreg.handler.ProdRegListener;
+import com.philips.cdp.prodreg.handler.MetadataListener;
+import com.philips.cdp.prodreg.model.ProductMetadataResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -33,7 +34,7 @@ public class Product {
         this.catalog = catalog;
     }
 
-    public void getProductMetadata(final Context context, final ProdRegListener metadataListener) {
+    public void getProductMetadata(final Context context, final MetadataListener metadataListener) {
         ProductMetadataRequest productMetadataRequest = getProductMetadataRequest(getCtn());
         productMetadataRequest.setSector(getSector());
         productMetadataRequest.setCatalog(getCatalog());
@@ -44,16 +45,17 @@ public class Product {
     }
 
     @NonNull
-    ResponseListener getPrxResponseListener(final ProdRegListener metadataListener) {
+    ResponseListener getPrxResponseListener(final MetadataListener metadataListener) {
         return new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                metadataListener.onProdRegSuccess(responseData);
+                ProductMetadataResponse productMetaData = (ProductMetadataResponse) responseData;
+                metadataListener.onMetadataResponse(productMetaData);
             }
 
             @Override
             public void onResponseError(String error, int code) {
-                getProduct().handleError(code, metadataListener);
+                metadataListener.onErrorResponse(ErrorType.METADATA_FAILED.getDescription(), ErrorType.METADATA_FAILED.getCode());
             }
         };
     }
@@ -67,22 +69,6 @@ public class Product {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(context);
         return mRequestManager;
-    }
-
-    protected void handleError(final int statusCode, final ProdRegListener listener) {
-        if (statusCode == ErrorType.INVALID_CTN.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_CTN);
-        } else if (statusCode == ErrorType.INVALID_VALIDATION.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_VALIDATION);
-        } else if (statusCode == ErrorType.INVALID_SERIALNUMBER.getCode()) {
-            listener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
-        } else if (statusCode == ErrorType.NO_INTERNET_AVAILABLE.getCode()) {
-            listener.onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
-        } else if (statusCode == ErrorType.INTERNAL_SERVER_ERROR.getCode()) {
-            listener.onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
-        } else {
-            listener.onProdRegFailed(ErrorType.UNKNOWN);
-        }
     }
 
     public String getCtn() {

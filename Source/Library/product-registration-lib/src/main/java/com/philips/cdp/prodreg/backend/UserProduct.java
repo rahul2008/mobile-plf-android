@@ -7,9 +7,10 @@ import android.util.Log;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.handler.ErrorType;
-import com.philips.cdp.prodreg.handler.GetRegisteredProductsListener;
+import com.philips.cdp.prodreg.handler.MetadataListener;
 import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
+import com.philips.cdp.prodreg.handler.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.RegisteredResponse;
@@ -36,7 +37,7 @@ public class UserProduct {
     private Catalog catalog;
     private String locale;
     private Product product;
-    private GetRegisteredProductsListener getRegisteredProductsListener;
+    private RegisteredProductsListener registeredProductsListener;
 
     public UserProduct(final Sector sector, final Catalog catalog) {
         this.sector = sector;
@@ -61,13 +62,13 @@ public class UserProduct {
         }
     }
 
-    public void getRegisteredProducts(final Context context, final GetRegisteredProductsListener getRegisteredProductsListener) {
+    public void getRegisteredProducts(final Context context, final RegisteredProductsListener registeredProductsListener) {
         this.mContext = context;
         this.requestType = ProdRegConstants.FETCH_REGISTERED_PRODUCTS;
-        this.getRegisteredProductsListener = getRegisteredProductsListener;
+        this.registeredProductsListener = registeredProductsListener;
         RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest(context);
         final RequestManager mRequestManager = getRequestManager(context);
-        mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(getRegisteredProductsListener));
+        mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(registeredProductsListener));
     }
 
     protected void handleError(final int statusCode, final ProdRegListener listener) {
@@ -85,6 +86,8 @@ public class UserProduct {
             listener.onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
         } else if (statusCode == ErrorType.INTERNAL_SERVER_ERROR.getCode()) {
             listener.onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
+        } else if (statusCode == ErrorType.METADATA_FAILED.getCode()) {
+            listener.onProdRegFailed(ErrorType.METADATA_FAILED);
         } else {
             listener.onProdRegFailed(ErrorType.UNKNOWN);
         }
@@ -129,8 +132,8 @@ public class UserProduct {
     }
 
     @NonNull
-    GetRegisteredProductsListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener appListener) {
-        return new GetRegisteredProductsListener() {
+    RegisteredProductsListener getRegisteredProductsListener(final Context context, final Product product, final ProdRegListener appListener) {
+        return new RegisteredProductsListener() {
             @Override
             public void getRegisteredProducts(final RegisteredResponse registeredDataResponse) {
                 RegisteredResponseData[] results = registeredDataResponse.getResults();
@@ -146,12 +149,11 @@ public class UserProduct {
     }
 
     @NonNull
-    ProdRegListener getMetadataListener(final Context mContext, final Product product, final ProdRegListener appListener) {
-        return new ProdRegListener() {
+    MetadataListener getMetadataListener(final Context mContext, final Product product, final ProdRegListener appListener) {
+        return new MetadataListener() {
             @Override
-            public void onProdRegSuccess(final ResponseData responseData) {
-                ProductMetadataResponse productMetaData = (ProductMetadataResponse) responseData;
-                ProductMetadataResponseData productData = productMetaData.getData();
+            public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
+                ProductMetadataResponseData productData = productMetadataResponse.getData();
                 if (validateSerialNumberFromMetadata(productData, product, appListener)
                         && validatePurchaseDateFromMetadata(productData, product, appListener))
 
@@ -159,8 +161,8 @@ public class UserProduct {
             }
 
             @Override
-            public void onProdRegFailed(ErrorType errorType) {
-                appListener.onProdRegFailed(errorType);
+            public void onErrorResponse(final String errorMessage, final int responseCode) {
+                getUserProduct().handleError(responseCode, appListener);
             }
         };
     }
@@ -236,7 +238,7 @@ public class UserProduct {
                 getUserProduct().registerProduct(mContext, getProduct(), listener);
                 break;
             case ProdRegConstants.FETCH_REGISTERED_PRODUCTS:
-                getUserProduct().getRegisteredProducts(mContext, getGetRegisteredProductsListener());
+                getUserProduct().getRegisteredProducts(mContext, getRegisteredProductsListener());
                 break;
             default:
                 break;
@@ -244,18 +246,18 @@ public class UserProduct {
     }
 
     @NonNull
-    ResponseListener getPrxResponseListenerForRegisteredProducts(final GetRegisteredProductsListener getRegisteredProductsListener) {
+    ResponseListener getPrxResponseListenerForRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
         return new ResponseListener() {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
                 RegisteredResponse registeredDataResponse = (RegisteredResponse) responseData;
-                getRegisteredProductsListener.getRegisteredProducts(registeredDataResponse);
+                registeredProductsListener.getRegisteredProducts(registeredDataResponse);
             }
 
             @Override
             public void onResponseError(final String errorMessage, final int responseCode) {
                 try {
-                    getRegisteredProductsListener.onErrorResponse(errorMessage, responseCode);
+                    registeredProductsListener.onErrorResponse(errorMessage, responseCode);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -303,8 +305,8 @@ public class UserProduct {
         return false;
     }
 
-    public GetRegisteredProductsListener getGetRegisteredProductsListener() {
-        return getRegisteredProductsListener;
+    public RegisteredProductsListener getRegisteredProductsListener() {
+        return registeredProductsListener;
     }
 
     public Sector getSector() {
