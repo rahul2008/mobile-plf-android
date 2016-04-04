@@ -1,6 +1,7 @@
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -9,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -81,12 +83,14 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private LinearLayout.LayoutParams mScrollerLayoutParams = null;
     private LinearLayout.LayoutParams mProductVideoHeaderParams = null;
     private PrxProductData mPrxProductData = null;
-    private static Activity mActivity;
+    private static Activity mActivity = null;
+    private int mSdkVersion = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
+        mSdkVersion = Build.VERSION.SDK_INT;
         View view = inflater.inflate(R.layout.fragment_view_product,
                 container, false);
         if (getActivity() != null)
@@ -455,19 +459,20 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         relativeLayout.setLayoutParams(param);
     }
 
+    @SuppressLint("NewApi")
     private Button createButton(float density, int title) {
         Button button = new Button(mActivity, null, R.style.fontButton);
-
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, (int) (mActivity.getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
         button.setLayoutParams(params);
 
-        button.setGravity(Gravity.START | Gravity.CENTER);
+//        button.setGravity(Gravity.START | Gravity.CENTER);
         button.setPadding((int) (20 * density), 0, 0, 0);
         button.setTextAppearance(mActivity, R.style.fontButton);
         Typeface buttonTypeface = Typeface.createFromAsset(mActivity.getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         button.setTypeface(buttonTypeface);
+        button.setGravity(Gravity.CENTER);
         button.setText(title);
         return button;
     }
