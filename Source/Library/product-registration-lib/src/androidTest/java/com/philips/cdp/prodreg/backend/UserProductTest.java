@@ -171,6 +171,7 @@ public class UserProductTest extends MockitoTestCase {
 
     public void testGetRegisteredProductsListenerOnCtnNotRegistered() {
         Product product = mock(Product.class);
+        final UserProduct userProductMock = mock(UserProduct.class);
         ProdRegListener listener = mock(ProdRegListener.class);
         final MetadataListener metadataListener = mock(MetadataListener.class);
         when(product.getCtn()).thenReturn("HD8970/09");
@@ -179,6 +180,12 @@ public class UserProductTest extends MockitoTestCase {
             @Override
             MetadataListener getMetadataListener(final Context context, final Product product, final ProdRegListener appListener) {
                 return metadataListener;
+            }
+
+            @NonNull
+            @Override
+            UserProduct getUserProduct() {
+                return userProductMock;
             }
         };
         RegisteredProductsListener registeredProductsListener = userProduct.
@@ -194,6 +201,8 @@ public class UserProductTest extends MockitoTestCase {
         when(responseMock.getResults()).thenReturn(results);
         registeredProductsListener.getRegisteredProducts(responseMock);
         verify(product).getProductMetadata(context, metadataListener);
+        registeredProductsListener.onErrorResponse(ErrorType.METADATA_FAILED.getDescription(), ErrorType.METADATA_FAILED.getCode());
+        verify(userProductMock).handleError(ErrorType.METADATA_FAILED.getCode(), listener);
     }
 
     public void testHandleErrorCases() {

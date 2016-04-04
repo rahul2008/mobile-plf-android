@@ -143,7 +143,7 @@ public class UserProduct {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                handleError(responseCode, appListener);
+                getUserProduct().handleError(responseCode, appListener);
             }
         };
     }
