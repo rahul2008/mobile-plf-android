@@ -410,7 +410,7 @@ public class PuiEditText extends RelativeLayout {
     {
         editText.setCompoundDrawables(null, null, getIcon(), null);
         editText.setEnabled(true);
-        editText.setTextColor(basecolor);
+       // editText.setTextColor(basecolor);
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
