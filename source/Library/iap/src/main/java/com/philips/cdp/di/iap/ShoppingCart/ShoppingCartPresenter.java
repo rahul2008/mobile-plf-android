@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.store.Store;
@@ -87,7 +88,19 @@ public class ShoppingCartPresenter {
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(getStore(), null,
                 new AbstractModel.DataLoadListener() {
                     @Override
-                    public void onModelDataLoadFinished(final Message msg) {
+                    public void onModelDataLoadFinished(Message msg) {
+
+                        if (msg.obj instanceof Carts) {
+                            Carts cartData = (Carts) msg.obj;
+                            if (cartData.getCarts().get(0).getEntries() == null) {
+                                msg = Message.obtain(msg);
+                            } else {
+                                PRXProductDataBuilder builder = new PRXProductDataBuilder(mContext, cartData,
+                                        this);
+                                builder.build();
+                                return;
+                            }
+                        }
 
                         if (msg.obj instanceof ArrayList) {
                             mProductData = (ArrayList<ShoppingCartData>) msg.obj;

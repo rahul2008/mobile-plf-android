@@ -8,9 +8,7 @@ import android.os.Message;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.ShoppingCart.PRXProductDataBuilder;
 import com.philips.cdp.di.iap.response.carts.Carts;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 
 import java.util.Map;
@@ -23,20 +21,7 @@ public class CartCurrentInfoRequest extends AbstractModel {
 
     @Override
     protected void onPostSuccess(Message msg) {
-
-        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            mDataloadListener.onModelDataLoadFinished(msg);
-        } else if (msg.obj instanceof Carts) {
-            Carts cartData = (Carts) msg.obj;
-            if (cartData.getCarts().get(0).getEntries() == null) {
-                Message msgResult = Message.obtain(msg);
-                mDataloadListener.onModelDataLoadFinished(msgResult);
-            } else {
-                PRXProductDataBuilder builder = new PRXProductDataBuilder(mContext, cartData,
-                        mDataloadListener);
-                builder.build();
-            }
-        }
+        mDataloadListener.onModelDataLoadFinished(msg);
     }
 
     @Override
