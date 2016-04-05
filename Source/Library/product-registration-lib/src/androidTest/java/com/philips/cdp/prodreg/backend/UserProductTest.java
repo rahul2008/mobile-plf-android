@@ -533,7 +533,7 @@ public class UserProductTest extends MockitoTestCase {
         };
         userProduct.registerProduct(context, productMock, prodRegListenerMock);
         userProduct.retryRequests(context, prodRegListenerMock);
-        verify(userProductMock).registerProduct(context, productMock, prodRegListenerMock);
+        verify(userProductMock).makeRegistrationRequest(context, productMock, prodRegListenerMock);
         userProduct.getRegisteredProducts(context, registeredProductsListenerMock);
         userProduct.retryRequests(context, prodRegListenerMock);
         verify(userProductMock).getRegisteredProducts(context, registeredProductsListenerMock);

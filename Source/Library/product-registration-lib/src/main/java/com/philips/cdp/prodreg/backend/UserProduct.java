@@ -235,7 +235,7 @@ public class UserProduct {
     protected void retryRequests(final Context mContext, final ProdRegListener listener) {
         switch (requestType) {
             case ProdRegConstants.PRODUCT_REGISTRATION:
-                getUserProduct().registerProduct(mContext, getProduct(), listener);
+                getUserProduct().makeRegistrationRequest(mContext, getProduct(), listener);
                 break;
             case ProdRegConstants.FETCH_REGISTERED_PRODUCTS:
                 getUserProduct().getRegisteredProducts(mContext, getRegisteredProductsListener());
@@ -285,6 +285,7 @@ public class UserProduct {
     }
 
     protected void makeRegistrationRequest(final Context mContext, final Product product, final ProdRegListener appListener) {
+        this.requestType = ProdRegConstants.PRODUCT_REGISTRATION;
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, product);
         registrationRequest.setRegistrationChannel(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setmLocale(product.getLocale());
