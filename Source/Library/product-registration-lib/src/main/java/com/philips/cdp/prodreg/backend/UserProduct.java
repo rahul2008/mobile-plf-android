@@ -232,10 +232,10 @@ public class UserProduct {
         };
     }
 
-    protected void retryRequests(final Context mContext, final ProdRegListener listener) {
+    protected void retryRequests(final Context mContext, final ProdRegListener appListener) {
         switch (requestType) {
             case ProdRegConstants.PRODUCT_REGISTRATION:
-                getUserProduct().makeRegistrationRequest(mContext, getProduct(), listener);
+                getUserProduct().makeRegistrationRequest(mContext, getProduct(), appListener);
                 break;
             case ProdRegConstants.FETCH_REGISTERED_PRODUCTS:
                 getUserProduct().getRegisteredProducts(mContext, getRegisteredProductsListener());
