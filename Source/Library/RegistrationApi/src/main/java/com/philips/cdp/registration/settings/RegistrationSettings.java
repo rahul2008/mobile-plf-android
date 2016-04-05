@@ -17,8 +17,6 @@ import com.philips.cdp.registration.errormapping.CheckLocale;
 
 public abstract class RegistrationSettings implements LocaleMatchListener {
 
-    private static final String FLOW_STANDARD = "standard";
-
     protected String mProductRegisterUrl = null;
 
     protected String mProductRegisterListUrl = null;
@@ -80,9 +78,6 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
         return mPreferredLangCode;
     }
 
-    public String getFlowName() {
-        return FLOW_STANDARD;
-    }
 
 
     public String getResendConsentUrl() {

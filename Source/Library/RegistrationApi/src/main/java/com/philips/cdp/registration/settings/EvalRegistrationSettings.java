@@ -43,7 +43,7 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 
         JumpConfig jumpConfig = new JumpConfig();
         jumpConfig.captureClientId = mCaptureClientId;
-        jumpConfig.captureFlowName = getFlowName();
+        jumpConfig.captureFlowName = "standard";
         jumpConfig.captureTraditionalRegistrationFormName = "registrationForm";
         jumpConfig.captureEnableThinRegistration = false;
         jumpConfig.captureSocialRegistrationFormName = "socialRegistrationForm";

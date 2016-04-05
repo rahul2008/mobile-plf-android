@@ -30,7 +30,7 @@ import java.util.TimeZone;
 
     public ParentalApprovalFragmentController( ParentalApprovalFragment fragment){
         mParentalApprovalFragment = fragment;
-        mCoppaExtension = new CoppaExtension();
+        mCoppaExtension = new CoppaExtension(mParentalApprovalFragment.getRegistrationFragment().getParentActivity().getApplicationContext());
     }
 
 
@@ -171,7 +171,7 @@ import java.util.TimeZone;
 
                 if(isCoppaConsent) {
                     mParentalApprovalFragment.showRefreshProgress();
-                    mCoppaExtension.updateCoppaConsentStatus(mParentalApprovalFragment.getContext(), true, new CoppaConsentUpdateCallback() {
+                    mCoppaExtension.updateCoppaConsentStatus(true, new CoppaConsentUpdateCallback() {
                         @Override
                         public void onSuccess() {
                             mParentalApprovalFragment.hideRefreshProgress();
@@ -187,7 +187,7 @@ import java.util.TimeZone;
                     });
                 }else{
                     mParentalApprovalFragment.showRefreshProgress();
-                    mCoppaExtension.updateCoppaConsentConfirmationStatus(mParentalApprovalFragment.getContext(), true, new CoppaConsentUpdateCallback() {
+                    mCoppaExtension.updateCoppaConsentConfirmationStatus(true, new CoppaConsentUpdateCallback() {
                         @Override
                         public void onSuccess() {
                             mParentalApprovalFragment.hideRefreshProgress();
@@ -210,7 +210,7 @@ import java.util.TimeZone;
 
             if(isCoppaConsent ){
                 mParentalApprovalFragment.showRefreshProgress();
-                mCoppaExtension.updateCoppaConsentStatus(mParentalApprovalFragment.getContext(), false, new CoppaConsentUpdateCallback() {
+                mCoppaExtension.updateCoppaConsentStatus( false, new CoppaConsentUpdateCallback() {
                     @Override
                     public void onSuccess() {
                         mParentalApprovalFragment.hideRefreshProgress();
@@ -225,7 +225,7 @@ import java.util.TimeZone;
                     }
                 });
             }else{
-                mCoppaExtension.updateCoppaConsentConfirmationStatus(mParentalApprovalFragment.getContext(), false, new CoppaConsentUpdateCallback() {
+                mCoppaExtension.updateCoppaConsentConfirmationStatus( false, new CoppaConsentUpdateCallback() {
                     @Override
                     public void onSuccess() {
                         if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {

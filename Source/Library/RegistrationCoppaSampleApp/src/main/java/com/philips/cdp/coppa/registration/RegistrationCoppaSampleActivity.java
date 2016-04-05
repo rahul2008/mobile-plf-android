@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaResendError;
 import com.philips.cdp.registration.coppa.base.ResendCoppaEmailConsentHandler;
 import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaListener;
@@ -32,7 +31,6 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
     private Button mBtnRegistrationWithAccountSettings;
     private Button mBtnRegistrationWithOutAccountSettings;
-    private Button mBtnResendCoppaMail;
     private Button mBtnRefresh;
     private Context mContext;
     private ProgressDialog mProgressDialog;
@@ -52,12 +50,9 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
 
-        mBtnResendCoppaMail = (Button) findViewById(R.id.btn_resend_coppa_email);
-        mBtnResendCoppaMail.setOnClickListener(this);
         mProgressDialog = new ProgressDialog(RegistrationCoppaSampleActivity.this);
         mProgressDialog.setCancelable(false);
 
-        mBtnResendCoppaMail.setVisibility(View.VISIBLE);
         user = new User(mContext);
         mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
         mBtnRefresh.setOnClickListener(this);
@@ -132,17 +127,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                     }
                 }
                 break;
-            case R.id.btn_resend_coppa_email:
-                User user = new User(mContext);
-                CoppaExtension coppaExtension = new CoppaExtension();
-                String emailId = user.getEmail();
-                if (null != emailId) {
-                    mProgressDialog.setMessage("sending...");
-                    mProgressDialog.show();
-                    coppaExtension.resendCoppaEmailConsentForUserEmail(emailId, this);
-                } else {
-                    Toast.makeText(this, "Please login b4 going to resend coppa mail", Toast.LENGTH_LONG).show();
-                }
+
             default:
                 break;
         }
