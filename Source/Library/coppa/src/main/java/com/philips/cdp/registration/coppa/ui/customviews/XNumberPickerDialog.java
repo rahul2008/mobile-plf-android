@@ -2,6 +2,8 @@ package com.philips.cdp.registration.coppa.ui.customviews;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -18,7 +20,6 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
 {
     private TextView mTvSelctedTitleAge;
     private NumberPickerListener mNumberPickerListener;
-    private int mNumberPickerChangedVal;
 
     public XNumberPickerDialog(NumberPickerListener numberPickerListener) {
         mNumberPickerListener = numberPickerListener;
@@ -26,7 +27,6 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
 
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-        mNumberPickerChangedVal = newVal;
         mTvSelctedTitleAge.setText(String.valueOf(newVal));
     }
 
@@ -38,22 +38,23 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
         Button ok = (Button) dialog.findViewById(R.id.reg_btn_ok);
         Button cancel = (Button) dialog.findViewById(R.id.reg_btn_cancel);
         mTvSelctedTitleAge = (TextView) dialog.findViewById(R.id.tv_reg_coppa_header_title);
-        mTvSelctedTitleAge.setText(String.valueOf(minVal));
+        mTvSelctedTitleAge.setText(String.valueOf(maxVal));
         final NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.reg_age_picker);
         numberPicker.setMinValue(minVal);
         numberPicker.setMaxValue(maxVal);
+        numberPicker.setValue(maxVal);
         numberPicker.setWrapSelectorWheel(false);
         numberPicker.setOnValueChangedListener(this);
+        setDividerColor(numberPicker,R.color.reg_devider_color);
         ok.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
+
+                System.out.println("number picker vacle"+numberPicker.getValue());
+
                 if(mNumberPickerListener!=null){
-                    if(mNumberPickerChangedVal ==0){
                         mNumberPickerListener.onNumberSelect(numberPicker.getValue());
-                    }else{
-                        mNumberPickerListener.onNumberSelect(mNumberPickerChangedVal);
-                    }
                 }
                 if(dialog!=null){
                     dialog.dismiss();
@@ -70,5 +71,30 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
             }
         });
         dialog.show();
+    }
+
+
+
+
+    private void setDividerColor(NumberPicker picker, int color) {
+
+        java.lang.reflect.Field[] pickerFields = NumberPicker.class.getDeclaredFields();
+        for (java.lang.reflect.Field pf : pickerFields) {
+            if (pf.getName().equals("mSelectionDivider")) {
+                pf.setAccessible(true);
+                try {
+                    ColorDrawable colorDrawable = new ColorDrawable(color);
+                    pf.set(picker, colorDrawable);
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                } catch (Resources.NotFoundException e) {
+                    e.printStackTrace();
+                }
+                catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
     }
 }

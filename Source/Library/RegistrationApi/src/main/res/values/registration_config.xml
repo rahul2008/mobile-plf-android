@@ -60,7 +60,7 @@
     <color name="reg_text_desc_color">#252525</color>
 
     <!-- 9. Background -->
-    <color name="reg_layout_bg">#FFFFFF</color>
+    <drawable name="reg_layout_bg">#FFFFFF</drawable>
 
     <!-- 10.Primary text color -->
     <color name="reg_text_heading_one_color">#003377</color>
