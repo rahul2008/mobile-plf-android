@@ -8,7 +8,7 @@
     <!-- Activity
     <color name="activity_background_color">#FFFFFF</color>
     -->
-    <drawable name="consumercare_background">@drawable/tuscanybackground</drawable>
+    <drawable name="consumercare_background">#FFFFFF</drawable>
 
 
     <!-- Actionbar related -->
