@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.iap.ShoppingCart;
+package com.philips.cdp.di.iap.shoppingCart;
 
 import android.content.Context;
 import android.os.Message;

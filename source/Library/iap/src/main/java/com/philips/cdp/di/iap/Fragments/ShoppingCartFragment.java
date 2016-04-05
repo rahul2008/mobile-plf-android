@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartAdapter;
+import com.philips.cdp.di.iap.shoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.shoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.shoppingCart.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;

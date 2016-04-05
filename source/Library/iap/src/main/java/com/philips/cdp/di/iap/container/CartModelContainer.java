@@ -1,6 +1,6 @@
 package com.philips.cdp.di.iap.container;
 
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.shoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 
