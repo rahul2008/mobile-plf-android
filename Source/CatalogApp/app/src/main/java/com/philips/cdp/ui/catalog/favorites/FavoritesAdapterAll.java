@@ -84,10 +84,10 @@ public class FavoritesAdapterAll extends BaseAdapter {
                     String isItFavorite = mCursor.getString(mCursor.getColumnIndex(FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE));
 
                     if (isItFavorite.equalsIgnoreCase("true")) {
-                        favorite.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_outlined_star_favorites));
+                        favorite.setImageDrawable(VectorDrawable.create(activity, R.drawable.uikit_outlined_star_favorites));
                         addToFavorites(name1, "false");
                     } else {
-                        favorite.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_solid_favorites_star));
+                        favorite.setImageDrawable(VectorDrawable.create(activity, R.drawable.uikit_solid_favorites_star));
                         addToFavorites(name1, "true");
                     }
                 } catch (Exception e) {
@@ -104,12 +104,12 @@ public class FavoritesAdapterAll extends BaseAdapter {
             mCursor.moveToPosition(position);
             String name = mCursor.getString(mCursor.getColumnIndex(FavoritesContract.FeedEntry.COLUMN_ITEM_NAME));
             String isFavorite = mCursor.getString(mCursor.getColumnIndex(FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE));
-            image.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_location_pointer));
+            image.setImageDrawable(VectorDrawable.create(activity, R.drawable.uikit_location_pointer));
             value.setText("Item 1 " + mCursor.getString(mCursor.getColumnIndex(FavoritesContract.FeedEntry.COLUMN_ITEM_NAME)));
             if (isFavorite.equalsIgnoreCase("true")) {
-                favorite.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_solid_favorites_star));
+                favorite.setImageDrawable(VectorDrawable.create(activity, R.drawable.uikit_solid_favorites_star));
             } else {
-                favorite.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_outlined_star_favorites));
+                favorite.setImageDrawable(VectorDrawable.create(activity,R.drawable.uikit_outlined_star_favorites));
             }
         } catch (Exception e) {
             e.printStackTrace();
