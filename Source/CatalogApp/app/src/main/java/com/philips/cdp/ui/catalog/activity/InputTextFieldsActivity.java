@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.PuiEditText;
-import com.philips.cdp.uikit.customviews.UikitPasswordEditText;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.regex.Matcher;
@@ -52,6 +51,13 @@ public class InputTextFieldsActivity extends CatalogActivity {
         edit=(PuiEditText) findViewById(R.id.password);
         errorText1 = puiEditText1.getErrorText();
         errorText1.setPadding(0, 0, 0, 9);
+        edit.setEditTextEnabled(true);
+        edit.setValidator(new PuiEditText.Validator() {
+            @Override
+            public boolean validate(final String inputToBeValidated) {
+                return matchPassword(inputToBeValidated);
+            }
+        });
 
         puiEditText2 = (PuiEditText) findViewById(R.id.input_field_2);
         puiEditText2.setValidator(new PuiEditText.Validator() {
@@ -63,7 +69,7 @@ public class InputTextFieldsActivity extends CatalogActivity {
 
         errorText2 = puiEditText2.getErrorText();
         errorText2.setPadding(0, 0, 0, 9);
-        edit.setPassword();
+      //  edit.setPassword();
 
         int currentApiVersion = Build.VERSION.SDK_INT;
         if (currentApiVersion >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -79,14 +85,15 @@ public class InputTextFieldsActivity extends CatalogActivity {
         return matcher.matches();
     }
 
-    private Drawable getSettingsIcon() {
-        Resources r = getResources();
-        float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 33,
-                r.getDisplayMetrics());
-        float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, r
-                .getDisplayMetrics());
-        Drawable d = VectorDrawable.create(this, R.drawable.uikit_password_show_icon).mutate();
-        d.setBounds(0, 0, 100, 70);
-        return d;
+    private boolean matchPassword(final String password)
+    {
+        if(password==null) return false;
+        String test ="philips123";
+        if(password.equals(test))
+        {
+            return true;
+        }
+        else
+        return false;
     }
 }

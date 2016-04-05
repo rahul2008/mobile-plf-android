@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -25,9 +26,11 @@ import android.widget.Toast;
 
 import com.philips.cdp.uikit.R;
 
+*/
 /**
  * Created by 310213373 on 3/18/2016.
- */
+ *//*
+
 public class UikitPasswordEditText extends AppCompatEditText {
     int basecolor ,errorTextColor;
     Drawable errorIcon, errorBackground;
@@ -114,3 +117,4 @@ public class UikitPasswordEditText extends AppCompatEditText {
         return false;
     }
 }
+*/

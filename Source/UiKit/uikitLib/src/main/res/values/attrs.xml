@@ -91,6 +91,7 @@
         <attr name="uikit_errorTextColor" format="color"/>
         <attr name="uikit_errorIcon" format="integer"/>
         <attr name="uikit_errorBackground" format="reference"/>
+        <attr name="uikit_password_edit_field" format="boolean"/>
     </declare-styleable>
 
     <attr name="uikit_enableStroke" format="boolean"/>

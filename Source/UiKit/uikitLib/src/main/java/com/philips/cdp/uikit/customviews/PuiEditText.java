@@ -6,15 +6,22 @@
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,6 +79,10 @@ public class PuiEditText extends RelativeLayout {
     private Validator validator;
     private boolean focused;
     Context context;
+    ColorStateList csl;
+    int basecolor;
+    int text_count;
+    boolean isPassword;
 
     /**
      * Interface to be registered in case app wants to show error message.<br>
@@ -123,12 +134,10 @@ public class PuiEditText extends RelativeLayout {
 
     public PuiEditText(final Context cont, final AttributeSet attrs) {
         super(cont, attrs);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.uikit_input_text_field, this, true);
         context=cont;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.InputTextField);
-//        int editTextWidth = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldWidth, LayoutParams.WRAP_CONTENT);
-//        int editTextHeight = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldHeight, LayoutParams.WRAP_CONTENT);
         boolean singleLine = a.getBoolean(R.styleable.InputTextField_uikit_singleLine, true);
         String editTextHint = a.getString(R.styleable.InputTextField_uikit_hintText);
         String errorText = a.getString(R.styleable.InputTextField_uikit_errorText);
@@ -136,8 +145,13 @@ public class PuiEditText extends RelativeLayout {
         errorTextColor = a.getColor(R.styleable.InputTextField_uikit_errorTextColor, getResources().getColor(R.color.uikit_philips_bright_orange));
         errorIcon = a.getDrawable(R.styleable.InputTextField_uikit_errorIcon);
         errorBackground = a.getDrawable(R.styleable.InputTextField_uikit_errorBackground);
-        a.recycle();
+        isPassword=a.getBoolean(R.styleable.InputTextField_uikit_password_edit_field,false);
 
+        a.recycle();
+        a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
+        basecolor=a.getInt(0, R.attr.uikit_baseColor);
+        setPadding(10, 10, 10, 10);
+        a.recycle();
         setSaveEnabled(true);
         initEditText(editTextHint, enabled,/* editTextWidth,*/ singleLine/*, editTextHeight*/);
 
@@ -153,6 +167,10 @@ public class PuiEditText extends RelativeLayout {
                 setErrorMessageVisibilty(View.GONE);
             }
         });
+        if(isPassword)
+        {
+            setPassword();
+        }
     }
 
     public PuiEditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
@@ -390,13 +408,75 @@ public class PuiEditText extends RelativeLayout {
 
     public void setPassword()
     {
-        editText.setCompoundDrawables(null,null,null,getIcon());
+        editText.setCompoundDrawables(null, null, getIcon(), null);
+        editText.setEnabled(true);
+        editText.setTextColor(basecolor);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            text_count=s.length();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        csl=new ColorStateList(
+                new int [] [] {
+
+                        new int [] {android.R.attr.state_focused},
+                        new int [] {}
+                },
+                new int [] {
+                        basecolor,
+                        Color.GRAY
+                });
+
+
+        // setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        editText.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        // your action here
+                        int index = editText.getSelectionEnd();
+                        editText.getCompoundDrawables()[2].setTint(getResources().getColor(R.color.uikit_password_icon_color));
+
+
+                        if ((editText.getTransformationMethod()) instanceof PasswordTransformationMethod)
+
+                            editText.setTransformationMethod(null);
+
+                        else editText.setTransformationMethod(new PasswordTransformationMethod());
+
+                        // Toast.makeText(context, " clicked ", Toast.LENGTH_LONG).show();
+                        cancelLongPress();
+                        editText.setSelection(index);
+                        return false;
+                    }
+                }
+                return false;
+            }
+        });
     }
     private Drawable getIcon() {
         Resources r = getResources();
-        float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 33,
+        float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 43,
                 r.getDisplayMetrics());
-        float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, r
+        float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, r
                 .getDisplayMetrics());
         Drawable d = VectorDrawable.create(context, R.drawable.uikit_password_show_icon).mutate();
         d.setBounds(0, 0, 100, 70);
