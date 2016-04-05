@@ -19,19 +19,19 @@ public abstract class PrxRequest {
     private String mSectorCode = null;
     private String mLocale = null;
     private String mCatalogCode = null;
-    private Sector sector;
-    private Catalog catalog;
-    private String localeMatchResult;
+    private Sector mSector;
+    private Catalog mCatalog;
+    private String mLocaleMatchResult;
 
     protected String getLocaleMatchResult() {
-        if (localeMatchResult != null)
-            return localeMatchResult;
+        if (mLocaleMatchResult != null)
+            return mLocaleMatchResult;
         else
             return getLocale();
     }
 
-    public void setLocaleMatchResult(final String localeMatchResult) {
-        this.localeMatchResult = localeMatchResult;
+    public void setLocaleMatchResult(final String mLocaleMatchResult) {
+        this.mLocaleMatchResult = mLocaleMatchResult;
     }
 
     public String getServerInfo() {
@@ -42,7 +42,7 @@ public abstract class PrxRequest {
         return mSectorCode;
     }
 
-    public void setmSectorCode(String mSectorCode) {
+    public void setSectorCode(String mSectorCode) {
         this.mSectorCode = mSectorCode;
     }
 
@@ -50,7 +50,7 @@ public abstract class PrxRequest {
         return mLocale;
     }
 
-    public void setmLocale(String mLocale) {
+    public void setLocale(String mLocale) {
         this.mLocale = mLocale;
     }
 
@@ -58,24 +58,24 @@ public abstract class PrxRequest {
         return mCatalogCode;
     }
 
-    public void setmCatalogCode(String mCatalogCode) {
+    public void setCatalogCode(String mCatalogCode) {
         this.mCatalogCode = mCatalogCode;
     }
 
-    public Sector getSector() {
-        return sector;
+    public Sector getmSector() {
+        return mSector;
     }
 
-    public void setSector(final Sector sector) {
-        this.sector = sector;
+    public void setmSector(final Sector mSector) {
+        this.mSector = mSector;
     }
 
     public Catalog getCatalog() {
-        return catalog;
+        return mCatalog;
     }
 
     public void setCatalog(Catalog catalog) {
-        this.catalog = catalog;
+        this.mCatalog = catalog;
     }
 
     public abstract ResponseData getResponseData(JSONObject jsonObject);

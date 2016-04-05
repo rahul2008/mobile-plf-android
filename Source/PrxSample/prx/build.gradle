@@ -136,8 +136,8 @@ dependencies {
     compile 'com.philips.cdp:localeMatch:1.1.1'
     compile(group: 'com.google.code.gson', name: 'gson', version: '2.2.2')
     compile 'com.mcxiaoke.volley:library:1.0.17'
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:1.9.5"
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile "org.mockito:mockito-core:1.9.5"
 }
 
 

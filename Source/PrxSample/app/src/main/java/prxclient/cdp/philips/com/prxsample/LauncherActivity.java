@@ -44,9 +44,9 @@ public class LauncherActivity extends AppCompatActivity {
         PrxLogger.enablePrxLogger(true);
 
         ProductSummaryRequest mProductAssetBuilder = new ProductSummaryRequest(mCtn, mRequestTag);
-        mProductAssetBuilder.setmSectorCode(mSectorCode);
-        mProductAssetBuilder.setmLocale(mLocale);
-        mProductAssetBuilder.setmCatalogCode(mCatalogCode);
+        mProductAssetBuilder.setSectorCode(mSectorCode);
+        mProductAssetBuilder.setLocale(mLocale);
+        mProductAssetBuilder.setCatalogCode(mCatalogCode);
 
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(getApplicationContext());
