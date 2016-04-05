@@ -6,12 +6,14 @@
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
  * Layout which wraps EditText internally and facilitates to show error.
@@ -68,6 +71,7 @@ public class PuiEditText extends RelativeLayout {
     private Drawable themeDrawable;
     private Validator validator;
     private boolean focused;
+    Context context;
 
     /**
      * Interface to be registered in case app wants to show error message.<br>
@@ -117,11 +121,11 @@ public class PuiEditText extends RelativeLayout {
         super(context);
     }
 
-    public PuiEditText(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
+    public PuiEditText(final Context cont, final AttributeSet attrs) {
+        super(cont, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.uikit_input_text_field, this, true);
-
+        context=cont;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.InputTextField);
 //        int editTextWidth = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldWidth, LayoutParams.WRAP_CONTENT);
 //        int editTextHeight = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldHeight, LayoutParams.WRAP_CONTENT);
@@ -382,5 +386,20 @@ public class PuiEditText extends RelativeLayout {
             out.writeInt(this.showError);
             out.writeInt(this.focused);
         }
+    }
+
+    public void setPassword()
+    {
+        editText.setCompoundDrawables(null,null,null,getIcon());
+    }
+    private Drawable getIcon() {
+        Resources r = getResources();
+        float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 33,
+                r.getDisplayMetrics());
+        float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, r
+                .getDisplayMetrics());
+        Drawable d = VectorDrawable.create(context, R.drawable.uikit_password_show_icon).mutate();
+        d.setBounds(0, 0, 100, 70);
+        return d;
     }
 }
