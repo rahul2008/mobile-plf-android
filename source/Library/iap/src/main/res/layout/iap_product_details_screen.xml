@@ -1,0 +1,80 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:id="@+id/detail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/iap_image_height"
+            android:layout_marginTop="@dimen/iap_image_top_margin"
+            android:paddingBottom="@dimen/iap_image_bottom_margin" />
+
+        <com.philips.cdp.uikit.customviews.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pager"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/iap_dots_padding" />
+
+        <TextView
+            android:id="@+id/product_description"
+            style="@style/iapCentralesansBoldFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/indicator"
+            android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
+            android:layout_marginStart="@dimen/iap_product_detail_left_padding"
+            android:paddingBottom="@dimen/iap_product_detail_bottom_padding"
+            android:paddingTop="@dimen/iap_product_detail_top_padding"
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="@dimen/iap_product_description" />
+
+        <TextView
+            android:id="@+id/ctn"
+            style="@style/iapCentralesansBoldFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/product_description"
+            android:layout_marginStart="@dimen/iap_product_detail_left_padding"
+            android:paddingBottom="@dimen/iap_product_detail_top_padding"
+            android:paddingEnd="@dimen/iap_product_detail_right_padding"
+            android:text="@string/iap_product_id"
+            android:textColor="@color/uikit_enricher4"
+            android:textSize="@dimen/iap_product_ctn" />
+
+        <TextView
+            android:id="@+id/individual_price"
+            style="@style/iapCentralesansBoldFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/product_description"
+            android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
+            android:paddingBottom="@dimen/iap_product_detail_top_padding"
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="@dimen/iap_product_ctn" />
+
+        <TextView
+            android:id="@+id/product_overview"
+            style="@style/iapCentralesansBookFont"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ctn"
+            android:layout_marginBottom="@dimen/iap_product_detail_bottom_padding"
+            android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
+            android:layout_marginStart="@dimen/iap_product_detail_left_padding"
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="@dimen/iap_product_overview" />
+    </RelativeLayout>
+</ScrollView>
