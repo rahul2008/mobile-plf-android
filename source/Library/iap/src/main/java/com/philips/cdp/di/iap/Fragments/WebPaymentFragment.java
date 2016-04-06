@@ -17,6 +17,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -121,6 +123,7 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
     }
 
     private void launchConfirmationScreen(Bundle bundle) {
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
         replaceFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 

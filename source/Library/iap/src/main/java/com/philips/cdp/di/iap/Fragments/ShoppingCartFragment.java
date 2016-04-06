@@ -14,6 +14,8 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartAdapter;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
@@ -23,6 +25,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 
@@ -115,6 +118,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                     Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
                     mAddressController.getShippingAddresses();
             }
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
         }
         if (v == mContinuesBtn) {
             finishActivity();
@@ -134,6 +138,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
             addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
@@ -145,6 +150,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     private void startProductDetailFragment() {
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
@@ -161,9 +167,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
                 addFragment(
                         ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             } else {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
                 addFragment(
                         AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             }

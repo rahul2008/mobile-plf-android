@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -37,13 +39,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
 
         mTvTitle.setText(getResources().getString(R.string.iap_billing_address));
         mSameAsBillingAddress.setVisibility(View.VISIBLE);
-
-       /* if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
-            mBillingAddressFields = (AddressFields) bundle.getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS);
-            disableAllFields();
-            prePopulateShippingAddress();
-            mBtnContinue.setEnabled(true);
-        }*/
 
         if (CartModelContainer.getInstance().getShippingAddressFields() != null) {
             mBillingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
@@ -172,6 +167,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         if (v == mBtnContinue) {
             mBillingAddressFields = setAddressFields(mBillingAddressFields.clone());
             if (!Utility.isProgressDialogShowing()) {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mBillingAddressFields);
                 addFragment(
@@ -182,6 +178,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                     getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
                 getFragmentManager().popBackStackImmediate();
             } else {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
                 addFragment
                         (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             }
