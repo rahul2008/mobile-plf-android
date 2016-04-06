@@ -36,9 +36,11 @@ public class CacheHandler {
         String mCtn = product.getCtn() + "_";
         String mSerialNumber = getSerialNumber(product);
         if (mUuid.equals("/nouuid/")) {
-            createFolder(basePath + mUuid);
-            return createFileIfNotCreated(new File(basePath + mUuid, mCtn + mSerialNumber));
+            final String fileName = basePath + mUuid;
+            createFolder(fileName);
+            return createFileIfNotCreated(new File(fileName, mCtn + mSerialNumber));
         } else {
+            createFolder(basePath);
             return createFileIfNotCreated(new File(basePath, mUuid + mCtn + mSerialNumber));
         }
     }
