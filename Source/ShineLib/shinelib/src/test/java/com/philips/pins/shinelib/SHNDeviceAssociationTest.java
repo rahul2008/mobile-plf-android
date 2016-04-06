@@ -513,6 +513,11 @@ public class SHNDeviceAssociationTest {
         SHNDeviceAssociationHelper getShnDeviceAssociationHelper() {
             return deviceAssociationHelperMock;
         }
+
+        @Override
+        boolean isRunningOnTheInternalThread() {
+            return true;
+        }
     }
 
     @Test

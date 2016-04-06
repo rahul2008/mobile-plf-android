@@ -8,6 +8,7 @@ package com.philips.pins.shinelib;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.utility.PersistentStorage;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
@@ -138,7 +139,7 @@ public class SHNDeviceAssociation {
     }
 
     void initAssociatedDevicesListOnInternalThread() {
-        if (shnCentral.getInternalHandler().getLooper().getThread().equals(Thread.currentThread())) {
+        if (isRunningOnTheInternalThread()) {
             initAssociatedDevicesList();
         } else {
             Callable<Boolean> initCallable = new Callable<Boolean>() {
@@ -164,6 +165,11 @@ public class SHNDeviceAssociation {
                 throw new InternalError("The internal thread is not running");
             }
         }
+    }
+
+    @VisibleForTesting
+    boolean isRunningOnTheInternalThread() {
+        return shnCentral.getInternalHandler().getLooper().getThread().equals(Thread.currentThread());
     }
 
     private void initAssociatedDevicesList() {
