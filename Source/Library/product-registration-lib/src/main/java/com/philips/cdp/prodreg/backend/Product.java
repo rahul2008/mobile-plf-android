@@ -13,11 +13,13 @@ import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
+import java.io.Serializable;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class Product {
+public class Product implements Serializable {
 
     private String ctn;
     private String serialNumber;

@@ -48,8 +48,11 @@ public class UserProduct {
         this.mContext = context;
         this.product = product;
         this.requestType = ProdRegConstants.PRODUCT_REGISTRATION;
+        final User mUser = new User(context);
+        CacheHandler cacheHandler = new CacheHandler(context);
+        cacheHandler.cacheProductsToRegister(product, mUser.getUserInstance(context));
 
-        if (!isUserSignedIn(new User(context), context)) {
+        if (!isUserSignedIn(mUser, context)) {
             appListener.onProdRegFailed(ErrorType.USER_NOT_SIGNED_IN);
         } else {
             if (!isValidaDate(product.getPurchaseDate())) {

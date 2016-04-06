@@ -14,13 +14,10 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
 import com.philips.cdp.prodreg.handler.ErrorType;
-import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.model.RegistrationResponse;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -111,7 +108,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         final User mUser = new User(this);
-        if (mUser.isUserSignIn(ProductActivity.this) && mUser.getEmailVerificationStatus(ProductActivity.this)) {
+        /*if (mUser.isUserSignIn(ProductActivity.this) && mUser.getEmailVerificationStatus(ProductActivity.this)) {
             if (mCtn.getText().toString().equalsIgnoreCase("")) {
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
             } else {
@@ -123,7 +120,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             Log.d(TAG, "On Click : User Registration");
             RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
             Util.navigateFromUserRegistration();
-        }
+        }*/
+        registerProduct();
     }
 
     public void onClickPurchaseDate(View view) {
