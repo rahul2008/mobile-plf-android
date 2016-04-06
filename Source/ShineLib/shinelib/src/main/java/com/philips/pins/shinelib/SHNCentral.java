@@ -373,7 +373,7 @@ public class SHNCentral {
     public SHNDeviceAssociation getShnDeviceAssociation() {
         if (shnDeviceAssociation == null) {
             shnDeviceAssociation = new SHNDeviceAssociation(this, shnDeviceScannerInternal, persistentStorageFactory);
-            shnDeviceAssociation.initAssociatedDevicesList();
+            shnDeviceAssociation.initAssociatedDevicesListOnInternalThread();
         }
         return shnDeviceAssociation;
     }
