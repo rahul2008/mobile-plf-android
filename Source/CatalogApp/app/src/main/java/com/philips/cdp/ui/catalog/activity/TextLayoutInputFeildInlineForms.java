@@ -49,6 +49,7 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
         final InlineForms layout = (InlineForms) findViewById(R.id.InlineForms);
         final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
         final UikitPasswordEditText passwordEditText = (UikitPasswordEditText) layout.findViewById(R.id.passwordValue);
+
         passwordEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -112,6 +113,11 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
         });
     }
 
+    /**
+     * Method to check for password validity
+     * @param view the UikitPasswordEditText to validate
+     * @return true if password matches, false if it doesn't
+     */
     private boolean validatePassword(View view) {
         String passwordToCheck = "Philips123@";
         String passwordCheck = ((UikitPasswordEditText) view).getText().toString();
