@@ -7,6 +7,7 @@ package com.philips.pins.shinelib;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.utility.PersistentStorage;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
@@ -63,6 +64,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         incrementChangeIncrementAndNotifyModifiedListeners();
     }
 
+    @Nullable
     @Override
     public ClockFormat getClockFormat() {
         return persistentStorage.get(CLOCK_FORMAT_KEY, DEFAULT_CLOCK_FORMAT);
@@ -73,6 +75,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         putValueIfChanged(CLOCK_FORMAT_KEY, clockFormat);
     }
 
+    @NonNull
     @Override
     public String getIsoLanguageCode() {
         return persistentStorage.get(ISO_LANGUAGE_CODE_KEY, Locale.getDefault().getLanguage());
@@ -83,6 +86,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         putValueIfChanged(ISO_LANGUAGE_CODE_KEY, isoLanguageCode);
     }
 
+    @NonNull
     @Override
     public String getIsoCountryCode() {
         return persistentStorage.get(ISO_COUNTRY_CODE_KEY, Locale.getDefault().getCountry());
@@ -93,6 +97,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         putValueIfChanged(ISO_COUNTRY_CODE_KEY, isoCountryCode);
     }
 
+    @NonNull
     @Override
     public Boolean getUseMetricSystem() {
         return persistentStorage.get(USE_METRIC_SYSTEM_KEY, DEFAULT_USE_METRIC_SYSTEM);
@@ -103,6 +108,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         putValueIfChanged(USE_METRIC_SYSTEM_KEY, useMetricSystem);
     }
 
+    @NonNull
     @Override
     public Sex getSex() {
         return persistentStorage.get(SEX_KEY, DEFAULT_SEX);
@@ -113,6 +119,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         putValueIfChanged(SEX_KEY, sex);
     }
 
+    @NonNull
     @Override
     public Integer getRestingHeartRate() {
         return persistentStorage.get(RESTING_HEART_RATE_KEY, DEFAULT_RESTING_HEART_RATE);
@@ -123,6 +130,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         putValueIfChanged(RESTING_HEART_RATE_KEY, restingHeartRate);
     }
 
+    @Nullable
     @Override
     public Integer getHeightInCm() {
         return persistentStorage.get(HEIGHT_IN_CM_KEY, DEFAULT_HEIGHT_IN_CM);
@@ -133,6 +141,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         putValueIfChanged(HEIGHT_IN_CM_KEY, heightInCm);
     }
 
+    @Nullable
     @Override
     public Double getWeightInKg() {
         return persistentStorage.get(WEIGHT_IN_KG_KEY, DEFAULT_WEIGHT_IN_KG);
@@ -143,6 +152,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         putValueIfChanged(WEIGHT_IN_KG_KEY, weightInKg);
     }
 
+    @NonNull
     @Override
     public Handedness getHandedness() {
         return persistentStorage.get(HANDEDNESS_KEY, Handedness.Unknown);
@@ -153,6 +163,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         putValueIfChanged(HANDEDNESS_KEY, (handedness == null ? DEFAULT_HANDEDNESS : handedness));
     }
 
+    @NonNull
     @Override
     public Character getDecimalSeparator() {
         int numericValue = persistentStorage.get(DECIMAL_SEPARATOR_KEY, (int) DEFAULT_DECIMAL_SEPARATOR);
@@ -165,6 +176,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         putValueIfChanged(DECIMAL_SEPARATOR_KEY, (int) dc);
     }
 
+    @Nullable
     @Override
     public Date getDateOfBirth() {
         long millis = persistentStorage.get(DATE_OF_BIRTH_KEY, 0L);
@@ -176,6 +188,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         putValueIfChanged(DATE_OF_BIRTH_KEY, (dateOfBirth == null ? 0L : dateOfBirth.getTime()));
     }
 
+    @Nullable
     @Override
     public Integer getMaxHeartRate() {
         Integer maxHeartRate = persistentStorage.get(MAX_HEART_RATE_KEY, DEFAULT_MAX_HEART_RATE);
@@ -203,6 +216,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         return object1.equals(object2);
     }
 
+    @Nullable
     @Override
     public Integer getAge() {
         Date dateOfBirth = getDateOfBirth();
@@ -213,6 +227,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         return userConfigurationCalculations.getAge(dateOfBirth);
     }
 
+    @Nullable
     @Override
     public Integer getBaseMetabolicRate() {
         Integer age = getAge();
@@ -220,7 +235,11 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         Double weightInKg = getWeightInKg();
         Integer heightInCm = getHeightInCm();
 
-        return userConfigurationCalculations.getBaseMetabolicRate(weightInKg, heightInCm, age, sex);
+        if (heightInCm != null && weightInKg != null && age != null && sex != Sex.Unspecified) {
+            return userConfigurationCalculations.getBaseMetabolicRate(weightInKg, heightInCm, age, sex);
+        } else {
+            return null;
+        }
     }
 
     private void incrementChangeIncrementAndNotifyModifiedListeners() {

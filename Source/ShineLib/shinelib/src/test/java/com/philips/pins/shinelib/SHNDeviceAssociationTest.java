@@ -194,6 +194,12 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
+    public void whenAssociationIsStartedAndNoListenerIsAttachedThenNoExceptionIsGenerated() {
+        shnDeviceAssociation.setShnDeviceAssociationListener(null);
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+    }
+
+    @Test
     public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcess_ThenStartIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
@@ -249,6 +255,13 @@ public class SHNDeviceAssociationTest {
         shnDeviceAssociation.stopAssociation();
 
         verify(mockedSHNDeviceAssociationListener).onAssociationStopped();
+    }
+
+    @Test
+    public void whenAssociationIsStopAssociationAndNoListenerIsAttachedThenNoExceptionIsGenerated() {
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+        shnDeviceAssociation.setShnDeviceAssociationListener(null);
+        shnDeviceAssociation.stopAssociation();
     }
 
     @Test
@@ -486,7 +499,7 @@ public class SHNDeviceAssociationTest {
 
         public TestSHNDeviceAssociation(final SHNCentral shnCentral, SHNDeviceScannerInternal mockedSHNDeviceScannerInternal, final PersistentStorageFactory persistentStorageFactory) {
             super(shnCentral, mockedSHNDeviceScannerInternal, persistentStorageFactory);
-            initAssociatedDevicesList();
+            initAssociatedDevicesListOnInternalThread();
         }
 
         @NonNull
@@ -499,6 +512,11 @@ public class SHNDeviceAssociationTest {
         @Override
         SHNDeviceAssociationHelper getShnDeviceAssociationHelper() {
             return deviceAssociationHelperMock;
+        }
+
+        @Override
+        boolean isRunningOnTheInternalThread() {
+            return true;
         }
     }
 
