@@ -166,6 +166,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
     private boolean isValidAge() {
         ServerTime.init(getActivity().getApplicationContext());
+        System.out.println("************** Time :  "+ServerTime.getInstance().getCurrentTime());
         String currentTime = ServerTime.getInstance().getCurrentTime();
         int currentYear = Integer.parseInt(currentTime.substring(0, 4));
         int selectedYear = Integer.parseInt(mTvSelectedYear.getText().toString().trim());

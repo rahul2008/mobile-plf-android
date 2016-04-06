@@ -186,8 +186,12 @@ import java.util.TimeZone;
                         }
 
                         @Override
-                        public void onFailure(int erroCode) {
+                        public void onFailure(int errorCode) {
                             mParentalApprovalFragment.hideRefreshProgress();
+                            if(errorCode==-1){
+                                Toast.makeText(mParentalApprovalFragment.getContext(),mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
+                                ,Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }else{
@@ -202,8 +206,12 @@ import java.util.TimeZone;
                         }
 
                         @Override
-                        public void onFailure(int erroCode) {
+                        public void onFailure(int errorCode) {
                             mParentalApprovalFragment.hideRefreshProgress();
+                            if(errorCode==-1){
+                                Toast.makeText(mParentalApprovalFragment.getContext(),mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
+                                        ,Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }
@@ -227,6 +235,10 @@ import java.util.TimeZone;
                     @Override
                     public void onFailure(int errorCode) {
                         mParentalApprovalFragment.hideRefreshProgress();
+                        if(errorCode==-1){
+                            Toast.makeText(mParentalApprovalFragment.getContext(),mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
+                                    ,Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }else{
@@ -241,6 +253,10 @@ import java.util.TimeZone;
                     @Override
                     public void onFailure(int errorCode) {
                         mParentalApprovalFragment.hideRefreshProgress();
+                        if(errorCode==-1){
+                            Toast.makeText(mParentalApprovalFragment.getContext(),mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
+                                    ,Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

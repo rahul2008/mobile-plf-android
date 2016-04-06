@@ -116,9 +116,6 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
         applyParams(config, mBtnDisAgree, width);
     }
 
-
-
-
     @Override
     protected void handleOrientation(View view) {
         handleOrientationOnView(view);
@@ -134,8 +131,6 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
         mBtnDisAgree = (Button) view.findViewById(R.id.reg_btn_dis_agree);
         mBtnDisAgree.setOnClickListener(mParentalApprovalFragmentController);
     }
-
-
 
     public void setConfirmApproval() {
         mTvConfirmApprovalDesc.setText(getNonUsText());
@@ -181,17 +176,12 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
         }else{
             mCustomCircularProgress.show();
         }
-
-
     }
 
     public void hideRefreshProgress() {
         if (mCustomCircularProgress != null && mCustomCircularProgress.isShowing()) {
-            System.out.println("********************** mCustomCircularProgress dismissed" );
             mCustomCircularProgress.dismiss();
             mCustomCircularProgress = null;
-        }else{
-            System.out.println("********************** mCustomCircularProgress is null" );
         }
     }
 }
