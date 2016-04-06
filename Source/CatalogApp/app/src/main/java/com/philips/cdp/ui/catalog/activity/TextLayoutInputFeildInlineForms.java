@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.InlineForms;
+import com.philips.cdp.uikit.customviews.UikitPasswordEditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,8 +48,27 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
          */
         final InlineForms layout = (InlineForms) findViewById(R.id.InlineForms);
         final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
+        final UikitPasswordEditText passwordEditText = (UikitPasswordEditText) layout.findViewById(R.id.passwordValue);
+        passwordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        layout.setErrorMessage("invalid_email_format");
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (validatePassword(passwordEditText)) {
+                    layout.removeError(passwordEditText);
+                }
+            }
+        });
+
+
         email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
@@ -78,11 +98,24 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
                 if (editText.getId() == R.id.lastnamevalue && hasFocus == false) {
                     boolean result = validateEmail(editText, hasFocus);
                     if (!result) {
+                        layout.setErrorMessage("invalid_email_format");
                         layout.showError((EditText) editText);
+                    }
+                }
+                else if(editText.getId() == R.id.passwordValue && hasFocus == false){
+                    if(!validatePassword(passwordEditText)){
+                        layout.setErrorMessage("invalid_password");
+                        layout.showError(passwordEditText);
                     }
                 }
             }
         });
+    }
+
+    private boolean validatePassword(View view) {
+        String passwordToCheck = "Philips123@";
+        String passwordCheck = ((UikitPasswordEditText) view).getText().toString();
+        return passwordCheck.equals(passwordToCheck);
     }
 
     /**
