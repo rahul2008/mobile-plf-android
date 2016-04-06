@@ -2,6 +2,7 @@ package com.philips.cdp.registration.coppa.ui.controllers;
 
 import android.os.Handler;
 import android.view.View;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.coppa.R;
@@ -72,18 +73,22 @@ import java.util.TimeZone;
     @Override
     public void onRefreshUserFailed(int error) {
         mParentalApprovalFragment.hideRefreshProgress();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                RegCoppaAlertDialog.showCoppaDialogMsg("", "Server Connection Failed", mParentalApprovalFragment.getActivity(), mOkBtnClick);
-            }
-        }, 1000);
+        showServerErrorALert();
 
     }
 
+     private void showServerErrorALert() {
+         new Handler().postDelayed(new Runnable() {
+             @Override
+             public void run() {
+                 RegCoppaAlertDialog.showCoppaDialogMsg("", mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed), mParentalApprovalFragment.getActivity(), mOkBtnClick);
+             }
+         }, 1000);
+
+     }
 
 
-    public CoppaExtension getCoppaExtension(){
+     public CoppaExtension getCoppaExtension(){
         return mCoppaExtension;
     }
 
@@ -181,7 +186,7 @@ import java.util.TimeZone;
                         }
 
                         @Override
-                        public void onFailure(String message) {
+                        public void onFailure(int erroCode) {
                             mParentalApprovalFragment.hideRefreshProgress();
                         }
                     });
@@ -197,7 +202,7 @@ import java.util.TimeZone;
                         }
 
                         @Override
-                        public void onFailure(String message) {
+                        public void onFailure(int erroCode) {
                             mParentalApprovalFragment.hideRefreshProgress();
                         }
                     });
@@ -220,7 +225,7 @@ import java.util.TimeZone;
                     }
 
                     @Override
-                    public void onFailure(String message) {
+                    public void onFailure(int errorCode) {
                         mParentalApprovalFragment.hideRefreshProgress();
                     }
                 });
@@ -234,13 +239,13 @@ import java.util.TimeZone;
                     }
 
                     @Override
-                    public void onFailure(String message) {
-
+                    public void onFailure(int errorCode) {
+                        mParentalApprovalFragment.hideRefreshProgress();
                     }
                 });
             }
 
-            if(mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationNotGiven){
+            if (mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationNotGiven){
                 if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                     RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
                 }

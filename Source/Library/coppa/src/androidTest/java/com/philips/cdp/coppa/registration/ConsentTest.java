@@ -1,9 +1,13 @@
 package com.philips.cdp.coppa.registration;
 
+import android.support.v4.text.ICUCompat;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.coppa.base.Consent;
 import com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity;
+
+import java.util.Currency;
+import java.util.Locale;
 
 /**
  * Created by 310202337 on 3/29/2016.
@@ -39,6 +43,43 @@ public class ConsentTest extends ActivityInstrumentationTestCase2<RegistrationCo
         assertTrue(Boolean.valueOf(mConsent.getGiven()));
 
     }
+
+    public void testCampaignId(){
+        mConsent.setCampaignId("COPPA");
+        assertEquals("COPPA", mConsent.getCampaignId());
+    }
+
+    public void testCommunicationSentAt(){
+        mConsent.setCommunicationSentAt("1928-10-30");
+        assertEquals("1928-10-30", mConsent.getCommunicationSentAt());
+
+    }
+
+    public void testConfirmationStoredAt(){
+        mConsent.setConfirmationStoredAt("1928-10-30");
+        assertEquals("1928-10-30",mConsent.getConfirmationStoredAt());
+    }
+
+    public void testgetConfirmationCommunicationSentAt(){
+        mConsent.setConfirmationCommunicationSentAt("1928-10-30");
+        assertEquals("1928-10-30", mConsent.getConfirmationCommunicationSentAt());
+    }
+
+    public void testGetLocale(){
+        mConsent.setLocale("en-US");
+        assertEquals("en-US",mConsent.getLocale());
+    }
+
+    public void testId(){
+        mConsent.setId("22222222");
+        assertEquals("22222222",mConsent.getId());
+    }
+
+
+
+
+
+
 
 
 

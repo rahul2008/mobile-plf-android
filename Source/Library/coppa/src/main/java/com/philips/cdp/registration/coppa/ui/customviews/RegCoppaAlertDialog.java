@@ -31,11 +31,6 @@ public class RegCoppaAlertDialog {
 		alertDialogBuilder.show();
 	}
 
-	private static void trackActionForResetPasswordNotification(String state,
-            String statusNotification, String continueStatus) {
-		AppTagging.trackAction(state, statusNotification, continueStatus);
-    }
-
 	public static void dismissDialog(){
 		if(alertDialogBuilder!=null){
 			alertDialogBuilder.dismiss();

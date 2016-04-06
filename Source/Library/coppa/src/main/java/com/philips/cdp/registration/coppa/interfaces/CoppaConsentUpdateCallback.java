@@ -10,5 +10,5 @@ public interface CoppaConsentUpdateCallback {
 
     void onSuccess();
 
-    void onFailure(final String message);
+    void onFailure(final int message);
 }

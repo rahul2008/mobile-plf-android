@@ -22,7 +22,7 @@ import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 
     @Override
     public void onFailure(CaptureApiError e) {
-        mCoppaConsentUpdateCallback.onFailure(e.error_description);
+        mCoppaConsentUpdateCallback.onFailure(e.code);
 
     }
 }

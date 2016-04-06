@@ -200,11 +200,12 @@ public class ServerTime {
                 break;
             }
         }
-
-        mNTPTime = nowAsPerDeviceTimeZone;
-        long deviceTime = System.currentTimeMillis();
-        mOffset = mNTPTime - deviceTime ;
-        saveOffset(mOffset);
+        if(nowAsPerDeviceTimeZone != 0L) {
+            mNTPTime = nowAsPerDeviceTimeZone;
+            long deviceTime = System.currentTimeMillis();
+            mOffset = mNTPTime - deviceTime;
+            saveOffset(mOffset);
+        }
         saveElapsedOffset(currentTime - elapsedTime);
         isRefreshInProgress = false;
 

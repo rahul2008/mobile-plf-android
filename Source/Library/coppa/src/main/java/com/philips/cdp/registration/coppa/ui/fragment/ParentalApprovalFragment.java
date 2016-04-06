@@ -175,14 +175,23 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
     }
 
     public void showRefreshProgress() {
-        mCustomCircularProgress = new CustomCircularProgress(getActivity());
-        mCustomCircularProgress.show();
+        if(mCustomCircularProgress == null ) {
+            mCustomCircularProgress = new CustomCircularProgress(getActivity());
+            mCustomCircularProgress.show();
+        }else{
+            mCustomCircularProgress.show();
+        }
+
 
     }
 
     public void hideRefreshProgress() {
-        if (mCustomCircularProgress != null) {
-            mCustomCircularProgress.hide();
+        if (mCustomCircularProgress != null && mCustomCircularProgress.isShowing()) {
+            System.out.println("********************** mCustomCircularProgress dismissed" );
+            mCustomCircularProgress.dismiss();
+            mCustomCircularProgress = null;
+        }else{
+            System.out.println("********************** mCustomCircularProgress is null" );
         }
     }
 }
