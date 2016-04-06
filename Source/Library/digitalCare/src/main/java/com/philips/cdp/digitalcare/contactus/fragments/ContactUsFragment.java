@@ -281,14 +281,22 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onResponseReceived(String response) {
-        closeProgressDialog();
-        DigiCareLogger.i(TAG, "response : " + response);
-        if (response != null && isAdded()) {
-            mCdlsResponseStr = response;
-            parseCDLSResponse(response);
-        } else {
-            fadeoutButtons();
+        if(isAdded()) {
+            closeProgressDialog();
+            DigiCareLogger.i(TAG, "response : " + response);
+            if (response != null && isAdded()) {
+                mCdlsResponseStr = response;
+                parseCDLSResponse(response);
+            } else {
+                fadeoutButtons();
+            }
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        closeProgressDialog();
     }
 
     protected void parseCDLSResponse(String response) {
