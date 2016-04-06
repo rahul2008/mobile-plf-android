@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.philips.cdp.productselection.customview.CustomFontTextView;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
-import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
@@ -199,7 +197,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         return getResources().getString(R.string.Confirmation_Title);
     }
 
-    private void removeDetailsScreen(){
+    private void removeDetailsScreen() {
         FragmentManager fragManager = getActivity().getSupportFragmentManager();
         fragManager.popBackStack();
         List<Fragment> listFragment = fragManager.getFragments();
@@ -207,10 +205,11 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
             Fragment fragment = listFragment.get(i);
 
             try {
-                if (fragment != null && (fragment instanceof DetailedScreenFragmentSelection)) {
+                if (fragment != null && (fragment instanceof DetailedScreenFragmentSelection
+                        || fragment instanceof ProductSelectionListingFragment)) {
                     fragManager.popBackStack();
                 }
-            }catch (IllegalStateException e){
+            } catch (IllegalStateException e) {
             }
         }
     }
@@ -223,6 +222,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                 Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
                         Constants.ACTION_VALUE_CHANGE_PRODUCT);
                 removeDetailsScreen();
+                showFragment(new ProductSelectionListingFragment());
 //                }
             } else if (v.getId() == R.id.savedscreen_button_continue) {
                 Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
