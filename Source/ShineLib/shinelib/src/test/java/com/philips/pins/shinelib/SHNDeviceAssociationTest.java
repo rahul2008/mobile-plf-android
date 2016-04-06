@@ -499,7 +499,7 @@ public class SHNDeviceAssociationTest {
 
         public TestSHNDeviceAssociation(final SHNCentral shnCentral, SHNDeviceScannerInternal mockedSHNDeviceScannerInternal, final PersistentStorageFactory persistentStorageFactory) {
             super(shnCentral, mockedSHNDeviceScannerInternal, persistentStorageFactory);
-            initAssociatedDevicesList();
+            initAssociatedDevicesListOnInternalThread();
         }
 
         @NonNull
