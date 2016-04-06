@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.di.iap.shoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;

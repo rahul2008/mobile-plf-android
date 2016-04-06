@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.di.iap.shoppingCart;
+package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.os.Message;

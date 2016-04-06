@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.shoppingCart;
+package com.philips.cdp.di.iap.ShoppingCart;
 
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
