@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.customview.CustomFontTextView;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
@@ -27,7 +28,6 @@ import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenF
 import com.philips.cdp.productselection.prx.VolleyWrapper;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.productselection.R;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.List;
@@ -199,22 +199,18 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         return getResources().getString(R.string.Confirmation_Title);
     }
 
-    private void removeWelcomeScreen() {
-        ProductSelectionLogger.i("testing", "removeWelcomeScreen: ");
-        List<Fragment> fragmentList = getActivity().getSupportFragmentManager().getFragments();
-        for (int i = fragmentList.size() - 1; i >= 0; i--) {
-            Fragment frag = fragmentList.get(i);
-            ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen : " + frag);
-            if (frag instanceof WelcomeScreenFragmentSelection) {
-                FragmentTransaction fragmentTransactionNew = getActivity().getSupportFragmentManager().beginTransaction();
-                if (frag != null) {
-                    try {
-//                        fragmentTransactionNew.remove(frag).commitAllowingStateLoss();
-                        getActivity().getSupportFragmentManager().popBackStack();
-                        ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen inside : ");
-                    } catch (IllegalStateException e) {
-                    }
+    private void removeDetailsScreen(){
+        FragmentManager fragManager = getActivity().getSupportFragmentManager();
+        fragManager.popBackStack();
+        List<Fragment> listFragment = fragManager.getFragments();
+        for (int i = listFragment.size() - 1; i >= 0; i--) {
+            Fragment fragment = listFragment.get(i);
+
+            try {
+                if (fragment != null && (fragment instanceof DetailedScreenFragmentSelection)) {
+                    fragManager.popBackStack();
                 }
+            }catch (IllegalStateException e){
             }
         }
     }
@@ -226,9 +222,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 //                if (isConnectionAvailable()) {
                 Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
                         Constants.ACTION_VALUE_CHANGE_PRODUCT);
-
-                showFragment(new ProductSelectionListingFragment());
-
+                removeDetailsScreen();
 //                }
             } else if (v.getId() == R.id.savedscreen_button_continue) {
                 Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
