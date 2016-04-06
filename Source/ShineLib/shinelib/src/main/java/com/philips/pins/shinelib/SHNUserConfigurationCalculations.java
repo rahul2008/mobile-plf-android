@@ -1,6 +1,7 @@
 package com.philips.pins.shinelib;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -72,7 +73,8 @@ public class SHNUserConfigurationCalculations {
         femaleValuesMap.put(AGE_GROUP.ELDERLY, new BmrValues(ELDERLY_WOMEN_BASE_KILO_CALORIES, ELDERLY_WOMEN_HEIGHT_M_KILO_CALORIES, ELDERLY_WOMEN_WEIGHT_KG_KILO_CALORIES));
     }
 
-    public Integer getMaxHeartRate(final Integer maxHeartRate, final Integer age) {
+    @Nullable
+    public Integer getMaxHeartRate(@Nullable final Integer maxHeartRate, @Nullable final Integer age) {
         if (maxHeartRate == null && age != null) {
             return (int) (207 - (0.7 * age));
         }
@@ -103,7 +105,7 @@ public class SHNUserConfigurationCalculations {
         return now.get(Calendar.DAY_OF_YEAR) < dateOfBirth.get(Calendar.DAY_OF_YEAR);
     }
 
-    public Integer getBaseMetabolicRate(final Double weightInKg, final Integer heightInCm, final Integer age, final SHNUserConfiguration.Sex sex) {
+    public Integer getBaseMetabolicRate(@NonNull final Double weightInKg, @NonNull final Integer heightInCm, @NonNull final Integer age, @NonNull final SHNUserConfiguration.Sex sex) {
         final AGE_GROUP ageGroup = getAgeGroup(age);
         BmrValues bmrValues = getBmrValues(sex, ageGroup);
 
@@ -121,10 +123,8 @@ public class SHNUserConfigurationCalculations {
     }
 
     @NonNull
-    private AGE_GROUP getAgeGroup(final Integer age) {
-        if (age == null) {
-            return AGE_GROUP.ADULT;
-        } else if (age > ELDERLY_AGE) {
+    private AGE_GROUP getAgeGroup(@NonNull final Integer age) {
+        if (age > ELDERLY_AGE) {
             return AGE_GROUP.ELDERLY;
         } else if (age > ADULT_AGE) {
             return AGE_GROUP.ADULT;
