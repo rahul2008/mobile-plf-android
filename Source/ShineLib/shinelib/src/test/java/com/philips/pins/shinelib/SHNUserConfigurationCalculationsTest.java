@@ -118,4 +118,10 @@ public class SHNUserConfigurationCalculationsTest {
         Integer complex = calculations.getBaseMetabolicRate(2d, 2, 10, SHNUserConfiguration.Sex.Male);
         assertThat(complex).isEqualTo((int) Math.round(SHNUserConfigurationCalculations.CHILD_BASE_KILO_CALORIES + 2 * SHNUserConfigurationCalculations.CHILD_HEIGHT_M_KILO_CALORIES / 100d + 2 * SHNUserConfigurationCalculations.CHILD_WEIGHT_KG_KILO_CALORIES));
     }
+
+    @Test
+    public void calculationForMidWomanWithNullAge() {
+        Integer base = calculations.getBaseMetabolicRate(0d, 0, null, SHNUserConfiguration.Sex.Female);
+        assertThat(base).isEqualTo(SHNUserConfigurationCalculations.ADULT_WOMEN_BASE_KILO_CALORIES);
+    }
 }

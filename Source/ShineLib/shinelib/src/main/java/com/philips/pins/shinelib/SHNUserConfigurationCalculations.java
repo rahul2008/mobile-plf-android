@@ -121,8 +121,10 @@ public class SHNUserConfigurationCalculations {
     }
 
     @NonNull
-    private AGE_GROUP getAgeGroup(final int age) {
-        if (age > ELDERLY_AGE) {
+    private AGE_GROUP getAgeGroup(final Integer age) {
+        if (age == null) {
+            return AGE_GROUP.ADULT;
+        } else if (age > ELDERLY_AGE) {
             return AGE_GROUP.ELDERLY;
         } else if (age > ADULT_AGE) {
             return AGE_GROUP.ADULT;
