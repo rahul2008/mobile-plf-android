@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.productCatalog;
 
 import android.content.Context;
@@ -11,7 +16,6 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -19,12 +23,9 @@ import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ProductCatalogPresenter.LoadListener {
 
+    private final ImageLoader mImageLoader;
     private Context mContext;
     private ArrayList<ProductCatalogData> mData = new ArrayList<>();
     private FragmentManager mFragmentManager;
@@ -34,6 +35,9 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         mContext = pContext;
         mData = pArrayList;
         mFragmentManager = pFragmentManager;
+        // Instantiate the RequestQueue.
+        mImageLoader = NetworkImageLoader.getInstance(mContext)
+                .getImageLoader();
     }
 
     @Override
@@ -80,11 +84,6 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private void getNetworkImage(final ProductCatalogViewHolder productCartProductHolder, final String imageURL) {
-        ImageLoader mImageLoader;
-        // Instantiate the RequestQueue.
-        mImageLoader = NetworkImageLoader.getInstance(mContext)
-                .getImageLoader();
-
         mImageLoader.get(imageURL, ImageLoader.getImageListener(productCartProductHolder.mProductImage,
                 R.drawable.toothbrush, android.R.drawable
                         .ic_dialog_alert));

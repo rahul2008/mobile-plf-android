@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.model;
 
 import android.os.Message;
@@ -9,10 +14,6 @@ import com.philips.cdp.di.iap.store.Store;
 
 import java.util.Map;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class GetProductCatalogRequest extends AbstractModel{
 
     public GetProductCatalogRequest(Store store, Map<String, String> query,

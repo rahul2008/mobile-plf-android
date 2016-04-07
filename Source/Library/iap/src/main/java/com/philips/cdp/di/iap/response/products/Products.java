@@ -1,11 +1,12 @@
-package com.philips.cdp.di.iap.response.products;
-
-import java.util.List;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+
+package com.philips.cdp.di.iap.response.products;
+
+import java.util.List;
+
 public class Products {
 
     private String type;

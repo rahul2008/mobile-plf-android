@@ -1,18 +1,17 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.productCatalog;
 
+import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.widget.Toast;
 
-import com.philips.cdp.di.iap.ShoppingCart.PRXProductDataBuilder;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
-import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestListener;
@@ -24,14 +23,10 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class ProductCatalogPresenter {
 
-    Context mContext;
-    ArrayList<ProductCatalogData> mProductData;
+    private Context mContext;
+    private ArrayList<ProductCatalogData> mProductData;
     private LoadListener mLoadListener;
     private HybrisDelegate mHybrisDelegate;
     private Store mStore;

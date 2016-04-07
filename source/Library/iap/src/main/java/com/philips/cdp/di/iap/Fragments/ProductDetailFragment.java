@@ -102,12 +102,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         super.onDestroyView();
     }
 
-
-    @Override
-    public void onBackPressed() {
-
-    }
-
     @Override
     public void onFetchAssetSuccess(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");

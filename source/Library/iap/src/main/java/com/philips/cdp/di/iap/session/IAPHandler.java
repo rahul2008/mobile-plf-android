@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.activity.IAPActivity;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
@@ -18,6 +20,7 @@ import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.tagging.Tagging;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +28,10 @@ import java.util.List;
 public class IAPHandler {
 
     public void launchIAP(Context context, int themeIndex) {
-        IAPLog.i(IAPLog.LOG, "launchIAP");
+        //Set component version key and value for InAppPurchase
+        Tagging.setComponentVersionKey(IAPAnalyticsConstant.COMPONENT_VERSION);
+        Tagging.setComponentVersionVersionValue("In app purchase " + BuildConfig.VERSION_NAME);
+
         Intent intent = new Intent(context, IAPActivity.class);
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, themeIndex);
         context.startActivity(intent);

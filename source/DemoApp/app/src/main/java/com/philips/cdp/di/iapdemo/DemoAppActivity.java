@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -20,6 +21,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.tagging.Tagging;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -27,7 +29,7 @@ import net.hockeyapp.android.CrashManagerListener;
 import java.util.ArrayList;
 
 public class DemoAppActivity extends Activity implements View.OnClickListener,
-         UserRegistrationListener, IAPHandlerListener{
+        UserRegistrationListener, IAPHandlerListener {
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPurple_WhiteBackground;
 
@@ -83,10 +85,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         if (user.isUserSignIn()) {
             mShoppingCart.setVisibility(View.VISIBLE);
             mProductListView.setVisibility(View.VISIBLE);
-//            mIapHandler.initApp(this);
-                    Utility.showProgressDialog(this, getString(R.string.loading_cart));
-                    mIapHandler.getProductCartCount(this, mProductCountListener);
-            }
+            Utility.showProgressDialog(this, getString(R.string.loading_cart));
+            mIapHandler.getProductCartCount(this, mProductCountListener);
+        }
     }
 
     @Override
@@ -105,9 +106,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     void addToCart(String ctnNumber) {
         if (!(Utility.isProgressDialogShowing())) {
-                Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
-                mIapHandler.addProductToCart(this,ctnNumber, mAddToCartListener);
-                IAPLog.d(IAPLog.DEMOAPPACTIVITY, "addProductToCart");
+            Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
+            mIapHandler.addProductToCart(this, ctnNumber, mAddToCartListener);
+            IAPLog.d(IAPLog.DEMOAPPACTIVITY, "addProductToCart");
         }
     }
 
@@ -169,8 +170,12 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private IAPHandlerListener mAddToCartListener = new IAPHandlerListener() {
         @Override
         public void onSuccess(final int count) {
-            //// TODO: 24-03-2016 Adding out of stock condition
+            //Track Add to cart action
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
+
+            //TODO: 24-03-2016 Adding out of stock condition
             mIapHandler.getProductCartCount(DemoAppActivity.this, mProductCountListener);
+
         }
 
         @Override
@@ -213,19 +218,19 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     };
 
     private void showToast(int errorCode) {
-        String errorText = "Unkown error";
-        if(IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
+        String errorText = "Unknown error";
+        if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
             errorText = "No connection";
-        } else if(IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
+        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
             errorText = "Connection time out";
-        } else if(IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
+        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
             errorText = "Authentication failure";
-        } else if(IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
+        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
             errorText = "Product out of stock";
         }
 
-        Toast toast = Toast.makeText(this,errorText,Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER,0,0);
+        Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
 
