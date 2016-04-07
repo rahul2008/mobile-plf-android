@@ -56,14 +56,14 @@ public class CacheHandler {
         return mContext.getExternalCacheDir() + s;
     }
 
-    private String getSerialNumber(final Product product) {
+    protected String getSerialNumber(final Product product) {
         if (product.getSerialNumber() == null || product.getSerialNumber().length() == 0)
             return "NO_SERIAL";
         else
             return product.getSerialNumber();
     }
 
-    private String getUUID(final DIUserProfile diUserProfile) {
+    protected String getUUID(final DIUserProfile diUserProfile) {
         String uuid = null;
         if (diUserProfile != null) {
             if (diUserProfile.getHsdpUUID() != null && diUserProfile.getHsdpUUID().length() != 0)
