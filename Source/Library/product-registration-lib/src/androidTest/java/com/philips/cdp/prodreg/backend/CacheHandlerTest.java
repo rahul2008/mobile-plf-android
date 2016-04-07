@@ -6,6 +6,10 @@ import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.registration.dao.DIUserProfile;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -32,34 +36,58 @@ public class CacheHandlerTest extends MockitoTestCase {
 
     }
 
-    public void testCacheProductsToRegister() throws Exception {
-        Product product = mock(Product.class);
-        DIUserProfile diUserProfile=mock(DIUserProfile.class);
-        cacheHandler.cacheProductsToRegister(product, diUserProfile);
-         }
+    public void testCacheForProductToRegister(){
+        DIUserProfile diUserProfilemock =mock(DIUserProfile.class);
+        Product productmock=mock(Product.class);
+        final String basePath="/productstoregister";
+        final String uuid = "1322";
+        final String ctn = "HC541083";
+        final  String mSeraialNumber="12345";
+        when(diUserProfilemock.getJanrainUUID()).thenReturn(uuid);
+        when(productmock.getSerialNumber()).thenReturn(mSeraialNumber);
+        when(productmock.getCtn()).thenReturn(ctn);
+        cacheHandler.getInternalCacheForProductToRegister(diUserProfilemock, productmock);
+        File file = new File(basePath + productmock.getCtn() + productmock.getSerialNumber());
+        cacheHandler.createFileIfNotCreated(file);
+        File file1= new File(basePath + ctn + mSeraialNumber);
+        assertEquals(file, file1);
+    }
+    public  void testCacheProductsToRegister(){
+        DIUserProfile diUserProfilemock =mock(DIUserProfile.class);
+        Product productmock=mock(Product.class);
+        final String basePath="/productstoregister";
+        final String uuid = "1322";
+        final String ctn = "HC541083";
+        final  String mSeraialNumber="12345";
+        when(diUserProfilemock.getJanrainUUID()).thenReturn(uuid);
+        when(productmock.getSerialNumber()).thenReturn(mSeraialNumber);
+        when(productmock.getCtn()).thenReturn(ctn);
+        cacheHandler.cacheObject(productmock, cacheHandler.getInternalCacheForProductToRegister(diUserProfilemock, productmock));
+        File file = new File(basePath + productmock.getCtn() + productmock.getSerialNumber());
+        cacheHandler.createFileIfNotCreated(file);
 
-     public void  testgetInternalCacheForProductToRegister() throws Exception{
+        try {
+            ObjectOutput objectOutput=new ObjectOutputStream(new FileOutputStream(file));
+            objectOutput.writeObject(productmock);
+            objectOutput.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+     public void  testCreateFolder(){
          DIUserProfile diUserProfilemock =mock(DIUserProfile.class);
-         Product productmock=mock(Product.class);
-         File file=mock(File.class);
          final String uuid = "1322";
-         final  String mSeraialNumber="12345";
-         final String ctn = "HC5410/83";
          final String basePath="/productstoregister";
          when(diUserProfilemock.getJanrainUUID()).thenReturn(uuid);
-         when(productmock.getSerialNumber()).thenReturn(mSeraialNumber);
-         when(productmock.getCtn()).thenReturn(ctn);
-         cacheHandler.createFolder(basePath + cacheHandler.getUUID(diUserProfilemock));
-         //assertEquals(cacheHandler.createFolder(basePath+ cacheHandler.getUUID(diUserProfilemock)),"");
-     //    file= cacheHandler.getSerialNumber(product) + cacheHandler.getUUID(diUserProfilemock) + product.setSerialNumber(ctn);
-         /*//assertEquals(path,);
-      //   1322_NO_SERIALnull
-/productstoregister1322_
-
-
-         cacheHandler.getInternalCacheForProductToRegister(diUserProfile, product);
-*/
+         String  path = cacheHandler.createFolder(basePath + cacheHandler.getUUID(diUserProfilemock));
+         assertEquals(path,basePath+uuid+"_");
      }
+
+
+
     public  void testGetUUID(){
         DIUserProfile diUserProfilemock =mock(DIUserProfile.class);
         final String uuid = "1322";

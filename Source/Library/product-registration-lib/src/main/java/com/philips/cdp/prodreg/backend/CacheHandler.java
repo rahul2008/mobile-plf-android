@@ -33,7 +33,7 @@ public class CacheHandler {
         cacheObject(product, internalCacheForProductToRegister);
     }
 
-    private File getInternalCacheForProductToRegister(final DIUserProfile diUserProfile, final Product product) {
+    protected File getInternalCacheForProductToRegister(final DIUserProfile diUserProfile, final Product product) {
         String basePath = getBasePath();
         String mUuid = "/" + getUUID(diUserProfile);
         String mCtn = product.getCtn().replace("/","") + "_";
@@ -48,10 +48,11 @@ public class CacheHandler {
         }
     }
 
-    protected void createFolder(final String fileName) {
+    protected String createFolder(final String fileName) {
         final File file = new File(fileName);
         if (!file.exists())
             file.mkdirs();
+        return fileName;
     }
 
     private String getBasePath() {
@@ -80,7 +81,7 @@ public class CacheHandler {
         return uuid;
     }
 
-    private void cacheObject(final Object object, final File file) {
+    protected void cacheObject(final Object object, final File file) {
         createFileIfNotCreated(file);
         ObjectOutput out = null;
         try {
@@ -92,7 +93,7 @@ public class CacheHandler {
         }
     }
 
-    private File createFileIfNotCreated(final File file) {
+    protected File createFileIfNotCreated(final File file) {
         if (!file.exists())
             try {
                 file.createNewFile();
@@ -147,4 +148,6 @@ public class CacheHandler {
             }
         }
     }
+
+
 }
