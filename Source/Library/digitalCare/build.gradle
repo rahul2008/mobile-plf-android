@@ -86,7 +86,6 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        versionName objcdp.getVersionWithHash()
         targetSdkVersion 23
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
