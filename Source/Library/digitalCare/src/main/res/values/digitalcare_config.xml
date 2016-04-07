@@ -4,8 +4,12 @@
     <!-- UiTheme Start -->
 
 
-    <!-- Activity -->
+
+    <!-- Activity
     <color name="activity_background_color">#FFFFFF</color>
+    -->
+    <drawable name="consumercare_background">#FFFFFF</drawable>
+
 
     <!-- Actionbar related -->
     <color name="actionbar_background_start_color">#003478</color>

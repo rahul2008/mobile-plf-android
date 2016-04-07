@@ -1,7 +1,6 @@
 package com.philips.cdp.digitalcare.faq;
 
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -45,10 +43,6 @@ public class FaqFragment extends DigitalCareBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.common_webview, container, false);
-        }
         return mView;
     }
 
