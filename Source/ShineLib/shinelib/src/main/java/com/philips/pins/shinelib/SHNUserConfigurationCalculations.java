@@ -21,7 +21,7 @@ public class SHNUserConfigurationCalculations {
 
     // -- YOUNG
 
-    public static final int YOUNG_AGE = 18;
+    public static final int YOUNG_AGE = 17;
 
     public static final int YOUNG_MEN_BASE_KILO_CALORIES = 717;
     public static final int YOUNG_MEN_HEIGHT_M_KILO_CALORIES = -27;
@@ -109,7 +109,7 @@ public class SHNUserConfigurationCalculations {
         final AGE_GROUP ageGroup = getAgeGroup(age);
         BmrValues bmrValues = getBmrValues(sex, ageGroup);
 
-        return (int) Math.round(weightInKg * bmrValues.kCalPerKgWeight + heightInCm * bmrValues.kCalPerMeterHeight / 100d + bmrValues.baseKCal);
+        return (int) Math.floor(weightInKg * bmrValues.kCalPerKgWeight + heightInCm * bmrValues.kCalPerMeterHeight / 100d + bmrValues.baseKCal);
     }
 
     private BmrValues getBmrValues(final SHNUserConfiguration.Sex sex, final AGE_GROUP ageGroup) {
