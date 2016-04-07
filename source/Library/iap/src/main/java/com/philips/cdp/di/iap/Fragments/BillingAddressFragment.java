@@ -171,6 +171,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
 
         if (v == mBtnContinue) {
             mBillingAddressFields = setAddressFields(mBillingAddressFields.clone());
+            CartModelContainer.getInstance().setBillingAddress(mBillingAddressFields);
             if (!Utility.isProgressDialogShowing()) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mBillingAddressFields);

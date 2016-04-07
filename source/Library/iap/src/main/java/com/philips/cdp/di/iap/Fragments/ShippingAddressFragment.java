@@ -384,7 +384,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onSetDeliveryAddress(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            CartModelContainer.getInstance().setDeliveryAddress(mAddresses);
             mAddressController.setDeliveryMode();
         } else {
             Utility.dismissProgressDialog();

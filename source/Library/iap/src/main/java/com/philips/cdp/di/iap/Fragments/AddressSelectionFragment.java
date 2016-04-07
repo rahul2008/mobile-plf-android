@@ -92,8 +92,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private void sendShippingAddressesRequest() {
         String msg = getContext().getString(R.string.iap_please_wait);
         if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), msg);
-                mAddrController.getShippingAddresses();
+            Utility.showProgressDialog(getContext(), msg);
+            mAddrController.getShippingAddresses();
         }
     }
 
@@ -165,7 +165,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void onSetDeliveryAddress(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             Addresses selectedAddress = retrieveSelectedAddress();
-            CartModelContainer.getInstance().setDeliveryAddress(selectedAddress);
             mIsAddressUpdateAfterDelivery = true;
             mAddrController.setDefaultAddress(selectedAddress);
             mAddrController.setDeliveryMode();
@@ -222,22 +221,22 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
             if (!Utility.isProgressDialogShowing()) {
-                    Utility.showProgressDialog(getContext(), getResources().getString(R.string.iap_please_wait));
-                    mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
+                Utility.showProgressDialog(getContext(), getResources().getString(R.string.iap_please_wait));
+                mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
             }
         }
     }
 
     public void checkPaymentDetails() {
         PaymentController paymentController = new PaymentController(mContext, this);
-            paymentController.getPaymentDetails();
+        paymentController.getPaymentDetails();
     }
 
     private void deleteShippingAddress() {
         if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), getString(R.string.iap_delete_address));
-                int pos = mAdapter.getOptionsClickPosition();
-                mAddrController.deleteAddress(mAddresses.get(pos).getId());
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_delete_address));
+            int pos = mAdapter.getOptionsClickPosition();
+            mAddrController.deleteAddress(mAddresses.get(pos).getId());
         }
     }
 
@@ -360,7 +359,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             fields.setPhoneNumber(addr.getPhone());
         }
 
-        if(addr.getRegion() != null){
+        if (addr.getRegion() != null) {
             fields.setRegionIsoCode(addr.getRegion().getName());
         }
 
