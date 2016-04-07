@@ -36,7 +36,7 @@ public class CacheHandler {
     private File getInternalCacheForProductToRegister(final DIUserProfile diUserProfile, final Product product) {
         String basePath = getBasePath();
         String mUuid = "/" + getUUID(diUserProfile);
-        String mCtn = product.getCtn() + "_";
+        String mCtn = product.getCtn().replace("/","") + "_";
         String mSerialNumber = getSerialNumber(product);
         if (mUuid.equals("/nouuid/")) {
             final String fileName = basePath + mUuid;
@@ -48,7 +48,7 @@ public class CacheHandler {
         }
     }
 
-    private void createFolder(final String fileName) {
+    protected void createFolder(final String fileName) {
         final File file = new File(fileName);
         if (!file.exists())
             file.mkdirs();

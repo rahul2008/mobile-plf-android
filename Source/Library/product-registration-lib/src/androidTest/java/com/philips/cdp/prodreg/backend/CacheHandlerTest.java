@@ -45,13 +45,16 @@ public class CacheHandlerTest extends MockitoTestCase {
          final String uuid = "1322";
          final  String mSeraialNumber="12345";
          final String ctn = "HC5410/83";
+         final String basePath="/productstoregister";
          when(diUserProfilemock.getJanrainUUID()).thenReturn(uuid);
          when(productmock.getSerialNumber()).thenReturn(mSeraialNumber);
          when(productmock.getCtn()).thenReturn(ctn);
-       //  file= cacheHandler.getSerialNumber(product) + cacheHandler.getUUID(diUserProfilemock) + product.setSerialNumber(ctn);
+         cacheHandler.createFolder(basePath + cacheHandler.getUUID(diUserProfilemock));
+         //assertEquals(cacheHandler.createFolder(basePath+ cacheHandler.getUUID(diUserProfilemock)),"");
+     //    file= cacheHandler.getSerialNumber(product) + cacheHandler.getUUID(diUserProfilemock) + product.setSerialNumber(ctn);
          /*//assertEquals(path,);
       //   1322_NO_SERIALnull
-
+/productstoregister1322_
 
 
          cacheHandler.getInternalCacheForProductToRegister(diUserProfile, product);
