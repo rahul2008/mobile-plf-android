@@ -23,7 +23,7 @@
                 android:id="@+id/diabaledtextfeild1"
                 style="@style/PhilipsTextInputLayoutTextViewDisabledStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:hint="First Name" />
 
@@ -46,7 +46,7 @@
                 android:id="@+id/firstname"
                 style="@style/PhilipsTextInputLayoutTextViewStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:hint="Last Name"
                 android:text="Last Name" />
@@ -70,10 +70,10 @@
                 android:id="@+id/lastname"
                 style="@style/PhilipsTextInputLayoutTextViewStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:hint="Email Address"
-                android:text="Email Address" />
+                android:hint="Email Address something"
+                android:text="Email Address something" />
 
             <EditText
                 android:id="@+id/lastnamevalue"
@@ -94,7 +94,7 @@
                 android:id="@+id/fullnamelastfirstname"
                 style="@style/PhilipsTextInputLayoutTextViewStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:hint="Full Name"
                 android:text="Full Name" />
