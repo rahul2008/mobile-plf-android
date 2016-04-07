@@ -317,7 +317,7 @@ public class InlineForms extends LinearLayout {
         }*/
     }
 
-    public void showError(EditText edittext) {
+    public void showError(View edittext) {
         Log.i(TAG, "In Show Error the Set = " + set.toString());
 
         LinearLayout parent = (LinearLayout) edittext.getParent();

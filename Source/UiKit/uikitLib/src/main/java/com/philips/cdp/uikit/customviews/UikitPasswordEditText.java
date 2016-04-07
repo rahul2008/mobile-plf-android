@@ -1,35 +1,25 @@
-/*
+
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.support.v7.widget.AppCompatEditText;
-import android.text.InputType;
-import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.text.method.TransformationMethod;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
-*/
+
 /**
  * Created by 310213373 on 3/18/2016.
- *//*
+ */
 
 public class UikitPasswordEditText extends AppCompatEditText {
     int basecolor ,errorTextColor;
@@ -51,8 +41,8 @@ public class UikitPasswordEditText extends AppCompatEditText {
         errorIcon = a.getDrawable(R.styleable.InputTextField_uikit_errorIcon);
         errorBackground = a.getDrawable(R.styleable.InputTextField_uikit_errorBackground);
         a.recycle();
-        setBackgroundResource((R.drawable.uikit_password_background));
-        GradientDrawable bgShape = (GradientDrawable)this.getBackground();
+        setCompoundDrawables(null,null,getIcon(context),null);
+       /* GradientDrawable bgShape = (GradientDrawable)this.getBackground();
         csl=new ColorStateList(
                 new int [] [] {
 
@@ -62,10 +52,10 @@ public class UikitPasswordEditText extends AppCompatEditText {
                 new int [] {
                         basecolor,
                         Color.GRAY
-                });
+                });*/
 
-        bgShape.setStroke(3, csl);
-        setError("Incorrect ", getResources().getDrawable(R.drawable.uikit_action_icon_plus));
+
+        //setError("Incorrect ", getResources().getDrawable(R.drawable.uikit_action_icon_plus));
 
        // setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         setOnTouchListener(new OnTouchListener() {
@@ -80,7 +70,8 @@ public class UikitPasswordEditText extends AppCompatEditText {
                     if (event.getRawX() >= (getRight() - getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         // your action here
                         index=getSelectionEnd();
-                        getCompoundDrawables()[2].setTintList(csl);
+                        //getCompoundDrawables()[2].setTintList(csl);
+                        //getCompoundDrawables()[2].setTint(Color.GRAY);
 
                         if ((getTransformationMethod()) instanceof PasswordTransformationMethod)
 
@@ -110,11 +101,19 @@ public class UikitPasswordEditText extends AppCompatEditText {
 //
 //        super.setCompoundDrawables(null, null, getResources().getDrawable(R.drawable.uikit_apple), null);
 //    }
-
+        private Drawable getIcon(Context context) {
+            Resources r = getResources();
+            float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 33, r.getDisplayMetrics());
+            float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,32, r
+                    .getDisplayMetrics());
+            Drawable d = VectorDrawable.create(context, R.drawable.uikit_password_show_icon).mutate();
+            d.setBounds(0, 0,100, 70);
+            return d;
+        }
 
     @Override
     public boolean isLongClickable() {
         return false;
     }
 }
-*/
+
