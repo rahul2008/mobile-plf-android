@@ -7,20 +7,12 @@ public class IAPAnalytics {
     private static String sPreviousPage;
 
     public static void trackPage(String currPage) {
-        if (null != sPreviousPage) {
-            Tagging.trackPage(currPage, sPreviousPage);
-        } else {
-            Tagging.trackPage(currPage, null);
-        }
+        Tagging.trackPage(currPage, sPreviousPage);
         sPreviousPage = currPage;
     }
 
     public static void trackLaunchPage(String currPage) {
-        if (null != Tagging.getLaunchingPageName()) {
-            Tagging.trackPage(currPage, Tagging.getLaunchingPageName());
-        } else {
-            Tagging.trackPage(currPage, null);
-        }
+        Tagging.trackPage(currPage, Tagging.getLaunchingPageName());
         sPreviousPage = currPage;
     }
 }
