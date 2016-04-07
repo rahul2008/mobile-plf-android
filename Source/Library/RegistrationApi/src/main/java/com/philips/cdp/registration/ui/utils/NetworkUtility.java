@@ -14,14 +14,14 @@ public class NetworkUtility {
 	public static boolean isNetworkAvailable(Context context) {
 
 		ConnectivityManager cm = (ConnectivityManager) context
-		        .getSystemService(Context.CONNECTIVITY_SERVICE);
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 		boolean isConnected = (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
 		return isConnected;
 
 	}
 
-	public  class NetworkStateReceiver extends BroadcastReceiver {
+	public static class NetworkStateReceiver extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -29,7 +29,7 @@ public class NetworkUtility {
 			RLog.i(RLog.NETWORK_STATE, "Network state : " + isOnline);
 			if (null != RegistrationHelper.getInstance().getNetworkStateListener()) {
 				RegistrationHelper.getInstance().getNetworkStateListener()
-				        .notifyEventOccurred(isOnline);
+						.notifyEventOccurred(isOnline);
 			}
 
 		}
