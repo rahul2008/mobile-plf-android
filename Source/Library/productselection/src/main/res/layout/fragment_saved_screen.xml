@@ -2,6 +2,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/savedscreen_product_image_margin"
     android:background="#ffffff">
 
 
@@ -14,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/savedscreen_top_container_height"
-            android:background="?attr/veryLightColor">
+            android:background="?attr/uikit_veryLightColor">
 
             <com.philips.cdp.productselection.customview.CustomFontTextView
                 android:layout_width="match_parent"
@@ -22,7 +23,7 @@
                 android:layout_marginLeft="@dimen/savedscreen_productcontainer_marigin"
                 android:gravity="center|left"
                 android:text="@string/Confirmation_Selected"
-                android:textColor="?attr/baseColor"
+                android:textColor="?attr/uikit_baseColor"
                 android:textSize="@dimen/title_text_size_small"
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
         </RelativeLayout>
@@ -65,7 +66,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:lineSpacingExtra="@dimen/savedscreen_product_text_linespacing"
-                        android:textColor="?attr/baseColor"
+                        android:textColor="?attr/uikit_baseColor"
                         android:textSize="@dimen/title_text_size_small"
                         android:textStyle="bold"
                         custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
@@ -128,7 +129,7 @@
 
             <Button
                 android:id="@+id/savedscreen_button_continue"
-                style="?attr/springBoardButton"
+                style="?attr/uikit_springBoardButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

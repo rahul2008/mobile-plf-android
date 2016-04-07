@@ -40,11 +40,6 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     private ListViewWithOptions mProductAdapter = null;
     private ProgressDialog mSummaryDialog = null;
     private ArrayList<SummaryModel> productList = null;
-    private Handler mHandler = null;
-
-    public ProductSelectionListingFragment(Handler handler) {
-        mHandler = handler;
-    }
 
     public ProductSelectionListingFragment() {
 
@@ -70,14 +65,10 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (isConnectionAvailable()) {
                     mUserSelectedProduct = (productList.get(position));
-                    if (!isLaunchedAsTabletLandscape()) {
-                        DetailedScreenFragmentSelection detailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
-                        detailedScreenFragmentSelection.setUserSelectedProduct(mUserSelectedProduct);
-                        showFragment(detailedScreenFragmentSelection);
-                    } else {
-                        setListViewRequiredInTablet(false);
-                        mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
-                    }
+                    DetailedScreenFragmentSelection detailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
+                    detailedScreenFragmentSelection.setUserSelectedProduct(mUserSelectedProduct);
+                    showFragment(detailedScreenFragmentSelection);
+
 
                     Map<String, Object> contextData = new HashMap<String, Object>();
                     contextData.put(Constants.ACTION_NAME_SPECIAL_EVENT,
@@ -103,17 +94,6 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
         for (int i = 0; i < summaryList.length; i++) {
             productList.add(summaryList[i]);
         }
-
-        if (isLaunchedAsTabletLandscape()) {
-            try {
-                mUserSelectedProduct = (summaryList[0]);
-                setListViewRequiredInTablet(true);
-                mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
-            } catch (IndexOutOfBoundsException e) {
-                e.printStackTrace();
-            }
-        }
-
         if (productList.size() != 0) {
             mProductAdapter = new ListViewWithOptions(getActivity(), productList);
             mProductListView.setAdapter(mProductAdapter);
@@ -149,12 +129,10 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                 public void onSuccess(SummaryModel summaryModel) {
                     productList.add(summaryModel);
 
-                    if (!isLaunchedAsTabletLandscape() && productList.size() == 1) {
+                    if (productList.size() == 1) {
                         try {
                             mUserSelectedProduct = (productList.get(0));
                             ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
-                            setListViewRequiredInTablet(true);
-                            mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
                         } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }

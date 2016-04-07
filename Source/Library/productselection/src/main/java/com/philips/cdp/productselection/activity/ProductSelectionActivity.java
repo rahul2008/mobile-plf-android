@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
-import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.utils.Constants;
 
@@ -30,13 +29,9 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
         animateThisScreen();
 
         Configuration configuration = getResources().getConfiguration();
-        ProductModelSelectionHelper.getInstance().setLaunchedAsTabletLandscape
-                (isTablet() && configuration.orientation == Configuration.ORIENTATION_LANDSCAPE);
         if (getCtnFromPreference()) {
             showFragment(new WelcomeScreenFragmentSelection());
             // isFirstTimeWelcomeScreenlaunch = false;
-        } else if (ProductModelSelectionHelper.getInstance().isLaunchedAsTabletLandscape()) {
-            showFragment(new ProductSelectionListingTabletFragment());
         } else {
             showFragment(new ProductSelectionListingFragment());
         }
