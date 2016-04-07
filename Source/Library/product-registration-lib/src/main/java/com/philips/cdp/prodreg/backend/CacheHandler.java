@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -27,7 +28,9 @@ public class CacheHandler {
     }
 
     public void cacheProductsToRegister(final Product product, final DIUserProfile userInstance) {
-        cacheObject(product, getInternalCacheForProductToRegister(userInstance, product));
+        final File internalCacheForProductToRegister = getInternalCacheForProductToRegister(userInstance, product);
+        product.setPath(internalCacheForProductToRegister.getPath());
+        cacheObject(product, internalCacheForProductToRegister);
     }
 
     private File getInternalCacheForProductToRegister(final DIUserProfile diUserProfile, final Product product) {
@@ -99,17 +102,49 @@ public class CacheHandler {
         return file;
     }
 
-    private void readCachedFile() {
+    private ArrayList<Product> returnCachedProducts(ArrayList<File> files) {
         ObjectInputStream in = null;
+        ArrayList<Product> products = new ArrayList<>();
         try {
-            in = new ObjectInputStream(new FileInputStream(new File(new File(mContext.getCacheDir(), "") + "cacheFile.srl")));
-            Product product = (Product) in.readObject();
-            Log.d(TAG, product.getCtn());
+
+            for (File file : files) {
+                in = new ObjectInputStream(new FileInputStream(file));
+                Product product = (Product) in.readObject();
+                products.add(product);
+                Log.d(TAG, product.getCtn());
+            }
+
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+        return products;
+    }
+
+    public void deleteFile(String path) {
+        File file = new File(path);
+        file.delete();
+    }
+
+    public ArrayList<Product> getProductsCached() {
+        ArrayList<Product> products;
+        String basePath = getBasePath() + "/";
+        File productFiles[] = new File(basePath).listFiles();
+        File filesNoUuid[] = new File(basePath + "/nouuid/").listFiles();
+        ArrayList<File> fileArrayList = new ArrayList<>();
+        addFilesToList(productFiles, fileArrayList);
+        addFilesToList(filesNoUuid, fileArrayList);
+        products = returnCachedProducts(fileArrayList);
+        return products;
+    }
+
+    private void addFilesToList(final File[] filesNoUuid, final ArrayList<File> fileArrayList) {
+        for (File file1 : filesNoUuid) {
+            if (file1.isFile()) {
+                fileArrayList.add(file1);
+            }
         }
     }
 }

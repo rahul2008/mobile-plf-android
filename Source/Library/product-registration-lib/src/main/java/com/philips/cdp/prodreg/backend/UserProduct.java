@@ -24,6 +24,8 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
+import java.util.ArrayList;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -36,7 +38,6 @@ public class UserProduct {
     private Sector sector;
     private Catalog catalog;
     private String locale;
-    private Product product;
     private RegisteredProductsListener registeredProductsListener;
 
     public UserProduct(final Sector sector, final Catalog catalog) {
@@ -46,11 +47,11 @@ public class UserProduct {
 
     public void registerProduct(final Context context, final Product product, final ProdRegListener appListener) {
         this.mContext = context;
-        this.product = product;
         this.requestType = ProdRegConstants.PRODUCT_REGISTRATION;
         final User mUser = new User(context);
-        CacheHandler cacheHandler = new CacheHandler(context);
+        CacheHandler cacheHandler = getCacheHandler(context);
         cacheHandler.cacheProductsToRegister(product, mUser.getUserInstance(context));
+        ArrayList<Product> products = cacheHandler.getProductsCached();
 
         if (!isUserSignedIn(mUser, context)) {
             appListener.onProdRegFailed(ErrorType.USER_NOT_SIGNED_IN);
@@ -65,6 +66,11 @@ public class UserProduct {
         }
     }
 
+    @NonNull
+    protected CacheHandler getCacheHandler(final Context context) {
+        return new CacheHandler(context);
+    }
+
     public void getRegisteredProducts(final Context context, final RegisteredProductsListener registeredProductsListener) {
         this.mContext = context;
         this.requestType = ProdRegConstants.FETCH_REGISTERED_PRODUCTS;
@@ -74,13 +80,14 @@ public class UserProduct {
         mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(registeredProductsListener));
     }
 
-    protected void handleError(final int statusCode, final ProdRegListener appListener) {
+    protected void handleError(final Product product, final int statusCode, final ProdRegListener appListener) {
+//        new CacheHandler(mContext).deleteFile(product.getPath());
         if (statusCode == ErrorType.INVALID_CTN.getCode()) {
             appListener.onProdRegFailed(ErrorType.INVALID_CTN);
         } else if (statusCode == ErrorType.USER_TOKEN_EXPIRED.getCode()) {
-            getUserProduct().onAccessTokenExpire(appListener);
+            getUserProduct().onAccessTokenExpire(product, appListener);
         } else if (statusCode == ErrorType.ACCESS_TOKEN_INVALID.getCode()) {
-            getUserProduct().onAccessTokenExpire(appListener);
+            getUserProduct().onAccessTokenExpire(product, appListener);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getCode()) {
             appListener.onProdRegFailed(ErrorType.INVALID_VALIDATION);
         } else if (statusCode == ErrorType.INVALID_SERIALNUMBER.getCode()) {
@@ -146,7 +153,7 @@ public class UserProduct {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                getUserProduct().handleError(responseCode, appListener);
+                getUserProduct().handleError(product, responseCode, appListener);
             }
         };
     }
@@ -165,7 +172,7 @@ public class UserProduct {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                getUserProduct().handleError(responseCode, appListener);
+                getUserProduct().handleError(product, responseCode, appListener);
             }
         };
     }
@@ -214,17 +221,17 @@ public class UserProduct {
         return registrationRequest;
     }
 
-    protected void onAccessTokenExpire(final ProdRegListener appListener) {
+    protected void onAccessTokenExpire(final Product product, final ProdRegListener appListener) {
         final User user = new User(mContext);
-        user.refreshLoginSession(getRefreshLoginSessionHandler(appListener, mContext), mContext);
+        user.refreshLoginSession(getRefreshLoginSessionHandler(product, appListener, mContext), mContext);
     }
 
     @NonNull
-    protected RefreshLoginSessionHandler getRefreshLoginSessionHandler(final ProdRegListener appListener, final Context mContext) {
+    protected RefreshLoginSessionHandler getRefreshLoginSessionHandler(final Product product, final ProdRegListener appListener, final Context mContext) {
         return new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                getUserProduct().retryRequests(mContext, appListener);
+                getUserProduct().retryRequests(mContext, product, appListener);
             }
 
             @Override
@@ -235,10 +242,10 @@ public class UserProduct {
         };
     }
 
-    protected void retryRequests(final Context mContext, final ProdRegListener appListener) {
+    protected void retryRequests(final Context mContext, final Product product, final ProdRegListener appListener) {
         switch (requestType) {
             case ProdRegConstants.PRODUCT_REGISTRATION:
-                getUserProduct().makeRegistrationRequest(mContext, getProduct(), appListener);
+                getUserProduct().makeRegistrationRequest(mContext, product, appListener);
                 break;
             case ProdRegConstants.FETCH_REGISTERED_PRODUCTS:
                 getUserProduct().getRegisteredProducts(mContext, getRegisteredProductsListener());
@@ -269,7 +276,7 @@ public class UserProduct {
     }
 
     @NonNull
-    ResponseListener getPrxResponseListener(final ProdRegListener appListener) {
+    ResponseListener getPrxResponseListener(final Product product, final ProdRegListener appListener) {
         return new ResponseListener() {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
@@ -279,7 +286,7 @@ public class UserProduct {
             @Override
             public void onResponseError(final String errorMessage, final int responseCode) {
                 try {
-                    getUserProduct().handleError(responseCode, appListener);
+                    getUserProduct().handleError(product, responseCode, appListener);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -295,7 +302,7 @@ public class UserProduct {
         registrationRequest.setPurchaseDate(product.getPurchaseDate());
         registrationRequest.setProductSerialNumber(product.getSerialNumber());
         RequestManager mRequestManager = getRequestManager(mContext);
-        mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(appListener));
+        mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(product, appListener));
     }
 
     private boolean processSerialNumber(final ProductMetadataResponseData data, final Product product, final ProdRegListener listener) {
@@ -329,7 +336,4 @@ public class UserProduct {
         this.locale = locale;
     }
 
-    public Product getProduct() {
-        return product;
-    }
 }

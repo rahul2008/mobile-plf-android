@@ -27,6 +27,7 @@ public class Product implements Serializable {
     private Sector sector;
     private Catalog catalog;
     private String locale;
+    private String path;
 
     public Product(String ctn, String serialNumber, String purchaseDate, Sector sector, Catalog catalog) {
         this.ctn = ctn;
@@ -111,5 +112,13 @@ public class Product implements Serializable {
 
     public ProductMetadataRequest getProductMetadataRequest(String ctn) {
         return new ProductMetadataRequest(ctn);
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(final String path) {
+        this.path = path;
     }
 }
