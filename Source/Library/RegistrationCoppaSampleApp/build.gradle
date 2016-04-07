@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+apply plugin: 'com.jfrog.artifactory-upload'
 
 buildscript {
     repositories {
@@ -30,39 +31,6 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.1', ext: 'aar')
 }
 
-apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'maven-publish'
-
-allprojects {
-    repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
-            credentials {
-                username = "readonly"
-                password = "readonly"
-            }
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
-        }
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
-        }
-
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
-
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
@@ -77,6 +45,7 @@ android {
 
 
     defaultConfig {
+        applicationId "com.philips.cdp.registration"
         minSdkVersion 11
         targetSdkVersion 23
 
