@@ -11,13 +11,13 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
 
-import org.w3c.dom.Text;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class ErrorDialogFragment extends BlurDialogFragment {
+
+    private Button mOkBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,10 +30,10 @@ public class ErrorDialogFragment extends BlurDialogFragment {
         TextView errorDescription = (TextView) v.findViewById(R.id.dialogDescription);
         errorDescription.setText(bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION));
 
-        Button justOnce = (Button) v.findViewById(R.id.dialogButtonCancel);
-        justOnce.setText(bundle.getString(IAPConstant.MODEL_ALERT_BUTTON_TEXT));
+        mOkBtn = (Button) v.findViewById(R.id.btn_dialog_ok);
+        mOkBtn.setText(bundle.getString(IAPConstant.MODEL_ALERT_BUTTON_TEXT));
 
-        justOnce.setOnClickListener(dismissDialog());
+        mOkBtn.setOnClickListener(dismissDialog());
         return v;
     }
 

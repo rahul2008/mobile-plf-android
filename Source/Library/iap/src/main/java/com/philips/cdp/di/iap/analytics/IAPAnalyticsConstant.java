@@ -32,13 +32,12 @@ public class IAPAnalyticsConstant {
     public static final String PURCHASE = "purchase";
     public static final String BACK_BUTTON_PRESS = "backButtonPress";
     public static final String COMPONENT_VERSION = "componentVersion";
+    public static final String IN_APP_NOTIFICATION_POP_UP = "inAppNotification";
+    public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
+    public static final String ERROR = "error";
 
     public static final String CANCEL_PAYMENT = "cancelPayment";
-    public static final String IN_APP_NOTIFICATION_POP_UP = "inAppNotification";
-    public static final String TIMER_HAS_ENDED = "Timer has ended";
-    public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
     public static final String NOTIFICTION_OK = "ok";
-    public static final String ERROR = "error";
     public static final String PRODUCTS = "&&products";
     public static final String DISCOUNT = "discount";
     public static final String REDEEM_VOUCHER_CODE = "redeemedVoucherCode";
