@@ -593,6 +593,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         tagTechnicalError();
         if (mCallPhilips != null) {
             mCallPhilips.setVisibility(View.GONE);
+            mEmail.setVisibility(View.GONE);
 //            mCallPhilips
 //                    .setBackgroundResource(R.drawable.selector_option_button_faded_bg);
 //            mCallPhilips.setEnabled(false);
