@@ -21,7 +21,7 @@ public class DemoApplication extends Application {
 
     private void initializeTagging() {
         Tagging.enableAppTagging(true);
-        Tagging.setTrackingIdentifier("IAPAppsID");
+        Tagging.setTrackingIdentifier("IAPDemoAppsID");
         Tagging.setLaunchingPageName("IapDemoApp");
         Tagging.setDebuggable(true);
         Tagging.setComponentVersionKey(IAPAnalyticsConstant.VERSION_KEY);

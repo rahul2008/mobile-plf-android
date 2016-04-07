@@ -72,7 +72,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mContinuesBtn.setOnClickListener(this);
 
         mAddressController = new AddressController(getContext(), this);
-        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(), getFragmentManager(),this);
+        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(), getFragmentManager(), this);
         return rootView;
     }
 
@@ -85,10 +85,10 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     private void updateCartOnResume() {
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
-            if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
-                updateCartDetails(presenter);
-            }
+        if (!Utility.isProgressDialogShowing()) {
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
+            updateCartDetails(presenter);
+        }
     }
 
     @Override
@@ -115,8 +115,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
             if (!Utility.isProgressDialogShowing()) {
-                    Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
-                    mAddressController.getShippingAddresses();
+                Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
+                mAddressController.getShippingAddresses();
             }
             //Track checkout action
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -133,6 +133,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onBackPressed() {
+        //Track back button press action
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
         finishActivity();
     }
 
@@ -211,10 +214,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onOutOfStock(boolean isOutOfStockReached) {
-        if(isOutOfStockReached) {
+        if (isOutOfStockReached) {
             mCheckoutBtn.setEnabled(false);
-        }
-        else {
+        } else {
             mCheckoutBtn.setEnabled(true);
         }
     }

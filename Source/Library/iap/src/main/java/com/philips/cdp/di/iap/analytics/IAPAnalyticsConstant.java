@@ -15,36 +15,36 @@ public class IAPAnalyticsConstant {
     public static final String PAYMENT_CONFIRMATION_PAGE_NAME = "PaymentConfirmationPage";
 
     public static final String VERSION_KEY = "app.version";
-    public static final String APPS_ID = "appsId";
     public static final String SEND_DATA = "sendData";
     public static final String SPECIAL_EVENTS = "specialEvents";
-    public static final String PRODUCTS = "&&products";
-    public static final String DISCOUNT = "discount";
-    public static final String REDEEM_VOUCHER_CODE = "redeemedVoucherCode";
-    public static final String REVOKED_VOUCHER_CODE = "revokedVoucherCode";
     public static final String FREE_DELIVERY = "freeDelivery";
     public static final String ADD_TO_CART = "scAdd";
-    public static final String REDEEM_VOUCHER_SELECTED = "redeemVoucherSelected";
     public static final String CONTINUE_SHOPPING_SELECTED = "continueShoppingSelected";
     public static final String CHECKOUT_BUTTON_SELECTED = "checkoutButtonSelected";
     public static final String PRODUCT_REMOVED = "productRemoved";
-    public static final String SHOPPING_CART_VIEW = "shoppingCartView"; // need to get confirmation
-    public static final String PROD_VIEW = "prodView"; // need to get confirmation
     public static final String NEW_SHIPPING_ADDRESS_ADDED = "newShippingAddressAdded";
     public static final String NEW_BILLING_ADDRESS_ADDED = "newBillingAddressAdded";
     public static final String PAYMENT_STATUS = "paymentStatus";
     public static final String SUCCESS = "Success";
     public static final String CANCELLED = "Cancelled";
     public static final String FAILED = "Failed";
-    public static final String CANCEL_PAYMENT = "cancelPayment";
     public static final String PURCHASE_ID = "purchaseID";
     public static final String PURCHASE = "purchase";
     public static final String BACK_BUTTON_PRESS = "backButtonPress";
     public static final String COMPONENT_VERSION = "componentVersion";
+
+    public static final String CANCEL_PAYMENT = "cancelPayment";
     public static final String IN_APP_NOTIFICATION_POP_UP = "inAppNotification";
     public static final String TIMER_HAS_ENDED = "Timer has ended";
     public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
     public static final String NOTIFICTION_OK = "ok";
     public static final String ERROR = "error";
+    public static final String PRODUCTS = "&&products";
+    public static final String DISCOUNT = "discount";
+    public static final String REDEEM_VOUCHER_CODE = "redeemedVoucherCode";
+    public static final String REVOKED_VOUCHER_CODE = "revokedVoucherCode";
+    public static final String REDEEM_VOUCHER_SELECTED = "redeemVoucherSelected";
+    public static final String SHOPPING_CART_VIEW = "shoppingCartView"; // need to get confirmation
+    public static final String PROD_VIEW = "prodView"; // need to get confirmation
 }
 
