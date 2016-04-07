@@ -72,8 +72,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:hint="Email Address something"
-                android:text="Email Address something" />
+                android:hint="Email Address"
+                android:text="Email Address" />
 
             <EditText
                 android:id="@+id/lastnamevalue"
