@@ -21,7 +21,7 @@ public class NetworkUtility {
 
 	}
 
-	public static class NetworkStateReceiver extends BroadcastReceiver {
+	public  class NetworkStateReceiver extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
