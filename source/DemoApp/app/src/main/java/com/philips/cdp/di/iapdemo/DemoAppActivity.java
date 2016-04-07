@@ -10,9 +10,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -37,7 +37,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private FrameLayout mShoppingCart;
     private ListView mProductListView;
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10", "HX9042/64"};
-    private Button shop_now;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +47,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         Button register = (Button) findViewById(R.id.btn_register);
         register.setOnClickListener(this);
+
+        Button shop_now = (Button) findViewById(R.id.btn_shop_now);
+        shop_now.setOnClickListener(this);
 
         populateProduct();
 
@@ -62,8 +64,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mIapHandler = new IAPHandler();
-        shop_now = (Button) findViewById(R.id.product_catalog);
-        shop_now.setOnClickListener(this);
     }
 
     @Override
@@ -120,14 +120,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.shoppingCart:
-                mIapHandler.launchIAP(this,DEFAULT_THEME);
+                mIapHandler.launchIAP(this, DEFAULT_THEME);
                 break;
             case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
-            case R.id.product_catalog:
-                Toast.makeText(this,"Shop now clicked",Toast.LENGTH_SHORT).show();
+            case R.id.btn_shop_now:
+                mIapHandler.launchProductCatalog(this,DEFAULT_THEME);
                 break;
             default:
                 break;

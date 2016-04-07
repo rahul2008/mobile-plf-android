@@ -52,17 +52,11 @@
             android:visibility="gone" />
     </FrameLayout>
 
-    <Button
-        android:id="@+id/product_catalog"
-        android:layout_width="wrap_content"
-        android:text="SHOP NOW"
-        android:layout_height="wrap_content"/>
-
     <ListView
         android:id="@+id/product_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/product_catalog"
+        android:layout_below="@+id/shoppingCart"
         android:layout_marginTop="20dp"
         android:visibility="gone" />
 
@@ -72,5 +66,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="@string/register" />
+
+    <Button
+        android:id="@+id/btn_shop_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SHOP NOW"
+        android:layout_above="@id/btn_register"
+        />
 
 </RelativeLayout>

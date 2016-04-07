@@ -31,6 +31,14 @@ public class IAPHandler {
         context.startActivity(intent);
     }
 
+    public void launchProductCatalog(Context context, int themeIndex) {
+        IAPLog.i(IAPLog.LOG, "launchIAP");
+        Intent intent = new Intent(context, IAPActivity.class);
+        intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, themeIndex);
+        intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, false);
+        context.startActivity(intent);
+    }
+
     public void getProductCartCount(final Context context, final IAPHandlerListener
             iapHandlerListener) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);

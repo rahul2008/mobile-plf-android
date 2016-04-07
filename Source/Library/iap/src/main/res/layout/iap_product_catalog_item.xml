@@ -16,8 +16,21 @@
         android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginRight="@dimen/iap_shopping_cart_image_right"
         android:paddingLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:background="@color/uikit_enricher_red"
         android:src="@drawable/toothbrush"
+        />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$90"
+        android:layout_alignParentRight="true"
+        android:textColor="?attr/uikit_baseColor"
+        fontPath="fonts/centralesansbold.ttf"
+        android:textSize="16sp"
+        android:layout_toLeftOf="@id/arrow"
+        android:layout_marginLeft="@dimen/iap_image_bottom_margin"
+        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         />
 
     <TextView
@@ -27,10 +40,11 @@
         android:text="DiamondClean"
         android:layout_toRightOf="@id/image"
         android:textColor="?attr/uikit_baseColor"
-        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
         fontPath="fonts/centralesansbold.ttf"
         android:textSize="16sp"
+        android:layout_toLeftOf="@id/tv_price"
+        android:layout_alignBaseline="@id/tv_price"
         />
 
     <TextView
@@ -43,6 +57,8 @@
         android:textColor="?attr/uikit_baseColor"
         fontPath="fonts/centralesansbook.ttf"
         android:textSize="16sp"
+        android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         />
 
 
@@ -53,18 +69,7 @@
         style="@style/iap_right_arrow_product_catalog"
         />
 
-    <TextView
-        android:id="@+id/tv_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$90"
-        android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@id/tv_product_name"
-        android:textColor="?attr/uikit_baseColor"
-        fontPath="fonts/centralesansbold.ttf"
-        android:textSize="16sp"
-        android:layout_toLeftOf="@id/arrow"
-        />
+
 
     <View
         android:id="@+id/divider"

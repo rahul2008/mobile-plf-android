@@ -7,7 +7,6 @@
         android:id="@+id/product_catalog_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/checkout_btn"
         android:layout_alignParentTop="true"
         android:listSelector="@android:color/transparent"
         >
