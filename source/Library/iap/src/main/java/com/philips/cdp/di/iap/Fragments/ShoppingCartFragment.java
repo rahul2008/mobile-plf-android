@@ -118,9 +118,15 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                     Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
                     mAddressController.getShippingAddresses();
             }
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
+            //Track checkout action
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
         }
         if (v == mContinuesBtn) {
+            //Track continue shopping action
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
+                    IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
+
             finishActivity();
         }
     }

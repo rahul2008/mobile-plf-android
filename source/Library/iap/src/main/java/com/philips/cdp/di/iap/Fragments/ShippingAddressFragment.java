@@ -261,9 +261,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onCreateAddress(Message msg) {
         if (msg.obj instanceof Addresses) {
-
             //Track new address creation
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
             mBtnContinue.setEnabled(true);
             mAddresses = (Addresses) msg.obj;
             mAddressController.setDeliveryAddress(mAddresses.getId());

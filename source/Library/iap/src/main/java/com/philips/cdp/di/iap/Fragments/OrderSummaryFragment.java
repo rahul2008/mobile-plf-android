@@ -125,6 +125,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     @Override
     public void onClick(final View v) {
         if (v == mBtnPayNow) {
+
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
                 if (!isOrderPlaced() || paymentMethodAvailable()) {

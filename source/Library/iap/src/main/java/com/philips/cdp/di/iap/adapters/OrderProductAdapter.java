@@ -14,10 +14,12 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +87,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (getLastValidItem().getDeliveryCost() != null) {
                 footerHolder.mDeliveryPrice.setText(getLastValidItem().getDeliveryCost().getFormattedValue());
             } else {
+                //Action to track free delivery
+                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                        IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
                 footerHolder.mDeliveryPrice.setText("0.0");
             }
             footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");

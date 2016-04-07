@@ -16,7 +16,9 @@ import android.view.View;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.activity.IAPFragmentListener;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.tagging.Tagging;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener{
     private IAPFragmentListener mActivityListener;
@@ -72,6 +74,8 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
     @Override
     public void onBackPressed() {
-        //NOP
+        //Track back button press action
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
     }
 }

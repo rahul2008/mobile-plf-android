@@ -15,9 +15,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.tagging.Tagging;
+
+import java.util.HashMap;
 
 public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     private TextView mConfirmationText;
@@ -75,6 +79,12 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
         if (arguments != null) {
             if (arguments.containsKey(ModelConstants.ORDER_NUMBER)) {
                 mOrderNumber.setText(arguments.getString(ModelConstants.ORDER_NUMBER));
+
+                //Track confirmation on successful order action
+                HashMap contextData = new HashMap();
+                contextData.put(IAPAnalyticsConstant.PURCHASE_ID, mOrderNumber);
+                contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PURCHASE);
+                Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
             }
             String email = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
             if (arguments.containsKey(ModelConstants.EMAIL_ADDRESS)) {
