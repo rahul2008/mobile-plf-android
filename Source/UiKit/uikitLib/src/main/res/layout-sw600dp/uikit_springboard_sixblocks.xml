@@ -63,7 +63,7 @@
                     android:layout_marginBottom="@dimen/springboard_text_margin_bottom"
                     android:layout_marginTop="@dimen/springboard_text_margin_top"
                     android:includeFontPadding="false"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="16sp" />
 
@@ -95,7 +95,7 @@
                     android:layout_marginBottom="@dimen/springboard_text_margin_bottom"
                     android:layout_marginTop="@dimen/springboard_text_margin_top"
                     android:includeFontPadding="false"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="16sp" />
 
@@ -137,7 +137,7 @@
                     android:layout_marginBottom="@dimen/springboard_text_margin_bottom"
                     android:layout_marginTop="@dimen/springboard_text_margin_top"
                     android:includeFontPadding="false"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="16sp" />
 
@@ -169,7 +169,7 @@
                     android:layout_marginBottom="@dimen/springboard_text_margin_bottom"
                     android:layout_marginTop="@dimen/springboard_text_margin_top"
                     android:includeFontPadding="false"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="16sp" />
 
@@ -213,7 +213,7 @@
                     android:layout_marginBottom="@dimen/springboard_text_margin_bottom"
                     android:layout_marginTop="@dimen/springboard_text_margin_top"
                     android:includeFontPadding="false"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="16sp" />
 
@@ -245,7 +245,7 @@
                     android:layout_marginBottom="@dimen/springboard_text_margin_bottom"
                     android:layout_marginTop="@dimen/springboard_text_margin_top"
                     android:includeFontPadding="false"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="16sp" />
 
