@@ -48,7 +48,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+            super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         mBundle = getArguments();
 

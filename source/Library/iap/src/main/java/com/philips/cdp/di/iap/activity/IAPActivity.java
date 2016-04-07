@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -42,7 +43,11 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_activity);
         addActionBar();
-        addShoppingFragment();
+        Boolean isShoppingCartViewSelected = getIntent().getBooleanExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED,true);
+        if(isShoppingCartViewSelected)
+            addShoppingFragment();
+        else
+            addProductCatalog();
     }
 
     private void initTheme() {
@@ -60,6 +65,13 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
+        transaction.addToBackStack(null);
+        transaction.commitAllowingStateLoss();
+    }
+
+    private void addProductCatalog() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment());
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
     }

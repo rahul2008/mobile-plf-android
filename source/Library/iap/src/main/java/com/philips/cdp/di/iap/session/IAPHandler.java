@@ -19,6 +19,7 @@ import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.HashMap;
@@ -29,10 +30,18 @@ public class IAPHandler {
     public void launchIAP(Context context, int themeIndex) {
         //Set component version key and value for InAppPurchase
         Tagging.setComponentVersionKey(IAPAnalyticsConstant.COMPONENT_VERSION);
-        Tagging.setComponentVersionVersionValue("In app purchase "+ BuildConfig.VERSION_NAME);
+        Tagging.setComponentVersionVersionValue("In app purchase " + BuildConfig.VERSION_NAME);
 
         Intent intent = new Intent(context, IAPActivity.class);
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, themeIndex);
+        context.startActivity(intent);
+    }
+
+    public void launchProductCatalog(Context context, int themeIndex) {
+        IAPLog.i(IAPLog.LOG, "launchIAP");
+        Intent intent = new Intent(context, IAPActivity.class);
+        intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, themeIndex);
+        intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, false);
         context.startActivity(intent);
     }
 

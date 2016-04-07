@@ -50,6 +50,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         Button register = (Button) findViewById(R.id.btn_register);
         register.setOnClickListener(this);
 
+        Button shop_now = (Button) findViewById(R.id.btn_shop_now);
+        shop_now.setOnClickListener(this);
+
         populateProduct();
 
         mShoppingCart = (FrameLayout) findViewById(R.id.shoppingCart);
@@ -123,6 +126,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
+                break;
+            case R.id.btn_shop_now:
+                mIapHandler.launchProductCatalog(this,DEFAULT_THEME);
                 break;
             default:
                 break;

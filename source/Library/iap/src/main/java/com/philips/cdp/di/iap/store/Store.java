@@ -17,7 +17,7 @@ public class Store {
     private static final String USER = "users";
     private static final String SEPERATOR = "/";
     private static final String LANG = "?fields=FULL&lang=en";
-
+    private static final String LANG_ONLY = "&lang=en";
     //Oauth
     private static final String SUFFIX_OAUTH =
             "oauth/token?janrain=%s&grant_type=janrain&client_id=mobile_android&client_secret=secret";
@@ -39,7 +39,7 @@ public class Store {
     private static final String SUFFIX_DELIVERY_ADDRESS = "/addresses/delivery";
 
     private static final String SUFFIX_PLACE_ORDER = "/orders";
-
+    private static final String SUFFIX_PPRODUCT_CATALOG  = "products/search?query=::category:Tuscany_Campaign" + LANG_ONLY;
     private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
 
     private StoreConfiguration mStoreConfig;
@@ -57,11 +57,13 @@ public class Store {
     private String mCreateCartUrl;
     private String mAddToCartUrl;
     protected String mBaseURl;
+    protected String mBaseURlForProductCatalog;
     private String mCurrentCartUrl;
 
     private String mOauthUrl;
     private String mOauthRefreshUrl;
     private String mGetCartUrl;
+    private String mGetProductCatalogUrl;
     private boolean mUserLoggedout;
 
     public Store(Context context) {
@@ -88,8 +90,19 @@ public class Store {
 
     private void generateStoreUrls() {
         createBaseUrl();
+        createBaseUrlForProductCatalog();
         createOauthUrl();
         generateGenericUrls();
+    }
+
+    private void createBaseUrlForProductCatalog(){
+        StringBuilder builder = new StringBuilder(HTTPS);
+        builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
+        builder.append(WEB_ROOT).append(SEPERATOR);
+        builder.append(V2).append(SEPERATOR);
+        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
+
+        mBaseURlForProductCatalog = builder.toString();
     }
 
     private void createBaseUrl() {
@@ -122,7 +135,7 @@ public class Store {
         mAddressAlterUrl = mBaseURl.concat(SUFFIX_ADDRESSES_ALTER);
         mSetPaymentUrl = mBaseURl.concat(SUFFIX_SET_PAYMENT_URL);
         mPlaceOrderUrl = mBaseURl.concat(SUFFIX_PLACE_ORDER);
-
+        mGetProductCatalogUrl = mBaseURlForProductCatalog.concat(SUFFIX_PPRODUCT_CATALOG);
         mModifyProductUrl = mCurrentCartUrl.concat(SUFFIX_PRODUCT_MODIFY);
         mDeliveryModeUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_MODE);
         mDeliveryAddressUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_ADDRESS);
@@ -157,6 +170,10 @@ public class Store {
     //Request Urls
     public String getCurrentCartDetailsUrl() {
         return mGetCartUrl;
+    }
+
+    public String getProductCatalogUrl() {
+        return mGetProductCatalogUrl;
     }
 
     public String getCreateCartUrl() {

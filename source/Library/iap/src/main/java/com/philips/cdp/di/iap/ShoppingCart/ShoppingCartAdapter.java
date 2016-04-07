@@ -60,7 +60,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData, android.support.v4.app.FragmentManager fragmentManager, OutOfStockListener iOutOfStock) {
         mContext = context;
         mResources = context.getResources();
-        final LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = shoppingCartData;
         mPresenter = new ShoppingCartPresenter(context, this,fragmentManager);
         mFragmentManager = fragmentManager;
