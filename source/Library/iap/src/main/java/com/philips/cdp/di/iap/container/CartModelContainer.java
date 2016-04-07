@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class CartModelContainer {
     private static CartModelContainer container;
-    private Addresses mDeliveryAddress;
+    private AddressFields mBillingAddress;
     private boolean isOrderPlaced;
     private ArrayList<ShoppingCartData> mShoppingCartData;
     private AddressFields mShippingAddressFields;
@@ -60,12 +60,12 @@ public class CartModelContainer {
         this.mShippingAddressFields = mShippingAddressFields;
     }
 
-    public void setDeliveryAddress(final Addresses mDeliveryAddress) {
-        this.mDeliveryAddress = mDeliveryAddress;
+    public void setBillingAddress(final AddressFields mBillingAddress) {
+        this.mBillingAddress = mBillingAddress;
     }
 
-    public Addresses getDeliveryAddress() {
-        return mDeliveryAddress;
+    public AddressFields getBillingAddress() {
+        return mBillingAddress;
     }
 
     public void setOrderPlaced(final boolean pIsOrderPlaced) {
@@ -80,7 +80,7 @@ public class CartModelContainer {
     public void resetApplicationFields() {
         setOrderPlaced(false);
         cartNumber = null;
-        mDeliveryAddress = null;
+        mBillingAddress = null;
         mShoppingCartData = null;
         mShippingAddressFields = null;
     }
