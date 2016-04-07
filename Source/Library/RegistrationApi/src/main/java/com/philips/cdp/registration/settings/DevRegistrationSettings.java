@@ -14,14 +14,13 @@ public class DevRegistrationSettings extends RegistrationSettings {
 
     private String DEV_BASE_CAPTURE_URL = "https://philips.dev.janraincapture.com";
 
-
     private String DEV_CAPTURE_FLOW_VERSION = "HEAD"; // "9549a1c4-575a-4042-9943-45b87a4f03f0";
 
     private String DEV_CAPTURE_APP_ID = "eupac7ugz25x8dwahvrbpmndf8";
 
-    private String DEV_REGISTER_ACTIVATION_URL = "http://10.128.41.112:4503/content/B2C/en_GB/verify-account.html";
+    private String DEV_REGISTER_ACTIVATION_URL = "http://10.128.41.111:4503/content/B2C/en_GB/verify-account.html";
 
-    private String DEV_REGISTER_FORGOT_MAIL_URL = "https://www.qat1.consumer.philips.com/myphilips/resetPassword.jsp";
+    private String DEV_REGISTER_FORGOT_MAIL_URL = "http://10.128.41.111:4503/content/B2C/en_GB/myphilips/reset-password.html?cl=mob";
 
     private static String DEV_PRX_RESEND_CONSENT_URL = "https://dev.philips.com/prx/registration/resendConsentMail";
 
