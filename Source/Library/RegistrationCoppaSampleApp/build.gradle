@@ -147,6 +147,7 @@ artifactory {
             publishIvy = false
             publishBuildInfo = true
             maven = true
+			publishArtifacts = true
         }
     }
     resolve {
@@ -154,6 +155,19 @@ artifactory {
             repoKey = 'libs-release-local'
         }
     }
+}
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+artifactoryPublish {
+    dependsOn sourceJar
+}
+
+artifacts {
+    archives sourceJar
 }
 
 def Properties props = new Properties()
