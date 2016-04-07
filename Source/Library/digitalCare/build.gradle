@@ -26,11 +26,6 @@ buildscript {
     }
 }
 
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-
 repositories {
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
@@ -80,6 +75,12 @@ android {
 apply plugin: 'com.jfrog.artifactory-upload'
 group = 'com.philips.cdp'
 //maven configuration stuff required for artifactory plugin
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
 
