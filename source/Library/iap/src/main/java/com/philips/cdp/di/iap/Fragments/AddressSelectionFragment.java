@@ -18,6 +18,8 @@ import android.widget.Button;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.PaymentController;
@@ -62,9 +64,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         mCancelButton = (Button) view.findViewById(R.id.btn_cancel);
         bindCancelListener();
         sendShippingAddressesRequest();
-
         mJanRainEmail = HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail();
-
         registerEvents();
         return view;
     }
@@ -86,6 +86,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void moveToShoppingCart() {
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
         addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
     }
 
@@ -216,6 +217,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             }
         }
         if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
+
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
@@ -276,6 +279,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void moveToShippingAddressFragment(final HashMap<String, String> payload) {
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
         Bundle extras = new Bundle();
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
         addFragment(ShippingAddressFragment.createInstance(extras, AnimationType.NONE), null);
@@ -285,12 +289,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+
             Addresses address = retrieveSelectedAddress();
             AddressFields selectedAddress = prepareAddressFields(address);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
 
-            /*Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);*/
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
             addFragment(
                     BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         } else if ((msg.obj instanceof IAPNetworkError)) {
@@ -298,12 +302,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         } else if ((msg.obj instanceof PaymentMethods)) {
             AddressFields selectedAddress = prepareAddressFields(retrieveSelectedAddress());
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
-
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
 
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
+
             Bundle bundle = new Bundle();
-//            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);

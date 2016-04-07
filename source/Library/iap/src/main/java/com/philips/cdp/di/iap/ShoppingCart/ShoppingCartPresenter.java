@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -24,6 +25,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -141,6 +143,9 @@ public class ShoppingCartPresenter {
                 new AbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
+                        //Track product delete action
+                        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PRODUCT_REMOVED);
                         getCurrentCartDetails();
                     }
 

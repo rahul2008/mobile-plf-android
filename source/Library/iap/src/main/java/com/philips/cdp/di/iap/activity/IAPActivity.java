@@ -14,10 +14,13 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -37,11 +40,9 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
-        IAPLog.d(IAPLog.LOG, "OnCreate");
         setContentView(R.layout.iap_activity);
         addActionBar();
         addShoppingFragment();
-
     }
 
     private void initTheme() {
@@ -54,6 +55,9 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     }
 
     private void addShoppingFragment() {
+        //Track first page of InAppPurchase
+        IAPAnalytics.trackLaunchPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
         transaction.addToBackStack(null);
@@ -129,5 +133,17 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
                 ((IAPBackButtonListener) fragment).onBackPressed();
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        Tagging.pauseCollectingLifecycleData();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        Tagging.collectLifecycleData();
+        super.onResume();
     }
 }

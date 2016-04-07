@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.controller.PaymentController;
@@ -92,6 +94,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     @Override
     public void onClick(View v) {
         if (v == mBtnCancel) {
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
             addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         }
     }
@@ -114,11 +117,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
                     mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
             }
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
-           /* if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
-                bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS,
-                        getArguments().getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS));
-                bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
-            }*/
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
             Bundle bundle = new Bundle();
             bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
             addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
@@ -136,6 +135,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());
             addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
