@@ -69,12 +69,9 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
     private String extractData(final String data) {
         try {
             JSONObject jsonObject = new JSONObject(data);
-            int status = jsonObject.getInt("status");
             JSONObject dataObject = jsonObject.optJSONObject("data");
 
-            if (status > 0) {
-                return "Error, code received: " + data;
-            } else if (dataObject == null) {
+            if (dataObject == null) {
                 return "Error, no data received: " + data;
             } else {
                 return dataObject.toString();

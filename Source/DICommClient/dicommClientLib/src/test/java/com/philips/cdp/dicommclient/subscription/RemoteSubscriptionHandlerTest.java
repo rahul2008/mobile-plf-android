@@ -27,9 +27,9 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
     private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
 
     public static final String dscData = "{\"testKey\":\"testValue\"}";
-    public static final String dscResponse = "{\"status\":0, \"data\":" + dscData + "}";
-    public static final String dscResponseError = "{\"status\":111, \"data\":" + dscData + "}";
-    public static final String dscResponseNullData = "{\"status\":0}";
+    public static final String dscResponse = "{\"data\":" + dscData + "}";
+    public static final String dscResponseError = "{\"noData\":" + dscData + "}";
+    public static final String dscResponseNullData = "{}";
 
     private RemoteSubscriptionHandler mRemoteSubscriptionHandler;
     private SubscriptionEventListener mSubscriptionEventListener;
