@@ -37,9 +37,9 @@ public class SummaryModelTest extends InstrumentationTestCase {
         super.setUp();
 
         mProductSummaryBuilder = new ProductSummaryRequest("125", null);
-        mProductSummaryBuilder.setmCatalogCode("Consumer");
-        mProductSummaryBuilder.setmLocale("nl_NL");
-        mProductSummaryBuilder.setmSectorCode("HAIR");
+        mProductSummaryBuilder.setCatalogCode("Consumer");
+        mProductSummaryBuilder.setLocale("nl_NL");
+        mProductSummaryBuilder.setSectorCode("HAIR");
     }
 
 

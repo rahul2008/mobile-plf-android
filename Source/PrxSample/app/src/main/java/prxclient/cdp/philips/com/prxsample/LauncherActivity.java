@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -20,7 +22,7 @@ public class LauncherActivity extends AppCompatActivity {
 
     private String mCtn = "RQ1250/17";
     private String mSectorCode = "B2C";
-    private String mLocale = "en_US";
+    private String mLocale = "en_GB";
     private String mCatalogCode = "CONSUMER";
     private String mRequestTag = null;
 
@@ -44,9 +46,9 @@ public class LauncherActivity extends AppCompatActivity {
         PrxLogger.enablePrxLogger(true);
 
         ProductSummaryRequest mProductAssetBuilder = new ProductSummaryRequest(mCtn, mRequestTag);
-        mProductAssetBuilder.setmSectorCode(mSectorCode);
-        mProductAssetBuilder.setmLocale(mLocale);
-        mProductAssetBuilder.setmCatalogCode(mCatalogCode);
+        mProductAssetBuilder.setSector(Sector.B2C);
+        mProductAssetBuilder.setLocale(mLocale);
+        mProductAssetBuilder.setCatalog(Catalog.CONSUMER);
 
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(getApplicationContext());
