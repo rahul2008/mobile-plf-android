@@ -33,8 +33,8 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
 
         mProductAssetBuilder = new ProductSummaryRequest("125", null);
         mProductAssetBuilder.setmCatalogCode("COnsumer");
-        mProductAssetBuilder.setmLocale("nl_NL");
-        mProductAssetBuilder.setmSectorCode("HAIR");
+        mProductAssetBuilder.setLocale("nl_NL");
+        mProductAssetBuilder.setSectorCode("HAIR");
     }
 
     public void testAssetBuilderObject() {
@@ -52,7 +52,7 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
     public void testPrxBuilderServerInfo() {
 
         String mURL = mProductAssetBuilder.getRequestUrl();
-        assertEquals("www.philips.com/prx", mURL);
+        assertEquals("http://www.philips.com/prx/product/HAIR/nl_NL/COnsumer/products/125.summary", mURL);
     }
 
     public void testPrxBuilderSectorCode() {
