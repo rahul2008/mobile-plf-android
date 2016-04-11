@@ -10,12 +10,12 @@ import java.util.Map;
 /**
  * Created by naveen@philips.com on 28-Mar-16.
  */
-public class ProductSupportBuilder extends PrxRequest {
+public class ProductSupportRequest extends PrxRequest {
     private String mCtn = null;
     private String mRequestTag = null;
     private static final String PRX_SUPPORT_REQUEST_URL = "http://%s/product/%s/%s/%s/products/%s.support";
 
-    public ProductSupportBuilder(String ctn, String requestTag) {
+    public ProductSupportRequest(String ctn, String requestTag) {
         this.mCtn = ctn;
         this.mRequestTag = requestTag;
     }
