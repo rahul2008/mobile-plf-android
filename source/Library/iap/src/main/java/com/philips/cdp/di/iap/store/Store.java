@@ -7,15 +7,16 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 public class Store {
 
-    private static final String HTTPS = "https://";
-    private static final String WEB_ROOT = "pilcommercewebservices";
-    private static final String V2 = "v2";
+    static final String HTTPS = "https://";
+    static final String WEB_ROOT = "pilcommercewebservices";
+    static final String V2 = "v2";
     private static final String USER = "users";
-    private static final String SEPERATOR = "/";
+    static final String SEPERATOR = "/";
     private static final String LANG = "?fields=FULL&lang=en";
 
     //Oauth
@@ -66,8 +67,7 @@ public class Store {
 
     public Store(Context context) {
         mIAPUser = initIAPUser(context);
-        mStoreConfig = setStoreConfig(context);
-        generateStoreUrls();
+        mStoreConfig = getStoreConfig(context);
     }
 
     IAPUser initIAPUser(Context context) {
@@ -82,11 +82,15 @@ public class Store {
         generateStoreUrls();
     }
 
-    StoreConfiguration setStoreConfig(final Context context) {
-        return new StoreConfiguration(context);
+    StoreConfiguration getStoreConfig(final Context context) {
+        return new StoreConfiguration(context, this);
     }
 
-    private void generateStoreUrls() {
+    public void initStoreConfig(String countryCode, RequestListener listener) {
+        mStoreConfig.initConfig(countryCode, listener);
+    }
+
+    void generateStoreUrls() {
         createBaseUrl();
         createOauthUrl();
         generateGenericUrls();
