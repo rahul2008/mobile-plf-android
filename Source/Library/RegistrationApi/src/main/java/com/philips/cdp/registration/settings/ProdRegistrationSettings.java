@@ -19,9 +19,9 @@ public class ProdRegistrationSettings extends RegistrationSettings {
 
     private String PROD_CAPTURE_APP_ID = "hffxcm638rna8wrxxggx2gykhc";
 
-    private String PROD_REGISTER_ACTIVATION_URL = "https://secure.philips.com/ps/verify-account";
+    private String PROD_REGISTER_ACTIVATION_URL = "https://www.philips.com/ps/verify-account";
 
-    private String PROD_REGISTER_FORGOT_MAIL_URL = "https://secure.philips.com/ps/reset-password?cl=mob";
+    private String PROD_REGISTER_FORGOT_MAIL_URL = "https://www.philips.com/ps/reset-password?cl=mob";
 
     private static String PROD_PRX_RESEND_CONSENT_URL = "https://www.usa.philips.com/prx/registration/resendConsentMail";
 
