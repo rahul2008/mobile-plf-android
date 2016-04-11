@@ -27,8 +27,8 @@ public class ProductSupportBuilder extends PrxRequest {
 
     @Override
     public String getRequestUrl() {
-        return String.format(PRX_SUPPORT_REQUEST_URL, getServerInfo(), getSectorCode(), getLocale(),
-                getCatalogCode(), mCtn);
+        return String.format(PRX_SUPPORT_REQUEST_URL, getServerInfo(),  getSector(), getLocale(),
+                getCatalog(), mCtn);
     }
 
     @Override

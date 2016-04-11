@@ -62,11 +62,11 @@ public abstract class PrxRequest {
         this.mCatalogCode = mCatalogCode;
     }
 
-    public Sector getmSector() {
+    public Sector getSector() {
         return mSector;
     }
 
-    public void setmSector(final Sector mSector) {
+    public void setSector(final Sector mSector) {
         this.mSector = mSector;
     }
 
