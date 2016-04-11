@@ -1,0 +1,24 @@
+package com.philips.cdp.registration.ui.utils;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
+import com.philips.cdp.registration.settings.RegistrationHelper;
+
+/**
+ * Created by 310202337 on 4/11/2016.
+ */
+public  class NetworkStateReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        boolean isOnline = NetworkUtility.isNetworkAvailable(context);
+        RLog.i(RLog.NETWORK_STATE, "Network state : " + isOnline);
+        if (null != RegistrationHelper.getInstance().getNetworkStateListener()) {
+            RegistrationHelper.getInstance().getNetworkStateListener()
+                    .notifyEventOccurred(isOnline);
+        }
+
+    }
+}
