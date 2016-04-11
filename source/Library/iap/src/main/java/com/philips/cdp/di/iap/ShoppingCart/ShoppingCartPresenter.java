@@ -114,7 +114,7 @@ public class ShoppingCartPresenter {
                             //addShippingCostRowToTheList();
                             refreshList(mProductData);
                             CartModelContainer.getInstance().setShoppingCartData(mProductData);
-                        } else{
+                        } else {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
                             Utility.dismissProgressDialog();
                         }
@@ -125,8 +125,8 @@ public class ShoppingCartPresenter {
                     public void onModelDataError(final Message msg) {
                         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
                         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                        NetworkUtility.getInstance().showErrorMessage(msg,mFragmentManager,mContext);
-                        if(Utility.isProgressDialogShowing()) {
+                        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
+                        if (Utility.isProgressDialogShowing()) {
                             Utility.dismissProgressDialog();
                         }
                     }
@@ -157,7 +157,7 @@ public class ShoppingCartPresenter {
         sendHybrisRequest(0, model, model);
     }
 
-    public void updateProductQuantity(final ShoppingCartData data, final int count) {
+    public void updateProductQuantity(final ShoppingCartData data, final int count, final boolean isIncrease) {
         HashMap<String, String> query = new HashMap<String, String>();
         query.put(ModelConstants.PRODUCT_CODE, data.getCtnNumber());
         query.put(ModelConstants.PRODUCT_QUANTITY, String.valueOf(count));
@@ -167,6 +167,14 @@ public class ShoppingCartPresenter {
                 query, new AbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(final Message msg) {
+                if (isIncrease) {
+                    //Track Add to cart action
+                    Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
+                } else {
+                    //Track product delete action
+                    Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                            IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PRODUCT_REMOVED);
+                }
                 getCurrentCartDetails();
             }
 
