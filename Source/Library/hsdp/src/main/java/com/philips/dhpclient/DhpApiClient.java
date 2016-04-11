@@ -20,10 +20,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
 
 public class DhpApiClient {
 
@@ -60,12 +57,11 @@ public class DhpApiClient {
         addSignedDateHeader(headers);
 
         sign(headers, apiEndpoint, queryParams, httpMethod, bodyString);
-
         URI uri = URI.create(apiBaseUrl + apiEndpoint + queryParams(queryParams));
 
         System.out.println("Hsdp URI : "+uri.toString());
         System.out.println("Hsdp httpMethod type : "+httpMethod);
-        System.out.println("hsdp headers headers : " + headers);
+        System.out.println("hsdp headers : " + headers);
         System.out.println("hsdp headers body : " + body);
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
@@ -79,7 +75,7 @@ public class DhpApiClient {
 
         System.out.println("Social Hsdp URI : "+uri.toString());
         System.out.println("Social Hsdp httpMethod type : "+httpMethod);
-        System.out.println("Social hsdp headers headers : " + headers);
+        System.out.println("Social hsdp headers : " + headers);
         System.out.println("Social hsdp headers body : " + body);
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }

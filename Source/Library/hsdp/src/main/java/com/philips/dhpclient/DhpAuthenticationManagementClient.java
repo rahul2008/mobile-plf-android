@@ -1,11 +1,20 @@
 package com.philips.dhpclient;
 
+import android.util.Base64;
+
+import com.philips.cdp.servertime.ServerTime;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.util.MapUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 public class DhpAuthenticationManagementClient extends DhpApiClient {
     static class AuthenticationRequestJson {
@@ -30,12 +39,12 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         super(dhpApiClientConfiguration);
     }
 
-    public DhpAuthenticationResponse authenticate(String username, String password) {
+    public DhpAuthenticationResponse authenticate(final String username,final String password,final String secret) {
         String apiEndpoint = "/authentication/login";
         String queryParams = "applicationName=" + dhpApplicationName;
         Map<String, String> headers = new LinkedHashMap<String, String>();
+        headers.put("refreshSecret",secret);
         AuthenticationRequestJson request = new AuthenticationRequestJson(username, password);
-
         DhpResponse dhpResponse = sendSignedRequest("POST", apiEndpoint, queryParams, headers, request);
 
         if(dhpResponse == null){
@@ -53,12 +62,49 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         return new DhpAuthenticationResponse(accessToken, refreshToken, Integer.parseInt(expiresIn), userId, dhpResponse.rawResponse);
     }
 
-    public DhpAuthenticationResponse refresh(String userId, String refreshToken) {
+    private String generateSignedDate(){
+        return ServerTime.getInstance().getCurrentUTCTimeWithFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    }
+
+    private  String createRefreshSignature(String refresh_Secret, String accessToken) {
+        String date = generateSignedDate();
+        System.out.println("Refresh Signature Date = " + date);
+        String stringToSign = "refresh_access_token\n" + date + "\n" + accessToken + "\n";
+
+        byte[] hash = null;
+        try {
+            Mac mac = Mac.getInstance("HmacSHA1");
+            byte[] refreshSecret =refresh_Secret.getBytes("UTF-8");
+            SecretKeySpec secret = new SecretKeySpec(refreshSecret, mac.getAlgorithm());
+            mac.init(secret);
+            hash = mac.doFinal(stringToSign.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Error occurred while creating refresh signature.");
+            System.out.println(e);
+        } catch (UnsupportedEncodingException e) {
+            System.out.println("Error occurred while creating refresh signature.");
+            System.out.println(e);
+        } catch (InvalidKeyException e) {
+            System.out.println("Error occurred while creating refresh signature.");
+            System.out.println(e);
+        }
+       return Base64.encodeToString(hash, Base64.DEFAULT);
+    }
+
+    private String getUTCdatetimeAsString() {
+        return ServerTime.getInstance().getCurrentUTCTimeWithFormat("yyyy-MM-dd HH:mm:ss");
+    }
+
+    public DhpAuthenticationResponse refresh(String userId, String refreshToken, String refreshSecret) {
         String apiEndpoint = "/authentication/users/" + userId + "/refreshToken";
         String queryParams = "applicationName=" + dhpApplicationName;
         Map<String, String> headers = new LinkedHashMap<String, String>();
 
+        headers.put("refreshSignature",createRefreshSignature(refreshSecret,refreshToken));
+        headers.put("refreshSignatureDate",getUTCdatetimeAsString());
+
         RefreshTokenRequest request = new RefreshTokenRequest(refreshToken);
+
         DhpResponse dhpResponse = sendSignedRequest("PUT", apiEndpoint, queryParams, headers, request);
 
         if(dhpResponse == null){

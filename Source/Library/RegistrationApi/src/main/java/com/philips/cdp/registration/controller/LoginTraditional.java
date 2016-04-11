@@ -18,10 +18,13 @@ import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.servertime.ServerTime;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.security.SecureRandom;
 
 public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
 
@@ -78,9 +81,10 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         final User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
-
             HsdpUser login = new HsdpUser(mContext);
-            login.login(mEmail, mPassword, new TraditionalLoginHandler() {
+            String refreshSecret = generateRefreshSecret();
+            ServerTime.init(mContext);
+            login.login(mEmail, mPassword, refreshSecret,new TraditionalLoginHandler() {
                 @Override
                 public void onLoginSuccess() {
                     mTraditionalLoginHandler.onLoginSuccess();
@@ -208,7 +212,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         HsdpUser hsdpUser = new HsdpUser(mContext);
         HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
         if (hsdpUserRecord == null) {
-            hsdpUser.login(mEmail, mPassword, new TraditionalLoginHandler() {
+            hsdpUser.login(mEmail, mPassword, generateRefreshSecret(), new TraditionalLoginHandler() {
                 @Override
                 public void onLoginSuccess() {
                     mTraditionalLoginHandler.onLoginSuccess();
@@ -223,4 +227,20 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         }
     }
 
+    private static String generateRefreshSecret() {
+        final int SECRET_LENGTH = 40;
+        SecureRandom random = new SecureRandom();
+        StringBuilder buffer = new StringBuilder();
+
+        while (buffer.length() < SECRET_LENGTH) {
+            buffer.append(Integer.toHexString(random.nextInt()));
+        }
+        String refreshSecret = buffer.toString().substring(0, SECRET_LENGTH);
+        return refreshSecret;
+    }
+
+    private static void printRefreshSecretUsage() {
+        System.out.println("Invalid refreshSecret command,Please provide valid command");
+        System.out.println("Example : java -jar RequestAuthenticator.jar getrefreshsecret");
+    }
 }

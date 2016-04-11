@@ -20,6 +20,7 @@ public class HsdpUserRecord implements Serializable {
     private String userUUID;
     private int userIsActive;
     private AccessCredential accessCredential;
+    private String refreshSecret;
 
     private static final long serialVersionUID = 6128016096756071380L;
 
@@ -300,7 +301,6 @@ public class HsdpUserRecord implements Serializable {
         mProfile.setTimeZone(timeZone);
 
         userUUID = MapUtils.extract(rawResponse, "exchange.user.userUUID");
-
         userIsActive = MapUtils.extract(rawResponse, "exchange.user.userIsActive");
 
         List<Map<String, String>> rawPhotos = MapUtils.extract(rawResponse, "exchange.user.profile.photos");
@@ -335,5 +335,12 @@ public class HsdpUserRecord implements Serializable {
         return accessCredential;
     }
 
+    public String getRefreshSecret() {
+        return refreshSecret;
+    }
+
+    public void setRefreshSecret(String refreshSecret) {
+        this.refreshSecret = refreshSecret;
+    }
 }
 

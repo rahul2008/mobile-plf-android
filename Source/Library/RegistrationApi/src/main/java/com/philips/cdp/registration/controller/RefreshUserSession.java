@@ -20,6 +20,7 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
     private Context mContext;
     private String LOG_TAG = "RefreshUserSession";
 
+
     public RefreshUserSession(RefreshLoginSessionHandler refreshLoginSessionHandler, Context context) {
         mRefreshLoginSessionHandler = refreshLoginSessionHandler;
         mContext = context;
@@ -131,4 +132,7 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
         }
         CaptureRecord.deleteFromDisk(mContext);
     }
+
+
+
 }
