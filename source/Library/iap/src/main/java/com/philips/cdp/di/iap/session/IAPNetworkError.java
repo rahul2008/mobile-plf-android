@@ -7,8 +7,10 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.tagging.Tagging;
 
 public class IAPNetworkError implements IAPNetworkErrorListener {
 
@@ -24,6 +26,10 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
         } else {
             mVolleyError = error;
         }
+
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.ERROR, getMessage());
+
         Message msg = Message.obtain();
         msg.what = requestCode;
         msg.obj = this;
@@ -78,7 +84,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     }
 
     private void checkInsufficientStockError(ServerError serverError) {
-        if("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
+        if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.INSUFFICIENT_STOCK_ERROR);
             mIAPErrorCode = IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR;
         }
     }
