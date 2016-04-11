@@ -36,7 +36,7 @@ public interface SHNDeviceDefinitionInfo {
     String getDeviceTypeName();
 
     /**
-     * Specifies a set of UUID that are primary for the peripheral.
+     * Specifies a set of UUIDs that are primary for the peripheral.
      *
      * @return a set of UUIDs that are primary for this peripheral
      */
@@ -60,7 +60,7 @@ public interface SHNDeviceDefinitionInfo {
 
     /**
      * Indicates to the scanner whether it should use the matchesOnAdvertisedData function to determine of the advertised data is received from
-     * a device that is serviced by the plugin, or that the matching should be done on the UUID's obtained through the getPrimaryServiceUUIDS function.
+     * a peripheral that is serviced by the plugin, or that the matching should be done on the UUID's obtained through the getPrimaryServiceUUIDS function.
      *
      * @return true if the matchesOnAdvertisedData function should be used, false when matching on service UUIDs should be used.
      */
