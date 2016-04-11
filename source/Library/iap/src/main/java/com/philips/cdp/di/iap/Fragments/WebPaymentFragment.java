@@ -169,21 +169,16 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         private boolean verifyResultCallBacks(String url) {
             boolean match = true;
             if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
-                //Track Payment success action
-                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                        IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.SUCCESS);
                 launchConfirmationScreen(createSuccessBundle(url));
             } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
                 launchConfirmationScreen(createErrorBundle());
             } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
-                //Track Payment failed action
-                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                        IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.FAILED);
                 launchConfirmationScreen(createErrorBundle());
             } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
                 //Track Payment cancelled action
                 Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                         IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
                 goBackToOrderSummary();
             } else {
                 match = false;
