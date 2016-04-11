@@ -116,9 +116,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
+                            boolean isIncrease = newCount > oldCount;
                             if (!Utility.isProgressDialogShowing()) {
                                 Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                                mPresenter.updateProductQuantity(mData.get(position), newCount);
+                                mPresenter.updateProductQuantity(mData.get(position), newCount, isIncrease);
                             }
                     }
                 });

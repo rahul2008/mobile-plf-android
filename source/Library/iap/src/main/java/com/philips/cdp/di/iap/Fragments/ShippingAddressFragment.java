@@ -196,6 +196,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (mlLState.getVisibility() == View.VISIBLE)
             mShippingAddressFields.setRegionIsoCode(mEtState.getText().toString());
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            //Track new address creation
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
             CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
             IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
             addFragment(
@@ -203,6 +206,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
+            //Track new address creation
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
             CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
@@ -237,6 +243,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             }
         } else if (v == mBtnCancel) {
             if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
                 getFragmentManager().popBackStackImmediate();
             } else {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
@@ -253,6 +260,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             if (msg.obj instanceof IAPNetworkError) {
                 handleError(msg);
             } else {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
                 getFragmentManager().popBackStackImmediate();
             }
         }
@@ -261,9 +269,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onCreateAddress(Message msg) {
         if (msg.obj instanceof Addresses) {
-            //Track new address creation
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
             mBtnContinue.setEnabled(true);
             mAddresses = (Addresses) msg.obj;
             mAddressController.setDeliveryAddress(mAddresses.getId());
