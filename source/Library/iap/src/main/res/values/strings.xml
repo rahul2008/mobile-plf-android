@@ -112,4 +112,8 @@
     <string name="iap_something_went_wrong">Something went wrong!</string>
     <string name="iap_payment_failed">Payment failed</string>
 
+    <!-- Product Details -->
+    <string name="iap_buy_from_retailors">Buy from retailor</string>
+    <string name="iap_add_to_cart">Add to cart</string>
+
 </resources>

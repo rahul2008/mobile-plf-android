@@ -104,7 +104,9 @@ public class ProductCatalogPresenter {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
                             Utility.dismissProgressDialog();
                         }
-                        Utility.dismissProgressDialog();
+                        if(Utility.isProgressDialogShowing()) {
+                            Utility.dismissProgressDialog();
+                        }
                     }
 
                     @Override
