@@ -35,6 +35,7 @@ public class IAPAnalyticsConstant {
     public static final String IN_APP_NOTIFICATION_POP_UP = "inAppNotification";
     public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
     public static final String ERROR = "error";
+    public static final String INSUFFICIENT_STOCK_ERROR = "InsufficientStockError";
 
     public static final String CANCEL_PAYMENT = "cancelPayment";
     public static final String NOTIFICTION_OK = "ok";
