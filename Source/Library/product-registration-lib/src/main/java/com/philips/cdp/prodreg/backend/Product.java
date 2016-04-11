@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.handler.ErrorType;
 import com.philips.cdp.prodreg.handler.MetadataListener;
+import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.model.ProductMetadataResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
 import com.philips.cdp.prxclient.RequestManager;
@@ -58,7 +58,7 @@ public class Product implements Serializable {
 
             @Override
             public void onResponseError(String error, int code) {
-                metadataListener.onErrorResponse(ErrorType.METADATA_FAILED.getDescription(), ErrorType.METADATA_FAILED.getCode());
+                metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), ProdRegError.METADATA_FAILED.getCode());
             }
         };
     }

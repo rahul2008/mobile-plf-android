@@ -4,7 +4,7 @@ package com.philips.cdp.prodreg.handler;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public enum ErrorType {
+public enum ProdRegError {
 
     //Defined Error code
     UNKNOWN(-1, "unknown"),
@@ -28,15 +28,15 @@ public enum ErrorType {
     private final int id;
     private final String description;
 
-    ErrorType(final int id, final String description) {
+    ProdRegError(final int id, final String description) {
         this.id = id;
         this.description = description;
     }
 
-    public static ErrorType fromId(final int id) {
-        final ErrorType[] values = ErrorType.values();
+    public static ProdRegError fromId(final int id) {
+        final ProdRegError[] values = ProdRegError.values();
 
-        for (ErrorType item : values) {
+        for (ProdRegError item : values) {
             if (id == item.getCode()) {
                 return item;
             }
@@ -45,10 +45,10 @@ public enum ErrorType {
         return UNKNOWN;
     }
 
-    public static ErrorType fromValue(final String value) {
-        final ErrorType[] values = ErrorType.values();
+    public static ProdRegError fromValue(final String value) {
+        final ProdRegError[] values = ProdRegError.values();
 
-        for (ErrorType item : values) {
+        for (ProdRegError item : values) {
             if (value.equals(item.getDescription())) {
                 return item;
             }

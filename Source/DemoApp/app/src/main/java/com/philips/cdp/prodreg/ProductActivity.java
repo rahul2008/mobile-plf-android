@@ -13,7 +13,7 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
-import com.philips.cdp.prodreg.handler.ErrorType;
+import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.model.RegistrationResponse;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -97,7 +97,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             @Override
-            public void onProdRegFailed(ErrorType errorType) {
+            public void onProdRegFailed(ProdRegError errorType) {
                 Log.d(TAG, "Negative Response Data : " + errorType.getDescription() + " with error code : " + errorType.getCode());
                 Toast.makeText(ProductActivity.this, errorType.getDescription(), Toast.LENGTH_SHORT).show();
             }

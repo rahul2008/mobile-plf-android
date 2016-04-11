@@ -6,9 +6,9 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
-import com.philips.cdp.prodreg.handler.ErrorType;
 import com.philips.cdp.prodreg.handler.MetadataListener;
 import com.philips.cdp.prodreg.handler.ProdRegConstants;
+import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.handler.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.ProductMetadataResponse;
@@ -79,8 +79,8 @@ public class UserProductTest extends MockitoTestCase {
             }
 
             @Override
-            public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.USER_NOT_SIGNED_IN, errorType);
+            public void onProdRegFailed(final ProdRegError prodRegError) {
+                assertEquals(ProdRegError.USER_NOT_SIGNED_IN, prodRegError);
             }
         });
         assertEquals(userProduct.getRequestType(), (ProdRegConstants.PRODUCT_REGISTRATION));
@@ -105,8 +105,8 @@ public class UserProductTest extends MockitoTestCase {
             }
 
             @Override
-            public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.INVALID_DATE, errorType);
+            public void onProdRegFailed(final ProdRegError prodRegError) {
+                assertEquals(ProdRegError.INVALID_DATE, prodRegError);
             }
         });
     }
@@ -144,7 +144,7 @@ public class UserProductTest extends MockitoTestCase {
             }
 
             @Override
-            public void onProdRegFailed(final ErrorType errorType) {
+            public void onProdRegFailed(final ProdRegError prodRegError) {
             }
         });
         verify(userProductMock).getRegisteredProducts(context, prodRegListenerMock);
@@ -166,7 +166,7 @@ public class UserProductTest extends MockitoTestCase {
         RegisteredResponseData[] results = {registeredResponseData, registeredResponseData1, registeredResponseData2};
         when(responseMock.getResults()).thenReturn(results);
         registeredProductsListener.getRegisteredProducts(responseMock);
-        verify(listener).onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
+        verify(listener).onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
     }
 
     public void testGetRegisteredProductsListenerOnCtnNotRegistered() {
@@ -201,27 +201,27 @@ public class UserProductTest extends MockitoTestCase {
         when(responseMock.getResults()).thenReturn(results);
         registeredProductsListener.getRegisteredProducts(responseMock);
         verify(product).getProductMetadata(context, metadataListener);
-        registeredProductsListener.onErrorResponse(ErrorType.METADATA_FAILED.getDescription(), ErrorType.METADATA_FAILED.getCode());
-        verify(userProductMock).handleError(product, ErrorType.METADATA_FAILED.getCode(), listener);
+        registeredProductsListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), ProdRegError.METADATA_FAILED.getCode());
+        verify(userProductMock).handleError(product, ProdRegError.METADATA_FAILED.getCode(), listener);
     }
 
     public void testHandleErrorCases() {
         ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
         Product product = mock(Product.class);
-        userProduct.handleError(product, ErrorType.INVALID_CTN.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock).onProdRegFailed(ErrorType.INVALID_CTN);
-        userProduct.handleError(product, ErrorType.INVALID_SERIALNUMBER.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock).onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
-        userProduct.handleError(product, ErrorType.INVALID_VALIDATION.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock).onProdRegFailed(ErrorType.INVALID_VALIDATION);
-        userProduct.handleError(product, ErrorType.NO_INTERNET_AVAILABLE.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock).onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
-        userProduct.handleError(product, ErrorType.INTERNAL_SERVER_ERROR.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock).onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
-        userProduct.handleError(product, ErrorType.METADATA_FAILED.getCode(), prodRegListenerMock);
-        verify(prodRegListenerMock).onProdRegFailed(ErrorType.METADATA_FAILED);
+        userProduct.handleError(product, ProdRegError.INVALID_CTN.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ProdRegError.INVALID_CTN);
+        userProduct.handleError(product, ProdRegError.INVALID_SERIALNUMBER.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ProdRegError.INVALID_SERIALNUMBER);
+        userProduct.handleError(product, ProdRegError.INVALID_VALIDATION.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ProdRegError.INVALID_VALIDATION);
+        userProduct.handleError(product, ProdRegError.NO_INTERNET_AVAILABLE.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ProdRegError.NO_INTERNET_AVAILABLE);
+        userProduct.handleError(product, ProdRegError.INTERNAL_SERVER_ERROR.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ProdRegError.INTERNAL_SERVER_ERROR);
+        userProduct.handleError(product, ProdRegError.METADATA_FAILED.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ProdRegError.METADATA_FAILED);
         userProduct.handleError(product, 600, prodRegListenerMock);
-        verify(prodRegListenerMock).onProdRegFailed(ErrorType.UNKNOWN);
+        verify(prodRegListenerMock).onProdRegFailed(ProdRegError.UNKNOWN);
         final UserProduct userProductMock = mock(UserProduct.class);
 
         UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
@@ -231,7 +231,7 @@ public class UserProductTest extends MockitoTestCase {
                 return userProductMock;
             }
         };
-        userProduct.handleError(product, ErrorType.ACCESS_TOKEN_INVALID.getCode(), prodRegListenerMock);
+        userProduct.handleError(product, ProdRegError.ACCESS_TOKEN_INVALID.getCode(), prodRegListenerMock);
         verify(userProductMock).onAccessTokenExpire(product, prodRegListenerMock);
     }
 
@@ -261,8 +261,8 @@ public class UserProductTest extends MockitoTestCase {
             }
 
             @Override
-            public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.MISSING_SERIALNUMBER, errorType);
+            public void onProdRegFailed(final ProdRegError errorType) {
+                assertEquals(ProdRegError.MISSING_SERIALNUMBER, errorType);
             }
         };
 
@@ -272,8 +272,8 @@ public class UserProductTest extends MockitoTestCase {
             }
 
             @Override
-            public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.INVALID_SERIALNUMBER, errorType);
+            public void onProdRegFailed(final ProdRegError errorType) {
+                assertEquals(ProdRegError.INVALID_SERIALNUMBER, errorType);
             }
         };
         when(data.getRequiresSerialNumber()).thenReturn("true");
@@ -295,8 +295,8 @@ public class UserProductTest extends MockitoTestCase {
             }
 
             @Override
-            public void onProdRegFailed(final ErrorType errorType) {
-                assertEquals(ErrorType.MISSING_DATE, errorType);
+            public void onProdRegFailed(final ProdRegError errorType) {
+                assertEquals(ProdRegError.MISSING_DATE, errorType);
             }
         };
         assertFalse(userProduct.validatePurchaseDateFromMetadata(data, productMock, listener));
@@ -433,7 +433,7 @@ public class UserProductTest extends MockitoTestCase {
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         RefreshLoginSessionHandler refreshLoginSessionHandler = userProduct.getRefreshLoginSessionHandler(product, prodRegListener, context);
         refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(50);
-        verify(prodRegListener).onProdRegFailed(ErrorType.REFRESH_ACCESS_TOKEN_FAILED);
+        verify(prodRegListener).onProdRegFailed(ProdRegError.REFRESH_ACCESS_TOKEN_FAILED);
         refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
         verify(userProductMock).retryRequests(context, product, prodRegListener);
     }
@@ -463,8 +463,8 @@ public class UserProductTest extends MockitoTestCase {
         ProductMetadataResponse responseDataMock = mock(ProductMetadataResponse.class);
         metadataListener.onMetadataResponse(responseDataMock);
         verify(userProductMock).makeRegistrationRequest(context, productMock, prodRegListenerMock);
-        metadataListener.onErrorResponse(ErrorType.METADATA_FAILED.getDescription(), ErrorType.METADATA_FAILED.getCode());
-        verify(userProductMock).handleError(productMock, ErrorType.METADATA_FAILED.getCode(), prodRegListenerMock);
+        metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), ProdRegError.METADATA_FAILED.getCode());
+        verify(userProductMock).handleError(productMock, ProdRegError.METADATA_FAILED.getCode(), prodRegListenerMock);
     }
 
     public void testRegistrationRequest() {

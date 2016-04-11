@@ -36,23 +36,28 @@ public class CacheHandler {
     protected File getInternalCacheForProductToRegister(final DIUserProfile diUserProfile, final Product product) {
         String basePath = getBasePath();
         String mUuid = "/" + getUUID(diUserProfile);
-        String mCtn = product.getCtn().replace("/","") + "_";
+        String mCtn = product.getCtn().replace("/", "") + "_";
         String mSerialNumber = getSerialNumber(product);
         if (mUuid.equals("/nouuid/")) {
             final String fileName = basePath + mUuid;
             createFolder(fileName);
-            return createFileIfNotCreated(new File(fileName, mCtn + mSerialNumber));
+            final File file = new File(fileName, mCtn + mSerialNumber);
+            createFileIfNotCreated(file);
+            return file;
         } else {
             createFolder(basePath);
-            return createFileIfNotCreated(new File(basePath, mUuid + mCtn + mSerialNumber));
+            final File file = new File(basePath, mUuid + mCtn + mSerialNumber);
+            createFileIfNotCreated(file);
+            return file;
         }
     }
 
-    protected String createFolder(final String fileName) {
+    protected boolean createFolder(final String fileName) {
         final File file = new File(fileName);
         if (!file.exists())
-            file.mkdirs();
-        return fileName;
+            return file.mkdirs();
+
+        return false;
     }
 
     private String getBasePath() {
@@ -68,7 +73,7 @@ public class CacheHandler {
     }
 
     protected String getUUID(final DIUserProfile diUserProfile) {
-        String uuid = null;
+        String uuid;
         if (diUserProfile != null) {
             if (diUserProfile.getHsdpUUID() != null && diUserProfile.getHsdpUUID().length() != 0)
                 uuid = diUserProfile.getHsdpUUID() + "_";
@@ -83,7 +88,7 @@ public class CacheHandler {
 
     protected void cacheObject(final Object object, final File file) {
         createFileIfNotCreated(file);
-        ObjectOutput out = null;
+        ObjectOutput out;
         try {
             out = new ObjectOutputStream(new FileOutputStream(file));
             out.writeObject(object);
@@ -93,32 +98,29 @@ public class CacheHandler {
         }
     }
 
-    protected File createFileIfNotCreated(final File file) {
+    protected boolean createFileIfNotCreated(final File file) {
         if (!file.exists())
             try {
-                file.createNewFile();
+                return file.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        return file;
+        return false;
     }
 
     private ArrayList<Product> returnCachedProducts(ArrayList<File> files) {
         ObjectInputStream in = null;
         ArrayList<Product> products = new ArrayList<>();
         try {
-
             for (File file : files) {
                 in = new ObjectInputStream(new FileInputStream(file));
                 Product product = (Product) in.readObject();
                 products.add(product);
                 Log.d(TAG, product.getCtn());
             }
-
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+            if (in != null)
+                in.close();
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return products;
@@ -141,13 +143,13 @@ public class CacheHandler {
         return products;
     }
 
-    private void addFilesToList(final File[] filesNoUuid, final ArrayList<File> fileArrayList) {
-        for (File file1 : filesNoUuid) {
-            if (file1.isFile()) {
-                fileArrayList.add(file1);
+    private void addFilesToList(final File[] files, final ArrayList<File> fileArrayList) {
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    fileArrayList.add(file);
+                }
             }
         }
     }
-
-
 }

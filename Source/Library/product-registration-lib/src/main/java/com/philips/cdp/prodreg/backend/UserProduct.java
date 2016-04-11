@@ -6,9 +6,9 @@ import android.util.Log;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.handler.ErrorType;
 import com.philips.cdp.prodreg.handler.MetadataListener;
 import com.philips.cdp.prodreg.handler.ProdRegConstants;
+import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.handler.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.ProductMetadataResponse;
@@ -33,12 +33,12 @@ import java.util.ArrayList;
 public class UserProduct {
 
     private final String TAG = getClass() + "";
-    private Context mContext;
     private String requestType;
     private Sector sector;
     private Catalog catalog;
     private String locale;
     private RegisteredProductsListener registeredProductsListener;
+    private Context mContext;
 
     public UserProduct(final Sector sector, final Catalog catalog) {
         this.sector = sector;
@@ -46,22 +46,27 @@ public class UserProduct {
     }
 
     public void registerProduct(final Context context, final Product product, final ProdRegListener appListener) {
-        this.mContext = context;
-        this.requestType = ProdRegConstants.PRODUCT_REGISTRATION;
+        setContext(context);
+        setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
         final User mUser = new User(context);
         CacheHandler cacheHandler = getCacheHandler(context);
         cacheHandler.cacheProductsToRegister(product, mUser.getUserInstance(context));
         ArrayList<Product> products = cacheHandler.getProductsCached();
+        registerCachedProducts(context, mUser, products, appListener);
+    }
 
-        if (!isUserSignedIn(mUser, context)) {
-            appListener.onProdRegFailed(ErrorType.USER_NOT_SIGNED_IN);
-        } else {
-            if (!isValidaDate(product.getPurchaseDate())) {
-                appListener.onProdRegFailed(ErrorType.INVALID_DATE);
+    private void registerCachedProducts(final Context context, final User mUser, final ArrayList<Product> products, final ProdRegListener appListener) {
+        for (Product product : products) {
+            if (!isUserSignedIn(mUser, context)) {
+                appListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
             } else {
-                UserProduct userProduct = getUserProduct();
-                userProduct.setLocale(this.locale);
-                userProduct.getRegisteredProducts(context, getRegisteredProductsListener(context, product, appListener));
+                if (!isValidaDate(product.getPurchaseDate())) {
+                    appListener.onProdRegFailed(ProdRegError.INVALID_DATE);
+                } else {
+                    UserProduct userProduct = getUserProduct();
+                    userProduct.setLocale(this.locale);
+                    userProduct.getRegisteredProducts(context, getRegisteredProductsListener(context, product, appListener));
+                }
             }
         }
     }
@@ -72,8 +77,8 @@ public class UserProduct {
     }
 
     public void getRegisteredProducts(final Context context, final RegisteredProductsListener registeredProductsListener) {
-        this.mContext = context;
-        this.requestType = ProdRegConstants.FETCH_REGISTERED_PRODUCTS;
+        setContext(context);
+        setRequestType(ProdRegConstants.FETCH_REGISTERED_PRODUCTS);
         this.registeredProductsListener = registeredProductsListener;
         RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest(context);
         final RequestManager mRequestManager = getRequestManager(context);
@@ -82,24 +87,24 @@ public class UserProduct {
 
     protected void handleError(final Product product, final int statusCode, final ProdRegListener appListener) {
 //        new CacheHandler(mContext).deleteFile(product.getPath());
-        if (statusCode == ErrorType.INVALID_CTN.getCode()) {
-            appListener.onProdRegFailed(ErrorType.INVALID_CTN);
-        } else if (statusCode == ErrorType.USER_TOKEN_EXPIRED.getCode()) {
+        if (statusCode == ProdRegError.INVALID_CTN.getCode()) {
+            appListener.onProdRegFailed(ProdRegError.INVALID_CTN);
+        } else if (statusCode == ProdRegError.USER_TOKEN_EXPIRED.getCode()) {
             getUserProduct().onAccessTokenExpire(product, appListener);
-        } else if (statusCode == ErrorType.ACCESS_TOKEN_INVALID.getCode()) {
+        } else if (statusCode == ProdRegError.ACCESS_TOKEN_INVALID.getCode()) {
             getUserProduct().onAccessTokenExpire(product, appListener);
-        } else if (statusCode == ErrorType.INVALID_VALIDATION.getCode()) {
-            appListener.onProdRegFailed(ErrorType.INVALID_VALIDATION);
-        } else if (statusCode == ErrorType.INVALID_SERIALNUMBER.getCode()) {
-            appListener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
-        } else if (statusCode == ErrorType.NO_INTERNET_AVAILABLE.getCode()) {
-            appListener.onProdRegFailed(ErrorType.NO_INTERNET_AVAILABLE);
-        } else if (statusCode == ErrorType.INTERNAL_SERVER_ERROR.getCode()) {
-            appListener.onProdRegFailed(ErrorType.INTERNAL_SERVER_ERROR);
-        } else if (statusCode == ErrorType.METADATA_FAILED.getCode()) {
-            appListener.onProdRegFailed(ErrorType.METADATA_FAILED);
+        } else if (statusCode == ProdRegError.INVALID_VALIDATION.getCode()) {
+            appListener.onProdRegFailed(ProdRegError.INVALID_VALIDATION);
+        } else if (statusCode == ProdRegError.INVALID_SERIALNUMBER.getCode()) {
+            appListener.onProdRegFailed(ProdRegError.INVALID_SERIALNUMBER);
+        } else if (statusCode == ProdRegError.NO_INTERNET_AVAILABLE.getCode()) {
+            appListener.onProdRegFailed(ProdRegError.NO_INTERNET_AVAILABLE);
+        } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()) {
+            appListener.onProdRegFailed(ProdRegError.INTERNAL_SERVER_ERROR);
+        } else if (statusCode == ProdRegError.METADATA_FAILED.getCode()) {
+            appListener.onProdRegFailed(ProdRegError.METADATA_FAILED);
         } else {
-            appListener.onProdRegFailed(ErrorType.UNKNOWN);
+            appListener.onProdRegFailed(ProdRegError.UNKNOWN);
         }
     }
 
@@ -139,6 +144,10 @@ public class UserProduct {
 
     String getRequestType() {
         return requestType;
+    }
+
+    private void setRequestType(final String requestType) {
+        this.requestType = requestType;
     }
 
     @NonNull
@@ -183,7 +192,7 @@ public class UserProduct {
             if (purchaseDate != null && purchaseDate.length() > 0) {
                 return true;
             } else {
-                listener.onProdRegFailed(ErrorType.MISSING_DATE);
+                listener.onProdRegFailed(ProdRegError.MISSING_DATE);
                 return false;
             }
         } else
@@ -194,7 +203,7 @@ public class UserProduct {
     protected boolean isCtnRegistered(final RegisteredResponseData[] results, final Product product, final ProdRegListener listener) {
         for (RegisteredResponseData result : results) {
             if (product.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
-                listener.onProdRegFailed(ErrorType.PRODUCT_ALREADY_REGISTERED);
+                listener.onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
                 return true;
             }
         }
@@ -237,7 +246,7 @@ public class UserProduct {
             @Override
             public void onRefreshLoginSessionFailedWithError(final int error) {
                 Log.d(TAG, "error in refreshing session");
-                appListener.onProdRegFailed(ErrorType.REFRESH_ACCESS_TOKEN_FAILED);
+                appListener.onProdRegFailed(ProdRegError.REFRESH_ACCESS_TOKEN_FAILED);
             }
         };
     }
@@ -305,17 +314,6 @@ public class UserProduct {
         mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(product, appListener));
     }
 
-    private boolean processSerialNumber(final ProductMetadataResponseData data, final Product product, final ProdRegListener listener) {
-        if (product.getSerialNumber() == null || product.getSerialNumber().length() < 1) {
-            listener.onProdRegFailed(ErrorType.MISSING_SERIALNUMBER);
-            return true;
-        } else if (!product.getSerialNumber().matches(data.getSerialNumberFormat())) {
-            listener.onProdRegFailed(ErrorType.INVALID_SERIALNUMBER);
-            return true;
-        }
-        return false;
-    }
-
     public RegisteredProductsListener getRegisteredProductsListener() {
         return registeredProductsListener;
     }
@@ -336,4 +334,18 @@ public class UserProduct {
         this.locale = locale;
     }
 
+    private boolean processSerialNumber(final ProductMetadataResponseData data, final Product product, final ProdRegListener listener) {
+        if (product.getSerialNumber() == null || product.getSerialNumber().length() < 1) {
+            listener.onProdRegFailed(ProdRegError.MISSING_SERIALNUMBER);
+            return true;
+        } else if (!product.getSerialNumber().matches(data.getSerialNumberFormat())) {
+            listener.onProdRegFailed(ProdRegError.INVALID_SERIALNUMBER);
+            return true;
+        }
+        return false;
+    }
+
+    private void setContext(final Context context) {
+        this.mContext = context;
+    }
 }

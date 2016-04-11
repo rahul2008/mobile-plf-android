@@ -10,5 +10,5 @@ public interface ProdRegListener {
 
     void onProdRegSuccess(ResponseData responseData);
 
-    void onProdRegFailed(ErrorType errorType);
+    void onProdRegFailed(ProdRegError prodRegError);
 }

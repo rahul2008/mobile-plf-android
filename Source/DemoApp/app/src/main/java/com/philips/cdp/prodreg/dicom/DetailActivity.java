@@ -27,7 +27,7 @@ import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.Util;
 import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
-import com.philips.cdp.prodreg.handler.ErrorType;
+import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.model.RegistrationResponse;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -208,7 +208,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onProdRegFailed(ErrorType errorType) {
+            public void onProdRegFailed(ProdRegError errorType) {
                 Log.d(TAG, "Negative Response Data : " + errorType.getDescription() + " with error code : " + errorType.getCode());
                 Toast.makeText(DetailActivity.this, errorType.getDescription(), Toast.LENGTH_SHORT).show();
             }
