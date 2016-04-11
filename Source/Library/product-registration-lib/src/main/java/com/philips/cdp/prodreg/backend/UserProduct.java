@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.handler.MetadataListener;
@@ -13,8 +14,10 @@ import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.handler.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.ProductMetadataResponseData;
+import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.prodreg.model.RegisteredResponse;
 import com.philips.cdp.prodreg.model.RegisteredResponseData;
+import com.philips.cdp.prodreg.model.RegistrationState;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.RequestManager;
@@ -32,6 +35,7 @@ import java.util.ArrayList;
  */
 public class UserProduct {
 
+    public static String PRODUCT_REGISTRATION_KEY = "prod_reg_key";
     private final String TAG = getClass() + "";
     private String requestType;
     private Sector sector;
@@ -49,10 +53,24 @@ public class UserProduct {
         setContext(context);
         setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
         final User mUser = new User(context);
+        RegisteredProduct registeredProduct = mapProductToRegisteredProduct(product);
+        Gson gson = new Gson();
+        String json = gson.toJson(registeredProduct);
         CacheHandler cacheHandler = getCacheHandler(context);
         cacheHandler.cacheProductsToRegister(product, mUser.getUserInstance(context));
         ArrayList<Product> products = cacheHandler.getProductsCached();
+
+        LocalRegisteredProducts localRegisteredProducts = new LocalRegisteredProducts(context);
+        localRegisteredProducts.storeProductLocally(json);
+        localRegisteredProducts.getRegisteredProducts();
         registerCachedProducts(context, mUser, products, appListener);
+    }
+
+    private RegisteredProduct mapProductToRegisteredProduct(final Product product) {
+        RegisteredProduct registeredProduct = new RegisteredProduct(product.getCtn(), product.getSerialNumber(), product.getPurchaseDate(), product.getSector(), product.getCatalog());
+        registeredProduct.setLocale(product.getLocale());
+        registeredProduct.setRegistrationState(RegistrationState.PENDING);
+        return registeredProduct;
     }
 
     private void registerCachedProducts(final Context context, final User mUser, final ArrayList<Product> products, final ProdRegListener appListener) {

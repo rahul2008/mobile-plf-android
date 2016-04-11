@@ -5,16 +5,18 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.backend.Product;
 import com.philips.cdp.prodreg.handler.ProdRegError;
 
+import java.io.Serializable;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegisteredProduct extends Product {
+public class RegisteredProduct extends Product implements Serializable {
 
     private RegistrationState registrationState;
     private String endWarrantyDate;
     private String userUUid;
-    private String shouldSendEmailAfterRegistration;
+    private String shouldSendEmailAfterRegistration = "false";
     private ProdRegError prodRegError;
 
     public RegisteredProduct(final String ctn, final String serialNumber, final String purchaseDate, final Sector sector, final Catalog catalog) {
