@@ -73,6 +73,7 @@
         android:layout_height="wrap_content"
         android:text="SHOP NOW"
         android:layout_above="@id/btn_register"
+        android:visibility="gone"
         />
 
 </RelativeLayout>

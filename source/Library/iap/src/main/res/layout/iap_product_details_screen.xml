@@ -76,5 +76,35 @@
             android:layout_marginStart="@dimen/iap_product_detail_left_padding"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/iap_product_overview" />
+
+        <Button
+            android:id="@+id/add_to_cart"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/product_overview"
+            android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+            android:enabled="true"
+            android:text="@string/iap_add_to_cart"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/network_margin_left_right"
+            />
+
+        <Button
+            android:id="@+id/buy_from_retailor"
+            style="?attr/uikit_outlinedButtonStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/add_to_cart"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
+            android:enabled="true"
+            android:visibility="gone"
+            android:text="@string/iap_buy_from_retailors"/>
+
     </RelativeLayout>
 </ScrollView>

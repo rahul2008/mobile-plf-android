@@ -18,7 +18,9 @@ import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener{
     private IAPFragmentListener mActivityListener;
@@ -39,6 +41,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     public void onResume() {
         super.onResume();
         setBackButtonVisibility(View.VISIBLE);
+        setCartIconVisibility(View.GONE);
     }
 
     public void addFragment(BaseAnimationSupportFragment newFragment,
@@ -78,4 +81,15 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
     }
+
+
+    public void updateCount(final int count) {
+        mActivityListener.updateCount(count);
+    }
+
+
+    public void setCartIconVisibility(final int visibility) {
+        mActivityListener.setCartIconVisibility(visibility);
+    }
+
 }
