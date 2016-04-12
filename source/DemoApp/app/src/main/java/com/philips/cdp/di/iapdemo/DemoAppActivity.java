@@ -78,11 +78,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         });
     }
 
-   /* @Override
+   @Override
     protected void onResume() {
         super.onResume();
 
-        *//** Should be commented for debug builds *//*
+        //** Should be commented for debug builds *//*
         final String HOCKEY_APP_ID = "dc402a11ae984bd18f99c07d9b4fe6a4";
         CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
 
