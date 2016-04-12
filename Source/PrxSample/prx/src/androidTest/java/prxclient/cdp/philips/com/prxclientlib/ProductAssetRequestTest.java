@@ -31,9 +31,9 @@ public class ProductAssetRequestTest extends InstrumentationTestCase {
         super.setUp();
 
         mProductAssetBuilder = new ProductAssetRequest("125", null);
-        mProductAssetBuilder.setCatalogCode("COnsumer");
+     //   mProductAssetBuilder.setCatalogCode("COnsumer");
         mProductAssetBuilder.setLocale("nl_NL");
-        mProductAssetBuilder.setSectorCode("HAIR");
+      //  mProductAssetBuilder.setSectorCode("HAIR");
     }
 
     public void testAssetBuilderObject() {
@@ -55,7 +55,7 @@ public class ProductAssetRequestTest extends InstrumentationTestCase {
 
     }
 
-    public void testPrxBuilderSectorCode() {
+    /*public void testPrxBuilderSectorCode() {
 
         String response = mProductAssetBuilder.getSectorCode();
         assertEquals("HAIR", response);
@@ -65,7 +65,7 @@ public class ProductAssetRequestTest extends InstrumentationTestCase {
 
         String response = mProductAssetBuilder.getCatalogCode();
         assertEquals("COnsumer", response);
-    }
+    }*/
 
     public void testPrxBuilderObjectWithQueueParameter() {
         mProductAssetBuilder = new ProductAssetRequest("125", "TAGINFO");

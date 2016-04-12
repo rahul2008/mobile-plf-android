@@ -49,9 +49,9 @@ public class AssetModelTest extends InstrumentationTestCase {
         super.setUp();
 
         mProductAssetBuilder = new ProductAssetRequest("125", null);
-        mProductAssetBuilder.setCatalogCode("COnsumer");
+      //
         mProductAssetBuilder.setLocale("nl_NL");
-        mProductAssetBuilder.setSectorCode("HAIR");
+
 
         mAssetObject = new Asset();
         loadResources();
