@@ -16,9 +16,7 @@ import java.util.Map;
 public abstract class PrxRequest {
 
     private String mServerInfo = "www.philips.com/prx";
-    private String mSectorCode = null;
     private String mLocale = null;
-    private String mCatalogCode = null;
     private Sector mSector;
     private Catalog mCatalog;
     private String mLocaleMatchResult;
@@ -38,28 +36,12 @@ public abstract class PrxRequest {
         return mServerInfo;
     }
 
-    public String getSectorCode() {
-        return mSectorCode;
-    }
-
-    public void setSectorCode(String mSectorCode) {
-        this.mSectorCode = mSectorCode;
-    }
-
     public String getLocale() {
         return mLocale;
     }
 
     public void setLocale(String mLocale) {
         this.mLocale = mLocale;
-    }
-
-    public String getCatalogCode() {
-        return mCatalogCode;
-    }
-
-    public void setCatalogCode(String mCatalogCode) {
-        this.mCatalogCode = mCatalogCode;
     }
 
     public Sector getSector() {

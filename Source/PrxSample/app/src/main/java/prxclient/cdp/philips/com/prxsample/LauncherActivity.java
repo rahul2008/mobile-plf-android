@@ -21,9 +21,7 @@ public class LauncherActivity extends AppCompatActivity {
     private static final String TAG = LauncherActivity.class.getSimpleName();
 
     private String mCtn = "RQ1250/17";
-    private String mSectorCode = "B2C";
     private String mLocale = "en_GB";
-    private String mCatalogCode = "CONSUMER";
     private String mRequestTag = null;
 
     @Override

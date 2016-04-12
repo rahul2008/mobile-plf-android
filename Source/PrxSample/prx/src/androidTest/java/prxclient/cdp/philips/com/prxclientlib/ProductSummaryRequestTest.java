@@ -34,7 +34,7 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
         mProductAssetBuilder = new ProductSummaryRequest("125", null);
       //  mProductAssetBuilder.setmCatalogCode("COnsumer");
         mProductAssetBuilder.setLocale("nl_NL");
-        mProductAssetBuilder.setSectorCode("HAIR");
+      //  mProductAssetBuilder.setSectorCode("HAIR");
     }
 
     public void testAssetBuilderObject() {
@@ -55,7 +55,7 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
         assertNotNull("http://www.philips.com/prx/product/HAIR/nl_NL/COnsumer/products/125.summary", mURL);
     }
 
-    public void testPrxBuilderSectorCode() {
+   /* public void testPrxBuilderSectorCode() {
 
         String response = mProductAssetBuilder.getSectorCode();
         assertEquals("HAIR", response);
@@ -65,7 +65,7 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
 
         String response = mProductAssetBuilder.getCatalogCode();
         assertNull(response);
-    }
+    }*/
 
     public void testPrxBuilderObjectWithQueueParameter() {
         mProductAssetBuilder = new ProductAssetRequest("125", "TAGINFO");
