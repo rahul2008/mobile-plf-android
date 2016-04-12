@@ -25,6 +25,8 @@ public class Product {
     private Sector sector;
     private Catalog catalog;
     private String locale;
+    private String shouldSendEmailAfterRegistration = "false";
+
 
     public Product(String ctn, String serialNumber, String purchaseDate, Sector sector, Catalog catalog) {
         this.ctn = ctn;
@@ -105,6 +107,14 @@ public class Product {
 
     public void setPurchaseDate(final String purchaseDate) {
         this.purchaseDate = purchaseDate;
+    }
+
+    public String getShouldSendEmailAfterRegistration() {
+        return shouldSendEmailAfterRegistration;
+    }
+
+    public void setShouldSendEmailAfterRegistration(final String shouldSendEmailAfterRegistration) {
+        this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
     }
 
     public ProductMetadataRequest getProductMetadataRequest(String ctn) {

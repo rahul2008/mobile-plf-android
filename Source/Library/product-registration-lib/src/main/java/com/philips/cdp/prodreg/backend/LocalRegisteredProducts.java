@@ -53,4 +53,14 @@ public class LocalRegisteredProducts {
         RegisteredProduct[] products = gson.fromJson(s, RegisteredProduct[].class);
         return Arrays.asList(products);
     }
+
+    public void updateRegisteredProducts(final RegisteredProduct registeredProduct) {
+        Gson gson = getGson();
+        Set<RegisteredProduct> registeredProducts = getCachedRegisteredProducts();
+        if (registeredProducts.contains(registeredProduct)) {
+            registeredProducts.remove(registeredProduct);
+        }
+        registeredProducts.add(registeredProduct);
+        localSharedPreference.storeData(UserProduct.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+    }
 }

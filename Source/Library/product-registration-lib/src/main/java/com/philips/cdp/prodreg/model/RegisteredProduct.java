@@ -14,7 +14,6 @@ public class RegisteredProduct extends Product {
     private RegistrationState registrationState;
     private String endWarrantyDate;
     private String userUUid;
-    private String shouldSendEmailAfterRegistration = "false";
     private ProdRegError prodRegError;
 
     public RegisteredProduct(final String ctn, final String serialNumber, final String purchaseDate, final Sector sector, final Catalog catalog) {
@@ -43,14 +42,6 @@ public class RegisteredProduct extends Product {
 
     public void setUserUUid(final String userUUid) {
         this.userUUid = userUUid;
-    }
-
-    public String getShouldSendEmailAfterRegistration() {
-        return shouldSendEmailAfterRegistration;
-    }
-
-    public void setShouldSendEmailAfterRegistration(final String shouldSendEmailAfterRegistration) {
-        this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
     }
 
     public ProdRegError getProdRegError() {
