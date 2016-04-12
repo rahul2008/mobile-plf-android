@@ -229,6 +229,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "test") {
                        '**/BuildConfig.*',
                        '**/response/*/*.class',
                        '**/view/*.class',
+                       '**/adapters/*.class',
+                       '**/analytics/*.class',
                        '**/Fragments/*.class']
     )
 
