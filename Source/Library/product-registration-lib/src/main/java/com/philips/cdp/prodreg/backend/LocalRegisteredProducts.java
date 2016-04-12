@@ -24,9 +24,9 @@ public class LocalRegisteredProducts {
         localSharedPreference = new LocalSharedPreference(context);
     }
 
-    public void storeProductLocally(RegisteredProduct registeredProduct) {
+    public void store(RegisteredProduct registeredProduct) {
         Gson gson = getGson();
-        Set<RegisteredProduct> registeredProducts = getCachedRegisteredProducts();
+        Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();
         registeredProducts.add(registeredProduct);
         localSharedPreference.storeData(UserProduct.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
@@ -36,7 +36,7 @@ public class LocalRegisteredProducts {
         return new Gson();
     }
 
-    protected Set<RegisteredProduct> getCachedRegisteredProducts() {
+    protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
         final String data = localSharedPreference.getData(UserProduct.PRODUCT_REGISTRATION_KEY);
         Gson gson = getGson();
         RegisteredProduct[] registeredProducts = gson.fromJson(data,
@@ -56,7 +56,7 @@ public class LocalRegisteredProducts {
 
     public void updateRegisteredProducts(final RegisteredProduct registeredProduct) {
         Gson gson = getGson();
-        Set<RegisteredProduct> registeredProducts = getCachedRegisteredProducts();
+        Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();
         if (registeredProducts.contains(registeredProduct)) {
             registeredProducts.remove(registeredProduct);
         }

@@ -53,9 +53,24 @@ public class UserProduct {
         setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
         final User mUser = getUser(context);
         RegisteredProduct registeredProduct = mapProductToRegisteredProduct(product);
-        LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance(context);
-        localRegisteredProducts.storeProductLocally(registeredProduct);
-        registerCachedProducts(context, mUser, localRegisteredProducts.getRegisteredProducts(), appListener);
+        if (!validateIsUserRegisteredLocally(registeredProduct)) {
+            LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance(context);
+            localRegisteredProducts.store(registeredProduct);
+            final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
+            registerCachedProducts(context, mUser, registeredProducts, appListener);
+        } else
+            appListener.onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
+    }
+
+    private boolean validateIsUserRegisteredLocally(final RegisteredProduct registeredProduct) {
+        final List<RegisteredProduct> registeredProducts = getLocalRegisteredProductsInstance(mContext).getRegisteredProducts();
+        final int index = registeredProducts.indexOf(registeredProduct);
+        if (index != -1) {
+            RegisteredProduct product = registeredProducts.get(index);
+            final RegistrationState registrationState = product.getRegistrationState();
+            return registrationState != RegistrationState.PENDING;
+        }
+        return false;
     }
 
     @NonNull
@@ -78,7 +93,8 @@ public class UserProduct {
     private void registerCachedProducts(final Context context, final User mUser, final List<RegisteredProduct> registeredProducts, final ProdRegListener appListener) {
         for (RegisteredProduct registeredProduct : registeredProducts) {
             Log.d(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber());
-            if (registeredProduct.getRegistrationState() == RegistrationState.PENDING) {
+            final RegistrationState registrationState = registeredProduct.getRegistrationState();
+            if (registrationState == RegistrationState.PENDING) {
                 if (!isUserSignedIn(mUser, context)) {
                     registeredProduct.setRegistrationState(RegistrationState.PENDING);
                     registeredProduct.setProdRegError(ProdRegError.USER_NOT_SIGNED_IN);
@@ -236,11 +252,11 @@ public class UserProduct {
         return true;
     }
 
-    protected boolean isCtnRegistered(final RegisteredResponseData[] results, final RegisteredProduct registeredProduct, final ProdRegListener listener) {
+    protected boolean isCtnRegistered(final RegisteredResponseData[] results, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         for (RegisteredResponseData result : results) {
             if (registeredProduct.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
-                updateLocaleCacheOnError(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.FAILED);
-                listener.onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
+                updateLocaleCacheOnError(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
+                appListener.onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
                 return true;
             }
         }
