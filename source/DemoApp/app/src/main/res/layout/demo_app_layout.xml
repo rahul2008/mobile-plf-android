@@ -52,11 +52,33 @@
             android:visibility="gone" />
     </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/select_country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shoppingCart"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/select_country"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" />
+    </LinearLayout>
+
     <ListView
         android:id="@+id/product_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/shoppingCart"
+        android:layout_below="@+id/select_country"
         android:layout_marginTop="20dp"
         android:visibility="gone" />
 
@@ -71,9 +93,9 @@
         android:id="@+id/btn_shop_now"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SHOP NOW"
         android:layout_above="@id/btn_register"
-        android:visibility="gone"
-        />
+        android:text="SHOP NOW"
+        android:visibility="gone" />
+
 
 </RelativeLayout>

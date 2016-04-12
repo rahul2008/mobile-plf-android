@@ -2,12 +2,14 @@ package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,9 +30,10 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DemoAppActivity extends Activity implements View.OnClickListener,
-        UserRegistrationListener, IAPHandlerListener {
+        UserRegistrationListener, IAPHandlerListener, AdapterView.OnItemSelectedListener {
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPurple_WhiteBackground;
 
@@ -69,24 +72,32 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mIapHandler = new IAPHandler();
 
-        mIapHandler.initIAP(this, "GB",new IAPHandlerListener() {
-            @Override
-            public void onSuccess(final int count) {
-                Log.d("initIAP", "onSuccess");
-            }
+        // Spinner element
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
-            @Override
-            public void onFailure(final int errorCode) {
-                Log.d("initIAP", "" + errorCode);
-            }
-        });
+        // Spinner click listener
+        spinner.setOnItemSelectedListener(this);
+
+        // Spinner Drop down elements
+        List<String> countries = new ArrayList<>();
+        countries.add("US");
+        countries.add("UK");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
     }
 
-   @Override
+    @Override
     protected void onResume() {
         super.onResume();
 
-        //** Should be commented for debug builds *//*
+        /** Should be commented for debug builds */
         final String HOCKEY_APP_ID = "dc402a11ae984bd18f99c07d9b4fe6a4";
         CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
 
@@ -257,6 +268,16 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onFailure(int errorCode) {
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }
