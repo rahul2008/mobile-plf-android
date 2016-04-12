@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.productCatalog;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +62,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
         String imageURL = productCatalogData.getImageURL();
         productHolder.mProductName.setText(productCatalogData.getProductTitle());
-        productHolder.mProductImage.setImageDrawable(mContext.getDrawable(R.drawable.toothbrush));
+        productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext,R.drawable.toothbrush));
         productHolder.mPrice.setText(productCatalogData.getFormatedPrice());
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());
         getNetworkImage(productHolder, imageURL);
