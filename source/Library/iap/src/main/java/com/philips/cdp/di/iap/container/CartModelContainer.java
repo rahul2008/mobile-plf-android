@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.container;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.address.AddressFields;
-import com.philips.cdp.di.iap.response.addresses.Addresses;
 
 import java.util.ArrayList;
 
@@ -18,6 +17,15 @@ public class CartModelContainer {
     private AddressFields mShippingAddressFields;
     private String cartNumber;
     private String regionIsoCode;
+    private String mAddressId;
+
+    public String getAddressId() {
+        return mAddressId;
+    }
+
+    public void setAddressId(String mAddressId) {
+        this.mAddressId = mAddressId;
+    }
 
     public String getRegionIsoCode() {
         return regionIsoCode;
