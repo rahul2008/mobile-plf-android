@@ -1,8 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'com.github.dcendents.android-maven'
 
 buildscript {
     repositories {
@@ -13,9 +11,7 @@ buildscript {
                 username = "readonly"
                 password = "readonly"
             }
-        }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
+        }       
     }
 
     dependencies {
@@ -26,65 +22,51 @@ buildscript {
     }
 }
 
+apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
+
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
-
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
-repositories {
-    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
-    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
-}
 
-android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
-
-    defaultConfig {
-        minSdkVersion 14
-        versionName objcdp.getVersionWithHash()
-        targetSdkVersion 23
-        renderscriptTargetApi 23
-        renderscriptSupportModeEnabled true
-        generatedDensities = []
-        multiDexEnabled true
-        testApplicationId "com.philips.cdp.digitalcare.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
-    }
-
-    android {
-        lintOptions {
-            abortOnError false
+allprojects {
+	repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
         }
-    }
-
-    resourcePrefix 'digitalCare'
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
 
-        debug {
-            debuggable true
-            minifyEnabled false
-            shrinkResources true
-            testCoverageEnabled true
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
+
+        flatDir {
+            dirs 'libs'
         }
     }
 }
 
-//maven configuration stuff required for artifactory plugin
-group = 'com.philips.cdp'
-version = objcdp.getVersion()
-
+    
+    group = 'com.philips.cdp'
+	version = objcdp.getVersion()
+	
 artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory' /* I
-am working to fetch this url also via api */
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
         repository {
             repoKey = objcdp.getArtifactoryRepoKey('android')
@@ -93,12 +75,11 @@ am working to fetch this url also via api */
             publishPom = true
             publishIvy = false
             publishBuildInfo = true
-            maven = true
         }
     }
     resolve {
         repository {
-            repoKey = 'libs-release-local-android'
+            repoKey = 'libs-release-local'
         }
     }
 }
@@ -118,6 +99,46 @@ task zipDocuments(type: Zip) {
     }
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
+
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        minSdkVersion 14
+        versionName objcdp.getVersionWithHash()
+        targetSdkVersion 23
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
+        generatedDensities = []
+        multiDexEnabled true
+        testApplicationId "com.philips.cdp.digitalcare.test"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+    }
+
+    lintOptions {
+            abortOnError false
+        }
+    
+	resourcePrefix 'digitalCare'
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources true
+            testCoverageEnabled true
+        }
+    }
+}
+
 
 dependencies {
     compile 'com.google.android.gms:play-services:6.1.+'
