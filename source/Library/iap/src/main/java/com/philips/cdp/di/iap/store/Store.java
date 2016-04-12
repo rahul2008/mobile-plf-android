@@ -149,6 +149,10 @@ public class Store {
                 .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
     }
 
+    public String getLocale() {
+        return mStoreConfig.getLocale();
+    }
+
     //Package level access
     //Called when janrain token is changed
     void updateJanRainIDBasedUrls() {

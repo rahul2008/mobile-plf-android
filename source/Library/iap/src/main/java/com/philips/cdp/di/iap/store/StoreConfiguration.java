@@ -62,4 +62,8 @@ public class StoreConfiguration {
     public void generateStoreUrls() {
         mStore.generateStoreUrls();
     }
+
+    public String getLocale() {
+        return mWebStoreConfig.getLocale();
+    }
 }
