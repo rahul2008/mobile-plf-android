@@ -21,9 +21,9 @@ import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.request.PrxRequest;
+import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
@@ -43,7 +43,7 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
 
 
     private static final String TAG = ProductModelSelectionLogic.class.getSimpleName();
-    private PrxDataBuilder mProductAssetBuilder = null;
+    private PrxRequest mProductAssetBuilder = null;
 
     @Override
     public void setUp() throws Exception {
