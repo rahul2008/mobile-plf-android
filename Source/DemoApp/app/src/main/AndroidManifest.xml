@@ -29,6 +29,8 @@
         <activity android:name="com.philips.cdp.prodreg.ProductActivity"/>
         <activity android:name="com.philips.cdp.prodreg.DiComActivity"/>
         <activity android:name="com.philips.cdp.prodreg.dicom.DetailActivity"/>
+        <activity android:name="com.philips.cdp.prodreg.RegisteredProductsList"/>
+
     </application>
 
 </manifest>

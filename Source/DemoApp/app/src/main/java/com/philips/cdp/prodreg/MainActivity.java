@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mBtnUserRegistration;
     private Button mBtnProductRegistration;
     private Button mBtnDiCom;
+    private Button mBtnRegisterList;
     private String TAG = getClass().toString();
 
     @Override
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mBtnDiCom = (Button) findViewById(R.id.btn_dicom);
         mBtnDiCom.setOnClickListener(this);
+
+        mBtnRegisterList= (Button) findViewById(R.id.btn_register_list);
+        mBtnRegisterList.setOnClickListener(this);
     }
 
     @Override
@@ -47,6 +51,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn_dicom:
                 intent = new Intent(this, DiComActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_register_list:
+                intent = new Intent(this, RegisteredProductsList.class);
                 startActivity(intent);
                 break;
             default:
