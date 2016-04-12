@@ -13,21 +13,18 @@ import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
-import java.io.Serializable;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class Product implements Serializable {
+public class Product {
 
-    private String ctn;
-    private String serialNumber;
+    private String ctn = "";
+    private String serialNumber = "";
     private String purchaseDate;
     private Sector sector;
     private Catalog catalog;
     private String locale;
-    private String path;
 
     public Product(String ctn, String serialNumber, String purchaseDate, Sector sector, Catalog catalog) {
         this.ctn = ctn;
@@ -114,11 +111,4 @@ public class Product implements Serializable {
         return new ProductMetadataRequest(ctn);
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(final String path) {
-        this.path = path;
-    }
 }

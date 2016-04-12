@@ -5,13 +5,11 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.backend.Product;
 import com.philips.cdp.prodreg.handler.ProdRegError;
 
-import java.io.Serializable;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegisteredProduct extends Product implements Serializable {
+public class RegisteredProduct extends Product {
 
     private RegistrationState registrationState;
     private String endWarrantyDate;
@@ -62,4 +60,22 @@ public class RegisteredProduct extends Product implements Serializable {
     public void setProdRegError(final ProdRegError prodRegError) {
         this.prodRegError = prodRegError;
     }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (object instanceof RegisteredProduct) {
+            RegisteredProduct registeredProduct = (RegisteredProduct) object;
+            if (registeredProduct.getCtn().equals(this.getCtn()) && registeredProduct.getSerialNumber().equals(this.getSerialNumber())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        final int value = 5 * 10 + ((getCtn() == null) ? 0 : getCtn().hashCode());
+        return value;
+    }
+
 }

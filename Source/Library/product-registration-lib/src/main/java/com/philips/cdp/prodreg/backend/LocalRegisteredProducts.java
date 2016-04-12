@@ -7,9 +7,10 @@ import com.google.gson.Gson;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -25,7 +26,7 @@ public class LocalRegisteredProducts {
 
     public void storeProductLocally(RegisteredProduct registeredProduct) {
         Gson gson = getGson();
-        ArrayList<RegisteredProduct> registeredProducts = getJsonArray();
+        Set<RegisteredProduct> registeredProducts = getCachedRegisteredProducts();
         registeredProducts.add(registeredProduct);
         localSharedPreference.storeData(UserProduct.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
@@ -35,15 +36,15 @@ public class LocalRegisteredProducts {
         return new Gson();
     }
 
-    public ArrayList<RegisteredProduct> getJsonArray() {
+    protected Set<RegisteredProduct> getCachedRegisteredProducts() {
         final String data = localSharedPreference.getData(UserProduct.PRODUCT_REGISTRATION_KEY);
         Gson gson = getGson();
         RegisteredProduct[] registeredProducts = gson.fromJson(data,
                 RegisteredProduct[].class);
         if (registeredProducts == null) {
-            return new ArrayList<>();
+            return new HashSet<>();
         }
-        return new ArrayList<>(Arrays.asList(registeredProducts));
+        return new HashSet<>(Arrays.asList(registeredProducts));
     }
 
     public List<RegisteredProduct> getRegisteredProducts() {

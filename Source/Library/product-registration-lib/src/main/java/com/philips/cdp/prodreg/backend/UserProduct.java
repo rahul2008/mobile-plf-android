@@ -53,9 +53,14 @@ public class UserProduct {
         setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
         final User mUser = getUser(context);
         RegisteredProduct registeredProduct = mapProductToRegisteredProduct(product);
-        LocalRegisteredProducts localRegisteredProducts = new LocalRegisteredProducts(context);
+        LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProducts(context);
         localRegisteredProducts.storeProductLocally(registeredProduct);
         registerCachedProducts(context, mUser, localRegisteredProducts.getRegisteredProducts(), appListener);
+    }
+
+    @NonNull
+    private LocalRegisteredProducts getLocalRegisteredProducts(final Context context) {
+        return new LocalRegisteredProducts(context);
     }
 
     @NonNull
@@ -72,6 +77,7 @@ public class UserProduct {
 
     private void registerCachedProducts(final Context context, final User mUser, final List<RegisteredProduct> products, final ProdRegListener appListener) {
         for (Product product : products) {
+            Log.d(TAG, product.getCtn() + "___" + product.getSerialNumber());
             if (!isUserSignedIn(mUser, context)) {
                 appListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
             } else {
