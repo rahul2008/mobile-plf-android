@@ -1,6 +1,6 @@
 package com.philips.cdp.digitalcare.listeners;
 
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 /**
  * Description :

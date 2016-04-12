@@ -11,14 +11,17 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.listeners.IPrxCallback;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
-import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
-import com.philips.cdp.prxclient.prxdatamodels.assets.Assets;
-import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.assets.Asset;
+import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.datamodels.assets.Assets;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.error.PrxError;
+import com.philips.cdp.prxclient.request.ProductAssetRequest;
+import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
@@ -124,24 +127,67 @@ public class PrxProductData {
 
     }
 
-    public ProductSummaryBuilder getPrxSummaryData() {
-        ProductSummaryBuilder mProductSummaryBuilder = new ProductSummaryBuilder(mCtn, null);
-        mProductSummaryBuilder.setmSectorCode(mSectorCode);
-        mProductSummaryBuilder.setLocale(mLocale);
-        mProductSummaryBuilder.setCatalogCode(mCatalogCode);
+    public ProductSummaryRequest getPrxSummaryData() {
+        ProductSummaryRequest mProductSummaryRequest = new ProductSummaryRequest(mCtn, null);
+        mProductSummaryRequest.setSector(getSectorEnum(mSectorCode));
+        mProductSummaryRequest.setLocale(mLocale);
+        mProductSummaryRequest.setCatalog(getCatalogEnum(mCatalogCode));
 
-        return mProductSummaryBuilder;
+        return mProductSummaryRequest;
     }
 
-    public ProductAssetBuilder getPrxAssetData() {
-        ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder(mCtn, null);
-        mProductAssetBuilder.setmSectorCode(mSectorCode);
-        mProductAssetBuilder.setLocale(mLocale);
-        mProductAssetBuilder.setCatalogCode(mCatalogCode);
+    public ProductAssetRequest getPrxAssetData() {
+        ProductAssetRequest mProductAssetRequest = new ProductAssetRequest(mCtn, null);
+        mProductAssetRequest.setSector(getSectorEnum(mSectorCode));
+        mProductAssetRequest.setLocale(mLocale);
+        mProductAssetRequest.setCatalog(getCatalogEnum(mCatalogCode));
 
-        return mProductAssetBuilder;
+        return mProductAssetRequest;
     }
 
+
+    private Sector getSectorEnum(String sectorText) {
+        switch (sectorText) {
+            case "B2C":
+                return Sector.B2C;
+
+            case "B2B_LI":
+                return Sector.B2B_LI;
+
+            case "B2B_HC":
+                return Sector.B2B_HC;
+            default:
+                return Sector.DEFAULT;
+
+        }
+    }
+
+    private Catalog getCatalogEnum(String catalogText) {
+        switch (catalogText) {
+            case "CONSUMER":
+                return Catalog.CONSUMER;
+            case "NONCONSUMER":
+                return Catalog.NONCONSUMER;
+            case "CARE":
+                return Catalog.CARE;
+            case "PROFESSIONAL":
+                return Catalog.PROFESSIONAL;
+            case "LP_OEM_ATG":
+                return Catalog.LP_OEM_ATG;
+            case "LP_PROF_ATG":
+                return Catalog.LP_PROF_ATG;
+            case "HC":
+                return Catalog.HC;
+            case "HHSSHOP":
+                return Catalog.HHSSHOP;
+            case "MOBILE":
+                return Catalog.MOBILE;
+            case "EXTENDEDCONSENT":
+                return Catalog.EXTENDEDCONSENT;
+            default:
+                return Catalog.DEFAULT;
+        }
+    }
 
     public void executeSummaryRequest() {
         if (mSummaryDialog == null)
@@ -167,8 +213,7 @@ public class PrxProductData {
                             if (mPrxCallback != null)
                                 mPrxCallback.onResponseReceived(mSummaryModel);
                         }
-                    }else
-                    {
+                    } else {
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
                         if (mPrxCallback != null)
                             mPrxCallback.onResponseReceived(null);
@@ -179,7 +224,7 @@ public class PrxProductData {
             }
 
             @Override
-            public void onResponseError(String error, int statuscode) {
+            public void onResponseError(PrxError error) {
                 DigiCareLogger.e(TAG, "Summary Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
                 if (mPrxCallback != null)
@@ -189,7 +234,6 @@ public class PrxProductData {
             }
         });
     }
-
 
     public void executeAssetRequest() {
 
@@ -203,7 +247,7 @@ public class PrxProductData {
 
                 if (responseData != null) {
                     mAssetModel = (AssetModel) responseData;
-                    com.philips.cdp.prxclient.prxdatamodels.assets.Data data = mAssetModel.getData();
+                    com.philips.cdp.prxclient.datamodels.assets.Data data = mAssetModel.getData();
                     String qsgManual = null, usermanual = null;
                     if (data != null) {
                         Assets assets = data.getAssets();
@@ -240,7 +284,7 @@ public class PrxProductData {
             }
 
             @Override
-            public void onResponseError(String error, int statusCode) {
+            public void onResponseError(PrxError error) {
                 DigiCareLogger.e(TAG, "Asset Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(DigitalCareConfigManager.getInstance().getViewProductDetailsData());
             }
@@ -261,7 +305,7 @@ public class PrxProductData {
 
                 if (responseData != null) {
                     mAssetModel = (AssetModel) responseData;
-                    com.philips.cdp.prxclient.prxdatamodels.assets.Data data = mAssetModel.getData();
+                    com.philips.cdp.prxclient.datamodels.assets.Data data = mAssetModel.getData();
                     String qsgManual = null, usermanual = null;
                     if (data != null) {
                         Assets assets = data.getAssets();
@@ -296,7 +340,7 @@ public class PrxProductData {
             }
 
             @Override
-            public void onResponseError(String error, int statusCode) {
+            public void onResponseError(PrxError error) {
                 DigiCareLogger.e(TAG, "Asset Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
                 if (mSummaryDialog != null && mSummaryDialog.isShowing())
