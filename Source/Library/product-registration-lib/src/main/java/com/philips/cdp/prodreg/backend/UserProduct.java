@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.handler.MetadataListener;
@@ -27,7 +26,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -52,18 +51,16 @@ public class UserProduct {
     public void registerProduct(final Context context, final Product product, final ProdRegListener appListener) {
         setContext(context);
         setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
-        final User mUser = new User(context);
+        final User mUser = getUser(context);
         RegisteredProduct registeredProduct = mapProductToRegisteredProduct(product);
-        Gson gson = new Gson();
-        String json = gson.toJson(registeredProduct);
-        CacheHandler cacheHandler = getCacheHandler(context);
-        cacheHandler.cacheProductsToRegister(product, mUser.getUserInstance(context));
-        ArrayList<Product> products = cacheHandler.getProductsCached();
-
         LocalRegisteredProducts localRegisteredProducts = new LocalRegisteredProducts(context);
-        localRegisteredProducts.storeProductLocally(json);
-        localRegisteredProducts.getRegisteredProducts();
-        registerCachedProducts(context, mUser, products, appListener);
+        localRegisteredProducts.storeProductLocally(registeredProduct);
+        registerCachedProducts(context, mUser, localRegisteredProducts.getRegisteredProducts(), appListener);
+    }
+
+    @NonNull
+    private User getUser(final Context context) {
+        return new User(context);
     }
 
     private RegisteredProduct mapProductToRegisteredProduct(final Product product) {
@@ -73,7 +70,7 @@ public class UserProduct {
         return registeredProduct;
     }
 
-    private void registerCachedProducts(final Context context, final User mUser, final ArrayList<Product> products, final ProdRegListener appListener) {
+    private void registerCachedProducts(final Context context, final User mUser, final List<RegisteredProduct> products, final ProdRegListener appListener) {
         for (Product product : products) {
             if (!isUserSignedIn(mUser, context)) {
                 appListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
@@ -89,11 +86,6 @@ public class UserProduct {
         }
     }
 
-    @NonNull
-    protected CacheHandler getCacheHandler(final Context context) {
-        return new CacheHandler(context);
-    }
-
     public void getRegisteredProducts(final Context context, final RegisteredProductsListener registeredProductsListener) {
         setContext(context);
         setRequestType(ProdRegConstants.FETCH_REGISTERED_PRODUCTS);
@@ -104,7 +96,6 @@ public class UserProduct {
     }
 
     protected void handleError(final Product product, final int statusCode, final ProdRegListener appListener) {
-//        new CacheHandler(mContext).deleteFile(product.getPath());
         if (statusCode == ProdRegError.INVALID_CTN.getCode()) {
             appListener.onProdRegFailed(ProdRegError.INVALID_CTN);
         } else if (statusCode == ProdRegError.USER_TOKEN_EXPIRED.getCode()) {
@@ -131,7 +122,7 @@ public class UserProduct {
         RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest();
         registeredProductsRequest.setSector(getSector());
         registeredProductsRequest.setCatalog(getCatalog());
-        registeredProductsRequest.setAccessToken(new User(context).getAccessToken());
+        registeredProductsRequest.setAccessToken(getUser(context).getAccessToken());
         registeredProductsRequest.setmLocale(getLocale());
         return registeredProductsRequest;
     }
@@ -239,7 +230,7 @@ public class UserProduct {
 
     @NonNull
     protected RegistrationRequest getRegistrationRequest(final Context context, final Product product) {
-        RegistrationRequest registrationRequest = new RegistrationRequest(product.getCtn(), product.getSerialNumber(), new User(context).getAccessToken());
+        RegistrationRequest registrationRequest = new RegistrationRequest(product.getCtn(), product.getSerialNumber(), getUser(context).getAccessToken());
         registrationRequest.setSector(product.getSector());
         registrationRequest.setCatalog(product.getCatalog());
         registrationRequest.setmLocale(product.getLocale());
@@ -249,7 +240,7 @@ public class UserProduct {
     }
 
     protected void onAccessTokenExpire(final Product product, final ProdRegListener appListener) {
-        final User user = new User(mContext);
+        final User user = getUser(mContext);
         user.refreshLoginSession(getRefreshLoginSessionHandler(product, appListener, mContext), mContext);
     }
 
