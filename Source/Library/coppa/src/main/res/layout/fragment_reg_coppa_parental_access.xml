@@ -57,7 +57,7 @@
                             android:background="@drawable/reg_under_age_tab" />
 
                         <com.philips.cdp.registration.ui.customviews.XButton
-                            android:id="@+id/btn_reg_under_16"
+                            android:id="@+id/btn_reg_under_age"
                             style="@style/reg_style_btn"
                             android:layout_marginRight="15dip"
                             android:enabled="true"
@@ -80,7 +80,7 @@
                             android:background="@drawable/reg_over_age_tab" />
 
                         <com.philips.cdp.registration.ui.customviews.XButton
-                            android:id="@+id/btn_reg_over_16"
+                            android:id="@+id/btn_reg_over_age"
                             style="@style/reg_style_btn"
                             android:enabled="true"
                             android:text="@string/Coppa_Age_Verification_OverAge_Txt"

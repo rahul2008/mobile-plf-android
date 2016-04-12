@@ -12,15 +12,21 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.listener.NumberPickerListener;
 import com.philips.cdp.registration.coppa.ui.customviews.RegCoppaAlertDialog;
 import com.philips.cdp.registration.coppa.ui.customviews.XNumberPickerDialog;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.servertime.ServerTime;
 
 public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment implements OnClickListener {
 
+    public static final int MAX_AGE_VAL = 116;
+    public static final int MIN_AGE_VAL = 1;
+    public static final int MAX_YEAR_VAL = 2016;
+    public static final int MIN_YEAR_VAL = 1910;
     private Button mBtnContinue;
     private TextView mTvHowOld;
     private TextView mTvYearOfBirth;
@@ -134,12 +140,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
         int id = v.getId();
         if (id == R.id.btn_reg_continue) {
-            if (isValidAge()) {
-                getRegistrationFragment().launchRegistrationFragment();
-            } else {
-                RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getString(R.string.Coppa_Age_Verification_Alert_Title),
-                        getActivity().getString(R.string.Coppa_Age_Verification_Age_Mismatch_Alert_Message), getActivity(), mOkBtnClick);
-            }
+            validateInputs();
 
         } else if (id == R.id.ll_reg_age_select_container || id == R.id.tv_reg_how_old) {
 
@@ -150,7 +151,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
                     updateUI();
                 }
             });
-            dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(), 1, 116);
+            dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(), MIN_AGE_VAL, MAX_AGE_VAL);
         } else if (id == R.id.ll_reg_age_year_container || id == R.id.tv_reg_birth_year) {
 
             XNumberPickerDialog dialogCoppaAgeVerification = new XNumberPickerDialog(new NumberPickerListener() {
@@ -160,23 +161,41 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
                     updateUI();
                 }
             });
-            dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(),1910,2016);
+            dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(), MIN_YEAR_VAL, MAX_YEAR_VAL);
         }
     }
 
-    private boolean isValidAge() {
+    private void validateInputs() {
         ServerTime.init(getActivity().getApplicationContext());
-        System.out.println("************** Time :  "+ServerTime.getInstance().getCurrentTime());
+        System.out.println("************** Time :  " + ServerTime.getInstance().getCurrentTime());
         String currentTime = ServerTime.getInstance().getCurrentTime();
         int currentYear = Integer.parseInt(currentTime.substring(0, 4));
         int selectedYear = Integer.parseInt(mTvSelectedYear.getText().toString().trim());
         int caluculateAge = currentYear - selectedYear;
         int howMuchOld = Integer.parseInt(mTvSelectedAge.getText().toString().trim());
-        if (howMuchOld == caluculateAge || howMuchOld == caluculateAge -1 ) {
-            return true;
+
+        int minAge = RegistrationConfiguration.getInstance().getFlow().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
+
+        if (howMuchOld < minAge) {
+            showParentalAccessDailog(minAge);
+            return;
         }
-        return false;
+
+        if (howMuchOld == caluculateAge || howMuchOld == caluculateAge - 1) {
+            getRegistrationFragment().launchRegistrationFragment();
+            return;
+        }
+        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getString(R.string.Coppa_Age_Verification_Alert_Title),
+                getActivity().getString(R.string.Coppa_Age_Verification_Age_Mismatch_Alert_Message), getActivity(), mOkBtnClick);
+
     }
+
+    private void showParentalAccessDailog(int minAge) {
+        String minAgeLimitTest = getActivity().getString(R.string.Coppa_Age_Verification_UnderAge_Alert_Txt);
+        minAgeLimitTest = String.format(minAgeLimitTest, minAge);
+        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getResources().getString(R.string.Coppa_Age_Verification_Screen_Title_txt), minAgeLimitTest, getActivity(), mOkBtnClick);
+    }
+
 
     private void updateUI() {
         if (mTvSelectedAge.length() > 0 && mTvSelectedYear.length() > 0) {
