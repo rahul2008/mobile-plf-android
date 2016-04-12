@@ -37,7 +37,7 @@ public class RegisteredProductsRequest extends PrxRequest {
 
     @Override
     public String getServerInfo() {
-        return "https://dev.philips.com/prx/registration.registeredProducts";
+        return "https://acc.philips.com/prx/registration.registeredProducts";
     }
 
     @Override

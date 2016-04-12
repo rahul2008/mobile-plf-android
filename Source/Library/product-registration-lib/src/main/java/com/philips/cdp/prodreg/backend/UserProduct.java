@@ -53,13 +53,14 @@ public class UserProduct {
         setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
         final User mUser = getUser(context);
         RegisteredProduct registeredProduct = mapProductToRegisteredProduct(product);
+        LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance(context);
         if (!validateIsUserRegisteredLocally(registeredProduct)) {
-            LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance(context);
             localRegisteredProducts.store(registeredProduct);
-            final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
-            registerCachedProducts(context, mUser, registeredProducts, appListener);
         } else
             appListener.onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
+
+        final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
+        registerCachedProducts(context, mUser, registeredProducts, appListener);
     }
 
     private boolean validateIsUserRegisteredLocally(final RegisteredProduct registeredProduct) {
@@ -68,7 +69,7 @@ public class UserProduct {
         if (index != -1) {
             RegisteredProduct product = registeredProducts.get(index);
             final RegistrationState registrationState = product.getRegistrationState();
-            return registrationState != RegistrationState.PENDING;
+            return registrationState == RegistrationState.REGISTERED;
         }
         return false;
     }
@@ -94,7 +95,7 @@ public class UserProduct {
         for (RegisteredProduct registeredProduct : registeredProducts) {
             Log.d(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber());
             final RegistrationState registrationState = registeredProduct.getRegistrationState();
-            if (registrationState == RegistrationState.PENDING) {
+            if (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) {
                 if (!isUserSignedIn(mUser, context)) {
                     registeredProduct.setRegistrationState(RegistrationState.PENDING);
                     registeredProduct.setProdRegError(ProdRegError.USER_NOT_SIGNED_IN);
@@ -267,7 +268,7 @@ public class UserProduct {
         if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
             if (processSerialNumber(data, registeredProduct, appListener)) return false;
         } else {
-            registeredProduct.setSerialNumber(null);
+            registeredProduct.setSerialNumber("");
         }
         return true;
     }

@@ -25,7 +25,7 @@ public class RegistrationRequest extends PrxRequest {
     private String ctn = null;
     private String accessToken;
     private String productSerialNumber;
-    private String mServerInfo = "https://dev.philips.com/prx/registration/";
+    private String mServerInfo = "https://acc.philips.com/prx/registration/";
     private String purchaseDate;
     private String registrationChannel;
     private String sendEmail;

@@ -57,7 +57,7 @@ public class Product {
 
             @Override
             public void onResponseError(String error, int code) {
-                metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), ProdRegError.METADATA_FAILED.getCode());
+                metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), code);
             }
         };
     }

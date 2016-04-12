@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -49,9 +50,12 @@ public class LocalRegisteredProducts {
 
     public List<RegisteredProduct> getRegisteredProducts() {
         Gson gson = getGson();
-        String s = localSharedPreference.getData(UserProduct.PRODUCT_REGISTRATION_KEY);
-        RegisteredProduct[] products = gson.fromJson(s, RegisteredProduct[].class);
-        return Arrays.asList(products);
+        String data = localSharedPreference.getData(UserProduct.PRODUCT_REGISTRATION_KEY);
+        RegisteredProduct[] products = gson.fromJson(data, RegisteredProduct[].class);
+        if (products != null)
+            return Arrays.asList(products);
+        else
+            return new ArrayList<>();
     }
 
     public void updateRegisteredProducts(final RegisteredProduct registeredProduct) {
