@@ -11,8 +11,10 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
+import com.philips.cdp.prxclient.request.ProductSupportRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
@@ -45,7 +47,7 @@ public class LauncherActivity extends AppCompatActivity {
         */
         PrxLogger.enablePrxLogger(true);
 
-        ProductSummaryRequest mProductAssetBuilder = new ProductSummaryRequest(mCtn, mRequestTag);
+        ProductSupportRequest mProductAssetBuilder = new ProductSupportRequest(mCtn, mRequestTag);
         mProductAssetBuilder.setSector(Sector.B2C);
         mProductAssetBuilder.setLocale(mLocale);
         mProductAssetBuilder.setCatalog(Catalog.CONSUMER);
@@ -56,7 +58,7 @@ public class LauncherActivity extends AppCompatActivity {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
 
-                SummaryModel mAssetModel = (SummaryModel) responseData;
+                SupportModel mAssetModel = (SupportModel) responseData;
 
                 Log.d(TAG, "Positive Response Data : " + mAssetModel.isSuccess());
 
