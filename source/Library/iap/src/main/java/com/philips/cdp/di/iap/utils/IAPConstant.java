@@ -38,4 +38,6 @@ public class IAPConstant {
     public static final String PRODUCT_DETAIL_FRAGMENT_IMAGE_URL = "PRODUCT_DETAIL_FRAGMENT_IMAGE_URL";
     public final static String NEW_LINE_ESCAPE_CHARACTER = "\n";
     public static final String INSUFFICIENT_STOCK_LEVEL_ERROR = "InsufficientStockLevelError";
+    public static final  String IAP_IS_SHOPPING_CART_VIEW_SELECTED = "IAP_IS_SHOPPING_CART_VIEW_SELECTED";
+    public static final String IS_PRODUCT_CATALOG = "IS_PRODUCT_CATALOG";
 }

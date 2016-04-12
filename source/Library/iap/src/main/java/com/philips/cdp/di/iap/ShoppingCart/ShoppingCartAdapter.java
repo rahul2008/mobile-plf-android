@@ -60,7 +60,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData, android.support.v4.app.FragmentManager fragmentManager, OutOfStockListener iOutOfStock) {
         mContext = context;
         mResources = context.getResources();
-        final LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = shoppingCartData;
         mPresenter = new ShoppingCartPresenter(context, this,fragmentManager);
         mFragmentManager = fragmentManager;
@@ -116,9 +115,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
+                            boolean isIncrease = newCount > oldCount;
                             if (!Utility.isProgressDialogShowing()) {
                                 Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                                mPresenter.updateProductQuantity(mData.get(position), newCount);
+                                mPresenter.updateProductQuantity(mData.get(position), newCount, isIncrease);
                             }
                     }
                 });

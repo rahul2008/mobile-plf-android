@@ -39,6 +39,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
     private FrameLayout mShoppingCart;
     private ListView mProductListView;
+    Button mShopNow;
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10", "HX9042/64"};
 
     @Override
@@ -50,6 +51,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         Button register = (Button) findViewById(R.id.btn_register);
         register.setOnClickListener(this);
+
+        mShopNow = (Button) findViewById(R.id.btn_shop_now);
+        mShopNow.setOnClickListener(this);
 
         populateProduct();
 
@@ -95,6 +99,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         if (user.isUserSignIn()) {
             mShoppingCart.setVisibility(View.VISIBLE);
             mProductListView.setVisibility(View.VISIBLE);
+            mShopNow.setVisibility(View.VISIBLE);
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
             mIapHandler.getProductCartCount(this, mProductCountListener);
         }
@@ -137,6 +142,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
+            case R.id.btn_shop_now:
+                mIapHandler.launchProductCatalog(this,DEFAULT_THEME);
+                break;
             default:
                 break;
         }
@@ -146,6 +154,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     public void onUserRegistrationComplete(Activity activity) {
         mShoppingCart.setVisibility(View.VISIBLE);
         mProductListView.setVisibility(View.VISIBLE);
+        mShopNow.setVisibility(View.VISIBLE);
         activity.finish();
     }
 

@@ -1,17 +1,22 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.adapters.ImageAdaptor;
+import com.philips.cdp.di.iap.session.IAPHandler;
+import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -28,10 +33,36 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     TextView mCTN;
     TextView mPrice;
     TextView mProductOverview;
+    Button mAddToCart;
+    Button mBuyFromRetailors;
     ArrayList<String> mAsset;
     ImageAdaptor mAdapter;
     ViewPager mPager;
     Bundle mBundle;
+    private IAPHandler mIapHandler;
+    private boolean mIsProductCatalogLaunched = false;
+
+    private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
+        @Override
+        public void onSuccess(final int count) {
+            if (count > 0) {
+                updateCount(count);
+            } else {
+                setCartIconVisibility(View.GONE);
+            }
+            if(Utility.isProgressDialogShowing()) {
+                Utility.dismissProgressDialog();
+            }
+        }
+
+        @Override
+        public void onFailure(final int errorCode) {
+            if(Utility.isProgressDialogShowing()) {
+                Utility.dismissProgressDialog();
+            }
+            Toast.makeText(getContext(), "errorCode", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     public static ProductDetailFragment createInstance(Bundle args, AnimationType animType) {
         ProductDetailFragment fragment = new ProductDetailFragment();
@@ -48,7 +79,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+            super.onCreateView(inflater, container, savedInstanceState);
+        mIapHandler = new IAPHandler();
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         mBundle = getArguments();
 
@@ -63,7 +95,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mCTN = (TextView) rootView.findViewById(R.id.ctn);
         mPrice = (TextView) rootView.findViewById(R.id.individual_price);
         mProductOverview = (TextView) rootView.findViewById(R.id.product_overview);
-        
+        mAddToCart = (Button) rootView.findViewById(R.id.add_to_cart);
+        mBuyFromRetailors = (Button) rootView.findViewById(R.id.buy_from_retailor);
         populateViewFromBundle();
         makeAssetRequest();
         return rootView;
@@ -90,6 +123,13 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_shopping_cart_item);
+        mIsProductCatalogLaunched = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG,false);
+        if(mBundle!=null && mIsProductCatalogLaunched){
+            mAddToCart.setVisibility(View.VISIBLE);
+            mBuyFromRetailors.setVisibility(View.VISIBLE);
+            setCartIconVisibility(View.VISIBLE);
+        }
+        mIapHandler.getProductCartCount(getContext(), mProductCountListener);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iap.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -35,6 +37,9 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     private TextView mTitleTextView;
     private ImageView mBackButton;
     private FrameLayout frameLayout;
+    private TextView mCartCount;
+    private ImageView mCartIcon;
+    private FrameLayout mCartContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,11 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_activity);
         addActionBar();
-        addShoppingFragment();
+        Boolean isShoppingCartViewSelected = getIntent().getBooleanExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, true);
+        if(isShoppingCartViewSelected)
+            addShoppingFragment();
+        else
+            addProductCatalog();
     }
 
     private void initTheme() {
@@ -64,6 +73,13 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         transaction.commitAllowingStateLoss();
     }
 
+    private void addProductCatalog() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment());
+        transaction.addToBackStack(null);
+        transaction.commitAllowingStateLoss();
+    }
+
     private void addActionBar() {
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -73,19 +89,27 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-
+        Drawable mShoppingCartIcon = VectorDrawable.create(this, R.drawable.iap_shopping_cart);
         View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
 
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
-
+        mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
+        mCartIcon.setImageDrawable(mShoppingCartIcon);
         mBackButton = (ImageView) mCustomView.findViewById(R.id.arrow);
         mBackButton.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
-
+        mCartCount = (TextView)mCustomView.findViewById(R.id.item_count);
         frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 onBackPressed();
+            }
+        });
+        mCartContainer = (FrameLayout)mCustomView.findViewById(R.id.cart_container);
+        mCartContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                addShoppingFragment();
             }
         });
 
@@ -112,6 +136,24 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     @Override
     public void setHeaderTitle(final int pResourceId) {
         mTitleTextView.setText(pResourceId);
+    }
+
+    @Override
+    public void updateCount(final int count) {
+        if(count == 0){
+         mCartCount.setVisibility(View.GONE);
+        }else {
+            mCartCount.setVisibility(View.VISIBLE);
+            mCartCount.setText(String.valueOf(count));
+        }
+        Utility.dismissProgressDialog();
+    }
+
+    @Override
+    public void setCartIconVisibility(final int visibility) {
+        mCartContainer.setVisibility(visibility);
+        mCartCount.setVisibility(visibility);
+        mCartIcon.setVisibility(visibility);
     }
 
     @Override

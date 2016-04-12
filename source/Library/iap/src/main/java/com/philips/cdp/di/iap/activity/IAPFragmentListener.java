@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.activity;
  */
 public interface IAPFragmentListener {
     void setHeaderTitle(int pResourceId);
-
+    void updateCount(int count);
+    void setCartIconVisibility(int visibility);
     void setBackButtonVisibility(int isVisible);
 }

@@ -69,6 +69,9 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     }
 
     private void updatePaymentFailureUI() {
+        //Track Payment failed action
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.FAILED);
         setConfirmationTitle(R.string.iap_payment_failed);
         mOrderText.setVisibility(View.INVISIBLE);
         mOrderNumber.setVisibility(View.INVISIBLE);
@@ -82,8 +85,9 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
                 //Track confirmation on successful order action
                 HashMap contextData = new HashMap();
-                contextData.put(IAPAnalyticsConstant.PURCHASE_ID, mOrderNumber);
+                contextData.put(IAPAnalyticsConstant.PURCHASE_ID, mOrderNumber.getText().toString());
                 contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PURCHASE);
+                contextData.put(IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.SUCCESS);
                 Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
             }
             String email = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
