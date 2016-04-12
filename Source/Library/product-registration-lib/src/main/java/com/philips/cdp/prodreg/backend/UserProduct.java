@@ -78,21 +78,23 @@ public class UserProduct {
     private void registerCachedProducts(final Context context, final User mUser, final List<RegisteredProduct> registeredProducts, final ProdRegListener appListener) {
         for (RegisteredProduct registeredProduct : registeredProducts) {
             Log.d(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber());
-            if (!isUserSignedIn(mUser, context)) {
-                registeredProduct.setRegistrationState(RegistrationState.FAILED);
-                registeredProduct.setProdRegError(ProdRegError.USER_NOT_SIGNED_IN);
-                getLocalRegisteredProductsInstance(context).updateRegisteredProducts(registeredProduct);
-                appListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
-            } else {
-                if (!isValidaDate(registeredProduct.getPurchaseDate())) {
-                    registeredProduct.setRegistrationState(RegistrationState.FAILED);
-                    registeredProduct.setProdRegError(ProdRegError.INVALID_DATE);
+            if (registeredProduct.getRegistrationState() == RegistrationState.PENDING) {
+                if (!isUserSignedIn(mUser, context)) {
+                    registeredProduct.setRegistrationState(RegistrationState.PENDING);
+                    registeredProduct.setProdRegError(ProdRegError.USER_NOT_SIGNED_IN);
                     getLocalRegisteredProductsInstance(context).updateRegisteredProducts(registeredProduct);
-                    appListener.onProdRegFailed(ProdRegError.INVALID_DATE);
+                    appListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
                 } else {
-                    UserProduct userProduct = getUserProduct();
-                    userProduct.setLocale(this.locale);
-                    userProduct.getRegisteredProducts(context, getRegisteredProductsListener(context, registeredProduct, appListener));
+                    if (!isValidaDate(registeredProduct.getPurchaseDate())) {
+                        registeredProduct.setRegistrationState(RegistrationState.FAILED);
+                        registeredProduct.setProdRegError(ProdRegError.INVALID_DATE);
+                        getLocalRegisteredProductsInstance(context).updateRegisteredProducts(registeredProduct);
+                        appListener.onProdRegFailed(ProdRegError.INVALID_DATE);
+                    } else {
+                        UserProduct userProduct = getUserProduct();
+                        userProduct.setLocale(this.locale);
+                        userProduct.getRegisteredProducts(context, getRegisteredProductsListener(context, registeredProduct, appListener));
+                    }
                 }
             }
         }
@@ -281,6 +283,9 @@ public class UserProduct {
             @Override
             public void onRefreshLoginSessionFailedWithError(final int error) {
                 Log.d(TAG, "error in refreshing session");
+                registeredProduct.setRegistrationState(RegistrationState.FAILED);
+                registeredProduct.setProdRegError(ProdRegError.REFRESH_ACCESS_TOKEN_FAILED);
+                getLocalRegisteredProductsInstance(mContext).updateRegisteredProducts(registeredProduct);
                 appListener.onProdRegFailed(ProdRegError.REFRESH_ACCESS_TOKEN_FAILED);
             }
         };
@@ -324,6 +329,9 @@ public class UserProduct {
         return new ResponseListener() {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
+                registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
+                registeredProduct.setProdRegError(null);
+                getLocalRegisteredProductsInstance(mContext).updateRegisteredProducts(registeredProduct);
                 appListener.onProdRegSuccess(responseData);
             }
 
