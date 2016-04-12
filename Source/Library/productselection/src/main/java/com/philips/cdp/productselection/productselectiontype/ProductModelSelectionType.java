@@ -2,7 +2,7 @@ package com.philips.cdp.productselection.productselectiontype;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 /**
  * Created by naveen@philips.com on 12-Feb-16.
@@ -22,12 +22,12 @@ public abstract class ProductModelSelectionType {
     }
 
 
-    public String getSector() {
-        return mSector.toString();
+    public Sector getSector() {
+        return mSector;
     }
 
-    public String getCatalog() {
-        return mCatalog.toString();
+    public Catalog getCatalog() {
+        return mCatalog;
     }
 
     public void setProductModelList(SummaryModel[] summaryModelList) {

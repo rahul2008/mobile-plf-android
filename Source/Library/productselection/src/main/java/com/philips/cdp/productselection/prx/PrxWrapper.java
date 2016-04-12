@@ -5,12 +5,15 @@ import android.content.Context;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.request.ProductAssetRequest;
+import com.philips.cdp.prxclient.request.ProductSummaryRequest;
+import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.error.PrxError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +30,13 @@ public class PrxWrapper {
 
 
     private String mCtn = null;
-    private String mSectorCode = null;
+    private Sector mSectorCode = null;
     private String mLocale = null;
-    private String mCatalogCode = null;
+    private Catalog mCatalogCode = null;
     private Context mContext = null;
 
 
-    public PrxWrapper(Context context, String ctn, String sectorCode, String locale, String catalog) {
+    public PrxWrapper(Context context, String ctn, Sector sectorCode, String locale, Catalog catalog) {
         this.mContext = context;
         this.mCtn = ctn;
         this.mSectorCode = sectorCode;
@@ -45,9 +48,9 @@ public class PrxWrapper {
         if (listener == null)
             throw new IllegalStateException("PrxSummaryDataListener listener is null");
 
-        final ProductSummaryBuilder summaryBuilder = new ProductSummaryBuilder(mCtn, requestTag);
-        summaryBuilder.setmSectorCode(mSectorCode);
-        summaryBuilder.setCatalogCode(mCatalogCode);
+        final ProductSummaryRequest summaryBuilder = new ProductSummaryRequest(mCtn, requestTag);
+        summaryBuilder.setSector(mSectorCode);
+        summaryBuilder.setCatalog(mCatalogCode);
         summaryBuilder.setLocale(mLocale);
 
         RequestManager requestManager = new RequestManager();
@@ -68,9 +71,9 @@ public class PrxWrapper {
             }
 
             @Override
-            public void onResponseError(String s, int i) {
+            public void onResponseError(PrxError error) {
                 ProductSelectionLogger.e(TAG, "Response Failed  for the CTN : " + mCtn);
-                listener.onFail(s);
+                listener.onFail(error.getDescription());
             }
         });
 
@@ -81,10 +84,10 @@ public class PrxWrapper {
         if (listener == null)
             throw new IllegalStateException("PrxAssetDataListener listener is null");
 
-        final ProductAssetBuilder assetBuilder = new ProductAssetBuilder(mCtn, null);
-        assetBuilder.setmSectorCode(mSectorCode);
+        final ProductAssetRequest assetBuilder = new ProductAssetRequest(mCtn, null);
+        assetBuilder.setSector(mSectorCode);
         assetBuilder.setLocale(mLocale);
-        assetBuilder.setCatalogCode(mCatalogCode);
+        assetBuilder.setCatalog(mCatalogCode);
 
         RequestManager requestManager = new RequestManager();
         requestManager.init(mContext);
@@ -105,9 +108,9 @@ public class PrxWrapper {
             }
 
             @Override
-            public void onResponseError(String s, int i) {
+            public void onResponseError(PrxError error) {
                 ProductSelectionLogger.e(TAG, "Response Failed  for the CTN : " + mCtn);
-                listener.onFail(s);
+                listener.onFail(error.getDescription());
             }
         });
 
@@ -123,9 +126,9 @@ public class PrxWrapper {
 
         for (int i = 0; i < ctnList.length; i++) {
 
-            final ProductSummaryBuilder summaryBuilder = new ProductSummaryBuilder(ctnList[i], requestTag);
-            summaryBuilder.setmSectorCode(mSectorCode);
-            summaryBuilder.setCatalogCode(mCatalogCode);
+            final ProductSummaryRequest summaryBuilder = new ProductSummaryRequest(ctnList[i], requestTag);
+            summaryBuilder.setSector(mSectorCode);
+            summaryBuilder.setCatalog(mCatalogCode);
             summaryBuilder.setLocale(mLocale);
 
             RequestManager requestManager = new RequestManager();
@@ -147,7 +150,7 @@ public class PrxWrapper {
                 }
 
                 @Override
-                public void onResponseError(String s, int i) {
+                public void onResponseError(PrxError error) {
                     ProductSelectionLogger.e(TAG, "Response Failed  for the CTN : " + finalI);
                     if ((ctnPosition == ctnListLength - 1))
                         listener.onSuccess(summaryModelList);

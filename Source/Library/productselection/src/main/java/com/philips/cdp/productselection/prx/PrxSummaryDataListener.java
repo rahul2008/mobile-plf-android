@@ -14,7 +14,7 @@ public interface PrxSummaryDataListener {
      *
      * @param summaryModel
      */
-    abstract void onSuccess(com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel summaryModel);
+    abstract void onSuccess(com.philips.cdp.prxclient.datamodels.summary.SummaryModel summaryModel);
 
     /**
      * This method is responsible to get the error messages which has been intimated by volley library.

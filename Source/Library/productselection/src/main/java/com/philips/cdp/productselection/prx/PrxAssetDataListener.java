@@ -1,6 +1,6 @@
 package com.philips.cdp.productselection.prx;
 
-import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
 
 /**
  * This is the PrxSummaryDataListener class to receive the data from the Multiple Prx data requests.

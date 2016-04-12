@@ -33,7 +33,7 @@ import com.philips.cdp.productselection.listeners.NetworkStateListener;
 import com.philips.cdp.productselection.utils.NetworkReceiver;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.List;
 import java.util.Locale;

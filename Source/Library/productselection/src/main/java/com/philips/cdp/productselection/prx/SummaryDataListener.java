@@ -1,6 +1,6 @@
 package com.philips.cdp.productselection.prx;
 
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.List;
 

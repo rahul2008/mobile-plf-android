@@ -1,6 +1,6 @@
 package com.philips.cdp.productselection.listeners;
 
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 /**
  * ProductSelectionListener is the callback interface can be used by vertical applications
