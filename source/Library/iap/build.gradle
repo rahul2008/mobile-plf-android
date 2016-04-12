@@ -217,7 +217,7 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
     }
 
 }
-task jacocoTestReport(type: JacocoReport, dependsOn: "assembleDebug") {
+task jacocoTestReport(type: JacocoReport, dependsOn: "test") {
     group = "Reporting"
 
     description = "Generate Jacoco coverage reports"
@@ -229,12 +229,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "assembleDebug") {
                        '**/BuildConfig.*',
                        '**/response/*/*.class',
                        '**/view/*.class',
-                       '**/Fragment/*.class']
+                       '**/Fragments/*.class']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../iap/build/jacoco/testDebug.exec')
+    executionData = files('../iap/build/jacoco/testDebugUnitTest.exec')
 
     reports {
         xml.enabled = true
