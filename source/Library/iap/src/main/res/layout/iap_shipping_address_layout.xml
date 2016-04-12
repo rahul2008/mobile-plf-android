@@ -63,7 +63,7 @@
         </LinearLayout>
 
         <com.philips.cdp.uikit.customviews.InlineForms
-            android:id="@+id/InlineForms"
+            android:id="@+id/inlineForms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
