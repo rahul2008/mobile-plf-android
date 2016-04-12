@@ -59,7 +59,7 @@ public class StoreConfiguration {
         return builder.toString();
     }
 
-    public void createStoreUrls() {
+    public void generateStoreUrls() {
         mStore.generateStoreUrls();
     }
 }

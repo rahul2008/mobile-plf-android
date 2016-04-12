@@ -10,9 +10,9 @@ import android.os.Message;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HurlStack;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.config.WebStoreConfigResponse;
+import com.philips.cdp.di.iap.session.IAPHurlStack;
 import com.philips.cdp.di.iap.session.IAPJsonRequest;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.session.SynchronizedNetwork;
@@ -74,7 +74,10 @@ class WebStoreConfig {
 
             @Override
             public void onErrorOccurredForLocaleMatch(final LocaleMatchError localeMatchError) {
-
+                if(mResponseListener != null) {
+                    Message msg = Message.obtain();
+                    mResponseListener.onError(msg);
+                }
             }
         });
     }
@@ -95,14 +98,14 @@ class WebStoreConfig {
     void requestHybrisConfig() {
         IAPJsonRequest request = new IAPJsonRequest(Request.Method.GET, mStoreConfig.getRawConfigUrl(), null,
                 null, null);
-        SynchronizedNetwork net = new SynchronizedNetwork(new HurlStack());
+        SynchronizedNetwork net = new SynchronizedNetwork((new IAPHurlStack(null).getHurlStack()));
         net.performRequest(request, new SynchronizedNetworkCallBack() {
             @Override
             public void onSyncRequestSuccess(final Response<JSONObject> jsonObjectResponse) {
-                WebStoreConfigResponse resp = new Gson().fromJson(jsonObjectResponse.toString(),
+                WebStoreConfigResponse resp = new Gson().fromJson(jsonObjectResponse.result.toString(),
                         WebStoreConfigResponse.class);
                 mSiteID = resp.getSiteId();
-                mStoreConfig.createStoreUrls();
+                mStoreConfig.generateStoreUrls();
                 if(mResponseListener != null) {
                     mResponseListener.onSuccess(null);
                 }

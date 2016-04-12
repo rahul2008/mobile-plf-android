@@ -18,10 +18,14 @@ import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.tagging.Tagging;
+
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 
@@ -61,7 +65,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mIapHandler = new IAPHandler();
 
-        mIapHandler.initIAP(this, "US",new IAPHandlerListener() {
+        mIapHandler.initIAP(this, "GB",new IAPHandlerListener() {
             @Override
             public void onSuccess(final int count) {
                 Log.d("initIAP", "onSuccess");
@@ -94,7 +98,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
             mIapHandler.getProductCartCount(this, mProductCountListener);
         }
-    }*/
+    }
 
     @Override
     protected void onDestroy() {

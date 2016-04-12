@@ -18,7 +18,7 @@ public class IAPHurlStack {
         mOAuthHandler = oAuthHandler;
     }
 
-    HurlStack getHurlStack() {
+    public HurlStack getHurlStack() {
         return new HurlStack() {
             @Override
             protected HttpURLConnection createConnection(final URL url) throws IOException {
@@ -30,7 +30,11 @@ public class IAPHurlStack {
                             return hostname.contains(PHILIPS_HOST);
                         }
                     });
-                    connection.setRequestProperty("Authorization", "Bearer " + mOAuthHandler.getAccessToken());
+                    //If we remove OAuth dependency, it can be used everywhere where we have
+                    // philips domain dependency like config download
+                    if (mOAuthHandler != null) {
+                        connection.setRequestProperty("Authorization", "Bearer " + mOAuthHandler.getAccessToken());
+                    }
                 }
                 return connection;
             }
