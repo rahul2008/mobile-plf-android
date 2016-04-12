@@ -59,7 +59,18 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         StateDropDown.StateListener {
     private Context mContext;
 
+    protected LinearLayout mLlFirstname;
+    protected LinearLayout mLlLastname;
+    protected LinearLayout mLlSalutation;
+    protected LinearLayout mLlAdressLineOne;
+    protected LinearLayout mLlAddressLineTwo;
+    protected LinearLayout mLlTown;
+    protected LinearLayout mLlPostalCode;
+    protected LinearLayout mLlCountry;
     protected LinearLayout mlLState;
+    protected LinearLayout mLlEmail;
+    protected LinearLayout mLlPhoneNumber;
+
     protected TextView mTvTitle;
     protected EditText mEtFirstName;
     protected EditText mEtLastName;
@@ -87,29 +98,47 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private StateDropDown mStateDropDown;
 
     private HashMap<String, String> mAddressFieldsHashmap = null;
-    private HashMap<String, String> addressHashMap = null;
-    private Addresses mAddresses;
+    private HashMap<String, String> addressHashMap = new HashMap<>();
     private Drawable imageArrow;
     protected boolean mIgnoreTextChangeListener = false;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (!(this instanceof BillingAddressFragment))
+            CartModelContainer.getInstance().setAddressId(null);
+    }
+
+    @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_shipping_address_layout, container, false);
-        mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
+        mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.inlineForms);
 
-        mlLState = (LinearLayout) rootView.findViewById(R.id.ll_state);
         mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
-        mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
-        mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
-        mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
-        mEtAddressLineOne = (EditText) rootView.findViewById(R.id.et_address_line_one);
-        mEtAddressLineTwo = (EditText) rootView.findViewById(R.id.et_address_line_two);
-        mEtTown = (EditText) rootView.findViewById(R.id.et_town);
-        mEtPostalCode = (EditText) rootView.findViewById(R.id.et_postal_code);
-        mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
-        mEtState = (EditText) rootView.findViewById(R.id.et_state);
+
+        mLlFirstname = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_first_name);
+        mLlLastname = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_last_name);
+        mLlSalutation = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_salutation);
+        mLlAdressLineOne = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_one);
+        mLlAddressLineTwo = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_two);
+        mLlTown = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_town);
+        mLlPostalCode = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_postal_code);
+        mLlCountry = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_country);
+        mlLState = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_state);
+        mLlEmail = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_email);
+        mLlPhoneNumber = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_phone_number);
+
+        mEtFirstName = (EditText) mInlineFormsParent.findViewById(R.id.et_first_name);
+        mEtLastName = (EditText) mInlineFormsParent.findViewById(R.id.et_last_name);
+        mEtSalutation = (EditText) mInlineFormsParent.findViewById(R.id.et_salutation);
+        mEtAddressLineOne = (EditText) mInlineFormsParent.findViewById(R.id.et_address_line_one);
+        mEtAddressLineTwo = (EditText) mInlineFormsParent.findViewById(R.id.et_address_line_two);
+        mEtTown = (EditText) mInlineFormsParent.findViewById(R.id.et_town);
+        mEtPostalCode = (EditText) mInlineFormsParent.findViewById(R.id.et_postal_code);
+        mEtCountry = (EditText) mInlineFormsParent.findViewById(R.id.et_country);
+        mEtState = (EditText) mInlineFormsParent.findViewById(R.id.et_state);
         mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
-        mEtPhoneNumber = (EditText) rootView.findViewById(R.id.et_phone_number);
+        mEtPhoneNumber = (EditText) mInlineFormsParent.findViewById(R.id.et_phone_number);
 
         mEtSalutation.setKeyListener(null);
         mEtState.setKeyListener(null);
@@ -143,7 +172,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
         Bundle bundle = getArguments();
         if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            addressHashMap = new HashMap<>();
             updateFields();
         }
 
@@ -238,7 +266,16 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     if (mlLState.getVisibility() == View.GONE)
                         mShippingAddressFields.setRegionIsoCode(null);
-                    mAddressController.createAddress(mShippingAddressFields);
+
+                    if (CartModelContainer.getInstance().getAddressId() != null) {
+                        HashMap<String, String> updateAddressPayload = addressPayload();
+                        if (mlLState.getVisibility() == View.VISIBLE && CartModelContainer.getInstance().getRegionIsoCode() != null)
+                            updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
+                        updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
+                        mAddressController.updateAddress(updateAddressPayload);
+                    } else {
+                        mAddressController.createAddress(mShippingAddressFields);
+                    }
                 }
             }
         } else if (v == mBtnCancel) {
@@ -260,8 +297,15 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             if (msg.obj instanceof IAPNetworkError) {
                 handleError(msg);
             } else {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
-                getFragmentManager().popBackStackImmediate();
+                if (CartModelContainer.getInstance().getAddressId() == null) {
+                    IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
+                    getFragmentManager().popBackStackImmediate();
+                } else {
+                    CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
+                    IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
+                    addFragment(
+                            BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                }
             }
         }
     }
@@ -270,7 +314,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onCreateAddress(Message msg) {
         if (msg.obj instanceof Addresses) {
             mBtnContinue.setEnabled(true);
-            mAddresses = (Addresses) msg.obj;
+            Addresses mAddresses = (Addresses) msg.obj;
+            CartModelContainer.getInstance().setAddressId(mAddresses.getId());
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
             Utility.dismissProgressDialog();
@@ -473,7 +518,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
         addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
-        addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
+        if (mAddressFieldsHashmap != null)
+            addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
