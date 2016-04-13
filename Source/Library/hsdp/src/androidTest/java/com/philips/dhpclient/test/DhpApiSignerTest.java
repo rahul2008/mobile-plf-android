@@ -125,7 +125,7 @@ public class DhpApiSignerTest extends InstrumentationTestCase {
         }
         DhpResponse dhpResponse = new DhpResponse(rawResponse);
         DhpAuthenticationResponse dhpAuthenticationResponse = new DhpAuthenticationResponse("6cstbqh7bzwt3z4b", "bxqyqs86kgq7ks3g4f5n", Integer.parseInt("3600"), "nhggh", dhpResponse.rawResponse);
-        Mockito.when(dhpAuthenticationManagementClientMock.authenticate("maqsoodphilips@gmail.com", "password")).thenReturn(dhpAuthenticationResponse);
+        Mockito.when(dhpAuthenticationManagementClientMock.authenticate("maqsoodphilips@gmail.com", "password","aa6c3f0dd953bcf11053e00e686af2e0d9b1d05b")).thenReturn(dhpAuthenticationResponse);
         return dhpAuthenticationResponse;
     }
 }

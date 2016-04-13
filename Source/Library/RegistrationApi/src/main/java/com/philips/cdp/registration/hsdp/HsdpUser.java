@@ -176,18 +176,13 @@ public class HsdpUser {
                     if (mHsdpUserRecord == null) {
                         mHsdpUserRecord = getHsdpUserRecord();
                     }
-
-                    if (mHsdpUserRecord == null || mHsdpUserRecord.getUserUUID() == null || mHsdpUserRecord.getAccessCredential().getRefreshToken() == null) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                refreshHandler.onRefreshLoginSessionFailedWithError(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND);
-                            }
-                        });
-                        return;
+                    final DhpAuthenticationResponse dhpAuthenticationResponse;
+                    if(mHsdpUserRecord.getAccessCredential().getRefreshToken()==null && mHsdpUserRecord!=null ){
+                        dhpAuthenticationResponse = authenticationManagementClient.refreshSecret(mHsdpUserRecord.getUserUUID(), mHsdpUserRecord.getAccessCredential().getAccessToken(),mHsdpUserRecord.getRefreshSecret());
+                    }else{
+                        dhpAuthenticationResponse = authenticationManagementClient.refresh(mHsdpUserRecord.getUserUUID(), mHsdpUserRecord.getAccessCredential().getRefreshToken());
                     }
 
-                    final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.refresh(mHsdpUserRecord.getUserUUID(), mHsdpUserRecord.getAccessCredential().getRefreshToken(),mHsdpUserRecord.getRefreshSecret());
                     if (dhpAuthenticationResponse == null) {
                         handler.post(new Runnable() {
                             @Override

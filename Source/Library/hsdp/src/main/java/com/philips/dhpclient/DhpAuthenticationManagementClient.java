@@ -62,12 +62,13 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         return new DhpAuthenticationResponse(accessToken, refreshToken, Integer.parseInt(expiresIn), userId, dhpResponse.rawResponse);
     }
 
+
     private String generateSignedDate(){
         return ServerTime.getInstance().getCurrentUTCTimeWithFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     }
 
-    private  String createRefreshSignature(String refresh_Secret, String accessToken) {
-        String date = generateSignedDate();
+    public String createRefreshSignature(String refresh_Secret, String date, String accessToken) {
+
         System.out.println("Refresh Signature Date = " + date);
         String stringToSign = "refresh_access_token\n" + date + "\n" + accessToken + "\n";
 
@@ -88,23 +89,19 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
             System.out.println("Error occurred while creating refresh signature.");
             System.out.println(e);
         }
-       return Base64.encodeToString(hash, Base64.DEFAULT);
+       return Base64.encodeToString(hash, Base64.NO_WRAP);
     }
 
-    private String getUTCdatetimeAsString() {
+    private static String getUTCdatetimeAsString() {
         return ServerTime.getInstance().getCurrentUTCTimeWithFormat("yyyy-MM-dd HH:mm:ss");
     }
 
-    public DhpAuthenticationResponse refresh(String userId, String refreshToken, String refreshSecret) {
+    public DhpAuthenticationResponse refresh(String userId, String refreshToken) {
         String apiEndpoint = "/authentication/users/" + userId + "/refreshToken";
         String queryParams = "applicationName=" + dhpApplicationName;
         Map<String, String> headers = new LinkedHashMap<String, String>();
 
-        headers.put("refreshSignature",createRefreshSignature(refreshSecret,refreshToken));
-        headers.put("refreshSignatureDate",getUTCdatetimeAsString());
-
         RefreshTokenRequest request = new RefreshTokenRequest(refreshToken);
-
         DhpResponse dhpResponse = sendSignedRequest("PUT", apiEndpoint, queryParams, headers, request);
 
         if(dhpResponse == null){
@@ -117,6 +114,31 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         String newAccessToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.accessToken");
         String newRefreshToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.refreshToken");
         String expiresIn = MapUtils.extract(dhpResponse.rawResponse, "exchange.expiresIn");
+
+        return new DhpAuthenticationResponse(newAccessToken, newRefreshToken, Integer.parseInt(expiresIn), userId, dhpResponse.rawResponse);
+    }
+
+    public DhpAuthenticationResponse refreshSecret(String userId,String accessToken,String refreshSecret) {
+        String apiEndpoint = "/authentication/users/" + userId + "/refreshAccessToken";
+        String queryParams = "applicationName=" + dhpApplicationName;
+        Map<String, String> headers = new LinkedHashMap<String, String>();
+
+        String date = getUTCdatetimeAsString();
+        headers.put("refreshSignature",createRefreshSignature(refreshSecret,date,accessToken));
+        headers.put("refreshSignatureDate",date);
+        headers.put("accessToken",accessToken);
+
+        DhpResponse dhpResponse = sendSignedRequest("POST", apiEndpoint, queryParams, headers, null);
+        if(dhpResponse == null){
+            return null;
+        }
+
+        if (!"200".equals(dhpResponse.responseCode))
+            return new DhpAuthenticationResponse(dhpResponse.rawResponse);
+
+        String newAccessToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.accessCredential.accessToken");
+        String newRefreshToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.refreshToken");
+        String expiresIn = MapUtils.extract(dhpResponse.rawResponse, "exchange.accessCredential.expiresIn");
 
         return new DhpAuthenticationResponse(newAccessToken, newRefreshToken, Integer.parseInt(expiresIn), userId, dhpResponse.rawResponse);
     }
