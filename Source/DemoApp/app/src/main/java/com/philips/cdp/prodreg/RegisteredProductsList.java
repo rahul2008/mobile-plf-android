@@ -27,7 +27,6 @@ public class RegisteredProductsList extends AppCompatActivity {
               mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
         LocalRegisteredProducts localRegisteredProducts = new LocalRegisteredProducts(RegisteredProductsList.this);
-        localRegisteredProducts.getRegisteredProducts();
         productAdapter = new ProductAdapter(RegisteredProductsList.this, localRegisteredProducts.getRegisteredProducts());
        mRecyclerView.setAdapter(productAdapter);
     }

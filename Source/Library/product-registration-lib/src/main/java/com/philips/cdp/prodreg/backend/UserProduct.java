@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.handler.MetadataListener;
@@ -130,8 +131,6 @@ public class UserProduct {
         if (statusCode == ProdRegError.INVALID_CTN.getCode()) {
             updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_CTN, RegistrationState.FAILED);
             appListener.onProdRegFailed(ProdRegError.INVALID_CTN);
-        } else if (statusCode == ProdRegError.USER_TOKEN_EXPIRED.getCode()) {
-            getUserProduct().onAccessTokenExpire(registeredProduct, appListener);
         } else if (statusCode == ProdRegError.ACCESS_TOKEN_INVALID.getCode()) {
             getUserProduct().onAccessTokenExpire(registeredProduct, appListener);
         } else if (statusCode == ProdRegError.INVALID_VALIDATION.getCode()) {
@@ -149,6 +148,9 @@ public class UserProduct {
         } else if (statusCode == ProdRegError.METADATA_FAILED.getCode()) {
             updateLocaleCacheOnError(registeredProduct, ProdRegError.METADATA_FAILED, RegistrationState.FAILED);
             appListener.onProdRegFailed(ProdRegError.METADATA_FAILED);
+        } else if (statusCode == ProdRegError.TIME_OUT.getCode()) {
+            updateLocaleCacheOnError(registeredProduct, ProdRegError.TIME_OUT, RegistrationState.PENDING);
+            appListener.onProdRegFailed(ProdRegError.TIME_OUT);
         } else {
             appListener.onProdRegFailed(ProdRegError.UNKNOWN);
         }
@@ -208,6 +210,11 @@ public class UserProduct {
             @Override
             public void getRegisteredProducts(final RegisteredResponse registeredDataResponse) {
                 RegisteredResponseData[] results = registeredDataResponse.getResults();
+                final LocalRegisteredProducts localRegisteredProductsInstance = getLocalRegisteredProductsInstance(mContext);
+                Gson gson = getGson();
+                RegisteredProduct[] registeredProducts = gson.fromJson(gson.toJson(results), RegisteredProduct[].class);
+                localRegisteredProductsInstance.syncLocalCache(registeredProducts);
+
                 if (!isCtnRegistered(results, registeredProduct, appListener))
                     registeredProduct.getProductMetadata(context, getMetadataListener(context, registeredProduct, appListener));
             }
@@ -217,6 +224,11 @@ public class UserProduct {
                 getUserProduct().handleError(registeredProduct, responseCode, appListener);
             }
         };
+    }
+
+    @NonNull
+    private Gson getGson() {
+        return new Gson();
     }
 
     @NonNull
@@ -301,9 +313,9 @@ public class UserProduct {
             public void onRefreshLoginSessionFailedWithError(final int error) {
                 Log.d(TAG, "error in refreshing session");
                 registeredProduct.setRegistrationState(RegistrationState.FAILED);
-                registeredProduct.setProdRegError(ProdRegError.REFRESH_ACCESS_TOKEN_FAILED);
+                registeredProduct.setProdRegError(ProdRegError.ACCESS_TOKEN_INVALID);
                 getLocalRegisteredProductsInstance(mContext).updateRegisteredProducts(registeredProduct);
-                appListener.onProdRegFailed(ProdRegError.REFRESH_ACCESS_TOKEN_FAILED);
+                appListener.onProdRegFailed(ProdRegError.ACCESS_TOKEN_INVALID);
             }
         };
     }

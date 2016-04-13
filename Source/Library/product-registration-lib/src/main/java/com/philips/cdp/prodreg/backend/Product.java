@@ -19,18 +19,17 @@ import com.philips.cdp.prxclient.response.ResponseListener;
  */
 public class Product {
 
-    private String ctn = "";
-    private String serialNumber = "";
+    private String productModelNumber = "";
+    private String productSerialNumber = "";
     private String purchaseDate;
     private Sector sector;
     private Catalog catalog;
     private String locale;
     private String shouldSendEmailAfterRegistration = "false";
 
-
-    public Product(String ctn, String serialNumber, String purchaseDate, Sector sector, Catalog catalog) {
-        this.ctn = ctn;
-        this.serialNumber = serialNumber;
+    public Product(String productModelNumber, String productSerialNumber, String purchaseDate, Sector sector, Catalog catalog) {
+        this.productModelNumber = productModelNumber;
+        this.productSerialNumber = productSerialNumber;
         this.purchaseDate = purchaseDate;
         this.sector = sector;
         this.catalog = catalog;
@@ -74,15 +73,15 @@ public class Product {
     }
 
     public String getCtn() {
-        return ctn;
+        return productModelNumber;
     }
 
     public String getSerialNumber() {
-        return serialNumber;
+        return productSerialNumber;
     }
 
     public void setSerialNumber(final String serialNumber) {
-        this.serialNumber = serialNumber;
+        this.productSerialNumber = serialNumber;
     }
 
     public Sector getSector() {

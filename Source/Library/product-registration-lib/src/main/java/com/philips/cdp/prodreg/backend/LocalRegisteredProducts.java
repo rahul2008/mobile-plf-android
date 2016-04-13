@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
+import com.philips.cdp.prodreg.model.RegistrationState;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,5 +67,14 @@ public class LocalRegisteredProducts {
         }
         registeredProducts.add(registeredProduct);
         localSharedPreference.storeData(UserProduct.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+    }
+
+    protected void syncLocalCache(final RegisteredProduct[] products) {
+        Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();
+        for (RegisteredProduct registeredProduct : products) {
+            registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
+            registeredProducts.add(registeredProduct);
+        }
+        localSharedPreference.storeData(UserProduct.PRODUCT_REGISTRATION_KEY, getGson().toJson(registeredProducts));
     }
 }

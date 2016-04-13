@@ -13,7 +13,7 @@ public class RegisteredProduct extends Product {
 
     private RegistrationState registrationState;
     private String endWarrantyDate;
-    private String userUUid;
+    private String uuid;
     private ProdRegError prodRegError;
 
     public RegisteredProduct(final String ctn, final String serialNumber, final String purchaseDate, final Sector sector, final Catalog catalog) {
@@ -37,11 +37,11 @@ public class RegisteredProduct extends Product {
     }
 
     public String getUserUUid() {
-        return userUUid;
+        return uuid;
     }
 
     public void setUserUUid(final String userUUid) {
-        this.userUUid = userUUid;
+        this.uuid = userUUid;
     }
 
     public ProdRegError getProdRegError() {
