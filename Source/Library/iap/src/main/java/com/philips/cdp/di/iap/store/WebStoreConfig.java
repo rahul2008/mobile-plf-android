@@ -5,6 +5,8 @@
 package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import com.android.volley.Request;
@@ -64,7 +66,7 @@ class WebStoreConfig {
 
     void initLocaleMatcher() {
         mLocaleManager = new PILLocaleManager();
-            mLocaleManager.init(mContext, new LocaleMatchListener() {
+        mLocaleManager.init(mContext, new LocaleMatchListener() {
             @Override
             public void onLocaleMatchRefreshed(final String s) {
                 mPILLocale = mLocaleManager.currentLocaleWithCountryFallbackForPlatform(mContext, s,
@@ -74,7 +76,7 @@ class WebStoreConfig {
 
             @Override
             public void onErrorOccurredForLocaleMatch(final LocaleMatchError localeMatchError) {
-                if(mResponseListener != null) {
+                if (mResponseListener != null) {
                     Message msg = Message.obtain();
                     mResponseListener.onError(msg);
                 }
@@ -106,17 +108,29 @@ class WebStoreConfig {
                         WebStoreConfigResponse.class);
                 mSiteID = resp.getSiteId();
                 mStoreConfig.generateStoreUrls();
-                if(mResponseListener != null) {
-                    mResponseListener.onSuccess(null);
-                }
+                notifyConfigListener(true, null);
             }
 
             @Override
             public void onSyncRequestError(final VolleyError volleyError) {
-                if(mResponseListener != null) {
-                    Message msg = Message.obtain();
-                    msg.obj = volleyError;
-                    mResponseListener.onError(msg);
+                Message msg = Message.obtain();
+                msg.obj = volleyError;
+                notifyConfigListener(false, msg);
+            }
+        });
+    }
+
+    private void notifyConfigListener(final boolean success, final Message msg) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mResponseListener != null) {
+                    if (success) {
+                        mResponseListener.onSuccess(msg);
+                    } else {
+                        mResponseListener.onError(msg);
+                    }
                 }
             }
         });
