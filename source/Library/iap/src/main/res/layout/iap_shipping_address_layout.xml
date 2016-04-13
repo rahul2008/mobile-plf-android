@@ -242,7 +242,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:hint="@string/iap_postal_code_hint"
-                    android:inputType="textCapSentences" />
+                    android:inputType="textCapSentences|textNoSuggestions|textVisiblePassword"
+                    android:maxLength="10" />
             </LinearLayout>
 
             <LinearLayout
