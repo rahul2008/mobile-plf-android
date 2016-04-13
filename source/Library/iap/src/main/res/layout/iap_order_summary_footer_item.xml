@@ -224,7 +224,6 @@
                 android:id="@+id/tv_vat_price"
                 style="@style/tvTitle"
                 android:layout_alignParentEnd="true"
-                android:text="@string/zeroval"
                 android:textStyle="bold" />
         </RelativeLayout>
 

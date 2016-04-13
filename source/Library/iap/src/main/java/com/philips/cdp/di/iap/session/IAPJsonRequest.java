@@ -57,8 +57,8 @@ public class IAPJsonRequest extends Request<JSONObject> {
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
 
         try {
-            String jsonString = new String(response.data,
-                    HttpHeaderParser.parseCharset(response.headers));
+            String jsonString = new String(response.data);//,
+//                    HttpHeaderParser.parseCharset(response.headers));
 
             JSONObject result = null;
 
@@ -67,8 +67,6 @@ public class IAPJsonRequest extends Request<JSONObject> {
 
             return Response.success(result,
                     HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException e) {
-            return Response.error(new ParseError(e));
         } catch (JSONException je) {
             return Response.error(new ParseError(je));
         }

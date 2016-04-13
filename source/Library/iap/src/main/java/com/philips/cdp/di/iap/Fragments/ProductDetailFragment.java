@@ -140,7 +140,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     @Override
     public void onResume() {
         super.onResume();
-        setTitle(mProductTitle);
+        setTitle(R.string.iap_shopping_cart_item);
         if(mBundle!=null && mIsProductCatalogLaunched){
             mAddToCart.setVisibility(View.VISIBLE);
             mBuyFromRetailors.setVisibility(View.VISIBLE);
