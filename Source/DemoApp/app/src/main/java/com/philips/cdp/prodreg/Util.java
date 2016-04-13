@@ -7,7 +7,6 @@ import com.philips.cdp.prodreg.backend.UserProduct;
 import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 
@@ -22,7 +21,7 @@ public class Util {
             @Override
             public void onUserRegistrationComplete(final Activity activity) {
                 activity.finish();
-                new UserProduct(null, null).registerCachedProducts(activity, new User(activity), new LocalRegisteredProducts(activity).getRegisteredProducts(), new ProdRegListener() {
+                new UserProduct(null, null).registerCachedProducts(activity, new LocalRegisteredProducts(activity).getRegisteredProducts(), new ProdRegListener() {
                     @Override
                     public void onProdRegSuccess(final ResponseData responseData) {
 

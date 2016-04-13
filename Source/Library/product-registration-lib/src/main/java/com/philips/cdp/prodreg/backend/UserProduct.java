@@ -42,6 +42,7 @@ public class UserProduct {
     private String locale;
     private RegisteredProductsListener registeredProductsListener;
     private Context mContext;
+    private User user;
 
     public UserProduct(final Sector sector, final Catalog catalog) {
         this.sector = sector;
@@ -51,7 +52,6 @@ public class UserProduct {
     public void registerProduct(final Context context, final Product product, final ProdRegListener appListener) {
         setContext(context);
         setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
-        final User mUser = getUser(context);
         RegisteredProduct registeredProduct = mapProductToRegisteredProduct(product);
         LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance(context);
         if (!validateIsUserRegisteredLocally(registeredProduct)) {
@@ -60,7 +60,7 @@ public class UserProduct {
             appListener.onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
 
         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
-        registerCachedProducts(context, mUser, registeredProducts, appListener);
+        registerCachedProducts(context, registeredProducts, appListener);
     }
 
     private boolean validateIsUserRegisteredLocally(final RegisteredProduct registeredProduct) {
@@ -81,7 +81,10 @@ public class UserProduct {
 
     @NonNull
     private User getUser(final Context context) {
-        return new User(context);
+        if (user == null) {
+            user = new User(context);
+        }
+        return user;
     }
 
     private RegisteredProduct mapProductToRegisteredProduct(final Product product) {
@@ -94,27 +97,25 @@ public class UserProduct {
         return null;
     }
 
-    public void registerCachedProducts(final Context context, final User mUser, final List<RegisteredProduct> registeredProducts, final ProdRegListener appListener) {
+    public void registerCachedProducts(final Context context, final List<RegisteredProduct> registeredProducts, final ProdRegListener appListener) {
         for (RegisteredProduct registeredProduct : registeredProducts) {
             Log.d(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber());
             final RegistrationState registrationState = registeredProduct.getRegistrationState();
             if (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) {
-                if (!isUserSignedIn(mUser, context)) {
+                if (!isUserSignedIn(context)) {
                     registeredProduct.setRegistrationState(RegistrationState.PENDING);
                     registeredProduct.setProdRegError(ProdRegError.USER_NOT_SIGNED_IN);
                     getLocalRegisteredProductsInstance(context).updateRegisteredProducts(registeredProduct);
                     appListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
+                } else if (!isValidaDate(registeredProduct.getPurchaseDate())) {
+                    registeredProduct.setRegistrationState(RegistrationState.FAILED);
+                    registeredProduct.setProdRegError(ProdRegError.INVALID_DATE);
+                    getLocalRegisteredProductsInstance(context).updateRegisteredProducts(registeredProduct);
+                    appListener.onProdRegFailed(ProdRegError.INVALID_DATE);
                 } else {
-                    if (!isValidaDate(registeredProduct.getPurchaseDate())) {
-                        registeredProduct.setRegistrationState(RegistrationState.FAILED);
-                        registeredProduct.setProdRegError(ProdRegError.INVALID_DATE);
-                        getLocalRegisteredProductsInstance(context).updateRegisteredProducts(registeredProduct);
-                        appListener.onProdRegFailed(ProdRegError.INVALID_DATE);
-                    } else {
-                        UserProduct userProduct = getUserProduct();
-                        userProduct.setLocale(this.locale);
-                        userProduct.getRegisteredProducts(context, getRegisteredProductsListener(context, registeredProduct, appListener));
-                    }
+                    UserProduct userProduct = getUserProduct();
+                    userProduct.setLocale(this.locale);
+                    userProduct.getRegisteredProducts(context, getRegisteredProductsListener(context, registeredProduct, appListener));
                 }
             }
         }
@@ -181,7 +182,8 @@ public class UserProduct {
         return mRequestManager;
     }
 
-    protected boolean isUserSignedIn(final User mUser, final Context context) {
+    protected boolean isUserSignedIn(final Context context) {
+        User mUser = getUser(context);
         return mUser.isUserSignIn(context) && mUser.getEmailVerificationStatus(context);
     }
 
