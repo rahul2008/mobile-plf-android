@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.configuration.PILConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
 import com.philips.cdp.registration.datamigration.DataMigration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -147,6 +146,11 @@ public class RegistrationHelper {
         }
         String locale = PILLocaleManager.getInputLocale(context);
         RLog.i("Locale","Locale from LOcale match"+locale);
+
+        if(locale == null){
+            return Locale.getDefault();
+        }
+
         return new Locale(locale);
     }
 
