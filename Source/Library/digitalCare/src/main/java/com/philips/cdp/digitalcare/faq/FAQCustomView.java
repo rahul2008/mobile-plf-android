@@ -3,6 +3,7 @@ package com.philips.cdp.digitalcare.faq;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -126,7 +127,7 @@ public class FAQCustomView {
         questionTextView.setText(question);
         Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         questionTextView.setTypeface(typeface);
-        questionTextView.setTextColor(mContext.getResources().getColor(R.color.button_background, null));
+        questionTextView.setTextColor(ContextCompat.getColor(mContext, R.color.button_background));
         int padding = (int)(mContext.getResources()
                 .getDimension(R.dimen.marginTopButton) * mDensity);
         questionTextView.setPadding(padding, 0 , padding, 0);
@@ -152,7 +153,8 @@ public class FAQCustomView {
         headerText.setText(questionType);
         Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "digitalcarefonts/CentraleSans-Bold.otf");
         headerText.setTypeface(typeface);
-        headerText.setTextColor(mContext.getResources().getColor(R.color.button_background, null));
+       // headerText.setTextColor(mContext.getResources().getColor(R.color.button_background, null));
+        headerText.setTextColor(ContextCompat.getColor(mContext, R.color.button_background));
         RelativeLayout.LayoutParams headerTextParams = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         headerTextParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -166,7 +168,8 @@ public class FAQCustomView {
                 (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         arrowImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         arrowImageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        arrowImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.uikit_arrow_up, null));
+     //   arrowImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.uikit_arrow_up, null));
+        arrowImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_up));
         arrowImage.setPadding(0, 0 , padding, 0);
 
 
