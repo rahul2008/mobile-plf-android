@@ -85,13 +85,16 @@ public class UserProduct {
     }
 
     private RegisteredProduct mapProductToRegisteredProduct(final Product product) {
-        RegisteredProduct registeredProduct = new RegisteredProduct(product.getCtn(), product.getSerialNumber(), product.getPurchaseDate(), product.getSector(), product.getCatalog());
-        registeredProduct.setLocale(product.getLocale());
-        registeredProduct.setRegistrationState(RegistrationState.PENDING);
-        return registeredProduct;
+        if (product != null) {
+            RegisteredProduct registeredProduct = new RegisteredProduct(product.getCtn(), product.getSerialNumber(), product.getPurchaseDate(), product.getSector(), product.getCatalog());
+            registeredProduct.setLocale(product.getLocale());
+            registeredProduct.setRegistrationState(RegistrationState.PENDING);
+            return registeredProduct;
+        }
+        return null;
     }
 
-    private void registerCachedProducts(final Context context, final User mUser, final List<RegisteredProduct> registeredProducts, final ProdRegListener appListener) {
+    public void registerCachedProducts(final Context context, final User mUser, final List<RegisteredProduct> registeredProducts, final ProdRegListener appListener) {
         for (RegisteredProduct registeredProduct : registeredProducts) {
             Log.d(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber());
             final RegistrationState registrationState = registeredProduct.getRegistrationState();
@@ -285,13 +288,13 @@ public class UserProduct {
     }
 
     @NonNull
-    protected RegistrationRequest getRegistrationRequest(final Context context, final Product product) {
-        RegistrationRequest registrationRequest = new RegistrationRequest(product.getCtn(), product.getSerialNumber(), getUser(context).getAccessToken());
-        registrationRequest.setSector(product.getSector());
-        registrationRequest.setCatalog(product.getCatalog());
-        registrationRequest.setmLocale(product.getLocale());
+    protected RegistrationRequest getRegistrationRequest(final Context context, final RegisteredProduct registeredProduct) {
+        RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), registeredProduct.getSerialNumber(), getUser(context).getAccessToken());
+        registrationRequest.setSector(registeredProduct.getSector());
+        registrationRequest.setCatalog(registeredProduct.getCatalog());
+        registrationRequest.setmLocale(registeredProduct.getLocale());
         registrationRequest.setRegistrationChannel(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
-        registrationRequest.setPurchaseDate(product.getPurchaseDate());
+        registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         return registrationRequest;
     }
 
