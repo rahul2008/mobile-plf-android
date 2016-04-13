@@ -100,12 +100,10 @@ public class PRXBuilderForProductCatalog {
     private ProductSummaryBuilder prepareSummaryBuilder(final String code) {
         // String ctn = code.replaceAll("_", "/");
         String sectorCode = NetworkConstants.PRX_SECTOR_CODE;
-        String locale = NetworkConstants.PRX_LOCALE;
         String catalogCode = NetworkConstants.PRX_CATALOG_CODE;
 
         ProductSummaryBuilder productSummaryBuilder = new ProductSummaryBuilder(code, null);
         productSummaryBuilder.setmSectorCode(sectorCode);
-        productSummaryBuilder.setmLocale(locale);
         productSummaryBuilder.setmCatalogCode(catalogCode);
         return productSummaryBuilder;
     }
