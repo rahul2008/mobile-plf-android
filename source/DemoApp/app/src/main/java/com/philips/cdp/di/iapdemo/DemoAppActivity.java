@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +30,10 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DemoAppActivity extends Activity implements View.OnClickListener,
-        UserRegistrationListener, IAPHandlerListener {
+        UserRegistrationListener, IAPHandlerListener, AdapterView.OnItemSelectedListener {
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPurple_WhiteBackground;
 
@@ -67,6 +71,17 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mIapHandler = new IAPHandler();
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
+
+        List<String> countries = new ArrayList<>();
+        countries.add("US");
+        countries.add("UK");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
     }
 
     @Override
@@ -130,7 +145,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
             case R.id.btn_shop_now:
-                mIapHandler.launchProductCatalog(this,DEFAULT_THEME);
+                mIapHandler.launchProductCatalog(this, DEFAULT_THEME);
                 break;
             default:
                 break;
@@ -220,6 +235,26 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         }
     };
 
+    private IAPHandlerListener mLocaleChangeListener = new IAPHandlerListener() {
+        @Override
+        public void onSuccess(final int count) {
+            mShopNow.setEnabled(true);
+            mIapHandler.getProductCartCount(DemoAppActivity.this, mProductCountListener);
+        }
+
+        @Override
+        public void onFailure(final int errorCode) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Utility.dismissProgressDialog();
+                    mShopNow.setEnabled(true);
+                    showToast(errorCode);
+                }
+            });
+        }
+    };
+
     private void showToast(int errorCode) {
         String errorText = "Unknown error";
         if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
@@ -244,6 +279,22 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onFailure(int errorCode) {
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String selectedCountry = parent.getItemAtPosition(position).toString();
+        if (selectedCountry.equals("UK"))
+            selectedCountry = "GB";
+        if (!(Utility.isProgressDialogShowing())) {
+            Utility.showProgressDialog(this, getString(R.string.please_wait));
+            mIapHandler.initIAP(this, selectedCountry, mLocaleChangeListener);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

@@ -27,6 +27,21 @@ import java.util.List;
 
 public class IAPHandler {
 
+    public void initIAP(Context context, String countryCode, final IAPHandlerListener listener) {
+        HybrisDelegate delegate = HybrisDelegate.getInstance(context);
+        delegate.getStore().initStoreConfig(countryCode, new RequestListener() {
+            @Override
+            public void onSuccess(final Message msg) {
+                listener.onSuccess(IAPConstant.IAP_SUCCESS);
+            }
+
+            @Override
+            public void onError(final Message msg) {
+                listener.onFailure(getIAPErrorCode(msg));
+            }
+        });
+    }
+
     public void launchIAP(Context context, int themeIndex) {
         //Set component version key and value for InAppPurchase
         Tagging.setComponentVersionKey(IAPAnalyticsConstant.COMPONENT_VERSION);

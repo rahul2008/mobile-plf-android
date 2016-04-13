@@ -84,7 +84,7 @@ import static org.mockito.Mockito.when;
 //    private Store getStore() {
 //        return new Store(mContext) {
 //            @Override
-//            protected StoreConfiguration setStoreConfig(final Context context) {
+//            protected StoreConfiguration getStoreConfig(final Context context) {
 //                return mStoreConfig;
 //            }
 //        };

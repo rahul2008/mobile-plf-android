@@ -48,7 +48,8 @@ public class PRXBuilderForProductCatalog {
         }
     }
 
-    private void executeRequest(final ProductsEntity entry, final String code, final ProductSummaryBuilder productSummaryBuilder) {
+    public void executeRequest(final ProductsEntity entry, final String code, final
+    ProductSummaryBuilder productSummaryBuilder) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(mContext);
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
