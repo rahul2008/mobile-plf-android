@@ -1,7 +1,6 @@
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -37,7 +36,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.listeners.IPrxCallback;
+import com.philips.cdp.digitalcare.listeners.prxSummaryCallback;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -366,7 +365,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void requestPRXAssetData() {
-        mPrxProductData = new PrxProductData(mActivity, new IPrxCallback() {
+        mPrxProductData = new PrxProductData(mActivity, new prxSummaryCallback() {
             @Override
             public void onResponseReceived(SummaryModel isAvailable) {
                 if (getContext() != null)

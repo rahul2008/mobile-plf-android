@@ -7,7 +7,7 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 03-Dec-15.
  */
-public interface IPrxCallback {
+public interface prxSummaryCallback {
 
     void onResponseReceived(SummaryModel isAvailable);
 }

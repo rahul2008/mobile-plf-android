@@ -8,7 +8,8 @@ import android.os.Looper;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.listeners.IPrxCallback;
+import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
+import com.philips.cdp.digitalcare.listeners.prxSummaryCallback;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
@@ -19,9 +20,11 @@ import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.datamodels.assets.Assets;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
+import com.philips.cdp.prxclient.request.ProductSupportRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
@@ -47,7 +50,8 @@ public class PrxProductData {
         private String mCatalogCode = "CONSUMER";*/
     DigitalCareConfigManager mConfigManager = null;
     private Activity mActivity = null;
-    private IPrxCallback mPrxCallback = null;
+    private prxSummaryCallback mSummaryCallback = null;
+    private PrxFaqCallback mSupportCallback = null;
     private String mCtn = null;
     private String mSectorCode = null;
     private String mLocale = null;
@@ -55,18 +59,25 @@ public class PrxProductData {
     private SummaryModel mSummaryModel = null;
     private AssetModel mAssetModel = null;
     private ViewProductDetailsModel mProductDetailsObject = null;
-    private ProgressDialog mSummaryDialog = null;
+    private ProgressDialog mProgressDialog = null;
     private RequestManager mRequestManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
 
 
-    public PrxProductData(Activity activity, IPrxCallback callback) {
+    public PrxProductData(Activity activity, prxSummaryCallback callback) {
         this.mActivity = activity;
-        this.mPrxCallback = callback;
+        this.mSummaryCallback = callback;
         mConfigManager = DigitalCareConfigManager.getInstance();
         mProductDetailsObject = new ViewProductDetailsModel();
 
 
+        initProductCredentials();
+    }
+
+    public PrxProductData(Activity activity, PrxFaqCallback callback) {
+        this.mActivity = activity;
+        this.mSupportCallback = callback;
+        mConfigManager = DigitalCareConfigManager.getInstance();
         initProductCredentials();
     }
 
@@ -122,8 +133,6 @@ public class PrxProductData {
         mSectorCode = mProductInfo.getSector();
         mLocale = mConfigManager.getLocaleMatchResponseWithCountryFallBack().toString();
         mCatalogCode = mProductInfo.getCatalog();
-        if ((mSectorCode == null) || (mCtn == null) || (mLocale == null) || (mCatalogCode == null))
-            DigiCareLogger.e(TAG, "Please make sure to set SectorCode, CatalogCode, ");
 
     }
 
@@ -134,6 +143,14 @@ public class PrxProductData {
         mProductSummaryRequest.setCatalog(getCatalogEnum(mCatalogCode));
 
         return mProductSummaryRequest;
+    }
+
+    public ProductSupportRequest getPrxSupportData() {
+        ProductSupportRequest productSupportRequest = new ProductSupportRequest(mCtn, null);
+        productSupportRequest.setSector(getSectorEnum(mSectorCode));
+        productSupportRequest.setLocale(mLocale);
+        productSupportRequest.setCatalog(getCatalogEnum(mCatalogCode));
+        return productSupportRequest;
     }
 
     public ProductAssetRequest getPrxAssetData() {
@@ -189,13 +206,53 @@ public class PrxProductData {
         }
     }
 
-    public void executeSummaryRequest() {
-        if (mSummaryDialog == null)
-            mSummaryDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
-        mSummaryDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-        mSummaryDialog.setCancelable(false);
+    public void executeFaqSupportRequest() {
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
         if (!(mActivity.isFinishing()))
-            mSummaryDialog.show();
+            mProgressDialog.show();
+        mRequestManager.executeRequest(getPrxSupportData(), new ResponseListener() {
+            @Override
+            public void onResponseSuccess(ResponseData responseData) {
+                SupportModel supportModel;
+                if (responseData != null) {
+                    supportModel = (SupportModel) responseData;
+                    DigiCareLogger.d(TAG, "Support Data Received ? " + supportModel.isSuccess());
+                    if (supportModel.isSuccess()) {
+                        com.philips.cdp.prxclient.datamodels.support.Data data = supportModel.getData();
+                        if (data != null) {
+                            if (mSupportCallback != null)
+                                mSupportCallback.onResponseReceived(supportModel);
+                        } else {
+                            if (mSupportCallback != null)
+                                mSupportCallback.onResponseReceived(null);
+                        }
+                    }
+                    if (mProgressDialog != null && mProgressDialog.isShowing())
+                        mProgressDialog.cancel();
+                }
+            }
+
+            @Override
+            public void onResponseError(PrxError prxError) {
+                if (mSupportCallback != null)
+                    mSupportCallback.onResponseReceived(null);
+                if (mProgressDialog != null && mProgressDialog.isShowing())
+                    mProgressDialog.cancel();
+            }
+        });
+    }
+
+
+    public void executeSummaryRequest() {
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
+        if (!(mActivity.isFinishing()))
+            mProgressDialog.show();
         mRequestManager.executeRequest(getPrxSummaryData(), new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -210,16 +267,16 @@ public class PrxProductData {
                             mProductDetailsObject.setProductImage(data.getImageURL());
                             mProductDetailsObject.setProductInfoLink(data.getProductURL());
                             mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                            if (mPrxCallback != null)
-                                mPrxCallback.onResponseReceived(mSummaryModel);
+                            if (mSummaryCallback != null)
+                                mSummaryCallback.onResponseReceived(mSummaryModel);
                         }
                     } else {
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                        if (mPrxCallback != null)
-                            mPrxCallback.onResponseReceived(null);
+                        if (mSummaryCallback != null)
+                            mSummaryCallback.onResponseReceived(null);
                     }
-                    if (mSummaryDialog != null && mSummaryDialog.isShowing())
-                        mSummaryDialog.cancel();
+                    if (mProgressDialog != null && mProgressDialog.isShowing())
+                        mProgressDialog.cancel();
                 }
             }
 
@@ -227,10 +284,10 @@ public class PrxProductData {
             public void onResponseError(PrxError error) {
                 DigiCareLogger.e(TAG, "Summary Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                if (mPrxCallback != null)
-                    mPrxCallback.onResponseReceived(null);
-                if (mSummaryDialog != null && mSummaryDialog.isShowing())
-                    mSummaryDialog.cancel();
+                if (mSummaryCallback != null)
+                    mSummaryCallback.onResponseReceived(null);
+                if (mProgressDialog != null && mProgressDialog.isShowing())
+                    mProgressDialog.cancel();
             }
         });
     }
@@ -276,8 +333,8 @@ public class PrxProductData {
                         DigiCareLogger.d(TAG, "Manual Link : " + usermanual);
                         DigiCareLogger.d(TAG, "Manual videoListSize : " + mVideoList.size());
                         mConfigManager.setViewProductDetailsData(viewProductDetailsData);
-                        if (mPrxCallback != null)
-                            mPrxCallback.onResponseReceived(null);
+                        if (mSummaryCallback != null)
+                            mSummaryCallback.onResponseReceived(null);
 
                     }
                 }
@@ -292,12 +349,12 @@ public class PrxProductData {
     }
 
     public void executeAssetData() {
-        if (mSummaryDialog == null)
-            mSummaryDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
-        mSummaryDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-        mSummaryDialog.setCancelable(false);
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
         if (!(mActivity.isFinishing()))
-            mSummaryDialog.show();
+            mProgressDialog.show();
 
         mRequestManager.executeRequest(getPrxAssetData(), new ResponseListener() {
             @Override
@@ -332,8 +389,8 @@ public class PrxProductData {
                         mProductDetailsObject.setmVideoLinks(mVideoList);
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
-                        if (mSummaryDialog != null && mSummaryDialog.isShowing())
-                            mSummaryDialog.cancel();
+                        if (mProgressDialog != null && mProgressDialog.isShowing())
+                            mProgressDialog.cancel();
 
                     }
                 }
@@ -343,8 +400,8 @@ public class PrxProductData {
             public void onResponseError(PrxError error) {
                 DigiCareLogger.e(TAG, "Asset Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                if (mSummaryDialog != null && mSummaryDialog.isShowing())
-                    mSummaryDialog.cancel();
+                if (mProgressDialog != null && mProgressDialog.isShowing())
+                    mProgressDialog.cancel();
             }
         });
     }

@@ -25,7 +25,8 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.FaqFragment;
-import com.philips.cdp.digitalcare.listeners.IPrxCallback;
+import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
+import com.philips.cdp.digitalcare.listeners.prxSummaryCallback;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.productdetails.PrxProductData;
@@ -40,6 +41,7 @@ import com.philips.cdp.productselection.productselectiontype.ProductModelSelecti
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 
 import java.util.List;
 
@@ -52,7 +54,7 @@ import java.util.List;
  * @creation Date : 5 Dec 2014
  */
 
-public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrxCallback {
+public class SupportHomeFragment extends DigitalCareBaseFragment implements prxSummaryCallback {
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
@@ -473,7 +475,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                     disableSupportButtonClickable();
                     launchProductSelectionComponent();
                 } else
-                    showFragment(new FaqFragment());
+                    launchFaqScreen();
         } else if (tag.equals(getStringKey(R.string.feedback))) {
             if (isConnectionAvailable())
                 if (isProductSelected() && isSupportScreenLaunched) {
@@ -495,6 +497,23 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 }
             }
         }
+    }
+
+
+    private void launchFaqScreen() {
+        mPrxProductData = new PrxProductData(getActivity(), new PrxFaqCallback() {
+            @Override
+            public void onResponseReceived(SupportModel supportModel) {
+                if (supportModel == null)
+                    showAlert("No support available");
+                else {
+                    FaqFragment faqFragment = new FaqFragment();
+                    faqFragment.setSupportModel(supportModel);
+                    showFragment(faqFragment);
+                }
+            }
+        });
+        mPrxProductData.executeFaqSupportRequest();
     }
 
     private void launchProductSelectionFragmentComponent() {

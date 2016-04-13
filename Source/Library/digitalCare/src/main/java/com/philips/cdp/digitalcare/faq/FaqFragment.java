@@ -14,8 +14,10 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.faq.listeners.FaqCallback;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
+import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,13 +28,15 @@ import java.util.Map;
  * @author : naveen@philips.com
  * @since : 25 june 2015
  */
-public class FaqFragment extends DigitalCareBaseFragment {
+public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback {
 
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
+    private SupportModel mSupportModel = null;
+
 
     private String FAQ_URL = "https://%s/content/%s/%s_%s/standalone-faqs/%s.html";
     private String TAG = FaqFragment.class.getSimpleName();
@@ -40,10 +44,15 @@ public class FaqFragment extends DigitalCareBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FAQCustomView faqCustomView = new FAQCustomView(getActivity());
+        FAQCustomView faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
         mView = faqCustomView.init();
         return mView;
     }
+
+    public void setSupportModel(SupportModel supportModel) {
+        this.mSupportModel = supportModel;
+    }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -52,12 +61,12 @@ public class FaqFragment extends DigitalCareBaseFragment {
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-
         Map<String, Object> contextData = new HashMap<String, Object>();
         contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ,
                 getPreviousName(), contextData);
     }
+
 
     @Override
     public void onResume() {
@@ -104,4 +113,10 @@ public class FaqFragment extends DigitalCareBaseFragment {
         super.onDestroy();
     }
 
+    @Override
+    public void onFaqQuestionClicked(String webUrl) {
+        FaqDetailedScreen faqDetailedScreen = new FaqDetailedScreen();
+        faqDetailedScreen.setFaqWebUrl(webUrl);
+        showFragment(faqDetailedScreen);
+    }
 }
