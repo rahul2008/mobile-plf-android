@@ -6,8 +6,8 @@
 package com.philips.pins.shinelib;
 
 /**
- * A procedure used to associate with a peripheral. AssociationProcedure is started and stooped by SHNDeviceAssociation. If association is successful then the peripheral
- * is stored by SHNDeviceAssociation.
+ * A procedure used to associate with a peripheral. AssociationProcedure is started and stopped by SHNDeviceAssociation. If association is successful then the peripheral
+ * is stored by SHNDeviceAssociation. In case association procedure wants to expose information to the client of the BlueLib. it should always use the user handler of {@link SHNCentral#getUserHandler()}.
  */
 public interface SHNAssociationProcedurePlugin extends SHNAssociationProcedure {
 
@@ -34,8 +34,8 @@ public interface SHNAssociationProcedurePlugin extends SHNAssociationProcedure {
     /**
      * Provides an opportunity for SHNDeviceScanner to inject found peripherals
      *
-     * @param shnDevice          an instance of {@link com.philips.pins.shinelib.SHNDevice} corresponding to the found peripheral
-     * @param shnDeviceFoundInfo an instance of {@link com.philips.pins.shinelib.SHNDeviceFoundInfo} that give additional information like RSSI
+     * @param shnDevice          an instance of {@link SHNDevice} corresponding to the found peripheral
+     * @param shnDeviceFoundInfo an instance of {@link SHNDeviceFoundInfo} that give additional information like RSSI
      */
     void deviceDiscovered(SHNDevice shnDevice, SHNDeviceFoundInfo shnDeviceFoundInfo);
 
