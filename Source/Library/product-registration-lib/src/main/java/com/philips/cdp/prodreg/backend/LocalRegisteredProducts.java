@@ -20,7 +20,9 @@ import java.util.Set;
  */
 public class LocalRegisteredProducts {
 
+    public static String PRODUCT_REGISTRATION_KEY = "prod_reg_key";
     private LocalSharedPreference localSharedPreference;
+
 
     public LocalRegisteredProducts(Context context) {
         localSharedPreference = new LocalSharedPreference(context);
@@ -30,7 +32,7 @@ public class LocalRegisteredProducts {
         Gson gson = getGson();
         Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();
         registeredProducts.add(registeredProduct);
-        localSharedPreference.storeData(UserProduct.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+        localSharedPreference.storeData(PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
     @NonNull
@@ -39,7 +41,7 @@ public class LocalRegisteredProducts {
     }
 
     protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
-        final String data = localSharedPreference.getData(UserProduct.PRODUCT_REGISTRATION_KEY);
+        final String data = localSharedPreference.getData(PRODUCT_REGISTRATION_KEY);
         Gson gson = getGson();
         RegisteredProduct[] registeredProducts = gson.fromJson(data,
                 RegisteredProduct[].class);
@@ -51,7 +53,7 @@ public class LocalRegisteredProducts {
 
     public List<RegisteredProduct> getRegisteredProducts() {
         Gson gson = getGson();
-        String data = localSharedPreference.getData(UserProduct.PRODUCT_REGISTRATION_KEY);
+        String data = localSharedPreference.getData(PRODUCT_REGISTRATION_KEY);
         RegisteredProduct[] products = gson.fromJson(data, RegisteredProduct[].class);
         if (products != null)
             return Arrays.asList(products);
@@ -66,7 +68,7 @@ public class LocalRegisteredProducts {
             registeredProducts.remove(registeredProduct);
         }
         registeredProducts.add(registeredProduct);
-        localSharedPreference.storeData(UserProduct.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+        localSharedPreference.storeData(PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
     protected void syncLocalCache(final RegisteredProduct[] products) {
@@ -75,6 +77,6 @@ public class LocalRegisteredProducts {
             registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
             registeredProducts.add(registeredProduct);
         }
-        localSharedPreference.storeData(UserProduct.PRODUCT_REGISTRATION_KEY, getGson().toJson(registeredProducts));
+        localSharedPreference.storeData(PRODUCT_REGISTRATION_KEY, getGson().toJson(registeredProducts));
     }
 }

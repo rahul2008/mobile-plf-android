@@ -35,7 +35,6 @@ import java.util.List;
  */
 public class UserProduct {
 
-    public static String PRODUCT_REGISTRATION_KEY = "prod_reg_key";
     private final String TAG = getClass() + "";
     private String requestType;
     private Sector sector;
