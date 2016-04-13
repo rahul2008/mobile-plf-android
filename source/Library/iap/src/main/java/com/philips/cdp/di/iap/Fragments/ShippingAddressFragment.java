@@ -343,7 +343,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         String lastName = mEtLastName.getText().toString();
         String addressLineOne = mEtAddressLineOne.getText().toString();
         String addressLineTwo = mEtAddressLineTwo.getText().toString();
-        String postalCode = mEtPostalCode.getText().toString();
+        String postalCode = mEtPostalCode.getText().toString().replaceAll(" ", "");
         String phoneNumber = mEtPhoneNumber.getText().toString();
         String town = mEtTown.getText().toString();
         String country = mEtCountry.getText().toString();
@@ -516,7 +516,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.LINE_2, mEtAddressLineTwo.getText().toString());
         addressHashMap.put(ModelConstants.TITLE_CODE, mEtSalutation.getText().toString().toLowerCase(Locale.getDefault()));
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
-        addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
+        addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString().replaceAll(" ", ""));
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
         if (mAddressFieldsHashmap != null)
             addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
@@ -588,7 +588,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressFields.setCountryIsocode(mEtCountry.getText().toString());
         addressFields.setLine1(mEtAddressLineOne.getText().toString());
         addressFields.setLine2(mEtAddressLineTwo.getText().toString());
-        addressFields.setPostalCode(mEtPostalCode.getText().toString());
+        addressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
         addressFields.setTown(mEtTown.getText().toString());
         addressFields.setPhoneNumber(mEtPhoneNumber.getText().toString());
         addressFields.setEmail(mEtEmail.getText().toString());
