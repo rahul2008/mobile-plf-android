@@ -93,6 +93,11 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         mIapHandler = new IAPHandler();
