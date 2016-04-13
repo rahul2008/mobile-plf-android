@@ -95,6 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_register"
         android:text="SHOP NOW"
+        android:enabled="false"
         android:visibility="gone" />
 
 

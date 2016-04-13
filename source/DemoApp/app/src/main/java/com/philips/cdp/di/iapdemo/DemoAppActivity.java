@@ -72,24 +72,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mIapHandler = new IAPHandler();
 
-        // Spinner element
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
-
-        // Spinner click listener
         spinner.setOnItemSelectedListener(this);
 
-        // Spinner Drop down elements
         List<String> countries = new ArrayList<>();
         countries.add("US");
         countries.add("UK");
 
-        // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
-
-        // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
     }
 
@@ -154,7 +145,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
             case R.id.btn_shop_now:
-                mIapHandler.launchProductCatalog(this,DEFAULT_THEME);
+                mIapHandler.launchProductCatalog(this, DEFAULT_THEME);
                 break;
             default:
                 break;
@@ -244,6 +235,26 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         }
     };
 
+    private IAPHandlerListener mLocaleChangeListener = new IAPHandlerListener() {
+        @Override
+        public void onSuccess(final int count) {
+            mShopNow.setEnabled(true);
+            mIapHandler.getProductCartCount(DemoAppActivity.this, mProductCountListener);
+        }
+
+        @Override
+        public void onFailure(final int errorCode) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Utility.dismissProgressDialog();
+                    mShopNow.setEnabled(true);
+                    showToast(errorCode);
+                }
+            });
+        }
+    };
+
     private void showToast(int errorCode) {
         String errorText = "Unknown error";
         if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
@@ -273,7 +284,13 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        String selectedCountry = parent.getItemAtPosition(position).toString();
+        if (selectedCountry.equals("UK"))
+            selectedCountry = "GB";
+        if (!(Utility.isProgressDialogShowing())) {
+            Utility.showProgressDialog(this, getString(R.string.please_wait));
+            mIapHandler.initIAP(this, selectedCountry, mLocaleChangeListener);
+        }
     }
 
     @Override
