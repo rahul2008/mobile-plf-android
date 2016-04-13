@@ -104,6 +104,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        testApplicationId "com.philips.cdp.registration.coppa.test"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     buildTypes {
         release {
@@ -112,6 +114,7 @@ android {
         }
         debug {
             debuggable true
+
             testCoverageEnabled true
         }
     }

@@ -72,6 +72,11 @@ public class CoppaExtension {
         CoppaConfiguration.getCoopaConfigurationFlields(Jump.getSignedInUser());
     }
 
+    public void resetConfiguration(){
+        CoppaConfiguration.clearConfiguration();
+
+    }
+
     private void rebuildUserData() {
         CaptureRecord signInUser = Jump.getSignedInUser();
         if (signInUser == null)

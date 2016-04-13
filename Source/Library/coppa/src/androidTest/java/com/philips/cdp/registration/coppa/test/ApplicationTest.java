@@ -1,4 +1,4 @@
-package com.philips.cdp.coppa.registration;
+package com.philips.cdp.registration.coppa.test;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
