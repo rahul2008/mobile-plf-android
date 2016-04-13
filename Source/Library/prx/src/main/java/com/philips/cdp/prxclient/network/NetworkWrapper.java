@@ -87,7 +87,7 @@ public class NetworkWrapper {
                         if (networkResponse != null)
                             listener.onResponseError(error.toString(), networkResponse.statusCode);
                         else if (error instanceof NoConnectionError) {
-                            listener.onResponseError(mContext.getString(R.string.no_internet_message), 501);
+                            listener.onResponseError(mContext.getString(R.string.no_internet_message), 9);
                         } else if (error instanceof TimeoutError) {
                             listener.onResponseError("Time out Exception", 504);
                         } else
