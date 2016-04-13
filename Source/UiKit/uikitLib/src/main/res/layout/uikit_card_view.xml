@@ -47,8 +47,11 @@
                     fontPath="fonts/centralesanslight.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/card_favourite_count"
                     android:layout_alignParentLeft="true"
+                    android:maxLines="1"
                     android:layout_marginLeft="16dp"
+                    android:ellipsize="end"
                     android:text="@string/uikit_card_view_title_text"
                     android:textColor="?attr/uikit_verydarkBaseColor"
                     android:textSize="20sp" />

@@ -90,6 +90,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/uikit_about_screen_privacy_margin"
                     android:includeFontPadding="false"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:text="@string/uikit_about_screen_privacy"
                     android:textColor="#fff"
                     android:textSize="@dimen/uikit_about_screen_terms_privacy_content_size" />
