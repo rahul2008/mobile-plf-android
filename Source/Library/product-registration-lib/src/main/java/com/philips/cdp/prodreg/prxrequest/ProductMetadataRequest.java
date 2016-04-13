@@ -21,6 +21,7 @@ import java.util.Map;
 public class ProductMetadataRequest extends PrxRequest {
 
     private String mCtn = null;
+    private String mServerInfo="https://acc.philips.com/prx/registration/";
 
     public ProductMetadataRequest(String ctn) {
         this.mCtn = ctn;
@@ -33,7 +34,13 @@ public class ProductMetadataRequest extends PrxRequest {
 
     @Override
     public String getServerInfo() {
-        return "https://dev.philips.co.uk/prx/registration/";
+        /*String mConfiguration = RegistrationDynamicConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+        if (mConfiguration.equalsIgnoreCase("Staging")) {
+            mServerInfo = "https://acc.philips.co.uk/prx/registration/";
+        } else if (mConfiguration.equalsIgnoreCase("development")) {
+            mServerInfo = "https://dev.philips.com/prx/registration/";
+        }*/
+        return mServerInfo;
     }
 
     @Override

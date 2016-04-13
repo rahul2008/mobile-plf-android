@@ -9,7 +9,6 @@ import com.philips.cdp.prodreg.model.RegistrationResponse;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 
 import org.json.JSONObject;
 
@@ -45,12 +44,12 @@ public class RegistrationRequest extends PrxRequest {
     }
 
     public String getServerInfo() {
-        String environment = RegistrationDynamicConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+       /* String environment = RegistrationDynamicConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
         if (environment.equalsIgnoreCase("Staging")) {
             mServerInfo = "https://acc.philips.com/prx/registration/";
         } else if (environment.equalsIgnoreCase("development")) {
             mServerInfo = "https://dev.philips.com/prx/registration/";
-        }
+        }*/
         return mServerInfo;
     }
 

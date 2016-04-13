@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +50,9 @@ public class ProductAdapter  extends RecyclerView.Adapter<ListRowHolder>  {
         }else {
             holder.mStatus.setTextColor(ContextCompat.getColor(mContext, R.color.red));
         }
-        holder.mStatus.setText("Status : "+registeredProduct.getRegistrationState());
+        holder.mStatus.setText(Html.fromHtml("<font color='#222'>Status : </font>"+registeredProduct.getRegistrationState()));
     if (registeredProduct.getProdRegError()!=null)
-       holder.mErrorStatus.setText("Error  : "+registeredProduct.getProdRegError());
+       holder.mErrorStatus.setText(Html.fromHtml("<font color='#222'>Error : </font>"+registeredProduct.getProdRegError()));
     }
 
     @Override
