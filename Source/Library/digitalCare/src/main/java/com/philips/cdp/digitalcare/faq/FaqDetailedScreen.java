@@ -1,13 +1,17 @@
 package com.philips.cdp.digitalcare.faq;
 
 import android.content.res.Configuration;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
+import android.webkit.JavascriptInterface;
+import android.webkit.MimeTypeMap;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -61,6 +65,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
+        DigiCareLogger.d(TAG, "Mime Type : " + getMimeType(FAQ_PAGE_URL));
         initView();
         loadFaq();
     }
@@ -86,7 +91,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                 mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
                 mWebView.getSettings().setDomStorageEnabled(true);
             }
-            mWebView.setWebChromeClient(new WebChromeClient() {
+          /*  mWebView.setWebChromeClient(new WebChromeClient() {
                 @Override
                 public void onProgressChanged(WebView view, int newProgress) {
                     super.onProgressChanged(view, newProgress);
@@ -94,9 +99,55 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                         mProgressBar.setVisibility(View.GONE);
                     }
                 }
+            });*/
+            mWebView.setWebViewClient(new WebViewClient() {
+
+                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                    DigiCareLogger.e("browser", description);
+                    mProgressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    // do your javascript injection here, remember "javascript:" is needed to recognize this code is javascript
+                    mProgressBar.setVisibility(View.GONE);
+//                    mWebView.loadUrl("javascript:try{document.getElementsByClassName('group faqfeedback_group')[0].style.display='none'}catch(e){}");
+
+                }
+
+                @Override
+                public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                    handler.proceed();
+                }
+
             });
+          //  mWebView.addJavascriptInterface(new JsObject(mWebView, mWebView), "CallToAnAndroidFunction");
             mWebView.loadUrl(url);
         }
+    }
+
+
+    //get mime type by url
+    public String getMimeType(String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            if (extension.equals("js")) {
+                return "text/javascript";
+            } else if (extension.equals("woff")) {
+                return "application/font-woff";
+            } else if (extension.equals("woff2")) {
+                return "application/font-woff2";
+            } else if (extension.equals("ttf")) {
+                return "application/x-font-ttf";
+            } else if (extension.equals("eot")) {
+                return "application/vnd.ms-fontobject";
+            } else if (extension.equals("svg")) {
+                return "image/svg+xml";
+            }
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return type;
     }
 
     private void initView() {
