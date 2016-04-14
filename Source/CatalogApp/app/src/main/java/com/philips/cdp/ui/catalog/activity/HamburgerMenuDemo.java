@@ -137,15 +137,15 @@ public class HamburgerMenuDemo extends CatalogActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (feature == 2) {
-            getMenuInflater().inflate(com.philips.cdp.uikit.R.menu.uikit_hamburger_menu_item, menu);
-            MenuItem reload = menu.findItem(com.philips.cdp.uikit.R.id.action_reload);
+            getMenuInflater().inflate(R.menu.uikit_hamburger_menu_item, menu);
+            MenuItem reload = menu.findItem(R.id.action_reload);
             reload.setIcon(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_reload));
 
-            MenuItem info = menu.findItem(com.philips.cdp.uikit.R.id.action_info);
+            MenuItem info = menu.findItem(R.id.action_info);
             info.setIcon(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_info));
         } else {
-            getMenuInflater().inflate(com.philips.cdp.uikit.R.menu.uikit_hamburger_menu_single_item, menu);
-            MenuItem info = menu.findItem(com.philips.cdp.uikit.R.id.action_info);
+            getMenuInflater().inflate(R.menu.uikit_hamburger_menu_single_item, menu);
+            MenuItem info = menu.findItem(R.id.action_info);
             info.setIcon(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_info));
         }
         return super.onCreateOptionsMenu(menu);
