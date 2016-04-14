@@ -9,4 +9,5 @@ public interface IAPFragmentListener {
     void updateCount(int count);
     void setCartIconVisibility(int visibility);
     void setBackButtonVisibility(int isVisible);
+    void setHeaderTitle(String title);
 }

@@ -15,7 +15,6 @@ public class NetworkConstantsTest extends TestCase {
     @Test
     public void testPRXConstant() {
         assertEquals("B2C", NetworkConstants.PRX_SECTOR_CODE);
-        assertEquals("en_US", NetworkConstants.PRX_LOCALE);
         assertEquals("CONSUMER", NetworkConstants.PRX_CATALOG_CODE);
         assertEquals("EXTRA_ANIMATIONTYPE", NetworkConstants.EXTRA_ANIMATIONTYPE);
         assertEquals("IS_ONLINE", NetworkConstants.IS_ONLINE);

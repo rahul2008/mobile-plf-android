@@ -168,6 +168,11 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mBackButton.setVisibility(isVisible);
     }
 
+    @Override
+    public void setHeaderTitle(final String title) {
+        mTitleTextView.setText(title);
+    }
+
     public void dispatchBackToFragments() {
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         for (Fragment fragment : fragments) {
