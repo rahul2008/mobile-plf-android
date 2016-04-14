@@ -19,6 +19,7 @@ import android.os.Parcelable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.graphics.drawable.DrawableWrapper;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
@@ -413,10 +414,9 @@ public class PuiEditText extends RelativeLayout {
     public void setPassword() {
         editText.setCompoundDrawables(null, null, wrap(getIcon()), null);
         editText.setEnabled(true);
-        editText.setTransformationMethod(null);
+        editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
 
-        // setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         editText.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -448,7 +448,7 @@ public class PuiEditText extends RelativeLayout {
         Resources r = getResources();
 
         Drawable d = VectorDrawable.create(context, R.drawable.uikit_password_show_icon).mutate();
-       // d.setColorFilter(basecolor, PorterDuff.Mode.SRC_ATOP);
+        d.setColorFilter(basecolor, PorterDuff.Mode.SRC_ATOP);
 
         d.setBounds(20, 0, 70, 70);
         return d;
