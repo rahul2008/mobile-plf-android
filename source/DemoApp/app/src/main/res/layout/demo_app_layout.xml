@@ -16,22 +16,16 @@
         android:textStyle="bold" />
 
     <FrameLayout
-        android:id="@+id/fl_mainFragmentContainer"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/demo_title"
-        android:orientation="vertical" />
-
-    <FrameLayout
-        android:id="@+id/shoppingCart"
+        android:id="@+id/shopping_cart_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="50dp"
+        android:layout_toRightOf="@id/demo_title"
         android:visibility="gone">
 
         <ImageView
@@ -57,7 +51,7 @@
         android:id="@+id/select_country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/shoppingCart"
+        android:layout_centerInParent="true"
         android:orientation="horizontal">
 
         <TextView
@@ -71,6 +65,7 @@
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="0dp"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_weight="0.5" />
     </LinearLayout>
@@ -95,8 +90,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_register"
-        android:text="SHOP NOW"
         android:enabled="false"
+        android:text="SHOP NOW"
         android:visibility="gone" />
 
 
