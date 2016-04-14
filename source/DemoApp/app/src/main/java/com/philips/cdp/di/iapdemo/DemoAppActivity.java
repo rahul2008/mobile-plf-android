@@ -43,6 +43,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private FrameLayout mShoppingCart;
     private ListView mProductListView;
     Button mShopNow;
+
+    private boolean mConfigInitialized;
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10", "HX9042/64"};
 
     @Override
@@ -82,6 +84,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
+
+        //Request config initialization in the start
+        mIapHandler.initIAP(this, "US", mLocaleChangeListener);
     }
 
     @Override
@@ -98,10 +103,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         });
 
         User user = new User(this);
-        if (user.isUserSignIn()) {
+        if (user.isUserSignIn() && mConfigInitialized) {
             mShoppingCart.setVisibility(View.VISIBLE);
-            mProductListView.setVisibility(View.VISIBLE);
-            mShopNow.setVisibility(View.VISIBLE);
+//            mProductListView.setVisibility(View.VISIBLE);
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
             mIapHandler.getProductCartCount(this, mProductCountListener);
         }
@@ -238,20 +242,19 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private IAPHandlerListener mLocaleChangeListener = new IAPHandlerListener() {
         @Override
         public void onSuccess(final int count) {
+            mConfigInitialized = true;
             mShopNow.setEnabled(true);
+            mShopNow.setVisibility(View.VISIBLE);
             mIapHandler.getProductCartCount(DemoAppActivity.this, mProductCountListener);
         }
 
         @Override
         public void onFailure(final int errorCode) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Utility.dismissProgressDialog();
-                    mShopNow.setEnabled(true);
-                    showToast(errorCode);
-                }
-            });
+            mConfigInitialized = true;
+            Utility.dismissProgressDialog();
+            mShopNow.setEnabled(true);
+            mShopNow.setVisibility(View.VISIBLE);
+            showToast(errorCode);
         }
     };
 
