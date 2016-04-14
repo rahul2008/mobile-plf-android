@@ -40,9 +40,9 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             } else {
                 setCartIconVisibility(View.GONE);
             }
-            if(Utility.isProgressDialogShowing()) {
+            /*if(Utility.isProgressDialogShowing()) {
                 Utility.dismissProgressDialog();
-            }
+            }*/
         }
 
         @Override
