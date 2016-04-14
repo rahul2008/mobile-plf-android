@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,13 +39,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     private IAPHandler mIapHandler;
     private TextView mCountText = null;
-    private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
+    //    private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
     private FrameLayout mShoppingCart;
-    private ListView mProductListView;
+    //    private ListView mProductListView;
     Button mShopNow;
 
     private boolean mConfigInitialized;
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10", "HX9042/64"};
+    private LinearLayout mSelectCountryLl;
+    private boolean mIgnoreOnItemSelectListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,17 +67,18 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mShoppingCart = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         mShoppingCart.setOnClickListener(this);
 
-        mProductListView = (ListView) findViewById(R.id.product_list);
+       /* mProductListView = (ListView) findViewById(R.id.product_list);
         ProductListAdapter mProductListAdapter = new ProductListAdapter(this, mProductArrayList);
-        mProductListView.setAdapter(mProductListAdapter);
+        mProductListView.setAdapter(mProductListAdapter);*/
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mIapHandler = new IAPHandler();
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(this);
+        mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
+        Spinner mSpinner = (Spinner) findViewById(R.id.spinner);
+        mSpinner.setOnItemSelectedListener(this);
 
         List<String> countries = new ArrayList<>();
         countries.add("US");
@@ -83,10 +86,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-
-        //Request config initialization in the start
-        mIapHandler.initIAP(this, "US", mLocaleChangeListener);
+        mSpinner.setAdapter(dataAdapter);
     }
 
     @Override
@@ -104,8 +104,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         User user = new User(this);
         if (user.isUserSignIn() && mConfigInitialized) {
-            mShoppingCart.setVisibility(View.VISIBLE);
-//            mProductListView.setVisibility(View.VISIBLE);
+            displayViews();
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
             mIapHandler.getProductCartCount(this, mProductCountListener);
         }
@@ -121,7 +120,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         for (String mCatalogNumber : mCatalogNumbers) {
             ShoppingCartData product = new ShoppingCartData();
             product.setCtnNumber(mCatalogNumber);
-            mProductArrayList.add(product);
+//            mProductArrayList.add(product);
         }
     }
 
@@ -158,9 +157,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        mShoppingCart.setVisibility(View.VISIBLE);
-        mProductListView.setVisibility(View.VISIBLE);
-        mShopNow.setVisibility(View.VISIBLE);
+        displayViews();
         activity.finish();
     }
 
@@ -176,7 +173,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onUserLogoutSuccess() {
-
+        hideViews();
     }
 
     @Override
@@ -287,17 +284,35 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String selectedCountry = parent.getItemAtPosition(position).toString();
-        if (selectedCountry.equals("UK"))
-            selectedCountry = "GB";
-        if (!(Utility.isProgressDialogShowing())) {
-            Utility.showProgressDialog(this, getString(R.string.please_wait));
-            mIapHandler.initIAP(this, selectedCountry, mLocaleChangeListener);
+        if (!mIgnoreOnItemSelectListener) {
+            String selectedCountry = parent.getItemAtPosition(position).toString();
+            if (selectedCountry.equals("UK"))
+                selectedCountry = "GB";
+            if (!(Utility.isProgressDialogShowing())) {
+                Utility.showProgressDialog(this, getString(R.string.please_wait));
+                mIapHandler.initIAP(this, selectedCountry, mLocaleChangeListener);
+            }
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void displayViews() {
+        mShoppingCart.setVisibility(View.VISIBLE);
+        mSelectCountryLl.setVisibility(View.VISIBLE);
+        mIgnoreOnItemSelectListener = false;
+//        mProductListView.setVisibility(View.VISIBLE);
+        mShopNow.setVisibility(View.VISIBLE);
+    }
+
+    private void hideViews() {
+        mShoppingCart.setVisibility(View.GONE);
+        mSelectCountryLl.setVisibility(View.GONE);
+        mIgnoreOnItemSelectListener = true;
+//        mProductListView.setVisibility(View.GONE);
+        mShopNow.setVisibility(View.GONE);
     }
 }
