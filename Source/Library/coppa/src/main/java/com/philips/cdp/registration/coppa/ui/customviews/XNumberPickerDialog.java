@@ -43,14 +43,14 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
         numberPicker.setMinValue(minVal);
         numberPicker.setMaxValue(maxVal);
         numberPicker.setValue(maxVal);
-        numberPicker.setWrapSelectorWheel(false);
         numberPicker.setOnValueChangedListener(this);
+
         setDividerColor(numberPicker,R.color.reg_devider_color);
         ok.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
-
+                numberPicker.clearFocus();
                 System.out.println("number picker vacle"+numberPicker.getValue());
 
                 if(mNumberPickerListener!=null){
