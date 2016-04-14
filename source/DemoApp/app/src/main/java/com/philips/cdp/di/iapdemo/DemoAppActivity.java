@@ -44,7 +44,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     //    private ListView mProductListView;
     Button mShopNow;
 
-    private boolean mConfigInitialized;
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10", "HX9042/64"};
     private LinearLayout mSelectCountryLl;
     private boolean mIgnoreOnItemSelectListener;
@@ -103,7 +102,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         });
 
         User user = new User(this);
-        if (user.isUserSignIn() && mConfigInitialized) {
+        if (user.isUserSignIn()) {
             displayViews();
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
             mIapHandler.getProductCartCount(this, mProductCountListener);
@@ -239,7 +238,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private IAPHandlerListener mLocaleChangeListener = new IAPHandlerListener() {
         @Override
         public void onSuccess(final int count) {
-            mConfigInitialized = true;
             mShopNow.setEnabled(true);
             mShopNow.setVisibility(View.VISIBLE);
             mIapHandler.getProductCartCount(DemoAppActivity.this, mProductCountListener);
@@ -247,7 +245,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         @Override
         public void onFailure(final int errorCode) {
-            mConfigInitialized = true;
             Utility.dismissProgressDialog();
             mShopNow.setEnabled(true);
             mShopNow.setVisibility(View.VISIBLE);

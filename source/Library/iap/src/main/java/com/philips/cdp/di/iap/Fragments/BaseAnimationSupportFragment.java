@@ -67,6 +67,10 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         mActivityListener.setHeaderTitle(resourceId);
     }
 
+    protected void setTitle(String title) {
+        mActivityListener.setHeaderTitle(title);
+    }
+
     protected void setBackButtonVisibility(final int isVisible) {
         mActivityListener.setBackButtonVisibility(isVisible);
     }
