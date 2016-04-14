@@ -5,7 +5,6 @@ import android.test.suitebuilder.annotation.MediumTest;
 
 import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
-import com.philips.dhpclient.response.DhpAuthenticationResponse;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

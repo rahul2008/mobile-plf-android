@@ -5,7 +5,6 @@ import android.test.InstrumentationTestCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.dhpclient.DhpApiClientConfiguration;
-import com.philips.dhpclient.DhpApiSigner;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
@@ -16,13 +15,20 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * Created by 310190722 on 9/8/2015.
  */
-public class DhpApiSignerTest extends InstrumentationTestCase {
+public class RefreshSecretTest extends InstrumentationTestCase {
+
+    private DhpAuthenticationManagementClient authenticationManagementClient;
+
+    private final DhpApiClientConfiguration dhpApiClientConfiguration = new DhpApiClientConfiguration(
+            "http://ugrow-userregistration15.cloud.pcftest.com",
+            "uGrowApp",
+            "f129afcc-55f4-11e5-885d-feff819cdc9f",
+            "f129b5a8-55f4-11e5-885d-feff819cdc9f");
 
     @Override
     protected void setUp() throws Exception {
@@ -31,32 +37,22 @@ public class DhpApiSignerTest extends InstrumentationTestCase {
                 .getTargetContext().getCacheDir().getPath());
         ServerTime.init(getInstrumentation()
                 .getTargetContext());
+        authenticationManagementClient = new DhpAuthenticationManagementClient(dhpApiClientConfiguration);
     }
 
-    public void testSignedSignature() {
-        Map<String, String> headers = new LinkedHashMap<String, String>();
-        headers.put("Content-Type", "application/json");
-        headers.put("Content-Length", "10");
-        headers.put("SignedDate", "2015-07-02T07:52:03.100+0000");
-
-        String result = new DhpApiSigner("sharedKey", "secretKey").buildAuthorizationHeaderValue(
-                "POST",
-                "foo=bar&bar=foo",
-                headers,
-                "http://user-registration-service.cloud.pcftest.com",
-                "BLAA");
-
-        String expected = "HmacSHA256;Credential:sharedKey;SignedHeaders:Content-Type,Content-Length,SignedDate,;Signature:xymOJ/t5bbgxmxqOf84ifd8U1w2H7WOITQkjB+zyZoY=";
-        if (expected.toString().trim().equals(result.toString().trim())) {
-            assertTrue(true);
-        } else {
-            assertTrue(false);
-        }
+    public void testRefreshSecretCreateSignature() {
+        assertEquals("YPCh1N0aEs3r4+2uKoNTqBeT/aw=", authenticationManagementClient.createRefreshSignature("aa6c3f0dd953bcf11053e00e686af2e0d9b1d05b"
+                , "2016-03-28 07:20:31", "3kr6baw3tqbuyg58"));
     }
 
-    public void testAuthenticate(){
+    public void testRefreshSecretResponseNotNull() {
         DhpAuthenticationResponse response = getServerMockResponse();
         assertNotNull(response);
+    }
+
+    public void testRefreshSecretResponseSize() {
+        DhpAuthenticationResponse response = getServerMockResponse();
+        assertTrue(response.rawResponse.size() > 0);
     }
 
     public void testUserId() {
@@ -100,22 +96,18 @@ public class DhpApiSignerTest extends InstrumentationTestCase {
         assertNotNull(userUUID);
     }
 
-    public void testSuccesResponse() {
+    public void testRefreshSecretSuccesResponse() {
         DhpAuthenticationResponse response = getServerMockResponse();
         assertEquals("200",response.responseCode);
     }
 
-    public void testRefreshSecretResponseSize() {
-        DhpAuthenticationResponse response = getServerMockResponse();
-        assertTrue(response.rawResponse.size() > 0);
-    }
 
     private Map<String, Object> readStream(String in) throws IOException, JSONException {
         final ObjectMapper JSON_MAPPER = new ObjectMapper();
         return JSON_MAPPER.readValue(in.toString(), Map.class);
     }
 
-    private DhpAuthenticationResponse getServerMockResponse(){
+    private DhpAuthenticationResponse getServerMockResponse() {
         final DhpApiClientConfiguration dhpApiClientConfiguration = new DhpApiClientConfiguration(
                 "http://ugrow-userregistration15.cloud.pcftest.com",
                 "uGrowApp",
@@ -138,7 +130,7 @@ public class DhpApiSignerTest extends InstrumentationTestCase {
         }
         DhpResponse dhpResponse = new DhpResponse(rawResponse);
         DhpAuthenticationResponse dhpAuthenticationResponse = new DhpAuthenticationResponse("6cstbqh7bzwt3z4b", "bxqyqs86kgq7ks3g4f5n", Integer.parseInt("3600"), "nhggh", dhpResponse.rawResponse);
-        Mockito.when(dhpAuthenticationManagementClientMock.authenticate("maqsoodphilips@gmail.com", "password","aa6c3f0dd953bcf11053e00e686af2e0d9b1d05b")).thenReturn(dhpAuthenticationResponse);
+        Mockito.when(dhpAuthenticationManagementClientMock.refreshSecret("maqsoodkk", "3kr6baw3tqbuyg58", "aa6c3f0dd953bcf11053e00e686af2e0d9b1d05b")).thenReturn(dhpAuthenticationResponse);
         return dhpAuthenticationResponse;
     }
 }
