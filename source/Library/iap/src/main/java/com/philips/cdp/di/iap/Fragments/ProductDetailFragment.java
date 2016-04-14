@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -41,6 +40,22 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     Bundle mBundle;
     private IAPHandler mIapHandler;
     private boolean mIsProductCatalogLaunched = false;
+    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPurple_WhiteBackground;
+    private String mCTNValue;
+    private String mProductTitle;
+
+    private IAPHandlerListener mBuyProductListener = new IAPHandlerListener() {
+        @Override
+        public void onSuccess(final int count) {
+            Utility.dismissProgressDialog();
+        }
+
+        @Override
+        public void onFailure(final int errorCode) {
+            Utility.dismissProgressDialog();
+            Toast.makeText(getContext(), "errorCode", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
         @Override
@@ -78,8 +93,13 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            super.onCreateView(inflater, container, savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
         mIapHandler = new IAPHandler();
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         mBundle = getArguments();
@@ -97,6 +117,9 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mProductOverview = (TextView) rootView.findViewById(R.id.product_overview);
         mAddToCart = (Button) rootView.findViewById(R.id.add_to_cart);
         mBuyFromRetailors = (Button) rootView.findViewById(R.id.buy_from_retailor);
+        mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
+        mIsProductCatalogLaunched = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
+        mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
         populateViewFromBundle();
         makeAssetRequest();
         return rootView;
@@ -123,11 +146,18 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_shopping_cart_item);
-        mIsProductCatalogLaunched = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG,false);
         if(mBundle!=null && mIsProductCatalogLaunched){
             mAddToCart.setVisibility(View.VISIBLE);
             mBuyFromRetailors.setVisibility(View.VISIBLE);
             setCartIconVisibility(View.VISIBLE);
+
+            mAddToCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    buyProduct(mCTNValue);
+                }
+            });
+
         }
         mIapHandler.getProductCartCount(getContext(), mProductCountListener);
     }
@@ -147,9 +177,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>)msg.obj;
         mAdapter.setAsset(mAsset);
-        //mPager.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-        //mPager.invalidate();
         if(Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
     }
@@ -160,5 +188,10 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if(Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
         NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+    }
+
+    void buyProduct(final String ctnNumber) {
+        Utility.showProgressDialog(getContext(), "PLease wait");
+        mIapHandler.buyProduct(getContext(), ctnNumber, mBuyProductListener, DEFAULT_THEME);
     }
 }

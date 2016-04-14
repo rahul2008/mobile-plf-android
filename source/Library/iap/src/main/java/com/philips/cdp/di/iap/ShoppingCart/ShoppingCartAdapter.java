@@ -200,6 +200,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 data = mData.get(0);
 
                 shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total) + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
+                shoppingCartFooter.mVatValue.setText(data.getVatValue());
                 shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
                 if (null != data.getDeliveryCost()) {
                     shoppingCartFooter.mDeliveryPrice.setText(data.getDeliveryCost().getFormattedValue());
@@ -221,7 +222,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mOutOfStock.onOutOfStock(true);
         } else {
             pShoppingCartProductHolder.mTvStock.setVisibility(View.GONE);
-            /*mOutOfStock.onOutOfStock(false);*/
         }
     }
 

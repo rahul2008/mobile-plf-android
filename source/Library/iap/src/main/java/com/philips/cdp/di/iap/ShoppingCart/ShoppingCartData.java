@@ -26,6 +26,7 @@ public class ShoppingCartData {
     private String mTotalPriceFormatedPrice;
     private String mTotalPriceWithTaxFormatedPrice;
     private String mFormatedPrice;
+    private String mVatValue;
 
     public String getMarketingTextHeader() {
         return mMarketingTextHeader;
@@ -160,5 +161,13 @@ public class ShoppingCartData {
 
     public void setTotalPriceFormatedPrice(String mTotalPriceFormatedPrice) {
         this.mTotalPriceFormatedPrice = mTotalPriceFormatedPrice;
+    }
+
+    public String getVatValue() {
+        return mVatValue;
+    }
+
+    public void setVatValue(String mVatValue) {
+        this.mVatValue = mVatValue;
     }
 }
