@@ -43,8 +43,7 @@ public class LocalRegisteredProducts {
     protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
         final String data = localSharedPreference.getData(PRODUCT_REGISTRATION_KEY);
         Gson gson = getGson();
-        RegisteredProduct[] registeredProducts = gson.fromJson(data,
-                RegisteredProduct[].class);
+        RegisteredProduct[] registeredProducts = gson.fromJson(data, RegisteredProduct[].class);
         if (registeredProducts == null) {
             return new HashSet<>();
         }

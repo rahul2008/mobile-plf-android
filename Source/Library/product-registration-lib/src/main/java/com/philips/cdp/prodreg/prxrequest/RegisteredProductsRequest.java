@@ -8,6 +8,7 @@ import com.philips.cdp.prodreg.model.RegisteredResponse;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import org.json.JSONObject;
 
@@ -38,12 +39,12 @@ public class RegisteredProductsRequest extends PrxRequest {
 
     @Override
     public String getServerInfo() {
-        /*String mConfiguration = RegistrationDynamicConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+        String mConfiguration =  RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
         if (mConfiguration.equalsIgnoreCase("Staging")) {
             mServerInfo = "https://acc.philips.com/prx/registration.registeredProducts";
         } else if (mConfiguration.equalsIgnoreCase("development")) {
             mServerInfo = "https://dev.philips.com/prx/registration.registeredProducts";
-        }*/
+        }
         return mServerInfo;
     }
 
