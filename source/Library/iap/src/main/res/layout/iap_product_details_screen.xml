@@ -104,7 +104,7 @@
             android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
             android:enabled="true"
             android:visibility="gone"
-            android:text="@string/iap_buy_from_retailors"/>
+            android:text="@string/iap_buy_from_retailers"/>
 
     </RelativeLayout>
 </ScrollView>
