@@ -205,7 +205,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (null != data.getDeliveryCost()) {
                     shoppingCartFooter.mDeliveryPrice.setText(data.getDeliveryCost().getFormattedValue());
                 } else {
-                    shoppingCartFooter.mDeliveryPrice.setText("$0.0");
+                    shoppingCartFooter.mDeliveryPrice.setText("0.0");
                 }
             }
         }
