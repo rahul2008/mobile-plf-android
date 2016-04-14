@@ -12,7 +12,7 @@ package com.philips.pins.shinelib;
 public interface SHNAssociationProcedurePlugin extends SHNAssociationProcedure {
 
     /**
-     * SHNDeviceAssociation calls start on the association procedure and reports the error to the user if it was not started with SHNResult.SHNOk.
+     * SHNDeviceAssociation calls start on the association procedure and reports the error to the user if the start result is not SHNResult.SHNOk.
      * Callbacks for the association results are provided via SHNAssociationProcedureListener
      *
      * @return result of the association procedure start
@@ -69,6 +69,7 @@ public interface SHNAssociationProcedurePlugin extends SHNAssociationProcedure {
          * Provides an callback for unsuccessful association
          *
          * @param shnDevice that association has failed for
+         * @param error     error that occurred during the association
          */
         void onAssociationFailed(SHNDevice shnDevice, SHNResult error);
     }
