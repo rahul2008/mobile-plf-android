@@ -43,28 +43,32 @@ public class UserProduct {
     private RegisteredProductsListener registeredProductsListener;
     private Context mContext;
     private User user;
+    private LocalRegisteredProducts localRegisteredProducts;
 
-    public UserProduct(final Sector sector, final Catalog catalog) {
+    public UserProduct(final Context context, final Sector sector, final Catalog catalog) {
+        this.mContext = context;
         this.sector = sector;
         this.catalog = catalog;
+        user = new User(context);
+        localRegisteredProducts = new LocalRegisteredProducts(context);
     }
 
     public void registerProduct(final Context context, final Product product, final ProdRegListener appListener) {
         setContext(context);
         setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
         RegisteredProduct registeredProduct = mapProductToRegisteredProduct(product);
-        LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance(context);
+        LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance();
         if (!validateIsUserRegisteredLocally(registeredProduct)) {
             localRegisteredProducts.store(registeredProduct);
         } else
             appListener.onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
 
         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
-        registerCachedProducts(context, registeredProducts, appListener);
+        registerCachedProducts(registeredProducts, appListener);
     }
 
     private boolean validateIsUserRegisteredLocally(final RegisteredProduct registeredProduct) {
-        final List<RegisteredProduct> registeredProducts = getLocalRegisteredProductsInstance(mContext).getRegisteredProducts();
+        final List<RegisteredProduct> registeredProducts = getLocalRegisteredProductsInstance().getRegisteredProducts();
         final int index = registeredProducts.indexOf(registeredProduct);
         if (index != -1) {
             RegisteredProduct product = registeredProducts.get(index);
@@ -75,15 +79,12 @@ public class UserProduct {
     }
 
     @NonNull
-    private LocalRegisteredProducts getLocalRegisteredProductsInstance(final Context context) {
-        return new LocalRegisteredProducts(context);
+    protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
+        return localRegisteredProducts;
     }
 
     @NonNull
-    private User getUser(final Context context) {
-        if (user == null) {
-            user = new User(context);
-        }
+    private User getUser() {
         return user;
     }
 
@@ -97,36 +98,35 @@ public class UserProduct {
         return null;
     }
 
-    public void registerCachedProducts(final Context context, final List<RegisteredProduct> registeredProducts, final ProdRegListener appListener) {
+    public void registerCachedProducts(final List<RegisteredProduct> registeredProducts, final ProdRegListener appListener) {
         for (RegisteredProduct registeredProduct : registeredProducts) {
             Log.d(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber());
             final RegistrationState registrationState = registeredProduct.getRegistrationState();
             if (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) {
-                if (!isUserSignedIn(context)) {
+                if (!isUserSignedIn(mContext)) {
                     registeredProduct.setRegistrationState(RegistrationState.PENDING);
                     registeredProduct.setProdRegError(ProdRegError.USER_NOT_SIGNED_IN);
-                    getLocalRegisteredProductsInstance(context).updateRegisteredProducts(registeredProduct);
+                    getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     appListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
                 } else if (!isValidaDate(registeredProduct.getPurchaseDate())) {
                     registeredProduct.setRegistrationState(RegistrationState.FAILED);
                     registeredProduct.setProdRegError(ProdRegError.INVALID_DATE);
-                    getLocalRegisteredProductsInstance(context).updateRegisteredProducts(registeredProduct);
+                    getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     appListener.onProdRegFailed(ProdRegError.INVALID_DATE);
                 } else {
                     UserProduct userProduct = getUserProduct();
                     userProduct.setLocale(this.locale);
-                    userProduct.getRegisteredProducts(context, getRegisteredProductsListener(context, registeredProduct, appListener));
+                    userProduct.getRegisteredProducts(getRegisteredProductsListener(registeredProduct, appListener));
                 }
             }
         }
     }
 
-    public void getRegisteredProducts(final Context context, final RegisteredProductsListener registeredProductsListener) {
-        setContext(context);
+    public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
         setRequestType(ProdRegConstants.FETCH_REGISTERED_PRODUCTS);
         this.registeredProductsListener = registeredProductsListener;
-        RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest(context);
-        final RequestManager mRequestManager = getRequestManager(context);
+        RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest();
+        final RequestManager mRequestManager = getRequestManager(mContext);
         mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(registeredProductsListener));
     }
 
@@ -162,15 +162,15 @@ public class UserProduct {
     private void updateLocaleCacheOnError(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
         registeredProduct.setRegistrationState(registrationState);
         registeredProduct.setProdRegError(prodRegError);
-        getLocalRegisteredProductsInstance(mContext).updateRegisteredProducts(registeredProduct);
+        getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
     }
 
     @NonNull
-    protected RegisteredProductsRequest getRegisteredProductsRequest(final Context context) {
+    protected RegisteredProductsRequest getRegisteredProductsRequest() {
         RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest();
         registeredProductsRequest.setSector(getSector());
         registeredProductsRequest.setCatalog(getCatalog());
-        registeredProductsRequest.setAccessToken(getUser(context).getAccessToken());
+        registeredProductsRequest.setAccessToken(getUser().getAccessToken());
         registeredProductsRequest.setmLocale(getLocale());
         return registeredProductsRequest;
     }
@@ -183,7 +183,7 @@ public class UserProduct {
     }
 
     protected boolean isUserSignedIn(final Context context) {
-        User mUser = getUser(context);
+        User mUser = getUser();
         return mUser.isUserSignIn(context) && mUser.getEmailVerificationStatus(context);
     }
 
@@ -209,18 +209,18 @@ public class UserProduct {
     }
 
     @NonNull
-    RegisteredProductsListener getRegisteredProductsListener(final Context context, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
+    RegisteredProductsListener getRegisteredProductsListener(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         return new RegisteredProductsListener() {
             @Override
             public void getRegisteredProducts(final RegisteredResponse registeredDataResponse) {
                 RegisteredResponseData[] results = registeredDataResponse.getResults();
-                final LocalRegisteredProducts localRegisteredProductsInstance = getLocalRegisteredProductsInstance(mContext);
+                final LocalRegisteredProducts localRegisteredProductsInstance = getLocalRegisteredProductsInstance();
                 Gson gson = getGson();
-                RegisteredProduct[] registeredProducts = gson.fromJson(gson.toJson(results), RegisteredProduct[].class);
+                RegisteredProduct[] registeredProducts = getRegisteredProductsFromResponse(results, gson);
                 localRegisteredProductsInstance.syncLocalCache(registeredProducts);
 
                 if (!isCtnRegistered(results, registeredProduct, appListener))
-                    registeredProduct.getProductMetadata(context, getMetadataListener(context, registeredProduct, appListener));
+                    registeredProduct.getProductMetadata(mContext, getMetadataListener(registeredProduct, appListener));
             }
 
             @Override
@@ -230,13 +230,17 @@ public class UserProduct {
         };
     }
 
+    protected RegisteredProduct[] getRegisteredProductsFromResponse(final RegisteredResponseData[] results, final Gson gson) {
+        return gson.fromJson(gson.toJson(results), RegisteredProduct[].class);
+    }
+
     @NonNull
-    private Gson getGson() {
+    protected Gson getGson() {
         return new Gson();
     }
 
     @NonNull
-    MetadataListener getMetadataListener(final Context mContext, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
+    MetadataListener getMetadataListener(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         return new MetadataListener() {
             @Override
             public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
@@ -291,7 +295,7 @@ public class UserProduct {
 
     @NonNull
     protected RegistrationRequest getRegistrationRequest(final Context context, final RegisteredProduct registeredProduct) {
-        RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), registeredProduct.getSerialNumber(), getUser(context).getAccessToken());
+        RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), registeredProduct.getSerialNumber(), getUser().getAccessToken());
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
         registrationRequest.setmLocale(registeredProduct.getLocale());
@@ -301,7 +305,7 @@ public class UserProduct {
     }
 
     protected void onAccessTokenExpire(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
-        final User user = getUser(mContext);
+        final User user = getUser();
         user.refreshLoginSession(getRefreshLoginSessionHandler(registeredProduct, appListener, mContext), mContext);
     }
 
@@ -318,7 +322,7 @@ public class UserProduct {
                 Log.d(TAG, "error in refreshing session");
                 registeredProduct.setRegistrationState(RegistrationState.FAILED);
                 registeredProduct.setProdRegError(ProdRegError.ACCESS_TOKEN_INVALID);
-                getLocalRegisteredProductsInstance(mContext).updateRegisteredProducts(registeredProduct);
+                getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                 appListener.onProdRegFailed(ProdRegError.ACCESS_TOKEN_INVALID);
             }
         };
@@ -330,7 +334,7 @@ public class UserProduct {
                 getUserProduct().makeRegistrationRequest(mContext, registeredProduct, appListener);
                 break;
             case ProdRegConstants.FETCH_REGISTERED_PRODUCTS:
-                getUserProduct().getRegisteredProducts(mContext, getRegisteredProductsListener());
+                getUserProduct().getRegisteredProducts(getRegisteredProductsListener());
                 break;
             default:
                 break;
@@ -364,7 +368,7 @@ public class UserProduct {
             public void onResponseSuccess(final ResponseData responseData) {
                 registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
                 registeredProduct.setProdRegError(null);
-                getLocalRegisteredProductsInstance(mContext).updateRegisteredProducts(registeredProduct);
+                getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                 appListener.onProdRegSuccess(responseData);
             }
 

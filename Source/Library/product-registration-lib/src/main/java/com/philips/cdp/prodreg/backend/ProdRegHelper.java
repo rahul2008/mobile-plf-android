@@ -24,15 +24,15 @@ public class ProdRegHelper {
      * @param listener - Callback listener
      */
     public void registerProduct(final Context context, final Product product, final ProdRegListener listener) {
-        UserProduct userProduct = getUserProduct(product);
+        UserProduct userProduct = getUserProduct(context, product);
         product.setLocale(locale);
         userProduct.setLocale(this.locale);
         userProduct.registerProduct(context, product, listener);
     }
 
     @NonNull
-    UserProduct getUserProduct(final Product product) {
-        return new UserProduct(product.getSector(), product.getCatalog());
+    UserProduct getUserProduct(final Context context, final Product product) {
+        return new UserProduct(context, product.getSector(), product.getCatalog());
     }
 
     public void setLocale(final String language, final String countryCode) {

@@ -3,6 +3,7 @@ package com.philips.cdp.prodreg.backend;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
@@ -16,6 +17,7 @@ import com.philips.cdp.prodreg.model.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.prodreg.model.RegisteredResponse;
 import com.philips.cdp.prodreg.model.RegisteredResponseData;
+import com.philips.cdp.prodreg.model.RegistrationState;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.RequestManager;
@@ -41,18 +43,18 @@ public class UserProductTest extends MockitoTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER);
         context = getInstrumentation().getContext();
+        userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER);
     }
 
     public void testIsUserSignedIn() {
         User userMock = mock(User.class);
         when(userMock.isUserSignIn(context)).thenReturn(true);
         when(userMock.getEmailVerificationStatus(context)).thenReturn(true);
-        assertTrue(userProduct.isUserSignedIn(userMock, context));
+        assertTrue(userProduct.isUserSignedIn(context));
         when(userMock.isUserSignIn(context)).thenReturn(false);
         when(userMock.getEmailVerificationStatus(context)).thenReturn(true);
-        assertFalse(userProduct.isUserSignedIn(userMock, context));
+        assertFalse(userProduct.isUserSignedIn(context));
     }
 
     public void testReturnTrueForValidDate() throws Exception {
@@ -65,9 +67,9 @@ public class UserProductTest extends MockitoTestCase {
     }
 
     public void testRegisterProductWhenNotSignedIn() {
-        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @Override
-            protected boolean isUserSignedIn(final User mUser, final Context context) {
+            protected boolean isUserSignedIn(final Context context) {
                 return false;
             }
         };
@@ -88,9 +90,9 @@ public class UserProductTest extends MockitoTestCase {
     }
 
     public void testRegisterProductWhenInValidDate() {
-        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @Override
-            protected boolean isUserSignedIn(final User mUser, final Context context) {
+            protected boolean isUserSignedIn(final Context context) {
                 return true;
             }
 
@@ -115,9 +117,9 @@ public class UserProductTest extends MockitoTestCase {
     public void testRegisterProductOnValidParameters() {
         final UserProduct userProductMock = mock(UserProduct.class);
         final RegisteredProductsListener prodRegListenerMock = mock(RegisteredProductsListener.class);
-        final UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        final UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @Override
-            protected boolean isUserSignedIn(final User mUser, final Context context) {
+            protected boolean isUserSignedIn(final Context context) {
                 return true;
             }
 
@@ -134,7 +136,7 @@ public class UserProductTest extends MockitoTestCase {
 
             @NonNull
             @Override
-            RegisteredProductsListener getRegisteredProductsListener(final Context context, final RegisteredProduct product, final ProdRegListener appListener) {
+            RegisteredProductsListener getRegisteredProductsListener(final RegisteredProduct product, final ProdRegListener appListener) {
                 return prodRegListenerMock;
             }
         };
@@ -148,15 +150,23 @@ public class UserProductTest extends MockitoTestCase {
             public void onProdRegFailed(final ProdRegError prodRegError) {
             }
         });
-        verify(userProductMock).getRegisteredProducts(context, prodRegListenerMock);
+        verify(userProductMock).getRegisteredProducts(prodRegListenerMock);
     }
 
     public void testGetRegisteredProductsListener() {
         RegisteredProduct product = mock(RegisteredProduct.class);
         ProdRegListener listener = mock(ProdRegListener.class);
+        final LocalRegisteredProducts localRegisteredProducts = mock(LocalRegisteredProducts.class);
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
+            @NonNull
+            @Override
+            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
+                return localRegisteredProducts;
+            }
+        };
         when(product.getCtn()).thenReturn("HD8967/09");
         RegisteredProductsListener registeredProductsListener = userProduct.
-                getRegisteredProductsListener(context, product, listener);
+                getRegisteredProductsListener(product, listener);
         RegisteredResponse responseMock = mock(RegisteredResponse.class);
         final RegisteredResponseData registeredResponseData = new RegisteredResponseData();
         registeredResponseData.setProductModelNumber("HD8967/09");
@@ -173,13 +183,15 @@ public class UserProductTest extends MockitoTestCase {
     public void testGetRegisteredProductsListenerOnCtnNotRegistered() {
         RegisteredProduct product = mock(RegisteredProduct.class);
         final UserProduct userProductMock = mock(UserProduct.class);
+        final LocalRegisteredProducts localRegisteredProducts = mock(LocalRegisteredProducts.class);
         ProdRegListener listener = mock(ProdRegListener.class);
         final MetadataListener metadataListener = mock(MetadataListener.class);
         when(product.getCtn()).thenReturn("HD8970/09");
-        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        final RegisteredProduct[] registeredProductsMock = {new RegisteredProduct(null, null, null, null, null), new RegisteredProduct(null, null, null, null, null)};
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @NonNull
             @Override
-            MetadataListener getMetadataListener(final Context context, final RegisteredProduct product, final ProdRegListener appListener) {
+            MetadataListener getMetadataListener(final RegisteredProduct product, final ProdRegListener appListener) {
                 return metadataListener;
             }
 
@@ -188,9 +200,26 @@ public class UserProductTest extends MockitoTestCase {
             UserProduct getUserProduct() {
                 return userProductMock;
             }
+
+            @NonNull
+            @Override
+            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
+                return localRegisteredProducts;
+            }
+
+            @NonNull
+            @Override
+            protected Gson getGson() {
+                return super.getGson();
+            }
+
+            @Override
+            protected RegisteredProduct[] getRegisteredProductsFromResponse(final RegisteredResponseData[] results, final Gson gson) {
+                return registeredProductsMock;
+            }
         };
         RegisteredProductsListener registeredProductsListener = userProduct.
-                getRegisteredProductsListener(context, product, listener);
+                getRegisteredProductsListener(product, listener);
         RegisteredResponse responseMock = mock(RegisteredResponse.class);
         final RegisteredResponseData registeredResponseData = new RegisteredResponseData();
         registeredResponseData.setProductModelNumber("HD8967/09");
@@ -201,6 +230,7 @@ public class UserProductTest extends MockitoTestCase {
         RegisteredResponseData[] results = {registeredResponseData, registeredResponseData1, registeredResponseData2};
         when(responseMock.getResults()).thenReturn(results);
         registeredProductsListener.getRegisteredProducts(responseMock);
+        verify(localRegisteredProducts).syncLocalCache(registeredProductsMock);
         verify(product).getProductMetadata(context, metadataListener);
         registeredProductsListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), ProdRegError.METADATA_FAILED.getCode());
         verify(userProductMock).handleError(product, ProdRegError.METADATA_FAILED.getCode(), listener);
@@ -225,7 +255,7 @@ public class UserProductTest extends MockitoTestCase {
         verify(prodRegListenerMock).onProdRegFailed(ProdRegError.UNKNOWN);
         final UserProduct userProductMock = mock(UserProduct.class);
 
-        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @NonNull
             @Override
             UserProduct getUserProduct() {
@@ -238,7 +268,7 @@ public class UserProductTest extends MockitoTestCase {
 
     public void testGettingRegisteredListener() {
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-        userProduct.getRegisteredProducts(context, registeredProductsListener);
+        userProduct.getRegisteredProducts(registeredProductsListener);
         assertEquals(registeredProductsListener, userProduct.getRegisteredProductsListener());
     }
 
@@ -249,7 +279,7 @@ public class UserProductTest extends MockitoTestCase {
         userProduct.registerProduct(context, productMock, prodRegListener);
         assertTrue(userProduct.getRequestType().equals(ProdRegConstants.PRODUCT_REGISTRATION));
 
-        userProduct.getRegisteredProducts(context, registeredProductsListener);
+        userProduct.getRegisteredProducts(registeredProductsListener);
         assertTrue(userProduct.getRequestType().equals(ProdRegConstants.FETCH_REGISTERED_PRODUCTS));
     }
 
@@ -311,13 +341,13 @@ public class UserProductTest extends MockitoTestCase {
     }
 
     public void testRegisteredTest() {
-        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @Override
             public String getLocale() {
                 return "en_GB";
             }
         };
-        RegisteredProductsRequest registeredProductsRequest = userProduct.getRegisteredProductsRequest(context);
+        RegisteredProductsRequest registeredProductsRequest = userProduct.getRegisteredProductsRequest();
         assertEquals(registeredProductsRequest.getCatalog(), Catalog.CONSUMER);
         assertEquals(registeredProductsRequest.getSector(), Sector.B2C);
         assertEquals(registeredProductsRequest.getLocale(), "en_GB");
@@ -342,7 +372,7 @@ public class UserProductTest extends MockitoTestCase {
     }
 
     public void testModelMapping() {
-        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER);
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER);
         userProduct.setLocale("en_GB");
         assertEquals(userProduct.getSector(), Sector.B2C);
         assertEquals(userProduct.getCatalog(), Catalog.CONSUMER);
@@ -390,17 +420,26 @@ public class UserProductTest extends MockitoTestCase {
     public void testGetPrxResponseListenerForRegisteringProducts() {
         final UserProduct userProductMock = mock(UserProduct.class);
         RegisteredProduct product = mock(RegisteredProduct.class);
-        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        final LocalRegisteredProducts localRegisteredProducts = mock(LocalRegisteredProducts.class);
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @NonNull
             @Override
             UserProduct getUserProduct() {
                 return userProductMock;
+            }
+
+            @NonNull
+            @Override
+            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
+                return localRegisteredProducts;
             }
         };
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         ResponseListener responseListener = userProduct.getPrxResponseListener(product, prodRegListener);
         ResponseData responseData = mock(ResponseData.class);
         responseListener.onResponseSuccess(responseData);
+        verify(product).setRegistrationState(RegistrationState.REGISTERED);
+        verify(localRegisteredProducts).updateRegisteredProducts(product);
         verify(prodRegListener).onProdRegSuccess(responseData);
         responseListener.onResponseError("test", 10);
         verify(userProductMock).handleError(product, 10, prodRegListener);
@@ -409,7 +448,7 @@ public class UserProductTest extends MockitoTestCase {
     public void testInvokingAccessTokenWhenExpired() {
         final UserProduct userProductMock = mock(UserProduct.class);
         RegisteredProduct product = mock(RegisteredProduct.class);
-        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @NonNull
             @Override
             UserProduct getUserProduct() {
@@ -424,16 +463,26 @@ public class UserProductTest extends MockitoTestCase {
     public void testGetUserRefreshedLoginSession() {
         final UserProduct userProductMock = mock(UserProduct.class);
         RegisteredProduct product = mock(RegisteredProduct.class);
-        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        final LocalRegisteredProducts localRegisteredProductsMock = mock(LocalRegisteredProducts.class);
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @NonNull
             @Override
             UserProduct getUserProduct() {
                 return userProductMock;
             }
+
+            @NonNull
+            @Override
+            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
+                return localRegisteredProductsMock;
+            }
         };
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         RefreshLoginSessionHandler refreshLoginSessionHandler = userProduct.getRefreshLoginSessionHandler(product, prodRegListener, context);
         refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(50);
+        verify(product).setRegistrationState(RegistrationState.FAILED);
+        verify(product).setProdRegError(ProdRegError.ACCESS_TOKEN_INVALID);
+        verify(localRegisteredProductsMock).updateRegisteredProducts(product);
         verify(prodRegListener).onProdRegFailed(ProdRegError.ACCESS_TOKEN_INVALID);
         refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
         verify(userProductMock).retryRequests(context, product, prodRegListener);
@@ -443,7 +492,7 @@ public class UserProductTest extends MockitoTestCase {
         RegisteredProduct productMock = mock(RegisteredProduct.class);
         ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
         final UserProduct userProductMock = mock(UserProduct.class);
-        final UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        final UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @Override
             protected boolean validatePurchaseDateFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct product, final ProdRegListener listener) {
                 return true;
@@ -460,7 +509,7 @@ public class UserProductTest extends MockitoTestCase {
                 return userProductMock;
             }
         };
-        MetadataListener metadataListener = userProduct.getMetadataListener(context, productMock, prodRegListenerMock);
+        MetadataListener metadataListener = userProduct.getMetadataListener(productMock, prodRegListenerMock);
         ProductMetadataResponse responseDataMock = mock(ProductMetadataResponse.class);
         metadataListener.onMetadataResponse(responseDataMock);
         verify(userProductMock).makeRegistrationRequest(context, productMock, prodRegListenerMock);
@@ -481,7 +530,7 @@ public class UserProductTest extends MockitoTestCase {
         final String serialNumber = "1344";
         when(productMock.getSerialNumber()).thenReturn(serialNumber);
 
-        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
 
             @NonNull
             @Override
@@ -513,7 +562,7 @@ public class UserProductTest extends MockitoTestCase {
         final RegisteredProduct productMock = mock(RegisteredProduct.class);
         ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
         RegisteredProductsListener registeredProductsListenerMock = mock(RegisteredProductsListener.class);
-        UserProduct userProduct = new UserProduct(Sector.B2C, Catalog.CONSUMER) {
+        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @NonNull
             @Override
             UserProduct getUserProduct() {
@@ -523,8 +572,8 @@ public class UserProductTest extends MockitoTestCase {
         userProduct.registerProduct(context, productMock, prodRegListenerMock);
         userProduct.retryRequests(context, productMock, prodRegListenerMock);
         verify(userProductMock).makeRegistrationRequest(context, productMock, prodRegListenerMock);
-        userProduct.getRegisteredProducts(context, registeredProductsListenerMock);
+        userProduct.getRegisteredProducts(registeredProductsListenerMock);
         userProduct.retryRequests(context, productMock, prodRegListenerMock);
-        verify(userProductMock).getRegisteredProducts(context, registeredProductsListenerMock);
+        verify(userProductMock).getRegisteredProducts(registeredProductsListenerMock);
     }
 }
