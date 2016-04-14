@@ -37,8 +37,8 @@ import java.util.Set;
 public class FAQCustomView {
 
     private static final String TAG = FAQCustomView.class.getSimpleName();
-    private ArrayList<View> mSubQuestionViewList = null;
-    private ArrayList<View> mQuestionViewList = null;
+   /* private ArrayList<View> mSubQuestionViewList = null;
+    private ArrayList<View> mQuestionViewList = null;*/
     private Context mContext = null;
     private SupportModel mSupportModel = null;
     private FaqFragment mFaqFragment = null;
@@ -50,11 +50,11 @@ public class FAQCustomView {
         this.mSupportModel = supportModel;
         this.mCallback = callback;
         mDensity = context.getResources().getDisplayMetrics().density;
-        mSubQuestionViewList = new ArrayList<View>();
-        mQuestionViewList = new ArrayList<View>();
+      /*  mSubQuestionViewList = new ArrayList<View>();
+        mQuestionViewList = new ArrayList<View>();*/
     }
 
-    protected View init() {
+    public View init() {
         FaqViewContainer faqViewContainer = new FaqViewContainer().invoke();
         LinearLayout container = faqViewContainer.getContainer();
         ScrollView scrollView = faqViewContainer.getScrollView();
@@ -77,13 +77,13 @@ public class FAQCustomView {
 
             DigiCareLogger.v(TAG, "Question Categories : " + key + " & Value : " + value.size());
 
-            LinearLayout mDividerLine = getDividerLayout(ContextCompat.getColor(mContext, R.color.transparent));
+            addTransparentDivider(questionsView);
 
-            questionsView.addView(mDividerLine);
+            // Quesions Under List with Arrow
             View parent = getQuestionTypeView(key.toString() + " (" + value.size() + ")");
-            mQuestionViewList.add(parent);
             questionsView.addView(parent);
 
+            //Expandable & Collapsable Questions
             LinearLayout subQuestionView = new LinearLayout(mContext);
             subQuestionView.setOrientation(LinearLayout.VERTICAL);
             LinearLayout.LayoutParams subQuestionViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -92,6 +92,8 @@ public class FAQCustomView {
 
             subQuestionView.addView(addSubQuestion(value));
             questionsView.addView(subQuestionView);
+
+            //Expand the Clicked View
         }
         container.addView(questionsView);
 
@@ -99,6 +101,12 @@ public class FAQCustomView {
 
         return scrollView;
 
+    }
+
+    private void addTransparentDivider(LinearLayout questionsView) {
+        LinearLayout mDividerLine = getDividerLayout(ContextCompat.getColor(mContext, R.color.transparent));
+
+        questionsView.addView(mDividerLine);
     }
 
     @NonNull
@@ -140,7 +148,7 @@ public class FAQCustomView {
 
         }
 
-        mSubQuestionViewList.add(view);
+        //mSubQuestionViewList.add(view);
         return view;
 
     }
@@ -283,7 +291,7 @@ public class FAQCustomView {
     }
 
 
-    private class FaqViewContainer {
+    public class FaqViewContainer {
         private ScrollView scrollView;
         private LinearLayout container;
 
