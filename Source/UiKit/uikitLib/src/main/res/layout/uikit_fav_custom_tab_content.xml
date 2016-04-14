@@ -14,6 +14,7 @@
         android:textColor="?attr/uikit_favoriteTabTextSelector"
         android:textSize="16sp"
         fontPath="fonts/centralesansbold.ttf"
+        android:text=""
         />
 
 </RelativeLayout>

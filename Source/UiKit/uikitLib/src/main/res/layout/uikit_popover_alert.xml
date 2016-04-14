@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/popover_alert_title_margin_top"
         android:includeFontPadding="false"
-        android:text="Pop Over Alert"
+        android:text="@string/uikit_popover_alert_title"
         android:textColor="@color/uikit_white"
         android:textSize="@dimen/popover_alert_title_size"/>
 
