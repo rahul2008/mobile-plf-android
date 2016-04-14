@@ -9,15 +9,12 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.philips.cdp.digitalcare.ConsumerProductInfo;
-import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
-import com.philips.cdp.digitalcare.faq.view.FAQCustomView;
 import com.philips.cdp.digitalcare.faq.listeners.FaqCallback;
+import com.philips.cdp.digitalcare.faq.view.FAQCustomView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 
 import java.util.HashMap;
@@ -31,22 +28,31 @@ import java.util.Map;
  */
 public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback {
 
+    private final int EXPAND_FIRST = 2;
+    private final int COLLAPSE_ALL = 0;
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private SupportModel mSupportModel = null;
-
-
-    private String FAQ_URL = "https://%s/content/%s/%s_%s/standalone-faqs/%s.html";
     private String TAG = FaqFragment.class.getSimpleName();
+    private FAQCustomView faqCustomView = null;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
+
                              Bundle savedInstanceState) {
-        FAQCustomView faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
-        mView = faqCustomView.init();
+        if (faqCustomView == null) {
+            faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
+            mView = faqCustomView.init();
+            faqCustomView.updateView(null, COLLAPSE_ALL);
+        }
         return mView;
     }
 
@@ -75,7 +81,7 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
-    private String getFaqUrl() {
+  /*  private String getFaqUrl() {
         if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() == null)
             return null;
         String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
@@ -89,7 +95,7 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
 
         return String.format(FAQ_URL, LocaleMatchHandler.getPRXUrl(language + "_" + country), consumerProductInfo.getSector(),
                 language, country, consumerProductInfo.getCtn());
-    }
+    }*/
 
     @Override
     public String getActionbarTitle() {

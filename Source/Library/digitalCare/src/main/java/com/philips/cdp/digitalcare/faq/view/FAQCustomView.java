@@ -16,6 +16,7 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
 import com.philips.cdp.digitalcare.faq.listeners.FaqCallback;
 import com.philips.cdp.digitalcare.faq.model.FaqQuestionModel;
+import com.philips.cdp.digitalcare.faq.model.QuestionsGroupModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.prxclient.datamodels.support.Chapter;
 import com.philips.cdp.prxclient.datamodels.support.Data;
@@ -37,12 +38,16 @@ import java.util.Set;
 public class FAQCustomView {
 
     private static final String TAG = FAQCustomView.class.getSimpleName();
-   /* private ArrayList<View> mSubQuestionViewList = null;
-    private ArrayList<View> mQuestionViewList = null;*/
+    private final int COLLAPSE_ALL = 0;
+    private final int EXPAND_CLICKED = 1;
+    private final int EXPAND_FIRST = 2;
+    // private ArrayList<View> mSubQuestionViewList = null;
+    private ArrayList<QuestionsGroupModel> mQuestionsGroupModelList = null;
     private Context mContext = null;
     private SupportModel mSupportModel = null;
     private FaqFragment mFaqFragment = null;
     private FaqCallback mCallback = null;
+    private boolean isFirstTime = true;
     private float mDensity;
 
     public FAQCustomView(Context context, SupportModel supportModel, FaqCallback callback) {
@@ -50,8 +55,40 @@ public class FAQCustomView {
         this.mSupportModel = supportModel;
         this.mCallback = callback;
         mDensity = context.getResources().getDisplayMetrics().density;
-      /*  mSubQuestionViewList = new ArrayList<View>();
-        mQuestionViewList = new ArrayList<View>();*/
+        //  mSubQuestionViewList = new ArrayList<View>();
+        mQuestionsGroupModelList = new ArrayList<QuestionsGroupModel>();
+    }
+
+
+    public void updateView(String text, int flag) {
+        QuestionsGroupModel questionsGroupModel = null;
+        for (int i = 0; i < mQuestionsGroupModelList.size(); i++) {
+            questionsGroupModel = mQuestionsGroupModelList.get(i);
+            View child = questionsGroupModel.getChildView();
+            String questionText = questionsGroupModel.getQuestionText();
+            ImageView arrowImageView = questionsGroupModel.getArrowImage();
+
+            if (flag == EXPAND_FIRST) {
+                if (i == 0)
+                    child.setVisibility(View.VISIBLE);
+                else
+                    child.setVisibility(View.GONE);
+
+            } else if (flag == EXPAND_CLICKED) {
+                if (text.equalsIgnoreCase(questionText)) {
+                    arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_up));
+                    child.setVisibility(View.VISIBLE);
+                } else {
+                    arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_down));
+                    child.setVisibility(View.GONE);
+                }
+            } else {
+                child.setVisibility(View.GONE);
+                arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_down));
+            }
+
+
+        }
     }
 
     public View init() {
@@ -66,21 +103,38 @@ public class FAQCustomView {
         questionsView.setLayoutParams(questionsViewparams);
 
 
+        //Parse the Data to the LinkedHashMap DataStructure.
         LinkedHashMap linkedHashMap = getFaqData();
 
         Set set = linkedHashMap.entrySet();
         Iterator iterator = set.iterator();
         while (iterator.hasNext()) {
+
+            QuestionsGroupModel questionsGroupModel = new QuestionsGroupModel();
             Map.Entry entry = (Map.Entry) iterator.next();
             Object key = entry.getKey();
             List<FaqQuestionModel> value = (List<FaqQuestionModel>) entry.getValue();
 
             DigiCareLogger.v(TAG, "Question Categories : " + key + " & Value : " + value.size());
 
-            addTransparentDivider(questionsView);
-
+            if (isFirstTime) {
+                for (int i = 0; i < 10; i++)
+                    addTransparentDivider(questionsView);
+                isFirstTime = false;
+            } else
+                addTransparentDivider(questionsView);
             // Quesions Under List with Arrow
-            View parent = getQuestionTypeView(key.toString() + " (" + value.size() + ")");
+            final String questionTextWithCount = key.toString() + " (" + value.size() + ")";
+            final View parent = getQuestionTypeView(questionTextWithCount, questionsGroupModel);
+            questionsGroupModel.setParentView(parent);
+            questionsGroupModel.setQuestionText(questionTextWithCount);
+            parent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DigiCareLogger.d(TAG, " Count : " + parent.getId());
+                    updateView(questionTextWithCount, EXPAND_CLICKED);
+                }
+            });
             questionsView.addView(parent);
 
             //Expandable & Collapsable Questions
@@ -91,9 +145,12 @@ public class FAQCustomView {
             subQuestionView.setLayoutParams(subQuestionViewParams);
 
             subQuestionView.addView(addSubQuestion(value));
+            questionsGroupModel.setChildView(subQuestionView);
             questionsView.addView(subQuestionView);
 
-            //Expand the Clicked View
+            //Adding the Main & Subview of Question Group to List to control expand & Collapse.
+            mQuestionsGroupModelList.add(questionsGroupModel);
+
         }
         container.addView(questionsView);
 
@@ -183,17 +240,11 @@ public class FAQCustomView {
         return questionView;
     }
 
-    private View getQuestionTypeView(String questionType) {
+    private View getQuestionTypeView(final String questionType, QuestionsGroupModel modelObject) {
         final RelativeLayout questionTypeView = new RelativeLayout(mContext);
         RelativeLayout.LayoutParams questionTypeParams = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.MATCH_PARENT, (int) (mContext.getResources()
                         .getDimension(R.dimen.support_btn_height) * mDensity));
-        questionTypeView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DigiCareLogger.d(TAG, " Count : " + questionTypeView.getChildCount());
-            }
-        });
 
         // questionTypeView.setBackgroundResource(R.drawable.uikit_grad_blue_bright_to_light);
         int topMarginOfQuestionType = (int) (mContext.getResources()
@@ -218,12 +269,13 @@ public class FAQCustomView {
         headerText.setPadding(padding, 0, 0, 0);
 
         ImageView arrowImage = new ImageView(mContext);
+        modelObject.setArrowImage(arrowImage);
         RelativeLayout.LayoutParams arrowImageParams = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         arrowImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         arrowImageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         //   arrowImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.uikit_arrow_up, null));
-        arrowImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_up));
+        arrowImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_down));
         arrowImage.setPadding(0, 0, padding, 0);
 
 

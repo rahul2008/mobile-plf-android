@@ -159,7 +159,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.view_faq);
+        return "Question & answer";
     }
 
     @Override
