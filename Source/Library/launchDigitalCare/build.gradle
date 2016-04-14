@@ -40,12 +40,12 @@ android {
         simulator {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
             versionCode 139
-            versionName "5.0.0"
+            versionName "4.1.0.1"
         }
         device {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
             versionCode 139
-            versionName "5.0.0"
+            versionName "4.1.0.1"
         }
     }
 
