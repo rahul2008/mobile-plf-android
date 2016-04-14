@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.faq;
+package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.faq.view.FAQCustomView;
 import com.philips.cdp.digitalcare.faq.listeners.FaqCallback;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;

@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.faq;
+package com.philips.cdp.digitalcare.faq.model;
 
 /**
  * Created by naveen@philips.com on 12-Apr-16.

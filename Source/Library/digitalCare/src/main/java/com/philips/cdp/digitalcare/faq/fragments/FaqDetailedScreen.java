@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.faq;
+package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
 import android.net.http.SslError;
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;

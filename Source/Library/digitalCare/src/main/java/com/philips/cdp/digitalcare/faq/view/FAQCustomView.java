@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.faq;
+package com.philips.cdp.digitalcare.faq.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,7 +13,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
 import com.philips.cdp.digitalcare.faq.listeners.FaqCallback;
+import com.philips.cdp.digitalcare.faq.model.FaqQuestionModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.prxclient.datamodels.support.Chapter;
 import com.philips.cdp.prxclient.datamodels.support.Data;
