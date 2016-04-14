@@ -68,7 +68,7 @@ public class ProductMetadataRequest extends PrxRequest {
         Uri builtUri = Uri.parse(getServerInfo())
                 .buildUpon()
                 .appendPath(getSector().name())
-                .appendPath(getLocale())
+                .appendPath(getLocaleMatchResult())
                 .appendPath(getCatalog().name())
                 .appendPath("products")
                 .appendPath(mCtn + ".metadata")

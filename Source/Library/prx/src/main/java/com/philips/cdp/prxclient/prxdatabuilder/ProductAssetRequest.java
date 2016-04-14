@@ -31,7 +31,7 @@ public class ProductAssetRequest extends PrxRequest {
 
     @Override
     public String getRequestUrl() {
-        return String.format(PRX_REQUEST_URL, getServerInfo(), getSectorCode(), getLocale(),
+        return String.format(PRX_REQUEST_URL, getServerInfo(), getSectorCode(), getLocaleMatchResult(),
                 getCatalogCode(), mCtn);
     }
 
