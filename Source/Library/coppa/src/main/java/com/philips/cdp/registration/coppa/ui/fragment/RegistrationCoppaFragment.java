@@ -32,7 +32,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private final String REGISTRATION_VERSION_TAG = "registrationVersion";
 
-    private static FragmentManager mFragmentManager;
+    public static FragmentManager mFragmentManager;
 
     private Activity mActivity;
 
@@ -43,6 +43,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     private boolean isAccountSettings = true;
 
     private static int lastKnownResourceId = -99;
+
 
 
     @Override
@@ -62,6 +63,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
         RLog.d("RegistrationCoppaFragment", "isAccountSettings : " + isAccountSettings);
         super.onCreate(savedInstanceState);
+        lastKnownResourceId = -99;
     }
 
     @Override
@@ -85,8 +87,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     @Override
     public void onResume() {
         mActivity = getActivity();
+        mFragmentManager = getChildFragmentManager();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onResume");
-
         super.onResume();
     }
 
@@ -218,11 +220,10 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         return mActivity;
     }
 
-    public int getFragmentCount() {
-        FragmentManager fragmentManager = getChildFragmentManager();
-        int fragmentCount = fragmentManager.getFragments().size();
-        return fragmentCount;
+    public int getFragmentBackStackCount() {
+        return  mFragmentManager.getBackStackEntryCount();
     }
+
 
     public RegistrationTitleBarListener getUpdateTitleListener() {
         return mRegistrationUpdateTitleListener;
@@ -252,7 +253,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 @Override
                 public void updateRegistrationTitle(int titleResourceID) {
                     lastKnownResourceId =titleResourceID;
-                    mRegistrationUpdateTitleListener.updateRegistrationTitle(titleResourceID);
+                    mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
                 }
 
                 @Override

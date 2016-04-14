@@ -140,22 +140,15 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
-
-
             if( this instanceof ParentalApprovalFragment){
-
                 int count = fragment.getChildFragmentManager().getBackStackEntryCount();
-
                 Fragment regFragment = fragment.getChildFragmentManager().getFragments().get(count);
                 if (regFragment != null && regFragment instanceof RegistrationFragment) {
-                    fragment.getUpdateTitleListener().updateRegistrationTitle(((RegistrationFragment)regFragment).getCurrentTitleResource());
+                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(((RegistrationFragment)regFragment).getCurrentTitleResource());
                 }
 
-
-
-
             }else {
-                if (fragment.getFragmentCount() > 2) {
+                if (fragment.getFragmentBackStackCount() > 2) {
                     fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
                             mPrevTitleResourceId);
                 } else {
@@ -174,9 +167,6 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
                 if (regFragment != null && regFragment instanceof RegistrationFragment) {
                     fragment.getUpdateTitleListener().updateRegistrationTitle(((RegistrationFragment)regFragment).getCurrentTitleResource());
                 }
-
-
-
 
             }
         }
@@ -199,14 +189,10 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         RegistrationCoppaFragment fragment = (RegistrationCoppaFragment) getParentFragment();
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && -99 != fragment.getResourceID()) {
-            mPrevTitleResourceId = (Integer) fragment.getResourceID();
+            mPrevTitleResourceId =  fragment.getResourceID();
         }
-        if (fragment.getFragmentCount() > 1) {
-     /*      if (this instanceof WelcomeFragment) {
-                fragment.getUpdateTitleListener().updateRegistrationTitleWithOutBack(getTitleResourceId());
-           } else {*/
+        if (fragment.getFragmentBackStackCount() > 1) {
                 fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
-          /*  }*/
         } else {
             fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
         }

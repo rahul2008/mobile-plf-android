@@ -162,11 +162,14 @@ public abstract class RegistrationBaseFragment extends Fragment {
         RegistrationFragment fragment = (RegistrationFragment) getParentFragment();
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && -99 != fragment.getResourceID()) {
-            mPrevTitleResourceId = (Integer) fragment.getResourceID();
+            mPrevTitleResourceId = fragment.getResourceID();
         }
         if (fragment.getFragmentCount() > 1) {
             if (this instanceof WelcomeFragment) {
                 fragment.getUpdateTitleListener().updateRegistrationTitleWithOutBack(getTitleResourceId());
+            }
+            else if (this instanceof HomeFragment) {
+                fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
             } else {
                 fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
             }
