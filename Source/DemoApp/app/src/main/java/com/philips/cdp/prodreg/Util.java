@@ -21,7 +21,7 @@ public class Util {
             @Override
             public void onUserRegistrationComplete(final Activity activity) {
                 activity.finish();
-                new UserProduct(null, null).registerCachedProducts(activity, new LocalRegisteredProducts(activity).getRegisteredProducts(), new ProdRegListener() {
+                new UserProduct(activity, null, null).registerCachedProducts(new LocalRegisteredProducts(activity).getRegisteredProducts(), new ProdRegListener() {
                     @Override
                     public void onProdRegSuccess(final ResponseData responseData) {
 

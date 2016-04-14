@@ -75,7 +75,7 @@ public class ProductTest extends MockitoTestCase {
         ProductMetadataResponse responseDataMock = mock(ProductMetadataResponse.class);
         responseListener.onResponseSuccess(responseDataMock);
         verify(metadataListener).onMetadataResponse(responseDataMock);
-        responseListener.onResponseError("test", 10);
+        responseListener.onResponseError("test", 8);
         verify(metadataListener).onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), ProdRegError.METADATA_FAILED.getCode());
     }
 

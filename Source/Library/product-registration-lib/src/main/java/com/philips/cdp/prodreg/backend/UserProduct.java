@@ -64,10 +64,10 @@ public class UserProduct {
             appListener.onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
 
         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
-        registerCachedProducts(registeredProducts, appListener);
+        getUserProduct().registerCachedProducts(registeredProducts, appListener);
     }
 
-    private boolean validateIsUserRegisteredLocally(final RegisteredProduct registeredProduct) {
+    protected boolean validateIsUserRegisteredLocally(final RegisteredProduct registeredProduct) {
         final List<RegisteredProduct> registeredProducts = getLocalRegisteredProductsInstance().getRegisteredProducts();
         final int index = registeredProducts.indexOf(registeredProduct);
         if (index != -1) {
@@ -84,7 +84,7 @@ public class UserProduct {
     }
 
     @NonNull
-    private User getUser() {
+    protected User getUser() {
         return user;
     }
 
@@ -132,34 +132,34 @@ public class UserProduct {
 
     protected void handleError(final RegisteredProduct registeredProduct, final int statusCode, final ProdRegListener appListener) {
         if (statusCode == ProdRegError.INVALID_CTN.getCode()) {
-            updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_CTN, RegistrationState.FAILED);
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_CTN, RegistrationState.FAILED);
             appListener.onProdRegFailed(ProdRegError.INVALID_CTN);
         } else if (statusCode == ProdRegError.ACCESS_TOKEN_INVALID.getCode()) {
             getUserProduct().onAccessTokenExpire(registeredProduct, appListener);
         } else if (statusCode == ProdRegError.INVALID_VALIDATION.getCode()) {
-            updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_VALIDATION, RegistrationState.FAILED);
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_VALIDATION, RegistrationState.FAILED);
             appListener.onProdRegFailed(ProdRegError.INVALID_VALIDATION);
         } else if (statusCode == ProdRegError.INVALID_SERIALNUMBER.getCode()) {
-            updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
             appListener.onProdRegFailed(ProdRegError.INVALID_SERIALNUMBER);
         } else if (statusCode == ProdRegError.NO_INTERNET_AVAILABLE.getCode()) {
-            updateLocaleCacheOnError(registeredProduct, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.FAILED);
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.FAILED);
             appListener.onProdRegFailed(ProdRegError.NO_INTERNET_AVAILABLE);
         } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()) {
-            updateLocaleCacheOnError(registeredProduct, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.PENDING);
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.PENDING);
             appListener.onProdRegFailed(ProdRegError.INTERNAL_SERVER_ERROR);
         } else if (statusCode == ProdRegError.METADATA_FAILED.getCode()) {
-            updateLocaleCacheOnError(registeredProduct, ProdRegError.METADATA_FAILED, RegistrationState.FAILED);
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.METADATA_FAILED, RegistrationState.FAILED);
             appListener.onProdRegFailed(ProdRegError.METADATA_FAILED);
         } else if (statusCode == ProdRegError.TIME_OUT.getCode()) {
-            updateLocaleCacheOnError(registeredProduct, ProdRegError.TIME_OUT, RegistrationState.PENDING);
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.TIME_OUT, RegistrationState.PENDING);
             appListener.onProdRegFailed(ProdRegError.TIME_OUT);
         } else {
             appListener.onProdRegFailed(ProdRegError.UNKNOWN);
         }
     }
 
-    private void updateLocaleCacheOnError(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
+    protected void updateLocaleCacheOnError(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
         registeredProduct.setRegistrationState(registrationState);
         registeredProduct.setProdRegError(prodRegError);
         getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
@@ -264,7 +264,7 @@ public class UserProduct {
             if (purchaseDate != null && purchaseDate.length() > 0) {
                 return true;
             } else {
-                updateLocaleCacheOnError(registeredProduct, ProdRegError.MISSING_DATE, RegistrationState.FAILED);
+                getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.MISSING_DATE, RegistrationState.FAILED);
                 listener.onProdRegFailed(ProdRegError.MISSING_DATE);
                 return false;
             }
@@ -276,7 +276,7 @@ public class UserProduct {
     protected boolean isCtnRegistered(final RegisteredResponseData[] results, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         for (RegisteredResponseData result : results) {
             if (registeredProduct.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
-                updateLocaleCacheOnError(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
+                getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
                 appListener.onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
                 return true;
             }
@@ -416,11 +416,11 @@ public class UserProduct {
 
     private boolean processSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct, final ProdRegListener listener) {
         if (registeredProduct.getSerialNumber() == null || registeredProduct.getSerialNumber().length() < 1) {
-            updateLocaleCacheOnError(registeredProduct, ProdRegError.MISSING_SERIALNUMBER, RegistrationState.FAILED);
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.MISSING_SERIALNUMBER, RegistrationState.FAILED);
             listener.onProdRegFailed(ProdRegError.MISSING_SERIALNUMBER);
             return true;
         } else if (!registeredProduct.getSerialNumber().matches(data.getSerialNumberFormat())) {
-            updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
             listener.onProdRegFailed(ProdRegError.INVALID_SERIALNUMBER);
             return true;
         }
