@@ -10,6 +10,7 @@ import android.os.Message;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
@@ -29,6 +30,10 @@ public class PRXBuilderForProductCatalog {
     private List<ProductCatalogData> mProduct;
     private Products mProducts;
     List<ProductsEntity> mProductList;
+
+    //Handling error cases where Product is in Hybris but not in PRX store.
+    private volatile int mProudctUpdateCount;
+    private int mPRXProductCount;
 
     public PRXBuilderForProductCatalog(Context context, Products products,
                                  AbstractModel.DataLoadListener listener) {
@@ -55,11 +60,14 @@ public class PRXBuilderForProductCatalog {
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
+                mProudctUpdateCount++;
+                mPRXProductCount++;
                 updateSuccessData((SummaryModel) responseData, code,  entry);
             }
 
             @Override
             public void onResponseError(String error, int code) {
+                mProudctUpdateCount++;
                 notifyError(error);
             }
         });
@@ -80,8 +88,13 @@ public class PRXBuilderForProductCatalog {
     private void notifyError(final String error) {
         Message result = Message.obtain();
         result.obj = error;
-        if (mDataLoadListener != null) {
-            mDataLoadListener.onModelDataError(result);
+        if (mDataLoadListener != null && mProudctUpdateCount == mProductList.size()) {
+            if (mPRXProductCount > 0) {
+                result.obj = mProduct;
+                mDataLoadListener.onModelDataLoadFinished(result);
+            } else {
+                mDataLoadListener.onModelDataError(result);
+            }
         }
     }
 
@@ -90,7 +103,7 @@ public class PRXBuilderForProductCatalog {
             mProduct = new ArrayList<ProductCatalogData>();
         }
         mProduct.add(productCatalogItem);
-        if (mDataLoadListener != null && mProduct.size() == mProductList.size()) {
+        if (mDataLoadListener != null && mProudctUpdateCount == mProductList.size()) {
             Message result = Message.obtain();
             result.obj = mProduct;
             mDataLoadListener.onModelDataLoadFinished(result);
@@ -100,10 +113,12 @@ public class PRXBuilderForProductCatalog {
     private ProductSummaryBuilder prepareSummaryBuilder(final String code) {
         // String ctn = code.replaceAll("_", "/");
         String sectorCode = NetworkConstants.PRX_SECTOR_CODE;
+        String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
         String catalogCode = NetworkConstants.PRX_CATALOG_CODE;
 
         ProductSummaryBuilder productSummaryBuilder = new ProductSummaryBuilder(code, null);
         productSummaryBuilder.setmSectorCode(sectorCode);
+        productSummaryBuilder.setmLocale(locale);
         productSummaryBuilder.setmCatalogCode(catalogCode);
         return productSummaryBuilder;
     }

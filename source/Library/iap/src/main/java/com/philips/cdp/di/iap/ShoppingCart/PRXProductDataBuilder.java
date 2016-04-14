@@ -13,7 +13,6 @@ import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
@@ -33,9 +32,6 @@ public class PRXProductDataBuilder {
     private Context mContext;
     private List<ShoppingCartData> mCartItems;
     private Carts mCartData;
-
-    private volatile int mUpdatedProductCount;
-    private int mSuccessCount;
 
     public PRXProductDataBuilder(Context context, Carts cartData,
                                  AbstractModel.DataLoadListener listener) {
@@ -62,14 +58,11 @@ public class PRXProductDataBuilder {
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                mUpdatedProductCount++;
-                mSuccessCount++;
                 updateSuccessData((SummaryModel) responseData, code, deliveryCostEntity, entry);
             }
 
             @Override
             public void onResponseError(String error, int code) {
-                mUpdatedProductCount++;
                 notifyError(error);
             }
         });
@@ -90,21 +83,14 @@ public class PRXProductDataBuilder {
         cartItem.setTotalItems(mCartData.getCarts().get(0).getTotalItems());
         cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
         cartItem.setDeliveryAddressEntity(mCartData.getCarts().get(0).getDeliveryAddress());
-        cartItem.setVatValue(mCartData.getCarts().get(0).getTotalTax().getFormattedValue());
         addWithNotify(cartItem);
     }
 
     private void notifyError(final String error) {
         Message result = Message.obtain();
         result.obj = error;
-        if (mDataLoadListener != null && mUpdatedProductCount == mEntries.size()) {
-            if(mSuccessCount >0) {
-                result.obj = mCartItems;
-                mDataLoadListener.onModelDataLoadFinished(result);
-            } else {
-                mDataLoadListener.onModelDataError(result);
-            }
-
+        if (mDataLoadListener != null) {
+            mDataLoadListener.onModelDataError(result);
         }
     }
 
@@ -122,9 +108,8 @@ public class PRXProductDataBuilder {
 
     private ProductSummaryBuilder prepareSummaryBuilder(final String code) {
         // String ctn = code.replaceAll("_", "/");
-        Store store = HybrisDelegate.getInstance(mContext).getStore();
         String sectorCode = NetworkConstants.PRX_SECTOR_CODE;
-        String locale = store.getLocale();//en_US
+        String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
         String catalogCode = NetworkConstants.PRX_CATALOG_CODE;
 
         ProductSummaryBuilder productSummaryBuilder = new ProductSummaryBuilder(code, null);

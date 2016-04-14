@@ -9,7 +9,6 @@ import android.os.Message;
 
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
@@ -104,9 +103,8 @@ public class PRXProductAssetBuilder {
     }
 
     private ProductAssetBuilder prepareAssetBuilder(final String code) {
-        Store store = HybrisDelegate.getInstance(mContext).getStore();
         String sectorCode = NetworkConstants.PRX_SECTOR_CODE;
-        String locale = store.getLocale();
+        String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
         String catalogCode = NetworkConstants.PRX_CATALOG_CODE;
 
         ProductAssetBuilder productAssetBuilder = new ProductAssetBuilder(code, null);
