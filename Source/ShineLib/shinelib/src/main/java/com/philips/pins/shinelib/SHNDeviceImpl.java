@@ -126,9 +126,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private void setTimers() {
         switch (internalState) {
             case Connecting:
-                if (withTimeout) {
-                    connectTimer.restart();
-                }
+                connectTimer.stop();
                 waitingUntilBondedTimer.stop();
                 break;
             case ConnectedDiscoveringServices:
@@ -159,17 +157,21 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     private void handleGattConnectEvent(int status) {
-        if (status == BluetoothGatt.GATT_SUCCESS) {
-            if (shouldWaitUntilBonded()) {
-                setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedWaitingUntilBonded);
-            } else {
-                setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedDiscoveringServices);
-                btGatt.discoverServices();
-            }
-        } else {
-            failedToConnectResult = SHNResult.SHNErrorConnectionLost;
-            setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
+        if (internalState == InternalState.Disconnecting) {
             btGatt.disconnect();
+        } else {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                if (shouldWaitUntilBonded()) {
+                    setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedWaitingUntilBonded);
+                } else {
+                    setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedDiscoveringServices);
+                    btGatt.discoverServices();
+                }
+            } else {
+                failedToConnectResult = SHNResult.SHNErrorConnectionLost;
+                setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
+                btGatt.disconnect();
+            }
         }
     }
 
@@ -260,8 +262,12 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public void disconnect() {
         final State externalState = getState();
         if (externalState == State.Connecting || externalState == State.Connected) {
-            SHNLogger.i(TAG, "disconnect");
-            btGatt.disconnect();
+            if (internalState == InternalState.Connecting) {
+                SHNLogger.i(TAG, "postpone disconnect until connected");
+            } else {
+                SHNLogger.i(TAG, "disconnect");
+                btGatt.disconnect();
+            }
             setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
         } else {
             SHNLogger.i(TAG, "ignoring 'disconnect' call; already disconnected or disconnecting");

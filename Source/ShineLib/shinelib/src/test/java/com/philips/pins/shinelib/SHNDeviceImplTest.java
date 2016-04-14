@@ -22,6 +22,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.powermock.api.mockito.PowerMockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,7 +185,7 @@ public class SHNDeviceImplTest {
     public void whenInStateDisconnectedWhenTheStateChangesToConnectingThenTheConnectGattIsCalled() {
         shnDevice.connect();
         verify(mockedBTDevice).connectGatt(mockedContext, false, btGattCallback);
-        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
+        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 
     @Test
@@ -220,31 +221,6 @@ public class SHNDeviceImplTest {
         btGattCallback.onConnectionStateChange(mockedBTGatt, 0, BluetoothProfile.STATE_DISCONNECTED);
 
         verify(mockedBTGatt).close();
-    }
-
-    @Test
-    public void whenInStateConnectingConnectTimeoutOccursThenTheOnFailedToConnectIsNotCalled() {
-        shnDevice.connect();
-        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
-        reset(mockedSHNDeviceListener);
-        mockedInternalHandler.executeFirstScheduledExecution();
-
-        verify(mockedBTGatt).disconnect();
-        verify(mockedBTGatt, never()).close();
-        verify(mockedSHNDeviceListener, never()).onFailedToConnect(eq(shnDevice), any(SHNResult.class));
-        verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
-        assertEquals(SHNDevice.State.Disconnecting, shnDevice.getState());
-    }
-
-    @Test
-    public void whenInStateConnectingConnectTimeoutOccursAndGattIndicatesDisconnectedThenTheOnFailedToConnectIsCalled() {
-        whenInStateConnectingConnectTimeoutOccursThenTheOnFailedToConnectIsNotCalled();
-        reset(mockedSHNDeviceListener);
-
-        btGattCallback.onConnectionStateChange(mockedBTGatt, 0, BluetoothProfile.STATE_DISCONNECTED);
-
-        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorTimeout);
-        verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
     }
 
     @Test
@@ -315,9 +291,26 @@ public class SHNDeviceImplTest {
 
         assertEquals(SHNDevice.State.Disconnecting, shnDevice.getState());
         verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
-        verify(mockedBTGatt).disconnect();
+        verify(mockedBTGatt, never()).disconnect();
         verify(mockedBTGatt, never()).close();
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
+    }
+
+    @Test
+    public void a() {
+        whenInStateConnectingDisconnectIsCalledThenStateIsDisconnecting();
+
+        btGattCallback.onConnectionStateChange(mockedBTGatt, 0, BluetoothGatt.STATE_CONNECTED);
+        verify(mockedBTGatt).disconnect();
+        verify(mockedBTGatt, never()).close();
+        PowerMockito.verifyNoMoreInteractions(mockedSHNDeviceListener);
+
+        reset(mockedBTGatt, mockedSHNDeviceListener);
+        btGattCallback.onConnectionStateChange(mockedBTGatt, 0, BluetoothGatt.STATE_DISCONNECTED);
+        verify(mockedBTGatt, never()).disconnect();
+        verify(mockedBTGatt).close();
+        verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
+        PowerMockito.verifyNoMoreInteractions(mockedSHNDeviceListener);
     }
 
     @Test
@@ -326,13 +319,6 @@ public class SHNDeviceImplTest {
         assertEquals(SHNDeviceImpl.State.Connecting, shnDevice.getState());
         shnDevice.disconnect();
         assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());
-    }
-
-    @Test
-    public void whenInStateConnectingDisconnectIsCalledThenDisconnectOnBTGattIsCalled() {
-        whenInStateConnectingAndDisconnectIsCalledThenTheStateBecomesDisconnecting();
-
-        verify(mockedBTGatt).disconnect();
     }
 
     @Test
@@ -351,7 +337,7 @@ public class SHNDeviceImplTest {
         shnDevice.connect();
 
         verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
-        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
+        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 
     // State ConnectedDiscoveringServices
