@@ -19,13 +19,24 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
     LocalRegisteredProducts localRegisteredProducts;
     Context context;
     LocalSharedPreference localSharedPreference;
-
+    RegisteredProduct mockRegisteredProduct;
+    String data;
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         localRegisteredProducts= new LocalRegisteredProducts(context);
         context = getInstrumentation().getContext();
         localSharedPreference = new LocalSharedPreference(context);
+         mockRegisteredProduct=mock(RegisteredProduct.class);
+      data = localSharedPreference.getData("prod_reg_key");
+    }
+
+    public void teststore(){
+        LocalRegisteredProducts mocklocalRegisteredProducts = mock(LocalRegisteredProducts.class);
+        RegisteredProduct localRegisteredProduct=mock(RegisteredProduct.class);
+        mocklocalRegisteredProducts.store(mockRegisteredProduct);
+        Set<RegisteredProduct> registeredProductset=mocklocalRegisteredProducts.getUniqueRegisteredProducts();
+        final String data = localSharedPreference.getData("prod_reg_key");
     }
 
     public void testupdateRegisteredProducts(){
@@ -33,8 +44,11 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         int size=0;
         LocalRegisteredProducts localRegisteredProducts = mock(LocalRegisteredProducts.class);
         localRegisteredProducts.updateRegisteredProducts(registeredProduct);
-        final String data = localSharedPreference.getData("prod_reg_key");
         Set<RegisteredProduct> registeredProducts = localRegisteredProducts.getUniqueRegisteredProducts();
-
        }
+    public void testgetRegisteredProducts(){
+        LocalRegisteredProducts mocklocalRegisteredProducts = mock(LocalRegisteredProducts.class);
+        RegisteredProduct registeredProduct=mock(RegisteredProduct.class);
+        mocklocalRegisteredProducts.getRegisteredProducts();
+    }
 }
