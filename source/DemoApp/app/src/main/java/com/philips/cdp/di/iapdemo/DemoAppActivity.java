@@ -62,7 +62,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         populateProduct();
 
-        mShoppingCart = (FrameLayout) findViewById(R.id.shoppingCart);
+        mShoppingCart = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         mShoppingCart.setOnClickListener(this);
 
         mProductListView = (ListView) findViewById(R.id.product_list);
@@ -141,7 +141,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
-            case R.id.shoppingCart:
+            case R.id.shopping_cart_icon:
                 mIapHandler.launchIAP(this, DEFAULT_THEME);
                 break;
             case R.id.btn_register:
