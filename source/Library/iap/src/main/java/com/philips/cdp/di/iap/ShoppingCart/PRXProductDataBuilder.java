@@ -11,6 +11,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
@@ -108,7 +109,7 @@ public class PRXProductDataBuilder {
     private ProductSummaryBuilder prepareSummaryBuilder(final String code) {
         // String ctn = code.replaceAll("_", "/");
         String sectorCode = NetworkConstants.PRX_SECTOR_CODE;
-        String locale = NetworkConstants.PRX_LOCALE;
+        String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
         String catalogCode = NetworkConstants.PRX_CATALOG_CODE;
 
         ProductSummaryBuilder productSummaryBuilder = new ProductSummaryBuilder(code, null);
