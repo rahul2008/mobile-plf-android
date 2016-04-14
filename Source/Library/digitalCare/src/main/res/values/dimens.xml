@@ -50,5 +50,6 @@
     <dimen name="view_prod_details_video_height">200dp</dimen>
 
     <dimen name="faq_top_margin">1dip</dimen>
+    <dimen name="faq_top_textview_padding">2dip</dimen>
 
 </resources>

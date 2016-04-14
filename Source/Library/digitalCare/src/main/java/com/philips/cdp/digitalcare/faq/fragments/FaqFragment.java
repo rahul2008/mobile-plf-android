@@ -2,6 +2,7 @@ package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
                              Bundle savedInstanceState) {
         if (faqCustomView == null) {
             faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
+            faqCustomView.setDeviceType(isTablet());
             mView = faqCustomView.init();
             faqCustomView.updateView(null, COLLAPSE_ALL);
         }
@@ -125,5 +127,19 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
         FaqDetailedScreen faqDetailedScreen = new FaqDetailedScreen();
         faqDetailedScreen.setFaqWebUrl(webUrl);
         showFragment(faqDetailedScreen);
+    }
+
+    private boolean isTablet(){
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float yInches= metrics.heightPixels/metrics.ydpi;
+        float xInches= metrics.widthPixels/metrics.xdpi;
+        double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
+
+        if (diagonalInches>=6.5){
+            // 6.5inch device or bigger
+            return true;
+        }
+        return false;
     }
 }

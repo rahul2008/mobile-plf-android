@@ -2,6 +2,7 @@ package com.philips.cdp.digitalcare.faq.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -49,6 +50,7 @@ public class FAQCustomView {
     private FaqCallback mCallback = null;
     private boolean isFirstTime = true;
     private float mDensity;
+    private boolean isTablet = false;
 
     public FAQCustomView(Context context, SupportModel supportModel, FaqCallback callback) {
         this.mContext = context;
@@ -57,6 +59,10 @@ public class FAQCustomView {
         mDensity = context.getResources().getDisplayMetrics().density;
         //  mSubQuestionViewList = new ArrayList<View>();
         mQuestionsGroupModelList = new ArrayList<QuestionsGroupModel>();
+    }
+
+    public void setDeviceType(boolean tablet) {
+        isTablet = tablet;
     }
 
 
@@ -200,7 +206,7 @@ public class FAQCustomView {
                 }
             });
             if (1 != value.size())
-                view.addView(getDividerLayout(Color.RED));
+                view.addView(getDividerLayout(Color.parseColor("#C8E7EE")));
             view.addView(child1);
 
         }
@@ -213,9 +219,10 @@ public class FAQCustomView {
     private View getQuestionView(String question) {
         RelativeLayout questionView = new RelativeLayout(mContext);
         RelativeLayout.LayoutParams questionLayoutParams = new RelativeLayout.LayoutParams
-                (RelativeLayout.LayoutParams.MATCH_PARENT, (int) (mContext.getResources()
-                        .getDimension(R.dimen.support_btn_height) * mDensity));
-        questionView.setBackgroundColor(Color.GREEN);
+                (RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        questionView.setMinimumHeight((int) (mContext.getResources()
+                .getDimension(R.dimen.support_btn_height) * mDensity));
+        questionView.setBackgroundColor(Color.WHITE);
         // questionView.setBackgroundResource(R.drawable.uikit_grad_green_bright_to_light);
 
         TextView questionTextView = new TextView(mContext);
@@ -227,9 +234,18 @@ public class FAQCustomView {
         Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         questionTextView.setTypeface(typeface);
         questionTextView.setTextColor(ContextCompat.getColor(mContext, R.color.button_background));
-        int padding = (int) (mContext.getResources()
-                .getDimension(R.dimen.marginTopButton) * mDensity);
-        questionTextView.setPadding(padding, 0, padding, 0);
+        int padding = 0;
+        if (isTablet) {
+            padding = (int) (mContext.getResources()
+                    .getDimension(R.dimen.activity_margin) * mDensity);
+        } else {
+            padding = (int) (mContext.getResources()
+                    .getDimension(R.dimen.marginTopButton) * mDensity);
+        }
+
+        int textPadding = (int) (mContext.getResources()
+                .getDimension(R.dimen.faq_top_textview_padding) * mDensity);
+        questionTextView.setPadding(padding, textPadding, padding, textPadding);
         questionTextView.setLayoutParams(questionTextparams);
 
 
@@ -250,8 +266,8 @@ public class FAQCustomView {
         int topMarginOfQuestionType = (int) (mContext.getResources()
                 .getDimension(R.dimen.err_alert_width) * mDensity);
         DigiCareLogger.d("FaqDeta", " : " + topMarginOfQuestionType);
-        //   questionTypeView.setBackgroundColor(Color.parseColor("#C8E7EE"));
-        questionTypeView.setBackgroundColor(Color.RED);
+         questionTypeView.setBackgroundColor(Color.parseColor("#C8E7EE"));
+
         questionTypeParams.setMargins(0, topMarginOfQuestionType, 0, 0);
 
         TextView headerText = new TextView(mContext);
@@ -264,12 +280,19 @@ public class FAQCustomView {
                 (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         headerTextParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         headerTextParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        int padding = (int) (mContext.getResources()
-                .getDimension(R.dimen.marginTopButton) * mDensity);
+        int padding = 0;
+        if (isTablet) {
+            padding = (int) (mContext.getResources()
+                    .getDimension(R.dimen.activity_margin) * mDensity);
+        } else {
+            padding = (int) (mContext.getResources()
+                    .getDimension(R.dimen.marginTopButton) * mDensity);
+        }
         headerText.setPadding(padding, 0, 0, 0);
 
         ImageView arrowImage = new ImageView(mContext);
         modelObject.setArrowImage(arrowImage);
+        arrowImage.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
         RelativeLayout.LayoutParams arrowImageParams = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         arrowImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
