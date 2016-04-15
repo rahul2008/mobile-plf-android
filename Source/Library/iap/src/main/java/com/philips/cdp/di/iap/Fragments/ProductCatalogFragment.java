@@ -12,8 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
@@ -22,7 +20,9 @@ import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogAdapter;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -44,10 +44,16 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             if(Utility.isProgressDialogShowing()) {
                 Utility.dismissProgressDialog();
             }
-            Toast.makeText(getContext(),"errorCode",Toast.LENGTH_SHORT).show();
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     };
 
+    public static ProductCatalogFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+        ProductCatalogFragment fragment = new ProductCatalogFragment();
+        args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -111,6 +117,12 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG), this);
     }
 
     @Override

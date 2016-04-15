@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
@@ -53,7 +51,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         @Override
         public void onFailure(final Message msg) {
             Utility.dismissProgressDialog();
-            Toast.makeText(getContext(), "errorCode", Toast.LENGTH_SHORT).show();
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     };
 
@@ -71,7 +69,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             if(Utility.isProgressDialogShowing()) {
                 Utility.dismissProgressDialog();
             }
-            Toast.makeText(getContext(), "errorCode", Toast.LENGTH_SHORT).show();
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     };
 

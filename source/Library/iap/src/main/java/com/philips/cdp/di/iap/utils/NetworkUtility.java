@@ -55,12 +55,14 @@ public class NetworkUtility {
         //Track pop up
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
-
-        if (mModalAlertDemoFragment != null && mModalAlertDemoFragment.isAdded())
-            return;
-
-        if (mModalAlertDemoFragment == null)
+        if (mModalAlertDemoFragment == null) {
             mModalAlertDemoFragment = new ErrorDialogFragment();
+            mModalAlertDemoFragment.setShowsDialog(false);
+        }
+
+        if (mModalAlertDemoFragment.getShowsDialog()) {
+            return;
+        }
 
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
@@ -69,6 +71,7 @@ public class NetworkUtility {
         try {
             mModalAlertDemoFragment.setArguments(bundle);
             mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
+            mModalAlertDemoFragment.setShowsDialog(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
