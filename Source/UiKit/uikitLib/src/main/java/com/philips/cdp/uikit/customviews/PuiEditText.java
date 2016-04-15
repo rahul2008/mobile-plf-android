@@ -9,13 +9,18 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.graphics.drawable.DrawableWrapper;
 import android.text.Editable;
@@ -33,6 +38,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
@@ -84,6 +90,7 @@ public class PuiEditText extends RelativeLayout {
     ColorStateList csl;
     int basecolor;
     boolean isPassword;
+    int index;
 
     /**
      * Interface to be registered in case app wants to show error message.<br>
@@ -412,10 +419,13 @@ public class PuiEditText extends RelativeLayout {
     }
 
     public void setPassword() {
-        editText.setCompoundDrawables(null, null, wrap(getIcon()), null);
+        editText.setCompoundDrawablesWithIntrinsicBounds(null, null, getIcon(), null);
+        editText.setCompoundDrawablePadding((int) getResources().getDimension(R.dimen.uikit_tab_badge_margin_top));
         editText.setEnabled(true);
         editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
+        if ((editText.getTransformationMethod()) instanceof PasswordTransformationMethod)
+            editText.setTransformationMethod(null);
+        else editText.setTransformationMethod(new PasswordTransformationMethod());
 
         editText.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -424,7 +434,6 @@ public class PuiEditText extends RelativeLayout {
                 final int DRAWABLE_TOP = 1;
                 final int DRAWABLE_RIGHT = 2;
                 final int DRAWABLE_BOTTOM = 3;
-             //   editText.getCompoundDrawables()[DRAWABLE_RIGHT].setColorFilter(getResources().getColor(R.color.uikit_password_icon_color));
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
@@ -445,26 +454,16 @@ public class PuiEditText extends RelativeLayout {
     }
 
     private Drawable getIcon() {
-        Resources r = getResources();
-
-        Drawable d = VectorDrawable.create(context, R.drawable.uikit_password_show_icon).mutate();
-        d.setColorFilter(basecolor, PorterDuff.Mode.SRC_ATOP);
-
-        d.setBounds(20, 0, 70, 70);
+        Drawable d = VectorDrawable.create(context, R.drawable.uikit_password_show_icon).getConstantState().newDrawable().mutate();
         return d;
     }
 
-    private Drawable wrap(Drawable d) {
-        if (d == null) return null;
+    public void togglePassword()
+        {
+            if ((editText.getTransformationMethod()) instanceof PasswordTransformationMethod)
+                editText.setTransformationMethod(null);
 
-        Drawable wrappedDrawable = DrawableCompat.wrap(d).mutate();
-        wrappedDrawable.setBounds(d.getBounds());
-        if (wrappedDrawable instanceof DrawableWrapper) {
-            ((DrawableWrapper) wrappedDrawable).setCompatTint(basecolor);
-            ((DrawableWrapper) wrappedDrawable).setCompatTintMode(PorterDuff.Mode.SRC_ATOP);
-        } else {
-            wrappedDrawable.setTint(basecolor);
+            else editText.setTransformationMethod(new PasswordTransformationMethod());
+
         }
-        return wrappedDrawable;
-    }
 }

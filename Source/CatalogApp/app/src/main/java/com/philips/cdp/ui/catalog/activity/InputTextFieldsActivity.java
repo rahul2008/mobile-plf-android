@@ -2,11 +2,13 @@ package com.philips.cdp.ui.catalog.activity;
 
 import android.animation.LayoutTransition;
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.TypedValue;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,6 +32,7 @@ public class InputTextFieldsActivity extends CatalogActivity {
     PuiEditText puiEditText1;
     PuiEditText puiEditText2;
     PuiEditText edit;
+    EditText editTest;
     TextView errorText1;
     TextView errorText2;
 
@@ -49,6 +52,8 @@ public class InputTextFieldsActivity extends CatalogActivity {
             }
         });
         edit=(PuiEditText) findViewById(R.id.password);
+      //  editTest=(EditText)findViewById(R.id.sample);
+     //   editTest.setCompoundDrawables(null, null, getIcon(), null);
         errorText1 = puiEditText1.getErrorText();
         errorText1.setPadding(0, 0, 0, 9);
         edit.setEditTextEnabled(true);
@@ -83,6 +88,15 @@ public class InputTextFieldsActivity extends CatalogActivity {
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+    private Drawable getIcon() {
+        Resources r = getResources();
+
+        Drawable d = VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_password_show_icon).getConstantState().newDrawable();
+        d.setColorFilter(r.getColor(R.color.uikit_bright_aqua_with_opacity_20), PorterDuff.Mode.SRC_ATOP);
+
+        d.setBounds(0, 0, 70, 70);
+        return d;
     }
 
     private boolean matchPassword(final String password)
