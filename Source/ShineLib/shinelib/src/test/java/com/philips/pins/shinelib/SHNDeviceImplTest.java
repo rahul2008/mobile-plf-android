@@ -224,13 +224,9 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenInStateConnectingConnectTimeoutOccursThenBTGATTDisconnectIsCalled() {
+    public void whenInStateConnectingThenThereIsNoTimerRunning() {
         shnDevice.connect();
-        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
-        mockedInternalHandler.executeFirstScheduledExecution();
-
-        verify(mockedBTGatt).disconnect();
-        verify(mockedBTGatt, never()).close();
+        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 
     @Test
