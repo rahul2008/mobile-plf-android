@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,13 +15,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogAdapter;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
-import com.philips.cdp.di.iap.session.IAPHandler;
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 
@@ -30,23 +31,16 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     private RecyclerView mRecyclerView;
     private ProductCatalogAdapter mAdapter;
-    private IAPHandler mIapHandler;
+    private ShoppingCartPresenter mShoppingCartPresenter;
 
-    private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
+    private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
-            if (count > 0) {
-                updateCount(count);
-            } else {
-                setCartIconVisibility(View.GONE);
-            }
-            /*if(Utility.isProgressDialogShowing()) {
-                Utility.dismissProgressDialog();
-            }*/
+            updateCount(count);
         }
 
         @Override
-        public void onFailure(final int errorCode) {
+        public void onFailure(final Message msg) {
             if(Utility.isProgressDialogShowing()) {
                 Utility.dismissProgressDialog();
             }
@@ -64,7 +58,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>(), getFragmentManager());
-        mIapHandler = new IAPHandler();
+        mShoppingCartPresenter = new ShoppingCartPresenter(getFragmentManager());
         loadProducts();
         return rootView;
     }
@@ -88,8 +82,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         super.onResume();
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
-        mIapHandler.getProductCartCount(getContext(), mProductCountListener);
-
+        mShoppingCartPresenter.getProductCartCount(getContext(), mProductCountListener);
     }
 
     @Override

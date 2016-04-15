@@ -19,6 +19,7 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
     private String imageURL = "???";
     private ImageLoader mImageLoader;
     private NetworkImageView mImageView;
+    private Boolean mIsProductCatalogLaunched;
 
     public static ProductDetailImageNavigationFragment newInstance() {
         return new ProductDetailImageNavigationFragment();
@@ -36,13 +37,24 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         this.imageURL = bundle.getString(NetworkConstants.IAP_ASSET_URL);
-
+        this.mIsProductCatalogLaunched = bundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG,false);
         bindImageToViewPager();
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         layout.setGravity(Gravity.CENTER);
         layout.addView(mImageView);
+        if(mIsProductCatalogLaunched){
+            setCartIconVisibility(View.VISIBLE);
+        }
         return layout;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mIsProductCatalogLaunched){
+            setCartIconVisibility(View.VISIBLE);
+        }
     }
 
     private void bindImageToViewPager() {

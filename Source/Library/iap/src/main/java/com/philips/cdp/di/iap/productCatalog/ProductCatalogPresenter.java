@@ -95,7 +95,9 @@ public class ProductCatalogPresenter {
                             mProductData = (ArrayList<ProductCatalogData>) msg.obj;
                             if (mProductData == null || mProductData.size() == 0) {
                                 EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                                Utility.dismissProgressDialog();
+                                if (Utility.isProgressDialogShowing()) {
+                                    Utility.dismissProgressDialog();
+                                }
                                 return;
                             }
                             //addShippingCostRowToTheList();

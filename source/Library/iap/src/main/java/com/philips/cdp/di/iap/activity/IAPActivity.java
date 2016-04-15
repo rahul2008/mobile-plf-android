@@ -141,18 +141,16 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     @Override
     public void updateCount(final int count) {
         if(count == 0){
-         mCartCount.setVisibility(View.GONE);
+            mCartCount.setVisibility(View.GONE);
         }else {
             mCartCount.setVisibility(View.VISIBLE);
             mCartCount.setText(String.valueOf(count));
         }
-        Utility.dismissProgressDialog();
     }
 
     @Override
     public void setCartIconVisibility(final int visibility) {
         mCartContainer.setVisibility(visibility);
-        mCartCount.setVisibility(visibility);
         mCartIcon.setVisibility(visibility);
     }
 
