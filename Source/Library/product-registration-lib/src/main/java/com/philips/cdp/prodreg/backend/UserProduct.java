@@ -59,7 +59,7 @@ public class UserProduct {
         setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
         RegisteredProduct registeredProduct = getUserProduct().mapProductToRegisteredProduct(product);
         LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance();
-        if (!validateIsUserRegisteredLocally(registeredProduct)) {
+        if (!getUserProduct().validateIsUserRegisteredLocally(registeredProduct)) {
             localRegisteredProducts.store(registeredProduct);
         } else
             appListener.onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
@@ -218,7 +218,7 @@ public class UserProduct {
                 RegisteredResponseData[] results = registeredDataResponse.getResults();
                 final LocalRegisteredProducts localRegisteredProductsInstance = getLocalRegisteredProductsInstance();
                 Gson gson = getGson();
-                RegisteredProduct[] registeredProducts = getRegisteredProductsFromResponse(results, gson);
+                RegisteredProduct[] registeredProducts = getUserProduct().getRegisteredProductsFromResponse(results, gson);
                 localRegisteredProductsInstance.syncLocalCache(registeredProducts);
 
                 if (!isCtnRegistered(results, registeredProduct, appListener))
