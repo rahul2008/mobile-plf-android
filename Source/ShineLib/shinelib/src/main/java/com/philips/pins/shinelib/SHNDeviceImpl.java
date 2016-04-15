@@ -64,7 +64,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
     private SHNResult failedToConnectResult = SHNResult.SHNOk;
-    private boolean withTimeout;
     private Timer connectTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
@@ -73,7 +72,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             disconnect();
         }
     }, CONNECT_TIMEOUT);
-    private Timer waitingUntilBondedTimer = Timer.createTimer(new Runnable() {
+    private Timer waitingUntilBondingStartedTimer = Timer.createTimer(new Runnable() {
         @Override
         public void run() {
             SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
@@ -82,7 +81,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             btGatt.discoverServices();
         }
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
-
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
         this(btDevice, shnCentral, deviceTypeName, false);
@@ -127,25 +125,26 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         switch (internalState) {
             case Connecting:
                 connectTimer.stop();
-                waitingUntilBondedTimer.stop();
+                waitingUntilBondingStartedTimer.stop();
                 break;
             case ConnectedDiscoveringServices:
             case ConnectedInitializingServices:
                 connectTimer.restart();
-                waitingUntilBondedTimer.stop();
+                waitingUntilBondingStartedTimer.stop();
                 break;
             case ConnectedWaitingUntilBonded:
                 connectTimer.stop();
-                waitingUntilBondedTimer.restart();
+                waitingUntilBondingStartedTimer.restart();
                 break;
             case Disconnecting:
             case Disconnected:
             case ConnectedReady:
                 connectTimer.stop();
-                waitingUntilBondedTimer.stop();
+                waitingUntilBondingStartedTimer.stop();
                 break;
         }
     }
+
     private void connectUsedServicesToBleLayer(BTGatt gatt) {
         for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
             SHNService shnService = getSHNService(bluetoothGattService.getUuid());
@@ -241,7 +240,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     public void connect(boolean withTimeout, long timeoutInMS) {
         if (internalState == InternalState.Disconnected) {
-            this.withTimeout = withTimeout;
             SHNLogger.i(TAG, "connect");
             setInternalStateReportStateUpdateAndSetTimers(InternalState.Connecting);
             shnCentral.registerBondStatusListenerForAddress(this, getAddress());
@@ -431,7 +429,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             SHNLogger.i(TAG, "Bond state changed ('" + bondStateToString(previousBondState) + "' -> '" + bondStateToString(bondState) + "')");
 
             if (internalState == InternalState.ConnectedWaitingUntilBonded) {
-                if (bondState == BluetoothDevice.BOND_BONDED) {
+                if (bondState == BluetoothDevice.BOND_BONDING) {
+                    waitingUntilBondingStartedTimer.stop();
+                } else if (bondState == BluetoothDevice.BOND_BONDED) {
                     setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedDiscoveringServices);
 
                     shnCentral.getInternalHandler().postDelayed(new Runnable() {
