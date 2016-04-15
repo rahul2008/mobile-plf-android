@@ -31,6 +31,8 @@ public class LocalRegisteredProducts {
     public void store(RegisteredProduct registeredProduct) {
         Gson gson = getGson();
         Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();
+        if (registeredProducts.contains(registeredProduct))
+            registeredProducts.remove(registeredProduct);
         registeredProducts.add(registeredProduct);
         localSharedPreference.storeData(PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }

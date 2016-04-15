@@ -38,4 +38,8 @@ public class ProdRegHelper {
     public void setLocale(final String language, final String countryCode) {
         this.locale = language + "_" + countryCode;
     }
+
+    public String getLocale() {
+        return locale;
+    }
 }

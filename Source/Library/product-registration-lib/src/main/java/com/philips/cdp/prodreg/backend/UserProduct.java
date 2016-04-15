@@ -17,6 +17,7 @@ import com.philips.cdp.prodreg.model.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.prodreg.model.RegisteredResponse;
 import com.philips.cdp.prodreg.model.RegisteredResponseData;
+import com.philips.cdp.prodreg.model.RegistrationResponse;
 import com.philips.cdp.prodreg.model.RegistrationState;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
@@ -56,7 +57,7 @@ public class UserProduct {
     public void registerProduct(final Context context, final Product product, final ProdRegListener appListener) {
         setContext(context);
         setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
-        RegisteredProduct registeredProduct = mapProductToRegisteredProduct(product);
+        RegisteredProduct registeredProduct = getUserProduct().mapProductToRegisteredProduct(product);
         LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance();
         if (!validateIsUserRegisteredLocally(registeredProduct)) {
             localRegisteredProducts.store(registeredProduct);
@@ -88,7 +89,7 @@ public class UserProduct {
         return user;
     }
 
-    private RegisteredProduct mapProductToRegisteredProduct(final Product product) {
+    protected RegisteredProduct mapProductToRegisteredProduct(final Product product) {
         if (product != null) {
             RegisteredProduct registeredProduct = new RegisteredProduct(product.getCtn(), product.getSerialNumber(), product.getPurchaseDate(), product.getSector(), product.getCatalog());
             registeredProduct.setLocale(product.getLocale());
@@ -100,9 +101,9 @@ public class UserProduct {
 
     public void registerCachedProducts(final List<RegisteredProduct> registeredProducts, final ProdRegListener appListener) {
         for (RegisteredProduct registeredProduct : registeredProducts) {
-            Log.d(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber());
             final RegistrationState registrationState = registeredProduct.getRegistrationState();
             if (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) {
+                Log.e(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber());
                 if (!isUserSignedIn(mContext)) {
                     registeredProduct.setRegistrationState(RegistrationState.PENDING);
                     registeredProduct.setProdRegError(ProdRegError.USER_NOT_SIGNED_IN);
@@ -143,7 +144,7 @@ public class UserProduct {
             getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
             appListener.onProdRegFailed(ProdRegError.INVALID_SERIALNUMBER);
         } else if (statusCode == ProdRegError.NO_INTERNET_AVAILABLE.getCode()) {
-            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.FAILED);
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.PENDING);
             appListener.onProdRegFailed(ProdRegError.NO_INTERNET_AVAILABLE);
         } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()) {
             getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.PENDING);
@@ -155,6 +156,7 @@ public class UserProduct {
             getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.TIME_OUT, RegistrationState.PENDING);
             appListener.onProdRegFailed(ProdRegError.TIME_OUT);
         } else {
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.UNKNOWN, RegistrationState.FAILED);
             appListener.onProdRegFailed(ProdRegError.UNKNOWN);
         }
     }
@@ -367,6 +369,8 @@ public class UserProduct {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
                 registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
+                RegistrationResponse registrationResponse = (RegistrationResponse) responseData;
+                mapRegistrationResponse(registrationResponse, registeredProduct);
                 registeredProduct.setProdRegError(null);
                 getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                 appListener.onProdRegSuccess(responseData);
@@ -381,6 +385,10 @@ public class UserProduct {
                 }
             }
         };
+    }
+
+    private void mapRegistrationResponse(final RegistrationResponse registrationResponse, final RegisteredProduct registeredProduct) {
+        registeredProduct.setEndWarrantyDate(registrationResponse.getData().getWarrantyEndDate());
     }
 
     protected void makeRegistrationRequest(final Context mContext, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {

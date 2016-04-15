@@ -42,4 +42,15 @@ public class ProdRegHelperTest extends MockitoTestCase {
         prodRegHelper.registerProduct(mContext, product, prodRegListener);
         verify(userProduct[0]).registerProduct(mContext, product, prodRegListener);
     }
+
+    public void testGetUserProduct() {
+        Product product = mock(Product
+                .class);
+        assertTrue(prodRegHelper.getUserProduct(mContext, product) instanceof UserProduct);
+    }
+
+    public void testSettingLocale() {
+        prodRegHelper.setLocale("en", "GB");
+        assertEquals(prodRegHelper.getLocale(), ("en_GB"));
+    }
 }

@@ -21,36 +21,36 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
     LocalSharedPreference localSharedPreference;
     RegisteredProduct mockRegisteredProduct;
     String data;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        localRegisteredProducts= new LocalRegisteredProducts(context);
+        localRegisteredProducts = new LocalRegisteredProducts(context);
         context = getInstrumentation().getContext();
         localSharedPreference = new LocalSharedPreference(context);
-         mockRegisteredProduct=mock(RegisteredProduct.class);
-      data = localSharedPreference.getData("prod_reg_key");
+        mockRegisteredProduct = mock(RegisteredProduct.class);
+        data = localSharedPreference.getData("prod_reg_key");
     }
 
-    public void teststore(){
+    public void teststore() {
         LocalRegisteredProducts mocklocalRegisteredProducts = mock(LocalRegisteredProducts.class);
+        RegisteredProduct localRegisteredProduct = mock(RegisteredProduct.class);
         mocklocalRegisteredProducts.store(mockRegisteredProduct);
-        Set<RegisteredProduct> registeredProductset=mocklocalRegisteredProducts.getUniqueRegisteredProducts();
-        assertEquals(0,registeredProductset.size());
-       }
+        Set<RegisteredProduct> registeredProductset = mocklocalRegisteredProducts.getUniqueRegisteredProducts();
+        final String data = localSharedPreference.getData("prod_reg_key");
+    }
 
-    public void testupdateRegisteredProducts(){
-        RegisteredProduct registeredProduct=mock(RegisteredProduct.class);
+    public void testupdateRegisteredProducts() {
+        RegisteredProduct registeredProduct = mock(RegisteredProduct.class);
+        int size = 0;
         LocalRegisteredProducts localRegisteredProducts = mock(LocalRegisteredProducts.class);
         localRegisteredProducts.updateRegisteredProducts(registeredProduct);
-         }
-    public void testgetRegisteredProducts(){
-        /**
-         * To Do
-         */
+        Set<RegisteredProduct> registeredProducts = localRegisteredProducts.getUniqueRegisteredProducts();
+    }
 
-        final LocalRegisteredProducts localRegisteredProducts = mock(LocalRegisteredProducts.class);
-        RegisteredProduct[] registeredProductsMock = {new RegisteredProduct(null, null, null, null, null), new RegisteredProduct(null, null, null, null, null)};
-        RegisteredProduct registeredProduct=mock(RegisteredProduct.class);
-       // verify(localRegisteredProducts).syncLocalCache(registeredProductsMock);
+    public void testgetRegisteredProducts() {
+        LocalRegisteredProducts mocklocalRegisteredProducts = mock(LocalRegisteredProducts.class);
+        RegisteredProduct registeredProduct = mock(RegisteredProduct.class);
+        mocklocalRegisteredProducts.getRegisteredProducts();
     }
 }

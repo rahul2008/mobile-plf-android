@@ -88,8 +88,10 @@ public class UserProductTest extends MockitoTestCase {
     }
 
     public void testReturnTrueForValidDate() throws Exception {
+        assertTrue(userProduct.getLocalRegisteredProductsInstance() instanceof LocalRegisteredProducts);
         assertTrue(userProduct.isValidaDate("2016-03-22"));
         assertTrue(userProduct.isValidaDate(null));
+        assertTrue(userProduct.isValidaDate(""));
     }
 
     public void testReturnFalseForInValidDate() throws Exception {
@@ -124,45 +126,6 @@ public class UserProductTest extends MockitoTestCase {
         });
         assertEquals(userProduct.getRequestType(), (ProdRegConstants.PRODUCT_REGISTRATION));
     }
-
-    /*public void testRegisterProductWhenInValidDate() {
-        Set<RegisteredProduct> registeredProductSet = new HashSet<>();
-        ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
-        registeredProducts.add(new RegisteredProduct(null,null,null,null,null));
-        registeredProducts.add(new RegisteredProduct(null,null,null,null,null));
-        registeredProductSet.add(new RegisteredProduct("ctn","1234",null,null,null));
-        registeredProductSet.add(new RegisteredProduct("ctn1", "12345", null, null, null));
-        when(localRegisteredProducts.getRegisteredProducts()).thenReturn(registeredProducts);
-        when(localRegisteredProducts.getUniqueRegisteredProducts()).thenReturn(registeredProductSet);
-        UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
-            @Override
-            protected boolean isUserSignedIn(final Context context) {
-                return true;
-            }
-
-            @Override
-            protected boolean isValidaDate(final String date) {
-                return false;
-            }
-
-            @NonNull
-            @Override
-            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
-                return localRegisteredProducts;
-            }
-        };
-        Product productMock = mock(Product.class);
-        userProduct.registerProduct(context, productMock, new ProdRegListener() {
-            @Override
-            public void onProdRegSuccess(final ResponseData responseData) {
-            }
-
-            @Override
-            public void onProdRegFailed(final ProdRegError prodRegError) {
-                assertEquals(ProdRegError.INVALID_DATE, prodRegError);
-            }
-        });
-    }*/
 
     public void testRegisterProductOnValidParameters() {
         final UserProduct userProductMock = mock(UserProduct.class);
@@ -218,8 +181,20 @@ public class UserProductTest extends MockitoTestCase {
             public void onProdRegFailed(final ProdRegError prodRegError) {
             }
         };
-        userProduct.registerProduct(context, new Product(null, null, null, null, null), appListener);
+        final Product product = new Product("ctn", "serial", "purchase_date", null, null);
+        userProduct.registerProduct(context, product, appListener);
+        verify(userProductMock).mapProductToRegisteredProduct(product);
         verify(userProductMock).registerCachedProducts(registeredProducts, appListener);
+        testMapProductToRegisteredProduct(product);
+    }
+
+    public void testMapProductToRegisteredProduct(Product product) {
+        RegisteredProduct registeredProduct = userProduct.mapProductToRegisteredProduct(product);
+        assertEquals(registeredProduct.getCtn(), product.getCtn());
+        assertEquals(registeredProduct.getSerialNumber(), product.getSerialNumber());
+        assertEquals(registeredProduct.getPurchaseDate(), product.getPurchaseDate());
+        product = null;
+        assertNull(userProduct.mapProductToRegisteredProduct(product));
     }
 
     public void testGetRegisteredProductsListener() {
@@ -313,16 +288,25 @@ public class UserProductTest extends MockitoTestCase {
         verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.INVALID_CTN, RegistrationState.FAILED);
         userProduct.handleError(product, ProdRegError.INVALID_SERIALNUMBER.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock).onProdRegFailed(ProdRegError.INVALID_SERIALNUMBER);
+        verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
         userProduct.handleError(product, ProdRegError.INVALID_VALIDATION.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock).onProdRegFailed(ProdRegError.INVALID_VALIDATION);
+        verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.INVALID_VALIDATION, RegistrationState.FAILED);
         userProduct.handleError(product, ProdRegError.NO_INTERNET_AVAILABLE.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock).onProdRegFailed(ProdRegError.NO_INTERNET_AVAILABLE);
+        verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.PENDING);
         userProduct.handleError(product, ProdRegError.INTERNAL_SERVER_ERROR.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock).onProdRegFailed(ProdRegError.INTERNAL_SERVER_ERROR);
+        verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.PENDING);
         userProduct.handleError(product, ProdRegError.METADATA_FAILED.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock).onProdRegFailed(ProdRegError.METADATA_FAILED);
+        verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.METADATA_FAILED, RegistrationState.FAILED);
+        userProduct.handleError(product, ProdRegError.TIME_OUT.getCode(), prodRegListenerMock);
+        verify(prodRegListenerMock).onProdRegFailed(ProdRegError.TIME_OUT);
+        verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.TIME_OUT, RegistrationState.PENDING);
         userProduct.handleError(product, 600, prodRegListenerMock);
         verify(prodRegListenerMock).onProdRegFailed(ProdRegError.UNKNOWN);
+        verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.UNKNOWN, RegistrationState.FAILED);
         final UserProduct userProductMock = mock(UserProduct.class);
 
         UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
