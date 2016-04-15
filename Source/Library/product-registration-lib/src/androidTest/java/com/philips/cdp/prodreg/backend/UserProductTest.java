@@ -17,6 +17,8 @@ import com.philips.cdp.prodreg.model.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.prodreg.model.RegisteredResponse;
 import com.philips.cdp.prodreg.model.RegisteredResponseData;
+import com.philips.cdp.prodreg.model.RegistrationResponse;
+import com.philips.cdp.prodreg.model.RegistrationResponseData;
 import com.philips.cdp.prodreg.model.RegistrationState;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
@@ -490,7 +492,11 @@ public class UserProductTest extends MockitoTestCase {
         };
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         ResponseListener responseListener = userProduct.getPrxResponseListener(product, prodRegListener);
-        ResponseData responseData = mock(ResponseData.class);
+        RegistrationResponse responseData = mock(RegistrationResponse.class);
+        final RegistrationResponseData data = mock(RegistrationResponseData.class);
+        when(responseData.getData()).thenReturn(data);
+
+        when(data.getWarrantyEndDate()).thenReturn("2016-03-22");
         responseListener.onResponseSuccess(responseData);
         verify(product).setRegistrationState(RegistrationState.REGISTERED);
         verify(localRegisteredProducts).updateRegisteredProducts(product);
@@ -635,5 +641,20 @@ public class UserProductTest extends MockitoTestCase {
         userProduct.getRegisteredProducts(registeredProductsListenerMock);
         userProduct.retryRequests(context, productMock, prodRegListenerMock);
         verify(userProductMock).getRegisteredProducts(registeredProductsListenerMock);
+    }
+
+    public void testValidateIsUserRegisteredLocally() {
+        RegisteredProduct registeredProduct = new RegisteredProduct("ctn", "serial", "date", null, null);
+        registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
+        RegisteredProduct registeredProduct1 = new RegisteredProduct("ctn1", "serial1", "date1", null, null);
+        ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
+        registeredProducts.add(registeredProduct);
+        registeredProducts.add(registeredProduct1);
+        when(localRegisteredProducts.getRegisteredProducts()).thenReturn(registeredProducts);
+        assertTrue(userProduct.validateIsUserRegisteredLocally(registeredProduct));
+        registeredProduct.setRegistrationState(RegistrationState.PENDING);
+        assertFalse(userProduct.validateIsUserRegisteredLocally(registeredProduct));
+        registeredProducts.remove(registeredProduct);
+        assertFalse(userProduct.validateIsUserRegisteredLocally(registeredProduct));
     }
 }

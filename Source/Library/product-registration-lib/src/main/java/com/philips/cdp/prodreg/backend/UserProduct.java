@@ -370,7 +370,7 @@ public class UserProduct {
             public void onResponseSuccess(final ResponseData responseData) {
                 registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
                 RegistrationResponse registrationResponse = (RegistrationResponse) responseData;
-                mapRegistrationResponse(registrationResponse, registeredProduct);
+                getUserProduct().mapRegistrationResponse(registrationResponse, registeredProduct);
                 registeredProduct.setProdRegError(null);
                 getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                 appListener.onProdRegSuccess(responseData);
@@ -387,7 +387,7 @@ public class UserProduct {
         };
     }
 
-    private void mapRegistrationResponse(final RegistrationResponse registrationResponse, final RegisteredProduct registeredProduct) {
+    protected void mapRegistrationResponse(final RegistrationResponse registrationResponse, final RegisteredProduct registeredProduct) {
         registeredProduct.setEndWarrantyDate(registrationResponse.getData().getWarrantyEndDate());
     }
 
