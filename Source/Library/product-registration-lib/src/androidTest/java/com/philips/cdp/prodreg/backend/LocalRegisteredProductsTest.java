@@ -38,6 +38,8 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         mocklocalRegisteredProducts.store(mockRegisteredProduct);
         Set<RegisteredProduct> registeredProductset = mocklocalRegisteredProducts.getUniqueRegisteredProducts();
         final String data = localSharedPreference.getData("prod_reg_key");
+
+        assertEquals(0, registeredProductset.size());
     }
 
     public void testupdateRegisteredProducts() {
@@ -50,7 +52,10 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
 
     public void testgetRegisteredProducts() {
         LocalRegisteredProducts mocklocalRegisteredProducts = mock(LocalRegisteredProducts.class);
+        final LocalRegisteredProducts localRegisteredProducts = mock(LocalRegisteredProducts.class);
+        RegisteredProduct[] registeredProductsMock = {new RegisteredProduct(null, null, null, null, null), new RegisteredProduct(null, null, null, null, null)};
         RegisteredProduct registeredProduct = mock(RegisteredProduct.class);
         mocklocalRegisteredProducts.getRegisteredProducts();
+        // verify(localRegisteredProducts).syncLocalCache(registeredProductsMock);
     }
 }
