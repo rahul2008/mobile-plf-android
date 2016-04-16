@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -58,6 +60,11 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -84,7 +91,16 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
             String url = FAQ_PAGE_URL;
             mWebView.getSettings().setJavaScriptEnabled(true);
             mProgressBar.setVisibility(View.VISIBLE);
-            mWebView.getSettings().setJavaScriptEnabled(true);
+
+            mWebView.setVisibility(View.INVISIBLE);
+
+            mWebView.setWebChromeClient(new WebChromeClient());
+
+            mWebView.getSettings().setStandardFontFamily("file:///android_asset/digitalcarefonts/CentraleSans-Book.otf");
+            mWebView.getSettings().setDefaultFontSize((int) getActivity().getResources().
+                    getDimension(R.dimen.title_text_size_smallest));
+
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
                 mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
@@ -111,7 +127,11 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                     // do your javascript injection here, remember "javascript:" is needed to recognize this code is javascript
                     mProgressBar.setVisibility(View.GONE);
 //                    mWebView.loadUrl("javascript:try{document.getElementsByClassName('group faqfeedback_group')[0].style.display='none'}catch(e){}");
-
+//                    Inject javascript code to the url given
+                    //Not display the element
+                    mWebView.loadUrl("javascript:(function(){" + "document.getElementsByClassName('group faqfeedback_group')[0].remove();})()");
+                    //Call to a function defined on my myJavaScriptInterface
+                    mWebView.loadUrl("javascript:window.CallToAnAndroidFunction.setVisible()");
                 }
 
                 @Override
@@ -121,10 +141,23 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
             });
           //  mWebView.addJavascriptInterface(new JsObject(mWebView, mWebView), "CallToAnAndroidFunction");
-            mWebView.loadUrl(url);
+            //Add a JavaScriptInterface, so I can make calls from the web to Java methods
+            mWebView.addJavascriptInterface(new myJavaScriptInterface(), "CallToAnAndroidFunction");
+            mWebView.loadUrl(FAQ_PAGE_URL);
         }
     }
 
+    private class myJavaScriptInterface {
+        @JavascriptInterface
+        public void setVisible() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+    }
 
     //get mime type by url
     public String getMimeType(String url) {
