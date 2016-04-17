@@ -10,9 +10,13 @@ import com.philips.cdp.di.iap.model.CreateAddressRequest;
 import com.philips.cdp.di.iap.model.DeleteAddressRequest;
 import com.philips.cdp.di.iap.model.GetAddressRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.model.SetDeliveryAddressModeRequest;
+import com.philips.cdp.di.iap.model.SetDeliveryAddressRequest;
 import com.philips.cdp.di.iap.model.UpdateAddressRequest;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.response.addresses.Country;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
+import com.philips.cdp.di.iap.response.addresses.Region;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkController;
 import com.philips.cdp.di.iap.session.RequestCode;
@@ -35,6 +39,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -54,8 +59,12 @@ public class AddressControllerGetAdressesTest {
     private AddressController mController;
     @Mock
     private Context mContext;
-    @Captor
-    private ArgumentCaptor<GetAddressRequest> mModelistener;
+    @Captor private ArgumentCaptor<GetAddressRequest> mModelistener;
+    @Captor private ArgumentCaptor<DeleteAddressRequest> mDeleteListener;
+    @Captor private ArgumentCaptor<UpdateAddressRequest> mUpdateAddressListener;
+    @Captor private ArgumentCaptor<CreateAddressRequest> mCreateAddressListener;
+    @Captor private ArgumentCaptor<SetDeliveryAddressRequest> mSetDeliveryAddressListener;
+    @Captor private ArgumentCaptor<SetDeliveryAddressModeRequest> mSetDeliveryModeListener;
     @Mock
     private SSLSocketFactory mSocketFactory;
     @Mock
@@ -132,13 +141,108 @@ public class AddressControllerGetAdressesTest {
     }
 
     @Test
-    public void verifyHybrisRequestSentForDeleteAddresses() {
-        mController = new AddressController(mContext, null);
+    public void verifyDeleteAddresses() {
+        mController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetAddress(final Message msg) {
+                assertEquals(RequestCode.DELETE_ADDRESS, msg.what);
+            }
+        });
 
         setStoreAndDelegate();
         mController.deleteAddress("8799470125079");
         verify(mHybrisDelegate, times(1)).sendRequest(any(Integer.TYPE), any(AbstractModel.class),
-                any(AbstractModel.class));
+                mDeleteListener.capture());
+
+        mResultMessage.what = RequestCode.DELETE_ADDRESS;
+        mDeleteListener.getValue().onSuccess(mResultMessage);
+    }
+
+    @Test
+    public void verifyUpdateAddresses() {
+        mController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetAddress(final Message msg) {
+                assertEquals(RequestCode.UPDATE_ADDRESS, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+        mController.updateAddress(new HashMap<String, String>());
+        verify(mHybrisDelegate, times(1)).sendRequest(any(Integer.TYPE), any(AbstractModel.class),
+                mUpdateAddressListener.capture());
+
+        mResultMessage.what = RequestCode.UPDATE_ADDRESS;
+        mUpdateAddressListener.getValue().onSuccess(mResultMessage);
+    }
+
+    @Test
+    public void verifyCreateAddresses() {
+        mController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onCreateAddress(final Message msg) {
+                assertEquals(RequestCode.CREATE_ADDRESS, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+
+        AddressFields addr = new AddressFields();
+        addr.setTitleCode("Mr");
+        mController.createAddress(addr);
+        verify(mHybrisDelegate, times(1)).sendRequest(any(Integer.TYPE), any(AbstractModel.class),
+                mCreateAddressListener.capture());
+
+        mResultMessage.what = RequestCode.CREATE_ADDRESS;
+        mCreateAddressListener.getValue().onSuccess(mResultMessage);
+    }
+
+    @Test
+    public void verifySetDeliveryAddresses() {
+        mController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onSetDeliveryAddress(final Message msg) {
+                assertEquals(RequestCode.SET_DELIVERY_ADDRESS, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+
+        mController.setDeliveryAddress("");
+        verify(mHybrisDelegate, times(1)).sendRequest(any(Integer.TYPE), any(AbstractModel.class),
+                mSetDeliveryAddressListener.capture());
+
+        mResultMessage.what = RequestCode.SET_DELIVERY_ADDRESS;
+        mSetDeliveryAddressListener.getValue().onSuccess(mResultMessage);
+    }
+
+    @Test
+    public void verifySetDeliveryMode() {
+        mController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onSetDeliveryModes(final Message msg) {
+                assertEquals(RequestCode.SET_DELIVERY_MODE, msg.what);
+            }
+        });
+
+        setStoreAndDelegate();
+
+        mController.setDeliveryMode();
+        verify(mHybrisDelegate, times(1)).sendRequest(any(Integer.TYPE), any(AbstractModel.class),
+                mSetDeliveryModeListener.capture());
+
+        mResultMessage.what = RequestCode.SET_DELIVERY_MODE;
+        mSetDeliveryModeListener.getValue().onSuccess(mResultMessage);
+    }
+
+    @Test
+    public void verifySetDefaultAddress() {
+        mController = new AddressController(mContext, null);
+        Addresses addr = mock(Addresses.class);
+        when(addr.getCountry()).thenReturn(new Country());
+        when(addr.getRegion()).thenReturn(new Region());
+        setStoreAndDelegate();
+        mController.setDefaultAddress(addr);
     }
 
     public void setStoreAndDelegate() {
@@ -148,38 +252,7 @@ public class AddressControllerGetAdressesTest {
 
     @Test
     public void verifyAddressISNotEmptyForGetAddresses() {
-        mController = new AddressController(mContext, new AddressController.AddressListener() {
-
-            @Override
-            public void onGetAddress(Message msg) {
-
-            }
-
-            @Override
-            public void onCreateAddress(final Message msg) {
-
-            }
-
-            @Override
-            public void onSetDeliveryAddress(final Message msg) {
-
-            }
-
-            @Override
-            public void onGetDeliveryAddress(final Message msg) {
-
-            }
-
-            @Override
-            public void onSetDeliveryModes(final Message msg) {
-
-            }
-
-            @Override
-            public void onGetDeliveryModes(final Message msg) {
-
-            }
-        });
+        mController = new AddressController(mContext, null);
         setStoreAndDelegate();
 
         //Send hybris request
@@ -200,7 +273,7 @@ public class AddressControllerGetAdressesTest {
 
     @Test
     public void verifyAddressDeatilsGetAddresses() {
-        mController = new AddressController(mContext, new AddressController.AddressListener() {
+        mController = new AddressController(mContext, new MockAddressListener() {
 
             @Override
             public void onGetAddress(Message msg) {
@@ -215,31 +288,6 @@ public class AddressControllerGetAdressesTest {
                 assertEquals("test", addresses.getTown());
                 assertEquals("PL", addresses.getCountry().getIsocode());
                 assertEquals("8796158590999", addresses.getId());
-            }
-
-            @Override
-            public void onCreateAddress(final Message msg) {
-
-            }
-
-            @Override
-            public void onSetDeliveryAddress(final Message msg) {
-
-            }
-
-            @Override
-            public void onGetDeliveryAddress(final Message msg) {
-
-            }
-
-            @Override
-            public void onSetDeliveryModes(final Message msg) {
-
-            }
-
-            @Override
-            public void onGetDeliveryModes(final Message msg) {
-
             }
         });
         setStoreAndDelegate();
@@ -262,39 +310,13 @@ public class AddressControllerGetAdressesTest {
 
     @Test
     public void verifyFetchAddressCallBackIsInvloked() {
-        mController = new AddressController(mContext, new AddressController.AddressListener() {
+        mController = new AddressController(mContext, new MockAddressListener() {
 
             @Override
             public void onGetAddress(Message msg) {
                 assertNotNull(msg);
             }
-
-            @Override
-            public void onCreateAddress(final Message msg) {
-
-            }
-
-            @Override
-            public void onSetDeliveryAddress(final Message msg) {
-
-            }
-
-            @Override
-            public void onGetDeliveryAddress(final Message msg) {
-
-            }
-
-            @Override
-            public void onSetDeliveryModes(final Message msg) {
-
-            }
-
-            @Override
-            public void onGetDeliveryModes(final Message msg) {
-
-            }
-        }) {
-        };
+        });
         setStoreAndDelegate();
 
         //Send hybris request
