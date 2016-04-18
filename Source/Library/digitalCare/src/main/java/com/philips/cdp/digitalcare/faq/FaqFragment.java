@@ -31,7 +31,7 @@ import java.util.Map;
  * @author : naveen@philips.com
  * @since : 25 june 2015
  */
-public class FaqFragment extends DigitalCareBaseFragment   {
+public class FaqFragment extends DigitalCareBaseFragment {
 
     private View mView = null;
     private WebView mWebView = null;
