@@ -10,7 +10,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        android:paddingRight="15dp"
+        >
 
         <ImageView
             android:id="@+id/arrow"
@@ -27,7 +28,7 @@
         android:text="@string/Settings"
         android:textColor="#FFFFFF"
         android:ellipsize="end"
-        android:maxEms="15"
+        android:maxEms="10"
         android:singleLine="true"
         android:layout_centerInParent="true"
         android:textSize="@dimen/header"/>
