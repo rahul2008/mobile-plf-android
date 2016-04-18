@@ -51,7 +51,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private final String TAG = TAG_BASE + "@" + Integer.toHexString(hashCode());
 
     private static final long CONNECT_TIMEOUT = 10000l;
-    private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000; // Prevent the Thermometer from getting in a error state
+    private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
     private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 3000;
 
     private final Boolean deviceBondsDuringConnect;
@@ -258,17 +258,25 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void disconnect() {
-        final State externalState = getState();
-        if (externalState == State.Connecting || externalState == State.Connected) {
-            if (internalState == InternalState.Connecting) {
+        switch(internalState) {
+            case Connecting:
                 SHNLogger.i(TAG, "postpone disconnect until connected");
-            } else {
+                setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
+                break;
+            case ConnectedWaitingUntilBonded:
+            case ConnectedDiscoveringServices:
+            case ConnectedInitializingServices:
+            case ConnectedReady:
                 SHNLogger.i(TAG, "disconnect");
                 btGatt.disconnect();
-            }
-            setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
-        } else {
-            SHNLogger.i(TAG, "ignoring 'disconnect' call; already disconnected or disconnecting");
+                setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
+                break;
+            case Disconnected:
+            case Disconnecting:
+                SHNLogger.i(TAG, "ignoring 'disconnect' call; already disconnected or disconnecting");
+                break;
+            default:
+                assert(false);
         }
     }
 
