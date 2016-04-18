@@ -97,8 +97,8 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
             mWebView.setWebChromeClient(new WebChromeClient());
 
             mWebView.getSettings().setStandardFontFamily("file:///android_asset/digitalcarefonts/CentraleSans-Book.otf");
-            mWebView.getSettings().setDefaultFontSize((int) getActivity().getResources().
-                    getDimension(R.dimen.title_text_size_smallest));
+          /*  mWebView.getSettings().setDefaultFontSize((int) getActivity().getResources().
+                    getDimension(R.dimen.title_text_size_small));*/
 
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -124,14 +124,30 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
                 @Override
                 public void onPageFinished(WebView view, String url) {
+
+                    //String color = getResources().getString(R.color.button_background);
+
                     // do your javascript injection here, remember "javascript:" is needed to recognize this code is javascript
                     mProgressBar.setVisibility(View.GONE);
+
+                  /*  mWebView.getSettings().setDefaultFontSize((int) getActivity().getResources().
+                            getDimension(R.dimen.title_text_size_small));*/
 //                    mWebView.loadUrl("javascript:try{document.getElementsByClassName('group faqfeedback_group')[0].style.display='none'}catch(e){}");
 //                    Inject javascript code to the url given
                     //Not display the element
-                    mWebView.loadUrl("javascript:(function(){" + "document.getElementsByClassName('group faqfeedback_group')[0].remove();})()");
-                    //Call to a function defined on my myJavaScriptInterface
-                    mWebView.loadUrl("javascript:window.CallToAnAndroidFunction.setVisible()");
+                    try {
+
+                        mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#003478\");");
+                        mWebView.loadUrl("javascript:document.body.style.setProperty(\"font-size\", \"100%\");");
+                   /*     mWebView.loadUrl("javascript:document.h3.style.setProperty(\"color\", \"#003478\");");
+                        mWebView.loadUrl("javascript:document.h1.style.setProperty(\"color\", \"#003478\");");*/
+                        mWebView.loadUrl("javascript:(function(){" + "document.getElementsByClassName('group faqfeedback_group')[0].remove();})()");
+                        //Call to a function defined on my myJavaScriptInterface
+
+                        mWebView.loadUrl("javascript:window.CallToAnAndroidFunction.setVisible()");
+                    } catch (NullPointerException ex) {
+                        DigiCareLogger.e(TAG, "JavaScript Injection issue : " + ex);
+                    }
                 }
 
                 @Override
@@ -140,22 +156,10 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                 }
 
             });
-          //  mWebView.addJavascriptInterface(new JsObject(mWebView, mWebView), "CallToAnAndroidFunction");
+            //  mWebView.addJavascriptInterface(new JsObject(mWebView, mWebView), "CallToAnAndroidFunction");
             //Add a JavaScriptInterface, so I can make calls from the web to Java methods
             mWebView.addJavascriptInterface(new myJavaScriptInterface(), "CallToAnAndroidFunction");
             mWebView.loadUrl(FAQ_PAGE_URL);
-        }
-    }
-
-    private class myJavaScriptInterface {
-        @JavascriptInterface
-        public void setVisible() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mWebView.setVisibility(View.VISIBLE);
-                }
-            });
         }
     }
 
