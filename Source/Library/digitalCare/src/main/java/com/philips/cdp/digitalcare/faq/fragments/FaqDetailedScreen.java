@@ -23,7 +23,7 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map; 
 
 /**
  * Created by 310190678 on 13-Apr-16.
