@@ -31,7 +31,7 @@ public class ProdRegHelperTest extends MockitoTestCase {
         ProdRegHelper prodRegHelper = new ProdRegHelper() {
             @NonNull
             @Override
-            protected UserProduct getUserProduct(final Context context, final Product product) {
+            protected UserProduct getUserProduct(final Context context) {
                 userProduct[0] = mock(UserProduct.class);
                 return userProduct[0];
             }
@@ -46,7 +46,7 @@ public class ProdRegHelperTest extends MockitoTestCase {
     public void testGetUserProduct() {
         Product product = mock(Product
                 .class);
-        assertTrue(prodRegHelper.getUserProduct(mContext, product) instanceof UserProduct);
+        assertTrue(prodRegHelper.getUserProduct(mContext) instanceof UserProduct);
     }
 
     public void testSettingLocale() {

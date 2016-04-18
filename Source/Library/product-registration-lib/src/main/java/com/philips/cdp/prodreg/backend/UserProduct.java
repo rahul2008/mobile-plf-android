@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.handler.MetadataListener;
 import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.handler.ProdRegError;
@@ -38,18 +36,14 @@ public class UserProduct {
 
     private final String TAG = getClass() + "";
     private String requestType;
-    private Sector sector;
-    private Catalog catalog;
     private String locale;
     private RegisteredProductsListener registeredProductsListener;
     private Context mContext;
     private User user;
     private LocalRegisteredProducts localRegisteredProducts;
 
-    public UserProduct(final Context context, final Sector sector, final Catalog catalog) {
+    public UserProduct(final Context context) {
         this.mContext = context;
-        this.sector = sector;
-        this.catalog = catalog;
         user = new User(context);
         localRegisteredProducts = new LocalRegisteredProducts(context);
     }
@@ -57,9 +51,9 @@ public class UserProduct {
     public void registerProduct(final Context context, final Product product, final ProdRegListener appListener) {
         setContext(context);
         setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
-        RegisteredProduct registeredProduct = getUserProduct().mapProductToRegisteredProduct(product);
+        RegisteredProduct registeredProduct = getUserProduct().createDummyRegisteredProduct(product);
         LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance();
-        if (!getUserProduct().validateIsUserRegisteredLocally(registeredProduct)) {
+        if (!getUserProduct().IsUserRegisteredLocally(registeredProduct)) {
             localRegisteredProducts.store(registeredProduct);
         } else
             appListener.onProdRegFailed(ProdRegError.PRODUCT_ALREADY_REGISTERED);
@@ -68,7 +62,7 @@ public class UserProduct {
         getUserProduct().registerCachedProducts(registeredProducts, appListener);
     }
 
-    protected boolean validateIsUserRegisteredLocally(final RegisteredProduct registeredProduct) {
+    protected boolean IsUserRegisteredLocally(final RegisteredProduct registeredProduct) {
         final List<RegisteredProduct> registeredProducts = getLocalRegisteredProductsInstance().getRegisteredProducts();
         final int index = registeredProducts.indexOf(registeredProduct);
         if (index != -1) {
@@ -89,11 +83,13 @@ public class UserProduct {
         return user;
     }
 
-    protected RegisteredProduct mapProductToRegisteredProduct(final Product product) {
+    protected RegisteredProduct createDummyRegisteredProduct(final Product product) {
         if (product != null) {
             RegisteredProduct registeredProduct = new RegisteredProduct(product.getCtn(), product.getSerialNumber(), product.getPurchaseDate(), product.getSector(), product.getCatalog());
             registeredProduct.setLocale(product.getLocale());
             registeredProduct.setRegistrationState(RegistrationState.PENDING);
+            // TO-DO
+//            registeredProduct.setUserUUid(getUser().getUserInstance(mContext).getJanrainUUID());
             return registeredProduct;
         }
         return null;
@@ -105,11 +101,13 @@ public class UserProduct {
             if (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) {
                 Log.e(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber());
                 if (!getUserProduct().isUserSignedIn(mContext)) {
+                    // TO-DO whether required to change state
                     registeredProduct.setRegistrationState(RegistrationState.PENDING);
                     registeredProduct.setProdRegError(ProdRegError.USER_NOT_SIGNED_IN);
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     appListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
-                } else if (!getUserProduct().isValidaDate(registeredProduct.getPurchaseDate())) {
+                    // TO-DO  Don't validate date if it is null
+                } else if (!getUserProduct().isValidDate(registeredProduct.getPurchaseDate())) {
                     registeredProduct.setRegistrationState(RegistrationState.FAILED);
                     registeredProduct.setProdRegError(ProdRegError.INVALID_DATE);
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
@@ -117,7 +115,7 @@ public class UserProduct {
                 } else {
                     UserProduct userProduct = getUserProduct();
                     userProduct.setLocale(this.locale);
-                    userProduct.getRegisteredProducts(getUserProduct().getRegisteredProductsListener(registeredProduct, appListener));
+                    userProduct.getRegisteredProducts(userProduct.getRegisteredProductsListener(registeredProduct, appListener));
                 }
             }
         }
@@ -170,8 +168,6 @@ public class UserProduct {
     @NonNull
     protected RegisteredProductsRequest getRegisteredProductsRequest() {
         RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest();
-        registeredProductsRequest.setSector(getSector());
-        registeredProductsRequest.setCatalog(getCatalog());
         registeredProductsRequest.setAccessToken(getUser().getAccessToken());
         registeredProductsRequest.setmLocale(getLocale());
         return registeredProductsRequest;
@@ -189,7 +185,7 @@ public class UserProduct {
         return mUser.isUserSignIn(context) && mUser.getEmailVerificationStatus(context);
     }
 
-    protected boolean isValidaDate(final String date) {
+    protected boolean isValidDate(final String date) {
         if (date != null && date.length() != 0) {
             String[] dates = date.split("-");
             return dates.length > 1 && Integer.parseInt(dates[0]) > 1999;
@@ -404,14 +400,6 @@ public class UserProduct {
 
     public RegisteredProductsListener getRegisteredProductsListener() {
         return registeredProductsListener;
-    }
-
-    public Sector getSector() {
-        return sector;
-    }
-
-    public Catalog getCatalog() {
-        return catalog;
     }
 
     public String getLocale() {
