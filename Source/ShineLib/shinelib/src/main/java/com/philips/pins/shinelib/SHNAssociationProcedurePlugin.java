@@ -6,20 +6,71 @@
 package com.philips.pins.shinelib;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * A procedure used to associate with a peripheral. AssociationProcedure is started and stopped by SHNDeviceAssociation. If association is successful then the peripheral
+ * is stored by SHNDeviceAssociation. In case association procedure wants to expose information to the client of the BlueLib. it should always use the user handler of {@link SHNCentral#getUserHandler()}.
  */
-public interface SHNAssociationProcedurePlugin extends SHNAssociationProcedure{
+public interface SHNAssociationProcedurePlugin extends SHNAssociationProcedure {
+
+    /**
+     * SHNDeviceAssociation calls start on the association procedure and reports the error to the user if the start result is not SHNResult.SHNOk.
+     * Callbacks for the association results are provided via SHNAssociationProcedureListener
+     *
+     * @return result of the association procedure start
+     */
     SHNResult start();
+
+    /**
+     * SHNDeviceAssociation calls stop on the association procedure. Callbacks for the association results are provided via SHNAssociationProcedureListener
+     */
     void stop();
+
+    /**
+     * Specifies if SHNDeviceScanner is used for scanning for the peripheral.
+     *
+     * @return true if SHNDeviceScanner  needs to be used, false otherwise
+     */
     boolean getShouldScan();
+
+    /**
+     * Provides an opportunity for SHNDeviceScanner to inject found peripherals
+     *
+     * @param shnDevice          an instance of {@link SHNDevice} corresponding to the found peripheral
+     * @param shnDeviceFoundInfo an instance of {@link SHNDeviceFoundInfo} that give additional information like RSSI
+     */
     void deviceDiscovered(SHNDevice shnDevice, SHNDeviceFoundInfo shnDeviceFoundInfo);
+
+    /**
+     * Provides an opportunity for SHNDeviceScanner to indicate scanning timed out
+     */
     void scannerTimeout();
+
+    /**
+     * Provides an opportunity to attach a listener for the association procedure.
+     */
     void setShnAssociationProcedureListener(SHNAssociationProcedureListener shnAssociationProcedureListener);
 
+    /**
+     * Interface that provides updates for the association result
+     */
     interface SHNAssociationProcedureListener {
+        /**
+         * Provides an callback to SHNDeviceScanner that scan can be stopped
+         */
         void onStopScanRequest();
+
+        /**
+         * Provides an callback for successful association
+         *
+         * @param shnDevice that association has succeeded for
+         */
         void onAssociationSuccess(SHNDevice shnDevice);
+
+        /**
+         * Provides an callback for unsuccessful association
+         *
+         * @param shnDevice that association has failed for
+         * @param error     error that occurred during the association
+         */
         void onAssociationFailed(SHNDevice shnDevice, SHNResult error);
     }
 }
