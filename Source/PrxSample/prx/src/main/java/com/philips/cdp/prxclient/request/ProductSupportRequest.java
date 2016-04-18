@@ -13,7 +13,7 @@ import java.util.Map;
 public class ProductSupportRequest extends PrxRequest {
     private String mCtn = null;
     private String mRequestTag = null;
-    private static final String PRX_SUPPORT_REQUEST_URL = "http://%s/product/%s/%s/%s/products/%s.support";
+    private static final String PRX_SUPPORT_REQUEST_URL = "https://%s/product/%s/%s/%s/products/%s.support";
 
     public ProductSupportRequest(String ctn, String requestTag) {
         this.mCtn = ctn;

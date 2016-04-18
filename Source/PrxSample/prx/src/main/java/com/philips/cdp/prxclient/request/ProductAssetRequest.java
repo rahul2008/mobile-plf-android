@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class ProductAssetRequest extends PrxRequest {
 
-    private static final String PRX_REQUEST_URL = "http://%s/product/%s/%s/%s/products/%s.assets";
+    private static final String PRX_REQUEST_URL = "https://%s/product/%s/%s/%s/products/%s.assets";
     private String mCtn = null;
     private String mRequestTag = null;
 

@@ -16,7 +16,7 @@ import java.util.Map;
 public class ProductSummaryRequest extends PrxRequest {
 
     //    private static final String PRX_REQUEST_URL = "https://ave.bolyartech.com:44401/https_test.html";
-    private static final String PRX_REQUEST_URL = "http://%s/product/%s/%s/%s/products/%s.summary";
+    private static final String PRX_REQUEST_URL = "https://%s/product/%s/%s/%s/products/%s.summary";
     private String mCtn = null;
     private String mRequestTag = null;
 
