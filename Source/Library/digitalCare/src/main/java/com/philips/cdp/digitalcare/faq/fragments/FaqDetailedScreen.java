@@ -23,7 +23,7 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import java.util.HashMap;
-import java.util.Map; 
+import java.util.Map;
 
 /**
  * Created by 310190678 on 13-Apr-16.
@@ -72,14 +72,20 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         DigiCareLogger.d(TAG, "Mime Type : " + getMimeType(FAQ_PAGE_URL));
-        initView();
-        loadFaq();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
+        initView();
+        loadFaq();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mWebView.loadUrl("about:blank");
     }
 
     private void loadFaq() {
@@ -193,7 +199,6 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
         mProgressBar.setVisibility(View.GONE);
     }
 
-
     @Override
     public String getActionbarTitle() {
         return "Question & answer";
@@ -218,6 +223,18 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
         if (mWebView != null) {
             mWebView = null;
+        }
+    }
+
+    private class myJavaScriptInterface {
+        @JavascriptInterface
+        public void setVisible() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.setVisibility(View.VISIBLE);
+                }
+            });
         }
     }
 }
