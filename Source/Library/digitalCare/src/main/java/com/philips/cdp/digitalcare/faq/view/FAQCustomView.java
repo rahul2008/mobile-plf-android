@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -82,8 +83,13 @@ public class FAQCustomView {
 
             } else if (flag == EXPAND_CLICKED) {
                 if (text.equalsIgnoreCase(questionText)) {
-                    arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_up));
-                    child.setVisibility(View.VISIBLE);
+                    if (child.getVisibility() == View.GONE) {
+                        arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_up));
+                        child.setVisibility(View.VISIBLE);
+                    } else {
+                        arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_down));
+                        child.setVisibility(View.GONE);
+                    }
                 } else {
                     arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_down));
                     child.setVisibility(View.GONE);
@@ -266,7 +272,13 @@ public class FAQCustomView {
         int topMarginOfQuestionType = (int) (mContext.getResources()
                 .getDimension(R.dimen.err_alert_width) * mDensity);
         DigiCareLogger.d("FaqDeta", " : " + topMarginOfQuestionType);
-         questionTypeView.setBackgroundColor(Color.parseColor("#C8E7EE"));
+        // questionTypeView.setBackgroundColor(Color.parseColor("#C8E7EE"));
+        // questionTypeView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.faq_question_background));
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            questionTypeView.setBackgroundResource(R.drawable.faq_question_background);
+        } else {
+            questionTypeView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.faq_question_background));
+        }
 
         questionTypeParams.setMargins(0, topMarginOfQuestionType, 0, 0);
 
