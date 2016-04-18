@@ -56,7 +56,7 @@ public class LauncherActivity extends AppCompatActivity {
 
                 SupportModel mAssetModel = (SupportModel) responseData;
 
-                Log.d(TAG, "Positive Response Data : " + mAssetModel.isSuccess());
+                Log.d(TAG, "Support Response Data : " + mAssetModel.isSuccess());
 
                 /*SummaryModel mAssetModel = (SummaryModel) responseData.getDataModel();
                 com.cdp.prx.summary.Data mData = mAssetModel.getData();
@@ -72,7 +72,7 @@ public class LauncherActivity extends AppCompatActivity {
 
             @Override
             public void onResponseError(PrxError prxError) {
-                Log.d(TAG, "Negative Response Data : " + prxError + " with error code : " + prxError);
+                Log.d(TAG, "Response Error Message : " + prxError.getDescription());
             }
         });
     }
