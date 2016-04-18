@@ -102,7 +102,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onProdRegFailed(ProdRegError errorType) {
                 Log.d(TAG, "Negative Response Data : " + errorType.getDescription() + " with error code : " + errorType.getCode());
-                Toast.makeText(ProductActivity.this, errorType.getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
         prodRegHelper.registerProduct(this, product, listener);
