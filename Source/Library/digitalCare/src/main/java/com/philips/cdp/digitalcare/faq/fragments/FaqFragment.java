@@ -101,7 +101,7 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.view_faq);
+        return "FAQs";
     }
 
     @Override
