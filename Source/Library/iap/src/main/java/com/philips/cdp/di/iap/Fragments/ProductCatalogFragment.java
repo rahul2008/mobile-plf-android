@@ -32,10 +32,12 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     private RecyclerView mRecyclerView;
     private ProductCatalogAdapter mAdapter;
     private ShoppingCartPresenter mShoppingCartPresenter;
+    private int mCount;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
+            mCount = count;
             updateCount(count);
         }
 
@@ -63,7 +65,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>(), getFragmentManager());
+        mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>());
         mShoppingCartPresenter = new ShoppingCartPresenter(getFragmentManager());
         loadProducts();
         return rootView;
@@ -73,14 +75,9 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         ProductCatalogPresenter presenter = new ProductCatalogPresenter(getContext(), mAdapter, getFragmentManager());
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_get_product_catalog_details));
-            updateProducts(presenter);
-            mRecyclerView.setAdapter(mAdapter);
         }
-    }
-
-
-    private void updateProducts(ProductCatalogPresenter presenter) {
         presenter.getProductCatalog();
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -98,9 +95,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     @Override
     public void onEventReceived(final String event) {
-        if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-        }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG))) {
             startProductDetailFragment();
         }
@@ -115,6 +109,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormatedPrice());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
+            bundle.putInt(IAPConstant.IAP_PRODUCT_COUNT, mCount);
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
         }
     }

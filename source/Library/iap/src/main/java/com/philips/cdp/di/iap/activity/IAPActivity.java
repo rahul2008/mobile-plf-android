@@ -152,6 +152,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     public void setCartIconVisibility(final int visibility) {
         mCartContainer.setVisibility(visibility);
         mCartIcon.setVisibility(visibility);
+        mCartIcon.setVisibility(visibility);
     }
 
     @Override

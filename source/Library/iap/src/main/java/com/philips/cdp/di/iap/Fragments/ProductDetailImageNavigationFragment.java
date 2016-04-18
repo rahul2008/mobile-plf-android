@@ -16,10 +16,10 @@ import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public final class ProductDetailImageNavigationFragment extends BaseAnimationSupportFragment {
-    private String imageURL = "???";
+    private String mImageURL;
     private ImageLoader mImageLoader;
     private NetworkImageView mImageView;
-    private Boolean mIsProductCatalogLaunched;
+    private Boolean mLaunchedFromProductCatalog;
 
     public static ProductDetailImageNavigationFragment newInstance() {
         return new ProductDetailImageNavigationFragment();
@@ -29,21 +29,21 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if ((savedInstanceState != null) && savedInstanceState.containsKey(IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL)) {
-            imageURL = savedInstanceState.getString(IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL);
+            mImageURL = savedInstanceState.getString(IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        this.imageURL = bundle.getString(NetworkConstants.IAP_ASSET_URL);
-        this.mIsProductCatalogLaunched = bundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG,false);
+        this.mImageURL = bundle.getString(NetworkConstants.IAP_ASSET_URL);
+        this.mLaunchedFromProductCatalog = bundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG,false);
         bindImageToViewPager();
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         layout.setGravity(Gravity.CENTER);
         layout.addView(mImageView);
-        if(mIsProductCatalogLaunched){
+        if(mLaunchedFromProductCatalog){
             setCartIconVisibility(View.VISIBLE);
         }
         return layout;
@@ -52,7 +52,7 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
     @Override
     public void onResume() {
         super.onResume();
-        if(mIsProductCatalogLaunched){
+        if(mLaunchedFromProductCatalog){
             setCartIconVisibility(View.VISIBLE);
         }
     }
@@ -63,10 +63,10 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
         mImageLoader = NetworkImageLoader.getInstance(getContext())
                 .getImageLoader();
 
-        mImageLoader.get(imageURL, ImageLoader.getImageListener(mImageView,
+        mImageLoader.get(mImageURL, ImageLoader.getImageListener(mImageView,
                 R.drawable.toothbrush, android.R.drawable
                         .ic_dialog_alert));
-        mImageView.setImageUrl(imageURL, mImageLoader);
+        mImageView.setImageUrl(mImageURL, mImageLoader);
 
         mImageView.setImageResource(R.drawable.toothbrush);
     }
@@ -74,6 +74,6 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL, imageURL);
+        outState.putString(IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL, mImageURL);
     }
 }

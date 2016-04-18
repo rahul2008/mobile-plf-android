@@ -13,7 +13,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.adapters.ImageAdaptor;
+import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -33,11 +33,11 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     Button mAddToCart;
     Button mBuyFromRetailors;
     ArrayList<String> mAsset;
-    ImageAdaptor mAdapter;
+    ImageAdapter mAdapter;
     ViewPager mPager;
     Bundle mBundle;
     private ShoppingCartPresenter mShoppingCartPresenter;
-    private boolean mIsProductCatalogLaunched = false;
+    private boolean mLaunchedFromProductCatalog = false;
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPurple_WhiteBackground;
     private String mCTNValue;
     private String mProductTitle;
@@ -55,6 +55,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         }
     };
 
+
+  /*  //// TODO: 4/18/2016 remove this code
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
@@ -71,7 +73,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             }
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
-    };
+    };*/
 
     public static ProductDetailFragment createInstance(Bundle args, AnimationType animType) {
         ProductDetailFragment fragment = new ProductDetailFragment();
@@ -87,11 +89,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         mShoppingCartPresenter = new ShoppingCartPresenter(getFragmentManager());
@@ -99,11 +96,11 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mBundle = getArguments();
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mAdapter = new ImageAdaptor(getFragmentManager(), getContext());
+        mAdapter = new ImageAdapter(getFragmentManager());
         mPager.setAdapter(mAdapter);
 
-        final CircleIndicator mIndicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
-        mIndicator.setViewPager(mPager);
+        CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
+        indicator.setViewPager(mPager);
 
         mProductDescription = (TextView) rootView.findViewById(R.id.product_description);
         mCTN = (TextView) rootView.findViewById(R.id.ctn);
@@ -112,7 +109,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mAddToCart = (Button) rootView.findViewById(R.id.add_to_cart);
         mBuyFromRetailors = (Button) rootView.findViewById(R.id.buy_from_retailor);
         mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
-        mIsProductCatalogLaunched = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
+        mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
         mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
         populateViewFromBundle();
         makeAssetRequest();
@@ -124,46 +121,37 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
         mPrice.setText(mBundle.getString(IAPConstant.PRODUCT_PRICE));
         mProductOverview.setText(mBundle.getString(IAPConstant.PRODUCT_OVERVIEW));
+        if(mLaunchedFromProductCatalog) {
+            updateCount(mBundle.getInt(IAPConstant.IAP_PRODUCT_COUNT));
+        }
     }
 
     private void makeAssetRequest() {
-            if(!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(),getString(R.string.iap_please_wait));
-                String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
-                PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn,
-                        this);
-                builder.build();
-            }
+        if (!Utility.isProgressDialogShowing()) {
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+        }
+        String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
+        PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn, this);
+        builder.build();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         setTitle(mProductTitle);
-        if(mBundle!=null && mIsProductCatalogLaunched){
+        if (mBundle != null && mLaunchedFromProductCatalog) {
             mAddToCart.setVisibility(View.VISIBLE);
             mBuyFromRetailors.setVisibility(View.VISIBLE);
             setCartIconVisibility(View.VISIBLE);
-
             mAddToCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     buyProduct(mCTNValue);
                 }
             });
-
+        }else{
+            setCartIconVisibility(View.GONE);
         }
-        mShoppingCartPresenter.getProductCartCount(getContext(), mProductCountListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
     }
 
     @Override
@@ -186,6 +174,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
     void buyProduct(final String ctnNumber) {
         Utility.showProgressDialog(getContext(), "PLease wait");
-        mShoppingCartPresenter.buyProduct(getContext(), ctnNumber, mBuyProductListener, DEFAULT_THEME);
+        mShoppingCartPresenter.buyProduct(getContext(), ctnNumber, mBuyProductListener);
     }
 }

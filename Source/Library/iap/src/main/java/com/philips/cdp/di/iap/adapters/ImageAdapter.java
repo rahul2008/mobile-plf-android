@@ -12,12 +12,11 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.ArrayList;
 
-public class ImageAdaptor extends FragmentStatePagerAdapter {
+public class ImageAdapter extends FragmentStatePagerAdapter {
     protected static ArrayList<String> mAssetsFromPRX;
 
-    public ImageAdaptor(FragmentManager fm, Context context) {
+    public ImageAdapter(FragmentManager fm) {
         super(fm);
-        final Context mContext = context;
         mAssetsFromPRX = new ArrayList<>();
     }
 
@@ -42,6 +41,6 @@ public class ImageAdaptor extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return ImageAdaptor.mAssetsFromPRX.get(position % mAssetsFromPRX.size());
+        return ImageAdapter.mAssetsFromPRX.get(position % mAssetsFromPRX.size());
     }
 }

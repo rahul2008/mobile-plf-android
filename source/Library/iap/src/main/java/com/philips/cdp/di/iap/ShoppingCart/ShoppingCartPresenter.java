@@ -51,7 +51,7 @@ public class ShoppingCartPresenter {
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
-    }
+}
 
     public ShoppingCartPresenter(Context context, LoadListener listener, android.support.v4.app.FragmentManager fragmentManager) {
         mContext = context;
@@ -117,7 +117,6 @@ public class ShoppingCartPresenter {
                                 Utility.dismissProgressDialog();
                                 return;
                             }
-                            //addShippingCostRowToTheList();
                             refreshList(mProductData);
                             CartModelContainer.getInstance().setShoppingCartData(mProductData);
                         } else {
@@ -296,7 +295,7 @@ public class ShoppingCartPresenter {
     }
 
     public void buyProduct(final Context context, final String ctnNumber, final IAPCartListener
-            iapHandlerListener, final int themeIndex) {
+            iapHandlerListener) {
         if (ctnNumber == null) return;
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);

@@ -49,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
-            android:paddingRight="@dimen/network_margin_left_right"/>
+            android:paddingRight="@dimen/network_margin_left_right"
+            android:visibility="gone"/>
 
         <com.philips.cdp.uikit.customviews.BadgeView
             android:id="@+id/item_count"
