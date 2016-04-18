@@ -206,7 +206,7 @@ public class UserProduct {
         return requestType;
     }
 
-    private void setRequestType(final String requestType) {
+    protected void setRequestType(final String requestType) {
         this.requestType = requestType;
     }
 

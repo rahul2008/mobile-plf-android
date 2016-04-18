@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.atLeastOnce;
@@ -677,6 +678,9 @@ public class UserProductTest extends MockitoTestCase {
         userProduct.getRegisteredProducts(registeredProductsListenerMock);
         userProduct.retryRequests(context, productMock, prodRegListenerMock);
         verify(userProductMock).getRegisteredProducts(registeredProductsListenerMock);
+        userProduct.setRequestType("test");
+        userProduct.retryRequests(context, productMock, prodRegListenerMock);
+        verify(prodRegListenerMock, never()).onProdRegFailed(ProdRegError.INTERNAL_SERVER_ERROR);
     }
 
     public void testValidateIsUserRegisteredLocally() {
