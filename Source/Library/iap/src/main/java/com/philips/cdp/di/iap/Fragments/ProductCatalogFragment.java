@@ -6,22 +6,23 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogAdapter;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
-import com.philips.cdp.di.iap.session.IAPHandler;
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -30,30 +31,31 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     private RecyclerView mRecyclerView;
     private ProductCatalogAdapter mAdapter;
-    private IAPHandler mIapHandler;
+    private ShoppingCartPresenter mShoppingCartPresenter;
+    private int mCount;
 
-    private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
+    private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
-            if (count > 0) {
-                updateCount(count);
-            } else {
-                setCartIconVisibility(View.GONE);
-            }
-            /*if(Utility.isProgressDialogShowing()) {
-                Utility.dismissProgressDialog();
-            }*/
+            mCount = count;
+            updateCount(count);
         }
 
         @Override
-        public void onFailure(final int errorCode) {
+        public void onFailure(final Message msg) {
             if(Utility.isProgressDialogShowing()) {
                 Utility.dismissProgressDialog();
             }
-            Toast.makeText(getContext(),"errorCode",Toast.LENGTH_SHORT).show();
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     };
 
+    public static ProductCatalogFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
+        ProductCatalogFragment fragment = new ProductCatalogFragment();
+        args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -63,8 +65,8 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>(), getFragmentManager());
-        mIapHandler = new IAPHandler();
+        mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>());
+        mShoppingCartPresenter = new ShoppingCartPresenter(getFragmentManager());
         loadProducts();
         return rootView;
     }
@@ -73,14 +75,9 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         ProductCatalogPresenter presenter = new ProductCatalogPresenter(getContext(), mAdapter, getFragmentManager());
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_get_product_catalog_details));
-            updateProducts(presenter);
-            mRecyclerView.setAdapter(mAdapter);
         }
-    }
-
-
-    private void updateProducts(ProductCatalogPresenter presenter) {
         presenter.getProductCatalog();
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -88,8 +85,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         super.onResume();
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
-        mIapHandler.getProductCartCount(getContext(), mProductCountListener);
-
+        mShoppingCartPresenter.getProductCartCount(getContext(), mProductCountListener);
     }
 
     @Override
@@ -99,9 +95,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     @Override
     public void onEventReceived(final String event) {
-        if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-        }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG))) {
             startProductDetailFragment();
         }
@@ -116,8 +109,15 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormatedPrice());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
+            bundle.putInt(IAPConstant.IAP_PRODUCT_COUNT, mCount);
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG), this);
     }
 
     @Override

@@ -8,15 +8,15 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.philips.cdp.di.iap.Fragments.ProductDetailImageNavigationFragment;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.ArrayList;
 
-public class ImageAdaptor extends FragmentStatePagerAdapter {
+public class ImageAdapter extends FragmentStatePagerAdapter {
     protected static ArrayList<String> mAssetsFromPRX;
 
-    public ImageAdaptor(FragmentManager fm, Context context) {
+    public ImageAdapter(FragmentManager fm) {
         super(fm);
-        final Context mContext = context;
         mAssetsFromPRX = new ArrayList<>();
     }
 
@@ -29,6 +29,7 @@ public class ImageAdaptor extends FragmentStatePagerAdapter {
         ProductDetailImageNavigationFragment productDetailImageNavigationFragment = ProductDetailImageNavigationFragment.newInstance();
         Bundle bundle = new Bundle();
         bundle.putString(NetworkConstants.IAP_ASSET_URL,mAssetsFromPRX.get(position % mAssetsFromPRX.size()));
+        bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG,true);
         productDetailImageNavigationFragment.setArguments(bundle);
         return productDetailImageNavigationFragment;
     }
@@ -40,6 +41,6 @@ public class ImageAdaptor extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return ImageAdaptor.mAssetsFromPRX.get(position % mAssetsFromPRX.size());
+        return ImageAdapter.mAssetsFromPRX.get(position % mAssetsFromPRX.size());
     }
 }

@@ -58,6 +58,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
         IAPLog.d(IAPLog.FRAGMENT_LIFECYCLE, "ShoppingCartFragment onCreateView");
         View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
 
@@ -109,6 +110,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
     }
 
     @Override
@@ -126,8 +128,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             //Track continue shopping action
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
                     IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
-
-            finishActivity();
+            EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG);
         }
     }
 
@@ -136,7 +137,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         //Track back button press action
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
-        finishActivity();
+        //finishActivity();
     }
 
     @Override
@@ -155,6 +156,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
             startProductDetailFragment();
+        }
+        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
+            replaceFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         }
     }
 
