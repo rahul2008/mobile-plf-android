@@ -104,12 +104,12 @@ public class UserProduct {
             final RegistrationState registrationState = registeredProduct.getRegistrationState();
             if (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) {
                 Log.e(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber());
-                if (!isUserSignedIn(mContext)) {
+                if (!getUserProduct().isUserSignedIn(mContext)) {
                     registeredProduct.setRegistrationState(RegistrationState.PENDING);
                     registeredProduct.setProdRegError(ProdRegError.USER_NOT_SIGNED_IN);
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     appListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
-                } else if (!isValidaDate(registeredProduct.getPurchaseDate())) {
+                } else if (!getUserProduct().isValidaDate(registeredProduct.getPurchaseDate())) {
                     registeredProduct.setRegistrationState(RegistrationState.FAILED);
                     registeredProduct.setProdRegError(ProdRegError.INVALID_DATE);
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
@@ -117,7 +117,7 @@ public class UserProduct {
                 } else {
                     UserProduct userProduct = getUserProduct();
                     userProduct.setLocale(this.locale);
-                    userProduct.getRegisteredProducts(getRegisteredProductsListener(registeredProduct, appListener));
+                    userProduct.getRegisteredProducts(getUserProduct().getRegisteredProductsListener(registeredProduct, appListener));
                 }
             }
         }
@@ -308,7 +308,7 @@ public class UserProduct {
 
     protected void onAccessTokenExpire(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         final User user = getUser();
-        user.refreshLoginSession(getRefreshLoginSessionHandler(registeredProduct, appListener, mContext), mContext);
+        user.refreshLoginSession(getUserProduct().getRefreshLoginSessionHandler(registeredProduct, appListener, mContext), mContext);
     }
 
     @NonNull

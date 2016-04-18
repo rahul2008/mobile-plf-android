@@ -28,6 +28,8 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
+import org.mockito.Mockito;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -531,16 +533,27 @@ public class UserProductTest extends MockitoTestCase {
     public void testInvokingAccessTokenWhenExpired() {
         final UserProduct userProductMock = mock(UserProduct.class);
         RegisteredProduct product = mock(RegisteredProduct.class);
+        final User userMock = mock(User.class);
         UserProduct userProduct = new UserProduct(context, Sector.B2C, Catalog.CONSUMER) {
             @NonNull
             @Override
             UserProduct getUserProduct() {
                 return userProductMock;
             }
+
+            @NonNull
+            @Override
+            protected User getUser() {
+                return userMock;
+            }
         };
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         userProduct.handleError(product, 403, prodRegListener);
         verify(userProductMock).onAccessTokenExpire(product, prodRegListener);
+        RefreshLoginSessionHandler refreshLoginSessionHandler = mock(RefreshLoginSessionHandler.class);
+        when(userProductMock.getRefreshLoginSessionHandler(product, prodRegListener, context)).thenReturn(refreshLoginSessionHandler);
+        userProduct.onAccessTokenExpire(product, prodRegListener);
+        verify(userMock).refreshLoginSession(refreshLoginSessionHandler, context);
     }
 
     public void testGetUserRefreshedLoginSession() {
@@ -688,4 +701,28 @@ public class UserProductTest extends MockitoTestCase {
         assertEquals(registeredProduct.getProdRegError(), ProdRegError.PRODUCT_ALREADY_REGISTERED);
         verify(localRegisteredProducts).updateRegisteredProducts(registeredProduct);
     }
+
+    public void testCachedRegisterProducts() {
+        ProdRegListener prodRegListener = mock(ProdRegListener.class);
+        RegisteredProduct registeredProduct = new RegisteredProduct("ctn", "Serial", null, null, null);
+        registeredProduct.setRegistrationState(RegistrationState.PENDING);
+        RegisteredProduct registeredProduct1 = new RegisteredProduct("ctn1", "Serial1", null, null, null);
+        registeredProduct1.setRegistrationState(RegistrationState.FAILED);
+        ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
+        registeredProducts.add(registeredProduct);
+        registeredProducts.add(registeredProduct1);
+        when(userProductMock.isUserSignedIn(context)).thenReturn(false);
+        userProduct.registerCachedProducts(registeredProducts, prodRegListener);
+        assertEquals(registeredProduct1.getProdRegError(), ProdRegError.USER_NOT_SIGNED_IN);
+        assertEquals(registeredProduct1.getRegistrationState(), RegistrationState.PENDING);
+        verify(localRegisteredProducts, Mockito.atLeastOnce()).updateRegisteredProducts(registeredProduct);
+        verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
+        when(userProductMock.isUserSignedIn(context)).thenReturn(true);
+        when(userProductMock.isValidaDate("2016-2-12")).thenReturn(false);
+        userProduct.registerCachedProducts(registeredProducts, prodRegListener);
+        assertEquals(registeredProduct.getProdRegError(), ProdRegError.INVALID_DATE);
+        assertEquals(registeredProduct.getRegistrationState(), RegistrationState.FAILED);
+        verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(ProdRegError.INVALID_DATE);
+    }
+
 }
