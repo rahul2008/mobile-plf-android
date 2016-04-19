@@ -49,7 +49,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
         Map<String, Object> contextData = new HashMap<String, Object>();
         contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ,
+        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER,
                 getPreviousName(), contextData);
 
         return mView;
@@ -214,7 +214,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     @Override
     public String setPreviousPageName() {
-        return AnalyticsConstants.PAGE_FAQ;
+        return AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER;
     }
 
     @Override

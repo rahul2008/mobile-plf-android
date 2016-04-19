@@ -15,6 +15,7 @@ public class AnalyticsConstants {
     public static final String PAGE_PRODUCT_REGISTRATION = "digitalcare:productregistration";
     public static final String PAGE_FIND_PHILIPS_NEAR_YOU = "digitalcare:findphilips";
     public static final String PAGE_FAQ = "digitalcare:faq";
+    public static final String PAGE_FAQ_QUESTION_ANSWER = "digitalcare:faq:questionandanswer";
 
     public static final String PAGE_CONTACTUS_TWITTER = "digitalcare:contactus:twitter";
     public static final String PAGE_CONTACTUS_FACEBOOK = "digitalcare:contactus:facebook";
