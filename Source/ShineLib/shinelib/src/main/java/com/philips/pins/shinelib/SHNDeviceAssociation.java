@@ -401,7 +401,7 @@ public class SHNDeviceAssociation {
             if (!hasAssociatedDeviceForTheMACAddress(deviceMACAddress)) {
                 SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
                 if (shnDeviceDefinitionInfo != null) {
-                    SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(deviceMACAddress, shnDeviceDefinitionInfo);
+                    SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(deviceMACAddress.toUpperCase(), shnDeviceDefinitionInfo);
                     addAssociatedDevice(shnDevice);
                     shnResultListener.onActionCompleted(SHNResult.SHNOk);
                     shnDeviceAssociationListener.onAssociatedDevicesUpdated();

@@ -621,6 +621,14 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
+    public void whenANewAssociationIsInjectedForAUnregisteredKnowDeviceType_Then_SHNCentralIsUsedToCreateTheDeviceInstanceWithUpperCaseMacAddress() {
+        String macAddress = "1c:87:74:00:00:f0";
+        shnDeviceAssociation.injectAssociatedDevice(macAddress, DEVICE_TYPE_NAME, mockedSHNResultListener);
+
+        verify(mockedSHNCentral).createSHNDeviceForAddressAndDefinition(macAddress.toUpperCase(), mockedSHNDeviceDefinitionInfo);
+    }
+
+    @Test
     public void whenANewAssociationIsInjectedForAUnregisteredKnowDeviceType_Then_TheAssociationListenerIsCalled() {
         shnDeviceAssociation.injectAssociatedDevice(DEVICE_MAC_ADDRESS, DEVICE_TYPE_NAME, mockedSHNResultListener);
 
