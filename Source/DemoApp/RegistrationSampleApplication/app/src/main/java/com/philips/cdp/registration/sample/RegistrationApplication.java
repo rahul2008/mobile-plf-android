@@ -22,6 +22,6 @@ public class RegistrationApplication extends Application {
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(),
                 Locale.getDefault());
-        Tagging.init(RegistrationHelper.getInstance().getLocale(), getApplicationContext(),"Registration Sample Application");
+        Tagging.init(Locale.getDefault(), getApplicationContext(),"Registration Sample Application");
     }
 }

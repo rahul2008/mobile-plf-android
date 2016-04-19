@@ -54,6 +54,10 @@ dependencies {
     compile files('libs/jackson-databind.jar')
     compile files('libs/adobeMobileLibrary.jar')
     compile files('libs/org.apache.http.legacy.jar')
+    compile files('libs/okhttp-2.5.0.jar')
+    compile files('libs/okhttp-apache-2.5.0.jar')
+    compile files('libs/okio-1.6.0.jar')
+
 
 
 
