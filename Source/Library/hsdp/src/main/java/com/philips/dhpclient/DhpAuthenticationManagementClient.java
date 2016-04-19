@@ -5,6 +5,7 @@ import android.util.Base64;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
+import com.philips.dhpclient.util.HsdpLog;
 import com.philips.dhpclient.util.MapUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -68,10 +69,8 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
     }
 
     public String createRefreshSignature(String refresh_Secret, String date, String accessToken) {
-
-        System.out.println("Refresh Signature Date = " + date);
         String stringToSign = "refresh_access_token\n" + date + "\n" + accessToken + "\n";
-
+        HsdpLog.d(HsdpLog.HSDP,""+"Refresh secret : "+refresh_Secret + " date : "+date + " accessToken : "+accessToken);
         byte[] hash = null;
         try {
             Mac mac = Mac.getInstance("HmacSHA1");
@@ -80,16 +79,13 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
             mac.init(secret);
             hash = mac.doFinal(stringToSign.getBytes("UTF-8"));
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("Error occurred while creating refresh signature.");
-            System.out.println(e);
+            HsdpLog.e(HsdpLog.EXCEPTION,"Error occurred while creating refresh signature.");
         } catch (UnsupportedEncodingException e) {
-            System.out.println("Error occurred while creating refresh signature.");
-            System.out.println(e);
+            HsdpLog.d(HsdpLog.EXCEPTION,"Error occurred while creating refresh signature.");
         } catch (InvalidKeyException e) {
-            System.out.println("Error occurred while creating refresh signature.");
-            System.out.println(e);
+            HsdpLog.d(HsdpLog.EXCEPTION,"Error occurred while creating refresh signature.");
         }
-       return Base64.encodeToString(hash, Base64.NO_WRAP);
+        return Base64.encodeToString(hash, Base64.NO_WRAP);
     }
 
     private static String getUTCdatetimeAsString() {
@@ -182,7 +178,6 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         String queryParams = "applicationName=" + dhpApplicationName;
         Map<String, String> headers = new LinkedHashMap<String, String>();
         headers.put("accessToken", accessToken);
-
         return sendRestRequest("PUT", apiEndpoint, queryParams, headers, null);
     }
 }
