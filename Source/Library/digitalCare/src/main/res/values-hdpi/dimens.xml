@@ -34,5 +34,7 @@
     <dimen name="err_edit_fields_desc_margin_top">12px</dimen>
     <dimen name="icon_top_margin_right">5dp</dimen>
 
+    <dimen name="faq_top_margin">2dip</dimen>
+
 
 </resources>

@@ -1,6 +1,9 @@
 package com.philips.cdp.digitalcare.faq.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -243,7 +246,7 @@ public class FAQCustomView {
         int padding = 0;
         if (isTablet) {
             padding = (int) (mContext.getResources()
-                    .getDimension(R.dimen.activity_margin) * mDensity);
+                    .getDimension(R.dimen.faq_firstscreen_sidemargin) * mDensity);
         } else {
             padding = (int) (mContext.getResources()
                     .getDimension(R.dimen.marginTopButton) * mDensity);
@@ -295,7 +298,7 @@ public class FAQCustomView {
         int padding = 0;
         if (isTablet) {
             padding = (int) (mContext.getResources()
-                    .getDimension(R.dimen.activity_margin) * mDensity);
+                    .getDimension(R.dimen.faq_firstscreen_sidemargin) * mDensity);
         } else {
             padding = (int) (mContext.getResources()
                     .getDimension(R.dimen.marginTopButton) * mDensity);
