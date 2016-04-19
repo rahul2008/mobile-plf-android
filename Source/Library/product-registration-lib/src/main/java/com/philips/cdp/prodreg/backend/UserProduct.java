@@ -43,11 +43,13 @@ public class UserProduct {
     private Context mContext;
     private User user;
     private LocalRegisteredProducts localRegisteredProducts;
+    private ErrorHandler errorHandler;
 
     public UserProduct(final Context context) {
         this.mContext = context;
         user = new User(context);
         localRegisteredProducts = new LocalRegisteredProducts(context);
+        errorHandler=new ErrorHandler(context);
     }
 
     public void registerProduct(final Context context, final Product product, final ProdRegListener appListener) {
@@ -130,7 +132,7 @@ public class UserProduct {
         mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(registeredProductsListener));
     }
 
-    protected void handleError(final RegisteredProduct registeredProduct, final int statusCode, final ProdRegListener appListener) {
+    /*protected void handleError(final RegisteredProduct registeredProduct, final int statusCode, final ProdRegListener appListener) {
         if (statusCode == ProdRegError.INVALID_CTN.getCode()) {
             getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_CTN, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct);
@@ -158,7 +160,7 @@ public class UserProduct {
             getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.UNKNOWN, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct);
         }
-    }
+    }*/
 
     protected void updateLocaleCacheOnError(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
         registeredProduct.setRegistrationState(registrationState);
@@ -186,8 +188,8 @@ public class UserProduct {
     }
 
     protected boolean isValidDate(final String date) {
-            String[] dates = date.split("-");
-            return dates.length > 1 && Integer.parseInt(dates[0]) > 1999;
+        String[] dates = date.split("-");
+        return dates.length > 1 && Integer.parseInt(dates[0]) > 1999;
     }
 
     @NonNull
@@ -220,7 +222,8 @@ public class UserProduct {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                getUserProduct().handleError(registeredProduct, responseCode, appListener);
+                errorHandler.handleError(registeredProduct, responseCode, appListener);
+                //    getUserProduct().handleError(registeredProduct, responseCode, appListener);
             }
         };
     }
@@ -248,7 +251,8 @@ public class UserProduct {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                getUserProduct().handleError(registeredProduct, responseCode, appListener);
+                errorHandler.handleError(registeredProduct, responseCode, appListener);
+                //  getUserProduct().handleError(registeredProduct, responseCode, appListener);
             }
         };
     }
@@ -371,7 +375,8 @@ public class UserProduct {
             @Override
             public void onResponseError(final String errorMessage, final int responseCode) {
                 try {
-                    getUserProduct().handleError(registeredProduct, responseCode, appListener);
+                    errorHandler.handleError(registeredProduct, responseCode, appListener);
+                    // getUserProduct().handleError(registeredProduct, responseCode, appListener);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
