@@ -169,7 +169,6 @@ public class UserProduct {
     protected RegisteredProductsRequest getRegisteredProductsRequest() {
         RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest();
         registeredProductsRequest.setAccessToken(getUser().getAccessToken());
-        registeredProductsRequest.setmLocale(getLocale());
         return registeredProductsRequest;
     }
 

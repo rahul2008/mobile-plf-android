@@ -411,17 +411,6 @@ public class UserProductTest extends MockitoTestCase {
         assertTrue(userProduct.validatePurchaseDateFromMetadata(data, productMock, listener));
     }
 
-    public void testRegisteredTest() {
-        UserProduct userProduct = new UserProduct(context) {
-            @Override
-            public String getLocale() {
-                return "en_GB";
-            }
-        };
-        RegisteredProductsRequest registeredProductsRequest = userProduct.getRegisteredProductsRequest();
-        assertEquals(registeredProductsRequest.getLocale(), "en_GB");
-    }
-
     public void testRegistrationRequestTest() {
         RegisteredProduct productMock = mock(RegisteredProduct.class);
         final String ctn = "HC5410/83";
@@ -724,48 +713,4 @@ public class UserProductTest extends MockitoTestCase {
         assertEquals(registeredProduct.getRegistrationState(), RegistrationState.FAILED);
         verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(ProdRegError.INVALID_DATE);
     }
-
-   /* public void testCallingRegisterProducts() {
-        final RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-        UserProduct userProduct = new UserProduct(context) {
-            @NonNull
-            @Override
-            UserProduct getUserProduct() {
-                return userProductMock;
-            }
-
-            @NonNull
-            @Override
-            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
-                return localRegisteredProducts;
-            }
-
-            @NonNull
-            @Override
-            RegisteredProductsListener getRegisteredProductsListener(RegisteredProduct registeredProduct, ProdRegListener appListener) {
-                return registeredProductsListener;
-            }
-
-            @Override
-            protected boolean isUserSignedIn(Context context) {
-                return true;
-            }
-
-            @Override
-            protected boolean isValidDate(String date) {
-                return true;
-            }
-        };
-        ProdRegListener prodRegListener = mock(ProdRegListener.class);
-        RegisteredProduct registeredProduct = new RegisteredProduct("ctn", "Serial", null, null, null);
-        registeredProduct.setRegistrationState(RegistrationState.PENDING);
-        RegisteredProduct registeredProduct1 = new RegisteredProduct("ctn1", "Serial1", null, null, null);
-        registeredProduct1.setRegistrationState(RegistrationState.FAILED);
-        ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
-        registeredProducts.add(registeredProduct);
-        registeredProducts.add(registeredProduct1);
-        userProduct.registerCachedProducts(registeredProducts, prodRegListener);
-        verify(userProductMock, Mockito.atLeastOnce()).getRegisteredProducts(registeredProductsListener);
-    }*/
-
 }
