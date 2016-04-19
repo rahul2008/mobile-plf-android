@@ -40,6 +40,8 @@ public class ProductMetadataRequest extends PrxRequest {
             mServerInfo = "https://acc.philips.co.uk/prx/registration/";
         } else if (mConfiguration.equalsIgnoreCase("development")) {
             mServerInfo = "https://dev.philips.com/prx/registration/";
+        }else if (mConfiguration.equalsIgnoreCase("Production")) {
+            mServerInfo = "https://www.philips.com/prx/registration/";
         }
         return mServerInfo;
     }

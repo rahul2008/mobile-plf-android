@@ -44,6 +44,8 @@ public class RegisteredProductsRequest extends PrxRequest {
             mServerInfo = "https://acc.philips.com/prx/registration.registeredProducts";
         } else if (mConfiguration.equalsIgnoreCase("development")) {
             mServerInfo = "https://dev.philips.com/prx/registration.registeredProducts";
+        }else if (mConfiguration.equalsIgnoreCase("Production")) {
+            mServerInfo = "https://www.philips.com/prx/registration.registeredProducts";
         }
         return mServerInfo;
     }
