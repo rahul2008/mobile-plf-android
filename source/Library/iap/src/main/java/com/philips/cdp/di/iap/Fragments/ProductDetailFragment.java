@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -20,6 +21,7 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 
@@ -141,6 +143,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         setTitle(mProductTitle);
         if (mBundle != null && mLaunchedFromProductCatalog) {
             mAddToCart.setVisibility(View.VISIBLE);
+            Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
+            mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
             mBuyFromRetailors.setVisibility(View.VISIBLE);
             setCartIconVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(new View.OnClickListener() {
