@@ -377,6 +377,58 @@ public class SHNDeviceAssociation {
         });
     }
 
+    public void injectAssociatedDevice(final String deviceMACAddress, final String deviceTypeName, final SHNResultListener shnResultListener) {
+        shnCentral.getInternalHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                internalInjectAssociatedDevice(deviceMACAddress, deviceTypeName, new SHNResultListener() {
+                    @Override
+                    public void onActionCompleted(final SHNResult result) {
+                        shnCentral.getUserHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                shnResultListener.onActionCompleted(result);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    private void internalInjectAssociatedDevice(String deviceMACAddress, String deviceTypeName, SHNResultListener shnResultListener) {
+        if (isAValifMACAddress(deviceMACAddress)) {
+            if (!hasAssociatedDeviceForTheMACAddress(deviceMACAddress)) {
+                SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
+                if (shnDeviceDefinitionInfo != null) {
+                    SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(deviceMACAddress, shnDeviceDefinitionInfo);
+                    addAssociatedDevice(shnDevice);
+                    shnResultListener.onActionCompleted(SHNResult.SHNOk);
+                    shnDeviceAssociationListener.onAssociatedDevicesUpdated();
+                } else {
+                    shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidParameter);
+                }
+            } else {
+                shnResultListener.onActionCompleted(SHNResult.SHNErrorOperationFailed);
+            }
+        } else {
+            shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidParameter);
+        }
+    }
+
+    private boolean isAValifMACAddress(String deviceMACAddress) {
+        return deviceMACAddress.matches("([0-9A-Fa-f]{2}:){5}([0-9A-Fa-f]{2})");
+    }
+
+    private boolean hasAssociatedDeviceForTheMACAddress(String deviceMACAddress) {
+        for (SHNDevice associatedDevice :associatedDevices) {
+            if (associatedDevice.getAddress().equalsIgnoreCase(deviceMACAddress)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void addAssociatedDevice(SHNDevice shnDevice) {
         removeAssociatedDeviceFromList(shnDevice);
         associatedDevices.add(shnDevice);
