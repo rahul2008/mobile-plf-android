@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.handler.MetadataListener;
-import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.handler.RegisteredProductsListener;
@@ -34,7 +33,10 @@ import java.util.List;
  */
 public class UserProduct {
 
+    public static final String PRODUCT_REGISTRATION = "product_registration";
+    public static final String FETCH_REGISTERED_PRODUCTS = "fetch_registered_products";
     private final String TAG = getClass() + "";
+    private final String MICRO_SITE_ID = "MS";
     private String requestType;
     private String locale;
     private RegisteredProductsListener registeredProductsListener;
@@ -50,7 +52,7 @@ public class UserProduct {
 
     public void registerProduct(final Context context, final Product product, final ProdRegListener appListener) {
         setContext(context);
-        setRequestType(ProdRegConstants.PRODUCT_REGISTRATION);
+        setRequestType(PRODUCT_REGISTRATION);
         RegisteredProduct registeredProduct = getUserProduct().createDummyRegisteredProduct(product);
         LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance();
         if (!getUserProduct().IsUserRegisteredLocally(registeredProduct)) {
@@ -122,7 +124,7 @@ public class UserProduct {
     }
 
     public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
-        setRequestType(ProdRegConstants.FETCH_REGISTERED_PRODUCTS);
+        setRequestType(FETCH_REGISTERED_PRODUCTS);
         this.registeredProductsListener = registeredProductsListener;
         RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest();
         final RequestManager mRequestManager = getRequestManager(mContext);
@@ -296,7 +298,7 @@ public class UserProduct {
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
         registrationRequest.setmLocale(registeredProduct.getLocale());
-        registrationRequest.setRegistrationChannel(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         return registrationRequest;
     }
@@ -326,10 +328,10 @@ public class UserProduct {
 
     protected void retryRequests(final Context mContext, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         switch (requestType) {
-            case ProdRegConstants.PRODUCT_REGISTRATION:
+            case PRODUCT_REGISTRATION:
                 getUserProduct().makeRegistrationRequest(mContext, registeredProduct, appListener);
                 break;
-            case ProdRegConstants.FETCH_REGISTERED_PRODUCTS:
+            case FETCH_REGISTERED_PRODUCTS:
                 getUserProduct().getRegisteredProducts(getRegisteredProductsListener());
                 break;
             default:
@@ -386,9 +388,9 @@ public class UserProduct {
     }
 
     protected void makeRegistrationRequest(final Context mContext, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
-        this.requestType = ProdRegConstants.PRODUCT_REGISTRATION;
+        this.requestType = PRODUCT_REGISTRATION;
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, registeredProduct);
-        registrationRequest.setRegistrationChannel(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setmLocale(registeredProduct.getLocale());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());

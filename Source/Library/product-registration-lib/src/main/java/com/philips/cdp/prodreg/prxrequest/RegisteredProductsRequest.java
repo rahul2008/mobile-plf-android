@@ -3,7 +3,6 @@ package com.philips.cdp.prodreg.prxrequest;
 import android.net.Uri;
 import android.util.Log;
 
-import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.model.RegisteredResponse;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
@@ -23,6 +22,7 @@ public class RegisteredProductsRequest extends PrxRequest {
 
     private String accessToken;
     private String mServerInfo="https://acc.philips.com/prx/registration.registeredProducts";
+    private String ACCESS_TOKEN_TAG = "x-accessToken";
 
     public String getAccessToken() {
         return accessToken;
@@ -63,7 +63,7 @@ public class RegisteredProductsRequest extends PrxRequest {
     @Override
     public Map<String, String> getHeaders() {
         final Map<String, String> headers = new HashMap<>();
-        headers.put(ProdRegConstants.ACCESS_TOKEN_TAG, getAccessToken());
+        headers.put(ACCESS_TOKEN_TAG, getAccessToken());
         return headers;
     }
 

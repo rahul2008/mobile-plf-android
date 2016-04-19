@@ -8,7 +8,6 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.handler.MetadataListener;
-import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.handler.RegisteredProductsListener;
@@ -125,7 +124,7 @@ public class UserProductTest extends MockitoTestCase {
                 assertEquals(ProdRegError.USER_NOT_SIGNED_IN, registeredProduct.getProdRegError());
             }
         });
-        assertEquals(userProduct.getRequestType(), (ProdRegConstants.PRODUCT_REGISTRATION));
+        assertEquals(userProduct.getRequestType(), (UserProduct.PRODUCT_REGISTRATION));
     }
 
     public void testRegisterProductOnValidParameters() {
@@ -346,10 +345,10 @@ public class UserProductTest extends MockitoTestCase {
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         userProduct.registerProduct(context, productMock, prodRegListener);
-        assertTrue(userProduct.getRequestType().equals(ProdRegConstants.PRODUCT_REGISTRATION));
+        assertTrue(userProduct.getRequestType().equals(UserProduct.PRODUCT_REGISTRATION));
 
         userProduct.getRegisteredProducts(registeredProductsListener);
-        assertTrue(userProduct.getRequestType().equals(ProdRegConstants.FETCH_REGISTERED_PRODUCTS));
+        assertTrue(userProduct.getRequestType().equals(UserProduct.FETCH_REGISTERED_PRODUCTS));
     }
 
     public void testValidatingSerialNumber() {

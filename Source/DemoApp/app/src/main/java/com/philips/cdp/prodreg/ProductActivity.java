@@ -13,7 +13,6 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
-import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.registration.User;
@@ -36,6 +35,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private String[] mEditDisplayDate;
     private String mGetDeviceDate;
     private Date mDisplayDate, mDeviceDate;
+    private String MICRO_SITE_ID = "MS";
+    
+
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -114,7 +116,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         if (mCtn.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
         } else {
-            mRegChannel.setText(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+            mRegChannel.setText(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
             registerProduct();
         }
     }

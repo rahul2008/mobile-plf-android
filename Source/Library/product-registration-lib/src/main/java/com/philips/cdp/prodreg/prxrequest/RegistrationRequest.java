@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.model.RegistrationResponse;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
@@ -37,6 +36,10 @@ public class RegistrationRequest extends PrxRequest {
     private String Zip;
     private String state;
     private String country;
+    private String PRODUCT_SERIAL_NUMBER = "productSerialNumber";
+    private String ACCESS_TOKEN_TAG = "x-accessToken";
+    private String REGISTRATION_CHANNEL = "registrationChannel";
+    private String PURCHASE_DATE = "purchaseDate";
 
     public RegistrationRequest(String ctn, final String serialNumber, String accessToken) {
         this.ctn = ctn;
@@ -170,7 +173,7 @@ public class RegistrationRequest extends PrxRequest {
     @Override
     public Map<String, String> getHeaders() {
         final Map<String, String> headers = new HashMap<>();
-        headers.put(ProdRegConstants.ACCESS_TOKEN_TAG, getAccessToken());
+        headers.put(ACCESS_TOKEN_TAG, getAccessToken());
         return headers;
     }
 
@@ -179,19 +182,19 @@ public class RegistrationRequest extends PrxRequest {
         Map<String, String> params = new HashMap<>();
         validatePurchaseDate(params, getPurchaseDate());
         validateSerialNumber(params);
-        params.put(ProdRegConstants.REGISTRATION_CHANNEL, getRegistrationChannel());
+        params.put(REGISTRATION_CHANNEL, getRegistrationChannel());
         return params;
     }
 
     private void validateSerialNumber(final Map<String, String> params) {
         final String productSerialNumber = getProductSerialNumber();
         if (productSerialNumber != null && productSerialNumber.length() > 0)
-            params.put(ProdRegConstants.PRODUCT_SERIAL_NUMBER, productSerialNumber);
+            params.put(PRODUCT_SERIAL_NUMBER, productSerialNumber);
     }
 
     private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
         if (purchaseDate != null && purchaseDate.length() > 0)
-            params.put(ProdRegConstants.PURCHASE_DATE, purchaseDate);
+            params.put(PURCHASE_DATE, purchaseDate);
     }
 
     private String generateUrl() {
