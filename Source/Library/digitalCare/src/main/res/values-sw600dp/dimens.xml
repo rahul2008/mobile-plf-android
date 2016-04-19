@@ -35,4 +35,7 @@
     <dimen name="chatnowhelptext_padding_right">250dp</dimen>
     <dimen name="chatnowhelptext_padding_right_land">600dp</dimen>
 
+    <dimen name="faq_top_margin">2dp</dimen>
+    <dimen name="faq_firstscreen_sidemargin">40dp</dimen>
+
 </resources>

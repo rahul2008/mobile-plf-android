@@ -1,6 +1,9 @@
 package com.philips.cdp.digitalcare.faq.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -84,19 +87,23 @@ public class FAQCustomView {
             } else if (flag == EXPAND_CLICKED) {
                 if (text.equalsIgnoreCase(questionText)) {
                     if (child.getVisibility() == View.GONE) {
-                        arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_up));
+                        arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uparrow));
+                        arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
                         child.setVisibility(View.VISIBLE);
                     } else {
-                        arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_down));
+                        arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.down_arrow));
+                        arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
                         child.setVisibility(View.GONE);
                     }
                 } else {
-                    arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_down));
+                    arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.down_arrow));
+                    arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
                     child.setVisibility(View.GONE);
                 }
             } else {
                 child.setVisibility(View.GONE);
-                arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_down));
+                arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.down_arrow));
+                arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
             }
 
 
@@ -243,7 +250,7 @@ public class FAQCustomView {
         int padding = 0;
         if (isTablet) {
             padding = (int) (mContext.getResources()
-                    .getDimension(R.dimen.activity_margin) * mDensity);
+                    .getDimension(R.dimen.faq_firstscreen_sidemargin) * mDensity);
         } else {
             padding = (int) (mContext.getResources()
                     .getDimension(R.dimen.marginTopButton) * mDensity);
@@ -295,7 +302,7 @@ public class FAQCustomView {
         int padding = 0;
         if (isTablet) {
             padding = (int) (mContext.getResources()
-                    .getDimension(R.dimen.activity_margin) * mDensity);
+                    .getDimension(R.dimen.faq_firstscreen_sidemargin) * mDensity);
         } else {
             padding = (int) (mContext.getResources()
                     .getDimension(R.dimen.marginTopButton) * mDensity);
@@ -304,13 +311,14 @@ public class FAQCustomView {
 
         ImageView arrowImage = new ImageView(mContext);
         modelObject.setArrowImage(arrowImage);
+
+        arrowImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.down_arrow));
         arrowImage.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
         RelativeLayout.LayoutParams arrowImageParams = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         arrowImageParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         arrowImageParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         //   arrowImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.uikit_arrow_up, null));
-        arrowImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.uikit_arrow_down));
         arrowImage.setPadding(0, 0, padding, 0);
 
 
