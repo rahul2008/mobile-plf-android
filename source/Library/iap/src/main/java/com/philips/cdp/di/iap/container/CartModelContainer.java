@@ -18,6 +18,7 @@ public class CartModelContainer {
     private String cartNumber;
     private String regionIsoCode;
     private String mAddressId;
+    private String shippingAddressId;
 
     public String getAddressId() {
         return mAddressId;
@@ -92,4 +93,13 @@ public class CartModelContainer {
         mShoppingCartData = null;
         mShippingAddressFields = null;
     }
+
+    public void setShippingAddressId(String shippingAddressId) {
+        this.shippingAddressId = shippingAddressId;
+    }
+
+    public String getShippingAddressId() {
+        return shippingAddressId;
+    }
+
 }

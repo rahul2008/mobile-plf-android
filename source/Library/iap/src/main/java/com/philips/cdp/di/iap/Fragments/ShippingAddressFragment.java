@@ -316,6 +316,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mBtnContinue.setEnabled(true);
             Addresses mAddresses = (Addresses) msg.obj;
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
+            CartModelContainer.getInstance().setShippingAddressId(mAddresses.getId());
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
             Utility.dismissProgressDialog();
