@@ -2,12 +2,8 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.response.carts.AddToCartData;
 import com.philips.cdp.di.iap.response.carts.UpdateCartData;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
-import com.philips.cdp.di.iap.utils.IAPConfiguration;
 
 import junit.framework.TestCase;
 

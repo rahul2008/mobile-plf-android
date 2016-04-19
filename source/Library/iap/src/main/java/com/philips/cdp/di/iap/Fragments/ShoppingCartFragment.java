@@ -13,7 +13,7 @@ import android.widget.Button;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartAdapter;
+import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.controller.AddressController;

@@ -125,7 +125,7 @@ configurations {
     compile.exclude module: 'support-annotations'
 }
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     // Support libraries
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:support-v4:23.1.1'
@@ -139,11 +139,11 @@ dependencies {
     // Tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
-
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: "5.0.0-rc.2", ext: 'aar') {
+    compile('com.philips.cdp:registrationApi:5.0.0-rc.2@aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
+    compile 'org.robolectric:robolectric:3.0'
 }
 
 //maven configuration stuff required for artifactory plugin
@@ -220,6 +220,7 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
 task jacocoTestReport(type: JacocoReport, dependsOn: "test") {
     group = "Reporting"
 
+//    jvmArgs = ["-XX:-UseSplitVerifier"]
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
@@ -231,6 +232,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "test") {
                        '**/view/*.class',
                        '**/adapters/*.class',
                        '**/analytics/*.class',
+                       '**/utils/*.class',
+                       '**/store/IAPUser.class', //bytecode error, we can't proceed
                        '**/Fragments/*.class']
     )
 
