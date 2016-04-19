@@ -6,12 +6,13 @@
 package com.philips.cdp.di.iap.response.products;
 
 public class ProductsEntity {
+
     private boolean availableForPickup;
     private String code;
+    private DiscountPriceEntity discountPrice;
     private String name;
     private PriceEntity price;
     private PriceRangeEntity priceRange;
-    private boolean purchasable;
     private StockEntity stock;
     private String url;
 
@@ -21,6 +22,10 @@ public class ProductsEntity {
 
     public String getCode() {
         return code;
+    }
+
+    public DiscountPriceEntity getDiscountPrice() {
+        return discountPrice;
     }
 
     public String getName() {
@@ -35,10 +40,6 @@ public class ProductsEntity {
         return priceRange;
     }
 
-    public boolean isPurchasable() {
-        return purchasable;
-    }
-
     public StockEntity getStock() {
         return stock;
     }
@@ -46,5 +47,4 @@ public class ProductsEntity {
     public String getUrl() {
         return url;
     }
-
 }

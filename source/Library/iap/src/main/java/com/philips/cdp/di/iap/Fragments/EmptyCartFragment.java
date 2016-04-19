@@ -47,9 +47,6 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
 
     @Override
     public void onBackPressed() {
-        //Track back button press action
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
         finishActivity();
     }
 }

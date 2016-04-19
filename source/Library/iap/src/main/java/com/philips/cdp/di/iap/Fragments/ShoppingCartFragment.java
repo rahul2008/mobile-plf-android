@@ -137,7 +137,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         //Track back button press action
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
-        //finishActivity();
+        if(getFragmentManager().getBackStackEntryCount()<=1){
+            finishActivity();
+        }
     }
 
     @Override

@@ -16,7 +16,6 @@ import java.util.Map;
  * All rights reserved.
  */
 public class PaymentRequest extends AbstractModel {
-    String mBillingAddressId;
 
     public PaymentRequest(final Store store, final Map<String, String> query, final DataLoadListener listener) {
         super(store, query, listener);
@@ -38,7 +37,7 @@ public class PaymentRequest extends AbstractModel {
 
         Map<String, String> params = new HashMap<String, String>();
 
-        params.put(ModelConstants.ADDRESS_ID, getBillingAddressId());
+        params.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getShippingAddressId());
         params.put(ModelConstants.FIRST_NAME, billingAddress.getFirstName());
         params.put(ModelConstants.LAST_NAME, billingAddress.getLastName());
         params.put(ModelConstants.TITLE_CODE, billingAddress.getTitleCode().toLowerCase(Locale.getDefault()));
@@ -54,12 +53,5 @@ public class PaymentRequest extends AbstractModel {
     @Override
     public String getUrl() {
         return store.getSetPaymentUrl(params.get(ModelConstants.ORDER_NUMBER));
-    }
-
-    public String getBillingAddressId() {
-        if (mBillingAddressId != null)
-            return mBillingAddressId;
-        else
-            return "";
     }
 }

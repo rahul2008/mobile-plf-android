@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.response.products;
 
 public class PaginationEntity {
+
     private int currentPage;
     private int pageSize;
     private String sort;

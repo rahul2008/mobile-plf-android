@@ -15,11 +15,18 @@ public class ProductCatalogData {
     private String mCtnNumber;
     private String mProductTitle;
     private String mImageURL;
-
     private int mTotalItems;
-
     private int mStockLevel;
 
+    public int getDiscountedPrice() {
+        return mDiscountedPrice;
+    }
+
+    public void setDiscountedPrice(final int mDiscountedPrice) {
+        this.mDiscountedPrice = mDiscountedPrice;
+    }
+
+    private int mDiscountedPrice;
     private String mTotalPriceFormatedPrice;
     private String mTotalPriceWithTaxFormatedPrice;
     private String mFormatedPrice;
