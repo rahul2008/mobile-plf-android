@@ -63,6 +63,16 @@ Version - 0.0.4                             Date: 23-03-2016
   
      1.	Implemented registred the product with DI-Comm .
      
+Version - 0.4.0.rc_1                             Date: 12-04-2016
+-------------------------------------------------------------
+
+  Following features can be tested:
+  
+
+  1 : PRA-74 Register product regardless of internet connection
+  2 : PRA-77 Only register one product instance
+  3 : PRA-102 Incorrect validation for serial number is observed for certain region & language	
+
 
 	 
 	 
