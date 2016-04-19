@@ -13,7 +13,6 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.PrxCustomJsonRequest;
@@ -35,11 +34,12 @@ public class NetworkWrapper {
     private static final String TAG = NetworkWrapper.class.getSimpleName();
     private Context mContext = null;
     private RequestQueue mVolleyRequest;
-    private boolean isHttpsRequest = true;
+    private boolean isHttpsRequest = false;
 
     public NetworkWrapper(Context context) {
         mContext = context;
-        mVolleyRequest = Volley.newRequestQueue(mContext);
+        VolleyQueue volleyQueue = VolleyQueue.getInstance();
+        mVolleyRequest = volleyQueue.getRequestQueue(mContext);
     }
 
    /* public void executeJsonObjectRequest(final PrxRequest prxRequest, final ResponseListener listener) {
@@ -74,11 +74,20 @@ public class NetworkWrapper {
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
         final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
-        PrxCustomJsonRequest request = new PrxCustomJsonRequest(prxRequest.getRequestType(), prxRequest.getRequestUrl(), prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
+        String url = prxRequest.getRequestUrl();
+        PrxCustomJsonRequest request = new PrxCustomJsonRequest(prxRequest.getRequestType(), url, prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
         request.setShouldCache(true);
+        if (url.startsWith("https"))
+            isHttpsRequest = true;
+        else
+            isHttpsRequest = false;
+        setSSLSocketFactory();
+        mVolleyRequest.add(request);
+    }
+
+    private void setSSLSocketFactory() {
         if (isHttpsRequest)
             SSLCertificateManager.setSSLSocketFactory();
-        mVolleyRequest.add(request);
     }
 
     @NonNull
@@ -93,19 +102,19 @@ public class NetworkWrapper {
                             listener.onResponseError(PrxError.NO_INTERNET_CONNECTION);
                         } else if (error instanceof TimeoutError) {
                             listener.onResponseError(PrxError.VOLLEY_TIME_OUT);
-                        }else if (error instanceof AuthFailureError) {
+                        } else if (error instanceof AuthFailureError) {
                             PrxLogger.d(TAG, "AuthFailureError : " + mContext.getResources().getString(R.string.authFailureError));
                             listener.onResponseError(PrxError.AUTHENTICATION_FAILURE);
-                        }else if (error instanceof NetworkError) {
+                        } else if (error instanceof NetworkError) {
                             PrxLogger.d(TAG, "NetworkError : " + mContext.getResources().getString(R.string.networkError));
                             listener.onResponseError(PrxError.NETWORK_ERROR);
-                        }else if (error instanceof ParseError) {
+                        } else if (error instanceof ParseError) {
                             PrxLogger.d(TAG, "ParseError : " + mContext.getResources().getString(R.string.parseErrors));
                             listener.onResponseError(PrxError.PARSE_ERROR);
-                        }else if (error instanceof ServerError) {
+                        } else if (error instanceof ServerError) {
                             PrxLogger.d(TAG, "ServerError : " + mContext.getResources().getString(R.string.serverErrors));
                             listener.onResponseError(PrxError.SERVER_ERROR);
-                        }else
+                        } else
                             listener.onResponseError(PrxError.UNKNOWN_EXCEPTION);
 
                     } catch (Exception e) {
@@ -125,9 +134,5 @@ public class NetworkWrapper {
                 listener.onResponseSuccess(responseData);
             }
         };
-    }
-
-    public void setHttpsRequest(boolean isHttpsRequest) {
-        this.isHttpsRequest = isHttpsRequest;
     }
 }
