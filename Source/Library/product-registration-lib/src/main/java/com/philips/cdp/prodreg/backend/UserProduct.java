@@ -109,8 +109,7 @@ public class UserProduct {
                     getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.PENDING);
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     appListener.onProdRegFailed(registeredProduct);
-                    // TO-DO  Don't validate date if it is null
-                } else if (!getUserProduct().isValidDate(registeredProduct.getPurchaseDate())) {
+                } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !getUserProduct().isValidDate(registeredProduct.getPurchaseDate())) {
                     getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     appListener.onProdRegFailed(registeredProduct);
@@ -187,11 +186,8 @@ public class UserProduct {
     }
 
     protected boolean isValidDate(final String date) {
-        if (date != null && date.length() != 0) {
             String[] dates = date.split("-");
             return dates.length > 1 && Integer.parseInt(dates[0]) > 1999;
-        }
-        return true;
     }
 
     @NonNull
