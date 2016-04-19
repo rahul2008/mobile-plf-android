@@ -8,7 +8,7 @@ import com.philips.cdp.prxclient.response.ResponseData;
  */
 public interface ProdRegListener {
 
-    void onProdRegSuccess(ResponseData responseData);
+    void onProdRegSuccess();
 
     void onProdRegFailed(ProdRegError prodRegError);
 }

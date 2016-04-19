@@ -368,7 +368,7 @@ public class UserProduct {
                 getUserProduct().mapRegistrationResponse(registrationResponse, registeredProduct);
                 registeredProduct.setProdRegError(null);
                 getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
-                appListener.onProdRegSuccess(responseData);
+                appListener.onProdRegSuccess();
             }
 
             @Override

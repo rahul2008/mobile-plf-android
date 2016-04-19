@@ -118,7 +118,7 @@ public class UserProductTest extends MockitoTestCase {
 
         userProduct.registerProduct(context, productMock, new ProdRegListener() {
             @Override
-            public void onProdRegSuccess(final ResponseData responseData) {
+            public void onProdRegSuccess() {
 
             }
 
@@ -359,7 +359,7 @@ public class UserProductTest extends MockitoTestCase {
         RegisteredProduct productMock = mock(RegisteredProduct.class);
         final ProdRegListener listener = new ProdRegListener() {
             @Override
-            public void onProdRegSuccess(final ResponseData responseData) {
+            public void onProdRegSuccess() {
             }
 
             @Override
@@ -370,7 +370,7 @@ public class UserProductTest extends MockitoTestCase {
 
         final ProdRegListener listener2 = new ProdRegListener() {
             @Override
-            public void onProdRegSuccess(final ResponseData responseData) {
+            public void onProdRegSuccess() {
             }
 
             @Override
@@ -393,7 +393,7 @@ public class UserProductTest extends MockitoTestCase {
         when(data.getRequiresDateOfPurchase()).thenReturn("true");
         final ProdRegListener listener = new ProdRegListener() {
             @Override
-            public void onProdRegSuccess(final ResponseData responseData) {
+            public void onProdRegSuccess() {
             }
 
             @Override
@@ -500,7 +500,7 @@ public class UserProductTest extends MockitoTestCase {
         responseListener.onResponseSuccess(responseData);
         verify(product).setRegistrationState(RegistrationState.REGISTERED);
         verify(localRegisteredProducts).updateRegisteredProducts(product);
-        verify(prodRegListener).onProdRegSuccess(responseData);
+        verify(prodRegListener).onProdRegSuccess();
         verify(userProductMock).mapRegistrationResponse(responseData, product);
         responseListener.onResponseError("test", 10);
         verify(userProductMock).handleError(product, 10, prodRegListener);

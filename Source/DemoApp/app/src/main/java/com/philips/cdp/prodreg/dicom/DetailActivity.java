@@ -200,11 +200,8 @@ public class DetailActivity extends AppCompatActivity {
     private void registerProduct() {
         final ProdRegListener listener = new ProdRegListener() {
             @Override
-            public void onProdRegSuccess(ResponseData responseData) {
+            public void onProdRegSuccess() {
                 Toast.makeText(DetailActivity.this, getResources().getString(R.string.product_registered_successfully), Toast.LENGTH_SHORT).show();
-                RegistrationResponse registrationResponse = (RegistrationResponse) responseData;
-                if (registrationResponse.getData() != null)
-                    Log.d(TAG, " Response Data : " + registrationResponse.getData());
             }
 
             @Override

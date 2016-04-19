@@ -23,7 +23,7 @@ public class Util {
                 activity.finish();
                 new UserProduct(activity).registerCachedProducts(new LocalRegisteredProducts(activity).getRegisteredProducts(), new ProdRegListener() {
                     @Override
-                    public void onProdRegSuccess(final ResponseData responseData) {
+                    public void onProdRegSuccess() {
 
                     }
 

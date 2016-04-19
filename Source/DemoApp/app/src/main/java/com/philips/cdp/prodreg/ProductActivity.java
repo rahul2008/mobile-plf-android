@@ -92,11 +92,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
         final ProdRegListener listener = new ProdRegListener() {
             @Override
-            public void onProdRegSuccess(ResponseData responseData) {
+            public void onProdRegSuccess() {
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.product_registered_successfully), Toast.LENGTH_SHORT).show();
-                RegistrationResponse registrationResponse = (RegistrationResponse) responseData;
-                if (registrationResponse.getData() != null)
-                    Log.d(TAG, " Response Data : " + registrationResponse.getData());
             }
 
             @Override
