@@ -40,7 +40,7 @@ public class Store {
     private static final String SUFFIX_DELIVERY_ADDRESS = "/addresses/delivery";
 
     private static final String SUFFIX_PLACE_ORDER = "/orders";
-    private static final String SUFFIX_PPRODUCT_CATALOG  = "products/search?query=::category:Tuscany_Campaign" + LANG_ONLY;
+    private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + LANG_ONLY;
     private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
 
     private StoreConfiguration mStoreConfig;
@@ -65,6 +65,7 @@ public class Store {
     private String mOauthRefreshUrl;
     private String mGetCartUrl;
     private String mGetProductCatalogUrl;
+    private String mCountry;
     private boolean mUserLoggedout;
 
     public Store(Context context) {
@@ -89,6 +90,7 @@ public class Store {
     }
 
     public void initStoreConfig(String countryCode, RequestListener listener) {
+        mCountry = countryCode;
         mStoreConfig.initConfig(countryCode, listener);
     }
 
@@ -99,7 +101,7 @@ public class Store {
         generateGenericUrls();
     }
 
-    private void createBaseUrlForProductCatalog(){
+    private void createBaseUrlForProductCatalog() {
         StringBuilder builder = new StringBuilder(HTTPS);
         builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
         builder.append(WEB_ROOT).append(SEPERATOR);
@@ -147,6 +149,12 @@ public class Store {
 
         mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
                 .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
+    }
+
+    public String getCountry() {
+        if (mCountry != null)
+            return mCountry;
+        return "";
     }
 
     public String getLocale() {

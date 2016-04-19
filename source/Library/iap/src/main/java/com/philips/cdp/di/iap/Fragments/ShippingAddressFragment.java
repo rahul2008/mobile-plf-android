@@ -9,7 +9,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
-import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -158,6 +157,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mShippingAddressFields = new AddressFields();
 
         mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
+
+        if (this instanceof ShippingAddressFragment) {
+            mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+            showUSRegions();
+            mEtCountry.setEnabled(false);
+        } else {
+            mEtCountry.setEnabled(true);
+        }
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
