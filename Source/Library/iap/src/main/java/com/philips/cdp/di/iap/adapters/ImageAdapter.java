@@ -14,10 +14,12 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends FragmentStatePagerAdapter {
     protected static ArrayList<String> mAssetsFromPRX;
+    private boolean mIsLaunchedFromProductCatalog;
 
-    public ImageAdapter(FragmentManager fm) {
+    public ImageAdapter(FragmentManager fm, boolean isLaunchedFromProductCatalog) {
         super(fm);
         mAssetsFromPRX = new ArrayList<>();
+        mIsLaunchedFromProductCatalog = isLaunchedFromProductCatalog;
     }
 
     public void setAsset(ArrayList<String> assets){
@@ -29,7 +31,7 @@ public class ImageAdapter extends FragmentStatePagerAdapter {
         ProductDetailImageNavigationFragment productDetailImageNavigationFragment = ProductDetailImageNavigationFragment.newInstance();
         Bundle bundle = new Bundle();
         bundle.putString(NetworkConstants.IAP_ASSET_URL,mAssetsFromPRX.get(position % mAssetsFromPRX.size()));
-        bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG,true);
+        bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG,mIsLaunchedFromProductCatalog);
         productDetailImageNavigationFragment.setArguments(bundle);
         return productDetailImageNavigationFragment;
     }
