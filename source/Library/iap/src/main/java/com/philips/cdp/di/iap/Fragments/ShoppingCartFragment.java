@@ -135,9 +135,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onBackPressed() {
         //Track back button press action
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
-        if(getFragmentManager().getBackStackEntryCount()<=1){
+        if (getFragmentManager().getBackStackEntryCount() <= 1) {
             finishActivity();
         }
     }
