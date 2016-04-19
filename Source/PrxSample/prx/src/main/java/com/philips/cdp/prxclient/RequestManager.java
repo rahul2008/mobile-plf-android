@@ -10,8 +10,9 @@ import com.philips.cdp.localematch.enums.Platform;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.request.PrxRequest;
-
 import com.philips.cdp.prxclient.response.ResponseListener;
+
+import prxclient.cdp.philips.com.prxclientlib.BuildConfig;
 
 /**
  * Description : This is the entry class to start the PRX Request.
@@ -20,7 +21,6 @@ import com.philips.cdp.prxclient.response.ResponseListener;
  */
 public class RequestManager {
 
-    private final String VERSION = "1.0.0";
     private Context mContext = null;
 
     public void init(Context applicationContext) {
@@ -69,7 +69,8 @@ public class RequestManager {
             e.printStackTrace();
         }
     }
+
     public String getLibVersion() {
-        return VERSION;
+        return BuildConfig.VERSION_NAME;
     }
 }
