@@ -90,8 +90,6 @@ public class UserProductTest extends MockitoTestCase {
     public void testReturnTrueForValidDate() throws Exception {
         assertTrue(userProduct.getLocalRegisteredProductsInstance() instanceof LocalRegisteredProducts);
         assertTrue(userProduct.isValidDate("2016-03-22"));
-        assertTrue(userProduct.isValidDate(null));
-        assertTrue(userProduct.isValidDate(""));
     }
 
     public void testReturnFalseForInValidDate() throws Exception {
@@ -662,9 +660,9 @@ public class UserProductTest extends MockitoTestCase {
 
     public void testCachedRegisterProducts() {
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
-        RegisteredProduct registeredProduct = new RegisteredProduct("ctn", "Serial", null, null, null);
+        RegisteredProduct registeredProduct = new RegisteredProduct("ctn", "Serial", "2016-03-22", null, null);
         registeredProduct.setRegistrationState(RegistrationState.PENDING);
-        RegisteredProduct registeredProduct1 = new RegisteredProduct("ctn1", "Serial1", null, null, null);
+        RegisteredProduct registeredProduct1 = new RegisteredProduct("ctn1", "Serial1", "2016-04-22", null, null);
         registeredProduct1.setRegistrationState(RegistrationState.FAILED);
         ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
         registeredProducts.add(registeredProduct);
