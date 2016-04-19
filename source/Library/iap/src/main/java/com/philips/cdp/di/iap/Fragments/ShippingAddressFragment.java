@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -292,19 +293,17 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onGetAddress(Message msg) {
-        Utility.dismissProgressDialog();
         if (msg.what == RequestCode.UPDATE_ADDRESS) {
             if (msg.obj instanceof IAPNetworkError) {
+                Utility.dismissProgressDialog();
                 handleError(msg);
             } else {
                 if (CartModelContainer.getInstance().getAddressId() == null) {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
+                    Utility.dismissProgressDialog();
                     getFragmentManager().popBackStackImmediate();
                 } else {
-                    CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
-                    IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
-                    addFragment(
-                            BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                    mAddressController.setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
                 }
             }
         }
