@@ -40,7 +40,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     Bundle mBundle;
     private ShoppingCartPresenter mShoppingCartPresenter;
     private boolean mLaunchedFromProductCatalog = false;
-    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPurple_WhiteBackground;
     private String mCTNValue;
     private String mProductTitle;
 
@@ -56,26 +55,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     };
-
-
-  /*  //// TODO: 4/18/2016 remove this code
-    private IAPCartListener mProductCountListener = new IAPCartListener() {
-        @Override
-        public void onSuccess(final int count) {
-            updateCount(count);
-            if(Utility.isProgressDialogShowing()) {
-                Utility.dismissProgressDialog();
-            }
-        }
-
-        @Override
-        public void onFailure(final Message msg) {
-            if(Utility.isProgressDialogShowing()) {
-                Utility.dismissProgressDialog();
-            }
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
-        }
-    };*/
 
     public static ProductDetailFragment createInstance(Bundle args, AnimationType animType) {
         ProductDetailFragment fragment = new ProductDetailFragment();
@@ -97,8 +76,12 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         mBundle = getArguments();
 
+        mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
+        mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
+        mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
+
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mAdapter = new ImageAdapter(getFragmentManager());
+        mAdapter = new ImageAdapter(getFragmentManager(),mLaunchedFromProductCatalog);
         mPager.setAdapter(mAdapter);
 
         CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
@@ -110,9 +93,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mProductOverview = (TextView) rootView.findViewById(R.id.product_overview);
         mAddToCart = (Button) rootView.findViewById(R.id.add_to_cart);
         mBuyFromRetailors = (Button) rootView.findViewById(R.id.buy_from_retailor);
-        mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
-        mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
-        mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
         populateViewFromBundle();
         makeAssetRequest();
         return rootView;
