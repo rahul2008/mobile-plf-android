@@ -22,8 +22,9 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
-public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener{
+public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
     private IAPFragmentListener mActivityListener;
+
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
@@ -81,9 +82,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
     @Override
     public void onBackPressed() {
-        //Track back button press action
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
+        //NOP
     }
 
 

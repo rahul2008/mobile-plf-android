@@ -48,7 +48,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         setContentView(R.layout.iap_activity);
         addActionBar();
         Boolean isShoppingCartViewSelected = getIntent().getBooleanExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, true);
-        if(isShoppingCartViewSelected)
+        if (isShoppingCartViewSelected)
             addShoppingFragment();
         else
             addProductCatalog();
@@ -97,7 +97,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mCartIcon.setImageDrawable(mShoppingCartIcon);
         mBackButton = (ImageView) mCustomView.findViewById(R.id.arrow);
         mBackButton.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
-        mCartCount = (TextView)mCustomView.findViewById(R.id.item_count);
+        mCartCount = (TextView) mCustomView.findViewById(R.id.item_count);
         frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +105,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
                 onBackPressed();
             }
         });
-        mCartContainer = (FrameLayout)mCustomView.findViewById(R.id.cart_container);
+        mCartContainer = (FrameLayout) mCustomView.findViewById(R.id.cart_container);
         mCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -122,7 +122,10 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
 
     @Override
     public void onBackPressed() {
+        IAPLog.i(IAPLog.LOG, "OnBackpressed Called");
         Utility.hideKeypad(this);
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
         dispatchBackToFragments();
         super.onBackPressed();
     }
@@ -140,9 +143,9 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
 
     @Override
     public void updateCount(final int count) {
-        if(count == 0){
+        if (count == 0) {
             mCartCount.setVisibility(View.GONE);
-        }else {
+        } else {
             mCartCount.setVisibility(View.VISIBLE);
             mCartCount.setText(String.valueOf(count));
         }
@@ -157,10 +160,10 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
 
     @Override
     public void setBackButtonVisibility(final int isVisible) {
-        if(isVisible == View.GONE){
+        if (isVisible == View.GONE) {
             frameLayout.setEnabled(false);
             frameLayout.setClickable(false);
-        }else if (isVisible == View.VISIBLE){
+        } else if (isVisible == View.VISIBLE) {
             frameLayout.setEnabled(true);
             frameLayout.setClickable(true);
         }
@@ -177,6 +180,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.isVisible() && (fragment instanceof IAPBackButtonListener)) {
                 ((IAPBackButtonListener) fragment).onBackPressed();
+                IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called");
             }
         }
     }

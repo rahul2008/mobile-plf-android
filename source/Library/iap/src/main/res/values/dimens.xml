@@ -72,4 +72,5 @@
     <dimen name="iap_shopping_cart_delivery_margin_bottom">7dp</dimen>
     <dimen name="iap_shopping_cart_footer_vat_text_size">14sp</dimen>
     <dimen name="iap_shopping_cart_footer_total_size">16sp</dimen>
+    <dimen name="iap_quantity_price_start_margin">10dp</dimen>
 </resources>
