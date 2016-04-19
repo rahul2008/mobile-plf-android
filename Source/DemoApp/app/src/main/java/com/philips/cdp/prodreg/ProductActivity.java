@@ -14,10 +14,8 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
 import com.philips.cdp.prodreg.handler.ProdRegConstants;
-import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
-import com.philips.cdp.prodreg.model.RegistrationResponse;
-import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
@@ -97,8 +95,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             @Override
-            public void onProdRegFailed(ProdRegError errorType) {
-                Log.d(TAG, "Negative Response Data : " + errorType.getDescription() + " with error code : " + errorType.getCode());
+            public void onProdRegFailed(RegisteredProduct registeredProduct) {
+                Log.d(TAG, "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
             }
         };
         prodRegHelper.registerProduct(this, product, listener);
