@@ -104,14 +104,15 @@
 
     <!--Not Localized-->
 
+    <!-- Product Catalog -->
+    <string name="iap_product_catalog">Products</string>
+
     <!-- Product Details -->
     <string name="iap_buy_from_retailers">Buy from retailer</string>
     <string name="iap_add_to_cart">Add to cart</string>
 
-    <string name="iap_product_catalog">Products</string>
     <string name="iap_get_product_catalog_details">Getting Product Details</string>
     <string name="iap_authentication_failure">Authentication failed</string>
     <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
     <string name="iap_payment_failed">Payment failed</string>
-    <string name="iap_product_id">HX9332/05</string>
 </resources>
