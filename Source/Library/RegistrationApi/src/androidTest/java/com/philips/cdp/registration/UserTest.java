@@ -7,6 +7,7 @@ import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.PILConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
+import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -575,6 +576,37 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
                 assertNotNull(Jump.getSignedInUser());
 
         }
+
+        public void test_getJanrainUUID(){
+                Jump.signOutCaptureUser(context);
+                User user = new User(context);
+                assertNull(user.getJanrainUUID()); //user not logged in so expect a null
+                saveToDisk(COPPA_CONFIRMED_SIGNED_USER);
+                Jump.loadUserFromDiskInternal(context);
+                assertNotNull(user.getJanrainUUID()); //capture files exists, so hjanrainid must be set
+        }
+
+        public void test_isUserSignIn(){
+                Jump.signOutCaptureUser(context);
+                User user = new User(context);
+                assertFalse(user.isUserSignIn());
+                saveToDisk(COPPA_CONFIRMED_SIGNED_USER);
+                Jump.loadUserFromDiskInternal(context);
+                assertTrue(user.isUserSignIn());
+
+        }
+
+        public void test_getEmailVerificationStatus(){
+                Jump.signOutCaptureUser(context);
+                User user = new User(context);
+                assertFalse(user.getEmailVerificationStatus());
+                saveToDisk(COPPA_CONFIRMED_SIGNED_USER);
+                Jump.loadUserFromDiskInternal(context);
+                assertTrue(user.getEmailVerificationStatus());
+
+        }
+
+
 
 
 }
