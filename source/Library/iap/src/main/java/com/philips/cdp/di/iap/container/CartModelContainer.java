@@ -93,14 +93,4 @@ public class CartModelContainer {
         mShoppingCartData = null;
         mShippingAddressFields = null;
     }
-
-    //Note : This can be remove once Address and AddressField become same then we can getId
-    public void setShippingAddressId(String shippingAddressId) {
-        this.shippingAddressId = shippingAddressId;
-    }
-
-    public String getShippingAddressId() {
-        return shippingAddressId;
-    }
-
 }

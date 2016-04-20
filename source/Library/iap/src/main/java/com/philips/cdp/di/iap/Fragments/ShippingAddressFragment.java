@@ -158,12 +158,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
         mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
 
-        if (this instanceof ShippingAddressFragment) {
+        if (this instanceof BillingAddressFragment) {
+            mEtCountry.setEnabled(true);
+        } else {
             mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
             showUSRegions();
             mEtCountry.setEnabled(false);
-        } else {
-            mEtCountry.setEnabled(true);
         }
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
@@ -322,7 +322,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mBtnContinue.setEnabled(true);
             Addresses mAddresses = (Addresses) msg.obj;
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
-            CartModelContainer.getInstance().setShippingAddressId(mAddresses.getId());
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
             Utility.dismissProgressDialog();
