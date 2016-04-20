@@ -18,7 +18,6 @@ public class RegistrationApplication extends Application {
     public void onCreate() {
         super.onCreate();
         RLog.d(RLog.APPLICATION, "RegistrationCoppaApplication : onCreate");
-        RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationCoppaApplication : Janrain initialization with locale : " + Locale.getDefault());
         Tagging.enableAppTagging(true);
         Tagging.setTrackingIdentifier("integratingApplicationAppsId");
         Tagging.setLaunchingPageName("demoapp:home");
@@ -35,6 +34,7 @@ public class RegistrationApplication extends Application {
         }
 
         if (locale != null) {
+            RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationCoppaApplication : Janrain initialization with locale : " + Locale.getDefault());
             RegistrationHelper.getInstance().initializeUserRegistration(this, locale);
             Tagging.init(locale, this, "Philips Registration");
         }
