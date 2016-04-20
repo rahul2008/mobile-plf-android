@@ -203,7 +203,7 @@ public class SHNDeviceAssociation {
         return (shnAssociationProcedure != null) ? State.Associating : State.Idle;
     }
 
-    public void setShnDeviceAssociationListener(SHNDeviceAssociationListener shnDeviceAssociationListener) {
+    public void setShnDeviceAssociationListener(@Nullable SHNDeviceAssociationListener shnDeviceAssociationListener) {
         this.shnDeviceAssociationListener = shnDeviceAssociationListener;
     }
 
@@ -375,6 +375,84 @@ public class SHNDeviceAssociation {
                 }
             }
         });
+    }
+
+    /**
+     * With this function a device can be added to the associated devices list. Please note that when using this function,
+     * the data provided by the device information capability is not available from cache until the first time a connection has been made.
+     * More importantly this function will not restore a previously existing bond on the OS level, nor will it check that such a bond
+     * exists or is needed by the device to function properly. For a successful completion, there must be a plugin registered that
+     * handles the device indicated by the device type name.
+     *
+     * @param deviceMACAddress  The MAC address of the device to inject.
+     * @param deviceTypeName    The device type name as defined by the device plugin.
+     * @param shnResultListener The result listener where the success or failure of the injection must be reported. A result of SHNOk
+     *                          indicates that the injection was successful. A result of SHNErrorInvalidParameter indicates that
+     *                          either the MAC address is invalid or that there is no plugin registered for the deviceTypeName. A result
+     *                          of SHNErrorOperationFailed indicates that an association already exists for a device with the given address.
+     *                          A result of SHNErrorInvalidResponse indicates that there was an error creating the device.
+     */
+    public void injectAssociatedDevice(@NonNull final String deviceMACAddress, @NonNull final String deviceTypeName, @NonNull final SHNResultListener shnResultListener) {
+        shnCentral.getInternalHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                internalInjectAssociatedDevice(deviceMACAddress, deviceTypeName, new SHNResultListener() {
+                    @Override
+                    public void onActionCompleted(final SHNResult result) {
+                        shnCentral.getUserHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                shnResultListener.onActionCompleted(result);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    private void internalInjectAssociatedDevice(@NonNull String deviceMACAddress, @NonNull String deviceTypeName, @NonNull SHNResultListener shnResultListener) {
+        deviceMACAddress = deviceMACAddress.toUpperCase();
+        if (!isAValidMACAddress(deviceMACAddress)) {
+            SHNLogger.e(TAG, "Failed injecting associated device (MAC address: " + deviceMACAddress + " deviceType: " + deviceTypeName + "); invalid MAC address");
+            shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidParameter);
+        } else {
+            if (hasAssociatedDeviceForTheMACAddress(deviceMACAddress)) {
+                SHNLogger.e(TAG, "Failed injecting associated device (MAC address: " + deviceMACAddress + " deviceType: " + deviceTypeName + "); associated device already registered");
+                shnResultListener.onActionCompleted(SHNResult.SHNErrorOperationFailed);
+            } else {
+                SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
+                if (shnDeviceDefinitionInfo == null) {
+                    SHNLogger.e(TAG, "Failed injecting associated device (MAC address: " + deviceMACAddress + " deviceType: " + deviceTypeName + "); no device definition found");
+                    shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidParameter);
+                } else {
+                    SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(deviceMACAddress, shnDeviceDefinitionInfo);
+                    if (shnDevice == null) {
+                        SHNLogger.e(TAG, "Failed injecting associated device (MAC address: " + deviceMACAddress + " deviceType: " + deviceTypeName + "); error creating a device");
+                        shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidResponse);
+                    } else {
+                        addAssociatedDevice(shnDevice);
+                        shnResultListener.onActionCompleted(SHNResult.SHNOk);
+                        if (shnDeviceAssociationListener != null) {
+                            shnDeviceAssociationListener.onAssociatedDevicesUpdated();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isAValidMACAddress(@NonNull String deviceMACAddress) {
+        return deviceMACAddress.matches("([0-9A-F]{2}:){5}([0-9A-F]{2})");
+    }
+
+    private boolean hasAssociatedDeviceForTheMACAddress(@NonNull String deviceMACAddress) {
+        for (SHNDevice associatedDevice :associatedDevices) {
+            if (associatedDevice.getAddress().equalsIgnoreCase(deviceMACAddress)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void addAssociatedDevice(SHNDevice shnDevice) {

@@ -49,6 +49,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class SHNDeviceAssociationTest {
     
     public static final String DEVICE_TYPE_NAME = "Moonshine";
+    public static final String DEVICE_MAC_ADDRESS = "11:11:11:11:11:11";
+    public static final String DEVICE_TYPE_UNKNOWN = "UnknownDeviceType";
     private SHNDeviceAssociation shnDeviceAssociation;
     private SHNDeviceAssociation.SHNDeviceAssociationListener mockedSHNDeviceAssociationListener;
     private SHNCentral mockedSHNCentral;
@@ -79,6 +81,9 @@ public class SHNDeviceAssociationTest {
     @Mock
     private BleScanRecord bleScanRecordMock;
 
+    @Mock
+    private SHNResultListener mockedSHNResultListener;
+
     @Captor
     private ArgumentCaptor<QuickTestConnection.Listener> quickTestConnectionListenerCaptor;
 
@@ -108,6 +113,7 @@ public class SHNDeviceAssociationTest {
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStarted(mockedSHNAssociationProcedure);
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStopped();
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationSucceeded(any(SHNDevice.class));
+        doNothing().when(mockedSHNDeviceAssociationListener).onAssociatedDevicesUpdated();
 
         doReturn(SHNResult.SHNOk).when(mockedSHNAssociationProcedure).start();
         doNothing().when(mockedSHNAssociationProcedure).stop();
@@ -147,6 +153,10 @@ public class SHNDeviceAssociationTest {
 
         doReturn(mockedSHNDevice).when(mockedSHNDeviceDefinition).createDeviceFromDeviceAddress(anyString(), any(SHNDeviceDefinitionInfo.class), any(SHNCentral.class));
 
+        // mockedSHNDevice
+        doReturn(DEVICE_MAC_ADDRESS).when(mockedSHNDevice).getAddress();
+        doReturn(DEVICE_TYPE_NAME).when(mockedSHNDevice).getDeviceTypeName();
+
         doReturn(Collections.emptyList()).when(deviceAssociationHelperMock).readAssociatedDeviceInfos();
         doNothing().when(deviceAssociationHelperMock).storeAssociatedDeviceInfos(anyList());
 
@@ -171,7 +181,7 @@ public class SHNDeviceAssociationTest {
 
     @Test
     public void whenCallingStartAssociationForAnUnregisteredDeviceTypeWhenAssociationNotInProcess_ThenOnAssociationFailedIsCalled() {
-        shnDeviceAssociation.startAssociationForDeviceType("UnknownDeviceType");
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_UNKNOWN);
 
         verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNErrorUnknownDeviceType);
     }
@@ -568,5 +578,86 @@ public class SHNDeviceAssociationTest {
         shnDeviceAssociation.removeAllAssociatedDevices();
 
         verify(deviceRemovedListenerMock, never()).onAssociatedDeviceRemoved(shnDevice1);
+    }
+
+    // Association Injection Tests
+    private void verifyNoAssociationAddedWithErrorResult(int nrExpectedAssociatedDevices, SHNResult error) {
+        assertNotNull(shnDeviceAssociation.getAssociatedDevices());
+        assertEquals(nrExpectedAssociatedDevices, shnDeviceAssociation.getAssociatedDevices().size());
+        verify(deviceAssociationHelperMock, never()).storeAssociatedDeviceInfos(isA(List.class));
+        verify(mockedSHNDeviceAssociationListener, never()).onAssociatedDevicesUpdated();
+        verify(mockedSHNResultListener).onActionCompleted(error);
+    }
+
+    @Test
+    public void whenANewAssociationIsInjectedForAUnregisteredKnowDeviceType_Then_ItIsAddedToTheAssociatedDevicesList() {
+        shnDeviceAssociation.injectAssociatedDevice(DEVICE_MAC_ADDRESS, DEVICE_TYPE_NAME, mockedSHNResultListener);
+
+        assertNotNull(shnDeviceAssociation.getAssociatedDevices());
+        assertEquals(1, shnDeviceAssociation.getAssociatedDevices().size());
+        assertEquals(DEVICE_MAC_ADDRESS, shnDeviceAssociation.getAssociatedDevices().get(0).getAddress());
+        assertEquals(DEVICE_TYPE_NAME, shnDeviceAssociation.getAssociatedDevices().get(0).getDeviceTypeName());
+    }
+
+    @Test
+    public void whenANewAssociationIsInjectedForAUnregisteredKnowDeviceType_Then_TheAssociatedDevicesListIsPersisted() {
+        shnDeviceAssociation.injectAssociatedDevice(DEVICE_MAC_ADDRESS, DEVICE_TYPE_NAME, mockedSHNResultListener);
+
+        verify(deviceAssociationHelperMock).storeAssociatedDeviceInfos(isA(List.class));
+    }
+
+    @Test
+    public void whenANewAssociationIsInjectedForAUnregisteredKnowDeviceType_Then_TheResultListenerShouldIndicateSuccess() {
+        shnDeviceAssociation.injectAssociatedDevice(DEVICE_MAC_ADDRESS, DEVICE_TYPE_NAME, mockedSHNResultListener);
+
+        verify(mockedSHNResultListener).onActionCompleted(SHNResult.SHNOk);
+    }
+
+    @Test
+    public void whenANewAssociationIsInjectedForAUnregisteredKnowDeviceType_Then_SHNCentralIsUsedToCreateTheDeviceInstance() {
+        shnDeviceAssociation.injectAssociatedDevice(DEVICE_MAC_ADDRESS, DEVICE_TYPE_NAME, mockedSHNResultListener);
+
+        verify(mockedSHNCentral).createSHNDeviceForAddressAndDefinition(DEVICE_MAC_ADDRESS, mockedSHNDeviceDefinitionInfo);
+    }
+
+    @Test
+    public void whenANewAssociationIsInjectedForAUnregisteredKnowDeviceType_Then_SHNCentralIsUsedToCreateTheDeviceInstanceWithUpperCaseMacAddress() {
+        String macAddress = "1c:87:74:00:00:f0";
+        shnDeviceAssociation.injectAssociatedDevice(macAddress, DEVICE_TYPE_NAME, mockedSHNResultListener);
+
+        verify(mockedSHNCentral).createSHNDeviceForAddressAndDefinition(macAddress.toUpperCase(), mockedSHNDeviceDefinitionInfo);
+    }
+
+    @Test
+    public void whenANewAssociationIsInjectedForAUnregisteredKnowDeviceType_Then_TheAssociationListenerIsCalled() {
+        shnDeviceAssociation.injectAssociatedDevice(DEVICE_MAC_ADDRESS, DEVICE_TYPE_NAME, mockedSHNResultListener);
+
+        verify(mockedSHNDeviceAssociationListener).onAssociatedDevicesUpdated();
+    }
+
+    @Test
+    public void whenANewAssociationIsInjectedForAUnregisteredUnknowDeviceType_Then_ItIsNotAddedToTheAssociatedDevicesList() {
+        shnDeviceAssociation.injectAssociatedDevice(DEVICE_MAC_ADDRESS, DEVICE_TYPE_UNKNOWN, mockedSHNResultListener);
+
+        verifyNoAssociationAddedWithErrorResult(0, SHNResult.SHNErrorInvalidParameter);
+    }
+
+    @Test
+    public void whenANewAssociationIsInjectedForAUnregisteredKnowDeviceTypeWithAnIllegalMACAddress_Then_ItIsNotAddedToTheAssociatedDevicesList() {
+        shnDeviceAssociation.injectAssociatedDevice(DEVICE_MAC_ADDRESS + "0", DEVICE_TYPE_NAME, mockedSHNResultListener);
+
+        verifyNoAssociationAddedWithErrorResult(0, SHNResult.SHNErrorInvalidParameter);
+    }
+
+    @Test
+    public void whenANewAssociationIsInjectedForARegisteredKnowDeviceType_Then_TheResultListenerShouldIndicateSHNErrorInvalidParameter() {
+        shnDeviceAssociation.injectAssociatedDevice(DEVICE_MAC_ADDRESS, DEVICE_TYPE_NAME, mockedSHNResultListener);
+        reset(mockedSHNResultListener);
+        reset(deviceAssociationHelperMock);
+        reset(mockedSHNDeviceAssociationListener);
+
+        shnDeviceAssociation.injectAssociatedDevice(DEVICE_MAC_ADDRESS, DEVICE_TYPE_NAME, mockedSHNResultListener);
+
+        verifyNoAssociationAddedWithErrorResult(1, SHNResult.SHNErrorOperationFailed);
     }
 }
