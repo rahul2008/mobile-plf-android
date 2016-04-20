@@ -143,7 +143,7 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile 'org.robolectric:robolectric:3.0'
+    testCompile 'org.robolectric:robolectric:3.0'
 }
 
 //maven configuration stuff required for artifactory plugin
