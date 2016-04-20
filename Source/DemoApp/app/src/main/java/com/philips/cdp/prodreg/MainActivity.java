@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.philips.cdp.prodreg.dicom.DiComActivity;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
