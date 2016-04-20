@@ -15,9 +15,9 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -51,9 +51,11 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         basecolor = a.getInt(0, R.attr.uikit_baseColor);
         a.recycle();
         setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        if (( getTransformationMethod()) instanceof PasswordTransformationMethod)
+
+        if ((getTransformationMethod()) instanceof PasswordTransformationMethod)
             setTransformationMethod(null);
-        else  setTransformationMethod(new PasswordTransformationMethod());
+
+        else setTransformationMethod(new PasswordTransformationMethod());
 
         addTextChangedListener(this);
 
@@ -69,7 +71,7 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
 //                         toggleEyeColor();
                         int index = getSelectionEnd();
                         if ((getTransformationMethod()) instanceof PasswordTransformationMethod)
-                            setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                            setTransformationMethod(null);
 
                         else setTransformationMethod(new PasswordTransformationMethod());
 
@@ -163,9 +165,14 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
 
     @Override
     public void afterTextChanged(Editable s) {
+
         if(s.length() == 0){
             getCompoundDrawables()[2].setState(STATE_EMPTY_PASSWORD);
-
+            if ((getTransformationMethod()) instanceof PasswordTransformationMethod)
+            {
+                //do nothing
+            }
+            else setTransformationMethod(new PasswordTransformationMethod());
         } else if((getTransformationMethod()) instanceof PasswordTransformationMethod) {
             getCompoundDrawables()[2].setState(STATE_MASKED_PASSWORD);
         } else {

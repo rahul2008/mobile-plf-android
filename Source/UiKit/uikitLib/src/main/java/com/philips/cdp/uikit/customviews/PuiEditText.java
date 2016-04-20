@@ -144,18 +144,22 @@ public class PuiEditText extends RelativeLayout {
         a.recycle();
         a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
 
-        if (isPassword) {
-            inflater.inflate(R.layout.uikit_input_password_field, this,true);
-        }
-        else {
-            inflater.inflate(R.layout.uikit_input_text_field, this, true);
-        }
+
 
         basecolor = a.getInt(0, R.attr.uikit_baseColor);
         setPadding(10, 10, 10, 10);
         a.recycle();
         setSaveEnabled(true);
-        initEditText(editTextHint, enabled,/* editTextWidth,*/ singleLine/*, editTextHeight*/);
+        if (isPassword) {
+            inflater.inflate(R.layout.uikit_input_password_field, this, true);
+            initEditText(editTextHint,enabled,false);
+        }
+        else {
+            inflater.inflate(R.layout.uikit_input_text_field, this, true);
+            initEditText(editTextHint, enabled,/* editTextWidth,*/ singleLine/*, editTextHeight*/);
+
+        }
+
 
         themeDrawable = editText.getBackground();
 
@@ -278,7 +282,9 @@ public class PuiEditText extends RelativeLayout {
 /*        if (editTextWidth > 0) setWidth(editTextWidth);
         if (editTextHeight > 0) setHeight(editTextHeight);*/
         if (focused) editText.requestFocus();
-        editText.setSingleLine(singleLine);
+        if(singleLine) {
+            editText.setSingleLine(singleLine);
+        }
         editText.setHint(editTextHint);
         editText.setFocusable(enabled);
         editText.setEnabled(enabled);
