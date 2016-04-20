@@ -377,7 +377,20 @@ public class SHNDeviceAssociation {
         });
     }
 
-    public void injectAssociatedDevice(final String deviceMACAddress, final String deviceTypeName, final SHNResultListener shnResultListener) {
+    /**
+     * With this function a device can be added to the associated devices list. Please note that when using this function,
+     * the data provided by the device information is not available from cache until the first time a connection has been made.
+     * More importantly this function will not restore a previously existing bond on the OS level, nor will it check that such a bond
+     * exists or is needed by the device to function properly.
+     *
+     * @param deviceMACAddress  The MAC address of the device to inject.
+     * @param deviceTypeName    The device type name as defined by the device plugin.
+     * @param shnResultListener The result listener where the success or failure of the injection must be reported. A result of SHNOk
+     *                          indicates that the injection was successful. A result of SHNErrorInvalidParameter indicates that
+     *                          either the MAC address is invalid or that there is no plugin registered for the deviceTypeName. A result
+     *                          of SHNErrorOperationFailed indicates that an association already exists for a device with the given address.
+     */
+    public void injectAssociatedDevice(@NonNull final String deviceMACAddress, @NonNull final String deviceTypeName, @NonNull final SHNResultListener shnResultListener) {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
             public void run() {
@@ -396,12 +409,13 @@ public class SHNDeviceAssociation {
         });
     }
 
-    private void internalInjectAssociatedDevice(String deviceMACAddress, String deviceTypeName, SHNResultListener shnResultListener) {
+    private void internalInjectAssociatedDevice(@NonNull String deviceMACAddress, @NonNull String deviceTypeName, @NonNull SHNResultListener shnResultListener) {
+        deviceMACAddress = deviceMACAddress.toUpperCase();
         if (isAValifMACAddress(deviceMACAddress)) {
             if (!hasAssociatedDeviceForTheMACAddress(deviceMACAddress)) {
                 SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
                 if (shnDeviceDefinitionInfo != null) {
-                    SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(deviceMACAddress.toUpperCase(), shnDeviceDefinitionInfo);
+                    SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(deviceMACAddress, shnDeviceDefinitionInfo);
                     addAssociatedDevice(shnDevice);
                     shnResultListener.onActionCompleted(SHNResult.SHNOk);
                     shnDeviceAssociationListener.onAssociatedDevicesUpdated();
@@ -416,11 +430,11 @@ public class SHNDeviceAssociation {
         }
     }
 
-    private boolean isAValifMACAddress(String deviceMACAddress) {
-        return deviceMACAddress.matches("([0-9A-Fa-f]{2}:){5}([0-9A-Fa-f]{2})");
+    private boolean isAValifMACAddress(@NonNull String deviceMACAddress) {
+        return deviceMACAddress.matches("([0-9A-F]{2}:){5}([0-9A-F]{2})");
     }
 
-    private boolean hasAssociatedDeviceForTheMACAddress(String deviceMACAddress) {
+    private boolean hasAssociatedDeviceForTheMACAddress(@NonNull String deviceMACAddress) {
         for (SHNDevice associatedDevice :associatedDevices) {
             if (associatedDevice.getAddress().equalsIgnoreCase(deviceMACAddress)) {
                 return true;
