@@ -226,7 +226,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getResources().getString(R.string.iap_please_wait));
                 mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
-                CartModelContainer.getInstance().setShippingAddressId(retrieveSelectedAddress().getId());
+                CartModelContainer.getInstance().setAddressId(retrieveSelectedAddress().getId());
             }
         }
     }
