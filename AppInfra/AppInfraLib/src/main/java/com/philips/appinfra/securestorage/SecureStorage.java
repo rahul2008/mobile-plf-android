@@ -39,6 +39,9 @@ public class SecureStorage implements SecureStorageInterface{
     private   String mEncryptedDataOutput ;
     private static KeyStore keyStore = null;
 
+    //this variable(encryptedTextTemp) must only  be used  for Demo App to see encrypted text and must be removed from release build
+    public static  String encryptedTextTemp= null;
+
 
 
     public  SecureStorage(Context pContext, String pEncryptedDataOutput){
@@ -49,11 +52,11 @@ public class SecureStorage implements SecureStorageInterface{
 
 
     @Override
-    public String storeValueForKey(String userKey,String valueToBeEncrypted) {
+    public void storeValueForKey(String userKey,String valueToBeEncrypted) {
         String encryptedString=null;
         try {
             if(null==userKey || userKey.isEmpty() || null==valueToBeEncrypted ) {
-                return null;
+                return ;
             }
             generateKeyPair();
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
@@ -70,11 +73,11 @@ public class SecureStorage implements SecureStorageInterface{
             byte [] vals = outputStream.toByteArray();
             encryptedString=Base64.encodeToString(vals, Base64.DEFAULT);
             encryptedString = storeEncryptedData(userKey, encryptedString)?encryptedString:null; // if save of encryption data fails return null
+            encryptedTextTemp=encryptedString; // to be removed from release build
         } catch (Exception e) {
             Log.e("SecureStorage", Log.getStackTraceString(e));
         }finally{
             System.out.println("ENCR" +encryptedString);
-            return encryptedString;
         }
     }
 

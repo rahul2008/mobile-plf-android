@@ -7,7 +7,7 @@ public  interface SecureStorageInterface {
 
 
 
-    public String storeValueForKey(String userKey, String valueToBeEncrypted);
+    public void storeValueForKey(String userKey, String valueToBeEncrypted);
     public String fetchValueForKey(String userKey);
     public boolean RemoveValueForKey(String userKey);
 }
