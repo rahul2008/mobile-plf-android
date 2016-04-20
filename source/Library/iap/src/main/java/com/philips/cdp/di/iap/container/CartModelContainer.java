@@ -18,7 +18,15 @@ public class CartModelContainer {
     private String cartNumber;
     private String regionIsoCode;
     private String mAddressId;
-    private String shippingAddressId;
+
+    public static CartModelContainer getInstance() {
+        synchronized (CartModelContainer.class) {
+            if (container == null) {
+                container = new CartModelContainer();
+            }
+        }
+        return container;
+    }
 
     public String getAddressId() {
         return mAddressId;
@@ -34,15 +42,6 @@ public class CartModelContainer {
 
     public void setRegionIsoCode(String regionIsoCode) {
         this.regionIsoCode = regionIsoCode;
-    }
-
-    public static CartModelContainer getInstance() {
-        synchronized (CartModelContainer.class) {
-            if (container == null) {
-                container = new CartModelContainer();
-            }
-        }
-        return container;
     }
 
     public String getCartNumber() {
