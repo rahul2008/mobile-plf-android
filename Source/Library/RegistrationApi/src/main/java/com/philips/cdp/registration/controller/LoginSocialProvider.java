@@ -120,7 +120,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             return;
         }
         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale(mContext));
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
 

@@ -18,7 +18,6 @@ import com.philips.cdp.localematch.enums.Platform;
 import com.philips.cdp.registration.dao.ProductRegistrationInfo;
 import com.philips.cdp.registration.handlers.ProductRegistrationHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 

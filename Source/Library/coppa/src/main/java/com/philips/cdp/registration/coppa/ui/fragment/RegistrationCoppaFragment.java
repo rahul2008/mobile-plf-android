@@ -209,7 +209,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
             registrationSettings
                     .initializeUserRegistration(mActivity
-                            .getApplicationContext(), RegistrationHelper.getInstance().getLocale(getContext()));
+                            .getApplicationContext());
             RLog.d(RLog.JANRAIN_INITIALIZE,
                     "RegistrationCoppaFragment : Janrain reinitialization with locale : "
                             + RegistrationHelper.getInstance().getLocale(getContext()));

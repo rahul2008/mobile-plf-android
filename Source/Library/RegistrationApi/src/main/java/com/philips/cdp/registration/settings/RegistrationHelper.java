@@ -50,12 +50,16 @@ public class RegistrationHelper {
      * @param isInitialized true for initialize and false for reinitialize
      * Janrain
      */
-    public void initializeUserRegistration(final Context context,
-                                           final Locale locale) {
-        RLog.i("LOCALE", "App JAnrain Init locale :" + locale.toString());
-        mLocale = locale;
+    public void initializeUserRegistration(final Context context) {
+
+        PILLocaleManager localeManager = new PILLocaleManager(context);
+        mLocale = new Locale(localeManager.getInputLocale());
+        if(mLocale== null){
+            throw new RuntimeException("Please set the locale in LocaleMatch");
+        }
+
         mContext = context.getApplicationContext();
-        countryCode = locale.getCountry();
+        countryCode = mLocale.getCountry();
 
         if (Tagging.isTagginEnabled() && null == Tagging.getTrackingIdentifer()) {
             throw new RuntimeException("Please set appid for tagging before you invoke registration");
@@ -75,7 +79,7 @@ public class RegistrationHelper {
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
                     refreshNTPOffset();
-                    UserRegistrationInitializer.getInstance().initializeEnvironment(mContext, locale);
+                    UserRegistrationInitializer.getInstance().initializeEnvironment(mContext, mLocale);
                 } else {
                     if (UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener() != null) {
                         UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener().onFlowDownloadFailure();

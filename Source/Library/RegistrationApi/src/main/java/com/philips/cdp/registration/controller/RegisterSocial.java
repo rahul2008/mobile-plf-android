@@ -109,7 +109,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 
 		}
 		if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
-			RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale(mContext));
+			RegistrationHelper.getInstance().initializeUserRegistration(mContext);
 		}
 
 	}

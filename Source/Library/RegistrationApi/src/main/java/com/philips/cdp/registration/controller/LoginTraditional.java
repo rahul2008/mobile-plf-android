@@ -58,7 +58,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             return;
         }
         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale(mContext));
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
 
@@ -71,7 +71,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             return;
         }
         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale(mContext));
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
 

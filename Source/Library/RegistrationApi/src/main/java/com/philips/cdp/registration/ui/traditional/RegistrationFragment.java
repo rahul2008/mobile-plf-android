@@ -436,7 +436,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
             registrationSettings
                     .initializeUserRegistration(mActivity
-                            .getApplicationContext(), RegistrationHelper.getInstance().getLocale(getContext()));
+                            .getApplicationContext());
             RLog.d(RLog.JANRAIN_INITIALIZE,
                     "RegistrationFragment : Janrain reinitialization with locale : "
                             + RegistrationHelper.getInstance().getLocale(getContext()));

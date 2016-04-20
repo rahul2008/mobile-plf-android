@@ -3,6 +3,7 @@ package com.philips.cl.di.regsample.app;
 
 import android.app.Application;
 
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -87,20 +88,16 @@ public class RegistrationApplication extends Application {
 		hsdpInfo.setBaseURL("https://user-registration-assembly-testing-1600.us-east.philips-healthsuite.com");
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);
 
-		Locale locale;
+
 		String languageCode = Locale.getDefault().getLanguage();
 		String countryCode = Locale.getDefault().getCountry();
 
-		if (languageCode != null && countryCode != null) {
-			locale = new Locale(languageCode.toLowerCase(), countryCode.toUpperCase());
-		} else {
-			throw new RuntimeException("Please check your locale is correct");
-		}
+		PILLocaleManager localeManager = new PILLocaleManager(this);
+		localeManager.setInputLocale(languageCode,countryCode);
 
-		if (locale != null) {
-			RegistrationHelper.getInstance().initializeUserRegistration(this, locale);
-			Tagging.init( this, "Philips Registration");
-		}
+		RegistrationHelper.getInstance().initializeUserRegistration(this);
+		Tagging.init( this, "Philips Registration");
+
 	}
 }
 
