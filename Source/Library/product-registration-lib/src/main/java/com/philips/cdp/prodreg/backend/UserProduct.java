@@ -359,7 +359,7 @@ public class UserProduct {
             @Override
             public void onResponseError(final String errorMessage, final int responseCode) {
                 try {
-                    errorHandler.handleError(registeredProduct, responseCode, appListener);
+                    getErrorHandler().handleError(registeredProduct, responseCode, appListener);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

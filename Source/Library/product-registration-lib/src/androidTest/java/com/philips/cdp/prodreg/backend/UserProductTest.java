@@ -279,6 +279,12 @@ public class UserProductTest extends MockitoTestCase {
                 return gson;
             }
 
+            @Override
+            protected ErrorHandler getErrorHandler() {
+                return errorHandlerMock;
+            }
+
+
         };
         RegisteredProductsListener registeredProductsListener = userProduct.
                 getRegisteredProductsListener(product, listener);
@@ -464,6 +470,12 @@ public class UserProductTest extends MockitoTestCase {
             protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
                 return localRegisteredProducts;
             }
+
+            @Override
+            protected ErrorHandler getErrorHandler() {
+                return errorHandlerMock;
+            }
+
         };
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         ResponseListener responseListener = userProduct.getPrxResponseListener(product, prodRegListener);

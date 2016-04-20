@@ -1,7 +1,9 @@
 package com.philips.cdp.prodreg.backend;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
@@ -60,4 +62,16 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         mocklocalRegisteredProducts.getRegisteredProducts();
         // verify(localRegisteredProducts).syncLocalCache(registeredProductsMock);
     }
+    public void testGson(){
+        final Gson gson = new Gson();
+        UserProduct userProduct = new UserProduct(context) {
+            @NonNull
+            @Override
+            protected Gson getGson() {
+                return gson;
+            }
+
+        };
+    }
+
 }
