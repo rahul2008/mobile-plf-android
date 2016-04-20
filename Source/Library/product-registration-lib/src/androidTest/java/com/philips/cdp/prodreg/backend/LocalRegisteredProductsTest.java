@@ -5,6 +5,7 @@ import android.content.Context;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
+import com.philips.cdp.registration.User;
 
 import java.util.Set;
 
@@ -25,8 +26,9 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        localRegisteredProducts = new LocalRegisteredProducts(context);
         context = getInstrumentation().getContext();
+        User user = new User(context);
+        localRegisteredProducts = new LocalRegisteredProducts(context, user);
         localSharedPreference = new LocalSharedPreference(context);
         mockRegisteredProduct = mock(RegisteredProduct.class);
         data = localSharedPreference.getData("prod_reg_key");

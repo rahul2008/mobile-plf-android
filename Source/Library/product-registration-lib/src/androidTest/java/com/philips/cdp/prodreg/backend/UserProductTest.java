@@ -47,7 +47,7 @@ public class UserProductTest extends MockitoTestCase {
     private Context context;
     private LocalRegisteredProducts localRegisteredProducts;
     private UserProduct userProductMock;
-    private ErrorHandler errorHandler;
+    private ErrorHandler errorHandlerMock;
 
     @Override
     protected void setUp() throws Exception {
@@ -55,8 +55,7 @@ public class UserProductTest extends MockitoTestCase {
         context = getInstrumentation().getContext();
         userProductMock = mock(UserProduct.class);
         localRegisteredProducts = mock(LocalRegisteredProducts.class);
-        errorHandler = mock(ErrorHandler.class);
-        errorHandler = new ErrorHandler(context);
+        errorHandlerMock = mock(ErrorHandler.class);
         userProduct = new UserProduct(context) {
             @NonNull
             @Override
@@ -68,6 +67,11 @@ public class UserProductTest extends MockitoTestCase {
             @Override
             protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
                 return localRegisteredProducts;
+            }
+
+            @Override
+            protected ErrorHandler getErrorHandler() {
+                return errorHandlerMock;
             }
         };
     }
@@ -298,28 +302,28 @@ public class UserProductTest extends MockitoTestCase {
     /*public void testHandleErrorCases() {
         ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
         RegisteredProduct product = mock(RegisteredProduct.class);
-        errorHandler.handleError(product, ProdRegError.INVALID_CTN.getCode(), prodRegListenerMock);
+        errorHandlerMock.handleError(product, ProdRegError.INVALID_CTN.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock, Mockito.atLeastOnce()).onProdRegFailed(product);
         verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.INVALID_CTN, RegistrationState.FAILED);
-        errorHandler.handleError(product, ProdRegError.INVALID_SERIALNUMBER.getCode(), prodRegListenerMock);
+        errorHandlerMock.handleError(product, ProdRegError.INVALID_SERIALNUMBER.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock, Mockito.atLeastOnce()).onProdRegFailed(product);
         verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
-        errorHandler.handleError(product, ProdRegError.INVALID_VALIDATION.getCode(), prodRegListenerMock);
+        errorHandlerMock.handleError(product, ProdRegError.INVALID_VALIDATION.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock, Mockito.atLeastOnce()).onProdRegFailed(product);
         verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.INVALID_VALIDATION, RegistrationState.FAILED);
-        errorHandler.handleError(product, ProdRegError.NO_INTERNET_AVAILABLE.getCode(), prodRegListenerMock);
+        errorHandlerMock.handleError(product, ProdRegError.NO_INTERNET_AVAILABLE.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock, Mockito.atLeastOnce()).onProdRegFailed(product);
         verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.PENDING);
-        errorHandler.handleError(product, ProdRegError.INTERNAL_SERVER_ERROR.getCode(), prodRegListenerMock);
+        errorHandlerMock.handleError(product, ProdRegError.INTERNAL_SERVER_ERROR.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock, Mockito.atLeastOnce()).onProdRegFailed(product);
         verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.PENDING);
-        errorHandler.handleError(product, ProdRegError.METADATA_FAILED.getCode(), prodRegListenerMock);
+        errorHandlerMock.handleError(product, ProdRegError.METADATA_FAILED.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock, Mockito.atLeastOnce()).onProdRegFailed(product);
         verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.METADATA_FAILED, RegistrationState.FAILED);
-        errorHandler.handleError(product, ProdRegError.TIME_OUT.getCode(), prodRegListenerMock);
+        errorHandlerMock.handleError(product, ProdRegError.TIME_OUT.getCode(), prodRegListenerMock);
         verify(prodRegListenerMock, Mockito.atLeastOnce()).onProdRegFailed(product);
         verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.TIME_OUT, RegistrationState.PENDING);
-        errorHandler.handleError(product, 600, prodRegListenerMock);
+        errorHandlerMock.handleError(product, 600, prodRegListenerMock);
         verify(prodRegListenerMock, Mockito.atLeastOnce()).onProdRegFailed(product);
         verify(userProductMock).updateLocaleCacheOnError(product, ProdRegError.UNKNOWN, RegistrationState.FAILED);
         final UserProduct userProductMock = mock(UserProduct.class);
@@ -331,7 +335,7 @@ public class UserProductTest extends MockitoTestCase {
                 return userProductMock;
             }
         };
-        errorHandler.handleError(product, ProdRegError.ACCESS_TOKEN_INVALID.getCode(), prodRegListenerMock);
+        errorHandlerMock.handleError(product, ProdRegError.ACCESS_TOKEN_INVALID.getCode(), prodRegListenerMock);
         verify(userProductMock).onAccessTokenExpire(product, prodRegListenerMock);
     }*/
 
@@ -474,7 +478,7 @@ public class UserProductTest extends MockitoTestCase {
         verify(prodRegListener).onProdRegSuccess();
         verify(userProductMock).mapRegistrationResponse(responseData, product);
         responseListener.onResponseError("test", 10);
-        verify(errorHandler).handleError(product, 10, prodRegListener);
+        verify(errorHandlerMock).handleError(product, 10, prodRegListener);
     }
 
     public void testMapRegistrationResponse() {
@@ -503,9 +507,10 @@ public class UserProductTest extends MockitoTestCase {
             protected User getUser() {
                 return userMock;
             }
+
         };
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
-        errorHandler.handleError(product, 403, prodRegListener);
+        errorHandlerMock.handleError(product, 403, prodRegListener);
         verify(userProductMock).onAccessTokenExpire(product, prodRegListener);
         RefreshLoginSessionHandler refreshLoginSessionHandler = mock(RefreshLoginSessionHandler.class);
         when(userProductMock.getRefreshLoginSessionHandler(product, prodRegListener, context)).thenReturn(refreshLoginSessionHandler);
@@ -560,13 +565,18 @@ public class UserProductTest extends MockitoTestCase {
             UserProduct getUserProduct() {
                 return userProductMock;
             }
+
+            @Override
+            protected ErrorHandler getErrorHandler() {
+                return errorHandlerMock;
+            }
         };
         MetadataListener metadataListener = userProduct.getMetadataListener(productMock, prodRegListenerMock);
         ProductMetadataResponse responseDataMock = mock(ProductMetadataResponse.class);
         metadataListener.onMetadataResponse(responseDataMock);
         verify(userProductMock).makeRegistrationRequest(context, productMock, prodRegListenerMock);
         metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), ProdRegError.METADATA_FAILED.getCode());
-        verify(errorHandler).handleError(productMock, ProdRegError.METADATA_FAILED.getCode(), prodRegListenerMock);
+        verify(errorHandlerMock).handleError(productMock, ProdRegError.METADATA_FAILED.getCode(), prodRegListenerMock);
     }
 
     public void testRegistrationRequest() {

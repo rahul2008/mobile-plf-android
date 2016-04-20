@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.philips.cdp.prodreg.backend.LocalRegisteredProducts;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.dao.DIUserProfile;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -27,7 +29,8 @@ public class RegisteredProductsList extends AppCompatActivity {
               mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
         LocalRegisteredProducts localRegisteredProducts = new LocalRegisteredProducts(RegisteredProductsList.this);
-        productAdapter = new ProductAdapter(RegisteredProductsList.this, localRegisteredProducts.getRegisteredProducts());
+        final DIUserProfile userInstance = new User(this).getUserInstance(this);
+        productAdapter = new ProductAdapter(RegisteredProductsList.this, localRegisteredProducts.getRegisteredProducts(userInstance != null ? userInstance.getJanrainUUID() : ""));
        mRecyclerView.setAdapter(productAdapter);
     }
 

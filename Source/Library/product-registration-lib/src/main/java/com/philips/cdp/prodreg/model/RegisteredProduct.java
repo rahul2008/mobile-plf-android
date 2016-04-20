@@ -13,7 +13,7 @@ public class RegisteredProduct extends Product {
 
     private RegistrationState registrationState;
     private String endWarrantyDate;
-    private String uuid;
+    private String uuid = "";
     private ProdRegError prodRegError;
 
     public RegisteredProduct(final String ctn, final String serialNumber, final String purchaseDate, final Sector sector, final Catalog catalog) {
@@ -56,11 +56,33 @@ public class RegisteredProduct extends Product {
     public boolean equals(final Object object) {
         if (object instanceof RegisteredProduct) {
             RegisteredProduct registeredProduct = (RegisteredProduct) object;
-            if (registeredProduct.getCtn().equals(this.getCtn()) && registeredProduct.getSerialNumber().equals(this.getSerialNumber())) {
-                return true;
+            final String parentUuid = registeredProduct.getUserUUid();
+            final String currentUuid = getUserUUid();
+            boolean parentState = parentUuid.length() != 0 ? true : false;
+            boolean currentState = currentUuid.length() != 0 ? true : false;
+            boolean shouldConsiderUUID = false;
+            if (!parentState || !currentState && (!parentUuid.equals(currentUuid))) {
+                shouldConsiderUUID = false;
+            } else if (!parentUuid.equals(currentUuid)) {
+                shouldConsiderUUID = true;
             }
+            if (!shouldConsiderUUID) {
+                if (registeredProduct.getCtn().equals(this.getCtn()) && registeredProduct.getSerialNumber().equals(this.getSerialNumber())) {
+                    return true;
+                }
+            } else if (registeredProduct.getCtn().equals(this.getCtn()) && registeredProduct.getSerialNumber().equals(this.getSerialNumber()) && parentUuid.equals(currentUuid))
+                return true;
         }
         return false;
+    }
+
+    private boolean isValidUUID(final RegisteredProduct registeredProduct) {
+        final String parentUuid = registeredProduct.getUserUUid();
+        final String currentUuid = getUserUUid();
+        boolean parentState = parentUuid != null ? true : false;
+        boolean currentState = currentUuid != null ? true : false;
+
+        return parentState && currentState && parentUuid.equals(currentUuid);
     }
 
     @Override
@@ -68,5 +90,4 @@ public class RegisteredProduct extends Product {
         final int value = 5 * 10 + ((getCtn() == null) ? 0 : getCtn().hashCode());
         return value;
     }
-
 }

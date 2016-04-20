@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.prodreg.model.RegistrationState;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.dao.DIUserProfile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,10 +24,12 @@ public class LocalRegisteredProducts {
 
     public static String PRODUCT_REGISTRATION_KEY = "prod_reg_key";
     private LocalSharedPreference localSharedPreference;
+    private String uuid;
 
-
-    public LocalRegisteredProducts(Context context) {
+    public LocalRegisteredProducts(Context context, User user) {
         localSharedPreference = new LocalSharedPreference(context);
+        final DIUserProfile userInstance = user.getUserInstance(context);
+        uuid = userInstance != null ? userInstance.getJanrainUUID() : "";
     }
 
     public void store(RegisteredProduct registeredProduct) {
@@ -56,9 +60,15 @@ public class LocalRegisteredProducts {
         Gson gson = getGson();
         String data = localSharedPreference.getData(PRODUCT_REGISTRATION_KEY);
         RegisteredProduct[] products = gson.fromJson(data, RegisteredProduct[].class);
-        if (products != null)
-            return Arrays.asList(products);
-        else
+        if (products != null) {
+            ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
+            for (RegisteredProduct registeredProduct : products) {
+                if (registeredProduct.getUserUUid().equals(uuid)) {
+                    registeredProducts.add(registeredProduct);
+                }
+            }
+            return registeredProducts;
+        } else
             return new ArrayList<>();
     }
 
@@ -76,6 +86,7 @@ public class LocalRegisteredProducts {
         Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();
         for (RegisteredProduct registeredProduct : products) {
             registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
+            registeredProduct.setUserUUid(uuid);
             if (registeredProducts.contains(registeredProduct)) {
                 registeredProducts.remove(registeredProduct);
             }

@@ -79,5 +79,6 @@ Version - 0.5.0.rc_1                             Date: 19-04-2016
   Following features has fixed :
   
   1.  PRA-143 Duplicate product registered when tapping on "Registered" button twice for single user
+  2.  PRA-128 Getting list of Registered products and caching the data in mobile device
   
 	 
