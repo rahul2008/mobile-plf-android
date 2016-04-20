@@ -7,28 +7,14 @@ package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.graphics.drawable.DrawableWrapper;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
@@ -144,7 +129,7 @@ public class PuiEditText extends RelativeLayout {
     public PuiEditText(final Context cont, final AttributeSet attrs) {
         super(cont, attrs);
         LayoutInflater inflater = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.uikit_input_text_field, this, true);
+
         context = cont;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.InputTextField);
         boolean singleLine = a.getBoolean(R.styleable.InputTextField_uikit_singleLine, true);
@@ -158,6 +143,14 @@ public class PuiEditText extends RelativeLayout {
 
         a.recycle();
         a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
+
+        if (isPassword) {
+            inflater.inflate(R.layout.uikit_input_password_field, this,true);
+        }
+        else {
+            inflater.inflate(R.layout.uikit_input_text_field, this, true);
+        }
+
         basecolor = a.getInt(0, R.attr.uikit_baseColor);
         setPadding(10, 10, 10, 10);
         a.recycle();
@@ -176,9 +169,7 @@ public class PuiEditText extends RelativeLayout {
                 setErrorMessageVisibilty(View.GONE);
             }
         });
-        if (isPassword) {
-            setPassword();
-        }
+
     }
 
     public PuiEditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {

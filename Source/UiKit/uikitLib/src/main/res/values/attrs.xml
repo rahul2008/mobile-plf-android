@@ -201,9 +201,10 @@
     <declare-styleable name="UiKit_ProgressSpinner">
         <attr name="uikit_duration" format="integer"/>
     </declare-styleable>
+
     <declare-styleable name="UiKit_PasswordIcon">
-        <attr name="state_emptyPassword" format="integer"/>
-        <attr name="state_maskedPassword" format="integer"/>
-        <attr name="state_showPassword" format="integer"/>
+        <attr name="uikit_state_emptyPassword" format="integer"/>
+        <attr name="uikit_state_maskedPassword" format="integer"/>
+        <attr name="uikit_state_showPassword" format="integer"/>
     </declare-styleable>
 </resources>
