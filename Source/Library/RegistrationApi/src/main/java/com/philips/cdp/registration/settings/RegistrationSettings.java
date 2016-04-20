@@ -111,7 +111,7 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
     @Override
     public void onLocaleMatchRefreshed(String locale) {
 
-        PILLocaleManager manager = new PILLocaleManager();
+        PILLocaleManager manager = new PILLocaleManager(mContext);
 
 
         PILLocale pilLocaleInstance = null;
@@ -159,8 +159,7 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
     }
 
     public void refreshLocale(LocaleMatchListener localeMatchListener) {
-        PILLocaleManager localeManager = new PILLocaleManager();
-        localeManager.init(mContext, localeMatchListener);
-        localeManager.refresh(mContext, mLanguageCode, mCountryCode);
+        PILLocaleManager localeManager = new PILLocaleManager(mContext);
+        localeManager.refresh(localeMatchListener);
     }
 }

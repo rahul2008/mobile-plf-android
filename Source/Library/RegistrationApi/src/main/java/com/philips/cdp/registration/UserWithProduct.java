@@ -105,9 +105,8 @@ public class UserWithProduct extends User implements LocaleMatchListener {
         mProdRegBaseUrl = userSettings.getRegistrationSettings().getProductRegisterUrl();
         mInputLocale = locale;
 
-        PILLocaleManager PILLocaleMngr = new PILLocaleManager();
-        PILLocaleMngr.init(context, this);
-        PILLocaleMngr.refresh(context, langCode, countryCode);
+        PILLocaleManager PILLocaleMngr = new PILLocaleManager(context);
+        PILLocaleMngr.refresh(this);
     }
 
     private void startProdRegAsyncTask(String locale) {
@@ -288,7 +287,7 @@ public class UserWithProduct extends User implements LocaleMatchListener {
 
     @Override
     public void onLocaleMatchRefreshed(String locale) {
-        PILLocaleManager manager = new PILLocaleManager();
+        PILLocaleManager manager = new PILLocaleManager(mContext);
         PILLocale pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(mContext,locale,
                 Platform.PRX, mProdInfo.getSector(), mProdInfo.getCatalog());
 

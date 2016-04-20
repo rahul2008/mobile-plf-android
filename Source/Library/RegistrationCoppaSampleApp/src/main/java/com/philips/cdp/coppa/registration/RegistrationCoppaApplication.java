@@ -35,7 +35,7 @@ public class RegistrationCoppaApplication extends Application {
 
         if (locale != null) {
             RegistrationHelper.getInstance().initializeUserRegistration(this, locale);
-            Tagging.init(locale, this, "Philips Registration");
+            Tagging.init( this, "Philips Registration");
         }
 
 

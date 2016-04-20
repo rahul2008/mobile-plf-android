@@ -52,6 +52,13 @@
 
             </LinearLayout>
 
+            <com.philips.cdp.registration.ui.customviews.XRegError
+                android:id="@+id/reg_error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_margin_bottom"></com.philips.cdp.registration.ui.customviews.XRegError>
+
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/reg_scroll_margin" />

@@ -144,7 +144,8 @@ public class RegistrationHelper {
         if(null != mLocale){
             return mLocale;
         }
-        String locale = PILLocaleManager.getInputLocale(context);
+
+        String locale = (new PILLocaleManager(mContext)).getInputLocale();
         RLog.i("Locale","Locale from LOcale match"+locale);
 
         if(locale == null){
