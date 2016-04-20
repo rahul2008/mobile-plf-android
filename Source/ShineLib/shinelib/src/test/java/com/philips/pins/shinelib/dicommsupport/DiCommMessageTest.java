@@ -51,7 +51,7 @@ public class DiCommMessageTest {
 
         DiCommMessage message = new DiCommMessage(data);
 
-        assertEquals(DiCommMessage.MessageType.PutPropsRequest, message.getType());
+        assertEquals(MessageType.PutPropsRequest, message.getType());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class DiCommMessageTest {
 
         DiCommMessage message = new DiCommMessage(data);
 
-        assertEquals(DiCommMessage.MessageType.GetPropsRequest, message.getType());
+        assertEquals(MessageType.GetPropsRequest, message.getType());
     }
 
     @Test
@@ -87,9 +87,9 @@ public class DiCommMessageTest {
     public void canBeConstructedWithTypeAndData() {
         byte[] data = {(byte) 0xCA, (byte) 0xFE};
 
-        DiCommMessage message = new DiCommMessage(DiCommMessage.MessageType.PutPropsRequest, data);
+        DiCommMessage message = new DiCommMessage(MessageType.PutPropsRequest, data);
 
-        assertEquals(DiCommMessage.MessageType.PutPropsRequest, message.getType());
+        assertEquals(MessageType.PutPropsRequest, message.getType());
         assertEquals(data[0], message.getData()[0]);
         assertEquals(data[1], message.getData()[1]);
     }
@@ -98,7 +98,7 @@ public class DiCommMessageTest {
     public void whenConvertedToBytesThenHasProperHeader() {
         byte[] data = {(byte) 0xCA, (byte) 0xFE};
 
-        DiCommMessage message = new DiCommMessage(DiCommMessage.MessageType.PutPropsRequest, data);
+        DiCommMessage message = new DiCommMessage(MessageType.PutPropsRequest, data);
 
         byte[] bytes = message.toData();
         assertEquals((byte) 0xFE, bytes[0]);
@@ -109,7 +109,7 @@ public class DiCommMessageTest {
     public void whenPutPropsRequestConvertedToBytesThenHeaderHasRightType() {
         byte[] data = {(byte) 0xCA, (byte) 0xFE};
 
-        DiCommMessage.MessageType putPropsRequest = DiCommMessage.MessageType.PutPropsRequest;
+        MessageType putPropsRequest = MessageType.PutPropsRequest;
         DiCommMessage message = new DiCommMessage(putPropsRequest, data);
 
         byte[] bytes = message.toData();
@@ -120,7 +120,7 @@ public class DiCommMessageTest {
     public void whenGetPropsRequestConvertedToBytesThenHeaderHasRightType() {
         byte[] data = {(byte) 0xCA, (byte) 0xFE};
 
-        DiCommMessage.MessageType getPropsRequest = DiCommMessage.MessageType.GetPropsRequest;
+        MessageType getPropsRequest = MessageType.GetPropsRequest;
         DiCommMessage message = new DiCommMessage(getPropsRequest, data);
 
         byte[] bytes = message.toData();
@@ -131,7 +131,7 @@ public class DiCommMessageTest {
     public void whenConvertedToBytesThenHasDataLength() {
         byte[] data = {(byte) 0xCA, (byte) 0xFE};
 
-        DiCommMessage message = new DiCommMessage(DiCommMessage.MessageType.GetPropsRequest, data);
+        DiCommMessage message = new DiCommMessage(MessageType.GetPropsRequest, data);
 
         byte[] bytes = message.toData();
         assertEquals((byte) 0, bytes[3]);
@@ -142,7 +142,7 @@ public class DiCommMessageTest {
     public void whenConvertedToBytesThenHasData() {
         byte[] data = {(byte) 0xCA, (byte) 0xFE};
 
-        DiCommMessage message = new DiCommMessage(DiCommMessage.MessageType.GetPropsRequest, data);
+        DiCommMessage message = new DiCommMessage(MessageType.GetPropsRequest, data);
 
         byte[] bytes = message.toData();
         assertEquals(data[0], bytes[5]);
@@ -153,7 +153,7 @@ public class DiCommMessageTest {
     public void whenConvertedToBytesThenTotalLengthEqualsHeaderLengthPlusDataLength() {
         byte[] data = {(byte) 0xCA, (byte) 0xFE};
 
-        DiCommMessage message = new DiCommMessage(DiCommMessage.MessageType.GetPropsRequest, data);
+        DiCommMessage message = new DiCommMessage(MessageType.GetPropsRequest, data);
 
         byte[] bytes = message.toData();
         assertEquals(HEADER_LENGHT + data.length, bytes.length);
@@ -163,7 +163,7 @@ public class DiCommMessageTest {
     public void whenConvertedToBytesWithNoDataThenTotalLengthEqualsHeaderLength() {
         byte[] data = {};
 
-        DiCommMessage message = new DiCommMessage(DiCommMessage.MessageType.GetPropsRequest, data);
+        DiCommMessage message = new DiCommMessage(MessageType.GetPropsRequest, data);
 
         byte[] bytes = message.toData();
         assertEquals(HEADER_LENGHT, bytes.length);
