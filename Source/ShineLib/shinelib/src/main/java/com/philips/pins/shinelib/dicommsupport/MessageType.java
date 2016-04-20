@@ -1,6 +1,6 @@
 package com.philips.pins.shinelib.dicommsupport;
 
-public enum  MessageType {
+ enum  MessageType {
     InitializeRequest(1),
     PutPropsRequest(3),
     GetPropsRequest(4),
