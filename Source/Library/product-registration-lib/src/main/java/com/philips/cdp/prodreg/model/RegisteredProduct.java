@@ -58,31 +58,25 @@ public class RegisteredProduct extends Product {
             RegisteredProduct registeredProduct = (RegisteredProduct) object;
             final String parentUuid = registeredProduct.getUserUUid();
             final String currentUuid = getUserUUid();
-            boolean parentState = parentUuid.length() != 0 ? true : false;
-            boolean currentState = currentUuid.length() != 0 ? true : false;
-            boolean shouldConsiderUUID = false;
-            if (!parentState || !currentState && (!parentUuid.equals(currentUuid))) {
-                shouldConsiderUUID = false;
-            } else if (!parentUuid.equals(currentUuid)) {
-                shouldConsiderUUID = true;
-            }
-            if (!shouldConsiderUUID) {
-                if (registeredProduct.getCtn().equals(this.getCtn()) && registeredProduct.getSerialNumber().equals(this.getSerialNumber())) {
-                    return true;
-                }
+            boolean parentState = parentUuid.length() != 0;
+            boolean currentState = currentUuid.length() != 0;
+            boolean shouldConsiderUUID = isShouldConsiderUUID(parentUuid, currentUuid, parentState, currentState);
+            if (!shouldConsiderUUID && registeredProduct.getCtn().equals(this.getCtn()) && registeredProduct.getSerialNumber().equals(this.getSerialNumber())) {
+                return true;
             } else if (registeredProduct.getCtn().equals(this.getCtn()) && registeredProduct.getSerialNumber().equals(this.getSerialNumber()) && parentUuid.equals(currentUuid))
                 return true;
         }
         return false;
     }
 
-    private boolean isValidUUID(final RegisteredProduct registeredProduct) {
-        final String parentUuid = registeredProduct.getUserUUid();
-        final String currentUuid = getUserUUid();
-        boolean parentState = parentUuid != null ? true : false;
-        boolean currentState = currentUuid != null ? true : false;
-
-        return parentState && currentState && parentUuid.equals(currentUuid);
+    private boolean isShouldConsiderUUID(final String parentUuid, final String currentUuid, final boolean parentState, final boolean currentState) {
+        boolean shouldConsiderUUID = false;
+        if (!parentState || !currentState && (!parentUuid.equals(currentUuid))) {
+            shouldConsiderUUID = false;
+        } else if (!parentUuid.equals(currentUuid)) {
+            shouldConsiderUUID = true;
+        }
+        return shouldConsiderUUID;
     }
 
     @Override

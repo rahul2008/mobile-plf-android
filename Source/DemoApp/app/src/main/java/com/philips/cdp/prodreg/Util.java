@@ -7,7 +7,6 @@ import com.philips.cdp.prodreg.backend.UserProduct;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 
@@ -23,8 +22,7 @@ public class Util {
             public void onUserRegistrationComplete(final Activity activity) {
                 activity.finish();
                 final User user = new User(activity);
-                final DIUserProfile userInstance = user.getUserInstance(activity);
-                new UserProduct(activity).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts(userInstance != null ? userInstance.getJanrainUUID() : ""), new ProdRegListener() {
+                new UserProduct(activity).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts(), new ProdRegListener() {
                     @Override
                     public void onProdRegSuccess() {
 
