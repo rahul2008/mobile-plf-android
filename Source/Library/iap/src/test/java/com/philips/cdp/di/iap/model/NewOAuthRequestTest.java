@@ -87,13 +87,13 @@ public class NewOAuthRequestTest {
         assertNull(((NewOAuthRequest) mModel).getAccessToken());
     }
 
-    @Test
+/*    @Test
     public void refreshTokenShouldBeNullAfterResetToken() {
         String response = TestUtils.readFile(this.getClass(), "oauth_response.txt");
         mModel.parseResponse(response);
         ((NewOAuthRequest) mModel).resetAccessToken();
         assertNull(((NewOAuthRequest) mModel).getrefreshToken());
-    }
+    }*/
 
     @Test
     public void requestRefreshAPIIsAvailable() {
