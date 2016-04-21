@@ -152,6 +152,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
                 }
             });
             dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(), MIN_AGE_VAL, MAX_AGE_VAL);
+            dialogCoppaAgeVerification.setInitialValue(MIN_AGE_VAL);
         } else if (id == R.id.ll_reg_age_year_container || id == R.id.tv_reg_birth_year) {
 
             XNumberPickerDialog dialogCoppaAgeVerification = new XNumberPickerDialog(new NumberPickerListener() {
