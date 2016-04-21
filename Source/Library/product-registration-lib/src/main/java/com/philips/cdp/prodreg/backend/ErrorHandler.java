@@ -33,16 +33,16 @@ public class ErrorHandler {
             getUserProduct(mContext).updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct);
         } else if (statusCode == ProdRegError.NO_INTERNET_AVAILABLE.getCode()) {
-            getUserProduct(mContext).updateLocaleCacheOnError(registeredProduct, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.PENDING);
+            getUserProduct(mContext).updateLocaleCacheOnError(registeredProduct, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct);
         } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()) {
-            getUserProduct(mContext).updateLocaleCacheOnError(registeredProduct, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.PENDING);
+            getUserProduct(mContext).updateLocaleCacheOnError(registeredProduct, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct);
         } else if (statusCode == ProdRegError.METADATA_FAILED.getCode()) {
             getUserProduct(mContext).updateLocaleCacheOnError(registeredProduct, ProdRegError.METADATA_FAILED, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct);
         } else if (statusCode == ProdRegError.TIME_OUT.getCode()) {
-            getUserProduct(mContext).updateLocaleCacheOnError(registeredProduct, ProdRegError.TIME_OUT, RegistrationState.PENDING);
+            getUserProduct(mContext).updateLocaleCacheOnError(registeredProduct, ProdRegError.TIME_OUT, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct);
         } else {
             getUserProduct(mContext).updateLocaleCacheOnError(registeredProduct, ProdRegError.UNKNOWN, RegistrationState.FAILED);

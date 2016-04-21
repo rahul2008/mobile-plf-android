@@ -120,7 +120,7 @@ public class UserProduct {
                 Log.e(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber() + "________" + registeredProduct.getUserUUid() + "_________" + getUuid());
                 if (!getUserProduct().isUserSignedIn(mContext)) {
                     // TO-DO whether required to change state
-                    getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.PENDING);
+                    getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     appListener.onProdRegFailed(registeredProduct);
                 } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !getUserProduct().isValidDate(registeredProduct.getPurchaseDate())) {

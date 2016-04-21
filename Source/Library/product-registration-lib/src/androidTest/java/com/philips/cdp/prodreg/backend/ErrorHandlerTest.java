@@ -52,11 +52,11 @@ public class ErrorHandlerTest extends MockitoTestCase {
 
         userProduct.getErrorHandler().handleError(product, ProdRegError.NO_INTERNET_AVAILABLE.getCode(), prodRegListenerMock);
         prodRegListenerMock.onProdRegFailed(product);
-        userProductMock.updateLocaleCacheOnError(product, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.PENDING);
+        userProductMock.updateLocaleCacheOnError(product, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.FAILED);
 
         userProduct.getErrorHandler().handleError(product, ProdRegError.INTERNAL_SERVER_ERROR.getCode(), prodRegListenerMock);
         prodRegListenerMock.onProdRegFailed(product);
-        userProductMock.updateLocaleCacheOnError(product, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.PENDING);
+        userProductMock.updateLocaleCacheOnError(product, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.FAILED);
 
         userProduct.getErrorHandler().handleError(product, ProdRegError.METADATA_FAILED.getCode(), prodRegListenerMock);
         prodRegListenerMock.onProdRegFailed(product);
@@ -64,7 +64,7 @@ public class ErrorHandlerTest extends MockitoTestCase {
 
         userProduct.getErrorHandler().handleError(product, ProdRegError.TIME_OUT.getCode(), prodRegListenerMock);
         prodRegListenerMock.onProdRegFailed(product);
-        userProductMock.updateLocaleCacheOnError(product, ProdRegError.TIME_OUT, RegistrationState.PENDING);
+        userProductMock.updateLocaleCacheOnError(product, ProdRegError.TIME_OUT, RegistrationState.FAILED);
 
         userProduct.getErrorHandler().handleError(product, 600, prodRegListenerMock);
         prodRegListenerMock.onProdRegFailed(product);
