@@ -13,11 +13,11 @@ class DiCommMessage {
     private static final int HEADER_SIZE = 5;
 
     private final MessageType messageTypeIdentifier;
-    private final byte[] data;
+    private final byte[] payload;
 
-    public DiCommMessage(@NonNull byte[] data) throws InvalidParameterException {
+    public DiCommMessage(@NonNull byte[] payload) throws InvalidParameterException {
         try {
-            ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+            ByteBuffer byteBuffer = ByteBuffer.wrap(payload);
 
             if (byteBuffer.get() != FIRST_START_BYTE || byteBuffer.get() != SECOND_START_BYTE) {
                 throw new InvalidParameterException();
@@ -26,10 +26,10 @@ class DiCommMessage {
             this.messageTypeIdentifier = MessageType.fromByte(byteBuffer.get());
             int length = byteBuffer.getShort();
 
-            this.data = new byte[byteBuffer.remaining()];
-            byteBuffer.get(this.data);
+            this.payload = new byte[byteBuffer.remaining()];
+            byteBuffer.get(this.payload);
 
-            if (this.data.length != length) {
+            if (this.payload.length != length) {
                 throw new InvalidParameterException();
             }
         } catch (BufferUnderflowException e) {
@@ -37,18 +37,18 @@ class DiCommMessage {
         }
     }
 
-    public DiCommMessage(@NonNull MessageType messageTypeIdentifier, @NonNull byte[] data) {
+    public DiCommMessage(@NonNull MessageType messageTypeIdentifier, @NonNull byte[] payload) {
         this.messageTypeIdentifier = messageTypeIdentifier;
-        this.data = data;
+        this.payload = payload;
     }
 
     public byte[] toData() {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(HEADER_SIZE + data.length);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(HEADER_SIZE + payload.length);
         byteBuffer.put(FIRST_START_BYTE);
         byteBuffer.put(SECOND_START_BYTE);
         byteBuffer.put(messageTypeIdentifier.getByte());
-        byteBuffer.putShort((short) data.length);
-        byteBuffer.put(data);
+        byteBuffer.putShort((short) payload.length);
+        byteBuffer.put(payload);
 
         return byteBuffer.array();
     }
@@ -57,7 +57,7 @@ class DiCommMessage {
         return messageTypeIdentifier;
     }
 
-    public byte[] getData() {
-        return data;
+    public byte[] getPayload() {
+        return payload;
     }
 }

@@ -53,7 +53,7 @@ public class DiCommRequestTest extends RobolectricTest {
 
         DiCommMessage message = diCommRequest.getPropsRequestDataWithProduct(DEVICE, PORT);
 
-        assertEquals(EXPECTED_HEADER_LENGTH, message.getData().length);
+        assertEquals(EXPECTED_HEADER_LENGTH, message.getPayload().length);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class DiCommRequestTest extends RobolectricTest {
 
         DiCommMessage message = diCommRequest.getPropsRequestDataWithProduct(DEVICE, PORT);
 
-        byte[] data = message.getData();
+        byte[] data = message.getPayload();
         assertEquals(0, data[DEVICE.length()]);
         assertEquals(0, data[DEVICE.length() + 1 + PORT.length()]);
     }
@@ -73,7 +73,7 @@ public class DiCommRequestTest extends RobolectricTest {
 
         DiCommMessage message = diCommRequest.getPropsRequestDataWithProduct(DEVICE, PORT);
 
-        verifyDeviceAndPortName(message.getData());
+        verifyDeviceAndPortName(message.getPayload());
     }
 
     private void verifyDeviceAndPortName(byte[] message) {
@@ -96,7 +96,7 @@ public class DiCommRequestTest extends RobolectricTest {
         DiCommRequest diCommRequest = new DiCommRequest();
 
         DiCommMessage message = diCommRequest.getPropsRequestDataWithProduct(SPECIAL_CHARACTER_DEVICE, SPECIAL_CHARACTER_PORT);
-        byte[] data = message.getData();
+        byte[] data = message.getPayload();
 
         int zeroCount = getNullSeparatorCount(data);
 
@@ -128,7 +128,7 @@ public class DiCommRequestTest extends RobolectricTest {
 
         DiCommMessage message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties);
 
-        assertEquals(EXPECTED_MESSAGE_LENGTH, message.getData().length);
+        assertEquals(EXPECTED_MESSAGE_LENGTH, message.getPayload().length);
     }
 
     @Test
@@ -137,7 +137,7 @@ public class DiCommRequestTest extends RobolectricTest {
 
         DiCommMessage message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties);
 
-        byte[] data = message.getData();
+        byte[] data = message.getPayload();
         assertEquals((byte) 0, data[DEVICE.length()]);
         assertEquals((byte) 0, data[EXPECTED_HEADER_LENGTH - 1]);
         assertEquals((byte) 0, data[EXPECTED_MESSAGE_LENGTH - 1]);
@@ -149,14 +149,14 @@ public class DiCommRequestTest extends RobolectricTest {
 
         DiCommMessage message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties);
 
-        verifyDeviceAndPortName(message.getData());
+        verifyDeviceAndPortName(message.getPayload());
     }
 
     @Test
     public void whenPutPropsRequestDataWithProductIsCalledThenReturnedMessageIsJSONFormatUTF8Encoded() throws Exception {
         DiCommRequest diCommRequest = new DiCommRequest();
 
-        byte[] message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties).getData();
+        byte[] message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties).getPayload();
 
         int startIndex = EXPECTED_HEADER_LENGTH;
         byte[] JSONDataBytes = DATA_JSON.getBytes(StandardCharsets.UTF_8);
@@ -170,7 +170,7 @@ public class DiCommRequestTest extends RobolectricTest {
         DiCommRequest diCommRequest = new DiCommRequest();
         properties.put("client\u00D1", "2");
 
-        byte[] data = diCommRequest.putPropsRequestDataWithProduct(SPECIAL_CHARACTER_DEVICE, SPECIAL_CHARACTER_PORT, properties).getData();
+        byte[] data = diCommRequest.putPropsRequestDataWithProduct(SPECIAL_CHARACTER_DEVICE, SPECIAL_CHARACTER_PORT, properties).getPayload();
 
         int zeroCount = getNullSeparatorCount(data);
 

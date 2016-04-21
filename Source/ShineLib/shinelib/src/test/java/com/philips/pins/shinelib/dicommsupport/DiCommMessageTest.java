@@ -71,8 +71,8 @@ public class DiCommMessageTest {
 
         DiCommMessage message = new DiCommMessage(data);
 
-        assertEquals(firstDataByte, message.getData()[0]);
-        assertEquals(secondDataByte, message.getData()[1]);
+        assertEquals(firstDataByte, message.getPayload()[0]);
+        assertEquals(secondDataByte, message.getPayload()[1]);
     }
 
     @Test(expected = InvalidParameterException.class)
@@ -90,8 +90,8 @@ public class DiCommMessageTest {
         DiCommMessage message = new DiCommMessage(MessageType.PutPropsRequest, data);
 
         assertEquals(MessageType.PutPropsRequest, message.getMessageTypeIdentifier());
-        assertEquals(data[0], message.getData()[0]);
-        assertEquals(data[1], message.getData()[1]);
+        assertEquals(data[0], message.getPayload()[0]);
+        assertEquals(data[1], message.getPayload()[1]);
     }
 
     @Test
