@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.productCatalog;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +35,6 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> pArrayList) {
         mContext = pContext;
         mData = pArrayList;
-        // Instantiate the RequestQueue.
         mImageLoader = NetworkImageLoader.getInstance(mContext)
             .getImageLoader();
 }
@@ -57,9 +57,15 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
         String imageURL = productCatalogData.getImageURL();
         productHolder.mProductName.setText(productCatalogData.getProductTitle());
-        productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext,R.drawable.toothbrush));
+        productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.toothbrush));
         productHolder.mPrice.setText(productCatalogData.getFormatedPrice());
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());
+        if(productCatalogData.getDiscountedPrice()=="" || productCatalogData.getDiscountedPrice()==null){
+            productHolder.mDiscountedPrice.setVisibility(View.GONE);
+        }else {
+            productHolder.mDiscountedPrice.setText(productCatalogData.getDiscountedPrice());
+            productHolder.mPrice.setPaintFlags(productHolder.mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
         getNetworkImage(productHolder, imageURL);
 
         productHolder.mArrow.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +103,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView mCTN;
         TextView mPrice;
         FontIconTextView mArrow;
-
+        TextView mDiscountedPrice;
 
         public ProductCatalogViewHolder(View itemView) {
             super(itemView);
@@ -106,6 +112,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             mCTN = (TextView) itemView.findViewById(R.id.tv_ctn);
             mPrice = (TextView) itemView.findViewById(R.id.tv_price);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.arrow);
+            mDiscountedPrice = (TextView) itemView.findViewById(R.id.tv_discounted_price);
         }
     }
 }

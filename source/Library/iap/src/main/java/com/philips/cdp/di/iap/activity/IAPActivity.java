@@ -75,7 +75,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
 
     private void addProductCatalog() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment());
+        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment(),ProductCatalogFragment.TAG);
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
     }
