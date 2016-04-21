@@ -40,13 +40,13 @@ public class ServerTimeTest extends InstrumentationTestCase {
 
 
     public void testRefreshOffsetCall(){
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_DATE_CHANGED);
+      //  Intent intent = new Intent(Intent.ACTION_DATE_CHANGED);
+       // intent.setAction(Intent.ACTION_DATE_CHANGED);
 
-        getInstrumentation().getTargetContext().getApplicationContext().sendBroadcast(intent);
+     //   getInstrumentation().getTargetContext().sendBroadcast(intent);
 
 
-        mReceiver.onReceive(getInstrumentation().getTargetContext().getApplicationContext(), intent);
+     //   mReceiver.onReceive(getInstrumentation().getTargetContext(), intent);
         assertNotNull(ServerTime.getInstance().getCurrentTime());
         final SimpleDateFormat sdf = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT);
         Date date = new Date(0);
