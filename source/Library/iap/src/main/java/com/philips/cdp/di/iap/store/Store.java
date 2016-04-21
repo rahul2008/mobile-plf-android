@@ -7,21 +7,27 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 public class Store {
 
-    static final String HTTPS = "https://";
-    static final String WEB_ROOT = "pilcommercewebservices";
-    static final String V2 = "v2";
+    private static final String HTTPS = "https://";
+    private static final String WEB_ROOT = "pilcommercewebservices";
+    private static final String V2 = "v2";
     private static final String USER = "users";
-    static final String SEPERATOR = "/";
+    private static final String SEPERATOR = "/";
+    private static final String METAINFO = "metainfo";
+    private static final String REGIONS = "regions";
     private static final String LANG = "?fields=FULL&lang=en";
     private static final String LANG_ONLY = "&lang=en";
+    private static final String LANGUAGE_EN = "?language=en";
+
     //Oauth
     private static final String SUFFIX_OAUTH =
             "oauth/token?janrain=%s&grant_type=janrain&client_id=mobile_android&client_secret=secret";
+
     //Requests
     private static final String SUFFIX_CURRENT_CART = "/carts/current";
     private static final String SUFFIX_GET_CART = "/carts?fields=FULL";
@@ -49,6 +55,7 @@ public class Store {
     private String mModifyProductUrl;
     private String mPaymentDetailsUrl;
     private String mAddressDetailsUrl;
+    private String mRegionsUrl;
     private String mAddressAlterUrl;
     private String mDeliveryModeUrl;
     private String mDeliveryAddressUrl;
@@ -59,7 +66,6 @@ public class Store {
     private String mAddToCartUrl;
     protected String mBaseURl;
     protected String mBaseURlForProductCatalog;
-    private String mCurrentCartUrl;
 
     private String mOauthUrl;
     private String mOauthRefreshUrl;
@@ -131,13 +137,25 @@ public class Store {
         mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
     }
 
+    private String createRegionsUrl() {
+        StringBuilder builder = new StringBuilder(HTTPS);
+        builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
+        builder.append(WEB_ROOT).append(SEPERATOR);
+        builder.append(V2).append(SEPERATOR);
+        builder.append(METAINFO).append(SEPERATOR);
+        builder.append(REGIONS).append(SEPERATOR);
+        builder.append(HybrisDelegate.getInstance().getStore().getCountry()).append(LANGUAGE_EN);
+        return builder.toString();
+    }
+
     protected void generateGenericUrls() {
-        mCurrentCartUrl = mBaseURl.concat(SUFFIX_CURRENT_CART);
+        String mCurrentCartUrl = mBaseURl.concat(SUFFIX_CURRENT_CART);
         mGetCartUrl = mBaseURl.concat(SUFFIX_GET_CART);
         mCreateCartUrl = mBaseURl.concat(SUFFIX_CART_CREATE);
         mAddToCartUrl = mCurrentCartUrl.concat(SUFFIX_CART_ENTRIES);
         mPaymentDetailsUrl = mBaseURl.concat(SUFFIX_PAYMENT_DETAILS);
         mAddressDetailsUrl = mBaseURl.concat(SUFFIX_ADDRESSES_FULL);
+        mRegionsUrl = createRegionsUrl();
         mAddressAlterUrl = mBaseURl.concat(SUFFIX_ADDRESSES_ALTER);
         mSetPaymentUrl = mBaseURl.concat(SUFFIX_SET_PAYMENT_URL);
         mPlaceOrderUrl = mBaseURl.concat(SUFFIX_PLACE_ORDER);
@@ -153,7 +171,7 @@ public class Store {
 
     public String getCountry() {
         if (mCountry != null) {
-            if(mCountry.equalsIgnoreCase("GB"))
+            if (mCountry.equalsIgnoreCase("GB"))
                 mCountry = "UK";
             return mCountry;
         }
@@ -213,6 +231,10 @@ public class Store {
 
     public String getAddressDetailsUrl() {
         return mAddressDetailsUrl;
+    }
+
+    public String getRegionsUrl() {
+        return mRegionsUrl;
     }
 
     public String getAddressAlterUrl(String addressID) {
