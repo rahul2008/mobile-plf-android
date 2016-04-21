@@ -16,18 +16,18 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 class VerticalAppConfig {
-    private String mHostPort;
-    private String mPropositionID;
+    String mHostPort;
+    String mPropositionID;
 
     VerticalAppConfig(final Context context) {
         loadConfigurationFromAsset(context);
     }
 
-    private void loadConfigurationFromAsset(Context context) {
+    void loadConfigurationFromAsset(Context context) {
         InputStream fromAsset = null;
         Reader reader = null;
         try {
-            fromAsset = context.getResources().getAssets().open("PhilipsInAppPurchaseConfiguration.json");
+            fromAsset = readJSONInputStream(context);
             reader = new BufferedReader(new InputStreamReader(fromAsset));
             AppConfigResponse configuration = new Gson().fromJson(reader, AppConfigResponse.class);
             mHostPort = configuration.getHostport();
@@ -50,6 +50,10 @@ class VerticalAppConfig {
                 }
             }
         }
+    }
+
+    public InputStream readJSONInputStream(final Context context) throws IOException {
+        return context.getResources().getAssets().open("PhilipsInAppPurchaseConfiguration.json");
     }
 
     public String getHostPort() {

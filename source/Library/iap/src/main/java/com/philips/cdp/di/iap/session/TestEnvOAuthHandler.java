@@ -9,10 +9,13 @@ import android.os.Message;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.model.NewOAuthRequest;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
+import com.philips.cdp.di.iap.response.error.Error;
+import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
@@ -20,6 +23,7 @@ import java.util.HashMap;
 
 public class TestEnvOAuthHandler implements OAuthHandler {
     private final String TAG = TestEnvOAuthHandler.class.getSimpleName();
+    private final String TYPE_INVALID_GRANT_ERROR = "InvalidGrantError";
 
     private String access_token;
     private NewOAuthRequest mOAuthRequest;
@@ -32,7 +36,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
             mOAuthRequest = new NewOAuthRequest(mStore, null);
         }
         if (access_token == null) {
-            requestSyncOAuthToken();
+            requestSyncOAuthToken(null);
         }
         return access_token;
     }
@@ -51,8 +55,8 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         access_token = null;
     }
 
-    private void requestSyncOAuthToken() {
-        SynchronizedNetwork network = new SynchronizedNetwork(new IAPHurlStack(mOAuthRequest).getHurlStack());
+    private void requestSyncOAuthToken(final RequestListener listener) {
+        SynchronizedNetwork network = new SynchronizedNetwork(new IAPHurlStack(null).getHurlStack());
         network.performRequest(createOAuthRequest(mOAuthRequest), new SynchronizedNetworkCallBack() {
             @Override
             public void onSyncRequestSuccess(final Response response) {
@@ -60,20 +64,21 @@ public class TestEnvOAuthHandler implements OAuthHandler {
                     mOAuthRequest.parseResponse(response.result);
                     access_token = mOAuthRequest.getAccessToken();
                 }
+                notifySuccessListener(response, listener);
             }
 
             @Override
             public void onSyncRequestError(final VolleyError volleyError) {
-                //if(volleyError instanceof ServerError) {
-                    //Try generating new JanRain token.
-                    //Need to optimize this to handle other server errors
+                if (volleyError instanceof com.android.volley.ServerError) {
                     mStore.refreshLoginSession();
-                    if(mStore.getUser().isTokenRefreshSuccessful()) {
-                        requestSyncOAuthToken();
-                    }
+                    if (mStore.getUser().isTokenRefreshSuccessful()) {
+                        requestSyncOAuthToken(listener);
+                    } else {
 
-                //}
-                //TimeOut Error
+                    }
+                } else {
+                    notifyErrorListener(volleyError, listener);
+                }
             }
         });
     }
@@ -86,23 +91,53 @@ public class TestEnvOAuthHandler implements OAuthHandler {
                 if (response != null && response.result != null) {
                     mOAuthRequest.parseResponse(response.result);
                     access_token = mOAuthRequest.getAccessToken();
-                    Message msg = Message.obtain();
-                    msg.obj = response;
-                    listener.onSuccess(msg);
                 }
+                notifySuccessListener(response, listener);
             }
 
             @Override
             public void onSyncRequestError(final VolleyError volleyError) {
-                Message msg = Message.obtain();
-                msg.obj = volleyError;
-                listener.onError(msg);
+                if (isInvalidGrantError(volleyError)) {
+                    requestSyncOAuthToken(listener);
+                } else {
+                    notifyErrorListener(volleyError, listener);
+                }
             }
         });
+    }
+
+    private void notifyErrorListener(final VolleyError volleyError, final RequestListener listener) {
+        if(listener == null) return;
+
+        Message msg = Message.obtain();
+        msg.obj = volleyError;
+        listener.onError(msg);
+    }
+
+    private void notifySuccessListener(final Response response, final RequestListener listener) {
+        if(listener == null) return;
+
+        Message msg = Message.obtain();
+        msg.obj = response;
+        listener.onSuccess(msg);
     }
 
     private IAPJsonRequest createOAuthRequest(final AbstractModel request) {
         return new IAPJsonRequest(request.getMethod(), request.getUrl(),
                 request.requestBody(),null,null);
+    }
+
+    private boolean isInvalidGrantError(VolleyError volleyError) {
+        if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
+            ServerError response = (new Gson().fromJson(new String(volleyError
+                    .networkResponse.data), ServerError.class));
+            if (response.getErrors() != null) {
+                Error error = response.getErrors().get(0);
+                if (TYPE_INVALID_GRANT_ERROR.equals(error.getType())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -119,14 +119,8 @@ public class AddressController implements AbstractModel.DataLoadListener {
             case RequestCode.SET_DELIVERY_ADDRESS:
                 mAddressListener.onSetDeliveryAddress(msg);
                 break;
-            case RequestCode.GET_DELIVERY_ADDRESS:
-                mAddressListener.onGetDeliveryAddress(msg);
-                break;
             case RequestCode.SET_DELIVERY_MODE:
                 mAddressListener.onSetDeliveryModes(msg);
-                break;
-            case RequestCode.GET_DELIVERY_MODE:
-                mAddressListener.onGetDeliveryModes(msg);
                 break;
         }
     }

@@ -19,7 +19,6 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 public class IAPJsonRequest extends Request<JSONObject> {
@@ -69,19 +68,6 @@ public class IAPJsonRequest extends Request<JSONObject> {
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (JSONException je) {
             return Response.error(new ParseError(je));
-        }
-    }
-
-    private Response<JSONObject> parseSuccessResponse(NetworkResponse response) {
-        try {
-            String jsonString = new String(response.data,
-                    HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(new JSONObject(jsonString),
-                    HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException exception) {
-            return Response.error(new ParseError(exception));
-        } catch (JSONException jsonException) {
-            return Response.error(new ParseError(jsonException));
         }
     }
 

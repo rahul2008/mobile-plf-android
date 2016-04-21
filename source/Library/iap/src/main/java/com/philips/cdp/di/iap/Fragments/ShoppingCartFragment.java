@@ -13,7 +13,7 @@ import android.widget.Button;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartAdapter;
+import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.controller.AddressController;
@@ -135,9 +135,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onBackPressed() {
         //Track back button press action
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
-        if(getFragmentManager().getBackStackEntryCount()<=1){
+        if (getFragmentManager().getBackStackEntryCount() <= 1) {
             finishActivity();
         }
     }

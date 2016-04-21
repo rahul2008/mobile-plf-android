@@ -31,16 +31,16 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
-class WebStoreConfig {
+public class WebStoreConfig {
     private static final String TAG = WebStoreConfig.class.getSimpleName();
     final Context mContext;
 
-    private String mSiteID;
+    String mSiteID;
     PILLocaleManager mLocaleManager;
     PILLocale mPILLocale;
     StoreConfiguration mStoreConfig;
 
-    private RequestListener mResponseListener;
+    RequestListener mResponseListener;
 
     public WebStoreConfig(Context context, StoreConfiguration storeConfig) {
         mContext = context;
@@ -65,7 +65,7 @@ class WebStoreConfig {
     }
 
     void initLocaleMatcher() {
-        mLocaleManager = new PILLocaleManager();
+        setPILLocalMangaer();
         mLocaleManager.init(mContext, new LocaleMatchListener() {
             @Override
             public void onLocaleMatchRefreshed(final String s) {
@@ -84,6 +84,10 @@ class WebStoreConfig {
         });
     }
 
+    void setPILLocalMangaer() {
+        mLocaleManager = new PILLocaleManager();
+    }
+
     void refresh(final String countryCode) {
         mLocaleManager.refresh(mContext, Locale.getDefault().getLanguage(), countryCode);
     }
@@ -100,7 +104,7 @@ class WebStoreConfig {
     void requestHybrisConfig() {
         IAPJsonRequest request = new IAPJsonRequest(Request.Method.GET, mStoreConfig.getRawConfigUrl(), null,
                 null, null);
-        SynchronizedNetwork net = new SynchronizedNetwork((new IAPHurlStack(null).getHurlStack()));
+        SynchronizedNetwork net = getSynchronizedNetwork();
         net.performRequest(request, new SynchronizedNetworkCallBack() {
             @Override
             public void onSyncRequestSuccess(final Response<JSONObject> jsonObjectResponse) {
@@ -118,6 +122,11 @@ class WebStoreConfig {
                 notifyConfigListener(false, msg);
             }
         });
+    }
+
+    //For testing purpose
+    SynchronizedNetwork getSynchronizedNetwork() {
+        return new SynchronizedNetwork((new IAPHurlStack(null).getHurlStack()));
     }
 
     private void notifyConfigListener(final boolean success, final Message msg) {

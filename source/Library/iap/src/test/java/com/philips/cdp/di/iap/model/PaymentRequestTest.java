@@ -1,25 +1,5 @@
 package com.philips.cdp.di.iap.model;
 
-import com.android.volley.Request;
-import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.response.payment.MakePaymentData;
-import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.store.Store;
-import com.philips.cdp.di.iap.utils.IAPConfiguration;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
