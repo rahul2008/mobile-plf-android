@@ -140,16 +140,13 @@ public class PuiEditText extends RelativeLayout {
         errorIcon = a.getDrawable(R.styleable.InputTextField_uikit_errorIcon);
         errorBackground = a.getDrawable(R.styleable.InputTextField_uikit_errorBackground);
         isPassword = a.getBoolean(R.styleable.InputTextField_uikit_password_edit_field, false);
-
         a.recycle();
         a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
-
-
-
         basecolor = a.getInt(0, R.attr.uikit_baseColor);
         setPadding(10, 10, 10, 10);
         a.recycle();
         setSaveEnabled(true);
+
         if (isPassword) {
             inflater.inflate(R.layout.uikit_input_password_field, this, true);
             initEditText(editTextHint,enabled,false);
@@ -160,13 +157,9 @@ public class PuiEditText extends RelativeLayout {
 
         }
 
-
         themeDrawable = editText.getBackground();
-
         initErrorIcon();
-
         initErrorMessage(errorText);
-
         errorImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View view) {

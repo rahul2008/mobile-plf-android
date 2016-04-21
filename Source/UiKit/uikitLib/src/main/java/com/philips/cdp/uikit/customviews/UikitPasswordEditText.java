@@ -52,8 +52,7 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         a.recycle();
         setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         setSelection(getText().length());
-        //setImeOptions(EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
-        Log.v("Orientation","called"+getTransformationMethod());
+
         if ((getTransformationMethod()) instanceof PasswordTransformationMethod)
             setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
