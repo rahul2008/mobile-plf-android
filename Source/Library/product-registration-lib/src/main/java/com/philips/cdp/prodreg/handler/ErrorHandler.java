@@ -1,10 +1,9 @@
-package com.philips.cdp.prodreg.backend;
+package com.philips.cdp.prodreg.handler;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.prodreg.handler.ProdRegError;
-import com.philips.cdp.prodreg.handler.ProdRegListener;
+import com.philips.cdp.prodreg.backend.UserProduct;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.prodreg.model.RegistrationState;
 
