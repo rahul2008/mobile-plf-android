@@ -160,7 +160,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             startProductDetailFragment();
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
-            replaceFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            replaceFragment(getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG),null);
         }
     }
 

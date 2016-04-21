@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
@@ -42,6 +44,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private boolean mLaunchedFromProductCatalog = false;
     private String mCTNValue;
     private String mProductTitle;
+    private TextView mProductDiscountedPrice;
+    private TextView mSeparator;
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
@@ -79,7 +83,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
         mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
         mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
-
+        mSeparator = (TextView) rootView.findViewById(R.id.separator);
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mAdapter = new ImageAdapter(getFragmentManager(),mLaunchedFromProductCatalog);
         mPager.setAdapter(mAdapter);
@@ -93,6 +97,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mProductOverview = (TextView) rootView.findViewById(R.id.product_overview);
         mAddToCart = (Button) rootView.findViewById(R.id.add_to_cart);
         mBuyFromRetailors = (Button) rootView.findViewById(R.id.buy_from_retailor);
+        mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.tv_discounted_price);
+
         populateViewFromBundle();
         makeAssetRequest();
         return rootView;
@@ -103,8 +109,15 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
         mPrice.setText(mBundle.getString(IAPConstant.PRODUCT_PRICE));
         mProductOverview.setText(mBundle.getString(IAPConstant.PRODUCT_OVERVIEW));
+        String discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
+
         if(mLaunchedFromProductCatalog) {
             updateCount(mBundle.getInt(IAPConstant.IAP_PRODUCT_COUNT));
+            mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            mSeparator.setVisibility(View.VISIBLE);
+            if(discountedPrice!=null || discountedPrice!="" || !discountedPrice.isEmpty()) {
+                mProductDiscountedPrice.setText(discountedPrice);
+            }
         }
     }
 
@@ -133,6 +146,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                     buyProduct(mCTNValue);
                 }
             });
+            mProductDiscountedPrice.setVisibility(View.VISIBLE);
         }else{
             setCartIconVisibility(View.GONE);
         }
@@ -157,7 +171,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     void buyProduct(final String ctnNumber) {
-        Utility.showProgressDialog(getContext(), "PLease wait");
+        Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         mShoppingCartPresenter.buyProduct(getContext(), ctnNumber, mBuyProductListener);
     }
 }
