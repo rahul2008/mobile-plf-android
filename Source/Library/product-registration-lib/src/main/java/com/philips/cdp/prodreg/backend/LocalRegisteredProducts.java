@@ -42,7 +42,7 @@ public class LocalRegisteredProducts {
     }
 
     @NonNull
-    private Gson getGson() {
+    protected Gson getGson() {
         return new Gson();
     }
 

@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
@@ -27,6 +29,8 @@ import java.util.Locale;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
+    ToggleButton toggbutton;
+    Button submitproduct;
     private EditText mRegChannel, mSerialNumber, mPurchaseDate, mCtn;
     private String TAG = getClass().toString();
     private Calendar mCalendar;
@@ -36,8 +40,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private String mGetDeviceDate;
     private Date mDisplayDate, mDeviceDate;
     private String MICRO_SITE_ID = "MS";
-    
-
+    private boolean eMailConfiguration;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -82,6 +85,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         mSerialNumber = (EditText) findViewById(R.id.edt_serial_number);
         mPurchaseDate = (EditText) findViewById(R.id.edt_purchase_date);
         mCtn = (EditText) findViewById(R.id.edt_ctn);
+        toggbutton = (ToggleButton) findViewById(R.id.toggbutton);
+        submitproduct = (Button) findViewById(R.id.submitproduct);
     }
 
     private void registerProduct() {
@@ -106,18 +111,35 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        final User mUser = new User(this);
-        if (!(mUser.isUserSignIn(ProductActivity.this) && mUser.getEmailVerificationStatus(ProductActivity.this))) {
-            Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_not_signed), Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "On Click : User Registration");
-            RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
-            Util.navigateFromUserRegistration();
-        }
-        if (mCtn.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
-        } else {
-            mRegChannel.setText(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
-            registerProduct();
+        switch (v.getId()) {
+
+            case R.id.submitproduct:
+                final User mUser = new User(this);
+                if (!(mUser.isUserSignIn(ProductActivity.this) && mUser.getEmailVerificationStatus(ProductActivity.this))) {
+                    Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_not_signed), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "On Click : User Registration");
+                    RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
+                    Util.navigateFromUserRegistration();
+                }
+                if (mCtn.getText().toString().equalsIgnoreCase("")) {
+                    Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
+                } else {
+                    mRegChannel.setText(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+                    registerProduct();
+                }
+                break;
+            case R.id.toggbutton:
+                eMailConfiguration = toggbutton.isChecked();
+
+                if (eMailConfiguration) {
+                    Log.d(TAG, "On Click : True");
+                } else {
+                    Log.d(TAG, "On Click : False");
+                }
+                break;
+
+            default:
+                break;
         }
     }
 

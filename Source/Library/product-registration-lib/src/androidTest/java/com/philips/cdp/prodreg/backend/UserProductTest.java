@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
-import com.philips.cdp.prodreg.handler.ErrorHandler;
 import com.philips.cdp.prodreg.handler.MetadataListener;
 import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.handler.ProdRegListener;

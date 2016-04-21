@@ -60,10 +60,40 @@
             android:hint="Ctn"
             android:singleLine="true"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:text="Email Configuration"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+            <ToggleButton
+                android:id="@+id/toggbutton"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:background="@drawable/bgtoggle"
+                android:button="@null"
+                android:onClick="onClick"
+                android:textOff=""
+                android:textOn=""
+                />
+        </LinearLayout>
+
         <Button
+            android:id="@+id/submitproduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/fab_margin"
             android:onClick="onClick"
             android:text="Submit"/>
 
