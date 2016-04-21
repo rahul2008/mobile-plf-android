@@ -68,6 +68,9 @@ public class Store {
     private String mCountry;
     private boolean mUserLoggedout;
 
+    private boolean mStoreChanged;
+    private String mLanguage;
+
     public Store(Context context) {
         mIAPUser = initIAPUser(context);
         mStoreConfig = getStoreConfig(context);
@@ -90,6 +93,8 @@ public class Store {
     }
 
     public void initStoreConfig(String language, String countryCode, RequestListener listener) {
+        checkAndUpdateStoreChange(language, countryCode);
+        mLanguage = language;
         mCountry = countryCode;
         mStoreConfig.initConfig(language,countryCode, listener);
     }
@@ -112,6 +117,7 @@ public class Store {
     }
 
     private void createBaseUrl() {
+        setStoreChanged(false);
         StringBuilder builder = new StringBuilder(HTTPS);
         builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
         builder.append(WEB_ROOT).append(SEPERATOR);
@@ -129,6 +135,17 @@ public class Store {
         builder.append(SUFFIX_OAUTH);
 
         mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
+    }
+
+    void checkAndUpdateStoreChange(String language, String countryCode) {
+        if (language == null || countryCode == null || mLanguage == null || mCountry == null
+                || !mCountry.equals(countryCode) || !mLanguage.equals(language)) {
+            setStoreChanged(true);
+        }
+    }
+
+    void setStoreChanged(boolean changed) {
+        mStoreChanged = changed;
     }
 
     protected void generateGenericUrls() {
@@ -248,7 +265,7 @@ public class Store {
         return mUserLoggedout;
     }
 
-    public String getSiteID() {
-        return mStoreConfig.getSite();
+    public boolean isStoreInitialized() {
+        return mStoreChanged;
     }
 }

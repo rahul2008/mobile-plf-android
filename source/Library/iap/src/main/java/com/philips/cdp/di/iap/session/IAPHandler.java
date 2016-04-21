@@ -49,7 +49,7 @@ public class IAPHandler {
     void checkLaunchOrBuy(int screen, String ctnNumber, IAPHandlerListener listener) {
         if (screen == IAPConstant.Screen.PRODUCT_CATALOG) {
             launchIAPActivity(IAPConstant.Screen.PRODUCT_CATALOG);
-        } else if (screen == IAPConstant.Screen.PRODUCT_CATALOG && TextUtils.isEmpty(ctnNumber)) {
+        } else if (screen == IAPConstant.Screen.SHOPPING_CART && TextUtils.isEmpty(ctnNumber)) {
             launchIAPActivity(IAPConstant.Screen.SHOPPING_CART);
         } else {
             buyProduct(ctnNumber, listener);
@@ -77,6 +77,7 @@ public class IAPHandler {
         Tagging.setComponentVersionVersionValue("In app purchase " + BuildConfig.VERSION_NAME);
 
         Intent intent = new Intent(mContext, IAPActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         //Check flag to differentiate shopping cart / product catalog
         if (screen != IAPConstant.Screen.SHOPPING_CART) {
@@ -88,7 +89,25 @@ public class IAPHandler {
     }
 
     public void getProductCartCount(final IAPHandlerListener iapHandlerListener) {
+        if (!isStoreInitialized()) {
+            HybrisDelegate.getInstance(mContext).getStore().
+                    initStoreConfig(mLanguage, mCountry, new RequestListener() {
+                        @Override
+                        public void onSuccess(final Message msg) {
+                            getProductCount(iapHandlerListener);
+                        }
 
+                        @Override
+                        public void onError(final Message msg) {
+                            iapHandlerListener.onFailure(getIAPErrorCode(msg));
+                        }
+                    });
+        } else {
+            getProductCount(iapHandlerListener);
+        }
+    }
+
+    private void getProductCount(final IAPHandlerListener iapHandlerListener) {
         ShoppingCartPresenter presenter = new ShoppingCartPresenter();
         presenter.getProductCartCount(mContext, new IAPCartListener() {
             @Override
@@ -138,6 +157,6 @@ public class IAPHandler {
     }
 
     private boolean isStoreInitialized() {
-        return HybrisDelegate.getInstance(mContext).getStore().getSiteID() != null;
+        return HybrisDelegate.getInstance(mContext).getStore().isStoreInitialized();
     }
 }
