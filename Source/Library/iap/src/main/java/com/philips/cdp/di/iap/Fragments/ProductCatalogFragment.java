@@ -22,12 +22,15 @@ import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
 public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener {
+
+    public static final String TAG = ProductCatalogFragment.class.getName();
 
     private RecyclerView mRecyclerView;
     private ProductCatalogAdapter mAdapter;
@@ -43,10 +46,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
         @Override
         public void onFailure(final Message msg) {
-            if(Utility.isProgressDialogShowing()) {
-                Utility.dismissProgressDialog();
-            }
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+                IAPLog.i(ProductCatalogFragment.class.getName(), "Get Count Failed ");
         }
     };
 
@@ -58,6 +58,13 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     }
 
     @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>());
+        loadProducts();
+    }
+
+    @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG), this);
@@ -65,9 +72,8 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>());
         mShoppingCartPresenter = new ShoppingCartPresenter(getFragmentManager());
-        loadProducts();
+        mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
 
@@ -77,7 +83,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             Utility.showProgressDialog(getContext(), getString(R.string.iap_get_product_catalog_details));
         }
         presenter.getProductCatalog();
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -110,6 +115,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             bundle.putInt(IAPConstant.IAP_PRODUCT_COUNT, mCount);
+            bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE,productCatalogData.getDiscountedPrice());
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
         }
     }

@@ -18,15 +18,15 @@ public class ProductCatalogData {
     private int mTotalItems;
     private int mStockLevel;
 
-    public int getDiscountedPrice() {
+    public String getDiscountedPrice() {
         return mDiscountedPrice;
     }
 
-    public void setDiscountedPrice(final int mDiscountedPrice) {
+    public void setDiscountedPrice(final String mDiscountedPrice) {
         this.mDiscountedPrice = mDiscountedPrice;
     }
 
-    private int mDiscountedPrice;
+    private String mDiscountedPrice;
     private String mTotalPriceFormatedPrice;
     private String mTotalPriceWithTaxFormatedPrice;
     private String mFormatedPrice;
