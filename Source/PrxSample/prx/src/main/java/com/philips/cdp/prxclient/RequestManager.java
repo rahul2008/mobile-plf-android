@@ -12,7 +12,6 @@ import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
-import prxclient.cdp.philips.com.prxclientlib.BuildConfig;
 
 /**
  * Description : This is the entry class to start the PRX Request.
@@ -70,7 +69,7 @@ public class RequestManager {
         }
     }
 
-    public String getLibVersion() {
+    /*public String getLibVersion() {
         return BuildConfig.VERSION_NAME;
-    }
+    }*/
 }

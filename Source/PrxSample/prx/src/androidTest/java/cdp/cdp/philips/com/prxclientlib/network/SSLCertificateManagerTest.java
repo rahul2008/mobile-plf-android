@@ -1,4 +1,4 @@
-package prxclient.cdp.philips.com.prxclientlib.network;
+package cdp.cdp.philips.com.prxclientlib.network;
 
 import android.test.InstrumentationTestCase;
 

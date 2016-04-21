@@ -14,6 +14,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.R;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.PrxCustomJsonRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
@@ -22,7 +23,6 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 
 import org.json.JSONObject;
 
-import prxclient.cdp.philips.com.prxclientlib.R;
 
 /**
  * Description : This is the Network Wrapper class.
@@ -103,13 +103,13 @@ public class NetworkWrapper {
                         } else if (error instanceof TimeoutError) {
                             listener.onResponseError(PrxError.VOLLEY_TIME_OUT);
                         } else if (error instanceof AuthFailureError) {
-                            PrxLogger.d(TAG, "AuthFailureError : " + mContext.getResources().getString(R.string.authFailureError));
+                           PrxLogger.d(TAG, "AuthFailureError : " + mContext.getResources().getString(R.string.authFailureError));
                             listener.onResponseError(PrxError.AUTHENTICATION_FAILURE);
                         } else if (error instanceof NetworkError) {
-                            PrxLogger.d(TAG, "NetworkError : " + mContext.getResources().getString(R.string.networkError));
+                           PrxLogger.d(TAG, "NetworkError : " + mContext.getResources().getString(R.string.networkError));
                             listener.onResponseError(PrxError.NETWORK_ERROR);
                         } else if (error instanceof ParseError) {
-                            PrxLogger.d(TAG, "ParseError : " + mContext.getResources().getString(R.string.parseErrors));
+                           PrxLogger.d(TAG, "ParseError : " + mContext.getResources().getString(R.string.parseErrors));
                             listener.onResponseError(PrxError.PARSE_ERROR);
                         } else if (error instanceof ServerError) {
                             PrxLogger.d(TAG, "ServerError : " + mContext.getResources().getString(R.string.serverErrors));

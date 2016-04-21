@@ -1,4 +1,4 @@
-package prxclient.cdp.philips.com.prxclientlib;
+package cdp.cdp.philips.com.prxclientlib;
 
 /**
  * Description : .

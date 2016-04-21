@@ -1,4 +1,4 @@
-package prxclient.cdp.philips.com.prxclientlib;
+package cdp.cdp.philips.com.prxsample;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
