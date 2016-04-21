@@ -22,14 +22,6 @@
     }
   },
   "SigninProviders": {
-    "NL": [
-      "googleplus",
-      "facebook"
-    ],
-    "US": [
-      "facebook",
-      "googleplus"
-    ],
     "default": [
       "facebook",
       "googleplus"
