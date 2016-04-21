@@ -51,9 +51,13 @@ public class RegistrationRequest extends PrxRequest {
 
     public String getServerInfo() {
         String mConfiguration = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
-        if (mConfiguration.equalsIgnoreCase("Staging")) {
+        if (mConfiguration.equalsIgnoreCase("development")) {
+            mServerInfo = "https://10.128.41.113.philips.com/prx/registration/";
+        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
+            mServerInfo = "https://tst.philips.com/prx/registration/";
+        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
             mServerInfo = "https://acc.philips.com/prx/registration/";
-        } else if (mConfiguration.equalsIgnoreCase("development")) {
+        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
             mServerInfo = "https://dev.philips.com/prx/registration/";
         } else if (mConfiguration.equalsIgnoreCase("Production")) {
             mServerInfo = "https://www.philips.com/prx/registration/";
