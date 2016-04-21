@@ -1,7 +1,6 @@
 package com.philips.cdp.prodreg.backend;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.MockitoTestCase;
@@ -9,6 +8,8 @@ import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
 import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.registration.User;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.mockito.Mockito.mock;
@@ -36,42 +37,21 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         data = localSharedPreference.getData("prod_reg_key");
     }
 
-    public void teststore() {
-        LocalRegisteredProducts mocklocalRegisteredProducts = mock(LocalRegisteredProducts.class);
-        RegisteredProduct localRegisteredProduct = mock(RegisteredProduct.class);
-        mocklocalRegisteredProducts.store(mockRegisteredProduct);
-        Set<RegisteredProduct> registeredProductset = mocklocalRegisteredProducts.getUniqueRegisteredProducts();
-        final String data = localSharedPreference.getData("prod_reg_key");
-
-        assertEquals(0, registeredProductset.size());
-    }
-
-    public void testupdateRegisteredProducts() {
-        RegisteredProduct registeredProduct = mock(RegisteredProduct.class);
-        int size = 0;
-        LocalRegisteredProducts localRegisteredProducts = mock(LocalRegisteredProducts.class);
-        localRegisteredProducts.updateRegisteredProducts(registeredProduct);
-        Set<RegisteredProduct> registeredProducts = localRegisteredProducts.getUniqueRegisteredProducts();
-    }
-
-    public void testgetRegisteredProducts() {
-        LocalRegisteredProducts mocklocalRegisteredProducts = mock(LocalRegisteredProducts.class);
-        final LocalRegisteredProducts localRegisteredProducts = mock(LocalRegisteredProducts.class);
-        RegisteredProduct[] registeredProductsMock = {new RegisteredProduct(null, null, null, null, null), new RegisteredProduct(null, null, null, null, null)};
-        RegisteredProduct registeredProduct = mock(RegisteredProduct.class);
-        mocklocalRegisteredProducts.getRegisteredProducts();
-        // verify(localRegisteredProducts).syncLocalCache(registeredProductsMock);
-    }
-    public void testGson(){
+    public void testStore() {
+        User user = mock(User.class);
         final Gson gson = new Gson();
-        UserProduct userProduct = new UserProduct(context) {
-            @NonNull
+        LocalRegisteredProducts mocklocalRegisteredProducts = new LocalRegisteredProducts(context, user) {
             @Override
             protected Gson getGson() {
                 return gson;
             }
 
         };
+        ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
+        Set<RegisteredProduct> registeredProductSet = new HashSet<>();
+        registeredProducts.add(new RegisteredProduct(null, null, null, null, null));
+        registeredProducts.add(new RegisteredProduct(null, null, null, null, null));
+        registeredProductSet.add(new RegisteredProduct("ctn", "1234", null, null, null));
+        registeredProductSet.add(new RegisteredProduct("ctn1", "12345", null, null, null));
     }
-
 }
