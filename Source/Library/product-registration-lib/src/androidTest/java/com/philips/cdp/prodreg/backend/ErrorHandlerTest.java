@@ -71,7 +71,6 @@ public class ErrorHandlerTest extends MockitoTestCase {
         verify(userProductMock).updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
         verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct);
     }
-
     public void testErrorhandleInvalidate() {
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         RegisteredProduct registeredProduct = new RegisteredProduct("ctn", "Serial", "2016-03-22", null, null);
