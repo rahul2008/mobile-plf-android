@@ -152,8 +152,11 @@ public class Store {
     }
 
     public String getCountry() {
-        if (mCountry != null)
+        if (mCountry != null) {
+            if(mCountry.equalsIgnoreCase("GB"))
+                mCountry = "UK";
             return mCountry;
+        }
         return "";
     }
 
