@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,8 +28,7 @@ import java.util.Locale;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ToggleButton toggbutton;
-    Button submitproduct;
+    ToggleButton toggButton;
     private EditText mRegChannel, mSerialNumber, mPurchaseDate, mCtn;
     private String TAG = getClass().toString();
     private Calendar mCalendar;
@@ -40,7 +38,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private String mGetDeviceDate;
     private Date mDisplayDate, mDeviceDate;
     private String MICRO_SITE_ID = "MS";
-    private boolean eMailConfiguration;
+    private boolean eMailConfiguration = true;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -85,8 +83,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         mSerialNumber = (EditText) findViewById(R.id.edt_serial_number);
         mPurchaseDate = (EditText) findViewById(R.id.edt_purchase_date);
         mCtn = (EditText) findViewById(R.id.edt_ctn);
-        toggbutton = (ToggleButton) findViewById(R.id.toggbutton);
-        submitproduct = (Button) findViewById(R.id.submitproduct);
+        toggButton = (ToggleButton) findViewById(R.id.toggbutton);
+        toggButton.setChecked(eMailConfiguration);
     }
 
     private void registerProduct() {
@@ -94,7 +92,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         prodRegHelper.setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
         Product product = new Product(mCtn.getText().toString(), mSerialNumber.getText().toString(), mPurchaseDate.getText().toString(),
                 Sector.B2C, Catalog.CONSUMER);
-
+        product.setShouldSendEmailAfterRegistration(String.valueOf(eMailConfiguration));
         final ProdRegListener listener = new ProdRegListener() {
             @Override
             public void onProdRegSuccess() {
@@ -104,6 +102,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onProdRegFailed(RegisteredProduct registeredProduct) {
                 Log.d(TAG, "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
+                Toast.makeText(ProductActivity.this, registeredProduct.getProdRegError().getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
         prodRegHelper.registerProduct(this, product, listener);
@@ -129,15 +128,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.toggbutton:
-                eMailConfiguration = toggbutton.isChecked();
-
-                if (eMailConfiguration) {
-                    Log.d(TAG, "On Click : True");
-                } else {
-                    Log.d(TAG, "On Click : False");
-                }
+                eMailConfiguration = toggButton.isChecked();
                 break;
-
             default:
                 break;
         }

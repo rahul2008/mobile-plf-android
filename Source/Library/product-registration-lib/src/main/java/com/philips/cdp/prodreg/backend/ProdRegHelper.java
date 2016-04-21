@@ -27,7 +27,7 @@ public class ProdRegHelper {
         UserProduct userProduct = getUserProduct(context);
         product.setLocale(locale);
         userProduct.setLocale(this.locale);
-        userProduct.registerProduct(context, product, listener);
+        userProduct.registerProduct(product, listener);
     }
 
     @NonNull

@@ -63,8 +63,7 @@ public class UserProduct {
         this.uuid = userInstance != null ? userInstance.getJanrainUUID() : "";
     }
 
-    public void registerProduct(final Context context, final Product product, final ProdRegListener appListener) {
-        setContext(context);
+    public void registerProduct(final Product product, final ProdRegListener appListener) {
         setRequestType(PRODUCT_REGISTRATION);
         setUuid();
         RegisteredProduct registeredProduct = getUserProduct().createDummyRegisteredProduct(product);
@@ -105,6 +104,7 @@ public class UserProduct {
         if (product != null) {
             RegisteredProduct registeredProduct = new RegisteredProduct(product.getCtn(), product.getSerialNumber(), product.getPurchaseDate(), product.getSector(), product.getCatalog());
             registeredProduct.setLocale(product.getLocale());
+            registeredProduct.setShouldSendEmailAfterRegistration(product.getShouldSendEmailAfterRegistration());
             registeredProduct.setRegistrationState(RegistrationState.PENDING);
             // TO-DO
             registeredProduct.setUserUUid(getUuid());
@@ -378,6 +378,7 @@ public class UserProduct {
         registrationRequest.setmLocale(registeredProduct.getLocale());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
+        registrationRequest.setShouldSendEmailAfterRegistration(registeredProduct.getShouldSendEmailAfterRegistration());
         RequestManager mRequestManager = getRequestManager(mContext);
         mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(registeredProduct, appListener));
     }
@@ -405,9 +406,5 @@ public class UserProduct {
             return true;
         }
         return false;
-    }
-
-    private void setContext(final Context context) {
-        this.mContext = context;
     }
 }

@@ -40,6 +40,8 @@ public class RegistrationRequest extends PrxRequest {
     private String ACCESS_TOKEN_TAG = "x-accessToken";
     private String REGISTRATION_CHANNEL = "registrationChannel";
     private String PURCHASE_DATE = "purchaseDate";
+    private String SEND_EMAIL = "sendEmail";
+    private String shouldSendEmailAfterRegistration = "true";
 
     public RegistrationRequest(String ctn, final String serialNumber, String accessToken) {
         this.ctn = ctn;
@@ -53,7 +55,7 @@ public class RegistrationRequest extends PrxRequest {
             mServerInfo = "https://acc.philips.com/prx/registration/";
         } else if (mConfiguration.equalsIgnoreCase("development")) {
             mServerInfo = "https://dev.philips.com/prx/registration/";
-        }else if (mConfiguration.equalsIgnoreCase("Production")) {
+        } else if (mConfiguration.equalsIgnoreCase("Production")) {
             mServerInfo = "https://www.philips.com/prx/registration/";
         }
         return mServerInfo;
@@ -160,6 +162,14 @@ public class RegistrationRequest extends PrxRequest {
         return new RegistrationResponse().parseJsonResponseData(jsonObject);
     }
 
+    public String getShouldSendEmailAfterRegistration() {
+        return shouldSendEmailAfterRegistration;
+    }
+
+    public void setShouldSendEmailAfterRegistration(final String shouldSendEmailAfterRegistration) {
+        this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
+    }
+
     @Override
     public String getRequestUrl() {
         return generateUrl();
@@ -183,6 +193,7 @@ public class RegistrationRequest extends PrxRequest {
         validatePurchaseDate(params, getPurchaseDate());
         validateSerialNumber(params);
         params.put(REGISTRATION_CHANNEL, getRegistrationChannel());
+        params.put(SEND_EMAIL, getShouldSendEmailAfterRegistration());
         return params;
     }
 

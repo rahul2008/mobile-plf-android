@@ -117,7 +117,7 @@ public class UserProductTest extends MockitoTestCase {
         };
         Product productMock = mock(Product.class);
 
-        userProduct.registerProduct(context, productMock, new ProdRegListener() {
+        userProduct.registerProduct(productMock, new ProdRegListener() {
             @Override
             public void onProdRegSuccess() {
 
@@ -182,7 +182,7 @@ public class UserProductTest extends MockitoTestCase {
         RegisteredProduct registeredProduct = mock(RegisteredProduct.class);
         when(userProductMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
         when(userProductMock.IsUserRegisteredLocally(registeredProduct)).thenReturn(true);
-        userProduct.registerProduct(context, product, appListener);
+        userProduct.registerProduct(product, appListener);
         verify(userProductMock).createDummyRegisteredProduct(product);
         verify(userProductMock).registerCachedProducts(registeredProducts, appListener);
         verify(userProductMock).IsUserRegisteredLocally(registeredProduct);
@@ -254,7 +254,7 @@ public class UserProductTest extends MockitoTestCase {
         RegisteredProduct productMock = mock(RegisteredProduct.class);
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
-        userProduct.registerProduct(context, productMock, prodRegListener);
+        userProduct.registerProduct(productMock, prodRegListener);
         assertTrue(userProduct.getRequestType().equals(UserProduct.PRODUCT_REGISTRATION));
 
         userProduct.getRegisteredProducts(registeredProductsListener);
@@ -547,7 +547,7 @@ public class UserProductTest extends MockitoTestCase {
                 return localRegisteredProducts;
             }
         };
-        userProduct.registerProduct(context, productMock, prodRegListenerMock);
+        userProduct.registerProduct(productMock, prodRegListenerMock);
         userProduct.retryRequests(context, productMock, prodRegListenerMock);
         verify(userProductMock).makeRegistrationRequest(context, productMock, prodRegListenerMock);
         userProduct.getRegisteredProducts(registeredProductsListenerMock);

@@ -63,7 +63,7 @@ public class LocalRegisteredProducts {
         if (products != null) {
             ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
             for (RegisteredProduct registeredProduct : products) {
-                if (registeredProduct.getUserUUid().equals(uuid)) {
+                if (registeredProduct.getUserUUid().length() == 0 || registeredProduct.getUserUUid().equals(uuid)) {
                     registeredProducts.add(registeredProduct);
                 }
             }
