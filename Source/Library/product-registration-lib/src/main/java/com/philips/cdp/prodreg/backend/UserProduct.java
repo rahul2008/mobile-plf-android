@@ -58,7 +58,7 @@ public class UserProduct {
         return uuid;
     }
 
-    public void setUuid() {
+    protected void setUuid() {
         final DIUserProfile userInstance = getUser().getUserInstance(mContext);
         this.uuid = userInstance != null ? userInstance.getJanrainUUID() : "";
     }

@@ -23,6 +23,7 @@ import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import org.mockito.Mockito;
@@ -91,6 +92,24 @@ public class UserProductTest extends MockitoTestCase {
         when(userMock.isUserSignIn(context)).thenReturn(false);
         when(userMock.getEmailVerificationStatus(context)).thenReturn(true);
         assertFalse(userProduct.isUserSignedIn(context));
+    }
+
+    public void testSetUUID() {
+        final User userMock = mock(User.class);
+        when(userMock.isUserSignIn(context)).thenReturn(true);
+        when(userMock.getEmailVerificationStatus(context)).thenReturn(true);
+        final DIUserProfile userInstance = mock(DIUserProfile.class);
+        when(userInstance.getJanrainUUID()).thenReturn("Janrain_id");
+        when(userMock.getUserInstance(context)).thenReturn(userInstance);
+        UserProduct userProduct = new UserProduct(context) {
+            @NonNull
+            @Override
+            protected User getUser() {
+                return userMock;
+            }
+        };
+        userProduct.setUuid();
+        assertEquals(userProduct.getUuid(), "Janrain_id");
     }
 
     public void testReturnTrueForValidDate() throws Exception {
