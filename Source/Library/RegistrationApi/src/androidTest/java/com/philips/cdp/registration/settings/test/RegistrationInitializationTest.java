@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.settings.test;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.InstrumentationTestCase;
 
@@ -25,11 +27,19 @@ public class RegistrationInitializationTest extends InstrumentationTestCase {
 
     }
 
+    private Context context;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
+        context = getInstrumentation().getTargetContext();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LOCALEMATCH_PREFERENCE", 0);
+        String inputLocale = "en" + "_" + "US";
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("input_locale", inputLocale);
+        boolean committed = editor.commit();
         String CONFIGURATION_JSON_PATH = "registration/configuration/configuration_for_test_cases.json";
 
         RegistrationStaticConfiguration.getInstance().parseConfigurationJson(getInstrumentation().getTargetContext(), CONFIGURATION_JSON_PATH);
