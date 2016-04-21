@@ -38,6 +38,7 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
     private PersistentStorageFactory persistentStorageFactory;
     private SHNUserConfigurationImpl shnUserConfiguration;
     private Locale defaultLocale;
+    private MockedHandler mockedInternalHandler;
 
     @Before
     public void setUp() throws Exception {
@@ -59,7 +60,10 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
             }
         });
 
-        shnUserConfiguration = new SHNUserConfigurationImpl(persistentStorageFactory, new MockedHandler().getMock(), calculationsMock);
+        when(calculationsMock.getMaxHeartRate(null, null)).thenReturn(null);
+
+        mockedInternalHandler = new MockedHandler();
+        shnUserConfiguration = new SHNUserConfigurationImpl(persistentStorageFactory, mockedInternalHandler.getMock(), calculationsMock);
         shnUserConfiguration.addObserver(observerMock);
     }
 
@@ -99,6 +103,16 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
     }
 
     @Test
+    public void whenLanguageIsSet_ThenPersistentStorageIsUpdatedOnTheInternalThread() {
+        mockedInternalHandler.enableImmediateExecuteOnPost(false);
+        shnUserConfiguration.setIsoLanguageCode("TEST");
+
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_LANGUAGE_CODE_KEY)).isEqualTo(null);
+        mockedInternalHandler.executeFirstPostedExecution();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_LANGUAGE_CODE_KEY)).isEqualTo("TEST");
+    }
+
+    @Test
     public void whenIsoLanguageCodeHasNotBeenSet_ThenGetReturnDefaultIsoLanguageCode() {
         String expectedIsoLanguageCode = Locale.getDefault().getLanguage();
         String actualIsoLanguageCode = shnUserConfiguration.getIsoLanguageCode();
@@ -121,6 +135,16 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         shnUserConfiguration.setIsoCountryCode("TEST");
 
         verify(observerMock).update(shnUserConfiguration, null);
+    }
+
+    @Test
+    public void whenCountryIsSet_ThenPersistentStorageIsUpdatedOnTheInternalThread() {
+        mockedInternalHandler.enableImmediateExecuteOnPost(false);
+        shnUserConfiguration.setIsoCountryCode("TEST");
+
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_COUNTRY_CODE_KEY)).isEqualTo(null);
+        mockedInternalHandler.executeFirstPostedExecution();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.ISO_COUNTRY_CODE_KEY)).isEqualTo("TEST");
     }
 
     @Test
@@ -149,6 +173,16 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
     }
 
     @Test
+    public void whenClockFormatIsSet_ThenPersistentStorageIsUpdatedOnTheInternalThread() {
+        mockedInternalHandler.enableImmediateExecuteOnPost(false);
+        shnUserConfiguration.setClockFormat(SHNUserConfiguration.ClockFormat._12H);
+
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.CLOCK_FORMAT_KEY)).isEqualTo(null);
+        mockedInternalHandler.executeFirstPostedExecution();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.CLOCK_FORMAT_KEY)).isEqualTo(SHNUserConfiguration.ClockFormat._12H);
+    }
+
+    @Test
     public void whenClockFormatHasNotBeenSet_ThenItIsNull() {
         SHNUserConfiguration.ClockFormat actualClockFormat = shnUserConfiguration.getClockFormat();
 
@@ -170,6 +204,16 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         shnUserConfiguration.setUseMetricSystem(false);
 
         verify(observerMock).update(shnUserConfiguration, null);
+    }
+
+    @Test
+    public void whenUseMetricSystemIsSet_ThenPersistentStorageIsUpdatedOnTheInternalThread() {
+        mockedInternalHandler.enableImmediateExecuteOnPost(false);
+        shnUserConfiguration.setUseMetricSystem(false);
+
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.USE_METRIC_SYSTEM_KEY)).isEqualTo(null);
+        mockedInternalHandler.executeFirstPostedExecution();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.USE_METRIC_SYSTEM_KEY)).isEqualTo(false);
     }
 
     @Test
@@ -212,6 +256,16 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
     }
 
     @Test
+    public void whenSexIsSet_ThenPersistentStorageIsUpdatedOnTheInternalThread() {
+        mockedInternalHandler.enableImmediateExecuteOnPost(false);
+        shnUserConfiguration.setSex(SHNUserConfiguration.Sex.Female);
+
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.SEX_KEY)).isEqualTo(null);
+        mockedInternalHandler.executeFirstPostedExecution();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.SEX_KEY)).isEqualTo(SHNUserConfiguration.Sex.Female);
+    }
+
+    @Test
     public void whenRestingHeartRateHasNotBeenSet_ThenItIsMinus1() {
         Integer restingHeartRate = shnUserConfiguration.getRestingHeartRate();
 
@@ -233,6 +287,16 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         shnUserConfiguration.setRestingHeartRate(111);
 
         verify(observerMock).update(shnUserConfiguration, null);
+    }
+
+    @Test
+    public void whenRestingHeartRateIsSet_ThenPersistentStorageIsUpdatedOnTheInternalThread() {
+        mockedInternalHandler.enableImmediateExecuteOnPost(false);
+        shnUserConfiguration.setRestingHeartRate(111);
+
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.RESTING_HEART_RATE_KEY)).isEqualTo(null);
+        mockedInternalHandler.executeFirstPostedExecution();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.RESTING_HEART_RATE_KEY)).isEqualTo(111);
     }
 
     @Test
@@ -260,6 +324,16 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
     }
 
     @Test
+    public void whenHeightInCmIsSet_ThenPersistentStorageIsUpdatedOnTheInternalThread() {
+        mockedInternalHandler.enableImmediateExecuteOnPost(false);
+        shnUserConfiguration.setHeightInCm(111);
+
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HEIGHT_IN_CM_KEY)).isEqualTo(null);
+        mockedInternalHandler.executeFirstPostedExecution();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HEIGHT_IN_CM_KEY)).isEqualTo(111);
+    }
+
+    @Test
     public void whenWeightInKgHasNotBeenSet_ThenItIsNull() {
         Double weightInKg = shnUserConfiguration.getWeightInKg();
 
@@ -281,6 +355,16 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         shnUserConfiguration.setWeightInKg(111.0);
 
         verify(observerMock).update(shnUserConfiguration, null);
+    }
+
+    @Test
+    public void whenWeightInKgIsSet_ThenPersistentStorageIsUpdatedOnTheInternalThread() {
+        mockedInternalHandler.enableImmediateExecuteOnPost(false);
+        shnUserConfiguration.setWeightInKg(111.0);
+
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY)).isEqualTo(null);
+        mockedInternalHandler.executeFirstPostedExecution();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY)).isEqualTo(111.0);
     }
 
     @Test
@@ -308,6 +392,16 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
     }
 
     @Test
+    public void whenDecimalSeparatorIsSet_ThenPersistentStorageIsUpdatedOnTheInternalThread() {
+        mockedInternalHandler.enableImmediateExecuteOnPost(false);
+        shnUserConfiguration.setDecimalSeparator('T');
+
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY)).isEqualTo(null);
+        mockedInternalHandler.executeFirstPostedExecution();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY)).isEqualTo((int) 'T');
+    }
+
+    @Test
     public void whenHandednessHasNotBeenSet_ThenItIsUnknown() {
         SHNUserConfiguration.Handedness actualHandedness = shnUserConfiguration.getHandedness();
 
@@ -329,6 +423,16 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         shnUserConfiguration.setHandedness(SHNUserConfiguration.Handedness.LeftHanded);
 
         verify(observerMock).update(shnUserConfiguration, null);
+    }
+
+    @Test
+    public void whenHandednessIsSet_ThenPersistentStorageIsUpdatedOnTheInternalThread() {
+        mockedInternalHandler.enableImmediateExecuteOnPost(false);
+        shnUserConfiguration.setHandedness(SHNUserConfiguration.Handedness.LeftHanded);
+
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HANDEDNESS_KEY)).isEqualTo(null);
+        mockedInternalHandler.executeFirstPostedExecution();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.HANDEDNESS_KEY)).isEqualTo(SHNUserConfiguration.Handedness.LeftHanded);
     }
 
     @Test
@@ -356,6 +460,17 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
     }
 
     @Test
+    public void whenDateOfBirthIsSet_ThenPersistentStorageIsUpdatedOnTheInternalThread() {
+        mockedInternalHandler.enableImmediateExecuteOnPost(false);
+        final Date dateOfBirth = new Date();
+        shnUserConfiguration.setDateOfBirth(dateOfBirth);
+
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DATE_OF_BIRTH_KEY)).isEqualTo(null);
+        mockedInternalHandler.executeFirstPostedExecution();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().get(SHNUserConfigurationImpl.DATE_OF_BIRTH_KEY)).isEqualTo(dateOfBirth.getTime());
+    }
+
+    @Test
     public void whenIncomingValueIsTheSameAsPersistedValue_ThenListenerIsNotInformed() {
         shnUserConfiguration.setClockFormat(SHNUserConfiguration.ClockFormat._12H);
         reset(observerMock);
@@ -372,7 +487,6 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
 
     @Test
     public void whenMaxHeartRateAndAgeHasNotBeenSet_ThenMaxHeartRateIsNull() {
-        when(calculationsMock.getMaxHeartRate(null, null)).thenReturn(null);
         Integer maxHeartRate = shnUserConfiguration.getMaxHeartRate();
 
         assertThat(maxHeartRate).isNull();
@@ -384,9 +498,9 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         int expectedAge = 111;
         int expectedMaxHeartRate = 222;
 
-        shnUserConfiguration.setDateOfBirth(dateOfBirth);
         when(calculationsMock.getAge(dateOfBirth)).thenReturn(expectedAge);
         when(calculationsMock.getMaxHeartRate(null, expectedAge)).thenReturn(expectedMaxHeartRate);
+        shnUserConfiguration.setDateOfBirth(dateOfBirth);
 
         Integer maxHeartRate = shnUserConfiguration.getMaxHeartRate();
 
@@ -411,9 +525,10 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         Date dateOfBirth = new Date();
         int expectedAge = 111;
 
-        shnUserConfiguration.setDateOfBirth(dateOfBirth);
         when(calculationsMock.getAge(dateOfBirth)).thenReturn(expectedAge);
         when(calculationsMock.getMaxHeartRate(expectedMaxHeartRate, expectedAge)).thenReturn(expectedMaxHeartRate);
+
+        shnUserConfiguration.setDateOfBirth(dateOfBirth);
         int actual = shnUserConfiguration.getMaxHeartRate();
 
         assertThat(actual).isEqualTo(expectedMaxHeartRate);

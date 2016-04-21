@@ -180,7 +180,7 @@ public class SHNCentral {
 
     /* package */ SHNUserConfiguration createUserConfiguration() {
         SHNUserConfigurationImpl shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
-        return new SHNUserConfigurationDispatcher(shnUserConfigurationImpl, internalHandler);
+        return shnUserConfigurationImpl;
     }
 
     /* package */ SharedPreferencesMigrator createSharedPreferencesMigrator(PersistentStorageFactory source, PersistentStorageFactory destination) {
