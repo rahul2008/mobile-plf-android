@@ -8,21 +8,22 @@ import java.security.InvalidParameterException;
 
 class DiCommMessage {
 
-    public static final byte FIRST_BYTE = (byte) 0xFE;
-    public static final byte SECOND_BYTE = (byte) 0xFF;
+    private static final byte FIRST_START_BYTE = (byte) 0xFE;
+    private static final byte SECOND_START_BYTE = (byte) 0xFF;
+    private static final int HEADER_SIZE = 5;
 
-    private final MessageType type;
+    private final MessageType messageTypeIdentifier;
     private final byte[] data;
 
     public DiCommMessage(@NonNull byte[] data) throws InvalidParameterException {
         try {
             ByteBuffer byteBuffer = ByteBuffer.wrap(data);
 
-            if (byteBuffer.get() != FIRST_BYTE || byteBuffer.get() != SECOND_BYTE) {
+            if (byteBuffer.get() != FIRST_START_BYTE || byteBuffer.get() != SECOND_START_BYTE) {
                 throw new InvalidParameterException();
             }
 
-            this.type = MessageType.fromByte(byteBuffer.get());
+            this.messageTypeIdentifier = MessageType.fromByte(byteBuffer.get());
             int length = byteBuffer.getShort();
 
             this.data = new byte[byteBuffer.remaining()];
@@ -36,24 +37,24 @@ class DiCommMessage {
         }
     }
 
-    public DiCommMessage(@NonNull MessageType type, @NonNull byte[] data) {
-        this.type = type;
+    public DiCommMessage(@NonNull MessageType messageTypeIdentifier, @NonNull byte[] data) {
+        this.messageTypeIdentifier = messageTypeIdentifier;
         this.data = data;
     }
 
     public byte[] toData() {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(5 + data.length);
-        byteBuffer.put(FIRST_BYTE);
-        byteBuffer.put(SECOND_BYTE);
-        byteBuffer.put(type.getByte());
+        ByteBuffer byteBuffer = ByteBuffer.allocate(HEADER_SIZE + data.length);
+        byteBuffer.put(FIRST_START_BYTE);
+        byteBuffer.put(SECOND_START_BYTE);
+        byteBuffer.put(messageTypeIdentifier.getByte());
         byteBuffer.putShort((short) data.length);
         byteBuffer.put(data);
 
         return byteBuffer.array();
     }
 
-    public MessageType getType() {
-        return type;
+    public MessageType getMessageTypeIdentifier() {
+        return messageTypeIdentifier;
     }
 
     public byte[] getData() {

@@ -51,7 +51,7 @@ public class DiCommMessageTest {
 
         DiCommMessage message = new DiCommMessage(data);
 
-        assertEquals(MessageType.PutPropsRequest, message.getType());
+        assertEquals(MessageType.PutPropsRequest, message.getMessageTypeIdentifier());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class DiCommMessageTest {
 
         DiCommMessage message = new DiCommMessage(data);
 
-        assertEquals(MessageType.GetPropsRequest, message.getType());
+        assertEquals(MessageType.GetPropsRequest, message.getMessageTypeIdentifier());
     }
 
     @Test
@@ -89,7 +89,7 @@ public class DiCommMessageTest {
 
         DiCommMessage message = new DiCommMessage(MessageType.PutPropsRequest, data);
 
-        assertEquals(MessageType.PutPropsRequest, message.getType());
+        assertEquals(MessageType.PutPropsRequest, message.getMessageTypeIdentifier());
         assertEquals(data[0], message.getData()[0]);
         assertEquals(data[1], message.getData()[1]);
     }
