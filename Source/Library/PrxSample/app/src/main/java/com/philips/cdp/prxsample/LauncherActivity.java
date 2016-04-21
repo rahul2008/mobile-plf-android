@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -23,6 +24,7 @@ public class LauncherActivity extends AppCompatActivity {
 
     private String mCtn = "RQ1250/17";
     private String mLocale = "en_GB";
+    private String mLangUageCode = "en", mCountryCode = "GB";
     private String mRequestTag = null;
 
     @Override
@@ -44,9 +46,11 @@ public class LauncherActivity extends AppCompatActivity {
         */
         PrxLogger.enablePrxLogger(true);
 
+        PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
+        localeManager.setInputLocale(mLangUageCode, mCountryCode);
+
         ProductSummaryRequest mProductAssetBuilder = new ProductSummaryRequest(mCtn, mRequestTag);
         mProductAssetBuilder.setSector(Sector.B2C);
-        mProductAssetBuilder.setLocale(mLocale);
         mProductAssetBuilder.setCatalog(Catalog.CONSUMER);
 
         RequestManager mRequestManager = new RequestManager();
@@ -59,7 +63,6 @@ public class LauncherActivity extends AppCompatActivity {
 
                 Log.d(TAG, "Support Response Data : " + mAssetModel.isSuccess());
                 Data mData = mAssetModel.getData();
-
 
 
                 Log.d(TAG, " Positive Response Data : " + mAssetModel.isSuccess());

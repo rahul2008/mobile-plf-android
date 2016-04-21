@@ -1,7 +1,9 @@
 package com.philips.cdp.prxclient.request;
 
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
@@ -16,7 +18,6 @@ import java.util.Map;
 public abstract class PrxRequest {
 
     private String mServerInfo = "www.philips.com/prx";
-    private String mLocale = null;
     private Sector mSector;
     private Catalog mCatalog;
     private String mLocaleMatchResult;
@@ -37,11 +38,9 @@ public abstract class PrxRequest {
     }
 
     public String getLocale() {
-        return mLocale;
-    }
 
-    public void setLocale(String mLocale) {
-        this.mLocale = mLocale;
+        PILLocaleManager localeManager = new PILLocaleManager(RequestManager.mContext);
+        return localeManager.getInputLocale();
     }
 
     public Sector getSector() {
@@ -68,4 +67,5 @@ public abstract class PrxRequest {
 
     public abstract Map<String, String> getHeaders();
 
-    public abstract Map<String, String> getParams();}
+    public abstract Map<String, String> getParams();
+}

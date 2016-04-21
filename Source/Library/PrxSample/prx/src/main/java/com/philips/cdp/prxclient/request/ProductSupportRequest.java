@@ -22,6 +22,7 @@ public class ProductSupportRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
+
         return new SupportModel().parseJsonResponseData(jsonObject);
     }
 

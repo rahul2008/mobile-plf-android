@@ -2,11 +2,6 @@ package com.philips.cdp.prxclient;
 
 import android.content.Context;
 
-import com.philips.cdp.localematch.LocaleMatchListener;
-import com.philips.cdp.localematch.PILLocale;
-import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.localematch.enums.LocaleMatchError;
-import com.philips.cdp.localematch.enums.Platform;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.request.PrxRequest;
@@ -20,7 +15,7 @@ import com.philips.cdp.prxclient.response.ResponseListener;
  */
 public class RequestManager {
 
-    private Context mContext = null;
+    public static Context mContext = null;
 
     public void init(Context applicationContext) {
         mContext = applicationContext;
@@ -38,7 +33,7 @@ public class RequestManager {
     }
 
     private void setLocale(final String languageCode, final String countryCode, final PrxRequest prxRequest, final ResponseListener listener) {
-        final PILLocaleManager pilLocaleManager = new PILLocaleManager();
+/*        final PILLocaleManager pilLocaleManager = new PILLocaleManager();
         final String[] mLocale = new String[1];
         pilLocaleManager.init(mContext, new LocaleMatchListener() {
                     public void onLocaleMatchRefreshed(String locale) {
@@ -58,7 +53,7 @@ public class RequestManager {
                     }
                 }
         );
-        pilLocaleManager.refresh(mContext, languageCode, countryCode);
+        pilLocaleManager.refresh(mContext, languageCode, countryCode);*/
     }
 
     private void makeRequest(final PrxRequest prxRequest, final ResponseListener listener) {
