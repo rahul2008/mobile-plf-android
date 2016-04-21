@@ -8,7 +8,6 @@ package com.philips.cdp.di.iap.response.products;
 import java.util.List;
 
 public class Products {
-
     private String type;
     private CurrentQueryEntity currentQuery;
     private String freeTextSearch;

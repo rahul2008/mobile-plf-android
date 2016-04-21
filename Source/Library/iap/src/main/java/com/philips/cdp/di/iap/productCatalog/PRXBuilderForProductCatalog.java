@@ -82,6 +82,7 @@ public class PRXBuilderForProductCatalog {
         productItem.setCtnNumber(code);
         productItem.setFormatedPrice(entry.getPrice().getFormattedValue());
         productItem.setMarketingTextHeader(data.getMarketingTextHeader());
+        productItem.setDiscountedPrice(entry.getDiscountPrice().getValue());
         addWithNotify(productItem);
     }
 

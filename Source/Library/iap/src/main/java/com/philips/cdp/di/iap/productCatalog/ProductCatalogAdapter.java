@@ -29,17 +29,15 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private final ImageLoader mImageLoader;
     private Context mContext;
     private ArrayList<ProductCatalogData> mData = new ArrayList<>();
-    private FragmentManager mFragmentManager;
     ProductCatalogData productCatalogDataForProductDetailPage;
 
-    public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> pArrayList, FragmentManager pFragmentManager) {
+    public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> pArrayList) {
         mContext = pContext;
         mData = pArrayList;
-        mFragmentManager = pFragmentManager;
         // Instantiate the RequestQueue.
         mImageLoader = NetworkImageLoader.getInstance(mContext)
-                .getImageLoader();
-    }
+            .getImageLoader();
+}
 
     @Override
     public void onLoadFinished(final ArrayList<ProductCatalogData> data) {
@@ -55,9 +53,6 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-
-        if (mData.size() == 0)
-            return;
         ProductCatalogData productCatalogData = mData.get(position);
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
         String imageURL = productCatalogData.getImageURL();

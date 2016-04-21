@@ -121,9 +121,6 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
     private void handleExit(final boolean isBackPressed) {
         if (mPaymentSuccessful) {
-            //Track back button press action
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
             finishActivity();
         } else {
             goBackToOrderSummary(isBackPressed);

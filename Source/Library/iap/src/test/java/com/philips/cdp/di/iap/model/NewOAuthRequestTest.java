@@ -88,11 +88,11 @@ public class NewOAuthRequestTest {
     }
 
     @Test
-    public void refreshTokenShouldBeNullAfterResetToken() {
+    public void refreshTokenShouldBeEmptyAfterResetToken() {
         String response = TestUtils.readFile(this.getClass(), "oauth_response.txt");
         mModel.parseResponse(response);
         ((NewOAuthRequest) mModel).resetAccessToken();
-        assertNull(((NewOAuthRequest) mModel).getrefreshToken());
+        assertEquals("", ((NewOAuthRequest) mModel).getrefreshToken());
     }
 
     @Test
