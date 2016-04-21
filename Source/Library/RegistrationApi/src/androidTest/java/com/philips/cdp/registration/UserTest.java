@@ -1,5 +1,6 @@
 package com.philips.cdp.registration;
 
+import android.app.Activity;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -9,6 +10,7 @@ import com.philips.cdp.registration.configuration.PILConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
@@ -19,10 +21,22 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javassist.CannotCompileException;
+import javassist.ClassClassPath;
+import javassist.ClassPath;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
+import javassist.NotFoundException;
+import javassist.bytecode.MethodInfo;
 
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 
@@ -603,6 +617,45 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
                 saveToDisk(COPPA_CONFIRMED_SIGNED_USER);
                 Jump.loadUserFromDiskInternal(context);
                 assertTrue(user.getEmailVerificationStatus());
+
+        }
+
+        public void test_LoginUsingSocialProvider(){
+               // ClassPool objClassPool = ClassPool.getDefault();
+
+                        SocialProviderLoginHandler socialProviderLoginHandler = new SocialProviderLoginHandler() {
+                                @Override
+                                public void onLoginSuccess() {
+                                        System.out.println("SocialProviderLoginHandler success");
+                                }
+
+                                @Override
+                                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+                                }
+
+                                @Override
+                                public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+
+                                }
+
+                                @Override
+                                public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+
+                                }
+
+                                @Override
+                                public void onContinueSocialProviderLoginSuccess() {
+
+                                }
+
+                                @Override
+                                public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+                                }
+                        };
+
+
 
         }
 
