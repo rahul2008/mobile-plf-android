@@ -204,7 +204,7 @@ public class UserProduct {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                errorHandler.handleError(registeredProduct, responseCode, appListener);
+                getErrorHandler().handleError(registeredProduct, responseCode, appListener);
             }
         };
     }
