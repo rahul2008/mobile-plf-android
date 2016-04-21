@@ -9,16 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.controllers.ParentalApprovalFragmentController;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
+import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.CustomCircularProgress;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 
-public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
+public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment implements NetworStateListener {
 
     private LinearLayout mLlConfirmApprovalParent;
     private TextView mTvConfirmApprovalDesc;
@@ -28,6 +32,8 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
     private ParentalApprovalFragmentController mParentalApprovalFragmentController;
     private CustomCircularProgress mCustomCircularProgress;
     private Context mContext;
+    private XRegError mRegError;
+    private ScrollView mSvRootLayout;
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
@@ -46,6 +52,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ParentalApprovalFragment : onCreateView");
         View view = inflater.inflate(R.layout.fragment_reg_coppa_parental_approval, null);
+        RegistrationHelper.getInstance().registerNetworkStateListener(this);
         mContext = getParentFragment().getActivity().getApplicationContext();
         initUi(view);
         handleOrientation(view);
@@ -56,7 +63,12 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onActivityCreated");
-        mParentalApprovalFragmentController.refreshUser();
+        hideContent();
+        if (NetworkUtility.isNetworkAvailable(mContext)) {
+            mParentalApprovalFragmentController.refreshUser();
+        }else{
+            mParentalApprovalFragmentController.showServerErrorALert();
+        }
     }
 
     @Override
@@ -93,6 +105,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onDestroy");
+        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         super.onDestroy();
     }
 
@@ -114,6 +127,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
         applyParams(config, mLlConfirmApprovalParent, width);
         applyParams(config, mBtnAgree, width);
         applyParams(config, mBtnDisAgree, width);
+        applyParams(config, mRegError, width);
     }
 
     @Override
@@ -130,6 +144,9 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
         mBtnAgree.setOnClickListener(mParentalApprovalFragmentController);
         mBtnDisAgree = (Button) view.findViewById(R.id.reg_btn_dis_agree);
         mBtnDisAgree.setOnClickListener(mParentalApprovalFragmentController);
+        mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
+        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
+        handleUiState();
     }
 
     public void setConfirmApproval() {
@@ -184,4 +201,33 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment {
             mCustomCircularProgress = null;
         }
     }
+
+    @Override
+    public void onNetWorkStateReceived(boolean isOnline) {
+        RLog.i(RLog.NETWORK_STATE, "ParentalApprovalFragment :onNetWorkStateReceived state :" + isOnline);
+
+        handleUiState();
+    }
+
+    private void handleUiState() {
+        if (NetworkUtility.isNetworkAvailable(mContext)) {
+            mRegError.hideError();
+            mBtnAgree.setEnabled(true);
+            mBtnDisAgree.setEnabled(true);
+        } else {
+            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            scrollViewAutomatically(mRegError, mSvRootLayout);
+            mBtnAgree.setEnabled(false);
+            mBtnDisAgree.setEnabled(false);
+        }
+    }
+
+    public void showContent(){
+        mSvRootLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void hideContent(){
+        mSvRootLayout.setVisibility(View.INVISIBLE);
+    }
+
 }

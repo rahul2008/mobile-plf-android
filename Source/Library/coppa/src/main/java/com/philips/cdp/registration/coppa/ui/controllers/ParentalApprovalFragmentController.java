@@ -1,6 +1,5 @@
 package com.philips.cdp.registration.coppa.ui.controllers;
 
-import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,25 +23,25 @@ import java.util.Date;
 import java.util.TimeZone;
 
 
- public class ParentalApprovalFragmentController implements RefreshUserHandler, View.OnClickListener {
+public class ParentalApprovalFragmentController implements RefreshUserHandler, View.OnClickListener {
     private ParentalApprovalFragment mParentalApprovalFragment;
     private CoppaExtension mCoppaExtension;
     private boolean isCoppaConsent;
 
-    public ParentalApprovalFragmentController( ParentalApprovalFragment fragment){
+    public ParentalApprovalFragmentController(ParentalApprovalFragment fragment) {
         mParentalApprovalFragment = fragment;
         mCoppaExtension = new CoppaExtension(mParentalApprovalFragment.getRegistrationFragment().getParentActivity().getApplicationContext());
     }
 
 
-    public void refreshUser(){
+    public void refreshUser() {
         mParentalApprovalFragment.showRefreshProgress();
         User user = new User(mParentalApprovalFragment.getContext());
         user.refreshUser(this);
     }
 
-    public  boolean isCountryUS() {
-        boolean isCountryUS ;
+    public boolean isCountryUS() {
+        boolean isCountryUS;
         if (getCoppaExtension().getConsent().getLocale() != null) {
             isCountryUS = getCoppaExtension().getConsent().getLocale().equalsIgnoreCase("en_US");
         } else {
@@ -54,11 +53,12 @@ import java.util.TimeZone;
     @Override
     public void onRefreshUserSuccess() {
         mCoppaExtension.buildConfiguration();
+        mParentalApprovalFragment.showContent();
         mParentalApprovalFragment.hideRefreshProgress();
         updateUIBasedOnConsentStatus(mCoppaExtension.getCoppaEmailConsentStatus());
     }
 
-    private void navigateToWelcome(){
+    private void navigateToWelcome() {
         RegistrationCoppaLaunchHelper.isBackEventConsumedByRegistration(mParentalApprovalFragment.getActivity());
     }
 
@@ -77,53 +77,46 @@ import java.util.TimeZone;
 
     }
 
-     private void showServerErrorALert() {
-         new Handler().postDelayed(new Runnable() {
-             @Override
-             public void run() {
-                 RegCoppaAlertDialog.showCoppaDialogMsg("", mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed), mParentalApprovalFragment.getActivity(), mOkBtnClick);
-             }
-         }, 1000);
-
-     }
+    public void showServerErrorALert() {
+        RegCoppaAlertDialog.showCoppaDialogMsg("", mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed), mParentalApprovalFragment.getActivity(), mOkBtnClick);
+    }
 
 
-     public CoppaExtension getCoppaExtension(){
+    public CoppaExtension getCoppaExtension() {
         return mCoppaExtension;
     }
 
-    private void updateUIBasedOnConsentStatus(final CoppaStatus coppaStatus){
-        System.out.println("Consent status " +coppaStatus);
-        if(coppaStatus == CoppaStatus.kDICOPPAConsentPending){
+    private void updateUIBasedOnConsentStatus(final CoppaStatus coppaStatus) {
+        System.out.println("Consent status " + coppaStatus);
+        if (coppaStatus == CoppaStatus.kDICOPPAConsentPending) {
             mParentalApprovalFragment.setConfirmApproval();
             isCoppaConsent = true;
             System.out.println("Consent Pending");
-        } else{
+        } else {
 
-            if(mCoppaExtension.getConsent().getLocale().equalsIgnoreCase("en_US")) {
-                if ( (hoursSinceLastConsent() >= 24L)) {
-                     new User(mParentalApprovalFragment.getContext()).refreshUser(new RefreshUserHandler() {
-                         @Override
-                         public void onRefreshUserSuccess() {
-                             mCoppaExtension.buildConfiguration();
-                             if (coppaStatus == CoppaStatus.kDICOPPAConfirmationPending) {
-                                 System.out.println("Consent hours" + hoursSinceLastConsent());
-                                 isCoppaConsent = false;
+            if (mCoppaExtension.getConsent().getLocale().equalsIgnoreCase("en_US")) {
+                if ((hoursSinceLastConsent() >= 24L)) {
+                    new User(mParentalApprovalFragment.getContext()).refreshUser(new RefreshUserHandler() {
+                        @Override
+                        public void onRefreshUserSuccess() {
+                            mCoppaExtension.buildConfiguration();
+                            if (coppaStatus == CoppaStatus.kDICOPPAConfirmationPending) {
+                                System.out.println("Consent hours" + hoursSinceLastConsent());
+                                isCoppaConsent = false;
 
-                                 mParentalApprovalFragment.setIsUSRegionCode();
-                             }else{
-                                 if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                                     RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
-                                 }
-                             }
-                         }
+                                mParentalApprovalFragment.setIsUSRegionCode();
+                            } else {
+                                if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                                    RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+                                }
+                            }
+                        }
 
-                         @Override
-                         public void onRefreshUserFailed(int error) {
+                        @Override
+                        public void onRefreshUserFailed(int error) {
 
-                         }
-                     });
-
+                        }
+                    });
 
 
                 } else {
@@ -131,7 +124,7 @@ import java.util.TimeZone;
                         RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
                     }
                 }
-            }else{
+            } else {
                 if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                     RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
                 }
@@ -139,10 +132,9 @@ import java.util.TimeZone;
         }
 
 
-
     }
 
-    private long hoursSinceLastConsent(){
+    private long hoursSinceLastConsent() {
 
         Date date = null;
         SimpleDateFormat format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_COPPA);
@@ -163,10 +155,9 @@ import java.util.TimeZone;
             e.printStackTrace();
         }
 
-        return diff/3600000;
+        return diff / 3600000;
 
     }
-
 
 
     @Override
@@ -174,56 +165,56 @@ import java.util.TimeZone;
         int id = v.getId();
         if (id == R.id.reg_btn_agree) {
 
-                if(isCoppaConsent) {
-                    mParentalApprovalFragment.showRefreshProgress();
-                    mCoppaExtension.updateCoppaConsentStatus(true, new CoppaConsentUpdateCallback() {
-                        @Override
-                        public void onSuccess() {
-                            mParentalApprovalFragment.hideRefreshProgress();
-                            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
-                            }
+            if (isCoppaConsent) {
+                mParentalApprovalFragment.showRefreshProgress();
+                mCoppaExtension.updateCoppaConsentStatus(true, new CoppaConsentUpdateCallback() {
+                    @Override
+                    public void onSuccess() {
+                        mParentalApprovalFragment.hideRefreshProgress();
+                        if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                            RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
                         }
+                    }
 
-                        @Override
-                        public void onFailure(int errorCode) {
-                            mParentalApprovalFragment.hideRefreshProgress();
-                            if(errorCode==-1){
-                                Toast.makeText(mParentalApprovalFragment.getContext(),mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
-                                ,Toast.LENGTH_SHORT).show();
-                            }
+                    @Override
+                    public void onFailure(int errorCode) {
+                        mParentalApprovalFragment.hideRefreshProgress();
+                        if (errorCode == -1) {
+                            Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
+                                    , Toast.LENGTH_SHORT).show();
                         }
-                    });
-                }else{
-                    mParentalApprovalFragment.showRefreshProgress();
-                    mCoppaExtension.updateCoppaConsentConfirmationStatus(true, new CoppaConsentUpdateCallback() {
-                        @Override
-                        public void onSuccess() {
-                            mParentalApprovalFragment.hideRefreshProgress();
-                            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
-                            }
+                    }
+                });
+            } else {
+                mParentalApprovalFragment.showRefreshProgress();
+                mCoppaExtension.updateCoppaConsentConfirmationStatus(true, new CoppaConsentUpdateCallback() {
+                    @Override
+                    public void onSuccess() {
+                        mParentalApprovalFragment.hideRefreshProgress();
+                        if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                            RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
                         }
+                    }
 
-                        @Override
-                        public void onFailure(int errorCode) {
-                            mParentalApprovalFragment.hideRefreshProgress();
-                            if(errorCode==-1){
-                                Toast.makeText(mParentalApprovalFragment.getContext(),mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
-                                        ,Toast.LENGTH_SHORT).show();
-                            }
+                    @Override
+                    public void onFailure(int errorCode) {
+                        mParentalApprovalFragment.hideRefreshProgress();
+                        if (errorCode == -1) {
+                            Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
+                                    , Toast.LENGTH_SHORT).show();
                         }
-                    });
-                }
+                    }
+                });
+            }
 
           /*  if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                 RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
             }*/
         } else if (id == R.id.reg_btn_dis_agree) {
 
-            if(isCoppaConsent ){
+            if (isCoppaConsent) {
                 mParentalApprovalFragment.showRefreshProgress();
-                mCoppaExtension.updateCoppaConsentStatus( false, new CoppaConsentUpdateCallback() {
+                mCoppaExtension.updateCoppaConsentStatus(false, new CoppaConsentUpdateCallback() {
                     @Override
                     public void onSuccess() {
                         mParentalApprovalFragment.hideRefreshProgress();
@@ -235,14 +226,14 @@ import java.util.TimeZone;
                     @Override
                     public void onFailure(int errorCode) {
                         mParentalApprovalFragment.hideRefreshProgress();
-                        if(errorCode==-1){
-                            Toast.makeText(mParentalApprovalFragment.getContext(),mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
-                                    ,Toast.LENGTH_SHORT).show();
+                        if (errorCode == -1) {
+                            Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
+                                    , Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-            }else{
-                mCoppaExtension.updateCoppaConsentConfirmationStatus( false, new CoppaConsentUpdateCallback() {
+            } else {
+                mCoppaExtension.updateCoppaConsentConfirmationStatus(false, new CoppaConsentUpdateCallback() {
                     @Override
                     public void onSuccess() {
                         if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
@@ -253,15 +244,15 @@ import java.util.TimeZone;
                     @Override
                     public void onFailure(int errorCode) {
                         mParentalApprovalFragment.hideRefreshProgress();
-                        if(errorCode==-1){
-                            Toast.makeText(mParentalApprovalFragment.getContext(),mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
-                                    ,Toast.LENGTH_SHORT).show();
+                        if (errorCode == -1) {
+                            Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
+                                    , Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
 
-            if (mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationNotGiven){
+            if (mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationNotGiven) {
                 if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                     RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
                 }
