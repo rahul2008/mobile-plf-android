@@ -282,7 +282,7 @@ public class PuiEditText extends RelativeLayout {
 /*        if (editTextWidth > 0) setWidth(editTextWidth);
         if (editTextHeight > 0) setHeight(editTextHeight);*/
         if (focused) editText.requestFocus();
-        if(singleLine) {
+        if(!isPassword) {
             editText.setSingleLine(singleLine);
         }
         editText.setHint(editTextHint);

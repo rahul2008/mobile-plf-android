@@ -15,6 +15,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -35,12 +36,11 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
     private static final int[] STATE_EMPTY_PASSWORD = {R.attr.uikit_state_emptyPassword};
     private static final int[] STATE_MASKED_PASSWORD = {R.attr.uikit_state_maskedPassword};
     private static final int[] STATE_SHOW_PASSWORD = {R.attr.uikit_state_showPassword};
-
-    int eyeDrawableState;
+    final int DRAWABLE_RIGHT = 2;
     int basecolor;
+    private boolean isPreLollipop = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
+    Context context;
 
-    int index;
-    private boolean isPreLollipop = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;    Context context;
     public UikitPasswordEditText(final Context cont, AttributeSet attrs) {
         super(cont, attrs);
         context=cont;
@@ -50,30 +50,26 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         TypedArray a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
         basecolor = a.getInt(0, R.attr.uikit_baseColor);
         a.recycle();
-        setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
+        setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        setSelection(getText().length());
+        //setImeOptions(EditorInfo.TYPE_TEXT_VARIATION_PASSWORD);
+        Log.v("Orientation","called"+getTransformationMethod());
         if ((getTransformationMethod()) instanceof PasswordTransformationMethod)
-            setTransformationMethod(null);
+            setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
-        else setTransformationMethod(new PasswordTransformationMethod());
-
+        else setTransformationMethod(PasswordTransformationMethod.getInstance());
         addTextChangedListener(this);
-
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
+
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (getRight() - getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-//                         toggleEyeColor();
                         int index = getSelectionEnd();
                         if ((getTransformationMethod()) instanceof PasswordTransformationMethod)
-                            setTransformationMethod(null);
+                            setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
-                        else setTransformationMethod(new PasswordTransformationMethod());
+                        else setTransformationMethod(PasswordTransformationMethod.getInstance());
 
                         cancelLongPress();
                         setSelection(index);
@@ -123,14 +119,6 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         return wrappedDrawable;
     }
 
-    /*    public void togglePassword()
-        {
-            if (( getTransformationMethod()) instanceof PasswordTransformationMethod)
-                 setTransformationMethod(null);
-
-            else  setTransformationMethod(new PasswordTransformationMethod());
-
-        }*/
     @Override
     public boolean isLongClickable() {
         return false;
@@ -162,21 +150,23 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
-
+    /**
+     * Setting the different states for the compound drawable image i.e the eye image
+     */
     @Override
     public void afterTextChanged(Editable s) {
 
         if(s.length() == 0){
-            getCompoundDrawables()[2].setState(STATE_EMPTY_PASSWORD);
+            getCompoundDrawables()[DRAWABLE_RIGHT].setState(STATE_EMPTY_PASSWORD);
             if ((getTransformationMethod()) instanceof PasswordTransformationMethod)
             {
                 //do nothing
             }
-            else setTransformationMethod(new PasswordTransformationMethod());
+            else setTransformationMethod(PasswordTransformationMethod.getInstance());
         } else if((getTransformationMethod()) instanceof PasswordTransformationMethod) {
-            getCompoundDrawables()[2].setState(STATE_MASKED_PASSWORD);
+            getCompoundDrawables()[DRAWABLE_RIGHT].setState(STATE_MASKED_PASSWORD);
         } else {
-            getCompoundDrawables()[2].setState(STATE_SHOW_PASSWORD);
+            getCompoundDrawables()[DRAWABLE_RIGHT].setState(STATE_SHOW_PASSWORD);
         }
     }
 

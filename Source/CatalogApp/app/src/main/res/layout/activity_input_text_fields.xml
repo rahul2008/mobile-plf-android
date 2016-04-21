@@ -57,7 +57,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             inputText:uikit_hintText="Password"
-            inputText:uikit_singleLine="true"
             inputText:uikit_enabled="true"
             inputText:uikit_errorText="@string/invalid_pwd_format"
             inputText:uikit_password_edit_field="true"
