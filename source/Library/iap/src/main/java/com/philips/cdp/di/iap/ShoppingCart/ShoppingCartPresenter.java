@@ -53,6 +53,9 @@ public class ShoppingCartPresenter {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
 }
 
+    public ShoppingCartPresenter() {
+    }
+
     public ShoppingCartPresenter(Context context, LoadListener listener, android.support.v4.app.FragmentManager fragmentManager) {
         mContext = context;
         mProductData = new ArrayList<>();
@@ -217,7 +220,8 @@ public class ShoppingCartPresenter {
         });
     }
 
-    private void addProductToCart(final Context context, String productCTN, final IAPCartListener iapHandlerListener,
+    public void addProductToCart(final Context context, String productCTN, final IAPCartListener
+            iapHandlerListener,
                                   final boolean isFromBuyNow) {
         if (productCTN == null) return;
         HashMap<String, String> params = new HashMap<>();

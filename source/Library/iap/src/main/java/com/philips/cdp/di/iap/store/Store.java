@@ -89,9 +89,9 @@ public class Store {
         return new StoreConfiguration(context, this);
     }
 
-    public void initStoreConfig(String countryCode, RequestListener listener) {
+    public void initStoreConfig(String language, String countryCode, RequestListener listener) {
         mCountry = countryCode;
-        mStoreConfig.initConfig(countryCode, listener);
+        mStoreConfig.initConfig(language,countryCode, listener);
     }
 
     void generateStoreUrls() {
@@ -246,5 +246,9 @@ public class Store {
 
     public boolean isUserLoggedOut() {
         return mUserLoggedout;
+    }
+
+    public String getSiteID() {
+        return mStoreConfig.getSite();
     }
 }

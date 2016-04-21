@@ -29,8 +29,6 @@ import com.philips.cdp.localematch.enums.Sector;
 
 import org.json.JSONObject;
 
-import java.util.Locale;
-
 public class WebStoreConfig {
     private static final String TAG = WebStoreConfig.class.getSimpleName();
     final Context mContext;
@@ -58,10 +56,10 @@ public class WebStoreConfig {
         return null;
     }
 
-    public void initConfig(String countryCode, final RequestListener listener) {
+    public void initConfig(final String language, String countryCode, final RequestListener listener) {
         mResponseListener = listener;
         initLocaleMatcher();
-        refresh(countryCode);
+        refresh(language, countryCode);
     }
 
     void initLocaleMatcher() {
@@ -88,8 +86,8 @@ public class WebStoreConfig {
         mLocaleManager = new PILLocaleManager();
     }
 
-    void refresh(final String countryCode) {
-        mLocaleManager.refresh(mContext, Locale.getDefault().getLanguage(), countryCode);
+    void refresh(String language, String countryCode) {
+        mLocaleManager.refresh(mContext, language, countryCode);
     }
 
     void startConfigDownloadThread() {

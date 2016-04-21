@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.session.IAPConfig;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -73,7 +74,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mCountText = (TextView) findViewById(R.id.count_txt);
 
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
-        mIapHandler = new IAPHandler();
+        mIapHandler = IAPHandler.init(this, new IAPConfig("en","US",DEFAULT_THEME));
+        mIapHandler.launchIAP(IAPConstant.Screen.PRODUCT_CATALOG,null, null);
+
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         Spinner mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -105,7 +108,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         if (user.isUserSignIn()) {
             displayViews();
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
-            mIapHandler.getProductCartCount(this, mProductCountListener);
+           // mIapHandler.getProductCartCount(this, mProductCountListener);
         }
     }
 
@@ -126,28 +129,28 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     void addToCart(String ctnNumber) {
         if (!(Utility.isProgressDialogShowing())) {
             Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
-            mIapHandler.addProductToCart(this, ctnNumber, mAddToCartListener);
+//            mIapHandler.addProductToCart(this, ctnNumber, mAddToCartListener);
             IAPLog.d(IAPLog.DEMOAPPACTIVITY, "addProductToCart");
         }
     }
 
     void buyProduct(final String ctnNumber) {
         Utility.showProgressDialog(this, getString(R.string.please_wait));
-        mIapHandler.buyProduct(this, ctnNumber, mBuyProductListener, DEFAULT_THEME);
+//        mIapHandler.buyProduct(this, ctnNumber, mBuyProductListener, DEFAULT_THEME);
     }
 
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.shopping_cart_icon:
-                mIapHandler.launchIAP(this, DEFAULT_THEME);
+//                mIapHandler.launchIAP(this, DEFAULT_THEME);
                 break;
             case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
             case R.id.btn_shop_now:
-                mIapHandler.launchProductCatalog(this, DEFAULT_THEME);
+//                mIapHandler.launchProductCatalog(this, DEFAULT_THEME);
                 break;
             default:
                 break;
@@ -192,7 +195,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
 
             //TODO: 24-03-2016 Adding out of stock condition
-            mIapHandler.getProductCartCount(DemoAppActivity.this, mProductCountListener);
+            mIapHandler.getProductCartCount(mProductCountListener);
 
         }
 
@@ -240,7 +243,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         public void onSuccess(final int count) {
             mShopNow.setEnabled(true);
             mShopNow.setVisibility(View.VISIBLE);
-            mIapHandler.getProductCartCount(DemoAppActivity.this, mProductCountListener);
+            mIapHandler.getProductCartCount( mProductCountListener);
         }
 
         @Override
@@ -281,7 +284,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (!mIgnoreOnItemSelectListener) {
+/*        if (!mIgnoreOnItemSelectListener) {
             String selectedCountry = parent.getItemAtPosition(position).toString();
             if (selectedCountry.equals("UK"))
                 selectedCountry = "GB";
@@ -289,7 +292,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 Utility.showProgressDialog(this, getString(R.string.please_wait));
                 mIapHandler.initIAP(this, selectedCountry, mLocaleChangeListener);
             }
-        }
+        }*/
     }
 
     @Override

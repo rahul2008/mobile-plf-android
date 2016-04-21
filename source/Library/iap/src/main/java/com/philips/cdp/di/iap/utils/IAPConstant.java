@@ -43,4 +43,9 @@ public class IAPConstant {
     public static final String PRODUCT_DETAIL_FRAGMENT_CATALOG = "PRODUCT_DETAIL_FRAGMENT_CATALOG";
     public static final String IAP_LAUNCH_PRODUCT_CATALOG = "IAP_LAUNCH_PRODUCT_CATALOG";
     public static final String IAP_PRODUCT_COUNT = "IAP_PRODUCT_COUNT";
+
+    public interface Screen {
+        int PRODUCT_CATALOG = 0;
+        int SHOPPING_CART = 1;
+    }
 }
