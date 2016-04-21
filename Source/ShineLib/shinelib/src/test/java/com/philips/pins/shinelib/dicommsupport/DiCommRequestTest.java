@@ -14,10 +14,13 @@ import static org.junit.Assert.assertEquals;
 public class DiCommRequestTest extends RobolectricTest {
 
     public static final String DEVICE = "device";
+    public static final String SPECIAL_CHARACTER_DEVICE = "device\u00D6";
     public static final String PORT = "port";
+    public static final String SPECIAL_CHARACTER_PORT = "port\u00D6";
+    public static final int VALUE = 5;
     public static final String DATA = "data";
 
-    public static final String DATA_JSON = "{\"data\":5}";
+    public static final String DATA_JSON = "{\"" + DATA + "\":" + VALUE + "}";
 
     public static final int EXPECTED_HEADER_LENGTH = DEVICE.length() + 1 + PORT.length() + 1;
     public static final int EXPECTED_MESSAGE_LENGTH = EXPECTED_HEADER_LENGTH + DATA_JSON.length() + 1;
@@ -27,7 +30,7 @@ public class DiCommRequestTest extends RobolectricTest {
     @Before
     public void setUp() throws Exception {
         properties = new HashMap<>();
-        properties.put(DATA, 5);
+        properties.put(DATA, VALUE);
     }
 
     @Test
@@ -74,16 +77,40 @@ public class DiCommRequestTest extends RobolectricTest {
     }
 
     private void verifyDeviceAndPortName(byte[] message) {
-        assertEquals(DEVICE.getBytes(StandardCharsets.UTF_8)[1], message[1]);
-        assertEquals(DEVICE.getBytes(StandardCharsets.UTF_8)[2], message[2]);
-        assertEquals(DEVICE.getBytes(StandardCharsets.UTF_8)[3], message[3]);
-        assertEquals(DEVICE.getBytes(StandardCharsets.UTF_8)[4], message[4]);
-        assertEquals(DEVICE.getBytes(StandardCharsets.UTF_8)[5], message[5]);
+        byte[] deviceBytes = DEVICE.getBytes(StandardCharsets.UTF_8);
+        assertEquals(deviceBytes[1], message[1]);
+        assertEquals(deviceBytes[2], message[2]);
+        assertEquals(deviceBytes[3], message[3]);
+        assertEquals(deviceBytes[4], message[4]);
+        assertEquals(deviceBytes[5], message[5]);
 
-        assertEquals(PORT.getBytes(StandardCharsets.UTF_8)[0], message[7]);
-        assertEquals(PORT.getBytes(StandardCharsets.UTF_8)[1], message[8]);
-        assertEquals(PORT.getBytes(StandardCharsets.UTF_8)[2], message[9]);
-        assertEquals(PORT.getBytes(StandardCharsets.UTF_8)[3], message[10]);
+        byte[] portBytes = PORT.getBytes(StandardCharsets.UTF_8);
+        assertEquals(portBytes[0], message[7]);
+        assertEquals(portBytes[1], message[8]);
+        assertEquals(portBytes[2], message[9]);
+        assertEquals(portBytes[3], message[10]);
+    }
+
+    @Test
+    public void whenGetPropsRequestDataHasSpecialCharacterThenReturnedMessageIsNullSeparated() throws Exception {
+        DiCommRequest diCommRequest = new DiCommRequest();
+
+        DiCommMessage message = diCommRequest.getPropsRequestDataWithProduct(SPECIAL_CHARACTER_DEVICE, SPECIAL_CHARACTER_PORT);
+        byte[] data = message.getData();
+
+        int zeroCount = getNullSeparatorCount(data);
+
+        assertEquals(2, zeroCount);
+    }
+
+    private int getNullSeparatorCount(byte[] data) {
+        int nullCount = 0;
+        for (byte element : data) {
+            if (element == (byte) 0) {
+                nullCount++;
+            }
+        }
+        return nullCount;
     }
 
     @Test
@@ -111,9 +138,9 @@ public class DiCommRequestTest extends RobolectricTest {
         DiCommMessage message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties);
 
         byte[] data = message.getData();
-        assertEquals(0, data[DEVICE.length()]);
-        assertEquals(0, data[EXPECTED_HEADER_LENGTH - 1]);
-        assertEquals(0, data[EXPECTED_MESSAGE_LENGTH - 1]);
+        assertEquals((byte) 0, data[DEVICE.length()]);
+        assertEquals((byte) 0, data[EXPECTED_HEADER_LENGTH - 1]);
+        assertEquals((byte) 0, data[EXPECTED_MESSAGE_LENGTH - 1]);
     }
 
     @Test
@@ -132,8 +159,21 @@ public class DiCommRequestTest extends RobolectricTest {
         byte[] message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties).getData();
 
         int startIndex = EXPECTED_HEADER_LENGTH;
+        byte[] JSONDataBytes = DATA_JSON.getBytes(StandardCharsets.UTF_8);
         for (int index = 0; index < DATA_JSON.length(); index++) {
-            assertEquals(DATA_JSON.getBytes(StandardCharsets.UTF_8)[index], message[startIndex++]);
+            assertEquals(JSONDataBytes[index], message[startIndex++]);
         }
+    }
+
+    @Test
+    public void whenPetPropsRequestDataHasSpecialCharacterThenReturnedMessageIsNullSeparated() throws Exception {
+        DiCommRequest diCommRequest = new DiCommRequest();
+        properties.put("client\u00D1", "2");
+
+        byte[] data = diCommRequest.putPropsRequestDataWithProduct(SPECIAL_CHARACTER_DEVICE, SPECIAL_CHARACTER_PORT, properties).getData();
+
+        int zeroCount = getNullSeparatorCount(data);
+
+        assertEquals(3, zeroCount);
     }
 }

@@ -5,14 +5,10 @@ import android.support.annotation.NonNull;
 import org.json.JSONObject;
 
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 class DiCommRequest {
-
-    CharsetEncoder UTF_8_Encoder = StandardCharsets.UTF_8.newEncoder();
 
     public DiCommMessage getPropsRequestDataWithProduct(@NonNull String product, @NonNull String port) {
         byte[] byteArray = encodeHeader(product, port);
@@ -30,19 +26,22 @@ class DiCommRequest {
 
     @NonNull
     private byte[] encodeHeader(@NonNull String... strings) {
-        int length = 0;
+        byte[][] byteArray = new byte[strings.length][];
+        int totalDataLength = 0;
 
-        for (String string : strings) {
-            length += string.length() + 1;
+        for (int index = 0; index < strings.length; index++) {
+            byteArray[index] = strings[index].getBytes(StandardCharsets.UTF_8);
+            totalDataLength += byteArray[index].length;
         }
 
-        byte[] byteArray = new byte[length];
-        ByteBuffer byteBuffer = ByteBuffer.wrap(byteArray);
+        byte[] resultArray = new byte[totalDataLength + strings.length];
 
-        for (String string : strings) {
-            UTF_8_Encoder.encode(CharBuffer.wrap(string), byteBuffer, true);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(resultArray);
+        for (int index = 0; index < strings.length; index++) {
+            byteBuffer.put(byteArray[index]);
             byteBuffer.put((byte) 0);
         }
-        return byteBuffer.array();
+
+        return resultArray;
     }
 }
