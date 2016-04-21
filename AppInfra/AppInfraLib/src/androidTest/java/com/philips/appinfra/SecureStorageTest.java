@@ -38,13 +38,16 @@ public class SecureStorageTest extends MockitoTestCase {
 
 
 
-        assertNull(mSecureStorage.storeValueForKey("", "value"));
-        assertNull(mSecureStorage.storeValueForKey("", ""));
-        assertNull(mSecureStorage.storeValueForKey("key", null));
-        assertNull(mSecureStorage.storeValueForKey(null, "value"));
-        assertNull(mSecureStorage.storeValueForKey(null, null));
+        assertFalse(mSecureStorage.storeValueForKey("", "value"));
+        assertFalse(mSecureStorage.storeValueForKey("", ""));
+        assertFalse(mSecureStorage.storeValueForKey("key", null));
+        assertFalse(mSecureStorage.storeValueForKey(null, "value"));
+        assertFalse(mSecureStorage.storeValueForKey(null, null));
+        assertTrue(mSecureStorage.storeValueForKey("key", "")); // value can be empty
+        assertFalse(mSecureStorage.storeValueForKey(" ", "val")); // value can be empty
+        assertFalse(mSecureStorage.storeValueForKey("   ", "val")); // value can be empty
 
-        assertNotNull(mSecureStorage.storeValueForKey("key", "value")); // true condition
+        assertTrue(mSecureStorage.storeValueForKey("key", "value")); // true condition
 
         // value passed by user should not be same as that of its encrypted equivalent
 
@@ -54,7 +57,8 @@ public class SecureStorageTest extends MockitoTestCase {
 
         assertNull(mSecureStorage.fetchValueForKey(null));
         assertNull(mSecureStorage.fetchValueForKey(""));
-        //assertNotNull(mSecureStorage.fetchValueForKey("key"));
+        assertNull(mSecureStorage.fetchValueForKey("NotSavedKey"));
+
     }
 
     public void testSharedPreferences(){
@@ -79,4 +83,43 @@ public class SecureStorageTest extends MockitoTestCase {
 
 
     }
+    public void testHappyPath()throws Exception {
+        String valueStored= "value";
+        String keyStored= "key";
+        assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored));
+        assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
+        assertTrue(mSecureStorage.RemoveValueForKey(keyStored));
+        assertNull(mSecureStorage.fetchValueForKey(keyStored));
+    }
+
+    public void testMultipleCallIndependentMethods()throws Exception {
+        String valueStored= "value";
+        String keyStored= "key";
+        int iCount;
+        for(iCount=0;iCount<10;iCount++){
+            assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored));
+        }
+        for(iCount=0;iCount<10;iCount++) {
+            assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
+        }
+
+        assertTrue(mSecureStorage.RemoveValueForKey(keyStored));
+        for(iCount=0;iCount<10;iCount++) {
+            assertFalse(mSecureStorage.RemoveValueForKey(keyStored));
+        }
+    }
+
+    public void testMultipleCallSequentialMethods()throws Exception {
+        String valueStored= "value";
+        String keyStored= "key";
+        int iCount;
+        for(iCount=0;iCount<10;iCount++){
+            assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored));
+            assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
+        }
+
+
+    }
+
+
 }

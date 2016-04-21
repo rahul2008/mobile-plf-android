@@ -34,11 +34,11 @@ public class SecureStorageActivity extends AppCompatActivity  {
             public void onClick(View v) {
 
 
-                String encryptedData= mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString());
-                if(null==encryptedData){
+                mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString());
+                if(null==SecureStorage.encryptedTextTemp){
                     Toast.makeText(SecureStorageActivity.this, "Key or Value incorrect", Toast.LENGTH_SHORT).show();;
                 }
-                encryptedDataTextView.setText(encryptedData);
+                encryptedDataTextView.setText(SecureStorage.encryptedTextTemp);
 
             }
         });

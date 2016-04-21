@@ -52,11 +52,13 @@ public class SecureStorage implements SecureStorageInterface{
 
 
     @Override
-    public void storeValueForKey(String userKey,String valueToBeEncrypted) {
+    public boolean storeValueForKey(String userKey,String valueToBeEncrypted) {
+        boolean returnResult= true;
         String encryptedString=null;
         try {
-            if(null==userKey || userKey.isEmpty() || null==valueToBeEncrypted ) {
-                return ;
+            if(null==userKey || userKey.isEmpty() || userKey.trim().isEmpty() || null==valueToBeEncrypted ) {
+                returnResult=false;
+                return false;
             }
             generateKeyPair();
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
@@ -72,12 +74,14 @@ public class SecureStorage implements SecureStorageInterface{
 
             byte [] vals = outputStream.toByteArray();
             encryptedString=Base64.encodeToString(vals, Base64.DEFAULT);
-            encryptedString = storeEncryptedData(userKey, encryptedString)?encryptedString:null; // if save of encryption data fails return null
+            returnResult = storeEncryptedData(userKey, encryptedString);
+            encryptedString = returnResult?encryptedString:null; // if save of encryption data fails return null
             encryptedTextTemp=encryptedString; // to be removed from release build
         } catch (Exception e) {
             Log.e("SecureStorage", Log.getStackTraceString(e));
         }finally{
             System.out.println("ENCR" +encryptedString);
+            return returnResult;
         }
     }
 
@@ -185,7 +189,7 @@ public class SecureStorage implements SecureStorageInterface{
                 // encrypted data will be saved in device  SharedPreferences
                 SharedPreferences.Editor editor = getSharedPreferences().edit();
                 editor.putString(key, encryptedData);
-                editor.commit();
+                storeEncryptedDataResult=editor.commit();
             }
         }catch(Exception e){
             storeEncryptedDataResult=false;
@@ -210,19 +214,24 @@ public class SecureStorage implements SecureStorageInterface{
     }
 
     protected boolean deleteEncryptedData(String key){
-        boolean result= true;
+        boolean deleteResult= false;
         try {
             if (mEncryptedDataOutput.equals(DEVICE_FILE)) {
-                // encrypted data will be deleted from device  SharedPreferences
-                SharedPreferences.Editor editor = getSharedPreferences().edit();
-                editor.remove(key);
-                editor.commit();
+                SharedPreferences prefs = getSharedPreferences();
+               // String isGivenKeyPresentInSharedPreferences = prefs.getString(key, null);
+               if( prefs.contains(key)){  // if given key is present in SharedPreferences
+                   // encrypted data will be deleted from device  SharedPreferences
+                   SharedPreferences.Editor editor = getSharedPreferences().edit();
+                   editor.remove(key);
+                   deleteResult=editor.commit();
+               }
+
             }
         }catch(Exception e){
             e.printStackTrace();
-            result= false;
+            deleteResult= false;
         }
-        return result;
+        return deleteResult;
     }
 
 
