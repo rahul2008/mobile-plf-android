@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.Fragments;
 
 import android.graphics.drawable.Drawable;
@@ -14,22 +18,16 @@ import android.widget.ImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.BuyFromRetailersAdapter;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-public class BuyFromRetailersFragment extends BaseAnimationSupportFragment  implements ShoppingCartPresenter.LoadListenerForRetailer, EventListener{
+
+public class BuyFromRetailersFragment extends BaseAnimationSupportFragment implements ShoppingCartPresenter.LoadListenerForRetailer {
 
     FrameLayout mCrossContainer;
     RecyclerView mRecyclerView;
@@ -78,7 +76,7 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment  impl
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_retailer_title);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         getRetailersInformation();
     }
 
@@ -93,7 +91,7 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment  impl
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 
     @Override
@@ -101,15 +99,5 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment  impl
         mAdapter = new BuyFromRetailersAdapter(getContext(), data, getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void raiseEvent(final String event) {
-
-    }
-
-    @Override
-    public void onEventReceived(final String event) {
-
     }
 }

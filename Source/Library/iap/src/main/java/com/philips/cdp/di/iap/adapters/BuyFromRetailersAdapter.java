@@ -60,7 +60,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
             holder.mAvaililibility.setTextColor(mThemeBaseColor);
         }else{
             holder.mAvaililibility.setText(mContext.getString(R.string.iap_out_of_stock));
-            holder.mAvaililibility.setTextColor(ContextCompat.getColor(mContext,R.color.uikit_enricher4));
+            holder.mAvaililibility.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
         }
 
         final String buyURL = storeEntity.getBuyURL();
@@ -95,8 +95,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
     @Override
     public int getItemCount() {
-        int count = mStoreEntities.size();
-        return count;
+        return mStoreEntities.size();
     }
 
     public class RetailerViewHolder extends RecyclerView.ViewHolder {
