@@ -13,11 +13,11 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 
 public class Store {
 
-    private static final String HTTPS = "https://";
-    private static final String WEB_ROOT = "pilcommercewebservices";
-    private static final String V2 = "v2";
+    public static final String HTTPS = "https://";
+    public static final String WEB_ROOT = "pilcommercewebservices";
+    public static final String V2 = "v2";
     private static final String USER = "users";
-    private static final String SEPERATOR = "/";
+    public static final String SEPERATOR = "/";
     private static final String METAINFO = "metainfo";
     private static final String REGIONS = "regions";
     private static final String LANG = "?fields=FULL&lang=en";
