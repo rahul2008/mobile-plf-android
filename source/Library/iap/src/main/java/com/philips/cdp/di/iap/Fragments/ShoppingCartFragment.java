@@ -3,6 +3,8 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -158,8 +160,20 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             startProductDetailFragment();
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
-            replaceFragment(getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG),null);
+            Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+            if(fragment!=null) {
+                replaceFragment(fragment, ProductCatalogFragment.TAG);
+            }else{
+                addProductCatalog();
+            }
         }
+    }
+
+    private void addProductCatalog() {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment(),ProductCatalogFragment.TAG);
+        transaction.addToBackStack(null);
+        transaction.commitAllowingStateLoss();
     }
 
     private void startProductDetailFragment() {
