@@ -9,7 +9,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
-import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -22,6 +21,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
@@ -103,6 +104,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private Drawable imageArrow;
     protected boolean mIgnoreTextChangeListener = false;
 
+    PhoneNumberUtil phoneNumberUtil;
+    Phonenumber.PhoneNumber phoneNumber = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +117,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_shipping_address_layout, container, false);
+        phoneNumberUtil = PhoneNumberUtil.getInstance();
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.inlineForms);
 
         mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
@@ -175,7 +180,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
         mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
-        mEtPhoneNumber.addTextChangedListener(new PhoneNumberFormattingTextWatcher
+        mEtPhoneNumber.addTextChangedListener(new IAPTextWatcher(mEtPhoneNumber));
+
+       /* mEtPhoneNumber.addTextChangedListener(new PhoneNumberFormattingTextWatcher
                 (HybrisDelegate.getInstance(mContext).getStore().getCountry()) {
             @Override
             public synchronized void afterTextChanged(Editable s) {
@@ -184,7 +191,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     validate(mEtPhoneNumber, false);
                 }
             }
-        });
+        });*/
         mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
         mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
 
@@ -409,7 +416,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             errorMessage = getResources().getString(R.string.iap_town_error);
         }
         if (editText.getId() == R.id.et_phone_number && !hasFocus) {
-            result = mValidator.isValidPhoneNumber(mEtPhoneNumber.getText().toString());
+            result = validatePhoneNumber(HybrisDelegate.getInstance().getStore().getCountry()
+                    , mEtPhoneNumber.getText().toString());
+//            result = mValidator.isValidPhoneNumber(mEtPhoneNumber.getText().toString());
             errorMessage = getResources().getString(R.string.iap_phone_error);
         }
         if (editText.getId() == R.id.et_country && !hasFocus) {
@@ -514,7 +523,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     private class IAPTextWatcher implements TextWatcher {
-
         private EditText mEditText;
 
         public IAPTextWatcher(EditText editText) {
@@ -525,14 +533,40 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (!mIgnoreTextChangeListener) {
+            if (mEditText != mEtPhoneNumber && !mIgnoreTextChangeListener) {
                 validate(mEditText, false);
             }
         }
 
-        public void afterTextChanged(Editable s) {
+        private boolean isInAfterTextChanged;
+
+        public synchronized void afterTextChanged(Editable text) {
+            if (mEditText == mEtPhoneNumber && !isInAfterTextChanged) {
+                isInAfterTextChanged = true;
+                validate(mEditText, false);
+                isInAfterTextChanged = false;
+            }
         }
     }
+
+    private boolean validatePhoneNumber(String country, String number) {
+        try {
+            phoneNumber = phoneNumberUtil.parse(number, country);
+            boolean isValid = phoneNumberUtil.isValidNumber(phoneNumber);
+            String formattedPhoneNumber = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
+            mEtPhoneNumber.setText(formattedPhoneNumber);
+            mEtPhoneNumber.setSelection(mEtPhoneNumber.getText().length());
+            if (isValid) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return false;
+    }
+
 
     private HashMap<String, String> addressPayload() {
 
