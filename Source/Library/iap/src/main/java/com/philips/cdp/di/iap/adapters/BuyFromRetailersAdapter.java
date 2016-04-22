@@ -54,12 +54,17 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         String imageURL = storeEntity.getLogoURL();
         holder.mStoreName.setText(storeEntity.getName());
         holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.toothbrush));
-        holder.mAvaililibility.setText(storeEntity.getAvailability());
+        String availability = storeEntity.getAvailability();
+        if(availability.equalsIgnoreCase("yes")){
+            holder.mAvaililibility.setText(mContext.getString(R.string.iap_in_stock));
+        }else{
+            holder.mAvaililibility.setText(mContext.getString(R.string.iap_out_of_stock));
+        }
+
         final String buyURL = storeEntity.getBuyURL();
         holder.mArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                //// TODO: 4/21/2016 - Launch WebView
                 addWebBuyFromRetailers(buyURL);
             }
         });
@@ -91,12 +96,6 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         int count = mStoreEntities.size();
         return count;
     }
-
-    /*@Override
-    public void onLoadFinished(final ArrayList<StoreEntity> data) {
-        mStoreEntities = data;
-        notifyDataSetChanged();
-    }*/
 
     public class RetailerViewHolder extends RecyclerView.ViewHolder {
         NetworkImageView mLogo;
