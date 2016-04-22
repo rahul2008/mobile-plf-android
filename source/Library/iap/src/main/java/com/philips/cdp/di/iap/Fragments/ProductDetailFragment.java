@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,7 @@ import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -57,7 +57,14 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         @Override
         public void onFailure(final Message msg) {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+
+            IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+            if (null != iapNetworkError.getServerError()) {
+                checkForOutOfStock(iapNetworkError, msg);
+            } else {
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            }
+
         }
     };
 
@@ -133,7 +140,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     @Override
     public void onResume() {
         super.onResume();
-        setTitle(mProductTitle);
+        setTitle(R.string.iap_shopping_cart_item);
         if (mBundle != null && mLaunchedFromProductCatalog) {
             mAddToCart.setVisibility(View.VISIBLE);
             Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
@@ -153,6 +160,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 }
             });
             mProductDiscountedPrice.setVisibility(View.VISIBLE);
+            setTitle(mProductTitle);
         }else{
             setCartIconVisibility(View.GONE);
         }
@@ -160,7 +168,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
     private void buyFromRetailers() {
         Bundle bundle = new Bundle();
-        bundle.putString(ModelConstants.PRODUCT_CODE,mCTNValue);
+        bundle.putString(ModelConstants.PRODUCT_CODE, mCTNValue);
         addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 
@@ -186,5 +194,17 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     void buyProduct(final String ctnNumber) {
         Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         mShoppingCartPresenter.buyProduct(getContext(), ctnNumber, mBuyProductListener);
+    }
+
+    private void checkForOutOfStock(final IAPNetworkError iapNetworkError, Message msg) {
+        com.philips.cdp.di.iap.response.error.Error error = iapNetworkError.getServerError().getErrors().get(0);
+        String type = error.getType();
+        if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
+            String subject = error.getMessage();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_out_of_stock), subject);
+        } else {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+        }
     }
 }
