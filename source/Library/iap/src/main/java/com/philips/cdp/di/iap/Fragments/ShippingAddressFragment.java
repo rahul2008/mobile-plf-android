@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -174,7 +175,16 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
         mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
-        mEtPhoneNumber.addTextChangedListener(new IAPTextWatcher(mEtPhoneNumber));
+        mEtPhoneNumber.addTextChangedListener(new PhoneNumberFormattingTextWatcher
+                (HybrisDelegate.getInstance(mContext).getStore().getCountry()) {
+            @Override
+            public synchronized void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                if (!mIgnoreTextChangeListener) {
+                    validate(mEtPhoneNumber, false);
+                }
+            }
+        });
         mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
         mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
 
@@ -330,17 +340,27 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     private void showErrorFromServer(Error error) {
-        if (error != null && (error.getSubject() != null) && error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
-            String errorMessage = getResources().getString(R.string.iap_country_error);
-            mInlineFormsParent.setErrorMessage(errorMessage);
-            mInlineFormsParent.showError(mEtCountry);
-            mBtnContinue.setEnabled(false);
-        } else if (error != null && error.getMessage() != null) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), error.getMessage());
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+
+        if (error != null) {
+            if (error.getSubject() != null) {
+                String errorMessage;
+                if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
+                    errorMessage = getResources().getString(R.string.iap_country_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtCountry);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.POSTAL_CODE)) {
+                    errorMessage = getResources().getString(R.string.iap_postal_code_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtPostalCode);
+                }
+                mBtnContinue.setEnabled(false);
+            } else if (error.getMessage() != null) {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                        getString(R.string.iap_network_error), error.getMessage());
+            } else {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            }
         }
     }
 
@@ -598,9 +618,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressFields.setTown(mEtTown.getText().toString());
         addressFields.setPhoneNumber(mEtPhoneNumber.getText().toString());
         addressFields.setEmail(mEtEmail.getText().toString());
-        /*if (mlLState.getVisibility() == View.VISIBLE) {
-            addressFields.setRegionIsoCode(mEtState.getText().toString());
-        }*/
 
         return addressFields;
     }
