@@ -9,7 +9,7 @@
     <string name="iap_continue_shopping">Continue shopping</string>
     <string name="iap_checkout">Checkout</string>
     <string name="iap_empty_cart">Your shopping cart is currently empty</string>
-    <string name="iap_out_of_stock">Out of stock</string>
+    <string name="iap_out_of_stock">out of stock</string>
     <string name="iap_deleting_item">Deleting Item</string>
     <string name="iap_total">Total</string>
     <string name="iap_items"> items</string>
@@ -115,4 +115,9 @@
     <string name="iap_authentication_failure">Authentication failed</string>
     <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
     <string name="iap_payment_failed">Payment failed</string>
+
+    <!-- Retailers-->
+    <string name="iap_select_retailer">Select retailer</string>
+    <string name="iap_retailer_title">Retailer</string>
+    <string name="iap_in_stock">in stock</string>
 </resources>

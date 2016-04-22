@@ -136,6 +136,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:+'
     compile 'com.philips.cdp:uikitLib:3.0.0'
     compile 'com.philips.cdp:Tagging:2.0.0'
+    compile 'com.googlecode.libphonenumber:libphonenumber:7.1.1'
     // Tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'

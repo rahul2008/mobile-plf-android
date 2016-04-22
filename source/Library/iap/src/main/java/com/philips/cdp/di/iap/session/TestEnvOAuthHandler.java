@@ -74,7 +74,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
                     if (mStore.getUser().isTokenRefreshSuccessful()) {
                         requestSyncOAuthToken(listener);
                     } else {
-
+                        notifyErrorListener(volleyError, listener);
                     }
                 } else {
                     notifyErrorListener(volleyError, listener);
