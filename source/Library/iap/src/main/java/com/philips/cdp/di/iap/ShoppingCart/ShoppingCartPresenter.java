@@ -58,6 +58,9 @@ public class ShoppingCartPresenter {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
     }
 
+    public ShoppingCartPresenter() {
+    }
+
     public interface LoadListenerForRetailer {
         void onLoadFinished(ArrayList<StoreEntity> data);
     }
@@ -77,7 +80,7 @@ public class ShoppingCartPresenter {
     }
 
 
-    public ShoppingCartPresenter(android.support.v4.app.FragmentManager pFragmentManager) {
+    public ShoppingCartPresenter(android.support.v4.app.FragmentManager pFragmentManager){
         mFragmentManager = pFragmentManager;
     }
 
@@ -218,7 +221,7 @@ public class ShoppingCartPresenter {
         sendHybrisRequest(0, model, model);
     }
 
-    public void updateProductQuantity(final ShoppingCartData data, final int count, final int quantityStatus) {
+    public void updateProductQuantity(final ShoppingCartData data, final int count, final boolean isIncrease) {
         HashMap<String, String> query = new HashMap<String, String>();
         query.put(ModelConstants.PRODUCT_CODE, data.getCtnNumber());
         query.put(ModelConstants.PRODUCT_QUANTITY, String.valueOf(count));
@@ -228,10 +231,10 @@ public class ShoppingCartPresenter {
                 query, new AbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(final Message msg) {
-                if (quantityStatus == 1) {
+                if (isIncrease) {
                     //Track Add to cart action
                     Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
-                } else if (quantityStatus == 0) {
+                } else {
                     //Track product delete action
                     Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                             IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PRODUCT_REMOVED);
@@ -273,7 +276,8 @@ public class ShoppingCartPresenter {
         });
     }
 
-    private void addProductToCart(final Context context, String productCTN, final IAPCartListener iapHandlerListener,
+    public void addProductToCart(final Context context, String productCTN, final IAPCartListener
+            iapHandlerListener,
                                   final boolean isFromBuyNow) {
         if (productCTN == null) return;
         HashMap<String, String> params = new HashMap<>();
@@ -361,7 +365,7 @@ public class ShoppingCartPresenter {
             @Override
             public void onSuccess(final Message msg) {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                    createCart(context, iapHandlerListener, ctnNumber, true);
+                    createCart(context, iapHandlerListener, ctnNumber,true);
                 } else if (msg.obj instanceof Carts) {
                     Carts getCartData = (Carts) msg.obj;
                     if (null != getCartData) {

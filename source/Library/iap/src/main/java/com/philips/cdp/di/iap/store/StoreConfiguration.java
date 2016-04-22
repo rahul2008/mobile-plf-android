@@ -23,8 +23,8 @@ public class StoreConfiguration {
         mWebStoreConfig = getWebStoreConfig(context);
     }
 
-    void initConfig(String countryCode, RequestListener listener) {
-        mWebStoreConfig.initConfig(countryCode, listener);
+    void initConfig(final String language, String countryCode, RequestListener listener) {
+        mWebStoreConfig.initConfig(language, countryCode, listener);
     }
 
     public String getHostPort() {

@@ -14,11 +14,13 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 
 public class Store {
 
+    //Public since required by StoreConfiguration initialization
     public static final String HTTPS = "https://";
     public static final String WEB_ROOT = "pilcommercewebservices";
     public static final String V2 = "v2";
-    private static final String USER = "users";
     public static final String SEPERATOR = "/";
+
+    private static final String USER = "users";
     private static final String METAINFO = "metainfo";
     private static final String REGIONS = "regions";
     private static final String LANG = "?fields=FULL&lang=en";
@@ -80,6 +82,9 @@ public class Store {
     private boolean mUserLoggedout;
     private String mRetailersAlter;
 
+    private boolean mStoreChanged;
+    private String mLanguage;
+
     public Store(Context context) {
         mIAPUser = initIAPUser(context);
         mStoreConfig = getStoreConfig(context);
@@ -101,9 +106,11 @@ public class Store {
         return new StoreConfiguration(context, this);
     }
 
-    public void initStoreConfig(String countryCode, RequestListener listener) {
+    public void initStoreConfig(String language, String countryCode, RequestListener listener) {
+        checkAndUpdateStoreChange(language, countryCode);
+        mLanguage = language;
         mCountry = countryCode;
-        mStoreConfig.initConfig(countryCode, listener);
+        mStoreConfig.initConfig(language,countryCode, listener);
     }
 
     void generateStoreUrls() {
@@ -125,6 +132,7 @@ public class Store {
     }
 
     private void createBaseUrl() {
+        setStoreChanged(false);
         StringBuilder builder = new StringBuilder(HTTPS);
         builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
         builder.append(WEB_ROOT).append(SEPERATOR);
@@ -150,6 +158,17 @@ public class Store {
         builder.append(SUFFIX_OAUTH);
 
         mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
+    }
+
+    void checkAndUpdateStoreChange(String language, String countryCode) {
+        if (language == null || countryCode == null || mLanguage == null || mCountry == null
+                || !mCountry.equals(countryCode) || !mLanguage.equals(language)) {
+            setStoreChanged(true);
+        }
+    }
+
+    void setStoreChanged(boolean changed) {
+        mStoreChanged = changed;
     }
 
     private String createRegionsUrl() {
@@ -290,5 +309,9 @@ public class Store {
 
     public boolean isUserLoggedOut() {
         return mUserLoggedout;
+    }
+
+    public boolean isStoreInitialized() {
+        return mStoreChanged;
     }
 }
