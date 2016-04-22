@@ -70,8 +70,13 @@ public class ErrorDialogFragment extends BlurDialogFragment implements EventList
 
     @Override
     public void onEventReceived(final String event) {
-        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR))) {
-            replaceFragment(getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG),null);
+        android.support.v4.app.Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if(fragment!=null) {
+            if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR))) {
+                replaceFragment(fragment, ProductCatalogFragment.TAG);
+            }
+        }else{
+            addProductCatalog();
         }
     }
 
@@ -79,6 +84,13 @@ public class ErrorDialogFragment extends BlurDialogFragment implements EventList
         android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.remove(this);
         transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+        transaction.commitAllowingStateLoss();
+    }
+
+    private void addProductCatalog() {
+        android.support.v4.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment(), ProductCatalogFragment.TAG);
+        transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
     }
 }
