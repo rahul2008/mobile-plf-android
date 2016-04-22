@@ -8,6 +8,7 @@ package com.philips.cdp.di.iap.store;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
@@ -49,6 +50,9 @@ public class Store {
     private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + LANG_ONLY;
     private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
 
+    private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1/";
+    private static final String RETAILERS_ALTER = "online-retailers?product=%s";
+
     private StoreConfiguration mStoreConfig;
     public IAPUser mIAPUser;
 
@@ -66,13 +70,15 @@ public class Store {
     private String mAddToCartUrl;
     protected String mBaseURl;
     protected String mBaseURlForProductCatalog;
-
+    private String mCurrentCartUrl;
+    private String mGetRetailersUrl;
     private String mOauthUrl;
     private String mOauthRefreshUrl;
     private String mGetCartUrl;
     private String mGetProductCatalogUrl;
     private String mCountry;
     private boolean mUserLoggedout;
+    private String mRetailersAlter;
 
     public Store(Context context) {
         mIAPUser = initIAPUser(context);
@@ -103,6 +109,7 @@ public class Store {
     void generateStoreUrls() {
         createBaseUrl();
         createBaseUrlForProductCatalog();
+        createBaseUrlForRetailers();
         createOauthUrl();
         generateGenericUrls();
     }
@@ -126,6 +133,14 @@ public class Store {
         builder.append(USER).append(SEPERATOR).append(mIAPUser.getJanRainEmail());
 
         mBaseURl = builder.toString();
+    }
+
+    private void createBaseUrlForRetailers() {
+        StringBuilder builder = new StringBuilder(HTTPS);
+        builder.append(PREFIX_RETAILERS).append(SEPERATOR);
+        builder.append(NetworkConstants.PRX_SECTOR_CODE).append(SEPERATOR);
+        builder.append(getLocale()).append(SEPERATOR);
+        mGetRetailersUrl = builder.toString();
     }
 
     private void createOauthUrl() {
@@ -164,7 +179,7 @@ public class Store {
         mDeliveryModeUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_MODE);
         mDeliveryAddressUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_ADDRESS);
         mSetPaymentDetails = mCurrentCartUrl.concat(SUFFIX_SET_PAYMENT_DETAILS);
-
+        mRetailersAlter = mGetRetailersUrl.concat(RETAILERS_ALTER);
         mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
                 .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
     }
@@ -239,6 +254,10 @@ public class Store {
 
     public String getAddressAlterUrl(String addressID) {
         return String.format(mAddressAlterUrl, addressID);
+    }
+
+    public String getRetailersAlterUrl(String CTN) {
+        return String.format(mRetailersAlter, CTN);
     }
 
     public String getUpdateDeliveryModeUrl() {

@@ -22,9 +22,12 @@ import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
+import com.philips.cdp.di.iap.model.GetRetailersInfoRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.response.retailers.StoreEntity;
+import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
@@ -44,7 +47,9 @@ import java.util.Map;
 public class ShoppingCartPresenter {
     Context mContext;
     ArrayList<ShoppingCartData> mProductData;
+    ArrayList<StoreEntity> mStoreEntities;
     private LoadListener mLoadListener;
+    private LoadListenerForRetailer mLoadListenerForRetailer;
     private HybrisDelegate mHybrisDelegate;
     private Store mStore;
     private FragmentManager mFragmentManager;
@@ -53,12 +58,24 @@ public class ShoppingCartPresenter {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
 }
 
+    public interface LoadListenerForRetailer {
+        void onLoadFinished(ArrayList<StoreEntity> data);
+    }
+
     public ShoppingCartPresenter(Context context, LoadListener listener, android.support.v4.app.FragmentManager fragmentManager) {
         mContext = context;
         mProductData = new ArrayList<>();
         mLoadListener = listener;
         mFragmentManager = fragmentManager;
     }
+
+    public ShoppingCartPresenter(Context context, LoadListenerForRetailer listener, android.support.v4.app.FragmentManager fragmentManager) {
+        mContext = context;
+        mStoreEntities = new ArrayList<>();
+        mLoadListenerForRetailer = listener;
+        mFragmentManager = fragmentManager;
+    }
+
 
     public ShoppingCartPresenter(android.support.v4.app.FragmentManager pFragmentManager){
         mFragmentManager = pFragmentManager;
@@ -85,6 +102,12 @@ public class ShoppingCartPresenter {
     public void refreshList(ArrayList<ShoppingCartData> data) {
         if (mLoadListener != null) {
             mLoadListener.onLoadFinished(data);
+        }
+    }
+
+    public void refreshListForRetailer(ArrayList<StoreEntity> data) {
+        if (mLoadListenerForRetailer != null) {
+            mLoadListenerForRetailer.onLoadFinished(data);
         }
     }
 
@@ -123,6 +146,39 @@ public class ShoppingCartPresenter {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
                             Utility.dismissProgressDialog();
                         }
+                        Utility.dismissProgressDialog();
+                    }
+
+                    @Override
+                    public void onModelDataError(final Message msg) {
+                        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
+                        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
+                        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
+                        if (Utility.isProgressDialogShowing()) {
+                            Utility.dismissProgressDialog();
+                        }
+                    }
+                });
+        model.setContext(mContext);
+        sendHybrisRequest(0, model, model);
+    }
+
+    public void getRetailersInformation(String ctn) {
+
+        Map<String, String> query = new HashMap<>();
+        query.put(ModelConstants.PRODUCT_CODE, String.valueOf(ctn));
+
+        GetRetailersInfoRequest model = new GetRetailersInfoRequest(getStore(), query,
+                new AbstractModel.DataLoadListener() {
+                    @Override
+                    public void onModelDataLoadFinished(Message msg) {
+                        WebResults webResults = null;
+                        if (msg.obj instanceof WebResults) {
+                            webResults = (WebResults) msg.obj;
+                        }
+
+                        mStoreEntities = (ArrayList<StoreEntity>) webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore();
+                        refreshListForRetailer(mStoreEntities);
                         Utility.dismissProgressDialog();
                     }
 
