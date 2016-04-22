@@ -8,18 +8,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.WebBuyFromRetailers;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -33,11 +31,13 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     ArrayList<StoreEntity> mStoreEntities;
     private final ImageLoader mImageLoader;
     private FragmentManager mFragmentManager;
+    private int mThemeBaseColor;
 
     public BuyFromRetailersAdapter(Context context, ArrayList<StoreEntity> storeEntities, FragmentManager fragmentManager){
         mContext = context;
         mStoreEntities = storeEntities;
         mFragmentManager = fragmentManager;
+        mThemeBaseColor = Utility.getThemeColor(context);
         mImageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
     }
@@ -57,8 +57,10 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         String availability = storeEntity.getAvailability();
         if(availability.equalsIgnoreCase("yes")){
             holder.mAvaililibility.setText(mContext.getString(R.string.iap_in_stock));
+            holder.mAvaililibility.setTextColor(mThemeBaseColor);
         }else{
             holder.mAvaililibility.setText(mContext.getString(R.string.iap_out_of_stock));
+            holder.mAvaililibility.setTextColor(ContextCompat.getColor(mContext,R.color.uikit_enricher4));
         }
 
         final String buyURL = storeEntity.getBuyURL();
