@@ -556,13 +556,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             String formattedPhoneNumber = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
             mEtPhoneNumber.setText(formattedPhoneNumber);
             mEtPhoneNumber.setSelection(mEtPhoneNumber.getText().length());
-            if (isValid) {
-                return true;
-            } else {
-                return false;
-            }
+            return isValid;
         } catch (Exception e) {
-            System.err.println(e);
+//            IA
         }
         return false;
     }
