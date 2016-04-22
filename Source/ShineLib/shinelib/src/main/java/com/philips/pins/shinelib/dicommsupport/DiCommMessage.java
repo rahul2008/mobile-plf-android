@@ -26,12 +26,8 @@ class DiCommMessage {
             this.messageTypeIdentifier = MessageType.fromByte(byteBuffer.get());
             int length = byteBuffer.getShort();
 
-            this.payload = new byte[byteBuffer.remaining()];
+            this.payload = new byte[length];
             byteBuffer.get(this.payload);
-
-            if (this.payload.length != length) {
-                throw new InvalidParameterException();
-            }
         } catch (BufferUnderflowException e) {
             throw new InvalidParameterException(e.getMessage());
         }
@@ -59,5 +55,9 @@ class DiCommMessage {
 
     public byte[] getPayload() {
         return payload;
+    }
+
+    public int getTotalDataSize() {
+        return HEADER_SIZE + payload.length;
     }
 }

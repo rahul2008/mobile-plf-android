@@ -8,7 +8,10 @@ import static org.junit.Assert.assertEquals;
 
 public class DiCommMessageTest {
 
-    public static final int HEADER_LENGHT = 5;
+    public static final int HEADER_LENGTH = 5;
+    byte firstDataByte = (byte) 0xCA;
+    byte secondDataByte = (byte) 0xFE;
+    byte thirdByte = (byte) 0xFE;
 
     @Test
     public void canBeConstructedFromData() {
@@ -65,8 +68,6 @@ public class DiCommMessageTest {
 
     @Test
     public void whenMessageIsReceivedThenPayloadIsExtracted() {
-        byte firstDataByte = (byte) 0xCA;
-        byte secondDataByte = (byte) 0xFE;
         byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 4, (byte) 0, (byte) 2, firstDataByte, secondDataByte};
 
         DiCommMessage message = new DiCommMessage(data);
@@ -77,15 +78,21 @@ public class DiCommMessageTest {
 
     @Test(expected = InvalidParameterException.class)
     public void throwsErrorWhenMessageIsShorterThanExpected() {
-        byte firstDataByte = (byte) 0xCA;
         byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 4, (byte) 0, (byte) 2, firstDataByte};
 
         new DiCommMessage(data);
     }
 
     @Test
+    public void canExtractMessageThenLongerThanExpected() {
+        byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 4, (byte) 0, (byte) 2, firstDataByte, secondDataByte, thirdByte};
+
+        new DiCommMessage(data);
+    }
+
+    @Test
     public void canBeConstructedWithTypeAndData() {
-        byte[] data = {(byte) 0xCA, (byte) 0xFE};
+        byte[] data = {firstDataByte, secondDataByte};
 
         DiCommMessage message = new DiCommMessage(MessageType.PutPropsRequest, data);
 
@@ -156,7 +163,7 @@ public class DiCommMessageTest {
         DiCommMessage message = new DiCommMessage(MessageType.GetPropsRequest, data);
 
         byte[] bytes = message.toData();
-        assertEquals(HEADER_LENGHT + data.length, bytes.length);
+        assertEquals(HEADER_LENGTH + data.length, bytes.length);
     }
 
     @Test
@@ -166,6 +173,25 @@ public class DiCommMessageTest {
         DiCommMessage message = new DiCommMessage(MessageType.GetPropsRequest, data);
 
         byte[] bytes = message.toData();
-        assertEquals(HEADER_LENGHT, bytes.length);
+        assertEquals(HEADER_LENGTH, bytes.length);
+    }
+
+    @Test
+    public void whenGetTotalDataSizeIsCalledThenTotalMessageSizeIsReturned() {
+        int length = 2;
+        byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 4, (byte) 0, (byte) length, firstDataByte, secondDataByte, thirdByte};
+
+        DiCommMessage diCommMessage = new DiCommMessage(data);
+
+        assertEquals(HEADER_LENGTH + length, diCommMessage.getTotalDataSize());
+    }
+
+    @Test
+    public void whenGetTotalDataSizeIsCalledThenTotalMessageSizeIsReturned2() {
+        byte[] data = {firstDataByte, secondDataByte, thirdByte};
+
+        DiCommMessage diCommMessage = new DiCommMessage(MessageType.PutPropsRequest, data);
+
+        assertEquals(HEADER_LENGTH + data.length, diCommMessage.getTotalDataSize());
     }
 }
