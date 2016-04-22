@@ -76,7 +76,8 @@ public class WebStoreConfig {
             public void onErrorOccurredForLocaleMatch(final LocaleMatchError localeMatchError) {
                 if (mResponseListener != null) {
                     Message msg = Message.obtain();
-                    mResponseListener.onError(msg);
+                   notifyConfigListener(false,msg);
+
                 }
             }
         });
