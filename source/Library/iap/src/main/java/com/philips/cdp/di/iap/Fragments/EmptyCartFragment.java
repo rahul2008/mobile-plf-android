@@ -8,14 +8,17 @@ import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
+import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.tagging.Tagging;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class EmptyCartFragment extends BaseAnimationSupportFragment implements View.OnClickListener {
+public class EmptyCartFragment extends BaseAnimationSupportFragment implements View.OnClickListener , EventListener {
 
     private Button mContinueShopping;
 
@@ -29,9 +32,16 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_empty_shopping_cart, container, false);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART), this);
         mContinueShopping = (Button) rootView.findViewById(R.id.btn_continue_shopping);
         mContinueShopping.setOnClickListener(this);
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART), this);
     }
 
     @Override
@@ -41,12 +51,24 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
                     IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
 
-            finishActivity();
+            EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART);
         }
     }
 
     @Override
     public void onBackPressed() {
         finishActivity();
+    }
+
+    @Override
+    public void raiseEvent(final String event) {
+
+    }
+
+    @Override
+    public void onEventReceived(final String event) {
+        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART))) {
+            replaceFragment(getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG), null);
+        }
     }
 }

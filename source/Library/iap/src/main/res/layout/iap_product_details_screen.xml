@@ -47,24 +47,25 @@
             android:layout_alignParentStart="true"
             android:layout_below="@id/product_description"
             android:layout_marginStart="@dimen/iap_product_detail_left_padding"
-            android:paddingBottom="@dimen/iap_product_detail_top_padding"
             android:paddingEnd="@dimen/iap_product_detail_right_padding"
             android:textColor="@color/uikit_enricher4"
             android:textSize="@dimen/iap_product_ctn" />
 
         <TextView
-            android:id="@+id/individual_price"
+            android:id="@+id/tv_discounted_price"
             style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/product_description"
             android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
-            android:paddingBottom="@dimen/iap_product_detail_top_padding"
-            android:textColor="@color/uikit_enricher4"
+            android:textColor="?attr/uikit_baseColor"
             android:layout_alignBaseline="@id/ctn"
-            android:textSize="@dimen/iap_product_ctn" />
+            android:textSize="@dimen/iap_product_ctn"
+            android:visibility="gone"
+            />
 
+<!--
         <TextView
             android:id="@+id/separator"
             android:layout_width="wrap_content"
@@ -76,17 +77,19 @@
             android:textSize="@dimen/iap_product_ctn"
             android:visibility="gone"
             />
+-->
 
         <TextView
-            android:id="@+id/tv_discounted_price"
+            android:id="@+id/individual_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/uikit_baseColor"
+            android:textColor="@color/uikit_enricher4"
             fontPath="fonts/centralesansbold.ttf"
-            android:textSize="@dimen/iap_product_ctn"
-            android:layout_toLeftOf="@id/separator"
-            android:layout_alignBaseline="@id/ctn"
+            android:textSize="@dimen/iap_product_original_price"
+            android:layout_below="@id/tv_discounted_price"
             android:layout_marginLeft="@dimen/iap_image_bottom_margin"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
             />
 
         <TextView
@@ -99,6 +102,7 @@
             android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
             android:layout_marginStart="@dimen/iap_product_detail_left_padding"
             android:textColor="?attr/uikit_baseColor"
+            android:paddingTop="@dimen/iap_product_detail_top_padding"
             android:textSize="@dimen/iap_product_overview" />
 
         <Button

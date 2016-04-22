@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
+import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -45,7 +47,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private String mCTNValue;
     private String mProductTitle;
     private TextView mProductDiscountedPrice;
-    private TextView mSeparator;
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
@@ -83,7 +84,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
         mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
         mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
-        mSeparator = (TextView) rootView.findViewById(R.id.separator);
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mAdapter = new ImageAdapter(getFragmentManager(),mLaunchedFromProductCatalog);
         mPager.setAdapter(mAdapter);
@@ -112,9 +112,9 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         String discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
 
         if(mLaunchedFromProductCatalog) {
+            mProductDiscountedPrice.setVisibility(View.VISIBLE);
             updateCount(mBundle.getInt(IAPConstant.IAP_PRODUCT_COUNT));
             mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            mSeparator.setVisibility(View.VISIBLE);
             if(discountedPrice!=null || discountedPrice!="" || !discountedPrice.isEmpty()) {
                 mProductDiscountedPrice.setText(discountedPrice);
             }
@@ -146,10 +146,22 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                     buyProduct(mCTNValue);
                 }
             });
+            mBuyFromRetailors.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    buyFromRetailers();
+                }
+            });
             mProductDiscountedPrice.setVisibility(View.VISIBLE);
         }else{
             setCartIconVisibility(View.GONE);
         }
+    }
+
+    private void buyFromRetailers() {
+        Bundle bundle = new Bundle();
+        bundle.putString(ModelConstants.PRODUCT_CODE,mCTNValue);
+        addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 
     @Override
@@ -167,7 +179,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
         if(Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
-        NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+        NetworkUtility.getInstance().
+                showErrorMessage(msg, getFragmentManager(), getContext());
     }
 
     void buyProduct(final String ctnNumber) {

@@ -115,4 +115,9 @@
     <string name="iap_authentication_failure">Authentication failed</string>
     <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
     <string name="iap_payment_failed">Payment failed</string>
+
+    <!-- Retailers-->
+    <string name="iap_select_retailer">Select retailer</string>
+    <string name="iap_retailer_title">Retailer</string>
+
 </resources>
