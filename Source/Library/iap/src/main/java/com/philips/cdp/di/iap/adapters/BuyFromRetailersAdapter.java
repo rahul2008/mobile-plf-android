@@ -56,11 +56,11 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.toothbrush));
         String availability = storeEntity.getAvailability();
         if(availability.equalsIgnoreCase("yes")){
-            holder.mAvaililibility.setText(mContext.getString(R.string.iap_in_stock));
-            holder.mAvaililibility.setTextColor(mThemeBaseColor);
+            holder.mAvailibility.setText(mContext.getString(R.string.iap_in_stock));
+            holder.mAvailibility.setTextColor(mThemeBaseColor);
         }else{
-            holder.mAvaililibility.setText(mContext.getString(R.string.iap_out_of_stock));
-            holder.mAvaililibility.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
+            holder.mAvailibility.setText(mContext.getString(R.string.iap_out_of_stock));
+            holder.mAvailibility.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
         }
 
         final String buyURL = storeEntity.getBuyURL();
@@ -101,14 +101,14 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     public class RetailerViewHolder extends RecyclerView.ViewHolder {
         NetworkImageView mLogo;
         TextView mStoreName;
-        TextView mAvaililibility;
+        TextView mAvailibility;
         FontIconTextView mArrow;
 
         public RetailerViewHolder(View itemView) {
             super(itemView);
             mLogo = (NetworkImageView) itemView.findViewById(R.id.iap_retailer_image);
             mStoreName = (TextView) itemView.findViewById(R.id.iap_online_store_name);
-            mAvaililibility = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
+            mAvailibility = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.retailer_arrow);
         }
     }

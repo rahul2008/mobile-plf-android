@@ -558,14 +558,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mEtPhoneNumber.setSelection(mEtPhoneNumber.getText().length());
             return isValid;
         } catch (Exception e) {
-//            IA
         }
         return false;
     }
 
 
     private HashMap<String, String> addressPayload() {
-
         addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
         addressHashMap.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
         addressHashMap.put(ModelConstants.LINE_1, mEtAddressLineOne.getText().toString());
@@ -689,5 +687,4 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 }
