@@ -53,7 +53,12 @@ public class RegistrationHelper {
     public void initializeUserRegistration(final Context context) {
 
         PILLocaleManager localeManager = new PILLocaleManager(context);
-        mLocale = new Locale(localeManager.getInputLocale());
+
+        String localeMatchLocale = localeManager.getInputLocale();
+        String[] localeMatchLocaleSplits =  localeMatchLocale.split("_");
+
+
+        mLocale = new Locale(localeMatchLocaleSplits[0],localeMatchLocaleSplits[1]);
         if(mLocale== null){
             throw new RuntimeException("Please set the locale in LocaleMatch");
         }
