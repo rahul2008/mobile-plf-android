@@ -16,7 +16,7 @@ class DiCommRequest {
         return new DiCommMessage(MessageType.GetPropsRequest, byteArray);
     }
 
-    public DiCommMessage putPropsRequestDataWithProduct(@NonNull String product, @NonNull String port, @NonNull Map<String, Object> properties) {
+    public DiCommMessage putPropsRequestDataWithProduct(@NonNull String product, @NonNull String port, @NonNull Map<String, Object> properties) throws NullPointerException{
         String propertiesString = new JSONObject(properties).toString();
 
         byte[] byteArray = encodeHeader(product, port, propertiesString);
