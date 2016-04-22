@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +17,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -31,11 +31,13 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     ArrayList<StoreEntity> mStoreEntities;
     private final ImageLoader mImageLoader;
     private FragmentManager mFragmentManager;
+    private int mThemeBaseColor;
 
     public BuyFromRetailersAdapter(Context context, ArrayList<StoreEntity> storeEntities, FragmentManager fragmentManager){
         mContext = context;
         mStoreEntities = storeEntities;
         mFragmentManager = fragmentManager;
+        mThemeBaseColor = Utility.getThemeColor(context);
         mImageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
     }
@@ -54,10 +56,11 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.toothbrush));
         String availability = storeEntity.getAvailability();
         if(availability.equalsIgnoreCase("yes")){
-            holder.mAvialibility.setText(mContext.getString(R.string.iap_in_stock));
+            holder.mAvailibility.setText(mContext.getString(R.string.iap_in_stock));
+            holder.mAvailibility.setTextColor(mThemeBaseColor);
         }else{
-            holder.mAvialibility.setText(mContext.getString(R.string.iap_out_of_stock));
-            holder.mAvialibility.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
+            holder.mAvailibility.setText(mContext.getString(R.string.iap_out_of_stock));
+            holder.mAvailibility.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
         }
 
         final String buyURL = storeEntity.getBuyURL();
@@ -98,14 +101,14 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     public class RetailerViewHolder extends RecyclerView.ViewHolder {
         NetworkImageView mLogo;
         TextView mStoreName;
-        TextView mAvialibility;
+        TextView mAvailibility;
         FontIconTextView mArrow;
 
         public RetailerViewHolder(View itemView) {
             super(itemView);
             mLogo = (NetworkImageView) itemView.findViewById(R.id.iap_retailer_image);
             mStoreName = (TextView) itemView.findViewById(R.id.iap_online_store_name);
-            mAvialibility = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
+            mAvailibility = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.retailer_arrow);
         }
     }
