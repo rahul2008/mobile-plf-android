@@ -39,6 +39,7 @@ public class WebStoreConfig {
     StoreConfiguration mStoreConfig;
 
     RequestListener mResponseListener;
+    private String mFallBackLocale;
 
     public WebStoreConfig(Context context, StoreConfiguration storeConfig) {
         mContext = context;
@@ -53,7 +54,7 @@ public class WebStoreConfig {
         if (mPILLocale != null) {
             return mPILLocale.getLocaleCode();
         }
-        return null;
+        return mFallBackLocale;
     }
 
     public void initConfig(final String language, String countryCode, final RequestListener listener) {
@@ -67,6 +68,7 @@ public class WebStoreConfig {
         mLocaleManager.init(mContext, new LocaleMatchListener() {
             @Override
             public void onLocaleMatchRefreshed(final String s) {
+                mFallBackLocale = s;
                 mPILLocale = mLocaleManager.currentLocaleWithCountryFallbackForPlatform(mContext, s,
                         Platform.PRX, Sector.B2C, Catalog.CONSUMER);
                 startConfigDownloadThread();

@@ -59,7 +59,7 @@ public class WebStoreConfigTest {
     @Test
     public void veryInitConfigCallsRefresh() {
         mWebsStoreConfig.mLocaleManager = mock(PILLocaleManager.class);
-        mWebsStoreConfig.refresh(language, "US");
+        mWebsStoreConfig.refresh("en", "US");
         Mockito.verify(mWebsStoreConfig.mLocaleManager, times(1))
                 .refresh(mContext, "en", "US");
     }
@@ -69,7 +69,7 @@ public class WebStoreConfigTest {
         final CountDownLatch latch = new CountDownLatch(1);
 
         MockWebStoreConfig config = new MockWebStoreConfig(mContext, mStoreConfiguration);
-        config.initConfig(language, "us",mock(RequestListener.class));
+        config.initConfig("en", "us",mock(RequestListener.class));
         config.startConfigDownloadThread();
 
         latch.await(1, TimeUnit.SECONDS);

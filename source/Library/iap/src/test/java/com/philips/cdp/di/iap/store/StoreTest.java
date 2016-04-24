@@ -30,7 +30,7 @@ public class StoreTest {
         when(mIAPMockedUser.getJanRainEmail()).thenReturn(NetworkURLConstants.JANRAIN_EMAIL);
         when(mIAPMockedUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
         mStore =  new MockStore(mContext,mIAPMockedUser).getStore();
-        mStore.initStoreConfig("en_US",null);
+        mStore.initStoreConfig("en","US",null);
     }
 
     @Test

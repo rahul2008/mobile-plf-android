@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -82,7 +81,7 @@ public class Store {
     private boolean mUserLoggedout;
     private String mRetailersAlter;
 
-    private boolean mStoreChanged;
+    private boolean mStoreInitialized;
     private String mLanguage;
 
     public Store(Context context) {
@@ -106,11 +105,16 @@ public class Store {
         return new StoreConfiguration(context, this);
     }
 
-    public void initStoreConfig(String language, String countryCode, RequestListener listener) {
+    public void setLangAndCountry(String language, String countryCode) {
         checkAndUpdateStoreChange(language, countryCode);
         mLanguage = language;
         mCountry = countryCode;
-        mStoreConfig.initConfig(language,countryCode, listener);
+    }
+
+    public void initStoreConfig(String language, String countryCode, RequestListener listener) {
+        mLanguage = language;
+        mCountry = countryCode;
+        mStoreConfig.initConfig(language, countryCode, listener);
     }
 
     void generateStoreUrls() {
@@ -132,7 +136,7 @@ public class Store {
     }
 
     private void createBaseUrl() {
-        setStoreChanged(false);
+        setStoreInitialized(true);
         StringBuilder builder = new StringBuilder(HTTPS);
         builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
         builder.append(WEB_ROOT).append(SEPERATOR);
@@ -163,12 +167,12 @@ public class Store {
     void checkAndUpdateStoreChange(String language, String countryCode) {
         if (language == null || countryCode == null || mLanguage == null || mCountry == null
                 || !mCountry.equals(countryCode) || !mLanguage.equals(language)) {
-            setStoreChanged(true);
+            setStoreInitialized(false);
         }
     }
 
-    void setStoreChanged(boolean changed) {
-        mStoreChanged = changed;
+    void setStoreInitialized(boolean changed) {
+        mStoreInitialized = changed;
     }
 
     private String createRegionsUrl() {
@@ -178,7 +182,7 @@ public class Store {
         builder.append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
-        builder.append(HybrisDelegate.getInstance().getStore().getCountry()).append(LANGUAGE_EN);
+        builder.append(getCountry()).append(LANGUAGE_EN);
         return builder.toString();
     }
 
@@ -312,6 +316,6 @@ public class Store {
     }
 
     public boolean isStoreInitialized() {
-        return mStoreChanged;
+        return mStoreInitialized;
     }
 }

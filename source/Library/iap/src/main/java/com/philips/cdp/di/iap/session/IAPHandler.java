@@ -35,14 +35,17 @@ public class IAPHandler {
         handler.mLanguage = config.language;
         handler.mCountry = config.country;
 
+        //Update store about country change
+        HybrisDelegate.getInstance(context).getStore().setLangAndCountry(handler.mLanguage, handler.mCountry);
+
         return handler;
     }
 
     public void launchIAP(int screen, String ctnNumber, IAPHandlerListener listener) {
-        if (!isStoreInitialized()) {
-            initIAP(screen, ctnNumber, listener);
-        } else {
+        if (isStoreInitialized()) {
             checkLaunchOrBuy(screen, ctnNumber, listener);
+        } else {
+            initIAP(screen, ctnNumber, listener);
         }
     }
 
@@ -66,7 +69,9 @@ public class IAPHandler {
 
             @Override
             public void onError(final Message msg) {
-                listener.onFailure(getIAPErrorCode(msg));
+                if (listener != null) {
+                    listener.onFailure(getIAPErrorCode(msg));
+                }
             }
         });
     }
@@ -89,7 +94,9 @@ public class IAPHandler {
     }
 
     public void getProductCartCount(final IAPHandlerListener iapHandlerListener) {
-        if (!isStoreInitialized()) {
+        if (isStoreInitialized()) {
+            getProductCount(iapHandlerListener);
+        } else {
             HybrisDelegate.getInstance(mContext).getStore().
                     initStoreConfig(mLanguage, mCountry, new RequestListener() {
                         @Override
@@ -102,8 +109,6 @@ public class IAPHandler {
                             iapHandlerListener.onFailure(getIAPErrorCode(msg));
                         }
                     });
-        } else {
-            getProductCount(iapHandlerListener);
         }
     }
 
