@@ -83,7 +83,7 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
     private void getRetailersInformation() {
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), this, getFragmentManager());
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
             presenter.getRetailersInformation(mCtn);
         }
     }
