@@ -5,6 +5,8 @@
 
 package com.philips.pins.shinelib.protocols.moonshinestreaming;
 
+import com.philips.pins.shinelib.SHNResult;
+
 public interface SHNProtocolMoonshineStreaming extends SHNServiceMoonshineStreaming.SHNServiceMoonshineStreamingListener {
     interface SHNProtocolMoonshineStreamingListener {
         void onDataReceived(byte[] data);
@@ -17,6 +19,8 @@ public interface SHNProtocolMoonshineStreaming extends SHNServiceMoonshineStream
     void setShnProtocolMoonshineStreamingListener(SHNProtocolMoonshineStreamingListener shnProtocolMoonshineStreamingListener);
 
     void sendData(byte[] bytes);
+
+    void transitionToError(SHNResult shnResult);
 
     enum SHNProtocolMoonshineStreamingState {
         Initializing, AcquiringConfiguration, WaitingForHandshakeAck, Ready, Error

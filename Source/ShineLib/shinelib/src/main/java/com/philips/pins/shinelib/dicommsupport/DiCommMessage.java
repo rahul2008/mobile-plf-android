@@ -21,7 +21,7 @@ class DiCommMessage {
                 throw new InvalidParameterException();
             }
 
-            this.messageTypeIdentifier = MessageType.fromByte(byteBuffer.get());
+            this.messageTypeIdentifier = MessageType.fromDiCommMessageTypeCode(byteBuffer.get());
             int length = byteBuffer.getShort();
 
             this.payload = new byte[length];
@@ -40,7 +40,7 @@ class DiCommMessage {
         ByteBuffer byteBuffer = ByteBuffer.allocate(HEADER_SIZE + payload.length);
         byteBuffer.put(FIRST_START_BYTE);
         byteBuffer.put(SECOND_START_BYTE);
-        byteBuffer.put(messageTypeIdentifier.getByte());
+        byteBuffer.put(messageTypeIdentifier.getDiCommMessageTypeCode());
         byteBuffer.putShort((short) payload.length);
         byteBuffer.put(payload);
 

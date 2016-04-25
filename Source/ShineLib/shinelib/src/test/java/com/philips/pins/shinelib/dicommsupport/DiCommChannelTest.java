@@ -2,23 +2,26 @@ package com.philips.pins.shinelib.dicommsupport;
 
 import android.support.annotation.NonNull;
 
-import com.philips.pins.shinelib.RobolectricTest;
 import com.philips.pins.shinelib.SHNMapResultListener;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.framework.Timer;
+import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -32,7 +35,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class DiCommChannelTest extends RobolectricTest {
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Timer.class)
+public class DiCommChannelTest {
 
     private static final int TIME_OUT = 1000;
     private static final String PORT_NAME = "port";
@@ -42,31 +47,33 @@ public class DiCommChannelTest extends RobolectricTest {
     private byte secondDataByte = (byte) 0xFE;
     private byte thirdByte = (byte) 0xFE;
 
-    private byte[] validMessageData = {(byte) 0xFE, (byte) 0xFF, MessageType.GenericResponse.getByte(), (byte) 0, (byte) 2, firstDataByte, secondDataByte};
+    private byte[] validMessageData = {(byte) 0xFE, (byte) 0xFF, MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 2, firstDataByte, secondDataByte};
 
     @Mock
-    SHNProtocolMoonshineStreaming shnProtocolMoonshineStreamingMock;
+    private SHNProtocolMoonshineStreaming shnProtocolMoonshineStreamingMock;
 
     @Mock
-    DiCommPort diCommPortMock;
+    private DiCommPort diCommPortMock;
 
     @Mock
-    SHNMapResultListener<String, Object> resultListenerMock;
+    private SHNMapResultListener<String, Object> resultListenerMock;
 
     @Mock
-    SHNMapResultListener<String, Object> resultListenerMock2;
+    private SHNMapResultListener<String, Object> resultListenerMock2;
 
     @Captor
-    ArgumentCaptor<byte[]> argumentCaptor;
+    private ArgumentCaptor<byte[]> argumentCaptor;
 
     @Mock
-    DiCommRequest diCommRequestMock;
+    private DiCommRequest diCommRequestMock;
 
     @Mock
-    DiCommResponse diCommResponseMock;
+    private DiCommResponse diCommResponseMock;
 
     @Mock
-    DiCommMessage diCommMessageMock;
+    private DiCommMessage diCommMessageMock;
+
+    private MockedHandler mockedHandler;
 
     private DiCommChannel diCommChannel;
     private Map<String, Object> properties;
@@ -74,6 +81,9 @@ public class DiCommChannelTest extends RobolectricTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+
+        mockedHandler = new MockedHandler();
+        Timer.setHandler(mockedHandler.getMock());
 
         when(diCommRequestMock.putPropsRequestDataWithProduct(anyString(), anyString(), anyMap())).thenReturn(diCommMessageMock);
         when(diCommRequestMock.getPropsRequestDataWithProduct(anyString(), anyString())).thenReturn(diCommMessageMock);
@@ -207,12 +217,7 @@ public class DiCommChannelTest extends RobolectricTest {
 
     @Test
     public void whenPropertiesHaveNullAsAKeyThenInvalidParameterResultIsReported() throws Exception {
-        when(diCommRequestMock.putPropsRequestDataWithProduct(anyString(), anyString(), anyMap())).thenAnswer(new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                throw new NullPointerException();
-            }
-        });
+        when(diCommRequestMock.putPropsRequestDataWithProduct(anyString(), anyString(), anyMap())).thenReturn(null);
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
         verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
@@ -246,7 +251,7 @@ public class DiCommChannelTest extends RobolectricTest {
         diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
 
         byte[] data = {(byte) 0xFE, (byte) 0xFF};
-        byte[] data2 = {MessageType.GenericResponse.getByte(), (byte) 0, (byte) 2, firstDataByte, secondDataByte, thirdByte};
+        byte[] data2 = {MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 2, firstDataByte, secondDataByte, thirdByte};
 
         diCommChannel.onDataReceived(data);
         diCommChannel.onDataReceived(data2);
@@ -337,7 +342,7 @@ public class DiCommChannelTest extends RobolectricTest {
         diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
 
         byte[] data = {(byte) 0xFE, (byte) 0xFF};
-        byte[] data2 = {MessageType.GenericResponse.getByte(), (byte) 0, (byte) 2, firstDataByte, secondDataByte, thirdByte};
+        byte[] data2 = {MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 2, firstDataByte, secondDataByte, thirdByte};
 
         diCommChannel.onDataReceived(data);
         diCommChannel.onDataReceived(data2);
@@ -355,6 +360,7 @@ public class DiCommChannelTest extends RobolectricTest {
         diCommChannel.onDataReceived(validMessageData);
 
         verify(shnProtocolMoonshineStreamingMock).sendData(any(byte[].class));
+        assertEquals(1, mockedHandler.getScheduledExecutionCount());
     }
 
     @Test
@@ -368,6 +374,7 @@ public class DiCommChannelTest extends RobolectricTest {
 
         verify(resultListenerMock).onActionCompleted(anyMap(), any(SHNResult.class));
         verify(resultListenerMock2).onActionCompleted(anyMap(), any(SHNResult.class));
+        assertEquals(0, mockedHandler.getScheduledExecutionCount());
     }
 
     @Test
@@ -379,6 +386,7 @@ public class DiCommChannelTest extends RobolectricTest {
         diCommChannel.onDataReceived(validMessageData);
 
         verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
+        assertEquals(0, mockedHandler.getScheduledExecutionCount());
     }
 
     @Test
@@ -391,6 +399,28 @@ public class DiCommChannelTest extends RobolectricTest {
 
         verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
         verify(resultListenerMock2).onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
+    }
+
+    @Test
+    public void whenASendPropertiesRequestTimesOutThenTheStreamingProtocolIsTransitionedToErrorState() {
+        diCommChannel.onProtocolAvailable();
+
+        diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
+        assertEquals(1, mockedHandler.getScheduledExecutionCount());
+        mockedHandler.executeFirstScheduledExecution();
+
+        verify(shnProtocolMoonshineStreamingMock).transitionToError(SHNResult.SHNErrorTimeout);
+    }
+
+    @Test
+    public void whenAReloadPropertiesRequestTimesOutThenTheStreamingProtocolIsTransitionedToErrorState() {
+        diCommChannel.onProtocolAvailable();
+
+        diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
+        assertEquals(1, mockedHandler.getScheduledExecutionCount());
+        mockedHandler.executeFirstScheduledExecution();
+
+        verify(shnProtocolMoonshineStreamingMock).transitionToError(SHNResult.SHNErrorTimeout);
     }
 
     private class DiCommChannelForTest extends DiCommChannel {
@@ -418,6 +448,14 @@ public class DiCommChannelTest extends RobolectricTest {
 
         public DiCommChannelTrowingForTest(SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming, int timeOut) {
             super(shnProtocolMoonshineStreaming, timeOut);
+        }
+
+        @NonNull
+        @Override
+        protected DiCommRequest getDiCommRequest() {
+            assertNotNull(super.getDiCommRequest());
+
+            return diCommRequestMock;
         }
 
         @NonNull

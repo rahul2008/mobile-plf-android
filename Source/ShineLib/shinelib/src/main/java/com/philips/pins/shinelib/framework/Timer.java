@@ -7,9 +7,6 @@ package com.philips.pins.shinelib.framework;
 
 import android.os.Handler;
 
-/**
- * Created by 310188215 on 05/05/15.
- */
 public class Timer {
     private static Handler tempStaticHandler; // TODO: remove when constructor is made private and all clients use CreateTimer
     private final Handler handler;

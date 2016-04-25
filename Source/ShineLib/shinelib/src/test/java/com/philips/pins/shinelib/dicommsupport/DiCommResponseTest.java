@@ -39,7 +39,7 @@ public class DiCommResponseTest extends RobolectricTest {
         byte[] jsonDataBytes = string.getBytes(StandardCharsets.UTF_8);
         byte[] data = new byte[jsonDataBytes.length + 2];
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
-        byteBuffer.put(StatusCode.NoError.getByte());
+        byteBuffer.put(StatusCode.NoError.getDiCommStatusCode());
         byteBuffer.put(jsonDataBytes);
         byteBuffer.put((byte) 0);
 
@@ -89,7 +89,7 @@ public class DiCommResponseTest extends RobolectricTest {
 
     @Test
     public void whenResponseHasOutOfMemoryStatusThenStatusIsOutOfMemory() throws Exception {
-        data[0] = StatusCode.OutOfMemory.getByte();
+        data[0] = StatusCode.OutOfMemory.getDiCommStatusCode();
         when(diCommMessageMock.getPayload()).thenReturn(data);
 
         DiCommResponse response = new DiCommResponse(diCommMessageMock);
@@ -107,7 +107,7 @@ public class DiCommResponseTest extends RobolectricTest {
 
     @Test(expected = InvalidParameterException.class)
     public void whenResponseHasNoPropertiesThenExceptionIsGenerated() throws Exception {
-        byte[] data = {StatusCode.NoError.getByte()};
+        byte[] data = {StatusCode.NoError.getDiCommStatusCode()};
         when(diCommMessageMock.getPayload()).thenReturn(data);
 
         new DiCommResponse(diCommMessageMock);

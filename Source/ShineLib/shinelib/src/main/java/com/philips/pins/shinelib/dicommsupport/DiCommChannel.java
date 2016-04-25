@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNMapResultListener;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -17,22 +18,31 @@ import java.util.Set;
 
 class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener {
 
-    public static final int DEFAULT_TIME_OUT = 4000;
     private static final String TAG = "DiCommChannel";
     public static final String PRODUCT = "0";
 
     private final SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming;
-    private final int timeOut;
     private boolean isAvailable;
 
     private Set<DiCommPort> diCommPorts = new HashSet<>();
     private List<RequestInfo> pendingRequests = new ArrayList<>();
     private byte[] receiveBuffer = new byte[0];
 
+    private final Timer requestTimer;
+
+    private void requestTimedOut() {
+        shnProtocolMoonshineStreaming.transitionToError(SHNResult.SHNErrorTimeout);
+    }
+
     public DiCommChannel(SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming, int timeOut) {
         this.shnProtocolMoonshineStreaming = shnProtocolMoonshineStreaming;
         shnProtocolMoonshineStreaming.setShnProtocolMoonshineStreamingListener(this);
-        this.timeOut = timeOut;
+        requestTimer = Timer.createTimer(new Runnable() {
+            @Override
+            public void run() {
+                requestTimedOut();
+            }
+        }, timeOut);
     }
 
     // implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingLister
@@ -71,6 +81,9 @@ class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshin
         if (pendingRequests.size() > 0) {
             DiCommMessage diCommMessage = pendingRequests.get(0).getRequestMessage();
             shnProtocolMoonshineStreaming.sendData(diCommMessage.toData());
+            requestTimer.restart();
+        } else {
+            requestTimer.stop();
         }
     }
 
@@ -128,12 +141,12 @@ class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshin
     }
 
     public void sendProperties(Map<String, Object> properties, String port, SHNMapResultListener<String, Object> resultListener) {
-        try {
-            DiCommRequest diCommRequest = getDiCommRequest();
-            DiCommMessage diCommMessage = diCommRequest.putPropsRequestDataWithProduct(PRODUCT, port, properties);
+        DiCommRequest diCommRequest = getDiCommRequest();
+        DiCommMessage diCommMessage = diCommRequest.putPropsRequestDataWithProduct(PRODUCT, port, properties);
 
+        if (diCommMessage != null) {
             performRequest(diCommMessage, resultListener);
-        } catch (NullPointerException ex) {
+        } else {
             resultListener.onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
         }
     }

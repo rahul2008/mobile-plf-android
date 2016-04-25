@@ -26,7 +26,7 @@ class DiCommResponse {
         }
 
         ByteBuffer byteBuffer = ByteBuffer.wrap(payload);
-        status = StatusCode.fromByte(byteBuffer.get());
+        status = StatusCode.fromDiCommStatusCode(byteBuffer.get());
 
         if (status == null) {
             throw new InvalidParameterException("DiComm response contains an invalid status code!");

@@ -138,6 +138,7 @@ Error --> Initializing : onServiceUnavailable
 
 import android.os.Handler;
 
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.Utilities;
 
@@ -220,6 +221,11 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
             start += packetSize;
             length -= packetSize;
         }
+    }
+
+    @Override
+    public void transitionToError(SHNResult shnResult) {
+        throw new InternalError("Not yet implemented");
     }
 
     private void setInitialState() {

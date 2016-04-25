@@ -17,19 +17,19 @@ enum StatusCode {
     NotSubscribed(13),
     ProtocolViolation(14);
 
-    private byte status;
+    private byte diCommStatusCode;
 
-    StatusCode(int status) {
-        this.status = (byte) status;
+    StatusCode(int diCommStatusCode) {
+        this.diCommStatusCode = (byte) diCommStatusCode;
     }
 
-    public byte getByte() {
-        return status;
+    public byte getDiCommStatusCode() {
+        return diCommStatusCode;
     }
 
-    public static StatusCode fromByte(byte type) {
+    public static StatusCode fromDiCommStatusCode(byte diCommStatusCode) {
         for (StatusCode statusCode : StatusCode.values()) {
-            if (statusCode.getByte() == type) {
+            if (statusCode.getDiCommStatusCode() == diCommStatusCode) {
                 return statusCode;
             }
         }

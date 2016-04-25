@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class DiCommRequestTest extends RobolectricTest {
 
@@ -175,5 +176,15 @@ public class DiCommRequestTest extends RobolectricTest {
         int zeroCount = getNullSeparatorCount(data);
 
         assertEquals(3, zeroCount);
+    }
+
+    @Test
+    public void whenPetPropsRequestDataHasNullKeyThenReturnedMessageIsNull() throws Exception {
+        DiCommRequest diCommRequest = new DiCommRequest();
+        properties.put(null, "2");
+
+        DiCommMessage message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties);
+
+        assertNull(message);
     }
 }

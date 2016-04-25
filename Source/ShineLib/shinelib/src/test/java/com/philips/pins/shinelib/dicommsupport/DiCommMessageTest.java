@@ -131,7 +131,7 @@ public class DiCommMessageTest {
         DiCommMessage message = new DiCommMessage(putPropsRequest, data);
 
         byte[] bytes = message.toData();
-        assertEquals(putPropsRequest.getByte(), bytes[2]);
+        assertEquals(putPropsRequest.getDiCommMessageTypeCode(), bytes[2]);
     }
 
     @Test
@@ -142,7 +142,7 @@ public class DiCommMessageTest {
         DiCommMessage message = new DiCommMessage(getPropsRequest, data);
 
         byte[] bytes = message.toData();
-        assertEquals(getPropsRequest.getByte(), bytes[2]);
+        assertEquals(getPropsRequest.getDiCommMessageTypeCode(), bytes[2]);
     }
 
     @Test

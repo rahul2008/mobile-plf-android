@@ -21,19 +21,19 @@ package com.philips.pins.shinelib.dicommsupport;
     // Events
     ChangeIndicationEvent(9);
 
-    private byte bite;
+    private byte diCommMessageTypeCode;
 
-    MessageType(int bite) {
-        this.bite = (byte) bite;
+    MessageType(int diCommMessageTypeCode) {
+        this.diCommMessageTypeCode = (byte) diCommMessageTypeCode;
     }
 
-    public byte getByte() {
-        return bite;
+    public byte getDiCommMessageTypeCode() {
+        return diCommMessageTypeCode;
     }
 
-    public static MessageType fromByte(byte type) {
+    public static MessageType fromDiCommMessageTypeCode(byte diCommMessageTypeCode) {
         for (MessageType messageType : MessageType.values()) {
-            if (messageType.getByte() == type) {
+            if (messageType.getDiCommMessageTypeCode() == diCommMessageTypeCode) {
                 return messageType;
             }
         }
