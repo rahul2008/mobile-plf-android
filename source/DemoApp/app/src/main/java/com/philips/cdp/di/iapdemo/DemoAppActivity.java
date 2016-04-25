@@ -37,17 +37,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     private IAPHandler mIapHandler;
     private TextView mCountText = null;
-    //    private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
     private FrameLayout mShoppingCart;
-    //    private ListView mProductListView;
     Button mShopNow;
 
-    private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10", "HX9042/64"};
     private LinearLayout mSelectCountryLl;
 
     private CountryPreferences mCountryPreference;
     private int mSelectedCountryIndex;
-    private boolean mProudctCountRequested;
+    private boolean mProductCountRequested;
     private Spinner mSpinner;
 
     @Override
@@ -65,10 +62,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mShoppingCart = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         mShoppingCart.setOnClickListener(this);
-
-       /* mProductListView = (ListView) findViewById(R.id.product_list);
-        ProductListAdapter mProductListAdapter = new ProductListAdapter(this, mProductArrayList);
-        mProductListView.setAdapter(mProductListAdapter);*/
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
@@ -109,7 +102,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         User user = new User(this);
         if (user.isUserSignIn()) {
             displayViews();
-            if (mSelectedCountryIndex >0 && !mProudctCountRequested) {
+            if (mSelectedCountryIndex >0 && !mProductCountRequested) {
                 Utility.showProgressDialog(this, getString(R.string.loading_cart));
                 mIapHandler.getProductCartCount(mProductCountListener);
             }
@@ -184,14 +177,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             }
             Utility.dismissProgressDialog();
 
-            mProudctCountRequested = false;
+            mProductCountRequested = false;
         }
 
         @Override
         public void onFailure(final int errorCode) {
             Utility.dismissProgressDialog();
             showToast(errorCode);
-            mProudctCountRequested = false;
+            mProductCountRequested = false;
         }
     };
 
@@ -248,10 +241,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         String selectedCountry = parent.getItemAtPosition(position).toString();
         if (selectedCountry.equals("UK"))
             selectedCountry = "GB";
-        if (!mProudctCountRequested) {
+        if (!mProductCountRequested) {
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
             mIapHandler = IAPHandler.init(this, new IAPConfig("en", selectedCountry, DEFAULT_THEME));
-            mProudctCountRequested = true;
+            mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
         }
     }

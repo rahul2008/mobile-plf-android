@@ -41,6 +41,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
@@ -418,7 +419,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (editText.getId() == R.id.et_phone_number && !hasFocus) {
             result = validatePhoneNumber(HybrisDelegate.getInstance().getStore().getCountry()
                     , mEtPhoneNumber.getText().toString());
-//            result = mValidator.isValidPhoneNumber(mEtPhoneNumber.getText().toString());
             errorMessage = getResources().getString(R.string.iap_phone_error);
         }
         if (editText.getId() == R.id.et_country && !hasFocus) {
@@ -558,6 +558,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mEtPhoneNumber.setSelection(mEtPhoneNumber.getText().length());
             return isValid;
         } catch (Exception e) {
+            IAPLog.d("ShippingAddressFragment", "NumberParseException");
         }
         return false;
     }
