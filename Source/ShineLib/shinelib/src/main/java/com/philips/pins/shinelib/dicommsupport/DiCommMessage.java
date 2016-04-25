@@ -15,10 +15,8 @@ class DiCommMessage {
     private final MessageType messageTypeIdentifier;
     private final byte[] payload;
 
-    public DiCommMessage(@NonNull byte[] data) throws InvalidParameterException {
+    public DiCommMessage(@NonNull ByteBuffer byteBuffer) throws InvalidParameterException {
         try {
-            ByteBuffer byteBuffer = ByteBuffer.wrap(data);
-
             if (byteBuffer.get() != FIRST_START_BYTE || byteBuffer.get() != SECOND_START_BYTE) {
                 throw new InvalidParameterException();
             }

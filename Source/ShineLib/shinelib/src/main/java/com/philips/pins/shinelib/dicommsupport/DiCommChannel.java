@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.SHNMapResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.protocols.moonshinestreaming.SHNProtocolMoonshineStreaming;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.nio.ByteBuffer;
 import java.security.InvalidParameterException;
@@ -18,14 +19,15 @@ class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshin
 
     public static final int DEFAULT_TIME_OUT = 4000;
     private static final String TAG = "DiCommChannel";
+    public static final String PRODUCT = "0";
 
     private final SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming;
     private final int timeOut;
     private boolean isAvailable;
 
     private Set<DiCommPort> diCommPorts = new HashSet<>();
-    private List<SHNMapResultListener<String, Object>> pendingRequests = new ArrayList<>();
-    private byte[] receiveBuffer;
+    private List<RequestInfo> pendingRequests = new ArrayList<>();
+    private byte[] receiveBuffer = new byte[0];
 
     public DiCommChannel(SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming, int timeOut) {
         this.shnProtocolMoonshineStreaming = shnProtocolMoonshineStreaming;
@@ -36,31 +38,49 @@ class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshin
     // implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingLister
     @Override
     public void onDataReceived(byte[] data) {
-        if (receiveBuffer == null) {
-            receiveBuffer = data;
-        } else {
-            byte[] newReceiveBuffer = new byte[receiveBuffer.length + data.length];
-            ByteBuffer byteBuffer = ByteBuffer.wrap(newReceiveBuffer);
-
-            byteBuffer.put(receiveBuffer);
-            byteBuffer.put(data);
-            receiveBuffer = newReceiveBuffer;
-        }
+        appendReceivedData(data);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(receiveBuffer);
 
         try {
-            DiCommMessage diCommMessage = new DiCommMessage(receiveBuffer);
+            DiCommMessage diCommMessage = new DiCommMessage(byteBuffer);
             parseResponse(diCommMessage);
+            executeNextRequest();
+
+            reduceReceivedBuffer(byteBuffer);
         } catch (InvalidParameterException ignored) {
             // can not detect a message
+        }
+    }
+
+    private void reduceReceivedBuffer(ByteBuffer byteBuffer) {
+        byte[] reducedBuffer = new byte[byteBuffer.remaining()];
+        byteBuffer.get(reducedBuffer);
+        receiveBuffer = reducedBuffer;
+    }
+
+    private void appendReceivedData(byte[] data) {
+        byte[] newReceivedBuffer = new byte[receiveBuffer.length + data.length];
+        ByteBuffer byteBuffer = ByteBuffer.wrap(newReceivedBuffer);
+
+        byteBuffer.put(receiveBuffer);
+        byteBuffer.put(data);
+        receiveBuffer = newReceivedBuffer;
+    }
+
+    private void executeNextRequest() {
+        if (pendingRequests.size() > 0) {
+            DiCommMessage diCommMessage = pendingRequests.get(0).getRequestMessage();
+            shnProtocolMoonshineStreaming.sendData(diCommMessage.toData());
         }
     }
 
     private void parseResponse(DiCommMessage diCommMessage) {
         try {
             DiCommResponse diCommResponse = getDiCommResponse(diCommMessage);
-            pendingRequests.get(0).onActionCompleted(diCommResponse.getProperties(), SHNResult.SHNOk);
+            pendingRequests.remove(0).getResultListener().onActionCompleted(diCommResponse.getProperties(), SHNResult.SHNOk);
         } catch (InvalidParameterException ex) {
-
+            SHNLogger.e(TAG, ex.getMessage());
+            pendingRequests.remove(0).getResultListener().onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
         }
     }
 
@@ -80,6 +100,13 @@ class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshin
             for (DiCommPort port : diCommPorts) {
                 port.onChannelAvailabilityChanged(isAvailable);
             }
+
+            if (!isAvailable) {
+                for (RequestInfo requestInfo : pendingRequests) {
+                    requestInfo.getResultListener().onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
+                }
+                pendingRequests.clear();
+            }
         }
     }
 
@@ -93,21 +120,32 @@ class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshin
         diCommPort.onChannelAvailabilityChanged(isAvailable);
     }
 
+    public void reloadProperties(String port, SHNMapResultListener<String, Object> resultListener) {
+        DiCommRequest diCommRequest = getDiCommRequest();
+        DiCommMessage diCommMessage = diCommRequest.getPropsRequestDataWithProduct(PRODUCT, port);
+
+        performRequest(diCommMessage, resultListener);
+    }
+
     public void sendProperties(Map<String, Object> properties, String port, SHNMapResultListener<String, Object> resultListener) {
         try {
             DiCommRequest diCommRequest = getDiCommRequest();
-            DiCommMessage diCommMessage = diCommRequest.putPropsRequestDataWithProduct("0", port, properties);
+            DiCommMessage diCommMessage = diCommRequest.putPropsRequestDataWithProduct(PRODUCT, port, properties);
 
-            if (!isAvailable) {
-                resultListener.onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
-            } else {
-                pendingRequests.add(resultListener);
-                if (pendingRequests.size() == 1) {
-                    shnProtocolMoonshineStreaming.sendData(diCommMessage.toData());
-                }
-            }
+            performRequest(diCommMessage, resultListener);
         } catch (NullPointerException ex) {
             resultListener.onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
+        }
+    }
+
+    private void performRequest(DiCommMessage diCommMessage, SHNMapResultListener<String, Object> resultListener) {
+        if (!isAvailable) {
+            resultListener.onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
+        } else {
+            pendingRequests.add(new RequestInfo(diCommMessage, resultListener));
+            if (pendingRequests.size() == 1) {
+                executeNextRequest();
+            }
         }
     }
 
@@ -119,5 +157,23 @@ class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshin
     @NonNull
     protected DiCommResponse getDiCommResponse(DiCommMessage diCommMessage) {
         return new DiCommResponse(diCommMessage);
+    }
+
+    private static class RequestInfo {
+        private final DiCommMessage requestMessage;
+        private final SHNMapResultListener<String, Object> resultListener;
+
+        public RequestInfo(@NonNull DiCommMessage requestMessage, @NonNull SHNMapResultListener<String, Object> resultListener) {
+            this.requestMessage = requestMessage;
+            this.resultListener = resultListener;
+        }
+
+        public DiCommMessage getRequestMessage() {
+            return requestMessage;
+        }
+
+        public SHNMapResultListener<String, Object> getResultListener() {
+            return resultListener;
+        }
     }
 }

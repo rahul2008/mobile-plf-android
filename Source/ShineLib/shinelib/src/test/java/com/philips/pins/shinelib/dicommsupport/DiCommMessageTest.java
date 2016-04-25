@@ -2,6 +2,7 @@ package com.philips.pins.shinelib.dicommsupport;
 
 import org.junit.Test;
 
+import java.nio.ByteBuffer;
 import java.security.InvalidParameterException;
 
 import static org.junit.Assert.assertEquals;
@@ -16,43 +17,50 @@ public class DiCommMessageTest {
     @Test
     public void canBeConstructedFromData() {
         byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 0, (byte) 0, (byte) 0};
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
 
-        new DiCommMessage(data);
+        new DiCommMessage(byteBuffer);
     }
 
     @Test(expected = InvalidParameterException.class)
     public void throwsErrorWhenDataHeaderIsInvalid() {
         byte[] data = new byte[3];
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
 
-        new DiCommMessage(data);
+        new DiCommMessage(byteBuffer);
     }
 
     @Test(expected = InvalidParameterException.class)
     public void throwsErrorWhenDataHeaderSecondIsInvalid() {
         byte[] data = {(byte) 0xFE};
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
 
-        new DiCommMessage(data);
+        new DiCommMessage(byteBuffer);
     }
 
     @Test(expected = InvalidParameterException.class)
     public void throwsErrorWhenDataHeaderDoesNotContainType() {
         byte[] data = {(byte) 0xFE, (byte) 0xFF};
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
 
-        new DiCommMessage(data);
+        new DiCommMessage(byteBuffer);
     }
 
     @Test(expected = InvalidParameterException.class)
     public void throwsErrorWhenDataHeaderDoesNotContainLength() {
         byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 3};
 
-        new DiCommMessage(data);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+
+        new DiCommMessage(byteBuffer);
     }
 
     @Test
     public void whenPutPropRequestTypeReceivedWhenMessageTypeIsPutPropRequest() {
         byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 3, (byte) 0, (byte) 0};
 
-        DiCommMessage message = new DiCommMessage(data);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+        DiCommMessage message = new DiCommMessage(byteBuffer);
 
         assertEquals(MessageType.PutPropsRequest, message.getMessageTypeIdentifier());
     }
@@ -61,7 +69,8 @@ public class DiCommMessageTest {
     public void whenGetPropRequestTypeReceivedWhenMessageTypeIsGetPropRequest() {
         byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 4, (byte) 0, (byte) 0};
 
-        DiCommMessage message = new DiCommMessage(data);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+        DiCommMessage message = new DiCommMessage(byteBuffer);
 
         assertEquals(MessageType.GetPropsRequest, message.getMessageTypeIdentifier());
     }
@@ -70,8 +79,8 @@ public class DiCommMessageTest {
     public void whenMessageIsReceivedThenPayloadIsExtracted() {
         byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 4, (byte) 0, (byte) 2, firstDataByte, secondDataByte};
 
-        DiCommMessage message = new DiCommMessage(data);
-
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+        DiCommMessage message = new DiCommMessage(byteBuffer);
         assertEquals(firstDataByte, message.getPayload()[0]);
         assertEquals(secondDataByte, message.getPayload()[1]);
     }
@@ -80,14 +89,16 @@ public class DiCommMessageTest {
     public void throwsErrorWhenMessageIsShorterThanExpected() {
         byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 4, (byte) 0, (byte) 2, firstDataByte};
 
-        new DiCommMessage(data);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+        new DiCommMessage(byteBuffer);
     }
 
     @Test
     public void canExtractMessageThenLongerThanExpected() {
         byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 4, (byte) 0, (byte) 2, firstDataByte, secondDataByte, thirdByte};
 
-        new DiCommMessage(data);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+        new DiCommMessage(byteBuffer);
     }
 
     @Test
@@ -181,9 +192,10 @@ public class DiCommMessageTest {
         int length = 2;
         byte[] data = {(byte) 0xFE, (byte) 0xFF, (byte) 4, (byte) 0, (byte) length, firstDataByte, secondDataByte, thirdByte};
 
-        DiCommMessage diCommMessage = new DiCommMessage(data);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+        DiCommMessage message = new DiCommMessage(byteBuffer);
 
-        assertEquals(HEADER_LENGTH + length, diCommMessage.getTotalDataSize());
+        assertEquals(HEADER_LENGTH + length, message.getTotalDataSize());
     }
 
     @Test
