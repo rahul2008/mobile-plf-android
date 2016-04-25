@@ -379,7 +379,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         String addressLineOne = mEtAddressLineOne.getText().toString();
         String addressLineTwo = mEtAddressLineTwo.getText().toString();
         String postalCode = mEtPostalCode.getText().toString().replaceAll(" ", "");
-        String phoneNumber = mEtPhoneNumber.getText().toString();
+        String phoneNumber = mEtPhoneNumber.getText().toString().replaceAll(" ", "");
         String town = mEtTown.getText().toString();
         String country = mEtCountry.getText().toString();
         String email = mEtEmail.getText().toString();
@@ -577,7 +577,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (mAddressFieldsHashmap != null)
             addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
-        addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
+        addressHashMap.put(ModelConstants.PHONE_1, mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
+        addressHashMap.put(ModelConstants.PHONE_2, "");
+//        addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
         if (mlLState.getVisibility() == View.GONE) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, null);
@@ -646,7 +648,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressFields.setLine2(mEtAddressLineTwo.getText().toString());
         addressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
         addressFields.setTown(mEtTown.getText().toString());
-        addressFields.setPhoneNumber(mEtPhoneNumber.getText().toString());
+        addressFields.setPhoneNumber(mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressFields.setEmail(mEtEmail.getText().toString());
 
         return addressFields;

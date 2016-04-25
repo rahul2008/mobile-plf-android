@@ -10,7 +10,7 @@ android {
         targetSdkVersion 23
         multiDexEnabled true
         generatedDensities = []
-        renderscriptTargetApi 23
+        renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
     }
     buildTypes {
@@ -23,12 +23,12 @@ android {
         simulator {
             applicationId 'com.philips.cdp.di.iapdemo'
             versionCode 2
-            versionName "0.6.7"
+            versionName "0.6.8"
         }
         device {
             applicationId 'com.philips.cdp.di.iapdemo'
             versionCode 2
-            versionName "0.6.7"
+            versionName "0.6.8"
         }
     }
     lintOptions {

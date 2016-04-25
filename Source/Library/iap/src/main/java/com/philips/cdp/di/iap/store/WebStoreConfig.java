@@ -127,7 +127,9 @@ public class WebStoreConfig {
 
     //For testing purpose
     SynchronizedNetwork getSynchronizedNetwork() {
-        return new SynchronizedNetwork((new IAPHurlStack(null).getHurlStack()));
+        IAPHurlStack hurlStack = new IAPHurlStack(null);
+        hurlStack.setContext(mContext);
+        return new SynchronizedNetwork(hurlStack.getHurlStack());
     }
 
     private void notifyConfigListener(final boolean success, final Message msg) {

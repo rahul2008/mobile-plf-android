@@ -9,6 +9,7 @@ import android.os.Message;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.ModelConstants;
@@ -29,16 +30,25 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     private NewOAuthRequest mOAuthRequest;
     private Store mStore;
 
+    private HurlStack mRetryHurlStack;
     @Override
     public String getAccessToken() {
         if (mOAuthRequest == null) {
             mStore = HybrisDelegate.getInstance().getStore();
             mOAuthRequest = new NewOAuthRequest(mStore, null);
+            initRetryHurlStack();
         }
         if (access_token == null) {
             requestSyncOAuthToken(null);
         }
         return access_token;
+    }
+
+    //We need different HurlStack for retry to avoid recursive call and stackoverflow
+    private void initRetryHurlStack() {
+        IAPHurlStack stack  =new IAPHurlStack(mOAuthRequest);
+        stack.setContext(HybrisDelegate.getNetworkController().context);
+        mRetryHurlStack = stack.getHurlStack();
     }
 
     @Override
@@ -56,7 +66,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     }
 
     private void requestSyncOAuthToken(final RequestListener listener) {
-        SynchronizedNetwork network = new SynchronizedNetwork(new IAPHurlStack(null).getHurlStack());
+        SynchronizedNetwork network = new SynchronizedNetwork(mRetryHurlStack);
         network.performRequest(createOAuthRequest(mOAuthRequest), new SynchronizedNetworkCallBack() {
             @Override
             public void onSyncRequestSuccess(final Response response) {
@@ -84,7 +94,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     }
 
     private void requestSyncRefreshToken(RefreshOAuthRequest requestModel, final RequestListener listener) {
-        SynchronizedNetwork network = new SynchronizedNetwork(new IAPHurlStack(mOAuthRequest).getHurlStack());
+        SynchronizedNetwork network = new SynchronizedNetwork(mRetryHurlStack);
         network.performRequest(createOAuthRequest(requestModel), new SynchronizedNetworkCallBack() {
             @Override
             public void onSyncRequestSuccess(final Response response) {

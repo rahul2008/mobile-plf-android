@@ -82,7 +82,8 @@ public class PRXBuilderForProductCatalog {
         productItem.setCtnNumber(code);
         productItem.setFormatedPrice(entry.getPrice().getFormattedValue());
         productItem.setMarketingTextHeader(data.getMarketingTextHeader());
-        if(entry.getDiscountPrice().getFormattedValue()!=null || !entry.getDiscountPrice().getFormattedValue().isEmpty()) {
+        if (entry.getDiscountPrice() != null && entry.getDiscountPrice().getFormattedValue() != null
+                && !entry.getDiscountPrice().getFormattedValue().isEmpty()) {
             productItem.setDiscountedPrice(entry.getDiscountPrice().getFormattedValue());
         }
         addWithNotify(productItem);

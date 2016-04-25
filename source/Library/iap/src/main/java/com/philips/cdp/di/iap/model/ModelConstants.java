@@ -23,6 +23,8 @@ public class ModelConstants {
     public static final String POSTAL_CODE = "postalCode";
     public static final String TOWN = "town";
     public static final String PHONE_NUMBER = "phoneNumber";
+    public static final String PHONE_1 = "phone1";
+    public static final String PHONE_2 = "phone2";
     public static final String REGION_ISOCODE = "region.isocode";
     public static final String REGION_CODE = "region.code";
     public static final String ADDRESS_ID = "addressId";

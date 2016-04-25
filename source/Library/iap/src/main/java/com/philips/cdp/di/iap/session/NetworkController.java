@@ -26,6 +26,7 @@ public class NetworkController {
         initStore();
         oAuthHandler = new TestEnvOAuthHandler();
         mIAPHurlStack = new IAPHurlStack(oAuthHandler);
+        mIAPHurlStack.setContext(context);
         hybrisVolleyCreateConnection(context);
     }
 
