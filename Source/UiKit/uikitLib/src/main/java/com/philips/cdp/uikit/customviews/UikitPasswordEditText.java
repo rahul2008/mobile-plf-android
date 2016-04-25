@@ -200,7 +200,6 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         super.onRestoreInstanceState(savedState.getSuperState());
         passwordVisible = savedState.isShowingIcon();
         handlePasswordInputVisibility();
-        // showPasswordVisibilityIndicator(true);
     }
 
     /**
@@ -209,11 +208,13 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
     private void handlePasswordInputVisibility() {
         if (passwordVisible) {
             setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            setSelection(getText().length());
         } else {
             setTransformationMethod(PasswordTransformationMethod.getInstance());
+            setSelection(getText().length());
         }
         // move cursor to the end of the input as it is being reset automatically
-        setSelection(getText().length());
+
 
     }
 

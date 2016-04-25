@@ -200,12 +200,14 @@ public class PuiEditText extends RelativeLayout {
             @Override
             public void run() {
                 editText.setText(savedState.savedText);
+                editText.setSelection(savedState.savedText.length());
                 int focused = savedState.focused;
                 if (focused == 1) {
                     editText.requestFocus();
                 }
             }
         });
+
         showErrorAndChangeEditTextStyle(View.VISIBLE == savedState.showError);
     }
 
@@ -271,7 +273,11 @@ public class PuiEditText extends RelativeLayout {
     }
 
     private void initEditText(final String editTextHint, final boolean enabled, /*final int editTextWidth,*/ final boolean singleLine/*, int editTextHeight*/) {
+        if(!isPassword)
         editText = (EditText) getChildAt(0);
+        else {
+            editText = (UikitPasswordEditText) getChildAt(0);
+        }
 /*        if (editTextWidth > 0) setWidth(editTextWidth);
         if (editTextHeight > 0) setHeight(editTextHeight);*/
         if (focused) editText.requestFocus();
