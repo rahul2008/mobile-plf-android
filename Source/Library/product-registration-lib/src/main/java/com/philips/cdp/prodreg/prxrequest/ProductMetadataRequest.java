@@ -8,6 +8,7 @@ import com.philips.cdp.prodreg.model.ProductMetadataResponse;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import org.json.JSONObject;
 
@@ -21,6 +22,7 @@ import java.util.Map;
 public class ProductMetadataRequest extends PrxRequest {
 
     private String mCtn = null;
+    private String mServerInfo="https://acc.philips.com/prx/registration/";
 
     public ProductMetadataRequest(String ctn) {
         this.mCtn = ctn;
@@ -33,7 +35,19 @@ public class ProductMetadataRequest extends PrxRequest {
 
     @Override
     public String getServerInfo() {
-        return "https://dev.philips.co.uk/prx/registration/";
+        String mConfiguration = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+        if (mConfiguration.equalsIgnoreCase("development")) {
+            mServerInfo = "https://10.128.41.113.philips.com/prx/registration/";
+        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
+            mServerInfo = "https://tst.philips.com/prx/registration/";
+        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
+            mServerInfo = "https://acc.philips.com/prx/registration/";
+        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
+            mServerInfo = "https://dev.philips.com/prx/registration/";
+        }else if (mConfiguration.equalsIgnoreCase("Production")) {
+            mServerInfo = "https://www.philips.com/prx/registration/";
+        }
+        return mServerInfo;
     }
 
     @Override
@@ -60,7 +74,7 @@ public class ProductMetadataRequest extends PrxRequest {
         Uri builtUri = Uri.parse(getServerInfo())
                 .buildUpon()
                 .appendPath(getSector().name())
-                .appendPath(getLocale())
+                .appendPath(getLocaleMatchResult())
                 .appendPath(getCatalog().name())
                 .appendPath("products")
                 .appendPath(mCtn + ".metadata")

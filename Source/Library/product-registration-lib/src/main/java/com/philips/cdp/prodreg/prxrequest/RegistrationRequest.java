@@ -4,11 +4,11 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.model.RegistrationResponse;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import org.json.JSONObject;
 
@@ -25,7 +25,7 @@ public class RegistrationRequest extends PrxRequest {
     private String ctn = null;
     private String accessToken;
     private String productSerialNumber;
-    private String mServerInfo = "https://dev.philips.com/prx/registration/";
+    private String mServerInfo = "https://acc.philips.com/prx/registration/";
     private String purchaseDate;
     private String registrationChannel;
     private String sendEmail;
@@ -36,6 +36,12 @@ public class RegistrationRequest extends PrxRequest {
     private String Zip;
     private String state;
     private String country;
+    private String PRODUCT_SERIAL_NUMBER = "productSerialNumber";
+    private String ACCESS_TOKEN_TAG = "x-accessToken";
+    private String REGISTRATION_CHANNEL = "registrationChannel";
+    private String PURCHASE_DATE = "purchaseDate";
+    private String SEND_EMAIL = "sendEmail";
+    private String shouldSendEmailAfterRegistration = "true";
 
     public RegistrationRequest(String ctn, final String serialNumber, String accessToken) {
         this.ctn = ctn;
@@ -44,6 +50,18 @@ public class RegistrationRequest extends PrxRequest {
     }
 
     public String getServerInfo() {
+        String mConfiguration = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+        if (mConfiguration.equalsIgnoreCase("development")) {
+            mServerInfo = "https://10.128.41.113.philips.com/prx/registration/";
+        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
+            mServerInfo = "https://tst.philips.com/prx/registration/";
+        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
+            mServerInfo = "https://acc.philips.com/prx/registration/";
+        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
+            mServerInfo = "https://dev.philips.com/prx/registration/";
+        } else if (mConfiguration.equalsIgnoreCase("Production")) {
+            mServerInfo = "https://www.philips.com/prx/registration/";
+        }
         return mServerInfo;
     }
 
@@ -143,13 +161,17 @@ public class RegistrationRequest extends PrxRequest {
         return accessToken;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
         return new RegistrationResponse().parseJsonResponseData(jsonObject);
+    }
+
+    public String getShouldSendEmailAfterRegistration() {
+        return shouldSendEmailAfterRegistration;
+    }
+
+    public void setShouldSendEmailAfterRegistration(final String shouldSendEmailAfterRegistration) {
+        this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
     }
 
     @Override
@@ -165,7 +187,7 @@ public class RegistrationRequest extends PrxRequest {
     @Override
     public Map<String, String> getHeaders() {
         final Map<String, String> headers = new HashMap<>();
-        headers.put(ProdRegConstants.ACCESS_TOKEN_TAG, getAccessToken());
+        headers.put(ACCESS_TOKEN_TAG, getAccessToken());
         return headers;
     }
 
@@ -174,19 +196,20 @@ public class RegistrationRequest extends PrxRequest {
         Map<String, String> params = new HashMap<>();
         validatePurchaseDate(params, getPurchaseDate());
         validateSerialNumber(params);
-        params.put(ProdRegConstants.REGISTRATION_CHANNEL, getRegistrationChannel());
+        params.put(REGISTRATION_CHANNEL, getRegistrationChannel());
+        params.put(SEND_EMAIL, getShouldSendEmailAfterRegistration());
         return params;
     }
 
     private void validateSerialNumber(final Map<String, String> params) {
         final String productSerialNumber = getProductSerialNumber();
         if (productSerialNumber != null && productSerialNumber.length() > 0)
-            params.put(ProdRegConstants.PRODUCT_SERIAL_NUMBER, productSerialNumber);
+            params.put(PRODUCT_SERIAL_NUMBER, productSerialNumber);
     }
 
     private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
         if (purchaseDate != null && purchaseDate.length() > 0)
-            params.put(ProdRegConstants.PURCHASE_DATE, purchaseDate);
+            params.put(PURCHASE_DATE, purchaseDate);
     }
 
     private String generateUrl() {

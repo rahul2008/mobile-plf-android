@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.handler.ErrorType;
 import com.philips.cdp.prodreg.handler.MetadataListener;
+import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.model.ProductMetadataResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
 import com.philips.cdp.prxclient.RequestManager;
@@ -19,16 +19,17 @@ import com.philips.cdp.prxclient.response.ResponseListener;
  */
 public class Product {
 
-    private String ctn;
-    private String serialNumber;
+    private String productModelNumber = "";
+    private String productSerialNumber = "";
     private String purchaseDate;
     private Sector sector;
     private Catalog catalog;
     private String locale;
+    private String shouldSendEmailAfterRegistration = "false";
 
-    public Product(String ctn, String serialNumber, String purchaseDate, Sector sector, Catalog catalog) {
-        this.ctn = ctn;
-        this.serialNumber = serialNumber;
+    public Product(String productModelNumber, String productSerialNumber, String purchaseDate, Sector sector, Catalog catalog) {
+        this.productModelNumber = productModelNumber;
+        this.productSerialNumber = productSerialNumber;
         this.purchaseDate = purchaseDate;
         this.sector = sector;
         this.catalog = catalog;
@@ -55,7 +56,7 @@ public class Product {
 
             @Override
             public void onResponseError(String error, int code) {
-                metadataListener.onErrorResponse(ErrorType.METADATA_FAILED.getDescription(), ErrorType.METADATA_FAILED.getCode());
+                metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), code);
             }
         };
     }
@@ -72,15 +73,15 @@ public class Product {
     }
 
     public String getCtn() {
-        return ctn;
+        return productModelNumber;
     }
 
     public String getSerialNumber() {
-        return serialNumber;
+        return productSerialNumber;
     }
 
     public void setSerialNumber(final String serialNumber) {
-        this.serialNumber = serialNumber;
+        this.productSerialNumber = serialNumber;
     }
 
     public Sector getSector() {
@@ -107,7 +108,16 @@ public class Product {
         this.purchaseDate = purchaseDate;
     }
 
+    public String getShouldSendEmailAfterRegistration() {
+        return shouldSendEmailAfterRegistration;
+    }
+
+    public void setShouldSendEmailAfterRegistration(final String shouldSendEmailAfterRegistration) {
+        this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
+    }
+
     public ProductMetadataRequest getProductMetadataRequest(String ctn) {
         return new ProductMetadataRequest(ctn);
     }
+
 }

@@ -3,11 +3,11 @@ package com.philips.cdp.prodreg.prxrequest;
 import android.net.Uri;
 import android.util.Log;
 
-import com.philips.cdp.prodreg.handler.ProdRegConstants;
 import com.philips.cdp.prodreg.model.RegisteredResponse;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import org.json.JSONObject;
 
@@ -21,6 +21,8 @@ import java.util.Map;
 public class RegisteredProductsRequest extends PrxRequest {
 
     private String accessToken;
+    private String mServerInfo="https://acc.philips.com/prx/registration.registeredProducts";
+    private String ACCESS_TOKEN_TAG = "x-accessToken";
 
     public String getAccessToken() {
         return accessToken;
@@ -37,7 +39,19 @@ public class RegisteredProductsRequest extends PrxRequest {
 
     @Override
     public String getServerInfo() {
-        return "https://dev.philips.com/prx/registration.registeredProducts";
+        String mConfiguration =  RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+        if (mConfiguration.equalsIgnoreCase("development")) {
+            mServerInfo = "https://10.128.41.113.philips.com/prx/registration.registeredProducts";
+        } else if (mConfiguration.equalsIgnoreCase("Testing")) {
+            mServerInfo = "https://tst.philips.com/prx/registration.registeredProducts";
+        } else if (mConfiguration.equalsIgnoreCase("Evaluation")) {
+            mServerInfo = "https://acc.philips.com/prx/registration.registeredProducts";
+        } else if (mConfiguration.equalsIgnoreCase("Staging")) {
+            mServerInfo = "https://dev.philips.com/prx/registration.registeredProducts";
+        }else if (mConfiguration.equalsIgnoreCase("Production")) {
+            mServerInfo = "https://www.philips.com/prx/registration.registeredProducts";
+        }
+        return mServerInfo;
     }
 
     @Override
@@ -53,7 +67,7 @@ public class RegisteredProductsRequest extends PrxRequest {
     @Override
     public Map<String, String> getHeaders() {
         final Map<String, String> headers = new HashMap<>();
-        headers.put(ProdRegConstants.ACCESS_TOKEN_TAG, getAccessToken());
+        headers.put(ACCESS_TOKEN_TAG, getAccessToken());
         return headers;
     }
 

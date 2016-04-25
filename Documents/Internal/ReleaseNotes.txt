@@ -63,6 +63,34 @@ Version - 0.0.4                             Date: 23-03-2016
   
      1.	Implemented registred the product with DI-Comm .
      
+Version - 0.4.0.rc_1                             Date: 12-04-2016
+-------------------------------------------------------------
 
-	 
+  Following features can be tested:
+  
+
+  1 : PRA-74 Register product regardless of internet connection
+  2 : PRA-77 Only register one product instance
+  3 : PRA-102 Incorrect validation for serial number is observed for certain region & language	
+
+Version - 0.4.0                             Date: 19-04-2016
+-------------------------------------------------------------
+	  
+  Following features has fixed :
+  
+  1.  PRA-143 Duplicate product registered when tapping on "Registered" button twice for single user
+  2.  PRA-128 Getting list of Registered products and caching the data in mobile device
+
+Version - 0.5.0.rc_1                        Date: 21-04-2016
+-------------------------------------------------------------
+	  
+  Following features has fixed :
+  
+  1.  PRA-143 Duplicate product registered when tapping on "Registered" button twice for single user
+  2.  PRA-144 If user try to registered the same product data with different user on the same device, error saying product already registered
+  
+  Following features can be tested:
+  
+  1. PRA-79 - Email configuration
+  
 	 

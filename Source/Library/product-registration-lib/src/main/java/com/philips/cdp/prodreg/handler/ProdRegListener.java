@@ -1,6 +1,6 @@
 package com.philips.cdp.prodreg.handler;
 
-import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.prodreg.backend.RegisteredProduct;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -8,7 +8,7 @@ import com.philips.cdp.prxclient.response.ResponseData;
  */
 public interface ProdRegListener {
 
-    void onProdRegSuccess(ResponseData responseData);
+    void onProdRegSuccess(RegisteredProduct registeredProduct);
 
-    void onProdRegFailed(ErrorType errorType);
+    void onProdRegFailed(RegisteredProduct registeredProduct);
 }

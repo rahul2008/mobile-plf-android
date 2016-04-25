@@ -27,10 +27,8 @@ import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.Util;
 import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
-import com.philips.cdp.prodreg.handler.ErrorType;
+import com.philips.cdp.prodreg.backend.RegisteredProduct;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
-import com.philips.cdp.prodreg.model.RegistrationResponse;
-import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
@@ -200,23 +198,21 @@ public class DetailActivity extends AppCompatActivity {
     private void registerProduct() {
         final ProdRegListener listener = new ProdRegListener() {
             @Override
-            public void onProdRegSuccess(ResponseData responseData) {
+            public void onProdRegSuccess(RegisteredProduct registeredProduct) {
                 Toast.makeText(DetailActivity.this, getResources().getString(R.string.product_registered_successfully), Toast.LENGTH_SHORT).show();
-                RegistrationResponse registrationResponse = (RegistrationResponse) responseData;
-                if (registrationResponse.getData() != null)
-                    Log.d(TAG, " Response Data : " + registrationResponse.getData());
             }
 
             @Override
-            public void onProdRegFailed(ErrorType errorType) {
-                Log.d(TAG, "Negative Response Data : " + errorType.getDescription() + " with error code : " + errorType.getCode());
-                Toast.makeText(DetailActivity.this, errorType.getDescription(), Toast.LENGTH_SHORT).show();
+            public void onProdRegFailed(RegisteredProduct registeredProduct) {
+                Log.d(TAG, "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
             }
         };
         ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
         Product product = new Product(mCtn.getText().toString(), mSerial_number.getText().toString(), "2016-03-21",
                 Sector.B2C, Catalog.CONSUMER);
-        prodRegHelper.registerProduct(this, product, listener);
+        prodRegHelper.init(this);
+        prodRegHelper.setProductRegistrationListener(listener);
+        prodRegHelper.registerProduct(product);
     }
 }

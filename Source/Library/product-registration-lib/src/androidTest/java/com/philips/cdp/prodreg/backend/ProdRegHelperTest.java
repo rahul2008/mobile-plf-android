@@ -31,7 +31,7 @@ public class ProdRegHelperTest extends MockitoTestCase {
         ProdRegHelper prodRegHelper = new ProdRegHelper() {
             @NonNull
             @Override
-            protected UserProduct getUserProduct(final Product product) {
+            protected UserProduct getUserProduct(final Context context) {
                 userProduct[0] = mock(UserProduct.class);
                 return userProduct[0];
             }
@@ -39,7 +39,19 @@ public class ProdRegHelperTest extends MockitoTestCase {
         Product product = mock(Product
                 .class);
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
-        prodRegHelper.registerProduct(mContext, product, prodRegListener);
-        verify(userProduct[0]).registerProduct(mContext, product, prodRegListener);
+        prodRegHelper.setProductRegistrationListener(prodRegListener);
+        prodRegHelper.registerProduct(product);
+        verify(userProduct[0]).registerProduct(product, prodRegListener);
+    }
+
+    public void testGetUserProduct() {
+        Product product = mock(Product
+                .class);
+        assertTrue(prodRegHelper.getUserProduct(mContext) instanceof UserProduct);
+    }
+
+    public void testSettingLocale() {
+        prodRegHelper.setLocale("en", "GB");
+        assertEquals(prodRegHelper.getLocale(), ("en_GB"));
     }
 }

@@ -19,5 +19,6 @@
     <string name="integratingApplicationAppsId">integratingApplicationAppsId</string>
     <string name="demo_app_home">demoapp:home</string>
     <string name="past_purchase_date_error">error in date selection</string>
+    <string name="register_list">Product List</string>
 
 </resources>

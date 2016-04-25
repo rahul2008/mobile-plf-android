@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg;
+package com.philips.cdp.prodreg.dicom;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +20,7 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
-import com.philips.cdp.prodreg.dicom.DetailActivity;
+import com.philips.cdp.prodreg.R;
 
 public class DiComActivity extends AppCompatActivity {
 

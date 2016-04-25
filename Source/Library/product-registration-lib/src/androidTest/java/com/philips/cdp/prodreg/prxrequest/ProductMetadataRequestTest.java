@@ -25,11 +25,6 @@ public class ProductMetadataRequestTest extends InstrumentationTestCase {
         context = getInstrumentation().getContext();
     }
 
-    public void testGetServerInfo() throws Exception {
-        String mServerInfo = productMetadataRequest.getServerInfo();
-        assertEquals("https://dev.philips.co.uk/prx/registration/", mServerInfo);
-    }
-
     public void testGetRequestType() throws Exception {
         int mIntType = productMetadataRequest.getRequestType();
         assertEquals(RequestType.GET.getValue(), mIntType);
