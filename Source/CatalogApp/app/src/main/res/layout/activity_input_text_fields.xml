@@ -52,12 +52,10 @@
             android:id="@+id/password"
             android:layout_width="240dp"
             android:hint="password"
-            android:inputType="textPassword"
             android:layout_below="@+id/input_field_disabled"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             inputText:uikit_hintText="Password"
-            inputText:uikit_enabled="true"
             inputText:uikit_errorText="@string/invalid_pwd_format"
             inputText:uikit_password_edit_field="true"
             />
