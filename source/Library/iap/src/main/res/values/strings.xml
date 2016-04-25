@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name">InAppPurchase</string>
+
     <string name="iap_please_wait">Please Wait</string>
     <string name="iap_shopping_cart">Shopping Cart</string>
     <string name="iap_shopping_cart_item">Shopping Cart item</string>

@@ -164,6 +164,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mShippingAddressFields = new AddressFields();
 
         mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
+        mEtEmail.setEnabled(false);
 
         if (this instanceof BillingAddressFragment) {
             mEtCountry.setEnabled(true);
