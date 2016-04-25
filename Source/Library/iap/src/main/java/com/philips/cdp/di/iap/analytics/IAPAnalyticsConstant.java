@@ -36,6 +36,11 @@ public class IAPAnalyticsConstant {
     public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
     public static final String ERROR = "error";
     public static final String INSUFFICIENT_STOCK_ERROR = "InsufficientStockError";
+    public static final String DELIVERY_METHOD = "deliveryMethod";
+    public static final String DELIVERY_UPS_PARCEL = "UPSParcel";
+    public static final String DELIVERY_UPS_PARCEL_EXPRESS = "UPSParcelExpress";
+    public static final String DELIVERY_UPS_ACCESS_POINTS = "UPSAccessPoint";
+    public static final String RETAILER_SELECTED = "retailerSelected";
 
     public static final String CANCEL_PAYMENT = "cancelPayment";
     public static final String NOTIFICTION_OK = "ok";
