@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
-import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.prodreg.model.RegistrationState;
 
 import static org.mockito.Mockito.mock;

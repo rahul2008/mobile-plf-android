@@ -25,7 +25,7 @@ public class Product {
     private Sector sector;
     private Catalog catalog;
     private String locale;
-    private String shouldSendEmailAfterRegistration = "true";
+    private String shouldSendEmailAfterRegistration = "false";
 
     public Product(String productModelNumber, String productSerialNumber, String purchaseDate, Sector sector, Catalog catalog) {
         this.productModelNumber = productModelNumber;

@@ -39,7 +39,8 @@ public class ProdRegHelperTest extends MockitoTestCase {
         Product product = mock(Product
                 .class);
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
-        prodRegHelper.registerProduct(mContext, product, prodRegListener);
+        prodRegHelper.setProductRegistrationListener(prodRegListener);
+        prodRegHelper.registerProduct(product);
         verify(userProduct[0]).registerProduct(product, prodRegListener);
     }
 

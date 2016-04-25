@@ -27,8 +27,8 @@ import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.Util;
 import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
+import com.philips.cdp.prodreg.backend.RegisteredProduct;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
-import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
@@ -211,6 +211,8 @@ public class DetailActivity extends AppCompatActivity {
         prodRegHelper.setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
         Product product = new Product(mCtn.getText().toString(), mSerial_number.getText().toString(), "2016-03-21",
                 Sector.B2C, Catalog.CONSUMER);
-        prodRegHelper.registerProduct(this, product, listener);
+        prodRegHelper.init(this);
+        prodRegHelper.setProductRegistrationListener(listener);
+        prodRegHelper.registerProduct(product);
     }
 }

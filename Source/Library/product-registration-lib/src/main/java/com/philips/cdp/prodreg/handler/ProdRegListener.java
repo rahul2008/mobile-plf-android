@@ -1,6 +1,6 @@
 package com.philips.cdp.prodreg.handler;
 
-import com.philips.cdp.prodreg.model.RegisteredProduct;
+import com.philips.cdp.prodreg.backend.RegisteredProduct;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

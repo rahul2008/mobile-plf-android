@@ -1,9 +1,11 @@
-package com.philips.cdp.prodreg.model;
+package com.philips.cdp.prodreg.backend;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.backend.Product;
 import com.philips.cdp.prodreg.handler.ProdRegError;
+import com.philips.cdp.prodreg.model.RegistrationState;
+
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -79,6 +81,18 @@ public class RegisteredProduct extends Product {
         }
         return shouldConsiderUUID;
     }
+
+    protected boolean IsUserRegisteredLocally(final LocalRegisteredProducts localRegisteredProducts) {
+        final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
+        final int index = registeredProducts.indexOf(this);
+        if (index != -1) {
+            RegisteredProduct product = registeredProducts.get(index);
+            final RegistrationState registrationState = product.getRegistrationState();
+            return registrationState == RegistrationState.REGISTERED;
+        }
+        return false;
+    }
+
 
     @Override
     public int hashCode() {

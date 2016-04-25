@@ -11,7 +11,6 @@ import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.handler.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.ProductMetadataResponseData;
-import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.prodreg.model.RegisteredResponse;
 import com.philips.cdp.prodreg.model.RegisteredResponseData;
 import com.philips.cdp.prodreg.model.RegistrationResponse;
@@ -69,7 +68,7 @@ public class UserProduct {
         setUuid();
         RegisteredProduct registeredProduct = getUserProduct().createDummyRegisteredProduct(product);
         LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance();
-        if (!getUserProduct().IsUserRegisteredLocally(registeredProduct)) {
+        if (!registeredProduct.IsUserRegisteredLocally(localRegisteredProducts)) {
             localRegisteredProducts.store(registeredProduct);
         } else {
             registeredProduct.setProdRegError(ProdRegError.PRODUCT_ALREADY_REGISTERED);
@@ -78,17 +77,6 @@ public class UserProduct {
 
         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
         getUserProduct().registerCachedProducts(registeredProducts, appListener);
-    }
-
-    protected boolean IsUserRegisteredLocally(final RegisteredProduct registeredProduct) {
-        final List<RegisteredProduct> registeredProducts = getLocalRegisteredProductsInstance().getRegisteredProducts();
-        final int index = registeredProducts.indexOf(registeredProduct);
-        if (index != -1) {
-            RegisteredProduct product = registeredProducts.get(index);
-            final RegistrationState registrationState = product.getRegistrationState();
-            return registrationState == RegistrationState.REGISTERED;
-        }
-        return false;
     }
 
     @NonNull
@@ -258,7 +246,7 @@ public class UserProduct {
 
     protected boolean isCtnRegistered(final RegisteredResponseData[] results, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         for (RegisteredResponseData result : results) {
-            if (registeredProduct.getCtn().equalsIgnoreCase(result.getProductModelNumber())) {
+            if (registeredProduct.getCtn().equalsIgnoreCase(result.getProductModelNumber()) && registeredProduct.getSerialNumber().equals(result.getProductSerialNumber())) {
                 getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
                 appListener.onProdRegFailed(registeredProduct);
                 return true;
@@ -269,9 +257,8 @@ public class UserProduct {
 
     protected boolean validateSerialNumberFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
-            if (processSerialNumber(data, registeredProduct, appListener)) return false;
-        } else {
-            registeredProduct.setSerialNumber("");
+            if (processSerialNumber(data, registeredProduct, appListener))
+                return false;
         }
         return true;
     }

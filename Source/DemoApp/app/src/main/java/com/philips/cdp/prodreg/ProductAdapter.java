@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp.prodreg.model.RegisteredProduct;
+import com.philips.cdp.prodreg.backend.RegisteredProduct;
 
 import java.util.List;
 
@@ -19,9 +19,8 @@ import java.util.List;
  */
 public class ProductAdapter  extends RecyclerView.Adapter<ListRowHolder>  {
 
-    private List<RegisteredProduct> registeredProducts;
-
     Context mContext;
+    private List<RegisteredProduct> registeredProducts;
 
     public ProductAdapter(Context mContext, List<RegisteredProduct> registeredProducts) {
         this.registeredProducts = registeredProducts;

@@ -15,15 +15,19 @@ import com.philips.cdp.prodreg.handler.ProdRegListener;
 public class ProdRegHelper {
 
     private String locale;
+    private Context context;
+    private ProdRegListener listener;
+
+    public void init(Context context) {
+        this.context = context;
+    }
 
     /**
      * <b> API to register product</b>
      *
-     * @param context  - Context of an activity
      * @param product  - product
-     * @param listener - Callback listener
      */
-    public void registerProduct(final Context context, final Product product, final ProdRegListener listener) {
+    public void registerProduct(final Product product) {
         UserProduct userProduct = getUserProduct(context);
         product.setLocale(locale);
         userProduct.setLocale(this.locale);
@@ -41,5 +45,9 @@ public class ProdRegHelper {
 
     public String getLocale() {
         return locale;
+    }
+
+    public void setProductRegistrationListener(final ProdRegListener listener) {
+        this.listener = listener;
     }
 }

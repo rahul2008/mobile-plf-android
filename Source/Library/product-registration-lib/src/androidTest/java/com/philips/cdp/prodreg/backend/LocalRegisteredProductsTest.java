@@ -5,7 +5,6 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
-import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.registration.User;
 
 import java.util.ArrayList;
