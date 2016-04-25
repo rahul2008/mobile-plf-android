@@ -198,7 +198,7 @@ public class DetailActivity extends AppCompatActivity {
     private void registerProduct() {
         final ProdRegListener listener = new ProdRegListener() {
             @Override
-            public void onProdRegSuccess() {
+            public void onProdRegSuccess(RegisteredProduct registeredProduct) {
                 Toast.makeText(DetailActivity.this, getResources().getString(R.string.product_registered_successfully), Toast.LENGTH_SHORT).show();
             }
 

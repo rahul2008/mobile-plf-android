@@ -98,7 +98,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         product.setShouldSendEmailAfterRegistration(String.valueOf(eMailConfiguration));
         final ProdRegListener listener = new ProdRegListener() {
             @Override
-            public void onProdRegSuccess() {
+            public void onProdRegSuccess(RegisteredProduct registeredProduct) {
                 submitButton.setEnabled(true);
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.product_registered_successfully), Toast.LENGTH_SHORT).show();
             }

@@ -8,7 +8,7 @@ import com.philips.cdp.prodreg.model.RegisteredProduct;
  */
 public interface ProdRegListener {
 
-    void onProdRegSuccess();
+    void onProdRegSuccess(RegisteredProduct registeredProduct);
 
     void onProdRegFailed(RegisteredProduct registeredProduct);
 }

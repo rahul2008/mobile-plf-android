@@ -15,6 +15,7 @@ public class RegisteredProduct extends Product {
     private String endWarrantyDate;
     private String uuid = "";
     private ProdRegError prodRegError;
+    private String contractNumber;
 
     public RegisteredProduct(final String ctn, final String serialNumber, final String purchaseDate, final Sector sector, final Catalog catalog) {
         super(ctn, serialNumber, purchaseDate, sector, catalog);
@@ -83,5 +84,13 @@ public class RegisteredProduct extends Product {
     public int hashCode() {
         final int value = 5 * 10 + ((getCtn() == null) ? 0 : getCtn().hashCode());
         return value;
+    }
+
+    public String getContractNumber() {
+        return contractNumber;
+    }
+
+    public void setContractNumber(final String contractNumber) {
+        this.contractNumber = contractNumber;
     }
 }

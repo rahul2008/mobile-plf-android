@@ -137,8 +137,9 @@ public class UserProductTest extends MockitoTestCase {
         Product productMock = mock(Product.class);
 
         userProduct.registerProduct(productMock, new ProdRegListener() {
+
             @Override
-            public void onProdRegSuccess() {
+            public void onProdRegSuccess(final RegisteredProduct registeredProduct) {
 
             }
 
@@ -405,7 +406,7 @@ public class UserProductTest extends MockitoTestCase {
         responseListener.onResponseSuccess(responseData);
         verify(product).setRegistrationState(RegistrationState.REGISTERED);
         verify(localRegisteredProducts).updateRegisteredProducts(product);
-        verify(prodRegListener).onProdRegSuccess();
+        verify(prodRegListener).onProdRegSuccess(product);
         verify(userProductMock).mapRegistrationResponse(responseData, product);
         responseListener.onResponseError("test", 10);
         verify(errorHandlerMock).handleError(product, 10, prodRegListener);

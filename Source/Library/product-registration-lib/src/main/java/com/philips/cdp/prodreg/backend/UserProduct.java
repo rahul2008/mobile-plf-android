@@ -15,6 +15,7 @@ import com.philips.cdp.prodreg.model.RegisteredProduct;
 import com.philips.cdp.prodreg.model.RegisteredResponse;
 import com.philips.cdp.prodreg.model.RegisteredResponseData;
 import com.philips.cdp.prodreg.model.RegistrationResponse;
+import com.philips.cdp.prodreg.model.RegistrationResponseData;
 import com.philips.cdp.prodreg.model.RegistrationState;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
@@ -106,7 +107,6 @@ public class UserProduct {
             registeredProduct.setLocale(product.getLocale());
             registeredProduct.setShouldSendEmailAfterRegistration(product.getShouldSendEmailAfterRegistration());
             registeredProduct.setRegistrationState(RegistrationState.PENDING);
-            // TO-DO
             registeredProduct.setUserUUid(getUuid());
             return registeredProduct;
         }
@@ -353,7 +353,7 @@ public class UserProduct {
                 getUserProduct().mapRegistrationResponse(registrationResponse, registeredProduct);
                 registeredProduct.setProdRegError(null);
                 getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
-                appListener.onProdRegSuccess();
+                appListener.onProdRegSuccess(registeredProduct);
             }
 
             @Override
@@ -368,7 +368,9 @@ public class UserProduct {
     }
 
     protected void mapRegistrationResponse(final RegistrationResponse registrationResponse, final RegisteredProduct registeredProduct) {
-        registeredProduct.setEndWarrantyDate(registrationResponse.getData().getWarrantyEndDate());
+        final RegistrationResponseData data = registrationResponse.getData();
+        registeredProduct.setEndWarrantyDate(data.getWarrantyEndDate());
+        registeredProduct.setContractNumber(data.getContractNumber());
     }
 
     protected void makeRegistrationRequest(final Context mContext, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
