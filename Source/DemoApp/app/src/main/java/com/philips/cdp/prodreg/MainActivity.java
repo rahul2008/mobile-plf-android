@@ -7,14 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.philips.cdp.prodreg.dicom.DiComActivity;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button mBtnUserRegistration;
     private Button mBtnProductRegistration;
-    private Button mBtnDiCom;
     private Button mBtnRegisterList;
     private String TAG = getClass().toString();
 
@@ -29,8 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnProductRegistration = (Button) findViewById(R.id.btn_product_registration);
         mBtnProductRegistration.setOnClickListener(this);
 
-        mBtnDiCom = (Button) findViewById(R.id.btn_dicom);
-        mBtnDiCom.setOnClickListener(this);
 
         mBtnRegisterList= (Button) findViewById(R.id.btn_register_list);
         mBtnRegisterList.setOnClickListener(this);
@@ -47,11 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_product_registration:
                 intent = new Intent(this, ProductActivity.class);
-                startActivity(intent);
-                break;
-
-            case R.id.btn_dicom:
-                intent = new Intent(this, DiComActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btn_register_list:

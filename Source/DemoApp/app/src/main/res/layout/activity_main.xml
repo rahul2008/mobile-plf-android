@@ -39,15 +39,6 @@
             android:textAllCaps="false"/>
 
         <Button
-            android:id="@+id/btn_dicom"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="10dp"
-            android:text="@string/diCom_integration"
-            android:textAllCaps="false"/>
-
-        <Button
             android:id="@+id/btn_register_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
