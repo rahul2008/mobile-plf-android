@@ -182,7 +182,7 @@ public class Store {
         builder.append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
-        builder.append(getCountry()).append(LANGUAGE_EN);
+        builder.append(getCountry()).append(LANGUAGE_EN);//Check whether to pass "UK" / "GB"
         return builder.toString();
     }
 
@@ -209,8 +209,6 @@ public class Store {
 
     public String getCountry() {
         if (mCountry != null) {
-            if (mCountry.equalsIgnoreCase("GB"))
-                mCountry = "UK";
             return mCountry;
         }
         return "";
