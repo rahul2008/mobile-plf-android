@@ -3,12 +3,12 @@ package cdp.cdp.philips.com.prxclientlib;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.prxclient.request.ProductAssetRequest;
-import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.datamodels.assets.Asset;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.datamodels.assets.Assets;
 import com.philips.cdp.prxclient.datamodels.assets.Data;
+import com.philips.cdp.prxclient.request.ProductAssetRequest;
+import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
@@ -28,12 +28,6 @@ import java.util.List;
 public class AssetModelTest extends InstrumentationTestCase {
 
     private static final String TAG = AssetModelTest.class.getSimpleName();
-    private PrxRequest mProductAssetBuilder = null;
-    private Asset mAssetObject = null;
-    private Assets mAssetsObject = null;
-    private Data mData = null;
-    private AssetModel mAssetModel = null;
-
     String mCode = "RQ1250_17";
     String mDescription = "User manual";
     String mExtension = "pdf";
@@ -43,6 +37,11 @@ public class AssetModelTest extends InstrumentationTestCase {
     String mNumber = "001";
     String mType = "DFU";
     String mAssetResource = "http://download.p4c.philips.com/files/r/rq1250_17/rq1250_17_dfu_eng.pdf";
+    private PrxRequest mProductAssetBuilder = null;
+    private Asset mAssetObject = null;
+    private Assets mAssetsObject = null;
+    private Data mData = null;
+    private AssetModel mAssetModel = null;
 
     @Override
     protected void setUp() throws Exception {
@@ -50,7 +49,7 @@ public class AssetModelTest extends InstrumentationTestCase {
 
         mProductAssetBuilder = new ProductAssetRequest("125", null);
       //
-        mProductAssetBuilder.setLocale("nl_NL");
+        // mProductAssetBuilder.setLocale("nl_NL");
 
 
         mAssetObject = new Asset();

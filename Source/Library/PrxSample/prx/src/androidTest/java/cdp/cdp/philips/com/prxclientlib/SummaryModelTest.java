@@ -3,13 +3,13 @@ package cdp.cdp.philips.com.prxclientlib;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.prxclient.request.ProductSummaryRequest;
-import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.datamodels.summary.Brand;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.Price;
 import com.philips.cdp.prxclient.datamodels.summary.ReviewStatistics;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.request.ProductSummaryRequest;
+import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
@@ -38,7 +38,7 @@ public class SummaryModelTest extends InstrumentationTestCase {
 
         mProductSummaryBuilder = new ProductSummaryRequest("125", null);
 
-        mProductSummaryBuilder.setLocale("nl_NL");
+        // mProductSummaryBuilder.setLocale("nl_NL");
 
     }
 

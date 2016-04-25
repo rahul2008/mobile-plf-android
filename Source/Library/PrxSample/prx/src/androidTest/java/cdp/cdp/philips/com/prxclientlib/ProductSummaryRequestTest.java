@@ -33,7 +33,7 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
 
         mProductAssetBuilder = new ProductSummaryRequest("125", null);
       //  mProductAssetBuilder.setmCatalogCode("COnsumer");
-        mProductAssetBuilder.setLocale("nl_NL");
+        //  mProductAssetBuilder.setLocale("nl_NL");
       //  mProductAssetBuilder.setSectorCode("HAIR");
     }
 
