@@ -3,6 +3,7 @@ package com.philips.cdp.prxclient;
 import android.content.Context;
 
 import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.localematchwrapper.LocaleMatchHandler;
 import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseListener;
@@ -19,6 +20,7 @@ public class RequestManager {
 
     public void init(Context applicationContext) {
         mContext = applicationContext;
+        LocaleMatchHandler localeMatchHandler = LocaleMatchHandler.getInstance(mContext);
     }
 
     public void executeRequest(PrxRequest prxRequest, ResponseListener listener) {
