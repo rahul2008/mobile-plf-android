@@ -25,15 +25,17 @@ public class ProdRegHelper {
     private Context context;
     private ProdRegListener prodRegListener;
     private UserRegistrationListener userRegistrationListener;
+    private UserProduct userProduct;
 
     public void init(Context context) {
         this.context = context;
         registerLister();
+        userProduct = new UserProduct(context, new User(context));
     }
 
     @NonNull
-    UserProduct getUserProduct(final Context context) {
-        return new UserProduct(context, new User(context));
+    UserProduct getUserProduct() {
+        return userProduct;
     }
 
     public void setLocale(final String language, final String countryCode) {
@@ -99,7 +101,7 @@ public class ProdRegHelper {
     }
 
     public UserProduct getSignedInUser() {
-        UserProduct userProduct = getUserProduct(context);
+        UserProduct userProduct = getUserProduct();
         userProduct.setProductRegistrationListener(prodRegListener);
         userProduct.setLocale(this.locale);
         return userProduct;

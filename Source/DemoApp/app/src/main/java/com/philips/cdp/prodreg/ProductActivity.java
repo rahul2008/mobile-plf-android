@@ -159,11 +159,5 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        prodRegHelper.removeProductRegistrationListener();
-    }
 }
 
