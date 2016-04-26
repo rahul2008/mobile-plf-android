@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.prodreg.handler.ProdRegError;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.prodreg.model.RegistrationState;
+import com.philips.cdp.registration.User;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -50,6 +51,6 @@ public class ErrorHandler {
     }
     @NonNull
     UserProduct getUserProduct(Context context) {
-        return new UserProduct(context);
+        return new UserProduct(context, new User(context));
     }
 }

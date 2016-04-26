@@ -38,7 +38,7 @@ public class UserProduct {
     public static final String FETCH_REGISTERED_PRODUCTS = "fetch_registered_products";
     private final String TAG = getClass() + "";
     private final String MICRO_SITE_ID = "MS";
-    private String requestType;
+    private String requestType = "";
     private String locale;
     private RegisteredProductsListener registeredProductsListener;
     private Context mContext;
@@ -46,11 +46,12 @@ public class UserProduct {
     private LocalRegisteredProducts localRegisteredProducts;
     private ErrorHandler errorHandler;
     private String uuid = "";
+    private ProdRegListener appListener;
 
-    public UserProduct(final Context context) {
+    public UserProduct(final Context context, final User user) {
         this.mContext = context;
-        user = new User(context);
-        localRegisteredProducts = new LocalRegisteredProducts(context, user);
+        this.user = user;
+        localRegisteredProducts = new LocalRegisteredProducts(context, this.user);
         errorHandler = new ErrorHandler(context);
     }
 
@@ -63,7 +64,7 @@ public class UserProduct {
         this.uuid = userInstance != null ? userInstance.getJanrainUUID() : "";
     }
 
-    public void registerProduct(final Product product, final ProdRegListener appListener) {
+    public void registerProduct(final Product product) {
         if (appListener == null) {
             throw new RuntimeException("Listener not Set");
         }
@@ -95,7 +96,7 @@ public class UserProduct {
     protected RegisteredProduct createDummyRegisteredProduct(final Product product) {
         if (product != null) {
             RegisteredProduct registeredProduct = new RegisteredProduct(product.getCtn(), product.getSerialNumber(), product.getPurchaseDate(), product.getSector(), product.getCatalog());
-            registeredProduct.setLocale(product.getLocale());
+            registeredProduct.setLocale(getLocale());
             registeredProduct.setShouldSendEmailAfterRegistration(product.getShouldSendEmailAfterRegistration());
             registeredProduct.setRegistrationState(RegistrationState.PENDING);
             registeredProduct.setUserUUid(getUuid());
@@ -364,7 +365,7 @@ public class UserProduct {
     }
 
     protected void makeRegistrationRequest(final Context mContext, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
-        this.requestType = PRODUCT_REGISTRATION;
+        setRequestType(PRODUCT_REGISTRATION);
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, registeredProduct);
         registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setmLocale(registeredProduct.getLocale());
@@ -385,6 +386,10 @@ public class UserProduct {
 
     public void setLocale(final String locale) {
         this.locale = locale;
+    }
+
+    public void setProductRegistrationListener(final ProdRegListener listener) {
+        this.appListener = listener;
     }
 
     private boolean processSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct, final ProdRegListener listener) {

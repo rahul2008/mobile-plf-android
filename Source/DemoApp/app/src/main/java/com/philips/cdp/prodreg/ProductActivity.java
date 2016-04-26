@@ -41,7 +41,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private Date mDisplayDate, mDeviceDate;
     private String MICRO_SITE_ID = "MS";
     private boolean eMailConfiguration = false;
-
+    private ProdRegHelper prodRegHelper;
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -88,10 +88,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         toggleButton = (ToggleButton) findViewById(R.id.toggbutton);
         submitButton = (Button) findViewById(R.id.submitproduct);
         toggleButton.setChecked(eMailConfiguration);
+        prodRegHelper = new ProdRegHelper();
+        prodRegHelper.init(this);
     }
 
     private void registerProduct() {
-        ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
         Product product = new Product(mCtn.getText().toString(), mSerialNumber.getText().toString(), mPurchaseDate.getText().toString(),
                 Sector.B2C, Catalog.CONSUMER);
@@ -110,9 +111,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(ProductActivity.this, registeredProduct.getProdRegError().getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
-        prodRegHelper.init(this);
         prodRegHelper.setProductRegistrationListener(listener);
-        prodRegHelper.registerProduct(product);
+        prodRegHelper.getSignedInUser().registerProduct(product);
     }
 
     @Override
@@ -158,6 +158,12 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, mYear, mMonthInt, mDay);
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        prodRegHelper.unRegister();
     }
 }
 
