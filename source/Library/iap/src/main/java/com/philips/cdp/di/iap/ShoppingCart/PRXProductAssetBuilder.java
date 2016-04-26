@@ -7,7 +7,10 @@ package com.philips.cdp.di.iap.ShoppingCart;
 import android.content.Context;
 import android.os.Message;
 
+import com.android.volley.NoConnectionError;
+import com.android.volley.TimeoutError;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
@@ -96,7 +99,13 @@ public class PRXProductAssetBuilder {
 
     private void notifyError(final String error) {
         Message result = Message.obtain();
-        result.obj = error;
+        if(error!=null && error.contains("NoConnectionError")){
+            result.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
+        }else if(error!=null && error.contains("TimeoutError")){
+            result.obj = new IAPNetworkError(new TimeoutError(), 0, null);
+        }else {
+            result.obj = error;
+        }
         if (mAssetListener != null) {
             mAssetListener.onFetchAssetFailure(result);
         }
