@@ -81,9 +81,10 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     @Override
-    public void onBackPressed() {
-        //NOP
+    public boolean onBackPressed() {
+        return false;
     }
+
 
 
     public void updateCount(final int count) {

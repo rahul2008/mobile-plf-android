@@ -54,8 +54,9 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     }
 
     @Override
-    public void onBackPressed() {
+    public boolean onBackPressed() {
         handleExit(true);
+        return false;
     }
 
     private void assignValues() {
@@ -120,10 +121,13 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     }
 
     private void handleExit(final boolean isBackPressed) {
-        if (mPaymentSuccessful) {
-            finishActivity();
-        } else {
-            goBackToOrderSummary(isBackPressed);
+//        if (mPaymentSuccessful) {
+//            finishActivity();
+//        } else {
+//            goBackToOrderSummary(isBackPressed);
+//        }
+        if(mPaymentSuccessful){
+
         }
     }
 

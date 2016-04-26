@@ -108,7 +108,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     }
 
     @Override
-    public void onBackPressed() {
+    public boolean onBackPressed() {
         if (isOrderPlaced()) {
             //finishActivity();
             IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
@@ -116,6 +116,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         } else {
             super.onBackPressed();
         }
+        return false;
     }
 
     private boolean isOrderPlaced() {

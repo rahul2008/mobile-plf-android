@@ -126,8 +126,9 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         Utility.hideKeypad(this);
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
-        dispatchBackToFragments();
-        super.onBackPressed();
+        boolean dispatchBackHandled = dispatchBackToFragments();
+        if (!dispatchBackHandled)
+            super.onBackPressed();
     }
 
     @Override
@@ -175,14 +176,18 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mTitleTextView.setText(title);
     }
 
-    public void dispatchBackToFragments() {
+    public boolean dispatchBackToFragments() {
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called = " + fragments);
+        boolean isBackHandled = false;
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.isVisible() && (fragment instanceof IAPBackButtonListener)) {
-                ((IAPBackButtonListener) fragment).onBackPressed();
+
+                isBackHandled = ((IAPBackButtonListener) fragment).onBackPressed();
                 IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called");
             }
         }
+        return isBackHandled;
     }
 
     @Override

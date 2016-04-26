@@ -32,7 +32,7 @@ import com.philips.cdp.tagging.Tagging;
 import java.util.ArrayList;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
-        implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener{
+        implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener {
 
     private Button mCheckoutBtn;
     private Button mContinuesBtn;
@@ -96,7 +96,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onStop() {
         super.onStop();
-        if(mAdapter!=null)
+        if (mAdapter != null)
             mAdapter.onStop();
         NetworkUtility.getInstance().dismissErrorDialog();
     }
@@ -134,11 +134,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onBackPressed() {
+    public boolean onBackPressed() {
         //Track back button press action
         if (getFragmentManager().getBackStackEntryCount() <= 1) {
             finishActivity();
         }
+        return false;
     }
 
     @Override
@@ -160,9 +161,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
             Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-            if(fragment!=null) {
+            if (fragment != null) {
                 replaceFragment(fragment, ProductCatalogFragment.TAG);
-            }else{
+            } else {
                 addProductCatalog();
             }
         }
@@ -170,7 +171,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     private void addProductCatalog() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment(),ProductCatalogFragment.TAG);
+        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment(), ProductCatalogFragment.TAG);
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
     }

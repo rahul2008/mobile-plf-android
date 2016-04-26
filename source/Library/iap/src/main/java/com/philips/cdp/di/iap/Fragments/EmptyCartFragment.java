@@ -20,7 +20,7 @@ import com.philips.cdp.tagging.Tagging;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class EmptyCartFragment extends BaseAnimationSupportFragment implements View.OnClickListener , EventListener {
+public class EmptyCartFragment extends BaseAnimationSupportFragment implements View.OnClickListener, EventListener {
 
     private Button mContinueShopping;
 
@@ -58,8 +58,9 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
     }
 
     @Override
-    public void onBackPressed() {
+    public boolean onBackPressed() {
         finishActivity();
+        return true;
     }
 
     @Override
@@ -70,18 +71,18 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
     @Override
     public void onEventReceived(final String event) {
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-        if(fragment!=null) {
+        if (fragment != null) {
             if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART))) {
                 replaceFragment(getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG), ProductCatalogFragment.TAG);
             }
-        }else {
+        } else {
             addProductCatalog();
         }
     }
 
     private void addProductCatalog() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment(),ProductCatalogFragment.TAG);
+        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment(), ProductCatalogFragment.TAG);
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
     }

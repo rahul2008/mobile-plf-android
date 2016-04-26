@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
@@ -46,7 +47,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
         @Override
         public void onFailure(final Message msg) {
-                IAPLog.i(ProductCatalogFragment.class.getName(), "Get Count Failed ");
+            IAPLog.i(ProductCatalogFragment.class.getName(), "Get Count Failed ");
         }
     };
 
@@ -108,14 +109,14 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     private void startProductDetailFragment() {
         ProductCatalogData productCatalogData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
-        if(productCatalogData!=null) {
+        if (productCatalogData != null) {
             bundle.putString(IAPConstant.PRODUCT_TITLE, productCatalogData.getProductTitle());
             bundle.putString(IAPConstant.PRODUCT_CTN, productCatalogData.getCtnNumber());
             bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormatedPrice());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             bundle.putInt(IAPConstant.IAP_PRODUCT_COUNT, mCount);
-            bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE,productCatalogData.getDiscountedPrice());
+            bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
         }
     }
@@ -127,8 +128,8 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public boolean onBackPressed() {
         finishActivity();
+        return false;
     }
 }
