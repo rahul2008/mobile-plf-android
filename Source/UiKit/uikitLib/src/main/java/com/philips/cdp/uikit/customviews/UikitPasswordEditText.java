@@ -41,7 +41,6 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
     int basecolor;
     private boolean isPreLollipop = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
     Context context;
-    private boolean isNumericInputType;
     private boolean passwordVisible;
 
     public UikitPasswordEditText(final Context cont, AttributeSet attrs) {
@@ -53,11 +52,7 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         TypedArray a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
         basecolor = a.getInt(0, R.attr.uikit_baseColor);
         a.recycle();
-
-        isNumericInputType = matchNumericalInputType();
-
         setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
         handlePasswordInputVisibility();
         addTextChangedListener(this);
         setOnTouchListener(new OnTouchListener() {
@@ -66,16 +61,11 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
 
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (getRight() - getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                       /* int index = getSelectionEnd();
-                        if ((getTransformationMethod()) instanceof PasswordTransformationMethod)
-                            setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
-                        else setTransformationMethod(PasswordTransformationMethod.getInstance());*/
                         togglePasswordIconVisibility();
-                        cancelLongPress();
-
                         setSelection(getSelectionEnd());
                         return false;
+
                     }
                 }
                 return false;
@@ -158,7 +148,7 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
     @Override
     public void afterTextChanged(Editable s) {
 
-        if(s.length() == 0){
+        /*if(s.length() == 0){
             getCompoundDrawables()[DRAWABLE_RIGHT].setState(STATE_EMPTY_PASSWORD);
             if ((getTransformationMethod()) instanceof PasswordTransformationMethod)
             {
@@ -166,7 +156,8 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
             }
             else setTransformationMethod(PasswordTransformationMethod.getInstance());
             passwordVisible = false;
-        } else if((getTransformationMethod()) instanceof PasswordTransformationMethod) {
+        } else */
+        if((getTransformationMethod()) instanceof PasswordTransformationMethod) {
             passwordVisible = false;
             getCompoundDrawables()[DRAWABLE_RIGHT].setState(STATE_MASKED_PASSWORD);
         } else {
@@ -198,7 +189,7 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
 
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
-        passwordVisible = savedState.isShowingIcon();
+        passwordVisible = savedState.isPasswordVisible();
         handlePasswordInputVisibility();
     }
 
@@ -213,46 +204,33 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
             setTransformationMethod(PasswordTransformationMethod.getInstance());
             setSelection(getText().length());
         }
-        // move cursor to the end of the input as it is being reset automatically
-
-
-    }
-
-    private boolean matchNumericalInputType() {
-        int type = getInputType();
-        boolean classNumber = (type & InputType.TYPE_CLASS_NUMBER) == InputType.TYPE_CLASS_NUMBER;
-        boolean numberVariation = false;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            numberVariation = (type & InputType.TYPE_NUMBER_VARIATION_PASSWORD) == InputType.TYPE_NUMBER_VARIATION_PASSWORD;
-        }
-        return classNumber || numberVariation;
     }
 
     /**
-     * Convenience class to save / restore the state of icon.
+     * Save the state of the password field.
      */
     protected static class SavedState extends BaseSavedState {
 
-        private final boolean mShowingIcon;
+        private final boolean mPasswordVisible;
 
         private SavedState(Parcelable superState, boolean showingIcon) {
             super(superState);
-            mShowingIcon = showingIcon;
+            mPasswordVisible = showingIcon;
         }
 
         private SavedState(Parcel in) {
             super(in);
-            mShowingIcon = in.readByte() != 0;
+            mPasswordVisible = in.readByte() != 0;
         }
 
-        public boolean isShowingIcon() {
-            return mShowingIcon;
+        public boolean isPasswordVisible() {
+            return mPasswordVisible;
         }
 
         @Override
         public void writeToParcel(Parcel destination, int flags) {
             super.writeToParcel(destination, flags);
-            destination.writeByte((byte) (mShowingIcon ? 1 : 0));
+            destination.writeByte((byte) (mPasswordVisible ? 1 : 0));
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
