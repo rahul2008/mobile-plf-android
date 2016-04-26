@@ -166,13 +166,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);
 
-        if (this instanceof BillingAddressFragment) {
-            mEtCountry.setEnabled(true);
-        } else {
-            mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
-            showUSRegions();
-            mEtCountry.setEnabled(false);
-        }
+        mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+        showUSRegions();
+        mEtCountry.setEnabled(false);
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
@@ -184,16 +180,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
         mEtPhoneNumber.addTextChangedListener(new IAPTextWatcher(mEtPhoneNumber));
 
-       /* mEtPhoneNumber.addTextChangedListener(new PhoneNumberFormattingTextWatcher
-                (HybrisDelegate.getInstance(mContext).getStore().getCountry()) {
-            @Override
-            public synchronized void afterTextChanged(Editable s) {
-                super.afterTextChanged(s);
-                if (!mIgnoreTextChangeListener) {
-                    validate(mEtPhoneNumber, false);
-                }
-            }
-        });*/
         mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
         mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
 
