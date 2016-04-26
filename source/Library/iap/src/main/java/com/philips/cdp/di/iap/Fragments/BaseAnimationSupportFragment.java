@@ -10,6 +10,7 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
@@ -50,7 +51,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
-        transaction.addToBackStack(null);
+        transaction.addToBackStack(newFragmentTag);
         transaction.commitAllowingStateLoss();
 
         IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
@@ -62,6 +63,14 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         transaction.remove(this);
         transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
         transaction.commitAllowingStateLoss();
+    }
+
+    public void removeFragment(Fragment fragment) {
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        FragmentTransaction trans = manager.beginTransaction();
+        trans.remove(fragment);
+        trans.commit();
+        manager.popBackStack();
     }
 
     protected void setTitle(int resourceId) {
@@ -84,7 +93,6 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     public boolean onBackPressed() {
         return false;
     }
-
 
 
     public void updateCount(final int count) {

@@ -28,7 +28,7 @@ import java.util.List;
 
 public class PaymentSelectionFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, EventListener, PaymentController.PaymentListener {
-
+    public static final String TAG = PaymentSelectionFragment.class.getName();
     private Context mContext;
     private RecyclerView mPaymentMethodsRecyclerView;
     private Button mBtnCancel;
@@ -95,7 +95,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     public void onClick(View v) {
         if (v == mBtnCancel) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG);
         }
     }
 
@@ -113,14 +113,14 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     public void onEventReceived(String event) {
         if (event.equalsIgnoreCase(IAPConstant.USE_PAYMENT)) {
             if (!Utility.isProgressDialogShowing()) {
-                    Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-                    mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
+                Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
             }
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
             Bundle bundle = new Bundle();
             bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
-            addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE), BillingAddressFragment.TAG);
         }
     }
 
@@ -138,7 +138,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
             IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());
-            addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
         }
     }
 }

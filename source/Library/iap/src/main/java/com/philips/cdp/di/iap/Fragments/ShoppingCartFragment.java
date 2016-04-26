@@ -34,6 +34,7 @@ import java.util.ArrayList;
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener {
 
+    public static final String TAG = ShoppingCartFragment.class.getName();
     private Button mCheckoutBtn;
     private Button mContinuesBtn;
     public ShoppingCartAdapter mAdapter;
@@ -151,7 +152,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
@@ -184,7 +185,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
         bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormatedPrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
-        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
+        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
     }
 
     @Override
@@ -196,11 +197,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
                 addFragment(
-                        ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                        ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), ShippingAddressFragment.TAG);
             } else {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
                 addFragment(
-                        AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                        AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), AddressSelectionFragment.TAG);
             }
         }
     }

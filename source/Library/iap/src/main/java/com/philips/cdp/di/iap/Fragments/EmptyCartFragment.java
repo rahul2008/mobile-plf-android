@@ -23,7 +23,7 @@ import com.philips.cdp.tagging.Tagging;
 public class EmptyCartFragment extends BaseAnimationSupportFragment implements View.OnClickListener, EventListener {
 
     private Button mContinueShopping;
-
+    public static final String TAG = EmptyCartFragment.class.getName();
     public static EmptyCartFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
         EmptyCartFragment fragment = new EmptyCartFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());

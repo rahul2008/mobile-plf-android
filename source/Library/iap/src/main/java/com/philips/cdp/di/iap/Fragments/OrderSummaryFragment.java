@@ -44,6 +44,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private Button mBtnCancel;
     private PaymentController mPaymentController;
     private String orderID;
+    public static final String TAG = OrderSummaryFragment.class.getName();
 
     @Override
     public void onResume() {
@@ -109,14 +110,9 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public boolean onBackPressed() {
-        if (isOrderPlaced()) {
-            //finishActivity();
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-        } else {
-            super.onBackPressed();
-        }
-        return false;
+        if (isOrderPlaced())
+            return true;
+        else return false;
     }
 
     private boolean isOrderPlaced() {
@@ -137,7 +133,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             }
         } else if (v == mBtnCancel) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
         }
     }
 
@@ -162,7 +158,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
-            addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), WebPaymentFragment.TAG);
         } else if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }

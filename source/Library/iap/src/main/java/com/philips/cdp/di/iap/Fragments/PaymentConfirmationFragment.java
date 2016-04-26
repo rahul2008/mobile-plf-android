@@ -7,6 +7,8 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +18,11 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.HashMap;
@@ -30,6 +34,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     private TextView mConfirmWithEmail;
     private Context mContext;
     private boolean mPaymentSuccessful;
+    public static final String TAG = PaymentConfirmationFragment.class.getName();
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -55,8 +60,8 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
     @Override
     public boolean onBackPressed() {
-        handleExit(true);
-        return false;
+        //  handleExit(true);
+        return true;
     }
 
     private void assignValues() {
@@ -121,14 +126,30 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     }
 
     private void handleExit(final boolean isBackPressed) {
-//        if (mPaymentSuccessful) {
-//            finishActivity();
-//        } else {
-//            goBackToOrderSummary(isBackPressed);
-//        }
-        if(mPaymentSuccessful){
+        if (mPaymentSuccessful) {
+//            if (CartModelContainer.getInstance().getUserFromShoppingCart()) {
+            Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+            if (fragment != null) {
+                removeFragment(this);
+                boolean isPopBackstack = getFragmentManager().popBackStackImmediate(ProductCatalogFragment.TAG, 0);
+                IAPLog.i(IAPLog.LOG, " isPopBackstack = " + isPopBackstack);
+//                if (isPopBackstack)
+//                    replaceFragment(new ProductCatalogFragment(), getTag());
+//                else {
+//                    removeFragment(this);
+//                    getFragmentManager().popBackStackImmediate(ProductCatalogFragment.TAG, 0);
+//                }
+            } else {
+                removeFragment(this);
+                getFragmentManager().popBackStackImmediate(ProductCatalogFragment.TAG, 0);
+                IAPLog.i(IAPLog.LOG, " isPopBackstack not true= ");
+            }
+        } else
 
+        {
+            getActivity().getSupportFragmentManager().popBackStackImmediate();
         }
+
     }
 
     private void goBackToOrderSummary(boolean isBackPressed) {

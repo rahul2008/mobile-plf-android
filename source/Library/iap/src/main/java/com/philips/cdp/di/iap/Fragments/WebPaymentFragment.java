@@ -26,7 +26,7 @@ import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
 public class WebPaymentFragment extends BaseAnimationSupportFragment {
-
+    public static final String TAG = WebPaymentFragment.class.getName();
     private static final String SUCCESS_KEY = "successURL";
     private static final String PENDING_KEY = "pendingURL";
     private static final String FAILURE_KEY = "failureURL";
@@ -133,16 +133,16 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             // Handle the error
-            if(isVisible()) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            if (isVisible()) {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
             }
         }
 
         @TargetApi(android.os.Build.VERSION_CODES.M)
         @Override
-        public void onReceivedError(WebView     view, WebResourceRequest req, WebResourceError rerr) {
+        public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
             // Redirect to deprecated method, so you can use it in all SDK versions
-            if(isVisible()) {
+            if (isVisible()) {
                 onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
             }
         }

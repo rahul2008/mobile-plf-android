@@ -61,7 +61,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener,
         StateDropDown.StateListener {
     private Context mContext;
-
+    public static final String TAG = ShippingAddressFragment.class.getName();
     protected LinearLayout mLlFirstname;
     protected LinearLayout mLlLastname;
     protected LinearLayout mLlSalutation;
@@ -243,7 +243,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
             IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
             addFragment(
-                    BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                    BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
@@ -257,7 +257,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
-                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
+                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG);
         }
     }
 
@@ -294,14 +294,13 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         } else if (v == mBtnCancel) {
             if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
-                getFragmentManager().popBackStackImmediate();
             } else {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-                addFragment
-                        (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             }
+            getFragmentManager().popBackStackImmediate();
         }
     }
+
 
     @Override
     public void onGetAddress(Message msg) {
