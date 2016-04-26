@@ -1,7 +1,6 @@
 package com.philips.cdp.digitalcare.util;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.telephony.TelephonyManager;
 
 /**
@@ -15,12 +14,9 @@ import android.telephony.TelephonyManager;
  */
 public class Utils {
 
-	public static boolean isTablet(Context context) {
-		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-	}
 
-	public static boolean isSimAvailable(Context mContext) {
-        TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(mContext.TELEPHONY_SERVICE);
+	public boolean isSimAvailable(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
         int SIM_STATE = telephonyManager.getSimState();
 
             switch (SIM_STATE) {

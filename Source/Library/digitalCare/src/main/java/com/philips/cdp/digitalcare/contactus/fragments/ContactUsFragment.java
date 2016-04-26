@@ -92,6 +92,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private Configuration config = null;
     private View mSocialDivider = null;
     private int mSdkVersion;
+    private Utils mUtils = null;
 
 
     private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
@@ -185,6 +186,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        mUtils = new Utils();
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
         createSocialProviderMenu();
@@ -438,10 +440,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                     && !mCdlsParsedResponse.getSuccess()) {
                 showAlert(getActivity().getString(R.string.no_data));
                 return;
-            } else if (Utils.isSimAvailable(getActivity())) {
+            } else if (mUtils.isSimAvailable(getActivity())) {
                 tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
                 callPhilips();
-            } else if (!Utils.isSimAvailable(getActivity())) {
+            } else if (!mUtils.isSimAvailable(getActivity())) {
                 showAlert(getActivity().getString(R.string.check_sim));
             } else {
                 showAlert(getActivity().getString(R.string.check_sim));
