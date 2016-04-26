@@ -5,13 +5,19 @@ import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.SHNMapResultListener;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.SHNResultListener;
+import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
-class DiCommPort implements SHNMapResultListener<String, Object> {
+class DiCommPort {
 
-    public static final String TAG = "DiCommPort";
+    private static final String TAG = "DiCommPort";
+    private static final int POLLING_INTERVAL = 2000;
     @NonNull
     private String name;
     @Nullable
@@ -21,19 +27,38 @@ class DiCommPort implements SHNMapResultListener<String, Object> {
 
     private boolean isAvailable;
     private Map<String, Object> properties;
+    private Set<UpdateListener> updateListeners = new HashSet<>();
+    private final Timer subscriptionTimer;
 
-    public DiCommPort(String name) {
+    public DiCommPort(@NonNull String name) {
         this.name = name;
+
+        subscriptionTimer = Timer.createTimer(new Runnable() {
+            @Override
+            public void run() {
+                refreshSubscription();
+            }
+        }, POLLING_INTERVAL);
     }
 
-    public void setDiCommChannel(DiCommChannel diCommChannel) {
+    public void setDiCommChannel(@Nullable DiCommChannel diCommChannel) {
         this.diCommChannel = diCommChannel;
     }
 
     public void onChannelAvailabilityChanged(boolean isAvailable) {
         if (isAvailable) {
             if (diCommChannel != null) {
-                diCommChannel.reloadProperties(name, this);
+                diCommChannel.reloadProperties(name, new SHNMapResultListener<String, Object>() {
+                    @Override
+                    public void onActionCompleted(Map<String, Object> properties1, @NonNull SHNResult result) {
+                        if (result == SHNResult.SHNOk) {
+                            DiCommPort.this.properties = properties1;
+                            setIsAvailable(true);
+                        } else {
+                            SHNLogger.d(TAG, "Failed to load properties result: " + result);
+                        }
+                    }
+                });
             }
         } else {
             setIsAvailable(false);
@@ -63,21 +88,118 @@ class DiCommPort implements SHNMapResultListener<String, Object> {
         return isAvailable;
     }
 
-    @Override
-    public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
-        if (result == SHNResult.SHNOk) {
-            this.properties = properties;
-            isAvailable = true;
-            if (listener != null) {
-                listener.onPortAvailable(this);
+    public Map<String, Object> getProperties() {
+        return properties;
+    }
+
+    public void reloadProperties(@NonNull final SHNMapResultListener<String, Object> resultListenerMock) {
+        if (isAvailable) {
+            if (diCommChannel != null) {
+                diCommChannel.reloadProperties(name, new SHNMapResultListener<String, Object>() {
+                    @Override
+                    public void onActionCompleted(Map<String, Object> properties1, @NonNull SHNResult result) {
+                        resultListenerMock.onActionCompleted(properties1, result);
+                    }
+                });
             }
         } else {
-            SHNLogger.d(TAG, "Failed to load properties result: " + result);
+            resultListenerMock.onActionCompleted(null, SHNResult.SHNErrorInvalidState);
         }
     }
 
-    public Map<String,Object> getProperties() {
-        return properties;
+    public void putProperties(@NonNull final SHNMapResultListener<String, Object> resultListener) {
+        if (isAvailable) {
+            if (diCommChannel != null) {
+                diCommChannel.sendProperties(properties, name, new SHNMapResultListener<String, Object>() {
+                    @Override
+                    public void onActionCompleted(Map<String, Object> properties1, @NonNull SHNResult result) {
+                        resultListener.onActionCompleted(properties1, result);
+                    }
+                });
+            }
+        } else {
+            resultListener.onActionCompleted(null, SHNResult.SHNErrorInvalidState);
+        }
+    }
+
+    public void subscribe(@NonNull UpdateListener updateListener, @NonNull SHNResultListener shnResultListener) {
+        if (isAvailable) {
+            updateListeners.add(updateListener);
+            if (updateListeners.size() == 1) {
+                refreshSubscription();
+                SHNLogger.d(TAG, "Started polling properties for port: " + name);
+            }
+            shnResultListener.onActionCompleted(SHNResult.SHNOk);
+        } else {
+            shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidState);
+        }
+    }
+
+    private void refreshSubscription() {
+        if (diCommChannel != null) {
+            diCommChannel.reloadProperties(name, new SHNMapResultListener<String, Object>() {
+                @Override
+                public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
+                    if (result == SHNResult.SHNOk && !updateListeners.isEmpty()) {
+                        subscriptionTimer.restart();
+
+                        Map<String, Object> mergedProperties = new HashMap<>(DiCommPort.this.properties);
+                        mergedProperties.putAll(properties);
+
+                        Map<String, Object> changedProperties = getChangedProperties(mergedProperties);
+                        DiCommPort.this.properties = mergedProperties;
+
+                        if (!changedProperties.isEmpty()) {
+                            notifyPropertiesChanged(changedProperties);
+                        }
+                    } else {
+                        notifySubscriptionFailed(result);
+                    }
+                }
+            });
+        }
+    }
+
+    @NonNull
+    private Map<String, Object> getChangedProperties(Map<String, Object> mergedProperties) {
+        Map<String, Object> changedProperties = new HashMap<>();
+
+        for (String key : mergedProperties.keySet()) {
+            Object oldValue = this.properties.get(key);
+            Object newValue = mergedProperties.get(key);
+            if (!oldValue.equals(newValue)) {
+                changedProperties.put(key, newValue);
+            }
+        }
+        return changedProperties;
+    }
+
+    private void notifyPropertiesChanged(Map<String, Object> properties) {
+        Set<UpdateListener> copyOfUpdateListeners = new HashSet<>(updateListeners);
+        for (UpdateListener updateListener : copyOfUpdateListeners) {
+            updateListener.onPropertiesChanged(properties);
+        }
+    }
+
+    private void notifySubscriptionFailed(@NonNull SHNResult result) {
+        Set<UpdateListener> copyOfUpdateListeners = new HashSet<>(updateListeners);
+        for (UpdateListener updateListener : copyOfUpdateListeners) {
+            updateListener.onSubscriptionFailed(result);
+        }
+    }
+
+    public void unsubscribe(UpdateListener updateListener, SHNResultListener shnResultListener) {
+        if (isAvailable && updateListeners.contains(updateListener)) {
+            updateListeners.remove(updateListener);
+
+            if (updateListeners.isEmpty()) {
+                subscriptionTimer.stop();
+                SHNLogger.d(TAG, "Stopped polling properties for port: " + name);
+            }
+            shnResultListener.onActionCompleted(SHNResult.SHNOk);
+        } else {
+            shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidState);
+        }
     }
 
     public interface Listener {
