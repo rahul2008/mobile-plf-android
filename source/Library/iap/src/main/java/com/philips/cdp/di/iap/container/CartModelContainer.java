@@ -18,6 +18,7 @@ public class CartModelContainer {
     private String cartNumber;
     private String regionIsoCode;
     private String mAddressId;
+    private String mOrderNumber;
 
     public static CartModelContainer getInstance() {
         synchronized (CartModelContainer.class) {
@@ -80,6 +81,14 @@ public class CartModelContainer {
         this.isOrderPlaced = pIsOrderPlaced;
     }
 
+    public void setOrderNumber(String orderNumber) {
+        mOrderNumber = orderNumber;
+    }
+
+    public String getOrderNumber() {
+        return mOrderNumber;
+    }
+
 
     public boolean isOrderPlaced() {
         return isOrderPlaced;
@@ -91,5 +100,6 @@ public class CartModelContainer {
         mBillingAddress = null;
         mShoppingCartData = null;
         mShippingAddressFields = null;
+        mOrderNumber = null;
     }
 }

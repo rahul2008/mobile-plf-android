@@ -361,6 +361,10 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     errorMessage = getResources().getString(R.string.iap_postal_code_error);
                     mInlineFormsParent.setErrorMessage(errorMessage);
                     mInlineFormsParent.showError(mEtPostalCode);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.PHONE_1)) {
+                    errorMessage = getResources().getString(R.string.iap_phone_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtPhoneNumber);
                 }
                 mBtnContinue.setEnabled(false);
             } else if (error.getMessage() != null) {
@@ -563,7 +567,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
         return false;
     }
-
 
     private HashMap<String, String> addressPayload() {
         addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
