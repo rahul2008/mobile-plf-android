@@ -33,7 +33,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
         Message msg = Message.obtain();
         msg.what = requestCode;
         msg.obj = this;
-        requestListener.onError(msg);
+        if (requestListener != null) {
+            requestListener.onError(msg);
+        }
     }
 
     private void initErrorCode(final VolleyError error) {

@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.config.WebStoreConfigResponse;
 import com.philips.cdp.di.iap.session.IAPHurlStack;
 import com.philips.cdp.di.iap.session.IAPJsonRequest;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.session.SynchronizedNetwork;
 import com.philips.cdp.di.iap.session.SynchronizedNetworkCallBack;
@@ -78,8 +80,13 @@ public class WebStoreConfig {
             public void onErrorOccurredForLocaleMatch(final LocaleMatchError localeMatchError) {
                 if (mResponseListener != null) {
                     Message msg = Message.obtain();
-                   notifyConfigListener(false,msg);
-
+                    //We really don't know what happened wrong.
+                    //Can happen in case no network or several reasons. Assume network error in
+                    // these cases.
+                    if (LocaleMatchError.INPUT_VALIDATION_ERROR != localeMatchError) {
+                        msg.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
+                    }
+                    notifyConfigListener(false, msg);
                 }
             }
         });
@@ -119,7 +126,7 @@ public class WebStoreConfig {
             @Override
             public void onSyncRequestError(final VolleyError volleyError) {
                 Message msg = Message.obtain();
-                msg.obj = volleyError;
+                msg.obj = new IAPNetworkError(volleyError, hashCode(), null);
                 notifyConfigListener(false, msg);
             }
         });
