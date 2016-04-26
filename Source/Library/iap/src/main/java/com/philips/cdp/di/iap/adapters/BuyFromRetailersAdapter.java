@@ -14,10 +14,12 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.Fragments.WebBuyFromRetailers;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.tagging.Tagging;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
     @Override
     public void onBindViewHolder(final RetailerViewHolder holder, final int position) {
-        StoreEntity storeEntity = mStoreEntities.get(position);
+        final StoreEntity storeEntity = mStoreEntities.get(position);
         String imageURL = storeEntity.getLogoURL();
         holder.mStoreName.setText(storeEntity.getName());
         holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.toothbrush));
@@ -67,6 +69,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         holder.mArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED, storeEntity.getName());
                 addWebBuyFromRetailers(buyURL);
             }
         });
