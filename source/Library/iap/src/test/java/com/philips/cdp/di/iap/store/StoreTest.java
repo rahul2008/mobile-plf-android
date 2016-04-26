@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -62,7 +63,7 @@ public class StoreTest {
     @Test
     public void confirmModifyProductURL() {
         assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, mStore.getModifyProductUrl
-                (NetworkURLConstants.DUMMY_PRODUCT_ID));
+                (NetworkURLConstants.DUMMY_PRODUCT_NUBMBER));
     }
 
     @Test
@@ -142,5 +143,22 @@ public class StoreTest {
     @Test
     public void getUserIsSameAsMockedUser() {
         assertEquals(mIAPMockedUser, mStore.getUser());
+    }
+
+    @Test
+    public void setNewCountryMakesStoreInvalid() {
+        mStore.setLangAndCountry("uk", "US");
+        assertEquals(false, mStore.isStoreInitialized());
+    }
+
+    @Test
+    public void setNewLanguageMakesStoreInvalid() {
+        mStore.setLangAndCountry("uk", "US");
+        assertEquals(false, mStore.isStoreInitialized());
+    }
+
+    @Test
+    public void getRegionsUrlIsNotNull() {
+        assertNotNull(mStore.getRegionsUrl());
     }
 }

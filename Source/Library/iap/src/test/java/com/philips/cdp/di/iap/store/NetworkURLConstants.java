@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.store;
 public class NetworkURLConstants {
     public static final String LCOALE = "en_US";
     public static final String DUMMY_PRODUCT_ID = "H1212";
+    public static final String DUMMY_PRODUCT_NUBMBER = "1212";
     public static final String HOST_PORT = "acc.occ.shop.philips.com";
     public static final String SITE = "US_TUSCANY";
     public static final String JANRAIN_EMAIL = "a@b.com";
@@ -22,7 +23,7 @@ public class NetworkURLConstants {
     public static final String CART_DETAIL_URL = BASE_URL + "/carts?fields=FULL";
     public static final String CART_CREATE_URL = BASE_URL + "/carts";
     public static final String CART_ADD_TO_URL = BASE_URL + "/carts/current/entries";
-    public static final String CART_MODIFY_PRODUCT_URL = CART_ADD_TO_URL + "/" + DUMMY_PRODUCT_ID;
+    public static final String CART_MODIFY_PRODUCT_URL = CART_ADD_TO_URL + "/" + DUMMY_PRODUCT_NUBMBER;
     public static final String CART_PAYMENT_DETAILS_URL = BASE_URL + "/paymentdetails";
     public static final String ADDRESS_DETAILS_URL = BASE_URL + "/addresses?fields=FULL&lang=en";
     public static final String ADDRESS_ALTER_URL = BASE_URL + "/addresses/" + DUMMY_PRODUCT_ID;
