@@ -34,7 +34,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             proguardFile 'proguard.pro'
-            /*signingConfig signingConfigs.release*/
+            signingConfig signingConfigs.release
         }
         debug {
             proguardFile 'proguard.pro'
