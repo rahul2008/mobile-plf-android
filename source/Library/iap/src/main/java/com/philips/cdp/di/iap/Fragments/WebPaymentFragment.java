@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.annotation.TargetApi;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import android.webkit.WebViewClient;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -100,17 +100,7 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
     }
 
     private Bundle createSuccessBundle(String url) {
-        String orderNum = "";
-        if (!TextUtils.isEmpty(url)) {
-            // TODO: 04-03-2016 Need to fix with proper logic
-            String[] temp = url.split("%5E");
-            if (temp.length > 2) {
-                temp = temp[2].split("-");
-                if (temp.length > 0) {
-                    orderNum = temp[0];
-                }
-            }
-        }
+        String orderNum = CartModelContainer.getInstance().getOrderNumber();
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.ORDER_NUMBER, orderNum);
         bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, true);

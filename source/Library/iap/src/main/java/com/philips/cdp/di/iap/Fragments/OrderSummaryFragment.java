@@ -183,6 +183,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             PlaceOrder order = (PlaceOrder) msg.obj;
             orderID = order.getCode();
             CartModelContainer.getInstance().setOrderPlaced(true);
+            CartModelContainer.getInstance().setOrderNumber(orderID);
+
             if (paymentMethodAvailable()) {
                 Utility.dismissProgressDialog();
                 launchConfirmationScreen((PlaceOrder) msg.obj);

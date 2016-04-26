@@ -166,13 +166,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);
 
-        if (this instanceof BillingAddressFragment) {
-            mEtCountry.setEnabled(true);
-        } else {
-            mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
-            showUSRegions();
-            mEtCountry.setEnabled(false);
-        }
+        mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+        showUSRegions();
+        mEtCountry.setEnabled(false);
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
@@ -184,16 +180,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
         mEtPhoneNumber.addTextChangedListener(new IAPTextWatcher(mEtPhoneNumber));
 
-       /* mEtPhoneNumber.addTextChangedListener(new PhoneNumberFormattingTextWatcher
-                (HybrisDelegate.getInstance(mContext).getStore().getCountry()) {
-            @Override
-            public synchronized void afterTextChanged(Editable s) {
-                super.afterTextChanged(s);
-                if (!mIgnoreTextChangeListener) {
-                    validate(mEtPhoneNumber, false);
-                }
-            }
-        });*/
         mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
         mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
 
@@ -361,6 +347,10 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     errorMessage = getResources().getString(R.string.iap_postal_code_error);
                     mInlineFormsParent.setErrorMessage(errorMessage);
                     mInlineFormsParent.showError(mEtPostalCode);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.PHONE_1)) {
+                    errorMessage = getResources().getString(R.string.iap_phone_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtPhoneNumber);
                 }
                 mBtnContinue.setEnabled(false);
             } else if (error.getMessage() != null) {
@@ -563,7 +553,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
         return false;
     }
-
 
     private HashMap<String, String> addressPayload() {
         addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
