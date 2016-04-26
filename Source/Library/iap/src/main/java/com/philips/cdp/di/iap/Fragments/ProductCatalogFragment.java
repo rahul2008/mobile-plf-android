@@ -117,7 +117,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             bundle.putInt(IAPConstant.IAP_PRODUCT_COUNT, mCount);
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
-            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
         }
     }
 

@@ -28,6 +28,7 @@ public class WebBuyFromRetailers extends BaseAnimationSupportFragment {
     private String mUrl;
     private CircularLineProgressBar mProgress;
     private boolean mShowProgressBar = true;
+    public static final String TAG = WebBuyFromRetailers.class.getName();
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
