@@ -85,7 +85,7 @@ public class ShoppingCartPresenter {
     }
 
 
-    public ShoppingCartPresenter(android.support.v4.app.FragmentManager pFragmentManager){
+    public ShoppingCartPresenter(android.support.v4.app.FragmentManager pFragmentManager) {
         mFragmentManager = pFragmentManager;
     }
 
@@ -152,10 +152,10 @@ public class ShoppingCartPresenter {
                             CartModelContainer.getInstance().setShoppingCartData(mProductData);
                         } else {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                            if(Utility.isProgressDialogShowing())
+                            if (Utility.isProgressDialogShowing())
                                 Utility.dismissProgressDialog();
                         }
-                        if(Utility.isProgressDialogShowing())
+                        if (Utility.isProgressDialogShowing())
                             Utility.dismissProgressDialog();
                     }
 
@@ -228,7 +228,7 @@ public class ShoppingCartPresenter {
         sendHybrisRequest(0, model, model);
     }
 
-    public void updateProductQuantity(final ShoppingCartData data, final int count,  final int quantityStatus) {
+    public void updateProductQuantity(final ShoppingCartData data, final int count, final int quantityStatus) {
         HashMap<String, String> query = new HashMap<String, String>();
         query.put(ModelConstants.PRODUCT_CODE, data.getCtnNumber());
         query.put(ModelConstants.PRODUCT_QUANTITY, String.valueOf(count));
@@ -285,7 +285,7 @@ public class ShoppingCartPresenter {
 
     public void addProductToCart(final Context context, String productCTN, final IAPCartListener
             iapHandlerListener,
-                                  final boolean isFromBuyNow) {
+                                 final boolean isFromBuyNow) {
         if (productCTN == null) return;
         HashMap<String, String> params = new HashMap<>();
         params.put(ModelConstants.PRODUCT_CODE, productCTN);
@@ -357,7 +357,7 @@ public class ShoppingCartPresenter {
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
-        transaction.addToBackStack(null);
+        transaction.addToBackStack(ShoppingCartFragment.TAG);
         transaction.commitAllowingStateLoss();
     }
 
@@ -372,7 +372,7 @@ public class ShoppingCartPresenter {
             @Override
             public void onSuccess(final Message msg) {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                    createCart(context, iapHandlerListener, ctnNumber,true);
+                    createCart(context, iapHandlerListener, ctnNumber, true);
                 } else if (msg.obj instanceof Carts) {
                     Carts getCartData = (Carts) msg.obj;
                     if (null != getCartData) {

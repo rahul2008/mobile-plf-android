@@ -136,9 +136,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public boolean onBackPressed() {
-        //Track back button press action
-        if (getFragmentManager().getBackStackEntryCount() <= 1) {
+        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if (fragment == null) {
             finishActivity();
+        } else {
+            jumpToPreviousFragment();
         }
         return false;
     }

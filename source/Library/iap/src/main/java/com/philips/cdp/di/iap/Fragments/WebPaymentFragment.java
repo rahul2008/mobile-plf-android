@@ -52,8 +52,6 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         mProgress.startAnimation(100);
         mPaymentWebView.setWebViewClient(new PaymentWebViewClient());
         mPaymentWebView.getSettings().setJavaScriptEnabled(true);
-//        if (BuildConfig.DEBUG)
-//            mPaymentWebView.setWebContentsDebuggingEnabled(true);
         mUrl = getPaymentURL();
         return group;
     }
@@ -115,12 +113,12 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
 
     private void launchConfirmationScreen(Bundle bundle) {
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
-        replaceFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
+        replaceFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), PaymentConfirmationFragment.TAG);
     }
 
-    private void goBackToOrderSummary() {
-        getFragmentManager().popBackStackImmediate();
-    }
+//    private void goBackToOrderSummary() {
+//        getFragmentManager().popBackStackImmediate();
+//    }
 
     private class PaymentWebViewClient extends WebViewClient {
         @Override
@@ -169,7 +167,8 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
                 Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                         IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
-                goBackToOrderSummary();
+                // goBackToOrderSummary();
+                jumpToPreviousFragment();
             } else {
                 match = false;
             }

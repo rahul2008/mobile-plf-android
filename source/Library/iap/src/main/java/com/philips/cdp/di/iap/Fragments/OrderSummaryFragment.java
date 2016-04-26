@@ -133,7 +133,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             }
         } else if (v == mBtnCancel) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
+            jumpToTagFragment(ShoppingCartFragment.TAG);
         }
     }
 

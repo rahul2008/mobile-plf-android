@@ -5,11 +5,14 @@
 
 package com.philips.cdp.di.iap.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,7 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.HashMap;
+import java.util.logging.Handler;
 
 public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     private TextView mConfirmationText;
@@ -127,21 +131,23 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
     private void handleExit() {
         if (mPaymentSuccessful) {
-            Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-            if (fragment != null) {
-                removeFragment(this);
-                boolean isPopBackstack = getFragmentManager().popBackStackImmediate(ProductCatalogFragment.TAG, 0);
-                IAPLog.i(IAPLog.LOG, " isPopBackstack = " + isPopBackstack);
-            } else {
-                IAPLog.i(IAPLog.LOG, " not from product catalog = ");
-                removeFragment(this);
-                for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); i++) {
-                    getFragmentManager().popBackStack();
-                }
-                addFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE), ProductCatalogFragment.TAG);
+            boolean productCatalogAvailable = jumpToTagFragment(ProductCatalogFragment.TAG);
+            final AppCompatActivity context = (AppCompatActivity) getActivity();
+            if (!productCatalogAvailable) {
+
+                new android.os.Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        context.getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fl_mainFragmentContainer,new ProductCatalogFragment());
+                    }
+                });
+//                removeFragment(this);
+
             }
+
         } else {
-            getActivity().getSupportFragmentManager().popBackStackImmediate();
+            jumpToPreviousFragment();
         }
 
     }

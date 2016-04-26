@@ -87,7 +87,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private void moveToShoppingCart() {
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-        addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG);
+        //addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG);
+        jumpToTagFragment(ShoppingCartFragment.TAG);
     }
 
     private void sendShippingAddressesRequest() {

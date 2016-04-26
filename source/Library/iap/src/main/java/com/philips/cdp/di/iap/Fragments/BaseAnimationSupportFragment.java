@@ -94,6 +94,18 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         return false;
     }
 
+    public boolean jumpToTagFragment(String tag) {
+        return getActivity().getSupportFragmentManager().popBackStackImmediate(tag, 0);
+    }
+
+    public boolean jumpToPreviousFragment() {
+        return getFragmentManager().popBackStackImmediate();
+    }
+
+    public void clearFragmentStack() {
+        getActivity().getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+    }
 
     public void updateCount(final int count) {
         mActivityListener.updateCount(count);
