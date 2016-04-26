@@ -120,45 +120,30 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
         mOKButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                handleExit(false);
+                handleExit();
             }
         });
     }
 
-    private void handleExit(final boolean isBackPressed) {
+    private void handleExit() {
         if (mPaymentSuccessful) {
-//            if (CartModelContainer.getInstance().getUserFromShoppingCart()) {
             Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
             if (fragment != null) {
                 removeFragment(this);
                 boolean isPopBackstack = getFragmentManager().popBackStackImmediate(ProductCatalogFragment.TAG, 0);
                 IAPLog.i(IAPLog.LOG, " isPopBackstack = " + isPopBackstack);
-//                if (isPopBackstack)
-//                    replaceFragment(new ProductCatalogFragment(), getTag());
-//                else {
-//                    removeFragment(this);
-//                    getFragmentManager().popBackStackImmediate(ProductCatalogFragment.TAG, 0);
-//                }
             } else {
+                IAPLog.i(IAPLog.LOG, " not from product catalog = ");
                 removeFragment(this);
-                getFragmentManager().popBackStackImmediate(ProductCatalogFragment.TAG, 0);
-                IAPLog.i(IAPLog.LOG, " isPopBackstack not true= ");
+                for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); i++) {
+                    getFragmentManager().popBackStack();
+                }
+                addFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE), ProductCatalogFragment.TAG);
             }
-        } else
-
-        {
+        } else {
             getActivity().getSupportFragmentManager().popBackStackImmediate();
         }
 
-    }
-
-    private void goBackToOrderSummary(boolean isBackPressed) {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.remove(this);
-        transaction.commitAllowingStateLoss();
-        if (!isBackPressed) {
-            getActivity().getSupportFragmentManager().popBackStackImmediate();
-        }
     }
 
     public static PaymentConfirmationFragment createInstance(final Bundle bundle, final AnimationType animType) {
