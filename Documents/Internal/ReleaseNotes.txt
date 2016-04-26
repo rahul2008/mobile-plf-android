@@ -93,4 +93,11 @@ Version - 0.5.0.rc_1                        Date: 21-04-2016
   
   1. PRA-79 - Email configuration
   
+  
+Version - 0.5.0.rc_2                        Date: 25-04-2016
+-------------------------------------------------------------
 	 
+  Following features has fixed :
+  
+  1. PRA-155 - Off-line registration listener
+  2. PRA-159 - Status getting changed in product list for invalid product data

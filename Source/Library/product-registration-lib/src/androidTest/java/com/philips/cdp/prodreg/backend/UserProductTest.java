@@ -25,6 +25,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
+import org.junit.Rule;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class UserProductTest extends MockitoTestCase {
     private LocalRegisteredProducts localRegisteredProducts;
     private UserProduct userProductMock;
     private ErrorHandler errorHandlerMock;
+
+    @Rule
 
     @Override
     protected void setUp() throws Exception {
@@ -203,6 +206,16 @@ public class UserProductTest extends MockitoTestCase {
         verify(registeredProduct).IsUserRegisteredLocally(localRegisteredProducts);
         verify(appListener).onProdRegFailed(registeredProduct);
         testMapProductToRegisteredProduct(product);
+        testThrowExceptionWhenListenerNull(userProduct, product);
+    }
+
+    private void testThrowExceptionWhenListenerNull(final UserProduct userProduct, final Product product) {
+        try {
+            userProduct.registerProduct(product, null);
+        } catch (Exception e) {
+            assertTrue(e instanceof RuntimeException);
+            assertTrue(e.getMessage().equals("Listener not Set"));
+        }
     }
 
     public void testMapProductToRegisteredProduct(Product product) {

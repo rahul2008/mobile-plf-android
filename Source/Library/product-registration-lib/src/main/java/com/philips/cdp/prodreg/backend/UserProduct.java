@@ -64,6 +64,9 @@ public class UserProduct {
     }
 
     public void registerProduct(final Product product, final ProdRegListener appListener) {
+        if (appListener == null) {
+            throw new RuntimeException("Listener not Set");
+        }
         setRequestType(PRODUCT_REGISTRATION);
         setUuid();
         RegisteredProduct registeredProduct = getUserProduct().createDummyRegisteredProduct(product);
