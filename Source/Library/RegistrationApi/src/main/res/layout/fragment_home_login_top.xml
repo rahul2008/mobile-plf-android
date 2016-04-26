@@ -58,7 +58,6 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     reglib:providerBackground="@drawable/reg_btn_selector"
-                    reglib:providerLogo="@drawable/reg_philips_ic"
                     reglib:providerName="@string/myphilips"
                     reglib:providerTextColor="@drawable/reg_btn_text_selector" />
 
@@ -67,7 +66,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"  />
-
 
             </LinearLayout>
 

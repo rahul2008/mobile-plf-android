@@ -14,7 +14,11 @@ import android.view.ViewGroup;
 import com.janrain.android.Jump;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.coppa.R;
+import com.philips.cdp.registration.coppa.base.CoppaExtension;
+import com.philips.cdp.registration.coppa.base.CoppaStatus;
+import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
@@ -44,7 +48,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private static int lastKnownResourceId = -99;
 
-
+    private CoppaExtension coppaExtension;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         RLog.d("RegistrationCoppaFragment", "isAccountSettings : " + isAccountSettings);
         super.onCreate(savedInstanceState);
         lastKnownResourceId = -99;
+        coppaExtension = new CoppaExtension(getContext());
     }
 
     @Override
@@ -132,6 +137,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             //false  consumed
             if (isRegFragHandledBack) {
                 //Message for killing fragmet app but by pass this condition not
+                trackHandler();
                 if (count >= 1) {
                     mFragmentManager.popBackStack();
                     return true;
@@ -139,12 +145,46 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                     return false;
                 }
             }
-        } else {
+        }else {
+           if(!(fragment instanceof ParentalApprovalFragment)){
+                trackHandler();
+            }
             mFragmentManager.popBackStack();
         }
         return true;
     }
 
+    private void trackHandler() {
+        int count = mFragmentManager.getBackStackEntryCount();
+        if (count > 0) {
+            String prevPage;
+            String curPage;
+            if (mFragmentManager.getFragments() != null) {
+                Fragment currentFragment = mFragmentManager.getFragments().get(count);
+                Fragment preFragment = mFragmentManager.getFragments().get(count - 1);
+                prevPage = getTackingPageName(currentFragment);
+                curPage = getTackingPageName(preFragment);
+                RLog.i("BAck identification", "Pre Page: " + prevPage + " Current : " + curPage);
+                trackPage(curPage);
+            }
+        }
+
+    }
+
+    private String getTackingPageName(Fragment fragment) {
+        if (fragment instanceof ParentalAccessFragment) {
+            return AppTaggingCoppaPages.COPPA_PARENTAL_ACCESS;
+        } else if (fragment instanceof ParentalAccessConfirmFragment) {
+            return AppTaggingCoppaPages.COPPA_AGE_VERIFICATION;
+        } else if(fragment instanceof ParentalApprovalFragment){
+            if(coppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentPending){
+                return AppTaggingCoppaPages.COPPA_FIRST_CONSENT;
+            }else if(coppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationPending){
+                return AppTaggingCoppaPages.COPPA_SECOND_CONSENT;
+            }
+        }
+        return null;
+    }
 
     public void loadFirstFragment() {
 
@@ -152,9 +192,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         if (user.isUserSignIn()) {
             launchRegistrationFragmentOnLoggedIn(isAccountSettings);
         } else {
+            AppTagging.trackFirstPage(AppTaggingCoppaPages.COPPA_PARENTAL_ACCESS);
             replaceWithParentalAccess();
         }
-
     }
 
     private void replaceWithParentalAccess() {
@@ -175,6 +215,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     public void addParentalConfirmFragment() {
         ParentalAccessConfirmFragment parentalAccessConfirmFragment = new ParentalAccessConfirmFragment();
         addFragment(parentalAccessConfirmFragment);
+        trackPage(AppTaggingCoppaPages.COPPA_AGE_VERIFICATION);
     }
 
 
@@ -391,6 +432,10 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     public static UserRegistrationListener getUserRegistrationListener() {
         return mUserRegistrationListener;
+    }
+
+    private static void trackPage(String currPage) {
+        AppTagging.trackPage(currPage);
     }
 
 }

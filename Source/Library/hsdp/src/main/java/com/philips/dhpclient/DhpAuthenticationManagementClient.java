@@ -36,6 +36,14 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         }
     }
 
+    static class ResetPasswordRequest {
+        public String resetPassword;
+
+        public ResetPasswordRequest(String resetPassword) {
+            this.resetPassword = resetPassword;
+        }
+    }
+
     public DhpAuthenticationManagementClient(DhpApiClientConfiguration dhpApiClientConfiguration) {
         super(dhpApiClientConfiguration);
     }
@@ -61,11 +69,6 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         String userId = MapUtils.extract(dhpResponse.rawResponse, "exchange.user.userUUID");
 
         return new DhpAuthenticationResponse(accessToken, refreshToken, Integer.parseInt(expiresIn), userId, dhpResponse.rawResponse);
-    }
-
-
-    private String generateSignedDate(){
-        return ServerTime.getInstance().getCurrentUTCTimeWithFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     }
 
     public String createRefreshSignature(String refresh_Secret, String date, String accessToken) {
@@ -137,6 +140,26 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         String expiresIn = MapUtils.extract(dhpResponse.rawResponse, "exchange.accessCredential.expiresIn");
 
         return new DhpAuthenticationResponse(newAccessToken, newRefreshToken, Integer.parseInt(expiresIn), userId, dhpResponse.rawResponse);
+    }
+
+    public DhpAuthenticationResponse resetPassword(String emailAddress) {
+        String apiEndpoint = "/authentication/credential/recoverPassword";
+        String queryParams = "applicationName=" + dhpApplicationName;
+        Map<String, String> headers = new LinkedHashMap<String, String>();
+
+        ResetPasswordRequest request = new ResetPasswordRequest(emailAddress);
+        DhpResponse dhpResponse = sendSignedRequest("POST", apiEndpoint, queryParams, headers, request);
+        if(dhpResponse == null){
+            return null;
+        }
+        if (!"200".equals(dhpResponse.responseCode))
+            return new DhpAuthenticationResponse(dhpResponse.rawResponse);
+
+        String newAccessToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.accessCredential.accessToken");
+        String newRefreshToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.refreshToken");
+        String expiresIn = MapUtils.extract(dhpResponse.rawResponse, "exchange.accessCredential.expiresIn");
+
+        return new DhpAuthenticationResponse(newAccessToken, newRefreshToken, Integer.parseInt(expiresIn), null, dhpResponse.rawResponse);
     }
 
     public DhpResponse validateToken(String userId, String accessToken) {

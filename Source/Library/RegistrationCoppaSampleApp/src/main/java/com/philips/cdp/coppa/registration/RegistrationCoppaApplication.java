@@ -23,22 +23,12 @@ public class RegistrationCoppaApplication extends Application {
         Tagging.setTrackingIdentifier("integratingApplicationAppsId");
         Tagging.setLaunchingPageName("demoapp:home");
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
-
-
-
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
-
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode,countryCode);
-
-
-
-
-            RegistrationHelper.getInstance().initializeUserRegistration(this);
-            Tagging.init( this, "Philips Registration");
-
-
+        RegistrationHelper.getInstance().initializeUserRegistration(this);
+        Tagging.init( this, "Philips Registration");
     }
 
 }

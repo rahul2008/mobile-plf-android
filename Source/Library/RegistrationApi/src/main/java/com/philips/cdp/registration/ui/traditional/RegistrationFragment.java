@@ -210,11 +210,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
-
-        //account setting true or no
-        //if true follow bellow else cckech for sign in status and repave with wel come screen on sing els ehome
         if (isAccountSettings) {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
+                Tagging.setLaunchingPageName("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
@@ -229,6 +227,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             replaceWithHomeFragment();
         } else {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
+                Tagging.setLaunchingPageName("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 // replaceWithLogoutFragment();
                 //replace with welcome
