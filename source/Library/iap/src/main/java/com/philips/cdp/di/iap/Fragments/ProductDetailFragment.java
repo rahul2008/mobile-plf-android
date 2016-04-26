@@ -51,7 +51,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
-            Utility.dismissProgressDialog();
+//            Utility.dismissProgressDialog();
         }
 
         @Override

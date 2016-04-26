@@ -97,7 +97,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return mData.size();
     }
 
-    public class ProductCatalogViewHolder extends RecyclerView.ViewHolder {
+    public class ProductCatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         NetworkImageView mProductImage;
         TextView mProductName;
         TextView mCTN;
@@ -113,6 +113,12 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             mPrice = (TextView) itemView.findViewById(R.id.tv_price);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.arrow);
             mDiscountedPrice = (TextView) itemView.findViewById(R.id.tv_discounted_price);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(final View v) {
+            setTheProductDataForDisplayingInProductDetailPage(getAdapterPosition());
         }
     }
 }

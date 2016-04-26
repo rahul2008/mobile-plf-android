@@ -101,7 +101,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         return mStoreEntities.size();
     }
 
-    public class RetailerViewHolder extends RecyclerView.ViewHolder {
+    public class RetailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         NetworkImageView mLogo;
         TextView mStoreName;
         TextView mAvailibility;
@@ -113,6 +113,14 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
             mStoreName = (TextView) itemView.findViewById(R.id.iap_online_store_name);
             mAvailibility = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.retailer_arrow);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(final View v) {
+            final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED, mStoreEntities.get(getAdapterPosition()).getName());
+            addWebBuyFromRetailers(buyURL);
         }
     }
 }
