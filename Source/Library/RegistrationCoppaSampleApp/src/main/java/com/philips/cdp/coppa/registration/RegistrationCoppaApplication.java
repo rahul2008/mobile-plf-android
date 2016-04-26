@@ -22,6 +22,7 @@ public class RegistrationCoppaApplication extends Application {
         Tagging.enableAppTagging(true);
         Tagging.setTrackingIdentifier("integratingApplicationAppsId");
         Tagging.setLaunchingPageName("demoapp:home");
+        Tagging.setDebuggable(true);
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
