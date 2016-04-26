@@ -175,9 +175,21 @@ public class User {
 
             forgotPasswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
         }
-
-
     }
+
+    public void hsdpForgotPassword(final String emailAddress, final ForgotPasswordHandler forgotPasswordHandler) {
+        if (emailAddress != null) {
+            ForgotPassword forgotPasswordResultHandler = new ForgotPassword(mContext, forgotPasswordHandler);
+            forgotPasswordResultHandler.performForgotPassword(emailAddress);
+        } else {
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+
+            forgotPasswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
+        }
+    }
+
+
 
     // For Refresh login Session
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {

@@ -12,8 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.coppa.R;
+import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.ui.controllers.ParentalApprovalFragmentController;
+import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -46,6 +49,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onCreate");
         super.onCreate(savedInstanceState);
         mParentalApprovalFragmentController = new ParentalApprovalFragmentController(this);
+        mParentalApprovalFragmentController.refreshUser();
     }
 
     @Override
@@ -82,6 +86,22 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         mContext = getParentFragment().getActivity().getApplicationContext();
         super.onResume();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onResume");
+        mContext = getParentFragment().getActivity().getApplicationContext();
+        mParentalApprovalFragmentController.getCoppaExtension().buildConfiguration();
+        checkApprovalStatus();
+    }
+
+    private void checkApprovalStatus() {
+        if(mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConfirmationGiven) ){
+            return;
+        }
+        else{
+            if(mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentPending){
+                trackPage(AppTaggingCoppaPages.COPPA_FIRST_CONSENT);
+            }else if(mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationPending){
+                trackPage(AppTaggingCoppaPages.COPPA_SECOND_CONSENT);
+            }
+        }
     }
 
     @Override
@@ -107,6 +127,16 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         super.onDestroy();
+        if(mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() != null
+                && mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConsentPending)){
+            trackPage(AppTaggingPages.WELCOME);
+            return;
+        }
+        if(mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() != null
+                && !mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConfirmationGiven)){
+            trackPage(AppTaggingPages.WELCOME);
+            return;
+        }
     }
 
     @Override

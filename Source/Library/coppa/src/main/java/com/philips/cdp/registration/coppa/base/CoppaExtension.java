@@ -33,7 +33,7 @@ public class CoppaExtension {
                     && Boolean.parseBoolean(consent.getGiven())) {
                 coppaStatus = CoppaStatus.kDICOPPAConsentGiven;
                 if (null != consent.getConfirmationGiven() && !consent.getConfirmationGiven().equalsIgnoreCase(NULL)) {
-                    if (Boolean.parseBoolean(consent.getConfirmationGiven())) {
+                    if ((Boolean.parseBoolean(consent.getConfirmationGiven())) ) {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
                     } else {
                         coppaStatus = CoppaStatus.kDICOPPAConfirmationNotGiven;
@@ -41,6 +41,9 @@ public class CoppaExtension {
                 } else if (consent.getGiven() != null && consent.getConfirmationGiven() == null) {
                     System.out.println("Consent ***" + consent.getConfirmationCommunicationSentAt() + " " + consent.getConfirmationCommunicationSentAt());
                     coppaStatus = coppaStatus.kDICOPPAConfirmationPending;
+                    if(!consent.getLocale().equals("en_US")){
+                        coppaStatus = coppaStatus.kDICOPPAConfirmationGiven;
+                    }
                     System.out.println("Consent coppaconfirmationPending");
                 }
             } else {

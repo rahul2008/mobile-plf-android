@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.customviews.RegCoppaAlertDialog;
+import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 
@@ -138,6 +140,8 @@ public class ParentalAccessFragment extends RegistrationCoppaBaseFragment implem
         String minAgeLimitTest = getActivity().getString(R.string.Coppa_Age_Verification_UnderAge_Alert_Txt);
         int minAge = RegistrationConfiguration.getInstance().getFlow().getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
         minAgeLimitTest = String.format(minAgeLimitTest, minAge);
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
+                AppCoppaTaggingConstants.MIN_AGE_LIMIT_WARNING);
         RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getResources().getString(R.string.Coppa_Age_Verification_Screen_Title_txt),minAgeLimitTest,getActivity(), mOkBtnClick);
     }
 

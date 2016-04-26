@@ -12,14 +12,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.listener.NumberPickerListener;
 import com.philips.cdp.registration.coppa.ui.customviews.RegCoppaAlertDialog;
 import com.philips.cdp.registration.coppa.ui.customviews.XNumberPickerDialog;
+import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.servertime.ServerTime;
+import com.philips.cdp.tagging.Tagging;
 
 public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment implements OnClickListener {
 
@@ -168,7 +171,6 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
     private void validateInputs() {
         ServerTime.init(getActivity().getApplicationContext());
-        System.out.println("************** Time :  " + ServerTime.getInstance().getCurrentTime());
         String currentTime = ServerTime.getInstance().getCurrentTime();
         int currentYear = Integer.parseInt(currentTime.substring(0, 4));
         int selectedYear = Integer.parseInt(mTvSelectedYear.getText().toString().trim());
@@ -183,6 +185,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         }
 
         if (howMuchOld == caluculateAge || howMuchOld == caluculateAge - 1) {
+            Tagging.setLaunchingPageName("coppa:ageverification");
             getRegistrationFragment().launchRegistrationFragment();
             return;
         }
@@ -194,6 +197,8 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
     private void showParentalAccessDailog(int minAge) {
         String minAgeLimitTest = getActivity().getString(R.string.Coppa_Age_Verification_UnderAge_Alert_Txt);
         minAgeLimitTest = String.format(minAgeLimitTest, minAge);
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
+                AppCoppaTaggingConstants.MIN_AGE_LIMIT_WARNING);
         RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getResources().getString(R.string.Coppa_Age_Verification_Screen_Title_txt), minAgeLimitTest, getActivity(), mOkBtnClick);
     }
 
