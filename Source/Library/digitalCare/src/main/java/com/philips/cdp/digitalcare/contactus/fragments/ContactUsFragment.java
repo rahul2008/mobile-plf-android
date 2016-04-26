@@ -740,7 +740,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         button.setGravity(Gravity.CENTER);
         // button.setPadding((int) (80 * density), 0, 0, 0);
-        button.setTextAppearance(getActivity(), R.style.fontButton);
+
+        if (Build.VERSION.SDK_INT < 23) {
+            button.setTextAppearance(getActivity(), R.style.fontButton);
+        } else {
+            button.setTextAppearance(R.style.fontButton);
+        }
         Typeface buttonTypeface = Typeface.createFromAsset(getActivity().getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         button.setTypeface(buttonTypeface);
         if (mSdkVersion < Build.VERSION_CODES.JELLY_BEAN) {
