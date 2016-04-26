@@ -29,7 +29,7 @@ import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.prxSummaryCallback;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
-import com.philips.cdp.digitalcare.productdetails.PrxProductData;
+import com.philips.cdp.digitalcare.prx.PrxWrapper;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -78,7 +78,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private View mProductTellUsWhatYouThinkButton = null;
     private View mProductContactUsButton = null;
     private ProductModelSelectionHelper mProductSelectionHelper = null;
-    private PrxProductData mPrxProductData = null;
+    private PrxWrapper mPrxWrapper = null;
     private ConsumerProductInfo mProductInfo = null;
     private String mCtnFromPreference;
 
@@ -116,8 +116,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                     }
 
                     DigiCareLogger.v(TAG, "Sending PRX Request");
-                    mPrxProductData = new PrxProductData(getActivity(), this);
-                    mPrxProductData.executeRequests();
+                    mPrxWrapper = new PrxWrapper(getActivity(), this);
+                    mPrxWrapper.executeRequests();
                 }
             }
         } else
@@ -501,7 +501,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
 
     private void launchFaqScreen() {
-        mPrxProductData = new PrxProductData(getActivity(), new PrxFaqCallback() {
+        mPrxWrapper = new PrxWrapper(getActivity(), new PrxFaqCallback() {
             @Override
             public void onResponseReceived(SupportModel supportModel) {
                 if (supportModel == null)
@@ -513,7 +513,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 }
             }
         });
-        mPrxProductData.executeFaqSupportRequest();
+        mPrxWrapper.executeFaqSupportRequest();
     }
 
     private void launchProductSelectionFragmentComponent() {
@@ -626,9 +626,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
             if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
                     DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
-              /*  mPrxProductData = new PrxProductData(getActivity(), null);
+              /*  mPrxWrapper = new PrxWrapper(getActivity(), null);
 
-                mPrxProductData.executePRXAssetRequestWithSummaryData(productSummaryModel);
+                mPrxWrapper.executePRXAssetRequestWithSummaryData(productSummaryModel);
 */
                 Data summaryData = productSummaryModel.getData();
                 List<String> filterKeys = summaryData.getFilterKeys();

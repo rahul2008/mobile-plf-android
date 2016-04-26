@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.productdetails;
+package com.philips.cdp.digitalcare.prx;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -36,12 +36,12 @@ import java.util.List;
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 03-Nov-15.
  */
-public class PrxProductData {
+public class PrxWrapper {
 
     public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF = "User manual";
     public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_QSG_PDF = "qsg";
     public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL = "mp4";
-    private static final String TAG = PrxProductData.class.getSimpleName();
+    private static final String TAG = PrxWrapper.class.getSimpleName();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     ConsumerProductInfo mProductInfo = null;
     /*    private String mCtn = "RQ1250/17";
@@ -64,7 +64,7 @@ public class PrxProductData {
     private Thread mUiThread = Looper.getMainLooper().getThread();
 
 
-    public PrxProductData(Activity activity, prxSummaryCallback callback) {
+    public PrxWrapper(Activity activity, prxSummaryCallback callback) {
         this.mActivity = activity;
         this.mSummaryCallback = callback;
         mConfigManager = DigitalCareConfigManager.getInstance();
@@ -74,7 +74,7 @@ public class PrxProductData {
         initProductCredentials();
     }
 
-    public PrxProductData(Activity activity, PrxFaqCallback callback) {
+    public PrxWrapper(Activity activity, PrxFaqCallback callback) {
         this.mActivity = activity;
         this.mSupportCallback = callback;
         mConfigManager = DigitalCareConfigManager.getInstance();

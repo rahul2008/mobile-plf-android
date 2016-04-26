@@ -38,6 +38,7 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.listeners.prxSummaryCallback;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
+import com.philips.cdp.digitalcare.prx.PrxWrapper;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
@@ -81,7 +82,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private int mBiggerResolution = 0;
     private LinearLayout.LayoutParams mScrollerLayoutParams = null;
     private LinearLayout.LayoutParams mProductVideoHeaderParams = null;
-    private PrxProductData mPrxProductData = null;
+    private PrxWrapper mPrxWrapper = null;
     private static Activity mActivity = null;
     private int mSdkVersion = 0;
 
@@ -365,7 +366,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void requestPRXAssetData() {
-        mPrxProductData = new PrxProductData(mActivity, new prxSummaryCallback() {
+        mPrxWrapper = new PrxWrapper(mActivity, new prxSummaryCallback() {
             @Override
             public void onResponseReceived(SummaryModel isAvailable) {
                 if (getContext() != null)
@@ -373,7 +374,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             }
         });
 
-        mPrxProductData.executePRXAssetRequestWithSummaryData(mViewProductSummaryModel);
+        mPrxWrapper.executePRXAssetRequestWithSummaryData(mViewProductSummaryModel);
     }
 
     @Override
