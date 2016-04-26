@@ -438,6 +438,22 @@ public class SHNDeviceImplTest {
     }
 
     @Test
+    public void whenServicesAreDiscoveredAndGotoErrorStateThenTheDeviceBecomesDisconnecting() {
+        connectTillGATTConnected();
+        reset(mockedSHNDeviceListener);
+
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+        mockedServiceState = SHNService.State.Error;
+        shnDevice.onServiceStateChanged(mockedSHNService, mockedServiceState);
+
+        assertEquals(SHNDevice.State.Disconnecting, shnDevice.getState());
+        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
+        verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
+        verify(mockedSHNDeviceListener, never()).onFailedToConnect(any(SHNDevice.class), any(SHNResult.class));
+        verify(mockedBTGatt).disconnect();
+    }
+
+    @Test
     public void whenServicesAreDiscoveredAndBTGATTIndicatesDisconnectedThenStateIsDisconecting() {
         connectTillGATTServicesDiscovered();
         reset(mockedSHNDeviceListener);
@@ -601,6 +617,24 @@ public class SHNDeviceImplTest {
 
         assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());
         verifyZeroInteractions(mockedSHNDeviceListener, mockedBTGatt);
+    }
+
+    @Test
+    public void whenInStateConnectedAServicesGoesToErrorStateThenTheDeviceBecomesDisconnecting() {
+        connectTillGATTConnected();
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+        mockedServiceState = SHNService.State.Ready;
+        shnDevice.onServiceStateChanged(mockedSHNService, mockedServiceState);
+
+        reset(mockedSHNDeviceListener);
+        mockedServiceState = SHNService.State.Error;
+        shnDevice.onServiceStateChanged(mockedSHNService, mockedServiceState);
+
+        assertEquals(SHNDevice.State.Disconnecting, shnDevice.getState());
+        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
+        verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
+        verify(mockedSHNDeviceListener, never()).onFailedToConnect(any(SHNDevice.class), any(SHNResult.class));
+        verify(mockedBTGatt).disconnect();
     }
 
     @Test

@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.protocols.moonshinestreaming;
 
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.helper.MockedHandler;
 
 import org.junit.Before;
@@ -68,6 +69,18 @@ public class SHNProtocolMoonshineStreamingV3Test {
     @Test
     public void whenTheProtocolIsCreatedThenItsStateIsInitializing() {
         assertEquals(SHNProtocolMoonshineStreamingV3.SHNProtocolMoonshineStreamingState.Initializing, shnProtocolMoonshineStreamingV3.getState());
+    }
+
+    @Test
+    public void whenTransitionToErrorIsCalledThenItsStateIsError() {
+        shnProtocolMoonshineStreamingV3.transitionToError(SHNResult.SHNErrorTimeout);
+        assertEquals(SHNProtocolMoonshineStreamingV3.SHNProtocolMoonshineStreamingState.Error, shnProtocolMoonshineStreamingV3.getState());
+    }
+
+    @Test
+    public void whenTransitionToErrorIsCalledThenTransitionToErrorOnTheService() {
+        shnProtocolMoonshineStreamingV3.transitionToError(SHNResult.SHNErrorTimeout);
+        verify(mockedShnServiceMoonshineStreaming).transitionToError();
     }
 
     @Test

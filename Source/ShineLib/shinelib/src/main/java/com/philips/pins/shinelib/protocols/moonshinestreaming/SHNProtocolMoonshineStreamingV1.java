@@ -225,7 +225,8 @@ public class SHNProtocolMoonshineStreamingV1 implements SHNProtocolMoonshineStre
 
     @Override
     public void transitionToError(SHNResult shnResult) {
-        throw new InternalError("Not yet implemented");
+        state = SHNProtocolMoonshineStreamingState.Error;
+        shnServiceMoonshineStreaming.transitionToError();
     }
 
     private void setInitialState() {
