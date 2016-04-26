@@ -532,7 +532,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         private boolean isInAfterTextChanged;
 
         public synchronized void afterTextChanged(Editable text) {
-            if (mEditText == mEtPhoneNumber && !isInAfterTextChanged) {
+            if (mEditText == mEtPhoneNumber && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
                 isInAfterTextChanged = true;
                 validate(mEditText, false);
                 isInAfterTextChanged = false;
