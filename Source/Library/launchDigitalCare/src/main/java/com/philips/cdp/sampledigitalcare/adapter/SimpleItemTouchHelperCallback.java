@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcareapp.adapter;
+package com.philips.cdp.sampledigitalcare.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;

@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcareapp;
+package com.philips.cdp.sampledigitalcare;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
