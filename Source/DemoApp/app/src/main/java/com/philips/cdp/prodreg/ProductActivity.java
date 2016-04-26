@@ -13,9 +13,9 @@ import android.widget.ToggleButton;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
 import com.philips.cdp.prodreg.backend.RegisteredProduct;
+import com.philips.cdp.prodreg.handler.ProdRegHelper;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
