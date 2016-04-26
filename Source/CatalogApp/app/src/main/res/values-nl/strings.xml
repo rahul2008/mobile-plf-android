@@ -75,7 +75,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_cards_spike">CardsSpike</string>
-    <string name="title_activity_controls">Contrôles d'activité</string>
+    <string name="title_activity_controls">Contrôles d\'activité</string>
 
     <array name="control_icons">
         <item>@drawable/uikit_arrow_up</item>
