@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -670,7 +671,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     private Drawable getDrawable(int resId) {
-        return getResources().getDrawable(resId);
+        return ContextCompat.getDrawable(getActivity(), resId);
+       // getResources().getDrawable(resId);
     }
 
     private String getStringKey(int resId) {
