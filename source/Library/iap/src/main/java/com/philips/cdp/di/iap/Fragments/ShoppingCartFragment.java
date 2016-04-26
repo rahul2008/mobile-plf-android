@@ -32,7 +32,7 @@ import com.philips.cdp.tagging.Tagging;
 import java.util.ArrayList;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
-        implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener {
+        implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener{
 
     private Button mCheckoutBtn;
     private Button mContinuesBtn;
@@ -75,7 +75,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mContinuesBtn.setOnClickListener(this);
 
         mAddressController = new AddressController(getContext(), this);
-        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(), getFragmentManager(), this);
         return rootView;
     }
 
@@ -87,7 +86,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     private void updateCartOnResume() {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
+        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), this, getFragmentManager());
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
         }
@@ -97,13 +96,13 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onStop() {
         super.onStop();
-        mAdapter.onStop();
+        if(mAdapter!=null)
+            mAdapter.onStop();
         NetworkUtility.getInstance().dismissErrorDialog();
     }
 
     private void updateCartDetails(ShoppingCartPresenter presenter) {
         presenter.getCurrentCartDetails();
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -237,5 +236,15 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         } else {
             mCheckoutBtn.setEnabled(true);
         }
+    }
+
+
+    @Override
+    public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
+        onOutOfStock(false);
+        mContinuesBtn.setVisibility(View.VISIBLE);
+        mCheckoutBtn.setVisibility(View.VISIBLE);
+        mAdapter = new ShoppingCartAdapter(getContext(), data, getFragmentManager(), this);
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

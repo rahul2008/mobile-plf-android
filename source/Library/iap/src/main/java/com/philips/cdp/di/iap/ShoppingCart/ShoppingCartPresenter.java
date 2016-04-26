@@ -61,6 +61,11 @@ public class ShoppingCartPresenter {
     public ShoppingCartPresenter() {
     }
 
+    public ShoppingCartPresenter(Context context, android.support.v4.app.FragmentManager fragmentManager) {
+        mContext = context;
+        mFragmentManager = fragmentManager;
+    }
+
     public interface LoadListenerForRetailer {
         void onLoadFinished(ArrayList<StoreEntity> data);
     }

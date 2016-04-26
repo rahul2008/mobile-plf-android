@@ -35,7 +35,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ShoppingCartPresenter.LoadListener {
+public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private Resources mResources;
@@ -63,7 +63,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mContext = context;
         mResources = context.getResources();
         mData = shoppingCartData;
-        mPresenter = new ShoppingCartPresenter(context, this, fragmentManager);
+        mPresenter = new ShoppingCartPresenter(context,fragmentManager);
         mFragmentManager = fragmentManager;
         setCountArrow(context);
         initDrawables();
@@ -271,13 +271,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public long getItemId(final int position) {
         return position;
     }*/
-
-    @Override
-    public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
-        mOutOfStock.onOutOfStock(false);
-        mData = data;
-        notifyDataSetChanged();
-    }
 
     public class ShoppingCartProductHolder extends RecyclerView.ViewHolder {
         NetworkImageView mNetworkImage;
