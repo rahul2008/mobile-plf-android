@@ -13,9 +13,9 @@ import android.widget.ToggleButton;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
 import com.philips.cdp.prodreg.backend.RegisteredProduct;
+import com.philips.cdp.prodreg.handler.ProdRegHelper;
 import com.philips.cdp.prodreg.handler.ProdRegListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -111,7 +111,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(ProductActivity.this, registeredProduct.getProdRegError().getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
-        prodRegHelper.setProductRegistrationListener(listener);
+        prodRegHelper.addProductRegistrationListener(listener);
         prodRegHelper.getSignedInUser().registerProduct(product);
     }
 
@@ -158,12 +158,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, mYear, mMonthInt, mDay);
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        prodRegHelper.unRegister();
     }
 }
 

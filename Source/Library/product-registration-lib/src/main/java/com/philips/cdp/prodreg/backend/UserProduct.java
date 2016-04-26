@@ -34,11 +34,11 @@ import java.util.List;
  */
 public class UserProduct {
 
-    public static final String PRODUCT_REGISTRATION = "product_registration";
-    public static final String FETCH_REGISTERED_PRODUCTS = "fetch_registered_products";
+    public static final int PRODUCT_REGISTRATION = 0;
+    public static final int FETCH_REGISTERED_PRODUCTS = 1;
     private final String TAG = getClass() + "";
     private final String MICRO_SITE_ID = "MS";
-    private String requestType = "";
+    private int requestType = -1;
     private String locale;
     private RegisteredProductsListener registeredProductsListener;
     private Context mContext;
@@ -113,11 +113,9 @@ public class UserProduct {
                 if (!getUserProduct().isUserSignedIn(mContext)) {
                     // TO-DO whether required to change state
                     getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
-                    getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     appListener.onProdRegFailed(registeredProduct);
                 } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !getUserProduct().isValidDate(registeredProduct.getPurchaseDate())) {
                     getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
-                    getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     appListener.onProdRegFailed(registeredProduct);
                 } else {
                     UserProduct userProduct = getUserProduct();
@@ -171,11 +169,11 @@ public class UserProduct {
         return this;
     }
 
-    String getRequestType() {
+    int getRequestType() {
         return requestType;
     }
 
-    protected void setRequestType(final String requestType) {
+    protected void setRequestType(final int requestType) {
         this.requestType = requestType;
     }
 

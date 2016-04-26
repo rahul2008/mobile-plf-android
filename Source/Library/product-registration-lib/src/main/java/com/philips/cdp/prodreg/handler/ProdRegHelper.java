@@ -2,14 +2,16 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.prodreg.backend;
+package com.philips.cdp.prodreg.handler;
 
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.prodreg.handler.ProdRegListener;
+import com.philips.cdp.prodreg.backend.LocalRegisteredProducts;
+import com.philips.cdp.prodreg.backend.RegisteredProduct;
+import com.philips.cdp.prodreg.backend.UserProduct;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -23,15 +25,17 @@ public class ProdRegHelper {
     private Context context;
     private ProdRegListener prodRegListener;
     private UserRegistrationListener userRegistrationListener;
+    private UserProduct userProduct;
 
     public void init(Context context) {
         this.context = context;
         registerLister();
+        userProduct = new UserProduct(context, new User(context));
     }
 
     @NonNull
-    UserProduct getUserProduct(final Context context) {
-        return new UserProduct(context, new User(context));
+    UserProduct getUserProduct() {
+        return userProduct;
     }
 
     public void setLocale(final String language, final String countryCode) {
@@ -42,7 +46,7 @@ public class ProdRegHelper {
         return locale;
     }
 
-    public void setProductRegistrationListener(final ProdRegListener listener) {
+    public void addProductRegistrationListener(final ProdRegListener listener) {
         this.prodRegListener = listener;
     }
 
@@ -92,12 +96,12 @@ public class ProdRegHelper {
         return userRegistrationListener;
     }
 
-    public void unRegister() {
+    public void removeProductRegistrationListener() {
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
     }
 
     public UserProduct getSignedInUser() {
-        UserProduct userProduct = getUserProduct(context);
+        UserProduct userProduct = getUserProduct();
         userProduct.setProductRegistrationListener(prodRegListener);
         userProduct.setLocale(this.locale);
         return userProduct;
