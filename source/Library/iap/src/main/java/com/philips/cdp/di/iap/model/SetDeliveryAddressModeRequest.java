@@ -30,7 +30,11 @@ public class SetDeliveryAddressModeRequest extends AbstractModel {
     @Override
     public Map<String, String> requestBody() {
         HashMap<String, String> query = new HashMap<String, String>();
-        query.put(ModelConstants.DEVLVERY_MODE_ID, "standard-gross");
+        if ("GB".equals(store.getCountry())) {
+            query.put(ModelConstants.DEVLVERY_MODE_ID, "standard-gross");
+        } else {
+            query.put(ModelConstants.DEVLVERY_MODE_ID, "standard-net");
+        }
         return query;
     }
 

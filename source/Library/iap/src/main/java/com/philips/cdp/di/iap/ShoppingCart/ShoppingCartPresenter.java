@@ -56,7 +56,10 @@ public class ShoppingCartPresenter {
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
-}
+    }
+
+    public ShoppingCartPresenter() {
+    }
 
     public interface LoadListenerForRetailer {
         void onLoadFinished(ArrayList<StoreEntity> data);
@@ -218,7 +221,7 @@ public class ShoppingCartPresenter {
         sendHybrisRequest(0, model, model);
     }
 
-    public void updateProductQuantity(final ShoppingCartData data, final int count, final boolean isIncrease) {
+    public void updateProductQuantity(final ShoppingCartData data, final int count,  final int quantityStatus) {
         HashMap<String, String> query = new HashMap<String, String>();
         query.put(ModelConstants.PRODUCT_CODE, data.getCtnNumber());
         query.put(ModelConstants.PRODUCT_QUANTITY, String.valueOf(count));
@@ -228,10 +231,10 @@ public class ShoppingCartPresenter {
                 query, new AbstractModel.DataLoadListener() {
             @Override
             public void onModelDataLoadFinished(final Message msg) {
-                if (isIncrease) {
+                if (quantityStatus == 1) {
                     //Track Add to cart action
                     Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
-                } else {
+                } else if (quantityStatus == 0) {
                     //Track product delete action
                     Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                             IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PRODUCT_REMOVED);
@@ -273,7 +276,8 @@ public class ShoppingCartPresenter {
         });
     }
 
-    private void addProductToCart(final Context context, String productCTN, final IAPCartListener iapHandlerListener,
+    public void addProductToCart(final Context context, String productCTN, final IAPCartListener
+            iapHandlerListener,
                                   final boolean isFromBuyNow) {
         if (productCTN == null) return;
         HashMap<String, String> params = new HashMap<>();

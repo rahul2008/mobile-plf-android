@@ -264,7 +264,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         addressHashMap.put(ModelConstants.TOWN, address.getTown());
         addressHashMap.put(ModelConstants.ADDRESS_ID, address.getId());
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, address.getLine1());
-        addressHashMap.put(ModelConstants.PHONE_NUMBER, address.getPhone());
+        addressHashMap.put(ModelConstants.PHONE_NUMBER, address.getPhone1());
 
         if (address.getRegion() != null) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, address.getRegion().getName());
@@ -360,8 +360,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             fields.setEmail(mJanRainEmail); // Since there is no email response from hybris
         }
 
-        if (isNotNullNorEmpty(addr.getPhone())) {
-            fields.setPhoneNumber(addr.getPhone());
+        if (isNotNullNorEmpty(addr.getPhone1())) {
+            fields.setPhoneNumber(addr.getPhone1());
         }
 
         if (addr.getRegion() != null) {

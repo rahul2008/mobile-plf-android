@@ -7,18 +7,19 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 public class Store {
 
+    //Public since required by StoreConfiguration initialization
     public static final String HTTPS = "https://";
     public static final String WEB_ROOT = "pilcommercewebservices";
     public static final String V2 = "v2";
-    private static final String USER = "users";
     public static final String SEPERATOR = "/";
+
+    private static final String USER = "users";
     private static final String METAINFO = "metainfo";
     private static final String REGIONS = "regions";
     private static final String LANG = "?fields=FULL&lang=en";
@@ -80,6 +81,9 @@ public class Store {
     private boolean mUserLoggedout;
     private String mRetailersAlter;
 
+    private boolean mStoreInitialized;
+    private String mLanguage;
+
     public Store(Context context) {
         mIAPUser = initIAPUser(context);
         mStoreConfig = getStoreConfig(context);
@@ -101,9 +105,16 @@ public class Store {
         return new StoreConfiguration(context, this);
     }
 
-    public void initStoreConfig(String countryCode, RequestListener listener) {
+    public void setLangAndCountry(String language, String countryCode) {
+        checkAndUpdateStoreChange(language, countryCode);
+        mLanguage = language;
         mCountry = countryCode;
-        mStoreConfig.initConfig(countryCode, listener);
+    }
+
+    public void initStoreConfig(String language, String countryCode, RequestListener listener) {
+        mLanguage = language;
+        mCountry = countryCode;
+        mStoreConfig.initConfig(language, countryCode, listener);
     }
 
     void generateStoreUrls() {
@@ -125,6 +136,7 @@ public class Store {
     }
 
     private void createBaseUrl() {
+        setStoreInitialized(true);
         StringBuilder builder = new StringBuilder(HTTPS);
         builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
         builder.append(WEB_ROOT).append(SEPERATOR);
@@ -152,6 +164,17 @@ public class Store {
         mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
     }
 
+    void checkAndUpdateStoreChange(String language, String countryCode) {
+        if (language == null || countryCode == null || mLanguage == null || mCountry == null
+                || !mCountry.equals(countryCode) || !mLanguage.equals(language)) {
+            setStoreInitialized(false);
+        }
+    }
+
+    void setStoreInitialized(boolean changed) {
+        mStoreInitialized = changed;
+    }
+
     private String createRegionsUrl() {
         StringBuilder builder = new StringBuilder(HTTPS);
         builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
@@ -159,7 +182,7 @@ public class Store {
         builder.append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
-        builder.append(HybrisDelegate.getInstance().getStore().getCountry()).append(LANGUAGE_EN);
+        builder.append(getCountry()).append(LANGUAGE_EN);//Check whether to pass "UK" / "GB"
         return builder.toString();
     }
 
@@ -186,8 +209,6 @@ public class Store {
 
     public String getCountry() {
         if (mCountry != null) {
-            if (mCountry.equalsIgnoreCase("GB"))
-                mCountry = "UK";
             return mCountry;
         }
         return "";
@@ -290,5 +311,9 @@ public class Store {
 
     public boolean isUserLoggedOut() {
         return mUserLoggedout;
+    }
+
+    public boolean isStoreInitialized() {
+        return mStoreInitialized;
     }
 }

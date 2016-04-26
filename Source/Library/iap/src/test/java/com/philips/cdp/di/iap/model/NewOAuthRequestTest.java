@@ -33,7 +33,7 @@ public class NewOAuthRequestTest {
     @Before
     public void setUp() {
         mStore = (new MockStore(mContext, mUser)).getStore();
-        mStore.initStoreConfig("en_US", null);
+        mStore.initStoreConfig("en","US", null);
         mModel = new NewOAuthRequest(mStore, null);
     }
 

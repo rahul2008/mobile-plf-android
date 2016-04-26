@@ -47,7 +47,7 @@ public class MockWebStoreConfig extends WebStoreConfig {
     }
 
     @Override
-    void refresh(final String countryCode) {
+    void refresh(final String language, final String countryCode) {
         initLocaleMatcher();
     }
 

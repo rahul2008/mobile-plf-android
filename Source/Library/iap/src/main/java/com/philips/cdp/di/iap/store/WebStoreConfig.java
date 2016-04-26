@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.config.WebStoreConfigResponse;
 import com.philips.cdp.di.iap.session.IAPHurlStack;
 import com.philips.cdp.di.iap.session.IAPJsonRequest;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.session.SynchronizedNetwork;
 import com.philips.cdp.di.iap.session.SynchronizedNetworkCallBack;
@@ -29,8 +31,6 @@ import com.philips.cdp.localematch.enums.Sector;
 
 import org.json.JSONObject;
 
-import java.util.Locale;
-
 public class WebStoreConfig {
     private static final String TAG = WebStoreConfig.class.getSimpleName();
     final Context mContext;
@@ -41,6 +41,7 @@ public class WebStoreConfig {
     StoreConfiguration mStoreConfig;
 
     RequestListener mResponseListener;
+    private String mFallBackLocale;
 
     public WebStoreConfig(Context context, StoreConfiguration storeConfig) {
         mContext = context;
@@ -55,13 +56,13 @@ public class WebStoreConfig {
         if (mPILLocale != null) {
             return mPILLocale.getLocaleCode();
         }
-        return null;
+        return mFallBackLocale;
     }
 
-    public void initConfig(String countryCode, final RequestListener listener) {
+    public void initConfig(final String language, String countryCode, final RequestListener listener) {
         mResponseListener = listener;
         initLocaleMatcher();
-        refresh(countryCode);
+        refresh(language, countryCode);
     }
 
     void initLocaleMatcher() {
@@ -69,6 +70,7 @@ public class WebStoreConfig {
         mLocaleManager.init(mContext, new LocaleMatchListener() {
             @Override
             public void onLocaleMatchRefreshed(final String s) {
+                mFallBackLocale = s;
                 mPILLocale = mLocaleManager.currentLocaleWithCountryFallbackForPlatform(mContext, s,
                         Platform.PRX, Sector.B2C, Catalog.CONSUMER);
                 startConfigDownloadThread();
@@ -78,7 +80,13 @@ public class WebStoreConfig {
             public void onErrorOccurredForLocaleMatch(final LocaleMatchError localeMatchError) {
                 if (mResponseListener != null) {
                     Message msg = Message.obtain();
-                    mResponseListener.onError(msg);
+                    //We really don't know what happened wrong.
+                    //Can happen in case no network or several reasons. Assume network error in
+                    // these cases.
+                    if (LocaleMatchError.INPUT_VALIDATION_ERROR != localeMatchError) {
+                        msg.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
+                    }
+                    notifyConfigListener(false, msg);
                 }
             }
         });
@@ -88,8 +96,8 @@ public class WebStoreConfig {
         mLocaleManager = new PILLocaleManager();
     }
 
-    void refresh(final String countryCode) {
-        mLocaleManager.refresh(mContext, Locale.getDefault().getLanguage(), countryCode);
+    void refresh(String language, String countryCode) {
+        mLocaleManager.refresh(mContext, language, countryCode);
     }
 
     void startConfigDownloadThread() {
@@ -118,7 +126,7 @@ public class WebStoreConfig {
             @Override
             public void onSyncRequestError(final VolleyError volleyError) {
                 Message msg = Message.obtain();
-                msg.obj = volleyError;
+                msg.obj = new IAPNetworkError(volleyError, hashCode(), null);
                 notifyConfigListener(false, msg);
             }
         });
@@ -126,7 +134,9 @@ public class WebStoreConfig {
 
     //For testing purpose
     SynchronizedNetwork getSynchronizedNetwork() {
-        return new SynchronizedNetwork((new IAPHurlStack(null).getHurlStack()));
+        IAPHurlStack hurlStack = new IAPHurlStack(null);
+        hurlStack.setContext(mContext);
+        return new SynchronizedNetwork(hurlStack.getHurlStack());
     }
 
     private void notifyConfigListener(final boolean success, final Message msg) {

@@ -63,7 +63,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mContext = context;
         mResources = context.getResources();
         mData = shoppingCartData;
-        mPresenter = new ShoppingCartPresenter(context, this,fragmentManager);
+        mPresenter = new ShoppingCartPresenter(context, this, fragmentManager);
         mFragmentManager = fragmentManager;
         setCountArrow(context);
         initDrawables();
@@ -117,17 +117,26 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
-                            boolean isIncrease = newCount > oldCount;
-                            if (!Utility.isProgressDialogShowing()) {
-                                Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                                mPresenter.updateProductQuantity(mData.get(position), newCount, isIncrease);
-                            }
+                        int quantityStatus = getQuantityStatus(newCount, oldCount);
+                        if (!Utility.isProgressDialogShowing()) {
+                            Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+                            mPresenter.updateProductQuantity(mData.get(position), newCount, quantityStatus);
+                        }
                     }
                 });
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();
             }
         });
+    }
+
+    private int getQuantityStatus(int newCount, int oldCount) {
+        if (newCount > oldCount)
+            return 1;
+        else if (newCount < oldCount)
+            return 0;
+        else
+            return -1;
     }
 
     private void bindDeleteOrInfoPopUP(final View view, final int selectedItem) {
@@ -146,11 +155,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 switch (position) {
                     case DELETE:
-                            if (!Utility.isProgressDialogShowing()) {
-                                Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_deleting_item));
-                                mPresenter.deleteProduct(mData.get(selectedItem));
-                                mPopupWindow.dismiss();
-                            }
+                        if (!Utility.isProgressDialogShowing()) {
+                            Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_deleting_item));
+                            mPresenter.deleteProduct(mData.get(selectedItem));
+                            mPopupWindow.dismiss();
+                        }
                         break;
                     case INFO:
                         setTheProductDataForDisplayingInProductDetailPage(selectedItem);

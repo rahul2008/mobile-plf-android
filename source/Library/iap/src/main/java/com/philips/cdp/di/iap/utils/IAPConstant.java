@@ -44,7 +44,13 @@ public class IAPConstant {
     public static final String IAP_LAUNCH_PRODUCT_CATALOG = "IAP_LAUNCH_PRODUCT_CATALOG";
     public static final String IAP_PRODUCT_COUNT = "IAP_PRODUCT_COUNT";
     public static final String IAP_PRODUCT_DISCOUNTED_PRICE = "IAP_PRODUCT_DISCOUNTED_PRICE";
+    public static final String IAP_FRAGMENT_STATE_KEY = "IAP_FRAGMENT_STATE_KEY";
     public static final String IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR = "IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR";
     public static final String IAP_BUY_URL = "IAP_BUY_URL";
     public static final String IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART = "IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART";
+
+    public interface Screen {
+        int PRODUCT_CATALOG = 0;
+        int SHOPPING_CART = 1;
+    }
 }
