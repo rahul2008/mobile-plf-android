@@ -73,11 +73,6 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         });
     }
 
-    @Override
-    public void setOnEditorActionListener(OnEditorActionListener l) {
-        super.setOnEditorActionListener(l);
-    }
-
     private Drawable getIcon() {
 
         Drawable d = VectorDrawable.create(context, R.drawable.uikit_password_show_icon).getConstantState().newDrawable().mutate();
