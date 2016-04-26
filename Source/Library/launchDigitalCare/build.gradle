@@ -12,7 +12,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.philips.cdp.sampledigitalcareapp"
+        applicationId "com.philips.cdp.sampledigitalcare"
         minSdkVersion 15
         targetSdkVersion 23
         renderscriptTargetApi 23
@@ -69,12 +69,12 @@ android {
 
     productFlavors {
         simulator {
-            applicationId 'com.philips.cdp.sampledigitalcareapp'
+            applicationId 'com.philips.cdp.sampledigitalcare'
             versionCode 139
             versionName "4.1.0"
         }
         device {
-            applicationId 'com.philips.cdp.sampledigitalcareapp'
+            applicationId 'com.philips.cdp.sampledigitalcare'
             versionCode 139
             versionName "4.1.0"
         }

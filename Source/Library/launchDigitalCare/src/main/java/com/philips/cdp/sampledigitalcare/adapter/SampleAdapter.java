@@ -1,16 +1,13 @@
-package com.philips.cdp.sampledigitalcareapp.adapter;
+package com.philips.cdp.sampledigitalcare.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 
-import com.philips.cdp.sampledigitalcareapp.R;
-
-import org.w3c.dom.Text;
+import com.philips.cdp.sampledigitalcare.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

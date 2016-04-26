@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcareapp.view;
+package com.philips.cdp.sampledigitalcare.view;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,8 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
-import com.philips.cdp.sampledigitalcareapp.Listener;
-import com.philips.cdp.sampledigitalcareapp.R;
+import com.philips.cdp.sampledigitalcare.Listener;
+import com.philips.cdp.sampledigitalcare.R;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcareapp.adapter;
+package com.philips.cdp.sampledigitalcare.adapter;
 
 public interface ItemTouchHelperAdapter {
 

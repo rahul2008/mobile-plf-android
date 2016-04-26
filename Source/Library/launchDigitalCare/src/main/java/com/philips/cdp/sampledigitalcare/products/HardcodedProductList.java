@@ -1,9 +1,7 @@
-package com.philips.cdp.sampledigitalcareapp.products;
+package com.philips.cdp.sampledigitalcare.products;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+
 /**
  * Created by naveen@philips.com on 12-Feb-16.
  */
