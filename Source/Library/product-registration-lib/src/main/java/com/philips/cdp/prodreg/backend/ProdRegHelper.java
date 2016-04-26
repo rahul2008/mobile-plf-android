@@ -42,7 +42,7 @@ public class ProdRegHelper {
         return locale;
     }
 
-    public void setProductRegistrationListener(final ProdRegListener listener) {
+    public void addProductRegistrationListener(final ProdRegListener listener) {
         this.prodRegListener = listener;
     }
 
@@ -92,7 +92,7 @@ public class ProdRegHelper {
         return userRegistrationListener;
     }
 
-    public void unRegister() {
+    public void removeProductRegistrationListener() {
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
     }
 

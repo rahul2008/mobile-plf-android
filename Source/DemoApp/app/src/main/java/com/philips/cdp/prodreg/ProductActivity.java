@@ -111,7 +111,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(ProductActivity.this, registeredProduct.getProdRegError().getDescription(), Toast.LENGTH_SHORT).show();
             }
         };
-        prodRegHelper.setProductRegistrationListener(listener);
+        prodRegHelper.addProductRegistrationListener(listener);
         prodRegHelper.getSignedInUser().registerProduct(product);
     }
 
@@ -163,7 +163,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        prodRegHelper.unRegister();
+        prodRegHelper.removeProductRegistrationListener();
     }
 }
 
