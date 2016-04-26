@@ -17,6 +17,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -84,7 +85,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtAddressLineTwo.setText(mBillingAddressFields.getLine2());
             mEtTown.setText(mBillingAddressFields.getTown());
             mEtPostalCode.setText(mBillingAddressFields.getPostalCode());
-            mEtCountry.setText(mBillingAddressFields.getCountryIsocode());
+            mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
             mEtEmail.setText(mBillingAddressFields.getEmail());
             mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
 
@@ -107,7 +108,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtAddressLineTwo.setText("");
         mEtTown.setText("");
         mEtPostalCode.setText("");
-        mEtCountry.setText("");
         mEtEmail.setText("");
         mEtPhoneNumber.setText("");
         mlLState.setVisibility(View.VISIBLE);
@@ -146,7 +146,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 mInlineFormsParent.removeError(mEtAddressLineTwo);
                 mInlineFormsParent.removeError(mEtTown);
                 mInlineFormsParent.removeError(mEtPostalCode);
-                mInlineFormsParent.removeError(mEtCountry);
                 mInlineFormsParent.removeError(mEtEmail);
                 mInlineFormsParent.removeError(mEtPhoneNumber);
             }
@@ -202,7 +201,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtAddressLineTwo.setEnabled(enable);
         mEtTown.setEnabled(enable);
         mEtPostalCode.setEnabled(enable);
-        mEtCountry.setEnabled(enable);
         if (mlLState.getVisibility() == View.VISIBLE) {
             mEtState.setEnabled(enable);
         }
@@ -218,7 +216,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtAddressLineTwo.setFocusable(focusable);
         mEtTown.setFocusable(focusable);
         mEtPostalCode.setFocusable(focusable);
-        mEtCountry.setFocusable(focusable);
         if (mlLState.getVisibility() == View.VISIBLE) {
             mEtState.setFocusable(focusable);
         }
@@ -233,7 +230,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtAddressLineTwo.setFocusableInTouchMode(true);
             mEtTown.setFocusableInTouchMode(true);
             mEtPostalCode.setFocusableInTouchMode(true);
-            mEtCountry.setFocusableInTouchMode(true);
             if (mlLState.getVisibility() == View.VISIBLE) {
                 mEtState.setFocusableInTouchMode(true);
             }
