@@ -149,6 +149,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             mView = inflater.inflate(R.layout.fragment_contact_us, container, false);
         } catch (InflateException e) {
         }
+        mSocialDivider = (View) mView.findViewById(R.id.socialDivider);
 
         return mView;
     }
@@ -178,7 +179,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 R.id.contactUsSocialParent);
 
 
-        mSocialDivider = (View) getActivity().findViewById(R.id.socialDivider);
+
         // mFacebook.setOnClickListener(this);
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
