@@ -90,8 +90,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
-            updateCartDetails(presenter);
         }
+        updateCartDetails(presenter);
     }
 
     @Override

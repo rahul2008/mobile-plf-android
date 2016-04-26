@@ -147,9 +147,11 @@ public class ShoppingCartPresenter {
                             CartModelContainer.getInstance().setShoppingCartData(mProductData);
                         } else {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                            Utility.dismissProgressDialog();
+                            if(Utility.isProgressDialogShowing())
+                                Utility.dismissProgressDialog();
                         }
-                        Utility.dismissProgressDialog();
+                        if(Utility.isProgressDialogShowing())
+                            Utility.dismissProgressDialog();
                     }
 
                     @Override
