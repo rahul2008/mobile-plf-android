@@ -6,6 +6,7 @@ import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.model.RegistrationState;
 
 import org.mockito.Mock;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -52,4 +53,13 @@ public class RegisteredProductTest extends MockitoTestCase {
         registeredProduct.setContractNumber("900000");
     }
 
+    public void testIsShouldConsiderUUID() {
+        assertFalse(registeredProduct.isShouldConsiderUUID("abc", "abc", true, true));
+        assertFalse(registeredProduct.isShouldConsiderUUID("abc", "abc", true, false));
+        assertTrue(registeredProduct.isShouldConsiderUUID("abcd", "abc", true, true));
+    }
+
+    public void testEqual() {
+        assertFalse(registeredProduct.equals(registeredProduct.isShouldConsiderUUID("abc", "abc", true, true)));
+    }
 }
