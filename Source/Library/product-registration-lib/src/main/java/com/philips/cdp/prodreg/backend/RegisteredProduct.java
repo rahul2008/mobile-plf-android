@@ -72,7 +72,7 @@ public class RegisteredProduct extends Product {
         return false;
     }
 
-    private boolean isShouldConsiderUUID(final String parentUuid, final String currentUuid, final boolean parentState, final boolean currentState) {
+    protected boolean isShouldConsiderUUID(final String parentUuid, final String currentUuid, final boolean parentState, final boolean currentState) {
         boolean shouldConsiderUUID = false;
         if (!parentState || !currentState && (!parentUuid.equals(currentUuid))) {
             shouldConsiderUUID = false;
