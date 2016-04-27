@@ -54,12 +54,13 @@ public class RegistrationCoppaLaunchHelper {
 
         //true consimned
         //false not consumed
-
-        FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
-        Fragment fragment = fragmentManager
-                .findFragmentByTag(RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
-        if (fragment != null) {
-            return ((RegistrationCoppaFragment) fragment).onBackPressed();
+        if(fragmentActivity != null) {
+            FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
+            Fragment fragment = fragmentManager
+                    .findFragmentByTag(RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
+            if (fragment != null) {
+                return ((RegistrationCoppaFragment) fragment).onBackPressed();
+            }
         }
         return true;
     }

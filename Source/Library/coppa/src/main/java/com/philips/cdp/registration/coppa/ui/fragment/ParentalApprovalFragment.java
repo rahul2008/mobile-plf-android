@@ -68,11 +68,6 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         super.onActivityCreated(savedInstanceState);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onActivityCreated");
         hideContent();
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-            mParentalApprovalFragmentController.refreshUser();
-        }else{
-            mParentalApprovalFragmentController.showServerErrorALert();
-        }
     }
 
     @Override

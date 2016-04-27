@@ -29,6 +29,7 @@ import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.cdp.registration.handlers.RefreshandUpdateUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
@@ -38,6 +39,7 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.security.SecureStorage;
 
@@ -460,9 +462,10 @@ public class User {
         } else {
             clearData();
             if (logoutHandler != null) {
-                logoutHandler.onLogoutSuccess();
+
                 RegistrationHelper.getInstance().getUserRegistrationListener()
                         .notifyOnUserLogoutSuccess();
+                logoutHandler.onLogoutSuccess();
             }
         }
     }
@@ -560,7 +563,13 @@ public class User {
      * @param handler Callback mHandler
      */
     public void refreshUser(final RefreshUserHandler handler) {
-        refreshandUpdateUser(handler);
+        if(NetworkUtility.isNetworkAvailable(mContext)) {
+            new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
+            ABCD.getInstance().setmP(null);
+        }else{
+            handler.onRefreshUserFailed(-1);
+        }
+        //refreshandUpdateUser(handler);
     }
 
     private void logoutHsdp(final LogoutHandler logoutHandler) {
