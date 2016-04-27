@@ -24,7 +24,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 
 public class BillingAddressFragment extends ShippingAddressFragment {
-
+    public static final String TAG = BillingAddressFragment.class.getName();
     private Context mContext;
     private PuiSwitch mSwitchBillingAddress;
 
@@ -171,18 +171,16 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mBillingAddressFields);
                 addFragment(
-                        OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
+                        OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
             }
         } else if (v == mBtnCancel) {
             if (getArguments().containsKey(IAPConstant.FROM_PAYMENT_SELECTION) &&
                     getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
-                getFragmentManager().popBackStackImmediate();
             } else {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-                addFragment
-                        (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             }
+            moveToPreviousFragment();
         }
     }
 

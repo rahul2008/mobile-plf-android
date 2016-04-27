@@ -23,6 +23,7 @@ import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 public class WebBuyFromRetailers extends BaseAnimationSupportFragment {
     private CircularLineProgressBar mProgress;
     private boolean mShowProgressBar = true;
+    public static final String TAG = WebBuyFromRetailers.class.getName();
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {

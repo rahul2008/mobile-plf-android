@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,10 +31,12 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
-        implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener{
+        implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener {
 
+    public static final String TAG = ShoppingCartFragment.class.getName();
     private Button mCheckoutBtn;
     private Button mContinuesBtn;
     public ShoppingCartAdapter mAdapter;
@@ -99,7 +102,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onStop() {
         super.onStop();
-        if(mAdapter!=null)
+        if (mAdapter != null)
             mAdapter.onStop();
         NetworkUtility.getInstance().dismissErrorDialog();
     }
@@ -136,12 +139,14 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         }
     }
 
+
     @Override
-    public void onBackPressed() {
-        //Track back button press action
-        if (getFragmentManager().getBackStackEntryCount() <= 1) {
+    public boolean onBackPressed() {
+        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if (fragment == null) {
             finishActivity();
         }
+        return false;
     }
 
     @Override
@@ -162,18 +167,14 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             startProductDetailFragment();
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
-            Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-            if(fragment!=null) {
-                replaceFragment(fragment, ProductCatalogFragment.TAG);
-            }else{
-                addProductCatalog();
-            }
+            launchProductCatalog();
         }
     }
 
+
     private void addProductCatalog() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment(),ProductCatalogFragment.TAG);
+        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment(), ProductCatalogFragment.TAG);
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
     }
@@ -186,7 +187,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
         bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormatedPrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
-        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
+        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
     }
 
     @Override
@@ -198,11 +199,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
                 addFragment(
-                        ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                        ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), ShippingAddressFragment.TAG);
             } else {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
                 addFragment(
-                        AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                        AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), AddressSelectionFragment.TAG);
             }
         }
     }
@@ -243,6 +244,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
+        if (getActivity() == null) return;
+
         onOutOfStock(false);
         mContinuesBtn.setVisibility(View.VISIBLE);
         mCheckoutBtn.setVisibility(View.VISIBLE);

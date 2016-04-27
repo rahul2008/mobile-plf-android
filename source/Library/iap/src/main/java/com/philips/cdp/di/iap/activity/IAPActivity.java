@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
@@ -49,9 +50,9 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         addActionBar();
         Boolean isShoppingCartViewSelected = getIntent().getBooleanExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, true);
         if (isShoppingCartViewSelected)
-            addShoppingFragment();
+            addFragment(ShoppingCartFragment.createInstance(new Bundle(), BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
         else
-            addProductCatalog();
+            addFragment(ProductCatalogFragment.createInstance(new Bundle(), BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
     }
 
     private void initTheme() {
@@ -63,22 +64,18 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         setTheme(themeIndex);
     }
 
-    private void addShoppingFragment() {
-        //Track first page of InAppPurchase
-        IAPAnalytics.trackLaunchPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
+    public void addFragment(BaseAnimationSupportFragment newFragment,
+                            String newFragmentTag) {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
-        transaction.addToBackStack(null);
+        transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+        transaction.addToBackStack(newFragmentTag);
         transaction.commitAllowingStateLoss();
+
+        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+                + newFragmentTag + ")");
     }
 
-    private void addProductCatalog() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment(),ProductCatalogFragment.TAG);
-        transaction.addToBackStack(null);
-        transaction.commitAllowingStateLoss();
-    }
 
     private void addActionBar() {
         ActionBar mActionBar = getSupportActionBar();
@@ -109,7 +106,8 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                addShoppingFragment();
+//                addShoppingFragment();
+                addFragment(ShoppingCartFragment.createInstance(new Bundle(), BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
             }
         });
 
@@ -126,8 +124,9 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         Utility.hideKeypad(this);
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
-        dispatchBackToFragments();
-        super.onBackPressed();
+        boolean dispatchBackHandled = dispatchBackToFragments();
+        if (!dispatchBackHandled)
+            super.onBackPressed();
     }
 
     @Override
@@ -175,14 +174,18 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mTitleTextView.setText(title);
     }
 
-    public void dispatchBackToFragments() {
+    public boolean dispatchBackToFragments() {
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called = " + fragments);
+        boolean isBackHandled = false;
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.isVisible() && (fragment instanceof IAPBackButtonListener)) {
-                ((IAPBackButtonListener) fragment).onBackPressed();
+
+                isBackHandled = ((IAPBackButtonListener) fragment).onBackPressed();
                 IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called");
             }
         }
+        return isBackHandled;
     }
 
     @Override
