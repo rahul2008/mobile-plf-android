@@ -21,6 +21,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());
         if(productCatalogData.getDiscountedPrice()==null || productCatalogData.getDiscountedPrice()==""){
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
+            productHolder.mPrice.setTextColor(Utility.getThemeColor(mContext));
         }else {
             productHolder.mDiscountedPrice.setText(productCatalogData.getDiscountedPrice());
             productHolder.mPrice.setPaintFlags(productHolder.mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

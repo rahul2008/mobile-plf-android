@@ -57,13 +57,13 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         @Override
         public void onFailure(final Message msg) {
             Utility.dismissProgressDialog();
-
-            IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            /*IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 checkForOutOfStock(iapNetworkError, msg);
             } else {
                 NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
-            }
+            }*/
 
         }
     };
@@ -196,7 +196,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mShoppingCartPresenter.buyProduct(getContext(), ctnNumber, mBuyProductListener);
     }
 
-    private void checkForOutOfStock(final IAPNetworkError iapNetworkError, Message msg) {
+/*    private void checkForOutOfStock(final IAPNetworkError iapNetworkError, Message msg) {
         com.philips.cdp.di.iap.response.error.Error error = iapNetworkError.getServerError().getErrors().get(0);
         String type = error.getType();
         if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
@@ -206,5 +206,5 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
-    }
+    }*/
 }
