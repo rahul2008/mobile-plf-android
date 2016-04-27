@@ -60,7 +60,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.toothbrush));
         productHolder.mPrice.setText(productCatalogData.getFormatedPrice());
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());
-        if(productCatalogData.getDiscountedPrice()=="" || productCatalogData.getDiscountedPrice()==null){
+        if(productCatalogData.getDiscountedPrice()==null || productCatalogData.getDiscountedPrice()==""){
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
         }else {
             productHolder.mDiscountedPrice.setText(productCatalogData.getDiscountedPrice());
