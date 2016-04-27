@@ -40,6 +40,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private RecyclerView mRecyclerView;
     private AddressController mAddressController;
     private Context mContext;
+    private ShoppingCartPresenter mShoppingCartPresenter;
+
+    private int mTotalItemCount;
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -74,6 +77,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
 
+        mShoppingCartPresenter = new ShoppingCartPresenter(getContext(), this, getFragmentManager());
+
         mAddressController = new AddressController(getContext(), this);
         return rootView;
     }
@@ -86,11 +91,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     private void updateCartOnResume() {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), this, getFragmentManager());
+
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
         }
-        updateCartDetails(presenter);
+        updateCartDetails(mShoppingCartPresenter);
     }
 
     @Override
@@ -183,6 +188,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
         bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormatedPrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
+        bundle.putInt(IAPConstant.IAP_PRODUCT_COUNT, mTotalItemCount);
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 
@@ -238,13 +244,13 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         }
     }
 
-
     @Override
     public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
         onOutOfStock(false);
         mContinuesBtn.setVisibility(View.VISIBLE);
         mCheckoutBtn.setVisibility(View.VISIBLE);
-        mAdapter = new ShoppingCartAdapter(getContext(), data, getFragmentManager(), this);
+        mAdapter = new ShoppingCartAdapter(getContext(), data, getFragmentManager(), this, mShoppingCartPresenter);
+        mTotalItemCount = data.get(0).getTotalItems();
         mRecyclerView.setAdapter(mAdapter);
     }
 }
