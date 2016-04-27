@@ -24,12 +24,14 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.cdp.tagging.Tagging;
 
+import java.util.Calendar;
+
 public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment implements OnClickListener {
 
-    public static final int MAX_AGE_VAL = 116;
-    public static final int MIN_AGE_VAL = 1;
-    public static final int MAX_YEAR_VAL = 2016;
-    public static final int MIN_YEAR_VAL = 1910;
+    private static final int MAX_AGE_VAL = 116;
+    private static final int MIN_AGE_VAL = 0;
+    private int MAX_YEAR_VAL ;
+    private int MIN_YEAR_VAL ;
     private Button mBtnContinue;
     private TextView mTvHowOld;
     private TextView mTvYearOfBirth;
@@ -43,6 +45,10 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalAccessConfirmFragment : onCreate");
         super.onCreate(savedInstanceState);
+
+        MAX_YEAR_VAL = Calendar.getInstance().get(Calendar.YEAR);
+        MIN_YEAR_VAL = MAX_YEAR_VAL - MAX_AGE_VAL+1;
+
     }
 
     @Override
