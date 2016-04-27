@@ -59,21 +59,6 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
                 + newFragmentTag + ")");
     }
 
-    public void replaceFragment(Fragment newFragment, String newFragmentTag) {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.remove(this);
-        transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
-        transaction.commitAllowingStateLoss();
-    }
-
-    public void removeFragment(Fragment fragment) {
-        FragmentManager manager = getActivity().getSupportFragmentManager();
-        FragmentTransaction trans = manager.beginTransaction();
-        trans.remove(fragment);
-        trans.commit();
-        manager.popBackStack();
-    }
-
     private void clearStackAndLaunchProductCatalog() {
         FragmentManager manager = getActivity().getSupportFragmentManager();
         clearFragmentStack();
