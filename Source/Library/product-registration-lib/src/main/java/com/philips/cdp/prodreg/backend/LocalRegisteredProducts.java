@@ -82,15 +82,15 @@ public class LocalRegisteredProducts {
     }
 
     protected void syncLocalCache(final RegisteredProduct[] products) {
-        Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();
+        Set<RegisteredProduct> localRegisteredProducts = getUniqueRegisteredProducts();
         for (RegisteredProduct registeredProduct : products) {
             registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
             registeredProduct.setUserUUid(uuid);
-            if (registeredProducts.contains(registeredProduct)) {
-                registeredProducts.remove(registeredProduct);
+            if (localRegisteredProducts.contains(registeredProduct)) {
+                localRegisteredProducts.remove(registeredProduct);
             }
-            registeredProducts.add(registeredProduct);
+            localRegisteredProducts.add(registeredProduct);
         }
-        localSharedPreference.storeData(PRODUCT_REGISTRATION_KEY, getGson().toJson(registeredProducts));
+        localSharedPreference.storeData(PRODUCT_REGISTRATION_KEY, getGson().toJson(localRegisteredProducts));
     }
 }

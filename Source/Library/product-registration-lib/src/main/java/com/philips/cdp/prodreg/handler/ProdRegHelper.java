@@ -29,7 +29,6 @@ public class ProdRegHelper {
 
     public void init(Context context) {
         this.context = context;
-        registerLister();
         userProduct = new UserProduct(context, new User(context));
     }
 
@@ -48,6 +47,7 @@ public class ProdRegHelper {
 
     public void addProductRegistrationListener(final ProdRegListener listener) {
         this.prodRegListener = listener;
+        registerLister();
     }
 
     private void registerLister() {
@@ -105,5 +105,9 @@ public class ProdRegHelper {
         userProduct.setProductRegistrationListener(prodRegListener);
         userProduct.setLocale(this.locale);
         return userProduct;
+    }
+
+    public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
+        userProduct.getRegisteredProducts(registeredProductsListener);
     }
 }

@@ -6,8 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.philips.cdp.prodreg.backend.LocalRegisteredProducts;
-import com.philips.cdp.registration.User;
+import com.philips.cdp.prodreg.backend.RegisteredProduct;
+import com.philips.cdp.prodreg.handler.ProdRegHelper;
+import com.philips.cdp.prodreg.handler.RegisteredProductsListener;
+
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -25,9 +28,15 @@ public class RegisteredProductsList extends AppCompatActivity {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
-        final User user = new User(this);
-        LocalRegisteredProducts localRegisteredProducts = new LocalRegisteredProducts(RegisteredProductsList.this, user);
-        productAdapter = new ProductAdapter(RegisteredProductsList.this, localRegisteredProducts.getRegisteredProducts());
-        mRecyclerView.setAdapter(productAdapter);
+        ProdRegHelper prodRegHelper = new ProdRegHelper();
+        prodRegHelper.init(this);
+        prodRegHelper.getRegisteredProducts(new RegisteredProductsListener() {
+            @Override
+            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts) {
+                productAdapter = new ProductAdapter(RegisteredProductsList.this, registeredProducts);
+                mRecyclerView.setAdapter(productAdapter);
+            }
+        });
+
     }
 }

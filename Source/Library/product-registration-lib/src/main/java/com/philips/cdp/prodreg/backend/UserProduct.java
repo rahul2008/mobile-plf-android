@@ -181,20 +181,9 @@ public class UserProduct {
     RegisteredProductsListener getRegisteredProductsListener(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         return new RegisteredProductsListener() {
             @Override
-            public void getRegisteredProducts(final RegisteredResponse registeredDataResponse) {
-                RegisteredResponseData[] results = registeredDataResponse.getResults();
-                final LocalRegisteredProducts localRegisteredProductsInstance = getLocalRegisteredProductsInstance();
-                Gson gson = getGson();
-                RegisteredProduct[] registeredProducts = getUserProduct().getRegisteredProductsFromResponse(results, gson);
-                localRegisteredProductsInstance.syncLocalCache(registeredProducts);
-
-                if (!isCtnRegistered(results, registeredProduct, appListener))
+            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts) {
+                if (!isCtnRegistered(registeredProducts, registeredProduct, appListener))
                     registeredProduct.getProductMetadata(mContext, getMetadataListener(registeredProduct, appListener));
-            }
-
-            @Override
-            public void onErrorResponse(final String errorMessage, final int responseCode) {
-                getErrorHandler().handleError(registeredProduct, responseCode, appListener);
             }
         };
     }
@@ -246,9 +235,9 @@ public class UserProduct {
         return true;
     }
 
-    protected boolean isCtnRegistered(final RegisteredResponseData[] results, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
-        for (RegisteredResponseData result : results) {
-            if (registeredProduct.getCtn().equalsIgnoreCase(result.getProductModelNumber()) && registeredProduct.getSerialNumber().equals(result.getProductSerialNumber())) {
+    protected boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
+        for (RegisteredProduct result : registeredProducts) {
+            if (registeredProduct.getCtn().equalsIgnoreCase(result.getCtn()) && registeredProduct.getSerialNumber().equals(result.getSerialNumber()) && result.getRegistrationState() == RegistrationState.REGISTERED) {
                 getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
                 appListener.onProdRegFailed(registeredProduct);
                 return true;
@@ -318,13 +307,18 @@ public class UserProduct {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
                 RegisteredResponse registeredDataResponse = (RegisteredResponse) responseData;
-                registeredProductsListener.getRegisteredProducts(registeredDataResponse);
+                RegisteredResponseData[] results = registeredDataResponse.getResults();
+                final LocalRegisteredProducts localRegisteredProductsInstance = getLocalRegisteredProductsInstance();
+                Gson gson = getGson();
+                RegisteredProduct[] registeredProducts = getUserProduct().getRegisteredProductsFromResponse(results, gson);
+                localRegisteredProductsInstance.syncLocalCache(registeredProducts);
+                registeredProductsListener.getRegisteredProducts(localRegisteredProductsInstance.getRegisteredProducts());
             }
 
             @Override
             public void onResponseError(final String errorMessage, final int responseCode) {
                 try {
-                    registeredProductsListener.onErrorResponse(errorMessage, responseCode);
+                    registeredProductsListener.getRegisteredProducts(getLocalRegisteredProductsInstance().getRegisteredProducts());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

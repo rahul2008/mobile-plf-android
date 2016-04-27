@@ -1,14 +1,13 @@
 package com.philips.cdp.prodreg.handler;
 
-import com.philips.cdp.prodreg.model.RegisteredResponse;
+import com.philips.cdp.prodreg.backend.RegisteredProduct;
+
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public interface RegisteredProductsListener {
-
-    void getRegisteredProducts(RegisteredResponse registeredDataResponse);
-
-    void onErrorResponse(String errorMessage, int responseCode);
+    void getRegisteredProducts(List<RegisteredProduct> registeredProducts);
 }
