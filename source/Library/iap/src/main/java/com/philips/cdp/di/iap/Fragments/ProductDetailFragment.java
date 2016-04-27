@@ -57,14 +57,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         @Override
         public void onFailure(final Message msg) {
             Utility.dismissProgressDialog();
-
-            IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
-            if (null != iapNetworkError.getServerError()) {
-                checkForOutOfStock(iapNetworkError, msg);
-            } else {
-                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
-            }
-
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     };
 
@@ -195,17 +188,5 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     void buyProduct(final String ctnNumber) {
         Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         mShoppingCartPresenter.buyProduct(getContext(), ctnNumber, mBuyProductListener);
-    }
-
-    private void checkForOutOfStock(final IAPNetworkError iapNetworkError, Message msg) {
-        com.philips.cdp.di.iap.response.error.Error error = iapNetworkError.getServerError().getErrors().get(0);
-        String type = error.getType();
-        if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
-            String subject = error.getMessage();
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_out_of_stock), subject);
-        } else {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
-        }
     }
 }
