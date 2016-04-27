@@ -7,7 +7,8 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     private TextView mConfirmWithEmail;
     private Context mContext;
     private boolean mPaymentSuccessful;
+    public static final String TAG = PaymentConfirmationFragment.class.getName();
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -54,8 +56,9 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     }
 
     @Override
-    public void onBackPressed() {
-        handleExit(true);
+    public boolean onBackPressed() {
+        //  handleExit(true);
+        return true;
     }
 
     private void assignValues() {
@@ -114,26 +117,25 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
         mOKButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                handleExit(false);
+                handleExit();
             }
         });
     }
 
-    private void handleExit(final boolean isBackPressed) {
+    private void handleExit() {
         if (mPaymentSuccessful) {
-            finishActivity();
-        } else {
-            goBackToOrderSummary(isBackPressed);
-        }
-    }
+            Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+            if (fragment == null) {
+                getFragmentManager().popBackStack(ShoppingCartFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                addFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE), ProductCatalogFragment.TAG);
+            } else {
+                getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
+            }
 
-    private void goBackToOrderSummary(boolean isBackPressed) {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.remove(this);
-        transaction.commitAllowingStateLoss();
-        if (!isBackPressed) {
-            getActivity().getSupportFragmentManager().popBackStackImmediate();
+        } else {
+            moveToPreviousFragment();
         }
+
     }
 
     public static PaymentConfirmationFragment createInstance(final Bundle bundle, final AnimationType animType) {

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 public class BuyFromRetailersFragment extends BaseAnimationSupportFragment implements ShoppingCartPresenter.LoadListenerForRetailer {
 
+    public static final String TAG = BuyFromRetailersFragment.class.getName();
     FrameLayout mCrossContainer;
     RecyclerView mRecyclerView;
     ImageView mCross;

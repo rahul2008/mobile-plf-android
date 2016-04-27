@@ -30,7 +30,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import java.util.ArrayList;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements PRXProductAssetBuilder.AssetListener {
-
+    public static final String TAG = ProductDetailFragment.class.getName();
     private Context mContext;
     TextView mProductDescription;
     TextView mCTN;
@@ -92,7 +92,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
         mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mAdapter = new ImageAdapter(getFragmentManager(),mLaunchedFromProductCatalog);
+        mAdapter = new ImageAdapter(getFragmentManager(), mLaunchedFromProductCatalog);
         mPager.setAdapter(mAdapter);
 
         CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
@@ -118,11 +118,12 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mProductOverview.setText(mBundle.getString(IAPConstant.PRODUCT_OVERVIEW));
         String discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
 
-        if(mLaunchedFromProductCatalog) {
+        if (mLaunchedFromProductCatalog) {
             mProductDiscountedPrice.setVisibility(View.VISIBLE);
-            updateCount(mBundle.getInt(IAPConstant.IAP_PRODUCT_COUNT));
+//            updateCount(mBundle.getInt(IAPConstant.IAP_PRODUCT_COUNT));
+            setCartIconVisibility(View.VISIBLE);
             mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            if(discountedPrice!=null || discountedPrice!="" || !discountedPrice.isEmpty()) {
+            if (discountedPrice != null || discountedPrice != "" || !discountedPrice.isEmpty()) {
                 mProductDiscountedPrice.setText(discountedPrice);
             }
         }
@@ -161,7 +162,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             });
             mProductDiscountedPrice.setVisibility(View.VISIBLE);
             setTitle(mProductTitle);
-        }else{
+        } else {
             setCartIconVisibility(View.GONE);
         }
     }
@@ -169,23 +170,23 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private void buyFromRetailers() {
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.PRODUCT_CODE, mCTNValue);
-        addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE), null);
+        addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE), BuyFromRetailersFragment.TAG);
     }
 
     @Override
     public void onFetchAssetSuccess(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
-        mAsset = (ArrayList<String>)msg.obj;
+        mAsset = (ArrayList<String>) msg.obj;
         mAdapter.setAsset(mAsset);
         mAdapter.notifyDataSetChanged();
-        if(Utility.isProgressDialogShowing())
+        if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
     }
 
     @Override
     public void onFetchAssetFailure(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
-        if(Utility.isProgressDialogShowing())
+        if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
         NetworkUtility.getInstance().
                 showErrorMessage(msg, getFragmentManager(), getContext());

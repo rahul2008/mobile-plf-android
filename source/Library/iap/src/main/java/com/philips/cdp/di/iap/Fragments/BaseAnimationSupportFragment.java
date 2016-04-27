@@ -9,7 +9,9 @@ Project           : InAppPurchase
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
@@ -50,7 +52,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
-        transaction.addToBackStack(null);
+        transaction.addToBackStack(newFragmentTag);
         transaction.commitAllowingStateLoss();
 
         IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
@@ -62,6 +64,33 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         transaction.remove(this);
         transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
         transaction.commitAllowingStateLoss();
+    }
+
+    public void removeFragment(Fragment fragment) {
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        FragmentTransaction trans = manager.beginTransaction();
+        trans.remove(fragment);
+        trans.commit();
+        manager.popBackStack();
+    }
+
+    private void clearStackAndLaunchProductCatalog() {
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        clearFragmentStack();
+        manager.beginTransaction().
+                replace(R.id.fl_mainFragmentContainer,
+                        ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
+                        ProductCatalogFragment.TAG).addToBackStack(ProductCatalogFragment.TAG)
+                .commitAllowingStateLoss();
+    }
+
+    public void launchProductCatalog() {
+        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if (fragment == null) {
+            clearStackAndLaunchProductCatalog();
+        } else {
+            getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
+        }
     }
 
     protected void setTitle(int resourceId) {
@@ -81,10 +110,22 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     @Override
-    public void onBackPressed() {
-        //NOP
+    public boolean onBackPressed() {
+        return false;
     }
 
+    public boolean moveToFragment(String tag) {
+        return getActivity().getSupportFragmentManager().popBackStackImmediate(tag, 0);
+    }
+
+    public boolean moveToPreviousFragment() {
+        return getFragmentManager().popBackStackImmediate();
+    }
+
+    public void clearFragmentStack() {
+        getActivity().getSupportFragmentManager().popBackStackImmediate(null, 0);
+
+    }
 
     public void updateCount(final int count) {
         mActivityListener.updateCount(count);

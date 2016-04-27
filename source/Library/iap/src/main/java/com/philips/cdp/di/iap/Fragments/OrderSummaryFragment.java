@@ -44,6 +44,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private Button mBtnCancel;
     private PaymentController mPaymentController;
     private String orderID;
+    public static final String TAG = OrderSummaryFragment.class.getName();
 
     @Override
     public void onResume() {
@@ -108,14 +109,10 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     }
 
     @Override
-    public void onBackPressed() {
-        if (isOrderPlaced()) {
-            //finishActivity();
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-        } else {
-            super.onBackPressed();
-        }
+    public boolean onBackPressed() {
+        if (isOrderPlaced())
+            return true;
+        else return false;
     }
 
     private boolean isOrderPlaced() {
@@ -136,7 +133,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             }
         } else if (v == mBtnCancel) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            // addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG);
+            moveToFragment(ShoppingCartFragment.TAG);
         }
     }
 

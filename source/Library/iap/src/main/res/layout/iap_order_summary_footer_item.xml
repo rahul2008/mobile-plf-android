@@ -32,13 +32,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:text="@string/iap_first_name"
             android:textColor="?attr/uikit_baseColor" />
 
         <TextView
             android:id="@+id/tv_shipping_address"
-            style="@style/tvTitle"
-            android:text="@string/iap_address" />
+            style="@style/tvTitle" />
     </LinearLayout>
 
     <View
@@ -71,13 +69,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:text="@string/iap_first_name"
+
             android:textColor="?attr/uikit_baseColor" />
 
         <TextView
             android:id="@+id/tv_billing_address"
-            style="@style/tvTitle"
-            android:text="@string/iap_address" />
+            style="@style/tvTitle" />
     </LinearLayout>
 
     <View
@@ -185,8 +182,7 @@
                 style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="0dp"
-                android:layout_marginStart="0dp"
-                android:text="@string/zeroval" />
+                android:layout_marginStart="0dp" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -245,8 +241,7 @@
             <TextView
                 android:id="@+id/tv_total_price"
                 style="@style/tvBoldTitle"
-                android:layout_alignParentEnd="true"
-                android:text="@string/zeroval" />
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
