@@ -3,6 +3,9 @@ package com.philips.cdp.di.iap.store;//package com.philips.cdp.di.iap.store;
 import android.content.Context;
 import android.os.Message;
 
+import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.session.MockSynchronizedNetwork;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.localematch.PILLocale;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -69,33 +72,28 @@ public class WebStoreConfigTest {
 
         latch.await(1, TimeUnit.SECONDS);
     }
-/*
     @Test
     public void verifyFailure() throws InterruptedException {
-        WebStoreConfig mockedConfig = spy(mWebsStoreConfig);
-        when(mockedConfig.getSynchronizedNetwork()).thenReturn(new MockSynchronizedNetwork((new
-                IAPHurlStack(null).getHurlStack())));
+        WebStoreConfig mockedConfig = new MockWebStoreConfig(mContext, mStoreConfiguration);
         MockSynchronizedNetwork mockNetwork = (MockSynchronizedNetwork) mockedConfig.getSynchronizedNetwork();
         mockNetwork.setVolleyError(new VolleyError());
         mockedConfig.mResponseListener = getRequestListener();
 
         mockedConfig.requestHybrisConfig();
         assertEquals(null, mockedConfig.getSiteID());
-    }*/
+    }
 
-/*    @Test
+    @Test
     public void verifySuccess() throws InterruptedException {
-        WebStoreConfig mockedConfig = spy(mWebsStoreConfig);
-        when(mockedConfig.getSynchronizedNetwork()).thenReturn(new MockSynchronizedNetwork((new
-                IAPHurlStack(null).getHurlStack())));
+        WebStoreConfig mockedConfig = new MockWebStoreConfig(mContext, mStoreConfiguration);
         MockSynchronizedNetwork mockNetwork = (MockSynchronizedNetwork) mockedConfig.getSynchronizedNetwork();
-        String response = TestUtils.readFile(this.getClass(),"config_response.txt");
+        String response = TestUtils.readFile(this.getClass(), "config_response.txt");
         mockNetwork.setResponse(response);
         mockedConfig.mResponseListener = getRequestListener();
 
         mockedConfig.requestHybrisConfig();
         assertEquals("US_Tuscany", mockedConfig.getSiteID());
-    }*/
+    }
 
 /*    @Test
     public void verifySuccessWitoutListener() throws InterruptedException {

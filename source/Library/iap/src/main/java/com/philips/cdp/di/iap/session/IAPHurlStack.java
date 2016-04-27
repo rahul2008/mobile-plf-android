@@ -68,7 +68,7 @@ public class IAPHurlStack {
         }
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
-            InputStream is = context.getResources().getAssets().open("test.crt");
+            InputStream is = readTestCertificate(context);
             InputStream caInput = new BufferedInputStream(is);
             Certificate ca;
             try {
@@ -106,6 +106,11 @@ public class IAPHurlStack {
             e.printStackTrace();
         }
         return null;
+    }
+
+    //For supporting unit testing
+    InputStream readTestCertificate(final Context context) throws IOException {
+        return context.getResources().getAssets().open("test.crt");
     }
 
     public void setContext(final Context context) {

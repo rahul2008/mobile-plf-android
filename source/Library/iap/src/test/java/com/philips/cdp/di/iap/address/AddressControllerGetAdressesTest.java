@@ -20,6 +20,8 @@ import com.philips.cdp.di.iap.response.addresses.Region;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkController;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.store.IAPUser;
+import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.Store;
 
 import org.junit.Before;
@@ -247,7 +249,7 @@ public class AddressControllerGetAdressesTest {
 
     public void setStoreAndDelegate() {
         mController.setHybrisDelegate(mHybrisDelegate);
-        mController.setStore(mStore);
+        mController.setStore(new MockStore(mContext, mock(IAPUser.class)).getStore());
     }
 
     @Test

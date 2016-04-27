@@ -154,6 +154,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         hideViews();
         mCountryPreference.clearCountryPreference();
         mSpinner.setSelection(0);
+        mCountText.setVisibility(View.GONE);
     }
 
     @Override

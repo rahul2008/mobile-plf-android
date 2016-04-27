@@ -59,11 +59,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         void onOutOfStock(boolean isOutOfStock);
     }
 
-    public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData, android.support.v4.app.FragmentManager fragmentManager, OutOfStockListener iOutOfStock) {
+    public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData,
+                               FragmentManager fragmentManager, OutOfStockListener iOutOfStock, final ShoppingCartPresenter shoppingCartPresenter) {
         mContext = context;
         mResources = context.getResources();
         mData = shoppingCartData;
-        mPresenter = new ShoppingCartPresenter(context,fragmentManager);
+        mPresenter = shoppingCartPresenter;
         mFragmentManager = fragmentManager;
         setCountArrow(context);
         initDrawables();

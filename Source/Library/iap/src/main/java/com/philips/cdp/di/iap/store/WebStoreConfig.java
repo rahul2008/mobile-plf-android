@@ -126,6 +126,7 @@ public class WebStoreConfig {
             @Override
             public void onSyncRequestError(final VolleyError volleyError) {
                 Message msg = Message.obtain();
+                mSiteID = null;
                 msg.obj = new IAPNetworkError(volleyError, hashCode(), null);
                 notifyConfigListener(false, msg);
             }

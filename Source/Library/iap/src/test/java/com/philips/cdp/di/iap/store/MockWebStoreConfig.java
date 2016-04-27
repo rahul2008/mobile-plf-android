@@ -2,7 +2,7 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.session.IAPHurlStack;
+import com.philips.cdp.di.iap.session.MockIAPHurlStack;
 import com.philips.cdp.di.iap.session.MockSynchronizedNetwork;
 import com.philips.cdp.di.iap.session.SynchronizedNetwork;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -16,6 +16,7 @@ import org.mockito.Mock;
 public class MockWebStoreConfig extends WebStoreConfig {
     private final static String LOCALE = "en_US";
     private final static String SITE_ID = "US_TUSCANY";
+    private SynchronizedNetwork mSynchronizedNetwork;
 
     @Mock
     PILLocaleManager mPILLocalManager;
@@ -35,16 +36,20 @@ public class MockWebStoreConfig extends WebStoreConfig {
 
     @Override
     void initLocaleMatcher() {
-        requestHybrisConfig();
+        mSiteID = SITE_ID;
+        mStoreConfig.getPropositionID();
+        mStoreConfig.getRawConfigUrl();
+        mStoreConfig.generateStoreUrls();
+//        requestHybrisConfig();
     }
 
-    @Override
+/*    @Override
     void requestHybrisConfig() {
         mSiteID = SITE_ID;
         mStoreConfig.getPropositionID();
         mStoreConfig.getRawConfigUrl();
         mStoreConfig.generateStoreUrls();
-    }
+    }*/
 
     @Override
     void refresh(final String language, final String countryCode) {
@@ -53,6 +58,10 @@ public class MockWebStoreConfig extends WebStoreConfig {
 
     @Override
     SynchronizedNetwork getSynchronizedNetwork() {
-        return new MockSynchronizedNetwork((new IAPHurlStack(null).getHurlStack()));
+        if(mSynchronizedNetwork == null) {
+            mSynchronizedNetwork = new MockSynchronizedNetwork((new MockIAPHurlStack(null)
+                    .getHurlStack()));;
+        }
+        return mSynchronizedNetwork;
     }
 }
