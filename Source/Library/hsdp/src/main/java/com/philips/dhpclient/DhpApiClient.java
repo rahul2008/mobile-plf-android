@@ -61,7 +61,9 @@ public class DhpApiClient {
         HsdpLog.d("Hsdp URI : ",""+uri.toString());
         HsdpLog.d("Hsdp Headers : ",""+headers);
         HsdpLog.d("Hsdp httpMethod type : ",""+httpMethod);
-        HsdpLog.d("Hsdp body : ",""+body.toString());
+        if(body != null) {
+            HsdpLog.d("Hsdp body : ", "" + body.toString());
+        }
 
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
