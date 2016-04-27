@@ -2,8 +2,8 @@ package com.philips.cdp.prodreg.backend;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.handler.ProdRegError;
-import com.philips.cdp.prodreg.model.RegistrationState;
+import com.philips.cdp.prodreg.RegistrationState;
+import com.philips.cdp.prodreg.error.ProdRegError;
 
 import java.util.List;
 

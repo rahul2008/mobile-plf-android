@@ -1,6 +1,6 @@
-package com.philips.cdp.prodreg.handler;
+package com.philips.cdp.prodreg.listener;
 
-import com.philips.cdp.prodreg.model.ProductMetadataResponse;
+import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

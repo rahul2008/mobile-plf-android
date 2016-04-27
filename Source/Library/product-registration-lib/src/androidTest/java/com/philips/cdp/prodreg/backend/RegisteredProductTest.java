@@ -3,7 +3,7 @@ package com.philips.cdp.prodreg.backend;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
-import com.philips.cdp.prodreg.model.RegistrationState;
+import com.philips.cdp.prodreg.RegistrationState;
 
 import org.mockito.Mock;
 

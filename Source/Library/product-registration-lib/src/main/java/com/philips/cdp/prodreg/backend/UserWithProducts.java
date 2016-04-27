@@ -5,17 +5,18 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.philips.cdp.prodreg.handler.MetadataListener;
-import com.philips.cdp.prodreg.handler.ProdRegError;
-import com.philips.cdp.prodreg.handler.ProdRegListener;
-import com.philips.cdp.prodreg.handler.RegisteredProductsListener;
-import com.philips.cdp.prodreg.model.ProductMetadataResponse;
-import com.philips.cdp.prodreg.model.ProductMetadataResponseData;
-import com.philips.cdp.prodreg.model.RegisteredResponse;
-import com.philips.cdp.prodreg.model.RegisteredResponseData;
-import com.philips.cdp.prodreg.model.RegistrationResponse;
-import com.philips.cdp.prodreg.model.RegistrationResponseData;
-import com.philips.cdp.prodreg.model.RegistrationState;
+import com.philips.cdp.prodreg.RegistrationState;
+import com.philips.cdp.prodreg.error.ErrorHandler;
+import com.philips.cdp.prodreg.error.ProdRegError;
+import com.philips.cdp.prodreg.listener.MetadataListener;
+import com.philips.cdp.prodreg.listener.ProdRegListener;
+import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
+import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
+import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
+import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
+import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
+import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
+import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.RequestManager;
@@ -32,7 +33,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class UserProduct {
+public class UserWithProducts {
 
     public static final int PRODUCT_REGISTRATION = 0;
     public static final int FETCH_REGISTERED_PRODUCTS = 1;
@@ -48,7 +49,7 @@ public class UserProduct {
     private String uuid = "";
     private ProdRegListener appListener;
 
-    public UserProduct(final Context context, final User user) {
+    public UserWithProducts(final Context context, final User user) {
         this.mContext = context;
         this.user = user;
         localRegisteredProducts = new LocalRegisteredProducts(context, this.user);
@@ -118,9 +119,9 @@ public class UserProduct {
                     getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
                     appListener.onProdRegFailed(registeredProduct);
                 } else {
-                    UserProduct userProduct = getUserProduct();
-                    userProduct.setLocale(this.locale);
-                    userProduct.getRegisteredProducts(userProduct.getRegisteredProductsListener(registeredProduct, appListener));
+                    UserWithProducts userWithProducts = getUserProduct();
+                    userWithProducts.setLocale(this.locale);
+                    userWithProducts.getRegisteredProducts(userWithProducts.getRegisteredProductsListener(registeredProduct, appListener));
                 }
             }
         }
@@ -134,7 +135,7 @@ public class UserProduct {
         mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(registeredProductsListener));
     }
 
-    protected void updateLocaleCacheOnError(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
+    public void updateLocaleCacheOnError(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
         registeredProduct.setRegistrationState(registrationState);
         registeredProduct.setProdRegError(prodRegError);
         getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
@@ -165,7 +166,7 @@ public class UserProduct {
     }
 
     @NonNull
-    UserProduct getUserProduct() {
+    UserWithProducts getUserProduct() {
         return this;
     }
 
@@ -265,7 +266,7 @@ public class UserProduct {
         return registrationRequest;
     }
 
-    protected void onAccessTokenExpire(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
+    public void onAccessTokenExpire(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         final User user = getUser();
         user.refreshLoginSession(getUserProduct().getRefreshLoginSessionHandler(registeredProduct, appListener, mContext), mContext);
     }

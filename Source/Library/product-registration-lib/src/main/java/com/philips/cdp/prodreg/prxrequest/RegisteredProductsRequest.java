@@ -3,7 +3,7 @@ package com.philips.cdp.prodreg.prxrequest;
 import android.net.Uri;
 import android.util.Log;
 
-import com.philips.cdp.prodreg.model.RegisteredResponse;
+import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;

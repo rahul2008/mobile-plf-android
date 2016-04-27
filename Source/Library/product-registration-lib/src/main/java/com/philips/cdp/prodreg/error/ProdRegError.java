@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.handler;
+package com.philips.cdp.prodreg.error;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

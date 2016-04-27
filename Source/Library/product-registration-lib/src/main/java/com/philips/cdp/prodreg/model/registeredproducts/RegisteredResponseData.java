@@ -1,10 +1,10 @@
-package com.philips.cdp.prodreg.model;
+package com.philips.cdp.prodreg.model.registeredproducts;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class CustomRegisteredProducts {
+public class RegisteredResponseData {
 
     private String lastModified;
 

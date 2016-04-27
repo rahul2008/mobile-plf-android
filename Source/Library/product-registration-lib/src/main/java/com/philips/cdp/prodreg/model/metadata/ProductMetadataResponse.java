@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.model;
+package com.philips.cdp.prodreg.model.metadata;
 
 import com.google.gson.Gson;
 import com.philips.cdp.prxclient.response.ResponseData;

@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.model;
+package com.philips.cdp.prodreg.model.registerproduct;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

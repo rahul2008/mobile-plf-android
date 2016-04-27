@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.prodreg.model.RegistrationResponse;
+import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;

@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.handler;
+package com.philips.cdp.prodreg.listener;
 
 import com.philips.cdp.prodreg.backend.RegisteredProduct;
 

@@ -1,11 +1,12 @@
-package com.philips.cdp.prodreg.backend;
+package com.philips.cdp.prodreg.error;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.prodreg.handler.ProdRegError;
-import com.philips.cdp.prodreg.handler.ProdRegListener;
-import com.philips.cdp.prodreg.model.RegistrationState;
+import com.philips.cdp.prodreg.RegistrationState;
+import com.philips.cdp.prodreg.backend.RegisteredProduct;
+import com.philips.cdp.prodreg.backend.UserWithProducts;
+import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.registration.User;
 
 /**
@@ -50,7 +51,7 @@ public class ErrorHandler {
         }
     }
     @NonNull
-    UserProduct getUserProduct(Context context) {
-        return new UserProduct(context, new User(context));
+    public UserWithProducts getUserProduct(Context context) {
+        return new UserWithProducts(context, new User(context));
     }
 }
