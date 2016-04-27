@@ -30,6 +30,7 @@ public class ProdRegHelper {
     public void init(Context context) {
         this.context = context;
         userProduct = new UserProduct(context, new User(context));
+        registerListerOnUserSignIn();
     }
 
     @NonNull
@@ -47,10 +48,9 @@ public class ProdRegHelper {
 
     public void addProductRegistrationListener(final ProdRegListener listener) {
         this.prodRegListener = listener;
-        registerLister();
     }
 
-    private void registerLister() {
+    private void registerListerOnUserSignIn() {
         RegistrationHelper.getInstance().registerUserRegistrationListener(getUserRegistrationListener());
     }
 
