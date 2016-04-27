@@ -5,9 +5,7 @@ import android.content.SharedPreferences;
 
 import com.philips.cdp.registration.settings.RegistrationSettings;
 
-/**
- * Created by 310165193 on 11/4/2015.
- */
+
 public class RegPreferenceUtility {
 
     public static void storePreference(Context context, String key, boolean value) {
@@ -17,7 +15,7 @@ public class RegPreferenceUtility {
         editor.commit();
     }
 
-    public static boolean isAvailableIn(Context context, String key) {
+    public static boolean getStoredState(Context context, String key) {
         SharedPreferences myPrefs = context.getSharedPreferences(
                 RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
         return myPrefs.getBoolean(key, false);

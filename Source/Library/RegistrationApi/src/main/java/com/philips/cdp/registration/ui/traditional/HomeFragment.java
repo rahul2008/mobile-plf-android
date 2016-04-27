@@ -28,7 +28,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -547,7 +546,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void launchWelcomeFragment() {
         String emailId = mUser.getEmail();
-        if (emailId != null && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.isAvailableIn(mContext, emailId)) {
+        if (emailId != null && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.getStoredState(mContext, emailId)) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }

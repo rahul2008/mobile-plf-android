@@ -327,7 +327,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void handleUiAcceptTerms(View view) {
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
-            if (isEmailExist && RegPreferenceUtility.isAvailableIn(mContext, mEmail)) {
+            if (isEmailExist && RegPreferenceUtility.getStoredState(mContext, mEmail)) {
                 View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
                 acceptTermsLine.setVisibility(View.GONE);
                 mLlAcceptTermsContainer.setVisibility(View.GONE);

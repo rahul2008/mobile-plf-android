@@ -571,7 +571,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mRegError.hideError();
 
         if (mUser.getEmailVerificationStatus() || !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
-            if (RegPreferenceUtility.isAvailableIn(mContext, mEmail)) {
+            if (RegPreferenceUtility.getStoredState(mContext, mEmail)) {
                 launchWelcomeFragment();
             } else {
                 if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {

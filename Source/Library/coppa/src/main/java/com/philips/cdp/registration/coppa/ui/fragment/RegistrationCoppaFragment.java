@@ -28,6 +28,7 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.dhpclient.BuildConfig;
 
@@ -38,7 +39,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     public static FragmentManager mFragmentManager;
 
-    private Activity mActivity;
+    private static Activity mActivity;
 
     private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
 
@@ -91,10 +92,14 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     @Override
     public void onResume() {
+        super.onResume();
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onResume");
         mActivity = getActivity();
         mFragmentManager = getChildFragmentManager();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onResume");
-        super.onResume();
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onResume" +RegPreferenceUtility.getStoredState(getParentActivity().getApplicationContext(),"doPopBackStack"));
+        if(RegPreferenceUtility.getStoredState(getParentActivity().getApplicationContext(),"doPopBackStack")){
+            performReplaceWithPerentalAccess();
+        }
     }
 
     @Override
@@ -114,6 +119,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaFragment Unregister: NetworStateListener,Context");
+        mFragmentManager = null;
         RegistrationCoppaBaseFragment.mWidth = 0;
         RegistrationCoppaBaseFragment.mHeight = 0;
         super.onDestroy();
@@ -145,8 +151,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                     return false;
                 }
             }
-        }else {
-           if(!(fragment instanceof ParentalApprovalFragment)){
+        } else {
+            if (!(fragment instanceof ParentalApprovalFragment)) {
                 trackHandler();
             }
             mFragmentManager.popBackStack();
@@ -176,10 +182,10 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             return AppTaggingCoppaPages.COPPA_PARENTAL_ACCESS;
         } else if (fragment instanceof ParentalAccessConfirmFragment) {
             return AppTaggingCoppaPages.COPPA_AGE_VERIFICATION;
-        } else if(fragment instanceof ParentalApprovalFragment){
-            if(coppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentPending){
+        } else if (fragment instanceof ParentalApprovalFragment) {
+            if (coppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentPending) {
                 return AppTaggingCoppaPages.COPPA_FIRST_CONSENT;
-            }else if(coppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationPending){
+            } else if (coppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationPending) {
                 return AppTaggingCoppaPages.COPPA_SECOND_CONSENT;
             }
         }
@@ -197,18 +203,32 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
-    private void replaceWithParentalAccess() {
+
+
+    public static void replaceWithParentalAccess() {
 
         try {
-            ParentalAccessFragment parentalAccessFragment = new ParentalAccessFragment();
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalAccessFragment, "Parental Access");
-            fragmentTransaction.commitAllowingStateLoss();
+            performReplaceWithPerentalAccess();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
-                    "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
+                    "RegistrationCoppaFragment :FragmentTransaction Exception occured in before scheduling  :"
                             + e.getMessage());
+            RegPreferenceUtility.storePreference(getParentActivity().getApplicationContext(), "doPopBackStack", true);
+
         }
+    }
+
+    private static void performReplaceWithPerentalAccess() {
+
+            if (mFragmentManager != null) {
+                mFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                ParentalAccessFragment parentalAccessFragment = new ParentalAccessFragment();
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalAccessFragment, "Parental Access");
+                fragmentTransaction.commitAllowingStateLoss();
+                RegPreferenceUtility.storePreference(getParentActivity().getApplicationContext(), "doPopBackStack", false);
+
+            }
     }
 
 
@@ -257,12 +277,12 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
-    public Activity getParentActivity() {
+    public static Activity getParentActivity() {
         return mActivity;
     }
 
     public int getFragmentBackStackCount() {
-        return  mFragmentManager.getBackStackEntryCount();
+        return mFragmentManager.getBackStackEntryCount();
     }
 
 
@@ -293,19 +313,19 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
                 @Override
                 public void updateRegistrationTitle(int titleResourceID) {
-                    lastKnownResourceId =titleResourceID;
+                    lastKnownResourceId = titleResourceID;
                     mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
                 }
 
                 @Override
                 public void updateRegistrationTitleWithBack(int titleResourceID) {
-                    lastKnownResourceId =titleResourceID;
+                    lastKnownResourceId = titleResourceID;
                     mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
                 }
 
                 @Override
                 public void updateRegistrationTitleWithOutBack(int titleResourceID) {
-                    lastKnownResourceId =titleResourceID;
+                    lastKnownResourceId = titleResourceID;
                     mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
 
                 }
@@ -332,19 +352,19 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
                 @Override
                 public void updateRegistrationTitle(int titleResourceID) {
-                    lastKnownResourceId =titleResourceID;
+                    lastKnownResourceId = titleResourceID;
                     mRegistrationUpdateTitleListener.updateRegistrationTitle(titleResourceID);
                 }
 
                 @Override
                 public void updateRegistrationTitleWithBack(int titleResourceID) {
-                    lastKnownResourceId =titleResourceID;
+                    lastKnownResourceId = titleResourceID;
                     mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
                 }
 
                 @Override
                 public void updateRegistrationTitleWithOutBack(int titleResourceID) {
-                    lastKnownResourceId =titleResourceID;
+                    lastKnownResourceId = titleResourceID;
                     mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
 
                 }
@@ -370,9 +390,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 int count = mFragmentManager.getBackStackEntryCount();
                 RegistrationFragment registrationFragment = null;
                 if (count != 0 && registrationFragment instanceof RegistrationFragment) {
-                   registrationFragment =(RegistrationFragment)mFragmentManager.getFragments().get(count);
+                    registrationFragment = (RegistrationFragment) mFragmentManager.getFragments().get(count);
                 }
-                if(registrationFragment!=null) {
+                if (registrationFragment != null) {
                     parentalAccessFragment.setPrevTitleResourceId(lastKnownResourceId);
                 }
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -410,6 +430,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
         @Override
         public void onUserLogoutSuccess() {
+            replaceWithParentalAccess();
             if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                 RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyOnUserLogoutSuccess();
             }
@@ -424,6 +445,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
         @Override
         public void onUserLogoutSuccessWithInvalidAccessToken() {
+            replaceWithParentalAccess();
             if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                 RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
             }
