@@ -28,6 +28,16 @@ public class ShoppingCartData {
     private String mFormatedPrice;
     private String mVatValue;
 
+    public int getDeliveryItemsQuantity() {
+        return mDeliveryItemsQuantity;
+    }
+
+    public void setDeliveryItemsQuantity(final int mDeliveryItemsQuantity) {
+        this.mDeliveryItemsQuantity = mDeliveryItemsQuantity;
+    }
+
+    private int mDeliveryItemsQuantity;
+
     public String getMarketingTextHeader() {
         return mMarketingTextHeader;
     }

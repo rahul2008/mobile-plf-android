@@ -120,7 +120,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
         if(mLaunchedFromProductCatalog) {
             mProductDiscountedPrice.setVisibility(View.VISIBLE);
-            updateCount(mBundle.getInt(IAPConstant.IAP_PRODUCT_COUNT));
+//            updateCount(mBundle.getInt(IAPConstant.IAP_PRODUCT_COUNT));
+            setCartIconVisibility(View.VISIBLE);
             mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             if(discountedPrice!=null || discountedPrice!="" || !discountedPrice.isEmpty()) {
                 mProductDiscountedPrice.setText(discountedPrice);

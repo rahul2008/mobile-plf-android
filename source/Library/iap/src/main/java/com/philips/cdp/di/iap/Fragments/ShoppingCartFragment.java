@@ -42,8 +42,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private Context mContext;
     private ShoppingCartPresenter mShoppingCartPresenter;
 
-    private int mTotalItemCount;
-
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
@@ -188,7 +186,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
         bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormatedPrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
-        bundle.putInt(IAPConstant.IAP_PRODUCT_COUNT, mTotalItemCount);
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 
@@ -250,7 +247,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mContinuesBtn.setVisibility(View.VISIBLE);
         mCheckoutBtn.setVisibility(View.VISIBLE);
         mAdapter = new ShoppingCartAdapter(getContext(), data, getFragmentManager(), this, mShoppingCartPresenter);
-        mTotalItemCount = data.get(0).getTotalItems();
+        if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
+            updateCount(data.get(0).getDeliveryItemsQuantity());
+        }
         mRecyclerView.setAdapter(mAdapter);
     }
 }
