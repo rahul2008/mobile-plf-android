@@ -35,6 +35,7 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_reg_coppa_age_verification);
+        dialog.setCancelable(false);
         Button ok = (Button) dialog.findViewById(R.id.reg_btn_ok);
         Button cancel = (Button) dialog.findViewById(R.id.reg_btn_cancel);
         mTvSelctedTitleAge = (TextView) dialog.findViewById(R.id.tv_reg_coppa_header_title);
