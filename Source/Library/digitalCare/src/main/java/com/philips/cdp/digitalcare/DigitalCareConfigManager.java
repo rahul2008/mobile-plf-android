@@ -24,12 +24,11 @@ import com.philips.cdp.productselection.productselectiontype.ProductModelSelecti
 import java.util.Locale;
 
 /**
- * DigitalCareConfigManager is the Singleton classe helps to manage,customize the features through the supported API's
- * <p>
+ * DigitalCareConfigManager is the Singleton class helps to manage,customize the features through
+ * the supported API's.
  * <b> Note: </b>
- * <p>      Few Methods may not relevant your requirement. As it playing the Horizontal Component - API's are added by considering the
- * commmon requirement  for the integrating applciations.
- * </p></p>
+ * <p> Few Methods may not relevant your requirement. As it playing the Horizontal Component
+ * - API's are added by considering the commmon requirement  for the integrating applciations.
  *
  * @author : Ritesh.jha@philips.com
  * @since : 5 Dec 2014
@@ -91,7 +90,8 @@ public class DigitalCareConfigManager {
 
 
     /**
-     * <p>This is the DigitalCare initialization method. Please make sure to call this method before invoking the DigitalComponent.
+     * <p>This is the DigitalCare initialization method. Please make sure to call this method
+     * before invoking the DigitalComponent.
      * For more help/details please make sure to have a glance at the Demo sample </p>
      *
      * @param applicationContext Please pass the valid  Context
@@ -111,10 +111,12 @@ public class DigitalCareConfigManager {
     }
 
     /**
-     * <p> Invoking DigitalCareComponent feautures to your Fragment Container. Please use this method.
+     * <p> Invoking DigitalCareComponent feautures to your Fragment Container. Please use this
+     * method.
      * </p>
      * <b>Note: </b>
-     * <p> 1) Please consider the string "digitalcare" to identify the MainScreen Fragment as a Fragment ID. </p>
+     * <p> 1) Please consider the string "digitalcare" to identify the MainScreen Fragment as a
+     * Fragment ID. </p>
      * <p> 2) Please make sure to set the Locale before calling this method.  </p>
      *
      * @param context                 Context of the FragmentActivity
@@ -127,12 +129,12 @@ public class DigitalCareConfigManager {
                                              int parentContainerResId,
                                              ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
                                              int exitAnim) {
-        if (mContext == null ||/* mConsumerProductInfo == null ||*/ mLocale == null) {
+        if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, before Support page is invoked");
         }
 
         if (mTaggingEnabled) {
-            if (mAppID == null || mAppID.equals("") || (mAppName==null) || (mAppName=="")|| (mPageName==null) || (mPageName=="") ){
+            if (mAppID == null || mAppID.equals("") || (mAppName == null) || (mAppName == "") || (mPageName == null) || (mPageName == "")) {
                 throw new RuntimeException("Please make sure to set the valid App Tagging inputs by invoking setAppTaggingInputs API");
             }
         }
@@ -189,7 +191,7 @@ public class DigitalCareConfigManager {
             throw new RuntimeException("Please initialise context,  and locale before Support page is invoked");
         }
         if (mTaggingEnabled) {
-            if (mAppID == null || mAppID.equals("") || (mAppName==null) || (mAppName=="")|| (mPageName==null) || (mPageName=="") ){
+            if (mAppID == null || mAppID.equals("") || (mAppName == null) || (mAppName == "") || (mPageName == null) || (mPageName == "")) {
                 throw new RuntimeException("Please make sure to set the valid App Tagging inputs by invoking setAppTaggingInputs API");
             }
         }

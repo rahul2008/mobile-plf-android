@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -91,6 +92,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private Configuration config = null;
     private View mSocialDivider = null;
     private int mSdkVersion;
+    private Utils mUtils = null;
 
 
     private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
@@ -149,6 +151,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             mView = inflater.inflate(R.layout.fragment_contact_us, container, false);
         } catch (InflateException e) {
         }
+        mSocialDivider = (View) mView.findViewById(R.id.socialDivider);
 
         return mView;
     }
@@ -178,11 +181,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 R.id.contactUsSocialParent);
 
 
-        mSocialDivider = (View) getActivity().findViewById(R.id.socialDivider);
+
         // mFacebook.setOnClickListener(this);
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        mUtils = new Utils();
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
         createSocialProviderMenu();
@@ -436,10 +440,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                     && !mCdlsParsedResponse.getSuccess()) {
                 showAlert(getActivity().getString(R.string.no_data));
                 return;
-            } else if (Utils.isSimAvailable(getActivity())) {
+            } else if (mUtils.isSimAvailable(getActivity())) {
                 tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
                 callPhilips();
-            } else if (!Utils.isSimAvailable(getActivity())) {
+            } else if (!mUtils.isSimAvailable(getActivity())) {
                 showAlert(getActivity().getString(R.string.check_sim));
             } else {
                 showAlert(getActivity().getString(R.string.check_sim));
@@ -669,7 +673,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     private Drawable getDrawable(int resId) {
-        return getResources().getDrawable(resId);
+        return ContextCompat.getDrawable(getActivity(), resId);
+       // getResources().getDrawable(resId);
     }
 
     private String getStringKey(int resId) {
@@ -739,7 +744,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         button.setGravity(Gravity.CENTER);
         // button.setPadding((int) (80 * density), 0, 0, 0);
-        button.setTextAppearance(getActivity(), R.style.fontButton);
+
+        if (Build.VERSION.SDK_INT < 23) {
+            button.setTextAppearance(getActivity(), R.style.fontButton);
+        } else {
+            button.setTextAppearance(R.style.fontButton);
+        }
         Typeface buttonTypeface = Typeface.createFromAsset(getActivity().getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         button.setTypeface(buttonTypeface);
         if (mSdkVersion < Build.VERSION_CODES.JELLY_BEAN) {
