@@ -55,7 +55,14 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ParentalApprovalFragment : onCreateView");
-        View view = inflater.inflate(R.layout.fragment_reg_coppa_parental_approval, null);
+        View view;
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            view = inflater.inflate(R.layout.fragment_reg_coppa_parental_approval_tablet, null);
+        } else {
+            view = inflater.inflate(R.layout.fragment_reg_coppa_parental_approval_phone, null);
+        }
+
+
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         mContext = getParentFragment().getActivity().getApplicationContext();
         initUi(view);
