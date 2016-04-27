@@ -10,7 +10,7 @@
     android:textSize="16sp"
     android:text="SubHeading"
     android:paddingTop="9dp"
-    android:includeFontPadding="false"
+    android:includeFontPadding="true"
     android:layout_marginLeft="12dp"
     android:layout_centerVertical="true"
     android:textColor="?attr/uikit_baseColor"

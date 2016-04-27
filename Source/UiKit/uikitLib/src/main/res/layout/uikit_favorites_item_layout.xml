@@ -26,7 +26,7 @@
         fontPath="fonts/centralesansbook.ttf"
         android:textSize="16sp"
         android:textColor="?attr/uikit_baseColor"
-        android:includeFontPadding="false"
+        android:includeFontPadding="true"
         android:layout_centerVertical="true"
         />
 

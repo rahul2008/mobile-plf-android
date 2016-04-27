@@ -31,7 +31,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/uikit_tab_text_margin_bottom"
-        android:includeFontPadding="false"
+        android:includeFontPadding="true"
         android:textSize="@dimen/uikit_tab_text_size_with_image" />
     <View
         android:id="@+id/tab_divider"
