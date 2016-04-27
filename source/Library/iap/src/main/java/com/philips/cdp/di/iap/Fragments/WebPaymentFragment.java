@@ -113,12 +113,8 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
 
     private void launchConfirmationScreen(Bundle bundle) {
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
-        replaceFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), PaymentConfirmationFragment.TAG);
+        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
     }
-
-//    private void goBackToOrderSummary() {
-//        getFragmentManager().popBackStackImmediate();
-//    }
 
     private class PaymentWebViewClient extends WebViewClient {
         @Override
@@ -167,8 +163,7 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
                 Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                         IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
-                // goBackToOrderSummary();
-                jumpToPreviousFragment();
+                moveToPreviousFragment();
             } else {
                 match = false;
             }

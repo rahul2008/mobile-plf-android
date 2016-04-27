@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener {
@@ -134,13 +136,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         }
     }
 
+
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment == null) {
             finishActivity();
-        } else {
-            jumpToPreviousFragment();
         }
         return false;
     }
@@ -154,7 +155,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
+            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
@@ -163,14 +164,10 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             startProductDetailFragment();
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
-            Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-            if (fragment != null) {
-                replaceFragment(fragment, ProductCatalogFragment.TAG);
-            } else {
-                addProductCatalog();
-            }
+            launchProductCatalog();
         }
     }
+
 
     private void addProductCatalog() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -245,6 +242,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
+        if (getActivity() == null) return;
+
         onOutOfStock(false);
         mContinuesBtn.setVisibility(View.VISIBLE);
         mCheckoutBtn.setVisibility(View.VISIBLE);

@@ -180,7 +180,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             } else {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
             }
-            jumpToPreviousFragment();
+            moveToPreviousFragment();
         }
     }
 

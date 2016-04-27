@@ -133,7 +133,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             }
         } else if (v == mBtnCancel) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            jumpToTagFragment(ShoppingCartFragment.TAG);
+            // addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG);
+            moveToFragment(ShoppingCartFragment.TAG);
         }
     }
 
@@ -158,7 +159,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
-            addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), WebPaymentFragment.TAG);
+            addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }

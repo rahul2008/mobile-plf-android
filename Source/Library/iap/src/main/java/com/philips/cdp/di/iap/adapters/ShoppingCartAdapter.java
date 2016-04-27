@@ -63,7 +63,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mContext = context;
         mResources = context.getResources();
         mData = shoppingCartData;
-        mPresenter = new ShoppingCartPresenter(context,fragmentManager);
+        mPresenter = new ShoppingCartPresenter(context, fragmentManager);
         mFragmentManager = fragmentManager;
         setCountArrow(context);
         initDrawables();

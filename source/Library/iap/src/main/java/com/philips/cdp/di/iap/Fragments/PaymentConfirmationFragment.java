@@ -5,14 +5,10 @@
 
 package com.philips.cdp.di.iap.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +17,12 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.HashMap;
-import java.util.logging.Handler;
 
 public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     private TextView mConfirmationText;
@@ -131,23 +124,16 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
     private void handleExit() {
         if (mPaymentSuccessful) {
-            boolean productCatalogAvailable = jumpToTagFragment(ProductCatalogFragment.TAG);
-            final AppCompatActivity context = (AppCompatActivity) getActivity();
-            if (!productCatalogAvailable) {
-
-                new android.os.Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        context.getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fl_mainFragmentContainer,new ProductCatalogFragment());
-                    }
-                });
-//                removeFragment(this);
-
+            Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+            if (fragment == null) {
+                getFragmentManager().popBackStack(ShoppingCartFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                addFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE), ProductCatalogFragment.TAG);
+            } else {
+                getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
             }
 
         } else {
-            jumpToPreviousFragment();
+            moveToPreviousFragment();
         }
 
     }

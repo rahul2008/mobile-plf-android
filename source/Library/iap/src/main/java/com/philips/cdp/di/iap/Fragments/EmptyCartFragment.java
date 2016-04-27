@@ -24,6 +24,7 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
 
     private Button mContinueShopping;
     public static final String TAG = EmptyCartFragment.class.getName();
+
     public static EmptyCartFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
         EmptyCartFragment fragment = new EmptyCartFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
@@ -57,11 +58,19 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
         }
     }
 
+
     @Override
     public boolean onBackPressed() {
-        finishActivity();
-        return true;
+        //  finishActivity();
+        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if (fragment != null) {
+            getFragmentManager().popBackStack();
+        } else {
+            finishActivity();
+        }
+        return false;
     }
+
 
     @Override
     public void raiseEvent(final String event) {
@@ -70,15 +79,11 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
 
     @Override
     public void onEventReceived(final String event) {
-        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment != null) {
-            if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART))) {
-                replaceFragment(getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG), ProductCatalogFragment.TAG);
-            }
-        } else {
-            addProductCatalog();
+        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART))) {
+            launchProductCatalog();
         }
     }
+
 
     private void addProductCatalog() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();

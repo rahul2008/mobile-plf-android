@@ -95,7 +95,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     public void onClick(View v) {
         if (v == mBtnCancel) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            jumpToTagFragment(ShoppingCartFragment.TAG);
+            moveToFragment(ShoppingCartFragment.TAG);
         }
     }
 
