@@ -11,12 +11,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
 /**
@@ -24,8 +21,6 @@ import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
  * All rights reserved.
  */
 public class WebBuyFromRetailers extends BaseAnimationSupportFragment {
-    private WebView mBuyFromRetailersWebView;
-    private String mUrl;
     private CircularLineProgressBar mProgress;
     private boolean mShowProgressBar = true;
     public static final String TAG = WebBuyFromRetailers.class.getName();
@@ -35,13 +30,13 @@ public class WebBuyFromRetailers extends BaseAnimationSupportFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
 
-        mBuyFromRetailersWebView = (WebView) group.findViewById(R.id.wv_payment);
+        WebView mBuyFromRetailersWebView = (WebView) group.findViewById(R.id.wv_payment);
         mProgress = (CircularLineProgressBar) group.findViewById(R.id.cl_progress);
         mProgress.startAnimation(100);
         mBuyFromRetailersWebView.setWebViewClient(new BuyFromRetailersWebViewClient());
         mBuyFromRetailersWebView.getSettings().setJavaScriptEnabled(true);
         Bundle bundle = getArguments();
-        mUrl = bundle.getString(IAPConstant.IAP_BUY_URL);
+        String mUrl = bundle.getString(IAPConstant.IAP_BUY_URL);
         mBuyFromRetailersWebView.loadUrl(mUrl);
         return group;
     }

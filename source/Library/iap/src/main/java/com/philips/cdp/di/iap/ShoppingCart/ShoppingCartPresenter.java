@@ -187,9 +187,17 @@ public class ShoppingCartPresenter {
                             webResults = (WebResults) msg.obj;
                         }
 
+                        if (webResults.getWrbresults().getOnlineStoresForProduct() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
+                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager,mContext.getString(R.string.iap_ok),"No Retailers for this product","No Retailers for this product");
+                            Utility.dismissProgressDialog();
+                            return;
+                        }
                         mStoreEntities = (ArrayList<StoreEntity>) webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore();
                         refreshListForRetailer(mStoreEntities);
-                        Utility.dismissProgressDialog();
+
+                        if (Utility.isProgressDialogShowing())
+                            Utility.dismissProgressDialog();
+
                     }
 
                     @Override

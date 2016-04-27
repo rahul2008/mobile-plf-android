@@ -43,6 +43,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private RecyclerView mRecyclerView;
     private AddressController mAddressController;
     private Context mContext;
+    private ShoppingCartPresenter mShoppingCartPresenter;
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -77,6 +78,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
 
+        mShoppingCartPresenter = new ShoppingCartPresenter(getContext(), this, getFragmentManager());
+
         mAddressController = new AddressController(getContext(), this);
         return rootView;
     }
@@ -89,11 +92,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     private void updateCartOnResume() {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), this, getFragmentManager());
+
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
         }
-        updateCartDetails(presenter);
+        updateCartDetails(mShoppingCartPresenter);
     }
 
     @Override
@@ -239,7 +242,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         }
     }
 
-
     @Override
     public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
         if (getActivity() == null) return;
@@ -247,7 +249,10 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         onOutOfStock(false);
         mContinuesBtn.setVisibility(View.VISIBLE);
         mCheckoutBtn.setVisibility(View.VISIBLE);
-        mAdapter = new ShoppingCartAdapter(getContext(), data, getFragmentManager(), this);
+        mAdapter = new ShoppingCartAdapter(getContext(), data, getFragmentManager(), this, mShoppingCartPresenter);
+        if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
+            updateCount(data.get(0).getDeliveryItemsQuantity());
+        }
         mRecyclerView.setAdapter(mAdapter);
     }
 }

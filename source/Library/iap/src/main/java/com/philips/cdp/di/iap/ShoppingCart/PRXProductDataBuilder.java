@@ -84,6 +84,7 @@ public class PRXProductDataBuilder {
         cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
         cartItem.setDeliveryAddressEntity(mCartData.getCarts().get(0).getDeliveryAddress());
         cartItem.setVatValue(mCartData.getCarts().get(0).getTotalTax().getFormattedValue());
+        cartItem.setDeliveryItemsQuantity(mCartData.getCarts().get(0).getDeliveryItemsQuantity());
         addWithNotify(cartItem);
     }
 
