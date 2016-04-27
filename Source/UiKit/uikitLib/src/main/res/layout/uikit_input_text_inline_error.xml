@@ -34,7 +34,7 @@
         android:layout_alignBaseline="@id/error_image"
         android:layout_toRightOf="@+id/error_image"
         android:fontFamily="fonts/centralesansbook.ttf"
-        android:includeFontPadding="false"
+        android:includeFontPadding="true"
         android:textColor="?attr/uikit_errortextcolorinlineforms"
         android:textSize="16sp" />
 
