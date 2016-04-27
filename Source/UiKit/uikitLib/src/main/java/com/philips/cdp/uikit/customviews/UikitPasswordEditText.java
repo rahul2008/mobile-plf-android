@@ -20,6 +20,9 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -55,6 +58,32 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         handlePasswordInputVisibility();
         addTextChangedListener(this);
+
+        // Code to disable the long press for copy/paste action mode for password fields
+        setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
+
+        setLongClickable(false);
+        setTextIsSelectable(false);
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -194,11 +223,10 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
     private void handlePasswordInputVisibility() {
         if (passwordVisible) {
             setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            setSelection(getText().length());
         } else {
             setTransformationMethod(PasswordTransformationMethod.getInstance());
-            setSelection(getText().length());
         }
+        setSelection(getText().length());
     }
 
     /**
