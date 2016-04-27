@@ -165,7 +165,9 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationCoppaSampleActivity : onUserRegistrationComplete");
-        activity.finish();
+        if(activity != null) {
+            activity.finish();
+        }
     }
 
     @Override
