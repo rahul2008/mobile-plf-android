@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.philips.cdp.sampledigitalcare"
     android:versionCode="139"
-    android:versionName="4.1.0">
+    android:versionName="4.1.1">
 
     <uses-sdk android:minSdkVersion="10"
         android:targetSdkVersion="23"/>
