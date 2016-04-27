@@ -101,3 +101,17 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
   
   1. PRA-155 - Off-line registration listener
   2. PRA-159 - Status getting changed in product list for invalid product data
+  
+  Version - 0.5.0.rc_3                        Date: 27-04-2016
+-------------------------------------------------------------
+
+  Following features can be tested:
+  
+  1. PRA-79 - Email configuration
+  
+  Following features has fixed :
+  
+  1. PRA-155 - Off-line registration listener
+  2. PRA-159 - Status getting changed in product list for invalid product data
+  3. PRA-144 - If user try to registered the same product data with different user on the same device, error saying product already registered
+  4. PRA-170 - App is not fetching the data on phone 2 on registering the product where the phone 1 has already registered some products

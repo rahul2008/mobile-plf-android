@@ -12,7 +12,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 public class Util {
 
     public static void navigateFromUserRegistration() {
-        RegistrationHelper.getInstance().getUserRegistrationListener().registerEventNotification(new UserRegistrationListener() {
+        RegistrationHelper.getInstance().registerUserRegistrationListener(new UserRegistrationListener() {
             @Override
             public void onUserRegistrationComplete(final Activity activity) {
                 activity.finish();
