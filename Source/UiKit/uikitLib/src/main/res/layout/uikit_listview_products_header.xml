@@ -22,7 +22,7 @@
         android:minHeight="101dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:includeFontPadding="false"
+        android:includeFontPadding="true"
         android:lineSpacingExtra="9dp"
         />
 

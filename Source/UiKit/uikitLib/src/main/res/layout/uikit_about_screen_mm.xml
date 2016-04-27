@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/uikit_about_screen_layout_left_margin"
                 android:layout_marginTop="@dimen/uikit_about_screen_layout_top_margin"
-                android:includeFontPadding="false"
+                android:includeFontPadding="true"
                 android:text="@string/uikit_about_screen_apptitle"
                 android:textColor="@color/uikit_philips_very_dark_blue"
                 android:textSize="@dimen/uikit_about_screen_apptitle_size" />
@@ -46,7 +46,7 @@
                 android:layout_below="@id/about_title"
                 android:layout_marginLeft="@dimen/uikit_about_screen_version_copyright_left_margin"
                 android:layout_marginTop="@dimen/uikit_about_screen_version_margin"
-                android:includeFontPadding="false"
+                android:includeFontPadding="true"
                 android:text="@string/uikit_about_screen_version"
                 android:textColor="@color/uikit_philips_very_dark_blue"
                 android:textSize="@dimen/uikit_about_screen_version_copyright_size" />
@@ -59,7 +59,7 @@
                 android:layout_below="@id/about_version"
                 android:layout_marginLeft="@dimen/uikit_about_screen_layout_left_margin"
                 android:layout_marginTop="@dimen/uikit_about_screen_copyright_margin"
-                android:includeFontPadding="false"
+                android:includeFontPadding="true"
                 android:text="@string/uikit_about_screen_copyright"
                 android:textColor="@color/uikit_philips_very_dark_blue"
                 android:textSize="@dimen/uikit_about_screen_version_copyright_size" />
@@ -78,7 +78,7 @@
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
+                    android:includeFontPadding="true"
                     android:text="@string/uikit_about_screen_terms"
                     android:textColor="@color/uikit_philips_very_dark_blue"
                     android:textSize="@dimen/uikit_about_screen_terms_privacy_content_size" />
@@ -89,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/uikit_about_screen_privacy_margin"
-                    android:includeFontPadding="false"
+                    android:includeFontPadding="true"
                     android:text="@string/uikit_about_screen_privacy"
                     android:textColor="@color/uikit_philips_very_dark_blue"
                     android:textSize="@dimen/uikit_about_screen_terms_privacy_content_size" />
@@ -105,7 +105,7 @@
                 android:layout_marginLeft="@dimen/uikit_about_screen_layout_rest_left_margin"
                 android:layout_marginRight="@dimen/uikit_about_screen_content_right_margin"
                 android:layout_marginTop="@dimen/uikit_about_screen_content_top_margin"
-                android:includeFontPadding="false"
+                android:includeFontPadding="true"
                 android:lineSpacingExtra="@dimen/uikit_about_screen_content_linespacing"
                 android:text="@string/uikit_about_screen_content"
                 android:textColor="@color/uikit_philips_very_dark_blue"
