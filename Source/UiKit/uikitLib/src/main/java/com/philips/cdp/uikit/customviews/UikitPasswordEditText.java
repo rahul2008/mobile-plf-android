@@ -20,6 +20,7 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -92,7 +93,14 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
                     if (event.getRawX() >= (getRight() - getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
                         togglePasswordIconVisibility();
-                        setSelection(getSelectionEnd());
+                        Log.v("Length of strings"," : "+getText().length());
+                        post(new Runnable() {
+                            @Override
+                            public void run() {
+                                setSelection(getText().length());
+                            }
+                        });
+
                         return false;
 
                     }
@@ -226,7 +234,6 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         } else {
             setTransformationMethod(PasswordTransformationMethod.getInstance());
         }
-        setSelection(getText().length());
     }
 
     /**
