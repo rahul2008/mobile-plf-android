@@ -269,12 +269,6 @@ public class ManagePurifierFragment extends BaseFragment implements
     }
 
 	@Override
-	public void onPairingSuccess(NetworkNode networkNode) {/**NOP*/}
-
-	@Override
-	public void onPairingFailed(NetworkNode networkNode) {/**NOP*/}
-
-	@Override
 	public void onItemClickGoToAddPurifier() {
 		List<? extends DICommAppliance> addedAppliances = DiscoveryManager.getInstance().updateAddedAppliances();
 		if (addedAppliances.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
@@ -292,5 +286,15 @@ public class ManagePurifierFragment extends BaseFragment implements
 				activity.showFragment(new HelpAndDocFragment());
 			}
 		}
+	}
+
+	@Override
+	public void onPairingSuccess(final DICommAppliance appliance) {
+
+	}
+
+	@Override
+	public void onPairingFailed(final DICommAppliance appliance) {
+
 	}
 }
