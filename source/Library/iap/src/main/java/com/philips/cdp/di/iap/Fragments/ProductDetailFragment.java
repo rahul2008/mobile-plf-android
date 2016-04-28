@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +17,6 @@ import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -59,22 +56,9 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
         @Override
         public void onFailure(final Message msg) {
-            if (Utility.isProgressDialogShowing())
+            if(Utility.isProgressDialogShowing())
                 Utility.dismissProgressDialog();
-            // NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
-            navigateToShoppingCartInCaseOfOutOfError(msg);
-        }
-
-        private void navigateToShoppingCartInCaseOfOutOfError(final Message msg) {
-            if (msg.obj instanceof IAPNetworkError) {
-                Utility.dismissProgressDialog();
-                IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
-                if (null != iapNetworkError.getServerError()) {
-                    checkForOutOfStock(iapNetworkError, msg);
-                } else {
-                    NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
-                }
-            }
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     };
 
@@ -206,25 +190,5 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     void buyProduct(final String ctnNumber) {
         Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         mShoppingCartPresenter.buyProduct(getContext(), ctnNumber, mBuyProductListener);
-    }
-
-    private void checkForOutOfStock(final IAPNetworkError iapNetworkError, Message msg) {
-        com.philips.cdp.di.iap.response.error.Error error = iapNetworkError.getServerError().getErrors().get(0);
-        String type = error.getType();
-        if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
-            launchShoppingCart();
-        } else {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
-        }
-    }
-
-    private void launchShoppingCart() {
-        //Track first page of InAppPurchase
-        IAPAnalytics.trackLaunchPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
-        transaction.addToBackStack(ShoppingCartFragment.TAG);
-        transaction.commitAllowingStateLoss();
     }
 }
