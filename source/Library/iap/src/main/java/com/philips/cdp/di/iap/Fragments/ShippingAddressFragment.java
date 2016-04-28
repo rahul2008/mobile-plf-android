@@ -350,6 +350,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     errorMessage = getResources().getString(R.string.iap_phone_error);
                     mInlineFormsParent.setErrorMessage(errorMessage);
                     mInlineFormsParent.showError(mEtPhoneNumber);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
+                    errorMessage = getResources().getString(R.string.iap_address_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtAddressLineTwo);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_1)) {
+                    errorMessage = getResources().getString(R.string.iap_address_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtAddressLineOne);
                 }
                 mBtnContinue.setEnabled(false);
             } else if (error.getMessage() != null) {
