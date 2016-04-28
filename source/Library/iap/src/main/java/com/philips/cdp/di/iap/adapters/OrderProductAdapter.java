@@ -64,7 +64,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (mShoppingCartDataList.size() == 0) return;
         if (holder instanceof FooterOrderSummaryViewHolder) {
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
-            if (getLastValidItem().getDeliveryAddressEntity() == null) return;
+            //  if (getLastValidItem().getDeliveryAddressEntity() == null) return;
 
             String shippingName = getLastValidItem().getDeliveryAddressEntity().getFirstName() + " " + getLastValidItem().getDeliveryAddressEntity().getLastName();
             footerHolder.mShippingFirstName.setText(shippingName);
