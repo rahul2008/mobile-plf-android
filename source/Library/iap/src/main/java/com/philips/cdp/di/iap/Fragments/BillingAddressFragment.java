@@ -108,7 +108,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtAddressLineTwo.setText("");
         mEtTown.setText("");
         mEtPostalCode.setText("");
-        mEtEmail.setText("");
         mEtPhoneNumber.setText("");
         mlLState.setVisibility(View.VISIBLE);
         mEtState.setText("");
@@ -146,7 +145,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 mInlineFormsParent.removeError(mEtAddressLineTwo);
                 mInlineFormsParent.removeError(mEtTown);
                 mInlineFormsParent.removeError(mEtPostalCode);
-                mInlineFormsParent.removeError(mEtEmail);
                 mInlineFormsParent.removeError(mEtPhoneNumber);
             }
         });
@@ -202,7 +200,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         if (mlLState.getVisibility() == View.VISIBLE) {
             mEtState.setEnabled(enable);
         }
-        mEtEmail.setEnabled(enable);
         mEtPhoneNumber.setEnabled(enable);
     }
 
@@ -217,7 +214,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         if (mlLState.getVisibility() == View.VISIBLE) {
             mEtState.setFocusable(focusable);
         }
-        mEtEmail.setFocusable(focusable);
         mEtPhoneNumber.setFocusable(focusable);
 
         if (focusable) {
@@ -231,7 +227,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             if (mlLState.getVisibility() == View.VISIBLE) {
                 mEtState.setFocusableInTouchMode(true);
             }
-            mEtEmail.setFocusableInTouchMode(true);
             mEtPhoneNumber.setFocusableInTouchMode(true);
         }
     }

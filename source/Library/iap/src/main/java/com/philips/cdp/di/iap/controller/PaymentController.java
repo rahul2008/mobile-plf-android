@@ -30,13 +30,11 @@ public class PaymentController implements AbstractModel.DataLoadListener {
 
     public interface PaymentListener {
         void onGetPaymentDetails(Message msg);
-
         void onSetPaymentDetails(Message msg);
     }
 
     public interface MakePaymentListener {
         void onMakePayment(Message msg);
-
         void onPlaceOrder(Message msg);
     }
 
@@ -110,10 +108,6 @@ public class PaymentController implements AbstractModel.DataLoadListener {
                 mMakePaymentListener.onMakePayment(msg);
                 break;
         }
-    }
-
-    void setHybrisDelegate(HybrisDelegate delegate) {
-        mDelegate = delegate;
     }
 
     HybrisDelegate getHybrisDelegate() {
