@@ -52,8 +52,7 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
 
     @Override
     public boolean supportsSubscription() {
-        // TODO DIComm Refactor check if subscription to deviceport is necessary
-        return false;
+        return true;
     }
 
     private DevicePortProperties parseResponse(String response) {
