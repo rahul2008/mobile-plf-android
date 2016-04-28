@@ -244,7 +244,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 .getImageLoader();
 
         mImageLoader.get(imageURL, ImageLoader.getImageListener(shoppingCartProductHolder.mNetworkImage,
-                R.drawable.toothbrush, android.R.drawable
+                R.drawable.no_icon, android.R.drawable
                         .ic_dialog_alert));
         shoppingCartProductHolder.mNetworkImage.setImageUrl(imageURL, mImageLoader);
     }
