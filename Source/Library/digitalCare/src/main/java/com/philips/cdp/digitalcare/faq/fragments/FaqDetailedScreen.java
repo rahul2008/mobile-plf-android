@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
+    private Configuration mConfiguration = null;
 
     private String FAQ_PAGE_URL = null;
     private String TAG = FaqDetailedScreen.class.getSimpleName();
@@ -61,6 +63,8 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        mConfiguration = newConfig;
+        setPaddingForWebdata();
         super.onConfigurationChanged(newConfig);
     }
 
@@ -135,7 +139,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
                 @Override
                 public void onPageFinished(WebView view, String url) {
-
+                    DigiCareLogger.d(TAG, "OnPage Finished invoked with URL " + url);
                     //String color = getResources().getString(R.color.button_background);
 
                     // do your javascript injection here, remember "javascript:" is needed to recognize this code is javascript
@@ -150,9 +154,10 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
                         mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#003478\");");
                         mWebView.loadUrl("javascript:document.body.style.setProperty(\"font-size\", \"100%\");");
-                        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"10%\");");
                         mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-top\", \"2%\");");
-                        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"10%\");");
+                        setPaddingForWebdata();
+
+
                    /*     mWebView.loadUrl("javascript:document.h3.style.setProperty(\"color\", \"#003478\");");
                         mWebView.loadUrl("javascript:document.h1.style.setProperty(\"color\", \"#003478\");");*/
                         mWebView.loadUrl("javascript:(function(){" + "document.getElementsByClassName('group faqfeedback_group')[0].remove();})()");
@@ -174,6 +179,16 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
             //Add a JavaScriptInterface, so I can make calls from the web to Java methods
             mWebView.addJavascriptInterface(new myJavaScriptInterface(), "CallToAnAndroidFunction");
             mWebView.loadUrl(FAQ_PAGE_URL);
+        }
+    }
+
+    private void setPaddingForWebdata() {
+        if (isTablet() && mConfiguration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"20%\");");
+            mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"20%\");");
+        } else {
+            mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"10%\");");
+            mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"10%\");");
         }
     }
 
@@ -209,7 +224,11 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return "Question & answer";
+
+        if (isTablet())
+            return "Frequently asked questions";
+        else
+            return "Question and answer";
     }
 
     @Override
@@ -223,6 +242,20 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     @Override
     public String setPreviousPageName() {
         return AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER;
+    }
+
+    private boolean isTablet() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float yInches = metrics.heightPixels / metrics.ydpi;
+        float xInches = metrics.widthPixels / metrics.xdpi;
+        double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+
+        if (diagonalInches >= 6.5) {
+            // 6.5inch device or bigger
+            return true;
+        }
+        return false;
     }
 
     @Override
