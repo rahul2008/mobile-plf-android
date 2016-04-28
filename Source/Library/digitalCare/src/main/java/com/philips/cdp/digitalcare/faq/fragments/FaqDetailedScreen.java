@@ -83,6 +83,11 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        ((WebView) mView.findViewById(R.id.webView)).saveState(outState);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         mWebView.loadUrl("about:blank");
