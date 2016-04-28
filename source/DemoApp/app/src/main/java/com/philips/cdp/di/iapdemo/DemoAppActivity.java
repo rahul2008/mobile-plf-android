@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.session.IAPConfig;
+import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -66,7 +66,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mCountText = (TextView) findViewById(R.id.count_txt);
 
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
-        mIapHandler = IAPHandler.init(this, new IAPConfig("en", "US", DEFAULT_THEME));
+        mIapHandler = IAPHandler.init(this, new IAPSettings("US", "en", DEFAULT_THEME));
 
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
@@ -119,14 +119,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.shopping_cart_icon:
-                mIapHandler.launchIAP(IAPConstant.Screen.SHOPPING_CART,null, mBuyProductListener);
+                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW,null, mBuyProductListener);
                 break;
             case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
             case R.id.btn_shop_now:
-                mIapHandler.launchIAP(IAPConstant.Screen.PRODUCT_CATALOG,null, null);
+                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW,null, null);
                 break;
             default:
                 break;
@@ -244,7 +244,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             selectedCountry = "GB";
         if (!mProductCountRequested) {
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
-            mIapHandler = IAPHandler.init(this, new IAPConfig("en", selectedCountry, DEFAULT_THEME));
+            mIapHandler = IAPHandler.init(this, new IAPSettings(selectedCountry,"en", DEFAULT_THEME));
             mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
         }

@@ -28,7 +28,7 @@ public class IAPHandler {
     private IAPHandler() {
     }
 
-    public static IAPHandler init(Context context, IAPConfig config) {
+    public static IAPHandler init(Context context, IAPSettings config) {
         IAPHandler handler = new IAPHandler();
         handler.mThemeIndex = config.themeIndex;
         handler.mContext = context.getApplicationContext();
@@ -41,19 +41,19 @@ public class IAPHandler {
         return handler;
     }
 
-    public void launchIAP(int screen, String ctnNumber, IAPHandlerListener listener) {
+    public void launchIAP(int landingView, String ctnNumber, IAPHandlerListener listener) {
         if (isStoreInitialized()) {
-            checkLaunchOrBuy(screen, ctnNumber, listener);
+            checkLaunchOrBuy(landingView, ctnNumber, listener);
         } else {
-            initIAP(screen, ctnNumber, listener);
+            initIAP(landingView, ctnNumber, listener);
         }
     }
 
     void checkLaunchOrBuy(int screen, String ctnNumber, IAPHandlerListener listener) {
-        if (screen == IAPConstant.Screen.PRODUCT_CATALOG) {
-            launchIAPActivity(IAPConstant.Screen.PRODUCT_CATALOG);
-        } else if (screen == IAPConstant.Screen.SHOPPING_CART && TextUtils.isEmpty(ctnNumber)) {
-            launchIAPActivity(IAPConstant.Screen.SHOPPING_CART);
+        if (screen == IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW) {
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW);
+        } else if (screen == IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW && TextUtils.isEmpty(ctnNumber)) {
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW);
         } else {
             buyProduct(ctnNumber, listener);
         }
@@ -65,6 +65,9 @@ public class IAPHandler {
             @Override
             public void onSuccess(final Message msg) {
                 checkLaunchOrBuy(screen, ctnNumber, listener);
+                if (listener != null) {
+                    listener.onSuccess(IAPConstant.IAP_SUCCESS);
+                }
             }
 
             @Override
@@ -85,7 +88,7 @@ public class IAPHandler {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         //Check flag to differentiate shopping cart / product catalog
-        if (screen != IAPConstant.Screen.SHOPPING_CART) {
+        if (screen != IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW) {
             intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, false);
         }
 
@@ -132,7 +135,7 @@ public class IAPHandler {
         presenter.buyProduct(mContext, ctnNumber, new IAPCartListener() {
             @Override
             public void onSuccess(final int count) {
-                launchIAPActivity(IAPConstant.Screen.SHOPPING_CART);
+                launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW);
             }
 
             @Override
