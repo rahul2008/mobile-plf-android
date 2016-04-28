@@ -99,14 +99,14 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
                 if (editText.getId() == R.id.lastnamevalue && hasFocus == false) {
                     boolean result = validateEmail(editText, hasFocus);
                     if (!result) {
-                        layout.setErrorMessage("invalid_email_format");
+                        layout.setErrorMessage(getResources().getString(com.philips.cdp.uikit.R.string.invalid_email_format));
                         layout.showError((EditText) editText);
                     }
                 }
                 else if(editText.getId() == R.id.passwordValue && hasFocus == false){
                     if(!validatePassword(passwordEditText)){
-                        layout.setErrorMessage("invalid_password");
-                        layout.showError(passwordEditText);
+                        layout.setErrorMessage("Invalid password format");
+                                layout.showError(passwordEditText);
                     }
                 }
             }
