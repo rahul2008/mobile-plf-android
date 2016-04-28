@@ -129,12 +129,21 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
             initialiseConfigParameters(
                     pilLocaleInstance.getLanguageCode().toLowerCase() + "-"
                             + pilLocaleInstance.getCountrycode().toUpperCase());
-        } else {
+        }else  {
             Log.i("LolaleMatch", "REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
-            String localeCode = mLanguageCode + "-" + mCountryCode;
+            String localeCode = null;
+            pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(mContext, locale,
+                    Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
+            if(pilLocaleInstance!=null){
+                localeCode= pilLocaleInstance.getLocaleCode().replace("_","-");
+            }else{
+                localeCode = "en-US";
+            }
+
             if ("zh-TW".equals(localeCode)) {
                 localeCode = "zh-HK";
             }
+            Log.i("LocaleCode", "localeCode : "+localeCode);
             initialiseConfigParameters(localeCode);
         }
 
