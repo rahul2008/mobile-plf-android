@@ -44,7 +44,8 @@ public class AnalyticsConstants {
     public static final String KEY_TIME_STAMP = "timestamp";
     public static final String KEY_APP_ID = "appsId";
     public static final String KEY_PREVIOUS_PAGENAME = "previousPagename";
-    public static final String KEY_DIGITALCARE_VERSION = "digitalcareVersion";
+    public static final String KEY_DIGITALCARE_VERSION = "digCareVersion";
+    public static final String KEY_COMPONENT_VERSION = "componentVersion";
 
     /***************** Page Context Data End **************/
 
@@ -90,7 +91,7 @@ public class AnalyticsConstants {
     /*****************
      * Action Values
      **************/
-    public static final String ACTION_VALUE_APPNAME = "DigitalCare";
+    public static final String ACTION_VALUE_APPNAME = "Consumer Care ";
     public static final String ACTION_VALUE_ANDROID = "Android ";
     public static final String ACTION_VALUE_FACEBOOK = "Facebook";
     public static final String ACTION_VALUE_PHOTO_VALUE = "productimage";
@@ -108,4 +109,5 @@ public class AnalyticsConstants {
     public static final String ACTION_VALUE_SERVICE_CHANNEL_CALL = "call";
     public static final String ACTION_VALUE_SERVICE_CHANNEL_TWITTER = "Twitter";
     public static final String ACTION_VALUE_SERVICE_CHANNEL_FAQ = "FAQ";
+    public static final String ACTION_VALUE_SERVICE_CHANNEL_Facebook = "Facebook";
 }
