@@ -1,4 +1,6 @@
-
+/**
+ * Created by 310213373 on 3/18/2016.
+ */
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -30,10 +32,29 @@ import android.view.View;
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
-
 /**
- * Created by 310213373 on 3/18/2016.
+ * <b></b> UikitPasswordEditTetxt is UI Component providing password masking/unmasking capability</b>
+ * <p/>
+ *  <b></b> Inline forms can use this component by replacing the editText with UikitPasswordEditText</b>
+ *  <p/>
+ *  <b></b> This can be used as part of PuiEditText as well</b>
+ *  <p/>
+ *  <b></b>To use as PuiEditText add the flag inputText:uikit_password_edit_field="true" in the XML file</b>
+ *  <p/>
+ *  <H3>Sample Code</H3>
+ *  <pre>
+ *  <com.philips.cdp.uikit.customviews.PuiEditText
+         android:layout_height="wrap_content"
+         android:id="@+id/password"
+         android:hint="password"
+         android:layout_centerHorizontal="true"
+         inputText:uikit_hintText="Password"
+         inputText:uikit_errorText="@string/invalid_pwd_format"
+         inputText:uikit_password_edit_field="true"
+    </pre>
+ />
  */
+
 
 public class UikitPasswordEditText extends AppCompatEditText implements TextWatcher {
 
