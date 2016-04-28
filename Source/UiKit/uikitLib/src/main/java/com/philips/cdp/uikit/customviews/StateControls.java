@@ -72,8 +72,8 @@ public class StateControls extends LinearLayout {
 
         drawControls(texts, false);
     }
-    private void initControls(CharSequence[] texts, boolean enableDefaultSelection)
-    {
+
+    private void initControls(CharSequence[] texts, boolean enableDefaultSelection) {
         final int textCount = texts != null ? texts.length : 0;
         final int elementCount = Math.max(textCount, count);
         if (elementCount == 0) {
@@ -87,6 +87,7 @@ public class StateControls extends LinearLayout {
         iterateViews(texts, enableDefaultSelection, buttons, dividers, elementCount, false);
         handleButtonState();
     }
+
     /**
      * Set multiple buttons with the specified texts and default
      * initial values. Initial states are allowed, but both
@@ -99,18 +100,6 @@ public class StateControls extends LinearLayout {
 
         initControls(texts, enableDefaultSelection);
 
-       /* final int textCount = texts != null ? texts.length : 0;
-        final int elementCount = Math.max(textCount, count);
-        if (elementCount == 0) {
-            throw new IllegalArgumentException("Count not set up");
-        }
-        parentLayout.removeAllViews();
-        View[] buttons = new Button[elementCount];
-        View[] dividers = new View[elementCount];
-        this.buttons = Arrays.asList(buttons);
-        this.dividers = Arrays.asList(dividers);
-        iterateViews(texts, enableDefaultSelection, buttons, dividers, elementCount, false);
-        handleButtonState();*/
     }
 
 
@@ -125,18 +114,6 @@ public class StateControls extends LinearLayout {
     public void drawControls(String[] texts, boolean enableDefaultSelection) {
         initControls(texts, enableDefaultSelection);
 
-       /* final int textCount = texts != null ? texts.length : 0;
-        final int elementCount = Math.max(textCount, count);
-        if (elementCount == 0) {
-            throw new IllegalArgumentException("Count not set up");
-        }
-        parentLayout.removeAllViews();
-        View[] buttons = new Button[elementCount];
-        View[] dividers = new View[elementCount];
-        this.buttons = Arrays.asList(buttons);
-        this.dividers = Arrays.asList(dividers);
-        iterateViews(texts, enableDefaultSelection, buttons, dividers, elementCount, false);
-        handleButtonState();*/
     }
 
     /**
@@ -317,7 +294,6 @@ public class StateControls extends LinearLayout {
     }
 
     /**
-     *
      * @return Returns array of View
      */
     public List<View> getButtons() {
@@ -325,7 +301,6 @@ public class StateControls extends LinearLayout {
     }
 
     /**
-     *
      * @return Returns State of buttons
      */
     public boolean[] getStates() {
@@ -339,6 +314,7 @@ public class StateControls extends LinearLayout {
 
     /**
      * Setting the button state
+     *
      * @param selected - array of boolean values
      */
     public void setStates(boolean[] selected) {
@@ -376,6 +352,7 @@ public class StateControls extends LinearLayout {
 
     /**
      * API to set total buttons count
+     *
      * @param count - Total count value in integer
      */
     public void setCount(int count) {
@@ -385,6 +362,7 @@ public class StateControls extends LinearLayout {
 
     /**
      * Callback to be registered when state of buttons are changed
+     *
      * @param onButtonStateChangeListener - Listener of type OnButtonStateChangeListener
      */
     public void setOnButtonStateChangedListener(OnButtonStateChangeListener onButtonStateChangeListener) {
