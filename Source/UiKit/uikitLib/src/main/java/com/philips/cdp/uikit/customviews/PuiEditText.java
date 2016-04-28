@@ -363,6 +363,7 @@ public class PuiEditText extends RelativeLayout {
         int currentApiVersion = Build.VERSION.SDK_INT;
         if (currentApiVersion >= Build.VERSION_CODES.JELLY_BEAN) {
             editText.setBackground(backgroundDrawable);
+
         } else {
             editText.setBackgroundDrawable(backgroundDrawable);
         }

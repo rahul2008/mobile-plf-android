@@ -56,7 +56,7 @@ public class TabBarDemo extends CatalogActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_demo);
-        disableActionbarShadow(this);
+        TabUtils.disableActionbarShadow(this);
         TabLayout view = (TabLayout) findViewById(R.id.tab_bar);
         setTopBar();
         setBottomBar();
@@ -91,27 +91,27 @@ public class TabBarDemo extends CatalogActivity {
 
         TabLayout.Tab tab = utils.newTab(R.string.uikit_splash_title, R.drawable.alarm, 0);
         utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_clock_32x32),true);
-        utils.setTitle(tab, "Alarm");
+        utils.setTitle(tab, R.string.alarm);
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.apple, 0);
         utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_apple_32x32),true);
-        utils.setTitle(tab, "Wellness");
+        utils.setTitle(tab, R.string.wellness);
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.barchart, 3);
-        utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_stats_39x32),true);
-        utils.setTitle(tab, "Statistics");
+        utils.setIcon(tab, VectorDrawable.create(this, R.drawable.uikit_stats_39x32), true);
+        utils.setTitle(tab, R.string.stats);
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.gear, 0);
-        utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_gear_32x32),true);
-        utils.setTitle(tab, "Settings");
+        utils.setIcon(tab, VectorDrawable.create(this, R.drawable.uikit_gear_32x32), true);
+        utils.setTitle(tab, R.string.settings);
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.alarm, 0);
         utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_clock_32x32),true);
-        utils.setTitle(tab, "Alarm");
+        utils.setTitle(tab, R.string.alarm);
         topLayout.addTab(tab);
     }
 
@@ -119,45 +119,25 @@ public class TabBarDemo extends CatalogActivity {
         bottomLayout = (TabLayout) findViewById(R.id.tab_bar_text);
         TabUtils utils = new TabUtils(this, bottomLayout, false);
         TabLayout.Tab tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, "Alarm");
+        utils.setTitle(tab, R.string.alarm);
         bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, "Wellness");
+        utils.setTitle(tab, R.string.wellness);
         bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, "Statistics");
+        utils.setTitle(tab, R.string.stats);
         bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, "Settings");
+        utils.setTitle(tab, R.string.settings);
         bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, "Alarm");
+        utils.setTitle(tab, R.string.alarm);
         bottomLayout.addTab(tab);
     }
 
-    public void disableActionbarShadow(Activity activity) {
-        if (activity == null) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (activity instanceof AppCompatActivity) {
-                if (((AppCompatActivity) activity).getSupportActionBar() != null)
-                    ((AppCompatActivity) activity).getSupportActionBar().setElevation(0);
-            } else {
-                if (activity.getActionBar() != null)
-                    activity.getActionBar().setElevation(0);
-            }
-        } else {
-            View content = activity.findViewById(android.R.id.content);
-            if (content != null && content.getParent() instanceof ActionBarOverlayLayout) {
-                ((ViewGroup) content.getParent()).setWillNotDraw(true);
 
-                if (content instanceof FrameLayout) {
-                    ((FrameLayout)content).setForeground(null);
-                }
-            }
-        }
-    }
 }

@@ -27,6 +27,10 @@
     <string name="share">Share</string>
     <string name="mail">Mail</string>
     <string name="chat">Chat</string>
+    <string name="alarm">Alarm</string>
+    <string name="settings">Settings</string>
+    <string name="wellness">Wellness</string>
+    <string name="stats">Statistics</string>
 
     <string-array name="hamburger_drawer_items">
         <item>Title Long</item>

@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.customviews.UikitPasswordEditText;
+import com.philips.cdp.uikit.utils.TabUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +42,7 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inline_forms);
-        disableActionbarShadow(this);
+        TabUtils.disableActionbarShadow(this);
 
         /**
          * The Below Layout acts as one item in the inline form
@@ -124,31 +125,7 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
         return passwordCheck.equals(passwordToCheck);
     }
 
-    /**
-     * This removes the Shaw present on the Top Layout
-     * @param activity - takes context as the parameter
-     */
-    public void disableActionbarShadow(Activity activity) {
-        if (activity == null) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (activity instanceof AppCompatActivity) {
-                if (((AppCompatActivity) activity).getSupportActionBar() != null)
-                    ((AppCompatActivity) activity).getSupportActionBar().setElevation(0);
-            } else {
-                if (activity.getActionBar() != null)
-                    activity.getActionBar().setElevation(0);
-            }
-        } else {
-            View content = activity.findViewById(android.R.id.content);
-            if (content != null && content.getParent() instanceof ActionBarOverlayLayout) {
-                ((ViewGroup) content.getParent()).setWillNotDraw(true);
 
-                if (content instanceof FrameLayout) {
-                    ((FrameLayout)content).setForeground(null);
-                }
-            }
-        }
-    }
 
     /**
      * Match the Email Pattern and return the result accordingly

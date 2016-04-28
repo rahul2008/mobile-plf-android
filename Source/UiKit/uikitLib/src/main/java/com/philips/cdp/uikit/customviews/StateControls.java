@@ -72,16 +72,8 @@ public class StateControls extends LinearLayout {
 
         drawControls(texts, false);
     }
-
-    /**
-     * Set multiple buttons with the specified texts and default
-     * initial values. Initial states are allowed, but both
-     * arrays must be of the same size.
-     *
-     * @param texts                  An array of CharSequences for the buttons
-     * @param enableDefaultSelection The default value for the buttons
-     */
-    public void drawControls(CharSequence[] texts, boolean enableDefaultSelection) {
+    private void initControls(CharSequence[] texts, boolean enableDefaultSelection)
+    {
         final int textCount = texts != null ? texts.length : 0;
         final int elementCount = Math.max(textCount, count);
         if (elementCount == 0) {
@@ -95,17 +87,19 @@ public class StateControls extends LinearLayout {
         iterateViews(texts, enableDefaultSelection, buttons, dividers, elementCount, false);
         handleButtonState();
     }
-
     /**
      * Set multiple buttons with the specified texts and default
      * initial values. Initial states are allowed, but both
      * arrays must be of the same size.
      *
-     * @param texts                  An array of Strings for the buttons
+     * @param texts                  An array of CharSequences for the buttons
      * @param enableDefaultSelection The default value for the buttons
      */
-    public void drawControls(String[] texts, boolean enableDefaultSelection) {
-        final int textCount = texts != null ? texts.length : 0;
+    public void drawControls(CharSequence[] texts, boolean enableDefaultSelection) {
+
+        initControls(texts, enableDefaultSelection);
+
+       /* final int textCount = texts != null ? texts.length : 0;
         final int elementCount = Math.max(textCount, count);
         if (elementCount == 0) {
             throw new IllegalArgumentException("Count not set up");
@@ -116,7 +110,33 @@ public class StateControls extends LinearLayout {
         this.buttons = Arrays.asList(buttons);
         this.dividers = Arrays.asList(dividers);
         iterateViews(texts, enableDefaultSelection, buttons, dividers, elementCount, false);
-        handleButtonState();
+        handleButtonState();*/
+    }
+
+
+    /**
+     * Set multiple buttons with the specified texts and default
+     * initial values. Initial states are allowed, but both
+     * arrays must be of the same size.
+     *
+     * @param texts                  An array of Strings for the buttons
+     * @param enableDefaultSelection The default value for the buttons
+     */
+    public void drawControls(String[] texts, boolean enableDefaultSelection) {
+        initControls(texts, enableDefaultSelection);
+
+       /* final int textCount = texts != null ? texts.length : 0;
+        final int elementCount = Math.max(textCount, count);
+        if (elementCount == 0) {
+            throw new IllegalArgumentException("Count not set up");
+        }
+        parentLayout.removeAllViews();
+        View[] buttons = new Button[elementCount];
+        View[] dividers = new View[elementCount];
+        this.buttons = Arrays.asList(buttons);
+        this.dividers = Arrays.asList(dividers);
+        iterateViews(texts, enableDefaultSelection, buttons, dividers, elementCount, false);
+        handleButtonState();*/
     }
 
     /**
