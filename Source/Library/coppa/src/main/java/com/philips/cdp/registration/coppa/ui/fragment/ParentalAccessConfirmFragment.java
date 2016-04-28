@@ -149,6 +149,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
         int id = v.getId();
         if (id == R.id.btn_reg_continue) {
+            mBtnContinue.setEnabled(false);
             validateInputs();
 
         } else if (id == R.id.ll_reg_age_select_container || id == R.id.tv_reg_how_old) {
@@ -226,6 +227,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         @Override
         public void onClick(View v) {
             RegCoppaAlertDialog.dismissDialog();
+            mBtnContinue.setEnabled(true);
         }
     };
 }
