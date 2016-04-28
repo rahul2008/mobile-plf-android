@@ -1,9 +1,6 @@
 package com.philips.cdp.digitalcare.faq.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -282,9 +279,9 @@ public class FAQCustomView {
         // questionTypeView.setBackgroundColor(Color.parseColor("#C8E7EE"));
         // questionTypeView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.faq_question_background));
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            questionTypeView.setBackgroundResource(R.drawable.faq_question_background);
+            questionTypeView.setBackgroundResource(R.drawable.faq_header_background_color);
         } else {
-            questionTypeView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.faq_question_background));
+            questionTypeView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.faq_header_background_color));
         }
 
         questionTypeParams.setMargins(0, topMarginOfQuestionType, 0, 0);
