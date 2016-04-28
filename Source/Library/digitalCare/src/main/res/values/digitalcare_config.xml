@@ -11,7 +11,7 @@
     <drawable name="consumercare_background">#FFFFFF</drawable>
 
     <!-- Faq BackGround Image-->
-    <drawable name="faq_question_background">#C8E7EE</drawable>
+    <drawable name="faq_header_background_color">#C8E7EE</drawable>
 
 
     <!-- Actionbar related -->
