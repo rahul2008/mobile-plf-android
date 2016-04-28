@@ -1,9 +1,9 @@
 package com.philips.cdp.digitalcare.homefragment;
 
 /**
- * Created by 310190678 on 20-Jan-16.
+ * Created by naveen@philips.com on 20-Jan-16.
  */
-public class Product {
+public class ProductModel {
 
     private String mCtn = null;
     private String mCategory = null;
