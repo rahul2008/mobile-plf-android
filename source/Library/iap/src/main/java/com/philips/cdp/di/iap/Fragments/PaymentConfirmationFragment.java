@@ -133,7 +133,8 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
             }
 
         } else {
-            moveToPreviousFragment();
+            //moveToPreviousFragment();
+            moveToFragment(OrderSummaryFragment.TAG);
         }
 
     }
