@@ -222,7 +222,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
-            addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), ShippingAddressFragment.TAG);
+            addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE),
+                    ShippingAddressFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getResources().getString(R.string.iap_please_wait));
@@ -284,7 +285,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
         Bundle extras = new Bundle();
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
-        addFragment(ShippingAddressFragment.createInstance(extras, AnimationType.NONE), ShippingAddressFragment.TAG);
+        addFragment(ShippingAddressFragment.createInstance(extras, AnimationType.NONE),
+                ShippingAddressFragment.TAG);
     }
 
     @Override
@@ -297,8 +299,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
 
             IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
-            addFragment(
-                    BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), BillingAddressFragment.TAG);
+            addFragment(BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE),
+                    BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {

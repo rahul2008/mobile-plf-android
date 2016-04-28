@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogAdapter;
@@ -32,15 +34,12 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
-    private RecyclerView mRecyclerView;
     private ProductCatalogAdapter mAdapter;
     private ShoppingCartPresenter mShoppingCartPresenter;
-    private int mCount;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
-            mCount = count;
             updateCount(count);
         }
 
@@ -69,7 +68,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         super.onCreateView(inflater, container, savedInstanceState);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG), this);
         View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
+        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mShoppingCartPresenter = new ShoppingCartPresenter(getFragmentManager());
@@ -116,6 +115,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
 
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
         }
     }
