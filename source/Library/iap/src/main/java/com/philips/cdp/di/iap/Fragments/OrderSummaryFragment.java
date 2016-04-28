@@ -110,9 +110,22 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public boolean onBackPressed() {
-        if (isOrderPlaced())
+        if (isOrderPlaced()) {
+            setSetOrderPlaceFalse();
             return true;
-        else return false;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        setSetOrderPlaceFalse();
+    }
+
+    private void setSetOrderPlaceFalse() {
+        CartModelContainer.getInstance().setOrderPlaced(false);
     }
 
     private boolean isOrderPlaced() {
@@ -132,8 +145,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
                 }
             }
         } else if (v == mBtnCancel) {
+            setSetOrderPlaceFalse();
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            // addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG);
             moveToFragment(ShoppingCartFragment.TAG);
         }
     }

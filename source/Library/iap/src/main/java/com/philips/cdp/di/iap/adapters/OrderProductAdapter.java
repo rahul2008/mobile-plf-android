@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -64,11 +65,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (mShoppingCartDataList.size() == 0) return;
         if (holder instanceof FooterOrderSummaryViewHolder) {
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
-            //  if (getLastValidItem().getDeliveryAddressEntity() == null) return;
-
-            String shippingName = getLastValidItem().getDeliveryAddressEntity().getFirstName() + " " + getLastValidItem().getDeliveryAddressEntity().getLastName();
+            AddressFields shippingAddress = CartModelContainer.getInstance().getShippingAddressFields();
+            String shippingName = shippingAddress.getFirstName() + " " + shippingAddress.getLastName();
             footerHolder.mShippingFirstName.setText(shippingName);
-            footerHolder.mShippingAddress.setText(Utility.createAddress(getLastValidItem().getDeliveryAddressEntity()));
+            footerHolder.mShippingAddress.setText(Utility.createAddress(shippingAddress));
             if (null != mBillingAddress) {
                 String billingName = mBillingAddress.getFirstName() + " " + mBillingAddress.getLastName();
                 footerHolder.mBillingFirstName.setText(billingName);
