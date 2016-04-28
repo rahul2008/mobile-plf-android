@@ -18,8 +18,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class DiCommResponseTest extends RobolectricTest {
 
     public static final int VALUE = 5;
-    public static final String DATA = "data";
-    public static final String DATA_JSON = "{\"" + DATA + "\":" + VALUE + "}";
+    public static final String KEY = "data";
+    public static final String DATA_JSON = "{\"" + KEY + "\":" + VALUE + "}";
 
     @Mock
     DiCommMessage diCommMessageMock;
@@ -32,7 +32,7 @@ public class DiCommResponseTest extends RobolectricTest {
         data = convertStringToBytes(DATA_JSON);
         when(diCommMessageMock.getPayload()).thenReturn(data);
 
-        when(diCommMessageMock.getMessageTypeIdentifier()).thenReturn(MessageType.GenericResponse);
+        when(diCommMessageMock.getMessageType()).thenReturn(MessageType.GenericResponse);
     }
 
     private byte[] convertStringToBytes(String string) {
@@ -68,7 +68,7 @@ public class DiCommResponseTest extends RobolectricTest {
 
     @Test(expected = InvalidParameterException.class)
     public void whenMessageTypeIsNotResponseThenExceptionIsGenerated() throws Exception {
-        when(diCommMessageMock.getMessageTypeIdentifier()).thenReturn(MessageType.GetPropsRequest);
+        when(diCommMessageMock.getMessageType()).thenReturn(MessageType.GetPropsRequest);
 
         new DiCommResponse(diCommMessageMock);
     }
@@ -119,12 +119,12 @@ public class DiCommResponseTest extends RobolectricTest {
 
         Map<String, Object> properties = diCommResponse.getProperties();
 
-        assertEquals(VALUE, properties.get(DATA));
+        assertEquals(VALUE, properties.get(KEY));
     }
 
     @Test(expected = InvalidParameterException.class)
     public void whenResponseDataHasWrongFormatThenExceptionIsGenerated() throws Exception {
-        String notJSONData = "{\"" + DATA + "\":" + VALUE;
+        String notJSONData = "{\"" + KEY + "\":" + VALUE;
 
         byte[] data = convertStringToBytes(notJSONData);
         when(diCommMessageMock.getPayload()).thenReturn(data);
@@ -133,7 +133,7 @@ public class DiCommResponseTest extends RobolectricTest {
     }
 
     @Test
-    public void whenResponseDataHasSpecialCharacters() throws Exception {
+    public void whenResponseDataHasSpecialCharactersThenResponseIsParsedCorrectly() throws Exception {
         String key = "data\u00D6";
         String JSONDataWithSpecialCharacter = "{\"" + key + "\":" + VALUE + "}";
         byte[] data = convertStringToBytes(JSONDataWithSpecialCharacter);
@@ -143,5 +143,32 @@ public class DiCommResponseTest extends RobolectricTest {
         Map<String, Object> properties = diCommResponse.getProperties();
 
         assertEquals(VALUE, properties.get(key));
+    }
+
+    @Test(expected = InvalidParameterException.class)
+    public void whenResponseDataHasNoTrailingZeroThenExceptionIsGenerated() throws Exception {
+        byte[] jsonDataBytes = DATA_JSON.getBytes(StandardCharsets.UTF_8);
+        byte[] data = new byte[jsonDataBytes.length + 2];
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+        byteBuffer.put(StatusCode.NoError.getDiCommStatusCode());
+        byteBuffer.put(jsonDataBytes);
+        byteBuffer.put((byte) 1);
+
+        when(diCommMessageMock.getPayload()).thenReturn(data);
+
+        new DiCommResponse(diCommMessageMock);
+    }
+
+    @Test(expected = InvalidParameterException.class)
+    public void whenResponseDataHasNoTrailingZeroThenExceptionIsGenerated2() throws Exception {
+        byte[] jsonDataBytes = DATA_JSON.getBytes(StandardCharsets.UTF_8);
+        byte[] data = new byte[jsonDataBytes.length + 1];
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+        byteBuffer.put(StatusCode.NoError.getDiCommStatusCode());
+        byteBuffer.put(jsonDataBytes);
+
+        when(diCommMessageMock.getPayload()).thenReturn(data);
+
+        new DiCommResponse(diCommMessageMock);
     }
 }

@@ -62,7 +62,7 @@ public class DiCommMessageTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         DiCommMessage message = new DiCommMessage(byteBuffer);
 
-        assertEquals(MessageType.PutPropsRequest, message.getMessageTypeIdentifier());
+        assertEquals(MessageType.PutPropsRequest, message.getMessageType());
     }
 
     @Test
@@ -72,7 +72,7 @@ public class DiCommMessageTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         DiCommMessage message = new DiCommMessage(byteBuffer);
 
-        assertEquals(MessageType.GetPropsRequest, message.getMessageTypeIdentifier());
+        assertEquals(MessageType.GetPropsRequest, message.getMessageType());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class DiCommMessageTest {
 
         DiCommMessage message = new DiCommMessage(MessageType.PutPropsRequest, data);
 
-        assertEquals(MessageType.PutPropsRequest, message.getMessageTypeIdentifier());
+        assertEquals(MessageType.PutPropsRequest, message.getMessageType());
         assertEquals(data[0], message.getPayload()[0]);
         assertEquals(data[1], message.getPayload()[1]);
     }

@@ -45,7 +45,7 @@ public class DiCommRequestTest extends RobolectricTest {
 
         DiCommMessage message = diCommRequest.getPropsRequestDataWithProduct(DEVICE, PORT);
 
-        assertEquals(MessageType.GetPropsRequest, message.getMessageTypeIdentifier());
+        assertEquals(MessageType.GetPropsRequest, message.getMessageType());
     }
 
     @Test
@@ -120,7 +120,7 @@ public class DiCommRequestTest extends RobolectricTest {
 
         DiCommMessage message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties);
 
-        assertEquals(MessageType.PutPropsRequest, message.getMessageTypeIdentifier());
+        assertEquals(MessageType.PutPropsRequest, message.getMessageType());
     }
 
     @Test

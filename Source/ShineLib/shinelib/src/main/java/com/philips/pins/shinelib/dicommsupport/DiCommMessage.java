@@ -12,7 +12,7 @@ class DiCommMessage {
     private static final byte SECOND_START_BYTE = (byte) 0xFF;
     private static final int HEADER_SIZE = 5;
 
-    private final MessageType messageTypeIdentifier;
+    private final MessageType messageType;
     private final byte[] payload;
 
     public DiCommMessage(@NonNull ByteBuffer byteBuffer) throws InvalidParameterException {
@@ -21,7 +21,7 @@ class DiCommMessage {
                 throw new InvalidParameterException();
             }
 
-            this.messageTypeIdentifier = MessageType.fromDiCommMessageTypeCode(byteBuffer.get());
+            this.messageType = MessageType.fromDiCommMessageTypeCode(byteBuffer.get());
             int length = byteBuffer.getShort();
 
             this.payload = new byte[length];
@@ -31,8 +31,8 @@ class DiCommMessage {
         }
     }
 
-    public DiCommMessage(@NonNull MessageType messageTypeIdentifier, @NonNull byte[] payload) {
-        this.messageTypeIdentifier = messageTypeIdentifier;
+    public DiCommMessage(@NonNull MessageType messageType, @NonNull byte[] payload) {
+        this.messageType = messageType;
         this.payload = payload;
     }
 
@@ -40,15 +40,15 @@ class DiCommMessage {
         ByteBuffer byteBuffer = ByteBuffer.allocate(HEADER_SIZE + payload.length);
         byteBuffer.put(FIRST_START_BYTE);
         byteBuffer.put(SECOND_START_BYTE);
-        byteBuffer.put(messageTypeIdentifier.getDiCommMessageTypeCode());
+        byteBuffer.put(messageType.getDiCommMessageTypeCode());
         byteBuffer.putShort((short) payload.length);
         byteBuffer.put(payload);
 
         return byteBuffer.array();
     }
 
-    public MessageType getMessageTypeIdentifier() {
-        return messageTypeIdentifier;
+    public MessageType getMessageType() {
+        return messageType;
     }
 
     public byte[] getPayload() {

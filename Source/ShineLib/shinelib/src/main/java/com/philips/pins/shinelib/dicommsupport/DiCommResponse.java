@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,25 +12,27 @@ import java.util.Map;
 
 class DiCommResponse {
 
+    private static final int MIN_PAYLOAD_SIZE = 1;
     private MessageType type = MessageType.GenericResponse;
     private StatusCode status;
     private Map<String, Object> properties;
 
     public DiCommResponse(DiCommMessage diCommMessage) throws InvalidParameterException {
-        if (diCommMessage.getMessageTypeIdentifier() != MessageType.GenericResponse) {
-            throw new InvalidParameterException("Encountered an unexpected DiComm Response Type");
+        if (diCommMessage.getMessageType() != MessageType.GenericResponse) {
+            throw new InvalidParameterException("Encountered an unexpected DiComm Response Type: " + diCommMessage.getMessageType());
         }
 
         byte[] payload = diCommMessage.getPayload();
-        if (payload == null || payload.length < 1) {
+        if (payload == null || payload.length < MIN_PAYLOAD_SIZE) {
             throw new InvalidParameterException("DiComm message payload is too short!");
         }
 
         ByteBuffer byteBuffer = ByteBuffer.wrap(payload);
-        status = StatusCode.fromDiCommStatusCode(byteBuffer.get());
+        byte diCommStatusCode = byteBuffer.get();
+        status = StatusCode.fromDiCommStatusCode(diCommStatusCode);
 
         if (status == null) {
-            throw new InvalidParameterException("DiComm response contains an invalid status code!");
+            throw new InvalidParameterException("DiComm response contains an unknown status code! Code: " + diCommStatusCode);
         }
 
         if (!byteBuffer.hasRemaining()) {
@@ -39,8 +42,10 @@ class DiCommResponse {
         byte[] propertiesData = new byte[byteBuffer.remaining() - 1];
         byteBuffer.get(propertiesData);
 
-        assert (byteBuffer.remaining() == 1);
-        String string = new String(propertiesData);
+        if (byteBuffer.get() != 0) {
+            throw new InvalidParameterException("Invalid message format.!");
+        }
+        String string = new String(propertiesData, StandardCharsets.UTF_8);
         try {
             JSONObject jsonObject = new JSONObject(string);
             properties = new HashMap<>();
