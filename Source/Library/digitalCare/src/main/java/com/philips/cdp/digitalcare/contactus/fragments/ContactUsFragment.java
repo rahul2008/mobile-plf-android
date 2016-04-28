@@ -497,7 +497,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     private void launchFacebookFeature() {
-
+        tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_Facebook);
         try {
             Uri uri = Uri.parse("fb://page/"
                     + getActivity().getResources().getString(
@@ -519,6 +519,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void launchTwitterFeature() {
+        tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
         Intent tweetIntent = new Intent(Intent.ACTION_SEND);
         tweetIntent.putExtra(Intent.EXTRA_TEXT, getProductInformation());
         tweetIntent.setType("text/plain");
