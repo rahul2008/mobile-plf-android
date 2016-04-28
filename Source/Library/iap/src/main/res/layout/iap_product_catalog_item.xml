@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginRight="@dimen/iap_shopping_cart_image_right"
         android:paddingLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:src="@drawable/toothbrush"
+        android:src="@drawable/no_icon"
         />
 
     <TextView

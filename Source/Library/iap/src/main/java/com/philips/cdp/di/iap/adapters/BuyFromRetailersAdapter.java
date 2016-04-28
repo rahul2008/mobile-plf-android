@@ -55,7 +55,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         final StoreEntity storeEntity = mStoreEntities.get(position);
         String imageURL = storeEntity.getLogoURL();
         holder.mStoreName.setText(storeEntity.getName());
-        holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.toothbrush));
+        holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         String availability = storeEntity.getAvailability();
         if(availability.equalsIgnoreCase("yes")){
             holder.mAvailibility.setText(mContext.getString(R.string.iap_in_stock));
@@ -90,7 +90,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
     private void getNetworkImage(final RetailerViewHolder retailerHolder, final String imageURL) {
         mImageLoader.get(imageURL, ImageLoader.getImageListener(retailerHolder.mLogo,
-                R.drawable.toothbrush, android.R.drawable
+                R.drawable.no_icon, android.R.drawable
                         .ic_dialog_alert));
         retailerHolder.mLogo.setImageUrl(imageURL, mImageLoader);
     }

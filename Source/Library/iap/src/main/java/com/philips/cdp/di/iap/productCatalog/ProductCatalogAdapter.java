@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.productCatalog;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -58,7 +57,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
         String imageURL = productCatalogData.getImageURL();
         productHolder.mProductName.setText(productCatalogData.getProductTitle());
-        productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.toothbrush));
+        productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(productCatalogData.getFormatedPrice());
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());
         if(productCatalogData.getDiscountedPrice()==null || productCatalogData.getDiscountedPrice()==""){
@@ -89,7 +88,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void getNetworkImage(final ProductCatalogViewHolder productCartProductHolder, final String imageURL) {
         mImageLoader.get(imageURL, ImageLoader.getImageListener(productCartProductHolder.mProductImage,
-                R.drawable.toothbrush, android.R.drawable
+                R.drawable.no_icon, android.R.drawable
                         .ic_dialog_alert));
         productCartProductHolder.mProductImage.setImageUrl(imageURL, mImageLoader);
     }

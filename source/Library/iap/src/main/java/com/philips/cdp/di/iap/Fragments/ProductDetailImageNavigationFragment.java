@@ -64,11 +64,11 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
                 .getImageLoader();
 
         mImageLoader.get(mImageURL, ImageLoader.getImageListener(mImageView,
-                R.drawable.toothbrush, android.R.drawable
+                R.drawable.no_icon, android.R.drawable
                         .ic_dialog_alert));
         mImageView.setImageUrl(mImageURL, mImageLoader);
 
-        mImageView.setImageResource(R.drawable.toothbrush);
+        mImageView.setImageResource(R.drawable.no_icon);
     }
 
     @Override
