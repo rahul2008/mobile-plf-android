@@ -7,7 +7,6 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.SocialLoginHandler;
@@ -344,20 +343,6 @@ public class HsdpUser {
             }).start();
         } else {
             handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.NoNetworkConnection));
-        }
-    }
-
-    public void resetPasswrod(final String email, final ForgotPasswordHandler forgotPasswordHandler){
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-            final Handler handler = new Handler();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    DhpAuthenticationManagementClient authenticationManagementClient = new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
-                    final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.resetPassword(email);
-                    RLog.i(RLog.HSDP, "resetPasswrod  : response :" + dhpAuthenticationResponse.toString());
-                }
-            }).start();
         }
     }
 
