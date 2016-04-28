@@ -73,6 +73,9 @@
         <activity
             android:name=".activity.ControlsActivity"
             android:configChanges="keyboardHidden|screenSize|orientation" />
+        <activity
+            android:name=".activity.FontActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

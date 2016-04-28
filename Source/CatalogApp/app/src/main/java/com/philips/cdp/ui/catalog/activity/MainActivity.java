@@ -153,6 +153,8 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 23:
                 startActivity(new Intent(this, PickerActivity.class));
                 break;
+            case 24:
+                startActivity(new Intent(this, FontActivity.class));
             default:
                 break;
         }
@@ -218,6 +220,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(21, "Modal Alert");
         itemsMap.put(22, "Favorites");
         itemsMap.put(23, "Pickers");
+        itemsMap.put(24, "Font Support");
         return itemsMap;
     }
 
