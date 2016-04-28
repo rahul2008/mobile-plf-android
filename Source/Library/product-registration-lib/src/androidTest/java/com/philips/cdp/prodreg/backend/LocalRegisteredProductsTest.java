@@ -2,14 +2,13 @@ package com.philips.cdp.prodreg.backend;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
 import com.philips.cdp.registration.User;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import org.mockito.Mock;
 
 import static org.mockito.Mockito.mock;
 
@@ -19,11 +18,13 @@ import static org.mockito.Mockito.mock;
  */
 public class LocalRegisteredProductsTest extends MockitoTestCase {
 
+    @Mock
     LocalRegisteredProducts localRegisteredProducts;
     Context context;
     LocalSharedPreference localSharedPreference;
     RegisteredProduct mockRegisteredProduct;
     String data;
+    RegisteredProduct registeredProduct;
 
     @Override
     protected void setUp() throws Exception {
@@ -34,23 +35,21 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         localSharedPreference = new LocalSharedPreference(context);
         mockRegisteredProduct = mock(RegisteredProduct.class);
         data = localSharedPreference.getData("prod_reg_key");
+        registeredProduct = new RegisteredProduct("HC5410/83", "1344", "26/2/2016", Sector.B2C, Catalog.CONSUMER);
+        //  testStore(registeredProduct);
     }
 
-    public void testStore() {
-        User user = mock(User.class);
-        final Gson gson = new Gson();
-        LocalRegisteredProducts mocklocalRegisteredProducts = new LocalRegisteredProducts(context, user) {
-            @Override
-            protected Gson getGson() {
-                return gson;
-            }
-
-        };
-        ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
-        Set<RegisteredProduct> registeredProductSet = new HashSet<>();
-        registeredProducts.add(new RegisteredProduct(null, null, null, null, null));
-        registeredProducts.add(new RegisteredProduct(null, null, null, null, null));
-        registeredProductSet.add(new RegisteredProduct("ctn", "1234", null, null, null));
-        registeredProductSet.add(new RegisteredProduct("ctn1", "12345", null, null, null));
+    /*public void testStore(RegisteredProduct registeredProductMock) {
+        localRegisteredProducts.store(registeredProductMock);
+        Set<RegisteredProduct> registeredProducts = localRegisteredProducts.getUniqueRegisteredProducts();
+        when(registeredProducts).thenReturn((Set<RegisteredProduct>) registeredProduct);
+        assertEquals(registeredProductMock,registeredProduct);
     }
+
+    public void testGetUniqueRegisteredProducts(){
+        localRegisteredProducts.getUniqueRegisteredProducts();
+        RegisteredProduct[] registeredProducts= new RegisteredProduct[]{};
+        String data = localSharedPreference.getData("prod_reg_key");
+    }
+*/
 }
