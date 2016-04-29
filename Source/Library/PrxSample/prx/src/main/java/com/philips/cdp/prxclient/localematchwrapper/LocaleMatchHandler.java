@@ -26,18 +26,19 @@ public class LocaleMatchHandler implements LocaleMatchListener {
     public String mLocale = null;
     private PILLocaleManager localeManager = null;
 
-    public static LocaleMatchHandler getInstance(Context context) {
+    public static LocaleMatchHandler getInstance(Context context, Sector sector, Catalog catalog) {
         mContext = context;
         if (localeMatchHandler == null)
             localeMatchHandler = new LocaleMatchHandler();
+        mSector = sector;
+        mCatalog = catalog;
+
+        localeMatchHandler.initLocaleMatchRequest(mContext);
 
         return localeMatchHandler;
     }
 
-    public static LocaleMatchHandler getInstance(Sector sector, Catalog catalog) {
-        mSector = sector;
-        mCatalog = catalog;
-        localeMatchHandler.initLocaleMatchRequest(mContext);
+    public static LocaleMatchHandler getInstance() {
         return localeMatchHandler;
     }
 
@@ -65,7 +66,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
 
     @Override
     public void onErrorOccurredForLocaleMatch(LocaleMatchError localeMatchError) {
-        PrxLogger.e(TAG, "LocaleMatch Response Error : " + LocaleMatchError.SERVER_ERROR);
+        PrxLogger.e(TAG, "After Locale LocaleMatch Response Error : " + localeMatchError.toString());
     }
 
 

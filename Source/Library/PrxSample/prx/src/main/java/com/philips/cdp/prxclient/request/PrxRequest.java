@@ -19,7 +19,6 @@ public abstract class PrxRequest {
     private String mServerInfo = "www.philips.com/prx";
     private Sector mSector;
     private Catalog mCatalog;
-    private String mLocaleMatchResult;
 
     public String getServerInfo() {
         return mServerInfo;
@@ -27,7 +26,7 @@ public abstract class PrxRequest {
 
     public String getLocale() {
 
-        LocaleMatchHandler localeMatchHandler = LocaleMatchHandler.getInstance(mSector, mCatalog);
+        LocaleMatchHandler localeMatchHandler = LocaleMatchHandler.getInstance();
         return localeMatchHandler.getLocale();
     }
 

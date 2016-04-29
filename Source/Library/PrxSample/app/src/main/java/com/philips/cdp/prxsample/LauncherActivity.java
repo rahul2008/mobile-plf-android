@@ -55,6 +55,7 @@ public class LauncherActivity extends AppCompatActivity {
 
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(getApplicationContext());
+        Log.d(TAG, "Positive Request");
         mRequestManager.executeRequest(mProductAssetBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {

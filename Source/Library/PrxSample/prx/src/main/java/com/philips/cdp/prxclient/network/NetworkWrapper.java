@@ -72,6 +72,7 @@ public class NetworkWrapper {
     }*/
 
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
+        PrxLogger.d(TAG, "Custom JSON Request call..");
         final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
         final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
         String url = prxRequest.getRequestUrl();

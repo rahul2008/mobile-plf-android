@@ -16,26 +16,28 @@ import com.philips.cdp.prxclient.response.ResponseListener;
  */
 public class RequestManager {
 
+    private static final String TAG = RequestManager.class.getSimpleName();
     public static Context mContext = null;
+    private LocaleMatchHandler localeMatchHandler;
 
     public void init(Context applicationContext) {
         mContext = applicationContext;
-        LocaleMatchHandler localeMatchHandler = LocaleMatchHandler.getInstance(mContext);
+
     }
 
     public void executeRequest(PrxRequest prxRequest, ResponseListener listener) {
-        if (prxRequest.getLocale() != null) {
-            String[] locales = prxRequest.getLocale().split("_");
-            setLocale(locales[0], locales[1], prxRequest, listener);
-        } else
-            makeRequest(prxRequest, listener);
+        PrxLogger.d(TAG, "Locale is not Null");
+        localeMatchHandler = LocaleMatchHandler.getInstance(mContext, prxRequest.getSector(), prxRequest.getCatalog());
+        makeRequest(prxRequest, listener);         /* String[] locales = prxRequest.getLocale().split("_");
+            setLocale(locales[0], locales[1], prxRequest, listener);*/
+
     }
 
     public void cancelRequest(String requestTag) {
     }
 
-    private void setLocale(final String languageCode, final String countryCode, final PrxRequest prxRequest, final ResponseListener listener) {
-/*        final PILLocaleManager pilLocaleManager = new PILLocaleManager();
+    /*private void setLocale(final String languageCode, final String countryCode, final PrxRequest prxRequest, final ResponseListener listener) {
+        final PILLocaleManager pilLocaleManager = new PILLocaleManager(mC);
         final String[] mLocale = new String[1];
         pilLocaleManager.init(mContext, new LocaleMatchListener() {
                     public void onLocaleMatchRefreshed(String locale) {
@@ -46,7 +48,7 @@ public class RequestManager {
                             prxRequest.setLocaleMatchResult(mLocale[0]);
                         }
 
-                        makeRequest(prxRequest, listener);
+
                     }
 
                     public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
@@ -55,8 +57,7 @@ public class RequestManager {
                     }
                 }
         );
-        pilLocaleManager.refresh(mContext, languageCode, countryCode);*/
-    }
+    }*/
 
     private void makeRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         try {
