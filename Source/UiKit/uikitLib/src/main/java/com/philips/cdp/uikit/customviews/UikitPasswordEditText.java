@@ -22,7 +22,6 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,7 +79,6 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         handlePasswordInputVisibility();
         addTextChangedListener(this);
-
         // Code to disable the long press for copy/paste action mode for password fields
         setCustomSelectionActionModeCallback(new ActionMode.Callback() {
             @Override
@@ -114,7 +112,7 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
                     if (event.getRawX() >= (getRight() - getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
                         togglePasswordIconVisibility();
-                        Log.v("Length of strings"," : "+getText().length());
+
                         post(new Runnable() {
                             @Override
                             public void run() {
