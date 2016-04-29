@@ -54,12 +54,12 @@ public class ProdRegHelper {
                 final User user = new User(context);
                 new UserWithProducts(context, new User(context), prodRegListener).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts(), new ProdRegListener() {
                     @Override
-                    public void onProdRegSuccess(RegisteredProduct registeredProduct) {
+                    public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                         Log.d("Product Registration logs ", "Product " + registeredProduct.getCtn() + " and Serial " + registeredProduct.getSerialNumber() + " registered successfully");
                     }
 
                     @Override
-                    public void onProdRegFailed(final RegisteredProduct registeredProduct) {
+                    public void onProdRegFailed(final RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                         Log.d("Product Registration logs ", "Product " + registeredProduct.getCtn() + " and Serial " + registeredProduct.getSerialNumber() + " failed due to " + registeredProduct.getProdRegError());
                     }
                 });

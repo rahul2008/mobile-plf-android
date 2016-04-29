@@ -190,7 +190,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         verify(userWithProductsMock).createDummyRegisteredProduct(product);
         verify(userWithProductsMock).registerCachedProducts(registeredProducts, prodRegListener);
         verify(registeredProduct).IsUserRegisteredLocally(localRegisteredProducts);
-        verify(prodRegListener).onProdRegFailed(registeredProduct);
+        verify(prodRegListener).onProdRegFailed(registeredProduct, userWithProductsMock);
         testMapProductToRegisteredProduct(product);
         testThrowExceptionWhenListenerNull(userWithProducts, product);
     }
@@ -318,7 +318,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         registeredProducts.add(registeredProduct3);
         assertTrue(userWithProducts.isCtnRegistered(registeredProducts, product, prodRegListener));
         verify(userWithProductsMock).updateLocaleCacheOnError(product, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
-        verify(prodRegListener).onProdRegFailed(product);
+        verify(prodRegListener).onProdRegFailed(product, userWithProductsMock);
     }
 
     public void testIsCtnNotRegistered() {
@@ -374,7 +374,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         responseListener.onResponseSuccess(responseData);
         verify(product).setRegistrationState(RegistrationState.REGISTERED);
         verify(localRegisteredProducts).updateRegisteredProducts(product);
-        verify(prodRegListener).onProdRegSuccess(product);
+        verify(prodRegListener).onProdRegSuccess(product, userWithProductsMock);
         verify(userWithProductsMock).mapRegistrationResponse(responseData, product);
         responseListener.onResponseError("test", 10);
         verify(errorHandlerMock).handleError(userWithProductsMock, product, 10, prodRegListener);
@@ -438,7 +438,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(50);
         verify(userWithProductsMock).updateLocaleCacheOnError(product, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
         verify(localRegisteredProductsMock).updateRegisteredProducts(product);
-        verify(prodRegListener).onProdRegFailed(product);
+        verify(prodRegListener).onProdRegFailed(product, userWithProductsMock);
         refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
         verify(userWithProductsMock).retryRequests(context, product, prodRegListener);
     }
@@ -545,7 +545,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         verify(userWithProductsMock).getRegisteredProducts(registeredProductsListenerMock);
         userWithProducts.setRequestType(-1);
         userWithProducts.retryRequests(context, registeredProduct, prodRegListenerMock);
-        verify(prodRegListenerMock, never()).onProdRegFailed(registeredProduct);
+        verify(prodRegListenerMock, never()).onProdRegFailed(registeredProduct, userWithProductsMock);
     }
 
     /*public void testValidateIsUserRegisteredLocally() {
@@ -584,12 +584,12 @@ public class UserWithProductsTest extends MockitoTestCase {
         userWithProducts.registerCachedProducts(registeredProducts, prodRegListener);
 
         verify(userWithProductsMock).updateLocaleCacheOnError(registeredProduct1, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
-        verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct);
+        verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
         when(userWithProductsMock.isUserSignedIn(context)).thenReturn(true);
         when(userWithProductsMock.isValidDate("2016-2-12")).thenReturn(false);
         userWithProducts.registerCachedProducts(registeredProducts, prodRegListener);
         verify(userWithProductsMock).updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
-        verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct);
+        verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
     }
 
     /*public void testGetRegisteredProductsListenerOnCtnNotRegistered() {

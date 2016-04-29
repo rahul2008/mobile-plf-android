@@ -16,6 +16,7 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
 import com.philips.cdp.prodreg.backend.RegisteredProduct;
+import com.philips.cdp.prodreg.backend.UserWithProducts;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -99,13 +100,13 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         product.sendEmail(String.valueOf(eMailConfiguration));
         final ProdRegListener listener = new ProdRegListener() {
             @Override
-            public void onProdRegSuccess(RegisteredProduct registeredProduct) {
+            public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                 submitButton.setEnabled(true);
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.product_registered_successfully), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onProdRegFailed(RegisteredProduct registeredProduct) {
+            public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                 submitButton.setEnabled(true);
                 Log.d(TAG, "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
                 Toast.makeText(ProductActivity.this, registeredProduct.getProdRegError().getDescription(), Toast.LENGTH_SHORT).show();
