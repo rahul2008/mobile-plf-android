@@ -152,9 +152,10 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                     //Not display the element
                     try {
 
-                        mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#003478\");");
+                       // mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#003478\");");
                         mWebView.loadUrl("javascript:document.body.style.setProperty(\"font-size\", \"100%\");");
                         mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-top\", \"2%\");");
+                        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-bottom\", \"2%\");");
                         setPaddingForWebdata();
 
 
