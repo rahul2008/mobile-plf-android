@@ -3,11 +3,12 @@ package com.philips.appinfra.securestorage;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.security.KeyPairGeneratorSpec;
-import android.util.Base64;
 import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
@@ -19,17 +20,18 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPublicKey;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
-import javax.crypto.CipherOutputStream;
 import javax.security.auth.x500.X500Principal;
 
 
 /**
  * Created by 310238114 on 4/5/2016.
+ * Current RSA implementation encrypts/decrypts given string in multiple of 256 character blocks.
+ * RSA can encrypt only keyLength/8 byte at a time., eg 2048/8 = 256
+ * "ISO-8859-1"  encoding id used for String because "ISO-8859-1" creates 1-1 mapping between byte and char. 1 byte will be converted to 1 char only.
+ *
  */
 public class SecureStorage implements SecureStorageInterface{
     private static final String SINGLE_UNIVERSAL_KEY = "Single Universal key in keystore";
@@ -41,7 +43,6 @@ public class SecureStorage implements SecureStorageInterface{
 
     //this variable(encryptedTextTemp) must only  be used  for Demo App to see encrypted text and must be removed from release build
     public static  String encryptedTextTemp= null;
-
 
 
     public  SecureStorage(Context pContext, String pEncryptedDataOutput){
@@ -62,18 +63,27 @@ public class SecureStorage implements SecureStorageInterface{
             }
             generateKeyPair();
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
+
             RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
-            Cipher input = Cipher.getInstance("RSA/ECB/PKCS1Padding", "AndroidOpenSSL");
+            int rsaKeyLength=  publicKey.getModulus().bitLength();
+            int blockSize = (rsaKeyLength / 8); // 2048/8= 256 key size can be 512, 768, 1024, 2048, 3072, 4096
+            Cipher input = Cipher.getInstance("RSA/ECB/NoPadding");
             input.init(Cipher.ENCRYPT_MODE, publicKey);
 
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            CipherOutputStream cipherOutputStream = new CipherOutputStream(
-                    outputStream, input);
-            cipherOutputStream.write(valueToBeEncrypted.getBytes("UTF-8"));
-            cipherOutputStream.close();
-
-            byte [] vals = outputStream.toByteArray();
-            encryptedString=Base64.encodeToString(vals, Base64.DEFAULT);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(valueToBeEncrypted.getBytes("ISO-8859-1"));
+            DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            byte[] encodedMsg=null;
+            while (dataInputStream.available() > 0) {
+               byte[]  buffer = new byte[Math.min(blockSize, dataInputStream.available())];
+                for (int i = 0; i < buffer.length; i++) {
+                    buffer[i] = dataInputStream.readByte();
+                }
+                encodedMsg = input.doFinal(buffer);
+                byteArrayOutputStream.write(encodedMsg, 0, encodedMsg.length);
+            }
+            dataInputStream.close();
+            encryptedString = new String(byteArrayOutputStream.toByteArray(), "ISO-8859-1");
             returnResult = storeEncryptedData(userKey, encryptedString);
             encryptedString = returnResult?encryptedString:null; // if save of encryption data fails return null
             encryptedTextTemp=encryptedString; // to be removed from release build
@@ -104,24 +114,30 @@ public class SecureStorage implements SecureStorageInterface{
                 return null;
             }
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
-            //RSAPrivateKey privateKey = (RSAPrivateKey) privateKeyEntry.getPrivateKey();
 
-            Cipher output = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            output.init(Cipher.DECRYPT_MODE, privateKeyEntry.getPrivateKey());
 
-            CipherInputStream cipherInputStream = new CipherInputStream(
-                    new ByteArrayInputStream(Base64.decode(encryptedString, Base64.DEFAULT)), output);
-            ArrayList<Byte> values = new ArrayList<>();
-            int nextByte;
-            while ((nextByte = cipherInputStream.read()) != -1) {
-                values.add((byte)nextByte);
+            RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
+            int rsaKeyLength=  publicKey.getModulus().bitLength();
+            int blockSize = (rsaKeyLength / 8); // 2048/8= 256 key length can be 512, 768, 1024, 2048, 3072, 4096
+
+            Cipher output = Cipher.getInstance("RSA/ECB/NoPadding");
+            output.init(Cipher.DECRYPT_MODE, privateKeyEntry.getPrivateKey()); // private key for decrypting
+
+            DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(encryptedString.getBytes("ISO-8859-1")));
+            ByteArrayOutputStream sos = new ByteArrayOutputStream();
+            DataOutputStream pOutRSA = new DataOutputStream(sos);
+            byte [] buffer = new byte[blockSize];
+            while (dataInputStream.available() > 0) {
+                for (int i = 0; i < blockSize; i++) {
+                    buffer[i] = dataInputStream.readByte();
+                }
+                byte[] decodedMsg = output.doFinal(buffer);
+                pOutRSA.write(decodedMsg, 0, decodedMsg.length);
             }
+            dataInputStream.close();
+            decryptedString = new String(sos.toByteArray(), "ISO-8859-1");
+            pOutRSA.close();
 
-            byte[] bytes = new byte[values.size()];
-            for(int i = 0; i < bytes.length; i++) {
-                bytes[i] = values.get(i).byteValue();
-            }
-            decryptedString = new String(bytes, 0, bytes.length, "UTF-8");
         } catch (Exception e) {
             Log.e("SecureStorage", Log.getStackTraceString(e));
         } finally{
