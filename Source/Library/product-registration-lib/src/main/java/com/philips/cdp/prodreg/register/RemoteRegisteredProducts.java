@@ -29,13 +29,13 @@ public class RemoteRegisteredProducts {
                 Gson gson = getGson();
                 RegisteredProduct[] registeredProducts = userWithProducts.getRegisteredProductsFromResponse(results, gson);
                 localRegisteredProducts.syncLocalCache(registeredProducts);
-                registeredProductsListener.getRegisteredProducts(localRegisteredProducts.getRegisteredProducts(), userWithProducts.getTimeStamp());
+                registeredProductsListener.getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), userWithProducts.getTimeStamp());
             }
 
             @Override
             public void onResponseError(final String errorMessage, final int responseCode) {
                 try {
-                    registeredProductsListener.getRegisteredProducts(localRegisteredProducts.getRegisteredProducts(), 0);
+                    registeredProductsListener.getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

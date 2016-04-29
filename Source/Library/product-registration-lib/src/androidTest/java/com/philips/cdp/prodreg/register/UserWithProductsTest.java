@@ -222,7 +222,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         when(userWithProductsMock.isCtnRegistered(registeredProducts, registeredProduct, prodRegListener)).thenReturn(false);
         RegisteredProductsListener registeredProductsListener = userWithProducts.
                 getRegisteredProductsListener(registeredProduct, prodRegListener);
-        registeredProductsListener.getRegisteredProducts(registeredProducts, 0);
+        registeredProductsListener.getRegisteredProductsSuccess(registeredProducts, 0);
         verify(registeredProduct).getProductMetadata(context, userWithProductsMock.getMetadataListener(registeredProduct, prodRegListener));
     }*/
 
@@ -555,7 +555,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
         registeredProducts.add(registeredProduct);
         registeredProducts.add(registeredProduct1);
-        when(localRegisteredProducts.getRegisteredProducts()).thenReturn(registeredProducts);
+        when(localRegisteredProducts.getRegisteredProductsSuccess()).thenReturn(registeredProducts);
         assertTrue(userWithProducts.IsUserRegisteredLocally(registeredProduct));
         registeredProduct.setRegistrationState(RegistrationState.PENDING);
         assertFalse(userWithProducts.IsUserRegisteredLocally(registeredProduct));
@@ -644,7 +644,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         RegisteredResponseData[] results = {registeredResponseData, registeredResponseData1, registeredResponseData2};
         when(responseMock.getResults()).thenReturn(results);
         when(userWithProductsMock.getRegisteredProductsFromResponse(results, gson)).thenReturn(registeredProductsMock);
-//        registeredProductsListener.getRegisteredProducts(responseMock);
+//        registeredProductsListener.getRegisteredProductsSuccess(responseMock);
         verify(localRegisteredProducts).syncLocalCache(registeredProductsMock);
         verify(product).getProductMetadata(context, metadataListener);
 //        registeredProductsListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), ProdRegError.METADATA_FAILED.getCode());

@@ -23,7 +23,6 @@ public class ProdRegHelper {
     private static ProdRegListener prodRegListener;
     private static UserRegistrationListener userRegistrationListener;
     private String locale;
-    private UserWithProducts userWithProducts;
 
     @NonNull
     private static UserRegistrationListener getUserRegistrationListener() {
@@ -89,7 +88,7 @@ public class ProdRegHelper {
     }
 
     public UserWithProducts getSignedInUserWithProducts() {
-        userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
+        final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
         userWithProducts.setLocale(this.locale);
         return userWithProducts;
     }

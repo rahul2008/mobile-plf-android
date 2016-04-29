@@ -173,7 +173,7 @@ public class UserWithProducts {
     RegisteredProductsListener getRegisteredProductsListener(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         return new RegisteredProductsListener() {
             @Override
-            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
+            public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 if (!isCtnRegistered(registeredProducts, registeredProduct, appListener))
                     registeredProduct.getProductMetadata(mContext, getUserProduct().getMetadataListener(registeredProduct, appListener));
             }

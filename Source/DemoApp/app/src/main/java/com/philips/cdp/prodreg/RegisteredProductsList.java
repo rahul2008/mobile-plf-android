@@ -32,7 +32,7 @@ public class RegisteredProductsList extends AppCompatActivity {
         prodRegHelper.init(this);
         prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(new RegisteredProductsListener() {
             @Override
-            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
+            public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 productAdapter = new ProductAdapter(RegisteredProductsList.this, registeredProducts);
                 mRecyclerView.setAdapter(productAdapter);
             }

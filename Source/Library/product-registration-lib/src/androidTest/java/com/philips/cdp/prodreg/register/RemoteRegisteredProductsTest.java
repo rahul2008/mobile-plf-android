@@ -52,9 +52,9 @@ public class RemoteRegisteredProductsTest extends MockitoTestCase {
         final long value = System.currentTimeMillis();
         when(userWithProductsMock.getTimeStamp()).thenReturn(value);
         responseListener.onResponseSuccess(registeredResponse);
-        verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProducts(localRegisteredProducts.getRegisteredProducts(), value);
+        verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), value);
         responseListener.onResponseError("test", 10);
-        verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProducts(localRegisteredProducts.getRegisteredProducts(), 0);
+        verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
     }
 
     public void testRegisterMethod() {
