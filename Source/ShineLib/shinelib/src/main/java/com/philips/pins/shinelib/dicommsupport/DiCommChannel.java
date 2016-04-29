@@ -90,11 +90,37 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     private void parseResponse(DiCommMessage diCommMessage) {
         try {
             DiCommResponse diCommResponse = getDiCommResponse(diCommMessage);
-            pendingRequests.remove(0).getResultListener().onActionCompleted(diCommResponse.getProperties(), SHNResult.SHNOk);
+            pendingRequests.remove(0).getResultListener().onActionCompleted(diCommResponse.getProperties(), convertToSHNResult(diCommResponse.getStatus()));
         } catch (InvalidParameterException ex) {
             SHNLogger.e(TAG, ex.getMessage());
             pendingRequests.remove(0).getResultListener().onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
         }
+    }
+
+    private SHNResult convertToSHNResult(StatusCode status) {
+        switch (status) {
+            case NoError:
+                return SHNResult.SHNOk;
+            case NotUnderstood:
+            case OutOfMemory:
+            case NotSubscribed:
+                return SHNResult.SHNErrorOperationFailed;
+            case NotImplemented:
+            case NoSuchPort:
+            case NoSuchProperty:
+            case NoSuchOperation:
+            case VersionNotSupported:
+            case NoSuchProduct:
+            case NoSuchMethod:
+            case PropertyAlreadyExists:
+                return SHNResult.SHNErrorUnsupportedOperation;
+            case WrongParameters:
+            case InvalidParameter:
+                return SHNResult.SHNErrorInvalidParameter;
+            case ProtocolViolation:
+                return SHNResult.SHNErrorInvalidState;
+        }
+        return null;
     }
 
     @Override

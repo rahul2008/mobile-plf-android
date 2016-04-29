@@ -28,6 +28,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -87,6 +88,7 @@ public class DiCommChannelTest {
 
         when(diCommRequestMock.putPropsRequestDataWithProduct(anyString(), anyString(), anyMap())).thenReturn(diCommMessageMock);
         when(diCommRequestMock.getPropsRequestDataWithProduct(anyString(), anyString())).thenReturn(diCommMessageMock);
+        when(diCommResponseMock.getStatus()).thenReturn(StatusCode.NoError);
 
         diCommChannel = new DiCommChannelForTest(shnProtocolMoonshineStreamingMock, TIME_OUT);
         properties = new HashMap<>();
@@ -423,6 +425,53 @@ public class DiCommChannelTest {
         mockedHandler.executeFirstScheduledExecution();
 
         verify(shnProtocolMoonshineStreamingMock).transitionToError(SHNResult.SHNErrorTimeout);
+    }
+
+    private void receiveResponseWithStatus(StatusCode statusCode) {
+        when(diCommResponseMock.getStatus()).thenReturn(statusCode);
+        byte[] data = {(byte) 0xFE, (byte) 0xFF, MessageType.GenericResponse.getDiCommMessageTypeCode(), (byte) 0, (byte) 0};
+
+        diCommChannel.onDataReceived(data);
+    }
+
+    @Test
+    public void whenResponseStatusIsOutOfMemoryThenListenerIsNotifiedWithOperationFailed() throws Exception {
+        diCommChannel.onProtocolAvailable();
+        diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
+
+        receiveResponseWithStatus(StatusCode.OutOfMemory);
+
+        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNErrorOperationFailed));
+    }
+
+    @Test
+    public void whenResponseStatusIsNotImplementedThenListenerIsNotifiedWithUnsupportedOperation() throws Exception {
+        diCommChannel.onProtocolAvailable();
+        diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
+
+        receiveResponseWithStatus(StatusCode.NotImplemented);
+
+        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNErrorUnsupportedOperation));
+    }
+
+    @Test
+    public void whenResponseStatusIsInvalidParameterThenListenerIsNotifiedWithInvalidParameter() throws Exception {
+        diCommChannel.onProtocolAvailable();
+        diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
+
+        receiveResponseWithStatus(StatusCode.InvalidParameter);
+
+        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNErrorInvalidParameter));
+    }
+
+    @Test
+    public void whenResponseStatusIsProtocolViolationThenListenerIsNotifiedWithInvalidState() throws Exception {
+        diCommChannel.onProtocolAvailable();
+        diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
+
+        receiveResponseWithStatus(StatusCode.ProtocolViolation);
+
+        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNErrorInvalidState));
     }
 
     private class DiCommChannelForTest extends DiCommChannel {
