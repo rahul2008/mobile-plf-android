@@ -177,7 +177,17 @@ public class PopoverAlert extends RelativeLayout {
      * @return
      */
     public ProgressBar getProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
         return progressBar;
+    }
+
+    /**
+     * To hide the progressbar
+     */
+
+    public void hideProgressBar()
+    {
+        progressBar.setVisibility(View.GONE);
     }
 
     /**
