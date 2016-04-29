@@ -96,7 +96,8 @@ dependencies {
     compile 'com.philips.cdp:uikitLib:3.0.0'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.shamanland:fonticon:0.1.8'
-    compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.0.0', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.1.0-rc.2', ext: 'aar')
+
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
