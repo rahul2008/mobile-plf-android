@@ -2,18 +2,19 @@ package com.philips.cdp.productselection.prx;
 
 import android.content.Context;
 
+import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.request.ProductAssetRequest;
-import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.error.PrxError;
+import com.philips.cdp.prxclient.request.ProductAssetRequest;
+import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prxclient.error.PrxError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,16 +43,22 @@ public class PrxWrapper {
         this.mSectorCode = sectorCode;
         this.mLocale = locale;
         this.mCatalogCode = catalog;
+
+        PILLocaleManager localeManager = new PILLocaleManager(mContext);
+        String[] locales = mLocale.split("_");
+        localeManager.setInputLocale(locales[0], locales[1]);
+
     }
 
     public void requestPrxSummaryData(final PrxSummaryDataListener listener, final String requestTag) {
         if (listener == null)
             throw new IllegalStateException("PrxSummaryDataListener listener is null");
 
+
         final ProductSummaryRequest summaryBuilder = new ProductSummaryRequest(mCtn, requestTag);
         summaryBuilder.setSector(mSectorCode);
         summaryBuilder.setCatalog(mCatalogCode);
-        summaryBuilder.setLocale(mLocale);
+        //  summaryBuilder.setLocale(mLocale);
 
         RequestManager requestManager = new RequestManager();
         requestManager.init(mContext);
@@ -86,7 +93,7 @@ public class PrxWrapper {
 
         final ProductAssetRequest assetBuilder = new ProductAssetRequest(mCtn, null);
         assetBuilder.setSector(mSectorCode);
-        assetBuilder.setLocale(mLocale);
+        // assetBuilder.setLocale(mLocale);
         assetBuilder.setCatalog(mCatalogCode);
 
         RequestManager requestManager = new RequestManager();
@@ -129,7 +136,7 @@ public class PrxWrapper {
             final ProductSummaryRequest summaryBuilder = new ProductSummaryRequest(ctnList[i], requestTag);
             summaryBuilder.setSector(mSectorCode);
             summaryBuilder.setCatalog(mCatalogCode);
-            summaryBuilder.setLocale(mLocale);
+            //summaryBuilder.setLocale(mLocale);
 
             RequestManager requestManager = new RequestManager();
             requestManager.init(mContext);
