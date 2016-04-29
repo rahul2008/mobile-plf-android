@@ -21,6 +21,7 @@ import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
@@ -299,5 +300,8 @@ public class  LaunchDigitalCare extends FragmentActivity implements OnClickListe
     private void setDigitalCareLocale(String language, String country) {
 
         DigitalCareConfigManager.getInstance().setLocale(language, country);
+
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(language, country);
     }
 }

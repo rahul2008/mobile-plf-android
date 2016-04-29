@@ -139,7 +139,7 @@ public class PrxWrapper {
     public ProductSummaryRequest getPrxSummaryData() {
         ProductSummaryRequest mProductSummaryRequest = new ProductSummaryRequest(mCtn, null);
         mProductSummaryRequest.setSector(getSectorEnum(mSectorCode));
-        mProductSummaryRequest.setLocale(mLocale);
+       // mProductSummaryRequest.setLocale(mLocale);
         mProductSummaryRequest.setCatalog(getCatalogEnum(mCatalogCode));
 
         return mProductSummaryRequest;
@@ -148,7 +148,7 @@ public class PrxWrapper {
     public ProductSupportRequest getPrxSupportData() {
         ProductSupportRequest productSupportRequest = new ProductSupportRequest(mCtn, null);
         productSupportRequest.setSector(getSectorEnum(mSectorCode));
-        productSupportRequest.setLocale(mLocale);
+       // productSupportRequest.setLocale(mLocale);
         productSupportRequest.setCatalog(getCatalogEnum(mCatalogCode));
         return productSupportRequest;
     }
@@ -156,7 +156,7 @@ public class PrxWrapper {
     public ProductAssetRequest getPrxAssetData() {
         ProductAssetRequest mProductAssetRequest = new ProductAssetRequest(mCtn, null);
         mProductAssetRequest.setSector(getSectorEnum(mSectorCode));
-        mProductAssetRequest.setLocale(mLocale);
+        //mProductAssetRequest.setLocale(mLocale);
         mProductAssetRequest.setCatalog(getCatalogEnum(mCatalogCode));
 
         return mProductAssetRequest;
