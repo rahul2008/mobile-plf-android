@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.appcompat.BuildConfig;
 import android.util.DisplayMetrics;
 
 import com.philips.cdp.productselection.activity.ProductSelectionActivity;
@@ -100,11 +101,8 @@ public class ProductModelSelectionHelper {
         Tagging.setComponentVersionKey(Constants.ATTRIBUTE_KEY_PRODUCT_SELECTION);
         Tagging.setComponentVersionVersionValue(String.valueOf(BuildConfig.VERSION_NAME));
         Tagging.setLaunchingPageName(launchingPage);
-        ProductSelectionLogger.i("testing", "getLocale() : " + getLocale());
-        ProductSelectionLogger.i("testing", "getContext() : " + getContext());
-        ProductSelectionLogger.i("testing", "appName : " + appName);
 
-        Tagging.init(getLocale(), getContext(), appName);
+        Tagging.init(getContext(), appName);
     }
 
     public UiLauncher getLauncherType() {

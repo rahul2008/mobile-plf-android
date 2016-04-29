@@ -31,7 +31,7 @@ dependencies {
     compile project(':productselection')
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:recyclerview-v7:23.1.0'
-    compile 'com.philips.cdp:Tagging:2.0.0@aar'
+    compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.1.0-rc.2', ext: 'aar')
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1'
     compile 'com.philips.cdp:uikitLib:3.0.0'
 }
@@ -45,5 +45,9 @@ allprojects {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local"
         }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
+
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android"
+        }
     }
 }
