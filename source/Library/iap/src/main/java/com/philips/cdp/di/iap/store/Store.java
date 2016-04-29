@@ -46,7 +46,7 @@ public class Store {
     private static final String SUFFIX_DELIVERY_ADDRESS = "/addresses/delivery";
 
     private static final String SUFFIX_PLACE_ORDER = "/orders";
-    private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + LANG;
+    private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + "&lang=en";
     private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
 
     private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1/";
