@@ -40,20 +40,28 @@ class DiCommResponse {
         }
 
         byte[] propertiesData = new byte[byteBuffer.remaining() - 1];
-        byteBuffer.get(propertiesData);
+        if (propertiesData.length > 0) {
+            byteBuffer.get(propertiesData);
+            properties = convertStringToMap(propertiesData);
+        }
 
         if (byteBuffer.get() != 0) {
-            throw new InvalidParameterException("Invalid message format.!");
+            throw new InvalidParameterException("Invalid message format!");
         }
+    }
+
+    private Map<String, Object> convertStringToMap(byte[] propertiesData) {
         String string = new String(propertiesData, StandardCharsets.UTF_8);
         try {
             JSONObject jsonObject = new JSONObject(string);
-            properties = new HashMap<>();
+            Map<String, Object> properties = new HashMap<>();
             Iterator<String> keys = jsonObject.keys();
             while (keys.hasNext()) {
                 String key = keys.next();
                 properties.put(key, jsonObject.get(key));
             }
+
+            return properties;
         } catch (JSONException e) {
             throw new InvalidParameterException("JSON string has invalid format");
         }

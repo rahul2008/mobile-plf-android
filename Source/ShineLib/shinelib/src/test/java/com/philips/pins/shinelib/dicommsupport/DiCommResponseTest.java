@@ -12,6 +12,9 @@ import java.security.InvalidParameterException;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -170,5 +173,33 @@ public class DiCommResponseTest extends RobolectricTest {
         when(diCommMessageMock.getPayload()).thenReturn(data);
 
         new DiCommResponse(diCommMessageMock);
+    }
+
+    @Test
+    public void whenResponseHasNoJSONThenStatusCodeIsRead() throws Exception {
+        byte[] data = new byte[2];
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+        byteBuffer.put(StatusCode.OutOfMemory.getDiCommStatusCode());
+        byteBuffer.put((byte) 0);
+
+        when(diCommMessageMock.getPayload()).thenReturn(data);
+
+        DiCommResponse diCommResponse = new DiCommResponse(diCommMessageMock);
+
+        assertEquals(StatusCode.OutOfMemory, diCommResponse.getStatus());
+        assertNull(diCommResponse.getProperties());
+    }
+
+    @Test
+    public void whenResponseHasEmptyJSONThenResponseIsParsedProperly() throws Exception {
+        String notJSONData = "{}";
+        byte[] data = convertStringToBytes(notJSONData);
+
+        when(diCommMessageMock.getPayload()).thenReturn(data);
+        DiCommResponse diCommResponse = new DiCommResponse(diCommMessageMock);
+
+        assertEquals(StatusCode.NoError, diCommResponse.getStatus());
+        assertNotNull(diCommResponse.getProperties());
+        assertTrue(diCommResponse.getProperties().isEmpty());
     }
 }
