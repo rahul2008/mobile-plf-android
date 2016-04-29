@@ -9,5 +9,5 @@ import java.util.List;
  * All rights reserved.
  */
 public interface RegisteredProductsListener {
-    void getRegisteredProducts(List<RegisteredProduct> registeredProducts);
+    void getRegisteredProducts(List<RegisteredProduct> registeredProducts, long timeStamp);
 }

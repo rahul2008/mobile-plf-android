@@ -13,6 +13,7 @@ import android.widget.ToggleButton;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.Product;
 import com.philips.cdp.prodreg.backend.RegisteredProduct;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
@@ -95,7 +96,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         prodRegHelper.setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
         Product product = new Product(mCtn.getText().toString(), mSerialNumber.getText().toString(), mPurchaseDate.getText().toString(),
                 Sector.B2C, Catalog.CONSUMER);
-        product.setShouldSendEmailAfterRegistration(String.valueOf(eMailConfiguration));
+        product.sendEmail(String.valueOf(eMailConfiguration));
         final ProdRegListener listener = new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct) {

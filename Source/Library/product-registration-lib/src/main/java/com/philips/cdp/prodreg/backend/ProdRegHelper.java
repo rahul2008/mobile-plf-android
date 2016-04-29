@@ -2,16 +2,13 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.prodreg;
+package com.philips.cdp.prodreg.backend;
 
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.prodreg.backend.LocalRegisteredProducts;
-import com.philips.cdp.prodreg.backend.RegisteredProduct;
-import com.philips.cdp.prodreg.backend.UserWithProducts;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -30,13 +27,8 @@ public class ProdRegHelper {
 
     public void init(Context context) {
         this.context = context;
-        userWithProducts = new UserWithProducts(context, new User(context));
+        userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
         registerListerOnUserSignIn();
-    }
-
-    @NonNull
-    UserWithProducts getUserWithProducts() {
-        return userWithProducts;
     }
 
     public void setLocale(final String language, final String countryCode) {
@@ -60,8 +52,8 @@ public class ProdRegHelper {
         userRegistrationListener = new UserRegistrationListener() {
             @Override
             public void onUserRegistrationComplete(final Activity activity) {
-                final User user = new User(activity);
-                new UserWithProducts(activity, new User(context)).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts(), new ProdRegListener() {
+                final User user = new User(context);
+                new UserWithProducts(context, new User(context), prodRegListener).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts(), new ProdRegListener() {
                     @Override
                     public void onProdRegSuccess(RegisteredProduct registeredProduct) {
                         Log.d("Product Registration logs ", "Product " + registeredProduct.getCtn() + " and Serial " + registeredProduct.getSerialNumber() + " registered successfully");
@@ -102,8 +94,6 @@ public class ProdRegHelper {
     }
 
     public UserWithProducts getSignedInUserWithProducts() {
-        UserWithProducts userWithProducts = getUserWithProducts();
-        userWithProducts.setProductRegistrationListener(prodRegListener);
         userWithProducts.setLocale(this.locale);
         return userWithProducts;
     }

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.philips.cdp.prodreg.backend.ProdRegHelper;
 import com.philips.cdp.prodreg.backend.RegisteredProduct;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 
@@ -31,7 +32,7 @@ public class RegisteredProductsList extends AppCompatActivity {
         prodRegHelper.init(this);
         prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(new RegisteredProductsListener() {
             @Override
-            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts) {
+            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 productAdapter = new ProductAdapter(RegisteredProductsList.this, registeredProducts);
                 mRecyclerView.setAdapter(productAdapter);
             }

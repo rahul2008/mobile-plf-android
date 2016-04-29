@@ -108,11 +108,11 @@ public class Product {
         this.purchaseDate = purchaseDate;
     }
 
-    public String getShouldSendEmailAfterRegistration() {
+    public String getEmail() {
         return shouldSendEmailAfterRegistration;
     }
 
-    public void setShouldSendEmailAfterRegistration(final String shouldSendEmailAfterRegistration) {
+    public void sendEmail(final String shouldSendEmailAfterRegistration) {
         this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
     }
 

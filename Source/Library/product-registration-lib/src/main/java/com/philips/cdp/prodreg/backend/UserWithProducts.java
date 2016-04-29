@@ -49,11 +49,12 @@ public class UserWithProducts {
     private String uuid = "";
     private ProdRegListener appListener;
 
-    public UserWithProducts(final Context context, final User user) {
+    UserWithProducts(final Context context, final User user, final ProdRegListener appListener) {
         this.mContext = context;
+        this.appListener = appListener;
         this.user = user;
         localRegisteredProducts = new LocalRegisteredProducts(context, this.user);
-        errorHandler = new ErrorHandler(context);
+        errorHandler = new ErrorHandler();
     }
 
     public String getUuid() {
@@ -98,7 +99,7 @@ public class UserWithProducts {
         if (product != null) {
             RegisteredProduct registeredProduct = new RegisteredProduct(product.getCtn(), product.getSerialNumber(), product.getPurchaseDate(), product.getSector(), product.getCatalog());
             registeredProduct.setLocale(getLocale());
-            registeredProduct.setShouldSendEmailAfterRegistration(product.getShouldSendEmailAfterRegistration());
+            registeredProduct.sendEmail(product.getEmail());
             registeredProduct.setRegistrationState(RegistrationState.PENDING);
             registeredProduct.setUserUUid(getUuid());
             return registeredProduct;
@@ -182,9 +183,9 @@ public class UserWithProducts {
     RegisteredProductsListener getRegisteredProductsListener(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         return new RegisteredProductsListener() {
             @Override
-            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts) {
+            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 if (!isCtnRegistered(registeredProducts, registeredProduct, appListener))
-                    registeredProduct.getProductMetadata(mContext, getMetadataListener(registeredProduct, appListener));
+                    registeredProduct.getProductMetadata(mContext, getUserProduct().getMetadataListener(registeredProduct, appListener));
             }
         };
     }
@@ -216,7 +217,7 @@ public class UserWithProducts {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                getErrorHandler().handleError(registeredProduct, responseCode, appListener);
+                getErrorHandler().handleError(getUserProduct(), registeredProduct, responseCode, appListener);
             }
         };
     }
@@ -313,18 +314,22 @@ public class UserWithProducts {
                 Gson gson = getGson();
                 RegisteredProduct[] registeredProducts = getUserProduct().getRegisteredProductsFromResponse(results, gson);
                 localRegisteredProductsInstance.syncLocalCache(registeredProducts);
-                registeredProductsListener.getRegisteredProducts(localRegisteredProductsInstance.getRegisteredProducts());
+                registeredProductsListener.getRegisteredProducts(localRegisteredProductsInstance.getRegisteredProducts(), getUserProduct().getTimeStamp());
             }
 
             @Override
             public void onResponseError(final String errorMessage, final int responseCode) {
                 try {
-                    registeredProductsListener.getRegisteredProducts(getLocalRegisteredProductsInstance().getRegisteredProducts());
+                    registeredProductsListener.getRegisteredProducts(getLocalRegisteredProductsInstance().getRegisteredProducts(), 0);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         };
+    }
+
+    protected long getTimeStamp() {
+        return System.currentTimeMillis();
     }
 
     @NonNull
@@ -343,7 +348,7 @@ public class UserWithProducts {
             @Override
             public void onResponseError(final String errorMessage, final int responseCode) {
                 try {
-                    getErrorHandler().handleError(registeredProduct, responseCode, appListener);
+                    getErrorHandler().handleError(getUserProduct(), registeredProduct, responseCode, appListener);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -364,7 +369,7 @@ public class UserWithProducts {
         registrationRequest.setmLocale(registeredProduct.getLocale());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
-        registrationRequest.setShouldSendEmailAfterRegistration(registeredProduct.getShouldSendEmailAfterRegistration());
+        registrationRequest.setShouldSendEmailAfterRegistration(registeredProduct.getEmail());
         RequestManager mRequestManager = getRequestManager(mContext);
         mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(registeredProduct, appListener));
     }
@@ -379,10 +384,6 @@ public class UserWithProducts {
 
     public void setLocale(final String locale) {
         this.locale = locale;
-    }
-
-    public void setProductRegistrationListener(final ProdRegListener listener) {
-        this.appListener = listener;
     }
 
     private boolean processSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct, final ProdRegListener listener) {
