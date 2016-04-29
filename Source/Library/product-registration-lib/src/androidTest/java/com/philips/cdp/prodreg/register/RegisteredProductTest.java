@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.backend;
+package com.philips.cdp.prodreg.register;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;

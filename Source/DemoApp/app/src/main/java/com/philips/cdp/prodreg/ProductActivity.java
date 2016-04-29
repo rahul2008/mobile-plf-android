@@ -13,11 +13,11 @@ import android.widget.ToggleButton;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.backend.ProdRegHelper;
-import com.philips.cdp.prodreg.backend.Product;
-import com.philips.cdp.prodreg.backend.RegisteredProduct;
-import com.philips.cdp.prodreg.backend.UserWithProducts;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
+import com.philips.cdp.prodreg.register.ProdRegHelper;
+import com.philips.cdp.prodreg.register.Product;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
@@ -90,7 +90,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         submitButton = (Button) findViewById(R.id.submitproduct);
         toggleButton.setChecked(eMailConfiguration);
         prodRegHelper = new ProdRegHelper();
-        prodRegHelper.init(this);
+//        prodRegHelper.init(this);
     }
 
     private void registerProduct() {

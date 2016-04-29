@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp.prodreg.backend.RegisteredProduct;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
 
 import java.util.List;
 

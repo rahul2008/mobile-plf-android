@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.prodreg.backend;
+package com.philips.cdp.prodreg.register;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,35 +19,14 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
  */
 public class ProdRegHelper {
 
+    private static Context context;
+    private static ProdRegListener prodRegListener;
+    private static UserRegistrationListener userRegistrationListener;
     private String locale;
-    private Context context;
-    private ProdRegListener prodRegListener;
-    private UserRegistrationListener userRegistrationListener;
     private UserWithProducts userWithProducts;
 
-    public void init(Context context) {
-        this.context = context;
-        registerListerOnUserSignIn();
-    }
-
-    public void setLocale(final String language, final String countryCode) {
-        this.locale = language + "_" + countryCode;
-    }
-
-    public String getLocale() {
-        return locale;
-    }
-
-    public void addProductRegistrationListener(final ProdRegListener listener) {
-        this.prodRegListener = listener;
-    }
-
-    private void registerListerOnUserSignIn() {
-        RegistrationHelper.getInstance().registerUserRegistrationListener(getUserRegistrationListener());
-    }
-
     @NonNull
-    private UserRegistrationListener getUserRegistrationListener() {
+    private static UserRegistrationListener getUserRegistrationListener() {
         userRegistrationListener = new UserRegistrationListener() {
             @Override
             public void onUserRegistrationComplete(final Activity activity) {
@@ -88,6 +67,23 @@ public class ProdRegHelper {
         return userRegistrationListener;
     }
 
+    public void init(Context context) {
+        ProdRegHelper.context = context;
+        UserRegistrationObserver.registerListerOnUserSignIn();
+    }
+
+    public void setLocale(final String language, final String countryCode) {
+        this.locale = language + "_" + countryCode;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void addProductRegistrationListener(final ProdRegListener listener) {
+        prodRegListener = listener;
+    }
+
     public void removeProductRegistrationListener() {
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
     }
@@ -96,5 +92,11 @@ public class ProdRegHelper {
         userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
         userWithProducts.setLocale(this.locale);
         return userWithProducts;
+    }
+
+    static class UserRegistrationObserver {
+        protected static void registerListerOnUserSignIn() {
+            RegistrationHelper.getInstance().registerUserRegistrationListener(getUserRegistrationListener());
+        }
     }
 }

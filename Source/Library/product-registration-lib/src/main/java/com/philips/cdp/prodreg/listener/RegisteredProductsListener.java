@@ -1,6 +1,6 @@
 package com.philips.cdp.prodreg.listener;
 
-import com.philips.cdp.prodreg.backend.RegisteredProduct;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
 
 import java.util.List;
 

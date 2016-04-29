@@ -1,7 +1,7 @@
 package com.philips.cdp.prodreg.listener;
 
-import com.philips.cdp.prodreg.backend.RegisteredProduct;
-import com.philips.cdp.prodreg.backend.UserWithProducts;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.register.UserWithProducts;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

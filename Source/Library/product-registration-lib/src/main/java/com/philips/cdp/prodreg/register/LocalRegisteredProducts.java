@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.backend;
+package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

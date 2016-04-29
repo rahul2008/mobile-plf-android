@@ -2,9 +2,9 @@ package com.philips.cdp.prodreg.error;
 
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.RegistrationState;
-import com.philips.cdp.prodreg.backend.RegisteredProduct;
-import com.philips.cdp.prodreg.backend.UserWithProducts;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.register.UserWithProducts;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

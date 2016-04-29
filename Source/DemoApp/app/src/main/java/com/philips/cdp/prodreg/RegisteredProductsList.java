@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.philips.cdp.prodreg.backend.ProdRegHelper;
-import com.philips.cdp.prodreg.backend.RegisteredProduct;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
+import com.philips.cdp.prodreg.register.ProdRegHelper;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
 
 import java.util.List;
 
