@@ -513,7 +513,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     private void showUSRegions() {
-        if (mEtCountry.getText().toString().equals("US")) {
+        if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
             mlLState.setVisibility(View.VISIBLE);
         } else {
             mlLState.setVisibility(View.GONE);
