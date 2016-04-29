@@ -15,6 +15,7 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.launchertype.UiLauncher;
@@ -43,7 +44,7 @@ public class DigitalCareConfigManager {
     private static LocaleMatchHandler mLocaleMatchHandler = null;
     private static Locale mLocale = null;
     private static Locale mLocaleMatchWithCountryFallBack = null;
-    private static Locale mLocaleMatchWithLanguageFallBack = null;
+    //  private static Locale mLocaleMatchWithLanguageFallBack = null;
     private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
     private static UiLauncher mUiLauncher = null;
     private ConsumerProductInfo mConsumerProductInfo = null;
@@ -104,6 +105,19 @@ public class DigitalCareConfigManager {
             LocaleMatchHandler.initializePRXMap();
             initializeTaggingContext(mContext);
         }
+
+        PILLocaleManager localeManager = new PILLocaleManager(mContext);
+        String[] localeArray = new String[2];
+        String locale = localeManager.getInputLocale();
+        localeArray = locale.split("_");
+
+        mLocale = new Locale(localeArray[0], localeArray[1]);
+        if (mLocaleMatchWithCountryFallBack == null)
+            mLocaleMatchWithCountryFallBack = mLocale;
+           /* if (mLocaleMatchWithLanguageFallBack == null)
+                mLocaleMatchWithLanguageFallBack = mLocale;*/
+        mLocaleMatchHandler.initializeLocaleMatchService(localeArray[0], localeArray[1]);
+
     }
 
     public LocaleMatchHandlerObserver getObserver() {
@@ -356,28 +370,6 @@ public class DigitalCareConfigManager {
 
 
     /**
-     * <p> Set the Locale to the DigitalCare Component </p>
-     * <p> This Locale is considered for the Localized language as well as Locale specific Philips Server data comminication </p>
-     * <p></p>
-     * <b>Note: </b>
-     * <p>  - This is very important method, So please make sure to call this before invoking the DigitalCare Components</p>
-     *
-     * @param langCode    LanguageCode
-     * @param countryCode CountryCode
-     */
-    public void setLocale(String langCode, String countryCode) {
-
-        if (langCode != null && countryCode != null) {
-            mLocale = new Locale(langCode, countryCode);
-            if (mLocaleMatchWithCountryFallBack == null)
-                mLocaleMatchWithCountryFallBack = mLocale;
-            if (mLocaleMatchWithLanguageFallBack == null)
-                mLocaleMatchWithLanguageFallBack = mLocale;
-            mLocaleMatchHandler.initializeLocaleMatchService(langCode, countryCode);
-        }
-    }
-
-    /**
      * Returns Locale used in the DigitalCare Component
      *
      * @return Retuns the {@link Locale} object using by DigitalCare component.
@@ -396,14 +388,14 @@ public class DigitalCareConfigManager {
     }
 
 
-    public Locale getLocaleMatchResponseWithLanguageFallBack() {
+    /*public Locale getLocaleMatchResponseWithLanguageFallBack() {
         return mLocaleMatchWithLanguageFallBack;
     }
 
     public void setLocaleMatchResponseLocaleWithLanguageFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithLanguageFallBack = localeMatchLocale;
         DigiCareLogger.d(TAG, "Language Fallback : " + localeMatchLocale.toString());
-    }
+    }*/
 
     public String getDigitalCareLibVersion() {
         return BuildConfig.VERSION_NAME;

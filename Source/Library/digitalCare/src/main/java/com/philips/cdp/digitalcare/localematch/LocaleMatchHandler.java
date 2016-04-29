@@ -124,7 +124,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         DigiCareLogger.v(LocaleMatchHandler.class.getSimpleName(),
                 "piLocale received on ErrorListener");
         DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
-        DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(mLocale);
+       // DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(mLocale);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         if (DigitalCareConfigManager.getInstance() == null || DigitalCareConfigManager.getInstance().getConsumerProductInfo() == null ||
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector() == null) {
            // DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
-            DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(mLocale);
+          //  DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(mLocale);
             return;
         }
 
@@ -157,10 +157,10 @@ public class LocaleMatchHandler implements LocaleMatchListener {
 
             if (mPilLocaleWithLanguageFallBack != null) {
                 Locale locale = new Locale(mPilLocaleWithLanguageFallBack.getLanguageCode(), mPilLocaleWithLanguageFallBack.getCountrycode());
-                DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(locale);
+               // DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(locale);
                 DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
             } else {
-                DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(mLocale);
+              //  DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(mLocale);
                 DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
             }
 

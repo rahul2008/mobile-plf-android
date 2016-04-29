@@ -40,7 +40,7 @@ import java.util.List;
     @author: ritesh.jha@philips.com
  */
 
-public class  LaunchDigitalCare extends FragmentActivity implements OnClickListener,
+public class LaunchDigitalCare extends FragmentActivity implements OnClickListener,
         MainMenuListener, ProductMenuListener, SocialProviderListener {
 
     private static final String TAG = LaunchDigitalCare.class.getSimpleName();
@@ -191,6 +191,11 @@ public class  LaunchDigitalCare extends FragmentActivity implements OnClickListe
     }
 
     private void initializeDigitalCareLibrary() {
+
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+
+
         // Initializing DigitalCare Component.
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
                 this);
@@ -203,11 +208,6 @@ public class  LaunchDigitalCare extends FragmentActivity implements OnClickListe
                 this);
 
 
-        // Passing default Locale to DigitalCare Library, app should pass the locale which is used
-        // by application and also set locale to digitalcare library dynamically when ever app
-        // locale changes
-        setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
-        //For Debugging purpose, enable this only in debug build
         DigiCareLogger.enableLogging();
     }
 
@@ -272,14 +272,14 @@ public class  LaunchDigitalCare extends FragmentActivity implements OnClickListe
                 String[] ctnList = new String[mList.size()];
                 for (int i = 0; i < mList.size(); i++)
                     ctnList[i] = mList.get(i);
-              //  if (ctnList.length != 0) {
-                    HardcodedProductList productsSelection = new HardcodedProductList(ctnList);
-                    productsSelection.setCatalog(Catalog.CARE);
-                    productsSelection.setSector(Sector.B2C);
-                    ActivityLauncher uiLauncher = new ActivityLauncher(com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                            R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
-                    uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-                    DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);
+                //  if (ctnList.length != 0) {
+                HardcodedProductList productsSelection = new HardcodedProductList(ctnList);
+                productsSelection.setCatalog(Catalog.CARE);
+                productsSelection.setSector(Sector.B2C);
+                ActivityLauncher uiLauncher = new ActivityLauncher(com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                        R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
+                uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+                DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);
               /*  } else
                     Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();*/
                 break;
@@ -297,11 +297,10 @@ public class  LaunchDigitalCare extends FragmentActivity implements OnClickListe
         }
     }
 
-    private void setDigitalCareLocale(String language, String country) {
+   /* private void setDigitalCareLocale(String language, String country) {
 
         DigitalCareConfigManager.getInstance().setLocale(language, country);
 
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(language, country);
-    }
+
+    }*/
 }
