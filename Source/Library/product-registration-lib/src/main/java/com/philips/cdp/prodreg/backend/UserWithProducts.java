@@ -13,11 +13,9 @@ import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
-import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
-import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -131,22 +129,14 @@ public class UserWithProducts {
     public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
         setRequestType(FETCH_REGISTERED_PRODUCTS);
         this.registeredProductsListener = registeredProductsListener;
-        RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest();
-        final RequestManager mRequestManager = getRequestManager(mContext);
-        mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(registeredProductsListener));
+        final RemoteRegisteredProducts remoteRegisteredProducts = new RemoteRegisteredProducts();
+        remoteRegisteredProducts.getRegisteredProducts(mContext, getUserProduct(), getUser(), registeredProductsListener);
     }
 
     public void updateLocaleCacheOnError(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
         registeredProduct.setRegistrationState(registrationState);
         registeredProduct.setProdRegError(prodRegError);
         getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
-    }
-
-    @NonNull
-    protected RegisteredProductsRequest getRegisteredProductsRequest() {
-        RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest();
-        registeredProductsRequest.setAccessToken(getUser().getAccessToken());
-        return registeredProductsRequest;
     }
 
     @NonNull
@@ -196,11 +186,6 @@ public class UserWithProducts {
 
     protected RegisteredProduct[] getRegisteredProductsFromResponse(final RegisteredResponseData[] results, final Gson gson) {
         return gson.fromJson(gson.toJson(results), RegisteredProduct[].class);
-    }
-
-    @NonNull
-    protected Gson getGson() {
-        return new Gson();
     }
 
     @NonNull
@@ -301,31 +286,6 @@ public class UserWithProducts {
             default:
                 break;
         }
-    }
-
-    @NonNull
-    ResponseListener getPrxResponseListenerForRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
-        return new ResponseListener() {
-            @Override
-            public void onResponseSuccess(final ResponseData responseData) {
-                RegisteredResponse registeredDataResponse = (RegisteredResponse) responseData;
-                RegisteredResponseData[] results = registeredDataResponse.getResults();
-                final LocalRegisteredProducts localRegisteredProductsInstance = getLocalRegisteredProductsInstance();
-                Gson gson = getGson();
-                RegisteredProduct[] registeredProducts = getUserProduct().getRegisteredProductsFromResponse(results, gson);
-                localRegisteredProductsInstance.syncLocalCache(registeredProducts);
-                registeredProductsListener.getRegisteredProducts(localRegisteredProductsInstance.getRegisteredProducts(), getUserProduct().getTimeStamp());
-            }
-
-            @Override
-            public void onResponseError(final String errorMessage, final int responseCode) {
-                try {
-                    registeredProductsListener.getRegisteredProducts(getLocalRegisteredProductsInstance().getRegisteredProducts(), 0);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
     }
 
     protected long getTimeStamp() {

@@ -14,8 +14,6 @@ import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
-import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
-import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
@@ -342,27 +340,6 @@ public class UserWithProductsTest extends MockitoTestCase {
         registeredProducts.add(registeredProduct2);
         registeredProducts.add(registeredProduct3);
         assertFalse(userWithProducts.isCtnRegistered(registeredProducts, product, prodRegListener));
-    }
-
-    public void testGetPrxResponseListenerForRegisteredProducts() {
-        RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-        ResponseListener responseListener = userWithProducts.getPrxResponseListenerForRegisteredProducts(registeredProductsListener);
-        RegisteredResponse registeredResponse = mock(RegisteredResponse.class);
-        final RegisteredResponseData registeredResponseData = new RegisteredResponseData();
-        registeredResponseData.setProductModelNumber("HD8967/09");
-        registeredResponseData.setProductSerialNumber("1234");
-        final RegisteredResponseData registeredResponseData1 = new RegisteredResponseData();
-        registeredResponseData1.setProductModelNumber("HD8968/09");
-        final RegisteredResponseData registeredResponseData2 = new RegisteredResponseData();
-        registeredResponseData2.setProductModelNumber("HD8969/09");
-        RegisteredResponseData[] results = {registeredResponseData, registeredResponseData1, registeredResponseData2};
-        when(registeredResponse.getResults()).thenReturn(results);
-        final long value = System.currentTimeMillis();
-        when(userWithProductsMock.getTimeStamp()).thenReturn(value);
-        responseListener.onResponseSuccess(registeredResponse);
-        verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProducts(localRegisteredProducts.getRegisteredProducts(), value);
-        responseListener.onResponseError("test", 10);
-        verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProducts(localRegisteredProducts.getRegisteredProducts(), 0);
     }
 
     public void testGetPrxResponseListenerForRegisteringProducts() {

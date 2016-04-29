@@ -27,7 +27,6 @@ public class ProdRegHelper {
 
     public void init(Context context) {
         this.context = context;
-        userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
         registerListerOnUserSignIn();
     }
 
@@ -94,6 +93,7 @@ public class ProdRegHelper {
     }
 
     public UserWithProducts getSignedInUserWithProducts() {
+        userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
         userWithProducts.setLocale(this.locale);
         return userWithProducts;
     }
