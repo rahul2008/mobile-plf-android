@@ -1,5 +1,6 @@
 package com.philips.appinfra.demo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -25,6 +26,14 @@ public class SecureStorageActivity extends AppCompatActivity  {
         final  EditText data = (EditText) findViewById(R.id.data_editText);
         final TextView encryptedDataTextView = (TextView) findViewById(R.id.encripted_Ouput_textView);
         final  TextView decryptedDataTextView = (TextView) findViewById(R.id.decripted_Output_textView);
+        final  Button demot = (Button) findViewById(R.id.button_tagg);
+        demot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SecureStorageActivity.this, AIATDemoPage.class);
+                startActivity(i);
+            }
+        });
 
         Button encryptButton = (Button) findViewById(R.id.encript_button);
 
