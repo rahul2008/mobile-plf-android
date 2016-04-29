@@ -82,22 +82,18 @@ artifactory {
     }
 }
 
-//=======To zip and upload "Documents/External" ==STARTS=============
-def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    archives zipDoc
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
 }
 
-task zipDocuments(type: Zip) {
-    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
-    from files(docfiles) {
-        baseName = project.name
-        classifier 'docs'
-    }
+artifactoryPublish {
+    dependsOn sourceJar
 }
-//=======To zip and upload "Documents/External" ==ENDS=============
-	
+
+artifacts {
+    archives sourceJar
+}	
 	
 android {
     compileSdkVersion 23
