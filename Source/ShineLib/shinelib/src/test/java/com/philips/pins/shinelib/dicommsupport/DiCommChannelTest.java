@@ -124,8 +124,10 @@ public class DiCommChannelTest {
     }
 
     @Test
-    public void canAddPorts() throws Exception {
+    public void whenPortIsAddedThenSetChannelIsCalled() throws Exception {
         diCommChannel.addPort(diCommPortMock);
+
+        verify(diCommPortMock).setDiCommChannel(diCommChannel);
     }
 
     @Test

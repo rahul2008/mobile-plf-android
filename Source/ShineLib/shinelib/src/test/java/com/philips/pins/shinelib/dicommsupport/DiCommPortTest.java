@@ -177,7 +177,7 @@ public class DiCommPortTest {
 
     @Test
     public void whenPutPropertiesWhileUnavailableThenSHNErrorInvalidStateIsReported() throws Exception {
-        diCommPort.putProperties(mapResultListenerMock);
+        diCommPort.putProperties(properties, mapResultListenerMock);
 
         verify(mapResultListenerMock).onActionCompleted(null, SHNResult.SHNErrorInvalidState);
     }
@@ -186,7 +186,8 @@ public class DiCommPortTest {
     public void whenPutPropertiesIsCalledThenSendPropertiesIsCalledOnChannel() throws Exception {
         goToAvailableState();
 
-        diCommPort.putProperties(mapResultListenerMock);
+        Map<String, Object> properties = new HashMap<>();
+        diCommPort.putProperties(properties, mapResultListenerMock);
 
         verify(diCommChannelMock).sendProperties(eq(properties), eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
     }

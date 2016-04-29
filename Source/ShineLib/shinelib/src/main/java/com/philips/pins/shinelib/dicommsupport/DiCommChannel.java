@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener {
+public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingListener {
 
     private static final String TAG = "DiCommChannel";
     public static final String PRODUCT = "0";
@@ -129,6 +129,8 @@ class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshin
 
     public void addPort(@NonNull DiCommPort diCommPort) {
         this.diCommPorts.add(diCommPort);
+
+        diCommPort.setDiCommChannel(this);
 
         diCommPort.onChannelAvailabilityChanged(isAvailable);
     }

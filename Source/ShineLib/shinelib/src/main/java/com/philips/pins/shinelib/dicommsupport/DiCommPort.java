@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-class DiCommPort {
+public class DiCommPort {
 
     private static final String TAG = "DiCommPort";
     private static final int POLLING_INTERVAL = 2000;
@@ -107,13 +107,13 @@ class DiCommPort {
         }
     }
 
-    public void putProperties(@NonNull final SHNMapResultListener<String, Object> resultListener) {
+    public void putProperties(@NonNull Map<String, Object> properties, @NonNull final SHNMapResultListener<String, Object> resultListener) {
         if (isAvailable) {
             if (diCommChannel != null) {
                 diCommChannel.sendProperties(properties, name, new SHNMapResultListener<String, Object>() {
                     @Override
-                    public void onActionCompleted(Map<String, Object> properties1, @NonNull SHNResult result) {
-                        resultListener.onActionCompleted(properties1, result);
+                    public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
+                        resultListener.onActionCompleted(properties, result);
                     }
                 });
             }
