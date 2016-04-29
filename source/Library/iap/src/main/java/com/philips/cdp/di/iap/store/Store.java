@@ -23,8 +23,6 @@ public class Store {
     private static final String METAINFO = "metainfo";
     private static final String REGIONS = "regions";
     private static final String LANG = "?fields=FULL&lang=en";
-    private static final String LANG_ONLY = "&lang=en";
-    private static final String LANGUAGE_EN = "?language=en";
 
     //Oauth
     private static final String SUFFIX_OAUTH =
@@ -41,14 +39,14 @@ public class Store {
     private static final String SUFFIX_SET_PAYMENT_DETAILS = "/paymentdetails";
     private static final String SUFFIX_SET_PAYMENT_URL = "/orders/%s/pay";
 
-    private static final String SUFFIX_ADDRESSES_FULL = "/addresses" + LANG;
+    private static final String SUFFIX_ADDRESSES_FULL = "/addresses";
     private static final String SUFFIX_ADDRESSES_ALTER = "/addresses/%s";
 
     private static final String SUFFIX_DELIVERY_MODE = "/deliverymode";
     private static final String SUFFIX_DELIVERY_ADDRESS = "/addresses/delivery";
 
     private static final String SUFFIX_PLACE_ORDER = "/orders";
-    private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + LANG_ONLY;
+    private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + LANG;
     private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
 
     private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1/";
@@ -182,7 +180,7 @@ public class Store {
         builder.append(V2).append(SEPERATOR);
         builder.append(METAINFO).append(SEPERATOR);
         builder.append(REGIONS).append(SEPERATOR);
-        builder.append(getCountry()).append(LANGUAGE_EN);//Check whether to pass "UK" / "GB"
+        builder.append(getCountry()).append(LANG);//Check whether to pass "UK" / "GB"
         return builder.toString();
     }
 
@@ -266,6 +264,11 @@ public class Store {
     }
 
     public String getAddressDetailsUrl() {
+        if (getCountry().equalsIgnoreCase("GB")) {
+            return mAddressDetailsUrl;
+        } else if (getCountry().equalsIgnoreCase("US")) {
+            return mAddressDetailsUrl.concat(LANG);
+        }
         return mAddressDetailsUrl;
     }
 
