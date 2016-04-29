@@ -177,10 +177,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
-    public void onGetDeliveryAddress(final Message msg) {
-    }
-
-    @Override
     public void onSetDeliveryModes(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             checkPaymentDetails();
@@ -188,11 +184,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             Utility.dismissProgressDialog();
         }
-    }
-
-    @Override
-    public void onGetDeliveryModes(final Message msg) {
-
     }
 
     public static AddressSelectionFragment createInstance(final Bundle args, final AnimationType animType) {

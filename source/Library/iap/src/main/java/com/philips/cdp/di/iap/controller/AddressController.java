@@ -33,16 +33,9 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
     public interface AddressListener {
         void onGetAddress(Message msg);
-
         void onCreateAddress(Message msg);
-
         void onSetDeliveryAddress(Message msg);
-
-        void onGetDeliveryAddress(Message msg);
-
         void onSetDeliveryModes(Message msg);
-
-        void onGetDeliveryModes(Message msg);
     }
 
     public AddressController(Context context, AddressListener listener) {
@@ -159,8 +152,6 @@ public class AddressController implements AbstractModel.DataLoadListener {
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, isDefaultAddress.toString());
         addressHashMap.put(ModelConstants.PHONE_1, addr.getPhone1());
         addressHashMap.put(ModelConstants.PHONE_2, "");
-//        addressHashMap.put(ModelConstants.PHONE_NUMBER, addr.getPhone1());
-
         if (addr.getRegion() != null)
             addressHashMap.put(ModelConstants.REGION_ISOCODE, addr.getRegion().getIsocode());
         return addressHashMap;

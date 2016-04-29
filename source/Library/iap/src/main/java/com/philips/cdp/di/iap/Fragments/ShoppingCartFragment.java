@@ -207,18 +207,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onGetDeliveryAddress(final Message msg) {
-        //NOP
-    }
-
-    @Override
     public void onSetDeliveryModes(final Message msg) {
         //NOP
-    }
-
-    @Override
-    public void onGetDeliveryModes(final Message msg) {
-
     }
 
     @Override

@@ -575,7 +575,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_1, mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressHashMap.put(ModelConstants.PHONE_2, "");
-//        addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
         if (mlLState.getVisibility() == View.GONE) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, null);
@@ -664,18 +663,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onGetDeliveryModes(final Message msg) {
-        //NOP
-    }
-
-    @Override
     public void onSetPaymentDetails(Message msg) {
 
-    }
-
-    @Override
-    public void onGetDeliveryAddress(final Message msg) {
-        //NOP
     }
 
     @Override
