@@ -20,7 +20,8 @@
 
             <View
                 style="@style/reg_line"
-                android:layout_marginTop="@dimen/reg_header_margin_top" />
+                android:layout_height="2dip"
+                android:layout_marginTop="@dimen/reg_header_margin_top"/>
 
             <LinearLayout
                 android:id="@+id/ll_reg_age_select_container"

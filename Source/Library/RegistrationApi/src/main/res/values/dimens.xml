@@ -136,4 +136,6 @@
     <dimen name="reg_coppa_picker_btn_padding">20dip</dimen>
     <dimen name="reg_coppa_picker_btn_margin">10dip</dimen>
 
+    <dimen name="reg_shadow_height">5dip</dimen>
+
 </resources>
