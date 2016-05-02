@@ -62,6 +62,11 @@ public class UserWithProducts {
         this.uuid = getUser().getJanrainUUID() != null ? getUser().getJanrainUUID() : "";
     }
 
+    /**
+     * API to register product
+     *
+     * @param product - instance of product which should include CTN, Serial, Sector and Catalog of product
+     */
     public void registerProduct(final Product product) {
         if (appListener == null) {
             throw new RuntimeException("Listener not Set");
@@ -81,28 +86,12 @@ public class UserWithProducts {
         getUserProduct().registerCachedProducts(registeredProducts, appListener);
     }
 
-    @NonNull
-    protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
-        return localRegisteredProducts;
-    }
-
-    @NonNull
-    protected User getUser() {
-        return user;
-    }
-
-    protected RegisteredProduct createDummyRegisteredProduct(final Product product) {
-        if (product != null) {
-            RegisteredProduct registeredProduct = new RegisteredProduct(product.getCtn(), product.getSerialNumber(), product.getPurchaseDate(), product.getSector(), product.getCatalog());
-            registeredProduct.setLocale(getLocale());
-            registeredProduct.sendEmail(product.getEmail());
-            registeredProduct.setRegistrationState(RegistrationState.PENDING);
-            registeredProduct.setUserUUid(getUuid());
-            return registeredProduct;
-        }
-        return null;
-    }
-
+    /**
+     * API to register products which are cached
+     *
+     * @param registeredProducts - List of products to be registered
+     * @param appListener        - Call back listener
+     */
     public void registerCachedProducts(final List<RegisteredProduct> registeredProducts, final ProdRegListener appListener) {
         for (RegisteredProduct registeredProduct : registeredProducts) {
             final RegistrationState registrationState = registeredProduct.getRegistrationState();
@@ -124,6 +113,10 @@ public class UserWithProducts {
         }
     }
 
+    /**
+     * API to fetch list of products which are registered locally and remote
+     * @param registeredProductsListener - call back listener to get list of products
+     */
     public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
         setRequestType(FETCH_REGISTERED_PRODUCTS);
         this.registeredProductsListener = registeredProductsListener;
@@ -135,6 +128,19 @@ public class UserWithProducts {
         registeredProduct.setRegistrationState(registrationState);
         registeredProduct.setProdRegError(prodRegError);
         getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
+    }
+
+    private boolean processSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct, final ProdRegListener listener) {
+        if (registeredProduct.getSerialNumber() == null || registeredProduct.getSerialNumber().length() < 1) {
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.MISSING_SERIALNUMBER, RegistrationState.FAILED);
+            listener.onProdRegFailed(registeredProduct, getUserProduct());
+            return true;
+        } else if (!registeredProduct.getSerialNumber().matches(data.getSerialNumberFormat())) {
+            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
+            listener.onProdRegFailed(registeredProduct, getUserProduct());
+            return true;
+        }
+        return false;
     }
 
     @NonNull
@@ -291,10 +297,6 @@ public class UserWithProducts {
         }
     }
 
-    protected long getTimeStamp() {
-        return System.currentTimeMillis();
-    }
-
     @NonNull
     ResponseListener getPrxResponseListener(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         return new ResponseListener() {
@@ -337,7 +339,7 @@ public class UserWithProducts {
         mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(registeredProduct, appListener));
     }
 
-    public RegisteredProductsListener getRegisteredProductsListener() {
+    protected RegisteredProductsListener getRegisteredProductsListener() {
         return registeredProductsListener;
     }
 
@@ -349,16 +351,29 @@ public class UserWithProducts {
         this.locale = locale;
     }
 
-    private boolean processSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct, final ProdRegListener listener) {
-        if (registeredProduct.getSerialNumber() == null || registeredProduct.getSerialNumber().length() < 1) {
-            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.MISSING_SERIALNUMBER, RegistrationState.FAILED);
-            listener.onProdRegFailed(registeredProduct, getUserProduct());
-            return true;
-        } else if (!registeredProduct.getSerialNumber().matches(data.getSerialNumberFormat())) {
-            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
-            listener.onProdRegFailed(registeredProduct, getUserProduct());
-            return true;
+    protected long getTimeStamp() {
+        return System.currentTimeMillis();
+    }
+
+    @NonNull
+    protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
+        return localRegisteredProducts;
+    }
+
+    @NonNull
+    protected User getUser() {
+        return user;
+    }
+
+    protected RegisteredProduct createDummyRegisteredProduct(final Product product) {
+        if (product != null) {
+            RegisteredProduct registeredProduct = new RegisteredProduct(product.getCtn(), product.getSerialNumber(), product.getPurchaseDate(), product.getSector(), product.getCatalog());
+            registeredProduct.setLocale(getLocale());
+            registeredProduct.sendEmail(product.getEmail());
+            registeredProduct.setRegistrationState(RegistrationState.PENDING);
+            registeredProduct.setUserUUid(getUuid());
+            return registeredProduct;
         }
-        return false;
+        return null;
     }
 }

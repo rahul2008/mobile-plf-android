@@ -66,19 +66,37 @@ public class ProdRegHelper {
         return userRegistrationListener;
     }
 
+    /**
+     * API to be called to initialize product registration
+     *
+     * @param context
+     */
     public void init(Context context) {
         ProdRegHelper.context = context;
         UserRegistrationObserver.registerListerOnUserSignIn();
     }
 
+    /**
+     * API to set locale
+     * @param language - language code
+     * @param countryCode - country code
+     */
     public void setLocale(final String language, final String countryCode) {
         this.locale = language + "_" + countryCode;
     }
 
+    /**
+     * API which returns locale
+     * @return - returns locale of type String
+     */
     public String getLocale() {
         return locale;
     }
 
+    /**
+     * API to add listener while registering product
+     * @param listener
+     */
     public void addProductRegistrationListener(final ProdRegListener listener) {
         prodRegListener = listener;
     }
@@ -87,13 +105,17 @@ public class ProdRegHelper {
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
     }
 
+    /**
+     * API which returns UserWithProducts instance for current signed in user
+     * @return
+     */
     public UserWithProducts getSignedInUserWithProducts() {
         final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
         userWithProducts.setLocale(this.locale);
         return userWithProducts;
     }
 
-    static class UserRegistrationObserver {
+    private static class UserRegistrationObserver {
         protected static void registerListerOnUserSignIn() {
             RegistrationHelper.getInstance().registerUserRegistrationListener(getUserRegistrationListener());
         }
