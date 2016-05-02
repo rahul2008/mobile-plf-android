@@ -22,14 +22,6 @@ public class MockAddressListener implements AddressController.AddressListener {
     }
 
     @Override
-    public void onGetDeliveryAddress(final Message msg) {
-    }
-
-    @Override
     public void onSetDeliveryModes(final Message msg) {
-    }
-
-    @Override
-    public void onGetDeliveryModes(final Message msg) {
     }
 }
