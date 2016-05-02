@@ -20,6 +20,9 @@ public class CartModelContainer {
     private String mAddressId;
     private String mOrderNumber;
 
+
+    private boolean switchToBillingAddress;
+
     public static CartModelContainer getInstance() {
         synchronized (CartModelContainer.class) {
             if (container == null) {
@@ -101,5 +104,13 @@ public class CartModelContainer {
         mShoppingCartData = null;
         mShippingAddressFields = null;
         mOrderNumber = null;
+    }
+
+    public void setSwitchToBillingAddress(boolean switchToBillingAddress) {
+        this.switchToBillingAddress = switchToBillingAddress;
+    }
+
+    public boolean isSwitchToBillingAddress() {
+        return switchToBillingAddress;
     }
 }

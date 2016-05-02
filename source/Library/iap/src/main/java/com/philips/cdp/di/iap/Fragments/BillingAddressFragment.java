@@ -20,6 +20,7 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 
@@ -43,6 +44,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
 
         if (CartModelContainer.getInstance().getShippingAddressFields() != null) {
             mBillingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
+            CartModelContainer.getInstance().setSwitchToBillingAddress(false);
             disableAllFields();
             prePopulateShippingAddress();
             mBtnContinue.setEnabled(true);
@@ -51,6 +53,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mSwitchBillingAddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                CartModelContainer.getInstance().setSwitchToBillingAddress(!isChecked);
+                IAPLog.i(IAPLog.LOG, "isSwitch = " + isChecked);
                 if (isChecked) {
                     disableAllFields();
                     prePopulateShippingAddress();

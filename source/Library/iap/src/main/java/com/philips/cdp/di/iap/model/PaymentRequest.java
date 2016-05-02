@@ -6,6 +6,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -36,8 +37,17 @@ public class PaymentRequest extends AbstractModel {
         AddressFields billingAddress = CartModelContainer.getInstance().getBillingAddress();
 
         Map<String, String> params = new HashMap<>();
+        IAPLog.i(IAPLog.LOG, "isSwitchToBillingAddress = " + CartModelContainer.getInstance().isSwitchToBillingAddress());
+        if (!CartModelContainer.getInstance().isSwitchToBillingAddress()) {
+            params.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
+            setBillingAddressParams(billingAddress, params);
+        } else
+            setBillingAddressParams(billingAddress, params);
 
-        params.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
+        return params;
+    }
+
+    private void setBillingAddressParams(AddressFields billingAddress, Map<String, String> params) {
         params.put(ModelConstants.FIRST_NAME, billingAddress.getFirstName());
         params.put(ModelConstants.LAST_NAME, billingAddress.getLastName());
         params.put(ModelConstants.TITLE_CODE, billingAddress.getTitleCode().toLowerCase(Locale.getDefault()));
@@ -47,10 +57,8 @@ public class PaymentRequest extends AbstractModel {
         params.put(ModelConstants.POSTAL_CODE, billingAddress.getPostalCode());
         params.put(ModelConstants.TOWN, billingAddress.getTown());
 //        params.put(ModelConstants.PHONE_NUMBER, billingAddress.getPhoneNumber());
-		params.put(ModelConstants.PHONE_1, billingAddress.getPhoneNumber());
+        params.put(ModelConstants.PHONE_1, billingAddress.getPhoneNumber());
         params.put(ModelConstants.PHONE_2, "");
-		
-        return params;
     }
 
     @Override

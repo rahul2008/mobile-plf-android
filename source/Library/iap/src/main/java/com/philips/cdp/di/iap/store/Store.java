@@ -23,6 +23,7 @@ public class Store {
     private static final String METAINFO = "metainfo";
     private static final String REGIONS = "regions";
     private static final String LANG = "?fields=FULL&lang=en";
+    private static final String LANG_GB = "?fields=FULL&lang=en_GB";
 
     //Oauth
     private static final String SUFFIX_OAUTH =
@@ -264,8 +265,8 @@ public class Store {
     }
 
     public String getAddressDetailsUrl() {
-        if (getCountry().equalsIgnoreCase("GB")) {
-            return mAddressDetailsUrl;
+        if (getCountry().equalsIgnoreCase("GB")){
+            return mAddressDetailsUrl.concat(LANG_GB);
         } else if (getCountry().equalsIgnoreCase("US")) {
             return mAddressDetailsUrl.concat(LANG);
         }
