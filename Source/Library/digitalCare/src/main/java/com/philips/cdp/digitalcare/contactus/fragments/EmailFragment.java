@@ -1,3 +1,10 @@
+/**
+ * EMail WebView Fragment
+ *
+ * @author : pawan.kumar.deshpande@philips.com
+ *         Since  17 july 2015.
+ *         Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
@@ -25,13 +32,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * EMail WebView Fragment
- *
- * @author : pawan.kumar.deshpande@philips.com
- *         Since  17 july 2015.
- *         Copyright (c) 2016 Philips. All rights reserved.
- */
+
 public class EmailFragment extends DigitalCareBaseFragment {
 
     private View mView = null;

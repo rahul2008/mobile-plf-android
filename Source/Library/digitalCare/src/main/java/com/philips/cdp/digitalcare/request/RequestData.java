@@ -1,10 +1,12 @@
-package com.philips.cdp.digitalcare;
-
 /**
  * @author naveen@philips.com
  * <p/>
  * <p> Common class to receive the response from the remote network URL. </p>
  */
+
+package com.philips.cdp.digitalcare;
+
+
 
 import android.os.Handler;
 import android.os.Looper;

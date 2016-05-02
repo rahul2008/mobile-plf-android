@@ -1,3 +1,11 @@
+/**
+ * ChatNowFragment will help to inflate chat webpage on the screen.
+ *
+ * @author : Ritesh.jha@philips.com
+ *
+ * @since : 16 Jan 2015
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.annotation.SuppressLint;
@@ -19,14 +27,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * ChatNowFragment will help to inflate chat webpage on the screen.
- * 
- * @author : Ritesh.jha@philips.com
- * 
- * @since : 16 Jan 2015
- * Copyright (c) 2016 Philips. All rights reserved.
- */
+
 @SuppressLint("SetJavaScriptEnabled")
 public class ChatNowFragment extends DigitalCareBaseFragment {
 	private View mView = null;

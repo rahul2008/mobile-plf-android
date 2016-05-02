@@ -1,3 +1,11 @@
+/**
+ * ContactUsFragment will help to provide options to contact Philips.
+ *
+ * @author : Ritesh.jha@philips.com
+ * @since : 19 Jan 2015
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.annotation.SuppressLint;
@@ -62,13 +70,7 @@ import com.philips.cdp.digitalcare.social.twitter.TwitterSupportFragment;*/
  import com.facebook.Session;
  import com.facebook.SessionState;*/
 
-/**
- * ContactUsFragment will help to provide options to contact Philips.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 19 Jan 2015
- * Copyright (c) 2016 Philips. All rights reserved.
- */
+
 public class ContactUsFragment extends DigitalCareBaseFragment implements
         /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback, Observer {
     private static final String CDLS_URL_PORT = "https://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
