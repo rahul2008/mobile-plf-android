@@ -18,19 +18,23 @@ public class NetworkController {
     IAPHurlStack mIAPHurlStack;
     RequestQueue hybrisVolleyQueue;
     Context context;
-    private Store store;
-    private OAuthHandler oAuthHandler;
+    Store store;
+    OAuthHandler oAuthHandler;
 
     public NetworkController(Context context) {
         this.context = context;
         initStore();
         oAuthHandler = new TestEnvOAuthHandler();
-        mIAPHurlStack = new IAPHurlStack(oAuthHandler);
-        mIAPHurlStack.setContext(context);
+        initHurlStack(context);
         hybrisVolleyCreateConnection(context);
     }
 
-    private void initStore() {
+    void initHurlStack(final Context context) {
+        mIAPHurlStack = new IAPHurlStack(oAuthHandler);
+        mIAPHurlStack.setContext(context);
+    }
+
+    void initStore() {
         store = new Store(context);
     }
 
@@ -85,9 +89,13 @@ public class NetworkController {
             }
         };
 
-        IAPJsonRequest jsObjRequest = new IAPJsonRequest(model.getMethod(), model.getUrl(),
-                model.requestBody(), response, error);
+        IAPJsonRequest jsObjRequest = getIapJsonRequest(model, error, response);
         addToVolleyQueue(jsObjRequest);
+    }
+
+    IAPJsonRequest getIapJsonRequest(final AbstractModel model, final Response.ErrorListener error, final Response.Listener<JSONObject> response) {
+        return new IAPJsonRequest(model.getMethod(), model.getUrl(),
+                    model.requestBody(), response, error);
     }
 
     public void addToVolleyQueue(final IAPJsonRequest jsObjRequest) {
