@@ -29,7 +29,7 @@ public class DownloadAndShowPDFHelper {
 
     private static final String PACKAGENAME_ADOBE_READER = "com.adobe.reader";
     private String TAG = DownloadAndShowPDFHelper.class.getSimpleName();
-    private static final String URL_PDF_MANUAL_EN_NEW = "http://download.p4c.philips.com/files/h/hd8977_01/hd8977_01_dfu_eng.pdf";
+//    private static final String URL_PDF_MANUAL_EN_NEW = "http://download.p4c.philips.com/files/h/hd8977_01/hd8977_01_dfu_eng.pdf";
 
     private Context mContext;
 
@@ -37,13 +37,13 @@ public class DownloadAndShowPDFHelper {
 
     private static String mHelpManualFileName, mHelpManualUrl;
 
-    public void downloadAndOpenPDFManual(final Context pContext, String url, boolean isConnected) {
+    public void downloadAndOpenPDFManual(final Context pContext, String urlPDF, String pdfName, boolean isConnected) {
         if (pContext == null) {
             DigiCareLogger.e(TAG, "Failed to open PDF manual - context is null");
         }
 
         mContext = pContext;
-        mHelpManualUrl = URL_PDF_MANUAL_EN_NEW;
+        mHelpManualUrl = urlPDF;
 
         if (null != mContext) {
 //            mHelpManualUrl = getURLHelpManualPDFFile(mContext);
@@ -54,13 +54,19 @@ public class DownloadAndShowPDFHelper {
 //                mHelpManualFileName = mContext.getString(R.string.help_manual_pdf);
 //            }
 
-            mHelpManualFileName = "ConsumerCare_Android__PDF.pdf";
+            mHelpManualFileName = pdfName;
 
             File file = new File(Environment.getExternalStorageDirectory(), mHelpManualFileName);
             if (file.exists()) {
                 openManualPDFInAcrobatReader(mContext, mHelpManualFileName);
             } else {
                 if (isConnected) {
+
+                    Intent downloadService = new Intent(mContext, DownloadPDFService.class);
+                    downloadService.putExtra("HELP_MANUAL_PDF_URL", mHelpManualUrl);
+                    downloadService.putExtra("HELP_MANUAL_PDF_FILE_NAME", mHelpManualFileName);
+                    mContext.startService(downloadService);
+
                     mAlertDialog = new AlertDialog.Builder(mContext);
 //                    String message = String.format(mContext.getString(R.string.ManualDownLoadConfirmMessage), Locale.getDefault().getDisplayLanguage());
                     mAlertDialog.setMessage("PDF Message Test");
@@ -80,7 +86,7 @@ public class DownloadAndShowPDFHelper {
                     mAlertDialog = new AlertDialog.Builder(mContext);
                     mAlertDialog.setMessage("Please connect to internet : Test");
                 }
-                mAlertDialog.show();
+//                mAlertDialog.show();
             }
         }
     }

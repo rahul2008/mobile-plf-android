@@ -508,11 +508,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_download_manual))) {
             String mFilePath = mViewProductDetailsModel.getManualLink();
+            String pdfName = mViewProductDetailsModel.getProductName() + "_manual.pdf"/* + '_' + mViewProductDetailsModel.getProductName()*/;
             if ((mFilePath != null) && (mFilePath != "")) {
                 if (isConnectionAvailable()) {
                     DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
-                    downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath
-                    /*"http://download.p4c.philips.com/files/h/hd8977_01/hd8977_01_dfu_eng.pdf"*/, isConnectionAvailable()) ;
+                    downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable()) ;
 //                    showFragment(new ProductManualFragment());
                     }
             } else {
