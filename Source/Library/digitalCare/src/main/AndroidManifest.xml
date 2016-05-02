@@ -31,6 +31,9 @@
             </intent-filter>
         </activity>
 
+        <service android:name="com.philips.cdp.digitalcare.productdetails.DownloadPDFService" />
+
+
         <receiver
             android:name="com.philips.cdp.digitalcare.util.NetworkReceiver"
             android:exported="false">

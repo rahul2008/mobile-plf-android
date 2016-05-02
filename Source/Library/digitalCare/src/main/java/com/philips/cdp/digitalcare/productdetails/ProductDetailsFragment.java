@@ -2,6 +2,7 @@ package com.philips.cdp.digitalcare.productdetails;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -508,8 +509,12 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 R.string.product_download_manual))) {
             String mFilePath = mViewProductDetailsModel.getManualLink();
             if ((mFilePath != null) && (mFilePath != "")) {
-                if (isConnectionAvailable())
-                    showFragment(new ProductManualFragment());
+                if (isConnectionAvailable()) {
+                    DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
+                    downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath
+                    /*"http://download.p4c.philips.com/files/h/hd8977_01/hd8977_01_dfu_eng.pdf"*/, isConnectionAvailable()) ;
+//                    showFragment(new ProductManualFragment());
+                    }
             } else {
                 showAlert(getResources().getString(R.string.no_data));
             }
