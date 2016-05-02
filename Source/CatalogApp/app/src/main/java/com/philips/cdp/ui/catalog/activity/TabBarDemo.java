@@ -91,27 +91,27 @@ public class TabBarDemo extends CatalogActivity {
 
         TabLayout.Tab tab = utils.newTab(R.string.uikit_splash_title, R.drawable.alarm, 0);
         utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_clock_32x32),true);
-        utils.setTitle(tab, R.string.alarm);
+        utils.setTitle(tab, "Alarm");
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.apple, 0);
         utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_apple_32x32),true);
-        utils.setTitle(tab, R.string.wellness);
+        utils.setTitle(tab, "Wellness");
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.barchart, 3);
         utils.setIcon(tab, VectorDrawable.create(this, R.drawable.uikit_stats_39x32), true);
-        utils.setTitle(tab, R.string.stats);
+        utils.setTitle(tab, "Statistics");
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.gear, 0);
         utils.setIcon(tab, VectorDrawable.create(this, R.drawable.uikit_gear_32x32), true);
-        utils.setTitle(tab, R.string.settings);
+        utils.setTitle(tab, "Settings");
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.alarm, 0);
         utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_clock_32x32),true);
-        utils.setTitle(tab, R.string.alarm);
+        utils.setTitle(tab, "Alarm");
         topLayout.addTab(tab);
     }
 
@@ -119,23 +119,23 @@ public class TabBarDemo extends CatalogActivity {
         bottomLayout = (TabLayout) findViewById(R.id.tab_bar_text);
         TabUtils utils = new TabUtils(this, bottomLayout, false);
         TabLayout.Tab tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, R.string.alarm);
+        utils.setTitle(tab, "Alarm");
         bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, R.string.wellness);
+        utils.setTitle(tab, "Wellness");
         bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, R.string.stats);
+        utils.setTitle(tab, "Statistics");
         bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, R.string.settings);
+        utils.setTitle(tab,"Settings");
         bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, R.string.alarm);
+        utils.setTitle(tab, "Alarm");
         bottomLayout.addTab(tab);
     }
 
