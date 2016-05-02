@@ -1,5 +1,44 @@
 PhilipsUIKit for Android Release Notes
 ======================================
+Version - 3.0.1                              Date:02-05-2015
+---------------------------------------------------------------
+1.	Password EditText is added , which can be used to show and hide password . 
+		For Input TextFeilds , inputText:uikit_password_edit_field="true"
+		Set the above attribute to the editText 
+2.	Added the following new  fonts  
+	Can be used as fontPath="fonts/centralesansxthin.ttf"
+
+    			centralesansxthin
+		   	 centralesansxthinitalic    			 
+			 centralesansbookitalic
+			 centralesanshairline
+			 centralesanshairlineitalic
+			 centralesanslightitalic
+			 centralesansmediumitalic
+			 centralesansthin
+			 centralesansthinitalic
+			 centralesansxbold
+			 centralesansxbolditalic
+			centralesansxlight
+			centralesansxlightitalic
+				
+3.	Popoveralert : hideProgress() api is added , incase user does not wants to show the progress bar in notification . 
+
+4.	Changed font padding of all TextViews to true , as some fonts were getting truncated on the top, 
+
+5.	Uikit latest version number can be shown in vertical app  by displaying  string “uikit_release_version”.
+
+6.	Right to left support has been added for all the UIKIT components.
+
+7.	[EHUFA- 683] Uikit Modal Alert Crash in some devices . To solve following changes made :
+
+1.Build tools to version “23.0.3”
+2. gradle version to “2.1.0-beta3.”
+3.Changed the gradle-wrapper.properties file with “distributionUrl=https\://services.gradle.org/distributions/gradle-2.10-all.zip” 
+
+8.	 Uikit uses VectorDrawable.java and PathParser.java from AOSP version: 5.0.0_r2 
+
+======================================
 Version - 3.0.0                              Date:15-03-2015
 ---------------------------------------------------------------
 
