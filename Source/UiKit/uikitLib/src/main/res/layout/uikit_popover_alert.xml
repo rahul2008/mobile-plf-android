@@ -16,18 +16,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/uikit_popover_info_icon"
+        android:layout_toLeftOf="@+id/uikit_popover_close_icon"
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/uikit_popover_alert_title"
             fontPath="fonts/centralesansbook.ttf"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/popover_alert_progress_margin_left"
-            android:layout_marginRight="@dimen/popover_alert_progress_margin_right"
             android:includeFontPadding="true"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:text="@string/uikit_popover_alert_title"
             android:textColor="@color/uikit_white"
             android:textSize="@dimen/popover_alert_title_size"/>
@@ -43,6 +43,7 @@
         android:layout_marginLeft="@dimen/popover_alert_progress_margin_left"
         android:layout_marginRight="@dimen/popover_alert_progress_margin_right"
         android:layout_marginTop="@dimen/popover_alert_progress_margin_top"
+        android:visibility="gone"
         android:progressDrawable="@drawable/uikit_popover_progress_bar_drawable"/>
     </LinearLayout>
     <ImageView
