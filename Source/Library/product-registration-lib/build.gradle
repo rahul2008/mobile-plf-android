@@ -154,14 +154,6 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
-    /* compile(group: 'com.philips.cdp', name: 'registrationApi', version: '5.0.0-rc.1')
-     compile(group: 'com.philips.cdp', name: 'registrationApi', version: "5.0.0-rc.1", ext:
-             'aar') {
-         exclude group: 'com.android.support'
-         transitive = true
-     }
-     compile 'com.philips.cdp:registrationApi:5.0.0-rc.1'
- */
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
