@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="13dp"
             android:layout_marginTop="@dimen/springboard_list_margin_top_tablet"
-            android:text="Mobile app"
+            android:text="@string/uikit_about_screen_apptitle"
             android:textColor="@color/uikit_white"
             android:textSize="38dp" />
 
@@ -61,14 +61,14 @@
                     android:layout_gravity="center_vertical|left"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="20sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/row_layout1"
+                android:id="@+id/row_layout2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -95,7 +95,7 @@
                     android:layout_gravity="center_vertical|left"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="20sp" />
 
@@ -131,7 +131,7 @@
                     android:layout_gravity="center_vertical|left"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="20sp" />
 
@@ -166,7 +166,7 @@
                     android:layout_gravity="center_vertical|left"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="20sp" />
 
@@ -202,7 +202,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="20sp" />
 
@@ -239,7 +239,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:text="TextView"
+                    android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
                     android:textSize="20sp" />
 

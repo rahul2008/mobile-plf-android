@@ -19,6 +19,7 @@
     android:itemBackground="?attr/uikit_veryLightselectoropacityfifteen"
     android:itemTextAppearance="@style/PopOverDropdown"
     android:minWidth="196dip"
+    android:paddingRight="16dip"
     android:paddingEnd="16dip">
 
     <!-- Icon will be inserted here. -->
@@ -39,11 +40,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:duplicateParentState="true"
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
             android:singleLine="true"
+            android:gravity="start"
             android:textAlignment="viewStart"
             android:textAppearance="?attr/textAppearanceLargePopupMenu" />
 
@@ -52,7 +55,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_below="@id/title"
+            android:gravity="start"
             android:duplicateParentState="true"
             android:singleLine="true"
             android:textAlignment="viewStart"

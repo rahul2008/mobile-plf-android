@@ -91,6 +91,7 @@
         <attr name="uikit_errorTextColor" format="color"/>
         <attr name="uikit_errorIcon" format="integer"/>
         <attr name="uikit_errorBackground" format="reference"/>
+        <attr name="uikit_password_edit_field" format="boolean"/>
     </declare-styleable>
 
     <attr name="uikit_enableStroke" format="boolean"/>
@@ -199,5 +200,11 @@
 
     <declare-styleable name="UiKit_ProgressSpinner">
         <attr name="uikit_duration" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="UiKit_PasswordIcon">
+        <attr name="uikit_state_emptyPassword" format="integer"/>
+        <attr name="uikit_state_maskedPassword" format="integer"/>
+        <attr name="uikit_state_showPassword" format="integer"/>
     </declare-styleable>
 </resources>

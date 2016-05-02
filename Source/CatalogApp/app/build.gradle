@@ -14,14 +14,14 @@ buildscript {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.philips.cdp.ui.catalog"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 21
-        versionName "1.0.21"
+        versionCode 23
+        versionName "1.0.23"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 23

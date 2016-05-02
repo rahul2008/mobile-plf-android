@@ -6,13 +6,17 @@
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,13 +24,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
  * Layout which wraps EditText internally and facilitates to show error.
- *
+ * <p/>
  * Use {@link Validator} interface with {@link PuiEditText#setValidator(Validator)} to enable
  * error display.
- *
+ * <p/>
  * <p>
  * <H3>Custom Attributes</H3>
  * <b>singleLine:</b> EditText will be restricted to a single line.<br>
@@ -40,10 +45,10 @@ import com.philips.cdp.uikit.R;
  * <b>errorBackground:</b> Do not change unless absolutely necessary. Will be provided by the Theme.
  * It's a drawable which is set as the background of the EditText when input validation fails.<br>
  * </p>
- *
+ * <p/>
  * Example
  * <br>
- *     <pre>
+ * <pre>
  *     &lt;com.philips.cdp.uikit.customviews.PuiEditText
  *          android:id="@+id/input_field_1"  			    -> Unique id of the PuiEditText to retain value across different config changes
  *          android:layout_width="wrap_content" 			-> Width of the EditText and layout container
@@ -51,11 +56,9 @@ import com.philips.cdp.uikit.R;
  *          app:errorText="@string/invalid_email_format" 	-> Error text to be shown when validation fails.
  *          app:hintText="@string/enter_text_here" 		    -> EditText hint text.
  *          inputText:enabled="false"                       -> Add this if you want to disable the EditText
+ *          inputText:uikit_password_edit_field="true"       ->Add this if you want a password Edit Text with icon and password ( Clicking on password ey image will show and hide password)
  *          app:singleLine="true"/&gt; -> Is EditText restricted to a single line.
- </pre>
-
-
- *
+ * </pre>
  */
 public class PuiEditText extends RelativeLayout {
 
@@ -68,6 +71,11 @@ public class PuiEditText extends RelativeLayout {
     private Drawable themeDrawable;
     private Validator validator;
     private boolean focused;
+    Context context;
+    ColorStateList csl;
+    int basecolor;
+    boolean isPassword;
+    int index;
 
     /**
      * Interface to be registered in case app wants to show error message.<br>
@@ -95,6 +103,7 @@ public class PuiEditText extends RelativeLayout {
         /**
          * App gets the callback with the current string in the editbox.
          * <br> App can validate the string and return true to show error.
+         *
          * @param inputToBeValidated Current text in edittext.
          * @return true: Show error , false: no effect
          */
@@ -117,14 +126,12 @@ public class PuiEditText extends RelativeLayout {
         super(context);
     }
 
-    public PuiEditText(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.uikit_input_text_field, this, true);
+    public PuiEditText(final Context cont, final AttributeSet attrs) {
+        super(cont, attrs);
+        LayoutInflater inflater = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        context = cont;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.InputTextField);
-//        int editTextWidth = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldWidth, LayoutParams.WRAP_CONTENT);
-//        int editTextHeight = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldHeight, LayoutParams.WRAP_CONTENT);
         boolean singleLine = a.getBoolean(R.styleable.InputTextField_uikit_singleLine, true);
         String editTextHint = a.getString(R.styleable.InputTextField_uikit_hintText);
         String errorText = a.getString(R.styleable.InputTextField_uikit_errorText);
@@ -132,23 +139,34 @@ public class PuiEditText extends RelativeLayout {
         errorTextColor = a.getColor(R.styleable.InputTextField_uikit_errorTextColor, getResources().getColor(R.color.uikit_philips_bright_orange));
         errorIcon = a.getDrawable(R.styleable.InputTextField_uikit_errorIcon);
         errorBackground = a.getDrawable(R.styleable.InputTextField_uikit_errorBackground);
+        isPassword = a.getBoolean(R.styleable.InputTextField_uikit_password_edit_field, false);
         a.recycle();
-
+        a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
+        basecolor = a.getInt(0, R.attr.uikit_baseColor);
+        setPadding(10, 10, 10, 10);
+        a.recycle();
         setSaveEnabled(true);
-        initEditText(editTextHint, enabled,/* editTextWidth,*/ singleLine/*, editTextHeight*/);
+
+        if (isPassword) {
+            inflater.inflate(R.layout.uikit_input_password_field, this, true);
+            initEditText(editTextHint,enabled,false);
+        }
+        else {
+            inflater.inflate(R.layout.uikit_input_text_field, this, true);
+            initEditText(editTextHint, enabled,/* editTextWidth,*/ singleLine/*, editTextHeight*/);
+
+        }
 
         themeDrawable = editText.getBackground();
-
         initErrorIcon();
-
         initErrorMessage(errorText);
-
         errorImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View view) {
                 setErrorMessageVisibilty(View.GONE);
             }
         });
+
     }
 
     public PuiEditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
@@ -166,6 +184,7 @@ public class PuiEditText extends RelativeLayout {
     /**
      * Restore the state of the EditText and error icon and error message.
      * See {@link SavedState} for details of saved values.
+     *
      * @param state
      */
     @Override
@@ -181,18 +200,21 @@ public class PuiEditText extends RelativeLayout {
             @Override
             public void run() {
                 editText.setText(savedState.savedText);
+                editText.setSelection(savedState.savedText.length());
                 int focused = savedState.focused;
                 if (focused == 1) {
                     editText.requestFocus();
                 }
             }
         });
+
         showErrorAndChangeEditTextStyle(View.VISIBLE == savedState.showError);
     }
 
     /**
      * Save the state of the EditText and error icon and error message.
      * See {@link SavedState} for details of saved values.
+     *
      * @return Parcelable with SavedState.
      */
     @Override
@@ -251,11 +273,17 @@ public class PuiEditText extends RelativeLayout {
     }
 
     private void initEditText(final String editTextHint, final boolean enabled, /*final int editTextWidth,*/ final boolean singleLine/*, int editTextHeight*/) {
+        if(!isPassword)
         editText = (EditText) getChildAt(0);
+        else {
+            editText = (UikitPasswordEditText) getChildAt(0);
+        }
 /*        if (editTextWidth > 0) setWidth(editTextWidth);
         if (editTextHeight > 0) setHeight(editTextHeight);*/
         if (focused) editText.requestFocus();
-        editText.setSingleLine(singleLine);
+        if(!isPassword) {
+            editText.setSingleLine(singleLine);
+        }
         editText.setHint(editTextHint);
         editText.setFocusable(enabled);
         editText.setEnabled(enabled);
@@ -294,6 +322,7 @@ public class PuiEditText extends RelativeLayout {
 
     /**
      * Sets the hint for the edit text.
+     *
      * @param hint Hint for the edit text
      */
     public void setHintText(String hint) {
@@ -302,6 +331,7 @@ public class PuiEditText extends RelativeLayout {
 
     /**
      * Set the enabled state of this view.
+     *
      * @param enabled
      */
     public void setEditTextEnabled(boolean enabled) {
@@ -333,6 +363,7 @@ public class PuiEditText extends RelativeLayout {
         int currentApiVersion = Build.VERSION.SDK_INT;
         if (currentApiVersion >= Build.VERSION_CODES.JELLY_BEAN) {
             editText.setBackground(backgroundDrawable);
+
         } else {
             editText.setBackgroundDrawable(backgroundDrawable);
         }
@@ -383,4 +414,53 @@ public class PuiEditText extends RelativeLayout {
             out.writeInt(this.focused);
         }
     }
+
+    public void setPassword() {
+        editText.setCompoundDrawablesWithIntrinsicBounds(null, null, getIcon(), null);
+        editText.setCompoundDrawablePadding((int) getResources().getDimension(R.dimen.uikit_tab_badge_margin_top));
+        editText.setEnabled(true);
+        editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        if ((editText.getTransformationMethod()) instanceof PasswordTransformationMethod)
+            editText.setTransformationMethod(null);
+        else editText.setTransformationMethod(new PasswordTransformationMethod());
+
+        editText.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+
+                        int index = editText.getSelectionEnd();
+                        if ((editText.getTransformationMethod()) instanceof PasswordTransformationMethod)
+                            editText.setTransformationMethod(null);
+
+                        else editText.setTransformationMethod(new PasswordTransformationMethod());
+
+                        cancelLongPress();
+                        editText.setSelection(index);
+                        return false;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    private Drawable getIcon() {
+        Drawable d = VectorDrawable.create(context, R.drawable.uikit_password_show_icon).getConstantState().newDrawable().mutate();
+        return d;
+    }
+
+    public void togglePassword()
+        {
+            if ((editText.getTransformationMethod()) instanceof PasswordTransformationMethod)
+                editText.setTransformationMethod(null);
+
+            else editText.setTransformationMethod(new PasswordTransformationMethod());
+
+        }
 }

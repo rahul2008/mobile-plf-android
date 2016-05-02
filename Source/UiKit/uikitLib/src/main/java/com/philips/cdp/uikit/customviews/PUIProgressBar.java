@@ -74,10 +74,8 @@ class PUIProgressBar extends ProgressBar {
         lightBaseColor = a.getColor(2, ContextCompat.getColor(mContext, R.color.uikit_philips_light_blue));
         a.recycle();
     }
-
-    private LayerDrawable sliderBar() {
-        LayerDrawable sliderbar = (LayerDrawable) ContextCompat.getDrawable(mContext, R.drawable.uikit_progress_bar);
-        sliderbar.getConstantState().newDrawable().mutate();
+    private void initSlider(LayerDrawable sliderbar)
+    {
         ClipDrawable progressbar = (ClipDrawable) sliderbar.findDrawableByLayerId(android.R.id.progress);
         GradientDrawable background = (GradientDrawable) sliderbar.findDrawableByLayerId(android.R.id.background);
         ColorFilter BaseColorProgressFilter = new PorterDuffColorFilter(themeBaseColor, PorterDuff.Mode.SRC_ATOP);
@@ -89,24 +87,18 @@ class PUIProgressBar extends ProgressBar {
         } else {
             progressbar.setColorFilter(BaseColorProgressFilter);
         }
+    }
+    private LayerDrawable sliderBar() {
+        LayerDrawable sliderbar = (LayerDrawable) ContextCompat.getDrawable(mContext, R.drawable.uikit_progress_bar);
+        sliderbar.getConstantState().newDrawable().mutate();
+        initSlider(sliderbar);
         return sliderbar;
     }
 
     private LayerDrawable secondarySliderBar() {
         LayerDrawable secondarySliderbar = (LayerDrawable) ContextCompat.getDrawable(mContext, R.drawable.uikit_secondary_progress_bar);
         secondarySliderbar.getConstantState().newDrawable().mutate();
-        ClipDrawable progressbar = (ClipDrawable) secondarySliderbar.findDrawableByLayerId(android.R.id.progress);
-        GradientDrawable background = (GradientDrawable) secondarySliderbar.findDrawableByLayerId(android.R.id.background);
-        ColorFilter BaseColorProgressFilter = new PorterDuffColorFilter(themeBaseColor, PorterDuff.Mode.SRC_ATOP);
-        ColorFilter White = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_white), PorterDuff.Mode.SRC_ATOP);
-        ColorFilter Enricher4 = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_enricher4), PorterDuff.Mode.SRC_ATOP);
-        if (whiteProgress) {
-            progressbar.setColorFilter(White);
-            background.setColorFilter(Enricher4);
-        } else {
-            progressbar.setColorFilter(BaseColorProgressFilter);
-        }
-
+        initSlider(secondarySliderbar);
         ClipDrawable secondaryprogressbar = (ClipDrawable) secondarySliderbar.findDrawableByLayerId(android.R.id.secondaryProgress);
         ColorFilter VeryLightProgressFilter = new PorterDuffColorFilter(veryLightBaseColor, PorterDuff.Mode.SRC_ATOP);
         ColorFilter LightProgressFilter = new PorterDuffColorFilter(lightBaseColor, PorterDuff.Mode.SRC_ATOP);

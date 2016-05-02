@@ -105,6 +105,7 @@ public class ButtonsActivity extends CatalogActivity {
         transparentButton = (Button) findViewById(R.id.outlined_transparent_button);
         whiteTranspararentButton = (Button) findViewById(R.id.outlined_transparent_white_button);
 
+
         puiPopoverAlert = (PopoverAlert) findViewById(R.id.popover_alert);
 
         showNotification = (Button) findViewById(R.id.show_notification);

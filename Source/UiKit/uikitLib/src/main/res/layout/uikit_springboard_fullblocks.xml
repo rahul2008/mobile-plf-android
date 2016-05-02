@@ -46,7 +46,7 @@
                 android:layout_marginBottom="1dp"
                 android:duplicateParentState="true"
                 android:layout_marginTop="10dp"
-                android:text="TextView"
+                android:text="@string/uikit_springboard_textview_label"
                 android:textColor="?attr/uikit_springBoardTextColor"
                 android:textSize="16sp" />
 
@@ -90,7 +90,7 @@
                 android:duplicateParentState="true"
 
                 android:layout_marginTop="10dp"
-                android:text="TextView"
+                android:text="@string/uikit_springboard_textview_label"
                 android:textColor="?attr/uikit_springBoardTextColor"
                 android:textSize="16sp" />
 
@@ -142,7 +142,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="10dp"
-                android:text="TextView"
+                android:text="@string/uikit_springboard_textview_label"
                 android:duplicateParentState="true"
 
                 android:textColor="?attr/uikit_springBoardTextColor"
@@ -187,7 +187,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="10dp"
-                android:text="TextView"
+                android:text="@string/uikit_springboard_textview_label"
                 android:duplicateParentState="true"
 
                 android:textColor="?attr/uikit_springBoardTextColor"
@@ -243,7 +243,7 @@
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="TextView"
+                android:text="@string/uikit_springboard_textview_label"
                 android:duplicateParentState="true"
 
                 android:textColor="?attr/uikit_springBoardTextColor"
@@ -288,7 +288,7 @@
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="TextView"
+                android:text="@string/uikit_springboard_textview_label"
                 android:duplicateParentState="true"
 
                 android:textColor="?attr/uikit_springBoardTextColor"
@@ -341,7 +341,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="10dp"
-                android:text="TextView"
+                android:text="@string/uikit_springboard_textview_label"
                 android:duplicateParentState="true"
 
                 android:textColor="?attr/uikit_springBoardTextColor"
@@ -387,7 +387,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="10dp"
-                android:text="TextView"
+                android:text="@string/uikit_springboard_textview_label"
                 android:duplicateParentState="true"
 
                 android:textColor="?attr/uikit_springBoardTextColor"

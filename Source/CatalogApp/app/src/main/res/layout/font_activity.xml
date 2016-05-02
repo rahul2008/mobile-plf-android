@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_gravity="center_horizontal" >
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansbold"
+                android:id="@+id/textViewBold"
+                fontPath="fonts/centralesansbold.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansbolditalic"
+                android:id="@+id/textViewBoldItalic"
+                fontPath="fonts/centralesansbolditalic.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansbook"
+                android:id="@+id/textViewBook"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansbookitalic"
+                android:id="@+id/textViewBookItalic"
+                fontPath="fonts/centralesansbookitalic.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesanshairline"
+                android:id="@+id/textViewHairLine"
+                fontPath="fonts/centralesanshairline.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesanshairlineitalic"
+                android:id="@+id/textViewHairLineItalic"
+                fontPath="fonts/centralesanshairlineitalic.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesanslight"
+                android:id="@+id/textViewLight"
+                fontPath="fonts/centralesanslight.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesanslightitalic"
+                android:id="@+id/textViewightItalic"
+                fontPath="fonts/centralesanslightitalic.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansmedium"
+                android:id="@+id/textViewMedium"
+                fontPath="fonts/centralesansmedium.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansmediumitalic"
+                android:id="@+id/textViewMediumItalic"
+                fontPath="fonts/centralesansmediumitalic.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansthin"
+                android:id="@+id/textViewThin"
+                fontPath="fonts/centralesansthin.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansthinitalic"
+                android:id="@+id/textViewThinItalic"
+                fontPath="fonts/centralesansthinitalic.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansxbold"
+                android:id="@+id/textViewXBold"
+                fontPath="fonts/centralesansxbold.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansxbolditalic"
+                android:id="@+id/textViewXBoldItalic"
+                fontPath="fonts/centralesansxbolditalic.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansxlight"
+                android:id="@+id/textViewXLight"
+                fontPath="fonts/centralesansxlight.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansxlightitalic"
+                android:id="@+id/textViewXLightItalic"
+                fontPath="fonts/centralesansxlightitalic.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansxthin"
+                android:id="@+id/textViewXThin"
+                fontPath="fonts/centralesansxthin.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="centralesansxthinitalic"
+                android:id="@+id/textViewXThinItalic"
+                fontPath="fonts/centralesansxthinitalic.ttf"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="puicon"
+                android:id="@+id/textViewPuicon"
+                fontPath="fonts/puicon.ttf"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

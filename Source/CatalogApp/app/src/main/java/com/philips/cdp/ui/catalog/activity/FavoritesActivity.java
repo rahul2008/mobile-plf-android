@@ -77,7 +77,7 @@ public class FavoritesActivity extends CatalogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favorites_activity);
         context = this;
-        disableActionbarShadow(this);
+        TabUtils.disableActionbarShadow(this);
         layout = (TabLayout) findViewById(R.id.tab_layout);
 
         View tabContent1 = LayoutInflater.from(context).inflate(R.layout.uikit_fav_custom_tab_content, null);
@@ -161,27 +161,6 @@ public class FavoritesActivity extends CatalogActivity {
         });
     }
 
-    public void disableActionbarShadow(Activity activity) {
-        if (activity == null) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (activity instanceof AppCompatActivity) {
-                if (((AppCompatActivity) activity).getSupportActionBar() != null)
-                    ((AppCompatActivity) activity).getSupportActionBar().setElevation(0);
-            } else {
-                if (activity.getActionBar() != null)
-                    activity.getActionBar().setElevation(0);
-            }
-        } else {
-            View content = activity.findViewById(android.R.id.content);
-            if (content != null && content.getParent() instanceof ActionBarOverlayLayout) {
-                ((ViewGroup) content.getParent()).setWillNotDraw(true);
-
-                if (content instanceof FrameLayout) {
-                    ((FrameLayout) content).setForeground(null);
-                }
-            }
-        }
-    }
 
     /**
      * Insert Values into the Database

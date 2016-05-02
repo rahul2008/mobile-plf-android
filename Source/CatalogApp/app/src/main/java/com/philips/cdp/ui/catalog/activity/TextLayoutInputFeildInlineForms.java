@@ -19,6 +19,8 @@ import android.widget.FrameLayout;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.InlineForms;
+import com.philips.cdp.uikit.customviews.UikitPasswordEditText;
+import com.philips.cdp.uikit.utils.TabUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,15 +42,35 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inline_forms);
-        disableActionbarShadow(this);
+        TabUtils.disableActionbarShadow(this);
 
         /**
          * The Below Layout acts as one item in the inline form
          */
         final InlineForms layout = (InlineForms) findViewById(R.id.InlineForms);
         final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
+        final UikitPasswordEditText passwordEditText = (UikitPasswordEditText) layout.findViewById(R.id.passwordValue);
 
-        layout.setErrorMessage("invalid_email_format");
+        passwordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (validatePassword(passwordEditText)) {
+                    layout.removeError(passwordEditText);
+                }
+            }
+        });
+
+
         email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
@@ -78,7 +100,14 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
                 if (editText.getId() == R.id.lastnamevalue && hasFocus == false) {
                     boolean result = validateEmail(editText, hasFocus);
                     if (!result) {
+                        layout.setErrorMessage(getResources().getString(com.philips.cdp.uikit.R.string.invalid_email_format));
                         layout.showError((EditText) editText);
+                    }
+                }
+                else if(editText.getId() == R.id.passwordValue && hasFocus == false){
+                    if(!validatePassword(passwordEditText)){
+                        layout.setErrorMessage("Invalid password format");
+                                layout.showError(passwordEditText);
                     }
                 }
             }
@@ -86,30 +115,17 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
     }
 
     /**
-     * This removes the Shaw present on the Top Layout
-     * @param activity - takes context as the parameter
+     * Method to check for password validity
+     * @param view the UikitPasswordEditText to validate
+     * @return true if password matches, false if it doesn't
      */
-    public void disableActionbarShadow(Activity activity) {
-        if (activity == null) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (activity instanceof AppCompatActivity) {
-                if (((AppCompatActivity) activity).getSupportActionBar() != null)
-                    ((AppCompatActivity) activity).getSupportActionBar().setElevation(0);
-            } else {
-                if (activity.getActionBar() != null)
-                    activity.getActionBar().setElevation(0);
-            }
-        } else {
-            View content = activity.findViewById(android.R.id.content);
-            if (content != null && content.getParent() instanceof ActionBarOverlayLayout) {
-                ((ViewGroup) content.getParent()).setWillNotDraw(true);
-
-                if (content instanceof FrameLayout) {
-                    ((FrameLayout)content).setForeground(null);
-                }
-            }
-        }
+    private boolean validatePassword(View view) {
+        String passwordToCheck = "Philips123@";
+        String passwordCheck = ((UikitPasswordEditText) view).getText().toString();
+        return passwordCheck.equals(passwordToCheck);
     }
+
+
 
     /**
      * Match the Email Pattern and return the result accordingly

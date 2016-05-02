@@ -96,8 +96,8 @@ public class FavoritesAdapter extends BaseAdapter {
             }
         });
 
-        image.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_location_pointer));
-        favorite.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_solid_favorites_star));
+        image.setImageDrawable(VectorDrawable.create(activity, R.drawable.uikit_location_pointer));
+        favorite.setImageDrawable(VectorDrawable.create(activity, R.drawable.uikit_solid_favorites_star));
         Cursor mCursor = null;
         try {
             mCursor = getFavFromDB();

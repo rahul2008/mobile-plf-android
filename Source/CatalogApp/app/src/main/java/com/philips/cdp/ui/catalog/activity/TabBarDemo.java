@@ -56,7 +56,7 @@ public class TabBarDemo extends CatalogActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_demo);
-        disableActionbarShadow(this);
+        TabUtils.disableActionbarShadow(this);
         TabLayout view = (TabLayout) findViewById(R.id.tab_bar);
         setTopBar();
         setBottomBar();
@@ -100,12 +100,12 @@ public class TabBarDemo extends CatalogActivity {
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.barchart, 3);
-        utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_stats_39x32),true);
+        utils.setIcon(tab, VectorDrawable.create(this, R.drawable.uikit_stats_39x32), true);
         utils.setTitle(tab, "Statistics");
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.gear, 0);
-        utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_gear_32x32),true);
+        utils.setIcon(tab, VectorDrawable.create(this, R.drawable.uikit_gear_32x32), true);
         utils.setTitle(tab, "Settings");
         topLayout.addTab(tab);
 
@@ -131,7 +131,7 @@ public class TabBarDemo extends CatalogActivity {
         bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, "Settings");
+        utils.setTitle(tab,"Settings");
         bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
@@ -139,25 +139,5 @@ public class TabBarDemo extends CatalogActivity {
         bottomLayout.addTab(tab);
     }
 
-    public void disableActionbarShadow(Activity activity) {
-        if (activity == null) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (activity instanceof AppCompatActivity) {
-                if (((AppCompatActivity) activity).getSupportActionBar() != null)
-                    ((AppCompatActivity) activity).getSupportActionBar().setElevation(0);
-            } else {
-                if (activity.getActionBar() != null)
-                    activity.getActionBar().setElevation(0);
-            }
-        } else {
-            View content = activity.findViewById(android.R.id.content);
-            if (content != null && content.getParent() instanceof ActionBarOverlayLayout) {
-                ((ViewGroup) content.getParent()).setWillNotDraw(true);
 
-                if (content instanceof FrameLayout) {
-                    ((FrameLayout)content).setForeground(null);
-                }
-            }
-        }
-    }
 }
