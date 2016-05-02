@@ -24,6 +24,6 @@ public class ProductRegistrationApplication extends Application {
         Tagging.setLaunchingPageName(getResources().getString(R.string.demo_app_home));
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(), Locale.getDefault());
-        Tagging.init(RegistrationHelper.getInstance().getLocale(), getApplicationContext(), getResources().getString(R.string.app_name));
+        Tagging.init(RegistrationHelper.getInstance().getLocale(this), getApplicationContext(), getResources().getString(R.string.app_name));
     }
 }

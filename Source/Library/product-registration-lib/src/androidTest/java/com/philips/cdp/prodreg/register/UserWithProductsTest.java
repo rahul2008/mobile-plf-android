@@ -20,7 +20,6 @@ import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import org.junit.Rule;
@@ -81,8 +80,8 @@ public class UserWithProductsTest extends MockitoTestCase {
 
     public void testIsUserSignedIn() {
         final User userMock = mock(User.class);
-        when(userMock.isUserSignIn(context)).thenReturn(true);
-        when(userMock.getEmailVerificationStatus(context)).thenReturn(true);
+        when(userMock.isUserSignIn()).thenReturn(true);
+        when(userMock.getEmailVerificationStatus()).thenReturn(true);
         UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
             @NonNull
             @Override
@@ -91,18 +90,16 @@ public class UserWithProductsTest extends MockitoTestCase {
             }
         };
         assertTrue(userWithProducts.isUserSignedIn(context));
-        when(userMock.isUserSignIn(context)).thenReturn(false);
-        when(userMock.getEmailVerificationStatus(context)).thenReturn(true);
+        when(userMock.isUserSignIn()).thenReturn(false);
+        when(userMock.getEmailVerificationStatus()).thenReturn(true);
         assertFalse(userWithProducts.isUserSignedIn(context));
     }
 
     public void testSetUUID() {
         final User userMock = mock(User.class);
-        when(userMock.isUserSignIn(context)).thenReturn(true);
-        when(userMock.getEmailVerificationStatus(context)).thenReturn(true);
-        final DIUserProfile userInstance = mock(DIUserProfile.class);
-        when(userInstance.getJanrainUUID()).thenReturn("Janrain_id");
-        when(userMock.getUserInstance(context)).thenReturn(userInstance);
+        when(userMock.isUserSignIn()).thenReturn(true);
+        when(userMock.getEmailVerificationStatus()).thenReturn(true);
+        when(userMock.getJanrainUUID()).thenReturn("Janrain_id");
         UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
             @NonNull
             @Override
@@ -413,7 +410,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         RefreshLoginSessionHandler refreshLoginSessionHandler = mock(RefreshLoginSessionHandler.class);
         when(userWithProductsMock.getRefreshLoginSessionHandler(product, prodRegListener, context)).thenReturn(refreshLoginSessionHandler);
         userWithProducts.onAccessTokenExpire(product, prodRegListener);
-        verify(userMock).refreshLoginSession(refreshLoginSessionHandler, context);
+        verify(userMock).refreshLoginSession(refreshLoginSessionHandler);
     }
 
     public void testGetUserRefreshedLoginSession() {

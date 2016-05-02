@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.dao.DIUserProfile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,8 +26,7 @@ public class LocalRegisteredProducts {
 
     public LocalRegisteredProducts(Context context, User user) {
         localSharedPreference = new LocalSharedPreference(context);
-        final DIUserProfile userInstance = user.getUserInstance(context);
-        uuid = userInstance != null ? userInstance.getJanrainUUID() : "";
+        uuid = user.getJanrainUUID() != null ? user.getJanrainUUID() : "";
     }
 
     public void store(RegisteredProduct registeredProduct) {

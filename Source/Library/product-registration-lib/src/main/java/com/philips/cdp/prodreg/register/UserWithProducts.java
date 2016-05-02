@@ -22,7 +22,6 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import java.util.List;
@@ -60,8 +59,7 @@ public class UserWithProducts {
     }
 
     protected void setUuid() {
-        final DIUserProfile userInstance = getUser().getUserInstance(mContext);
-        this.uuid = userInstance != null ? userInstance.getJanrainUUID() : "";
+        this.uuid = getUser().getJanrainUUID() != null ? getUser().getJanrainUUID() : "";
     }
 
     public void registerProduct(final Product product) {
@@ -148,7 +146,7 @@ public class UserWithProducts {
 
     protected boolean isUserSignedIn(final Context context) {
         User mUser = getUser();
-        return mUser.isUserSignIn(context) && mUser.getEmailVerificationStatus(context);
+        return mUser.isUserSignIn() && mUser.getEmailVerificationStatus();
     }
 
     protected boolean isValidDate(final String date) {
@@ -254,7 +252,7 @@ public class UserWithProducts {
 
     public void onAccessTokenExpire(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         final User user = getUser();
-        user.refreshLoginSession(getUserProduct().getRefreshLoginSessionHandler(registeredProduct, appListener, mContext), mContext);
+        user.refreshLoginSession(getUserProduct().getRefreshLoginSessionHandler(registeredProduct, appListener, mContext));
     }
 
     @NonNull
@@ -271,6 +269,11 @@ public class UserWithProducts {
                 getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
                 getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                 appListener.onProdRegFailed(registeredProduct, getUserProduct());
+            }
+
+            @Override
+            public void onRefreshLoginSessionInProgress(final String s) {
+
             }
         };
     }
