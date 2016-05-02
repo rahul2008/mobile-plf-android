@@ -53,7 +53,7 @@ public class SecureStorage implements SecureStorageInterface{
 
 
     @Override
-    public boolean storeValueForKey(String userKey,String valueToBeEncrypted) {
+    public synchronized boolean storeValueForKey(String userKey,String valueToBeEncrypted) {
         boolean returnResult= true;
         String encryptedString=null;
         try {
@@ -96,7 +96,7 @@ public class SecureStorage implements SecureStorageInterface{
     }
 
     @Override
-    public String fetchValueForKey(String userKey) {
+    public synchronized String fetchValueForKey(String userKey) {
         String decryptedString=null;
 
         if(null==userKey ||  userKey.isEmpty() ) {
@@ -147,7 +147,7 @@ public class SecureStorage implements SecureStorageInterface{
 
 
     @Override
-    public boolean RemoveValueForKey(String userKey) {
+    public synchronized boolean RemoveValueForKey(String userKey) {
         boolean deleteResult =false;
         if(null==userKey ||  userKey.isEmpty() ) {
             return false;
