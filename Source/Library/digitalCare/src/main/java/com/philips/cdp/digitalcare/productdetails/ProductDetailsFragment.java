@@ -15,7 +15,6 @@ package com.philips.cdp.digitalcare.productdetails;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -379,7 +378,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             }
         });
 
-        mPrxWrapper.executePRXAssetRequestWithSummaryData(mViewProductSummaryModel);
+        mPrxWrapper.executePrxAssetRequestWithSummaryData(mViewProductSummaryModel);
     }
 
     @Override

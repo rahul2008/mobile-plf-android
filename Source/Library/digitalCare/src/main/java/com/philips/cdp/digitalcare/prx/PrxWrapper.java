@@ -35,23 +35,23 @@ import java.util.List;
  * Description :
  * Project : PRX Common Component.
  *
- * @author  naveen@philips.com
- *
+ * @author naveen@philips.com
  * @Since 03-Nov-15.
  */
 public class PrxWrapper {
 
-    public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF = "User manual";
-    public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_QSG_PDF = "qsg";
-    public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL = "mp4";
+    public static final String PRX_ASSETS_USERMANUAL_PDF = "User manual";
+    public static final String PRX_ASSETS_USERMANUAL_QSG_PDF = "qsg";
+    public static final String PRX_ASSETS_VIDEO_URL = "mp4";
     private static final String TAG = PrxWrapper.class.getSimpleName();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    ConsumerProductInfo mProductInfo = null;
+    private final Thread mUiThread = Looper.getMainLooper().getThread();
+    private ConsumerProductInfo mProductInfo = null;
     /*    private String mCtn = "RQ1250/17";
         private String mSectorCode = "B2C";
         private String mLocale = "en_GB";
         private String mCatalogCode = "CONSUMER";*/
-    DigitalCareConfigManager mConfigManager = null;
+    private DigitalCareConfigManager mConfigManager = null;
     private Activity mActivity = null;
     private prxSummaryCallback mSummaryCallback = null;
     private PrxFaqCallback mSupportCallback = null;
@@ -64,7 +64,6 @@ public class PrxWrapper {
     private ViewProductDetailsModel mProductDetailsObject = null;
     private ProgressDialog mProgressDialog = null;
     private RequestManager mRequestManager = null;
-    private Thread mUiThread = Looper.getMainLooper().getThread();
 
 
     public PrxWrapper(Activity activity, prxSummaryCallback callback) {
@@ -85,7 +84,7 @@ public class PrxWrapper {
     }
 
     public void executeRequests() {
-        updateUI(new Runnable() {
+        updateUi(new Runnable() {
             @Override
             public void run() {
                 //   executeAssetRequest();
@@ -96,12 +95,12 @@ public class PrxWrapper {
     }
 
 
-    public void executePRXAssetRequestWithSummaryData(final SummaryModel summaryModel) {
-        updateUI(new Runnable() {
+    public void executePrxAssetRequestWithSummaryData(final SummaryModel summaryModel) {
+        updateUi(new Runnable() {
                      @Override
                      public void run() {
 
-                         Data data = summaryModel.getData();
+                         final Data data = summaryModel.getData();
                          if (data != null) {
                              mProductDetailsObject.setProductName(data.getProductTitle());
                              mProductDetailsObject.setCtnName(data.getCtn());
@@ -118,19 +117,24 @@ public class PrxWrapper {
         );
     }
 
-    protected final void updateUI(Runnable runnable) {
-        if (Thread.currentThread() != mUiThread) {
+    protected final void updateUi(Runnable runnable) {
+        if (isCurrentThreadNotUiThread()) {
             mHandler.post(runnable);
         } else {
             runnable.run();
         }
     }
 
+    private boolean isCurrentThreadNotUiThread() {
+        return Thread.currentThread() != mUiThread;
+    }
+
     protected void initProductCredentials() {
-        if (mRequestManager == null)
+        if (mRequestManager == null) {
             mRequestManager = new RequestManager();
+        }
         mRequestManager.init(mActivity);
-        DigitalCareConfigManager mConfigManager = DigitalCareConfigManager.getInstance();
+        final DigitalCareConfigManager mConfigManager = DigitalCareConfigManager.getInstance();
         mProductInfo = mConfigManager.getConsumerProductInfo();
         mCtn = mProductInfo.getCtn();
         mSectorCode = mProductInfo.getSector();
@@ -140,24 +144,24 @@ public class PrxWrapper {
     }
 
     public ProductSummaryRequest getPrxSummaryData() {
-        ProductSummaryRequest mProductSummaryRequest = new ProductSummaryRequest(mCtn, null);
+        final ProductSummaryRequest mProductSummaryRequest = new ProductSummaryRequest(mCtn, null);
         mProductSummaryRequest.setSector(getSectorEnum(mSectorCode));
-       // mProductSummaryRequest.setLocale(mLocale);
+        // mProductSummaryRequest.setLocale(mLocale);
         mProductSummaryRequest.setCatalog(getCatalogEnum(mCatalogCode));
 
         return mProductSummaryRequest;
     }
 
     public ProductSupportRequest getPrxSupportData() {
-        ProductSupportRequest productSupportRequest = new ProductSupportRequest(mCtn, null);
+        final ProductSupportRequest productSupportRequest = new ProductSupportRequest(mCtn, null);
         productSupportRequest.setSector(getSectorEnum(mSectorCode));
-       // productSupportRequest.setLocale(mLocale);
+        // productSupportRequest.setLocale(mLocale);
         productSupportRequest.setCatalog(getCatalogEnum(mCatalogCode));
         return productSupportRequest;
     }
 
     public ProductAssetRequest getPrxAssetData() {
-        ProductAssetRequest mProductAssetRequest = new ProductAssetRequest(mCtn, null);
+        final ProductAssetRequest mProductAssetRequest = new ProductAssetRequest(mCtn, null);
         mProductAssetRequest.setSector(getSectorEnum(mSectorCode));
         //mProductAssetRequest.setLocale(mLocale);
         mProductAssetRequest.setCatalog(getCatalogEnum(mCatalogCode));
@@ -210,52 +214,62 @@ public class PrxWrapper {
     }
 
     public void executeFaqSupportRequest() {
-        if (mProgressDialog == null)
+        if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
+        }
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mProgressDialog.setCancelable(false);
-        if (!(mActivity.isFinishing()))
+        if (!(mActivity.isFinishing())) {
             mProgressDialog.show();
+        }
         mRequestManager.executeRequest(getPrxSupportData(), new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                SupportModel supportModel;
+                SupportModel supportModel = null;
                 if (responseData != null) {
                     supportModel = (SupportModel) responseData;
                     DigiCareLogger.d(TAG, "Support Data Received ? " + supportModel.isSuccess());
                     if (supportModel.isSuccess()) {
-                        com.philips.cdp.prxclient.datamodels.support.Data data = supportModel.getData();
+                        final com.philips.cdp.prxclient.datamodels.support.Data data
+                                = supportModel.getData();
                         if (data != null) {
-                            if (mSupportCallback != null)
+                            if (mSupportCallback != null) {
                                 mSupportCallback.onResponseReceived(supportModel);
+                            }
                         } else {
-                            if (mSupportCallback != null)
+                            if (mSupportCallback != null) {
                                 mSupportCallback.onResponseReceived(null);
+                            }
                         }
                     }
-                    if (mProgressDialog != null && mProgressDialog.isShowing())
+                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
                         mProgressDialog.cancel();
+                    }
                 }
             }
 
             @Override
             public void onResponseError(PrxError prxError) {
-                if (mSupportCallback != null)
+                if (mSupportCallback != null) {
                     mSupportCallback.onResponseReceived(null);
-                if (mProgressDialog != null && mProgressDialog.isShowing())
+                }
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
                     mProgressDialog.cancel();
+                }
             }
         });
     }
 
 
     public void executeSummaryRequest() {
-        if (mProgressDialog == null)
+        if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
+        }
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mProgressDialog.setCancelable(false);
-        if (!(mActivity.isFinishing()))
+        if (!(mActivity.isFinishing())) {
             mProgressDialog.show();
+        }
         mRequestManager.executeRequest(getPrxSummaryData(), new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -263,7 +277,7 @@ public class PrxWrapper {
                     mSummaryModel = (SummaryModel) responseData;
                     DigiCareLogger.d(TAG, "Summary Data Received ? " + mSummaryModel.isSuccess());
                     if (mSummaryModel.isSuccess()) {
-                        Data data = mSummaryModel.getData();
+                        final Data data = mSummaryModel.getData();
                         if (data != null) {
                             mProductDetailsObject.setProductName(data.getProductTitle());
                             mProductDetailsObject.setCtnName(data.getCtn());
@@ -275,11 +289,13 @@ public class PrxWrapper {
                         }
                     } else {
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                        if (mSummaryCallback != null)
+                        if (mSummaryCallback != null) {
                             mSummaryCallback.onResponseReceived(null);
+                        }
                     }
-                    if (mProgressDialog != null && mProgressDialog.isShowing())
+                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
                         mProgressDialog.cancel();
+                    }
                 }
             }
 
@@ -287,10 +303,12 @@ public class PrxWrapper {
             public void onResponseError(PrxError error) {
                 DigiCareLogger.e(TAG, "Summary Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                if (mSummaryCallback != null)
+                if (mSummaryCallback != null) {
                     mSummaryCallback.onResponseReceived(null);
-                if (mProgressDialog != null && mProgressDialog.isShowing())
+                }
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
                     mProgressDialog.cancel();
+                }
             }
         });
     }
@@ -302,42 +320,48 @@ public class PrxWrapper {
             public void onResponseSuccess(ResponseData responseData) {
 
                 ViewProductDetailsModel viewProductDetailsData = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-                if (viewProductDetailsData == null)
+                if (viewProductDetailsData == null) {
                     viewProductDetailsData = new ViewProductDetailsModel();
+                }
 
                 if (responseData != null) {
                     mAssetModel = (AssetModel) responseData;
                     com.philips.cdp.prxclient.datamodels.assets.Data data = mAssetModel.getData();
                     String qsgManual = null, usermanual = null;
                     if (data != null) {
-                        Assets assets = data.getAssets();
-                        List<Asset> asset = assets.getAsset();
-                        List<String> mVideoList = new ArrayList<String>();
+                        final Assets assets = data.getAssets();
+                        final List<Asset> asset = assets.getAsset();
+                        final List<String> mVideoList = new ArrayList<String>();
                         for (Asset assetObject : asset) {
                             String assetDescription = assetObject.getDescription();
                             String assetResource = assetObject.getAsset();
                             String assetExtension = assetObject.getExtension();
-                            if (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_QSG_PDF))
-                                if (assetResource != null)
+                            if (assetDescription.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_QSG_PDF))
+                                if (assetResource != null) {
                                     qsgManual = assetResource;
-                            if ((mProductDetailsObject.getManualLink() == null) && (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF)))
-                                if (assetResource != null)
+                                }
+                            if ((mProductDetailsObject.getManualLink() == null) && (assetDescription.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_PDF)))
+                                if (assetResource != null) {
                                     usermanual = assetResource;
-                            if (assetExtension.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL))
-                                if (assetResource != null)
+                                }
+                            if (assetExtension.equalsIgnoreCase(PRX_ASSETS_VIDEO_URL))
+                                if (assetResource != null) {
                                     mVideoList.add(assetResource);
+                                }
                         }
-                        if (qsgManual != null)
+                        if (qsgManual != null) {
                             viewProductDetailsData.setManualLink(qsgManual);
-                        else if (usermanual != null)
+                        } else if (usermanual != null) {
                             viewProductDetailsData.setManualLink(usermanual);
+                        }
                         viewProductDetailsData.setmVideoLinks(mVideoList);
                         DigiCareLogger.d(TAG, "Manual PDF : " + qsgManual);
                         DigiCareLogger.d(TAG, "Manual Link : " + usermanual);
                         DigiCareLogger.d(TAG, "Manual videoListSize : " + mVideoList.size());
                         mConfigManager.setViewProductDetailsData(viewProductDetailsData);
-                        if (mSummaryCallback != null)
+                        if (mSummaryCallback != null) {
                             mSummaryCallback.onResponseReceived(null);
+                        }
 
                     }
                 }
@@ -371,29 +395,38 @@ public class PrxWrapper {
                         Assets assets = data.getAssets();
                         List<Asset> asset = assets.getAsset();
                         List<String> mVideoList = new ArrayList<String>();
-                        for (Asset assetObject : asset) {
-                            String assetDescription = assetObject.getDescription();
-                            String assetResource = assetObject.getAsset();
-                            String assetExtension = assetObject.getExtension();
-                            if (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_QSG_PDF))
-                                if (assetResource != null)
+                        for (final Asset assetObject : asset) {
+                            final String assetDescription = assetObject.getDescription();
+                            final String assetResource = assetObject.getAsset();
+                            final String assetExtension = assetObject.getExtension();
+                            if (assetDescription.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_QSG_PDF)) {
+                                if (assetResource != null) {
                                     qsgManual = assetResource;
-                            if ((mProductDetailsObject.getManualLink() == null) && (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF)))
-                                if (assetResource != null)
+                                }
+                            }
+                            if ((mProductDetailsObject.getManualLink() == null) &&
+                                    (assetDescription.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_PDF))) {
+                                if (assetResource != null) {
                                     usermanual = assetResource;
-                            if (assetExtension.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL))
-                                if (assetResource != null)
+                                }
+                            }
+                            if (assetExtension.equalsIgnoreCase(PRX_ASSETS_VIDEO_URL)) {
+                                if (assetResource != null) {
                                     mVideoList.add(assetResource);
+                                }
+                            }
                         }
-                        if (qsgManual != null)
+                        if (qsgManual != null) {
                             mProductDetailsObject.setManualLink(qsgManual);
-                        else if (usermanual != null)
+                        } else if (usermanual != null) {
                             mProductDetailsObject.setManualLink(usermanual);
+                        }
                         mProductDetailsObject.setmVideoLinks(mVideoList);
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
-                        if (mProgressDialog != null && mProgressDialog.isShowing())
+                        if (mProgressDialog != null && mProgressDialog.isShowing()) {
                             mProgressDialog.cancel();
+                        }
 
                     }
                 }

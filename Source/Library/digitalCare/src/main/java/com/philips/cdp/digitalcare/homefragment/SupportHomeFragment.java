@@ -632,7 +632,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                     DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
               /*  mPrxWrapper = new PrxWrapper(getActivity(), null);
 
-                mPrxWrapper.executePRXAssetRequestWithSummaryData(productSummaryModel);
+                mPrxWrapper.executePrxAssetRequestWithSummaryData(productSummaryModel);
 */
                 Data summaryData = productSummaryModel.getData();
                 List<String> filterKeys = summaryData.getFilterKeys();
