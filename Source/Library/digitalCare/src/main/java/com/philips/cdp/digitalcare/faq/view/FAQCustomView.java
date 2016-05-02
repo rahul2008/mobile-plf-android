@@ -243,6 +243,7 @@ public class FAQCustomView {
         questionTextView.setText(question);
         Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         questionTextView.setTypeface(typeface);
+        questionTextView.setLineSpacing(3f, 1.2f);
         questionTextView.setTextColor(ContextCompat.getColor(mContext, R.color.button_background));
         int padding = 0;
         if (isTablet) {
