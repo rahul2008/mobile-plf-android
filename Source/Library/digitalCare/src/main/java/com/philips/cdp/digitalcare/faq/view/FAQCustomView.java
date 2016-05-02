@@ -88,18 +88,18 @@ public class FAQCustomView {
                         arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
                         child.setVisibility(View.VISIBLE);
                     } else {
-                        arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.down_arrow));
+                        arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.downarrow));
                         arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
                         child.setVisibility(View.GONE);
                     }
                 } else {
-                    arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.down_arrow));
+                    arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.downarrow));
                     arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
                     child.setVisibility(View.GONE);
                 }
             } else {
                 child.setVisibility(View.GONE);
-                arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.down_arrow));
+                arrowImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.downarrow));
                 arrowImageView.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
             }
 
@@ -310,7 +310,7 @@ public class FAQCustomView {
         ImageView arrowImage = new ImageView(mContext);
         modelObject.setArrowImage(arrowImage);
 
-        arrowImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.down_arrow));
+        arrowImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.downarrow));
         arrowImage.setColorFilter(ContextCompat.getColor(mContext, R.color.button_background), PorterDuff.Mode.MULTIPLY);
         RelativeLayout.LayoutParams arrowImageParams = new RelativeLayout.LayoutParams
                 (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
