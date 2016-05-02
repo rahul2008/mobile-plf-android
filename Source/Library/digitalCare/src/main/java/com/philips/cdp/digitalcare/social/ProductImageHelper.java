@@ -1,3 +1,12 @@
+/**
+ * @author naveen@philips.com
+ * @description This Class will fetch the ProductImage from Camera & Gallery and
+ * sends to faceboook & Twitter with the callback interface.
+ * @since 11/Feb/2015
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.social;
 
 import android.annotation.SuppressLint;
@@ -32,12 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * @author naveen@philips.com
- * @description This Class will fetch the ProductImage from Camera & Gallery and
- * sends to faceboook & Twitter with the callback interface.
- * @since 11/Feb/2015
- */
+
 
 @SuppressLint("NewApi")
 public class ProductImageHelper {

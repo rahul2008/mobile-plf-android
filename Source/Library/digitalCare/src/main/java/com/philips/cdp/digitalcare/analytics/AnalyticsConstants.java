@@ -1,11 +1,15 @@
-package com.philips.cdp.digitalcare.analytics;
-
 /**
  * AnalyticsConstants is holding constant members used for TAGGING, Adobe
  * Analytics.
  * <p>
  * = author: ritesh.jha= philips.com = since: Mar 26, 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
+
+package com.philips.cdp.digitalcare.analytics;
+
+
 public class AnalyticsConstants {
 
     /* PAGE CONSTANTS */

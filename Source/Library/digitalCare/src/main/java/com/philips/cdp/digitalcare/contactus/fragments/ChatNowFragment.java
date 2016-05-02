@@ -25,6 +25,7 @@ import java.util.Map;
  * @author : Ritesh.jha@philips.com
  * 
  * @since : 16 Jan 2015
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 @SuppressLint("SetJavaScriptEnabled")
 public class ChatNowFragment extends DigitalCareBaseFragment {

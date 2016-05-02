@@ -1,3 +1,16 @@
+/*import com.philips.cdp.horizontal.RequestManager;
+import com.philips.cdp.network.listeners.AssetListener;
+import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
+
+/**
+ * ProductDetailsFragment will help to show product details.
+ *
+ * @author : Ritesh.jha@philips.com
+ * @since : 16 Jan 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.annotation.SuppressLint;
@@ -46,16 +59,7 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-/*import com.philips.cdp.horizontal.RequestManager;
-import com.philips.cdp.network.listeners.AssetListener;
-import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
 
-/**
- * ProductDetailsFragment will help to show product details.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 16 Jan 2015
- */
 public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         OnClickListener {
 

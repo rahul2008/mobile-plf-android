@@ -28,6 +28,8 @@ import java.util.Map;
  *
  * @author : Naveen AH
  * @since : 30 November 2015
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
  */
 public class ProductReviewFragment extends DigitalCareBaseFragment {
 

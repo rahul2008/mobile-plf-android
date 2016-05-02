@@ -4,7 +4,9 @@ All rights reserved. Reproduction in whole or in part is prohibited without
 the written consent of the copyright holder.
 
 Project           : ConsumerCare
-----------------------------------------------------------------------------*/
+----------------------------------------------------------------------------
+Copyright (c) 2016 Philips. All rights reserved.
+*/
 
 package com.philips.cdp.digitalcare.productdetails;
 

@@ -10,6 +10,8 @@ import java.util.List;
  * @author : Ritesh.jha@philips.com
  * 
  * @since : 9 May 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 public class AtosAddressModel {
 	private String mZip = null;

@@ -1,3 +1,11 @@
+/**
+ * AnalyticsTracker class is responsible for Adobe Analytics. Here all APIs has
+ * been added to call for page/event tagging.
+ *
+ * @author: ritesh.jha@philips.com
+ * @since: Mar 25, 2015
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.analytics;
 
 import android.annotation.SuppressLint;
@@ -18,13 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * AnalyticsTracker class is responsible for Adobe Analytics. Here all APIs has
- * been added to call for page/event tagging.
- *
- * @author: ritesh.jha@philips.com
- * @since: Mar 25, 2015
- */
+
 public class AnalyticsTracker {
 
     private static final String TAG = "DigitalCare:Analytics";

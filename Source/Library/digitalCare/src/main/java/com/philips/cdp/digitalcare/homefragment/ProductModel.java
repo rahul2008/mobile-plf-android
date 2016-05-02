@@ -1,8 +1,12 @@
+/**
+ * @author  naveen@philips.com on 20-Jan-16.
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.homefragment;
 
-/**
- * Created by naveen@philips.com on 20-Jan-16.
- */
+
 public class ProductModel {
 
     private String mCtn = null;

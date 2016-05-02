@@ -1,3 +1,13 @@
+/**
+ * LocateNearCustomDialog is the dialog which will be shown when there are no service centre
+ * available at selected country.
+ *
+ * @author : ritesh.jha@philips.com
+ * @since : 4 April 2016
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.locatephilips;
 
 import android.app.Activity;
@@ -11,13 +21,7 @@ import android.view.Window;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 
-/**
- * LocateNearCustomDialog is the dialog which will be shown when there are no service centre
- * available at selected country.
- *
- * @author : ritesh.jha@philips.com
- * @since : 4 April 2016
- */
+
 
 public class LocateNearCustomDialog extends Dialog implements android.view.View.OnClickListener {
     private Context mContext = null;

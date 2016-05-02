@@ -1,3 +1,12 @@
+/**
+ *
+ * @author naveen@philips.com
+ * @description PopupWindow Menu used in Social Support Screens to select the
+ *              product image/user defined image from Camera and device Gallery.
+ * @Since March 22, 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.customview;
 
 import android.content.Context;
@@ -14,13 +23,7 @@ import android.widget.PopupWindow;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-/**
- * 
- * @author naveen@philips.com
- * @description PopupWindow Menu used in Social Support Screens to select the
- *              product image/user defined image from Camera and device Gallery.
- * @Since March 22, 2015
- */
+
 public class TabletPopupWindow extends PopupWindow {
 
 	private LinearLayout mContainer;

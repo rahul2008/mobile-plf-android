@@ -1,3 +1,11 @@
+/**
+ * FaqFragment Questions  Listing Screen (First Screen) as per the US/UI requirement.
+ *
+ * @author : naveen@philips.com
+ * @since : 25 june 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
@@ -21,12 +29,7 @@ import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * FaqFragment Webview
- *
- * @author : naveen@philips.com
- * @since : 25 june 2015
- */
+
 public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback {
 
     private final int EXPAND_FIRST = 2;

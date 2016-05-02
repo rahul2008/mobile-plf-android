@@ -1,3 +1,12 @@
+/**
+ * This is bridge class to interact with LocaleMatch SDK to check the country
+ * fallback with respect to the ConsumerCare values set by the Launcher
+ * Application.
+ *
+ * @author naveen@philips.com
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.localematch;
 
 import android.content.Context;
@@ -15,13 +24,7 @@ import com.philips.cdp.localematch.enums.Sector;
 import java.util.HashMap;
 import java.util.Locale;
 
-/**
- * This is bridge class to interact with LocaleMatch SDK to check the country
- * fallback with respect to the ConsumerCare values set by the Launcher
- * Application.
- *
- * @author naveen@philips.com
- */
+
 public class LocaleMatchHandler implements LocaleMatchListener {
 
     private static HashMap<String, String> mPRXMap = null;

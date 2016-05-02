@@ -1,11 +1,15 @@
-package com.philips.cdp.digitalcare.util;
-
 /**
  * DigitalCareContants class is for application level constants.
  *
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
  */
+
+package com.philips.cdp.digitalcare.util;
+
+
 public class DigitalCareConstants {
     public static final String START_ANIMATION_ID = "startAnimation";
     public static final String STOP_ANIMATION_ID = "stopAnimation";

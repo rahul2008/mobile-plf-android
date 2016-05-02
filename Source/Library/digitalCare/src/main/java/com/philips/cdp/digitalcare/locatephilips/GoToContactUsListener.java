@@ -7,6 +7,8 @@ package com.philips.cdp.digitalcare.locatephilips;
  * @author : ritesh.jha@philips.com
  *
  * @since : 4 April 2016
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 public interface GoToContactUsListener {
     public void goToContactUsSelected();

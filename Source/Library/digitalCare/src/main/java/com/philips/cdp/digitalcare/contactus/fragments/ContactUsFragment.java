@@ -68,6 +68,7 @@ import com.philips.cdp.digitalcare.social.twitter.TwitterSupportFragment;*/
  *
  * @author : Ritesh.jha@philips.com
  * @since : 19 Jan 2015
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 public class ContactUsFragment extends DigitalCareBaseFragment implements
         /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback,Observer {

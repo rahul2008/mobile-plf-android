@@ -1,3 +1,12 @@
+/**
+ * This class responsible for holding the Product(CTN) specific data, As per the user input or the user selection
+ * with respect to the locale.
+ *
+ * @author naveen@philips.com
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare;
 
 public class ConsumerProductInfo {

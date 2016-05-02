@@ -1,11 +1,17 @@
+/**
+ * QuestionGroupModel Data Structure Class to hold the FAQ Contents in a precise way.
+ *
+ * @author naveen@philips.com
+ * @CreatedOn 15-Apr-16.
+ * <p/>
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.faq.model;
 
 import android.view.View;
 import android.widget.ImageView;
 
-/**
- * Created by naveen@philips.com on 15-Apr-16.
- */
+
 public class QuestionsGroupModel {
 
 

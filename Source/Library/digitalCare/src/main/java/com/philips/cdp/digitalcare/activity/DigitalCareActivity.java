@@ -1,3 +1,14 @@
+/**
+ * DigitalCareActivity is the main container class for Digital Care fragments.
+ * Also responsible for fetching Product images, Facebook authentication & also
+ * Twitter authentication.
+ *
+ * @author : Ritesh.jha@philips.com
+ * @since : 5 Dec 2014
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.activity;
 
 import android.os.Bundle;
@@ -13,14 +24,7 @@ import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 /*import com.philips.cdp.digitalcare.social.facebook.FacebookHelper;
  import com.philips.cdp.digitalcare.social.facebook.FacebookScreenFragment;*/
 
-/**
- * DigitalCareActivity is the main container class for Digital Care fragments.
- * Also responsible for fetching Product images, Facebook authentication & also
- * Twitter authentication.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 5 Dec 2014
- */
+
 public  class DigitalCareActivity extends DigitalCareBaseActivity {
     private static final String TAG = DigitalCareActivity.class.getSimpleName();
     private static int mEnterAnimation = -1;

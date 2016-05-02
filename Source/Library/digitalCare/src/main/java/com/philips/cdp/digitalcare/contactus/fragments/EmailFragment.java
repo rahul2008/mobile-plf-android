@@ -30,6 +30,7 @@ import java.util.Map;
  *
  * @author : pawan.kumar.deshpande@philips.com
  *         Since  17 july 2015.
+ *         Copyright (c) 2016 Philips. All rights reserved.
  */
 public class EmailFragment extends DigitalCareBaseFragment {
 

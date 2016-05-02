@@ -1,3 +1,12 @@
+/**
+ * DigitalCareBaseFragment is <b>Base class</b> for all fragments.
+ *
+ * @author: ritesh.jha@philips.com
+ * @since: Dec 5, 2014
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.homefragment;
 
 import android.content.Context;
@@ -35,12 +44,7 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.Locale;
 
-/**
- * DigitalCareBaseFragment is <b>Base class</b> for all fragments.
- *
- * @author: ritesh.jha@philips.com
- * @since: Dec 5, 2014
- */
+
 public abstract class DigitalCareBaseFragment extends Fragment implements
         OnClickListener, NetworkStateListener {
 

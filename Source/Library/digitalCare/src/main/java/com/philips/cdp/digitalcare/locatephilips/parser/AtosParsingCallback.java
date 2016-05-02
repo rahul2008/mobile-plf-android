@@ -9,6 +9,8 @@ import com.philips.cdp.digitalcare.locatephilips.models.AtosResponseModel;
  * @author : Ritesh.jha@philips.com
  * 
  * @since : 10 June 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 
 public interface AtosParsingCallback {

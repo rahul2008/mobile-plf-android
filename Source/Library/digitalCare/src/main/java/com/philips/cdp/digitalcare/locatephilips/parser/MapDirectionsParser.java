@@ -17,6 +17,8 @@ import com.google.android.gms.maps.model.LatLng;
  * @author : Ritesh.jha@philips.com
  * 
  * @since : 19 May 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 public class MapDirectionsParser {
 	/**

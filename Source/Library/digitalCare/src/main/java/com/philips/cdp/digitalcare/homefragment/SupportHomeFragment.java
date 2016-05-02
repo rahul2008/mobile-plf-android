@@ -1,3 +1,13 @@
+/**
+ * SupportHomeFragment is the first screen of Support app. This class will give
+ * all the possible options to navigate within digital support app.
+ *
+ * @author : Ritesh.jha@philips.com
+ * @creation Date : 5 Dec 2014
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.homefragment;
 
 import android.content.Context;
@@ -46,13 +56,7 @@ import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import java.util.List;
 
 
-/**
- * SupportHomeFragment is the first screen of Support app. This class will give
- * all the possible options to navigate within digital support app.
- *
- * @author : Ritesh.jha@philips.com
- * @creation Date : 5 Dec 2014
- */
+
 
 public class SupportHomeFragment extends DigitalCareBaseFragment implements prxSummaryCallback {
 

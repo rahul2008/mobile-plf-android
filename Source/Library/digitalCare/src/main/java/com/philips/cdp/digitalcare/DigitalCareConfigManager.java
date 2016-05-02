@@ -1,3 +1,16 @@
+/**
+ * DigitalCareConfigManager is the Singleton class helps to manage,customize the features through
+ * the supported API's.
+ * <b> Note: </b>
+ * <p> Few Methods may not relevant your requirement. As it playing the Horizontal Component
+ * - API's are added by considering the commmon requirement  for the integrating applciations.
+ *
+ * @author : Ritesh.jha@philips.com
+ * @since : 5 Dec 2014
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare;
 
 import android.content.Context;
@@ -24,16 +37,7 @@ import com.philips.cdp.productselection.productselectiontype.ProductModelSelecti
 
 import java.util.Locale;
 
-/**
- * DigitalCareConfigManager is the Singleton class helps to manage,customize the features through
- * the supported API's.
- * <b> Note: </b>
- * <p> Few Methods may not relevant your requirement. As it playing the Horizontal Component
- * - API's are added by considering the commmon requirement  for the integrating applciations.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 5 Dec 2014
- */
+
 public class DigitalCareConfigManager {
 
     private static final String TAG = DigitalCareConfigManager.class.getSimpleName();

@@ -1,3 +1,11 @@
+/**
+ * CustomView of the FAQScreen (FAQ First Screen).
+ *
+ * @author  naveen@philips.com
+ * @Since 05-Apr-16.
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.faq.view;
 
 import android.content.Context;
@@ -34,9 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by naveen@philips.com on 05-Apr-16.
- */
+
 public class FAQCustomView {
 
     private static final String TAG = FAQCustomView.class.getSimpleName();

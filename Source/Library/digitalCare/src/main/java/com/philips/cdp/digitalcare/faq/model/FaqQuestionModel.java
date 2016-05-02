@@ -1,8 +1,15 @@
+/**
+ *  Question & Answer holding Model class used in the FAQScreen first Screen.
+ *
+ * @author  naveen@philips.com
+ * @Created 12-Apr-16.
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.faq.model;
 
-/**
- * Created by naveen@philips.com on 12-Apr-16.
- */
+
 public class FaqQuestionModel {
 
     private String mQuestion = null;

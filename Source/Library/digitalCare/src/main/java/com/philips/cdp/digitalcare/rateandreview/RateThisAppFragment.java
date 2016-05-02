@@ -32,6 +32,8 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  *
  * @author: naveen@philips.com
  * @since: Jan 11, 2015
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
  */
 public class RateThisAppFragment extends DigitalCareBaseFragment {
 

@@ -1,3 +1,11 @@
+/**
+ * Image Capturing Class for the Twitter & Facebook product data picker Logic.
+ *
+ * @author naveen@philips.com
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.social;
 
 import java.util.List;

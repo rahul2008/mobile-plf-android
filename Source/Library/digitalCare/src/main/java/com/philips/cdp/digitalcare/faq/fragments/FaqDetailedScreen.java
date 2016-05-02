@@ -1,3 +1,12 @@
+/**
+ * FAQ Detailed Screen renders the FAQ QUESTION & Answer Webpage with the required data.
+ *    Some of the response content will be hided dynamically after the response data renders completly
+ *
+ * @author  naveen@philips.com
+ * @Created 13-Apr-16.
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
@@ -26,9 +35,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by 310190678 on 13-Apr-16.
- */
+
 public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     private View mView = null;

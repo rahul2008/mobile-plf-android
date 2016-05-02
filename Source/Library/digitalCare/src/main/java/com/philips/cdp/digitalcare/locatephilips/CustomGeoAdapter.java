@@ -5,6 +5,8 @@ package com.philips.cdp.digitalcare.locatephilips;
  *
  * @author : pawan.kumar.deshpande@philips.com
  * @since : 15 May 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 
 import android.annotation.SuppressLint;
