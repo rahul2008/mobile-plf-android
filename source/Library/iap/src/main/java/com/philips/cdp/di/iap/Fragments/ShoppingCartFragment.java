@@ -27,6 +27,7 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
+
 import java.util.ArrayList;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
@@ -126,6 +127,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             //Track checkout action
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
+
+            if (mAdapter.isFreeDelivery()) {
+                //Action to track free delivery
+                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                        IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
+            }
         }
         if (v == mContinuesBtn) {
             //Track continue shopping action

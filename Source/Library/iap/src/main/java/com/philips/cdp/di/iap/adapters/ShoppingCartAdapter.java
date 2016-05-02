@@ -54,6 +54,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private Drawable mTrashDrawable;
     private Drawable mInfoDrawable;
+    private boolean mIsFreeDelivery;
 
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
@@ -215,8 +216,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 shoppingCartFooter.mVatValue.setText(data.getVatValue());
                 shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
                 if (null != data.getDeliveryCost()) {
-                    shoppingCartFooter.mDeliveryPrice.setText(data.getDeliveryCost().getFormattedValue());
+                    String deliveryCost = data.getDeliveryCost().getFormattedValue();
+                    if((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")){
+                        mIsFreeDelivery = true;
+                    }
+                    shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
                 } else {
+                    mIsFreeDelivery = true;
                     shoppingCartFooter.mDeliveryPrice.setText("0.0");
                 }
             }
@@ -257,6 +263,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public ShoppingCartData getTheProductDataForDisplayingInProductDetailPage() {
         return shoppingCartDataForProductDetailPage;
+    }
+
+    public boolean isFreeDelivery(){
+        return mIsFreeDelivery;
     }
 
     @Override
