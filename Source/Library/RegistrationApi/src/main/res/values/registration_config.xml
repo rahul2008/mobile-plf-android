@@ -60,7 +60,10 @@
     <color name="reg_text_desc_color">#252525</color>
 
     <!-- 9. Background -->
+    <!--Layout background-->
     <drawable name="reg_layout_bg">#FFFFFF</drawable>
+    <!--Dailog background-->
+    <drawable name="reg_dailog_bg">#FFFFFF</drawable>
 
     <!-- 10.Primary text color -->
     <color name="reg_text_heading_one_color">#003377</color>
