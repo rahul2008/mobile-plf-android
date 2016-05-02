@@ -1,6 +1,6 @@
 PhilipsUIKit for Android Release Notes
 ======================================
-Version - 3.0.1                              Date:02-05-2015
+Version - 3.1.0                              Date:02-05-2015
 ---------------------------------------------------------------
 1.	Password EditText is added , which can be used to show and hide password . 
 		For Input TextFeilds , inputText:uikit_password_edit_field="true"
