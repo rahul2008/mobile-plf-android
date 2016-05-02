@@ -55,6 +55,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     @Override
     public String getMessage() {
         if (mServerError != null) {
+            if(mServerError.getErrors() == null || mServerError.getErrors().get(0)== null) {
+                return null;
+            }
             return mServerError.getErrors().get(0).getMessage();
         } else if (mVolleyError != null) {
             return mVolleyError.getMessage();
@@ -64,7 +67,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
 
     @Override
     public int getStatusCode() {
-        if (mVolleyError.networkResponse != null)
+        if (mVolleyError!= null && mVolleyError.networkResponse != null)
             return mVolleyError.networkResponse.statusCode;
         return mIAPErrorCode;
     }
@@ -86,6 +89,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     }
 
     private void checkInsufficientStockError(ServerError serverError) {
+        if(serverError.getErrors() == null || serverError.getErrors().get(0)== null) {
+            return;
+        }
         if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.INSUFFICIENT_STOCK_ERROR);
