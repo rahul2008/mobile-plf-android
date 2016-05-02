@@ -140,7 +140,7 @@ dependencies {
     // Tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
-    compile('com.philips.cdp:registrationApi:5.0.0-rc.2@aar') {
+    compile('com.philips.cdp:registrationApi:5.0.0-rc.8@aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
@@ -218,7 +218,7 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
     }
 
 }
-task jacocoTestReport(type: JacocoReport, dependsOn: "test") {
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
 
 //    jvmArgs = ["-XX:-UseSplitVerifier"]
@@ -234,7 +234,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "test") {
                        '**/adapters/*.class',
                        '**/analytics/*.class',
                        '**/utils/*.class',
-                       '**/store/IAPUser.class', //bytecode error, we can't proceed
+                       '**/activity/*.class',
                        '**/Fragments/*.class']
     )
 

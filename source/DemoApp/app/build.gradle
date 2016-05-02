@@ -69,7 +69,7 @@ dependencies {
     compile "net.hockeyapp.android:HockeySDK:3.6.2"
     compile 'com.android.support:appcompat-v7:23+'
     compile 'com.android.support:cardview-v7:+'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: "5.0.0-rc.2", ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: "5.0.0-rc.8", ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
