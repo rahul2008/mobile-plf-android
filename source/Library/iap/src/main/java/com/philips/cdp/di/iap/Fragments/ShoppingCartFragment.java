@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,9 +27,7 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener {
@@ -171,14 +167,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         }
     }
 
-
-    private void addProductCatalog() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, new ProductCatalogFragment(), ProductCatalogFragment.TAG);
-        transaction.addToBackStack(null);
-        transaction.commitAllowingStateLoss();
-    }
-
     private void startProductDetailFragment() {
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
@@ -219,18 +207,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onGetDeliveryAddress(final Message msg) {
-        //NOP
-    }
-
-    @Override
     public void onSetDeliveryModes(final Message msg) {
         //NOP
-    }
-
-    @Override
-    public void onGetDeliveryModes(final Message msg) {
-
     }
 
     @Override

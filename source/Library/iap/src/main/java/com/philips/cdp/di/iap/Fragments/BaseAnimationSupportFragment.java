@@ -18,11 +18,9 @@ import android.view.View;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.activity.IAPFragmentListener;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.tagging.Tagging;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
     private IAPFragmentListener mActivityListener;
@@ -70,6 +68,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     public void launchProductCatalog() {
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment == null) {
             clearStackAndLaunchProductCatalog();

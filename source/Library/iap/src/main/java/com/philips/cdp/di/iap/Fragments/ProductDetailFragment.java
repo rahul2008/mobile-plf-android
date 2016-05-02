@@ -17,8 +17,9 @@ import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.ModelConstants;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -165,6 +166,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private void buyFromRetailers() {
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.PRODUCT_CODE, mCTNValue);
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_PAGE_NAME);
         addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE), BuyFromRetailersFragment.TAG);
     }
 

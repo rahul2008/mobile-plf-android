@@ -89,7 +89,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtEmail.setText(mBillingAddressFields.getEmail());
             mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
 
-            if (mBillingAddressFields.getRegionIsoCode() != null) {
+            if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US") &&
+                    mBillingAddressFields.getRegionIsoCode() != null) {
                 mEtState.setText(mBillingAddressFields.getRegionIsoCode());
                 mlLState.setVisibility(View.VISIBLE);
             } else {
@@ -109,8 +110,12 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtTown.setText("");
         mEtPostalCode.setText("");
         mEtPhoneNumber.setText("");
-        mlLState.setVisibility(View.VISIBLE);
         mEtState.setText("");
+        if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
+            mlLState.setVisibility(View.VISIBLE);
+        } else {
+            mlLState.setVisibility(View.GONE);
+        }
         mIgnoreTextChangeListener = false;
         enableAllFields();
         enableFocus();

@@ -350,6 +350,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     errorMessage = getResources().getString(R.string.iap_phone_error);
                     mInlineFormsParent.setErrorMessage(errorMessage);
                     mInlineFormsParent.showError(mEtPhoneNumber);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
+                    errorMessage = getResources().getString(R.string.iap_address_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtAddressLineTwo);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_1)) {
+                    errorMessage = getResources().getString(R.string.iap_address_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtAddressLineOne);
                 }
                 mBtnContinue.setEnabled(false);
             } else if (error.getMessage() != null) {
@@ -505,7 +513,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     private void showUSRegions() {
-        if (mEtCountry.getText().toString().equals("US")) {
+        if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
             mlLState.setVisibility(View.VISIBLE);
         } else {
             mlLState.setVisibility(View.GONE);
@@ -567,7 +575,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_1, mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressHashMap.put(ModelConstants.PHONE_2, "");
-//        addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
         if (mlLState.getVisibility() == View.GONE) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, null);
@@ -656,18 +663,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onGetDeliveryModes(final Message msg) {
-        //NOP
-    }
-
-    @Override
     public void onSetPaymentDetails(Message msg) {
 
-    }
-
-    @Override
-    public void onGetDeliveryAddress(final Message msg) {
-        //NOP
     }
 
     @Override

@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.store;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.User;
@@ -37,6 +38,7 @@ public class IAPUser implements UserRegistrationListener {
     }
 
     public String getJanRainEmail() {
+        Log.i("Janrain UUID", mJanRainUser.getJanrainUUID());
         return mJanRainUser.getEmail();
     }
 

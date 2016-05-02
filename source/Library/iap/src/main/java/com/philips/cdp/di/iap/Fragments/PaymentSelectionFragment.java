@@ -120,7 +120,8 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
             IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
             Bundle bundle = new Bundle();
             bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
-            addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE), BillingAddressFragment.TAG);
+            addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE),
+                    BillingAddressFragment.TAG);
         }
     }
 

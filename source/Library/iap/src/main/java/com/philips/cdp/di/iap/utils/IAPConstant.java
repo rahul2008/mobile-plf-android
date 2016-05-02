@@ -48,8 +48,8 @@ public class IAPConstant {
     public static final String IAP_BUY_URL = "IAP_BUY_URL";
     public static final String IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART = "IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART";
 
-    public interface Screen {
-        int PRODUCT_CATALOG = 0;
-        int SHOPPING_CART = 1;
+    public interface IAPLandingViews {
+        int IAP_PRODUCT_CATALOG_VIEW = 0;
+        int IAP_SHOPPING_CART_VIEW = 1;
     }
 }

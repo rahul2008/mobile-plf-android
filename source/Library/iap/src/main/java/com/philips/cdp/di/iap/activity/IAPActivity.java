@@ -49,10 +49,15 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         setContentView(R.layout.iap_activity);
         addActionBar();
         Boolean isShoppingCartViewSelected = getIntent().getBooleanExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, true);
-        if (isShoppingCartViewSelected)
-            addFragment(ShoppingCartFragment.createInstance(new Bundle(), BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
-        else
-            addFragment(ProductCatalogFragment.createInstance(new Bundle(), BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
+        if (isShoppingCartViewSelected) {
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
+            addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                    BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+        } else {
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
+            addFragment(ProductCatalogFragment.createInstance(new Bundle(),
+                    BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
+        }
     }
 
     private void initTheme() {
@@ -106,8 +111,9 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-//                addShoppingFragment();
-                addFragment(ShoppingCartFragment.createInstance(new Bundle(), BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
+                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                        BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
             }
         });
 

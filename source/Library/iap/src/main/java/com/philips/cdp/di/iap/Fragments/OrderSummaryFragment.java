@@ -111,17 +111,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     @Override
     public boolean onBackPressed() {
         if (isOrderPlaced()) {
-            setSetOrderPlaceFalse();
             return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        setSetOrderPlaceFalse();
+        } else return false;
     }
 
     private void setSetOrderPlaceFalse() {
