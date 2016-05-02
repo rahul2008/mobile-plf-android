@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
@@ -22,6 +23,7 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,8 @@ import android.view.View;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+
+import java.util.Locale;
 
 /**
  * <b></b> UikitPasswordEditTetxt is UI Component providing password masking/unmasking capability</b>
@@ -127,6 +131,17 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
                 return false;
             }
         });
+
+    }
+
+
+    @Override
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+        if (!focused) {
+            passwordVisible = false;
+            handlePasswordInputVisibility();
+        }
     }
 
     private Drawable getIcon() {
