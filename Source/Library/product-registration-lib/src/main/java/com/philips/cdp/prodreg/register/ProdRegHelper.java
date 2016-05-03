@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.prodreg.listener.ProdRegListener;
+import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -110,6 +111,10 @@ public class ProdRegHelper {
         final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
         userWithProducts.setLocale(this.locale);
         return userWithProducts;
+    }
+
+    public String getLibVersion() {
+        return BuildConfig.VERSION_NAME;
     }
 
     private static class UserRegistrationObserver {

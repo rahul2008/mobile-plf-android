@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
@@ -23,12 +24,16 @@ public class RegisteredProductsList extends AppCompatActivity {
     }
     private ProductAdapter productAdapter;
     private RecyclerView mRecyclerView;
-
+    private TextView mVersion;
+    private ProdRegHelper prodRegHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registered_list);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mVersion = (TextView) findViewById(R.id.txt_version);
+        prodRegHelper = new ProdRegHelper();
+        mVersion.setText("versionName :" + prodRegHelper.getLibVersion());
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
