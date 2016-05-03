@@ -7,8 +7,10 @@ package com.philips.cdp.di.iap.ShoppingCart;
 import android.content.Context;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.carts.Carts;
+import com.philips.cdp.di.iap.response.carts.CartsEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -20,6 +22,7 @@ import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +108,23 @@ public class PRXProductDataBuilder {
             Message result = Message.obtain();
             result.obj = mCartItems;
             mDataLoadListener.onModelDataLoadFinished(result);
+            tagProducts(mCartItems);
         }
+    }
+
+    private void tagProducts(List<ShoppingCartData> cartData){
+        StringBuilder products = new StringBuilder();
+        CartsEntity cart = mCartData.getCarts().get(0);
+        for (int i = 0; i < cart.getTotalItems(); i++) {
+            EntriesEntity entriesEntity = cart.getEntries().get(i);
+            if (i > 0) {
+                products = products.append(",");
+            }
+            products = products.append(entriesEntity.getProduct().getCategories().get(0).getCode()).append(";")
+                    .append(cartData.get(i).getProductTitle()).append(";").append(String.valueOf(entriesEntity.getQuantity()))
+                    .append(";").append(entriesEntity.getTotalPrice().getValue());
+        }
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, products);
     }
 
     private ProductSummaryBuilder prepareSummaryBuilder(final String code) {

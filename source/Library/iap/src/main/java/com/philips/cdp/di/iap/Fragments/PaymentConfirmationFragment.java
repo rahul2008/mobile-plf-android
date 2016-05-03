@@ -139,6 +139,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
         } else {
             //moveToPreviousFragment();
+            IAPAnalytics.trackLaunchPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
             moveToFragment(OrderSummaryFragment.TAG);
         }
 
