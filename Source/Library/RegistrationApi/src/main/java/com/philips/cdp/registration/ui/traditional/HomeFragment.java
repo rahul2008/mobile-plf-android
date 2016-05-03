@@ -61,6 +61,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private TextView mTvTermsAndConditionDesc;
 
+    private TextView mTvWelcomeNeedAccount;
+
     private LinearLayout mLlCreateBtnContainer;
 
     private LinearLayout mLlLoginBtnContainer;
@@ -269,6 +271,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
 
         mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_reg_terms_and_condition);
+        mTvWelcomeNeedAccount = (TextView) view.findViewById(R.id.tv_reg_create_account);
         mLlCreateBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
         mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_singin_options);
@@ -368,6 +371,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             applyParams(config, mLlCreateBtnContainer, width);
             applyParams(config, mLlLoginBtnContainer, width);
             applyParams(config, mTvTermsAndConditionDesc, width);
+            applyParams(config, mTvWelcomeNeedAccount, width);
     }
 
     @Override
