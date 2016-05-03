@@ -64,17 +64,6 @@ public class CartUpdateProductQuantityRequestTest extends TestCase {
 
         assertNotNull(mockCartUpdateProductQuantityRequest.requestBody());
     }
-//    @Test
-//    public void testTestingUrilIsNotNull() {
-//        CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, null, null);
-//        IAPConfiguration iapConfiguration = Mockito.mock(IAPConfiguration.class);
-//        CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
-//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
-//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
-//        CartUpdateProductQuantityRequest mockCartUpdateProductQuantityRequest = Mockito.mock(CartUpdateProductQuantityRequest.class);
-//        Mockito.when(mockCartUpdateProductQuantityRequest.getUrl()).thenReturn(NetworkConstants.UPDATE_QUANTITY_URL);
-//        assertNotNull(mockCartUpdateProductQuantityRequest.getUrl());
-//    }
 
     @Test
     public void parseResponseShouldBeOfGetShippingAddressDataType() {

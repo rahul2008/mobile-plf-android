@@ -20,6 +20,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.HashMap;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
@@ -32,7 +34,7 @@ public class GetAddressRequestTest {
     @Before
     public void setUP() {
         mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
-        mStore.initStoreConfig("en","us",null);
+        mStore.initStoreConfig("en", "us", null);
     }
 
     @Test
@@ -48,19 +50,9 @@ public class GetAddressRequestTest {
     }
 
     @Test
-    public void testTestingUrilIsNotNull() {
-      /*  GetAddressRequest request = new GetAddressRequest(mStore, null, null);
-        IAPConfiguration iapConfiguration = Mockito.mock(IAPConfiguration.class);
-//        CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
-//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
-//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
-        assertNotNull(request.getUrl());*/
-    }
-
-    @Test
     public void parseResponseShouldBeOfGetShippingAddressDataType() {
         GetAddressRequest request = new GetAddressRequest(mStore, null, null);
-        String oneAddress = TestUtils.readFile(GetAddressRequestTest.class,"one_Addresses.txt");
+        String oneAddress = TestUtils.readFile(GetAddressRequestTest.class, "one_Addresses.txt");
         Object response = request.parseResponse(oneAddress);
         assertEquals(response.getClass(), GetShippingAddressData.class);
     }
