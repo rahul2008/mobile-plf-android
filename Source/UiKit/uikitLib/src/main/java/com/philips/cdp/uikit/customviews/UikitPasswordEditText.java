@@ -23,8 +23,8 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ActionMode;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -81,6 +81,15 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         basecolor = a.getInt(0, R.attr.uikit_baseColor);
         a.recycle();
         setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        /**
+         * If the Device language is RTL, move the cursor to the right
+         * Work around for the Bug where the cursor doesn't start from left for RTL languages
+         */
+        if(isDeviceLanguageRTL()){
+            setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
+
+        }
+
         handlePasswordInputVisibility();
         addTextChangedListener(this);
         // Code to disable the long press for copy/paste action mode for password fields
@@ -134,6 +143,16 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
 
     }
 
+    /**
+     * Check to see if the device language is RTL or LTR
+     * @return
+     */
+
+    public static boolean isDeviceLanguageRTL() {
+        final int directionality = Character.getDirectionality((Locale.getDefault().getDisplayName().charAt(0)));
+        return directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT ||
+                directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC;
+    }
 
     @Override
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
@@ -214,15 +233,6 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
     @Override
     public void afterTextChanged(Editable s) {
 
-        /*if(s.length() == 0){
-            getCompoundDrawables()[DRAWABLE_RIGHT].setState(STATE_EMPTY_PASSWORD);
-            if ((getTransformationMethod()) instanceof PasswordTransformationMethod)
-            {
-                //do nothing
-            }
-            else setTransformationMethod(PasswordTransformationMethod.getInstance());
-            passwordVisible = false;
-        } else */
         if((getTransformationMethod()) instanceof PasswordTransformationMethod) {
             passwordVisible = false;
             getCompoundDrawables()[DRAWABLE_RIGHT].setState(STATE_MASKED_PASSWORD);
