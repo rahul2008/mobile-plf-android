@@ -30,22 +30,22 @@ public class LocalRegisteredProducts {
     }
 
     public void store(RegisteredProduct registeredProduct) {
-        Gson gson = getGson();
-        Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();
+        Gson gson = getGSon();
+        Set<RegisteredProduct> registeredProducts = getLocalRegisteredProducts().getUniqueRegisteredProducts();
         if (registeredProducts.contains(registeredProduct))
             registeredProducts.remove(registeredProduct);
         registeredProducts.add(registeredProduct);
-        localSharedPreference.storeData(PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+        getLocalSharedPreference().storeData(PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
     @NonNull
-    protected Gson getGson() {
+    protected Gson getGSon() {
         return new Gson();
     }
 
     protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
-        final String data = localSharedPreference.getData(PRODUCT_REGISTRATION_KEY);
-        Gson gson = getGson();
+        final String data = getLocalSharedPreference().getData(PRODUCT_REGISTRATION_KEY);
+        Gson gson = getGSon();
         RegisteredProduct[] registeredProducts = gson.fromJson(data, RegisteredProduct[].class);
         if (registeredProducts == null) {
             return new HashSet<>();
@@ -54,8 +54,8 @@ public class LocalRegisteredProducts {
     }
 
     public List<RegisteredProduct> getRegisteredProducts() {
-        Gson gson = getGson();
-        String data = localSharedPreference.getData(PRODUCT_REGISTRATION_KEY);
+        Gson gson = getGSon();
+        String data = getLocalSharedPreference().getData(PRODUCT_REGISTRATION_KEY);
         RegisteredProduct[] products = gson.fromJson(data, RegisteredProduct[].class);
         if (products != null) {
             ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
@@ -70,13 +70,13 @@ public class LocalRegisteredProducts {
     }
 
     public void updateRegisteredProducts(final RegisteredProduct registeredProduct) {
-        Gson gson = getGson();
+        Gson gson = getGSon();
         Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();
         if (registeredProducts.contains(registeredProduct)) {
             registeredProducts.remove(registeredProduct);
         }
         registeredProducts.add(registeredProduct);
-        localSharedPreference.storeData(PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+        getLocalSharedPreference().storeData(PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
     protected void syncLocalCache(final RegisteredProduct[] products) {
@@ -89,6 +89,14 @@ public class LocalRegisteredProducts {
             }
             localRegisteredProducts.add(registeredProduct);
         }
-        localSharedPreference.storeData(PRODUCT_REGISTRATION_KEY, getGson().toJson(localRegisteredProducts));
+        getLocalSharedPreference().storeData(PRODUCT_REGISTRATION_KEY, getGSon().toJson(localRegisteredProducts));
+    }
+
+    public LocalRegisteredProducts getLocalRegisteredProducts() {
+        return this;
+    }
+
+    protected LocalSharedPreference getLocalSharedPreference() {
+        return localSharedPreference;
     }
 }

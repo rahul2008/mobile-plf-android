@@ -1,7 +1,9 @@
 package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
@@ -10,7 +12,12 @@ import com.philips.cdp.registration.User;
 
 import org.mockito.Mock;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -18,38 +25,62 @@ import static org.mockito.Mockito.mock;
  */
 public class LocalRegisteredProductsTest extends MockitoTestCase {
 
+    private LocalRegisteredProducts localRegisteredProducts;
+    private Context context;
     @Mock
-    LocalRegisteredProducts localRegisteredProducts;
-    Context context;
-    LocalSharedPreference localSharedPreference;
-    RegisteredProduct mockRegisteredProduct;
-    String data;
-    RegisteredProduct registeredProduct;
+    private LocalSharedPreference localSharedPreference;
+    private RegisteredProduct mockRegisteredProduct;
+    private String data;
+    private RegisteredProduct registeredProduct;
+    private HashSet<RegisteredProduct> registeredProducts = new HashSet<>();
+    private Gson gson;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         context = getInstrumentation().getContext();
         User user = new User(context);
-        localRegisteredProducts = new LocalRegisteredProducts(context, user);
-        localSharedPreference = new LocalSharedPreference(context);
+        gson = new Gson();
+        addDummyProjects();
+        localRegisteredProducts = new LocalRegisteredProducts(context, user) {
+            @Override
+            protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
+                return registeredProducts;
+            }
+
+            @NonNull
+            @Override
+            protected Gson getGSon() {
+                return gson;
+            }
+
+            @Override
+            public LocalSharedPreference getLocalSharedPreference() {
+                return localSharedPreference;
+            }
+        };
         mockRegisteredProduct = mock(RegisteredProduct.class);
         data = localSharedPreference.getData("prod_reg_key");
         registeredProduct = new RegisteredProduct("HC5410/83", Sector.B2C, Catalog.CONSUMER);
-        //  testStore(registeredProduct);
     }
 
-    /*public void testStore(RegisteredProduct registeredProductMock) {
+    private void addDummyProjects() {
+        registeredProducts.add(new RegisteredProduct("ctn", null, null));
+        registeredProducts.add(new RegisteredProduct("ctn1", null, null));
+        registeredProducts.add(new RegisteredProduct("ctn2", null, null));
+    }
+
+    public void testStore() {
+        RegisteredProduct registeredProductMock = mock(RegisteredProduct.class);
+        when(registeredProductMock.getCtn()).thenReturn("ctn");
         localRegisteredProducts.store(registeredProductMock);
-        Set<RegisteredProduct> registeredProducts = localRegisteredProducts.getUniqueRegisteredProducts();
-        when(registeredProducts).thenReturn((Set<RegisteredProduct>) registeredProduct);
-        assertEquals(registeredProductMock,registeredProduct);
+        assertEquals(registeredProducts.size(), 4);
+        verify(localSharedPreference).storeData(LocalRegisteredProducts.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
-    public void testGetUniqueRegisteredProducts(){
+    public void testGetUniqueRegisteredProducts() {
         localRegisteredProducts.getUniqueRegisteredProducts();
-        RegisteredProduct[] registeredProducts= new RegisteredProduct[]{};
+        RegisteredProduct[] registeredProducts = new RegisteredProduct[]{};
         String data = localSharedPreference.getData("prod_reg_key");
     }
-*/
 }
