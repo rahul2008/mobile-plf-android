@@ -119,7 +119,7 @@ public class NetworkWrapper {
                             listener.onResponseError(PrxError.UNKNOWN_EXCEPTION);
 
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        listener.onResponseError(PrxError.UNKNOWN_EXCEPTION);
                     }
                 }
             }
