@@ -95,17 +95,6 @@ task zipDocuments(type: Zip) {
     }
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
-task install (type: Upload) {
-    repositories.mavenInstaller {
-        pom.version = project.version
-        pom.artifactId = project.name
-        pom.groupId = project.group
-        pom.packaging = "zip"
-    }
-    configuration = project.configurations.getByName(Dependency.ARCHIVES_CONFIGURATION)
-}
-
-artifactoryPublish.dependsOn install
 
 android {
     compileSdkVersion 23
