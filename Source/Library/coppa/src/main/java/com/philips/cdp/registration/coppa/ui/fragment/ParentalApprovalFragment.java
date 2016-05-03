@@ -206,7 +206,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     public void setIsUSRegionCode() {
         mTvRegConfirmApproval.setVisibility(View.VISIBLE);
-        mTvConfirmApprovalDesc.setText(String.format(mContext.getString(R.string.Coppa_Confirm_Approval_Content_txt), mContext.getString(R.string.PrivacyPolicyText)));
+        mTvConfirmApprovalDesc.setText(String.format(mContext.getString(R.string.Coppa_Confirm_Approval_Content_txt) + mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.Coppa_Privacy_Notice_Screen_Title_txt)));
         RegCoppaUtility.linkifyTermAndPolicy(mTvConfirmApprovalDesc, getActivity(), privacyLinkClick);
         mTvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);

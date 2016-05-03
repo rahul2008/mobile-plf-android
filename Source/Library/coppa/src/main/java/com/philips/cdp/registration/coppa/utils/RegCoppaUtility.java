@@ -25,7 +25,6 @@ public class RegCoppaUtility {
 
         String link = activity.getString(R.string.PrivacyPolicyText);
         SpannableString spanableString = new SpannableString(privacyPolicyText);
-
         int termStartIndex = privacyPolicyText.toLowerCase().indexOf(link.toLowerCase());
         spanableString.setSpan(privacyClickListener, termStartIndex, termStartIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         removeUnderlineFromLink(spanableString);
