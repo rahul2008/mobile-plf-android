@@ -35,10 +35,10 @@
     <View
         android:id="@+id/view_reg_devider"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/reg_shadow_title_bar_height"
         android:layout_above="@android:id/tabs"
         android:layout_below="@+id/rl_reg_header"
-        android:background="@drawable/reg_tab_bottom_bar" />
+        android:background="@drawable/reg_shadow_title_bar_view" />
 
     <FrameLayout
         android:id="@+id/fl_reg_fragment_container"
