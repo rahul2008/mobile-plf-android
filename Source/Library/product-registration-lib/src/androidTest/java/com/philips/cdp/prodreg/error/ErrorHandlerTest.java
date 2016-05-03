@@ -71,8 +71,13 @@ public class ErrorHandlerTest extends MockitoTestCase {
 
         ProdRegListener prodRegListenerMock7 = mock(ProdRegListener.class);
         RegisteredProduct product7 = new RegisteredProduct("ctn", null, null);
-        errorHandler.handleError(userWithProductsMock, product, 600, prodRegListenerMock7);
-        verify(prodRegListenerMock).onProdRegFailed(product7, userWithProductsMock);
-        verify(userWithProductsMock).updateLocaleCacheOnError(product7, ProdRegError.UNKNOWN, RegistrationState.FAILED);
+        errorHandler.handleError(userWithProductsMock, product, ProdRegError.ACCESS_TOKEN_INVALID.getCode(), prodRegListenerMock7);
+        verify(userWithProductsMock).onAccessTokenExpire(product, prodRegListenerMock7);
+
+        ProdRegListener prodRegListenerMock8 = mock(ProdRegListener.class);
+        RegisteredProduct product8 = new RegisteredProduct("ctn", null, null);
+        errorHandler.handleError(userWithProductsMock, product, 600, prodRegListenerMock8);
+        verify(prodRegListenerMock).onProdRegFailed(product8, userWithProductsMock);
+        verify(userWithProductsMock).updateLocaleCacheOnError(product8, ProdRegError.UNKNOWN, RegistrationState.FAILED);
     }
 }
