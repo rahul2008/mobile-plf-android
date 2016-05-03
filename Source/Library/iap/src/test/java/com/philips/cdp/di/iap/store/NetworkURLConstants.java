@@ -34,5 +34,5 @@ public class NetworkURLConstants {
     public static final String PAYMENT_DETAILS_URL = BASE_URL + "/carts/current/paymentdetails";
     public static final String PRODUCT_CATALOG_URL = "https://acc.occ.shop.philips" +
             ".com/pilcommercewebservices/v2/US_TUSCANY/products/search?query=::category:Tuscany_Campaign&lang=en";
-
+    public static final String REGION_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/metainfo/regions/us?fields=FULL&lang=en";
 }
