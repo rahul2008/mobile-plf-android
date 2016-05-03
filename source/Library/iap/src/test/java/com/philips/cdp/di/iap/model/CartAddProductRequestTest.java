@@ -22,6 +22,7 @@ import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -45,7 +46,7 @@ public class CartAddProductRequestTest {
     }
 
     @Test
-    public void testQueryParamsIsNull() {
+    public void testQueryParamsIsNotNull() {
         Map<String, String> params = new HashMap<String, String>();
         params.put(ModelConstants.PRODUCT_CODE, params.get(ModelConstants.PRODUCT_CODE));
         CartAddProductRequest mockCartAddProductRequest = Mockito.mock(CartAddProductRequest.class);
@@ -53,7 +54,13 @@ public class CartAddProductRequestTest {
 
         assertNotNull(mockCartAddProductRequest.requestBody());
     }
-
+    @Test
+    public void testQueryParams() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(ModelConstants.PRODUCT_CODE,NetworkURLConstants.DUMMY_PRODUCT_NUBMBER);
+        CartAddProductRequest request = new CartAddProductRequest(mStore, params, null);
+        assertNotNull(request.requestBody());
+    }
     @Test
     public void parseResponseShouldBeOfGetShippingAddressDataType() {
         CartAddProductRequest request = new CartAddProductRequest(mStore, null, null);

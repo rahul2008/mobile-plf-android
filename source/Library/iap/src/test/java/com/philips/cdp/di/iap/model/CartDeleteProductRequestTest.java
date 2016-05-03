@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 
@@ -43,6 +44,12 @@ public class CartDeleteProductRequestTest extends TestCase {
         assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }
 
+    @Test(expected = RuntimeException.class)
+    public void testGetURLWhenParamsEqualToNull() {
+        CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, null, null);
+        assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
+    }
+
     @Test
     public void testRequestMethodIsDELETE() {
         CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, null, null);
@@ -50,10 +57,14 @@ public class CartDeleteProductRequestTest extends TestCase {
     }
 
     @Test
-    public void testQueryParamsIsNull() {
-        CartDeleteProductRequest mockCartDeleteProductRequest = Mockito.mock(CartDeleteProductRequest.class);
-        assertNotNull(mockCartDeleteProductRequest.requestBody());
+    public void testQueryParamsIsNotNull() {
+        Map<String, String> payload = new HashMap<>();
+        payload.put(ModelConstants.PRODUCT_CODE, ModelConstants.PRODUCT_CODE);
+        payload.put(ModelConstants.ENTRY_CODE, ModelConstants.ENTRY_CODE);
+        CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, payload, null);
+        assertNotNull(request.requestBody());
     }
+
 
     @Test
     public void parseResponseShouldBeOfGetShippingAddressDataType() {

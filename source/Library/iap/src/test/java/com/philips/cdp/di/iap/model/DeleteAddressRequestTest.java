@@ -42,6 +42,14 @@ public class DeleteAddressRequestTest extends TestCase {
         assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
     }
 
+    @Test(expected = RuntimeException.class)
+    public void matchDeleteAddressRequestURLWhenParamsEqualToNull() {
+        HashMap<String, String> query = new HashMap<>();
+        query.put(ModelConstants.ADDRESS_ID, NetworkURLConstants.DUMMY_PRODUCT_ID);
+        DeleteAddressRequest request = new DeleteAddressRequest(mStore, null, null);
+        assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
+    }
+
     @Test
     public void testRequestMethodIsDELETE() {
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, null, null);

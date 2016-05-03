@@ -55,7 +55,7 @@ public class CartUpdateProductQuantityRequestTest extends TestCase {
     }
 
     @Test
-    public void testQueryParamsIsNull() {
+    public void testQueryParamsIsNotNull() {
         Map<String, String> params = new HashMap<String, String>();
         params.put(ModelConstants.PRODUCT_CODE, params.get(ModelConstants.PRODUCT_CODE));
         params.put(ModelConstants.PRODUCT_QUANTITY, params.get(ModelConstants.PRODUCT_QUANTITY));
@@ -66,10 +66,26 @@ public class CartUpdateProductQuantityRequestTest extends TestCase {
     }
 
     @Test
+    public void testQueryParamsForRequestBody() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(ModelConstants.PRODUCT_CODE, ModelConstants.PRODUCT_CODE);
+        params.put(ModelConstants.PRODUCT_QUANTITY, ModelConstants.PRODUCT_QUANTITY);
+        CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, params, null);
+        assertEquals(request.requestBody(), params);
+    }
+
+    @Test
     public void parseResponseShouldBeOfGetShippingAddressDataType() {
         CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, null, null);
         String addtoCartResponse = TestUtils.readFile(CartUpdateProductQuantityRequestTest.class, "update_cart.txt");
         Object response = request.parseResponse(addtoCartResponse);
         assertEquals(response.getClass(), UpdateCartData.class);
     }
+
+    @Test(expected = RuntimeException.class)
+    public void testGetURLWhenParamsEqualToNull() {
+        CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, null, null);
+        assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
+    }
+
 }

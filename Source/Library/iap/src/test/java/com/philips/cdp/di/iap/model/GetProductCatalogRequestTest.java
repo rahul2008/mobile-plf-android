@@ -1,18 +1,17 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 package com.philips.cdp.di.iap.model;
 
 import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
+import com.philips.cdp.di.iap.response.State.RegionsList;
+import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.Store;
+
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,14 +19,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.HashMap;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
+/**
+ * Created by 310164421 on 5/3/2016.
+ */
 @RunWith(MockitoJUnitRunner.class)
-public class GetAddressRequestTest {
+public class GetProductCatalogRequestTest {
     @Mock
     private Store mStore;
 
@@ -39,28 +39,27 @@ public class GetAddressRequestTest {
 
     @Test
     public void testRequestMethodIsGET() {
-        GetAddressRequest request = new GetAddressRequest(mStore, null, null);
+        GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, null, null);
         assertEquals(Request.Method.GET, request.getMethod());
     }
 
     @Test
     public void testQueryParamsIsNull() {
-        GetAddressRequest request = new GetAddressRequest(mStore, null, null);
+        GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, null, null);
         assertNull(request.requestBody());
-    }
-
-
-    @Test
-    public void parseResponseShouldBeOfGetShippingAddressDataType() {
-        GetAddressRequest request = new GetAddressRequest(mStore, null, null);
-        String oneAddress = TestUtils.readFile(GetAddressRequestTest.class, "one_Addresses.txt");
-        Object response = request.parseResponse(oneAddress);
-        assertEquals(response.getClass(), GetShippingAddressData.class);
     }
 
     @Test
     public void matchAddressDetailURL() {
-        GetAddressRequest request = new GetAddressRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.ADDRESS_DETAILS_URL, request.getUrl());
+        GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, null, null);
+        assertEquals(NetworkURLConstants.PRODUCT_CATALOG_URL, request.getUrl());
+    }
+
+    @Test
+    public void parseResponseShouldBeOfGetShippingAddressDataType() {
+        GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, null, null);
+        String paymentResponse = TestUtils.readFile(GetRegionsRequestTest.class, "get_catalog.txt");
+        Object response = request.parseResponse(paymentResponse);
+        assertEquals(response.getClass(), Products.class);
     }
 }

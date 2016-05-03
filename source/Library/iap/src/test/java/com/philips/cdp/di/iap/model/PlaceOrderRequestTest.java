@@ -63,10 +63,8 @@ public class PlaceOrderRequestTest {
 
     @Test
     public void matchPlaceOrderURL() {
-        HashMap<String, String> query = new HashMap<>();
-        query.put(ModelConstants.ORDER_NUMBER, "H1212");
-        PaymentRequest request = new PaymentRequest(mStore, query, null);
-        assertEquals(NetworkURLConstants.PAYMENT_SET_URL, request.getUrl());
+        PlaceOrderRequest request = new PlaceOrderRequest(mStore, null, null);
+        assertEquals(NetworkURLConstants.PLACE_ORDER_URL, request.getUrl());
     }
 
     @Test
