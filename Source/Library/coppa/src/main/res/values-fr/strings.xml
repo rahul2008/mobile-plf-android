@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Coppa_Give_Approval_txt">Pour vous assurer un usage optimal de l\'application, Philips a besoin de votre accord pour recueillir et utiliser des informations sur l\'utilisation que votre enfant fait de Philips Sonicare et de l\'application.\n\nCes informations comprennent la durée, la période et la fréquence de brossage enregistrées par le manche de la brosse et l\'application.\n\nCes informations vous permettent de suivre les habitudes de brossage de votre enfant, de l\'encourager et de recevoir des informations et notifications personnalisées quand il est temps de remplacer la tête de brosse.\n\nNous ne collecterons ni n\'utiliserons d\'informations personnelles sur votre enfant sans votre accord.\n\n</string>
+<string name="Coppa_Give_Approval_US_txt">Si vous acceptez, vous recevrez une demande de confirmation d\'accord en accédant à la section parentale au moins 24 heures après.\n\n</string>
+<string name="Coppa_Give_Approval_PrivacyNotes_txt">Lisez le %s pour en savoir plus.</string>
+<string name="Coppa_Confirm_Approval_Title_txt">Confirmer l\'accord</string>
+<string name="Coppa_Confirm_Approval_Content_txt">Merci d\'avoir accepté le stockage des informations sur votre enfant. Veuillez confirmer à nouveau votre accord.\n\n Pour vous assurer un usage optimal de l\'application, veuillez confirmer votre accord parental pour que Philips puisse recueillir et utiliser des informations sur l\'utilisation que votre enfant fait de Philips Sonicare et de l\'application.\n\nCes informations comprennent la durée, la période et la fréquence de brossage recueillies par le manche de la brosse et l\'application.\n\nCes informations vous permettent de suivre les habitudes de brossage de votre enfant, de l\'encourager et de recevoir des informations et notifications de brossage personnalisées quand il est temps de remplacer la tête de brosse.\n\nNous ne collecterons ni n\'utiliserons d\'informations personnelles sur votre enfant sans votre accord.\n\n</string>
+<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. et ses filiales (« Philips ») considèrent qu\'il est primordial de protéger la confidentialité des données que vous nous communiquez. Nous pensons également qu\'il est important de vous informer de l\'utilisation que nous ferons de vos données et de vous laisser le choix sur la manière dont elles seront utilisées. Nous vous encourageons donc à lire attentivement la présente Déclaration de confidentialité avant de faire vos choix et de nous donner le droit d\'utiliser vos informations. Ceci est une déclaration concernant les pratiques de confidentialité de Philips et non un contrat ou une convention.</string>
+<string name="Coppa_Privacy_Notice_Content_Title_txt">Déclaration de confidentialité de l\'application</string>
+<string name="Coppa_Privacy_Notice_Screen_Title_txt">Informations relatives à la confidentialité des données</string>
+<string name="Coppa_Consent_Approval_Screen_Title_txt">Accord</string>
+<string name="Coppa_Age_Verification_Screen_Title_txt">Accès parental</string>
+<string name="Coppa_Age_Verification_UnderAge_Txt">J\'ai moins de %d</string>
+<string name="Coppa_Age_Verification_OverAge_Txt">J\'ai plus de %d</string>
+<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Ceci est destiné aux personnes de plus de %d. Demandez à vos parents de le faire pour vous.</string>
+<string name="Ok_Btn_Txt">OK</string>
+<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Année de naissance</string>
+<string name="Coppa_Age_Verification_How_Old_Txt">Quel âge avez-vous ?</string>
+<string name="Coppa_Age_Verification_Alert_Title">L\'âge et l\'année de naissance ne correspondent pas</string>
+<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">L\'âge indiqué ne correspond pas à l\'année de naissance. Veuillez vérifier que votre âge et votre année de naissance sont corrects.</string>
+<string name="Coppa_Parent_Access_Attempt_Txt">Vous tentez d\'accéder à une section réservée aux parents.</string>
+<string name="Coppa_Parent_Access_Agree_Button_Txt">J\'accepte</string>
+<string name="Coppa_Parent_Access_Disagree_Button_Txt">Pas d\'accord</string>
+</resources>

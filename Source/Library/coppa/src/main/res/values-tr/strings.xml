@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Coppa_Give_Approval_txt">Uygulamadan en iyi şekilde faydalanabilmek için Philips\'in çocuğunuzun Philips Sonicare ve Uygulama kullanımına ilişkin bilgileri toplamasına ve kullanmasına izin vermeniz gerekir.\n\nBu bilgiler arasında; fırça sapından ve Uygulamadan alınan diş fırçalama süresi, aralığı ve sıklığı verileri yer alır.\n\nBu bilgiler, çocuğunuzun diş fırçalama alışkanlıklarını izlemenize ve onları bu konuda teşvik etmenize olanak tanımanın yanı sıra fırça başlığınızı değiştirmeniz gerektiğinde kişiselleştirilmiş diş fırçalama bilgileri ve bildirimleri almanızı sağlar.\n\nBöyle bir onayı vermediğiniz sürece çocuğunuzun kişisel bilgilerini toplamayacak veya kullanmayacağız.\n\n</string>
+<string name="Coppa_Give_Approval_US_txt">Kabul etmeniz durumunda, şu andan itibaren minimum 24 saatlik sürenin ardından ebeveyn bölümüne yeniden giriş yaptığınızda doğrulama amaçlı bir onay talebi alırsınız.\n\n</string>
+<string name="Coppa_Give_Approval_PrivacyNotes_txt">Daha fazla bilgi için şunu okuyun: %s.</string>
+<string name="Coppa_Confirm_Approval_Title_txt">Onayı Doğrula</string>
+<string name="Coppa_Confirm_Approval_Content_txt">Çocuğunuzun bilgilerinin saklanmasına onay verdiğiniz için teşekkür ederiz. Bu onayınızı doğrulayan ikinci bir onay bildirisidir.\n\nUygulamadan en iyi şekilde faydalanabilmek için lütfen ebeveyn onayınızı doğrulayarak Philips\'in çocuğunuzun Philips Sonicare ve Uygulama kullanımına ilişkin bilgileri toplamasına ve kullanmasına izin verin. Bu bilgiler arasında; fırça sapından ve Uygulamadan alınan diş fırçalama süresi, aralığı ve sıklığı verileri yer alır.\n\nBu bilgiler, çocuğunuzun diş fırçalama alışkanlıklarını izlemenize ve onları bu konuda teşvik etmenize olanak tanımanın yanı sıra fırça başlığınızı değiştirmeniz gerektiğinde kişiselleştirilmiş diş fırçalama bilgileri ve bildirimleri almanızı sağlar.\n\nBöyle bir onayı vermediğiniz sürece çocuğunuzun kişisel bilgilerini toplamayacak veya kullanmayacağız.\n\n</string>
+<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. ve bağlı kuruluşları (Philips), bizimle paylaştığınız verilerin gizliliğini korumaya önem verir. Ayrıca, verilerinizi nasıl kullandığımıza ilişkin sizi bilgilendirmenin ve bu verilerin ne amaçla kullanılacağına dair size seçenekler sunmanın önemli olduğunu düşünüyoruz. Dolayısıyla, karar vermeden ve bize bilgilerinizi kullanma hakkını tanımadan önce bu Gizlilik Bildirimi\'ni dikkatlice okumanızı tavsiye ederiz. Bu, Philips\'in gizlilik uygulamalarına ilişkin bir bildirimdir; sözleşme veya anlaşma yerine geçmez.</string>
+<string name="Coppa_Privacy_Notice_Content_Title_txt">Uygulama Gizlilik Bildirimi</string>
+<string name="Coppa_Privacy_Notice_Screen_Title_txt">Gizlilik Bildirimi</string>
+<string name="Coppa_Consent_Approval_Screen_Title_txt">Onay</string>
+<string name="Coppa_Age_Verification_Screen_Title_txt">Ebeveyn Erişimi</string>
+<string name="Coppa_Age_Verification_UnderAge_Txt">%d yaşından küçüğüm</string>
+<string name="Coppa_Age_Verification_OverAge_Txt">%d yaşından büyüğüm</string>
+<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Bu işlemi, %d yaşından büyük kişiler gerçekleştirebilir. Lütfen ebeveyninizden bu işlemi gerçekleştirmesini isteyin.</string>
+<string name="Ok_Btn_Txt">OK</string>
+<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Doğum yılı</string>
+<string name="Coppa_Age_Verification_How_Old_Txt">Kaç yaşındasınız?</string>
+<string name="Coppa_Age_Verification_Alert_Title">Yaş ve doğum yılı uyuşmuyor</string>
+<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">Girilen yaş, doğum yılıyla eşleşmiyor. Lütfen yaşınızın ve doğum yılınızın doğru olduğundan emin olun.</string>
+<string name="Coppa_Parent_Access_Attempt_Txt">Ebeveynlere özel olan bir bölüme erişmeye çalışıyorsunuz.</string>
+<string name="Coppa_Parent_Access_Agree_Button_Txt">Kabul ediyorum</string>
+<string name="Coppa_Parent_Access_Disagree_Button_Txt">Katılmıyorum</string>
+</resources>

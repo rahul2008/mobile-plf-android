@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Coppa_Give_Approval_txt">App का अधिकतम लाभ लेने के लिए Philips को आपके बच्चे द्वारा Philips Sonicare और App के उपयोग के बारे में जानकारी एकत्रित तथा उसका उपयोग करने हेतु आपकी सहमति की आवश्यकता होती है.\n\nयह जानकारी ब्रश हैंडल और App द्वारा एकत्रित ब्रश करने का समय, अवधि और आवृत्ति शामिल करेगी.\n\nयह जानकारी आपको अपने बच्चे की ब्रश करने की आदतों पर नज़र रखने और उन्हें प्रोत्साहित करने तथा अपना ब्रश हेड बदलने का समय होने पर वैयक्तिकृत ब्रशिंग जानकारी और सूचनाएँ प्राप्त करने की अनुमति देती है.\n\nयदि आप इस तरह की सहमति नहीं देते हैं, तो हम बच्चे से कोई भी निजी जानकारी एकत्रित या उसका उपयोग नहीं करेंगे.\n\n</string>
+<string name="Coppa_Give_Approval_US_txt">यदि आप सहमत होते हैं, तो अभी से 24 घंटे की न्यूनतम अवधि के बाद अभिभावकीय अनुभाग में फिर से प्रवेश करने पर आपको एक पुष्टिकरण सहमति प्राप्त होगी.\n\n</string>
+<string name="Coppa_Give_Approval_PrivacyNotes_txt">अधिक जानकारी के लिए %s पढ़ें.</string>
+<string name="Coppa_Confirm_Approval_Title_txt">अनुमोदन की पुष्टि करें</string>
+<string name="Coppa_Confirm_Approval_Content_txt">अपने बच्चे के बारे में जानकारी का संग्रहण करने की सहमति देने के लिए धन्यवाद. आपके अनुमोदन के लिए यह दूसरी सहमति है.\n\nApp का अधिकतम लाभ लेने के लिए कृपया Philips को आपके बच्चे द्वारा Philips Sonicare और App के उपयोग के बारे में जानकारी एकत्रित तथा उसका उपयोग करने की अनुमति देने हेतु अपनी सहमति पुष्टि करें. यह जानकारी ब्रश हैंडल और App द्वारा एकत्रित ब्रश करने का समय, अवधि और आवृत्ति शामिल करेगी.\n\nयह जानकारी आपको अपने बच्चे की ब्रश करने की आदतों पर नज़र रखने और उन्हें प्रोत्साहित करने तथा अपना ब्रश हेड बदलने का समय होने पर वैयक्तिकृत ब्रशिंग जानकारी और सूचनाएँ प्राप्त करने की अनुमति देती है.\n\nयदि आप इस तरह की सहमति नहीं देते हैं, तो हम बच्चे से कोई भी निजी जानकारी एकत्रित या उसका उपयोग नहीं करेंगे.\n\n</string>
+<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. और इसके सहायक (\"Philips\") आपके द्वारा हमारे साथ साझा किए गए डेटा की गोपनीयता की रक्षा करने में दृढ़ विश्वास करते हैं. हम यह भी मानते हैं, कि हमारे द्वारा आपके डेटा के उपयोग के तरीके के बारे में आपको जानकारी देना और उन डेटा का उपयोग किस प्रकार किया जाएगा इसके बारे में आपको विकल्प प्रदान करना महत्वपूर्ण है. इसलिए, आपके द्वारा अपने विकल्प चुनने और हमें अपनी जानकारी का उपयोग करने का अधिकार प्रदान करने से पहले हम आपको यह गोपनीयता नोटिस सावधानीपूर्वक पढ़ने हेतु प्रोत्साहित करते हैं. यह Philips के गोपनीयता अभ्यासों की एक सूचना है, न कि कोई अनुबंध या समझौता.</string>
+<string name="Coppa_Privacy_Notice_Content_Title_txt">App गोपनीयता नोटिस</string>
+<string name="Coppa_Privacy_Notice_Screen_Title_txt">गोपनीयता नोटिस</string>
+<string name="Coppa_Consent_Approval_Screen_Title_txt">अनुमोदन</string>
+<string name="Coppa_Age_Verification_Screen_Title_txt">अभिभावकीय पहुँच</string>
+<string name="Coppa_Age_Verification_UnderAge_Txt">मेरी आयु %d से कम है</string>
+<string name="Coppa_Age_Verification_OverAge_Txt">मेरी आयु %d से अधिक है</string>
+<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">यह %d से अधिक आयु के लोगों के लिए लक्षित है. कृपया आपके लिए ऐसा करने हेतु अपने अभिभावकों से कहें.</string>
+<string name="Ok_Btn_Txt">OK</string>
+<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">जन्म का वर्ष</string>
+<string name="Coppa_Age_Verification_How_Old_Txt">आपकी आयु क्या है?</string>
+<string name="Coppa_Age_Verification_Alert_Title">आयु और जन्म का वर्ष मेल नहीं खाते हैं</string>
+<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">प्रदान की गई आयु जन्म के वर्ष से मेल नहीं खाती है. कृपया सुनिश्चित करें कि आपकी आयु और जन्म का वर्ष सही है.</string>
+<string name="Coppa_Parent_Access_Attempt_Txt">आप अभिभावकों के लिए लक्षित किसी अनुभाग पर पहुँचने का प्रयास कर रहे हैं.</string>
+<string name="Coppa_Parent_Access_Agree_Button_Txt">मैं सहमत हूँ</string>
+<string name="Coppa_Parent_Access_Disagree_Button_Txt">असहमत हूँ</string>
+</resources>
