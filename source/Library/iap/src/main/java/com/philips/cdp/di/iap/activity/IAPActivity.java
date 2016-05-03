@@ -98,7 +98,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
         mCartIcon.setImageDrawable(mShoppingCartIcon);
         mBackButton = (ImageView) mCustomView.findViewById(R.id.arrow);
-        mBackButton.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
+        mBackButton.setImageDrawable(VectorDrawable.create(this, R.drawable.iap_back_arrow));
         mCartCount = (TextView) mCustomView.findViewById(R.id.item_count);
         frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
         frameLayout.setOnClickListener(new View.OnClickListener() {
