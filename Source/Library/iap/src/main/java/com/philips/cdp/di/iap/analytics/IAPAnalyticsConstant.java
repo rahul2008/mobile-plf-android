@@ -3,7 +3,7 @@ package com.philips.cdp.di.iap.analytics;
 public class IAPAnalyticsConstant {
 
     public static final String PRODUCT_CATALOG_PAGE_NAME = "ProductCatalogPage";
-    public static final String PRODUCT_DETAIL_PAGE_NAME= "ProductDetailPage";
+    public static final String PRODUCT_DETAIL_PAGE_NAME = "ProductDetailPage";
     public static final String RETAILER_PAGE_NAME = "RetailerPage";
     public static final String SHOPPING_CART_PAGE_NAME = "ShoppingCartPage";
     public static final String SHOPPING_CART_ITEM_DETAIL_PAGE_NAME = "ShoppingCartItemDetailPage";
@@ -37,14 +37,13 @@ public class IAPAnalyticsConstant {
     public static final String COMPONENT_VERSION = "componentVersion";
     public static final String IN_APP_NOTIFICATION_POP_UP = "inAppNotification";
     public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
-    public static final String ERROR = "error";
-    public static final String INSUFFICIENT_STOCK_ERROR = "InsufficientStockError";
+    public static final String DISCOUNTED_PRICE = "discountedPrice";
+    public static final String RETAILER_SELECTED = "retailerSelected";
+
     public static final String DELIVERY_METHOD = "deliveryMethod";
     public static final String DELIVERY_UPS_PARCEL = "UPSParcel";
     public static final String DELIVERY_UPS_PARCEL_EXPRESS = "UPSParcelExpress";
     public static final String DELIVERY_UPS_ACCESS_POINTS = "UPSAccessPoint";
-    public static final String RETAILER_SELECTED = "retailerSelected";
-
     public static final String CANCEL_PAYMENT = "cancelPayment";
     public static final String NOTIFICTION_OK = "ok";
     public static final String PRODUCTS = "&&products";
@@ -54,5 +53,8 @@ public class IAPAnalyticsConstant {
     public static final String REDEEM_VOUCHER_SELECTED = "redeemVoucherSelected";
     public static final String SHOPPING_CART_VIEW = "shoppingCartView"; // need to get confirmation
     public static final String PROD_VIEW = "prodView"; // need to get confirmation
+
+    public static final String ERROR = "error";
+    public static final String INSUFFICIENT_STOCK_ERROR = "InsufficientStockError";
 }
 
