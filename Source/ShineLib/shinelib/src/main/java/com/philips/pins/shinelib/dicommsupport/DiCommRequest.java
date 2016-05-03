@@ -23,7 +23,7 @@ class DiCommRequest {
         if (properties.containsKey(null)) {
             return null;
         }
-        String propertiesString = new JSONObject(properties).toString();
+        String propertiesString = new JSONObject(properties).toString().replace("\\/","/");
         byte[] byteArray = encodeDiCommPayload(product, port, propertiesString);
 
         return new DiCommMessage(MessageType.PutPropsRequest, byteArray);

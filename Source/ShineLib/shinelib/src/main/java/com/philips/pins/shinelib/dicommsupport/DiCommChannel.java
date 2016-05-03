@@ -48,6 +48,8 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     // implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingLister
     @Override
     public void onDataReceived(byte[] data) {
+        SHNLogger.d(TAG, "onDataReceived " + data);
+
         appendReceivedData(data);
         ByteBuffer byteBuffer = ByteBuffer.wrap(receiveBuffer);
 
@@ -90,10 +92,18 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     private void parseResponse(DiCommMessage diCommMessage) {
         try {
             DiCommResponse diCommResponse = getDiCommResponse(diCommMessage);
-            pendingRequests.remove(0).getResultListener().onActionCompleted(diCommResponse.getProperties(), convertToSHNResult(diCommResponse.getStatus()));
+            reportToListener(diCommResponse.getProperties(), convertToSHNResult(diCommResponse.getStatus()));
         } catch (InvalidParameterException ex) {
             SHNLogger.e(TAG, ex.getMessage());
-            pendingRequests.remove(0).getResultListener().onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
+            reportToListener(null, SHNResult.SHNErrorInvalidParameter);
+        }
+    }
+
+    private void reportToListener(Map<String, Object> properties, SHNResult result) {
+        if (!pendingRequests.isEmpty()) {
+            pendingRequests.remove(0).getResultListener().onActionCompleted(properties, result);
+        } else {
+            SHNLogger.e(TAG, "Unexpected message with properties " + properties);
         }
     }
 
@@ -119,8 +129,9 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
                 return SHNResult.SHNErrorInvalidParameter;
             case ProtocolViolation:
                 return SHNResult.SHNErrorInvalidState;
+            default:
+                return SHNResult.SHNErrorUnknown;
         }
-        return null;
     }
 
     @Override
@@ -162,6 +173,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     }
 
     public void reloadProperties(String port, SHNMapResultListener<String, Object> resultListener) {
+        SHNLogger.d(TAG, "reloadProperties");
         DiCommRequest diCommRequest = getDiCommRequest();
         DiCommMessage diCommMessage = diCommRequest.getPropsRequestDataWithProduct(PRODUCT, port);
 
@@ -169,6 +181,8 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     }
 
     public void sendProperties(Map<String, Object> properties, String port, SHNMapResultListener<String, Object> resultListener) {
+        SHNLogger.d(TAG, "sendProperties");
+
         DiCommRequest diCommRequest = getDiCommRequest();
         DiCommMessage diCommMessage = diCommRequest.putPropsRequestDataWithProduct(PRODUCT, port, properties);
 

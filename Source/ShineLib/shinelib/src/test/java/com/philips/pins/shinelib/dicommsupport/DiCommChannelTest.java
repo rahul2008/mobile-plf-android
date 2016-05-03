@@ -299,6 +299,18 @@ public class DiCommChannelTest {
         verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
     }
 
+    @Test
+    public void whenUnexpectedResponseWithInvalidDataIsReceivedThenItIsIgnored() throws Exception {
+        DiCommChannel diCommChannel = new DiCommChannelTrowingForTest(shnProtocolMoonshineStreamingMock, TIME_OUT);
+        diCommChannel.onProtocolAvailable();
+        diCommChannel.sendProperties(properties, PORT_NAME, resultListenerMock);
+
+        diCommChannel.onDataReceived(validMessageData);
+        diCommChannel.onDataReceived(validMessageData);
+
+        verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorInvalidParameter);
+    }
+
     //   
     @Test
     public void whenReloadPropertiesIsCalledWhileUnavailableThenErrorIsReported() throws Exception {
@@ -472,6 +484,17 @@ public class DiCommChannelTest {
         receiveResponseWithStatus(StatusCode.ProtocolViolation);
 
         verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNErrorInvalidState));
+    }
+
+    @Test
+    public void whenUnexpectedResponseIsReceivedThenItIsIgnored() throws Exception {
+        diCommChannel.onProtocolAvailable();
+        diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
+
+        receiveResponseWithStatus(StatusCode.NoError);
+        receiveResponseWithStatus(StatusCode.NoError);
+
+        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNOk));
     }
 
     private class DiCommChannelForTest extends DiCommChannel {

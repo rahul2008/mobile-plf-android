@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public class DiCommRequestTest extends RobolectricTest {
@@ -186,5 +188,18 @@ public class DiCommRequestTest extends RobolectricTest {
         DiCommMessage message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties);
 
         assertNull(message);
+    }
+
+    @Test
+    public void whenPutPropsIsCalledWithBase64DataThenBackSlashIsNotEscaped() throws Exception {
+        DiCommRequest diCommRequest = new DiCommRequest();
+        properties.put("key/", "value");
+
+        DiCommMessage message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties);
+
+        assertNotNull(message);
+        String resultString = new String(message.getPayload());
+
+        assertFalse(resultString.contains("\\"));
     }
 }

@@ -50,9 +50,9 @@ public class DiCommPort {
             if (diCommChannel != null) {
                 diCommChannel.reloadProperties(name, new SHNMapResultListener<String, Object>() {
                     @Override
-                    public void onActionCompleted(Map<String, Object> properties1, @NonNull SHNResult result) {
+                    public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
                         if (result == SHNResult.SHNOk) {
-                            DiCommPort.this.properties = properties1;
+                            DiCommPort.this.properties = properties;
                             setIsAvailable(true);
                         } else {
                             SHNLogger.d(TAG, "Failed to load properties result: " + result);
@@ -93,30 +93,26 @@ public class DiCommPort {
     }
 
     public void reloadProperties(@NonNull final SHNMapResultListener<String, Object> resultListenerMock) {
-        if (isAvailable) {
-            if (diCommChannel != null) {
-                diCommChannel.reloadProperties(name, new SHNMapResultListener<String, Object>() {
-                    @Override
-                    public void onActionCompleted(Map<String, Object> properties1, @NonNull SHNResult result) {
-                        resultListenerMock.onActionCompleted(properties1, result);
-                    }
-                });
-            }
+        if (isAvailable && diCommChannel != null) {
+            diCommChannel.reloadProperties(name, new SHNMapResultListener<String, Object>() {
+                @Override
+                public void onActionCompleted(Map<String, Object> properties1, @NonNull SHNResult result) {
+                    resultListenerMock.onActionCompleted(properties1, result);
+                }
+            });
         } else {
             resultListenerMock.onActionCompleted(null, SHNResult.SHNErrorInvalidState);
         }
     }
 
     public void putProperties(@NonNull Map<String, Object> properties, @NonNull final SHNMapResultListener<String, Object> resultListener) {
-        if (isAvailable) {
-            if (diCommChannel != null) {
-                diCommChannel.sendProperties(properties, name, new SHNMapResultListener<String, Object>() {
-                    @Override
-                    public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
-                        resultListener.onActionCompleted(properties, result);
-                    }
-                });
-            }
+        if (isAvailable && diCommChannel != null) {
+            diCommChannel.sendProperties(properties, name, new SHNMapResultListener<String, Object>() {
+                @Override
+                public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
+                    resultListener.onActionCompleted(properties, result);
+                }
+            });
         } else {
             resultListener.onActionCompleted(null, SHNResult.SHNErrorInvalidState);
         }
@@ -157,6 +153,8 @@ public class DiCommPort {
                     }
                 }
             });
+        } else {
+            notifySubscriptionFailed(SHNResult.SHNErrorInvalidState);
         }
     }
 
