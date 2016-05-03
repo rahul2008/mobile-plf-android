@@ -58,6 +58,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     private void clearStackAndLaunchProductCatalog() {
+        IAPAnalytics.trackLaunchPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         FragmentManager manager = getActivity().getSupportFragmentManager();
         clearFragmentStack();
         manager.beginTransaction().

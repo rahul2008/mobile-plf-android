@@ -126,11 +126,11 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
     private void handleExit() {
         if (mPaymentSuccessful) {
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
             CartModelContainer.getInstance().setOrderPlaced(false);
             Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
             if (fragment == null) {
                 getFragmentManager().popBackStack(ShoppingCartFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
                 addFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
                         ProductCatalogFragment.TAG);
             } else {

@@ -18,13 +18,17 @@ public class IAPAnalyticsConstant {
     public static final String PAYMENT_CONFIRMATION_PAGE_NAME = "PaymentConfirmationPage";
 
     public static final String VERSION_KEY = "app.version";
+    public static final String COMPONENT_VERSION = "componentVersion";
     public static final String SEND_DATA = "sendData";
     public static final String SPECIAL_EVENTS = "specialEvents";
-    public static final String FREE_DELIVERY = "freeDelivery";
+
+    public static final String PRODUCTS = "&&products";
+    public static final String DISCOUNTED_PRICE = "discountedPrice";
+    public static final String RETAILER_SELECTED = "retailerSelected";
     public static final String ADD_TO_CART = "scAdd";
-    public static final String CONTINUE_SHOPPING_SELECTED = "continueShoppingSelected";
-    public static final String CHECKOUT_BUTTON_SELECTED = "checkoutButtonSelected";
     public static final String PRODUCT_REMOVED = "productRemoved";
+    public static final String CHECKOUT_BUTTON_SELECTED = "checkoutButtonSelected";
+    public static final String CONTINUE_SHOPPING_SELECTED = "continueShoppingSelected";
     public static final String NEW_SHIPPING_ADDRESS_ADDED = "newShippingAddressAdded";
     public static final String NEW_BILLING_ADDRESS_ADDED = "newBillingAddressAdded";
     public static final String PAYMENT_METHOD = "paymentMethod";
@@ -34,13 +38,11 @@ public class IAPAnalyticsConstant {
     public static final String FAILED = "Failed";
     public static final String PURCHASE_ID = "purchaseID";
     public static final String PURCHASE = "purchase";
+    public static final String FREE_DELIVERY = "freeDelivery";
     public static final String BACK_BUTTON_PRESS = "backButtonPress";
-    public static final String COMPONENT_VERSION = "componentVersion";
+
     public static final String IN_APP_NOTIFICATION_POP_UP = "inAppNotification";
     public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
-    public static final String DISCOUNTED_PRICE = "discountedPrice";
-    public static final String RETAILER_SELECTED = "retailerSelected";
-    public static final String PRODUCTS = "&&products";
 
     public static final String DELIVERY_METHOD = "deliveryMethod";
     public static final String DELIVERY_UPS_PARCEL = "UPSParcel";
