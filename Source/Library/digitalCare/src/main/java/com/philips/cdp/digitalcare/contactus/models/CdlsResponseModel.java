@@ -1,12 +1,14 @@
-/**
- * CdlsBean is bean class for all CDLS related objects.
- *
+/*
  * @author : Ritesh.jha@philips.com
  * @since: 16 Dec 2014
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 package com.philips.cdp.digitalcare.contactus.models;
 
+
+/**
+ * CdlsBean is bean class for all CDLS related objects.
+ */
 public class CdlsResponseModel {
     private Boolean mSuccess = null;
     private CdlsEmailModel mEmail = null;
@@ -14,8 +16,8 @@ public class CdlsResponseModel {
     private CdlsPhoneModel mPhone = null;
     private CdlsErrorModel mError = null;
 
-    public CdlsResponseModel(boolean success, CdlsPhoneModel phone, CdlsChatModel chat,
-                             CdlsEmailModel email, CdlsErrorModel error) {
+    public CdlsResponseModel(final boolean success, final CdlsPhoneModel phone, final CdlsChatModel chat,
+                             final CdlsEmailModel email, final CdlsErrorModel error) {
         mSuccess = success;
         mPhone = phone;
         mChat = chat;
