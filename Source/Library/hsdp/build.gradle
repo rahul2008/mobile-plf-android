@@ -31,7 +31,7 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-version = "1.0.2"
+version = "1.0.3"
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
