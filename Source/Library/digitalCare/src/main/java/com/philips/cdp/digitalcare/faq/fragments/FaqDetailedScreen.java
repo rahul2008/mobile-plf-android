@@ -232,11 +232,11 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-
-        if (isTablet())
-            return "Frequently asked questions";
-        else
-            return "Question and answer";
+        return getResources().getString(R.string.QUESTION_KEY);
+//        if (isTablet())
+//            return "Frequently asked questions";
+//        else
+//            return "Question and answer";
     }
 
     @Override
