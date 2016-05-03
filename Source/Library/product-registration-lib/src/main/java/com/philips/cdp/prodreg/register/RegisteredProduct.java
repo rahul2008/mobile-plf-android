@@ -31,7 +31,7 @@ public class RegisteredProduct extends Product {
     }
 
     /**
-     * API will return registration state
+     * API return registration state
      * @return it return registration
      */
     public RegistrationState getRegistrationState() {
@@ -97,8 +97,8 @@ public class RegisteredProduct extends Product {
     }
 
     /**
-     * API will check cached UUid , CTN and getUUID ,getctn
-     * @param object this object will return registered product details
+     * API check cached UUid , CTN and getUUID ,getctn
+     * @param object this object return registered product details
      * @return return true or false
      */
     @Override
@@ -146,7 +146,7 @@ public class RegisteredProduct extends Product {
     }
 
     /**
-     * API will return contract Number
+     * API return contract Number
      * @return return contract number as string
      */
     public String getContractNumber() {

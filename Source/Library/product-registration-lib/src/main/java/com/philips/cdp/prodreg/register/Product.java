@@ -71,7 +71,7 @@ public class Product {
     }
 
     /**
-     * API will return Model Number
+     * API return Model Number
      *
      * @return return model number as string
      */
@@ -80,7 +80,7 @@ public class Product {
     }
 
     /**
-     * API will return Serial Number
+     * API return Serial Number
      * @return return serial number as string
      */
     public String getSerialNumber() {
@@ -88,7 +88,7 @@ public class Product {
     }
 
     /**
-     * API will set the serial number
+     * API set the serial number
      * @param serialNumber serial Number
      */
 
@@ -97,7 +97,7 @@ public class Product {
     }
 
     /**
-     * API will return Sector
+     * API return Sector
      * @return return sector as Enum's
      */
     public Sector getSector() {
@@ -105,7 +105,7 @@ public class Product {
     }
 
     /**
-     * API will return Catalog
+     * API return Catalog
      * @return return catalog as Enum's
      */
     public Catalog getCatalog() {
@@ -113,7 +113,7 @@ public class Product {
     }
 
     /**
-     * API will return Locale
+     * API return Locale
      * @return return local as string
      */
     public String getLocale() {
@@ -121,7 +121,7 @@ public class Product {
     }
 
     /**
-     * API will set Local
+     * API set Local
      * @param locale local
      */
     public void setLocale(String locale) {
@@ -129,7 +129,7 @@ public class Product {
     }
 
     /**
-     * API will return date
+     * API return date
      * @return Purchase date
      */
     public String getPurchaseDate() {
@@ -137,7 +137,7 @@ public class Product {
     }
 
     /**
-     * API will set Date
+     * API set Date
      * @param purchaseDate purchase date
      */
 

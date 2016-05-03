@@ -55,7 +55,7 @@ public class UserWithProducts {
     }
 
     /**
-     * API will get User UUID
+     * API get User UUID
      *
      * @return return user UUID
      */
@@ -349,7 +349,7 @@ public class UserWithProducts {
     }
 
     /**
-     * API will return Locale
+     * API return Locale
      * @return return local as string
      */
     public String getLocale() {
@@ -357,7 +357,7 @@ public class UserWithProducts {
     }
 
     /**
-     * API will set Local
+     * API set Local
      * @param locale local
      */
     public void setLocale(final String locale) {
