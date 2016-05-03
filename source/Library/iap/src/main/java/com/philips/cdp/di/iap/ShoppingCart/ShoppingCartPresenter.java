@@ -152,25 +152,25 @@ public class ShoppingCartPresenter {
                             CartModelContainer.getInstance().setShoppingCartData(mProductData);
                         } else {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                            if (Utility.isProgressDialogShowing())
-                                Utility.dismissProgressDialog();
+                            dismissProgressDialog();
                         }
-                        if (Utility.isProgressDialogShowing())
-                            Utility.dismissProgressDialog();
+                        dismissProgressDialog();
                     }
 
                     @Override
                     public void onModelDataError(final Message msg) {
-                        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
-                        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
-                        if (Utility.isProgressDialogShowing()) {
-                            Utility.dismissProgressDialog();
-                        }
+                        handleModelDataError(msg);
                     }
                 });
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
+    }
+
+    private void handleModelDataError(final Message msg) {
+        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
+        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
+        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
+        dismissProgressDialog();
     }
 
     public void getRetailersInformation(String ctn) {
@@ -195,23 +195,21 @@ public class ShoppingCartPresenter {
                         mStoreEntities = (ArrayList<StoreEntity>) webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore();
                         refreshListForRetailer(mStoreEntities);
 
-                        if (Utility.isProgressDialogShowing())
-                            Utility.dismissProgressDialog();
-
+                        dismissProgressDialog();
                     }
 
                     @Override
                     public void onModelDataError(final Message msg) {
-                        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
-                        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
-                        if (Utility.isProgressDialogShowing()) {
-                            Utility.dismissProgressDialog();
-                        }
+                        handleModelDataError(msg);
                     }
                 });
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
+    }
+
+    private void dismissProgressDialog() {
+        if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
     }
 
     public void deleteProduct(final ShoppingCartData summary) {
