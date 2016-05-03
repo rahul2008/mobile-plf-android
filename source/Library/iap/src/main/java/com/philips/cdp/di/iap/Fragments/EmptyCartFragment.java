@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
@@ -39,6 +38,9 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART), this);
         mContinueShopping = (Button) rootView.findViewById(R.id.btn_continue_shopping);
         mContinueShopping.setOnClickListener(this);
+        //Fix issue in Product detail page where count still shows the old value if the order was
+        // cancelled or successful.
+        updateCount(0);
         return rootView;
     }
 
@@ -65,7 +67,6 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
         //  finishActivity();
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment != null) {
-            IAPAnalytics.trackLaunchPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
             getFragmentManager().popBackStack();
         } else {
             finishActivity();
