@@ -95,8 +95,10 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
     private void registerProduct() {
         prodRegHelper.setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
-        Product product = new Product(mCtn.getText().toString(), mSerialNumber.getText().toString(), mPurchaseDate.getText().toString(),
+        Product product = new Product(mCtn.getText().toString(),
                 Sector.B2C, Catalog.CONSUMER);
+        product.setSerialNumber(mSerialNumber.getText().toString());
+        product.setPurchaseDate(mPurchaseDate.getText().toString());
         product.sendEmail(String.valueOf(eMailConfiguration));
         final ProdRegListener listener = new ProdRegListener() {
             @Override

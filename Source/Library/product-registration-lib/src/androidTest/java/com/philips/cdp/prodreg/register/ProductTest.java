@@ -28,7 +28,7 @@ public class ProductTest extends MockitoTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        product = new Product("HD8967/01", "1344", "2016-3-22", Sector.B2C, Catalog.CONSUMER);
+        product = new Product("HD8967/01", Sector.B2C, Catalog.CONSUMER);
         context = getInstrumentation().getContext();
     }
 
@@ -37,7 +37,7 @@ public class ProductTest extends MockitoTestCase {
         final ResponseListener responseListener = mock(ResponseListener.class);
         final MetadataListener metadataListener = mock(MetadataListener.class);
         final ProductMetadataRequest productMetadataRequest = mock(ProductMetadataRequest.class);
-        Product product = new Product("HD8967/01", "1344", "2016-3-22", Sector.B2C, Catalog.CONSUMER) {
+        Product product = new Product("HD8967/01", Sector.B2C, Catalog.CONSUMER) {
             @NonNull
             @Override
             RequestManager getRequestManager(final Context context) {
@@ -63,7 +63,7 @@ public class ProductTest extends MockitoTestCase {
 
     public void testGetPrxResponseListener() {
         final Product productMock = mock(Product.class);
-        Product product = new Product(null, null, null, Sector.B2C, Catalog.CONSUMER) {
+        Product product = new Product(null, Sector.B2C, Catalog.CONSUMER) {
             @Override
             protected Product getProduct() {
                 return productMock;

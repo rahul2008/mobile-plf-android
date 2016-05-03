@@ -7,7 +7,6 @@ package com.philips.cdp.prodreg.register;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.registration.User;
@@ -33,12 +32,10 @@ public class ProdRegHelper {
                 new UserWithProducts(context, new User(context), prodRegListener).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts(), new ProdRegListener() {
                     @Override
                     public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                        Log.d("Product Registration logs ", "Product " + registeredProduct.getCtn() + " and Serial " + registeredProduct.getSerialNumber() + " registered successfully");
                     }
 
                     @Override
                     public void onProdRegFailed(final RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                        Log.d("Product Registration logs ", "Product " + registeredProduct.getCtn() + " and Serial " + registeredProduct.getSerialNumber() + " failed due to " + registeredProduct.getProdRegError());
                     }
                 });
             }
@@ -69,7 +66,7 @@ public class ProdRegHelper {
     /**
      * API to be called to initialize product registration
      *
-     * @param context
+     * @param context - Application context
      */
     public void init(Context context) {
         ProdRegHelper.context = context;
@@ -95,7 +92,7 @@ public class ProdRegHelper {
 
     /**
      * API to add listener while registering product
-     * @param listener
+     * @param listener - Pass listener instance to listen for call backs
      */
     public void addProductRegistrationListener(final ProdRegListener listener) {
         prodRegListener = listener;
@@ -107,7 +104,7 @@ public class ProdRegHelper {
 
     /**
      * API which returns UserWithProducts instance for current signed in user
-     * @return
+     * @return - returns instance of UserWithProducts
      */
     public UserWithProducts getSignedInUserWithProducts() {
         final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);

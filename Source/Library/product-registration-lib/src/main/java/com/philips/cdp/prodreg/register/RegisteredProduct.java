@@ -6,6 +6,7 @@ import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.error.ProdRegError;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -19,8 +20,8 @@ public class RegisteredProduct extends Product {
     private ProdRegError prodRegError;
     private String contractNumber;
 
-    public RegisteredProduct(final String ctn, final String serialNumber, final String purchaseDate, final Sector sector, final Catalog catalog) {
-        super(ctn, serialNumber, purchaseDate, sector, catalog);
+    public RegisteredProduct(final String ctn, final Sector sector, final Catalog catalog) {
+        super(ctn, sector, catalog);
     }
 
     public RegistrationState getRegistrationState() {
@@ -93,10 +94,9 @@ public class RegisteredProduct extends Product {
         return false;
     }
 
-
     @Override
     public int hashCode() {
-        final int value = 5 * 10 + ((getCtn() == null) ? 0 : getCtn().hashCode());
+        final int value = new Random().nextInt() + ((getCtn() == null) ? 0 : getCtn().hashCode());
         return value;
     }
 

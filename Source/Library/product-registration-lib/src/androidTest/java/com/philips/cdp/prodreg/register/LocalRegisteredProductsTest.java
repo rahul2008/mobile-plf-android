@@ -35,7 +35,7 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         localSharedPreference = new LocalSharedPreference(context);
         mockRegisteredProduct = mock(RegisteredProduct.class);
         data = localSharedPreference.getData("prod_reg_key");
-        registeredProduct = new RegisteredProduct("HC5410/83", "1344", "26/2/2016", Sector.B2C, Catalog.CONSUMER);
+        registeredProduct = new RegisteredProduct("HC5410/83", Sector.B2C, Catalog.CONSUMER);
         //  testStore(registeredProduct);
     }
 

@@ -143,10 +143,10 @@ public class UserWithProductsTest extends MockitoTestCase {
         final RegisteredProductsListener prodRegListenerMock = mock(RegisteredProductsListener.class);
         ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
         Set<RegisteredProduct> registeredProductSet = new HashSet<>();
-        registeredProducts.add(new RegisteredProduct(null, null, null, null, null));
-        registeredProducts.add(new RegisteredProduct(null, null, null, null, null));
-        registeredProductSet.add(new RegisteredProduct("ctn", "1234", null, null, null));
-        registeredProductSet.add(new RegisteredProduct("ctn1", "12345", null, null, null));
+        registeredProducts.add(new RegisteredProduct(null, null, null));
+        registeredProducts.add(new RegisteredProduct(null, null, null));
+        registeredProductSet.add(new RegisteredProduct("ctn", null, null));
+        registeredProductSet.add(new RegisteredProduct("ctn1", null, null));
         when(localRegisteredProducts.getRegisteredProducts()).thenReturn(registeredProducts);
         when(localRegisteredProducts.getUniqueRegisteredProducts()).thenReturn(registeredProductSet);
         final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
@@ -179,7 +179,7 @@ public class UserWithProductsTest extends MockitoTestCase {
             }
         };
 
-        final Product product = new Product("ctn", "serial", "purchase_date", null, null);
+        final Product product = new Product("ctn", null, null);
         RegisteredProduct registeredProduct = mock(RegisteredProduct.class);
         when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
         when(registeredProduct.IsUserRegisteredLocally(localRegisteredProducts)).thenReturn(true);
@@ -230,8 +230,8 @@ public class UserWithProductsTest extends MockitoTestCase {
     }
 
     public void testReturnCorrectRequestType() {
-        final Product product = new Product("ctn", "serial", null, null, null);
-        final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", "serial", null, null, null);
+        final Product product = new Product("ctn", null, null);
+        final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
@@ -301,14 +301,18 @@ public class UserWithProductsTest extends MockitoTestCase {
         when(product.getCtn()).thenReturn("HD8967/09");
         when(product.getSerialNumber()).thenReturn("1234");
         ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
-        final RegisteredProduct registeredProduct = new RegisteredProduct("HD8970/09", "1234", null, null, null);
+        final RegisteredProduct registeredProduct = new RegisteredProduct("HD8970/09", null, null);
         registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
-        final RegisteredProduct registeredProduct1 = new RegisteredProduct("HD8969/09", "1234", null, null, null);
+        registeredProduct.setSerialNumber("1234");
+        final RegisteredProduct registeredProduct1 = new RegisteredProduct("HD8969/09", null, null);
         registeredProduct1.setRegistrationState(RegistrationState.REGISTERED);
-        final RegisteredProduct registeredProduct2 = new RegisteredProduct("HD8968/09", "1234", null, null, null);
+        registeredProduct1.setSerialNumber("1234");
+        final RegisteredProduct registeredProduct2 = new RegisteredProduct("HD8968/09", null, null);
         registeredProduct2.setRegistrationState(RegistrationState.REGISTERED);
-        final RegisteredProduct registeredProduct3 = new RegisteredProduct("HD8967/09", "1234", null, null, null);
+        registeredProduct2.setSerialNumber("1234");
+        final RegisteredProduct registeredProduct3 = new RegisteredProduct("HD8967/09", null, null);
         registeredProduct3.setRegistrationState(RegistrationState.REGISTERED);
+        registeredProduct3.setSerialNumber("1234");
         registeredProducts.add(registeredProduct);
         registeredProducts.add(registeredProduct1);
         registeredProducts.add(registeredProduct2);
@@ -324,13 +328,13 @@ public class UserWithProductsTest extends MockitoTestCase {
         when(product.getCtn()).thenReturn("HD8965/09");
         when(product.getSerialNumber()).thenReturn("1234");
         ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
-        final RegisteredProduct registeredProduct = new RegisteredProduct("HD8970/09", "1234", null, null, null);
+        final RegisteredProduct registeredProduct = new RegisteredProduct("HD8970/09", null, null);
         registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
-        final RegisteredProduct registeredProduct1 = new RegisteredProduct("HD8969/09", "1234", null, null, null);
+        final RegisteredProduct registeredProduct1 = new RegisteredProduct("HD8969/09", null, null);
         registeredProduct1.setRegistrationState(RegistrationState.REGISTERED);
-        final RegisteredProduct registeredProduct2 = new RegisteredProduct("HD8968/09", "1234", null, null, null);
+        final RegisteredProduct registeredProduct2 = new RegisteredProduct("HD8968/09", null, null);
         registeredProduct2.setRegistrationState(RegistrationState.REGISTERED);
-        final RegisteredProduct registeredProduct3 = new RegisteredProduct("HD8967/09", "1234", null, null, null);
+        final RegisteredProduct registeredProduct3 = new RegisteredProduct("HD8967/09", null, null);
         registeredProduct3.setRegistrationState(RegistrationState.REGISTERED);
         registeredProducts.add(registeredProduct);
         registeredProducts.add(registeredProduct1);
@@ -382,7 +386,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         final RegistrationResponseData data = mock(RegistrationResponseData.class);
         when(responseData.getData()).thenReturn(data);
         when(data.getWarrantyEndDate()).thenReturn("2016-03-22");
-        final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", "serial", null, null, null);
+        final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         userWithProducts.mapRegistrationResponse(responseData, registeredProduct);
         assertEquals(registeredProduct.getEndWarrantyDate(), data.getWarrantyEndDate());
     }
@@ -391,7 +395,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
 
-        RegisteredProduct product = new RegisteredProduct("ctn", "serial", null, null, null);
+        RegisteredProduct product = new RegisteredProduct("ctn", null, null);
         final User userMock = mock(User.class);
         UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
             @NonNull
@@ -441,7 +445,7 @@ public class UserWithProductsTest extends MockitoTestCase {
     }
 
     public void testGetMetadataListener() {
-        RegisteredProduct productMock = new RegisteredProduct("ctn", "serial", null, null, null);
+        RegisteredProduct productMock = new RegisteredProduct("ctn", null, null);
         ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
@@ -516,8 +520,8 @@ public class UserWithProductsTest extends MockitoTestCase {
 
     public void testRetryMethod() {
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        final Product product = new Product("ctn", "serial", null, null, null);
-        final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", "serial", null, null, null);
+        final Product product = new Product("ctn", null, null);
+        final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
         RegisteredProductsListener registeredProductsListenerMock = mock(RegisteredProductsListener.class);
         UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
@@ -561,7 +565,7 @@ public class UserWithProductsTest extends MockitoTestCase {
     }*/
 
     public void testUpdateLocaleCacheOnError() {
-        RegisteredProduct registeredProduct = new RegisteredProduct("ctn", "serial", null, null, null);
+        RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         userWithProducts.updateLocaleCacheOnError(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.FAILED);
         assertEquals(registeredProduct.getRegistrationState(), RegistrationState.FAILED);
         assertEquals(registeredProduct.getProdRegError(), ProdRegError.PRODUCT_ALREADY_REGISTERED);
@@ -570,10 +574,14 @@ public class UserWithProductsTest extends MockitoTestCase {
 
     public void testCachedRegisterProducts() {
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
-        RegisteredProduct registeredProduct = new RegisteredProduct("ctn", "Serial", "2016-03-22", null, null);
+        RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         registeredProduct.setRegistrationState(RegistrationState.PENDING);
-        RegisteredProduct registeredProduct1 = new RegisteredProduct("ctn1", "Serial1", "2016-04-22", null, null);
+        registeredProduct.setSerialNumber("Serial");
+        registeredProduct.setPurchaseDate("2016-03-22");
+        RegisteredProduct registeredProduct1 = new RegisteredProduct("ctn1", null, null);
         registeredProduct1.setRegistrationState(RegistrationState.FAILED);
+        registeredProduct1.setSerialNumber("Serial1");
+        registeredProduct1.setPurchaseDate("2016-04-22");
         ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
         registeredProducts.add(registeredProduct);
         registeredProducts.add(registeredProduct1);

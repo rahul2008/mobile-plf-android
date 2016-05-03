@@ -23,7 +23,7 @@ public class RegisteredProductTest extends MockitoTestCase {
 
     @Override
     protected void setUp() throws Exception {
-        registeredProduct = new RegisteredProduct(mCTN, mSerialNumber, mPurchdate, mSector, mCatalog);
+        registeredProduct = new RegisteredProduct(mCTN, mSector, mCatalog);
     }
 
     public void testSetRegistrationState() throws Exception {
