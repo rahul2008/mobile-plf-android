@@ -1,7 +1,11 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+apply plugin: 'jacoco'
 
+def coverageSourceDirs = [
+        '../Library/product-registration-lib/src/main/java'
+]
 buildscript {
     repositories {
         maven {url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'}
@@ -193,3 +197,31 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
     }
 }
 
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: '../app/build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/model/*/*.class',
+                       '**/listener/*.class',
+                       '**/prxrequest/*.class',
+                       '**/localcache/*.class',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*']
+    )
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('../Library/product-registration-lib/build/jacoco/testDebugUnitTest.exec')
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+}
