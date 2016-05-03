@@ -33,7 +33,7 @@ public class Product {
         this.catalog = catalog;
     }
 
-    public void getProductMetadata(final Context context, final MetadataListener metadataListener) {
+    protected void getProductMetadata(final Context context, final MetadataListener metadataListener) {
         ProductMetadataRequest productMetadataRequest = getProductMetadataRequest(getCtn());
         productMetadataRequest.setSector(getSector());
         productMetadataRequest.setCatalog(getCatalog());
