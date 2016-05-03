@@ -93,11 +93,11 @@ public class DiCommPort {
     }
 
     public void reloadProperties(@NonNull final SHNMapResultListener<String, Object> resultListenerMock) {
-        if (isAvailable && diCommChannel != null) {
+        if (diCommChannel != null) {
             diCommChannel.reloadProperties(name, new SHNMapResultListener<String, Object>() {
                 @Override
-                public void onActionCompleted(Map<String, Object> properties1, @NonNull SHNResult result) {
-                    resultListenerMock.onActionCompleted(properties1, result);
+                public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
+                    resultListenerMock.onActionCompleted(properties, result);
                 }
             });
         } else {
@@ -106,7 +106,7 @@ public class DiCommPort {
     }
 
     public void putProperties(@NonNull Map<String, Object> properties, @NonNull final SHNMapResultListener<String, Object> resultListener) {
-        if (isAvailable && diCommChannel != null) {
+        if (diCommChannel != null) {
             diCommChannel.sendProperties(properties, name, new SHNMapResultListener<String, Object>() {
                 @Override
                 public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
@@ -119,16 +119,14 @@ public class DiCommPort {
     }
 
     public void subscribe(@NonNull UpdateListener updateListener, @NonNull SHNResultListener shnResultListener) {
-        if (isAvailable) {
+        if (!updateListeners.contains(updateListener)) {
             updateListeners.add(updateListener);
             if (updateListeners.size() == 1) {
                 refreshSubscription();
                 SHNLogger.d(TAG, "Started polling properties for port: " + name);
             }
-            shnResultListener.onActionCompleted(SHNResult.SHNOk);
-        } else {
-            shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidState);
         }
+        shnResultListener.onActionCompleted(SHNResult.SHNOk);
     }
 
     private void refreshSubscription() {
@@ -187,7 +185,7 @@ public class DiCommPort {
     }
 
     public void unsubscribe(UpdateListener updateListener, SHNResultListener shnResultListener) {
-        if (isAvailable && updateListeners.contains(updateListener)) {
+        if (updateListeners.contains(updateListener)) {
             updateListeners.remove(updateListener);
 
             if (updateListeners.isEmpty()) {

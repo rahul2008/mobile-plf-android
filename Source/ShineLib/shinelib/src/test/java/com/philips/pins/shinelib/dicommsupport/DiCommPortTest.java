@@ -73,6 +73,7 @@ public class DiCommPortTest {
 
         diCommPort = new DiCommPort(PORT_NAME);
         diCommPort.setListener(diCommPortListenerMock);
+        diCommPort.setDiCommChannel(diCommChannelMock);
 
         properties.put(KEY, DATA);
         properties.put(KEY1, DATA1);
@@ -142,9 +143,18 @@ public class DiCommPortTest {
 
     @Test
     public void whenReloadPropertiesIsCalledWhileUnavailableThenSHNErrorInvalidStateIsReported() throws Exception {
+        diCommPort.setDiCommChannel(diCommChannelMock);
         diCommPort.reloadProperties(mapResultListenerMock);
 
-        verify(mapResultListenerMock).onActionCompleted(null, SHNResult.SHNErrorInvalidState);
+        verify(diCommChannelMock).reloadProperties(eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
+    }
+
+    @Test
+    public void whenPutPropertiesIsCalledWhileUnavailableThenSHNErrorInvalidStateIsReported() throws Exception {
+        diCommPort.setDiCommChannel(diCommChannelMock);
+        diCommPort.putProperties(properties, mapResultListenerMock);
+
+        verify(diCommChannelMock).sendProperties(eq(properties), eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
     }
 
     private void goToAvailableState() {
@@ -196,10 +206,10 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void whenPutPropertiesWhileUnavailableThenSHNErrorInvalidStateIsReported() throws Exception {
+    public void whenPutPropertiesWhileUnavailableThenSendPropertiesISCalled() throws Exception {
         diCommPort.putProperties(properties, mapResultListenerMock);
 
-        verify(mapResultListenerMock).onActionCompleted(null, SHNResult.SHNErrorInvalidState);
+        verify(diCommChannelMock).sendProperties(eq(properties), eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
     }
 
     @Test
@@ -222,10 +232,10 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void whenSubscribedWhileUnavailableThenSHNErrorInvalidStateIsReported() throws Exception {
+    public void canSubscribeWhileUnavailable() throws Exception {
         diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
 
-        verify(resultListenerMock).onActionCompleted(SHNResult.SHNErrorInvalidState);
+        verify(resultListenerMock).onActionCompleted(SHNResult.SHNOk);
     }
 
     @Test
@@ -238,10 +248,13 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void whenUnsubscribedWhileUnavailableThenSHNErrorInvalidStateIsReported() throws Exception {
+    public void canUnsubscribedWhileUnavailable() throws Exception {
+        diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
+
+        reset(resultListenerMock);
         diCommPort.unsubscribe(diCommUpdateListenerMock, resultListenerMock);
 
-        verify(resultListenerMock).onActionCompleted(SHNResult.SHNErrorInvalidState);
+        verify(resultListenerMock).onActionCompleted(SHNResult.SHNOk);
     }
 
     @Test
@@ -303,7 +316,7 @@ public class DiCommPortTest {
     }
 
     @Test
-    public void whenSubscribedTwiceWhenNotifiedOnce() throws Exception {
+    public void whenSubscribedTwiceThenNotifiedOnce() throws Exception {
         whenSubscribedWhenReloadPropertiesIsCalled();
         diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
 
@@ -311,6 +324,24 @@ public class DiCommPortTest {
 
         verify(diCommUpdateListenerMock).onSubscriptionFailed(SHNResult.SHNErrorInvalidState);
         assertEquals(0, mockedHandler.getScheduledExecutionCount());
+    }
+
+    @Test
+    public void whenSubscribedTwiceThenReloadPropertiesIsCalledOnce() throws Exception {
+        whenSubscribedWhenReloadPropertiesIsCalled();
+        reset(diCommChannelMock);
+        diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
+
+        verify(diCommChannelMock, never()).reloadProperties(anyString(), any(SHNMapResultListener.class));
+    }
+
+    @Test
+    public void whenSubscribedTwiceThenSubscriptionResultIsReported() throws Exception {
+        whenSubscribedWhenReloadPropertiesIsCalled();
+        reset(diCommChannelMock, resultListenerMock);
+        diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
+
+        verify(resultListenerMock).onActionCompleted(SHNResult.SHNOk);
     }
 
     @Test
