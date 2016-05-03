@@ -6,7 +6,6 @@ import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.error.ProdRegError;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -96,7 +95,7 @@ public class RegisteredProduct extends Product {
 
     @Override
     public int hashCode() {
-        final int value = new Random().nextInt() + ((getCtn() == null) ? 0 : getCtn().hashCode());
+        final int value = 5 * 10 + ((getCtn() == null) ? 0 : getCtn().hashCode());
         return value;
     }
 

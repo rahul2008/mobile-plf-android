@@ -20,11 +20,13 @@ import java.util.List;
 public class ProductAdapter  extends RecyclerView.Adapter<ListRowHolder>  {
 
     Context mContext;
+    RegisteredProductsList.OnItemClickListener onItemClickListener;
     private List<RegisteredProduct> registeredProducts;
 
-    public ProductAdapter(Context mContext, List<RegisteredProduct> registeredProducts) {
+    public ProductAdapter(Context mContext, List<RegisteredProduct> registeredProducts, final RegisteredProductsList.OnItemClickListener onItemClickListener) {
         this.registeredProducts = registeredProducts;
         this.mContext = mContext;
+        this.onItemClickListener = onItemClickListener;
     }
     @Override
     public ListRowHolder onCreateViewHolder(ViewGroup viewGroup, final int viewType) {
@@ -52,6 +54,8 @@ public class ProductAdapter  extends RecyclerView.Adapter<ListRowHolder>  {
         holder.mStatus.setText(Html.fromHtml("<font color='#222'>Status : </font>"+registeredProduct.getRegistrationState()));
     if (registeredProduct.getProdRegError()!=null)
        holder.mErrorStatus.setText(Html.fromHtml("<font color='#222'>Error : </font>"+registeredProduct.getProdRegError()));
+
+        holder.bind(registeredProducts.get(position), onItemClickListener);
     }
 
     @Override

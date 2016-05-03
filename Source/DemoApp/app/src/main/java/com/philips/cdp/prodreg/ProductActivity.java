@@ -1,6 +1,7 @@
 package com.philips.cdp.prodreg;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -90,6 +91,12 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         submitButton = (Button) findViewById(R.id.submitproduct);
         toggleButton.setChecked(eMailConfiguration);
         prodRegHelper = new ProdRegHelper();
+        Intent intent = getIntent();
+        if (intent != null) {
+            mCtn.setText(intent.getStringExtra("ctn") != null ? intent.getStringExtra("ctn") : "");
+            mSerialNumber.setText(intent.getStringExtra("serial") != null ? intent.getStringExtra("serial") : "");
+            mPurchaseDate.setText(intent.getStringExtra("date") != null ? intent.getStringExtra("date") : "");
+        }
 //        prodRegHelper.init(this);
     }
 

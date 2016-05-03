@@ -1,5 +1,6 @@
 package com.philips.cdp.prodreg;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,9 @@ import java.util.List;
  * All rights reserved.
  */
 public class RegisteredProductsList extends AppCompatActivity {
+    public interface OnItemClickListener {
+        void onItemClick(RegisteredProduct item);
+    }
     private ProductAdapter productAdapter;
     private RecyclerView mRecyclerView;
 
@@ -28,15 +32,28 @@ public class RegisteredProductsList extends AppCompatActivity {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.init(this);
         prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(new RegisteredProductsListener() {
             @Override
             public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
-                productAdapter = new ProductAdapter(RegisteredProductsList.this, registeredProducts);
+                productAdapter = new ProductAdapter(RegisteredProductsList.this, registeredProducts, new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(final RegisteredProduct registeredProduct) {
+                        Intent intent = new Intent(RegisteredProductsList.this, ProductActivity.class);
+                        intent.putExtra("ctn", registeredProduct.getCtn());
+                        intent.putExtra("date", registeredProduct.getPurchaseDate());
+                        intent.putExtra("serial", registeredProduct.getSerialNumber());
+                        startActivity(intent);
+                    }
+                });
                 mRecyclerView.setAdapter(productAdapter);
             }
         });
-
     }
 }
