@@ -68,7 +68,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mIapHandler = IAPHandler.init(this, new IAPSettings("US", "en", DEFAULT_THEME));
 
-
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         mSpinner = (Spinner) findViewById(R.id.spinner);
         mSpinner.setOnItemSelectedListener(this);
