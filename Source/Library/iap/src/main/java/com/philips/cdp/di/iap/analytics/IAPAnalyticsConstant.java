@@ -27,6 +27,7 @@ public class IAPAnalyticsConstant {
     public static final String PRODUCT_REMOVED = "productRemoved";
     public static final String NEW_SHIPPING_ADDRESS_ADDED = "newShippingAddressAdded";
     public static final String NEW_BILLING_ADDRESS_ADDED = "newBillingAddressAdded";
+    public static final String PAYMENT_METHOD = "paymentMethod";
     public static final String PAYMENT_STATUS = "paymentStatus";
     public static final String SUCCESS = "Success";
     public static final String CANCELLED = "Cancelled";
