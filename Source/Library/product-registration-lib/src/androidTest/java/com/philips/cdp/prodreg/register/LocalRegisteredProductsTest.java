@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
+import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
 import com.philips.cdp.registration.User;
 
@@ -78,9 +79,19 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         verify(localSharedPreference).storeData(LocalRegisteredProducts.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
-    public void testGetUniqueRegisteredProducts() {
-        localRegisteredProducts.getUniqueRegisteredProducts();
-        RegisteredProduct[] registeredProducts = new RegisteredProduct[]{};
-        String data = localSharedPreference.getData("prod_reg_key");
+    public void testUpdateRegisteredProducts() {
+        RegisteredProduct registeredProductMock = mock(RegisteredProduct.class);
+        when(registeredProductMock.getCtn()).thenReturn("ctn");
+        localRegisteredProducts.updateRegisteredProducts(registeredProductMock);
+        assertEquals(registeredProducts.size(), 4);
+        verify(localSharedPreference).storeData(LocalRegisteredProducts.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+    }
+
+    public void testSyncLocalCache() {
+        RegisteredProduct registeredProductMock = mock(RegisteredProduct.class);
+        when(registeredProductMock.getUserUUid()).thenReturn("ABC");
+        when(registeredProductMock.getRegistrationState()).thenReturn(RegistrationState.REGISTERED);
+        localRegisteredProducts.syncLocalCache(new RegisteredProduct[]{registeredProductMock});
+        assertEquals(registeredProducts.size(), 4);
     }
 }

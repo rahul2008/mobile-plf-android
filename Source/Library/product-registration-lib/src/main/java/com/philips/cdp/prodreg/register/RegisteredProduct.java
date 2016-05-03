@@ -19,42 +19,88 @@ public class RegisteredProduct extends Product {
     private ProdRegError prodRegError;
     private String contractNumber;
 
+    /**
+     * API to Registered product
+     *
+     * @param ctn     ctn as String
+     * @param sector  Sector as Enum's
+     * @param catalog Catalog as Enum's
+     */
     public RegisteredProduct(final String ctn, final Sector sector, final Catalog catalog) {
         super(ctn, sector, catalog);
     }
 
+    /**
+     * API will return registration state
+     * @return it return registration
+     */
     public RegistrationState getRegistrationState() {
         return registrationState;
     }
 
+    /**
+     * API need to set registration state
+     * @param registrationState registrationState
+     */
     public void setRegistrationState(final RegistrationState registrationState) {
         this.registrationState = registrationState;
     }
 
+    /**
+     * API return Warranty Date
+     * @return endWarrantyDate as String
+     */
     public String getEndWarrantyDate() {
         return endWarrantyDate;
     }
+
+    /**
+     * API set warranty date
+     * @param endWarrantyDate endWarrantyDate as String
+     */
 
     public void setEndWarrantyDate(final String endWarrantyDate) {
         this.endWarrantyDate = endWarrantyDate;
     }
 
+    /**
+     * APi return UUID of user
+     * @return return uuid as string
+     */
     public String getUserUUid() {
         return uuid;
     }
+
+    /**
+     * API set uuid of User
+     * @param userUUid userUUid as string
+     */
 
     public void setUserUUid(final String userUUid) {
         this.uuid = userUUid;
     }
 
+    /**
+     * Api return error
+     * @return prodRegError
+     */
     public ProdRegError getProdRegError() {
         return prodRegError;
     }
 
+    /**
+     * API need to set error type
+     * @param prodRegError prodRegError
+     */
     public void setProdRegError(final ProdRegError prodRegError) {
         this.prodRegError = prodRegError;
     }
 
+    /**
+     * API will check cached UUid , CTN and getUUID ,getctn
+     * @param object this object will return registered product details
+     * @return return true or false
+     */
     @Override
     public boolean equals(final Object object) {
         if (object instanceof RegisteredProduct) {
@@ -99,10 +145,18 @@ public class RegisteredProduct extends Product {
         return value;
     }
 
+    /**
+     * API will return contract Number
+     * @return return contract number as string
+     */
     public String getContractNumber() {
         return contractNumber;
     }
 
+    /**
+     * API set the contract number
+     * @param contractNumber contractNumber as String
+     */
     public void setContractNumber(final String contractNumber) {
         this.contractNumber = contractNumber;
     }

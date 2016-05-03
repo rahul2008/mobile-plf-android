@@ -70,50 +70,102 @@ public class Product {
         return mRequestManager;
     }
 
+    /**
+     * API will return Model Number
+     *
+     * @return return model number as string
+     */
     public String getCtn() {
         return productModelNumber;
     }
 
+    /**
+     * API will return Serial Number
+     * @return return serial number as string
+     */
     public String getSerialNumber() {
         return productSerialNumber;
     }
+
+    /**
+     * API will set the serial number
+     * @param serialNumber serial Number
+     */
 
     public void setSerialNumber(final String serialNumber) {
         this.productSerialNumber = serialNumber;
     }
 
+    /**
+     * API will return Sector
+     * @return return sector as Enum's
+     */
     public Sector getSector() {
         return sector;
     }
 
+    /**
+     * API will return Catalog
+     * @return return catalog as Enum's
+     */
     public Catalog getCatalog() {
         return catalog;
     }
 
+    /**
+     * API will return Locale
+     * @return return local as string
+     */
     public String getLocale() {
         return locale;
     }
 
+    /**
+     * API will set Local
+     * @param locale local
+     */
     public void setLocale(String locale) {
         this.locale = locale;
     }
 
+    /**
+     * API will return date
+     * @return Purchase date
+     */
     public String getPurchaseDate() {
         return purchaseDate;
     }
+
+    /**
+     * API will set Date
+     * @param purchaseDate purchase date
+     */
 
     public void setPurchaseDate(final String purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
+    /**
+     * API return email
+     * @return return Email
+     */
     public String getEmail() {
         return shouldSendEmailAfterRegistration;
     }
 
+    /**
+     * API need to set email confirmations
+     * @param shouldSendEmailAfterRegistration shouldSendEmailAfterRegistration
+     */
     public void sendEmail(final String shouldSendEmailAfterRegistration) {
         this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
     }
 
+    /**
+     * API need to pass CTN to get Metadata
+     * @param ctn ctn
+     * @return ctn as string
+     */
     public ProductMetadataRequest getProductMetadataRequest(String ctn) {
         return new ProductMetadataRequest(ctn);
     }

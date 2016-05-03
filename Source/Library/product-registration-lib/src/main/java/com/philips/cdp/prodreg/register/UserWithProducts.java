@@ -54,6 +54,11 @@ public class UserWithProducts {
         errorHandler = new ErrorHandler();
     }
 
+    /**
+     * API will get User UUID
+     *
+     * @return return user UUID
+     */
     public String getUuid() {
         return uuid;
     }
@@ -343,10 +348,18 @@ public class UserWithProducts {
         return registeredProductsListener;
     }
 
+    /**
+     * API will return Locale
+     * @return return local as string
+     */
     public String getLocale() {
         return locale;
     }
 
+    /**
+     * API will set Local
+     * @param locale local
+     */
     public void setLocale(final String locale) {
         this.locale = locale;
     }
