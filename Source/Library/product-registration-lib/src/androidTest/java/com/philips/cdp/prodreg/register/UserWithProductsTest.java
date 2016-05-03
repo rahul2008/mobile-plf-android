@@ -318,7 +318,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         registeredProducts.add(registeredProduct2);
         registeredProducts.add(registeredProduct3);
         assertTrue(userWithProducts.isCtnRegistered(registeredProducts, product, prodRegListener));
-        verify(userWithProductsMock).updateLocaleCacheOnError(product, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
+        verify(userWithProductsMock).updateLocaleCacheOnError(product, null, RegistrationState.REGISTERED);
         verify(prodRegListener).onProdRegFailed(product, userWithProductsMock);
     }
 

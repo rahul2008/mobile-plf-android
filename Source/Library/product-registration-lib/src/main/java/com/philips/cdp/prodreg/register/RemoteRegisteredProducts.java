@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
@@ -35,7 +36,10 @@ public class RemoteRegisteredProducts {
             @Override
             public void onResponseError(final String errorMessage, final int responseCode) {
                 try {
-                    registeredProductsListener.getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
+                    if (responseCode == ProdRegError.ACCESS_TOKEN_INVALID.getCode()) {
+                        userWithProducts.onAccessTokenExpire(null, null);
+                    } else
+                        registeredProductsListener.getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

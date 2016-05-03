@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.prodreg.MockitoTestCase;
+import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
@@ -55,6 +56,8 @@ public class RemoteRegisteredProductsTest extends MockitoTestCase {
         verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), value);
         responseListener.onResponseError("test", 10);
         verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
+        responseListener.onResponseError("test", ProdRegError.ACCESS_TOKEN_INVALID.getCode());
+        verify(userWithProductsMock).onAccessTokenExpire(null, null);
     }
 
     public void testRegisterMethod() {
