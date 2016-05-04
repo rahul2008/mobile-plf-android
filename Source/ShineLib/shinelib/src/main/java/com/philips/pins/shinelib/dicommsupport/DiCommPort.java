@@ -9,6 +9,7 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class DiCommPort {
     private DiCommChannel diCommChannel;
 
     private boolean isAvailable;
-    private Map<String, Object> properties;
+    private Map<String, Object> properties = new HashMap<>();
     private Set<UpdateListener> updateListeners = new HashSet<>();
     private final Timer subscriptionTimer;
 
@@ -89,7 +90,7 @@ public class DiCommPort {
     }
 
     public Map<String, Object> getProperties() {
-        return properties;
+        return Collections.unmodifiableMap(properties);
     }
 
     public void reloadProperties(@NonNull final SHNMapResultListener<String, Object> resultListenerMock) {
@@ -97,6 +98,7 @@ public class DiCommPort {
             diCommChannel.reloadProperties(name, new SHNMapResultListener<String, Object>() {
                 @Override
                 public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
+                    mergeProperties(properties);
                     resultListenerMock.onActionCompleted(properties, result);
                 }
             });
@@ -110,6 +112,7 @@ public class DiCommPort {
             diCommChannel.sendProperties(properties, name, new SHNMapResultListener<String, Object>() {
                 @Override
                 public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
+                    mergeProperties(properties);
                     resultListener.onActionCompleted(properties, result);
                 }
             });
@@ -137,11 +140,7 @@ public class DiCommPort {
                     if (result == SHNResult.SHNOk && !updateListeners.isEmpty()) {
                         subscriptionTimer.restart();
 
-                        Map<String, Object> mergedProperties = new HashMap<>(DiCommPort.this.properties);
-                        mergedProperties.putAll(properties);
-
-                        Map<String, Object> changedProperties = getChangedProperties(mergedProperties);
-                        DiCommPort.this.properties = mergedProperties;
+                        Map<String, Object> changedProperties = mergeProperties(properties);
 
                         if (!changedProperties.isEmpty()) {
                             notifyPropertiesChanged(changedProperties);
@@ -154,6 +153,16 @@ public class DiCommPort {
         } else {
             notifySubscriptionFailed(SHNResult.SHNErrorInvalidState);
         }
+    }
+
+    @NonNull
+    private Map<String, Object> mergeProperties(Map<String, Object> properties) {
+        Map<String, Object> mergedProperties = new HashMap<>(DiCommPort.this.properties);
+        mergedProperties.putAll(properties);
+
+        Map<String, Object> changedProperties = getChangedProperties(mergedProperties);
+        DiCommPort.this.properties = mergedProperties;
+        return changedProperties;
     }
 
     @NonNull

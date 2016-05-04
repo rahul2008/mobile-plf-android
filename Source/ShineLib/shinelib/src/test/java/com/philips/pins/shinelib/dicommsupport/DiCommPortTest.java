@@ -91,6 +91,11 @@ public class DiCommPortTest {
     }
 
     @Test
+    public void whenInitializedThenPropertiesAreEmpty() throws Exception {
+        assertTrue(diCommPort.getProperties().isEmpty());
+    }
+
+    @Test
     public void whenChannelBecomesAvailableThenPortIsNotAvailable() throws Exception {
         diCommPort.onChannelAvailabilityChanged(true);
 
@@ -206,6 +211,20 @@ public class DiCommPortTest {
     }
 
     @Test
+    public void whenReloadPropertiesResultIsReceivedThenPropertiesAreUpdated() throws Exception {
+        whenReloadPropertiesIsCalledThenSendPropertiesIsCalledOnChannel();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(KEY, 1);
+        properties.put(KEY1, 2);
+        properties.put(KEY2, 3);
+
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
+
+        assertEquals(properties, diCommPort.getProperties());
+    }
+
+    @Test
     public void whenPutPropertiesWhileUnavailableThenSendPropertiesISCalled() throws Exception {
         diCommPort.putProperties(properties, mapResultListenerMock);
 
@@ -229,6 +248,20 @@ public class DiCommPortTest {
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
 
         verify(mapResultListenerMock).onActionCompleted(properties, SHNResult.SHNOk);
+    }
+
+    @Test
+    public void whenPutPropertiesResultIsReceivedThenPropertiesAreUpdated() throws Exception {
+        whenPutPropertiesIsCalledThenSendPropertiesIsCalledOnChannel();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(KEY, 1);
+        properties.put(KEY1, 2);
+        properties.put(KEY2, 3);
+
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
+
+        assertEquals(properties, diCommPort.getProperties());
     }
 
     @Test
