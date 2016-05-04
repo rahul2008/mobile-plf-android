@@ -1,6 +1,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -29,7 +30,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.utils.CustomCircularProgress;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -66,7 +66,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     public static final int BAD_RESPONSE_ERROR_CODE = 7008;
 
-    private CustomCircularProgress mLogoutProgressDialog;
+    private ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -174,8 +174,10 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mPbWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_welcome_spinner);
 
-        mLogoutProgressDialog = new CustomCircularProgress(getActivity());
-        mLogoutProgressDialog.setCancelable(false);
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
 
         mTvEmailDetails = (TextView) view.findViewById(R.id.tv_reg_email_details_container);
         mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
@@ -328,14 +330,14 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     private void showLogoutSpinner() {
-        mLogoutProgressDialog.show();
+        if (!(getActivity().isFinishing()) && (mProgressDialog != null)) mProgressDialog.show();
         mBtnLogOut.setEnabled(false);
         mCbTerms.setEnabled(false);
     }
 
     private void hideLogoutSpinner() {
-        if (mLogoutProgressDialog != null && mLogoutProgressDialog.isShowing()) {
-            mLogoutProgressDialog.dismiss();
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
         }
         mBtnLogOut.setEnabled(true);
         mCbTerms.setEnabled(true);

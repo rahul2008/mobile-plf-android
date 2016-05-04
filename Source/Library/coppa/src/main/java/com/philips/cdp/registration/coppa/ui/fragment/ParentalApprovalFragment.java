@@ -21,7 +21,6 @@ import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.utils.CustomCircularProgress;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 
