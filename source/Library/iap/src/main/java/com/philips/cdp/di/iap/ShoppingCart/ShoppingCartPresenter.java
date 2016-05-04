@@ -23,6 +23,9 @@ import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.model.GetRetailersInfoRequest;
+import com.philips.cdp.di.iap.response.error.Error;
+import com.philips.cdp.di.iap.response.error.ServerError;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
@@ -350,9 +353,7 @@ public class ShoppingCartPresenter {
 
             @Override
             public void onError(final Message msg) {
-                if (iapHandlerListener != null) {
-                    iapHandlerListener.onFailure(msg);
-                }
+                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, null, false);
             }
         });
     }
@@ -407,10 +408,31 @@ public class ShoppingCartPresenter {
 
             @Override
             public void onError(final Message msg) {
-                if (iapHandlerListener != null) {
-                    iapHandlerListener.onFailure(msg);
-                }
+                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, ctnNumber, true);
             }
         });
+    }
+
+    private void handleNoCartErrorOrNotifyError(final Message msg, final Context context, final IAPCartListener iapHandlerListener, final String ctnNumber, final boolean isBuy) {
+        if (isNoCartError(msg)) {
+            createCart(context, iapHandlerListener, ctnNumber, isBuy);
+        } else if (iapHandlerListener != null) {
+            iapHandlerListener.onFailure(msg);
+        }
+    }
+
+    private boolean isNoCartError(final Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            ServerError error = ((IAPNetworkError) msg.obj).getServerError();
+            if (error != null && error.getErrors() != null &&
+                    error.getErrors().get(0) != null) {
+                Error err = error.getErrors().get(0);
+                //// TODO: 04-05-2016 add with proper string type or type check
+                if ("No cart created yet.".equals(err.getMessage())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
