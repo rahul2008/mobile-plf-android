@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.container;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.response.State.RegionsList;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ public class CartModelContainer {
     private String regionIsoCode;
     private String mAddressId;
     private String mOrderNumber;
+    private RegionsList mRegionList;
 
 
     private boolean switchToBillingAddress;
@@ -112,5 +114,13 @@ public class CartModelContainer {
 
     public boolean isSwitchToBillingAddress() {
         return switchToBillingAddress;
+    }
+
+    public void setRegionList(RegionsList regionList){
+        mRegionList = regionList;
+    }
+
+    public RegionsList getRegionList(){
+        return mRegionList;
     }
 }

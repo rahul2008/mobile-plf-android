@@ -17,9 +17,11 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
+import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -122,7 +124,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (v == mCheckoutBtn) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
-                mAddressController.getShippingAddresses();
+                mAddressController.getRegions();
             }
             //Track checkout action
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -216,6 +218,19 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onSetDeliveryModes(final Message msg) {
         //NOP
+    }
+
+    @Override
+    public void onGetRegions(Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            CartModelContainer.getInstance().setRegionList(null);
+        } else if (msg.obj instanceof RegionsList) {
+            CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
+        } else {
+            CartModelContainer.getInstance().setRegionList(null);
+        }
+        mAddressController.getShippingAddresses();
     }
 
     @Override
