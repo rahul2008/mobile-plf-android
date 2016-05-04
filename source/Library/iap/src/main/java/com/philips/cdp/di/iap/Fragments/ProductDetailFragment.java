@@ -19,19 +19,22 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 
-public class ProductDetailFragment extends BaseAnimationSupportFragment implements PRXProductAssetBuilder.AssetListener {
+public class ProductDetailFragment extends BaseAnimationSupportFragment implements
+        PRXProductAssetBuilder.AssetListener {
     public static final String TAG = ProductDetailFragment.class.getName();
+
     private Context mContext;
     TextView mProductDescription;
     TextView mCTN;
@@ -52,12 +55,14 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
         public void onSuccess(final int count) {
-//            Utility.dismissProgressDialog();
+            //Added to cart tracking
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
+                    IAPAnalyticsConstant.ADD_TO_CART);
         }
 
         @Override
         public void onFailure(final Message msg) {
-            if(Utility.isProgressDialogShowing())
+            if (Utility.isProgressDialogShowing())
                 Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
@@ -147,6 +152,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             mAddToCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
+                    tagDiscountedItemAddedToCart();
                     buyProduct(mCTNValue);
                 }
             });
@@ -192,5 +198,11 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     void buyProduct(final String ctnNumber) {
         Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         mShoppingCartPresenter.buyProduct(getContext(), ctnNumber, mBuyProductListener);
+    }
+
+    private void tagDiscountedItemAddedToCart() {
+        if (mProductDiscountedPrice.getVisibility() == View.VISIBLE)
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DISCOUNTED_PRICE,
+                    mProductDiscountedPrice.getText().toString());
     }
 }

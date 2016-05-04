@@ -7,6 +7,7 @@ import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import junit.framework.TestCase;
 
@@ -42,6 +43,14 @@ public class DeleteAddressRequestTest extends TestCase {
         assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
     }
 
+    @Test(expected = RuntimeException.class)
+    public void matchDeleteAddressRequestURLWhenParamsEqualToNull() {
+        HashMap<String, String> query = new HashMap<>();
+        query.put(ModelConstants.ADDRESS_ID, NetworkURLConstants.DUMMY_PRODUCT_ID);
+        DeleteAddressRequest request = new DeleteAddressRequest(mStore, null, null);
+        assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
+    }
+
     @Test
     public void testRequestMethodIsDELETE() {
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, null, null);
@@ -53,13 +62,6 @@ public class DeleteAddressRequestTest extends TestCase {
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, null, null);
         assertNull(request.requestBody());
     }
-
-//    @Test
-//    public void testTestingUrilIsNotNull() {
-//        DeleteAddressRequest request = Mockito.mock(DeleteAddressRequest.class);
-//        Mockito.when(request.getUrl()).thenReturn(NetworkConstants.UPDATE_OR_DELETE_ADDRESS_URL);
-//        assertNotNull(request.getUrl());
-//    }
 
     @Test
     public void parseResponseShouldBeOfDeleteAddressRequestDataType() {

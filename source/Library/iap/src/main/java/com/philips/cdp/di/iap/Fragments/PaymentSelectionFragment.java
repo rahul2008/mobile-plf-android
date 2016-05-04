@@ -23,6 +23,7 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.tagging.Tagging;
 
 import java.util.List;
 
@@ -114,6 +115,8 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
         if (event.equalsIgnoreCase(IAPConstant.USE_PAYMENT)) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PAYMENT_METHOD,
+                        selectedPaymentMethod().getCardType().getCode());
                 mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
             }
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {

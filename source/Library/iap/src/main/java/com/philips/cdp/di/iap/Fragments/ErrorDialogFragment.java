@@ -1,15 +1,15 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -77,6 +77,7 @@ public class ErrorDialogFragment extends BlurDialogFragment implements EventList
 
 
     private void launchProductCatalog() {
+        IAPAnalytics.trackLaunchPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         android.support.v4.app.Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment == null) {
             getActivity().getSupportFragmentManager().popBackStackImmediate(null, 0);

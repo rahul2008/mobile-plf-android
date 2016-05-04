@@ -12,7 +12,8 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CreateAddressRequest;
 import com.philips.cdp.di.iap.model.DeleteAddressRequest;
 import com.philips.cdp.di.iap.model.GetAddressRequest;
-import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.model.GetRegionsRequest;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressModeRequest;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressRequest;
 import com.philips.cdp.di.iap.model.UpdateAddressRequest;
@@ -36,11 +37,17 @@ public class AddressController implements AbstractModel.DataLoadListener {
         void onCreateAddress(Message msg);
         void onSetDeliveryAddress(Message msg);
         void onSetDeliveryModes(Message msg);
+        void onGetRegions(Message msg);
     }
 
     public AddressController(Context context, AddressListener listener) {
         mContext = context;
         mAddressListener = listener;
+    }
+
+    public void getRegions(){
+        GetRegionsRequest model = new GetRegionsRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.GET_REGIONS, model, model);
     }
 
     public void createAddress(AddressFields addressFields) {
@@ -115,6 +122,8 @@ public class AddressController implements AbstractModel.DataLoadListener {
             case RequestCode.SET_DELIVERY_MODE:
                 mAddressListener.onSetDeliveryModes(msg);
                 break;
+            case RequestCode.GET_REGIONS:
+                mAddressListener.onGetRegions(msg);
         }
     }
 

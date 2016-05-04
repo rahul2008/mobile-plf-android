@@ -14,13 +14,13 @@ public class NetworkURLConstants {
     public static final String JANRAIN_ID = "sometoken";
     public static final String OAUTH_URL = String.format("https://" + HOST_PORT +
             "/pilcommercewebservices/oauth/token?janrain=%s&grant_type=janrain&client_id" +
-            "=mobile_android&client_secret=secret",JANRAIN_ID) ;
+            "=mobile_android&client_secret=secret", JANRAIN_ID);
     public static final String OAUTH_REFRESH_URL = "https://" + HOST_PORT +
             "/pilcommercewebservices/oauth/token";
 
-    public static final String BASE_URL ="https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/" + SITE +
+    public static final String BASE_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/" + SITE +
             "/users/" + JANRAIN_EMAIL;
-    public static final String CART_DETAIL_URL = BASE_URL + "/carts?fields=FULL";
+    public static final String CART_DETAIL_URL = BASE_URL + "/carts/current?fields=FULL";
     public static final String CART_CREATE_URL = BASE_URL + "/carts";
     public static final String CART_ADD_TO_URL = BASE_URL + "/carts/current/entries";
     public static final String CART_MODIFY_PRODUCT_URL = CART_ADD_TO_URL + "/" + DUMMY_PRODUCT_NUBMBER;
@@ -34,5 +34,6 @@ public class NetworkURLConstants {
     public static final String PAYMENT_DETAILS_URL = BASE_URL + "/carts/current/paymentdetails";
     public static final String PRODUCT_CATALOG_URL = "https://acc.occ.shop.philips" +
             ".com/pilcommercewebservices/v2/US_TUSCANY/products/search?query=::category:Tuscany_Campaign&lang=en";
-
+    public static final String REGION_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/metainfo/regions/us?fields=FULL&lang=en";
+    public static final String RETAILORS_URL = "https://www.philips.com/api/wtb/v1//B2C/en_US/online-retailers?product=code";
 }

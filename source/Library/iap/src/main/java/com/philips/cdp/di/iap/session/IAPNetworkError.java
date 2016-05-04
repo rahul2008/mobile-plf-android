@@ -89,7 +89,8 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     }
 
     private void checkInsufficientStockError(ServerError serverError) {
-        if(serverError.getErrors() == null || serverError.getErrors().get(0)== null) {
+        if (serverError == null || serverError.getErrors() == null
+                || serverError.getErrors().get(0) == null) {
             return;
         }
         if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {

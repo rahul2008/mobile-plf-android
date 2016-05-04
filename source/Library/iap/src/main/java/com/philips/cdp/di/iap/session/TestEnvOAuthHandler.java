@@ -12,7 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.model.NewOAuthRequest;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
 import com.philips.cdp.di.iap.response.error.Error;

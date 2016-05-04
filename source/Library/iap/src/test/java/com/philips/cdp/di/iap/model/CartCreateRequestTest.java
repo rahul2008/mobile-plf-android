@@ -53,16 +53,6 @@ public class CartCreateRequestTest extends TestCase {
     }
 
     @Test
-    public void testTestingUrilIsNotNull() {
-       /* CartCreateRequest request = new CartCreateRequest(mStore, null, null);
-        IAPConfiguration iapConfiguration = Mockito.mock(IAPConfiguration.class);
-//        CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
-//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
-//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
-        assertNotNull(request.getUrl());*/
-    }
-
-    @Test
     public void parseResponseShouldBeOfGetShippingAddressDataType() {
         CartCreateRequest request = new CartCreateRequest(mStore, null, null);
         String oneAddress = TestUtils.readFile(CartCreateRequestTest.class, "create_cart.txt");

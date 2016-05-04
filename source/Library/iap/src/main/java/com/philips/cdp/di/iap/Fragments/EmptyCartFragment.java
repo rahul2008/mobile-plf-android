@@ -38,6 +38,9 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART), this);
         mContinueShopping = (Button) rootView.findViewById(R.id.btn_continue_shopping);
         mContinueShopping.setOnClickListener(this);
+        //Fix issue in Product detail page where count still shows the old value if the order was
+        // cancelled or successful.
+        updateCount(0);
         return rootView;
     }
 

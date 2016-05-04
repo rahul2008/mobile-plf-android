@@ -19,7 +19,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.tagging.Tagging;
@@ -126,11 +126,11 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
     private void handleExit() {
         if (mPaymentSuccessful) {
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
             CartModelContainer.getInstance().setOrderPlaced(false);
             Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
             if (fragment == null) {
                 getFragmentManager().popBackStack(ShoppingCartFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
                 addFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
                         ProductCatalogFragment.TAG);
             } else {
@@ -139,6 +139,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
         } else {
             //moveToPreviousFragment();
+            IAPAnalytics.trackLaunchPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
             moveToFragment(OrderSummaryFragment.TAG);
         }
 

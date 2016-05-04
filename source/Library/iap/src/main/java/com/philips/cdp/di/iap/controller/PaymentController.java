@@ -10,7 +10,7 @@ import android.os.Message;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetPaymentDetailRequest;
-import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.model.PaymentRequest;
 import com.philips.cdp.di.iap.model.PlaceOrderRequest;
 import com.philips.cdp.di.iap.model.SetPaymentDetailsRequest;

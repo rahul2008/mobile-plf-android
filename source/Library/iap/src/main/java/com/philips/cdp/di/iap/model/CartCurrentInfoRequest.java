@@ -9,8 +9,11 @@ import android.os.Message;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.carts.Carts;
+import com.philips.cdp.di.iap.response.carts.CartsEntity;
 import com.philips.cdp.di.iap.store.Store;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class CartCurrentInfoRequest extends AbstractModel {
@@ -26,7 +29,13 @@ public class CartCurrentInfoRequest extends AbstractModel {
 
     @Override
     public Object parseResponse(final Object response) {
-        return new Gson().fromJson(response.toString(), Carts.class);
+        //We recieve only one entity and not an array. To support multiple carts, use constructor
+        // with list
+        CartsEntity entity = new Gson().fromJson(response.toString(), CartsEntity.class);
+        List<CartsEntity> list = new ArrayList<CartsEntity>();
+        list.add(entity);
+        Carts carts = new Carts(list);
+        return carts;
     }
 
     @Override

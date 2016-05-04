@@ -9,6 +9,7 @@ import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import junit.framework.TestCase;
 
@@ -61,20 +62,12 @@ public class CreateAddressRequestTest extends TestCase {
     }
 
     @Test
-    public void testTestingUrilIsNotNull() {
-       /* CreateAddressRequest request = new CreateAddressRequest(mStore, null, null);
-        IAPConfiguration iapConfiguration = Mockito.mock(IAPConfiguration.class);
-//        CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
-//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
-//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
-        assertNotNull(request.getUrl());*/
-    }
-
-    @Test
     public void parseResponseShouldBeOfCreateAddressRequestDataType() {
         CreateAddressRequest request = new CreateAddressRequest(mStore, null, null);
         String oneAddress = TestUtils.readFile(CreateAddressRequestTest.class, "create_address.txt");
         Object response = request.parseResponse(oneAddress);
         assertEquals(response.getClass(), Addresses.class);
     }
+
+
 }

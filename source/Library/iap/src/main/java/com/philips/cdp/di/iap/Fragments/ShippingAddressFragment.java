@@ -31,7 +31,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.PaymentController;
-import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
@@ -60,17 +60,18 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         PaymentController.PaymentListener, InlineForms.Validator,
         AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener,
         StateDropDown.StateListener {
+
     private Context mContext;
     public static final String TAG = ShippingAddressFragment.class.getName();
-    protected LinearLayout mLlFirstname;
-    protected LinearLayout mLlLastname;
+
+    protected LinearLayout mLlFirstName;
+    protected LinearLayout mLlLastName;
     protected LinearLayout mLlSalutation;
-    protected LinearLayout mLlAdressLineOne;
+    protected LinearLayout mLlAddressLineOne;
     protected LinearLayout mLlAddressLineTwo;
     protected LinearLayout mLlTown;
     protected LinearLayout mLlPostalCode;
     protected LinearLayout mLlCountry;
-    protected LinearLayout mlLState;
     protected LinearLayout mLlEmail;
     protected LinearLayout mLlPhoneNumber;
 
@@ -123,15 +124,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
         mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
 
-        mLlFirstname = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_first_name);
-        mLlLastname = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_last_name);
+        mLlFirstName = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_first_name);
+        mLlLastName = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_last_name);
         mLlSalutation = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_salutation);
-        mLlAdressLineOne = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_one);
+        mLlAddressLineOne = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_one);
         mLlAddressLineTwo = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_two);
         mLlTown = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_town);
         mLlPostalCode = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_postal_code);
         mLlCountry = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_country);
-        mlLState = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_state);
         mLlEmail = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_email);
         mLlPhoneNumber = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_phone_number);
 
@@ -167,7 +167,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtEmail.setEnabled(false);
 
         mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
-        showUSRegions();
         mEtCountry.setEnabled(false);
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
@@ -234,8 +233,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
-        if (mlLState.getVisibility() == View.VISIBLE)
-            mShippingAddressFields.setRegionIsoCode(mEtState.getText().toString());
+        mShippingAddressFields.setRegionIsoCode(mEtState.getText().toString());
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             //Track new address creation
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -277,12 +275,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             } else {//Add new address
                 if (!Utility.isProgressDialogShowing()) {
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-                    if (mlLState.getVisibility() == View.GONE)
-                        mShippingAddressFields.setRegionIsoCode(null);
-
                     if (CartModelContainer.getInstance().getAddressId() != null) {
                         HashMap<String, String> updateAddressPayload = addressPayload();
-                        if (mlLState.getVisibility() == View.VISIBLE && CartModelContainer.getInstance().getRegionIsoCode() != null)
+                        if (CartModelContainer.getInstance().getRegionIsoCode() != null)
                             updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
                         updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
                         mAddressController.updateAddress(updateAddressPayload);
@@ -292,7 +287,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
             }
         } else if (v == mBtnCancel) {
-            if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+            if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY) ||
+                    (getArguments().containsKey(IAPConstant.IS_SECOND_USER) && getArguments().getBoolean(IAPConstant.IS_SECOND_USER))) {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
             } else {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
@@ -387,7 +383,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phoneNumber)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
                 && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
-                && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
+                && (!mEtState.getText().toString().trim().equalsIgnoreCase(""))) {
 
             mShippingAddressFields = setAddressFields(mShippingAddressFields);
 
@@ -422,7 +418,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (editText.getId() == R.id.et_country && !hasFocus) {
             result = mValidator.isValidCountry(mEtCountry.getText().toString());
             errorMessage = getResources().getString(R.string.iap_country_error);
-            showUSRegions();
         }
         if (editText.getId() == R.id.et_postal_code && !hasFocus) {
             result = mValidator.isValidPostalCode(mEtPostalCode.getText().toString());
@@ -494,6 +489,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
+    public void onGetRegions(Message msg) {
+
+    }
+
+    @Override
     public void onSalutationSelect(String salutation) {
         mEtSalutation.setText(salutation);
     }
@@ -510,14 +510,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             addressHashMap.put(ModelConstants.REGION_ISOCODE, regionCode);
         }
         CartModelContainer.getInstance().setRegionIsoCode(regionCode);
-    }
-
-    private void showUSRegions() {
-        if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
-            mlLState.setVisibility(View.VISIBLE);
-        } else {
-            mlLState.setVisibility(View.GONE);
-        }
     }
 
     private class IAPTextWatcher implements TextWatcher {
@@ -576,9 +568,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.PHONE_1, mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressHashMap.put(ModelConstants.PHONE_2, "");
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
-        if (mlLState.getVisibility() == View.GONE) {
-            addressHashMap.put(ModelConstants.REGION_ISOCODE, null);
-        }
         return addressHashMap;
     }
 
@@ -604,9 +593,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_ISOCODE) &&
                 mAddressFieldsHashmap.get(ModelConstants.REGION_ISOCODE) != null) {
             mEtState.setText(mAddressFieldsHashmap.get(ModelConstants.REGION_ISOCODE));
-            mlLState.setVisibility(View.VISIBLE);
-        } else {
-            mlLState.setVisibility(View.GONE);
         }
 
         if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
@@ -629,9 +615,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry.requestFocus();
         mEtEmail.requestFocus();
         mEtPhoneNumber.requestFocus();
-        if (mlLState.getVisibility() == View.VISIBLE) {
-            mEtState.requestFocus();
-        }
     }
 
     protected AddressFields setAddressFields(AddressFields addressFields) {

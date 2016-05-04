@@ -31,7 +31,7 @@ public class Store {
 
     //Requests
     private static final String SUFFIX_CURRENT_CART = "/carts/current";
-    private static final String SUFFIX_GET_CART = "/carts?fields=FULL";
+    private static final String SUFFIX_GET_CART = "?fields=FULL";
     private static final String SUFFIX_CART_CREATE = "/carts";
     private static final String SUFFIX_CART_ENTRIES = "/entries";
     private static final String SUFFIX_PRODUCT_MODIFY = "/entries/%s";
@@ -187,7 +187,7 @@ public class Store {
 
     protected void generateGenericUrls() {
         String mCurrentCartUrl = mBaseURl.concat(SUFFIX_CURRENT_CART);
-        mGetCartUrl = mBaseURl.concat(SUFFIX_GET_CART);
+        mGetCartUrl = mBaseURl.concat(SUFFIX_CURRENT_CART).concat(SUFFIX_GET_CART);
         mCreateCartUrl = mBaseURl.concat(SUFFIX_CART_CREATE);
         mAddToCartUrl = mCurrentCartUrl.concat(SUFFIX_CART_ENTRIES);
         mPaymentDetailsUrl = mBaseURl.concat(SUFFIX_PAYMENT_DETAILS);
