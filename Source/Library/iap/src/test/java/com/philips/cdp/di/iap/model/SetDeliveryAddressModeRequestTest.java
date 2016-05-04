@@ -3,13 +3,11 @@ package com.philips.cdp.di.iap.model;
 import android.content.Context;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.Store;
-
-import junit.framework.TestCase;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +17,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -64,7 +61,9 @@ public class SetDeliveryAddressModeRequestTest {
 
     @Test
     public void testQueryParamsHasBodyForCountryEqualToGB() {
-        when(mStore.getCountry()).thenReturn("gb");
+
+        mStore.setLangAndCountry("GB", "US");
+        when(mStore.getCountry()).thenReturn(mStore.getCountry());
         SetDeliveryAddressModeRequest request = Mockito.mock(SetDeliveryAddressModeRequest.class);//new SetDeliveryAddressModeRequest(mStore, null, null);
         HashMap<String, String> query = new HashMap<String, String>();
         query.put(ModelConstants.DEVLVERY_MODE_ID, "standard-gross");
@@ -77,4 +76,5 @@ public class SetDeliveryAddressModeRequestTest {
         SetDeliveryAddressModeRequest request = new SetDeliveryAddressModeRequest(mStore, null, null);
         assertEquals(NetworkURLConstants.UPDATE_DELIVERY_MODE_URL, request.getUrl());
     }
+
 }

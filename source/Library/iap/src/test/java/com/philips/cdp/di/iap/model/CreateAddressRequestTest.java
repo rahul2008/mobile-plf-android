@@ -9,6 +9,7 @@ import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import junit.framework.TestCase;
 
@@ -67,4 +68,6 @@ public class CreateAddressRequestTest extends TestCase {
         Object response = request.parseResponse(oneAddress);
         assertEquals(response.getClass(), Addresses.class);
     }
+
+
 }

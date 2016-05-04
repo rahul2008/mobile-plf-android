@@ -6,7 +6,7 @@ import android.os.Message;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.controller.AddressController;
-import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.Country;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;

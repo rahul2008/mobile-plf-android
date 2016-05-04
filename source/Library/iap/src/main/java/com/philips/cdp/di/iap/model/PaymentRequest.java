@@ -6,7 +6,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.store.Store;
-import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -37,7 +37,6 @@ public class PaymentRequest extends AbstractModel {
         AddressFields billingAddress = CartModelContainer.getInstance().getBillingAddress();
 
         Map<String, String> params = new HashMap<>();
-        IAPLog.i(IAPLog.LOG, "isSwitchToBillingAddress = " + CartModelContainer.getInstance().isSwitchToBillingAddress());
         if (!CartModelContainer.getInstance().isSwitchToBillingAddress()) {
             params.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
             setBillingAddressParams(billingAddress, params);

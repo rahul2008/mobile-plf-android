@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.model;
 
 import android.content.Context;
+import android.os.Message;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
@@ -16,9 +17,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by 310164421 on 3/8/2016.
@@ -58,5 +61,15 @@ public class CartCurrentInfoRequestTest extends TestCase {
         String oneAddress = TestUtils.readFile(CartCurrentInfoRequestTest.class, "create_cart.txt");
         Object response = request.parseResponse(oneAddress);
         assertEquals(response.getClass(), Carts.class);
+    }
+
+    @Test
+    public void testonPostSuccess() {
+        AbstractModel.DataLoadListener listener = Mockito.mock(AbstractModel.DataLoadListener.class);
+        Message msg = Mockito.mock(Message.class);
+        CartCurrentInfoRequest request = new CartCurrentInfoRequest(mStore, null, listener);
+        CartCurrentInfoRequest mockrequest = Mockito.spy(request);//new CartCurrentInfoRequest(mStore, null, listener);
+        mockrequest.onPostSuccess(msg);
+        verify(listener, Mockito.atLeast(1)).onModelDataLoadFinished(msg);
     }
 }

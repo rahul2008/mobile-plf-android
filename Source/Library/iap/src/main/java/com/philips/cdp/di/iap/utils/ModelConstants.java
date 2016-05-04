@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.model;
+package com.philips.cdp.di.iap.utils;
 
 /**
  * Created by 310228564 on 2/17/2016.

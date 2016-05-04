@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.model;
 
 import android.content.Context;
+import android.os.Message;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
@@ -17,11 +18,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by 310164421 on 5/3/2016.
@@ -62,4 +65,15 @@ public class GetProductCatalogRequestTest {
         Object response = request.parseResponse(paymentResponse);
         assertEquals(response.getClass(), Products.class);
     }
+
+    @Test
+    public void testonPostSuccess() {
+        AbstractModel.DataLoadListener listener = Mockito.mock(AbstractModel.DataLoadListener.class);
+        Message msg = Mockito.mock(Message.class);
+        GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, null, listener);
+        GetProductCatalogRequest mockrequest = Mockito.spy(request);
+        mockrequest.onPostSuccess(msg);
+        verify(listener, Mockito.atLeast(1)).onModelDataLoadFinished(msg);
+    }
+
 }
