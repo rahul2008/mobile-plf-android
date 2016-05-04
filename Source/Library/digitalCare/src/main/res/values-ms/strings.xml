@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Key"> Malay </string>
-    <string name="key"> mg </string>
+    <string name="key"> ms </string>
 
     <!-- Common   null -->
     <string name="img_description"> perihalan </string>
