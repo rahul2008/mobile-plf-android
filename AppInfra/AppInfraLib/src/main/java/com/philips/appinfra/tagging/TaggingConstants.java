@@ -12,11 +12,11 @@ public class TaggingConstants {
 
     public static final String OS_KEY = "app.os";
 
-    public static final String LANGUAGE_KEY = "locale.language";
+    public static final String LANGUAGE_KEY = "language";
 
     public static final String APPSID_KEY = "appsId";
 
-    public static final String CURRENCY_KEY = "locale.currency";
+    public static final String CURRENCY_KEY = "currency";
 
     public static final String TIMESTAMP_KEY = "timestamp";
 
@@ -26,6 +26,12 @@ public class TaggingConstants {
 
     public static final String PREVIOUS_PAGE_NAME = "previousPageName";
 
-    public static final String COUNTRY_KEY = "locale.country";
+    public static final String COUNTRY_KEY = "country";
+
+    public static final String COMPONENT_ID = "componentId";
+
+    public static final String COMPONENT_VERSION = "componentVersion";
+
+
 
 }

@@ -15,11 +15,11 @@ public class TaggingWrapper {
     public String trackingIdentifier;
     private String componentVersionVersionValue;
 
-    public static void trackPage(String currPage) {
+    public static void trackPage(String currPage, String key, String value) {
         if (null != prevPage) {
-            Tagging.trackPage(currPage, prevPage);
+            Tagging.trackPage(currPage, prevPage, key, value);
         } else {
-            Tagging.trackPage(currPage, null);
+            Tagging.trackPage(currPage, null, key,value);
         }
         prevPage = currPage;
 
@@ -77,9 +77,9 @@ public class TaggingWrapper {
 
     public static void trackFirstPage(String currPage) {
         if (null != Tagging.getLaunchingPageName()) {
-            Tagging.trackPage(currPage, Tagging.getLaunchingPageName());
+            Tagging.trackPage(currPage, Tagging.getLaunchingPageName(), "", "");
         } else {
-            Tagging.trackPage(currPage, null);
+            Tagging.trackPage(currPage, null, "", "");
         }
         prevPage = currPage;
     }

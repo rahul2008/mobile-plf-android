@@ -26,30 +26,66 @@ public class Tagging {
 
     private static String componentVersionKey;
 
+    private static String newFieldKey;
+
+    private static String newFieldValue;
+
     private static String componentVersionVersionValue;
+    private static String mLanguage;
+    private static String mCountry;
+    private static String mCurruncy;
 
     private static Locale mlocale;
 
     private static Context mcontext;
 
     private static String mAppName;
+    private static Map<String, Object> contextData;
 
     public static void init(Locale locale, Context context,String appName){
         mlocale = locale;
         mcontext = context;
         mAppName = appName;
         Config.setContext(context);
+        contextData = addAnalyticsDataObject(false);
+
         if(appName == null){
             throw new RuntimeException("Please set app name for tagging library");
         }
     }
 
-    public static void trackPage(String currPage,String prevPage) {
+    public static void trackPage(String currPage,String prevPage, String key, String value) {
         validateAppTaggingInitialization();
         if (!isTagginEnabled()) {
             return;
         }
-        Map<String, Object> contextData = addAnalyticsDataObject();
+
+
+
+        if(contextData.containsKey(key)){
+
+            switch (key){
+                case TaggingConstants.LANGUAGE_KEY:
+                    setLangueOverriden(value);
+                    break;
+                case TaggingConstants.COUNTRY_KEY:
+                    setCountryOverriden(value);
+                    break;
+                case TaggingConstants.CURRENCY_KEY:
+                    setCurrencyOverriden(value);
+                    break;
+                case TaggingConstants.COMPONENT_ID:
+                    setComponentVersionVersionValue(value);
+                    break;
+
+            }
+
+            contextData = addAnalyticsDataObject(true);
+        }else{
+            setNewKey(key);
+            setNewValue(value);
+            contextData = addAnalyticsDataObject(false);
+        }
         if (null != prevPage) {
             contextData.put(TaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
@@ -97,7 +133,7 @@ public class Tagging {
         if (!isTagginEnabled()) {
             return;
         }
-        Map<String, Object> contextData = addAnalyticsDataObject();
+        Map<String, Object> contextData = addAnalyticsDataObject(false);
         if (null != key) {
             contextData.put(key, value);
         }
@@ -109,13 +145,14 @@ public class Tagging {
         if (!isTagginEnabled()) {
             return;
         }
-        Map<String, Object> contextData = addAnalyticsDataObject();
+        Map<String, Object> contextData = addAnalyticsDataObject(false);
         contextData.putAll(map);
         Analytics.trackAction(state, contextData);
     }
 
-    private static Map<String, Object> addAnalyticsDataObject() {
+    private static Map<String, Object> addAnalyticsDataObject(Boolean overriden) {
         Map<String, Object> contextData = new HashMap<String, Object>();
+
         contextData.put(TaggingConstants.CP_KEY, TaggingConstants.CP_VALUE);
         contextData.put(TaggingConstants.APPNAME_KEY, mAppName);
         contextData.put(TaggingConstants.VERSION_KEY, getAppVersion());
@@ -123,11 +160,25 @@ public class Tagging {
         contextData.put(TaggingConstants.COUNTRY_KEY, getCountry());
         contextData.put(TaggingConstants.LANGUAGE_KEY, getLanguage());
         contextData.put(TaggingConstants.CURRENCY_KEY, getCurrency());
+        contextData.put(TaggingConstants.COMPONENT_ID, getComponentVersionKey());
+
         contextData.put(TaggingConstants.APPSID_KEY, getTrackingIdentifer());
+        contextData.put(TaggingConstants.COMPONENT_ID, "DefaultID");
+        contextData.put(TaggingConstants.COMPONENT_VERSION, "DefaultValue");
         contextData.put(TaggingConstants.TIMESTAMP_KEY, getTimestamp());
-        if (null != getComponentVersionKey() && null != getComponentVersionVersionValue()) {
-            contextData.put(getComponentVersionKey(), getComponentVersionVersionValue());
+        if (null != getNewKey() && null != getNewValue()) {
+//            contextData.put(getComponentVersionKey(), getComponentVersionVersionValue());
+            contextData.put(getNewKey(), getNewValue());
         }
+
+        if(overriden){
+            contextData.put(TaggingConstants.COUNTRY_KEY, getCountryOverriden());
+            contextData.put(TaggingConstants.LANGUAGE_KEY, getLanguageyOverriden());
+            contextData.put(TaggingConstants.CURRENCY_KEY, getCurrencyOverriden());
+
+            contextData.put(TaggingConstants.COMPONENT_VERSION, getComponentVersionVersionValue());
+        }
+
         return contextData;
     }
 
@@ -135,6 +186,19 @@ public class Tagging {
         return mlocale.getCountry();
     }
 
+    private static void setNewKey(String newFieldkey) {
+        newFieldKey = newFieldkey;
+
+    }
+    private static void setNewValue(String newFieldvalue) {
+newFieldValue = newFieldvalue;
+    }
+    private static String getNewKey(){
+        return newFieldKey;
+    }
+    private static String getNewValue(){
+        return newFieldValue;
+    }
     private static String getAppVersion() {
         String appVersion = null;
         try {
@@ -160,7 +224,25 @@ public class Tagging {
             currencyCode = TaggingConstants.DEFAULT_CURRENCY;
         return currencyCode;
     }
+    private static String getCurrencyOverriden() {
+        return mCurruncy;
+    }
+    private static String getLanguageyOverriden() {
+        return mLanguage;
 
+    }
+    private static String getCountryOverriden() {
+        return mCountry;
+    }
+    private static void setCountryOverriden(String country) {
+mCountry = country;
+    }
+    private static void setLangueOverriden(String langue) {
+mLanguage=langue;
+    }
+    private static void setCurrencyOverriden(String currency) {
+mCurruncy=currency;
+    }
     private static String getTimestamp() {
 //        Calendar c = Calendar.getInstance();
 //        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

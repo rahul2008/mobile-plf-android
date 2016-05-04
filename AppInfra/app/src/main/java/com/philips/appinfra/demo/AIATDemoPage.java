@@ -8,6 +8,8 @@ import android.widget.EditText;
 
 import com.philips.appinfra.tagging.TaggingWrapper;
 
+import java.util.Locale;
+
 
 /**
  * Created by 310238655 on 4/27/2016.
@@ -29,6 +31,8 @@ public class AIATDemoPage extends AppCompatActivity {
         Button TaggOptInBtn =  (Button) findViewById(R.id.opt_in_btn);
         Button TaggOptOutBtn =  (Button) findViewById(R.id.opt_out_btn);
         Button TaggUnknownBtn =  (Button) findViewById(R.id.opt_unknown_btn);
+
+
         TaggPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,7 +42,7 @@ public class AIATDemoPage extends AppCompatActivity {
                 TaggingWrapper.setComponentVersionKey(""+key.getText().toString());
                 TaggingWrapper.setComponentVersionVersionValue("FrameworkTaggingValue");
 
-                TaggingWrapper.trackPage("DemoTaggingPAge");
+                TaggingWrapper.trackPage("DemoTaggingPAge", ""+key.getText().toString(), ""+value.getText().toString());
 //                TaggingWrapper.trackAction("ButtonClick","Key", null );
 
             }
