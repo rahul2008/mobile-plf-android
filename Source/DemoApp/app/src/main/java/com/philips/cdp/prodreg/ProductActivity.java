@@ -36,25 +36,21 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private EditText mRegChannel, mSerialNumber, mPurchaseDate, mCtn;
     private String TAG = getClass().toString();
     private Calendar mCalendar;
-    private int mMonthInt, mDateInt, mYear, mDay;
-    private String mMonth, mDate;
-    private String[] mEditDisplayDate;
-    private String mGetDeviceDate;
-    private Date mDisplayDate, mDeviceDate;
-    private String MICRO_SITE_ID = "MS";
     private boolean eMailConfiguration = false;
     private ProdRegHelper prodRegHelper;
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
             Log.d(TAG, "Response Data : " + arg1 + "-" + arg2 + "-" + arg3);
-            mMonthInt = (arg2 + 1);
-            mDateInt = arg3;
+            final int mMonthInt = (arg2 + 1);
+            int mDateInt = arg3;
+            String mMonth;
             if (mMonthInt < 10) {
                 mMonth = getResources().getString(R.string.zero) + mMonthInt;
             } else {
                 mMonth = Integer.toString(mMonthInt);
             }
+            String mDate;
             if (mDateInt < 10) {
                 mDate = getResources().getString(R.string.zero) + mDateInt;
             } else {
@@ -62,16 +58,17 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             }
             SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_formate));
             mCalendar = Calendar.getInstance();
-            mGetDeviceDate = dateFormat.format(mCalendar.getTime());
-            mDisplayDate = new Date();
-            mDeviceDate = new Date();
+            final String mGetDeviceDate = dateFormat.format(mCalendar.getTime());
+            Date mDisplayDate;
+            Date mDeviceDate;
             try {
-                mDisplayDate = dateFormat.parse(arg1 + "-" + mMonth + "-" + mDate);
+                final String text = arg1 + "-" + mMonth + "-" + mDate;
+                mDisplayDate = dateFormat.parse(text);
                 mDeviceDate = dateFormat.parse(mGetDeviceDate);
                 if (mDisplayDate.after(mDeviceDate)) {
                     Log.d(TAG, " Response Data : " + "Error in Date");
                 } else {
-                    mPurchaseDate.setText(arg1 + "-" + mMonth + "-" + mDate);
+                    mPurchaseDate.setText(text);
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -140,7 +137,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                     Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
                 } else {
                     submitButton.setEnabled(false);
-                    mRegChannel.setText(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+                    String MICRO_SITE_ID = "MS";
+                    final String text = MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId();
+                    mRegChannel.setText(text);
                     registerProduct();
                 }
                 break;
@@ -153,8 +152,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void onClickPurchaseDate(View view) {
+        int mYear;
+        int mMonthInt;
+        int mDay;
         if (!mPurchaseDate.getText().toString().equalsIgnoreCase("")) {
-            mEditDisplayDate = mPurchaseDate.getText().toString().split("-");
+            final String[] mEditDisplayDate = mPurchaseDate.getText().toString().split("-");
             mYear = Integer.parseInt(mEditDisplayDate[0]);
             mMonthInt = Integer.parseInt(mEditDisplayDate[1]) - 1;
             mDay = Integer.parseInt(mEditDisplayDate[2]);

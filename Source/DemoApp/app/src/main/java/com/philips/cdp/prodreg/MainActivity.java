@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 import com.philips.cdp.prodreg.register.ProdRegHelper;
@@ -17,12 +16,6 @@ import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     String configurationType[] = {"Evaluation", "Testing", "Development", "Staging", "Production"};
-    ArrayAdapter<String> configType;
-    String configuration;
-    private Button mBtnUserRegistration;
-    private Button mBtnProductRegistration;
-    private Button mBtnRegisterList;
-    private Spinner spinner;
     private String TAG = getClass().toString();
 
     @Override
@@ -30,19 +23,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new ProdRegHelper().init(this);
-        mBtnUserRegistration = (Button) findViewById(R.id.btn_user_registration);
-        mBtnUserRegistration.setOnClickListener(this);
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
-        mBtnProductRegistration = (Button) findViewById(R.id.btn_product_registration);
-        mBtnProductRegistration.setOnClickListener(this);
-
-
-        mBtnRegisterList= (Button) findViewById(R.id.btn_register_list);
-        mBtnRegisterList.setOnClickListener(this);
-
-        spinner = (Spinner) findViewById(R.id.spinner);
-
-        configType = new ArrayAdapter<String>(this,
+        final ArrayAdapter<String> configType = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, configurationType);
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(configType);
@@ -52,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> adapter, View v,
                                        int position, long id) {
-                configuration = adapter.getItemAtPosition(position).toString();
+                final String configuration = adapter.getItemAtPosition(position).toString();
                 Log.d(TAG, "Before Configuration" + configuration);
                 if (configuration.equalsIgnoreCase("Development")) {
                     RegistrationConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment("Development");
@@ -70,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
             }
         });
 

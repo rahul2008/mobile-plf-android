@@ -22,17 +22,14 @@ public class RegisteredProductsList extends AppCompatActivity {
     public interface OnItemClickListener {
         void onItemClick(RegisteredProduct item);
     }
-    private ProductAdapter productAdapter;
     private RecyclerView mRecyclerView;
-    private TextView mVersion;
-    private ProdRegHelper prodRegHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registered_list);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mVersion = (TextView) findViewById(R.id.txt_version);
-        prodRegHelper = new ProdRegHelper();
+        final TextView mVersion = (TextView) findViewById(R.id.txt_version);
+        final ProdRegHelper prodRegHelper = new ProdRegHelper();
         mVersion.setText("versionName :" + prodRegHelper.getLibVersion());
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -47,7 +44,7 @@ public class RegisteredProductsList extends AppCompatActivity {
         prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(new RegisteredProductsListener() {
             @Override
             public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
-                productAdapter = new ProductAdapter(RegisteredProductsList.this, registeredProducts, new OnItemClickListener() {
+                final ProductAdapter productAdapter = new ProductAdapter(RegisteredProductsList.this, registeredProducts, new OnItemClickListener() {
                     @Override
                     public void onItemClick(final RegisteredProduct registeredProduct) {
                         Intent intent = new Intent(RegisteredProductsList.this, ProductActivity.class);
