@@ -24,7 +24,7 @@ public class LauncherActivity extends AppCompatActivity {
 
     private String mCtn = "RQ1250/17";
     private String mLocale = "en_GB";
-    private String mLangUageCode = "en", mCountryCode = "IN";
+    private String mLangUageCode = "en", mCountryCode = "GB";
 
     private String mRequestTag = null;
 
