@@ -23,6 +23,7 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Gravity;
 import android.view.Menu;
@@ -66,7 +67,9 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
     private static final int[] STATE_MASKED_PASSWORD = {R.attr.uikit_state_maskedPassword};
     private static final int[] STATE_SHOW_PASSWORD = {R.attr.uikit_state_showPassword};
     final int DRAWABLE_RIGHT = 2;
+    final int DRAWABLE_LEFT = 0;
     int basecolor;
+    int lighterColor;
     private boolean isPreLollipop = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
     Context context;
     private boolean passwordVisible;
@@ -74,12 +77,21 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
     public UikitPasswordEditText(final Context cont, AttributeSet attrs) {
         super(cont, attrs);
         context=cont;
-        setCompoundDrawablesWithIntrinsicBounds(null, null, getIcon(), null);
+
+        TypedArray a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor,R.attr.uikit_brightColor});
+        basecolor = a.getInt(0, R.attr.uikit_baseColor);
+        lighterColor = a.getInt(1, R.attr.uikit_brightColor);
+        a.recycle();
+
+        if(isDeviceLanguageRTL()) {
+            setCompoundDrawablesWithIntrinsicBounds(getIcon(), null, null, null);
+        }
+        else {
+            setCompoundDrawablesWithIntrinsicBounds(null, null, getIcon(), null);
+        }
         setCompoundDrawablePadding((int) getResources().getDimension(R.dimen.uikit_tab_badge_margin_top));
         setEnabled(true);
-        TypedArray a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
-        basecolor = a.getInt(0, R.attr.uikit_baseColor);
-        a.recycle();
+
         setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         /**
          * If the Device language is RTL, move the cursor to the right
@@ -87,7 +99,6 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
          */
         if(isDeviceLanguageRTL()){
             setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
-
         }
 
         handlePasswordInputVisibility();
@@ -122,19 +133,38 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
             public boolean onTouch(View v, MotionEvent event) {
 
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (getRight() - getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
-                        togglePasswordIconVisibility();
+                    if(isDeviceLanguageRTL()) {
+                        if (event.getX() <= (getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width())) {
 
-                        post(new Runnable() {
-                            @Override
-                            public void run() {
-                                setSelection(getText().length());
-                            }
-                        });
+                            togglePasswordIconVisibility();
 
-                        return false;
+                            post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setSelection(getText().length());
+                                }
+                            });
 
+                            return false;
+
+                        }
+                    }
+                    else {
+                        if (event.getX() >= (getRight() - getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+
+                            togglePasswordIconVisibility();
+
+                            post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setSelection(getText().length());
+                                }
+                            });
+
+                            return false;
+
+                        }
                     }
                 }
                 return false;
@@ -177,7 +207,7 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
 
     private ColorStateList getColorStateList(){
         int[][] states = {{R.attr.uikit_state_emptyPassword}, {R.attr.uikit_state_maskedPassword},{R.attr.uikit_state_showPassword}};
-        int[] colors = { ContextCompat.getColor(context, R.color.uikit_enricher4), ContextCompat.getColor(context,R.color.uikit_password_icon_color), ContextCompat.getColor(context,R.color.uikit_philips_bright_blue)};
+        int[] colors = { ContextCompat.getColor(context, R.color.uikit_enricher4), ContextCompat.getColor(context,R.color.uikit_password_icon_color), lighterColor};
 
         return new ColorStateList(states, colors);
     }
@@ -235,10 +265,18 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
 
         if((getTransformationMethod()) instanceof PasswordTransformationMethod) {
             passwordVisible = false;
-            getCompoundDrawables()[DRAWABLE_RIGHT].setState(STATE_MASKED_PASSWORD);
+            if(isDeviceLanguageRTL()){
+                getCompoundDrawables()[DRAWABLE_LEFT].setState(STATE_MASKED_PASSWORD);
+            }else {
+                getCompoundDrawables()[DRAWABLE_RIGHT].setState(STATE_MASKED_PASSWORD);
+            }
         } else {
             passwordVisible = true;
-            getCompoundDrawables()[DRAWABLE_RIGHT].setState(STATE_SHOW_PASSWORD);
+            if(isDeviceLanguageRTL()){
+                getCompoundDrawables()[DRAWABLE_LEFT].setState(STATE_SHOW_PASSWORD);
+            }else {
+                getCompoundDrawables()[DRAWABLE_RIGHT].setState(STATE_SHOW_PASSWORD);
+            }
         }
     }
 
