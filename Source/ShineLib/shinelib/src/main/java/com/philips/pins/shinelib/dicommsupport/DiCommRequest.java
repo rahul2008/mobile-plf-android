@@ -2,6 +2,7 @@ package com.philips.pins.shinelib.dicommsupport;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 
 import org.json.JSONObject;
 
@@ -11,6 +12,8 @@ import java.util.Map;
 
 class DiCommRequest {
 
+    public static final String DATA_KEY = "data";
+
     @NonNull
     public DiCommMessage getPropsRequestDataWithProduct(@NonNull String product, @NonNull String port) {
         byte[] byteArray = encodeDiCommPayload(product, port);
@@ -19,14 +22,30 @@ class DiCommRequest {
     }
 
     @Nullable
-    public DiCommMessage putPropsRequestDataWithProduct(@NonNull String product, @NonNull String port, @NonNull Map<String, Object> properties){
+    public DiCommMessage putPropsRequestDataWithProduct(@NonNull String product, @NonNull String port, @NonNull Map<String, Object> properties) {
         if (properties.containsKey(null)) {
             return null;
         }
-        String propertiesString = new JSONObject(properties).toString().replace("\\/","/");
+
+        decodeDataBase64(properties);
+
+        String propertiesString = new JSONObject(properties).toString().replace("\\/", "/");
         byte[] byteArray = encodeDiCommPayload(product, port, propertiesString);
 
         return new DiCommMessage(MessageType.PutPropsRequest, byteArray);
+    }
+
+    private void decodeDataBase64(Map<String, Object> properties) {
+        if (properties.containsKey(DATA_KEY)) {
+            Object data = properties.get(DATA_KEY);
+
+            if (data instanceof byte[]) {
+                byte[] byteData = (byte[]) data;
+                String encodedString = new String(Base64.encode(byteData, Base64.NO_WRAP), StandardCharsets.UTF_8);
+
+                properties.put(DATA_KEY, encodedString);
+            }
+        }
     }
 
     @NonNull

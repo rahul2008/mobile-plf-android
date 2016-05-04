@@ -1,5 +1,7 @@
 package com.philips.pins.shinelib.dicommsupport;
 
+import android.util.Base64;
+
 import com.philips.pins.shinelib.RobolectricTest;
 
 import org.junit.Before;
@@ -13,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class DiCommRequestTest extends RobolectricTest {
 
@@ -20,8 +23,10 @@ public class DiCommRequestTest extends RobolectricTest {
     public static final String SPECIAL_CHARACTER_DEVICE = "device\u00D6";
     public static final String PORT = "port";
     public static final String SPECIAL_CHARACTER_PORT = "port\u00D6";
+
     public static final int VALUE = 5;
     public static final String DATA = "data";
+    public static final byte[] BYTE_VALUE = {(byte) -4, (byte) 85, (byte) 80, (byte) 72, (byte) -1, (byte) -1, (byte) -1, (byte) -1, (byte) 12, (byte) 101, (byte) 2};
 
     public static final String DATA_JSON = "{\"" + DATA + "\":" + VALUE + "}";
 
@@ -193,7 +198,7 @@ public class DiCommRequestTest extends RobolectricTest {
     @Test
     public void whenPutPropsIsCalledWithBase64DataThenBackSlashIsNotEscaped() throws Exception {
         DiCommRequest diCommRequest = new DiCommRequest();
-        properties.put("key/", "value");
+        properties.put(DATA, BYTE_VALUE);
 
         DiCommMessage message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties);
 
@@ -201,5 +206,20 @@ public class DiCommRequestTest extends RobolectricTest {
         String resultString = new String(message.getPayload());
 
         assertFalse(resultString.contains("\\"));
+    }
+
+    @Test
+    public void whenDataContainsByteDataThenItIsBase64Encoded() throws Exception {
+        String expectedBase64Data = new String(Base64.encode(BYTE_VALUE, Base64.NO_WRAP), StandardCharsets.UTF_8);
+
+        DiCommRequest diCommRequest = new DiCommRequest();
+        properties.put(DATA, BYTE_VALUE);
+
+        DiCommMessage message = diCommRequest.putPropsRequestDataWithProduct(DEVICE, PORT, properties);
+
+        assertNotNull(message);
+        String resultString = new String(message.getPayload());
+
+        assertTrue(resultString.contains(expectedBase64Data));
     }
 }
