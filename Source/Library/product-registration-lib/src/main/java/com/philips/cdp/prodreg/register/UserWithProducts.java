@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegError;
@@ -18,6 +20,12 @@ import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.RequestManager;
+import com.philips.cdp.prxclient.error.PrxError;
+import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import java.util.List;
 
@@ -106,7 +114,7 @@ public class UserWithProducts {
                 } else {
                     UserWithProducts userWithProducts = getUserProduct();
                     userWithProducts.setLocale(this.locale);
-                    userWithProducts.getRegisteredProducts(userWithProducts.getRegisteredProductsListener(registeredProduct, appListener));
+                    userWithProducts.getRegisteredProducts(userWithProducts.getRegisteredProductsListener(registeredProduct, appListener), registeredProduct.getSector(), registeredProduct.getCatalog());
                 }
             }
         }
@@ -116,12 +124,14 @@ public class UserWithProducts {
      * API to fetch list of products which are registered locally and remote
      *
      * @param registeredProductsListener - call back listener to get list of products
+     * @param sector
+    //     * @param consumer
      */
-    public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
+    public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener, final Sector sector, final Catalog catalog) {
         setRequestType(FETCH_REGISTERED_PRODUCTS);
         this.registeredProductsListener = registeredProductsListener;
         final RemoteRegisteredProducts remoteRegisteredProducts = new RemoteRegisteredProducts();
-        remoteRegisteredProducts.getRegisteredProducts(mContext, getUserProduct(), getUser(), registeredProductsListener);
+        remoteRegisteredProducts.getRegisteredProducts(mContext, getUserProduct(), getUser(), registeredProductsListener, sector, catalog);
     }
 
     public void updateLocaleCacheOnError(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
@@ -290,7 +300,7 @@ public class UserWithProducts {
                 getUserProduct().makeRegistrationRequest(mContext, registeredProduct, appListener);
                 break;
             case FETCH_REGISTERED_PRODUCTS:
-                getUserProduct().getRegisteredProducts(getRegisteredProductsListener());
+                getUserProduct().getRegisteredProducts(getRegisteredProductsListener(), registeredProduct.getSector(), registeredProduct.getCatalog());
                 break;
             default:
                 break;
@@ -311,9 +321,9 @@ public class UserWithProducts {
             }
 
             @Override
-            public void onResponseError(final String errorMessage, final int responseCode) {
+            public void onResponseError(PrxError prxError) {
                 try {
-                    getErrorHandler().handleError(getUserProduct(), registeredProduct, responseCode, appListener);
+                    getErrorHandler().handleError(getUserProduct(), registeredProduct, prxError.getId(), appListener);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

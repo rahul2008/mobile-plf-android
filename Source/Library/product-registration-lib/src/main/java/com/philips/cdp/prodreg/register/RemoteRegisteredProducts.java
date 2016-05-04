@@ -4,12 +4,15 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prxclient.RequestManager;
+import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
@@ -34,9 +37,9 @@ public class RemoteRegisteredProducts {
             }
 
             @Override
-            public void onResponseError(final String errorMessage, final int responseCode) {
+            public void onResponseError(PrxError prxError) {
                 try {
-                    if (responseCode == ProdRegError.ACCESS_TOKEN_INVALID.getCode()) {
+                    if (prxError.getId() == ProdRegError.ACCESS_TOKEN_INVALID.getCode()) {
                         userWithProducts.onAccessTokenExpire(null, null);
                     } else
                         registeredProductsListener.getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
@@ -52,8 +55,10 @@ public class RemoteRegisteredProducts {
         return new Gson();
     }
 
-    public void getRegisteredProducts(final Context mContext, final UserWithProducts userWithProducts, final User user, final RegisteredProductsListener registeredProductsListener) {
+    public void getRegisteredProducts(final Context mContext, final UserWithProducts userWithProducts, final User user, final RegisteredProductsListener registeredProductsListener, final Sector sector, final Catalog catalog) {
         RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest(user);
+        registeredProductsRequest.setSector(sector);
+        registeredProductsRequest.setCatalog(catalog);
         final RequestManager mRequestManager = getRequestManager(mContext);
         mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(userWithProducts, new LocalRegisteredProducts(mContext, user), registeredProductsListener));
     }
@@ -61,6 +66,7 @@ public class RemoteRegisteredProducts {
     @NonNull
     protected RegisteredProductsRequest getRegisteredProductsRequest(final User user) {
         RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest();
+
         registeredProductsRequest.setAccessToken(user.getAccessToken());
         return registeredProductsRequest;
     }

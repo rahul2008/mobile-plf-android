@@ -10,6 +10,7 @@ import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
 import com.philips.cdp.prxclient.RequestManager;
+import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
@@ -37,7 +38,7 @@ public class Product {
         ProductMetadataRequest productMetadataRequest = getProductMetadataRequest(getCtn());
         productMetadataRequest.setSector(getSector());
         productMetadataRequest.setCatalog(getCatalog());
-        productMetadataRequest.setmLocale(getLocale());
+//        productMetadataRequest.setmLocale(getLocale());
         RequestManager mRequestManager = getRequestManager(context);
         final ResponseListener metadataResponseListener = getPrxResponseListener(metadataListener);
         mRequestManager.executeRequest(productMetadataRequest, metadataResponseListener);
@@ -53,8 +54,8 @@ public class Product {
             }
 
             @Override
-            public void onResponseError(String error, int code) {
-                metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), code);
+            public void onResponseError(PrxError prxError) {
+                metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), prxError.getId());
             }
         };
     }

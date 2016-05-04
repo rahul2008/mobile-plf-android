@@ -86,7 +86,7 @@ public class RemoteRegisteredProductsTest extends MockitoTestCase {
         User user = mock(User.class);
         UserWithProducts userWithProducts = mock(UserWithProducts.class);
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-        remoteRegisteredProducts.getRegisteredProducts(context, userWithProducts, user, registeredProductsListener);
+        remoteRegisteredProducts.getRegisteredProducts(context, userWithProducts, user, registeredProductsListener, sector, catalog);
         verify(requestManager).executeRequest(registeredProductsRequest, responseListenerMock);
     }
 

@@ -3,6 +3,7 @@ package com.philips.cdp.prodreg;
 import android.app.Application;
 import android.util.Log;
 
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -23,7 +24,17 @@ public class ProductRegistrationApplication extends Application {
         Tagging.setTrackingIdentifier(getResources().getString(R.string.integratingApplicationAppsId));
         Tagging.setLaunchingPageName(getResources().getString(R.string.demo_app_home));
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
-        RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(), Locale.getDefault());
-        Tagging.init(RegistrationHelper.getInstance().getLocale(this), getApplicationContext(), getResources().getString(R.string.app_name));
+        initRegistration();
+    }
+
+    private void initRegistration() {
+        String languageCode = Locale.getDefault().getLanguage();
+        String countryCode = Locale.getDefault().getCountry();
+
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(languageCode, countryCode);
+
+        RegistrationHelper.getInstance().initializeUserRegistration(this);
+        Tagging.init(this, "Product Registration");
     }
 }

@@ -73,23 +73,14 @@ public class ProdRegHelper {
         ProdRegHelper.context = context;
         UserRegistrationObserver.registerListerOnUserSignIn();
     }
-
-    /**
-     * API to set locale
-     * @param language - language code
-     * @param countryCode - country code
-     */
-    public void setLocale(final String language, final String countryCode) {
-        this.locale = language + "_" + countryCode;
-    }
-
-    /**
+/*
+    *//**
      * API which returns locale
      * @return - returns locale of type String
-     */
+     *//*
     public String getLocale() {
-        return locale;
-    }
+        return new PILLocaleManager(context).getInputLocale();
+    }*/
 
     /**
      * API to add listener while registering product
@@ -109,7 +100,7 @@ public class ProdRegHelper {
      */
     public UserWithProducts getSignedInUserWithProducts() {
         final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
-        userWithProducts.setLocale(this.locale);
+//        userWithProducts.setLocale(getLocale());
         return userWithProducts;
     }
 

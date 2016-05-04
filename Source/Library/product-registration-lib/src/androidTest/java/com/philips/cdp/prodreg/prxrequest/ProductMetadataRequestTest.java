@@ -3,7 +3,7 @@ package com.philips.cdp.prodreg.prxrequest;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.prxclient.RequestType;
+import com.philips.cdp.prxclient.request.RequestType;
 
 import org.mockito.Mock;
 

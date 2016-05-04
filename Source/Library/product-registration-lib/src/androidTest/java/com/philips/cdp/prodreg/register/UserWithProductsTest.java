@@ -225,7 +225,7 @@ public class UserWithProductsTest extends MockitoTestCase {
 
     public void testGettingRegisteredListener() {
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-        userWithProducts.getRegisteredProducts(registeredProductsListener);
+        userWithProducts.getRegisteredProducts(registeredProductsListener, Catalog.CONSUMER);
         assertEquals(registeredProductsListener, userWithProducts.getRegisteredProductsListener());
     }
 
@@ -238,7 +238,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         userWithProducts.registerProduct(product);
         assertTrue(userWithProducts.getRequestType() == UserWithProducts.PRODUCT_REGISTRATION);
 
-        userWithProducts.getRegisteredProducts(registeredProductsListener);
+        userWithProducts.getRegisteredProducts(registeredProductsListener, Catalog.CONSUMER);
         assertTrue(userWithProducts.getRequestType() == (UserWithProducts.FETCH_REGISTERED_PRODUCTS));
     }
 
@@ -541,9 +541,9 @@ public class UserWithProductsTest extends MockitoTestCase {
         userWithProducts.registerProduct(product);
         userWithProducts.retryRequests(context, registeredProduct, prodRegListenerMock);
         verify(userWithProductsMock).makeRegistrationRequest(context, registeredProduct, prodRegListenerMock);
-        userWithProducts.getRegisteredProducts(registeredProductsListenerMock);
+        userWithProducts.getRegisteredProducts(registeredProductsListenerMock, Catalog.CONSUMER);
         userWithProducts.retryRequests(context, registeredProduct, prodRegListenerMock);
-        verify(userWithProductsMock).getRegisteredProducts(registeredProductsListenerMock);
+        verify(userWithProductsMock).getRegisteredProducts(registeredProductsListenerMock, Catalog.CONSUMER);
         userWithProducts.setRequestType(-1);
         userWithProducts.retryRequests(context, registeredProduct, prodRegListenerMock);
         verify(prodRegListenerMock, never()).onProdRegFailed(registeredProduct, userWithProductsMock);
