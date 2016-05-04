@@ -18,11 +18,6 @@ import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import java.util.List;
 
@@ -255,7 +250,7 @@ public class UserWithProducts {
         RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), registeredProduct.getSerialNumber(), getUser().getAccessToken());
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
-        registrationRequest.setmLocale(registeredProduct.getLocale());
+        //registrationRequest.setmLocale(registeredProduct.getLocale());
         registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         return registrationRequest;
@@ -336,7 +331,7 @@ public class UserWithProducts {
         setRequestType(PRODUCT_REGISTRATION);
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, registeredProduct);
         registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
-        registrationRequest.setmLocale(registeredProduct.getLocale());
+        //  registrationRequest.setmLocale(registeredProduct.getLocale());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
         registrationRequest.setShouldSendEmailAfterRegistration(registeredProduct.getEmail());
@@ -350,6 +345,7 @@ public class UserWithProducts {
 
     /**
      * API return Locale
+     *
      * @return return local as string
      */
     public String getLocale() {
@@ -358,6 +354,7 @@ public class UserWithProducts {
 
     /**
      * API set Local
+     *
      * @param locale local
      */
     public void setLocale(final String locale) {

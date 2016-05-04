@@ -153,8 +153,11 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile project(':prx')
-    compile('com.philips.cdp:registrationApi:5.0.0-rc.8@aar') {
+    compile(group: 'com.philips.cdp', name: 'prx', version: '2.0.0-rc.6', ext: 'aar') {
+        transitive = true
+    }
+
+    compile('com.philips.cdp:registrationApi:5.0.0-rc.9@aar') {
         exclude group: 'com.android.support'
         transitive = true
     }

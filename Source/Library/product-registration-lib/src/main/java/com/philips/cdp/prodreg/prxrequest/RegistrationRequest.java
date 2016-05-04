@@ -5,10 +5,9 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
-import com.philips.cdp.prxclient.RequestType;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
+import com.philips.cdp.prxclient.request.PrxRequest;
+import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import org.json.JSONObject;
 
