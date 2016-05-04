@@ -162,7 +162,12 @@ public class ShoppingCartPresenter {
 
                     @Override
                     public void onModelDataError(final Message msg) {
-                        handleModelDataError(msg);
+                        if (isNoCartError(msg)) {
+                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+                            Utility.dismissProgressDialog();
+                        } else {
+                            handleModelDataError(msg);
+                        }
                     }
                 });
         model.setContext(mContext);
