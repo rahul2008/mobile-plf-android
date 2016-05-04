@@ -411,8 +411,13 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         @Override
         public void onUserRegistrationComplete(Activity activity) {
             //Launch the Approval fragment
-            addParentalApprovalFragment();
+            handleConsentState();
+
         }
+
+
+
+
 
         @Override
         public void onPrivacyPolicyClick(Activity activity) {
@@ -451,6 +456,23 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             }
         }
     };
+
+
+    private static  void handleConsentState() {
+        CoppaExtension mCoppaExtension;
+        mCoppaExtension = new CoppaExtension(getParentActivity().getApplicationContext());
+        mCoppaExtension.buildConfiguration();
+
+        if(mCoppaExtension.getCoppaEmailConsentStatus()==CoppaStatus.kDICOPPAConfirmationGiven || mCoppaExtension.getCoppaEmailConsentStatus()==CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus()==CoppaStatus.kDICOPPAConfirmationNotGiven){
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(getParentActivity());
+            }
+        }else{
+            addParentalApprovalFragment();
+        }
+    }
+
+
 
     public static UserRegistrationListener getUserRegistrationListener() {
         return mUserRegistrationListener;
