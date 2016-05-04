@@ -82,10 +82,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
+    private final int UN_EXPECTED_ERROR = 500;
+
     private final int BAD_RESPONSE_CODE = 7004;
 
     private ScrollView mSvRootLayout;
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -316,7 +317,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(true);
         hideSignInSpinner();
         mBtnSignInAccount.setEnabled(false);
-        if(userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE){
+
+        if(userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE
+                || userRegistrationFailureInfo.getErrorCode() == UN_EXPECTED_ERROR){
             mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
         }else {
             if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
