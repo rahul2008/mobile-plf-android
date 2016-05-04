@@ -131,31 +131,34 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     }
 
     private boolean handleBackStack() {
-        int count = mFragmentManager.getBackStackEntryCount();
-        RLog.i("Back count ", "" + count);
-        if (count == 0) {
-            return false;
-        }
-        Fragment fragment = mFragmentManager.getFragments().get(count);
-        if (fragment != null && fragment instanceof RegistrationFragment) {
-            boolean isRegFragHandledBack = ((RegistrationFragment) fragment).onBackPressed();
-            //true  not consumed
-            //false  consumed
-            if (isRegFragHandledBack) {
-                //Message for killing fragmet app but by pass this condition not
-                trackHandler();
-                if (count >= 1) {
-                    mFragmentManager.popBackStack();
-                    return true;
-                } else {
-                    return false;
+        if (mFragmentManager != null) {
+            int count = mFragmentManager.getBackStackEntryCount();
+            RLog.i("Back count ", "" + count);
+            if (count == 0) {
+                return false;
+            }
+            Fragment fragment = mFragmentManager.getFragments().get(count);
+            if (fragment != null && fragment instanceof RegistrationFragment) {
+                boolean isRegFragHandledBack = ((RegistrationFragment) fragment).onBackPressed();
+                //true  not consumed
+                //false  consumed
+                if (isRegFragHandledBack) {
+                    //Message for killing fragmet app but by pass this condition not
+                    trackHandler();
+                    if (count >= 1) {
+                        mFragmentManager.popBackStack();
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
+            } else {
+                if (!(fragment instanceof ParentalApprovalFragment)) {
+                    trackHandler();
+                }
+                mFragmentManager.popBackStack();
             }
-        } else {
-            if (!(fragment instanceof ParentalApprovalFragment)) {
-                trackHandler();
-            }
-            mFragmentManager.popBackStack();
+
         }
         return true;
     }
