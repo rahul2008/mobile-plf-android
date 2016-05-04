@@ -236,8 +236,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     private void showLogoutSpinner() {
         if (!(getActivity().isFinishing()) && (mProgressDialog != null)) mProgressDialog.show();
-
-//        mLogoutProgressDialog.show();
         mBtnSignOut.setEnabled(false);
     }
 
@@ -246,12 +244,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }
-
-/*
-        if (mLogoutProgressDialog != null && mLogoutProgressDialog.isShowing()) {
-            mLogoutProgressDialog.dismiss();
-        }
-*/
         mBtnSignOut.setEnabled(true);
     }
 
