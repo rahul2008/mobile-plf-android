@@ -194,6 +194,7 @@ public class DiCommPort {
     }
 
     public void unsubscribe(UpdateListener updateListener, SHNResultListener shnResultListener) {
+    public void unsubscribe(UpdateListener updateListener, @Nullable SHNResultListener shnResultListener) {
         if (updateListeners.contains(updateListener)) {
             updateListeners.remove(updateListener);
 
@@ -201,9 +202,13 @@ public class DiCommPort {
                 subscriptionTimer.stop();
                 SHNLogger.d(TAG, "Stopped polling properties for port: " + name);
             }
-            shnResultListener.onActionCompleted(SHNResult.SHNOk);
+            if (shnResultListener != null) {
+                shnResultListener.onActionCompleted(SHNResult.SHNOk);
+            }
         } else {
-            shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidState);
+            if (shnResultListener != null) {
+                shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidState);
+            }
         }
     }
 
