@@ -193,7 +193,6 @@ public class DiCommPort {
         }
     }
 
-    public void unsubscribe(UpdateListener updateListener, SHNResultListener shnResultListener) {
     public void unsubscribe(UpdateListener updateListener, @Nullable SHNResultListener shnResultListener) {
         if (updateListeners.contains(updateListener)) {
             updateListeners.remove(updateListener);

@@ -79,6 +79,11 @@ class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener {
             }
         }
     }
+
+    @Override
+    public void onSubscriptionFailed(SHNResult shnResult) {
+
+    }
 }
 
 
