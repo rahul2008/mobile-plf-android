@@ -67,7 +67,7 @@ public class AddressControllerGetAdressesTest {
         addressHashMap.put(ModelConstants.ADDRESS_ID, "8799470125079");
         addressHashMap.put(ModelConstants.LINE_2, "");
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, "Bangalore");
-        addressHashMap.put(ModelConstants.PHONE_NUMBER, "2453696");
+        addressHashMap.put(ModelConstants.PHONE_1, "2453696");
         return addressHashMap;
     }
 
