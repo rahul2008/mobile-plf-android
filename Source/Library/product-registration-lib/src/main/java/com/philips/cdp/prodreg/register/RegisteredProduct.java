@@ -18,6 +18,7 @@ public class RegisteredProduct extends Product {
     private String uuid = "";
     private ProdRegError prodRegError;
     private String contractNumber;
+    private String lastSolicitDate;
 
     /**
      * API to Registered product
@@ -51,7 +52,10 @@ public class RegisteredProduct extends Product {
      * @return endWarrantyDate as String
      */
     public String getEndWarrantyDate() {
-        return endWarrantyDate;
+        if (endWarrantyDate == null)
+            return lastSolicitDate;
+        else
+            return endWarrantyDate;
     }
 
     /**

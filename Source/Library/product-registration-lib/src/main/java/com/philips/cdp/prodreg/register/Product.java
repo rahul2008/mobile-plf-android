@@ -38,7 +38,6 @@ public class Product {
         ProductMetadataRequest productMetadataRequest = getProductMetadataRequest(getCtn());
         productMetadataRequest.setSector(getSector());
         productMetadataRequest.setCatalog(getCatalog());
-//        productMetadataRequest.setmLocale(getLocale());
         RequestManager mRequestManager = getRequestManager(context);
         final ResponseListener metadataResponseListener = getPrxResponseListener(metadataListener);
         mRequestManager.executeRequest(productMetadataRequest, metadataResponseListener);
@@ -55,7 +54,7 @@ public class Product {
 
             @Override
             public void onResponseError(PrxError prxError) {
-                metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), prxError.getId());
+                metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), prxError.getStatusCode());
             }
         };
     }

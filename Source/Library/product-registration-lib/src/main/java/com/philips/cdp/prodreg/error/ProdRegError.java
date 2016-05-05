@@ -8,8 +8,8 @@ public enum ProdRegError {
 
     //Defined Error code
     UNKNOWN(-1, "unknown"),
-    USER_NOT_SIGNED_IN(1, "User not signed in"),
-    MISSING_DATE(2, "Required date field is missing"),
+    USER_NOT_SIGNED_IN(10, "User not signed in"),
+    MISSING_DATE(12, "Required date field is missing"),
     INVALID_DATE(3, "Date should be less than year 2000"),
     MISSING_SERIALNUMBER(4, "Required serial number is missing"),
     INVALID_SERIALNUMBER(5, "Enter valid Serial number"),
@@ -21,7 +21,7 @@ public enum ProdRegError {
     TIME_OUT(504, "Time out error"),
     //Server Error Code
     INVALID_CTN(404, "Enter valid CTN number"),
-    ACCESS_TOKEN_INVALID(403, "malformed access token"),
+    ACCESS_TOKEN_INVALID(401, "malformed access token"),
     INVALID_VALIDATION(422, "Input validation Error");
 
     private final int id;

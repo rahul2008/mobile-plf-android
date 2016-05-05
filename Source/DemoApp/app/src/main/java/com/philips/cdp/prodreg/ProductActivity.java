@@ -93,11 +93,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             mSerialNumber.setText(intent.getStringExtra("serial") != null ? intent.getStringExtra("serial") : "");
             mPurchaseDate.setText(intent.getStringExtra("date") != null ? intent.getStringExtra("date") : "");
         }
-//        prodRegHelper.init(this);
     }
 
     private void registerProduct() {
-//        prodRegHelper.setLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
         Product product = new Product(mCtn.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         product.setSerialNumber(mSerialNumber.getText().toString());
         product.setPurchaseDate(mPurchaseDate.getText().toString());
@@ -127,7 +125,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.submitproduct:
                 final User mUser = new User(this);
                 if (!(mUser.isUserSignIn() && mUser.getEmailVerificationStatus())) {
-                    Toast.makeText(ProductActivity.this, getResources().getString(R.string.user_not_signed), Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "On Click : User Registration");
                     RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
                     Util.navigateFromUserRegistration();

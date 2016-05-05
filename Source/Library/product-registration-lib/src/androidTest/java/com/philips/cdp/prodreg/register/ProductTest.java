@@ -11,6 +11,7 @@ import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
 import com.philips.cdp.prxclient.RequestManager;
+import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
 import static org.mockito.Mockito.mock;
@@ -75,7 +76,7 @@ public class ProductTest extends MockitoTestCase {
         ProductMetadataResponse responseDataMock = mock(ProductMetadataResponse.class);
         responseListener.onResponseSuccess(responseDataMock);
         verify(metadataListener).onMetadataResponse(responseDataMock);
-        responseListener.onResponseError("test", 8);
+        responseListener.onResponseError(new PrxError("test", 8));
         verify(metadataListener).onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), ProdRegError.METADATA_FAILED.getCode());
     }
 

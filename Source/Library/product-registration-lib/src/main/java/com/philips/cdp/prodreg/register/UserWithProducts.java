@@ -216,7 +216,7 @@ public class UserWithProducts {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                getErrorHandler().handleError(getUserProduct(), registeredProduct, responseCode, appListener);
+                getErrorHandler().handleError(getUserProduct(), registeredProduct, ProdRegError.METADATA_FAILED.getCode(), appListener);
             }
         };
     }
@@ -260,7 +260,6 @@ public class UserWithProducts {
         RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), registeredProduct.getSerialNumber(), getUser().getAccessToken());
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
-        //registrationRequest.setmLocale(registeredProduct.getLocale());
         registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         return registrationRequest;
@@ -323,7 +322,7 @@ public class UserWithProducts {
             @Override
             public void onResponseError(PrxError prxError) {
                 try {
-                    getErrorHandler().handleError(getUserProduct(), registeredProduct, prxError.getId(), appListener);
+                    getErrorHandler().handleError(getUserProduct(), registeredProduct, prxError.getStatusCode(), appListener);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
