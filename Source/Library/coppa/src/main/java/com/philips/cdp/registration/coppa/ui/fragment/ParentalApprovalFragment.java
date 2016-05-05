@@ -214,6 +214,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         mTvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
         mBtnDisAgree.setVisibility(View.VISIBLE);
+        mShadowLineView.setVisibility(View.VISIBLE);
     }
 
     @Override
