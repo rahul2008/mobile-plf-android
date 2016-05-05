@@ -3,7 +3,7 @@
  *
  * @author : naveen@philips.com
  * @since : 25 june 2015
- *
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 package com.philips.cdp.digitalcare.faq.fragments;
@@ -101,7 +101,7 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
         if (isTablet())
             return "Frequently asked questions";
         else
-            return "FAQs";
+            return getResources().getString(R.string.FAQ_KEY);
     }
 
     @Override
@@ -129,14 +129,14 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
         showFragment(faqDetailedScreen);
     }
 
-    private boolean isTablet(){
+    private boolean isTablet() {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        float yInches= metrics.heightPixels/metrics.ydpi;
-        float xInches= metrics.widthPixels/metrics.xdpi;
-        double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
+        float yInches = metrics.heightPixels / metrics.ydpi;
+        float xInches = metrics.widthPixels / metrics.xdpi;
+        double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
 
-        if (diagonalInches>=6.5){
+        if (diagonalInches >= 6.5) {
             // 6.5inch device or bigger
             return true;
         }

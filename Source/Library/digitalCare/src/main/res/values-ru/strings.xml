@@ -138,4 +138,10 @@
     <string name="create_account"> Создать уч. запись &gt; </string>
 
     <string name="localtephilips_contactus">Page de contact</string>
+    
+    <string name="FAQ_KEY">Ответы на часто задаваемые вопросы</string>
+<string name="QUESTION_KEY">Вопросы и ответы</string>
+<string name="NO_PRODUCT_KEY">Нет доступных продуктов</string>
+<string name="NO_SUPPORT_KEY">Поддержка недоступна</string>
+
 </resources>

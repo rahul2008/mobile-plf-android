@@ -57,6 +57,7 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ProductDetailsFragment extends DigitalCareBaseFragment implements
@@ -89,6 +90,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private PrxWrapper mPrxWrapper = null;
     private static Activity mActivity = null;
     private int mSdkVersion = 0;
+    private RelativeLayout mManualRelativeLayout = null;
+    private String mManualButtonTitle = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -162,6 +165,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             }
         });
   */
+
     }
 
     private void initView(List<String> mVideoLength) throws NullPointerException {
@@ -441,6 +445,20 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 		 */
         relativeLayout.setTag(buttonTitle);
         relativeLayout.setOnClickListener(this);
+
+        mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+        String mFilePath  = null;
+
+        if(mViewProductDetailsModel != null) {
+            mFilePath = mViewProductDetailsModel.getManualLink();
+        }
+
+        if (mFilePath == null && buttonTitle.equalsIgnoreCase(
+                getResources().getResourceEntryName(R.string.product_download_manual))) {
+            relativeLayout.setVisibility(View.GONE);
+            mManualRelativeLayout = relativeLayout;
+            mManualButtonTitle = buttonTitle;
+        }
     }
 
     @SuppressLint("NewApi")
@@ -497,21 +515,21 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         String tag = (String) view.getTag();
 
-        boolean actionTaken = false;
         if (DigitalCareConfigManager.getInstance()
                 .getProductMenuListener() != null) {
             DigitalCareConfigManager.getInstance()
                     .getProductMenuListener().onProductMenuItemClicked(tag);
         }
 
-        if (actionTaken) {
-            return;
-        }
-
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_download_manual))) {
+            Locale locale =  DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
+            String country = locale.getCountry();
+            String language = locale.getLanguage();
             String mFilePath = mViewProductDetailsModel.getManualLink();
-            String pdfName = mViewProductDetailsModel.getProductName() + "_manual.pdf"/* + '_' + mViewProductDetailsModel.getProductName()*/;
+
+            // creating the name of the manual. So that Same manual should not be downloaded again and again.
+            String pdfName = mViewProductDetailsModel.getProductName() + language + '_' + country + ".pdf";
             if ((mFilePath != null) && (mFilePath != "")) {
                 if (isConnectionAvailable()) {
                     DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
@@ -575,7 +593,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
     }
 
-
     public void onUpdateAssetData() {
         ViewProductDetailsModel viewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         mManualPdf = viewProductDetailsModel.getManualLink();
@@ -590,5 +607,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         if (productVideos != null)
             initView(viewProductDetailsModel.getVideoLinks());
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(viewProductDetailsModel);
+
+        if (mManualPdf != null && mManualButtonTitle.equalsIgnoreCase(
+                getResources().getResourceEntryName(R.string.product_download_manual))) {
+            mManualRelativeLayout.setVisibility(View.VISIBLE);
+        }
     }
 }
