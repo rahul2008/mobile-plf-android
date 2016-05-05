@@ -12,5 +12,5 @@ public interface ResponseListener {
 
     void onResponseSuccess(ResponseData responseData);
 
-    void onResponseError(PrxError prxErrorType);
+    void onResponseError(PrxError prxError);
 }

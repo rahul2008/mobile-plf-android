@@ -14,7 +14,6 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
-import com.philips.cdp.prxclient.R;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.PrxCustomJsonRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
@@ -22,7 +21,6 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
 import org.json.JSONObject;
-
 
 /**
  * Description : This is the Network Wrapper class.
@@ -100,26 +98,23 @@ public class NetworkWrapper {
                     final NetworkResponse networkResponse = error.networkResponse;
                     try {
                         if (error instanceof NoConnectionError) {
-                            listener.onResponseError(PrxError.NO_INTERNET_CONNECTION);
+                            listener.onResponseError(new PrxError("No Internet Connection", 9));
                         } else if (error instanceof TimeoutError) {
-                            listener.onResponseError(PrxError.VOLLEY_TIME_OUT);
+                            listener.onResponseError(new PrxError("Time out Exception", 504));
                         } else if (error instanceof AuthFailureError) {
-                           PrxLogger.d(TAG, "AuthFailureError : " + mContext.getResources().getString(R.string.authFailureError));
-                            listener.onResponseError(PrxError.AUTHENTICATION_FAILURE);
+                            listener.onResponseError(new PrxError("Access token expired", 403));
                         } else if (error instanceof NetworkError) {
-                           PrxLogger.d(TAG, "NetworkError : " + mContext.getResources().getString(R.string.networkError));
-                            listener.onResponseError(PrxError.NETWORK_ERROR);
+                            listener.onResponseError(new PrxError("Network error when performing a Volley request", 511));
                         } else if (error instanceof ParseError) {
-                           PrxLogger.d(TAG, "ParseError : " + mContext.getResources().getString(R.string.parseErrors));
-                            listener.onResponseError(PrxError.PARSE_ERROR);
+                            listener.onResponseError(new PrxError("Indicates that the server's response could not be parsed", 1));
                         } else if (error instanceof ServerError) {
-                            PrxLogger.d(TAG, "ServerError : " + mContext.getResources().getString(R.string.serverErrors));
-                            listener.onResponseError(PrxError.SERVER_ERROR);
+                            listener.onResponseError(new PrxError("Indicates that the error responded with an error response.", 2));
+                        } else if (networkResponse != null) {
+                            listener.onResponseError(new PrxError(networkResponse.toString(), networkResponse.statusCode));
                         } else
-                            listener.onResponseError(PrxError.UNKNOWN_EXCEPTION);
-
+                            listener.onResponseError(new PrxError("Unknown exception", -1));
                     } catch (Exception e) {
-                        listener.onResponseError(PrxError.UNKNOWN_EXCEPTION);
+                        listener.onResponseError(new PrxError("Unknown exception", -1));
                     }
                 }
             }
