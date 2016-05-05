@@ -70,7 +70,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
             @Override
             public void onClick(final View v) {
                 tagOnSelectRetailer(storeEntity);
-                addWebBuyFromRetailers(buyURL);
+                addWebBuyFromRetailers(buyURL,storeEntity.getName());
             }
         });
 
@@ -82,9 +82,10 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 storeEntity.getName());
     }
 
-    private void addWebBuyFromRetailers(String buyUrl) {
+    private void addWebBuyFromRetailers(String buyUrl, String storeName) {
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.IAP_BUY_URL, buyUrl);
+        bundle.putString(IAPConstant.IAP_STORE_NAME, storeName);
         WebBuyFromRetailers webBuyFromRetailers = new WebBuyFromRetailers();
         webBuyFromRetailers.setArguments(bundle);
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -125,7 +126,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         public void onClick(final View v) {
             final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED, mStoreEntities.get(getAdapterPosition()).getName());
-            addWebBuyFromRetailers(buyURL);
+            addWebBuyFromRetailers(buyURL,mStoreEntities.get(getAdapterPosition()).getName());
         }
     }
 }

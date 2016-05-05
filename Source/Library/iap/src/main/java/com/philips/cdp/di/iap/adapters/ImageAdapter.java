@@ -24,13 +24,14 @@ public class ImageAdapter extends FragmentStatePagerAdapter {
 
     public void setAsset(ArrayList<String> assets){
         mAssetsFromPRX = assets;
+        notifyDataSetChanged();
     }
 
     @Override
     public Fragment getItem(int position) {
         ProductDetailImageNavigationFragment productDetailImageNavigationFragment = ProductDetailImageNavigationFragment.newInstance();
         Bundle bundle = new Bundle();
-        bundle.putString(NetworkConstants.IAP_ASSET_URL,mAssetsFromPRX.get(position % mAssetsFromPRX.size()));
+        bundle.putString(NetworkConstants.IAP_ASSET_URL, mAssetsFromPRX.get(position % mAssetsFromPRX.size()));
         bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG,mIsLaunchedFromProductCatalog);
         productDetailImageNavigationFragment.setArguments(bundle);
         return productDetailImageNavigationFragment;
@@ -39,6 +40,11 @@ public class ImageAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return mAssetsFromPRX.size();
+    }
+
+    @Override
+    public int getItemPosition(final Object object) {
+        return POSITION_NONE;
     }
 
     @Override
