@@ -19,14 +19,15 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.HashMap;
 
-public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
+public class PaymentConfirmationFragment extends BaseAnimationSupportFragment implements TwoButtonDailogFragment.TwoButtonDialogListener {
     private TextView mConfirmationText;
     private TextView mOrderText;
     private TextView mOrderNumber;
@@ -34,6 +35,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     private Context mContext;
     private boolean mPaymentSuccessful;
     public static final String TAG = PaymentConfirmationFragment.class.getName();
+    private TwoButtonDailogFragment mDailogFragment;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -59,8 +61,25 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
     @Override
     public boolean onBackPressed() {
-        //  handleExit(true);
+        ShowDialogOnBackPressed();
         return true;
+    }
+
+    private void ShowDialogOnBackPressed() {
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION, getString(R.string.iap_continue_shopping_description));
+        if (mDailogFragment == null) {
+            mDailogFragment = new TwoButtonDailogFragment();
+            mDailogFragment.setOnDialogClickListener(this);
+            mDailogFragment.setArguments(bundle);
+            mDailogFragment.setShowsDialog(false);
+        }
+        try {
+            mDailogFragment.show(getFragmentManager(), "TwoButtonDialog");
+            mDailogFragment.setShowsDialog(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void assignValues() {
@@ -126,23 +145,26 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
 
     private void handleExit() {
         if (mPaymentSuccessful) {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
-            CartModelContainer.getInstance().setOrderPlaced(false);
-            Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-            if (fragment == null) {
-                getFragmentManager().popBackStack(ShoppingCartFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                addFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
-                        ProductCatalogFragment.TAG);
-            } else {
-                getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
-            }
+            moveToProductCatalog();
 
         } else {
-            //moveToPreviousFragment();
             IAPAnalytics.trackLaunchPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
             moveToFragment(OrderSummaryFragment.TAG);
         }
 
+    }
+
+    private void moveToProductCatalog() {
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
+        CartModelContainer.getInstance().setOrderPlaced(false);
+        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if (fragment == null) {
+            getFragmentManager().popBackStack(ShoppingCartFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            addFragment(ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
+                    ProductCatalogFragment.TAG);
+        } else {
+            getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
+        }
     }
 
     public static PaymentConfirmationFragment createInstance(final Bundle bundle, final AnimationType animType) {
@@ -150,5 +172,15 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
         bundle.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onDialogOkClick() {
+        moveToProductCatalog();
+    }
+
+    @Override
+    public void onDialogCancelClick() {
+        //NOP
     }
 }

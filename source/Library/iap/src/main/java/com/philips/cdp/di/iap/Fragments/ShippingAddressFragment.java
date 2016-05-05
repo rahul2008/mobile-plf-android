@@ -72,6 +72,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     protected LinearLayout mLlTown;
     protected LinearLayout mLlPostalCode;
     protected LinearLayout mLlCountry;
+    protected LinearLayout mlLState;
     protected LinearLayout mLlEmail;
     protected LinearLayout mLlPhoneNumber;
 
@@ -132,6 +133,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mLlTown = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_town);
         mLlPostalCode = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_postal_code);
         mLlCountry = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_country);
+        mlLState = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_state);
         mLlEmail = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_email);
         mLlPhoneNumber = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_phone_number);
 
@@ -167,6 +169,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtEmail.setEnabled(false);
 
         mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+        showUSRegions();
         mEtCountry.setEnabled(false);
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
@@ -233,7 +236,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
-        mShippingAddressFields.setRegionIsoCode(mEtState.getText().toString());
+        if (mlLState.getVisibility() == View.VISIBLE)
+            mShippingAddressFields.setRegionIsoCode(mEtState.getText().toString());
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             //Track new address creation
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -275,9 +279,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             } else {//Add new address
                 if (!Utility.isProgressDialogShowing()) {
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                    if (mlLState.getVisibility() == View.GONE)
+                        mShippingAddressFields.setRegionIsoCode(null);
                     if (CartModelContainer.getInstance().getAddressId() != null) {
                         HashMap<String, String> updateAddressPayload = addressPayload();
-                        if (CartModelContainer.getInstance().getRegionIsoCode() != null)
+                        if (mlLState.getVisibility() == View.VISIBLE && CartModelContainer.getInstance().getRegionIsoCode() != null)
                             updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
                         updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
                         mAddressController.updateAddress(updateAddressPayload);
@@ -383,7 +389,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phoneNumber)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
                 && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
-                && (!mEtState.getText().toString().trim().equalsIgnoreCase(""))) {
+                && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
 
             mShippingAddressFields = setAddressFields(mShippingAddressFields);
 
@@ -418,6 +424,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (editText.getId() == R.id.et_country && !hasFocus) {
             result = mValidator.isValidCountry(mEtCountry.getText().toString());
             errorMessage = getResources().getString(R.string.iap_country_error);
+            showUSRegions();
         }
         if (editText.getId() == R.id.et_postal_code && !hasFocus) {
             result = mValidator.isValidPostalCode(mEtPostalCode.getText().toString());
@@ -450,6 +457,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         } else {
             mInlineFormsParent.removeError(editText);
             checkFields();
+        }
+    }
+
+    private void showUSRegions() {
+        if (mEtCountry.getText().toString().equals("US")) {
+            mlLState.setVisibility(View.VISIBLE);
+        } else {
+            mlLState.setVisibility(View.GONE);
         }
     }
 
@@ -568,6 +583,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.PHONE_1, mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressHashMap.put(ModelConstants.PHONE_2, "");
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
+
+        if (mlLState.getVisibility() == View.GONE) {
+            addressHashMap.put(ModelConstants.REGION_ISOCODE, null);
+        }
+
         return addressHashMap;
     }
 
@@ -593,6 +613,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_ISOCODE) &&
                 mAddressFieldsHashmap.get(ModelConstants.REGION_ISOCODE) != null) {
             mEtState.setText(mAddressFieldsHashmap.get(ModelConstants.REGION_ISOCODE));
+            mlLState.setVisibility(View.VISIBLE);
+        } else {
+            mlLState.setVisibility(View.GONE);
         }
 
         if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
@@ -615,6 +638,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry.requestFocus();
         mEtEmail.requestFocus();
         mEtPhoneNumber.requestFocus();
+        if (mlLState.getVisibility() == View.VISIBLE) {
+            mEtState.requestFocus();
+        }
     }
 
     protected AddressFields setAddressFields(AddressFields addressFields) {

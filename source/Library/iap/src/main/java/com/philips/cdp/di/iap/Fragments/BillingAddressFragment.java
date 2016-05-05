@@ -96,6 +96,9 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US") &&
                     mBillingAddressFields.getRegionIsoCode() != null) {
                 mEtState.setText(mBillingAddressFields.getRegionIsoCode());
+                mlLState.setVisibility(View.VISIBLE);
+            } else {
+                mlLState.setVisibility(View.GONE);
             }
         }
         mIgnoreTextChangeListener = false;
@@ -112,6 +115,11 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtPostalCode.setText("");
         mEtPhoneNumber.setText("");
         mEtState.setText("");
+        if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
+            mlLState.setVisibility(View.VISIBLE);
+        } else {
+            mlLState.setVisibility(View.GONE);
+        }
         mIgnoreTextChangeListener = false;
         enableAllFields();
         enableFocus();
@@ -198,7 +206,9 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtAddressLineTwo.setEnabled(enable);
         mEtTown.setEnabled(enable);
         mEtPostalCode.setEnabled(enable);
-        mEtState.setEnabled(enable);
+        if (mlLState.getVisibility() == View.VISIBLE) {
+            mEtState.setEnabled(enable);
+        }
         mEtPhoneNumber.setEnabled(enable);
     }
 
@@ -210,7 +220,9 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtAddressLineTwo.setFocusable(focusable);
         mEtTown.setFocusable(focusable);
         mEtPostalCode.setFocusable(focusable);
-        mEtState.setFocusable(focusable);
+        if (mlLState.getVisibility() == View.VISIBLE) {
+            mEtState.setFocusable(focusable);
+        }
         mEtPhoneNumber.setFocusable(focusable);
 
         if (focusable) {
@@ -221,7 +233,9 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtAddressLineTwo.setFocusableInTouchMode(true);
             mEtTown.setFocusableInTouchMode(true);
             mEtPostalCode.setFocusableInTouchMode(true);
-            mEtState.setFocusableInTouchMode(true);
+            if (mlLState.getVisibility() == View.VISIBLE) {
+                mEtState.setFocusableInTouchMode(true);
+            }
             mEtPhoneNumber.setFocusableInTouchMode(true);
         }
     }

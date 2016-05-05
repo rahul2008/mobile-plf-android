@@ -18,13 +18,13 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.PaymentController;
-import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrderSummaryFragment extends BaseAnimationSupportFragment implements View.OnClickListener,
+public class OrderSummaryFragment extends BaseAnimationSupportFragment implements View.OnClickListener, TwoButtonDailogFragment.TwoButtonDialogListener,
         PaymentController.MakePaymentListener {
     private OrderProductAdapter mAdapter;
     private AddressFields mBillingAddress;
@@ -45,6 +45,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private PaymentController mPaymentController;
     private String orderID;
     public static final String TAG = OrderSummaryFragment.class.getName();
+    private TwoButtonDailogFragment mDailogFragment;
 
     @Override
     public void onResume() {
@@ -111,6 +112,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     @Override
     public boolean onBackPressed() {
         if (isOrderPlaced()) {
+            ShowDialogOnBackPressed();
             return true;
         } else return false;
     }
@@ -136,10 +138,14 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
                 }
             }
         } else if (v == mBtnCancel) {
-            setSetOrderPlaceFalse();
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            moveToFragment(ShoppingCartFragment.TAG);
+            moveToProductCatalog();
         }
+    }
+
+    private void moveToProductCatalog() {
+        setSetOrderPlaceFalse();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
+        moveToFragment(ShoppingCartFragment.TAG);
     }
 
 
@@ -214,5 +220,32 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
+    }
+
+    private void ShowDialogOnBackPressed() {
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.MODEL_ALERT_CONFIRM_DESCRIPTION, getString(R.string.cancelPaymentMsg));
+        if (mDailogFragment == null) {
+            mDailogFragment = new TwoButtonDailogFragment();
+            mDailogFragment.setArguments(bundle);
+            mDailogFragment.setOnDialogClickListener(this);
+            mDailogFragment.setShowsDialog(false);
+        }
+        try {
+            mDailogFragment.show(getFragmentManager(), "TwoButtonDialog");
+            mDailogFragment.setShowsDialog(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDialogOkClick() {
+        moveToProductCatalog();
+    }
+
+    @Override
+    public void onDialogCancelClick() {
+        //NOP
     }
 }
