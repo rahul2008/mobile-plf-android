@@ -120,5 +120,6 @@
     <string name="iap_authentication_failure">Authentication failed</string>
     <string name="iap_payment_failed">Payment failed</string>
     <string name="iap_in_stock">in stock</string>
+    <string name="iap_continue_shopping_description">Do you want to continue shopping?</string>
 
 </resources>
