@@ -587,7 +587,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
-        mEtPhoneNumber.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_NUMBER));
+        mEtPhoneNumber.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_1));
         mEtEmail.setText(mAddressFieldsHashmap.get(ModelConstants.EMAIL_ADDRESS));
 
         if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_ISOCODE) &&

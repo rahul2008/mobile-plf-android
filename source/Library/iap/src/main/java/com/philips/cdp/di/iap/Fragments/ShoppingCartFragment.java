@@ -223,7 +223,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onGetRegions(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             CartModelContainer.getInstance().setRegionList(null);
         } else if (msg.obj instanceof RegionsList) {
             CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
