@@ -108,7 +108,9 @@ public class UserRegistrationInitializer {
                             mHandler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
+                                    if (mJumpFlowDownloadStatusListener != null) {
+                                        mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
+                                    }
                                 }
                             }, CALL_AFTER_DELAY);
 
@@ -128,7 +130,9 @@ public class UserRegistrationInitializer {
                         mHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mJumpFlowDownloadStatusListener.onFlowDownloadFailure();
+                                if (mJumpFlowDownloadStatusListener != null) {
+                                    mJumpFlowDownloadStatusListener.onFlowDownloadFailure();
+                                }
                             }
                         }, CALL_AFTER_DELAY);
 
