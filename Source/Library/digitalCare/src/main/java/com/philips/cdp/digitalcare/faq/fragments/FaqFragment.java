@@ -26,9 +26,6 @@ import com.philips.cdp.digitalcare.faq.view.FAQCustomView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback {
 
@@ -101,7 +98,10 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
 
     @Override
     public String getActionbarTitle() {
-        return "FAQs";
+        if (isTablet())
+            return "Frequently asked questions";
+        else
+            return "FAQs";
     }
 
     @Override
