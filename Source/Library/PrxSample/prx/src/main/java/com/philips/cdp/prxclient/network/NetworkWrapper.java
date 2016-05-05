@@ -100,7 +100,7 @@ public class NetworkWrapper {
                         if (error instanceof NoConnectionError) {
                             listener.onResponseError(new PrxError(PrxError.PrxErrorType.NO_INTERNET_CONNECTION.getDescription(), PrxError.PrxErrorType.NO_INTERNET_CONNECTION.getId()));
                         } else if (error instanceof TimeoutError) {
-                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.VOLLEY_TIME_OUT.getDescription(), PrxError.PrxErrorType.VOLLEY_TIME_OUT.getId()));
+                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.TIME_OUT.getDescription(), PrxError.PrxErrorType.TIME_OUT.getId()));
                         } else if (error instanceof AuthFailureError) {
                             listener.onResponseError(new PrxError(PrxError.PrxErrorType.AUTHENTICATION_FAILURE.getDescription(), PrxError.PrxErrorType.AUTHENTICATION_FAILURE.getId()));
                         } else if (error instanceof NetworkError) {

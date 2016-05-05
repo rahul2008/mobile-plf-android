@@ -23,7 +23,7 @@ public class PrxError {
 
     public enum PrxErrorType {
 
-        VOLLEY_TIME_OUT(504, "Time out Exception"),
+        TIME_OUT(504, "Time out Exception"),
         UNKNOWN_EXCEPTION(-1, "Unknown exception"),
         NO_INTERNET_CONNECTION(9, "No internet connection"),
         NOT_FOUND(404, "The requested file was not found"),
