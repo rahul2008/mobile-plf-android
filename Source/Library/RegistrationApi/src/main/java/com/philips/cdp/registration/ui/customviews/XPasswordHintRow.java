@@ -8,6 +8,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class XPasswordHintRow extends RelativeLayout {
 
@@ -34,6 +36,7 @@ public class XPasswordHintRow extends RelativeLayout {
         LayoutInflater li = LayoutInflater.from(mContext);
         li.inflate(resourceId, this, true);
         mTvIconText = (TextView) findViewById(R.id.tv_icon_text);
+        FontLoader.getInstance().setTypeface(mTvIconText, RegConstants.PUIICON_TTF);
         mTvIconTextDesc = (TextView) findViewById(R.id.tv_icon_text_desc);
     }
 

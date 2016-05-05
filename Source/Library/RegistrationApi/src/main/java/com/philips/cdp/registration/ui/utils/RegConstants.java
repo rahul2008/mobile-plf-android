@@ -146,4 +146,6 @@ public class RegConstants {
 
     public static final String DI_PROFILE_FILE = "diProfile";
 
+    public static final String PUIICON_TTF = "PUIIcon.ttf";
+
 }

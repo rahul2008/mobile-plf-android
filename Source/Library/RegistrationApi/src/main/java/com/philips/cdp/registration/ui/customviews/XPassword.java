@@ -19,6 +19,8 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class XPassword extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
@@ -69,6 +71,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         mEtPassword.addTextChangedListener(this);
         mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
         mTvMaskPassword = (TextView) findViewById(R.id.tv_password_mask);
+        FontLoader.getInstance().setTypeface(mTvMaskPassword, RegConstants.PUIICON_TTF);
         disableMaskPassoword();
     }
 
