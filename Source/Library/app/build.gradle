@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "com.philips.hor_productselection_android"
         minSdkVersion 14
@@ -31,9 +31,9 @@ dependencies {
     compile project(':productselection')
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:recyclerview-v7:23.1.0'
-    compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.1.0-rc.2', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1'
-    compile 'com.philips.cdp:uikitLib:3.0.0'
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.1.0', ext: 'aar')
 }
 
 allprojects {
@@ -45,9 +45,5 @@ allprojects {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local"
         }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
-
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android"
-        }
     }
 }
