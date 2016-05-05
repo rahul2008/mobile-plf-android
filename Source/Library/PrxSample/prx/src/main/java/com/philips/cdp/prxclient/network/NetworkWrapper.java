@@ -98,23 +98,23 @@ public class NetworkWrapper {
                     final NetworkResponse networkResponse = error.networkResponse;
                     try {
                         if (error instanceof NoConnectionError) {
-                            listener.onResponseError(new PrxError("No Internet Connection", 9));
+                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.NO_INTERNET_CONNECTION.getDescription(), PrxError.PrxErrorType.NO_INTERNET_CONNECTION.getId()));
                         } else if (error instanceof TimeoutError) {
-                            listener.onResponseError(new PrxError("Time out Exception", 504));
+                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.VOLLEY_TIME_OUT.getDescription(), PrxError.PrxErrorType.VOLLEY_TIME_OUT.getId()));
                         } else if (error instanceof AuthFailureError) {
-                            listener.onResponseError(new PrxError("Access token expired", 403));
+                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.AUTHENTICATION_FAILURE.getDescription(), PrxError.PrxErrorType.AUTHENTICATION_FAILURE.getId()));
                         } else if (error instanceof NetworkError) {
-                            listener.onResponseError(new PrxError("Network error when performing a Volley request", 511));
+                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.NETWORK_ERROR.getDescription(), PrxError.PrxErrorType.NETWORK_ERROR.getId()));
                         } else if (error instanceof ParseError) {
-                            listener.onResponseError(new PrxError("Indicates that the server's response could not be parsed", 1));
+                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.PARSE_ERROR.getDescription(), PrxError.PrxErrorType.PARSE_ERROR.getId()));
                         } else if (error instanceof ServerError) {
-                            listener.onResponseError(new PrxError("Indicates that the error responded with an error response.", 2));
+                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.SERVER_ERROR.getDescription(), PrxError.PrxErrorType.SERVER_ERROR.getId()));
                         } else if (networkResponse != null) {
                             listener.onResponseError(new PrxError(networkResponse.toString(), networkResponse.statusCode));
                         } else
-                            listener.onResponseError(new PrxError("Unknown exception", -1));
+                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
                     } catch (Exception e) {
-                        listener.onResponseError(new PrxError("Unknown exception", -1));
+                        listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
                     }
                 }
             }
