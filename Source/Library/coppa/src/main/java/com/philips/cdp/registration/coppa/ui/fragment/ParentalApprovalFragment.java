@@ -1,5 +1,6 @@
 package com.philips.cdp.registration.coppa.ui.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -32,10 +33,11 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     private Button mBtnAgree;
     private Button mBtnDisAgree;
     private ParentalApprovalFragmentController mParentalApprovalFragmentController;
-    private CustomCircularProgress mCustomCircularProgress;
+    private ProgressDialog mProgressDialog;
     private Context mContext;
     private XRegError mRegError;
     private ScrollView mSvRootLayout;
+    private View mShadowLineView;
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
@@ -177,6 +179,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         mBtnDisAgree.setOnClickListener(mParentalApprovalFragmentController);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
+        mShadowLineView = (View)view.findViewById(R.id.reg_view_shadow_line);
         handleUiState();
     }
 
@@ -189,6 +192,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         mTvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
         mBtnDisAgree.setVisibility(View.VISIBLE);
+        mShadowLineView.setVisibility(View.VISIBLE);
 
     }
 
@@ -218,18 +222,21 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     }
 
     public void showRefreshProgress() {
-        if(mCustomCircularProgress == null ) {
-            mCustomCircularProgress = new CustomCircularProgress(getActivity());
-            mCustomCircularProgress.show();
+        if(mProgressDialog == null ) {
+            mProgressDialog = new ProgressDialog(getActivity(),R.style.reg_Custom_loaderTheme);
+            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.show();
+
         }else{
-            mCustomCircularProgress.show();
+            mProgressDialog.show();
         }
     }
 
     public void hideRefreshProgress() {
-        if (mCustomCircularProgress != null && mCustomCircularProgress.isShowing()) {
-            mCustomCircularProgress.dismiss();
-            mCustomCircularProgress = null;
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
         }
     }
 
@@ -259,6 +266,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     public void hideContent(){
         mSvRootLayout.setVisibility(View.INVISIBLE);
+        mShadowLineView.setVisibility(View.INVISIBLE);
     }
 
 }

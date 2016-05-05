@@ -66,6 +66,7 @@
     </ScrollView>
 
     <View
+        android:id="@+id/reg_view_shadow_line"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/reg_shadow_height"
         android:layout_below="@+id/sv_root_layout"
