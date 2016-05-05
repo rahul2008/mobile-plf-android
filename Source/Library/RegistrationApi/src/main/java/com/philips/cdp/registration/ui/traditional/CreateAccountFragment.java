@@ -1,7 +1,6 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -86,11 +85,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private long mTrackCreateAccountTime;
 
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onAttach");
-        super.onAttach(activity);
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -65,13 +65,15 @@ public class FieldsValidator {
             return false;
         }
 
-        if (string.length() == 0) {
+        int length = string.length();
+        if (length == 0) {
             return false;
         }
 
-        if (string.length() < 8) {
+        if (length < 8 || length>=32) {
             return false;
         }
+
         return true;
     }
 
