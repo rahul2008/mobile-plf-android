@@ -151,9 +151,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     @Override
     public void onUserLogoutSuccess() {
         hideViews();
+        mSelectedCountryIndex = 0;
         mCountryPreference.clearCountryPreference();
         mSpinner.setSelection(0);
         mCountText.setVisibility(View.GONE);
+        mShopNow.setVisibility(View.GONE);
     }
 
     @Override
@@ -238,6 +240,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         if (position == 0)
             return;
 
+        mShopNow.setVisibility(View.VISIBLE);
         String selectedCountry = parent.getItemAtPosition(position).toString();
         if (selectedCountry.equals("UK"))
             selectedCountry = "GB";
@@ -257,7 +260,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private void displayViews() {
         mShoppingCart.setVisibility(View.VISIBLE);
         mSelectCountryLl.setVisibility(View.VISIBLE);
-        mShopNow.setVisibility(View.VISIBLE);
+//        mShopNow.setVisibility(View.VISIBLE);
     }
 
     private void hideViews() {
