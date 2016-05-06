@@ -509,7 +509,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             @Override
             public void onResponseReceived(SupportModel supportModel) {
                 if (supportModel == null)
-                    showAlert("No support available");
+                    showAlert(getString(R.string.NO_PRODUCT_KEY));
                 else {
                     FaqFragment faqFragment = new FaqFragment();
                     faqFragment.setSupportModel(supportModel);
@@ -545,7 +545,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                     enableSupportButtonClickable();
                     updateSummaryData(summaryModel);
                 } else {
-                    showAlert(getString(R.string.productselection_erroresponse));
+                    showAlert(getString(R.string.NO_PRODUCT_KEY));
                     disablePrxDependentButtons();
                     enableSupportButtonClickable();
                 }
@@ -584,7 +584,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                         updateSummaryData(summaryModel);
                     }
                 } else {
-                    showAlert(getString(R.string.productselection_erroresponse));
+                    showAlert(getString(R.string.NO_PRODUCT_KEY));
                     disablePrxDependentButtons();
                     enableSupportButtonClickable();
                 }
