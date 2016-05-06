@@ -85,21 +85,17 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private CdlsResponseModel mCdlsParsedResponse = null;
     private TextView mFirstRowText = null;
     private TextView mContactUsOpeningHours = null;
-    private final CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
-        @Override
-        public void onCdlsParsingComplete(final CdlsResponseModel response) {
-            if (isCdlsResponseNull(response)) {
-                mCdlsParsedResponse = response;
-                updateUi();
-            } else {
-                fadeoutButtons();
-            }
-        }
-    };
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private String mCdlsResponseStr = null;
     private ProgressDialog mPostProgress = null;
+    private ProgressDialog mDialog = null;
+    private Configuration config = null;
+    private View mSocialDivider = null;
+    private int mSdkVersion;
+    private Utils mUtils = null;
+    private static boolean isFirstTimeCdlsCall = true;
+
     private final Runnable mTwitteroAuthRunnable = new Runnable() {
 
         @Override
@@ -110,14 +106,31 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             }
         }
     };
-    private ProgressDialog mDialog = null;
-    private Configuration config = null;
-    private View mSocialDivider = null;
-    private int mSdkVersion;
-    private Utils mUtils = null;
+
+    private final CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
+        @Override
+        public void onCdlsParsingComplete(final CdlsResponseModel response) {
+            if ((!isCdlsResponseNull(response)) && response.getSuccess()) {
+                mCdlsParsedResponse = response;
+                updateUi();
+            } else {
+              /*
+                First hit CDLS server wit SubCategory, if that fails then hit
+                CDLS again with Category.
+                 */
+                if(isFirstTimeCdlsCall){
+                    isFirstTimeCdlsCall = false;
+                    requestCdlsData();
+                }
+                else {
+                    fadeoutButtons();
+                }
+            }
+        }
+    };
 
     private boolean isCdlsResponseNull(CdlsResponseModel response) {
-        return response != null;
+        return response == null;
     }
 
     @Override
@@ -125,6 +138,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         super.onCreate(savedInstanceState);
         mSdkVersion = Build.VERSION.SDK_INT;
         DigiCareLogger.i(TAG, "ContactUsFragment : onCreate");
+        isFirstTimeCdlsCall = true;
 
         // mTwitterProgresshandler = new Handler();
         // if (isConnectionAvailable())
@@ -250,10 +264,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         }
         final ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
+
         return getCdlsUrl(consumerProductInfo.getSector(),
                 localeCoutryFallback.toString(),
                 consumerProductInfo.getCatalog(),
-                consumerProductInfo.getSubCategory());
+                isFirstTimeCdlsCall ? consumerProductInfo.getSubCategory()+"fake"
+                        : consumerProductInfo.getCategory());
     }
 /*
     @Override
@@ -294,12 +310,22 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     public void onResponseReceived(String response) {
         if (isAdded()) {
             closeProgressDialog();
-            DigiCareLogger.i(TAG, "response : " + response);
+            DigiCareLogger.i(TAG, "onResponseReceived : " + response);
             if (response != null && isAdded()) {
                 mCdlsResponseStr = response;
                 parseCdlsResponse(response);
             } else {
-                fadeoutButtons();
+                /*
+                First hit CDLS server wit SubCategory, if that fails then hit
+                CDLS again with Category.
+                 */
+                if(isFirstTimeCdlsCall){
+                    isFirstTimeCdlsCall = false;
+                    requestCdlsData();
+                }
+                else {
+                    fadeoutButtons();
+                }
             }
         }
     }
