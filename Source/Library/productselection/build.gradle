@@ -169,3 +169,12 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
     }
 }
 
+android {
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/librsjni.so'
+        pickFirst 'lib/arm64-v8a/libRSSupport.so'
+    }
+}
+
+
+
