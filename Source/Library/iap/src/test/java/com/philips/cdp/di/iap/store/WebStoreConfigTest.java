@@ -8,13 +8,11 @@ import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.session.MockSynchronizedNetwork;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.localematch.PILLocale;
-import com.philips.cdp.localematch.PILLocaleManager;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
@@ -24,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
@@ -54,14 +51,14 @@ public class WebStoreConfigTest {
         assertEquals(NetworkURLConstants.LCOALE, mWebsStoreConfig.getLocale());
     }
 
-    @Test
+ /*   @Test
     public void veryInitConfigCallsRefresh() {
         mWebsStoreConfig.mLocaleManager = mock(PILLocaleManager.class);
         mWebsStoreConfig.refresh("en", "US");
         Mockito.verify(mWebsStoreConfig.mLocaleManager, times(1))
                 .refresh(mContext, "en", "US");
     }
-
+*/
     @Test
     public void verifyFailureViaConfigThread() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);

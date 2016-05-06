@@ -8,8 +8,6 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.tagging.Tagging;
 
-import java.util.Locale;
-
 public class DemoApplication extends Application {
 
     @Override
@@ -26,7 +24,7 @@ public class DemoApplication extends Application {
         Tagging.setDebuggable(true);
         Tagging.setComponentVersionKey(IAPAnalyticsConstant.VERSION_KEY);
         Tagging.setComponentVersionVersionValue(BuildConfig.VERSION_NAME);
-        Tagging.init(Locale.getDefault(), getApplicationContext(), "Philips IAP demo");
+        Tagging.init(getApplicationContext(), "Philips IAP demo");
     }
 
     private void initializeUserRegistration() {
@@ -34,9 +32,7 @@ public class DemoApplication extends Application {
         Tagging.setTrackingIdentifier("integratingApplicationAppsId");
         Tagging.setLaunchingPageName("demoapp:home");
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
-        RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(),
-                Locale.getDefault());
-        Tagging.init(RegistrationHelper.getInstance().getLocale(getApplicationContext()), getApplicationContext(),
-                "Philips Registartion Sample demo");
+        RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext());
+        Tagging.init(getApplicationContext(), "Philips Registartion Sample demo");
     }
 }

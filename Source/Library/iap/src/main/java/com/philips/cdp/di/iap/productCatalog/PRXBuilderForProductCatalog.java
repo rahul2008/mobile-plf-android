@@ -11,12 +11,14 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.error.PrxError;
+import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
@@ -33,7 +35,7 @@ public class PRXBuilderForProductCatalog {
 
     //Handling error cases where Product is in Hybris but not in PRX store.
     private volatile int mProudctUpdateCount;
-    private int mPRXProductCount;
+    private int mProductPresentInPRX;
 
     public PRXBuilderForProductCatalog(Context context, Products products,
                                  AbstractModel.DataLoadListener listener) {
@@ -53,22 +55,22 @@ public class PRXBuilderForProductCatalog {
         }
     }
 
-    public void executeRequest(final ProductsEntity entry, final String code, final
-    ProductSummaryBuilder productSummaryBuilder) {
+    public void executeRequest(final ProductsEntity entry, final String code
+                               , final ProductSummaryRequest productSummaryBuilder) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(mContext);
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
                 mProudctUpdateCount++;
-                mPRXProductCount++;
+                mProductPresentInPRX++;
                 updateSuccessData((SummaryModel) responseData, code,  entry);
             }
 
             @Override
-            public void onResponseError(String error, int code) {
+            public void onResponseError(final PrxError prxError) {
                 mProudctUpdateCount++;
-                notifyError(error);
+                notifyError(prxError.getDescription());
             }
         });
     }
@@ -93,7 +95,7 @@ public class PRXBuilderForProductCatalog {
         Message result = Message.obtain();
         result.obj = error;
         if (mDataLoadListener != null && mProudctUpdateCount == mProductList.size()) {
-            if (mPRXProductCount > 0) {
+            if (mProductPresentInPRX > 0) {
                 result.obj = mProduct;
                 mDataLoadListener.onModelDataLoadFinished(result);
             } else {
@@ -114,16 +116,13 @@ public class PRXBuilderForProductCatalog {
         }
     }
 
-    private ProductSummaryBuilder prepareSummaryBuilder(final String code) {
-        // String ctn = code.replaceAll("_", "/");
-        String sectorCode = NetworkConstants.PRX_SECTOR_CODE;
+    private ProductSummaryRequest prepareSummaryBuilder(final String code) {
         String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
-        String catalogCode = NetworkConstants.PRX_CATALOG_CODE;
 
-        ProductSummaryBuilder productSummaryBuilder = new ProductSummaryBuilder(code, null);
-        productSummaryBuilder.setmSectorCode(sectorCode);
-        productSummaryBuilder.setmLocale(locale);
-        productSummaryBuilder.setmCatalogCode(catalogCode);
+        ProductSummaryRequest productSummaryBuilder = new ProductSummaryRequest(code, null);
+        productSummaryBuilder.setSector(Sector.B2C);
+        productSummaryBuilder.setLocaleMatchResult(locale);
+        productSummaryBuilder.setCatalog(Catalog.CONSUMER);
         return productSummaryBuilder;
     }
 }

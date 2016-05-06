@@ -3,7 +3,7 @@ package com.philips.cdp.di.iap.shoppingcart;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
+import com.philips.cdp.prxclient.request.ProductAssetRequest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class PRXProductAssetBuilderTest {
     @Mock
     private PRXProductAssetBuilder mPrxProductAssetBuilder;
     @Mock
-    private ProductAssetBuilder mProductAssetBuilder;
+    private ProductAssetRequest mProductAssetBuilder;
 
 
 
