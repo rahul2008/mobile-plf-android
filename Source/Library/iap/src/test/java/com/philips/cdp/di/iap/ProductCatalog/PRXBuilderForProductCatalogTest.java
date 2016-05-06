@@ -2,11 +2,9 @@ package com.philips.cdp.di.iap.ProductCatalog;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.productCatalog.PRXBuilderForProductCatalog;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
+import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +26,7 @@ public class PRXBuilderForProductCatalogTest {
     @Mock
     private PRXBuilderForProductCatalog mPrxBuilderForProductCatalog;
     @Mock
-    private ProductSummaryBuilder mProductSummaryBuilder;
+    private ProductSummaryRequest mProductSummaryBuilder;
     @Mock
     private ProductsEntity mProductsEntity;
 

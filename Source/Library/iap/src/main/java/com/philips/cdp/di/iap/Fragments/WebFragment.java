@@ -37,7 +37,7 @@ public class WebFragment extends BaseAnimationSupportFragment {
 
         mWebView = (WebView) group.findViewById(R.id.wv_payment);
         mProgress = (CircularLineProgressBar) group.findViewById(R.id.cl_progress);
-        mProgress.startAnimation(100);
+        mProgress.startAnimation(70);
         mWebView.setWebViewClient(new IAPWebViewClient());
         mWebView.getSettings().setJavaScriptEnabled(true);
         mUrl = getWebUrl();
