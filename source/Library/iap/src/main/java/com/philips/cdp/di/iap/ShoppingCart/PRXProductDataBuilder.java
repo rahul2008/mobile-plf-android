@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -107,11 +108,31 @@ public class PRXProductDataBuilder {
         }
         mCartItems.add(cartItem);
         if (mDataLoadListener != null && mCartItems.size() == mEntries.size()) {
+            ArrayList<ShoppingCartData> datas = rearrangeDataSet();
             Message result = Message.obtain();
-            result.obj = mCartItems;
+            result.obj = datas;
             mDataLoadListener.onModelDataLoadFinished(result);
             tagProducts(mCartItems);
         }
+    }
+
+    private ArrayList rearrangeDataSet() {
+        ArrayList<ShoppingCartData> rearrangedArray = new ArrayList<>();
+        for(int i=0;i<mEntries.size();i++){
+            ShoppingCartData pShoppingCartData = checkIfEntryPresent(mEntries.get(i).getProduct().getCode());
+            rearrangedArray.add(pShoppingCartData);
+        }
+        return rearrangedArray;
+    }
+
+    private ShoppingCartData checkIfEntryPresent(final String code) {
+        ShoppingCartData data = new ShoppingCartData();
+        for(int i = 0; i< mCartItems.size();i++){
+            if(mCartItems.get(i).getCtnNumber().equalsIgnoreCase(code)){
+                data = mCartItems.get(i);
+            }
+        }
+        return data;
     }
 
     private void tagProducts(List<ShoppingCartData> cartData){
