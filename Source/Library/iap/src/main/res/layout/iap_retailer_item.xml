@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/iap_retailers_item_min_height"
+                >
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/iap_retailer_image"
+        android:layout_width="92dp"
+        android:layout_height="53dp"
+        android:layout_marginRight="@dimen/iap_image_margin_right"
+        android:layout_marginLeft="@dimen/iap_select_retailer_left_margin"
+        android:layout_marginBottom="@dimen/iap_retailers_image_top"
+        android:layout_marginTop="@dimen/iap_retailers_image_top"
+        android:layout_centerVertical="true"
+        />
+
+    <TextView
+        android:id="@+id/iap_online_store_name"
+        style="@style/iapCentralesansBoldFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iap_retailer_image"
+        android:layout_marginTop="@dimen/iap_retailers_store_name_top_margin"
+        android:layout_marginBottom="@dimen/iap_retailers_store_name_top_margin"
+        android:textSize="@dimen/iap_retailers_store_name_size"
+        android:textColor="?attr/uikit_baseColor"
+        />
+
+    <TextView
+        android:id="@+id/iap_online_store_availability"
+        style="@style/iapCentralesansBoldFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iap_retailer_image"
+        android:layout_below="@id/iap_online_store_name"
+        android:textSize="@dimen/iap_retailers_store_name_size"
+        android:textColor="?attr/uikit_baseColor"
+        android:layout_marginBottom="@dimen/iap_retailers_store_name_top_margin"
+        />
+
+    <com.shamanland.fonticon.FontIconTextView
+        android:id="@+id/retailer_arrow"
+        android:layout_centerVertical="true"
+        style="@style/iap_right_arrow_product_catalog"
+        android:layout_marginRight="@dimen/iap_select_retailer_right_margin"
+        android:layout_marginLeft="@dimen/iap_select_retailer_right_margin"
+        />
+
+    <View
+        android:id="@+id/dividerbelow"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/iap_online_store_availability"
+        android:background="?attr/uikit_listDividerColor"/>
+
+
+</RelativeLayout>
