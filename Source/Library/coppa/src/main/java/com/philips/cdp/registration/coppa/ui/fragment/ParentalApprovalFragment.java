@@ -128,6 +128,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+        hideRefreshProgress();
         super.onDestroy();
         if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() != null
                 && mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConsentPending)) {
