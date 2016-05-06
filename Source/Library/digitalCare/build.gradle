@@ -190,3 +190,11 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
         html.enabled = false
     }
 }
+
+android {
+    packagingOptions {
+        exclude 'lib/arm64-v8a/librsjni.so'
+        pickFirst 'lib/arm64-v8a/libRSSupport.so'
+    }
+}
+
