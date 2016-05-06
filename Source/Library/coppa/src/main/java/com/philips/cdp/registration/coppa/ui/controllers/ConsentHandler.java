@@ -5,12 +5,10 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalApprovalFragment;
-import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -113,12 +111,12 @@ public class ConsentHandler implements RefreshUserHandler {
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int error) {
-
+                handleFailure();
             }
 
             @Override
             public void onRefreshLoginSessionInProgress(String message) {
-                handleFailure();
+
             }
         });
 
@@ -127,6 +125,7 @@ public class ConsentHandler implements RefreshUserHandler {
 
     public void disAgreeConsent(ParentalApprovalFragment parentalApprovalFragment){
         mParentalApprovalFragment = parentalApprovalFragment;
+        mParentalApprovalFragment.showRefreshProgress();
         mUser.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
@@ -167,12 +166,14 @@ public class ConsentHandler implements RefreshUserHandler {
 
     public void disAgreeConfirmation(ParentalApprovalFragment parentalApprovalFragment){
         mParentalApprovalFragment = parentalApprovalFragment;
+        mParentalApprovalFragment.showRefreshProgress();
         mUser.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
                 mCoppaExtension.updateCoppaConsentConfirmationStatus(false, new CoppaConsentUpdateCallback() {
                     @Override
                     public void onSuccess() {
+                        mParentalApprovalFragment.hideRefreshProgress();
                         mCoppaExtension.buildConfiguration();
                         if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                             RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
@@ -212,8 +213,6 @@ public class ConsentHandler implements RefreshUserHandler {
     public void onRefreshUserFailed(int error) {
         AppTagging.trackAction(mTaggingState,mTaggingKey,"No");
         handleFailure();
-
-
     }
 
     private void handleFailure() {
