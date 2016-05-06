@@ -74,12 +74,6 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
         return false;
     }
 
-
-    @Override
-    public void raiseEvent(final String event) {
-
-    }
-
     @Override
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART))) {

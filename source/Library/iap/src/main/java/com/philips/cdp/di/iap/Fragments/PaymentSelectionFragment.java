@@ -106,11 +106,6 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void raiseEvent(String event) {
-
-    }
-
-    @Override
     public void onEventReceived(String event) {
         if (event.equalsIgnoreCase(IAPConstant.USE_PAYMENT)) {
             if (!Utility.isProgressDialogShowing()) {

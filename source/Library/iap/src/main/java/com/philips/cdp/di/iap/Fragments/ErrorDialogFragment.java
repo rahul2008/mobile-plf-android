@@ -64,11 +64,6 @@ public class ErrorDialogFragment extends BlurDialogFragment implements EventList
     }
 
     @Override
-    public void raiseEvent(final String event) {
-
-    }
-
-    @Override
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR))) {
             launchProductCatalog();
