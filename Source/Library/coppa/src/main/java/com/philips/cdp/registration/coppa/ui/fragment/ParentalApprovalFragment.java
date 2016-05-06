@@ -95,13 +95,12 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     }
 
     private void checkApprovalStatus() {
-        if(mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConfirmationGiven) ){
+        if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConfirmationGiven)) {
             return;
-        }
-        else{
-            if(mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentPending){
+        } else {
+            if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentPending) {
                 trackPage(AppTaggingCoppaPages.COPPA_FIRST_CONSENT);
-            }else if(mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationPending){
+            } else if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationPending) {
                 trackPage(AppTaggingCoppaPages.COPPA_SECOND_CONSENT);
             }
         }
@@ -130,13 +129,13 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         super.onDestroy();
-        if(mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() != null
-                && mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConsentPending)){
+        if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() != null
+                && mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConsentPending)) {
             trackPage(AppTaggingPages.WELCOME);
             return;
         }
-        if(mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() != null
-                && !mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConfirmationGiven)){
+        if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() != null
+                && !mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConfirmationGiven)) {
             trackPage(AppTaggingPages.WELCOME);
             return;
         }
@@ -179,7 +178,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         mBtnDisAgree.setOnClickListener(mParentalApprovalFragmentController);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
-        mShadowLineView = (View)view.findViewById(R.id.reg_view_shadow_line);
+        mShadowLineView = (View) view.findViewById(R.id.reg_view_shadow_line);
         handleUiState();
     }
 
@@ -223,13 +222,13 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     }
 
     public void showRefreshProgress() {
-        if(mProgressDialog == null ) {
-            mProgressDialog = new ProgressDialog(getActivity(),R.style.reg_Custom_loaderTheme);
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
             mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
             mProgressDialog.setCancelable(false);
             mProgressDialog.show();
 
-        }else{
+        } else {
             mProgressDialog.show();
         }
     }
@@ -249,25 +248,51 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     }
 
     private void handleUiState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-            mRegError.hideError();
-            mBtnAgree.setEnabled(true);
-            mBtnDisAgree.setEnabled(true);
-        } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
-            mBtnAgree.setEnabled(false);
-            mBtnDisAgree.setEnabled(false);
-        }
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                if (NetworkUtility.isNetworkAvailable(mContext)) {
+                    if (mRegError != null)
+                        mRegError.hideError();
+                    if (mBtnAgree != null)
+                        mBtnAgree.setEnabled(true);
+                    if (mBtnDisAgree != null)
+                        mBtnDisAgree.setEnabled(true);
+                } else {
+                    if (mRegError != null)
+                        mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+                    if (mRegError != null && mSvRootLayout != null)
+                        scrollViewAutomatically(mRegError, mSvRootLayout);
+                    if (mBtnAgree != null)
+                        mBtnAgree.setEnabled(false);
+                    if (mBtnDisAgree != null)
+                        mBtnDisAgree.setEnabled(false);
+                }
+            }
+        });
     }
 
-    public void showContent(){
-        mSvRootLayout.setVisibility(View.VISIBLE);
+    public void showContent() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mShadowLineView != null)
+                    mSvRootLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
-    public void hideContent(){
-        mSvRootLayout.setVisibility(View.INVISIBLE);
-        mShadowLineView.setVisibility(View.INVISIBLE);
+    public void hideContent() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mSvRootLayout != null)
+                    mSvRootLayout.setVisibility(View.INVISIBLE);
+                if (mShadowLineView != null)
+                    mShadowLineView.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
 }
