@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.di.iap.Fragments;
+package com.philips.cdp.di.iap.fragments;
 
 import android.annotation.TargetApi;
 import android.os.Bundle;

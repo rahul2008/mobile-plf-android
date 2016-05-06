@@ -4,9 +4,6 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;

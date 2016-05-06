@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.Fragments;
+package com.philips.cdp.di.iap.fragments;
 
 import android.content.Context;
 import android.os.Bundle;

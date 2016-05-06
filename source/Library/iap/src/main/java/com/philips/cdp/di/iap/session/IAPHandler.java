@@ -11,8 +11,8 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.shoppingcart.IAPCartListener;
+import com.philips.cdp.di.iap.shoppingcart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.utils.IAPConstant;

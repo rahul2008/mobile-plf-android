@@ -3,14 +3,14 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.di.iap.ShoppingCart;
+package com.philips.cdp.di.iap.shoppingcart;
 
 import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
+import com.philips.cdp.di.iap.fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;

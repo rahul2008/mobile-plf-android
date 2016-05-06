@@ -13,9 +13,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
-import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
-import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
+import com.philips.cdp.di.iap.fragments.BaseAnimationSupportFragment;
+import com.philips.cdp.di.iap.fragments.ProductCatalogFragment;
+import com.philips.cdp.di.iap.fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
