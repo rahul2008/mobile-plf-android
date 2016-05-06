@@ -21,8 +21,6 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -119,21 +117,13 @@ public class UserWithProduct extends User implements LocaleMatchListener {
         params.add(new Pair<String, String>(PRODUCT_PURCHASE_DATE, mProdInfo.getPurchaseDate()));
         params.add(new Pair<String, String>(PRODUCT_REGISTRATION_CHANNEL, "MS" + MICROSITE_ID));
 
-        List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
-        nameValuePair.add(new BasicNameValuePair(PRODUCT_SERIAL_NO, mProdInfo
-                .getProductSerialNumber()));
-        nameValuePair
-                .add(new BasicNameValuePair(PRODUCT_PURCHASE_DATE, mProdInfo.getPurchaseDate()));
 
-        nameValuePair
-                .add(new BasicNameValuePair(PRODUCT_REGISTRATION_CHANNEL, "MS" + MICROSITE_ID));
         prodRegTask.url = prodRegUrl;
         prodRegTask.productRegister = mProdRegHandler;
         prodRegTask.locale = locale;
         prodRegTask.prodRegInfo = mProdInfo;
         prodRegTask.accessToken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
-        //prodRegTask.nameValuePairs = nameValuePair;
         prodRegTask.nameValuePairs = params;
         prodRegTask.execute();
     }
