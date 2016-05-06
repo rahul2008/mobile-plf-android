@@ -191,8 +191,8 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         mTvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
         mBtnDisAgree.setVisibility(View.VISIBLE);
-        mShadowLineView.setVisibility(View.VISIBLE);
-
+        if (mShadowLineView != null)
+            mShadowLineView.setVisibility(View.VISIBLE);
     }
 
     private String getUsText() {
@@ -213,7 +213,8 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         mTvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
         mBtnDisAgree.setVisibility(View.VISIBLE);
-        mShadowLineView.setVisibility(View.VISIBLE);
+        if (mShadowLineView != null)
+            mShadowLineView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -276,8 +277,10 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
-                if (mShadowLineView != null)
+                if (mSvRootLayout != null)
                     mSvRootLayout.setVisibility(View.VISIBLE);
+                if (mShadowLineView != null)
+                    mShadowLineView.setVisibility(View.VISIBLE);
             }
         });
 

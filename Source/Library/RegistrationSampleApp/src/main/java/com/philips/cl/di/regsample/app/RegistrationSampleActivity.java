@@ -165,7 +165,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                     showToast("Failed to refresh access token");
 
                 }
-
+;
                 @Override
                 public void onRefreshLoginSessionInProgress(String message) {
                     System.out.println("Message " + message);
