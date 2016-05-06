@@ -39,7 +39,11 @@ public class RegistrationHelper {
 
     public synchronized static RegistrationHelper getInstance() {
         if (mRegistrationHelper == null) {
-            mRegistrationHelper = new RegistrationHelper();
+            synchronized (RegistrationHelper.class) {
+                if (mRegistrationHelper == null) {
+                    mRegistrationHelper = new RegistrationHelper();
+                }
+            }
 
         }
         return mRegistrationHelper;
@@ -54,10 +58,10 @@ public class RegistrationHelper {
 
         PILLocaleManager localeManager = new PILLocaleManager(context);
 
-        if(localeManager.getLanguageCode()!=null && localeManager.getCountryCode()!=null) {
+        if (localeManager.getLanguageCode() != null && localeManager.getCountryCode() != null) {
             mLocale = new Locale(localeManager.getLanguageCode(), localeManager.getCountryCode());
         }
-        if(mLocale== null){
+        if (mLocale == null) {
             throw new RuntimeException("Please set the locale in LocaleMatch");
         }
 
@@ -90,14 +94,13 @@ public class RegistrationHelper {
                 }
             }
         };
-        Thread thread = new Thread( new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             public void run() {
                 android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
                 runnable.run();
             }
         });
         thread.start();
-
 
 
     }
@@ -147,15 +150,15 @@ public class RegistrationHelper {
 
 
     public Locale getLocale(Context context) {
-        RLog.i("Locale","Locale locale  "+mLocale);
-        if(null != mLocale){
+        RLog.i("Locale", "Locale locale  " + mLocale);
+        if (null != mLocale) {
             return mLocale;
         }
 
         String locale = (new PILLocaleManager(mContext)).getInputLocale();
-        RLog.i("Locale","Locale from LOcale match"+locale);
+        RLog.i("Locale", "Locale from LOcale match" + locale);
 
-        if(locale == null){
+        if (locale == null) {
             return Locale.getDefault();
         }
 

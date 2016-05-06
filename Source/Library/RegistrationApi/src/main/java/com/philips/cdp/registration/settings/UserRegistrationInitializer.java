@@ -173,9 +173,14 @@ public class UserRegistrationInitializer {
     }
 
 
-    public static synchronized UserRegistrationInitializer getInstance() {
+    public static UserRegistrationInitializer getInstance() {
         if (mUserRegistrationInitializer == null) {
-            mUserRegistrationInitializer = new UserRegistrationInitializer();
+            synchronized (UserRegistrationInitializer.class) {
+                if (mUserRegistrationInitializer == null) {
+                    mUserRegistrationInitializer = new UserRegistrationInitializer();
+                }
+
+            }
 
         }
         return mUserRegistrationInitializer;

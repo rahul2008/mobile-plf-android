@@ -15,7 +15,11 @@ public class RegistrationDynamicConfiguration extends RegistrationBaseConfigurat
      */
     public static RegistrationDynamicConfiguration getInstance() {
         if (registrationConfiguration == null) {
-            registrationConfiguration = new RegistrationDynamicConfiguration();
+            synchronized (RegistrationDynamicConfiguration.class) {
+                if (registrationConfiguration == null) {        // Double checked
+                    registrationConfiguration = new RegistrationDynamicConfiguration();
+                }
+            }
         }
         return registrationConfiguration;
     }

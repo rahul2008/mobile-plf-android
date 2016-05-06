@@ -19,7 +19,11 @@ public class RegistrationCoppaHelper {
 
     public synchronized static RegistrationCoppaHelper getInstance() {
         if (mRegistrationHelper == null) {
-            mRegistrationHelper = new RegistrationCoppaHelper();
+            synchronized (RegistrationCoppaHelper.class) {
+                if (mRegistrationHelper == null) {
+                    mRegistrationHelper = new RegistrationCoppaHelper();
+                }
+            }
 
         }
         return mRegistrationHelper;
