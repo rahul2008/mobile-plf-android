@@ -119,12 +119,15 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         String discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
 
         if (mLaunchedFromProductCatalog) {
-            mProductDiscountedPrice.setVisibility(View.VISIBLE);
 //            updateCount(mBundle.getInt(IAPConstant.IAP_PRODUCT_COUNT));
             setCartIconVisibility(View.VISIBLE);
-            mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            if (discountedPrice != null || discountedPrice != "" || !discountedPrice.isEmpty()) {
+            if (discountedPrice != null) {
+                mProductDiscountedPrice.setVisibility(View.VISIBLE);
                 mProductDiscountedPrice.setText(discountedPrice);
+                mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }else {
+                mProductDiscountedPrice.setVisibility(View.GONE);
+                mPrice.setTextColor(Utility.getThemeColor(mContext));
             }
         }
     }

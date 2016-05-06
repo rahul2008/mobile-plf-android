@@ -51,33 +51,25 @@
             android:textColor="@color/uikit_enricher4"
             android:textSize="@dimen/iap_product_ctn" />
 
-        <TextView
-            android:id="@+id/tv_discounted_price"
-            style="@style/iapCentralesansBoldFont"
+        <LinearLayout
+            android:id="@+id/price_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/product_description"
             android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
-            android:textColor="?attr/uikit_baseColor"
-            android:layout_alignBaseline="@id/ctn"
-            android:textSize="@dimen/iap_product_ctn"
-            android:visibility="gone"
-            />
-
-<!--
+            android:layout_marginLeft="@dimen/iap_image_bottom_margin"
+            android:orientation="vertical"
+            android:layout_alignTop="@id/ctn"
+            >
         <TextView
-            android:id="@+id/separator"
+            android:id="@+id/tv_discounted_price"
+            style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/ctn"
-            android:layout_toLeftOf="@id/individual_price"
-            android:text="/"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/iap_product_ctn"
-            android:visibility="gone"
             />
--->
 
         <TextView
             android:id="@+id/individual_price"
@@ -86,11 +78,9 @@
             android:textColor="@color/uikit_enricher4"
             fontPath="fonts/centralesansbold.ttf"
             android:textSize="@dimen/iap_product_original_price"
-            android:layout_below="@id/tv_discounted_price"
-            android:layout_marginLeft="@dimen/iap_image_bottom_margin"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
             />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/product_overview"

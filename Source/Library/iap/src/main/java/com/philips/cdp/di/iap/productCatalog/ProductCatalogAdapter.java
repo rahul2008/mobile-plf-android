@@ -64,6 +64,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
             productHolder.mPrice.setTextColor(Utility.getThemeColor(mContext));
         }else {
+            productHolder.mDiscountedPrice.setVisibility(View.VISIBLE);
             productHolder.mDiscountedPrice.setText(productCatalogData.getDiscountedPrice());
             productHolder.mPrice.setPaintFlags(productHolder.mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
