@@ -108,6 +108,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+        hideLogoutSpinner();
         super.onDestroy();
     }
 
