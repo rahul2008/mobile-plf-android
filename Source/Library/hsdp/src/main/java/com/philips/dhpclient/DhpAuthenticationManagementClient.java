@@ -56,6 +56,10 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         AuthenticationRequestJson request = new AuthenticationRequestJson(username, password);
         DhpResponse dhpResponse = sendSignedRequest("POST", apiEndpoint, queryParams, headers, request);
 
+        return getDhpAuthenticationResponse(dhpResponse);
+    }
+
+    private DhpAuthenticationResponse getDhpAuthenticationResponse(DhpResponse dhpResponse) {
         if(dhpResponse == null){
             return null;
         }
@@ -181,19 +185,7 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
         body.put("loginId",email);
         DhpResponse dhpResponse = sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, body);
 
-        if(dhpResponse == null){
-            return null;
-        }
-
-        if (!"200".equals(dhpResponse.responseCode))
-            return new DhpAuthenticationResponse(dhpResponse.rawResponse);
-
-        String accessToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.accessCredential.accessToken");
-        String refreshToken = MapUtils.extract(dhpResponse.rawResponse, "exchange.accessCredential.refreshToken");
-        String expiresIn = MapUtils.extract(dhpResponse.rawResponse, "exchange.accessCredential.expiresIn");
-        String userId = MapUtils.extract(dhpResponse.rawResponse, "exchange.user.userUUID");
-
-        return new DhpAuthenticationResponse(accessToken, refreshToken, Integer.parseInt(expiresIn), userId, dhpResponse.rawResponse);
+        return getDhpAuthenticationResponse(dhpResponse);
     }
 
     public DhpResponse logout(String userId, String accessToken) {
