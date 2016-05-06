@@ -118,5 +118,14 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
   
   Version - 0.5.0.rc_4                        Date: 02-05-2016
 -------------------------------------------------------------
+	
+	Following features can be tested:
 
   1.	PRA - 8 -   API specification and re-factoring 
+  
+   Version - 0.6.0.rc_1                        Date: 06-05-2016
+-------------------------------------------------------------
+
+	Following features can be tested:
+	
+   1. PRA-175 - Absorbing new dependent components
