@@ -1,11 +1,12 @@
 package com.philips.cdp.di.iap.adapters;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.philips.cdp.di.iap.fragments.ProductDetailImageNavigationFragment;
+import com.philips.cdp.di.iap.Fragments.ProductDetailImageNavigationFragment;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.di.iap.productcatalog;
+package com.philips.cdp.di.iap.productCatalog;
 
 import android.content.Context;
 import android.graphics.Paint;

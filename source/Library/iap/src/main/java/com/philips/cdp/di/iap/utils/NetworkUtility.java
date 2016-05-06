@@ -22,7 +22,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 
-import com.philips.cdp.di.iap.fragments.ErrorDialogFragment;
+import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.IAPNetworkError;

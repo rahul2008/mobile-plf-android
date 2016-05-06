@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.fragments;
+package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

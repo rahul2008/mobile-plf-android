@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.di.iap.fragments;
+package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
 import android.os.Message;
@@ -14,15 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.shoppingcart.IAPCartListener;
-import com.philips.cdp.di.iap.shoppingcart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
-import com.philips.cdp.di.iap.productcatalog.ProductCatalogAdapter;
-import com.philips.cdp.di.iap.productcatalog.ProductCatalogData;
-import com.philips.cdp.di.iap.productcatalog.ProductCatalogPresenter;
+import com.philips.cdp.di.iap.productCatalog.ProductCatalogAdapter;
+import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
+import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;

@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.fragments;
+package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -13,9 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.shoppingcart.IAPCartListener;
-import com.philips.cdp.di.iap.shoppingcart.PRXProductAssetBuilder;
-import com.philips.cdp.di.iap.shoppingcart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
+import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;

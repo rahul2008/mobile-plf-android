@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.shoppingcart;
+package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.os.Message;
 

@@ -3,7 +3,12 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.di.iap.productcatalog;
+package com.philips.cdp.di.iap.productCatalog;
+
+import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
+import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
+import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 
 public class ProductCatalogData {
 
