@@ -17,7 +17,7 @@ public enum ProdRegError {
     FETCH_REGISTERED_PRODUCTS_FAILED(7, "Failed to fetch registered products"),
     METADATA_FAILED(8, "Failed to get Metadata"),
     NO_INTERNET_AVAILABLE(9, "No internet connection available"),
-    INTERNAL_SERVER_ERROR(500, "Internal server error"),
+    INTERNAL_SERVER_ERROR(2, "Internal server error"),
     TIME_OUT(504, "Time out error"),
     //Server Error Code
     INVALID_CTN(404, "Enter valid CTN number"),
