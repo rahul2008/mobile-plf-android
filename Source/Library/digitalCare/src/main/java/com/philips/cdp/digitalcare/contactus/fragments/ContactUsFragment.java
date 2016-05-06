@@ -650,7 +650,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         tagTechnicalError();
         if (mCallPhilips != null) {
             mCallPhilips.setVisibility(View.GONE);
-            mEmail.setVisibility(View.GONE);
 //            mCallPhilips
 //                    .setBackgroundResource(R.drawable.selector_option_button_faded_bg);
 //            mCallPhilips.setEnabled(false);
@@ -660,18 +659,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         }*/
     }
 
-    protected void fadeinButtons() {
-        tagTechnicalError();
-//        if (mCallPhilips != null) {
-
-//            mCallPhilips
-//                    .setBackgroundResource(R.drawable.selector_option_button_faded_bg);
-//            mCallPhilips.setEnabled(false);
-//        }
-        if (mChat != null) {
-            mChat.setVisibility(View.VISIBLE);
-        }
-    }
 
     @Override
     public void setViewParams(Configuration config) {
