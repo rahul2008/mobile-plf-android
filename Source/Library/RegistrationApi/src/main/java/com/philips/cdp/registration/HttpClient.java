@@ -4,7 +4,6 @@ package com.philips.cdp.registration;
 import android.support.v4.util.Pair;
 import android.util.Log;
 
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
@@ -19,6 +18,7 @@ import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.List;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManager;
@@ -71,19 +71,8 @@ public class HttpClient {
 			wr.close();
 			int responseCode = connection.getResponseCode();
 			Log.i(LOG_TAG, "HTTPsURLConnection  response code: " + responseCode);
-			String input;
 			inputResponse = new StringBuilder();
-			if(responseCode == HttpsURLConnection.HTTP_OK) {
-				bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				while ((input = bufferedReader.readLine()) != null) {
-					inputResponse.append(input);
-				}
-			}else {
-				bufferedReader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-				while ((input = bufferedReader.readLine()) != null) {
-					inputResponse.append(input);
-				}
-			}
+			bufferedReader = getBufferedReader(inputResponse, responseCode, new InputStreamReader(connection.getInputStream()), new InputStreamReader(connection.getErrorStream()));
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -107,6 +96,23 @@ public class HttpClient {
 		}
 		return inputResponse.toString();
 
+	}
+
+	private BufferedReader getBufferedReader( StringBuilder inputResponse, int responseCode, InputStreamReader in, InputStreamReader in2) throws IOException {
+		BufferedReader bufferedReader  = null;
+		String input;
+		if (responseCode == HttpsURLConnection.HTTP_OK) {
+			bufferedReader = new BufferedReader(in);
+			while ((input = bufferedReader.readLine()) != null) {
+				inputResponse.append(input);
+			}
+		} else {
+			bufferedReader = new BufferedReader(in2);
+			while ((input = bufferedReader.readLine()) != null) {
+				inputResponse.append(input);
+			}
+		}
+		return bufferedReader;
 	}
 
 	private String getPostString(List<Pair<String, String>> nameValuePairs){
@@ -155,18 +161,8 @@ public class HttpClient {
 
 			int responseCode = connection.getResponseCode();
 			Log.i(LOG_TAG, "Returninge of doInBackground :HTTPURLConnection response code" + responseCode);
-			String input;
-			if(responseCode == HttpsURLConnection.HTTP_OK) {
-				bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				while ((input = bufferedReader.readLine()) != null) {
-					inputResponse.append(input);
-				}
-			}else {
-				bufferedReader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-				while ((input = bufferedReader.readLine()) != null) {
-					inputResponse.append(input);
-				}
-			}
+			bufferedReader = getBufferedReader(inputResponse, responseCode, new InputStreamReader(connection.getInputStream()), new InputStreamReader(connection.getErrorStream()));
+
 
 		}catch (MalformedURLException e) {
 			e.printStackTrace();
