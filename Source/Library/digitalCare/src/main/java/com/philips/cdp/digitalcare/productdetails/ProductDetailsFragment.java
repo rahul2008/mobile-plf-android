@@ -543,7 +543,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         } else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_information))) {
             if (isConnectionAvailable()) {
-                showFragment(new PhilipsPageFragment());
+                showFragment(new ProductInformationFragment());
             }
         }
     }
