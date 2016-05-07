@@ -1,10 +1,10 @@
 /**
  * FAQ Detailed Screen renders the FAQ QUESTION & Answer Webpage with the required data.
- *    Some of the response content will be hided dynamically after the response data renders completly
+ * Some of the response content will be hided dynamically after the response data renders completly
  *
- * @author  naveen@philips.com
+ * @author naveen@philips.com
  * @Created 13-Apr-16.
- *
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 package com.philips.cdp.digitalcare.faq.fragments;
@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
-import android.webkit.MimeTypeMap;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -82,7 +81,6 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-        DigiCareLogger.d(TAG, "Mime Type : " + getMimeType(FAQ_PAGE_URL));
     }
 
     @Override
@@ -100,8 +98,9 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     @Override
     public void onPause() {
-        super.onPause();
         mWebView.loadUrl("about:blank");
+        clearWebViewData();
+        super.onPause();
     }
 
     private void loadFaq() {
@@ -128,7 +127,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                 mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
                 mWebView.getSettings().setDomStorageEnabled(true);
             }
-          /*  mWebView.setWebChromeClient(new WebChromeClient() {
+            mWebView.setWebChromeClient(new WebChromeClient() {
                 @Override
                 public void onProgressChanged(WebView view, int newProgress) {
                     super.onProgressChanged(view, newProgress);
@@ -136,7 +135,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                         mProgressBar.setVisibility(View.GONE);
                     }
                 }
-            });*/
+            });
             mWebView.setWebViewClient(new WebViewClient() {
 
                 public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
@@ -147,9 +146,6 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     DigiCareLogger.d(TAG, "OnPage Finished invoked with URL " + url);
-                    //String color = getResources().getString(R.color.button_background);
-
-                    // do your javascript injection here, remember "javascript:" is needed to recognize this code is javascript
                     mProgressBar.setVisibility(View.GONE);
 
                   /*  mWebView.getSettings().setDefaultFontSize((int) getActivity().getResources().
@@ -158,19 +154,8 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 //                    Inject javascript code to the url given
                     //Not display the element
                     try {
-
-                       // mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#003478\");");
-                        mWebView.loadUrl("javascript:document.body.style.setProperty(\"font-size\", \"100%\");");
-                        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-top\", \"2%\");");
-                        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-bottom\", \"2%\");");
                         setPaddingForWebdata();
-
-
-                   /*     mWebView.loadUrl("javascript:document.h3.style.setProperty(\"color\", \"#003478\");");
-                        mWebView.loadUrl("javascript:document.h1.style.setProperty(\"color\", \"#003478\");");*/
                         mWebView.loadUrl("javascript:(function(){" + "document.getElementsByClassName('group faqfeedback_group')[0].remove();})()");
-                        //Call to a function defined on my myJavaScriptInterface
-
                         mWebView.loadUrl("javascript:window.CallToAnAndroidFunction.setVisible()");
                     } catch (NullPointerException ex) {
                         DigiCareLogger.e(TAG, "JavaScript Injection issue : " + ex);
@@ -191,6 +176,11 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     }
 
     private void setPaddingForWebdata() {
+        // mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#003478\");");
+        mWebView.loadUrl("javascript:document.body.style.setProperty(\"font-size\", \"100%\");");
+        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-top\", \"2%\");");
+        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-bottom\", \"2%\");");
+
         if (isTablet() && mConfiguration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"20%\");");
             mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"20%\");");
@@ -198,29 +188,6 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
             mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"10%\");");
             mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"10%\");");
         }
-    }
-
-    //get mime type by url
-    public String getMimeType(String url) {
-        String type = null;
-        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        if (extension != null) {
-            if (extension.equals("js")) {
-                return "text/javascript";
-            } else if (extension.equals("woff")) {
-                return "application/font-woff";
-            } else if (extension.equals("woff2")) {
-                return "application/font-woff2";
-            } else if (extension.equals("ttf")) {
-                return "application/x-font-ttf";
-            } else if (extension.equals("eot")) {
-                return "application/vnd.ms-fontobject";
-            } else if (extension.equals("svg")) {
-                return "image/svg+xml";
-            }
-            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-        }
-        return type;
     }
 
     private void initView() {
@@ -233,10 +200,6 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     @Override
     public String getActionbarTitle() {
         return getResources().getString(R.string.QUESTION_KEY);
-//        if (isTablet())
-//            return "Frequently asked questions";
-//        else
-//            return "Question and answer";
     }
 
     @Override
@@ -264,6 +227,13 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
             return true;
         }
         return false;
+    }
+
+    private void clearWebViewData() {
+        mWebView.stopLoading();
+        mWebView.clearCache(true);
+        mWebView.clearHistory();
+        mWebView.clearFormData();
     }
 
     @Override
