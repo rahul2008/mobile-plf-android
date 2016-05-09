@@ -22,10 +22,39 @@
         android:layout_gravity="center"
         android:indeterminateBehavior="cycle"
         android:indeterminateOnly="false"
-        android:max="60"
+        android:max="100"
         android:minHeight="50dp"
         android:minWidth="200dp"
         android:progress="1"
         android:visibility="visible"
         app:uikit_grayprogress="true" />
+
+   <!-- <ProgressBar
+        android:id="@+id/progressBarPB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateBehavior="cycle"
+        android:indeterminate="true"
+        android:max="60"
+        android:minHeight="50dp"
+        android:minWidth="200dp"
+        android:progress="1"
+        />-->
+    <!--<com.philips.cdp.uikit.customviews.CircularProgressbar
+        android:id="@+id/progressBarPB"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_below="@+id/progressBar3"
+        android:indeterminateBehavior="cycle"
+        android:indeterminateOnly="false"
+        android:max="60"
+        android:minHeight="50dp"
+        android:minWidth="200dp"
+        android:progress="1"
+        android:visibility="visible"
+        app:uikit_circularprogresssmall="true"
+        app:uikit_grayprogress="true" />-->
 </FrameLayout>

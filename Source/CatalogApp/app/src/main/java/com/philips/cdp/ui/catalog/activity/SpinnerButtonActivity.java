@@ -7,6 +7,8 @@ package com.philips.cdp.ui.catalog.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.UiKitSpinnerButton;
@@ -14,43 +16,61 @@ import com.philips.cdp.uikit.customviews.UiKitSpinnerButton;
 /**
  * Created by 310240027 on 5/6/2016.
  */
-public class SpinnerButtonActivity extends CatalogActivity {
-    UiKitSpinnerButton spinnerOnButton;
+public class SpinnerButtonActivity extends CatalogActivity implements View.OnClickListener {
+    private UiKitSpinnerButton spinnerOnButton;
     private int progressStatus = 0;
     private Handler handler = new Handler();
+    private Button stopProgressButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalogapp_spinner_button);
         spinnerOnButton = (UiKitSpinnerButton) findViewById(R.id.spinnerOnButton);
+        stopProgressButton = (Button) findViewById(R.id.stopProgress);
+        spinnerOnButton.setOnClickListener(this);
+        stopProgressButton.setOnClickListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        new Thread(new Runnable() {
-            public void run() {
-                while (progressStatus < 100) {
-                    progressStatus += 1;
-                    // Update the progress bar and display the
-                    //current value in the text view
-                    handler.post(new Runnable() {
-                        public void run() {
-                            spinnerOnButton.setProgress(progressStatus);
 
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.spinnerOnButton:
+                spinnerOnButton.setProgress(0);
+                progressStatus= 0;
+                new Thread(new Runnable() {
+                    public void run() {
+                        while (progressStatus < 100) {
+                            progressStatus ++;
+                            // Update the progress bar and display the
+                            //current value in the text view
+                            Runnable runnable = new Runnable() {
+                                public void run() {
+                                    spinnerOnButton.setProgress(progressStatus);
+
+                                }
+                            };
+                            handler.post(runnable);
+                            try {
+                                // Sleep for 200 milliseconds.
+                                //Just to display the progress slowly
+                                Thread.sleep(200);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    });
-                    try {
-                        // Sleep for 200 milliseconds.
-                        //Just to display the progress slowly
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
-                }
-            }
-        }).start();
+                }).start();
+                break;
+            case R.id.stopProgress:
+                spinnerOnButton.disableProgress("Finish Loading");
+                break;
+        }
     }
 }
