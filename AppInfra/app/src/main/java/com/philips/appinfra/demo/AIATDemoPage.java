@@ -39,7 +39,7 @@ public class AIATDemoPage extends AppCompatActivity {
 
                 TaggingWrapper.setTrackingIdentifier(""+value.getText().toString());
                 TaggingWrapper.setLaunchingPageName("demoapp:Tagging");
-                TaggingWrapper.setComponentVersionKey(""+key.getText().toString());
+//                TaggingWrapper.setComponentVersionKey(""+key.getText().toString());
                 TaggingWrapper.setComponentVersionVersionValue("FrameworkTaggingValue");
 
                 TaggingWrapper.trackPage("DemoTaggingPAge", ""+key.getText().toString(), ""+value.getText().toString());

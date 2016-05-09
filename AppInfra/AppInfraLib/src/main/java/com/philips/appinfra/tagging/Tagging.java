@@ -2,15 +2,15 @@
 package com.philips.appinfra.tagging;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 
 import java.text.DateFormat;
-import java.util.Currency;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -30,10 +30,26 @@ public class Tagging {
 
     private static String newFieldValue;
 
-    private static String componentVersionVersionValue;
+    private static String componentVersionVersionValue ;
     private static String mLanguage;
-    private static String mCountry;
-    private static String mCurruncy;
+//    private static String mCountry;
+    private static String mAppsIdkey;
+    private static String mLocalTimestamp;
+    private static String mUTCTimestamp;
+
+
+    private static String[] defaultValues = {
+            TaggingConstants.LANGUAGE_KEY,
+            TaggingConstants.APPSID_KEY,
+            TaggingConstants.COMPONENT_ID,
+            TaggingConstants.COMPONENT_VERSION,
+            TaggingConstants.LOCAL_TIMESTAMP_KEY,
+
+
+    };
+
+
+//    private static String mCurruncy;
 
     private static Locale mlocale;
 
@@ -47,7 +63,7 @@ public class Tagging {
         mcontext = context;
         mAppName = appName;
         Config.setContext(context);
-        contextData = addAnalyticsDataObject(false);
+        contextData = addAnalyticsDataObject();
 
         if(appName == null){
             throw new RuntimeException("Please set app name for tagging library");
@@ -56,35 +72,51 @@ public class Tagging {
 
     public static void trackPage(String currPage,String prevPage, String key, String value) {
         validateAppTaggingInitialization();
-        if (!isTagginEnabled()) {
+        if (!isTaggingEnabled()) {
             return;
         }
 
-
-
-        if(contextData.containsKey(key)){
+        if(Arrays.asList(defaultValues).contains(key)){
 
             switch (key){
                 case TaggingConstants.LANGUAGE_KEY:
-                    setLangueOverriden(value);
+                    contextData = addAnalyticsDataObject();
+                    contextData.put(TaggingConstants.LANGUAGE_KEY, value);
+                    setLanguageOverridden(value);
                     break;
-                case TaggingConstants.COUNTRY_KEY:
-                    setCountryOverriden(value);
+                case TaggingConstants.APPSID_KEY:
+                    contextData = addAnalyticsDataObject();
+                    contextData.put(TaggingConstants.APPSID_KEY, value);
+                    setAppsIdkeyOverridden(value);
                     break;
-                case TaggingConstants.CURRENCY_KEY:
-                    setCurrencyOverriden(value);
+                case TaggingConstants.LOCAL_TIMESTAMP_KEY:
+                    contextData = addAnalyticsDataObject();
+                    contextData.put(TaggingConstants.LOCAL_TIMESTAMP_KEY, value);
+                    setLocalTimeStampOverridden(value);
+                    break;
+                case TaggingConstants.UTC_TIMESTAMP_KEY:
+                    contextData = addAnalyticsDataObject();
+                    contextData.put(TaggingConstants.UTC_TIMESTAMP_KEY, value);
+                    setUTCTimeStampOverridden(value);
                     break;
                 case TaggingConstants.COMPONENT_ID:
+                    contextData = addAnalyticsDataObject();
+                    contextData.put(TaggingConstants.COMPONENT_ID, value);
+                    setComponentID(value);
+                    break;
+                case TaggingConstants.COMPONENT_VERSION:
+                    contextData = addAnalyticsDataObject();
+                    contextData.put(TaggingConstants.COMPONENT_VERSION, value);
                     setComponentVersionVersionValue(value);
                     break;
 
             }
 
-            contextData = addAnalyticsDataObject(true);
+
         }else{
             setNewKey(key);
             setNewValue(value);
-            contextData = addAnalyticsDataObject(false);
+            contextData = addAnalyticsDataObject();
         }
         if (null != prevPage) {
             contextData.put(TaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
@@ -120,7 +152,7 @@ public class Tagging {
 
 
     private static void validateAppTaggingInitialization(){
-        if(mlocale == null && mcontext == null && isTagginEnabled()){
+        if(mlocale == null && mcontext == null && isTaggingEnabled()){
             throw new RuntimeException("Please initialize Tagging library by calling its init method");
         }
     }
@@ -130,11 +162,12 @@ public class Tagging {
 
     public static void trackAction(String state, String key, Object value) {
         validateAppTaggingInitialization();
-        if (!isTagginEnabled()) {
+        if (!isTaggingEnabled()) {
             return;
         }
-        Map<String, Object> contextData = addAnalyticsDataObject(false);
+        Map<String, Object> contextData = addAnalyticsDataObject();
         if (null != key) {
+
             contextData.put(key, value);
         }
         Analytics.trackAction(state, contextData);
@@ -142,56 +175,82 @@ public class Tagging {
 
     public static void trackMultipleActions(String state, Map<String, Object> map) {
         validateAppTaggingInitialization();
-        if (!isTagginEnabled()) {
+        if (!isTaggingEnabled()) {
             return;
         }
-        Map<String, Object> contextData = addAnalyticsDataObject(false);
+        Map<String, Object> contextData = addAnalyticsDataObject();
+
+        Map tmp = new HashMap(map);
+        tmp.keySet().removeAll(contextData.keySet());
+//        target.putAll(tmp);
         contextData.putAll(map);
         Analytics.trackAction(state, contextData);
     }
 
-    private static Map<String, Object> addAnalyticsDataObject(Boolean overriden) {
+    public static void trackMultipleState(String state, Map<String, Object> map) {
+        validateAppTaggingInitialization();
+        if (!isTaggingEnabled()) {
+            return;
+        }
+        Map<String, Object> contextData = addAnalyticsDataObject();
+        contextData.putAll(map);
+        Analytics.trackState(state, contextData);
+    }
+
+    private static Map<String, Object> addAnalyticsDataObject() {
         Map<String, Object> contextData = new HashMap<String, Object>();
 
-        contextData.put(TaggingConstants.CP_KEY, TaggingConstants.CP_VALUE);
-        contextData.put(TaggingConstants.APPNAME_KEY, mAppName);
-        contextData.put(TaggingConstants.VERSION_KEY, getAppVersion());
-        contextData.put(TaggingConstants.OS_KEY, TaggingConstants.OS_ANDROID);
-        contextData.put(TaggingConstants.COUNTRY_KEY, getCountry());
+//        contextData.put(TaggingConstants.CP_KEY, TaggingConstants.CP_VALUE);
+//        contextData.put(TaggingConstants.APPNAME_KEY, mAppName);
+//        contextData.put(TaggingConstants.VERSION_KEY, getAppVersion());
+//        contextData.put(TaggingConstants.OS_KEY, TaggingConstants.OS_ANDROID);
+//        contextData.put(TaggingConstants.COUNTRY_KEY, getCountry());
         contextData.put(TaggingConstants.LANGUAGE_KEY, getLanguage());
-        contextData.put(TaggingConstants.CURRENCY_KEY, getCurrency());
-        contextData.put(TaggingConstants.COMPONENT_ID, getComponentVersionKey());
+//        contextData.put(TaggingConstants.CURRENCY_KEY, getCurrency());
 
-        contextData.put(TaggingConstants.APPSID_KEY, getTrackingIdentifer());
-        contextData.put(TaggingConstants.COMPONENT_ID, "DefaultID");
-        contextData.put(TaggingConstants.COMPONENT_VERSION, "DefaultValue");
-        contextData.put(TaggingConstants.TIMESTAMP_KEY, getTimestamp());
+        contextData.put(TaggingConstants.APPSID_KEY, getAppsId());
+        contextData.put(TaggingConstants.COMPONENT_ID, getComponentId());
+        contextData.put(TaggingConstants.COMPONENT_VERSION, getComponentVersionVersionValue());
+        contextData.put(TaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
+        contextData.put(TaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
         if (null != getNewKey() && null != getNewValue()) {
 //            contextData.put(getComponentVersionKey(), getComponentVersionVersionValue());
+
+            if(!getNewKey().contains(",") && getNewValue().contains(",") )
             contextData.put(getNewKey(), getNewValue());
         }
 
-        if(overriden){
-            contextData.put(TaggingConstants.COUNTRY_KEY, getCountryOverriden());
-            contextData.put(TaggingConstants.LANGUAGE_KEY, getLanguageyOverriden());
-            contextData.put(TaggingConstants.CURRENCY_KEY, getCurrencyOverriden());
-
-            contextData.put(TaggingConstants.COMPONENT_VERSION, getComponentVersionVersionValue());
-        }
+//        if(overriden){
+////            contextData.put(TaggingConstants.COUNTRY_KEY, getCountryOverriden());
+//            contextData.put(TaggingConstants.LANGUAGE_KEY, getLanguageyOverridden());
+////            contextData.put(TaggingConstants.CURRENCY_KEY, getCurrencyOverriden());
+//
+//            contextData.put(TaggingConstants.COMPONENT_VERSION, getComponentVersionVersionValue());
+//            contextData.put(TaggingConstants.COMPONENT_ID, getComponentId());
+//            contextData.put(TaggingConstants.TIMESTAMP_KEY, getTimeStampOverridden());
+//            contextData.put(TaggingConstants.APPSID_KEY, getAppsIDkeyOverridden());
+//        }
 
         return contextData;
     }
+    private static String getAppsId(){
+        if(mAppsIdkey == null){
+            mAppsIdkey= Analytics.getTrackingIdentifier();
+        }
 
-    private static String getCountry(){
-        return mlocale.getCountry();
+        return mAppsIdkey;
     }
 
+//    private static String getCountry(){
+//        return mlocale.getCountry();
+//    }
+
     private static void setNewKey(String newFieldkey) {
-        newFieldKey = newFieldkey;
+        Tagging.newFieldKey = newFieldkey;
 
     }
     private static void setNewValue(String newFieldvalue) {
-newFieldValue = newFieldvalue;
+        Tagging.newFieldValue = newFieldvalue;
     }
     private static String getNewKey(){
         return newFieldKey;
@@ -199,70 +258,103 @@ newFieldValue = newFieldvalue;
     private static String getNewValue(){
         return newFieldValue;
     }
-    private static String getAppVersion() {
-        String appVersion = null;
-        try {
-            PackageInfo packageInfo = mcontext.getPackageManager().getPackageInfo(
-                    mcontext.getPackageName(), 0);
-
-            appVersion = packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-
-        }
-        return appVersion;
-    }
+//    private static String getAppVersion() {
+//        String appVersion = null;
+//        try {
+//            PackageInfo packageInfo = mcontext.getPackageManager().getPackageInfo(
+//                    mcontext.getPackageName(), 0);
+//
+//            appVersion = packageInfo.versionName;
+//        } catch (PackageManager.NameNotFoundException e) {
+//
+//        }
+//        return appVersion;
+//    }
 
     private static String getLanguage(){
-        return mlocale.getLanguage();
-
-    }
-
-    private static String getCurrency() {
-        Currency currency = Currency.getInstance(mlocale);
-        String currencyCode = currency.getCurrencyCode();
-        if (currencyCode == null)
-            currencyCode = TaggingConstants.DEFAULT_CURRENCY;
-        return currencyCode;
-    }
-    private static String getCurrencyOverriden() {
-        return mCurruncy;
-    }
-    private static String getLanguageyOverriden() {
+        if(mLanguage == null){
+            mLanguage = mlocale.getLanguage();
+        }
         return mLanguage;
 
     }
-    private static String getCountryOverriden() {
-        return mCountry;
-    }
-    private static void setCountryOverriden(String country) {
-mCountry = country;
-    }
-    private static void setLangueOverriden(String langue) {
-mLanguage=langue;
-    }
-    private static void setCurrencyOverriden(String currency) {
-mCurruncy=currency;
-    }
-    private static String getTimestamp() {
-//        Calendar c = Calendar.getInstance();
-//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        String formattedDate = df.format(c.getTime());
 
-        DateFormat df = DateFormat.getTimeInstance();
-        df.setTimeZone(TimeZone.getTimeZone("gmt"));
-        String gmtTime = df.format(new Date());
-        return gmtTime;
+//    private static String getCurrency() {
+//        Currency currency = Currency.getInstance(mlocale);
+//        String currencyCode = currency.getCurrencyCode();
+//        if (currencyCode == null)
+//            currencyCode = TaggingConstants.DEFAULT_CURRENCY;
+//        return currencyCode;
+//    }
+//    private static String getCurrencyOverridden() {
+//        return mCurruncy;
+//    }
+//    private static String getLanguageyOverridden() {
+//        return mLanguage;
+//
+//    }
+//    private static String getCountryOverridden() {
+//        return mCountry;
+//    }
+//    private static void setCountryOverridden(String country) {
+//        Tagging.mCountry = country;
+//    }
+
+    private static void setAppsIdkeyOverridden(String appsIdkey) {
+        Tagging.mAppsIdkey = appsIdkey;
+    }
+    private static void setLocalTimeStampOverridden(String localTimestamp) {
+        Tagging.mLocalTimestamp = localTimestamp;
+    }
+    private static void setUTCTimeStampOverridden(String UTCTimestamp) {
+        Tagging.mUTCTimestamp = UTCTimestamp;
+    }
+    private static void setLanguageOverridden(String langue) {
+        Tagging.mLanguage=langue;
+    }
+//    private static void setCurrencyOverridden(String currency) {
+//        Tagging.mCurruncy=currency;
+//    }
+    private static String getUTCTimestamp() {
+
+        if(mLocalTimestamp == null){
+            DateFormat df = DateFormat.getTimeInstance();
+            df.setTimeZone(TimeZone.getTimeZone("gmt"));
+            String utcTime = df.format(new Date());
+            mLocalTimestamp = utcTime;
+        }
+
+
+        return mLocalTimestamp;
     }
 
-    public static String getTrackingIdentifer() {
-        return trackingIdentifier;
+    private static String getLocalTimestamp() {
+
+
+        if(mUTCTimestamp == null){
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedDate = df.format(c.getTime());
+            mUTCTimestamp = formattedDate;
+        }
+
+
+        return mUTCTimestamp;
     }
+
+//    public static String getTrackingIdentifier() {
+//        return trackingIdentifier;
+//    }
+//
+//    public static String getAppsIDkeyOverridden() {
+//        return mAppsIdkey;
+//    }
 
     public static void setTrackingIdentifier(String trackingIdentifier) {
         Tagging.trackingIdentifier = trackingIdentifier;
     }
 
-    public static boolean isTagginEnabled() {
+    public static boolean isTaggingEnabled() {
         return isTagginEnabled;
     }
 
@@ -270,15 +362,21 @@ mCurruncy=currency;
         Tagging.isTagginEnabled = isTagginEnabled;
     }
 
-    public static String getComponentVersionKey() {
+    public static String getComponentId() {
+        if(componentVersionKey == null){
+            componentVersionKey = "DefaultText";
+        }
         return componentVersionKey;
     }
 
-    public static void setComponentVersionKey(String componentVersionKey) {
-        Tagging.componentVersionKey = componentVersionKey;
+    public static void setComponentID(String componentID) {
+        Tagging.componentVersionKey = componentID;
     }
 
     public static String getComponentVersionVersionValue() {
+        if(componentVersionVersionValue == null){
+            componentVersionVersionValue = "DefalutValue";
+        }
         return componentVersionVersionValue;
     }
 
@@ -301,4 +399,8 @@ mCurruncy=currency;
     public static void collectLifecycleData(){
         Config.collectLifecycleData();
     }
+//    public static void collectLifecycleData(Activity activity){
+//        contextData = addAnalyticsDataObject(false);
+//        Config.collectLifecycleData(activity,contextData);
+//    }
 }

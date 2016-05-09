@@ -25,6 +25,14 @@ public class TaggingWrapper {
 
 
     }
+
+    public static void trackMultiplePages(String currPage, Map<String, Object> map) {
+            Tagging.trackMultipleState(currPage, map);
+    }
+
+    public static void trackMultipleActions(String state, Map<String, Object> map) {
+        Tagging.trackMultipleActions(state, map);
+    }
     public enum AIATMobilePrivacyStatus {
         MOBILE_PRIVACY_STATUS_OPT_IN(0),
         MOBILE_PRIVACY_STATUS_OPT_OUT(1),
@@ -88,11 +96,9 @@ public class TaggingWrapper {
         Tagging.trackAction(state, key, value);
     }
 
-    public static void trackMultipleActions(String state, Map<String, Object> map) {
-        Tagging.trackMultipleActions(state, map);
-    }
-    public static void setComponentVersionKey(String state) {
-        Tagging.setComponentVersionKey(state);
+
+    public static void setComponentId(String state) {
+        Tagging.setComponentID(state);
     }
     public static void setTrackingIdentifier(String state) {
         Tagging.setTrackingIdentifier(state);
