@@ -143,5 +143,7 @@
 <string name="QUESTION_KEY">Pitanje i odgovor</string>
 <string name="NO_PRODUCT_KEY">Nema dostupnih proizvoda</string>
 <string name="NO_SUPPORT_KEY">Nema dostupne podrške</string>
+    <string name="FAQ_KEY_TABLET">Česta pitanja
+</string>
 
 </resources>

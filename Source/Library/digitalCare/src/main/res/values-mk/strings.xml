@@ -39,7 +39,8 @@
     <string name="no_data_available"> Нема достапни податоци </string>
     <string name="send_us_email"> Испр. ни e-mail порака </string>
 
-    <!-- Live Chat Screen   null -->
+    <!-- Live Chat Screen   null -
+    ->
     <string name="can_we_help_you"> Како да ви помогнеме? </string>
     <string name="chat_now"> Муабети сега </string>
     <string name="no_thanks"> Не, благодарам </string>
@@ -143,5 +144,6 @@
 <string name="QUESTION_KEY">Прашање и одговор</string>
 <string name="NO_PRODUCT_KEY">Не се достапни производи</string>
 <string name="NO_SUPPORT_KEY">Не е достапна поддршка</string>
-
+    <string name="FAQ_KEY_TABLET">Често поставувани прашања
+</string>
 </resources>

@@ -143,4 +143,7 @@
 <string name="QUESTION_KEY">Jautājums un atbilde</string>
 <string name="NO_PRODUCT_KEY">Nav pieejams neviens produkts</string>
 <string name="NO_SUPPORT_KEY">Atbalsts nav pieejams</string>
+    <string name="FAQ_KEY_TABLET">Bieži uzdotie jautājumi
+</string>
+
 </resources>
