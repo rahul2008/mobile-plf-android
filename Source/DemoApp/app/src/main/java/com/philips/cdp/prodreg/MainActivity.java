@@ -1,6 +1,8 @@
 package com.philips.cdp.prodreg;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
@@ -27,29 +28,37 @@ import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     String configurationType[] = {"Evaluation", "Testing", "Development", "Staging", "Production"};
     int count = 0;
+    List<String> list = Arrays.asList(configurationType);
     private String TAG = getClass().toString();
-    private boolean isSpinnerChanged = false;
     private TextView txt_title;
+    private Spinner spinner;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final String PRODUCT_REGISTRATION = "prod_demo";
+        sharedPreferences = getSharedPreferences(PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
         new ProdRegHelper().init(this);
-        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner = (Spinner) findViewById(R.id.spinner);
         txt_title = (TextView) findViewById(R.id.txt_title);
         final ArrayAdapter<String> configType = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, configurationType);
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(configType);
-
+        final int position = list.indexOf(sharedPreferences.getString("reg_env", "Evaluation"));
+        if (position > 0)
+            spinner.setSelection(position);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -58,9 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 final String configuration = adapter.getItemAtPosition(position).toString();
 
                 if (count > 0) {
-                    isSpinnerChanged = true;
-                    spinner.setVisibility(View.GONE);
-                    txt_title.setVisibility(View.GONE);
+                    User user = new User(MainActivity.this);
+                    user.logout(null);
                     Log.d(TAG, "Before Configuration" + configuration);
                     if (configuration.equalsIgnoreCase("Development")) {
                         initialiseUserRegistration("Development");
@@ -76,20 +84,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d(TAG, "After Configuration" + configuration);
                 }
                 count++;
-
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
+    }
 
+    private void hideSpinnerLayout(final Spinner spinner) {
+        spinner.setVisibility(View.GONE);
+        txt_title.setVisibility(View.GONE);
     }
 
     private void initialiseUserRegistration(final String development) {
-        User user = new User(this);
-        user.logout(null);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("reg_env", development);
+        editor.commit();
         final JanRainConfiguration janRainConfiguration = new JanRainConfiguration();
         final RegistrationClientId registrationClientId = new RegistrationClientId();
         registrationClientId.setDevelopmentId("ad7nn99y2mv5berw5jxewzagazafbyhu");
@@ -124,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RegistrationDynamicConfiguration.getInstance().setSignInProviders(signinProviders);
 
         initRegistration();
+        hideSpinnerLayout(spinner);
     }
 
     private void initRegistration() {
@@ -146,31 +158,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Intent intent;
+        final String env = sharedPreferences.getString("reg_env", "Evaluation");
+
         switch (v.getId()) {
             case R.id.btn_user_registration:
-                Log.d(TAG, "On Click : User Registration");
-                if (!isSpinnerChanged) {
-                    Toast.makeText(this, "Please Select the Configuration", Toast.LENGTH_SHORT).show();
-                } else {
-                    RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
-                    Util.navigateFromUserRegistration();
-                }
+                initialiseUserRegistration(env);
+                RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
+                Util.navigateFromUserRegistration();
                 break;
             case R.id.btn_product_registration:
-                if (!isSpinnerChanged) {
-                    Toast.makeText(this, "Please Select the Configuration", Toast.LENGTH_SHORT).show();
-                } else {
-                    intent = new Intent(this, ProductActivity.class);
-                    startActivity(intent);
-                }
+                initialiseUserRegistration(env);
+                intent = new Intent(this, ProductActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_register_list:
-                if (!isSpinnerChanged) {
-                    Toast.makeText(this, "Please Select the Configuration", Toast.LENGTH_SHORT).show();
-                } else {
-                    intent = new Intent(this, RegisteredProductsList.class);
-                    startActivity(intent);
-                }
+                initialiseUserRegistration(env);
+                intent = new Intent(this, RegisteredProductsList.class);
+                startActivity(intent);
                 break;
             default:
                 break;

@@ -42,7 +42,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
             Log.d(TAG, "Response Data : " + arg1 + "-" + arg2 + "-" + arg3);
             final int mMonthInt = (arg2 + 1);
-            int mDateInt = arg3;
             String mMonth;
             if (mMonthInt < 10) {
                 mMonth = getResources().getString(R.string.zero) + mMonthInt;
@@ -50,10 +49,10 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 mMonth = Integer.toString(mMonthInt);
             }
             String mDate;
-            if (mDateInt < 10) {
-                mDate = getResources().getString(R.string.zero) + mDateInt;
+            if (arg3 < 10) {
+                mDate = getResources().getString(R.string.zero) + arg3;
             } else {
-                mDate = Integer.toString(mDateInt);
+                mDate = Integer.toString(arg3);
             }
             SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_formate));
             mCalendar = Calendar.getInstance();

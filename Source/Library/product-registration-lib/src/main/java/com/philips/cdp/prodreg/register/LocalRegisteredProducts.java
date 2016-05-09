@@ -59,10 +59,10 @@ public class LocalRegisteredProducts {
         Gson gson = getGSon();
         String data = getLocalSharedPreference().getData(PRODUCT_REGISTRATION_KEY);
         RegisteredProduct[] products = gson.fromJson(data, RegisteredProduct[].class);
-        if (products != null) {
+        if (user.isUserSignIn() && products != null) {
             ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
             for (RegisteredProduct registeredProduct : products) {
-                if (user.isUserSignIn() && registeredProduct.getUserUUid().length() != 0 && registeredProduct.getUserUUid().equals(uuid)) {
+                if (registeredProduct.getUserUUid().length() == 0 || registeredProduct.getUserUUid().equals(uuid)) {
                     registeredProducts.add(registeredProduct);
                 }
             }
