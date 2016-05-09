@@ -172,7 +172,11 @@ public class DiCommPort {
         for (String key : mergedProperties.keySet()) {
             Object oldValue = this.properties.get(key);
             Object newValue = mergedProperties.get(key);
-            if (!oldValue.equals(newValue)) {
+            if (oldValue == null) {
+                if (newValue != null) {
+                    changedProperties.put(key, newValue);
+                }
+            } else if (!oldValue.equals(newValue)) {
                 changedProperties.put(key, newValue);
             }
         }

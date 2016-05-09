@@ -92,6 +92,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     private void parseResponse(DiCommMessage diCommMessage) {
         try {
             DiCommResponse diCommResponse = getDiCommResponse(diCommMessage);
+            SHNLogger.d(TAG, "Response status: " + diCommResponse.getStatus() + " properties: " + diCommResponse.getProperties());
             reportToListener(diCommResponse.getProperties(), convertToSHNResult(diCommResponse.getStatus()));
         } catch (InvalidParameterException ex) {
             SHNLogger.e(TAG, ex.getMessage());

@@ -494,4 +494,19 @@ public class DiCommPortTest {
         assertEquals(1, mapArgumentCaptor.getValue().size());
         assertTrue(mapArgumentCaptor.getValue().containsKey(KEY));
     }
+
+    @Test
+    public void whenPropertyValueChangesFromNullThenListenerIsNotified() throws Exception {
+        properties.put(KEY, null);
+        verifyReloadPropertiesSent();
+
+        Map<String, Object> newProperties = new HashMap<>(properties);
+        newProperties.put(KEY, DATA);
+
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
+
+        verify(diCommUpdateListenerMock).onPropertiesChanged(mapArgumentCaptor.capture());
+        assertEquals(1, mapArgumentCaptor.getValue().size());
+        assertTrue(mapArgumentCaptor.getValue().containsKey(KEY));
+    }
 }
