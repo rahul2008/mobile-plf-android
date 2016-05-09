@@ -70,7 +70,6 @@ public class RemoteRegisteredProducts {
     @NonNull
     protected RegisteredProductsRequest getRegisteredProductsRequest(final User user) {
         RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest();
-
         registeredProductsRequest.setAccessToken(user.getAccessToken());
         return registeredProductsRequest;
     }
