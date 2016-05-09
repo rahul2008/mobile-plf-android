@@ -143,4 +143,6 @@
 <string name="QUESTION_KEY">پرسش و پاسخ</string>
 <string name="NO_PRODUCT_KEY">محصولی وجود ندارد</string>
 <string name="NO_SUPPORT_KEY">پشتیبانی نمی‌شود</string>
+    <string name="FAQ_KEY_TABLET">سوالات متداول
+</string>
 </resources>
