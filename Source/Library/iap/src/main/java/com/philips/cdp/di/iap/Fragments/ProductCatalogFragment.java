@@ -93,11 +93,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     }
 
     @Override
-    public void raiseEvent(final String event) {
-
-    }
-
-    @Override
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG))) {
             startProductDetailFragment();

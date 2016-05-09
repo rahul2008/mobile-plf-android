@@ -154,6 +154,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mSelectedCountryIndex = 0;
         mCountryPreference.clearCountryPreference();
         mSpinner.setSelection(0);
+        mShoppingCart.setVisibility(View.GONE);
         mCountText.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
     }
@@ -237,10 +238,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mSelectedCountryIndex = position;
         mCountryPreference.saveCountryPrefrence(position);
 
-        if (position == 0)
+        if (position == 0) {
+            mShoppingCart.setVisibility(View.GONE);
+            mShopNow.setVisibility(View.GONE);
             return;
+        }
 
+        mShoppingCart.setVisibility(View.VISIBLE);
         mShopNow.setVisibility(View.VISIBLE);
+
         String selectedCountry = parent.getItemAtPosition(position).toString();
         if (selectedCountry.equals("UK"))
             selectedCountry = "GB";
@@ -258,7 +264,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     }
 
     private void displayViews() {
-        mShoppingCart.setVisibility(View.VISIBLE);
+//        mShoppingCart.setVisibility(View.VISIBLE);
         mSelectCountryLl.setVisibility(View.VISIBLE);
 //        mShopNow.setVisibility(View.VISIBLE);
     }

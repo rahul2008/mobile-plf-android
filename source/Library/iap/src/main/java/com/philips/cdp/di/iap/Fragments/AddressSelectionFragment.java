@@ -199,11 +199,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
-    public void raiseEvent(final String event) {
-
-    }
-
-    @Override
     public void onEventReceived(final String event) {
         if (!TextUtils.isEmpty(event)) {
             if (EditDeletePopUP.EVENT_EDIT.equals(event)) {

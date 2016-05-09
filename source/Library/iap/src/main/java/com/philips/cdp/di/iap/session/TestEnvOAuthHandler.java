@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.model.NewOAuthRequest;
@@ -137,16 +138,21 @@ public class TestEnvOAuthHandler implements OAuthHandler {
                 request.requestBody(),null,null);
     }
 
+    // Ideally it should never get exception, until we really get bad response or bad JSON resp
     private boolean isInvalidGrantError(VolleyError volleyError) {
-        if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
-            ServerError response = (new Gson().fromJson(new String(volleyError
-                    .networkResponse.data), ServerError.class));
-            if (response.getErrors() != null) {
-                Error error = response.getErrors().get(0);
-                if (TYPE_INVALID_GRANT_ERROR.equals(error.getType())) {
-                    return true;
+        try {
+            if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
+                ServerError response = (new Gson().fromJson(new String(volleyError
+                        .networkResponse.data), ServerError.class));
+                if (response.getErrors() != null) {
+                    Error error = response.getErrors().get(0);
+                    if (TYPE_INVALID_GRANT_ERROR.equals(error.getType())) {
+                        return true;
+                    }
                 }
             }
+        } catch (JsonSyntaxException e) {
+            IAPLog.d(TAG, "isInvalidGrantError-> JsonSyntaxException");
         }
         return false;
     }

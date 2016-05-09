@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -14,12 +15,14 @@ import com.philips.cdp.di.iap.response.carts.CartsEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.error.PrxError;
+import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.tagging.Tagging;
@@ -51,11 +54,11 @@ public class PRXProductDataBuilder {
         for (int index = 0; index < count; index++) {
             EntriesEntity entry = mEntries.get(index);
             String code = entry.getProduct().getCode();
-            executeRequest(entry, mDeliveryCostEntity, code, prepareSummaryBuilder(code));
+            executeRequest(entry, mDeliveryCostEntity, code, prepareSummaryRequest(code));
         }
     }
 
-    private void executeRequest(final EntriesEntity entry, final DeliveryCostEntity deliveryCostEntity, final String code, final ProductSummaryBuilder productSummaryBuilder) {
+    private void executeRequest(final EntriesEntity entry, final DeliveryCostEntity deliveryCostEntity, final String code, final ProductSummaryRequest productSummaryBuilder) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(mContext);
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
@@ -65,8 +68,8 @@ public class PRXProductDataBuilder {
             }
 
             @Override
-            public void onResponseError(String error, int code) {
-                notifyError(error);
+            public void onResponseError(final PrxError prxError) {
+                notifyError(prxError.getDescription());
             }
         });
     }
@@ -105,11 +108,31 @@ public class PRXProductDataBuilder {
         }
         mCartItems.add(cartItem);
         if (mDataLoadListener != null && mCartItems.size() == mEntries.size()) {
+            ArrayList<ShoppingCartData> datas = rearrangeDataSet();
             Message result = Message.obtain();
-            result.obj = mCartItems;
+            result.obj = datas;
             mDataLoadListener.onModelDataLoadFinished(result);
             tagProducts(mCartItems);
         }
+    }
+
+    private ArrayList rearrangeDataSet() {
+        ArrayList<ShoppingCartData> rearrangedArray = new ArrayList<>();
+        for(int i=0;i<mEntries.size();i++){
+            ShoppingCartData pShoppingCartData = checkIfEntryPresent(mEntries.get(i).getProduct().getCode());
+            rearrangedArray.add(pShoppingCartData);
+        }
+        return rearrangedArray;
+    }
+
+    private ShoppingCartData checkIfEntryPresent(final String code) {
+        ShoppingCartData data = new ShoppingCartData();
+        for(int i = 0; i< mCartItems.size();i++){
+            if(mCartItems.get(i).getCtnNumber().equalsIgnoreCase(code)){
+                data = mCartItems.get(i);
+            }
+        }
+        return data;
     }
 
     private void tagProducts(List<ShoppingCartData> cartData){
@@ -127,16 +150,14 @@ public class PRXProductDataBuilder {
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, products);
     }
 
-    private ProductSummaryBuilder prepareSummaryBuilder(final String code) {
+    private ProductSummaryRequest prepareSummaryRequest(final String code) {
         // String ctn = code.replaceAll("_", "/");
-        String sectorCode = NetworkConstants.PRX_SECTOR_CODE;
         String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
-        String catalogCode = NetworkConstants.PRX_CATALOG_CODE;
 
-        ProductSummaryBuilder productSummaryBuilder = new ProductSummaryBuilder(code, null);
-        productSummaryBuilder.setmSectorCode(sectorCode);
-        productSummaryBuilder.setmLocale(locale);
-        productSummaryBuilder.setmCatalogCode(catalogCode);
-        return productSummaryBuilder;
+        ProductSummaryRequest productSummaryRequest = new ProductSummaryRequest(code, null);
+        productSummaryRequest.setSector(Sector.B2C);
+        productSummaryRequest.setLocaleMatchResult(locale);
+        productSummaryRequest.setCatalog(Catalog.CONSUMER);
+        return productSummaryRequest;
     }
 }

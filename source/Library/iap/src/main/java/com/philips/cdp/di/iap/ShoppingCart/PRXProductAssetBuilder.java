@@ -11,14 +11,16 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
-import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
-import com.philips.cdp.prxclient.prxdatamodels.assets.Assets;
-import com.philips.cdp.prxclient.prxdatamodels.assets.Data;
+import com.philips.cdp.prxclient.datamodels.assets.Asset;
+import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.datamodels.assets.Assets;
+import com.philips.cdp.prxclient.datamodels.assets.Data;
+import com.philips.cdp.prxclient.error.PrxError;
+import com.philips.cdp.prxclient.request.ProductAssetRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
@@ -47,11 +49,9 @@ public class PRXProductAssetBuilder {
 
     public void build() {
         PrxLogger.enablePrxLogger(true);
-
         executeRequest(prepareAssetBuilder(mCTN));
     }
-
-    public void executeRequest(final ProductAssetBuilder productAssetBuilder) {
+    public void executeRequest(final ProductAssetRequest productAssetBuilder) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(mContext);
         mRequestManager.executeRequest(productAssetBuilder, new ResponseListener() {
@@ -61,9 +61,10 @@ public class PRXProductAssetBuilder {
             }
 
             @Override
-            public void onResponseError(String error, int code) {
-                notifyError(error);
+            public void onResponseError(final PrxError prxError) {
+                notifyError(prxError.getDescription());
             }
+
         });
     }
 
@@ -111,15 +112,13 @@ public class PRXProductAssetBuilder {
         }
     }
 
-    private ProductAssetBuilder prepareAssetBuilder(final String code) {
-        String sectorCode = NetworkConstants.PRX_SECTOR_CODE;
+    private ProductAssetRequest prepareAssetBuilder(final String code) {
         String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
-        String catalogCode = NetworkConstants.PRX_CATALOG_CODE;
 
-        ProductAssetBuilder productAssetBuilder = new ProductAssetBuilder(code, null);
-        productAssetBuilder.setmSectorCode(sectorCode);
-        productAssetBuilder.setmLocale(locale);
-        productAssetBuilder.setmCatalogCode(catalogCode);
+        ProductAssetRequest productAssetBuilder = new ProductAssetRequest(code, null);
+        productAssetBuilder.setSector(Sector.B2C);
+        productAssetBuilder.setLocaleMatchResult(locale);
+        productAssetBuilder.setCatalog(Catalog.CONSUMER);
         return productAssetBuilder;
     }
 }

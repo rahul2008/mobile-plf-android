@@ -37,7 +37,7 @@ public class WebFragment extends BaseAnimationSupportFragment {
 
         mWebView = (WebView) group.findViewById(R.id.wv_payment);
         mProgress = (CircularLineProgressBar) group.findViewById(R.id.cl_progress);
-        mProgress.startAnimation(100);
+        mProgress.startAnimation(70);
         mWebView.setWebViewClient(new IAPWebViewClient());
         mWebView.getSettings().setJavaScriptEnabled(true);
         mUrl = getWebUrl();
@@ -90,8 +90,10 @@ public class WebFragment extends BaseAnimationSupportFragment {
         @Override
         public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
             // Redirect to deprecated method, so you can use it in all SDK versions
-            if (isVisible()) {
-                onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
+            if (rerr != null && shouldHandleError(rerr.getErrorCode())) {
+                if (isVisible()) {
+                    onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
+                }
             }
         }
 
@@ -103,5 +105,12 @@ public class WebFragment extends BaseAnimationSupportFragment {
                 mProgress.setVisibility(View.GONE);
             }
         }
+    }
+
+    private boolean shouldHandleError(final int errorCode) {
+        return (errorCode == WebViewClient.ERROR_CONNECT
+                || errorCode == WebViewClient.ERROR_BAD_URL
+                || errorCode == WebViewClient.ERROR_TIMEOUT
+                || errorCode == WebViewClient.ERROR_HOST_LOOKUP);
     }
 }

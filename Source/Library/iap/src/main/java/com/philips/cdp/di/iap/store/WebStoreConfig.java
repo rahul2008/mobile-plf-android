@@ -67,37 +67,15 @@ public class WebStoreConfig {
 
     void initLocaleMatcher() {
         setPILLocalMangaer();
-        mLocaleManager.init(mContext, new LocaleMatchListener() {
-            @Override
-            public void onLocaleMatchRefreshed(final String s) {
-                mFallBackLocale = s;
-                mPILLocale = mLocaleManager.currentLocaleWithCountryFallbackForPlatform(mContext, s,
-                        Platform.PRX, Sector.B2C, Catalog.CONSUMER);
-                startConfigDownloadThread();
-            }
-
-            @Override
-            public void onErrorOccurredForLocaleMatch(final LocaleMatchError localeMatchError) {
-                if (mResponseListener != null) {
-                    Message msg = Message.obtain();
-                    //We really don't know what happened wrong.
-                    //Can happen in case no network or several reasons. Assume network error in
-                    // these cases.
-                    if (LocaleMatchError.INPUT_VALIDATION_ERROR != localeMatchError) {
-                        msg.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
-                    }
-                    notifyConfigListener(false, msg);
-                }
-            }
-        });
     }
 
     void setPILLocalMangaer() {
-        mLocaleManager = new PILLocaleManager();
+        mLocaleManager = new PILLocaleManager(mContext);
     }
 
     void refresh(String language, String countryCode) {
-        mLocaleManager.refresh(mContext, language, countryCode);
+        mLocaleManager.setInputLocale(language,countryCode);
+        mLocaleManager.refresh(mLocaleMatchListener);
     }
 
     void startConfigDownloadThread() {
@@ -155,4 +133,28 @@ public class WebStoreConfig {
             }
         });
     }
+
+    private LocaleMatchListener mLocaleMatchListener = new LocaleMatchListener() {
+        @Override
+        public void onLocaleMatchRefreshed(final String s) {
+            mFallBackLocale = s;
+            mPILLocale = mLocaleManager.currentLocaleWithCountryFallbackForPlatform(mContext, s,
+                    Platform.PRX, Sector.B2C, Catalog.CONSUMER);
+            startConfigDownloadThread();
+        }
+
+        @Override
+        public void onErrorOccurredForLocaleMatch(final LocaleMatchError localeMatchError) {
+            if (mResponseListener != null) {
+                Message msg = Message.obtain();
+                //We really don't know what happened wrong.
+                //Can happen in case no network or several reasons. Assume network error in
+                // these cases.
+                if (LocaleMatchError.INPUT_VALIDATION_ERROR != localeMatchError) {
+                    msg.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
+                }
+                notifyConfigListener(false, msg);
+            }
+        }
+    };
 }
