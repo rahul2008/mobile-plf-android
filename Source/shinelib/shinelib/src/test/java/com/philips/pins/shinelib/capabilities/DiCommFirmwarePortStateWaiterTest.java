@@ -114,10 +114,37 @@ public class DiCommFirmwarePortStateWaiterTest {
         resultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNOk);
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put("state", "canceling");
+        properties.put("state", "error");
         updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
 
-        verify(listenerMock).onRequestReceived(DiCommFirmwarePort.State.Canceling, SHNResult.SHNErrorInvalidState);
+        verify(listenerMock).onRequestReceived(DiCommFirmwarePort.State.Error, SHNResult.SHNErrorInvalidState);
+    }
+
+    @Test
+    public void whenPropertiesAreUpdatedWithTransitionStateThenListenerIsNotNotified() throws Exception {
+        whenPortIsInNotRequestedStateThenSubscribeIsCalled();
+        resultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNOk);
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("state", "preparing");
+        updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
+
+        verify(listenerMock, never()).onRequestReceived(any(DiCommFirmwarePort.State.class), any(SHNResult.class));
+    }
+
+    @Test
+    public void whenPropertiesAreUpdatedWithExpectedStateThenListenerIsNotified() throws Exception {
+        whenPortIsInNotRequestedStateThenSubscribeIsCalled();
+        resultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNOk);
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("state", "preparing");
+        updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
+
+        properties.put("state", "downloading");
+        updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
+
+        verify(listenerMock).onRequestReceived(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
     }
 
     @Test

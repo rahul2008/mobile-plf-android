@@ -66,16 +66,14 @@ class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener {
             if (state instanceof String) {
                 State newState = State.fromString((String) state);
 
-                SHNResult result = newState == expectedState ? SHNResult.SHNOk : SHNResult.SHNErrorInvalidState;
-                if (result != SHNResult.SHNOk) {
-                    SHNLogger.e(TAG, "was expecting state: " + expectedState + "but encountered state: " + newState);
+                if (newState == expectedState) {
+                    notifyListenerAndCancel(newState, SHNResult.SHNOk);
+                } else {
+                    if (!isTransientState(newState)) {
+                        SHNLogger.e(TAG, "was expecting state: " + expectedState + "but encountered state: " + newState);
+                        notifyListenerAndCancel(newState, SHNResult.SHNErrorInvalidState);
+                    }
                 }
-
-                if (listener != null) {
-                    listener.onRequestReceived(newState, result);
-                }
-
-                cancel();
             }
         }
     }
@@ -83,6 +81,25 @@ class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener {
     @Override
     public void onSubscriptionFailed(SHNResult shnResult) {
 
+    }
+
+    private void notifyListenerAndCancel(State newState, SHNResult shnErrorInvalidState) {
+        if (listener != null) {
+            listener.onRequestReceived(newState, shnErrorInvalidState);
+        }
+        cancel();
+    }
+
+    private boolean isTransientState(State newState) {
+        switch (newState) {
+            case Preparing:
+            case Checking:
+            case Programming:
+            case Canceling:
+                return true;
+            default:
+                return false;
+        }
     }
 }
 
