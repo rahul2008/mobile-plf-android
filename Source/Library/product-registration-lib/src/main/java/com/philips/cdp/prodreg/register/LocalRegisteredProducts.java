@@ -23,8 +23,10 @@ public class LocalRegisteredProducts {
     public static String PRODUCT_REGISTRATION_KEY = "prod_reg_key";
     private LocalSharedPreference localSharedPreference;
     private String uuid;
+    private User user;
 
     public LocalRegisteredProducts(Context context, User user) {
+        this.user = user;
         localSharedPreference = new LocalSharedPreference(context);
         uuid = user.getJanrainUUID() != null ? user.getJanrainUUID() : "";
     }
@@ -60,7 +62,7 @@ public class LocalRegisteredProducts {
         if (products != null) {
             ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
             for (RegisteredProduct registeredProduct : products) {
-                if (registeredProduct.getUserUUid().length() != 0 && registeredProduct.getUserUUid().equals(uuid)) {
+                if (user.isUserSignIn() && registeredProduct.getUserUUid().length() != 0 && registeredProduct.getUserUUid().equals(uuid)) {
                     registeredProducts.add(registeredProduct);
                 }
             }
