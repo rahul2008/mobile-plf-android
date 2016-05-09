@@ -9,11 +9,11 @@ repositories {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.philips.cdp.sampledigitalcareapp"
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 23
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
@@ -40,12 +40,12 @@ android {
         simulator {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
             versionCode 140
-            versionName "4.1.0"
+            versionName "4.2.0"
         }
         device {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
             versionCode 140
-            versionName "4.1.0"
+            versionName "4.2.0"
         }
     }
 
@@ -55,9 +55,15 @@ android {
     }
 }
 
+android {
+    packagingOptions {
+        exclude 'lib/arm64-v8a/librsjni.so'
+    }
+}
+
 dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '4.2.0-rc.4', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '4.2.0-rc.5', ext: 'aar'){
        transitive=true
    }
 }
