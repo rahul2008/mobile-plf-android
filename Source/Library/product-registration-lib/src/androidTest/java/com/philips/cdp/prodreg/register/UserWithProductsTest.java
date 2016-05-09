@@ -34,7 +34,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.internal.verification.VerificationModeFactory.atLeastOnce;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -267,7 +266,6 @@ public class UserWithProductsTest extends MockitoTestCase {
         when(productMock.getPurchaseDate()).thenReturn("2016-03-22");
         when(data.getRequiresDateOfPurchase()).thenReturn("false");
         assertTrue(userWithProducts.validatePurchaseDateFromMetadata(data, productMock, listener));
-        verify(productMock, atLeastOnce()).setPurchaseDate(null);
         when(data.getRequiresDateOfPurchase()).thenReturn("true");
         assertTrue(userWithProducts.validatePurchaseDateFromMetadata(data, productMock, listener));
     }
@@ -277,16 +275,19 @@ public class UserWithProductsTest extends MockitoTestCase {
         final String ctn = "HC5410/83";
         when(productMock.getCtn()).thenReturn(ctn);
         final String serialNumber = "1344";
+        final String purchaseDate = "2016-04-15";
         when(productMock.getSerialNumber()).thenReturn(serialNumber);
         when(productMock.getSector()).thenReturn(Sector.B2C);
         when(productMock.getCatalog()).thenReturn(Catalog.CONSUMER);
         when(productMock.getSerialNumber()).thenReturn(serialNumber);
+        when(productMock.getPurchaseDate()).thenReturn(purchaseDate);
         when(productMock.getLocale()).thenReturn("en_GB");
         RegistrationRequest registrationRequest = userWithProducts.getRegistrationRequest(context, productMock);
         assertEquals(registrationRequest.getCatalog(), Catalog.CONSUMER);
         assertEquals(registrationRequest.getSector(), Sector.B2C);
         assertEquals(registrationRequest.getCtn(), ctn);
         assertEquals(registrationRequest.getProductSerialNumber(), serialNumber);
+        assertEquals(productMock.getPurchaseDate(), registrationRequest.getPurchaseDate());
     }
 
     public void testModelMapping() {
@@ -512,8 +513,6 @@ public class UserWithProductsTest extends MockitoTestCase {
             }
         };
         userWithProducts.makeRegistrationRequest(context, productMock, prodRegListenerMock);
-        assertEquals(productMock.getPurchaseDate(), registrationRequest.getPurchaseDate());
-        assertEquals(productMock.getSerialNumber(), registrationRequest.getProductSerialNumber());
         verify(requestManagerMock).executeRequest(registrationRequest, responseListenerMock);
     }
 

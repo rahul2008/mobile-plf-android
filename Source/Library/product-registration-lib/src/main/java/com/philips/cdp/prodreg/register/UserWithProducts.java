@@ -264,12 +264,14 @@ public class UserWithProducts {
     @NonNull
     protected RegistrationRequest getRegistrationRequest(final Context context, final RegisteredProduct registeredProduct) {
         RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), registeredProduct.getSerialNumber(), getUser().getAccessToken());
-        registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setRequiresSerialNumber(requiresSerialNumber);
         registrationRequest.setRequiresPurchaseDate(requiresPurchaseDate);
+        registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
         registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
+        registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
+        registrationRequest.setShouldSendEmailAfterRegistration(registeredProduct.getEmail());
         return registrationRequest;
     }
 
@@ -347,10 +349,6 @@ public class UserWithProducts {
     protected void makeRegistrationRequest(final Context mContext, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         setRequestType(PRODUCT_REGISTRATION);
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, registeredProduct);
-        registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
-        registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
-        registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
-        registrationRequest.setShouldSendEmailAfterRegistration(registeredProduct.getEmail());
         RequestManager mRequestManager = getRequestManager(mContext);
         mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(registeredProduct, appListener));
     }
