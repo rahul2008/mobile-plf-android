@@ -3,10 +3,13 @@ package com.philips.cdp.di.iapdemo;
 import android.app.Application;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.tagging.Tagging;
+
+import java.util.Locale;
 
 public class DemoApplication extends Application {
 
@@ -31,6 +34,12 @@ public class DemoApplication extends Application {
         Tagging.enableAppTagging(true);
         Tagging.setTrackingIdentifier("integratingApplicationAppsId");
         Tagging.setLaunchingPageName("demoapp:home");
+
+        String languageCode = Locale.getDefault().getLanguage();
+        String countryCode = Locale.getDefault().getCountry();
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(languageCode, countryCode);
+
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext());
         Tagging.init(getApplicationContext(), "Philips Registartion Sample demo");
