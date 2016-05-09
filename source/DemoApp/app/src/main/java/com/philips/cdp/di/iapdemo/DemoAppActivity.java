@@ -154,6 +154,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mSelectedCountryIndex = 0;
         mCountryPreference.clearCountryPreference();
         mSpinner.setSelection(0);
+        mShoppingCart.setVisibility(View.GONE);
         mCountText.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
     }
