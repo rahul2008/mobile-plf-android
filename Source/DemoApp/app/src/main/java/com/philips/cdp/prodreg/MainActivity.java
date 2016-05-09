@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int count = 0;
     private String TAG = getClass().toString();
     private boolean isSpinnerChanged = false;
+    private TextView txt_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         new ProdRegHelper().init(this);
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
-
+        txt_title = (TextView) findViewById(R.id.txt_title);
         final ArrayAdapter<String> configType = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, configurationType);
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (count > 0) {
                     isSpinnerChanged = true;
                     spinner.setVisibility(View.GONE);
+                    txt_title.setVisibility(View.GONE);
                     Log.d(TAG, "Before Configuration" + configuration);
                     if (configuration.equalsIgnoreCase("Development")) {
                         initialiseUserRegistration("Development");
