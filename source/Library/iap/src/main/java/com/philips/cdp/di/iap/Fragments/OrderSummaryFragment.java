@@ -190,6 +190,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         if (msg.obj instanceof PlaceOrder) {
             PlaceOrder order = (PlaceOrder) msg.obj;
             orderID = order.getCode();
+            updateCount(0);
             CartModelContainer.getInstance().setOrderPlaced(true);
             CartModelContainer.getInstance().setOrderNumber(orderID);
 
