@@ -143,5 +143,7 @@
 <string name="QUESTION_KEY">Вопросы и ответы</string>
 <string name="NO_PRODUCT_KEY">Нет доступных продуктов</string>
 <string name="NO_SUPPORT_KEY">Поддержка недоступна</string>
+    <string name="FAQ_KEY_TABLET">Часто задаваемые вопросы
+</string>
 
 </resources>

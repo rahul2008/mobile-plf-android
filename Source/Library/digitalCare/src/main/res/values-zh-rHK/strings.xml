@@ -145,5 +145,6 @@
 <string name="QUESTION_KEY">問題與解答</string>
 <string name="NO_PRODUCT_KEY">沒有可以使用的產品</string>
 <string name="NO_SUPPORT_KEY">沒有可供使用的支援服務</string>
-
+    <string name="FAQ_KEY_TABLET">常見問題解答 (FAQ)
+</string>
 </resources>

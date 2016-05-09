@@ -143,5 +143,7 @@
 <string name="QUESTION_KEY">Otázka a odpoveď</string>
 <string name="NO_PRODUCT_KEY">Žiadne dostupné produkty</string>
 <string name="NO_SUPPORT_KEY">Žiadna dostupná podpora</string>
+    <string name="FAQ_KEY_TABLET">Často kladené otázky
+</string>
 
 </resources>

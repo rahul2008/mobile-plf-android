@@ -142,4 +142,7 @@
 <string name="NO_PRODUCT_KEY">Nema dostupnih proizvoda</string>
 <string name="NO_SUPPORT_KEY">Nije dostupna podrška</string>
 
+    <string name="FAQ_KEY_TABLET">Najčešća pitanja
+</string>
+
 </resources>

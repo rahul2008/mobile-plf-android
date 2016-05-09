@@ -143,5 +143,6 @@
 <string name="QUESTION_KEY">Запитання і відповідь</string>
 <string name="NO_PRODUCT_KEY">Немає виробів</string>
 <string name="NO_SUPPORT_KEY">Немає підтримки</string>
-
+    <string name="FAQ_KEY_TABLET">Часті запитання
+</string>
 </resources>

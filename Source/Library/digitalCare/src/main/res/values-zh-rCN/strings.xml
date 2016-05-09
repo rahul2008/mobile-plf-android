@@ -144,5 +144,6 @@
 <string name="QUESTION_KEY">问题和解答</string>
 <string name="NO_PRODUCT_KEY">无可用产品</string>
 <string name="NO_SUPPORT_KEY">无可用支持</string>
-
+    <string name="FAQ_KEY_TABLET">常见问题解答
+</string>
 </resources>
