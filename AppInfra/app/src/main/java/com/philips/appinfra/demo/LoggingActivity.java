@@ -17,7 +17,7 @@ public class LoggingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_logging);
+        setContentView(R.layout.activity_logging);
 
         ////////////////////////////////////////////////////////////
         ai = new AppInfra.Builder().build();
