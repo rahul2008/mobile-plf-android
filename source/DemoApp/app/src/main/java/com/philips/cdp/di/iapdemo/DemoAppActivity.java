@@ -264,7 +264,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     }
 
     private void displayViews() {
-        mShoppingCart.setVisibility(View.VISIBLE);
+//        mShoppingCart.setVisibility(View.VISIBLE);
         mSelectCountryLl.setVisibility(View.VISIBLE);
 //        mShopNow.setVisibility(View.VISIBLE);
     }
