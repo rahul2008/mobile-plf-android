@@ -69,9 +69,10 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        mConfiguration = newConfig;
-        setPaddingForWebdata();
         super.onConfigurationChanged(newConfig);
+        mWebView = null;
+        initView();
+        loadFaq();
     }
 
     @Override
@@ -153,13 +154,13 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 //                    mWebView.loadUrl("javascript:try{document.getElementsByClassName('group faqfeedback_group')[0].style.display='none'}catch(e){}");
 //                    Inject javascript code to the url given
                     //Not display the element
-                    try {
+                    /*try {*/
                         setPaddingForWebdata();
                         mWebView.loadUrl("javascript:(function(){" + "document.getElementsByClassName('group faqfeedback_group')[0].remove();})()");
                         mWebView.loadUrl("javascript:window.CallToAnAndroidFunction.setVisible()");
-                    } catch (NullPointerException ex) {
+                    /*} catch (NullPointerException ex) {
                         DigiCareLogger.e(TAG, "JavaScript Injection issue : " + ex);
-                    }
+                    }*/
                 }
 
                 @Override
@@ -181,13 +182,13 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
         mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-top\", \"2%\");");
         mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-bottom\", \"2%\");");
 
-        if (isTablet() && mConfiguration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+       /* if (isTablet() && mConfiguration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"20%\");");
             mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"20%\");");
-        } else {
+        } else {*/
             mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"10%\");");
             mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"10%\");");
-        }
+        //}
     }
 
     private void initView() {
