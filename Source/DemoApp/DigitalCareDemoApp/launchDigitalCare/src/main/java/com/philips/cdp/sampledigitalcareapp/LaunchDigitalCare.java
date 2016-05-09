@@ -299,6 +299,6 @@ public class  LaunchDigitalCare extends FragmentActivity implements OnClickListe
 
     private void setDigitalCareLocale(String language, String country) {
 
-        DigitalCareConfigManager.getInstance().setLocale(language, country);
+        //DigitalCareConfigManager.getInstance().setLocale(language, country);
     }
 }
