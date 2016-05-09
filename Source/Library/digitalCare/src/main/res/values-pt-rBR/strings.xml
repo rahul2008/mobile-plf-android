@@ -144,5 +144,7 @@
 
 <string name="NO_PRODUCT_KEY">Nenhum produto disponível</string>
 <string name="NO_SUPPORT_KEY">Não há suporte disponível</string>
+    <string name="FAQ_KEY_TABLET">Perguntas frequentes
+</string>
 
 </resources>

@@ -143,4 +143,6 @@
 <string name="QUESTION_KEY">Domanda e risposta</string>
 <string name="NO_PRODUCT_KEY">Prodotti non disponibili</string>
 <string name="NO_SUPPORT_KEY">Supporto non disponibile</string>
+    <string name="FAQ_KEY_TABLET">Domande frequenti
+</string>
 </resources>
