@@ -98,7 +98,9 @@ public class DiCommPort {
             diCommChannel.reloadProperties(name, new SHNMapResultListener<String, Object>() {
                 @Override
                 public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
-                    mergeProperties(properties);
+                    if (result == SHNResult.SHNOk) {
+                        mergeProperties(properties);
+                    }
                     resultListenerMock.onActionCompleted(properties, result);
                 }
             });
@@ -112,7 +114,9 @@ public class DiCommPort {
             diCommChannel.sendProperties(properties, name, new SHNMapResultListener<String, Object>() {
                 @Override
                 public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
-                    mergeProperties(properties);
+                    if (result == SHNResult.SHNOk) {
+                        mergeProperties(properties);
+                    }
                     resultListener.onActionCompleted(properties, result);
                 }
             });

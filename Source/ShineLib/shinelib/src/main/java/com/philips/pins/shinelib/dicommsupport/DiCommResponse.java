@@ -63,7 +63,7 @@ class DiCommResponse {
 
             return properties;
         } catch (JSONException e) {
-            throw new InvalidParameterException("JSON string has invalid format");
+            throw new InvalidParameterException("JSON string has invalid format " + string);
         }
     }
 

@@ -504,4 +504,26 @@ public class DiCommPortTest {
         assertEquals(1, mapArgumentCaptor.getValue().size());
         assertTrue(mapArgumentCaptor.getValue().containsKey(KEYS[0]));
     }
+
+    @Test
+    public void whenReloadPropertyReturnsResultNotOkThenListenerIsNotified() throws Exception {
+        goToAvailableState();
+        diCommPort.reloadProperties(mapResultListenerMock);
+        verify(diCommChannelMock).reloadProperties(eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
+
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
+
+        verify(mapResultListenerMock).onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
+    }
+
+    @Test
+    public void whenPutPropertyReturnsResultNotOkThenListenerIsNotified() throws Exception {
+        goToAvailableState();
+        diCommPort.putProperties(properties, mapResultListenerMock);
+        verify(diCommChannelMock).sendProperties(eq(properties), eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
+
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
+
+        verify(mapResultListenerMock).onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
+    }
 }
