@@ -108,7 +108,14 @@ public class PrxWrapper {
                              mProductDetailsObject.setProductInfoLink(data.getProductURL());
                              mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
-                             executeAssetRequest();
+                             try {
+                                 executeAssetRequest();
+                             } catch (Exception ex) {
+                                 DigiCareLogger.e(TAG, "File not Found Exception log from " +
+                                         "localematch component: " + ex);
+                             }
+
+
                          }
                      }
                  }
