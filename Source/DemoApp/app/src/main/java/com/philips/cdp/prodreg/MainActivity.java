@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(configType);
         final int position = list.indexOf(sharedPreferences.getString("reg_env", "Evaluation"));
-        if (position > 0)
+        if (position >= 0)
             spinner.setSelection(position);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 

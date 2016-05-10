@@ -222,7 +222,7 @@ public class UserWithProducts {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                getErrorHandler().handleError(getUserProduct(), registeredProduct, ProdRegError.METADATA_FAILED.getCode(), appListener);
+                getErrorHandler().handleError(getUserProduct(), registeredProduct, responseCode, appListener);
             }
         };
     }
