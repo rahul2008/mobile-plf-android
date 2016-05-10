@@ -30,13 +30,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DiCommPortTest {
 
-    public static final String KEY = "data";
-    public static final String KEY1 = "data1";
-    public static final String KEY2 = "data2";
-
-    public static final int DATA = 5;
-    public static final int DATA1 = 6;
-    public static final int DATA2 = 7;
+    public static final String[] KEYS = {"data", "data1", "data2"};
+    public static final int[] DATA = {5, 6, 7};
 
     @Mock
     private DiCommChannel diCommChannelMock;
@@ -75,9 +70,9 @@ public class DiCommPortTest {
         diCommPort.setListener(diCommPortListenerMock);
         diCommPort.setDiCommChannel(diCommChannelMock);
 
-        properties.put(KEY, DATA);
-        properties.put(KEY1, DATA1);
-        properties.put(KEY2, DATA2);
+        properties.put(KEYS[0], DATA[0]);
+        properties.put(KEYS[1], DATA[1]);
+        properties.put(KEYS[2], DATA[2]);
     }
 
     @Test
@@ -215,9 +210,9 @@ public class DiCommPortTest {
         whenReloadPropertiesIsCalledThenSendPropertiesIsCalledOnChannel();
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put(KEY, 1);
-        properties.put(KEY1, 2);
-        properties.put(KEY2, 3);
+        properties.put(KEYS[0], 1);
+        properties.put(KEYS[1], 2);
+        properties.put(KEYS[2], 3);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
 
@@ -255,9 +250,9 @@ public class DiCommPortTest {
         whenPutPropertiesIsCalledThenSendPropertiesIsCalledOnChannel();
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put(KEY, 1);
-        properties.put(KEY1, 2);
-        properties.put(KEY2, 3);
+        properties.put(KEYS[0], 1);
+        properties.put(KEYS[1], 2);
+        properties.put(KEYS[2], 3);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
 
@@ -456,13 +451,13 @@ public class DiCommPortTest {
         verifyReloadPropertiesSent();
 
         Map<String, Object> newProperties = new HashMap<>(properties);
-        newProperties.put(KEY, DATA * 2);
+        newProperties.put(KEYS[0], DATA[0] * 2);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
 
         verify(diCommUpdateListenerMock).onPropertiesChanged(mapArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
-        assertTrue(mapArgumentCaptor.getValue().containsKey(KEY));
+        assertTrue(mapArgumentCaptor.getValue().containsKey(KEYS[0]));
     }
 
     @Test
@@ -470,15 +465,15 @@ public class DiCommPortTest {
         verifyReloadPropertiesSent();
 
         Map<String, Object> newProperties = new HashMap<>(properties);
-        newProperties.put(KEY, DATA * 2);
-        newProperties.put(KEY1, DATA * 2);
+        newProperties.put(KEYS[0], DATA[0] * 2);
+        newProperties.put(KEYS[1], DATA[1] * 2);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
 
         verify(diCommUpdateListenerMock).onPropertiesChanged(mapArgumentCaptor.capture());
         assertEquals(2, mapArgumentCaptor.getValue().size());
-        assertTrue(mapArgumentCaptor.getValue().containsKey(KEY));
-        assertTrue(mapArgumentCaptor.getValue().containsKey(KEY1));
+        assertTrue(mapArgumentCaptor.getValue().containsKey(KEYS[0]));
+        assertTrue(mapArgumentCaptor.getValue().containsKey(KEYS[1]));
     }
 
     @Test
@@ -486,27 +481,27 @@ public class DiCommPortTest {
         verifyReloadPropertiesSent();
 
         Map<String, Object> newProperties = new HashMap<>(properties);
-        newProperties.put(KEY, DATA1);
+        newProperties.put(KEYS[0], DATA[1]);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
 
         verify(diCommUpdateListenerMock).onPropertiesChanged(mapArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
-        assertTrue(mapArgumentCaptor.getValue().containsKey(KEY));
+        assertTrue(mapArgumentCaptor.getValue().containsKey(KEYS[0]));
     }
 
     @Test
     public void whenPropertyValueChangesFromNullThenListenerIsNotified() throws Exception {
-        properties.put(KEY, null);
+        properties.put(KEYS[0], null);
         verifyReloadPropertiesSent();
 
         Map<String, Object> newProperties = new HashMap<>(properties);
-        newProperties.put(KEY, DATA);
+        newProperties.put(KEYS[0], DATA);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
 
         verify(diCommUpdateListenerMock).onPropertiesChanged(mapArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
-        assertTrue(mapArgumentCaptor.getValue().containsKey(KEY));
+        assertTrue(mapArgumentCaptor.getValue().containsKey(KEYS[0]));
     }
 }

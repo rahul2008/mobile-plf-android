@@ -33,20 +33,24 @@ public class DiCommFirmwarePort extends DiCommPort {
         Error("error"),
         Unknown("unknown");
 
-        private String state;
+        private String stateName;
 
-        State(String state) {
-            this.state = state;
+        State(String stateName) {
+            this.stateName = stateName;
         }
 
         public static State fromString(String stateString) {
             for (State state : State.values()) {
-                if (state.state.equals(stateString)) {
+                if (state.stateName.equalsIgnoreCase(stateString)) {
                     return state;
                 }
             }
 
             return Unknown;
+        }
+
+        public String getName() {
+            return stateName;
         }
     }
 
@@ -55,14 +59,14 @@ public class DiCommFirmwarePort extends DiCommPort {
         DeployGo("go"),
         Cancel("cancel");
 
-        private String command;
+        private String commandName;
 
-        Command(String command) {
-            this.command = command;
+        Command(String commandName) {
+            this.commandName = commandName;
         }
 
-        public final String toString() {
-            return command;
+        public final String getName() {
+            return commandName;
         }
     }
 

@@ -43,13 +43,18 @@ public class DiCommFirmwarePortTest {
     }
 
     @Test
+    public void canConvertUpperCaseStringToAKnownState() throws Exception {
+        assertEquals(DiCommFirmwarePort.State.Ready, DiCommFirmwarePort.State.fromString("Ready"));
+    }
+
+    @Test
     public void whenStringIsNotAValidStateThenStateIsUnknown() throws Exception {
         assertEquals(DiCommFirmwarePort.State.Unknown, DiCommFirmwarePort.State.fromString("notAState"));
     }
 
     @Test
     public void canConvertCommandToAString() throws Exception {
-        assertEquals("go", DiCommFirmwarePort.Command.DeployGo.toString());
+        assertEquals("go", DiCommFirmwarePort.Command.DeployGo.getName());
     }
 
     @Test
