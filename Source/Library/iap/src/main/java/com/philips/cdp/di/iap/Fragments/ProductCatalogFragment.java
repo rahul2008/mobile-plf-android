@@ -87,6 +87,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
         mShoppingCartPresenter.getProductCartCount(getContext(), mProductCountListener);
@@ -108,9 +109,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormatedPrice());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
-
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
         }
     }

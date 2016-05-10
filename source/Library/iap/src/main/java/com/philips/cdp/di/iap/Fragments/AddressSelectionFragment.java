@@ -86,8 +86,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void moveToShoppingCart() {
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-        //addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG);
         moveToFragment(ShoppingCartFragment.TAG);
     }
 
@@ -115,6 +113,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitle(R.string.iap_address);
     }
 
@@ -288,8 +287,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             Addresses address = retrieveSelectedAddress();
             AddressFields selectedAddress = prepareAddressFields(address);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
-
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
             addFragment(BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE),
                     BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
@@ -299,8 +296,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
-
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
 
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);

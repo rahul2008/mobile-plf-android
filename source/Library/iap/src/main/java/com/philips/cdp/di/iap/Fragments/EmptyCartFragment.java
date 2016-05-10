@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
@@ -42,6 +43,12 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
         // cancelled or successful.
         updateCount(0);
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
     }
 
     @Override

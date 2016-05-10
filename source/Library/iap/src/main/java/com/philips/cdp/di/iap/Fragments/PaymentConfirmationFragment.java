@@ -55,6 +55,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
         setTitle(R.string.iap_confirmation);
         setBackButtonVisibility(View.GONE);
     }
@@ -155,7 +156,6 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
     }
 
     private void moveToProductCatalog() {
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         CartModelContainer.getInstance().setOrderPlaced(false);
         Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment == null) {

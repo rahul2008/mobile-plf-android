@@ -50,6 +50,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
         setTitle(R.string.iap_order_summary);
         if (isOrderPlaced()) {
             setBackButtonVisibility(View.GONE);
@@ -144,7 +145,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     private void moveToProductCatalog() {
         setSetOrderPlaceFalse();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
         moveToFragment(ShoppingCartFragment.TAG);
     }
 
@@ -163,10 +163,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
                     IAPAnalyticsConstant.NEW_BILLING_ADDRESS_ADDED);
 
             MakePaymentData mMakePaymentData = (MakePaymentData) msg.obj;
-
-            //Track world pay page
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.WORLD_PAY_PAGE_NAME);
-
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
@@ -176,9 +172,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     }
 
     private void launchConfirmationScreen(PlaceOrder details) {
-        //Track payment confirmation page
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
-
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.ORDER_NUMBER, details.getCode());
         bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, Boolean.TRUE);

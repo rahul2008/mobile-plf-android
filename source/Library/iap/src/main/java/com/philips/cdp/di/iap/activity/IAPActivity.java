@@ -17,7 +17,6 @@ import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -50,11 +49,9 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         addActionBar();
         Boolean isShoppingCartViewSelected = getIntent().getBooleanExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, true);
         if (isShoppingCartViewSelected) {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
             addFragment(ShoppingCartFragment.createInstance(new Bundle(),
                     BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
         } else {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
             addFragment(ProductCatalogFragment.createInstance(new Bundle(),
                     BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
         }
@@ -111,7 +108,6 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
                 addFragment(ShoppingCartFragment.createInstance(new Bundle(),
                         BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
             }

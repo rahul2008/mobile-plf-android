@@ -20,9 +20,9 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.BuyFromRetailersAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -61,7 +61,6 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
         mCrossContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
                 getFragmentManager().popBackStackImmediate();
             }
         });
@@ -79,6 +78,7 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_PAGE_NAME);
         setTitle(R.string.iap_retailer_title);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         getRetailersInformation();
