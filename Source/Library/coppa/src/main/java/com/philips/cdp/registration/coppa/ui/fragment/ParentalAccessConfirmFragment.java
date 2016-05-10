@@ -195,6 +195,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         if (howMuchOld == caluculateAge || howMuchOld == caluculateAge - 1) {
             Tagging.setLaunchingPageName("coppa:ageverification");
             getRegistrationFragment().launchRegistrationFragment();
+            mBtnContinue.setEnabled(true);
             return;
         }
         RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getString(R.string.Coppa_Age_Verification_Alert_Title),
