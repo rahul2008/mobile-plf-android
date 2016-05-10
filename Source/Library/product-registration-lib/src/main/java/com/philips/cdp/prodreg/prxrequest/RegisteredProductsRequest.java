@@ -21,7 +21,7 @@ import java.util.Map;
 public class RegisteredProductsRequest extends PrxRequest {
 
     private String accessToken;
-    private String mServerInfo="https://acc.philips.com/prx/registration.registeredProducts";
+    private String mServerInfo = "https://acc.philips.com/prx/registration.registeredProducts";
     private String ACCESS_TOKEN_TAG = "x-accessToken";
 
     public String getAccessToken() {
@@ -39,7 +39,7 @@ public class RegisteredProductsRequest extends PrxRequest {
 
     @Override
     public String getServerInfo() {
-        String mConfiguration =  RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+        String mConfiguration = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
         if (mConfiguration.equalsIgnoreCase("Development")) {
             mServerInfo = "https://10.128.41.113.philips.com/prx/registration.registeredProducts";
         } else if (mConfiguration.equalsIgnoreCase("Testing")) {
@@ -48,7 +48,7 @@ public class RegisteredProductsRequest extends PrxRequest {
             mServerInfo = "https://acc.philips.com/prx/registration.registeredProducts";
         } else if (mConfiguration.equalsIgnoreCase("Staging")) {
             mServerInfo = "https://dev.philips.com/prx/registration.registeredProducts";
-        }else if (mConfiguration.equalsIgnoreCase("Production")) {
+        } else if (mConfiguration.equalsIgnoreCase("Production")) {
             mServerInfo = "https://www.philips.com/prx/registration.registeredProducts";
         }
         return mServerInfo;

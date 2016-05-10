@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.

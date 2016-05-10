@@ -35,7 +35,7 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
     private RegisteredProduct registeredProduct;
     private HashSet<RegisteredProduct> registeredProducts = new HashSet<>();
     private Gson gson;
-    private  RegisteredProduct[] registeredProducttest;
+    private RegisteredProduct[] registeredProducttest;
 
     @Override
     protected void setUp() throws Exception {
@@ -95,14 +95,15 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         localRegisteredProducts.syncLocalCache(new RegisteredProduct[]{registeredProductMock});
         assertEquals(registeredProducts.size(), 4);
     }
-    public void testGetRegisteredProducts(){
-        User userMock=mock(User.class);
-        RegisteredProduct registeredProductMOck=mock(RegisteredProduct.class);
-        assertEquals(3,localRegisteredProducts.getUniqueRegisteredProducts().size());
-        assertEquals(0,localRegisteredProducts.getRegisteredProducts().size());
+
+    public void testGetRegisteredProducts() {
+        User userMock = mock(User.class);
+        RegisteredProduct registeredProductMOck = mock(RegisteredProduct.class);
+        assertEquals(3, localRegisteredProducts.getUniqueRegisteredProducts().size());
+        assertEquals(0, localRegisteredProducts.getRegisteredProducts().size());
         when(registeredProductMOck.getUserUUid()).thenReturn("12345");
         when(userMock.getJanrainUUID()).thenReturn("12345");
-       // verify(registeredProductMOck.getUserUUid().equalsIgnoreCase(userMock.getJanrainUUID()));
+        // verify(registeredProductMOck.getUserUUid().equalsIgnoreCase(userMock.getJanrainUUID()));
         assertTrue(registeredProductMOck.getUserUUid().equalsIgnoreCase(userMock.getJanrainUUID()));
     }
 }
