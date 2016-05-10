@@ -20,6 +20,10 @@ public class FieldsValidator {
             return false;
         if (email.length() == 0)
             return false;
+        if (email.length() != email.trim().length())
+            return false;
+        if (email.contains(" "))
+            return false;
 
         String emailPattern ="^(?!.\\-\\_{2,}.)(?!.*?[._-]{2})[a-zA-Z0-9][a-zA-Z0-9._%+-]{0,61}[^`~,.<>;':\"\\/\\[\\]\\|{}()=" +
                 "_+\\?*&\\^%$#@!\\\\-]@((?!.\\-\\_{2,}.)(?!.*?[._-]{2})[^`~,.<>;':\"\\/\\[\\]\\|{}()=_+\\?*&\\^%$#@!\\\\-][-a-zA-Z0-9_.]+" +
