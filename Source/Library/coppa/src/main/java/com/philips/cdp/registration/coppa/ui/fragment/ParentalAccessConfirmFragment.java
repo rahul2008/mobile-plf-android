@@ -33,13 +33,13 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
     private int MAX_YEAR_VAL ;
     private int MIN_YEAR_VAL ;
     private Button mBtnContinue;
-    private TextView mTvHowOld;
-    private TextView mTvYearOfBirth;
     private RelativeLayout mRlBtnContinueContainer;
     private TextView mTvSelectedAge;
     private TextView mTvSelectedYear;
     private LinearLayout mLlSelectAgeContainer;
     private LinearLayout mLlSelectYearContainer;
+    private LinearLayout mLlSelectAgeSelector;
+    private LinearLayout mLlSelectYearSelector;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -131,17 +131,18 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         consumeTouch(view);
         mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
         mBtnContinue.setOnClickListener(this);
-        mTvHowOld = (TextView) view.findViewById(R.id.tv_reg_how_old);
-        mTvHowOld.setOnClickListener(this);
-        mTvYearOfBirth = (TextView) view.findViewById(R.id.tv_reg_birth_year);
-        mTvYearOfBirth.setOnClickListener(this);
         mRlBtnContinueContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_continue_container);
         mTvSelectedAge = (TextView) view.findViewById(R.id.tv_reg_selected_age);
         mTvSelectedYear = (TextView) view.findViewById(R.id.tv_reg_selected_birth_year);
         mLlSelectAgeContainer = (LinearLayout) view.findViewById(R.id.ll_reg_age_select_container);
-        mLlSelectAgeContainer.setOnClickListener(this);
+
+        mLlSelectAgeSelector = (LinearLayout) view.findViewById(R.id.ll_reg_age_selector);
+        mLlSelectAgeSelector.setOnClickListener(this);
+
         mLlSelectYearContainer = (LinearLayout) view.findViewById(R.id.ll_reg_age_year_container);
-        mLlSelectYearContainer.setOnClickListener(this);
+
+        mLlSelectYearSelector = (LinearLayout) view.findViewById(R.id.ll_reg_age_year_selector);
+        mLlSelectYearSelector.setOnClickListener(this);
     }
 
     @Override
@@ -152,7 +153,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
             mBtnContinue.setEnabled(false);
             validateInputs();
 
-        } else if (id == R.id.ll_reg_age_select_container || id == R.id.tv_reg_how_old) {
+        } else if ( id == R.id.ll_reg_age_selector) {
 
             XNumberPickerDialog dialogCoppaAgeVerification = new XNumberPickerDialog(new NumberPickerListener() {
                 @Override
@@ -163,7 +164,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
             });
             dialogCoppaAgeVerification.showNumberPickerDialog(getActivity(), MIN_AGE_VAL, MAX_AGE_VAL);
             dialogCoppaAgeVerification.setInitialValue(MIN_AGE_VAL);
-        } else if (id == R.id.ll_reg_age_year_container || id == R.id.tv_reg_birth_year) {
+        } else if (id== R.id.ll_reg_age_year_selector) {
 
             XNumberPickerDialog dialogCoppaAgeVerification = new XNumberPickerDialog(new NumberPickerListener() {
                 @Override
