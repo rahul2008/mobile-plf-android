@@ -75,6 +75,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
         setTitle(R.string.iap_payment);
     }
 
@@ -95,7 +96,6 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     @Override
     public void onClick(View v) {
         if (v == mBtnCancel) {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
             moveToFragment(ShoppingCartFragment.TAG);
         }
     }
@@ -115,7 +115,6 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
                 mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
             }
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
             Bundle bundle = new Bundle();
             bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
             addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE),
@@ -134,7 +133,6 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());
             addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);

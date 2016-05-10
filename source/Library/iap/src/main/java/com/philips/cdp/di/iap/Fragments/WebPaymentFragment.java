@@ -31,6 +31,7 @@ public class WebPaymentFragment extends WebFragment {
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.WORLD_PAY_PAGE_NAME);
         setTitle(R.string.iap_payment);
         setBackButtonVisibility(View.GONE);
     }
@@ -72,7 +73,6 @@ public class WebPaymentFragment extends WebFragment {
     }
 
     private void launchConfirmationScreen(Bundle bundle) {
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
         addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 
@@ -93,7 +93,6 @@ public class WebPaymentFragment extends WebFragment {
             //Track Payment cancelled action
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
             moveToPreviousFragment();
         } else {
             match = false;
