@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.prodreg"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 2
         versionName "1.0.0.rc_2"
