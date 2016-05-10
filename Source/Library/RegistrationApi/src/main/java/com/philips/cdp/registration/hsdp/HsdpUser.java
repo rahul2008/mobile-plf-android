@@ -242,11 +242,11 @@ public class HsdpUser {
         DhpApiClientConfiguration dhpApiClientConfiguration = null;
         String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
         HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHsdpConfiguration().getHSDPInfo(RegUtility.getConfiguration(environment));
-        if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null != hsdpInfo.getSecretId() && null != hsdpInfo.getSharedId()
+        if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null != hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getApplicationName()) {
 
             RLog.i(RLog.HSDP, "Base URL " + hsdpInfo.getBaseURL());
-            dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(), hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecretId());
+            dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(), hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecreteId());
         }
         return dhpApiClientConfiguration;
     }

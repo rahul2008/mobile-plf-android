@@ -34,7 +34,7 @@ public class RegistrationHSDPConfigurationTest extends ActivityInstrumentationTe
         HSDPInfo hsdpInfo = new HSDPInfo();
         hsdpInfo.setApplicationName("Appname");
         hsdpInfo.setBaseURL("url");
-        hsdpInfo.setSecretId("secreteid");
+        hsdpInfo.setSecreteId("secreteid");
         hsdpInfo.setSharedId("sharedid");
 
         hsdpConfiguration.setHSDPInfo(Configuration.EVALUATION, hsdpInfo);
@@ -50,7 +50,7 @@ public class RegistrationHSDPConfigurationTest extends ActivityInstrumentationTe
         if(!hsdpConfiguration.getHSDPInfo(Configuration.EVALUATION).getApplicationName().equalsIgnoreCase("Appname")) {
             assertTrue(false);
         }
-        if(!hsdpConfiguration.getHSDPInfo(Configuration.EVALUATION).getSecretId().equalsIgnoreCase("secreteid")){
+        if(!hsdpConfiguration.getHSDPInfo(Configuration.EVALUATION).getSecreteId().equalsIgnoreCase("secreteid")){
             assertTrue(false);
         }
 
@@ -75,7 +75,7 @@ public class RegistrationHSDPConfigurationTest extends ActivityInstrumentationTe
         HSDPInfo hsdpInfo = new HSDPInfo();
         hsdpInfo.setApplicationName("Appname");
         hsdpInfo.setBaseURL("url");
-        hsdpInfo.setSecretId("secreteid");
+        hsdpInfo.setSecreteId("secreteid");
         hsdpInfo.setSharedId("sharedid");
 
         hsdpConfiguration.setHSDPInfo(Configuration.STAGING, hsdpInfo);
@@ -96,7 +96,7 @@ public class RegistrationHSDPConfigurationTest extends ActivityInstrumentationTe
         HSDPInfo hsdpInfo = new HSDPInfo();
         hsdpInfo.setApplicationName("Appname");
         hsdpInfo.setBaseURL("url");
-        hsdpInfo.setSecretId("secreteid");
+        hsdpInfo.setSecreteId("secreteid");
         hsdpInfo.setSharedId("sharedid");
 
         hsdpConfiguration.setHSDPInfo(Configuration.STAGING, hsdpInfo);
@@ -112,7 +112,7 @@ public class RegistrationHSDPConfigurationTest extends ActivityInstrumentationTe
         if(!hsdpConfiguration.getHSDPInfo(Configuration.STAGING).getApplicationName().equalsIgnoreCase("Appname")) {
             assertTrue(false);
         }
-        if(!hsdpConfiguration.getHSDPInfo(Configuration.STAGING).getSecretId().equalsIgnoreCase("secreteid")){
+        if(!hsdpConfiguration.getHSDPInfo(Configuration.STAGING).getSecreteId().equalsIgnoreCase("secreteid")){
             assertTrue(false);
         }
 
@@ -138,7 +138,7 @@ public class RegistrationHSDPConfigurationTest extends ActivityInstrumentationTe
         HSDPInfo hsdpInfo = new HSDPInfo();
         hsdpInfo.setApplicationName("Appname");
         hsdpInfo.setBaseURL("url");
-        hsdpInfo.setSecretId("secreteid");
+        hsdpInfo.setSecreteId("secreteid");
         hsdpInfo.setSharedId("sharedid");
 
         hsdpConfiguration.setHSDPInfo(Configuration.STAGING, hsdpInfo);
@@ -154,7 +154,7 @@ public class RegistrationHSDPConfigurationTest extends ActivityInstrumentationTe
         if(!hsdpConfiguration.getHSDPInfo(Configuration.STAGING).getApplicationName().equalsIgnoreCase("Appname")) {
             assertTrue(false);
         }
-        if(!hsdpConfiguration.getHSDPInfo(Configuration.STAGING).getSecretId().equalsIgnoreCase("secreteid")){
+        if(!hsdpConfiguration.getHSDPInfo(Configuration.STAGING).getSecreteId().equalsIgnoreCase("secreteid")){
             assertTrue(false);
         }
 

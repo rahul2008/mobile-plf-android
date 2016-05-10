@@ -80,7 +80,7 @@ public class HSDPConfiguration {
 
 
         return (null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
-                && null != hsdpInfo.getSecretId()
+                && null != hsdpInfo.getSecreteId()
                 && null != hsdpInfo.getBaseURL());
     }
 
@@ -98,7 +98,7 @@ public class HSDPConfiguration {
                 exception += "shared key ";
             }
         }
-        if (hsdpInfo.getSecretId() == null) {
+        if (hsdpInfo.getSecreteId() == null) {
             if (null != exception) {
                 exception += ",Secret key ";
             } else {

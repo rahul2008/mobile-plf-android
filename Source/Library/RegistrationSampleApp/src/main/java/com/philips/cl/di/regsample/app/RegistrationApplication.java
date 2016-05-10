@@ -69,7 +69,7 @@ public class RegistrationApplication extends Application {
 	/*	HSDPInfo hsdpInfo = new HSDPInfo();
 		hsdpInfo.setApplicationName("uGrowApp");
 		hsdpInfo.setSharedId("f129afcc-55f4-11e5-885d-feff819cdc9f");
-		hsdpInfo.setSecretId("f129b5a8-55f4-11e5-885d-feff819cdc9f");
+		hsdpInfo.setSecreteId("f129b5a8-55f4-11e5-885d-feff819cdc9f");
 		hsdpInfo.setBaseURL("http://ugrow-userregistration15.cloud.pcftest.com");
 
 
@@ -81,7 +81,7 @@ public class RegistrationApplication extends Application {
 		/*HSDPInfo hsdpInfo = new HSDPInfo();
 		hsdpInfo.setApplicationName("uGrow");
 		hsdpInfo.setSharedId("c62362a0-f02c-11e5-9ce9-5e5517507c66");
-		hsdpInfo.setSecretId("c623685e-f02c-11e5-9ce9-5e5517507c66");
+		hsdpInfo.setSecreteId("c623685e-f02c-11e5-9ce9-5e5517507c66");
 		hsdpInfo.setBaseURL("https://user-registration-assembly-testing-1600.us-east.philips-healthsuite.com");
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);*/
 

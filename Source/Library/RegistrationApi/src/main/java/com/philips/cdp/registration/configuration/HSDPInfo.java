@@ -27,21 +27,21 @@ public class HSDPInfo {
     }
 
     /**
-     * Get secret id
+     * Get secrete id
      *
      * @return String
      */
-    public String getSecretId() {
+    public String getSecreteId() {
         return secretId;
     }
 
     /**
      * Set secrete id
      *
-     * @param secretId String
+     * @param secreteId String
      */
-    public void setSecretId(String secretId) {
-        this.secretId = secretId;
+    public void setSecreteId(String secreteId) {
+        this.secretId = secreteId;
     }
 
     /**
