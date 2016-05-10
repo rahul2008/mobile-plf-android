@@ -19,6 +19,7 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -64,7 +65,15 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         public void onFailure(final Message msg) {
             if (Utility.isProgressDialogShowing())
                 Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+            if (null != iapNetworkError.getServerError()) {
+                if(iapNetworkError.getIAPErrorCode()==IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR){
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                            getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
+                }
+            } else {
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            }
         }
     };
 
