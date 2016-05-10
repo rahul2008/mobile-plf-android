@@ -130,10 +130,14 @@ public class UserWithProducts {
     //     * @param consumer
      */
     public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener, final Sector sector, final Catalog catalog) {
-        setRequestType(FETCH_REGISTERED_PRODUCTS);
-        this.registeredProductsListener = registeredProductsListener;
-        final RemoteRegisteredProducts remoteRegisteredProducts = new RemoteRegisteredProducts();
-        remoteRegisteredProducts.getRegisteredProducts(mContext, getUserProduct(), getUser(), registeredProductsListener, sector, catalog);
+        if (user.isUserSignIn()) {
+            setRequestType(FETCH_REGISTERED_PRODUCTS);
+            this.registeredProductsListener = registeredProductsListener;
+            final RemoteRegisteredProducts remoteRegisteredProducts = new RemoteRegisteredProducts();
+            remoteRegisteredProducts.getRegisteredProducts(mContext, getUserProduct(), getUser(), registeredProductsListener, sector, catalog);
+        } else {
+            registeredProductsListener.getRegisteredProductsSuccess(getLocalRegisteredProductsInstance().getRegisteredProducts(), -1);
+        }
     }
 
     public void updateLocaleCacheOnError(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
@@ -218,7 +222,7 @@ public class UserWithProducts {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                getErrorHandler().handleError(getUserProduct(), registeredProduct, ProdRegError.METADATA_FAILED.getCode(), appListener);
+                getErrorHandler().handleError(getUserProduct(), registeredProduct, responseCode, appListener);
             }
         };
     }
