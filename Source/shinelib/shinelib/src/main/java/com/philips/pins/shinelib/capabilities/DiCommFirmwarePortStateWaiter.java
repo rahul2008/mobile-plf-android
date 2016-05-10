@@ -14,7 +14,7 @@ import java.util.Map;
 import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.Key;
 import static com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort.State;
 
-class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener {
+public class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener {
 
     private static final String TAG = "DiCommFirmwarePort";
     private State expectedState;
