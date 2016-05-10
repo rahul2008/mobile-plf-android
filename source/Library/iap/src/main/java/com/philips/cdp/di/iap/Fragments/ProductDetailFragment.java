@@ -68,7 +68,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if(iapNetworkError.getIAPErrorCode()==IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR){
-                    ErrorDialogFragment modalAlertDemoFragment;
                     NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                             getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
                 }
