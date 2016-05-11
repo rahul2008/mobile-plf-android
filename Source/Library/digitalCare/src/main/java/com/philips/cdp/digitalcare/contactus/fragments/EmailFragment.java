@@ -8,7 +8,6 @@
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -40,7 +38,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private String EMAIL_URL = "https://%s/content/%s/%s_%s/support-home/support-contact-form.html?param1=%s";
+    private String EMAIL_URL = "https://%s/content/%s/%s_%s/support-home/support-contact-form-mrs.html?param1=%s";
     private String TAG = EmailFragment.class.getSimpleName();
 
     @Override
