@@ -18,7 +18,9 @@ import android.view.View;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.activity.IAPFragmentListener;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.tagging.Tagging;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
     private IAPFragmentListener mActivityListener;
@@ -87,6 +89,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     protected void finishActivity() {
+        IAPAnalytics.trackPage(Tagging.getLaunchingPageName());
         getActivity().finish();
     }
 

@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.os.Message;
-import android.util.Log;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -147,6 +146,7 @@ public class PRXProductDataBuilder {
                     .append(cartData.get(i).getProductTitle()).append(";").append(String.valueOf(entriesEntity.getQuantity()))
                     .append(";").append(entriesEntity.getTotalPrice().getValue());
         }
+        System.out.println("Cart List" + products);
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, products);
     }
 

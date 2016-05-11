@@ -208,8 +208,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             }
         }
         if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
-
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE),
@@ -272,7 +270,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void moveToShippingAddressFragment(final HashMap<String, String> payload) {
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
         Bundle extras = new Bundle();
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
         addFragment(ShippingAddressFragment.createInstance(extras, AnimationType.NONE),
