@@ -72,5 +72,11 @@ public class ErrorHandlerTest extends MockitoTestCase {
         errorHandler.handleError(userWithProductsMock, product, 600, prodRegListenerMock8);
         verify(prodRegListenerMock).onProdRegFailed(product8, userWithProductsMock);
         verify(userWithProductsMock).updateLocaleCacheOnError(product8, ProdRegError.UNKNOWN, RegistrationState.FAILED);
+
+        ProdRegListener prodRegListenerMock9 = mock(ProdRegListener.class);
+        RegisteredProduct product9 = new RegisteredProduct("ctn", null, null);
+        errorHandler.handleError(userWithProductsMock, product, 511, prodRegListenerMock9);
+        verify(prodRegListenerMock).onProdRegFailed(product9, userWithProductsMock);
+        verify(userWithProductsMock).updateLocaleCacheOnError(product9, ProdRegError.NETWORK_ERROR, RegistrationState.FAILED);
     }
 }

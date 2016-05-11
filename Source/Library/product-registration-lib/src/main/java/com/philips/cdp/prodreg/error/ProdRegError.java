@@ -16,9 +16,10 @@ public enum ProdRegError {
     PRODUCT_ALREADY_REGISTERED(6, "Product already registered"),
     FETCH_REGISTERED_PRODUCTS_FAILED(7, "Failed to fetch registered products"),
     NO_INTERNET_AVAILABLE(9, "No internet connection available"),
-    INTERNAL_SERVER_ERROR(2, "Internal server error"),
+    INTERNAL_SERVER_ERROR(500, "Internal server error"),
     TIME_OUT(504, "Time out error"),
-    //Server Error Code
+    NETWORK_ERROR(511, "Network error when performing a request"),
+    PARSE_ERROR(1, "Indicates that the server's response could not be parsed"),
     INVALID_CTN(404, "Enter valid CTN number"),
     ACCESS_TOKEN_INVALID(401, "malformed access token"),
     INVALID_VALIDATION(422, "Input validation Error");
