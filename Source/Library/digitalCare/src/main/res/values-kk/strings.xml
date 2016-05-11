@@ -145,6 +145,6 @@
 <string name="NO_PRODUCT_KEY">Қолжетімді өнімдер жоқ</string>
 <string name="NO_SUPPORT_KEY">Қолжетімді қолдау көрсету жоқ</string>
     Жиі қойылатын сұрақтар
-    <string name="FAQ_KEY_TABLET"></string>
+    <string name="FAQ_KEY_TABLET">Жиі қойылатын сұрақтар </string>
 
 </resources>
