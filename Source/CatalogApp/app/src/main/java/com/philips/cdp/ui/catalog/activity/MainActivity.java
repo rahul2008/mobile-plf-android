@@ -155,6 +155,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
             case 24:
                 startActivity(new Intent(this, FontActivity.class));
+                break;
             case 25:
                 startActivity(new Intent(this, SpinnerButtonActivity.class));
             default:
