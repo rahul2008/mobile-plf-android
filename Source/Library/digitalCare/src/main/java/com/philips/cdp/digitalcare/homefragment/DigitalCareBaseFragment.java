@@ -69,11 +69,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private ImageView mHomeIcon = null;
 
     public synchronized static void setStatus(boolean connection) {
-        if (connection)
-            isConnectionAvailable = true;
-        else {
-            isConnectionAvailable = false;
-        }
+        isConnectionAvailable = connection;
     }
 
     public abstract void setViewParams(Configuration config);
@@ -239,7 +235,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                         null,
                         message,
                         getActivity().getResources().getString(
-                                android.R.string.yes));
+                                android.R.string.ok));
                 AnalyticsTracker
                         .trackAction(
                                 AnalyticsConstants.ACTION_SET_ERROR,
