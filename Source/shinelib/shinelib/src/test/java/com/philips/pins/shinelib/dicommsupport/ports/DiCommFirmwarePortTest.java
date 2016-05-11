@@ -3,6 +3,7 @@ package com.philips.pins.shinelib.dicommsupport.ports;
 import com.philips.pins.shinelib.SHNMapResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.dicommsupport.DiCommChannel;
+import com.philips.pins.shinelib.helper.MockedHandler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,11 +31,13 @@ public class DiCommFirmwarePortTest {
 
     private Map<String, Object> properties = new HashMap<>();
     private DiCommFirmwarePort diCommFirmwarePort;
+    private MockedHandler mockedHandler;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        diCommFirmwarePort = new DiCommFirmwarePort();
+        mockedHandler = new MockedHandler();
+        diCommFirmwarePort = new DiCommFirmwarePort(mockedHandler.getMock());
     }
 
     @Test
@@ -59,7 +62,7 @@ public class DiCommFirmwarePortTest {
 
     @Test
     public void whenCreatedThenStateIsUnknown() throws Exception {
-        DiCommFirmwarePort diCommFirmwarePort = new DiCommFirmwarePort();
+        DiCommFirmwarePort diCommFirmwarePort = new DiCommFirmwarePort(mockedHandler.getMock());
 
         assertEquals(DiCommFirmwarePort.State.Unknown, diCommFirmwarePort.getState());
     }
@@ -82,7 +85,7 @@ public class DiCommFirmwarePortTest {
 
     @Test
     public void whenCreatedThenMaxChunkSizeIsNotDefined() throws Exception {
-        DiCommFirmwarePort diCommFirmwarePort = new DiCommFirmwarePort();
+        DiCommFirmwarePort diCommFirmwarePort = new DiCommFirmwarePort(mockedHandler.getMock());
 
         assertEquals(Integer.MAX_VALUE, diCommFirmwarePort.getMaxChunkSize());
     }
@@ -97,7 +100,7 @@ public class DiCommFirmwarePortTest {
 
     @Test
     public void whenCreatedThenStatusMessageIsUndefined() throws Exception {
-        DiCommFirmwarePort diCommFirmwarePort = new DiCommFirmwarePort();
+        DiCommFirmwarePort diCommFirmwarePort = new DiCommFirmwarePort(mockedHandler.getMock());
 
         assertNull(diCommFirmwarePort.getStatusMessage());
     }
@@ -112,7 +115,7 @@ public class DiCommFirmwarePortTest {
 
     @Test
     public void whenCreatedThenUpgradeIsUndefined() throws Exception {
-        DiCommFirmwarePort diCommFirmwarePort = new DiCommFirmwarePort();
+        DiCommFirmwarePort diCommFirmwarePort = new DiCommFirmwarePort(mockedHandler.getMock());
 
         assertNull(diCommFirmwarePort.getUploadedUpgradeVersion());
     }
@@ -127,7 +130,7 @@ public class DiCommFirmwarePortTest {
 
     @Test
     public void whenCreatedThenCanUpgradeIsUndefined() throws Exception {
-        DiCommFirmwarePort diCommFirmwarePort = new DiCommFirmwarePort();
+        DiCommFirmwarePort diCommFirmwarePort = new DiCommFirmwarePort(mockedHandler.getMock());
 
         assertFalse(diCommFirmwarePort.getCanUpgrade());
     }

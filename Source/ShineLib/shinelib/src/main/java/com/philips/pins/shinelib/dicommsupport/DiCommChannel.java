@@ -31,6 +31,8 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     private final Timer requestTimer;
 
     private void requestTimedOut() {
+        SHNLogger.d(TAG, "requestTimedOut");
+
         shnProtocolMoonshineStreaming.transitionToError(SHNResult.SHNErrorTimeout);
     }
 
@@ -102,7 +104,9 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
 
     private void reportToListener(Map<String, Object> properties, SHNResult result) {
         if (!pendingRequests.isEmpty()) {
-            pendingRequests.remove(0).getResultListener().onActionCompleted(properties, result);
+            RequestInfo requestInfo = pendingRequests.get(0);
+            requestInfo.getResultListener().onActionCompleted(properties, result);
+            pendingRequests.remove(0);
         } else {
             SHNLogger.e(TAG, "Unexpected message with properties " + properties);
         }

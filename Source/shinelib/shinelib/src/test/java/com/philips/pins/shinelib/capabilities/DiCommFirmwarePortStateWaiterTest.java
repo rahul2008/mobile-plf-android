@@ -4,6 +4,7 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.dicommsupport.DiCommPort;
 import com.philips.pins.shinelib.dicommsupport.ports.DiCommFirmwarePort;
+import com.philips.pins.shinelib.helper.MockedHandler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class DiCommFirmwarePortStateWaiterTest {
+public class DiCommFirmwarePortStateWaiterTest{
 
     @Mock
     private DiCommFirmwarePort portMock;
@@ -35,17 +36,19 @@ public class DiCommFirmwarePortStateWaiterTest {
     private ArgumentCaptor<SHNResultListener> resultListenerArgumentCaptor;
 
     private DiCommFirmwarePortStateWaiter diCommFirmwarePortStateWaiter;
+    private MockedHandler mockedHandler;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        diCommFirmwarePortStateWaiter = new DiCommFirmwarePortStateWaiter(portMock);
+        mockedHandler = new MockedHandler();
+        diCommFirmwarePortStateWaiter = new DiCommFirmwarePortStateWaiter(portMock, mockedHandler.getMock());
     }
 
     @Test
     public void canCreate() throws Exception {
-        new DiCommFirmwarePortStateWaiter(portMock);
+        new DiCommFirmwarePortStateWaiter(portMock, mockedHandler.getMock());
     }
 
     @Test
@@ -104,6 +107,7 @@ public class DiCommFirmwarePortStateWaiterTest {
         Map<String, Object> properties = new HashMap<>();
         properties.put("state", "downloading");
         updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
+        mockedHandler.executeFirstScheduledExecution();
 
         verify(listenerMock).onRequestReceived(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
     }
@@ -116,6 +120,7 @@ public class DiCommFirmwarePortStateWaiterTest {
         Map<String, Object> properties = new HashMap<>();
         properties.put("state", "error");
         updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
+        mockedHandler.executeFirstScheduledExecution();
 
         verify(listenerMock).onRequestReceived(DiCommFirmwarePort.State.Error, SHNResult.SHNErrorInvalidState);
     }
@@ -140,9 +145,11 @@ public class DiCommFirmwarePortStateWaiterTest {
         Map<String, Object> properties = new HashMap<>();
         properties.put("state", "preparing");
         updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
+        mockedHandler.executeFirstScheduledExecution();
 
         properties.put("state", "downloading");
         updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
+        mockedHandler.executeFirstScheduledExecution();
 
         verify(listenerMock).onRequestReceived(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
     }

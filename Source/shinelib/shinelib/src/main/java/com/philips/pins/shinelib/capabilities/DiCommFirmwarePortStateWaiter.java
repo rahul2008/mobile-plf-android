@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib.capabilities;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -18,6 +19,7 @@ public class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener 
 
     private static final String TAG = "DiCommFirmwarePort";
     private State expectedState;
+    private Handler handler;
 
     public interface Listener {
 
@@ -26,18 +28,22 @@ public class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener 
 
     @NonNull
     private final DiCommFirmwarePort diCommFirmwarePort;
+    @NonNull
+    private Handler internalHandler;
 
     @Nullable
     private Listener listener;
 
-    public DiCommFirmwarePortStateWaiter(@NonNull DiCommFirmwarePort diCommFirmwarePort) {
+    public DiCommFirmwarePortStateWaiter(@NonNull DiCommFirmwarePort diCommFirmwarePort, @NonNull Handler internalHandler) {
         this.diCommFirmwarePort = diCommFirmwarePort;
+        this.internalHandler = internalHandler;
     }
 
     public void waitUntilStateIsReached(@NonNull final State state, @NonNull final Listener listener) {
         if (diCommFirmwarePort.getState() == state) {
             listener.onRequestReceived(state, SHNResult.SHNOk);
         } else {
+            SHNLogger.d(TAG, "stateWaiter subscribe for State " + state);
             diCommFirmwarePort.subscribe(this, new SHNResultListener() {
                 @Override
                 public void onActionCompleted(SHNResult result) {
@@ -53,6 +59,8 @@ public class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener 
     }
 
     public void cancel() {
+        SHNLogger.d(TAG, "stateWaiter cancel ");
+
         listener = null;
         diCommFirmwarePort.unsubscribe(this, null);
     }
@@ -60,6 +68,8 @@ public class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener 
     //implements DiCommPort.UpdateListener
     @Override
     public void onPropertiesChanged(@NonNull Map<String, Object> properties) {
+        SHNLogger.d(TAG, "stateWaiter onPropertiesChanged " + properties);
+
         if (properties.containsKey(Key.STATE)) {
             Object state = properties.get(Key.STATE);
 
@@ -83,10 +93,18 @@ public class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener 
 
     }
 
-    private void notifyListenerAndCancel(State newState, SHNResult shnErrorInvalidState) {
+    private void notifyListenerAndCancel(final State newState, final SHNResult shnErrorInvalidState) {
         if (listener != null) {
-            listener.onRequestReceived(newState, shnErrorInvalidState);
+            internalHandler.postDelayed(new Runnable() {
+                private Listener runnableListener = DiCommFirmwarePortStateWaiter.this.listener;
+
+                @Override
+                public void run() {
+                    this.runnableListener.onRequestReceived(newState, shnErrorInvalidState);
+                }
+            }, 1);
         }
+
         cancel();
     }
 

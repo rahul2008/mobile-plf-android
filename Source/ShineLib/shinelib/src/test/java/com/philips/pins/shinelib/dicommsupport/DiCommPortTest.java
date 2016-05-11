@@ -58,6 +58,7 @@ public class DiCommPortTest {
     private DiCommPort diCommPort;
     private Map<String, Object> properties = new HashMap<>();
     private MockedHandler mockedHandler;
+    private Map<String, Object> newProperties;
 
     @Before
     public void setUp() throws Exception {
@@ -66,18 +67,21 @@ public class DiCommPortTest {
         mockedHandler = new MockedHandler();
         Timer.setHandler(mockedHandler.getMock());
 
-        diCommPort = new DiCommPort(PORT_NAME);
+        diCommPort = new DiCommPort(PORT_NAME, mockedHandler.getMock());
         diCommPort.setListener(diCommPortListenerMock);
         diCommPort.setDiCommChannel(diCommChannelMock);
 
         properties.put(KEYS[0], DATA[0]);
         properties.put(KEYS[1], DATA[1]);
         properties.put(KEYS[2], DATA[2]);
+
+        newProperties = new HashMap<>(properties);
+        newProperties.put(KEYS[0], DATA[0] * 2);
     }
 
     @Test
     public void canCreate() throws Exception {
-        new DiCommPort(PORT_NAME);
+        new DiCommPort(PORT_NAME, mockedHandler.getMock());
     }
 
     @Test
@@ -262,6 +266,7 @@ public class DiCommPortTest {
     @Test
     public void canSubscribeWhileUnavailable() throws Exception {
         diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         verify(resultListenerMock).onActionCompleted(SHNResult.SHNOk);
     }
@@ -271,6 +276,7 @@ public class DiCommPortTest {
         goToAvailableState();
 
         diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         verify(resultListenerMock).onActionCompleted(SHNResult.SHNOk);
     }
@@ -278,9 +284,11 @@ public class DiCommPortTest {
     @Test
     public void canUnsubscribedWhileUnavailable() throws Exception {
         diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         reset(resultListenerMock);
         diCommPort.unsubscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         verify(resultListenerMock).onActionCompleted(SHNResult.SHNOk);
     }
@@ -290,6 +298,7 @@ public class DiCommPortTest {
         goToAvailableState();
 
         diCommPort.unsubscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         verify(resultListenerMock).onActionCompleted(SHNResult.SHNErrorInvalidState);
     }
@@ -299,6 +308,7 @@ public class DiCommPortTest {
         goToAvailableState();
 
         diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         verify(diCommChannelMock).reloadProperties(eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
     }
@@ -347,6 +357,7 @@ public class DiCommPortTest {
     public void whenSubscribedTwiceThenNotifiedOnce() throws Exception {
         whenSubscribedWhenReloadPropertiesIsCalled();
         diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNErrorInvalidState);
 
@@ -358,7 +369,9 @@ public class DiCommPortTest {
     public void whenSubscribedTwiceThenReloadPropertiesIsCalledOnce() throws Exception {
         whenSubscribedWhenReloadPropertiesIsCalled();
         reset(diCommChannelMock);
+
         diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         verify(diCommChannelMock, never()).reloadProperties(anyString(), any(SHNMapResultListener.class));
     }
@@ -367,7 +380,9 @@ public class DiCommPortTest {
     public void whenSubscribedTwiceThenSubscriptionResultIsReported() throws Exception {
         whenSubscribedWhenReloadPropertiesIsCalled();
         reset(diCommChannelMock, resultListenerMock);
+
         diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         verify(resultListenerMock).onActionCompleted(SHNResult.SHNOk);
     }
@@ -376,6 +391,7 @@ public class DiCommPortTest {
     public void whenUnsubscribedThenNotNotified() throws Exception {
         whenSubscribedWhenReloadPropertiesIsCalled();
         diCommPort.unsubscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
 
@@ -388,6 +404,7 @@ public class DiCommPortTest {
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
 
         diCommPort.unsubscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         assertEquals(0, mockedHandler.getScheduledExecutionCount());
     }
@@ -397,10 +414,12 @@ public class DiCommPortTest {
         whenSubscribedWhenReloadPropertiesIsCalled();
         DiCommPort.UpdateListener diCommUpdateListenerMock2 = mock(DiCommPort.UpdateListener.class);
         diCommPort.subscribe(diCommUpdateListenerMock2, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
 
         diCommPort.unsubscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         assertEquals(1, mockedHandler.getScheduledExecutionCount());
     }
@@ -409,6 +428,7 @@ public class DiCommPortTest {
     public void whenUnsubscribedThenPollingIsStopped2() throws Exception {
         whenSubscribedWhenReloadPropertiesIsCalled();
         diCommPort.unsubscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
 
@@ -422,6 +442,7 @@ public class DiCommPortTest {
 
         DiCommPort.UpdateListener diCommUpdateListenerMock2 = mock(DiCommPort.UpdateListener.class);
         diCommPort.subscribe(diCommUpdateListenerMock2, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         verify(diCommChannelMock, never()).reloadProperties(eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
     }
@@ -430,10 +451,13 @@ public class DiCommPortTest {
         goToAvailableState();
 
         diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
+        mockedHandler.executeFirstScheduledExecution();
 
         reset(diCommUpdateListenerMock);
         mockedHandler.executeFirstScheduledExecution();
         verify(diCommChannelMock).reloadProperties(eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
+
+        reset(diCommChannelMock);
     }
 
     @Test
@@ -449,9 +473,6 @@ public class DiCommPortTest {
     @Test
     public void whenOnePropertyHasChangedThenUpdateListenerIsNotified() throws Exception {
         verifyReloadPropertiesSent();
-
-        Map<String, Object> newProperties = new HashMap<>(properties);
-        newProperties.put(KEYS[0], DATA[0] * 2);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
 
@@ -480,9 +501,6 @@ public class DiCommPortTest {
     public void whenPropertyValueChangesToExistingOneThenUpdateListenerIsNotified() throws Exception {
         verifyReloadPropertiesSent();
 
-        Map<String, Object> newProperties = new HashMap<>(properties);
-        newProperties.put(KEYS[0], DATA[1]);
-
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
 
         verify(diCommUpdateListenerMock).onPropertiesChanged(mapArgumentCaptor.capture());
@@ -494,9 +512,6 @@ public class DiCommPortTest {
     public void whenPropertyValueChangesFromNullThenListenerIsNotified() throws Exception {
         properties.put(KEYS[0], null);
         verifyReloadPropertiesSent();
-
-        Map<String, Object> newProperties = new HashMap<>(properties);
-        newProperties.put(KEYS[0], DATA);
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
 
@@ -525,5 +540,33 @@ public class DiCommPortTest {
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
 
         verify(mapResultListenerMock).onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
+    }
+
+    @Test
+    public void whenReloadPropertyReturnsResultThenSubscriptionListenerIsNotified() throws Exception {
+        verifyReloadPropertiesSent();
+
+        diCommPort.reloadProperties(mapResultListenerMock);
+        verify(diCommChannelMock).reloadProperties(eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
+
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
+
+        verify(diCommUpdateListenerMock).onPropertiesChanged(mapArgumentCaptor.capture());
+        assertEquals(1, mapArgumentCaptor.getValue().size());
+        assertTrue(mapArgumentCaptor.getValue().containsKey(KEYS[0]));
+    }
+
+    @Test
+    public void whenPutPropertyReturnsResultThenSubscriptionListenerIsNotified() throws Exception {
+        verifyReloadPropertiesSent();
+
+        diCommPort.putProperties(newProperties, mapResultListenerMock);
+        verify(diCommChannelMock).sendProperties(eq(newProperties), eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
+
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
+
+        verify(diCommUpdateListenerMock).onPropertiesChanged(mapArgumentCaptor.capture());
+        assertEquals(1, mapArgumentCaptor.getValue().size());
+        assertTrue(mapArgumentCaptor.getValue().containsKey(KEYS[0]));
     }
 }

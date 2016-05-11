@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib.dicommsupport.ports;
 
+import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.dicommsupport.DiCommPort;
@@ -70,8 +71,8 @@ public class DiCommFirmwarePort extends DiCommPort {
         }
     }
 
-    public DiCommFirmwarePort() {
-        super(FIRMWARE);
+    public DiCommFirmwarePort(Handler internalHandler) {
+        super(FIRMWARE, internalHandler);
     }
 
     public int getMaxChunkSize() {

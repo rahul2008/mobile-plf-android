@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib.dicommsupport;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -30,9 +31,11 @@ public class DiCommPort {
     private Map<String, Object> properties = new HashMap<>();
     private Set<UpdateListener> updateListeners = new HashSet<>();
     private final Timer subscriptionTimer;
+    private Handler internalHandler;
 
-    public DiCommPort(@NonNull String name) {
+    public DiCommPort(@NonNull String name, @NonNull Handler internalHandler) {
         this.name = name;
+        this.internalHandler = internalHandler;
 
         subscriptionTimer = Timer.createTimer(new Runnable() {
             @Override
@@ -95,6 +98,8 @@ public class DiCommPort {
 
     public void reloadProperties(@NonNull final SHNMapResultListener<String, Object> resultListenerMock) {
         if (diCommChannel != null) {
+            SHNLogger.d(TAG, "reloadProperties " + properties);
+
             diCommChannel.reloadProperties(name, new SHNMapResultListener<String, Object>() {
                 @Override
                 public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
@@ -111,6 +116,7 @@ public class DiCommPort {
 
     public void putProperties(@NonNull Map<String, Object> properties, @NonNull final SHNMapResultListener<String, Object> resultListener) {
         if (diCommChannel != null) {
+            SHNLogger.d(TAG, "sendProperties " + properties);
             diCommChannel.sendProperties(properties, name, new SHNMapResultListener<String, Object>() {
                 @Override
                 public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
@@ -125,7 +131,9 @@ public class DiCommPort {
         }
     }
 
-    public void subscribe(@NonNull UpdateListener updateListener, @NonNull SHNResultListener shnResultListener) {
+    public void subscribe(@NonNull UpdateListener updateListener, @NonNull final SHNResultListener shnResultListener) {
+        SHNLogger.d(TAG, "subscribe " + updateListener);
+
         if (!updateListeners.contains(updateListener)) {
             updateListeners.add(updateListener);
             if (updateListeners.size() == 1) {
@@ -133,7 +141,16 @@ public class DiCommPort {
                 SHNLogger.d(TAG, "Started polling properties for port: " + name);
             }
         }
-        shnResultListener.onActionCompleted(SHNResult.SHNOk);
+
+        if (internalHandler == null) {
+            internalHandler = new Handler();
+        }
+        internalHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                shnResultListener.onActionCompleted(SHNResult.SHNOk);
+            }
+        }, 1);
     }
 
     private void refreshSubscription() {
@@ -144,11 +161,7 @@ public class DiCommPort {
                     if (result == SHNResult.SHNOk && !updateListeners.isEmpty()) {
                         subscriptionTimer.restart();
 
-                        Map<String, Object> changedProperties = mergeProperties(properties);
-
-                        if (!changedProperties.isEmpty()) {
-                            notifyPropertiesChanged(changedProperties);
-                        }
+                        mergeProperties(properties);
                     } else {
                         notifySubscriptionFailed(result);
                     }
@@ -160,13 +173,16 @@ public class DiCommPort {
     }
 
     @NonNull
-    private Map<String, Object> mergeProperties(Map<String, Object> properties) {
+    private void mergeProperties(Map<String, Object> properties) {
         Map<String, Object> mergedProperties = new HashMap<>(DiCommPort.this.properties);
         mergedProperties.putAll(properties);
 
         Map<String, Object> changedProperties = getChangedProperties(mergedProperties);
         DiCommPort.this.properties = mergedProperties;
-        return changedProperties;
+
+        if (!changedProperties.isEmpty()) {
+            notifyPropertiesChanged(changedProperties);
+        }
     }
 
     @NonNull
@@ -201,7 +217,9 @@ public class DiCommPort {
         }
     }
 
-    public void unsubscribe(UpdateListener updateListener, @Nullable SHNResultListener shnResultListener) {
+    public void unsubscribe(UpdateListener updateListener, @Nullable final SHNResultListener shnResultListener) {
+        SHNLogger.d(TAG, "unsubscribe " + updateListener);
+
         if (updateListeners.contains(updateListener)) {
             updateListeners.remove(updateListener);
 
@@ -209,14 +227,21 @@ public class DiCommPort {
                 subscriptionTimer.stop();
                 SHNLogger.d(TAG, "Stopped polling properties for port: " + name);
             }
-            if (shnResultListener != null) {
-                shnResultListener.onActionCompleted(SHNResult.SHNOk);
-            }
+            postResult(shnResultListener, SHNResult.SHNOk);
         } else {
-            if (shnResultListener != null) {
-                shnResultListener.onActionCompleted(SHNResult.SHNErrorInvalidState);
-            }
+            postResult(shnResultListener, SHNResult.SHNErrorInvalidState);
         }
+    }
+
+    private void postResult(@Nullable final SHNResultListener shnResultListener, final SHNResult result) {
+        internalHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (shnResultListener != null) {
+                    shnResultListener.onActionCompleted(result);
+                }
+            }
+        }, 1);
     }
 
     public interface Listener {
