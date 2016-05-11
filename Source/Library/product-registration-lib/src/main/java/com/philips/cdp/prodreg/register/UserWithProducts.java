@@ -38,7 +38,6 @@ public class UserWithProducts {
     public static final int PRODUCT_REGISTRATION = 0;
     public static final int FETCH_REGISTERED_PRODUCTS = 1;
     private final String TAG = getClass() + "";
-    private final String MICRO_SITE_ID = "MS";
     private int requestType = -1;
     private String locale;
     private RegisteredProductsListener registeredProductsListener;
@@ -272,6 +271,7 @@ public class UserWithProducts {
         registrationRequest.setRequiresPurchaseDate(requiresPurchaseDate);
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
+        final String MICRO_SITE_ID = "MS";
         registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());

@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
@@ -54,7 +53,7 @@ public class Product {
 
             @Override
             public void onResponseError(PrxError prxError) {
-                metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), prxError.getStatusCode());
+                metadataListener.onErrorResponse(prxError.getDescription(), prxError.getStatusCode());
             }
         };
     }

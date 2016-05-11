@@ -15,7 +15,6 @@ public enum ProdRegError {
     INVALID_SERIALNUMBER(5, "Enter valid Serial number"),
     PRODUCT_ALREADY_REGISTERED(6, "Product already registered"),
     FETCH_REGISTERED_PRODUCTS_FAILED(7, "Failed to fetch registered products"),
-    METADATA_FAILED(8, "Failed to get Metadata"),
     NO_INTERNET_AVAILABLE(9, "No internet connection available"),
     INTERNAL_SERVER_ERROR(2, "Internal server error"),
     TIME_OUT(504, "Time out error"),

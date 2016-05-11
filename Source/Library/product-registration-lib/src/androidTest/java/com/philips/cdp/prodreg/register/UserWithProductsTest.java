@@ -485,8 +485,8 @@ public class UserWithProductsTest extends MockitoTestCase {
         ProductMetadataResponse responseDataMock = mock(ProductMetadataResponse.class);
         metadataListener.onMetadataResponse(responseDataMock);
         verify(userWithProductsMock).makeRegistrationRequest(context, productMock, prodRegListenerMock);
-        metadataListener.onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), ProdRegError.METADATA_FAILED.getCode());
-        verify(errorHandlerMock).handleError(userWithProductsMock, productMock, ProdRegError.METADATA_FAILED.getCode(), prodRegListenerMock);
+        metadataListener.onErrorResponse("test", 8);
+        verify(errorHandlerMock).handleError(userWithProductsMock, productMock, 8, prodRegListenerMock);
     }
 
     public void testRegistrationRequest() {

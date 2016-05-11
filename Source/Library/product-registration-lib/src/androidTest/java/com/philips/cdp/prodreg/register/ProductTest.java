@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
-import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
@@ -77,7 +76,7 @@ public class ProductTest extends MockitoTestCase {
         responseListener.onResponseSuccess(responseDataMock);
         verify(metadataListener).onMetadataResponse(responseDataMock);
         responseListener.onResponseError(new PrxError("test", 8));
-        verify(metadataListener).onErrorResponse(ProdRegError.METADATA_FAILED.getDescription(), ProdRegError.METADATA_FAILED.getCode());
+        verify(metadataListener).onErrorResponse("test", 8);
     }
 
     public void testProductGetMethods() {

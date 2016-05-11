@@ -30,9 +30,6 @@ public class ErrorHandler {
         } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()) {
             userProduct.updateLocaleCacheOnError(registeredProduct, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct, userProduct);
-        } else if (statusCode == ProdRegError.METADATA_FAILED.getCode()) {
-            userProduct.updateLocaleCacheOnError(registeredProduct, ProdRegError.METADATA_FAILED, RegistrationState.FAILED);
-            appListener.onProdRegFailed(registeredProduct, userProduct);
         } else if (statusCode == ProdRegError.TIME_OUT.getCode()) {
             userProduct.updateLocaleCacheOnError(registeredProduct, ProdRegError.TIME_OUT, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct, userProduct);

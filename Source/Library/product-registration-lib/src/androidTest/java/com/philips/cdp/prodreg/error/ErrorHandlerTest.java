@@ -57,12 +57,6 @@ public class ErrorHandlerTest extends MockitoTestCase {
         verify(prodRegListenerMock).onProdRegFailed(product4, userWithProductsMock);
         verify(userWithProductsMock).updateLocaleCacheOnError(product4, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.FAILED);
 
-        ProdRegListener prodRegListenerMock5 = mock(ProdRegListener.class);
-        RegisteredProduct product5 = new RegisteredProduct("ctn", null, null);
-        errorHandler.handleError(userWithProductsMock, product, ProdRegError.METADATA_FAILED.getCode(), prodRegListenerMock5);
-        verify(prodRegListenerMock).onProdRegFailed(product5, userWithProductsMock);
-        verify(userWithProductsMock).updateLocaleCacheOnError(product5, ProdRegError.METADATA_FAILED, RegistrationState.FAILED);
-
         ProdRegListener prodRegListenerMock6 = mock(ProdRegListener.class);
         RegisteredProduct product6 = new RegisteredProduct("ctn", null, null);
         errorHandler.handleError(userWithProductsMock, product, ProdRegError.TIME_OUT.getCode(), prodRegListenerMock6);
@@ -70,7 +64,6 @@ public class ErrorHandlerTest extends MockitoTestCase {
         verify(userWithProductsMock).updateLocaleCacheOnError(product6, ProdRegError.TIME_OUT, RegistrationState.FAILED);
 
         ProdRegListener prodRegListenerMock7 = mock(ProdRegListener.class);
-        RegisteredProduct product7 = new RegisteredProduct("ctn", null, null);
         errorHandler.handleError(userWithProductsMock, product, ProdRegError.ACCESS_TOKEN_INVALID.getCode(), prodRegListenerMock7);
         verify(userWithProductsMock).onAccessTokenExpire(product, prodRegListenerMock7);
 
