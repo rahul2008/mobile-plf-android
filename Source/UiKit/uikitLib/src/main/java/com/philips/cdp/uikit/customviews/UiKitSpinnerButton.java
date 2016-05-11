@@ -37,10 +37,6 @@ public class UiKitSpinnerButton extends FrameLayout implements View.OnClickListe
         view = LayoutInflater.from(context).inflate(R.layout.uikit_spinner_button, this);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarPB);
         progressBar.setVisibility(ProgressBar.GONE);
-            /*if (progressBar.getIndeterminateDrawable() != null) {
-                progressBar.getIndeterminateDrawable().setColorFilter( ContextCompat.getColor(context, R.color.uikit_enricher4), PorterDuff.Mode.SRC_ATOP);
-            }*/
-       // progressBar.getProgressDrawable().setColorFilter(ContextCompat.getColor(context, R.color.uikit_enricher4), PorterDuff.Mode.SRC_ATOP);
         progressBar.incrementProgressBy(1);
         button = (Button) view.findViewById(R.id.buttonPB);
         button.setOnClickListener(this);
