@@ -14,4 +14,7 @@ public interface LoggingInterface {
 
     public LoggingInterface createInstanceForComponent(String componentId, String componentVersion);
     public void log(LogLevel level, String eventId, String message);
+    public void enableFileLog(boolean pFileLogEnabled);
+    public void enableConsoleLog(boolean isEnabled );
+
 }

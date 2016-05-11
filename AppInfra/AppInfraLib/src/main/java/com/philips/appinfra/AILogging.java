@@ -10,7 +10,7 @@ package com.philips.appinfra;
  * Created by 310238114 on 5/5/2016.
  */
 public class AILogging implements  LoggingInterface {
-    private  AppInfra mAppInfra;
+      AppInfra mAppInfra;
 
     /*public AILogging() {
     // default constructor
@@ -32,6 +32,16 @@ public class AILogging implements  LoggingInterface {
     @Override
     public void log(LogLevel level, String eventId, String message) {
         log(level, eventId, null, null, message);
+    }
+
+    @Override
+    public void enableFileLog(boolean pFileLogEnabled) {
+
+    }
+
+    @Override
+    public void enableConsoleLog(boolean isEnabled) {
+
     }
 
     protected void log(LogLevel level, String componentId, String componentVersion, String eventId, String message) {

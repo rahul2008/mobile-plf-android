@@ -44,14 +44,16 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case 1 :
+                //                Tagging.enableAppTagging(true);
+//                //Mandatory to set
+//                Tagging.setTrackingIdentifier(ANALYTICS_APP_ID);
+//                Tagging.init(Locale.CHINA, getActivity(), "App Framwork demo app");
                 Intent i = new Intent(AppInfraMainActivity.this, AIATDemoPage.class);
                 startActivity(i);
                 break;
             case 2 :
-//                Tagging.enableAppTagging(true);
-//                //Mandatory to set
-//                Tagging.setTrackingIdentifier(ANALYTICS_APP_ID);
-//                Tagging.init(Locale.CHINA, getActivity(), "App Framwork demo app");
+                Intent intentLoggingActivity = new Intent(AppInfraMainActivity.this, LoggingActivity.class);
+                startActivity(intentLoggingActivity);
 
                 break;
         }

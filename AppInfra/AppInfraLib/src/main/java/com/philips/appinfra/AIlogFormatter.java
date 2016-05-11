@@ -41,8 +41,8 @@ String componentNameAndVersion;
             logLevelPrettyName="VERBOSE";
         }
         builder.append("[").append(logLevelPrettyName).append("] ");
-        builder.append("[").append(record.getSourceClassName()).append("] ");
-        builder.append("[").append(record.getSourceMethodName()).append("] ");
+        //builder.append("[").append(record.getSourceClassName()).append("] ");
+        //builder.append("[").append(record.getSourceMethodName()).append("] ");
         Object[] eventNameList= record.getParameters();
         String eventName = "NA";// Default event name
         if(null!=eventNameList && eventNameList.length>0){

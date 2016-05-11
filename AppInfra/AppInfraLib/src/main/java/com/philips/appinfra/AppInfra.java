@@ -1,5 +1,7 @@
 package com.philips.appinfra;
 
+import android.content.Context;
+
 import com.philips.appinfra.securestorage.SecureStorageInterface;
 
 /**
@@ -12,6 +14,10 @@ public class AppInfra {
     private LoggingInterface logger;
     private LoggingInterface appInfraLogger;
     private final static String VERSION = "1.2.3";
+
+
+
+    Context appInfraContext;
 
     public static class Builder {
         private SecureStorageInterface secStor;
@@ -29,10 +35,12 @@ public class AppInfra {
             secStor = secureStorage;
             return this;
         }
-        public AppInfra build() {
-            AppInfra ai = new AppInfra();
+        public AppInfra build(Context pContext ) {
+
+            AppInfra ai = new AppInfra(pContext);
            // ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             ai.setLogging(logger == null ? new AILogging(ai) : logger);
+           // ai.setLogging(new AILogging(ai));
             return ai;
         }
     }
@@ -47,7 +55,8 @@ public class AppInfra {
 
     /*private AppInfra() {
     }*/
-    public AppInfra() {
+    public AppInfra(Context pContext) {
+        appInfraContext = pContext;
     }
 
     private void setSecureStorage(SecureStorageInterface sec) {
@@ -61,5 +70,8 @@ public class AppInfra {
 
     protected LoggingInterface getAppInfraLogInstance() {
         return appInfraLogger;
+    }
+    public Context getAppInfraContext() {
+        return appInfraContext;
     }
 }
