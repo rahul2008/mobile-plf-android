@@ -6,9 +6,9 @@
     <com.philips.cdp.uikit.customviews.UiKitSpinnerButton
         android:id="@+id/spinnerOnButton"
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_margin="20dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="70dp" />
 
     <Button
         android:layout_width="wrap_content"

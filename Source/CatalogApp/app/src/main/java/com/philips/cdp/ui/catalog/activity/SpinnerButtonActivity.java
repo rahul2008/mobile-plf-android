@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.UiKitSpinnerButton;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
  * Created by 310240027 on 5/6/2016.
@@ -27,6 +28,8 @@ public class SpinnerButtonActivity extends CatalogActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalogapp_spinner_button);
         spinnerOnButton = (UiKitSpinnerButton) findViewById(R.id.spinnerOnButton);
+        spinnerOnButton.setButtonText("Philips account");
+        spinnerOnButton.setDrawable(VectorDrawable.create(getApplicationContext(), com.philips.cdp.uikit.R.drawable.uikit_philips_logo_small).getConstantState().newDrawable().mutate(),"left");
         stopProgressButton = (Button) findViewById(R.id.stopProgress);
         spinnerOnButton.setOnClickListener(this);
         stopProgressButton.setOnClickListener(this);

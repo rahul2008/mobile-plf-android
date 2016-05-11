@@ -45,6 +45,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedDarkBlue
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.DarkBlue</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_blue</item>
         <item name="colorControlHighlight">?attr/uikit_veryLightColor</item>
     </style>

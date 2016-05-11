@@ -6,11 +6,13 @@
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -23,7 +25,7 @@ public class UiKitSpinnerButton extends FrameLayout implements View.OnClickListe
 
     View view;
     ProgressBar progressBar;
-    UIKitButton button;
+    Button button;
     private OnClickListener listener;
 
     public UiKitSpinnerButton(Context context, AttributeSet attrs) {
@@ -38,8 +40,9 @@ public class UiKitSpinnerButton extends FrameLayout implements View.OnClickListe
             /*if (progressBar.getIndeterminateDrawable() != null) {
                 progressBar.getIndeterminateDrawable().setColorFilter( ContextCompat.getColor(context, R.color.uikit_enricher4), PorterDuff.Mode.SRC_ATOP);
             }*/
+       // progressBar.getProgressDrawable().setColorFilter(ContextCompat.getColor(context, R.color.uikit_enricher4), PorterDuff.Mode.SRC_ATOP);
         progressBar.incrementProgressBy(1);
-        button = (UIKitButton) view.findViewById(R.id.buttonPB);
+        button = (Button) view.findViewById(R.id.buttonPB);
         button.setOnClickListener(this);
     }
 
@@ -74,9 +77,31 @@ public class UiKitSpinnerButton extends FrameLayout implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v instanceof UIKitButton) {
+        if (v instanceof Button) {
             enableProgress();
         }
+    }
+
+    public void setButtonText(String text){
+        button.setText(text);
+    }
+
+    public void setDrawable(Drawable drawable,String position){
+        if(position.equalsIgnoreCase("left")){
+            button.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
+        }
+        else if(position.equalsIgnoreCase("right")){
+            button.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);
+        }else if(position.equalsIgnoreCase("top")){
+            button.setCompoundDrawablesWithIntrinsicBounds(null,drawable,null,null);
+        }
+        else if(position.equalsIgnoreCase("bottom")){
+            button.setCompoundDrawablesWithIntrinsicBounds(null,null,null,drawable);
+        }
+        else{
+            button.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+        }
+
     }
 
     public void enableProgress() {
