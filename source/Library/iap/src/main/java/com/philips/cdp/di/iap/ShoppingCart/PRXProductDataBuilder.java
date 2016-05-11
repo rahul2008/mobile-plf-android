@@ -83,6 +83,7 @@ public class PRXProductDataBuilder {
         cartItem.setCartNumber(mCartData.getCarts().get(0).getCode());
         cartItem.setQuantity(entry.getQuantity());
         cartItem.setFormatedPrice(entry.getBasePrice().getFormattedValue());
+        cartItem.setValuePrice(String.valueOf(entry.getBasePrice().getValue()));
         cartItem.setTotalPriceWithTaxFormatedPrice(mCartData.getCarts().get(0).getTotalPriceWithTax().getFormattedValue());
         cartItem.setTotalPriceFormatedPrice(entry.getTotalPrice().getFormattedValue());
         cartItem.setTotalItems(mCartData.getCarts().get(0).getTotalItems());
@@ -146,7 +147,6 @@ public class PRXProductDataBuilder {
                     .append(cartData.get(i).getProductTitle()).append(";").append(String.valueOf(entriesEntity.getQuantity()))
                     .append(";").append(entriesEntity.getTotalPrice().getValue());
         }
-        System.out.println("Cart List" + products);
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, products);
     }
 

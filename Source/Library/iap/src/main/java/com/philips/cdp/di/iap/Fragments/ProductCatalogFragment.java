@@ -91,6 +91,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
         mShoppingCartPresenter.getProductCartCount(getContext(), mProductCountListener);
+        mAdapter.tagProducts();
     }
 
     @Override
@@ -107,6 +108,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             bundle.putString(IAPConstant.PRODUCT_TITLE, productCatalogData.getProductTitle());
             bundle.putString(IAPConstant.PRODUCT_CTN, productCatalogData.getCtnNumber());
             bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormatedPrice());
+            bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, productCatalogData.getPriceValue());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());

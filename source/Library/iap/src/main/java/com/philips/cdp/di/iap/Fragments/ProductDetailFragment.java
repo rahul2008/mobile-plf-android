@@ -115,7 +115,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mBuyFromRetailors = (Button) rootView.findViewById(R.id.buy_from_retailor);
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.tv_discounted_price);
 
-        tagProduct();
         populateViewFromBundle();
         makeAssetRequest();
         return rootView;
@@ -125,8 +124,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         StringBuilder product = new StringBuilder();
         product = product.append("Tuscany_Campaign").append(";")
                 .append(mProductTitle).append(";").append(";")
-                .append(mBundle.getString(IAPConstant.PRODUCT_PRICE));
-        System.out.println("Product detail" + product);
+                .append(mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE));
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, product);
     }
 
@@ -193,6 +191,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
             setCartIconVisibility(View.GONE);
         }
+        tagProduct();
     }
 
     private void buyFromRetailers() {
