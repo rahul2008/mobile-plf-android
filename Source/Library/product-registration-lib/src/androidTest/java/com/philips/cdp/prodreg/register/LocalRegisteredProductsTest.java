@@ -4,8 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
@@ -30,12 +28,8 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
     private Context context;
     @Mock
     private LocalSharedPreference localSharedPreference;
-    private RegisteredProduct mockRegisteredProduct;
-    private String data;
-    private RegisteredProduct registeredProduct;
     private HashSet<RegisteredProduct> registeredProducts = new HashSet<>();
     private Gson gson;
-    private RegisteredProduct[] registeredProducttest;
 
     @Override
     protected void setUp() throws Exception {
@@ -61,9 +55,6 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
                 return localSharedPreference;
             }
         };
-        mockRegisteredProduct = mock(RegisteredProduct.class);
-        data = localSharedPreference.getData("prod_reg_key");
-        registeredProduct = new RegisteredProduct("HC5410/83", Sector.B2C, Catalog.CONSUMER);
     }
 
     private void addDummyProjects() {
@@ -98,12 +89,31 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
 
     public void testGetRegisteredProducts() {
         User userMock = mock(User.class);
-        RegisteredProduct registeredProductMOck = mock(RegisteredProduct.class);
-        assertEquals(3, localRegisteredProducts.getUniqueRegisteredProducts().size());
-        assertEquals(0, localRegisteredProducts.getRegisteredProducts().size());
-        when(registeredProductMOck.getUserUUid()).thenReturn("12345");
-        when(userMock.getJanrainUUID()).thenReturn("12345");
-        // verify(registeredProductMOck.getUserUUid().equalsIgnoreCase(userMock.getJanrainUUID()));
-        assertTrue(registeredProductMOck.getUserUUid().equalsIgnoreCase(userMock.getJanrainUUID()));
+        when(userMock.isUserSignIn()).thenReturn(true);
+        final RegisteredProduct[] registeredProducts = {new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null)};
+
+        localRegisteredProducts = new LocalRegisteredProducts(context, userMock) {
+            @Override
+            protected RegisteredProduct[] getRegisteredProducts(final Gson gson, final String data) {
+                return registeredProducts;
+            }
+        };
+        assertTrue(localRegisteredProducts.getRegisteredProducts().size() == 3);
+        when(userMock.isUserSignIn()).thenReturn(false);
+        assertTrue(localRegisteredProducts.getRegisteredProducts().size() == 0);
+    }
+
+    public void testGettingUniqueRegisteredProducts() {
+        User userMock = mock(User.class);
+        when(userMock.isUserSignIn()).thenReturn(true);
+        final RegisteredProduct[] registeredProducts = {new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null)};
+
+        localRegisteredProducts = new LocalRegisteredProducts(context, userMock) {
+            @Override
+            protected RegisteredProduct[] getRegisteredProducts(final Gson gson, final String data) {
+                return registeredProducts;
+            }
+        };
+        assertTrue(localRegisteredProducts.getUniqueRegisteredProducts().size() == 1);
     }
 }

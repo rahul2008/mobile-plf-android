@@ -48,7 +48,7 @@ public class LocalRegisteredProducts {
     protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
         final String data = getLocalSharedPreference().getData(PRODUCT_REGISTRATION_KEY);
         Gson gson = getGSon();
-        RegisteredProduct[] registeredProducts = gson.fromJson(data, RegisteredProduct[].class);
+        RegisteredProduct[] registeredProducts = getRegisteredProducts(gson, data);
         if (registeredProducts == null) {
             return new HashSet<>();
         }
@@ -58,7 +58,7 @@ public class LocalRegisteredProducts {
     public List<RegisteredProduct> getRegisteredProducts() {
         Gson gson = getGSon();
         String data = getLocalSharedPreference().getData(PRODUCT_REGISTRATION_KEY);
-        RegisteredProduct[] products = gson.fromJson(data, RegisteredProduct[].class);
+        RegisteredProduct[] products = getRegisteredProducts(gson, data);
         if (user.isUserSignIn() && products != null) {
             ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
             for (RegisteredProduct registeredProduct : products) {
@@ -69,6 +69,10 @@ public class LocalRegisteredProducts {
             return registeredProducts;
         } else
             return new ArrayList<>();
+    }
+
+    protected RegisteredProduct[] getRegisteredProducts(final Gson gson, final String data) {
+        return gson.fromJson(data, RegisteredProduct[].class);
     }
 
     public void updateRegisteredProducts(final RegisteredProduct registeredProduct) {
@@ -100,5 +104,9 @@ public class LocalRegisteredProducts {
 
     protected LocalSharedPreference getLocalSharedPreference() {
         return localSharedPreference;
+    }
+
+    protected User getUser() {
+        return user;
     }
 }

@@ -73,12 +73,11 @@ public class ProdRegHelperTest extends MockitoTestCase {
     }
 
     public void testProdRegHelper() {
-        ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
         prodRegHelper.init(context);
         prodRegHelper.addProductRegistrationListener(prodRegListener);
         registrationHelper = mock(RegistrationHelper.class);
-        registrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
-
+        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
+        assertTrue(prodRegHelper.getSignedInUserWithProducts() instanceof UserWithProducts);
     }
 
     public void testBuildVersion() {
