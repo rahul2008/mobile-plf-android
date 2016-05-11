@@ -90,6 +90,7 @@
                 android:minHeight="50dp"
                 android:minWidth="200dp"
                 android:progress="1"
+                app:uikit_themeable="true"
                 app:uikit_transparentprogress="true" />
 
             <com.philips.cdp.uikit.customviews.CircularProgressbar
@@ -105,6 +106,7 @@
                 android:minWidth="200dp"
                 android:progress="1"
                 android:visibility="visible"
+                app:uikit_themeable="true"
                 app:uikit_grayprogress="true" />
 
             <com.philips.cdp.uikit.customviews.CircularProgressbar
@@ -121,6 +123,7 @@
                 android:minWidth="200dp"
                 android:progress="1"
                 app:uikit_circularprogresssmall="true"
+                app:uikit_themeable="true"
                 app:uikit_transparentprogress="true" />
 
             <com.philips.cdp.uikit.customviews.CircularProgressbar
@@ -139,6 +142,7 @@
                 android:progress="1"
                 android:visibility="visible"
                 app:uikit_circularprogresssmall="true"
+                app:uikit_themeable="true"
                 app:uikit_grayprogress="true" />
 
 

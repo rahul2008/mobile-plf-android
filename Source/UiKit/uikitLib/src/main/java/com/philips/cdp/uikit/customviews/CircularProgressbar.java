@@ -24,6 +24,7 @@ public class CircularProgressbar extends ProgressBar {
     private boolean isGrayProgress;
     private boolean isWhiteProgress;
     private boolean isSmallProgress;
+    private boolean isThemeable;
     private int baseColor;
 
 
@@ -37,6 +38,7 @@ public class CircularProgressbar extends ProgressBar {
         isGrayProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_grayprogress, false);
         isWhiteProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_transparentprogress, false);
         isSmallProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_circularprogresssmall, false);
+        isThemeable = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_themeable, false);
         a.recycle();
         setProgressDrawable(getCircularProgressDrawable());
         setRotation((-getProgress() / 100f * 360f) - 90f); // to start rotation from 90 degree from the top
@@ -49,10 +51,19 @@ public class CircularProgressbar extends ProgressBar {
         } else {
             circularProgressDrawable = (LayerDrawable) ContextCompat.getDrawable(context, R.drawable.uikit_circular_progress);
         }
+
+        if(isSmallProgress && !isThemeable){
+            circularProgressDrawable = (LayerDrawable) ContextCompat.getDrawable(context, R.drawable.uikit_circular_progress_pb_small);
+        }
         circularProgressDrawable = (LayerDrawable) circularProgressDrawable.getConstantState().newDrawable().mutate();
         Drawable progressbar = circularProgressDrawable.findDrawableByLayerId(android.R.id.progress);
         Drawable background = circularProgressDrawable.findDrawableByLayerId(android.R.id.background);
-        ColorFilter baseColorProgressFilter = new PorterDuffColorFilter(baseColor, PorterDuff.Mode.SRC_ATOP);
+        ColorFilter baseColorProgressFilter;
+        if(isThemeable) {
+            baseColorProgressFilter = new PorterDuffColorFilter(baseColor, PorterDuff.Mode.SRC_ATOP);
+        }else {
+            baseColorProgressFilter = new PorterDuffColorFilter(ContextCompat.getColor(context, R.color.uikit_white), PorterDuff.Mode.SRC_ATOP);
+        }
         ColorFilter white = new PorterDuffColorFilter(ContextCompat.getColor(context, R.color.uikit_white), PorterDuff.Mode.SRC_ATOP);
         ColorFilter enricher6 = new PorterDuffColorFilter(ContextCompat.getColor(context, R.color.uikit_enricher6), PorterDuff.Mode.SRC_ATOP);
         ColorFilter enricher4 = new PorterDuffColorFilter(ContextCompat.getColor(context, R.color.uikit_enricher4), PorterDuff.Mode.SRC_ATOP);
