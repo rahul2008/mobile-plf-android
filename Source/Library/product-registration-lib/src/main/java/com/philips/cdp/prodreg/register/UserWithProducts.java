@@ -130,7 +130,7 @@ public class UserWithProducts {
     //     * @param consumer
      */
     public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener, final Sector sector, final Catalog catalog) {
-        if (user.isUserSignIn()) {
+        if (getUser().isUserSignIn()) {
             setRequestType(FETCH_REGISTERED_PRODUCTS);
             this.registeredProductsListener = registeredProductsListener;
             final RemoteRegisteredProducts remoteRegisteredProducts = new RemoteRegisteredProducts();
@@ -246,7 +246,7 @@ public class UserWithProducts {
     protected boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         for (RegisteredProduct result : registeredProducts) {
             if (registeredProduct.getCtn().equalsIgnoreCase(result.getCtn()) && registeredProduct.getSerialNumber().equals(result.getSerialNumber()) && result.getRegistrationState() == RegistrationState.REGISTERED) {
-                getUserProduct().updateLocaleCacheOnError(registeredProduct, null, RegistrationState.REGISTERED);
+                getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
                 appListener.onProdRegFailed(registeredProduct, getUserProduct());
                 return true;
             }

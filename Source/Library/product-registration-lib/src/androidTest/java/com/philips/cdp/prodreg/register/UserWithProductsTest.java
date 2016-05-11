@@ -47,6 +47,7 @@ public class UserWithProductsTest extends MockitoTestCase {
     private UserWithProducts userWithProductsMock;
     private ErrorHandler errorHandlerMock;
     private ProdRegListener prodRegListener;
+    private User userMock;
 
     @Rule
 
@@ -55,9 +56,11 @@ public class UserWithProductsTest extends MockitoTestCase {
         super.setUp();
         context = getInstrumentation().getContext();
         userWithProductsMock = mock(UserWithProducts.class);
+        userMock = mock(User.class);
         localRegisteredProducts = mock(LocalRegisteredProducts.class);
         prodRegListener = mock(ProdRegListener.class);
         errorHandlerMock = mock(ErrorHandler.class);
+        when(userMock.isUserSignIn()).thenReturn(true);
         userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
             @NonNull
             @Override
@@ -75,7 +78,14 @@ public class UserWithProductsTest extends MockitoTestCase {
             protected ErrorHandler getErrorHandler() {
                 return errorHandlerMock;
             }
+
+            @NonNull
+            @Override
+            protected User getUser() {
+                return userMock;
+            }
         };
+
     }
 
     public void testIsUserSignedIn() {
@@ -322,7 +332,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         registeredProducts.add(registeredProduct2);
         registeredProducts.add(registeredProduct3);
         assertTrue(userWithProducts.isCtnRegistered(registeredProducts, product, prodRegListener));
-        verify(userWithProductsMock).updateLocaleCacheOnError(product, null, RegistrationState.REGISTERED);
+        verify(userWithProductsMock).updateLocaleCacheOnError(product, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
         verify(prodRegListener).onProdRegFailed(product, userWithProductsMock);
     }
 
@@ -536,6 +546,12 @@ public class UserWithProductsTest extends MockitoTestCase {
             @Override
             protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
                 return localRegisteredProducts;
+            }
+
+            @NonNull
+            @Override
+            protected User getUser() {
+                return userMock;
             }
         };
         when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
