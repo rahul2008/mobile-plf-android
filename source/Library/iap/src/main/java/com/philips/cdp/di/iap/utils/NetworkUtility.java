@@ -78,6 +78,7 @@ public class NetworkUtility {
     }
 
     public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
+        if (context == null) return;
         /*
          *  Dismiss The Dialog if it not yet dismissed as Error Occured
          */

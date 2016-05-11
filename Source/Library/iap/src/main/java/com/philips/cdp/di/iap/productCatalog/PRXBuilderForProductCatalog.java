@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.productCatalog;
 import android.content.Context;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
@@ -21,6 +22,7 @@ import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,7 @@ public class PRXBuilderForProductCatalog {
     private int mProductPresentInPRX;
 
     public PRXBuilderForProductCatalog(Context context, Products products,
-                                 AbstractModel.DataLoadListener listener) {
+                                       AbstractModel.DataLoadListener listener) {
         mProducts = products;
         mProductList = products.getProducts();
         mContext = context;
@@ -56,7 +58,7 @@ public class PRXBuilderForProductCatalog {
     }
 
     public void executeRequest(final ProductsEntity entry, final String code
-                               , final ProductSummaryRequest productSummaryBuilder) {
+            , final ProductSummaryRequest productSummaryBuilder) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(mContext);
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
@@ -64,7 +66,7 @@ public class PRXBuilderForProductCatalog {
             public void onResponseSuccess(ResponseData responseData) {
                 mProudctUpdateCount++;
                 mProductPresentInPRX++;
-                updateSuccessData((SummaryModel) responseData, code,  entry);
+                updateSuccessData((SummaryModel) responseData, code, entry);
             }
 
             @Override
@@ -113,7 +115,23 @@ public class PRXBuilderForProductCatalog {
             Message result = Message.obtain();
             result.obj = mProduct;
             mDataLoadListener.onModelDataLoadFinished(result);
+            tagProducts(mProduct);
         }
+    }
+
+    private void tagProducts(List<ProductCatalogData> catalogDatas) {
+        StringBuilder products = new StringBuilder();
+        for (int i = 0; i < catalogDatas.size(); i++) {
+            ProductCatalogData catalogData = catalogDatas.get(i);
+            if (i > 0) {
+                products = products.append(",");
+            }
+            products = products.append("Tuscany_Campaign").append(";")
+                    .append(catalogData.getProductTitle()).append(";").append(";")
+                    .append(catalogData.getFormatedPrice());
+        }
+        System.out.println("Products List" + products);
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, products);
     }
 
     private ProductSummaryRequest prepareSummaryBuilder(final String code) {

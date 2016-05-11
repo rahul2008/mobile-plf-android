@@ -20,10 +20,10 @@ import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
@@ -67,7 +67,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 Utility.dismissProgressDialog();
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
-                if(iapNetworkError.getIAPErrorCode()==IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR){
+                if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
                     NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                             getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
                 }
@@ -115,9 +115,19 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mBuyFromRetailors = (Button) rootView.findViewById(R.id.buy_from_retailor);
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.tv_discounted_price);
 
+        tagProduct();
         populateViewFromBundle();
         makeAssetRequest();
         return rootView;
+    }
+
+    private void tagProduct() {
+        StringBuilder product = new StringBuilder();
+        product = product.append("Tuscany_Campaign").append(";")
+                .append(mProductTitle).append(";").append(";")
+                .append(mBundle.getString(IAPConstant.PRODUCT_PRICE));
+        System.out.println("Product detail" + product);
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, product);
     }
 
     private void populateViewFromBundle() {
@@ -133,7 +143,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 mProductDiscountedPrice.setVisibility(View.VISIBLE);
                 mProductDiscountedPrice.setText(discountedPrice);
                 mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }else {
+            } else {
                 mProductDiscountedPrice.setVisibility(View.GONE);
                 mPrice.setTextColor(Utility.getThemeColor(mContext));
             }

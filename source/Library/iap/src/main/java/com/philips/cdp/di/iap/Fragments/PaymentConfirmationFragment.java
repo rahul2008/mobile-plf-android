@@ -149,7 +149,6 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
             moveToProductCatalog();
 
         } else {
-            IAPAnalytics.trackLaunchPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
             moveToFragment(OrderSummaryFragment.TAG);
         }
 

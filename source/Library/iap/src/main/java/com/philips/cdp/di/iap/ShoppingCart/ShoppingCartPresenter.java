@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
@@ -23,21 +22,21 @@ import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.model.GetRetailersInfoRequest;
-import com.philips.cdp.di.iap.response.error.Error;
-import com.philips.cdp.di.iap.response.error.ServerError;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.response.error.Error;
+import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
@@ -364,9 +363,6 @@ public class ShoppingCartPresenter {
     }
 
     private void launchShoppingCart() {
-        //Track first page of InAppPurchase
-        IAPAnalytics.trackLaunchPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
         transaction.addToBackStack(ShoppingCartFragment.TAG);

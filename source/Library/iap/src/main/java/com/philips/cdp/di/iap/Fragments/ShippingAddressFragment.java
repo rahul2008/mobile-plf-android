@@ -27,6 +27,7 @@ import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
@@ -469,6 +470,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
+        if(getArguments() != null && getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
+        }else{
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
+        }
         setTitle(R.string.iap_address);
         if (CartModelContainer.getInstance().getRegionIsoCode() != null)
             mShippingAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
