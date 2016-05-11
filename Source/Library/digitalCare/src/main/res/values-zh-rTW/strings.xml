@@ -138,11 +138,11 @@
     <string name="create_account"> 建立帳戶 &gt; </string>
 
     <string name="localtephilips_contactus">前往聯絡頁面</string>
-    
+
     <string name="FAQ_KEY">常見問答集</string>
-<string name="QUESTION_KEY">問題與解答</string>
-<string name="NO_PRODUCT_KEY">沒有可用的產品</string>
-<string name="NO_SUPPORT_KEY">沒有可用的支援</string>
+    <string name="QUESTION_KEY">問題與解答</string>
+    <string name="NO_PRODUCT_KEY">沒有可用的產品</string>
+    <string name="NO_SUPPORT_KEY">沒有可用的支援</string>
     <string name="FAQ_KEY_TABLET">常見問答集
 </string>
 </resources>

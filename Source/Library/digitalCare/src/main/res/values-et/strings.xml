@@ -139,9 +139,9 @@
 
     <string name="localtephilips_contactus">Mine kontaktilehele</string>
     <string name="FAQ_KEY">KKKd</string>
-<string name="QUESTION_KEY">Küsimus ja vastus</string>
-<string name="NO_PRODUCT_KEY">Tooted puuduvad</string>
-<string name="NO_SUPPORT_KEY">Tugi puudub</string>
+    <string name="QUESTION_KEY">Küsimus ja vastus</string>
+    <string name="NO_PRODUCT_KEY">Tooted puuduvad</string>
+    <string name="NO_SUPPORT_KEY">Tugi puudub</string>
     <string name="FAQ_KEY_TABLET">Korduma kippuvad küsimused
 </string>
 </resources>

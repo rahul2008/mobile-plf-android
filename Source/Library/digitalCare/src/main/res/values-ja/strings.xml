@@ -138,11 +138,11 @@
     <string name="create_account"> アカウントを作成 &gt; </string>
 
     <string name="localtephilips_contactus">お問い合わせページに進む</string>
-    
+
     <string name="FAQ_KEY">FAQ</string>
-<string name="QUESTION_KEY">質問と回答</string>
-<string name="NO_PRODUCT_KEY">利用可能な製品なし</string>
-<string name="NO_SUPPORT_KEY">利用可能なサポートなし</string>
+    <string name="QUESTION_KEY">質問と回答</string>
+    <string name="NO_PRODUCT_KEY">利用可能な製品なし</string>
+    <string name="NO_SUPPORT_KEY">利用可能なサポートなし</string>
     <string name="FAQ_KEY_TABLET">よく寄せられるご質問
 </string>
 </resources>

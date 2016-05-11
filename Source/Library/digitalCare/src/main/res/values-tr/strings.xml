@@ -138,12 +138,12 @@
     <string name="create_account">  Hesap oluştur &gt; </string>
 
     <string name="localtephilips_contactus">İletişim sayfasına git</string>
-    
-    
-<string name="FAQ_KEY">SSS</string>
-<string name="QUESTION_KEY">Soru ve cevap</string>
-<string name="NO_PRODUCT_KEY">Ürün mevcut değil</string>
-<string name="NO_SUPPORT_KEY">Destek mevcut değil</string>
+
+
+    <string name="FAQ_KEY">SSS</string>
+    <string name="QUESTION_KEY">Soru ve cevap</string>
+    <string name="NO_PRODUCT_KEY">Ürün mevcut değil</string>
+    <string name="NO_SUPPORT_KEY">Destek mevcut değil</string>
     <string name="FAQ_KEY_TABLET">Sıkça sorulan sorular
 </string>
 

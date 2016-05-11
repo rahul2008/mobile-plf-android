@@ -138,12 +138,16 @@
     <string name="create_account"> Account maken &gt; </string>
 
     <string name="localtephilips_contactus">Ga naar contactpagina</string>
-    
+
     <string name="FAQ_KEY">Veelgestelde vragen</string>
-<string name="QUESTION_KEY">Vraag en antwoord</string>
-<string name="NO_PRODUCT_KEY">Geen producten beschikbaar</string>
-<string name="NO_SUPPORT_KEY">Geen ondersteuning beschikbaar</string>
-    <string name="FAQ_KEY_TABLET">Veelgestelde vragen
-</string>
+    <string name="QUESTION_KEY">Vraag en antwoord</string>
+    <string name="NO_PRODUCT_KEY">Geen producten beschikbaar</string>
+    <string name="NO_SUPPORT_KEY">Geen ondersteuning beschikbaar</string>
+    <string name="FAQ_KEY_TABLET">Veelgestelde vragen</string>
+
+    <string name="ManualDownLoadConfirmMessage">Druk op OK om de handleiding in het %s</string>
+    <string name="download_ticker">Downloaden Help Manual</string>
+    <string name="download_complete">Download voltooid</string>
+    <string name="download_error">Download Fout</string>
 
 </resources>

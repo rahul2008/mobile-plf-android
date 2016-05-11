@@ -138,12 +138,12 @@
     <string name="create_account">  Tạo tài khoản &gt; </string>
 
     <string name="localtephilips_contactus">Đến trang liên hệ</string>
-    
-    
+
+
     <string name="FAQ_KEY">Câu hỏi thường gặp</string>
-<string name="QUESTION_KEY">Hỏi và đáp</string>
-<string name="NO_PRODUCT_KEY">Không có sẵn sản phẩm</string>
-<string name="NO_SUPPORT_KEY">Không có sẵn hỗ trợ</string>
+    <string name="QUESTION_KEY">Hỏi và đáp</string>
+    <string name="NO_PRODUCT_KEY">Không có sẵn sản phẩm</string>
+    <string name="NO_SUPPORT_KEY">Không có sẵn hỗ trợ</string>
     <string name="FAQ_KEY_TABLET">Các câu hỏi thường gặp
 </string>
 </resources>

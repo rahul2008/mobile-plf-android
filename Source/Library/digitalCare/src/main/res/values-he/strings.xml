@@ -138,11 +138,11 @@
     <string name="create_account">  צור חשבון &gt; </string>
 
     <string name="localtephilips_contactus">עבור אל דף יצירת הקשר</string>
-    
+
     <string name="FAQ_KEY">שאלות ותשובות</string>
-<string name="QUESTION_KEY">שאלה ותשובה</string>
-<string name="NO_PRODUCT_KEY">אין מוצרים זמינים</string>
-<string name="NO_SUPPORT_KEY">אין תמיכה זמינה</string>
+    <string name="QUESTION_KEY">שאלה ותשובה</string>
+    <string name="NO_PRODUCT_KEY">אין מוצרים זמינים</string>
+    <string name="NO_SUPPORT_KEY">אין תמיכה זמינה</string>
     <string name="FAQ_KEY_TABLET">שאלות נפוצות
 </string>
 </resources>

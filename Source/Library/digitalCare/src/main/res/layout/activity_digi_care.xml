@@ -1,9 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parentActivity"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <include layout="@layout/home_action_bar"/>
+    <include layout="@layout/home_action_bar" />
     <!-- android:background="@drawable/tuscanybackground"-->
     <RelativeLayout
         android:id="@+id/mainContainer"
@@ -11,7 +11,6 @@
         android:layout_height="fill_parent"
         android:layout_marginTop="@dimen/actionbar_height"
         android:background="@drawable/consumercare_background"
-        android:orientation="vertical" >
-    </RelativeLayout>
+        android:orientation="vertical"></RelativeLayout>
 
 </FrameLayout>

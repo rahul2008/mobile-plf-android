@@ -138,12 +138,12 @@
     <string name="create_account">  खाता बनाएँ &gt; </string>
 
     <string name="localtephilips_contactus">संपर्क पृष्ठ पर जाएँ</string>
-    
-    
-<string name="FAQ_KEY">FAQs</string>
-<string name="QUESTION_KEY">प्रश्न और उत्तर</string>
-<string name="NO_PRODUCT_KEY">कोई उत्पाद उपलब्ध नहीं हैं</string>
-<string name="NO_SUPPORT_KEY">कोई सहायता उपलब्ध नहीं है</string>
+
+
+    <string name="FAQ_KEY">FAQs</string>
+    <string name="QUESTION_KEY">प्रश्न और उत्तर</string>
+    <string name="NO_PRODUCT_KEY">कोई उत्पाद उपलब्ध नहीं हैं</string>
+    <string name="NO_SUPPORT_KEY">कोई सहायता उपलब्ध नहीं है</string>
     <string name="FAQ_KEY_TABLET">अक्सर पूछे जाने वाले प्रश्न
 </string>
 </resources>

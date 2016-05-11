@@ -138,11 +138,11 @@
     <string name="create_account">  Buat akaun &gt; </string>
 
     <string name="localtephilips_contactus">Pergi ke halaman hubungan</string>
-    
+
     <string name="FAQ_KEY">Soalan Lazim</string>
-<string name="QUESTION_KEY">Soalan dan jawapan</string>
-<string name="NO_PRODUCT_KEY">Tiada produk tersedia</string>
-<string name="NO_SUPPORT_KEY">Tiada sokongan tersedia</string>
+    <string name="QUESTION_KEY">Soalan dan jawapan</string>
+    <string name="NO_PRODUCT_KEY">Tiada produk tersedia</string>
+    <string name="NO_SUPPORT_KEY">Tiada sokongan tersedia</string>
     <string name="FAQ_KEY_TABLET">Soalan lazim
 </string>
 </resources>

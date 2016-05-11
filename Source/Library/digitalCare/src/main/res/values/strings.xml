@@ -145,4 +145,10 @@
     <string name="NO_SUPPORT_KEY">No support available</string>
 
 
+    <string name="ManualDownLoadConfirmMessage">Press OK to download manual in %s language</string>
+    <string name="download_ticker">Downloading Help Manual</string>
+    <string name="download_complete">Download Completed</string>
+    <string name="download_error">Download Error</string>
+
+
 </resources>

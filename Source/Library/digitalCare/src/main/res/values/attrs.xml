@@ -1,8 +1,8 @@
 <resources>
 
-<declare-styleable name="DigitalCareFontTextView">
+    <declare-styleable name="DigitalCareFontTextView">
         <attr name="digitalcareFontAssetName" format="string" />
     </declare-styleable>
 
-    
+
 </resources>

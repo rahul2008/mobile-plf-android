@@ -138,12 +138,12 @@
     <string name="create_account">  สร้างแอคเคาท์ &gt; </string>
 
     <string name="localtephilips_contactus">ไปที่หน้าติดต่อ</string>
-    
-    
+
+
     <string name="FAQ_KEY">คำถามที่พบบ่อย</string>
-<string name="QUESTION_KEY">คำถาามและคำตอบ</string>
-<string name="NO_PRODUCT_KEY">ไม่มีผลิตภัณฑ์จำหน่าย</string>
-<string name="NO_SUPPORT_KEY">ไม่มีการสนับสนุนที่ให้บริการ</string>
+    <string name="QUESTION_KEY">คำถาามและคำตอบ</string>
+    <string name="NO_PRODUCT_KEY">ไม่มีผลิตภัณฑ์จำหน่าย</string>
+    <string name="NO_SUPPORT_KEY">ไม่มีการสนับสนุนที่ให้บริการ</string>
     <string name="FAQ_KEY_TABLET">คำถามที่พบบ่อย
 </string>
 

@@ -138,12 +138,12 @@
     <string name="create_account"> 계정 만들기 &gt; </string>
 
     <string name="localtephilips_contactus">문의 페이지로 이동</string>
-    
-    
-<string name="FAQ_KEY">FAQ</string>
-<string name="QUESTION_KEY">질문 및 답변</string>
-<string name="NO_PRODUCT_KEY">사용 가능한 제품 없음</string>
-<string name="NO_SUPPORT_KEY">이용 가능한 지원 없음</string>
+
+
+    <string name="FAQ_KEY">FAQ</string>
+    <string name="QUESTION_KEY">질문 및 답변</string>
+    <string name="NO_PRODUCT_KEY">사용 가능한 제품 없음</string>
+    <string name="NO_SUPPORT_KEY">이용 가능한 지원 없음</string>
     <string name="FAQ_KEY_TABLET">자주 묻는 질문 (FAQ)
 </string>
 </resources>

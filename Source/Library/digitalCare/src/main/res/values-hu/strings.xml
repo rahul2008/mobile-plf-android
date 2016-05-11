@@ -138,11 +138,11 @@
     <string name="create_account">  Fiók létrehozása &gt; </string>
 
     <string name="localtephilips_contactus">Lépjen a kapcsolat oldalra</string>
-    
+
     <string name="FAQ_KEY">Gyakran ismételt kérdések</string>
-<string name="QUESTION_KEY">Kérdés és válasz</string>
-<string name="NO_PRODUCT_KEY">Nincsenek elérhető termékek</string>
-<string name="NO_SUPPORT_KEY">Nem áll rendelkezésre támogatás</string>
+    <string name="QUESTION_KEY">Kérdés és válasz</string>
+    <string name="NO_PRODUCT_KEY">Nincsenek elérhető termékek</string>
+    <string name="NO_SUPPORT_KEY">Nem áll rendelkezésre támogatás</string>
     <string name="FAQ_KEY_TABLET">Gyakran feltett kérdések
 </string>
 </resources>

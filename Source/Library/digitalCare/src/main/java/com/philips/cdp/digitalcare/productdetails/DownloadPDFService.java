@@ -84,8 +84,8 @@ public class DownloadPDFService extends Service {
         newintent.setAction("com.philips.cdp.digitalcare.productdetails.services.OPENPDF");
         PendingIntent pIntent = PendingIntent.getBroadcast(ctx, 0, newintent, 0);
 
-        mBuilder.setContentTitle("Content Title Test")
-                .setContentText("Content Text Test")
+        mBuilder.setContentTitle(ctx.getResources().getString(R.string.app_name))
+                .setContentText(ctx.getResources().getString(R.string.download_ticker))
                 .setContentIntent(pIntent)
                 .setSmallIcon(getNotificationIcon());
 
@@ -171,12 +171,12 @@ public class DownloadPDFService extends Service {
                 input.close();
             } catch (SocketTimeoutException e) {
                 file.delete();
-                showNotification("show notification Test");
+                showNotification(mContext.getResources().getString(R.string.download_error));
                 System.out.println("More than 15s elapsed.");
                 return false;
             } catch (Exception e) {
                 file.delete();
-                showNotification("show notification error Test");
+                showNotification(mContext.getResources().getString(R.string.download_error));
                 DigiCareLogger.e(TAG, "Error downloading file " + e.getMessage());
                 return false;
             }
@@ -187,7 +187,7 @@ public class DownloadPDFService extends Service {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showNotification("onPreExecute : show notification Test");
+            showNotification(mContext.getResources().getString(R.string.download_error));
 //            showNotification(mContext.getResources().getString(R.string.download_ticker));
             mCurrentProgress = 0;
         }
@@ -195,7 +195,7 @@ public class DownloadPDFService extends Service {
         @Override
         protected void onCancelled() {
             super.onCancelled();
-            showNotification("Download Cancelled");
+            showNotification(mContext.getResources().getString(R.string.download_error));
         }
 
         @Override
@@ -207,7 +207,7 @@ public class DownloadPDFService extends Service {
 
                 // When the loop is finished, updates the notification
 //                showNotification(mContext.getResources().getString(R.string.download_complete));
-                showNotification("Download complete");
+                showNotification(mContext.getResources().getString(R.string.download_complete));
             }
 
         }
@@ -217,8 +217,7 @@ public class DownloadPDFService extends Service {
             super.onProgressUpdate(progress);
 
             DigiCareLogger.i(TAG, "onProgressUpdate progress: " + progress[0]);
-            mBuilder.setContentText("Download Ticker");
-//            mBuilder.setContentText(mContext.getResources().getString(R.string.download_ticker));
+            mBuilder.setContentText(mContext.getResources().getString(R.string.download_ticker));
             mBuilder.setContentInfo(progress[0] + "%");
             mBuilder.setProgress(100, progress[0], false);
             mNotifyManager.notify(id, mBuilder.build());

@@ -138,11 +138,11 @@
     <string name="create_account">  Cruthaigh cuntas &gt; </string>
 
     <string name="localtephilips_contactus">Téigh go dtí an leathanach teagmhála</string>
-    
+
     <string name="FAQ_KEY">Ceisteanna coitianta</string>
-<string name="QUESTION_KEY">Ceist agus freagra</string>
-<string name="NO_PRODUCT_KEY">Níl fáil ar aon táirge</string>
-<string name="NO_SUPPORT_KEY">Níl tacaíocht ar fáil</string>
+    <string name="QUESTION_KEY">Ceist agus freagra</string>
+    <string name="NO_PRODUCT_KEY">Níl fáil ar aon táirge</string>
+    <string name="NO_SUPPORT_KEY">Níl tacaíocht ar fáil</string>
     <string name="FAQ_KEY_TABLET">Ceisteanna Coitianta
 </string>
 

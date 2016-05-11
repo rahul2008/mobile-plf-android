@@ -29,7 +29,7 @@
         <item name="android:layout_marginTop">17dp</item>
         <item name="android:layout_marginBottom">5dp</item>
     </style>
-    
+
     <style name="twitter_login_forgot_password">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -38,7 +38,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">@dimen/title_text_size_small</item>
     </style>
-    
+
     <style name="twitter_login_create_account">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -47,10 +47,10 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">@dimen/title_text_size_small</item>
     </style>
-    
+
     <style name="twitter_login_create_Fotgot_image">
         <item name="android:layout_width">18dp</item>
         <item name="android:layout_height">20dp</item>
     </style>
-    
+
 </resources>

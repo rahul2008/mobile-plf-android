@@ -4,7 +4,6 @@
     <!-- UiTheme Start -->
 
 
-
     <!-- Activity
     <color name="activity_background_color">#FFFFFF</color>
     -->
@@ -74,7 +73,7 @@
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->
     <string-array name="product_menu_title" translatable="false">
-      <!--  <item>@string/product_open_manual</item>-->
+        <!--  <item>@string/product_open_manual</item>-->
         <item>@string/product_download_manual</item>
         <item>@string/product_information</item>
     </string-array>

@@ -138,12 +138,12 @@
     <string name="create_account">  Luo tili &gt; </string>
 
     <string name="localtephilips_contactus">Siirry yhteystietoihin</string>
-    
-    
+
+
     <string name="FAQ_KEY">UKK</string>
     <string name="QUESTION_KEY">Kysymys ja vastaus</string>
-<string name="NO_PRODUCT_KEY">Ei tuotteita saatavilla</string>
-<string name="NO_SUPPORT_KEY">Ei tukea saatavilla</string>
+    <string name="NO_PRODUCT_KEY">Ei tuotteita saatavilla</string>
+    <string name="NO_SUPPORT_KEY">Ei tukea saatavilla</string>
     <string name="FAQ_KEY_TABLET">Usein kysytyt kysymykset
 </string>
 

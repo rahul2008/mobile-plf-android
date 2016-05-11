@@ -138,11 +138,11 @@
     <string name="create_account">  ایجاد حساب &gt; </string>
 
     <string name="localtephilips_contactus">رفتن به صفحه تماس</string>
-    
+
     <string name="FAQ_KEY">پرسش‌های متداول</string>
-<string name="QUESTION_KEY">پرسش و پاسخ</string>
-<string name="NO_PRODUCT_KEY">محصولی وجود ندارد</string>
-<string name="NO_SUPPORT_KEY">پشتیبانی نمی‌شود</string>
+    <string name="QUESTION_KEY">پرسش و پاسخ</string>
+    <string name="NO_PRODUCT_KEY">محصولی وجود ندارد</string>
+    <string name="NO_SUPPORT_KEY">پشتیبانی نمی‌شود</string>
     <string name="FAQ_KEY_TABLET">سوالات متداول
 </string>
 </resources>

@@ -138,11 +138,11 @@
     <string name="create_account">  Kurti paskyrą &gt; </string>
 
     <string name="localtephilips_contactus">Eiti į kontaktų puslapį</string>
-    
+
     <string name="FAQ_KEY">Dažnai užduodami klausimai</string>
-<string name="QUESTION_KEY">Klausimas ir atsakymas</string>
-<string name="NO_PRODUCT_KEY">Gaminių nėra</string>
-<string name="NO_SUPPORT_KEY">Palaikymo nėra</string>
+    <string name="QUESTION_KEY">Klausimas ir atsakymas</string>
+    <string name="NO_PRODUCT_KEY">Gaminių nėra</string>
+    <string name="NO_SUPPORT_KEY">Palaikymo nėra</string>
     <string name="FAQ_KEY_TABLET">Dažniausiai užduodami klausimai
 </string>
 

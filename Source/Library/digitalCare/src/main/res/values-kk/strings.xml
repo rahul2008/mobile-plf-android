@@ -139,11 +139,11 @@
     <string name="create_account">  Есептік жазба жасау &gt; </string>
 
     <string name="localtephilips_contactus">Байланысу бетіне өту</string>
-    
+
     <string name="FAQ_KEY">ЖҚС</string>
-<string name="QUESTION_KEY">Сұрақ және жауап</string>
-<string name="NO_PRODUCT_KEY">Қолжетімді өнімдер жоқ</string>
-<string name="NO_SUPPORT_KEY">Қолжетімді қолдау көрсету жоқ</string>
+    <string name="QUESTION_KEY">Сұрақ және жауап</string>
+    <string name="NO_PRODUCT_KEY">Қолжетімді өнімдер жоқ</string>
+    <string name="NO_SUPPORT_KEY">Қолжетімді қолдау көрсету жоқ</string>
     Жиі қойылатын сұрақтар
     <string name="FAQ_KEY_TABLET"></string>
 

@@ -138,12 +138,16 @@
     <string name="create_account"> Konto erstellen &gt; </string>
 
     <string name="localtephilips_contactus">Zur Kontaktseite gehen</string>
-    
+
     <string name="FAQ_KEY">FAQs</string>
-<string name="QUESTION_KEY">Fragen und Antworten</string>
-<string name="NO_PRODUCT_KEY">Keine Produkte verfügbar</string>
-<string name="NO_SUPPORT_KEY">Kein Support verfügbar</string>
-    <string name="FAQ_KEY_TABLET">Häufig gestellte Fragen (FAQ)
-</string>
+    <string name="QUESTION_KEY">Fragen und Antworten</string>
+    <string name="NO_PRODUCT_KEY">Keine Produkte verfügbar</string>
+    <string name="NO_SUPPORT_KEY">Kein Support verfügbar</string>
+    <string name="FAQ_KEY_TABLET">Häufig gestellte Fragen (FAQ)</string>
+
+    <string name="ManualDownLoadConfirmMessage">Drücken Sie OK, Handbuch in %s Sprache downloaden</string>
+    <string name="download_ticker">Herunterladen der Hilfe-Handbuch</string>
+    <string name="download_complete">Download abgeschlossen</string>
+    <string name="download_error">Download-Fehler</string>
 
 </resources>

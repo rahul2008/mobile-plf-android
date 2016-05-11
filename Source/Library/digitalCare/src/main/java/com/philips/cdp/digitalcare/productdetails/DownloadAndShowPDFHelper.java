@@ -18,14 +18,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
+import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import java.io.File;
-
-//import com.philips.cl.di.saecoavanti.R;
-//import com.philips.cl.di.saecoavanti.utils.services.DownloadPDFService;
-//import com.philips.cl.di.saecoavanti.view.custom.XAlertDialog;
-//import com.philips.cl.di.saecoavanti.view.custom.onDialogClickListener;
+import java.util.Locale;
 
 public class DownloadAndShowPDFHelper {
 
@@ -70,9 +68,14 @@ public class DownloadAndShowPDFHelper {
                     mContext.startService(downloadService);
 
                     mAlertDialog = new AlertDialog.Builder(mContext);
-//                    String message = String.format(mContext.getString(R.string.ManualDownLoadConfirmMessage), Locale.getDefault().getDisplayLanguage());
-                    mAlertDialog.setMessage("PDF Message Test");
-                    mAlertDialog.setPositiveButton("OK Testing", new DialogInterface.OnClickListener() {
+                    Locale locale = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
+                    String language = null;
+                    if(locale != null){
+                        language = locale.getLanguage();
+                    }
+                    String message = String.format(mContext.getString(R.string.ManualDownLoadConfirmMessage), language);
+                    mAlertDialog.setMessage(message);
+                    mAlertDialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent downloadService = new Intent(mContext, DownloadPDFService.class);
@@ -86,7 +89,8 @@ public class DownloadAndShowPDFHelper {
 //                    mAlertDialog.setAlertDialogType(XAlertDialog.DIALOG_TYPE.TWO);
                 } else {
                     mAlertDialog = new AlertDialog.Builder(mContext);
-                    mAlertDialog.setMessage("Please connect to internet : Test");
+                    mAlertDialog.setMessage(mContext.getResources().getString(
+                            R.string.no_internet));
                 }
 //                mAlertDialog.show();
             }
