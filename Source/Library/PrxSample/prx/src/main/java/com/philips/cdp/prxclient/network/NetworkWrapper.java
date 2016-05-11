@@ -39,35 +39,6 @@ public class NetworkWrapper {
         mVolleyRequest = volleyQueue.getRequestQueue(mContext);
     }
 
-   /* public void executeJsonObjectRequest(final PrxRequest prxRequest, final ResponseListener listener) {
-        mVolleyRequest = Volley.newRequestQueue(mContext);
-        PrxLogger.d(TAG, "Url : " + prxRequest.getRequestUrl());
-        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(0, prxRequest.getRequestUrl(), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                ResponseData responseData = prxRequest.getResponseData(response);
-                listener.onResponseSuccess(responseData);
-
-                PrxLogger.d(TAG, "Response : " + response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error != null) {
-                    try {
-                        listener.onResponseError(error.toString(), error.networkResponse.statusCode);
-                    } catch (Exception e) {
-                        PrxLogger.e(TAG, "Volley Error : " + e);
-                        listener.onResponseError(error.toString(), 0);
-                    }
-                }
-            }
-        });
-        if (isHttpsRequest)
-            SSLCertificateManager.setSSLSocketFactory();
-        mVolleyRequest.add(mJsonObjectRequest);
-    }*/
-
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         PrxLogger.d(TAG, "Custom JSON Request call..");
         final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
