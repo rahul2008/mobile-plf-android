@@ -80,7 +80,6 @@ public class RegistrationApplication extends Application {
 		//Configure HSDP
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING,hsdpInfo);
 */
-
 		HSDPInfo hsdpInfo = new HSDPInfo();
 		hsdpInfo.setApplicationName("uGrow");
 		hsdpInfo.setSharedId("c62362a0-f02c-11e5-9ce9-5e5517507c66");
