@@ -5,20 +5,23 @@
 */
 package com.philips.cdp.ui.catalog.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.uikit.customviews.UiKitLineSpinnerOnButton;
 import com.philips.cdp.uikit.customviews.UiKitSpinnerButton;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.shamanland.fonticon.FontIconDrawable;
 
 /**
  * Created by 310240027 on 5/6/2016.
  */
 public class SpinnerButtonActivity extends CatalogActivity implements View.OnClickListener {
     private UiKitSpinnerButton spinnerOnButton;
+    private UiKitLineSpinnerOnButton lineSpinnerOnButton;
     private int progressStatus = 0;
     private Handler handler = new Handler();
     private Button stopProgressButton;
@@ -29,8 +32,12 @@ public class SpinnerButtonActivity extends CatalogActivity implements View.OnCli
         setContentView(R.layout.catalogapp_spinner_button);
         spinnerOnButton = (UiKitSpinnerButton) findViewById(R.id.spinnerOnButton);
         spinnerOnButton.setButtonText("Philips account");
-        spinnerOnButton.setDrawable(VectorDrawable.create(getApplicationContext(), com.philips.cdp.uikit.R.drawable.uikit_philips_logo_small).getConstantState().newDrawable().mutate(),"left");
+        Drawable drawable = FontIconDrawable.inflate(getApplicationContext(), R.xml.uikit_fonticon_shield_xml);
+        spinnerOnButton.setDrawable(drawable, "left");
         stopProgressButton = (Button) findViewById(R.id.stopProgress);
+        lineSpinnerOnButton = (UiKitLineSpinnerOnButton) findViewById(R.id.lineSpinnerOnButton);
+        lineSpinnerOnButton.setButtonText("Philips account");
+        lineSpinnerOnButton.setDrawable(drawable,"left");
         spinnerOnButton.setOnClickListener(this);
         stopProgressButton.setOnClickListener(this);
     }
@@ -72,7 +79,10 @@ public class SpinnerButtonActivity extends CatalogActivity implements View.OnCli
                 }).start();
                 break;
             case R.id.stopProgress:
-                spinnerOnButton.disableProgress("Finish Loading");
+                spinnerOnButton.disableProgress();
+                spinnerOnButton.setButtonText("Finish Loading");
+                lineSpinnerOnButton.disableProgress();
+                lineSpinnerOnButton.setButtonText("Finish Loading");
                 break;
         }
     }

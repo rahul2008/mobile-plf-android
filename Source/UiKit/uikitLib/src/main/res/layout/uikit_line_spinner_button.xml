@@ -5,9 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <Button
-        android:id="@+id/buttonPB"
+        android:id="@+id/buttonLinePB"
         style="?attr/uikit_progressBarButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,18 +17,11 @@
         android:text=""
         android:textAllCaps="false" />
 
-    <com.philips.cdp.uikit.customviews.CircularProgressbar
-        android:id="@+id/progressBarPB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.philips.cdp.uikit.customviews.CircularLineProgressBar
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:id="@+id/lineProgressBarPB"
         android:layout_gravity="center"
-        android:indeterminateBehavior="repeat"
-        android:indeterminateOnly="false"
-        android:max="100"
-        android:progress="1"
-        android:visibility="visible"
-        app:uikit_circularprogresssmall="true"
-        app:uikit_grayprogress="true"
-        app:uikit_themeable="false"/>
+        app:uikit_duration="63" />
 
 </FrameLayout>

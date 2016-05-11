@@ -21,31 +21,24 @@ import com.philips.cdp.uikit.R;
 /**
  * Created by 310240027 on 5/5/2016.
  */
-public class UiKitSpinnerButton extends FrameLayout implements View.OnClickListener {
+public class UiKitLineSpinnerOnButton extends FrameLayout implements View.OnClickListener {
 
     View view;
     ProgressBar progressBar;
     Button button;
     private OnClickListener listener;
 
-    public UiKitSpinnerButton(Context context, AttributeSet attrs) {
+    public UiKitLineSpinnerOnButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         initViews(context, attrs);
     }
 
     private void initViews(Context context, AttributeSet attrs) {
-        view = LayoutInflater.from(context).inflate(R.layout.uikit_spinner_button, this);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarPB);
+        view = LayoutInflater.from(context).inflate(R.layout.uikit_line_spinner_button, this);
+        progressBar = (ProgressBar) view.findViewById(R.id.lineProgressBarPB);
         progressBar.setVisibility(ProgressBar.GONE);
-        progressBar.incrementProgressBy(1);
-        button = (Button) view.findViewById(R.id.buttonPB);
+        button = (Button) view.findViewById(R.id.buttonLinePB);
         button.setOnClickListener(this);
-    }
-
-    public void setProgress(int progress) {
-        if (progress > 0) {
-            progressBar.setProgress(progress);
-        }
     }
 
     @Override
@@ -105,14 +98,12 @@ public class UiKitSpinnerButton extends FrameLayout implements View.OnClickListe
         button.setEnabled(false);
         button.setClickable(false);
         progressBar.setVisibility(ProgressBar.VISIBLE);
-        progressBar.setProgress(0);
     }
 
     public void disableProgress() {
         button.setEnabled(true);
         button.setClickable(true);
         progressBar.setVisibility(ProgressBar.GONE);
-        progressBar.setProgress(0);
 
     }
 
