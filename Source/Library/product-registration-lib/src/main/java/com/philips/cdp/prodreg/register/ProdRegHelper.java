@@ -22,7 +22,6 @@ public class ProdRegHelper {
     private static Context context;
     private static ProdRegListener prodRegListener;
     private static UserRegistrationListener userRegistrationListener;
-    private String locale;
 
     @NonNull
     private static UserRegistrationListener getUserRegistrationListener() {
@@ -73,17 +72,10 @@ public class ProdRegHelper {
         ProdRegHelper.context = context;
         UserRegistrationObserver.registerListerOnUserSignIn();
     }
-/*
-    *//**
-     * API which returns locale
-     * @return - returns locale of type String
-     *//*
-    public String getLocale() {
-        return new PILLocaleManager(context).getInputLocale();
-    }*/
 
     /**
      * API to add listener while registering product
+     *
      * @param listener - Pass listener instance to listen for call backs
      */
     public void addProductRegistrationListener(final ProdRegListener listener) {
@@ -96,14 +88,19 @@ public class ProdRegHelper {
 
     /**
      * API which returns UserWithProducts instance for current signed in user
+     *
      * @return - returns instance of UserWithProducts
      */
     public UserWithProducts getSignedInUserWithProducts() {
         final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
-//        userWithProducts.setLocale(getLocale());
         return userWithProducts;
     }
 
+    /**
+     * API will return the Build Version
+     *
+     * @return version name in string
+     */
     public String getLibVersion() {
         return BuildConfig.VERSION_NAME;
     }

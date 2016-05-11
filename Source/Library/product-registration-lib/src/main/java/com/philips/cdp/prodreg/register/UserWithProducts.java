@@ -125,8 +125,8 @@ public class UserWithProducts {
      * API to fetch list of products which are registered locally and remote
      *
      * @param registeredProductsListener - call back listener to get list of products
-     * @param sector
-    //     * @param consumer
+     * @param sector                     - to get Sector as enum's
+     * @param catalog                    - to get catalog as enum's
      */
     public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener, final Sector sector, final Catalog catalog) {
         if (getUser().isUserSignIn()) {
@@ -139,6 +139,13 @@ public class UserWithProducts {
         }
     }
 
+    /**
+     * API will update to Error scenario to Locale cache
+     *
+     * @param registeredProduct - instance registeredProduct which include ctn,Sector and Catalog
+     * @param prodRegError      - to get Error code and description
+     * @param registrationState - registrationState as Enum's
+     */
     public void updateLocaleCacheOnError(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
         registeredProduct.setRegistrationState(registrationState);
         registeredProduct.setProdRegError(prodRegError);
@@ -279,6 +286,12 @@ public class UserWithProducts {
         return registrationRequest;
     }
 
+    /**
+     * API refresh the access token
+     *
+     * @param registeredProduct - List of products to be registered
+     * @param appListener       - Call back listener
+     */
     public void onAccessTokenExpire(final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         final User user = getUser();
         user.refreshLoginSession(getUserProduct().getRefreshLoginSessionHandler(registeredProduct, appListener, mContext));
