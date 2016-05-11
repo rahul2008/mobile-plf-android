@@ -10,7 +10,6 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -107,8 +106,6 @@ public class NetworkWrapper {
                             listener.onResponseError(new PrxError(PrxError.PrxErrorType.NETWORK_ERROR.getDescription(), PrxError.PrxErrorType.NETWORK_ERROR.getId()));
                         } else if (error instanceof ParseError) {
                             listener.onResponseError(new PrxError(PrxError.PrxErrorType.PARSE_ERROR.getDescription(), PrxError.PrxErrorType.PARSE_ERROR.getId()));
-                        } else if (error instanceof ServerError) {
-                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.SERVER_ERROR.getDescription(), PrxError.PrxErrorType.SERVER_ERROR.getId()));
                         } else if (networkResponse != null) {
                             listener.onResponseError(new PrxError(networkResponse.toString(), networkResponse.statusCode));
                         } else

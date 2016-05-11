@@ -12,7 +12,6 @@ import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
-
 /**
  * Description : This is the entry class to start the PRX Request.
  * Project : PRX Common Component.
@@ -23,17 +22,12 @@ public class RequestManager {
     private static final String TAG = RequestManager.class.getSimpleName();
     public static Context mContext = null;
 
-
     public void init(Context applicationContext) {
         mContext = applicationContext;
-
     }
 
     public void executeRequest(PrxRequest prxRequest, ResponseListener listener) {
-        PrxLogger.d(TAG, "Locale is not Null");
-
         invokeLocaleMatch(prxRequest, listener);
-
     }
 
     public void cancelRequest(String requestTag) {
@@ -59,8 +53,6 @@ public class RequestManager {
                                                      getInputLocale());
                                          }
                                          makeRequest(prxRequest, listener);
-
-
                                      }
 
                                      public void onErrorOccurredForLocaleMatch(LocaleMatchError

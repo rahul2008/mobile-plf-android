@@ -29,7 +29,7 @@ public class PrxError {
         NOT_FOUND(404, "The requested file was not found"),
 
         AUTHENTICATION_FAILURE(401, "Authentication failure when performing a Request"),
-        NETWORK_ERROR(511, "Network error when performing a Volley request"),
+        NETWORK_ERROR(511, "Network error when performing a request"),
         PARSE_ERROR(1, "Indicates that the server's response could not be parsed"),
         SERVER_ERROR(2, "Indicates that the error responded with an error response.");
 
