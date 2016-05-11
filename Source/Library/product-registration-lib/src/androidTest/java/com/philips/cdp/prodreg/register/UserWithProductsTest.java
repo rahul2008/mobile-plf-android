@@ -237,22 +237,19 @@ public class UserWithProductsTest extends MockitoTestCase {
     testGettingRegisteredListener() {
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
         userWithProducts.getRegisteredProducts(registeredProductsListener, Sector.B2C, Catalog.CONSUMER);
-        // assertEquals(registeredProductsListener, userWithProducts.getRegisteredProductsListener());
-        assertFalse(registeredProductsListener.equals(userWithProducts.getRegisteredProductsListener()));
+        assertEquals(registeredProductsListener, userWithProducts.getRegisteredProductsListener());
     }
 
     public void testReturnCorrectRequestType() {
-        final User userMock = mock(User.class);
         final Product product = new Product("ctn", null, null);
         final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-        ProdRegListener prodRegListener = mock(ProdRegListener.class);
         when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
         userWithProducts.registerProduct(product);
         assertTrue(userWithProducts.getRequestType() == UserWithProducts.PRODUCT_REGISTRATION);
         when(userMock.isUserSignIn()).thenReturn(false);
         userWithProducts.getRegisteredProducts(registeredProductsListener, Sector.B2C, Catalog.CONSUMER);
-        assertFalse(userWithProducts.getRequestType() == (UserWithProducts.FETCH_REGISTERED_PRODUCTS));
+        assertTrue(userWithProducts.getRequestType() != (UserWithProducts.FETCH_REGISTERED_PRODUCTS));
     }
 
     public void testValidatingSerialNumber() {
