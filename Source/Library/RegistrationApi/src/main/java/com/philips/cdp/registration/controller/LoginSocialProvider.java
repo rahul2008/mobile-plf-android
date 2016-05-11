@@ -17,6 +17,7 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONObject;
@@ -70,6 +71,9 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onFailure(SignInError error) {
+
+        // HSDP LOGIN PROVIDER BUTTONS ISSUE NEED TO FIXED
+        RLog.d("HSDP LOGIN PROVIDER BUTTONS ISSUE NEED TO FIXED","HSDP LOGIN PROVIDER BUTTONS ISSUE NEED TO FIXED");
         if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isMergeFlowError()) {
             String emailId = null;

@@ -56,6 +56,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
     }
 
     private void refreshUpdateUser(final RefreshUserHandler handler, final User user, final String password) {
+
         if (Jump.getSignedInUser() == null) {
             handler.onRefreshUserFailed(0);
             return;
@@ -78,7 +79,6 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                         LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
                             @Override
                             public void onLoginSuccess() {
-
                                 handler.onRefreshUserSuccess();
                             }
 

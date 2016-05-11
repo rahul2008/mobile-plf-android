@@ -497,6 +497,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -515,7 +516,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);
         }
-        trackActionRegisterError(userRegistrationFailureInfo.getError().code);
+        trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
     }
 
     @Override
@@ -610,7 +611,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
                     + mDisplayName + "' "
                     + userRegistrationFailureInfo.getDisplayNameErrorMessage());
-            trackActionRegisterError(userRegistrationFailureInfo.getError().code);
+            trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
             return;
         }
         if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
@@ -620,7 +621,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         } else {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
         }
-        trackActionRegisterError(userRegistrationFailureInfo.getError().code);
+        trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
     }
 
     @Override

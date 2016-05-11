@@ -604,8 +604,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         trackPage(AppTaggingPages.HOME);
         hideProviderProgress();
         enableControls(true);
-        if (null != userRegistrationFailureInfo && null != userRegistrationFailureInfo.getError()) {
-            trackActionLoginError(userRegistrationFailureInfo.getError().code);
+        if (null != userRegistrationFailureInfo) {
+            trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
         }
     }
 
@@ -699,8 +699,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         trackSocialProviderPage();
         hideProviderProgress();
         enableControls(true);
-        if (null != userRegistrationFailureInfo && null != userRegistrationFailureInfo.getError()) {
-            trackActionLoginError(userRegistrationFailureInfo.getError().code);
+        if (null != userRegistrationFailureInfo) {
+            trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
         }
     }
 

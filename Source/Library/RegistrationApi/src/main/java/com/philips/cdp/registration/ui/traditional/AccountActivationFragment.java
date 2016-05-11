@@ -20,7 +20,6 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -387,7 +386,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleResendVerificationEmailFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK,"AccountActivationFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
-        trackActionResendVerificationFailure(userRegistrationFailureInfo.getError().code);
+        trackActionResendVerificationFailure(userRegistrationFailureInfo.getErrorCode());
         mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"+ userRegistrationFailureInfo.getEmailErrorMessage());
         mBtnResend.setEnabled(true);
     }

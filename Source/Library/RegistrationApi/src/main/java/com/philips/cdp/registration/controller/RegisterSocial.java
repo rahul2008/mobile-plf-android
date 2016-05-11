@@ -46,7 +46,24 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		Jump.saveToDisk(mContext);
 		User user = new User(mContext);
 		mUpdateUserRecordHandler.updateUserRecordRegister();
-		mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess();
+
+		if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
+			HsdpUser hsdpUser = new HsdpUser(mContext);
+			hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
+
+				@Override
+				public void onLoginSuccess() {
+					mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess();
+				}
+
+				@Override
+				public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+					mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+				}
+			});
+		}else{
+			mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess();
+		}
 	}
 
 	public void onCode(String code) {
@@ -217,7 +234,6 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		} else {
 			isEmailVerified = true;
 		}
-
 		if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && isEmailVerified) {
 
 			HsdpUser hsdpUser = new HsdpUser(mContext);

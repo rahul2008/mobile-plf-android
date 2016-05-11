@@ -549,7 +549,7 @@ public class User {
     public void refreshUser(final RefreshUserHandler handler) {
         if(NetworkUtility.isNetworkAvailable(mContext)) {
             new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
-            ABCD.getInstance().setmP(null);
+            //ABCD.getInstance().setmP(null);
         }else{
             handler.onRefreshUserFailed(-1);
         }
