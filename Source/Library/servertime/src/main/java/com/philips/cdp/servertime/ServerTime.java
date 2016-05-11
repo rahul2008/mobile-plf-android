@@ -1,9 +1,5 @@
 package com.philips.cdp.servertime;
 
-/**
- * Created by 310202337 on 1/22/2016.
- */
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
@@ -16,6 +12,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class ServerTime {
@@ -153,7 +150,7 @@ public class ServerTime {
 
 
     public  String getCurrentTime(){
-        final SimpleDateFormat sdf = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT);
+        final SimpleDateFormat sdf = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT,Locale.ROOT);
         Date date = new Date(getOffset() + System.currentTimeMillis()+getCurrentTimeZoneDiff());
         sdf.setTimeZone(TimeZone.getTimeZone(ServerTimeConstants.UTC));
 
@@ -167,7 +164,7 @@ public class ServerTime {
 
     public  String getCurrentUTCTimeWithFormat(final String pFormat){
         long diffElapsedOffset = getCurrentElapsedDifference() -  getElapsedOffset() ;
-        final SimpleDateFormat sdf = new SimpleDateFormat(pFormat);
+        final SimpleDateFormat sdf = new SimpleDateFormat(pFormat, Locale.ROOT);
         Date date = null;
         if(isRefreshInProgress) {
              date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
