@@ -5,11 +5,6 @@
 
 package com.philips.cdp.di.iap.productCatalog;
 
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
-import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
-import com.philips.cdp.di.iap.response.carts.EntriesEntity;
-
 public class ProductCatalogData {
 
     private String mCtnNumber;
@@ -30,6 +25,15 @@ public class ProductCatalogData {
     private String mTotalPriceFormatedPrice;
     private String mTotalPriceWithTaxFormatedPrice;
     private String mFormatedPrice;
+    private String mPriceValue;
+
+    public String getPriceValue() {
+        return mPriceValue;
+    }
+
+    public void setPriceValue(String mPriceValue) {
+        this.mPriceValue = mPriceValue;
+    }
 
     public String getMarketingTextHeader() {
         return mMarketingTextHeader;
