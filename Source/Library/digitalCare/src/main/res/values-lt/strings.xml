@@ -145,5 +145,7 @@
     <string name="NO_SUPPORT_KEY">Palaikymo nėra</string>
     <string name="FAQ_KEY_TABLET">Dažniausiai užduodami klausimai
 </string>
+    <string name="PdfWarningMessage">Please install Adobe Reader to view the PDF manual.</string>
+
 
 </resources>

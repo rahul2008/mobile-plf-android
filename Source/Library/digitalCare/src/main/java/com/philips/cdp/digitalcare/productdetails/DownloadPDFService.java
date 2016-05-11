@@ -111,13 +111,15 @@ public class DownloadPDFService extends Service {
                 if(mHelpManualFileName == null){
                     return;
                 }
-                File file = new File(Environment.getExternalStorageDirectory(), mHelpManualFileName);
 
-                Intent intentPDF = new Intent(Intent.ACTION_VIEW);
-                intentPDF.setDataAndType(Uri.fromFile(file), "application/pdf");
-                intentPDF.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intentPDF.setPackage(PACKAGENAME_ADOBE_READER);
-                context.startActivity(intentPDF);
+                //TODO: If PDF app is not installed then click on notification icon leads to crash.
+//                File file = new File(Environment.getExternalStorageDirectory(), mHelpManualFileName);
+//
+//                Intent intentPDF = new Intent(Intent.ACTION_VIEW);
+//                intentPDF.setDataAndType(Uri.fromFile(file), "application/pdf");
+//                intentPDF.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intentPDF.setPackage(PACKAGENAME_ADOBE_READER);
+//                context.startActivity(intentPDF);
 //                mModelContainer.getProperty().notifyObserver(PROPERTY_LISTNERS.DOWNLOAD_COMPLETED, mHelpManualFileName);
             }
         }
@@ -187,8 +189,7 @@ public class DownloadPDFService extends Service {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showNotification(mContext.getResources().getString(R.string.download_error));
-//            showNotification(mContext.getResources().getString(R.string.download_ticker));
+            showNotification(mContext.getResources().getString(R.string.download_ticker));
             mCurrentProgress = 0;
         }
 

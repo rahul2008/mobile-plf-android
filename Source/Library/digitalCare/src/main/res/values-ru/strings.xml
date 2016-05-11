@@ -149,4 +149,5 @@
     <string name="download_ticker">Скачивая Справочное руководство</string>
     <string name="download_complete">Скачать Завершен</string>
     <string name="download_error">Ошибка загрузки</string>
+    <string name="PdfWarningMessage">Пожалуйста, установите Adobe Reader для просмотра руководства в формате PDF.</string>
 </resources>

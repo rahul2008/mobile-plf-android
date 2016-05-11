@@ -130,9 +130,9 @@ public class DownloadAndShowPDFHelper {
         DigiCareLogger.d(TAG, "Showing Adobe reader not installed dialog");
 
         mAlertDialog = new AlertDialog.Builder(mContext);
-        mAlertDialog.setMessage("showAcrobatReaderNotInstalledDialog testing");
+        mAlertDialog.setMessage(mContext.getResources().getString(R.string.PdfWarningMessage));
 
-        mAlertDialog.setPositiveButton("showAcrobatReaderNotInstalledDialog testing", new DialogInterface.OnClickListener() {
+        mAlertDialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 showAcrobatReaderInGooglePlay(ctx);

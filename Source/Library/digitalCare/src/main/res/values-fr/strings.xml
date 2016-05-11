@@ -149,4 +149,6 @@
     <string name="download_ticker">Téléchargement Manuel d\'aide</string>
     <string name="download_complete">Télécharger Terminé</string>
     <string name="download_error">Erreur de téléchargement</string>
+    <string name="PdfWarningMessage">Please install Adobe Reader to view the PDF manual.</string>
+
 </resources>

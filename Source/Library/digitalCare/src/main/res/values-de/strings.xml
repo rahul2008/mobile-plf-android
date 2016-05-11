@@ -149,5 +149,6 @@
     <string name="download_ticker">Herunterladen der Hilfe-Handbuch</string>
     <string name="download_complete">Download abgeschlossen</string>
     <string name="download_error">Download-Fehler</string>
+    <string name="PdfWarningMessage">Bitte installieren Sie den Adobe Reader, um die PDF-Anleitung zu sehen.</string>
 
 </resources>

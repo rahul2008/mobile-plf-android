@@ -149,6 +149,6 @@
     <string name="download_ticker">Downloading Help Manual</string>
     <string name="download_complete">Download Completed</string>
     <string name="download_error">Download Error</string>
-
+    <string name="PdfWarningMessage">Please install Adobe Reader to view the PDF manual.</string>
 
 </resources>

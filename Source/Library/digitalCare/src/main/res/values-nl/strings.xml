@@ -149,5 +149,6 @@
     <string name="download_ticker">Downloaden Help Manual</string>
     <string name="download_complete">Download voltooid</string>
     <string name="download_error">Download Fout</string>
+    <string name="PdfWarningMessage">Installeer Adobe Reader nodig om de PDF-handleiding bekijken.</string>
 
 </resources>
