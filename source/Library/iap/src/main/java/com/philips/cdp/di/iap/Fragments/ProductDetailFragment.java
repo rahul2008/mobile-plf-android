@@ -128,7 +128,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         String discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
 
         if (mLaunchedFromProductCatalog) {
-//            updateCount(mBundle.getInt(IAPConstant.IAP_PRODUCT_COUNT));
             setCartIconVisibility(View.VISIBLE);
             if (discountedPrice != null) {
                 mProductDiscountedPrice.setVisibility(View.VISIBLE);
@@ -138,6 +137,9 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 mProductDiscountedPrice.setVisibility(View.GONE);
                 mPrice.setTextColor(Utility.getThemeColor(mContext));
             }
+        }else{
+            mPrice.setVisibility(View.GONE);
+            mProductDiscountedPrice.setText(mBundle.getString(IAPConstant.PRODUCT_PRICE));
         }
     }
 
