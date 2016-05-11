@@ -51,7 +51,7 @@ public class Store {
     private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
 
     private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1/";
-    private static final String RETAILERS_ALTER = "online-retailers?product=%s";
+    private static final String RETAILERS_ALTER = "online-retailers?product=%s&lang=en";
 
     private StoreConfiguration mStoreConfig;
     public IAPUser mIAPUser;
