@@ -30,7 +30,7 @@ public class IAPHurlStack {
     private final OAuthHandler mOAuthHandler;
     private static final String PHILIPS_HOST = "philips.com";
 
-    private static final boolean TEST_SERVER = Boolean.TRUE;
+    private static final boolean TEST_SERVER = Boolean.FALSE;
 
     static Certificate testCertificate;
     private Context mContext;
