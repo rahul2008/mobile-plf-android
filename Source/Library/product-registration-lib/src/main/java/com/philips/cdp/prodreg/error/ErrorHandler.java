@@ -33,6 +33,9 @@ public class ErrorHandler {
         } else if (statusCode == ProdRegError.TIME_OUT.getCode()) {
             userProduct.updateLocaleCacheOnError(registeredProduct, ProdRegError.TIME_OUT, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct, userProduct);
+        } else if (statusCode == ProdRegError.NETWORK_ERROR.getCode()) {
+            userProduct.updateLocaleCacheOnError(registeredProduct, ProdRegError.NETWORK_ERROR, RegistrationState.FAILED);
+            appListener.onProdRegFailed(registeredProduct, userProduct);
         } else {
             userProduct.updateLocaleCacheOnError(registeredProduct, ProdRegError.UNKNOWN, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct, userProduct);
