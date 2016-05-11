@@ -141,4 +141,8 @@
 
     <string name="FAQ_KEY_TABLET">Preguntas frecuentes
 </string>
+    <string name="NO_SUPPORT_KEY">No hay asistencia disponible </string>
+    <string name="NO_PRODUCT_KEY">No hay productos disponibles </string>
+    <string name="QUESTION_KEY">Pregunta y respuesta </string>
+    <string name="FAQ_KEY">Preguntas más frecuentes </string>
 </resources>

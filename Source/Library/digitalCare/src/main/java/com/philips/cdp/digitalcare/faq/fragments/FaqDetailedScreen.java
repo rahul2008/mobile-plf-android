@@ -177,6 +177,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     }
 
     private void setPaddingForWebdata() {
+        if (mWebView == null) initView();
         // mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#003478\");");
         mWebView.loadUrl("javascript:document.body.style.setProperty(\"font-size\", \"100%\");");
         mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-top\", \"2%\");");
@@ -223,11 +224,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
         float xInches = metrics.widthPixels / metrics.xdpi;
         double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
 
-        if (diagonalInches >= 6.5) {
-            // 6.5inch device or bigger
-            return true;
-        }
-        return false;
+        return diagonalInches >= 6.5;
     }
 
     private void clearWebViewData() {

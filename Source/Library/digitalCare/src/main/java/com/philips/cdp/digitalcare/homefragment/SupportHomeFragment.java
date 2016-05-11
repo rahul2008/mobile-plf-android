@@ -4,7 +4,7 @@
  *
  * @author : Ritesh.jha@philips.com
  * @creation Date : 5 Dec 2014
- *
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -39,8 +39,8 @@ import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.prxSummaryCallback;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
-import com.philips.cdp.digitalcare.prx.PrxWrapper;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
+import com.philips.cdp.digitalcare.prx.PrxWrapper;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
@@ -54,8 +54,6 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 
 import java.util.List;
-
-
 
 
 public class SupportHomeFragment extends DigitalCareBaseFragment implements prxSummaryCallback {
@@ -172,10 +170,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
     private boolean isProductSelected() {
         String ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
-        if (ctn != null && ctn != "") {
-            return false;
-        } else
-            return true;
+        return !(ctn != null && ctn != "");
     }
 
 
@@ -304,7 +299,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         if (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))) {
             relativeLayout
                     .setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
-            mProductChangeButton = (View) relativeLayout;
+            mProductChangeButton = relativeLayout;
             // if (isProductSelected() && !isSupportScreenLaunched)
             if (isProductSelected())
                 mProductChangeButton.setVisibility(View.GONE);
@@ -322,7 +317,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
          */
 
         if (buttonTitle.equals(getStringKey(R.string.view_product_details))) {
-            mProductViewProductButton = (View) relativeLayout;
+            mProductViewProductButton = relativeLayout;
                      /* if ((model.getCtnName() != null)
                     || (model.getProductName() != null))
                 mProductViewProductButton.setVisibility(View.VISIBLE);
@@ -336,7 +331,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         }
 
         if (buttonTitle.equals(getStringKey(R.string.view_faq))) {
-            mProductFAQButton = (View) relativeLayout;
+            mProductFAQButton = relativeLayout;
             if (isProductSelected() && !isSupportScreenLaunched)
                 mProductFAQButton.setVisibility(View.GONE);
             else
@@ -344,7 +339,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         }
 
         if (buttonTitle.equals(getStringKey(R.string.find_philips_near_you))) {
-            mProductLocatePhilipsButton = (View) relativeLayout;
+            mProductLocatePhilipsButton = relativeLayout;
 
             if (isProductSelected() && !isSupportScreenLaunched)
                 mProductLocatePhilipsButton.setVisibility(View.GONE);
@@ -354,11 +349,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         }
 
         if (buttonTitle.equals(getStringKey(R.string.contact_us))) {
-            mProductContactUsButton = (View) relativeLayout;
+            mProductContactUsButton = relativeLayout;
         }
 
         if (buttonTitle.equals(getStringKey(R.string.feedback))) {
-            mProductTellUsWhatYouThinkButton = (View) relativeLayout;
+            mProductTellUsWhatYouThinkButton = relativeLayout;
         }
         return relativeLayout;
     }
@@ -545,7 +540,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                     enableSupportButtonClickable();
                     updateSummaryData(summaryModel);
                 } else {
-                    showAlert(getString(R.string.NO_PRODUCT_KEY));
+                    if (!getActivity().isFinishing()) showAlert(getString(R.string.NO_PRODUCT_KEY));
                     disablePrxDependentButtons();
                     enableSupportButtonClickable();
                 }
@@ -584,7 +579,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                         updateSummaryData(summaryModel);
                     }
                 } else {
-                    showAlert(getString(R.string.NO_PRODUCT_KEY));
+                    if (!getActivity().isFinishing()) showAlert(getString(R.string.NO_PRODUCT_KEY));
                     disablePrxDependentButtons();
                     enableSupportButtonClickable();
                 }

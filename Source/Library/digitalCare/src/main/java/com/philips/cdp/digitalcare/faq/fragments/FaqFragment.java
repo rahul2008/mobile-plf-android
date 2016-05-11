@@ -99,7 +99,7 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
     @Override
     public String getActionbarTitle() {
         if (isTablet())
-            return "Frequently asked questions";
+            return getResources().getString(R.string.FAQ_KEY_TABLET);
         else
             return getResources().getString(R.string.FAQ_KEY);
     }
@@ -136,10 +136,6 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
         float xInches = metrics.widthPixels / metrics.xdpi;
         double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
 
-        if (diagonalInches >= 6.5) {
-            // 6.5inch device or bigger
-            return true;
-        }
-        return false;
+        return diagonalInches >= 6.5;
     }
 }
