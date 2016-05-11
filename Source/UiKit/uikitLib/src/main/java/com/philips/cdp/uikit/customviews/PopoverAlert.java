@@ -53,7 +53,6 @@ import com.philips.cdp.uikit.R;
  */
 public class PopoverAlert extends RelativeLayout {
 
-    private static int viewId = 10050001;
     private Context context;
 
     private TextView titleText;
@@ -75,7 +74,7 @@ public class PopoverAlert extends RelativeLayout {
         titleText = (TextView) findViewById(R.id.uikit_popover_alert_title);
         leftIconImageView = (ImageView) findViewById(R.id.uikit_popover_info_icon);
         progressBar = (ProgressBar) findViewById(R.id.uikit_popover_progress_bar);
-        progressBar.setId(viewId++);
+        progressBar.setId(View.generateViewId());
         rightIconImageView = (ImageView) findViewById(R.id.uikit_popover_close_icon);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.popover_alert);
