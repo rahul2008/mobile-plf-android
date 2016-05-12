@@ -40,9 +40,9 @@ import java.util.List;
  */
 public class PrxWrapper {
 
-    public static final String PRX_ASSETS_USERMANUAL_PDF = "User manual";
-    public static final String PRX_ASSETS_USERMANUAL_QSG_PDF = "qsg";
-    public static final String PRX_ASSETS_VIDEO_URL = "mp4";
+    private static final String PRX_ASSETS_USERMANUAL_PDF = "User manual";
+    private static final String PRX_ASSETS_USERMANUAL_QSG_PDF = "qsg";
+    private static final String PRX_ASSETS_VIDEO_URL = "mp4";
     private static final String TAG = PrxWrapper.class.getSimpleName();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Thread mUiThread = Looper.getMainLooper().getThread();
@@ -337,37 +337,42 @@ public class PrxWrapper {
                     String qsgManual = null, usermanual = null;
                     if (data != null) {
                         final Assets assets = data.getAssets();
-                        final List<Asset> asset = assets.getAsset();
-                        final List<String> mVideoList = new ArrayList<String>();
-                        for (Asset assetObject : asset) {
-                            String assetDescription = assetObject.getDescription();
-                            String assetResource = assetObject.getAsset();
-                            String assetExtension = assetObject.getExtension();
-                            if (assetDescription.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_QSG_PDF))
-                                if (assetResource != null) {
-                                    qsgManual = assetResource;
-                                }
-                            if ((mProductDetailsObject.getManualLink() == null) && (assetDescription.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_PDF)))
-                                if (assetResource != null) {
-                                    usermanual = assetResource;
-                                }
-                            if (assetExtension.equalsIgnoreCase(PRX_ASSETS_VIDEO_URL))
-                                if (assetResource != null) {
-                                    mVideoList.add(assetResource);
-                                }
-                        }
-                        if (qsgManual != null) {
-                            viewProductDetailsData.setManualLink(qsgManual);
-                        } else if (usermanual != null) {
-                            viewProductDetailsData.setManualLink(usermanual);
-                        }
-                        viewProductDetailsData.setmVideoLinks(mVideoList);
-                        DigiCareLogger.d(TAG, "Manual PDF : " + qsgManual);
-                        DigiCareLogger.d(TAG, "Manual Link : " + usermanual);
-                        DigiCareLogger.d(TAG, "Manual videoListSize : " + mVideoList.size());
-                        mConfigManager.setViewProductDetailsData(viewProductDetailsData);
-                        if (mSummaryCallback != null) {
-                            mSummaryCallback.onResponseReceived(null);
+                        if (assets != null) {
+                            final List<Asset> asset = assets.getAsset();
+                            final List<String> mVideoList = new ArrayList<String>();
+                            for (Asset assetObject : asset) {
+                                String assetDescription = assetObject.getDescription();
+                                String assetResource = assetObject.getAsset();
+                                String assetExtension = assetObject.getExtension();
+                                if (assetDescription.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_QSG_PDF))
+                                    if (assetResource != null) {
+                                        qsgManual = assetResource;
+                                    }
+                                if ((mProductDetailsObject.getManualLink() == null) && (assetDescription.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_PDF)))
+                                    if (assetResource != null) {
+                                        usermanual = assetResource;
+                                    }
+                                if (assetExtension.equalsIgnoreCase(PRX_ASSETS_VIDEO_URL))
+                                    if (assetResource != null) {
+                                        mVideoList.add(assetResource);
+                                    }
+                            }
+                            if (qsgManual != null) {
+                                viewProductDetailsData.setManualLink(qsgManual);
+                            } else if (usermanual != null) {
+                                viewProductDetailsData.setManualLink(usermanual);
+                            }
+                            viewProductDetailsData.setmVideoLinks(mVideoList);
+                            DigiCareLogger.d(TAG, "Manual PDF : " + qsgManual);
+                            DigiCareLogger.d(TAG, "Manual Link : " + usermanual);
+                            DigiCareLogger.d(TAG, "Manual videoListSize : " + mVideoList.size());
+                            mConfigManager.setViewProductDetailsData(viewProductDetailsData);
+                            if (mSummaryCallback != null) {
+                                mSummaryCallback.onResponseReceived(null);
+                            }
+                        }else
+                        {
+                            if (mSummaryCallback != null)    mSummaryCallback.onResponseReceived(null);
                         }
 
                     }
