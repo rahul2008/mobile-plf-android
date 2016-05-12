@@ -248,6 +248,10 @@ public class PrxWrapper {
                                 mSupportCallback.onResponseReceived(null);
                             }
                         }
+                    } else {
+                        if (mSupportCallback != null) {
+                            mSupportCallback.onResponseReceived(null);
+                        }
                     }
                     if (mProgressDialog != null && mProgressDialog.isShowing()) {
                         mProgressDialog.cancel();
