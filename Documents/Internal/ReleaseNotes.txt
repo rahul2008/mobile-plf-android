@@ -138,3 +138,10 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
 	1. PRA-178 - Taking dependencies from Artifactory
 	2. Updated User Registration version to 5.0.0-rc.10
 	3. PRA-180 - Updating PRX changes in library
+	
+	Version - 1.0.0.rc_3                        Date: 11-05-2016
+-------------------------------------------------------------
+
+	Following features has fixed :
+	
+	1. PRA-184 - No proper error message displayed for user in product list page.
