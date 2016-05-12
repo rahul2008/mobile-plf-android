@@ -38,7 +38,7 @@ public class CircularProgressbar extends ProgressBar {
         isGrayProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_grayprogress, false);
         isWhiteProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_transparentprogress, false);
         isSmallProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_circularprogresssmall, false);
-        isThemeable = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_themeable, false);
+        isThemeable = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_themeable, true);
         a.recycle();
         setProgressDrawable(getCircularProgressDrawable());
         setRotation((-getProgress() / 100f * 360f) - 90f); // to start rotation from 90 degree from the top
