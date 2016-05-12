@@ -503,7 +503,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         mPrxWrapper = new PrxWrapper(getActivity(), new PrxFaqCallback() {
             @Override
             public void onResponseReceived(SupportModel supportModel) {
-                DigiCareLogger.i(TAG, "FAQ Screen Log model : " + supportModel);
                 if (supportModel == null) showAlert(getString(R.string.NO_PRODUCT_KEY));
                 else {
                     FaqFragment faqFragment = new FaqFragment();
