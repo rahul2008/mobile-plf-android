@@ -42,6 +42,10 @@ public class UiKitSpinnerButton extends FrameLayout implements View.OnClickListe
         button.setOnClickListener(this);
     }
 
+    /**
+     * set the amount of progress for the progress bar/spinner
+     * @param progress
+     */
     public void setProgress(int progress) {
         if (progress > 0) {
             progressBar.setProgress(progress);
@@ -78,10 +82,19 @@ public class UiKitSpinnerButton extends FrameLayout implements View.OnClickListe
         }
     }
 
+    /**
+     * Sets the text on the button
+     * @param text
+     */
     public void setButtonText(String text){
         button.setText(text);
     }
 
+    /**
+     * Sets the drawable on the image. Position indicates the position of the image on the button
+     * @param drawable
+     * @param position
+     */
     public void setDrawable(Drawable drawable,String position){
         if(position.equalsIgnoreCase("left")){
             button.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
@@ -100,6 +113,9 @@ public class UiKitSpinnerButton extends FrameLayout implements View.OnClickListe
 
     }
 
+    /**
+     * Enables the progess bar on the button.Button is disabled after this method is called.
+     */
     public void enableProgress() {
         button.setText("");
         button.setEnabled(false);
@@ -108,6 +124,9 @@ public class UiKitSpinnerButton extends FrameLayout implements View.OnClickListe
         progressBar.setProgress(0);
     }
 
+    /**
+     * Disables the progress bar on the button and the button is re-enabled.
+     */
     public void disableProgress() {
         button.setEnabled(true);
         button.setClickable(true);

@@ -19,7 +19,7 @@ import com.shamanland.fonticon.FontIconDrawable;
 /**
  * Created by 310240027 on 5/6/2016.
  */
-public class SpinnerButtonActivity extends CatalogActivity implements View.OnClickListener {
+public class SpinnerOnButtonActivity extends CatalogActivity implements View.OnClickListener {
     private UiKitSpinnerButton spinnerOnButton;
     private UiKitLineSpinnerOnButton lineSpinnerOnButton;
     private int progressStatus = 0;
@@ -31,12 +31,12 @@ public class SpinnerButtonActivity extends CatalogActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalogapp_spinner_button);
         spinnerOnButton = (UiKitSpinnerButton) findViewById(R.id.spinnerOnButton);
-        spinnerOnButton.setButtonText("Philips account");
+        spinnerOnButton.setButtonText(getResources().getString(R.string.spinneronbuttontext));
         Drawable drawable = FontIconDrawable.inflate(getApplicationContext(), R.xml.uikit_fonticon_shield_xml);
         spinnerOnButton.setDrawable(drawable, "left");
         stopProgressButton = (Button) findViewById(R.id.stopProgress);
         lineSpinnerOnButton = (UiKitLineSpinnerOnButton) findViewById(R.id.lineSpinnerOnButton);
-        lineSpinnerOnButton.setButtonText("Philips account");
+        lineSpinnerOnButton.setButtonText(getResources().getString(R.string.spinneronbuttontext));
         lineSpinnerOnButton.setDrawable(drawable,"left");
         spinnerOnButton.setOnClickListener(this);
         stopProgressButton.setOnClickListener(this);
@@ -80,9 +80,9 @@ public class SpinnerButtonActivity extends CatalogActivity implements View.OnCli
                 break;
             case R.id.stopProgress:
                 spinnerOnButton.disableProgress();
-                spinnerOnButton.setButtonText("Finish Loading");
+                spinnerOnButton.setButtonText(getResources().getString(R.string.finishloading));
                 lineSpinnerOnButton.disableProgress();
-                lineSpinnerOnButton.setButtonText("Finish Loading");
+                lineSpinnerOnButton.setButtonText(getResources().getString(R.string.finishloading));
                 break;
         }
     }

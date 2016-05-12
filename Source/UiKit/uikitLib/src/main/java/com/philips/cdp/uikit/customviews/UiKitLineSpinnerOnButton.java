@@ -71,10 +71,20 @@ public class UiKitLineSpinnerOnButton extends FrameLayout implements View.OnClic
         }
     }
 
+    /**
+     * Sets the text on the button
+     * @param text
+     */
     public void setButtonText(String text){
         button.setText(text);
     }
 
+
+    /**
+     * Sets the drawable on the image. Position indicates the position of the image on the button
+     * @param drawable
+     * @param position
+     */
     public void setDrawable(Drawable drawable,String position){
         if(position.equalsIgnoreCase("left")){
             button.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
@@ -93,6 +103,9 @@ public class UiKitLineSpinnerOnButton extends FrameLayout implements View.OnClic
 
     }
 
+    /**
+     * Enables the progess bar on the button.Button is disabled after this method is called.
+     */
     public void enableProgress() {
         button.setText("");
         button.setEnabled(false);
@@ -100,6 +113,9 @@ public class UiKitLineSpinnerOnButton extends FrameLayout implements View.OnClic
         progressBar.setVisibility(ProgressBar.VISIBLE);
     }
 
+    /**
+     * Disables the progress bar on the button and the button is re-enabled.
+     */
     public void disableProgress() {
         button.setEnabled(true);
         button.setClickable(true);

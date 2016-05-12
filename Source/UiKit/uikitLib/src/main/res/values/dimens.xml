@@ -199,4 +199,12 @@
     <!--Actionbar PopUp-->
     <dimen name="uikit_action_bar_Pop_Height">53dp</dimen>
 
+    <!-- Spinner on Button -->
+    <dimen name="uikit_spinneronbutton_button_padding_left">33dp</dimen>
+    <dimen name="uikit_spinneronbutton_button_padding_top">15dp</dimen>
+    <dimen name="uikit_spinneronbutton_button_padding_bottom">15dp</dimen>
+    <dimen name="uikit_spinneronbutton_spinner_width">34dp</dimen>
+    <dimen name="uikit_spinneronbutton_spinner_height">34dp</dimen>
+
+
 </resources>
