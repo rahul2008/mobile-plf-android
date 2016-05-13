@@ -198,6 +198,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             signIn();
         } else if (id == R.id.btn_reg_forgot_password) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
+            mEtEmail.clearFocus();
+            mEtPassword.clearFocus();
             if (mEtEmail.getEmailId().length() == 0) {
                 launchResetPasswordFragment();
             } else {

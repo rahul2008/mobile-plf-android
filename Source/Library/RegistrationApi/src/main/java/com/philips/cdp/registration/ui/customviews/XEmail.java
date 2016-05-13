@@ -82,7 +82,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     }
 
     private boolean validateEmail() {
-        if(mEtEmail!=null) {
+        if (mEtEmail != null) {
             if (!FieldsValidator.isValidEmail(mEtEmail.getText().toString().trim())) {
                 setValidEmail(false);
                 return false;
@@ -258,4 +258,10 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
             return false;
         }
     }
+
+    public void setImeOptions(int option) {
+        mEtEmail.setImeOptions(option);
+    }
+
+
 }
