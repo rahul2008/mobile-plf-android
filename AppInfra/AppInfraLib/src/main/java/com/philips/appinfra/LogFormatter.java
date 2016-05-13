@@ -11,9 +11,9 @@ import java.util.logging.LogRecord;
 /**
  * Created by 310238114 on 4/26/2016.
  */
-public class AIlogFormatter extends Formatter {
+public class LogFormatter extends Formatter {
 String componentNameAndVersion;
-    public AIlogFormatter(String ComponentName, String componentVersion){
+    public LogFormatter(String ComponentName, String componentVersion){
         componentNameAndVersion=ComponentName+" "+componentVersion;
     }
     //

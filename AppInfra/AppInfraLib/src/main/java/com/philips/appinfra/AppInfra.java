@@ -39,8 +39,8 @@ public class AppInfra {
 
             AppInfra ai = new AppInfra(pContext);
            // ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
-            ai.setLogging(logger == null ? new AILogging(ai) : logger);
-           // ai.setLogging(new AILogging(ai));
+            ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
+           // ai.setLogging(new AppInfraLogging(ai));
             return ai;
         }
     }

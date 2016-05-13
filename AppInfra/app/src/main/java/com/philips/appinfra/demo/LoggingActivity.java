@@ -16,6 +16,8 @@ import com.philips.appinfra.LoggingInterface;
 
 import java.util.logging.Logger;
 
+import package1.component1.Component1;
+
 public class LoggingActivity extends AppCompatActivity {
 
     private  AppInfra ai = null;
@@ -34,6 +36,7 @@ public class LoggingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_logging);
 
         /////////////////////////////////////
+
         //create Logger
         final EditText componentNameText= (EditText) findViewById(R.id.appInfraLogComponentName);
         final EditText componentVersionCount= (EditText) findViewById(R.id.appInfraComponentVersion);
@@ -41,8 +44,9 @@ public class LoggingActivity extends AppCompatActivity {
         createLoggerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ai = new AppInfra.Builder().build(getApplicationContext());
+
                 //  ai = new AppInfra.Builder().setLogging(myLogger).build(getApplicationContext());
+                ai = new AppInfra.Builder().build(getApplicationContext());
                 AILoggingInterface = ai.getLogging().createInstanceForComponent(componentNameText.getText().toString(), componentVersionCount.getText().toString()); //this.getClass().getPackage().toString()
             }
         });
@@ -114,6 +118,11 @@ public class LoggingActivity extends AppCompatActivity {
 
                     for(int logcount=1;logcount<=totalLogCount;logcount++) {
                         AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString());
+                       // testOtherComponent();
+                        Component1 component1= new Component1(ai);
+
+
+                        AILoggingInterface.log(currentLogLevel, "back", "back");
                     }
                 }
             }
@@ -153,17 +162,10 @@ public class LoggingActivity extends AppCompatActivity {
 
     }
 
-   /* @Override
-    public void onClick(View v) {
-        final int id = v.getId();
-        switch (id) {
-            case R.id.button1:
-                // your code for button1 here
-                break;
-            case R.id.button2:
-                // your code for button2 here
-                break;
-            // even more buttons here
-        }
-    }*/
+    void testOtherComponent(){
+        LoggingInterface LoggingInterfaceUserReg = ai.getLogging().createInstanceForComponent("User Reg", "1.2.0"); //this.getClass().getPackage().toString()
+        LoggingInterfaceUserReg.log(currentLogLevel, "Event USer Log", "Msg 11");
+    }
+
+
 }
