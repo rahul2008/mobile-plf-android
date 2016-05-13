@@ -10,8 +10,8 @@
   "maturity"           : "production",
   "contact"            : "Aravind Gundumane",
   "release format"     : "maven",
-  "release url"        : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/simple/libs-release-local-android/com/philips/cdp/digitalCare/4.1.0",
-  "version"            : "4.1.0",
+  "release url"        : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/simple/libs-release-local-android/com/philips/cdp/digitalCare/5.0.0",
+  "version"            : "5.0.0",
   "source url"         : "https://atlas.natlab.research.philips.com/stash/scm/cc/consumer_care_android",
-  "documentation url"  : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/simple/libs-release-local-android/com/philips/cdp/digitalCare/4.1.0",
+  "documentation url"  : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/simple/libs-release-local-android/com/philips/cdp/digitalCare/5.0.0",
 }
