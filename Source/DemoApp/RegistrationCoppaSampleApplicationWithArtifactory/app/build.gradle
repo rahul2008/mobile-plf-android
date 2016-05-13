@@ -37,7 +37,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23+'
 
-   compile(group: 'com.philips.cdp', name: 'coppa', version: "1.0.0-rc.1", ext: 'aar') {
+   compile(group: 'com.philips.cdp', name: 'coppa', version: "1.0.0", ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }

@@ -45,7 +45,10 @@
     <color name="reg_text_desc_color">#252525</color>
 
     <!-- Background -->
-    <color name="reg_layout_bg">#FFFFFF</color>
+    <drawable name="reg_layout_bg">#FFFFFF</drawable>
+    <!--Dailog background-->
+    <drawable name="reg_dailog_bg">#FFFFFF</drawable>
+
 
     <!-- Primary text color -->
     <color name="reg_text_heading_one_color">#003377</color>
@@ -58,9 +61,24 @@
     <!-- All Social buttons -->
     <!-- Social button enabled color -->
     <color name="reg_btn_social_bg_enabled_color">#0E66A1</color>
-    <!-- Social button disabled color -->
-    <color name="reg_btn_social_bg_disabled_color">#EFEFEF</color>
     <!-- Social button pressed color -->
     <color name="reg_btn_social_highlight_color">#033D78</color>
+
+    <!-- Check box border color-->
+    <!--<color name="reg_check_box_color">#E88200</color>-->
+    <!-- Back arrow color-->
+    <color name="reg_back_arrow_color">#FFFFFF</color>
+
+    <!-- Check box border color -->
+    <color name="reg_check_box_border_color">#003377</color>
+
+    <!-- Check box tick color -->
+    <color name="reg_check_box_tick_color">#003377</color>
+
+    <!-- Check error symbol  color -->
+    <color name="reg_error_symbol_color">#E88200</color>
+
+    <!-- Check error exclamation symbol  color -->
+    <color name="reg_exclamation_color">#FFFFFF</color>
 
 </resources>

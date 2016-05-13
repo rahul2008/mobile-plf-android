@@ -16,12 +16,21 @@ public class RegistrationApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
+        RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
         Tagging.enableAppTagging(true);
         Tagging.setTrackingIdentifier("integratingApplicationAppsId");
         Tagging.setLaunchingPageName("demoapp:home");
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
-        RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(),
-                Locale.getDefault());
-        Tagging.init(RegistrationHelper.getInstance().getLocale(), getApplicationContext(),"Philips Registartion Sample demo");
+
+        String languageCode = Locale.getDefault().getLanguage();
+        String countryCode = Locale.getDefault().getCountry();
+
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(languageCode,countryCode);
+
+        RegistrationHelper.getInstance().initializeUserRegistration(this);
+        Tagging.init( this, "Philips Registration");
+
     }
 }
