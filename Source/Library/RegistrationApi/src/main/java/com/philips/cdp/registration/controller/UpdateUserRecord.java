@@ -14,6 +14,8 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.servertime.ServerTime;
+import com.philips.cdp.servertime.constants.ServerTimeConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -171,9 +173,8 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                     RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
             String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
             try {
-                Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-                String currentDate = sdf.format(c.getTime());
+                ServerTime.init(mContext);
+                String currentDate = ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
 
                 JSONObject visitedMicroSitesObject = new JSONObject();
                 visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
