@@ -10,8 +10,8 @@
   "maturity"           : "production",
   "contact"            : "Rahul", 
   "release format"     : "maven",
-  "release url"        : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ libs-stage-local-android:com/philips/cdp/iap/1.0.0-rc.2",
-  "version"            : "1.0.0-rc.2",
+  "release url"        : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android:com/philips/cdp/iap/2.0.0",
+  "version"            : "2.0.0",
   "source url"         : "https://atlas.natlab.research.philips.com/stash/scm/ip/in-app-purchase_android",
-  "documentation url"  : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ libs-stage-local-android:com/philips/cdp/iap/1.0.0-rc.2",
+  "documentation url"  : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android:com/philips/cdp/iap/2.0.0",
 }
