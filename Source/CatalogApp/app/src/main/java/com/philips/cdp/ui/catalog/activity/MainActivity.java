@@ -155,6 +155,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
             case 24:
                 startActivity(new Intent(this, FontActivity.class));
+                break;
+            case 25:
+                startActivity(new Intent(this, SpinnerOnButtonActivity.class));
             default:
                 break;
         }
@@ -221,6 +224,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(22, "Favorites");
         itemsMap.put(23, "Pickers");
         itemsMap.put(24, "Font Support");
+        itemsMap.put(25, "Spinner on Button");
         return itemsMap;
     }
 
