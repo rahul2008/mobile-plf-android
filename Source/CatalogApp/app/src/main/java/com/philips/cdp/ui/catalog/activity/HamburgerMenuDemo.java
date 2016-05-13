@@ -253,10 +253,10 @@ public class HamburgerMenuDemo extends CatalogActivity {
         }
         switch (item.getItemId()) {
             case R.id.action_reload:
-                Toast.makeText(this, "clicked reload", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Clicked Reload", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.action_info:
-                Toast.makeText(this, "clicked info", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Clicked Info", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
