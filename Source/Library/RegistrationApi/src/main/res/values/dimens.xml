@@ -81,7 +81,7 @@
     <!-- User name max length -->
     <integer name="reg_et_name_max_length">256</integer>
     <integer name="reg_et_email_max_length">256</integer>
-    <integer name="reg_et_password_max_length">256</integer>
+    <integer name="reg_et_password_max_length">32</integer>
 
     <!-- scroll margin -->
     <dimen name="reg_scroll_margin">15dip</dimen>
