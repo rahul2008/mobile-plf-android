@@ -470,10 +470,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
-        if(getArguments() != null && getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
-        }else{
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
+        if (!(this instanceof BillingAddressFragment)) {
+            if (getArguments() != null && getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
+            } else {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
+            }
         }
         setTitle(R.string.iap_address);
         if (CartModelContainer.getInstance().getRegionIsoCode() != null)
@@ -659,7 +661,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressFields.setPhoneNumber(mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressFields.setEmail(mEtEmail.getText().toString());
 
-        if(this instanceof BillingAddressFragment) {
+        if (this instanceof BillingAddressFragment) {
             if (mlLState.getVisibility() == View.VISIBLE) {
                 addressFields.setRegionIsoCode(mShippingAddressFields.getRegionIsoCode());
             } else {

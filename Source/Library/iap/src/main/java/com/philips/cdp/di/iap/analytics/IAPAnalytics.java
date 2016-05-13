@@ -13,9 +13,4 @@ public class IAPAnalytics {
         Tagging.trackPage(currPage, sPreviousPage);
         sPreviousPage = currPage;
     }
-
-   /* public static void trackLaunchPage(String currPage) {
-        Tagging.trackPage(currPage, Tagging.getLaunchingPageName());
-        sPreviousPage = currPage;
-    }*/
 }

@@ -145,7 +145,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 mProductDiscountedPrice.setVisibility(View.GONE);
                 mPrice.setTextColor(Utility.getThemeColor(mContext));
             }
-        }else{
+        } else {
             mPrice.setVisibility(View.GONE);
             mProductDiscountedPrice.setText(mBundle.getString(IAPConstant.PRODUCT_PRICE));
         }
@@ -167,6 +167,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         setTitle(R.string.iap_shopping_cart_item);
         if (mBundle != null && mLaunchedFromProductCatalog) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PROD_VIEW);
             mAddToCart.setVisibility(View.VISIBLE);
             Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
             mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);

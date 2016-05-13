@@ -87,6 +87,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitle(R.string.iap_shopping_cart);
         updateCartOnResume();
     }
