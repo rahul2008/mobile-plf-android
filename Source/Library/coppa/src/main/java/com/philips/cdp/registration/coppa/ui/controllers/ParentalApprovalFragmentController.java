@@ -1,7 +1,6 @@
 package com.philips.cdp.registration.coppa.ui.controllers;
 
 import android.view.View;
-import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
@@ -9,7 +8,6 @@ import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
-import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.coppa.ui.customviews.RegCoppaAlertDialog;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalApprovalFragment;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
@@ -24,6 +22,7 @@ import com.philips.cdp.servertime.constants.ServerTimeConstants;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 
@@ -141,7 +140,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
     private long hoursSinceLastConsent() {
 
         Date date = null;
-        SimpleDateFormat format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_COPPA);
+        SimpleDateFormat format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_COPPA, Locale.ROOT);
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         long diff = 0;
         try {
@@ -149,7 +148,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
             long millisecondsatConsentGiven = date.getTime();
 
             String timeNow = ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
-            format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
+            format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP,Locale.ROOT);
             format.setTimeZone(TimeZone.getTimeZone("UTC"));
             date = format.parse(timeNow);
             long timeinMillisecondsNow = date.getTime();

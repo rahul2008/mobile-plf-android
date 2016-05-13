@@ -21,9 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     private String CONSUMER_TIMESTAMP = "timestamp";
@@ -92,10 +89,8 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
             RegistrationHelper userSettings = RegistrationHelper.getInstance();
             // visitedMicroSites
             try {
-                Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-                String currentDate = sdf.format(c.getTime());
-
+                ServerTime.init(mContext);
+                String currentDate = ServerTime.getInstance().getCurrentUTCTimeWithFormat(DATE_FORMAT);
                 JSONObject visitedMicroSitesObject = new JSONObject();
                 visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
                 visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
