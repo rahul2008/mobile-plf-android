@@ -13,14 +13,14 @@ import android.widget.Button;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.UiKitLineSpinnerOnButton;
-import com.philips.cdp.uikit.customviews.UiKitSpinnerButton;
+import com.philips.cdp.uikit.customviews.UiKitSpinnerOnButton;
 import com.shamanland.fonticon.FontIconDrawable;
 
 /**
  * Created by 310240027 on 5/6/2016.
  */
 public class SpinnerOnButtonActivity extends CatalogActivity implements View.OnClickListener {
-    private UiKitSpinnerButton spinnerOnButton;
+    private UiKitSpinnerOnButton spinnerOnButton;
     private UiKitLineSpinnerOnButton lineSpinnerOnButton;
     private int progressStatus = 0;
     private Handler handler = new Handler();
@@ -30,7 +30,7 @@ public class SpinnerOnButtonActivity extends CatalogActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalogapp_spinner_button);
-        spinnerOnButton = (UiKitSpinnerButton) findViewById(R.id.spinnerOnButton);
+        spinnerOnButton = (UiKitSpinnerOnButton) findViewById(R.id.spinnerOnButton);
         spinnerOnButton.setButtonText(getResources().getString(R.string.spinneronbuttontext));
         Drawable drawable = FontIconDrawable.inflate(getApplicationContext(), R.xml.uikit_fonticon_shield_xml);
         spinnerOnButton.setDrawable(drawable, "left");

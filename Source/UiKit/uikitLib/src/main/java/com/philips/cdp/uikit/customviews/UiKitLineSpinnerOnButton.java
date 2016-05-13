@@ -21,6 +21,24 @@ import com.philips.cdp.uikit.R;
 /**
  * Created by 310240027 on 5/5/2016.
  */
+/**
+ * <b></b> UiKitLineSpinnerOnButton is UI Component providing a progress bar over button</b>
+ * <p/>
+ *  <b></b>Any Layout can add this component as their child</b>
+ *  <p/>
+ *  <b></b>To set the text on the Button use setButtonText method after the view has been initialized.To set a drawable on the button, use setDrawable method.</b>
+ *  <p/>
+ *  <H3>Sample Code</H3>
+ *  <pre>
+ *  <com.philips.cdp.uikit.customviews.UiKitLineSpinnerOnButton
+ android:id="@+id/lineSpinnerOnButton"
+ android:layout_width="match_parent"
+ android:layout_height="70dp"
+ android:layout_gravity="center_horizontal"
+ android:layout_margin="20dp"
+ />
+ </pre>
+ */
 public class UiKitLineSpinnerOnButton extends FrameLayout implements View.OnClickListener {
 
     View view;
@@ -82,8 +100,8 @@ public class UiKitLineSpinnerOnButton extends FrameLayout implements View.OnClic
 
     /**
      * Sets the drawable on the image. Position indicates the position of the image on the button
-     * @param drawable
-     * @param position
+     * @param drawable - Value taken is a drawable.
+     * @param position - the position of the drawable to be drawn on the image.Values taken are left,right,top or bottom.
      */
     public void setDrawable(Drawable drawable,String position){
         if(position.equalsIgnoreCase("left")){
