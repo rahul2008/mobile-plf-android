@@ -153,7 +153,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.9.5'
     compile 'com.android.support:support-v4:23.1.1'
     //compile project(':productselection')
-    compile(group: 'com.philips.cdp', name: 'productselection', version: '1.2.0-rc.4', ext: 'aar' ){
+    compile(group: 'com.philips.cdp', name: 'productselection', version: '1.2.0', ext: 'aar' ){
         transitive = true
     }
 }

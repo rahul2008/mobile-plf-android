@@ -254,6 +254,7 @@
     </string-array>
 
     <string-array name="productselection_ctnlist">
+        <item>SCD888/26</item>
         <item>RQ1250/16</item>
         <item>RQ1250/17</item>
         <item>HD3197/03</item>
