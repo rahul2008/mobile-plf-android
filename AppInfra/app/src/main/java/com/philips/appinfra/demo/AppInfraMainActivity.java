@@ -16,7 +16,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
-    String appInfraComponents[] = {"Secure Storage", "Tagging", "Logging"};
+    String appInfraComponents[] = {"Secure Storage", "Tagging", "Logging", "Prx"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,12 @@ public class AppInfraMainActivity extends AppCompatActivity {
             case 2 :
                 Intent intentLoggingActivity = new Intent(AppInfraMainActivity.this, LoggingActivity.class);
                 startActivity(intentLoggingActivity);
+
+                break;
+            case 3 :
+                Intent intentPrxActivity = new Intent(AppInfraMainActivity.this,
+                        LauncherActivity.class);
+                startActivity(intentPrxActivity);
 
                 break;
         }
