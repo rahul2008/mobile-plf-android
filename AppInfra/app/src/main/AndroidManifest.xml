@@ -45,6 +45,14 @@
 
 
         </activity>
+        <activity
+            android:name=".LocalMatchMainActivity"
+            android:label="Log Test"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+
+
+        </activity>
     </application>
 
 </manifest>
