@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Key"> Indonesian </string>
+    <string name="key"> in </string>
+
+    <!-- Common   null -->
+    <string name="img_description"> keterangan </string>
+    <string name="no_internet"> Tidak ada koneksi internet. Periksa apakah koneksi Anda tersambung di pengaturan wifi atau pengaturan data di ponsel Anda </string>
+
+    <!-- Support Home Screen    null -->
+    <string name="how_can_we_help"> Apa yang bisa kami bantu? </string>
+    <string name="contact_us"> Hubungi kami </string>
+    <string name="view_product_details"> Lihat informasi produk </string>
+    <string name="view_faq"> Baca FAQ </string>
+    <string name="find_philips_near_you"> Temukan Philips di dekat Anda </string>
+    <string name="feedback"> Sampaikan pendapat Anda </string>
+    <string name="registration"> Daftarkan produk Anda </string>
+    <string name="actionbar_title_support"> Dukungan </string>
+    <string name="product_info"> informasi produk </string>
+    <!-- Locate Near You Screen   null -->
+    <string name="loading"> Memuat </string>
+    <string name="please_wait"> Harap tunggu &amp;#8230; </string>
+    <string name="get_directions"> Dapatkan arahan </string>
+    <string name="search"> Cari </string>
+    <string name="gps_disabled"> GPS tidak diaktifkan pada perangkat Anda. Anda ingin mengaktifkannya? </string>
+    <string name="servicecenters_not_found"> Tidak tersedia pusat layanan di negara Anda  </string>
+    <string name="no_data"> Data tidak tersedia </string>
+    <string name="locate_philips_popup_legal"> Saat Anda menggunakan fungsi \'Temukan Philips di dekat Anda\' pada Halaman Dukungan, Anda diminta membagikan data lokasi Anda dengan Philips. Berdasarkan data lokasi, Anda akan diarahkan ke toko terdekat, atau detail kontak layanan pelanggan di negara Anda </string>
+
+    <!-- ContactUs Screen   null -->
+    <string name="leave_us_a_message"> Tinggalkan pesan: </string>
+    <string name="contact_us_text"> Hubungi kami: </string>
+    <string name="opening_hours"> Jam buka </string>
+    <string name="live_chat"> Chat langsung </string>
+    <string name="send_email"> Kirim email </string>
+    <string name="call_number"> Panggil </string>
+    <string name="chat_with_philips"> Chat dengan Philips </string>
+    <string name="check_sim"> Kartu SIM tidak terdeteksi. Pastikan kartu SIM terpasang dengan benar </string>
+    <string name="no_data_available"> Data tidak tersedia </string>
+    <string name="send_us_email"> Kirim email pada kami </string>
+
+    <!-- Live Chat Screen   null -->
+    <string name="can_we_help_you"> Bisa kami bantu? </string>
+    <string name="chat_now"> Chat sekarang </string>
+    <string name="no_thanks"> Tidak, terima kasih </string>
+    <string name="chat_desc"> Mulai chat langsung dengan spesialis produk kami. tersedia 24/7 dalam bahasa Inggris </string>
+
+    <!-- View Product Details Screen   null -->
+    <string name="product_view_videos"> Video produk </string>
+    <string name="product_open_manual"> Buka manual interaktif </string>
+    <string name="product_download_manual"> Unduh manual Produk </string>
+    <string name="product_information"> Informasi produk (di philips.com) </string>
+
+    <!-- Rate This Application   null -->
+    <string name="rate_playstore_headertext"> Apa penilaian Anda atas aplikasi ini? </string>
+    <string name="rate_playstore_buttontext"> Tulis ulasan aplikasi </string>
+    <string name="rate_philips_headertext"> Kirimkan ulasan produk </string>
+    <string name="rate_philips_description"> Tulis ulasan dan bantu orang lain mengambil keputusan yang tepat bagi mereka </string>
+    <string name="rate_philips_buttontext"> Masuk ke My Philips </string>
+
+    <!-- reviewandrewards   null -->
+
+    <!-- Twitter Screen   null -->
+    <string name="twitter_login_header"> Masuk ke Twitter </string>
+    <string name="twitter_login_hint_username"> Nama Pengguna </string>
+    <string name="twitter_login_hint_password"> Kata Sandi </string>
+    <string name="twiiter_login_logo_description"> Logo Twitter </string>
+    <string name="twitter_post_progress_message"> Mengirim pesan Anda ke Dukungan Twitter Philips… </string>
+    <string name="twitter_post_char_limitation"> Harap perhatikan, pesan Anda tidak dapat melebihi 140 karakter </string>
+
+    <!-- Social post   null -->
+    <string name="social_post_to"> Kirim pesan ke Philips </string>
+    <string name="social_post_desc_text"> Sertakan informasi produk </string>
+    <string name="cancel"> Batal </string>
+    <string name="take_photo"> Ambil Foto </string>
+    <string name="choose_from_library"> Pilih dari Pustaka </string>
+    <string name="social_post_failed"> Ada yang salah..  </string>
+    <string name="support_productinformation"> saya memerlukan bantuan dengan </string>
+    <string name="social_post_success"> Pesan Anda diterima! </string>
+    <string name="post"> Kirim </string>
+    <string name="send"> Kirim </string>
+    <string name="facebook_login_header"> Masuk ke Facebook </string>
+    <string name="SocialSharingPostTemplateText"> saya memerlukan bantuan dengan </string>
+
+    <!-- BazzarVoice Screen   null -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Tulis ulasan </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Sebelum kita mulai, bacalah panduan kami: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Kami ingin mempublikasikan ulasan Anda, silakan ikuti panduan ini: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Fokuskan ulasan Anda pada produk. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Hindari menulis mengenai layanan pelanggan; segera hubungi kami jika Anda memiliki masalah yang membutuhkan penanganan cepat. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Hindari menyebut pesaing atau harga yang Anda bayar untuk membeli produk </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Jangan sertakan informasi pribadi yang dapat dikenali, mis. nama lengkap. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, paham! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Tulis ulasan </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Harap nilai produk ini </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Ulasan Anda </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Rangkuman Ulasan </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Tulis ulasan Anda di sini </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Pilih nama panggilan: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Bukan nama asli Anda </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Email Anda </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Pastikan Anda memiliki akses </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Saya sudah membaca dan menyetujui </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">  Syarat &amp; Ketentuan </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Pratinjau </string>
+    <string name="EmptyField_ErrorMsg"> Bidang tidak boleh kosong </string>
+    <string name="kemailFieldErrorText"> Masukkan alamat email yang valid. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Ulasan Anda: </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Apakah semua benar? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Nilai: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Rangkuman ulasan: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Ulasan: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Nama panggilan: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> Email </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Kirim ulasan saya </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Terima kasih! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Bagus! Ulasan Anda kami terima! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Terima kasih telah menulis ulasan ini. Kami akan membacanya dan mengabari setelah diterbitkan secara online! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Kembali ke dukungan </string>
+
+    <!-- bazzarvoice_rating_alert   null -->
+
+    <!-- bazzarvoice_terms_conditions_alert   null -->
+
+    <!-- bazzarvoice_description_alert   null -->
+
+    <!-- Registration Screen   null -->
+    <string name="login_to_social_media"> Masuk dengan akun media sosial Anda? </string>
+    <string name="twitter"> Di Twitter </string>
+    <string name="facebook"> Di Facebook </string>
+    <string name="linkedin"> Di LinkedIn </string>
+    <string name="googleplus"> Di Google Plus </string>
+    <string name="login_with_philips_account"> Atau masuk dengan akun My Philips </string>
+    <string name="email">  Alamat email </string>
+    <string name="password"> Kata Sandi </string>
+    <string name="sign_into_my_philips"> Masuk ke My Philips </string>
+    <string name="forgot_my_password"> Saya lupa kata sandi &gt;  </string>
+    <string name="create_account">  Buat akun &gt; </string>
+
+    <string name="localtephilips_contactus">Buka halaman kontak</string>
+
+    <string name="FAQ_KEY">Pertanyaan Umum</string>
+    <string name="QUESTION_KEY">Pertanyaan dan jawaban</string>
+    <string name="NO_PRODUCT_KEY">Produk tidak tersedia</string>
+    <string name="NO_SUPPORT_KEY">Dukungan tidak tersedia</string>
+    <string name="FAQ_KEY_TABLET">Pertanyaan yang sering diajukan
+</string>
+</resources>

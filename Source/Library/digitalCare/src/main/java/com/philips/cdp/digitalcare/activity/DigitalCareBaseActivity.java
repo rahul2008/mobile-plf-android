@@ -1,3 +1,11 @@
+/**
+ * DigitalCareBaseActivity is the parent abstract class for DigitalCare
+ * Activity.
+ *
+ * @author: ritesh.jha@philips.com
+ * @since: Dec 5, 2014
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.activity;
 
 import android.content.Context;
@@ -24,13 +32,7 @@ import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
 import java.util.Locale;
 
-/**
- * DigitalCareBaseActivity is the parent abstract class for DigitalCare
- * Activity.
- *
- * @author: ritesh.jha@philips.com
- * @since: Dec 5, 2014
- */
+
 public abstract class DigitalCareBaseActivity extends FragmentActivity {
     private static String TAG = DigitalCareBaseActivity.class.getSimpleName();
 

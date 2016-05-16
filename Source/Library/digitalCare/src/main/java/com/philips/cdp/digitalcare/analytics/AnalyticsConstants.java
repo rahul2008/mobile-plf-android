@@ -1,11 +1,15 @@
-package com.philips.cdp.digitalcare.analytics;
-
 /**
  * AnalyticsConstants is holding constant members used for TAGGING, Adobe
  * Analytics.
  * <p>
  * = author: ritesh.jha= philips.com = since: Mar 26, 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
+
+package com.philips.cdp.digitalcare.analytics;
+
+
 public class AnalyticsConstants {
 
     /* PAGE CONSTANTS */
@@ -15,6 +19,7 @@ public class AnalyticsConstants {
     public static final String PAGE_PRODUCT_REGISTRATION = "digitalcare:productregistration";
     public static final String PAGE_FIND_PHILIPS_NEAR_YOU = "digitalcare:findphilips";
     public static final String PAGE_FAQ = "digitalcare:faq";
+    public static final String PAGE_FAQ_QUESTION_ANSWER = "digitalcare:faq:questionandanswer";
 
     public static final String PAGE_CONTACTUS_TWITTER = "digitalcare:contactus:twitter";
     public static final String PAGE_CONTACTUS_FACEBOOK = "digitalcare:contactus:facebook";
@@ -43,7 +48,8 @@ public class AnalyticsConstants {
     public static final String KEY_TIME_STAMP = "timestamp";
     public static final String KEY_APP_ID = "appsId";
     public static final String KEY_PREVIOUS_PAGENAME = "previousPagename";
-    public static final String KEY_DIGITALCARE_VERSION = "digitalcareVersion";
+    public static final String KEY_DIGITALCARE_VERSION = "digCareVersion";
+    public static final String KEY_COMPONENT_VERSION = "componentVersion";
 
     /***************** Page Context Data End **************/
 
@@ -89,7 +95,7 @@ public class AnalyticsConstants {
     /*****************
      * Action Values
      **************/
-    public static final String ACTION_VALUE_APPNAME = "DigitalCare";
+    public static final String ACTION_VALUE_APPNAME = "Consumer Care ";
     public static final String ACTION_VALUE_ANDROID = "Android ";
     public static final String ACTION_VALUE_FACEBOOK = "Facebook";
     public static final String ACTION_VALUE_PHOTO_VALUE = "productimage";
@@ -107,4 +113,5 @@ public class AnalyticsConstants {
     public static final String ACTION_VALUE_SERVICE_CHANNEL_CALL = "call";
     public static final String ACTION_VALUE_SERVICE_CHANNEL_TWITTER = "Twitter";
     public static final String ACTION_VALUE_SERVICE_CHANNEL_FAQ = "FAQ";
+    public static final String ACTION_VALUE_SERVICE_CHANNEL_Facebook = "Facebook";
 }

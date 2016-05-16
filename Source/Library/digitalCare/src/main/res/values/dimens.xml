@@ -9,6 +9,7 @@
     <dimen name="title_text_size_medium">18sp</dimen>
     <dimen name="title_text_size_review_text">17sp</dimen>
     <dimen name="title_text_size_small">15sp</dimen>
+    <dimen name="title_text_size_smallest">10sp</dimen>
     <dimen name="actionbar_title_text_size">21dp</dimen>
     <dimen name="font_button_text_margin_left">80dp</dimen>
     <dimen name="support_btn_height">47px</dimen>
@@ -48,5 +49,9 @@
     <dimen name="icon_top_margin_right">5dp</dimen>
 
     <dimen name="view_prod_details_video_height">200dp</dimen>
+
+    <dimen name="faq_top_margin">1dp</dimen>
+    <dimen name="faq_firstscreen_sidemargin">30dp</dimen>
+    <dimen name="faq_top_textview_padding">2dip</dimen>
 
 </resources>

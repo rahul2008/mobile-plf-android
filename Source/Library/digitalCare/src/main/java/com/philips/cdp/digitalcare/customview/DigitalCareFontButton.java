@@ -1,3 +1,11 @@
+/**
+ * DigitalCareFontButton is the custom Button View.
+ *
+ * @author : Ritesh.jha@philips.com
+ *
+ * @since : 5 Dec 2014
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.customview;
 
 import android.content.Context;
@@ -7,13 +15,7 @@ import android.widget.Button;
 
 import com.philips.cdp.digitalcare.R;
 
-/**
- * DigitalCareFontButton is the custom Button View.
- * 
- * @author : Ritesh.jha@philips.com
- * 
- * @since : 5 Dec 2014
- */
+
 public class DigitalCareFontButton extends Button {
 	public DigitalCareFontButton(Context context) {
 		super(context);

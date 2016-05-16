@@ -136,4 +136,13 @@
     <string name="sign_into_my_philips"> Prijavite se na My Philips </string>
     <string name="forgot_my_password"> Zaboravio/la sam lozinku &gt;  </string>
     <string name="create_account">  Kreiraj nalog &gt; </string>
+
+    <string name="FAQ_KEY">Najčešća pitanja</string>
+    <string name="QUESTION_KEY">Pitanje i odgovor</string>
+    <string name="NO_PRODUCT_KEY">Nema dostupnih proizvoda</string>
+    <string name="NO_SUPPORT_KEY">Nije dostupna podrška</string>
+
+    <string name="FAQ_KEY_TABLET">Najčešća pitanja
+</string>
+
 </resources>

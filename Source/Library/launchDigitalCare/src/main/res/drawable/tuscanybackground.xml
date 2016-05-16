@@ -1,5 +1,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/tuscany" />
+    <!--   <item android:drawable="@drawable/tuscany" />-->
+
+    <item>
+        <color android:color="#FFFFFF" />
+    </item>
 
 </selector>

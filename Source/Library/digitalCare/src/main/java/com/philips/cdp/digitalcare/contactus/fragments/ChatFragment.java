@@ -1,3 +1,11 @@
+/**
+ * ChatFragment will help to provide options to start Philips chat.
+ *
+ * @author : Ritesh.jha@philips.com
+ * @since : 19 Jan 2015
+ * Copyright (c) 2016 Philips. All rights reserved.
+ *
+ */
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
@@ -22,12 +30,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 
-/**
- * ChatFragment will help to provide options to start Philips chat.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 19 Jan 2015
- */
+
 public class ChatFragment extends DigitalCareBaseFragment {
     private static View mView = null;
     private Button mChatNow = null;

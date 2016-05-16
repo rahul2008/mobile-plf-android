@@ -1,3 +1,11 @@
+/**
+ * ProductReview INAPP WebPage
+ *
+ * @author : Naveen AH
+ * @since : 30 November 2015
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
 import android.content.res.Configuration;
@@ -23,12 +31,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * ProductReview INAPP WebPage
- *
- * @author : Naveen AH
- * @since : 30 November 2015
- */
+
 public class ProductReviewFragment extends DigitalCareBaseFragment {
 
     private View mView = null;

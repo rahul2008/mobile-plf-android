@@ -138,4 +138,12 @@
     <string name="create_account">  Buat akun &gt; </string>
 
     <string name="localtephilips_contactus">Buka halaman kontak</string>
+
+    <string name="FAQ_KEY">Pertanyaan Umum</string>
+    <string name="QUESTION_KEY">Pertanyaan dan jawaban</string>
+    <string name="NO_PRODUCT_KEY">Produk tidak tersedia</string>
+    <string name="NO_SUPPORT_KEY">Dukungan tidak tersedia</string>
+     <string name="FAQ_KEY_TABLET">Pertanyaan yang sering diajukan
+</string>
+
 </resources>

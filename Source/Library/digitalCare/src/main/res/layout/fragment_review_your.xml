@@ -2,7 +2,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/activity_background_color"
+    android:background="@color/transparent"
     android:fillViewport="false">
 
     <LinearLayout
@@ -22,13 +22,13 @@
                 android:id="@+id/your_product_review_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/activity_background_color">
+                android:background="@color/transparent">
 
                 <RelativeLayout
                     android:id="@+id/your_product_review_parent_one"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/activity_background_color">
+                    android:background="@color/transparent">
 
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/your_product_review_divider_one"
-                android:background="@color/activity_background_color">
+                android:background="@color/transparent">
 
 
                 <RelativeLayout
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fitsSystemWindows="true"
-                        android:layout_below="@+id/your_product_review_rating_header_text"/>
+                        android:layout_below="@+id/your_product_review_rating_header_text" />
                 </RelativeLayout>
 
 

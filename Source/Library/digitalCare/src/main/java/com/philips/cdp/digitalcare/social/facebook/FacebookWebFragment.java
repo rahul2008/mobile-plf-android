@@ -1,3 +1,11 @@
+/**
+ * FaceBook Feature in the INAPP Webpage as a configurable data.
+ *
+ * @author naveen@philips.com
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.social.facebook;
 
 import android.content.res.Configuration;

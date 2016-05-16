@@ -34,7 +34,7 @@
         <item name="android:lines">1</item>
         <item name="android:textColor">@color/text_sub_header_color</item>
     </style>
-    
+
     <style name="viewProductDetailsButtons_prodinfo_philips_tab">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">40dp</item>
@@ -59,7 +59,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">165dp</item>
         <item name="android:layout_marginTop">10dp</item>
-       <!--  <item name="android:layout_below">@id/prodbuttons</item> -->
+        <!--  <item name="android:layout_below">@id/prodbuttons</item> -->
     </style>
 
     <style name="viewProductDetails_Ads_Image">

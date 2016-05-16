@@ -138,4 +138,12 @@
     <string name="create_account">  Kreiraj račun &gt; </string>
 
     <string name="localtephilips_contactus">Idi na stranicu za kontaktiranje</string>
+
+    <string name="FAQ_KEY">Često postavljana pitanja</string>
+    <string name="QUESTION_KEY">Pitanje i odgovor</string>
+    <string name="NO_PRODUCT_KEY">Nema dostupnih proizvoda</string>
+    <string name="NO_SUPPORT_KEY">Nema dostupne podrške</string>
+    <string name="FAQ_KEY_TABLET">Često postavljana pitanja
+</string>
+
 </resources>

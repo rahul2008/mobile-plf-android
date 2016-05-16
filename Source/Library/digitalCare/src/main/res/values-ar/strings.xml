@@ -139,4 +139,11 @@
     <string name="create_account"> إنشاء حساب &gt; </string>
 
     <string name="localtephilips_contactus">انتقل إلى صفحة الاتصال</string>
+
+
+    <string name="FAQ_KEY">الأسئلة المتداولة</string>
+    <string name="QUESTION_KEY">سؤال وجواب</string>
+    <string name="NO_PRODUCT_KEY">ما من منتجات متوفرة</string>
+    <string name="NO_SUPPORT_KEY">ما من دعم متوفر</string>
+    <string name="FAQ_KEY_TABLET">الأسئلة المتداولة</string>
 </resources>

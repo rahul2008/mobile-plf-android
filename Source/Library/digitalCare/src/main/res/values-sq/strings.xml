@@ -138,4 +138,13 @@
     <string name="create_account">  Krijo llogari &gt; </string>
 
     <string name="localtephilips_contactus">Shko te faqja e kontaktit</string>
+
+    <string name="FAQ_KEY">Pyetje të shpeshta</string>
+    <string name="QUESTION_KEY">Pyetje-përgjigje</string>
+    <string name="NO_PRODUCT_KEY">Nuk ka produkte</string>
+    <string name="NO_SUPPORT_KEY">Nuk ka mbështetje teknike</string>
+
+    <string name="FAQ_KEY_TABLET">Pyetjet e shpeshta
+</string>
+
 </resources>

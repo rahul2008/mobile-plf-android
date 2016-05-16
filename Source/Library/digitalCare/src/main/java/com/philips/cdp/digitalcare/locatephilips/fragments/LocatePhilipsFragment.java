@@ -40,7 +40,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -95,6 +94,8 @@ import java.util.Map;
  *
  * @author : Ritesh.jha@philips.com
  * @since : 8 May 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 @SuppressLint({"SetJavaScriptEnabled", "DefaultLocale"})
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
@@ -103,6 +104,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private static final String ATOS_URL_PORT = "https://www.philips.com/search/search?q=%s&subcategory=%s&country=%s&type=servicers&sid=cp-dlr&output=json";
     private static final String TAG = LocatePhilipsFragment.class
             .getSimpleName();
+    private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private static View mView = null;
     private static HashMap<String, AtosResultsModel> mHashMapResults = null;
     protected SharedPreferences mSharedpreferences;
@@ -149,9 +151,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
     private FrameLayout.LayoutParams mLocateSearchLayoutParentParams = null;
     private ProgressBar mLocateNearProgressBar;
-    private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private boolean isContactUsScreenLaunched = false;
-
+    private Utils mUtils = null;
     private LocationListener mLocationListener = new LocationListener() {
 
         @Override
@@ -185,6 +186,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                     DigiCareLogger.v(TAG, "Status Changed: Available");
                     break;
             }
+        }
+    };
+    private GoToContactUsListener mGoToContactUsListener = new GoToContactUsListener() {
+        @Override
+        public void goToContactUsSelected() {
+            isContactUsScreenLaunched = true;
+            showFragment(new ContactUsFragment());
         }
     };
     private AtosParsingCallback mParsingCompletedCallback = new AtosParsingCallback() {
@@ -240,6 +248,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         checkGooglePlayServices();
         initGoogleMapv2();
         createBitmap();
+        mUtils = new Utils();
         try {
             AnalyticsTracker.trackPage(
                     AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_YOU,
@@ -334,8 +343,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 showCustomAlert();
                 isContactUsScreenLaunched = false;
                 return;
-            }
-            else {
+            } else {
                 addMarkers(resultModelSet);
             }
         } else {
@@ -343,15 +351,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         }
     }
 
-    private GoToContactUsListener mGoToContactUsListener = new GoToContactUsListener() {
-        @Override
-        public void goToContactUsSelected() {
-            isContactUsScreenLaunched = true;
-            showFragment(new ContactUsFragment());
-        }
-    };
-
-    private void showCustomAlert(){
+    private void showCustomAlert() {
         LocateNearCustomDialog locateNearCustomDialog = new LocateNearCustomDialog(getActivity(),
                 getActivity().getSupportFragmentManager(), mGoToContactUsListener);
         locateNearCustomDialog.show();
@@ -409,20 +409,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     /*
      Android Marshmallow: Android M : Permission has to be requested at runtime.
      */
-    private void requestPermissionAndroidM(){
+    private void requestPermissionAndroidM() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             int hasPermission = getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
             if (hasPermission != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                         REQUEST_CODE_ASK_PERMISSIONS);
             }
-        }
-        else{
+        } else {
             getCurrentLocation();
         }
     }
 
-    private void getCurrentLocation(){
+    private void getCurrentLocation() {
         if (isProviderAvailable() && (provider != null)) {
             DigiCareLogger.i(TAG, "Provider is [" + provider + "]");
             locateCurrentPosition();
@@ -843,8 +842,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                                     REQUEST_CODE_ASK_PERMISSIONS);
                         }
-                    }
-                    else {
+                    } else {
                         gpsAlertView.showAlert(this, -1, R.string.gps_disabled,
                                 android.R.string.yes, android.R.string.no);
                     }
@@ -876,9 +874,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             if (mPhoneNumber != null && !mAtosResponse.getSuccess()) {
                 DigiCareLogger.i(TAG, mAtosResponse.getCdlsErrorModel()
                         .getErrorMessage());
-            } else if (Utils.isSimAvailable(getActivity())) {
+            } else if (mUtils.isSimAvailable(getActivity())) {
                 callPhilips();
-            } else if (!Utils.isSimAvailable(getActivity())) {
+            } else if (!mUtils.isSimAvailable(getActivity())) {
                 DigiCareLogger.i(TAG, "Check the SIM");
                 showAlert(getActivity().getString(R.string.check_sim));
             }

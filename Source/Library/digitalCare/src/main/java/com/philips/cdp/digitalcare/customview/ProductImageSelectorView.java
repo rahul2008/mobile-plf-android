@@ -1,3 +1,13 @@
+/**
+ *
+ * @author naveen@philips.com
+ * @description This is Tablet Menu View used in Social Screen's to pick the
+ *              Product/User opted photo's to send the locale specific Twitter
+ *              Support center.
+ * @Since March 15, 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.customview;
 
 import android.app.Activity;
@@ -13,14 +23,7 @@ import android.widget.RelativeLayout;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-/**
- * 
- * @author naveen@philips.com
- * @description This is Tablet Menu View used in Social Screen's to pick the
- *              Product/User opted photo's to send the locale specific Twitter
- *              Support center.
- * @Since March 15, 2015
- */
+
 public class ProductImageSelectorView {
 
 	private final String TAG = ProductImageSelectorView.class.getSimpleName();
@@ -266,7 +269,7 @@ public class ProductImageSelectorView {
 		// button.setTextColor(Color.parseColor("#3BB9FF"));
 		GradientDrawable mBackground = new GradientDrawable();
 		mBackground.setColor(mContext.getResources().getColor(
-				R.color.activity_background_color));
+				R.color.blue));
 		button.setBackgroundDrawable(mBackground);
 		button.setTextColor(mContext.getResources().getColor(R.color.button_background));
 	}
@@ -283,7 +286,7 @@ public class ProductImageSelectorView {
 			int buttonHeight, int ID) {
 		GradientDrawable mBackground = new GradientDrawable();
 		mBackground.setColor(mContext.getResources().getColor(
-				R.color.activity_background_color));
+				R.color.blue));
 
 		switch (ID) {
 		case CANCEL_BUTTON:

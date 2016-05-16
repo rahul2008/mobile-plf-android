@@ -1,3 +1,11 @@
+/**
+ * ContactUsFragment will help to provide options to contact Philips.
+ *
+ * @author : Ritesh.jha@philips.com
+ * @since : 19 Jan 2015
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.annotation.SuppressLint;
@@ -12,7 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -62,14 +70,9 @@ import com.philips.cdp.digitalcare.social.twitter.TwitterSupportFragment;*/
  import com.facebook.Session;
  import com.facebook.SessionState;*/
 
-/**
- * ContactUsFragment will help to provide options to contact Philips.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 19 Jan 2015
- */
+
 public class ContactUsFragment extends DigitalCareBaseFragment implements
-        /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback,Observer {
+        /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback, Observer {
     private static final String CDLS_URL_PORT = "https://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
     private static final String TAG = ContactUsFragment.class.getSimpleName();
     private static View mView = null;
@@ -85,26 +88,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private String mCdlsResponseStr = null;
-    private Handler mTwitterProgresshandler = null;
     private ProgressDialog mPostProgress = null;
     private ProgressDialog mDialog = null;
     private Configuration config = null;
     private View mSocialDivider = null;
     private int mSdkVersion;
+    private Utils mUtils = null;
+    private static boolean isFirstTimeCdlsCall = true;
 
-
-    private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
-        @Override
-        public void onCdlsParsingComplete(final CdlsResponseModel response) {
-            if (response != null) {
-                mCdlsParsedResponse = response;
-                updateUi();
-            } else {
-                fadeoutButtons();
-            }
-        }
-    };
-    private Runnable mTwitteroAuthRunnable = new Runnable() {
+    private final Runnable mTwitteroAuthRunnable = new Runnable() {
 
         @Override
         public void run() {
@@ -115,15 +107,42 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         }
     };
 
+    private final CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
+        @Override
+        public void onCdlsParsingComplete(final CdlsResponseModel response) {
+            if ((!isCdlsResponseNull(response)) && response.getSuccess()) {
+                mCdlsParsedResponse = response;
+                updateUi();
+            } else {
+              /*
+                First hit CDLS server wit SubCategory, if that fails then hit
+                CDLS again with Category.
+                 */
+                if(isFirstTimeCdlsCall){
+                    isFirstTimeCdlsCall = false;
+                    requestCdlsData();
+                }
+                else {
+                    fadeoutButtons();
+                }
+            }
+        }
+    };
+
+    private boolean isCdlsResponseNull(CdlsResponseModel response) {
+        return response == null;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSdkVersion = Build.VERSION.SDK_INT;
         DigiCareLogger.i(TAG, "ContactUsFragment : onCreate");
+        isFirstTimeCdlsCall = true;
 
         // mTwitterProgresshandler = new Handler();
         // if (isConnectionAvailable())
-        // requestCDLSData();
+        // requestCdlsData();
     }
 
     @Override
@@ -132,15 +151,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         DigiCareLogger.i(TAG, "ContactUsFragment : onCreateView: mView - "
                 + mView);
 
-        if (isConnectionAvailable() && formCdlsURL() != null) {
-            requestCDLSData();
-        }
-        else {
+        if (isConnectionAvailable() && isCdlsUrlNull()) {
+            requestCdlsData();
+        } else {
             DigitalCareConfigManager.getInstance().getObserver().addObserver(this);
         }
 
         if (mView != null) {
-            ViewGroup parent = (ViewGroup) mView.getParent();
+            final ViewGroup parent = (ViewGroup) mView.getParent();
             if (parent != null) {
                 parent.removeView(mView);
             }
@@ -148,7 +166,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         try {
             mView = inflater.inflate(R.layout.fragment_contact_us, container, false);
         } catch (InflateException e) {
+            DigiCareLogger.e(TAG, "UI Inflation error : " + e);
         }
+        mSocialDivider = (View) mView.findViewById(R.id.socialDivider);
 
         return mView;
     }
@@ -160,7 +180,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 "ContactUsFragment : onActivityCreated : mConactUsParent == "
                         + mContactUsParent);
         // if (mContactUsParent == null) {
-        mTwitterProgresshandler = new Handler();
+        // mTwitterProgresshandler = new Handler();
 
         mContactUsParent = (LinearLayout) getActivity().findViewById(
                 R.id.contactUsParent);
@@ -178,20 +198,17 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 R.id.contactUsSocialParent);
 
 
-        mSocialDivider = (View) getActivity().findViewById(R.id.socialDivider);
         // mFacebook.setOnClickListener(this);
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        mUtils = new Utils();
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
         createSocialProviderMenu();
-        float density = getResources().getDisplayMetrics().density;
+        final float density = getResources().getDisplayMetrics().density;
         setHelpButtonParams(density);
-
-		/*
-         * Live chat is configurable parameter. Developer can enable/disable it.
-		 */
+        //Live chat is configurable parameter. Developer can enable/disable it.
         if (getResources().getBoolean(R.bool.live_chat_required)) {
             mChat.setVisibility(View.VISIBLE);
         }
@@ -213,8 +230,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     private void createSocialProviderMenu() {
-        TypedArray titles = getResources().obtainTypedArray(R.array.social_service_provider_menu_title);
-        TypedArray resources = getResources().obtainTypedArray(R.array.social_service_provider_menu_resources);
+        TypedArray titles = getResources().obtainTypedArray
+                (R.array.social_service_provider_menu_title);
+        final TypedArray resources = getResources().obtainTypedArray
+                (R.array.social_service_provider_menu_resources);
 
         if (titles.length() == 0) {
             mSocialProviderParent.setVisibility(View.GONE);
@@ -236,18 +255,21 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     /*
      * Forming CDLS url. This url will be different for US and other countries.
      */
-    protected String formCdlsURL() {
-        Locale localeCoutryFallback = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
+    protected String getCdlsUrl() {
+        final Locale localeCoutryFallback = DigitalCareConfigManager.getInstance().
+                getLocaleMatchResponseWithCountryFallBack();
 
-        if(localeCoutryFallback == null){
+        if (localeCoutryFallback == null) {
             return null;
         }
-        ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
+        final ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
+
         return getCdlsUrl(consumerProductInfo.getSector(),
                 localeCoutryFallback.toString(),
                 consumerProductInfo.getCatalog(),
-                consumerProductInfo.getSubCategory());
+                isFirstTimeCdlsCall ? consumerProductInfo.getSubCategory()+"fake"
+                        : consumerProductInfo.getCategory());
     }
 /*
     @Override
@@ -272,23 +294,38 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         setViewParams(config);
     }
 
-    protected void requestCDLSData() {
+    protected void requestCdlsData() {
         DigiCareLogger.d(TAG, "CDLS Request Thread is started");
         startProgressDialog();
-        if (formCdlsURL() != null)
-            new RequestData(formCdlsURL(), this).execute();
+        if (isCdlsUrlNull()) {
+            new RequestData(getCdlsUrl(), this).execute();
+        }
+    }
+
+    private boolean isCdlsUrlNull() {
+        return getCdlsUrl() != null;
     }
 
     @Override
     public void onResponseReceived(String response) {
-        if(isAdded()) {
+        if (isAdded()) {
             closeProgressDialog();
-            DigiCareLogger.i(TAG, "response : " + response);
+            DigiCareLogger.i(TAG, "onResponseReceived : " + response);
             if (response != null && isAdded()) {
                 mCdlsResponseStr = response;
-                parseCDLSResponse(response);
+                parseCdlsResponse(response);
             } else {
-                fadeoutButtons();
+                /*
+                First hit CDLS server wit SubCategory, if that fails then hit
+                CDLS again with Category.
+                 */
+                if(isFirstTimeCdlsCall){
+                    isFirstTimeCdlsCall = false;
+                    requestCdlsData();
+                }
+                else {
+                    fadeoutButtons();
+                }
             }
         }
     }
@@ -299,9 +336,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         closeProgressDialog();
     }
 
-    protected void parseCDLSResponse(String response) {
+    protected void parseCdlsResponse(String response) {
         DigiCareLogger.d(TAG, "Parsing CDLS Response");
-        CdlsResponseParser cdlsResponseParser = new CdlsResponseParser(
+        final CdlsResponseParser cdlsResponseParser = new CdlsResponseParser(
                 mParsingCompletedCallback);
         cdlsResponseParser.parseCdlsResponse(response);
     }
@@ -309,15 +346,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     protected void updateUi() {
         DigiCareLogger.d(TAG, "Updating Contact Information");
 
-        if (mCdlsParsedResponse.getSuccess()
-                /*|| mCdlsParsedResponse.getError() != null*/) {
-            CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
+        if (mCdlsParsedResponse.getSuccess()/*|| mCdlsParsedResponse.getError() != null*/) {
+            final CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
             if (phoneModel != null) {
                 if (phoneModel.getPhoneNumber() != null) {
                     mCallPhilips.setVisibility(View.VISIBLE);
                 }
                 enableBottomText();
-                StringBuilder stringBuilder = new StringBuilder();
+                final StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(phoneModel.getOpeningHoursWeekdays())
                         .append(phoneModel.getOpeningHoursSaturday())
                         .append(phoneModel.getOpeningHoursSunday())
@@ -337,12 +373,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
                 mChat.setEnabled(false);
             }*/
-        } else if (mCdlsParsedResponse.getError() != null) {
+        } else if (isCdlsResponseModelNull()) {
             fadeoutButtons();
         } else {
             fadeoutButtons();
         }
 
+    }
+
+    private boolean isCdlsResponseModelNull() {
+        return mCdlsParsedResponse.getError() != null;
     }
 
     protected boolean hasEmptyChatContent(CdlsResponseModel cdlsResponseModel) {
@@ -369,7 +409,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     protected void startProgressDialog() {
         DigiCareLogger.v(TAG, "Progress Dialog Started");
-        if(getActivity() == null){
+        if (getActivity() == null) {
             return;
         }
         if (mDialog == null) {
@@ -387,20 +427,21 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     protected void callPhilips() {
         try {
-            Intent myintent = new Intent(Intent.ACTION_DIAL);
+            final Intent myintent = new Intent(Intent.ACTION_DIAL);
             myintent.setData(Uri.parse("tel:"
                     + mCdlsParsedResponse.getPhone().getPhoneNumber()));
             myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myintent);
         } catch (NullPointerException e) {
             // DigiCareLogger.d(TAG, "on Call Click : "+ mCdlsParsedResponse.getPhone().getPhoneNumber());
+            DigiCareLogger.e(TAG, "Null Pointer Exception : " + e);
         }
     }
 
     @Override
     public void onClick(View view) {
-        int id = view.getId();
-        String tag = (String) view.getTag();
+        final int id = view.getId();
+        final String tag = (String) view.getTag();
 
         boolean actionTaken = false;
 
@@ -432,14 +473,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             if (mCdlsResponseStr == null) {
                 showAlert(getActivity().getString(R.string.no_data));
                 return;
-            } else if (mCdlsParsedResponse != null
+            } else if (isCdlsResponseNull(mCdlsParsedResponse)
                     && !mCdlsParsedResponse.getSuccess()) {
                 showAlert(getActivity().getString(R.string.no_data));
                 return;
-            } else if (Utils.isSimAvailable(getActivity())) {
+            } else if (isSimAvailable()) {
                 tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
                 callPhilips();
-            } else if (!Utils.isSimAvailable(getActivity())) {
+            } else if (!isSimAvailable()) {
                 showAlert(getActivity().getString(R.string.check_sim));
             } else {
                 showAlert(getActivity().getString(R.string.check_sim));
@@ -492,17 +533,25 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         }
     }
 
-    private void launchFacebookFeature() {
+    private boolean isSimAvailable() {
+        return mUtils.isSimAvailable(getActivity());
+    }
 
+    private void launchFacebookFeature() {
+        tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_Facebook);
         try {
-            Uri uri = Uri.parse("fb://page/"
+            final Uri uri = Uri.parse("fb://page/"
                     + getActivity().getResources().getString(
                     R.string.facebook_product_pageID));
-            Map<String, Object> contextData = new HashMap<String, Object>();
-            contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_FACEBOOK);
-            contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, AnalyticsConstants.ACTION_VALUE_FACEBOOK);
-            contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, uri + toString());
-            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK, contextData);
+            final Map<String, Object> contextData = new HashMap<String, Object>();
+            contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
+                    AnalyticsConstants.ACTION_VALUE_FACEBOOK);
+            contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE,
+                    AnalyticsConstants.ACTION_VALUE_FACEBOOK);
+            contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK,
+                    uri + toString());
+            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
+                    contextData);
 
             getActivity().getApplicationContext().getPackageManager()
                     .getPackageInfo("com.facebook.katana", 0);
@@ -515,12 +564,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void launchTwitterFeature() {
-        Intent tweetIntent = new Intent(Intent.ACTION_SEND);
+        tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
+        final Intent tweetIntent = new Intent(Intent.ACTION_SEND);
         tweetIntent.putExtra(Intent.EXTRA_TEXT, getProductInformation());
         tweetIntent.setType("text/plain");
 
-        PackageManager packManager = getActivity().getPackageManager();
-        List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(tweetIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        final PackageManager packManager = getActivity().getPackageManager();
+        final List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(tweetIntent,
+                PackageManager.MATCH_DEFAULT_ONLY);
 
         boolean resolved = false;
         for (ResolveInfo resolveInfo : resolvedInfoList) {
@@ -533,8 +584,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             }
         }
         if (resolved) {
-            String twitterPageName = "www.twitter.com/" + "@" + getActivity().getString(R.string.twitter_page);
-            Map<String, Object> contextData = new HashMap<String, Object>();
+            final String twitterUrl = "www.twitter.com/";
+            final String twitterSupportAccount = getActivity().getString(R.string.twitter_page);
+            final String twitterPageName = twitterUrl + "@" + twitterSupportAccount;
+            final Map<String, Object> contextData = new HashMap<String, Object>();
             contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
             contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
             contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, twitterPageName);
@@ -547,14 +600,18 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     protected String getProductInformation() {
-        return "@" + getActivity().getString(R.string.twitter_page) + " " + getActivity().getResources().getString(
-                R.string.support_productinformation)
-                + " "
-                + DigitalCareConfigManager.getInstance()
-                .getConsumerProductInfo().getProductTitle()
-                + " "
-                + DigitalCareConfigManager.getInstance()
+        final String twitterPage = getActivity().getString(R.string.twitter_page);
+        final String twitterLocalizedPrefixText = getActivity().getResources().getString(
+                R.string.support_productinformation);
+        final String productTitle = DigitalCareConfigManager.getInstance()
+                .getConsumerProductInfo().getProductTitle();
+        final String ctn = DigitalCareConfigManager.getInstance()
                 .getConsumerProductInfo().getCtn();
+        return "@" + twitterPage + " " + twitterLocalizedPrefixText
+                + " "
+                + productTitle
+                + " "
+                + ctn;
     }
 
     @Override
@@ -602,18 +659,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         }*/
     }
 
-    protected void fadeinButtons() {
-        tagTechnicalError();
-//        if (mCallPhilips != null) {
-
-//            mCallPhilips
-//                    .setBackgroundResource(R.drawable.selector_option_button_faded_bg);
-//            mCallPhilips.setEnabled(false);
-//        }
-        if (mChat != null) {
-            mChat.setVisibility(View.VISIBLE);
-        }
-    }
 
     @Override
     public void setViewParams(Configuration config) {
@@ -668,7 +713,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     private Drawable getDrawable(int resId) {
-        return getResources().getDrawable(resId);
+        return ContextCompat.getDrawable(getActivity(), resId);
+        // getResources().getDrawable(resId);
     }
 
     private String getStringKey(int resId) {
@@ -682,36 +728,35 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     @SuppressLint("NewApi")
     private void createButtonLayout(int buttonTitleResId, int buttonDrawableResId) {
 
-        String buttonTitle = getResources().getResourceEntryName(buttonTitleResId);
-        String buttonDrawable = getResources().getResourceEntryName(buttonDrawableResId);
+        final String buttonTitle = getResources().getResourceEntryName(buttonTitleResId);
+        final String buttonDrawable = getResources().getResourceEntryName(buttonDrawableResId);
 
-        String packageName = getActivity().getPackageName();
-        int title = getResources().getIdentifier(
+        final String packageName = getActivity().getPackageName();
+        final int title = getResources().getIdentifier(
                 packageName + ":string/" + buttonTitle, null, null);
-        int drawable = getResources().getIdentifier(
+        final int drawable = getResources().getIdentifier(
                 packageName + ":drawable/" + buttonDrawable, null, null);
-        float density = getResources().getDisplayMetrics().density;
+        final float density = getResources().getDisplayMetrics().density;
 
-        RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
-        Button button = createButton(density, title, drawable);
+        final RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
+        final Button button = createButton(density, title, drawable);
         relativeLayout.addView(button);
         setButtonParams(button, density);
         setHelpButtonParams(density);
         mSocialProviderParent.addView(relativeLayout);
         setRelativeLayoutParams(relativeLayout, density);
 
-		/*
-         * Setting tag because we need to get String title for this view which
-		 * needs to be handled at button click.
-		 */
+        //Setting tag because we need to get String title for this view
+        // which needs to be handled at button click.
+
         relativeLayout.setTag(buttonTitle);
         relativeLayout.setOnClickListener(this);
     }
 
     @SuppressLint("NewApi")
     private RelativeLayout createRelativeLayout(String buttonTitle, float density) {
-        RelativeLayout relativeLayout = new RelativeLayout(getActivity());
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+        final RelativeLayout relativeLayout = new RelativeLayout(getActivity());
+        final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
         relativeLayout.setLayoutParams(params);
@@ -726,7 +771,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     private void setRelativeLayoutParams(RelativeLayout relativeLayout,
                                          float density) {
-        LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
+        final LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
                 .getLayoutParams();
         param.topMargin = (int) (15 * density);
         relativeLayout.setLayoutParams(param);
@@ -734,12 +779,19 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     @SuppressLint("NewApi")
     private Button createButton(float density, int title, int resId) {
-        Button button = new Button(getActivity(), null, R.style.fontButton);
+        final Button button = new Button(getActivity(), null, R.style.fontButton);
 
         button.setGravity(Gravity.CENTER);
         // button.setPadding((int) (80 * density), 0, 0, 0);
-        button.setTextAppearance(getActivity(), R.style.fontButton);
-        Typeface buttonTypeface = Typeface.createFromAsset(getActivity().getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
+
+        if (Build.VERSION.SDK_INT < 23) {
+            button.setTextAppearance(getActivity(), R.style.fontButton);
+        } else {
+            button.setTextAppearance(R.style.fontButton);
+        }
+        final Typeface buttonTypeface = Typeface.createFromAsset
+                (getActivity().getAssets(),
+                        "digitalcarefonts/CentraleSans-Book.otf");
         button.setTypeface(buttonTypeface);
         if (mSdkVersion < Build.VERSION_CODES.JELLY_BEAN) {
             button.setBackgroundResource(resId);
@@ -755,7 +807,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private void setButtonParams(Button button, float density) {
         // RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
         // .getLayoutParams();
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+        final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
         button.setLayoutParams(params);
@@ -763,7 +815,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     private void setHelpButtonParams(float density) {
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
 
@@ -794,8 +846,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void update(Observable observable, Object data) {
-        if(!(getActivity() == null)) {
-            requestCDLSData();
+        if (!(getActivity() == null)) {
+            requestCdlsData();
         }
     }
 

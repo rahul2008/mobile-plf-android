@@ -1,3 +1,11 @@
+/**
+ * AnalyticsTracker class is responsible for Adobe Analytics. Here all APIs has
+ * been added to call for page/event tagging.
+ *
+ * @author: ritesh.jha@philips.com
+ * @since: Mar 25, 2015
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.analytics;
 
 import android.annotation.SuppressLint;
@@ -18,13 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * AnalyticsTracker class is responsible for Adobe Analytics. Here all APIs has
- * been added to call for page/event tagging.
- *
- * @author: ritesh.jha@philips.com
- * @since: Mar 25, 2015
- */
+
 public class AnalyticsTracker {
 
     private static final String TAG = "DigitalCare:Analytics";
@@ -107,8 +109,9 @@ public class AnalyticsTracker {
             return;
         DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
-        contextData.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION,
-                BuildConfig.VERSION_CODE);
+        contextData.put(AnalyticsConstants.KEY_COMPONENT_VERSION,
+                AnalyticsConstants.ACTION_VALUE_APPNAME + BuildConfig.VERSION_CODE);
+        contextData.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION, BuildConfig.VERSION_CODE);
         Analytics.trackAction(actionName, contextData);
     }
 
@@ -116,8 +119,9 @@ public class AnalyticsTracker {
                                                             String mapValue) {
         Map<String, Object> contextData = new HashMap<String, Object>();
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
-        contextData.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION,
-                BuildConfig.VERSION_CODE);
+        contextData.put(AnalyticsConstants.KEY_COMPONENT_VERSION,
+                AnalyticsConstants.ACTION_VALUE_APPNAME + BuildConfig.VERSION_CODE);
+        contextData.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION, BuildConfig.VERSION_CODE);
         contextData.put(mapKey, mapValue);
         return contextData;
     }
@@ -147,8 +151,9 @@ public class AnalyticsTracker {
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
         contextData.put(AnalyticsConstants.KEY_APP_ID,
                 mAppId);
-        contextData.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION,
-                BuildConfig.VERSION_CODE);
+        contextData.put(AnalyticsConstants.KEY_COMPONENT_VERSION,
+                AnalyticsConstants.ACTION_VALUE_APPNAME + BuildConfig.VERSION_CODE);
+        contextData.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION, BuildConfig.VERSION_CODE);
         return contextData;
     }
 
@@ -157,8 +162,9 @@ public class AnalyticsTracker {
      */
     private static Map<String, Object> addPageContextData(String previousPageName, Map<String, Object> contextData) {
         Map<String, Object> contextDataNew = AnalyticsTracker.addPageContextData(previousPageName);
-        contextDataNew.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION,
-                BuildConfig.VERSION_CODE);
+        contextDataNew.put(AnalyticsConstants.KEY_COMPONENT_VERSION,
+                AnalyticsConstants.ACTION_VALUE_APPNAME + BuildConfig.VERSION_CODE);
+        contextDataNew.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION, BuildConfig.VERSION_CODE);
         contextData.putAll(contextDataNew);
         return contextData;
     }

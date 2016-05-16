@@ -138,4 +138,10 @@
     <string name="create_account">  Δημιουργία λογαριασμού &gt; </string>
 
     <string name="localtephilips_contactus">Σελίδα επικοινωνίας</string>
+    <string name="FAQ_KEY">Συχνές ερωτήσεις</string>
+    <string name="QUESTION_KEY">Ερώτηση και απάντηση</string>
+    <string name="NO_PRODUCT_KEY">Δεν υπάρχουν διαθέσιμα προϊόντα</string>
+    <string name="NO_SUPPORT_KEY">Δεν υπάρχει διαθέσιμη υποστήριξη</string>
+    <string name="FAQ_KEY_TABLET">Συχνές ερωτήσεις
+</string>
 </resources>

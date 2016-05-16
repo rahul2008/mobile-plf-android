@@ -138,4 +138,12 @@
     <string name="create_account">  Creare cont &gt; </string>
 
     <string name="localtephilips_contactus">Navigare la pagina de contact</string>
+
+    <string name="FAQ_KEY">Întrebări frecvente</string>
+    <string name="QUESTION_KEY">Întrebare şi răspuns</string>
+    <string name="NO_PRODUCT_KEY">Nu sunt produse disponibile</string>
+    <string name="NO_SUPPORT_KEY">Asistenţa nu este disponibilă</string>
+    <string name="FAQ_KEY_TABLET">Întrebări frecvente
+</string>
+
 </resources>

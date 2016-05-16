@@ -6,6 +6,8 @@ package com.philips.cdp.digitalcare.locatephilips.models;
  * @author: ritesh.jha@philips.com
  * 
  * @since: 9 May 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 public class StoreModel {
 	private String mPhoneNumber = null;

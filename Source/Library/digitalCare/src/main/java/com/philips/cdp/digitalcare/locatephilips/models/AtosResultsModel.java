@@ -8,6 +8,8 @@ import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
  * @author: ritesh.jha@philips.com
  * 
  * @since: 9 May 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 public class AtosResultsModel {
 	private String mId = null;

@@ -25,4 +25,7 @@
 
     <dimen name="bazzarvoice_guidlines_icon_size">65px</dimen>
 
+    <dimen name="faq_top_margin">1dp</dimen>
+    <dimen name="faq_firstscreen_sidemargin">30dp</dimen>
+
 </resources>

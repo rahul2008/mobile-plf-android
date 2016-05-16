@@ -1,3 +1,11 @@
+/**
+ * DigitalCareFontTextView is the custom Text View.
+ *
+ * @author : Ritesh.jha@philips.com
+ *
+ * @since : 5 Dec 2014
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.customview;
 
 import android.content.Context;
@@ -7,13 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.R;
 
-/**
- * DigitalCareFontTextView is the custom Text View.
- * 
- * @author : Ritesh.jha@philips.com
- * 
- * @since : 5 Dec 2014
- */
+
 public class DigitalCareFontTextView extends TextView {
 
 	public DigitalCareFontTextView(Context context) {

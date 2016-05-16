@@ -1,7 +1,19 @@
+/*import com.philips.cdp.horizontal.RequestManager;
+import com.philips.cdp.network.listeners.AssetListener;
+import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
+
+/**
+ * ProductDetailsFragment will help to show product details.
+ *
+ * @author : Ritesh.jha@philips.com
+ * @since : 16 Jan 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -37,24 +49,17 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.listeners.IPrxCallback;
+import com.philips.cdp.digitalcare.listeners.prxSummaryCallback;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
+import com.philips.cdp.digitalcare.prx.PrxWrapper;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-/*import com.philips.cdp.horizontal.RequestManager;
-import com.philips.cdp.network.listeners.AssetListener;
-import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
 
-/**
- * ProductDetailsFragment will help to show product details.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 16 Jan 2015
- */
 public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         OnClickListener {
 
@@ -82,9 +87,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private int mBiggerResolution = 0;
     private LinearLayout.LayoutParams mScrollerLayoutParams = null;
     private LinearLayout.LayoutParams mProductVideoHeaderParams = null;
-    private PrxProductData mPrxProductData = null;
+    private PrxWrapper mPrxWrapper = null;
     private static Activity mActivity = null;
     private int mSdkVersion = 0;
+    private RelativeLayout mManualRelativeLayout = null;
+    private String mManualButtonTitle = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -158,6 +165,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             }
         });
   */
+
     }
 
     private void initView(List<String> mVideoLength) throws NullPointerException {
@@ -366,7 +374,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void requestPRXAssetData() {
-        mPrxProductData = new PrxProductData(mActivity, new IPrxCallback() {
+        mPrxWrapper = new PrxWrapper(mActivity, new prxSummaryCallback() {
             @Override
             public void onResponseReceived(SummaryModel isAvailable) {
                 if (getContext() != null)
@@ -374,7 +382,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             }
         });
 
-        mPrxProductData.executePRXAssetRequestWithSummaryData(mViewProductSummaryModel);
+        mPrxWrapper.executePrxAssetRequestWithSummaryData(mViewProductSummaryModel);
     }
 
     @Override
@@ -437,6 +445,20 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 		 */
         relativeLayout.setTag(buttonTitle);
         relativeLayout.setOnClickListener(this);
+
+        mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+        String mFilePath  = null;
+
+        if(mViewProductDetailsModel != null) {
+            mFilePath = mViewProductDetailsModel.getManualLink();
+        }
+
+        if (mFilePath == null && buttonTitle.equalsIgnoreCase(
+                getResources().getResourceEntryName(R.string.product_download_manual))) {
+            relativeLayout.setVisibility(View.GONE);
+            mManualRelativeLayout = relativeLayout;
+            mManualButtonTitle = buttonTitle;
+        }
     }
 
     @SuppressLint("NewApi")
@@ -493,23 +515,27 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         String tag = (String) view.getTag();
 
-        boolean actionTaken = false;
         if (DigitalCareConfigManager.getInstance()
                 .getProductMenuListener() != null) {
             DigitalCareConfigManager.getInstance()
                     .getProductMenuListener().onProductMenuItemClicked(tag);
         }
 
-        if (actionTaken) {
-            return;
-        }
-
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_download_manual))) {
+            Locale locale =  DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
+            String country = locale.getCountry();
+            String language = locale.getLanguage();
             String mFilePath = mViewProductDetailsModel.getManualLink();
+
+            // creating the name of the manual. So that Same manual should not be downloaded again and again.
+            String pdfName = mViewProductDetailsModel.getProductName() + language + '_' + country + ".pdf";
             if ((mFilePath != null) && (mFilePath != "")) {
-                if (isConnectionAvailable())
-                    showFragment(new ProductManualFragment());
+                if (isConnectionAvailable()) {
+                    DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
+                    downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable()) ;
+//                    showFragment(new ProductManualFragment());
+                    }
             } else {
                 showAlert(getResources().getString(R.string.no_data));
             }
@@ -517,7 +543,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         } else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_information))) {
             if (isConnectionAvailable()) {
-                showFragment(new PhilipsPageFragment());
+                showFragment(new ProductInformationFragment());
             }
         }
     }
@@ -567,7 +593,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
     }
 
-
     public void onUpdateAssetData() {
         ViewProductDetailsModel viewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         mManualPdf = viewProductDetailsModel.getManualLink();
@@ -582,5 +607,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         if (productVideos != null)
             initView(viewProductDetailsModel.getVideoLinks());
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(viewProductDetailsModel);
+
+        if (mManualPdf != null && mManualButtonTitle.equalsIgnoreCase(
+                getResources().getResourceEntryName(R.string.product_download_manual))) {
+            mManualRelativeLayout.setVisibility(View.VISIBLE);
+        }
     }
 }

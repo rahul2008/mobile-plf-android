@@ -138,4 +138,16 @@
     <string name="create_account"> Создать уч. запись &gt; </string>
 
     <string name="localtephilips_contactus">Page de contact</string>
+
+    <string name="FAQ_KEY">Ответы на часто задаваемые вопросы</string>
+    <string name="QUESTION_KEY">Вопросы и ответы</string>
+    <string name="NO_PRODUCT_KEY">Нет доступных продуктов</string>
+    <string name="NO_SUPPORT_KEY">Поддержка недоступна</string>
+    <string name="FAQ_KEY_TABLET">Часто задаваемые вопросы</string>
+
+    <string name="ManualDownLoadConfirmMessage">Нажмите OK, чтобы загрузить руководство в %s языке</string>
+    <string name="download_ticker">Скачивая Справочное руководство</string>
+    <string name="download_complete">Скачать Завершен</string>
+    <string name="download_error">Ошибка загрузки</string>
+    <string name="PdfWarningMessage">Пожалуйста, установите Adobe Reader для просмотра руководства в формате PDF.</string>
 </resources>

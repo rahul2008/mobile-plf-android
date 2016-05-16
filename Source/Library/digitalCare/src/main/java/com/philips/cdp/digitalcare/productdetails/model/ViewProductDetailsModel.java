@@ -1,14 +1,18 @@
+/**
+ * Description : Class gets the data from the PRX Component & created the object of this class required for the "View Product Details UI Screen".
+ * <p/>
+ * Created by naveen@philips.com on 02-Nov-15.
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.productdetails.model;
 
 
 import java.util.List;
 
 
-/**
- * Description : Class gets the data from the PRX Component & created the object of this class required for the "View Product Details UI Screen".
- * <p/>
- * Created by naveen@philips.com on 02-Nov-15.
- */
+
 public class ViewProductDetailsModel {
 
     private static final String TAG = ViewProductDetailsModel.class.getSimpleName();

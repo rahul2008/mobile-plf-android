@@ -1,3 +1,13 @@
+/**
+ *
+ * @author naveen@philips.com
+ * @description Image picker View Custom AlertView used for Phone(Not tablet) to
+ *              select the user defined image/Product image to in Social Support
+ *              Screens.
+ * @Since March 20, 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.customview;
 
 import android.app.Activity;
@@ -13,14 +23,7 @@ import android.view.Window;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
-/**
- * 
- * @author naveen@philips.com
- * @description Image picker View Custom AlertView used for Phone(Not tablet) to
- *              select the user defined image/Product image to in Social Support
- *              Screens.
- * @Since March 20, 2015
- */
+
 public class ImagePhonePickerDialog extends Dialog implements
 		View.OnClickListener {
 

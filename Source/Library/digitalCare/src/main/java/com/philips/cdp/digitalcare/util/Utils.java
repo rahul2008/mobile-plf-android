@@ -1,26 +1,25 @@
-package com.philips.cdp.digitalcare.util;
-
-import android.content.Context;
-import android.content.res.Configuration;
-import android.telephony.TelephonyManager;
-
 /**
  * Utils class contains common utility methods required across framework under
  * different scenario's.
- * 
+ *
  * @author naveen@philips.com
- * 
+ *
  * @since Feb 10, 2015
- * 
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
+ *
  */
+package com.philips.cdp.digitalcare.util;
+
+import android.content.Context;
+import android.telephony.TelephonyManager;
+
+
 public class Utils {
 
-	public static boolean isTablet(Context context) {
-		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-	}
 
-	public static boolean isSimAvailable(Context mContext) {
-        TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(mContext.TELEPHONY_SERVICE);
+	public boolean isSimAvailable(final Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
         int SIM_STATE = telephonyManager.getSimState();
 
             switch (SIM_STATE) {

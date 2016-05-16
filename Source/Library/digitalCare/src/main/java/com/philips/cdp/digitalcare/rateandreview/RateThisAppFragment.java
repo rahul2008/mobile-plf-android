@@ -1,3 +1,12 @@
+/**
+ * RateThisAppFragment class is used to rate the app and review the product.
+ *
+ * @author: naveen@philips.com
+ * @since: Jan 11, 2015
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.rateandreview;
 
 import android.content.ActivityNotFoundException;
@@ -27,12 +36,7 @@ import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrappe
 import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-/**
- * RateThisAppFragment class is used to rate the app and review the product.
- *
- * @author: naveen@philips.com
- * @since: Jan 11, 2015
- */
+
 public class RateThisAppFragment extends DigitalCareBaseFragment {
 
 

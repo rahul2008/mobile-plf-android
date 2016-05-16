@@ -138,4 +138,15 @@
     <string name="create_account"> Utwórz konto &gt; </string>
 
     <string name="localtephilips_contactus">Przejdź do strony kontaktowej</string>
+
+    <string name="FAQ_KEY">Często zadawane pytania</string>
+    <string name="QUESTION_KEY">Pytanie i odpowiedź</string>
+    <string name="NO_PRODUCT_KEY">Brak dostępnych produktów</string>
+    <string name="NO_SUPPORT_KEY">Brak dostępnej pomocy technicznej</string>
+    <string name="FAQ_KEY_TABLET">Często zadawane pytania</string>
+
+    <string name="ManualDownLoadConfirmMessage">Naciśnij OK, aby pobrać instrukcję obsługi w języku %s</string>
+    <string name="download_ticker">Pobieranie Pomoc Instrukcja</string>
+    <string name="download_complete">Pobierz Zakończony</string>
+    <string name="download_error">błąd pobierania</string>
 </resources>

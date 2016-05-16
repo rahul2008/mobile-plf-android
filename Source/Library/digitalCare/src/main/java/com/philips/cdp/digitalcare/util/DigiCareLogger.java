@@ -1,15 +1,19 @@
+/**
+ * Custom log class: - Defines all log tags - Intercepts logs so more processing
+ * is possible
+ *
+ * @author : Ritesh.jha@philips.com
+ *
+ * @since: 5 Dec 2015
+ *
+ *  Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.util;
 
 import android.util.Log;
 
-/**
- * Custom log class: - Defines all log tags - Intercepts logs so more processing
- * is possible
- * 
- * @author : Ritesh.jha@philips.com
- * 
- * @since: 5 Dec 2015
- */
+
 public class DigiCareLogger {
 
 	public static final String ERROR = "Error"; // Use to log errors

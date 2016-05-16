@@ -136,7 +136,19 @@
     <string name="create_account">  Create account &gt; </string>
 
     <string name="myphilips_CC">MyPhilips account</string>
-    <string name="productselection_erroresponse">No products available</string>
     <string name="localtephilips_contactus">Go to contact page</string>
+
+    <string name="FAQ_KEY">FAQs</string>
+    <string name="FAQ_KEY_TABLET">Frequently asked questions</string>
+    <string name="QUESTION_KEY">Question and answer</string>
+    <string name="NO_PRODUCT_KEY">No products available</string>
+    <string name="NO_SUPPORT_KEY">No support available</string>
+
+
+    <string name="ManualDownLoadConfirmMessage">Press OK to download manual in %s language</string>
+    <string name="download_ticker">Downloading Help Manual</string>
+    <string name="download_complete">Download Completed</string>
+    <string name="download_error">Download Error</string>
+    <string name="PdfWarningMessage">Please install Adobe Reader to view the PDF manual.</string>
 
 </resources>

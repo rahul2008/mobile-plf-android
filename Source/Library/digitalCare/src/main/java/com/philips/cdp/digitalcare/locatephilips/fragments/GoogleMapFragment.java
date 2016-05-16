@@ -11,9 +11,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
+ *
+ *  This class is the base class for the "Locate Philips Near Your" feature.
+ *     This class consumes the model class & sub classes comes  under "locatephilips" package class.
  * 
  * @author naveen@philips.com
  * @since 22/May/2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 @SuppressLint("NewApi")
 public class GoogleMapFragment extends SupportMapFragment {

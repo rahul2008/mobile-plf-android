@@ -138,4 +138,12 @@
     <string name="create_account">  Créer un compte &gt; </string>
 
     <string name="localtephilips_contactus">Aller à la page contact</string>
+
+    <string name="FAQ_KEY">FAQ</string>
+    <string name="QUESTION_KEY">Questions-réponses</string>
+    <string name="NO_PRODUCT_KEY">Aucun produit disponible</string>
+    <string name="NO_SUPPORT_KEY">Aucun soutien disponible</string>
+    <string name="FAQ_KEY_TABLET">Foire aux questions
+</string>
+
 </resources>

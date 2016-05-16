@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">DigitalCareSample</string>
+    <string name="app_name">DigitalCare</string>
 
     <!-- Language -->
     <string-array name="Language">
@@ -24,7 +24,7 @@
         <item>Hindi (hi)</item>
         <item>Croatian (hr)</item>
         <item>Hungarian (hu)</item>
-        <item>Indonesian (id)</item>
+        <item>Indonesian (in)</item>
         <item>Italian (it)</item>
         <item>Japnese (ja)</item>
         <item>Kazakh (kk)</item>
@@ -75,7 +75,7 @@
         <item>hi</item>
         <item>hr</item>
         <item>hu</item>
-        <item>id</item>
+        <item>in</item>
         <item>it</item>
         <item>ja</item>
         <item>kk</item>
@@ -127,7 +127,7 @@
         <item>France (FR)</item>
         <item>Croatia (HR)</item>
         <item>Hungary (HU)</item>
-        <item>Indonesia (ID)</item>
+        <item>Indonesia (in-ID)</item>
         <item>Italy (IT)</item>
         <item>South Korea (KR)</item>
         <item>Luthunia (LT)</item>
@@ -254,6 +254,8 @@
     </string-array>
 
     <string-array name="productselection_ctnlist">
+        <item>SCD888/26</item>
+        <item>RQ1250/16</item>
         <item>RQ1250/17</item>
         <item>HD3197/03</item>
         <item>HX6321_02</item>
@@ -271,6 +273,12 @@
         <item>SC5994/00</item>
         <item>SC2008/11</item>
         <item>HR1871_00</item>
+        <item>SC2009/00</item>
+        <item>HX9192/01</item>
+        <item>HX9192/02</item>
+        <item>HX9192/03</item>
+        <item>HX9192/04</item>
+        <item>HX9191/06</item>
 
         <!--   <item>7894unre</item>
            <item>893jfd</item>

@@ -12,7 +12,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.philips.cdp.sampledigitalcareapp"
+        applicationId "com.philips.cdp.sampledigitalcare"
         minSdkVersion 15
         targetSdkVersion 23
         renderscriptTargetApi 23
@@ -25,27 +25,58 @@ android {
         abortOnError false
     }
 
+    signingConfigs {
+        release
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             proguardFile 'proguard.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             proguardFile 'proguard.pro'
         }
     }
 
+    /*
+    This defined for signing the apk -- start
+     */
+    def Properties props = new Properties()
+    def propFile = new File('signing.properties')
+    if (propFile.canRead()){
+        props.load(new FileInputStream(propFile))
+
+        if (props!=null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+        } else {
+            println 'signing.properties found but some entries are missing'
+            android.buildTypes.release.signingConfig = null
+        }
+    }else {
+        println 'signing.properties not found'
+        android.buildTypes.release.signingConfig = null
+    }
+    /*
+    This defined for signing the apk -- end
+    */
+
+
     productFlavors {
         simulator {
-            applicationId 'com.philips.cdp.sampledigitalcareapp'
-            versionCode 139
-            versionName "4.1.0"
+            applicationId 'com.philips.cdp.sampledigitalcare'
+            versionCode 140
+            versionName "4.2.0"
         }
         device {
-            applicationId 'com.philips.cdp.sampledigitalcareapp'
-            versionCode 139
-            versionName "4.1.0"
+            applicationId 'com.philips.cdp.sampledigitalcare'
+            versionCode 140
+            versionName "4.2.0"
         }
     }
 
@@ -62,10 +93,11 @@ calabash {
 dependencies {
     compile project(':digitalCare')
     compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.philips.cdp:uikitLib:3.0.0'
-    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    compile 'com.shamanland:fonticon:0.1.8'
-    compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.0.0', ext: 'aar')
+    //compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.1.0', ext: 'aar')
+    //compile 'com.android.support:design:23.1.1'
+    //compile 'com.shamanland:fonticon:0.1.8'
+    //compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
@@ -101,4 +133,10 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
     }
 }
 
+android {
+    packagingOptions {
+        exclude 'lib/arm64-v8a/librsjni.so'
+        pickFirst 'lib/arm64-v8a/libRSSupport.so'
+    }
+}
 

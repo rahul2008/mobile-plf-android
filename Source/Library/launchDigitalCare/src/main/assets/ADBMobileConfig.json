@@ -9,7 +9,7 @@
         "rsids" : "philipsmobdigitalcaredev",
         "server" : "philips.112.2o7.net",
         "charset" : "UTF-8",
-        "ssl" : false,
+        "ssl" : true,
         "offlineEnabled" : true,
         "lifecycleTimeout" : 30,
         "batchLimit" : 0,

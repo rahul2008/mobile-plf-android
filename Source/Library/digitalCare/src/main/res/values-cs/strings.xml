@@ -138,4 +138,11 @@
     <string name="create_account">  Vytvořit účet &gt; </string>
 
     <string name="localtephilips_contactus">Přejít na stránku kontaktů</string>
+
+    <string name="FAQ_KEY">Často kladené dotazy</string>
+    <string name="QUESTION_KEY">Otázka a odpověď</string>
+    <string name="NO_PRODUCT_KEY">Výrobky nejsou k dispozici</string>
+    <string name="NO_SUPPORT_KEY">Podpora není k dispozici</string>
+    <string name="FAQ_KEY_TABLET">Často kladené dotazy
+</string>
 </resources>

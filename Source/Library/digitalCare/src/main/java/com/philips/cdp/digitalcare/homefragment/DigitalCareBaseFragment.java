@@ -1,3 +1,12 @@
+/**
+ * DigitalCareBaseFragment is <b>Base class</b> for all fragments.
+ *
+ * @author: ritesh.jha@philips.com
+ * @since: Dec 5, 2014
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.homefragment;
 
 import android.content.Context;
@@ -19,7 +28,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
-import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
@@ -29,21 +37,19 @@ import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.NetworkReceiver;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.Locale;
 
-/**
- * DigitalCareBaseFragment is <b>Base class</b> for all fragments.
- *
- * @author: ritesh.jha@philips.com
- * @since: Dec 5, 2014
- */
+
 public abstract class DigitalCareBaseFragment extends Fragment implements
         OnClickListener, NetworkStateListener {
 
+    protected static SummaryModel mViewProductSummaryModel = null;
+    protected static FragmentLauncher mFragmentLauncher = null;
     private static String TAG = DigitalCareBaseFragment.class.getSimpleName();
     private static boolean isConnectionAvailable;
     private static int mContainerId = 0;
@@ -53,7 +59,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private static int mExitAnimation = 0;
     private static FragmentActivity mFragmentActivityContext = null;
     private static FragmentActivity mActivityContext = null;
-    protected static SummaryModel mViewProductSummaryModel = null;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
@@ -64,11 +69,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private ImageView mHomeIcon = null;
 
     public synchronized static void setStatus(boolean connection) {
-        if (connection)
-            isConnectionAvailable = true;
-        else {
-            isConnectionAvailable = false;
-        }
+        isConnectionAvailable = connection;
     }
 
     public abstract void setViewParams(Configuration config);
@@ -89,7 +90,12 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     private void setLocaleLanguage() {
-        Locale locale = DigitalCareConfigManager.getInstance().getLocale();
+        PILLocaleManager localeManager = new PILLocaleManager(getActivity().getApplicationContext());
+        String[] localeArray = new String[2];
+        String localeAsString = localeManager.getInputLocale();
+        localeArray = localeAsString.split("_");
+
+        Locale locale = new Locale(localeArray[0], localeArray[1]);
         if (locale != null) {
             Locale.setDefault(locale);
             Configuration config = new Configuration();
@@ -203,7 +209,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         }
     }
 
-
     protected void enableActionBarLeftArrow(ImageView hambergermenu, ImageView backarrow) {
         DigiCareLogger.d(TAG, "BackArrow Enabled");
         if (hambergermenu != null && backarrow != null) {
@@ -220,7 +225,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         }
     }
 
-
     protected void showAlert(final String message) {
         mHandler.post(new Runnable() {
 
@@ -231,7 +235,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                         null,
                         message,
                         getActivity().getResources().getString(
-                                android.R.string.yes));
+                                android.R.string.ok));
                 AnalyticsTracker
                         .trackAction(
                                 AnalyticsConstants.ACTION_SET_ERROR,
@@ -241,7 +245,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             }
         });
     }
-
 
     protected void showEULAAlert(final String message) {
         mHandler.post(new Runnable() {
@@ -272,6 +275,13 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         getAppName();
     }
 
+	/*
+     * This method can be called directly from outside and helps to invoke the
+	 * fragments, instead of full screen activity. DigitalCare fragments will be
+	 * added in the root container of hosting app. Integrating app has to pass
+	 * some parameters in order to do smooth operations.
+	 */
+
     private void enableActionBarLeftArrow() {
         mBackToHome = (ImageView) mFragmentActivityContext
                 .findViewById(R.id.back_to_home_img);
@@ -281,13 +291,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         mBackToHome.setVisibility(View.VISIBLE);
         mBackToHome.bringToFront();
     }
-
-	/*
-     * This method can be called directly from outside and helps to invoke the
-	 * fragments, instead of full screen activity. DigitalCare fragments will be
-	 * added in the root container of hosting app. Integrating app has to pass
-	 * some parameters in order to do smooth operations.
-	 */
 
     /*
     This method will provide vertical APP NAME which is required for TAGGING (Analytics).
@@ -356,12 +359,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         mHomeIcon.bringToFront();
     }
 
-    protected static FragmentLauncher mFragmentLauncher = null;
-
     public void showFragment(/*FragmentActivity context, int parentContainer,*/
                              Fragment fragment, FragmentLauncher fragmentLauncher,/*ActionbarUpdateListener actionbarUpdateListener,*/
                              int startAnimation, int endAnimation) {
-        DigiCareLogger.i("testing","DigitalCare Base Fragment -- Fragment Invoke");
+        DigiCareLogger.i("testing", "DigitalCare Base Fragment -- Fragment Invoke");
         mFragmentLauncher = fragmentLauncher;
         mContainerId = fragmentLauncher.getParentContainerResourceID();
         mActivityContext = fragmentLauncher.getFragmentActivity();

@@ -1,3 +1,15 @@
+/**
+ * MapDirections will help to get the end-to-end directions. It will hit google
+ * map directions API and gets JSON/XML response, which contains lat,lng and
+ * other necessary informations.
+ *
+ * @author : Ritesh.jha@philips.com
+ *
+ * @since : 19 May
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.locatephilips;
 
 import java.io.BufferedReader;
@@ -18,15 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.philips.cdp.digitalcare.locatephilips.parser.MapDirectionsParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-/**
- * MapDirections will help to get the end-to-end directions. It will hit google
- * map directions API and gets JSON/XML response, which contains lat,lng and
- * other necessary informations.
- * 
- * @author : Ritesh.jha@philips.com
- * 
- * @since : 19 May 2015
- */
+
 public class MapDirections {
 
 	private MapDirectionResponse mMapDirectionResponse = null;

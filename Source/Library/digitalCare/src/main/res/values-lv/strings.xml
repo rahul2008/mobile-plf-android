@@ -138,4 +138,12 @@
     <string name="create_account">  Izveidot kontu &gt; </string>
 
     <string name="localtephilips_contactus">Doties uz kontaktinf. lapu</string>
+
+    <string name="FAQ_KEY">Bieži uzdotie jautājumi</string>
+    <string name="QUESTION_KEY">Jautājums un atbilde</string>
+    <string name="NO_PRODUCT_KEY">Nav pieejams neviens produkts</string>
+    <string name="NO_SUPPORT_KEY">Atbalsts nav pieejams</string>
+    <string name="FAQ_KEY_TABLET">Bieži uzdotie jautājumi
+</string>
+
 </resources>

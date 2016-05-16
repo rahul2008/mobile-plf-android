@@ -4,8 +4,14 @@
     <!-- UiTheme Start -->
 
 
-    <!-- Activity -->
+    <!-- Activity
     <color name="activity_background_color">#FFFFFF</color>
+    -->
+    <drawable name="consumercare_background">#FFFFFF</drawable>
+
+    <!-- Faq BackGround Image-->
+    <drawable name="faq_header_background_color">#e4f3f7</drawable>
+
 
     <!-- Actionbar related -->
     <color name="actionbar_background_start_color">#003478</color>
@@ -67,7 +73,7 @@
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->
     <string-array name="product_menu_title" translatable="false">
-      <!--  <item>@string/product_open_manual</item>-->
+        <!--  <item>@string/product_open_manual</item>-->
         <item>@string/product_download_manual</item>
         <item>@string/product_information</item>
     </string-array>

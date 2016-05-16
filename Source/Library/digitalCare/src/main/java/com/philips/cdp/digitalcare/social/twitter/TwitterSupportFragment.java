@@ -365,7 +365,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onTaskCompleted() {
 
-		updateUI(new Runnable() {
+		updateUi(new Runnable() {
 			@Override
 			public void run() {
 				String socialType = "Twitter";
@@ -383,7 +383,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onTaskFailed() {
 
-		updateUI(new Runnable() {
+		updateUi(new Runnable() {
 			@Override
 			public void run() {
 				showAlert(getActivity().getResources().getString(

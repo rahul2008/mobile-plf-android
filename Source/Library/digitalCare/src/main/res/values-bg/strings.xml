@@ -140,4 +140,11 @@
     <string name="create_account">  Създаване на акаунт &gt; </string>
 
     <string name="localtephilips_contactus">Към страницата за контакти</string>
+
+    <string name="FAQ_KEY">Често задавани въпроси</string>
+    <string name="QUESTION_KEY">Въпрос и отговор</string>
+    <string name="NO_PRODUCT_KEY">Няма налични продукти</string>
+    <string name="NO_SUPPORT_KEY">Няма налична поддръжка</string>
+    <string name="FAQ_KEY_TABLET">Често задавани въпроси</string>
+
 </resources>

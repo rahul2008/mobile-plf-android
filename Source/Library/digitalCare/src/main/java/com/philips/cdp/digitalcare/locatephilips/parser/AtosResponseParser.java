@@ -19,6 +19,8 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  * @author: ritesh.jha@philips.com
  * 
  * @since: 9 May 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 public class AtosResponseParser {
 	private static final String TAG = AtosResponseParser.class.getSimpleName();

@@ -138,4 +138,12 @@
     <string name="create_account">  Opret konto &gt; </string>
 
     <string name="localtephilips_contactus">Gå til kontaktsiden</string>
+
+    <string name="FAQ_KEY">Ofte stillede spørgsmål</string>
+    <string name="QUESTION_KEY">Spørgsmål og svar</string>
+    <string name="NO_PRODUCT_KEY">Ingen tilgængelige produkter</string>
+    <string name="NO_SUPPORT_KEY">Ingen tilgængelig support</string>
+    <string name="FAQ_KEY_TABLET">Ofte stillede spørgsmål
+</string>
+
 </resources>

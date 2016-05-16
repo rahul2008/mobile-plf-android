@@ -1,3 +1,12 @@
+/**
+ * Product Specific PhilipsProduct Manual.
+ *
+ * @author : naveen@philips.com
+ * @since : 16 Nov 2015
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.content.res.Configuration;
@@ -21,12 +30,7 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 
-/**
- * Product Specific PhilipsProduct Manual.
- *
- * @author : naveen@philips.com
- * @since : 16 Nov 2015
- */
+
 public class ProductManualFragment extends DigitalCareBaseFragment {
 
     private View mView = null;

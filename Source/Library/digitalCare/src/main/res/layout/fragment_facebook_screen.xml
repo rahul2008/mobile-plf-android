@@ -3,7 +3,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_background_color" >
+    android:background="@color/transparent">
 
     <LinearLayout
         android:id="@+id/fbPostContainer"
@@ -13,20 +13,20 @@
         android:orientation="vertical"
         android:paddingBottom="15dp"
         android:paddingLeft="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin" >
+        android:paddingRight="@dimen/activity_margin">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/fb_Post_HeaderLayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/fb_Post_ToHeaderText"
@@ -44,7 +44,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
-                android:gravity="right" >
+                android:gravity="right">
 
                 <ImageView
                     android:id="@+id/socialLoginIcon"
@@ -59,7 +59,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/fb_Post_CheckBox"
@@ -73,7 +73,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp" >
+            android:layout_height="200dp">
 
             <EditText
                 android:id="@+id/share_text"
@@ -131,7 +131,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:weightSum="2" >
+            android:weightSum="2">
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/facebookSendPort"
@@ -144,7 +144,7 @@
                 android:id="@+id/facebookCancelParentPort"
                 style="@style/fontButton"
                 android:layout_weight="1"
-                android:padding="2dp" >
+                android:padding="2dp">
 
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/facebookCancelPort"
@@ -162,13 +162,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:weightSum="2" >
+            android:weightSum="2">
 
             <RelativeLayout
                 android:id="@+id/facebookCancelParentLand"
                 style="@style/fontButton"
                 android:layout_weight="1"
-                android:padding="2dp" >
+                android:padding="2dp">
 
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/facebookCancelLand"

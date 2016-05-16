@@ -1,3 +1,12 @@
+/**
+ * @author naveen@philips.com
+ *
+ * Copyright (c) 2016 Philips. All rights reserved.
+ *
+ * @description Network Notification view used during Connection not available
+ * in application component wise announcement.
+ * @Since Apr 7, 2015
+ */
 package com.philips.cdp.digitalcare.customview;
 
 import android.annotation.SuppressLint;
@@ -14,12 +23,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
-/**
- * @author naveen@philips.com
- * @description Network Notification view used during Connection not available
- * in application component wise announcement.
- * @Since Apr 7, 2015
- */
+
 @SuppressLint("NewApi")
 public class NetworkAlertView {
 

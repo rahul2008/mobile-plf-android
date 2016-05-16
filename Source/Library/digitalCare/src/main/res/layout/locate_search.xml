@@ -3,7 +3,7 @@
     android:id="@+id/locate_search_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp" >
+    android:layout_marginTop="20dp">
 
     <EditText
         android:id="@+id/search_box"
@@ -15,8 +15,7 @@
         android:textColorHint="@android:color/darker_gray"
         android:padding="10dp"
         android:singleLine="true"
-        android:textColor="@color/black" >
-    </EditText>
+        android:textColor="@color/black"></EditText>
 
     <ImageView
         android:id="@+id/search_icon"
@@ -30,7 +29,7 @@
         android:contentDescription="@string/img_description"
         android:padding="8dp"
         android:src="@drawable/ic_menu_search"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/arabic_search_icon"
@@ -44,7 +43,7 @@
         android:contentDescription="@string/img_description"
         android:padding="8dp"
         android:src="@drawable/ic_menu_search"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/marker_icon"

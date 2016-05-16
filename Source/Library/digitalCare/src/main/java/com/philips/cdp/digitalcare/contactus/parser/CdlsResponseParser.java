@@ -1,3 +1,11 @@
+/**
+ * CdlsResponseParserHelper will take care of parsing activity at digital care
+ * app module level.
+ *
+ * @author: ritesh.jha@philips.com
+ * @since: Dec 16, 2014
+ * Copyright (c) 2016 Philips. All rights reserved.
+ */
 package com.philips.cdp.digitalcare.contactus.parser;
 
 import com.philips.cdp.digitalcare.contactus.models.CdlsChatModel;
@@ -12,13 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * CdlsResponseParserHelper will take care of parsing activity at digital care
- * app module level.
- *
- * @author: ritesh.jha@philips.com
- * @since: Dec 16, 2014
- */
+
 public class CdlsResponseParser {
     private static final String TAG = CdlsResponseParser.class.getSimpleName();
     private static final int FIRST_INDEX_VALUE = 0;
