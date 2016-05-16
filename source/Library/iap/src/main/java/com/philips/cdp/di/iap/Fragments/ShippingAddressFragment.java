@@ -659,6 +659,13 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressFields.setPhoneNumber(mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressFields.setEmail(mEtEmail.getText().toString());
 
+        if(this instanceof BillingAddressFragment) {
+            if (mlLState.getVisibility() == View.VISIBLE) {
+                addressFields.setRegionIsoCode(mShippingAddressFields.getRegionIsoCode());
+            } else {
+                addressFields.setRegionIsoCode(null);
+            }
+        }
         return addressFields;
     }
 

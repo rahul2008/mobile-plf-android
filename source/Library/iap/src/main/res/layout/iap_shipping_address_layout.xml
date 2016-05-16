@@ -218,7 +218,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:hint="@string/iap_town_hint"
-                    android:inputType="textCapSentences" />
+                    android:inputType="textCapWords" />
             </LinearLayout>
 
             <LinearLayout

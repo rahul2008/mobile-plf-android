@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.productCatalog;
 import android.content.Context;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
@@ -22,7 +21,6 @@ import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +83,7 @@ public class PRXBuilderForProductCatalog {
         productItem.setProductTitle(data.getProductTitle());
         productItem.setCtnNumber(code);
         productItem.setFormatedPrice(entry.getPrice().getFormattedValue());
+        productItem.setPriceValue(String.valueOf(entry.getPrice().getValue()));
         productItem.setMarketingTextHeader(data.getMarketingTextHeader());
         if (entry.getDiscountPrice() != null && entry.getDiscountPrice().getFormattedValue() != null
                 && !entry.getDiscountPrice().getFormattedValue().isEmpty()) {
@@ -115,11 +114,11 @@ public class PRXBuilderForProductCatalog {
             Message result = Message.obtain();
             result.obj = mProduct;
             mDataLoadListener.onModelDataLoadFinished(result);
-            tagProducts(mProduct);
+//            tagProducts(mProduct);
         }
     }
 
-    private void tagProducts(List<ProductCatalogData> catalogDatas) {
+   /* private void tagProducts(List<ProductCatalogData> catalogDatas) {
         StringBuilder products = new StringBuilder();
         for (int i = 0; i < catalogDatas.size(); i++) {
             ProductCatalogData catalogData = catalogDatas.get(i);
@@ -132,7 +131,7 @@ public class PRXBuilderForProductCatalog {
         }
         System.out.println("Products List" + products);
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, products);
-    }
+    }*/
 
     private ProductSummaryRequest prepareSummaryBuilder(final String code) {
         String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();

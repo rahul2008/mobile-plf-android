@@ -17,10 +17,12 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.tagging.Tagging;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -39,10 +41,12 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             .getImageLoader();
 }
 
+
     @Override
     public void onLoadFinished(final ArrayList<ProductCatalogData> data) {
         mData = data;
         notifyDataSetChanged();
+        tagProducts();
     }
 
     @Override
@@ -99,6 +103,22 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return mData.size();
     }
 
+    public void tagProducts(){
+        if(mData.size() != 0){
+            StringBuilder products = new StringBuilder();
+            for (int i = 0; i < mData.size(); i++) {
+                ProductCatalogData catalogData = mData.get(i);
+                if (i > 0) {
+                    products = products.append(",");
+                }
+                products = products.append("Tuscany_Campaign").append(";")
+                        .append(catalogData.getProductTitle()).append(";").append(";")
+                        .append(catalogData.getPriceValue());
+            }
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, products);
+        }
+    }
+
     public class ProductCatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         NetworkImageView mProductImage;
         TextView mProductName;
@@ -124,3 +144,5 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 }
+
+

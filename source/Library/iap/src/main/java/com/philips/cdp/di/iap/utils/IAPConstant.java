@@ -22,6 +22,7 @@ public class IAPConstant {
     public static final String PRODUCT_TITLE = "PRODUCT_TITLE";
     public static final String PRODUCT_CTN = "PRODUCT_CTN";
     public static final String PRODUCT_PRICE = "PRODUCT_PRICE";
+    public static final String PRODUCT_VALUE_PRICE = "PRODUCT_VALUE_PRICE";
     public static final String PRODUCT_OVERVIEW = "PRODUCT_OVERVIEW";
     public static final String UPDATE_SHIPPING_ADDRESS_KEY = "UPDATE_SHIPPING_ADDRESS_KEY";
     public static final String MODEL_ALERT_BUTTON_TEXT = "MODEL_ALERT_BUTTON_TEXT";

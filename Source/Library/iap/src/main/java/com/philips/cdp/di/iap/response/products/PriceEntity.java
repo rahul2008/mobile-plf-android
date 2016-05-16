@@ -18,12 +18,12 @@ public class PriceEntity {
         return priceType;
     }
 
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
     String currencyIso;
     String formattedValue;
     String priceType;
-    String value;
+    int value;
 }

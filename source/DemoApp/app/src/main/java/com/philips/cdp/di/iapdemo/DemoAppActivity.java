@@ -233,6 +233,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        configureHybris(parent, position);
+    }
+
+    private void configureHybris(final AdapterView<?> parent, final int position) {
         mShopNow.setEnabled(true);
         //Don't process Select country
         mSelectedCountryIndex = position;
@@ -252,7 +256,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             selectedCountry = "GB";
         if (!mProductCountRequested) {
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
-            mIapHandler = IAPHandler.init(this, new IAPSettings(selectedCountry,"en", DEFAULT_THEME));
+            mIapHandler = IAPHandler.init(this, new IAPSettings(selectedCountry, "en", DEFAULT_THEME));
             mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
         }
