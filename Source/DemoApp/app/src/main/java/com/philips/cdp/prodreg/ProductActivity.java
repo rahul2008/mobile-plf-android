@@ -98,7 +98,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         Product product = new Product(mCtn.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         product.setSerialNumber(mSerialNumber.getText().toString());
         product.setPurchaseDate(mPurchaseDate.getText().toString());
-        product.sendEmail(String.valueOf(eMailConfiguration));
+        product.sendEmail(eMailConfiguration);
         final ProdRegListener listener = new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {

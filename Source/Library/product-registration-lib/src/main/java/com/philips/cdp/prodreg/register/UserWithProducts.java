@@ -282,7 +282,7 @@ public class UserWithProducts {
         registrationRequest.setRegistrationChannel(MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
-        registrationRequest.setShouldSendEmailAfterRegistration(registeredProduct.getEmail());
+        registrationRequest.setShouldSendEmailAfterRegistration(String.valueOf(registeredProduct.getEmail()));
         return registrationRequest;
     }
 

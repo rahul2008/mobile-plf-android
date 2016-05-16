@@ -25,7 +25,7 @@ public class Product {
     private Sector sector;
     private Catalog catalog;
     private String locale;
-    private String shouldSendEmailAfterRegistration = "false";
+    private boolean shouldSendEmailAfterRegistration;
 
     public Product(String productModelNumber, Sector sector, Catalog catalog) {
         this.productModelNumber = productModelNumber;
@@ -148,7 +148,7 @@ public class Product {
      * API return email
      * @return return Email
      */
-    public String getEmail() {
+    public boolean getEmail() {
         return shouldSendEmailAfterRegistration;
     }
 
@@ -156,7 +156,7 @@ public class Product {
      * API need to set email confirmations
      * @param shouldSendEmailAfterRegistration shouldSendEmailAfterRegistration
      */
-    public void sendEmail(final String shouldSendEmailAfterRegistration) {
+    public void sendEmail(final boolean shouldSendEmailAfterRegistration) {
         this.shouldSendEmailAfterRegistration = shouldSendEmailAfterRegistration;
     }
 
