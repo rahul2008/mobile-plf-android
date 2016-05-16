@@ -5,10 +5,6 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
-import com.janrain.android.capture.Capture;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-
-import java.io.EOFException;
 
 public class TestingRegistrationSettings extends RegistrationSettings {
 
@@ -20,7 +16,6 @@ public class TestingRegistrationSettings extends RegistrationSettings {
 
     private static String TEST_PRX_RESEND_CONSENT_URL = "https://tst.usa.philips.com/prx/registration/resendConsentMail";
 
-    private static String TEST_REGISTER_COPPA_ACTIVATION_URL = "https://tst.philips.com/ps/user-registration/consent.html";
 
     private String TEST_ENGAGE_APP_ID = "fhbmobeahciagddgfidm";
 
@@ -48,7 +43,7 @@ public class TestingRegistrationSettings extends RegistrationSettings {
 
         JumpConfig jumpConfig = new JumpConfig();
         jumpConfig.captureClientId = mCaptureClientId;
-        jumpConfig.captureFlowName = getFlowName();
+        jumpConfig.captureFlowName = "standard";
         jumpConfig.captureTraditionalRegistrationFormName = "registrationForm";
         jumpConfig.captureEnableThinRegistration = false;
         jumpConfig.captureSocialRegistrationFormName = "socialRegistrationForm";
@@ -67,7 +62,6 @@ public class TestingRegistrationSettings extends RegistrationSettings {
         mProductRegisterListUrl = TEST_PRODUCT_REGISTER_LIST_URL;
 
         mResendConsentUrl = TEST_PRX_RESEND_CONSENT_URL;
-        mRegisterCoppaActivationUrl = TEST_REGISTER_COPPA_ACTIVATION_URL;
 
         mRegisterBaseCaptureUrl = TEST_BASE_CAPTURE_URL;
 
@@ -83,13 +77,11 @@ public class TestingRegistrationSettings extends RegistrationSettings {
             countryCode = "US";
         }
 
-        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
-            jumpConfig.captureRedirectUri = TEST_REGISTER_COPPA_ACTIVATION_URL;
-        } else {
-            jumpConfig.captureRedirectUri = TEST_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
-        }
 
-        jumpConfig.captureRecoverUri = TEST_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
+            jumpConfig.captureRedirectUri = TEST_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
+
+
+        jumpConfig.captureRedirectUri = TEST_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
         jumpConfig.captureLocale = locale;
 
         mPreferredCountryCode = countryCode;
@@ -98,7 +90,7 @@ public class TestingRegistrationSettings extends RegistrationSettings {
         try {
             Jump.reinitialize(mContext, jumpConfig);
         } catch (Exception e) {
-            if(e instanceof EOFException){
+            if(e instanceof RuntimeException){
                 Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE EOFException");
                 //clear flow file
                 mContext.deleteFile("jr_capture_flow");

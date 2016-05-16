@@ -20,7 +20,15 @@ public class FieldsValidator {
             return false;
         if (email.length() == 0)
             return false;
-        String emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+        if (email.length() != email.trim().length())
+            return false;
+        if (email.contains(" "))
+            return false;
+
+        String emailPattern ="^(?!.\\-\\_{2,}.)(?!.*?[._-]{2})[a-zA-Z0-9][a-zA-Z0-9._%+-]{0,61}[^`~,.<>;':\"\\/\\[\\]\\|{}()=" +
+                "_+\\?*&\\^%$#@!\\\\-]@((?!.\\-\\_{2,}.)(?!.*?[._-]{2})[^`~,.<>;':\"\\/\\[\\]\\|{}()=_+\\?*&\\^%$#@!\\\\-][-a-zA-Z0-9_.]+" +
+                "[^`~,.<>;':\"\\/\\[\\]\\|{}()=_+\\?*&\\^%$#@!\\\\-]{0,}\\.[a-zA-z]+(?!.*?[0-9])[^`~,.<>;':\"\\/\\[\\]\\|{}()=_+" +
+                "\\?*&\\^%$#@!\\\\-])$";
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
@@ -65,13 +73,15 @@ public class FieldsValidator {
             return false;
         }
 
-        if (string.length() == 0) {
+        int length = string.length();
+        if (length == 0) {
             return false;
         }
 
-        if (string.length() < 8) {
+        if (length < 8 || length>=32) {
             return false;
         }
+
         return true;
     }
 

@@ -28,7 +28,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -61,6 +60,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private TextView mTvWelcomeDesc;
 
     private TextView mTvTermsAndConditionDesc;
+
+    private TextView mTvWelcomeNeedAccount;
 
     private LinearLayout mLlCreateBtnContainer;
 
@@ -270,6 +271,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
 
         mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_reg_terms_and_condition);
+        mTvWelcomeNeedAccount = (TextView) view.findViewById(R.id.tv_reg_create_account);
         mLlCreateBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
         mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_singin_options);
@@ -369,6 +371,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             applyParams(config, mLlCreateBtnContainer, width);
             applyParams(config, mLlLoginBtnContainer, width);
             applyParams(config, mTvTermsAndConditionDesc, width);
+            applyParams(config, mTvWelcomeNeedAccount, width);
     }
 
     @Override
@@ -533,7 +536,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         hideProviderProgress();
         enableControls(true);
         User user = new User(mContext);
-        if (user.getEmailVerificationStatus(mContext)) {
+        if (user.getEmailVerificationStatus()) {
             launchWelcomeFragment();
         } else {
             launchAccountActivationFragment();
@@ -546,9 +549,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 
     private void launchWelcomeFragment() {
-        DIUserProfile diUserProfile = mUser.getUserInstance(mContext);
-        String emailId = diUserProfile.getEmail();
-        if (emailId != null && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.isAvailableIn(mContext, emailId)) {
+        String emailId = mUser.getEmail();
+        if (emailId != null && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.getStoredState(mContext, emailId)) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }
@@ -602,8 +604,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         trackPage(AppTaggingPages.HOME);
         hideProviderProgress();
         enableControls(true);
-        if (null != userRegistrationFailureInfo && null != userRegistrationFailureInfo.getError()) {
-            trackActionLoginError(userRegistrationFailureInfo.getError().code);
+        if (null != userRegistrationFailureInfo) {
+            trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
         }
     }
 
@@ -697,8 +699,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         trackSocialProviderPage();
         hideProviderProgress();
         enableControls(true);
-        if (null != userRegistrationFailureInfo && null != userRegistrationFailureInfo.getError()) {
-            trackActionLoginError(userRegistrationFailureInfo.getError().code);
+        if (null != userRegistrationFailureInfo) {
+            trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
         }
     }
 

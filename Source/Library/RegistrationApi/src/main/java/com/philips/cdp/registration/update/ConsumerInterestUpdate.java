@@ -12,11 +12,8 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.UpdateConsumerInterestHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -116,7 +113,6 @@ public class ConsumerInterestUpdate {
             Log.d(TAG, "URL = " + url);
             Log.d(TAG, "Param = " + nameValuePairs);
             Log.d(TAG, "AccessToken = " + accessToken);
-            //String resultString = httpClient.postData(url, nameValuePairs, accessToken);
             String resultString = httpClient.callPost(url, nameValuePairs, accessToken);
             Log.i(TAG, "Response = " + resultString);
             return resultString;
@@ -137,7 +133,7 @@ public class ConsumerInterestUpdate {
                     JSONObject jsonObject = new JSONObject(resultString);
                     if ("ok".equals(jsonObject.opt("stat"))) {
                         User user = new User(mContext);
-                        user.refreshUser(mContext, new RefreshUserHandler() {
+                        user.refreshUser(new RefreshUserHandler() {
                             @Override
                             public void onRefreshUserSuccess() {
                                 updateConsumerInterestHandler.onUpdateConsumerInterestSuccess();

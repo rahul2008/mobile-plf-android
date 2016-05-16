@@ -6,7 +6,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
+import com.philips.cdp.registration.controller.RegisterSocial;
 import com.philips.cdp.registration.controller.RegisterTraditional;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
@@ -40,7 +40,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		assertNotNull(result);
 	}
 
-	public void testRegisterUserInfoForTraditionalIsOnSuccess() {
+	/*public void testRegisterUserInfoForTraditionalIsOnSuccess() {
 
 		User mockUser = Mockito.mock(User.class);
 		TraditionalRegistrationHandler regHandler = Mockito
@@ -50,8 +50,9 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 				.mock(UpdateUserRecordHandler.class);
 
 		DIUserProfile diUserProfile = Mockito.mock(DIUserProfile.class);
-
-		mockUser.registerNewUserUsingTraditional(diUserProfile,regHandler);
+		mockUser.registerUserInfoForTraditional("a","b","c",true,false,regHandler);
+		mockUser.registerUserInfoForSocial("a","b","c","a@a.com",true,false,regHandler);
+		//mockUser.registerNewUserUsingTraditional(diUserProfile,regHandler);
 		//mockUser.registerNewUserUsingTraditional(setValuesForTraditionalLogin("Sampath", "sampath.kumar@yahoo.com", "Sams@1234", true, false), regHandler);
 
 		Jump.SignInResultHandler mockJump = Mockito
@@ -82,7 +83,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		Jump.SignInResultHandler mockJump = Mockito
 				.mock(Jump.SignInResultHandler.class);
 		mockJump.onSuccess();
-		ContinueSocialProviderLogin handler = new ContinueSocialProviderLogin(
+		RegisterSocial handler = new RegisterSocial(
 				socialRegHandler, getInstrumentation().getTargetContext(),
 				updateHandler);
 
@@ -90,7 +91,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		Mockito.verify(socialRegHandler, Mockito.atLeast(1))
 				.onContinueSocialProviderLoginSuccess();
 
-	}
+	}*/
 	
 /*	public void testForgotPasswordForEmailNull() throws Exception {
 

@@ -1,12 +1,12 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -63,11 +63,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private final int BAD_RESPONSE_CODE = 7004;
 
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onAttach");
-        super.onAttach(activity);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,6 +93,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
         mEtEmail.setOnClickListener(this);
+        mEtEmail.setImeOptions(EditorInfo.IME_ACTION_DONE);
         mBtnContinue = (XButton) view.findViewById(R.id.reg_btn_continue);
         mBtnContinue.setOnClickListener(this);
         mTvForgotPassword = (TextView) view.findViewById(R.id.tv_reg_forgot_password);

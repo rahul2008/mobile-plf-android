@@ -31,13 +31,11 @@
  */
 package com.janrain.android.engage.session;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
 
@@ -48,19 +46,19 @@ import com.janrain.android.engage.JREngageError;
 import com.janrain.android.engage.JREngageError.ConfigurationError;
 import com.janrain.android.engage.JREngageError.ErrorType;
 import com.janrain.android.engage.JREngageError.SocialPublishingError;
-import com.janrain.android.engage.JRNativeAuth;
 import com.janrain.android.engage.net.JRConnectionManager;
 import com.janrain.android.engage.net.JRConnectionManagerDelegate;
 import com.janrain.android.engage.net.async.HttpResponseHeaders;
 import com.janrain.android.engage.types.JRActivityObject;
 import com.janrain.android.engage.types.JRDictionary;
-import com.janrain.android.engage.ui.JRFragmentHostActivity;
 import com.janrain.android.utils.AndroidUtils;
 import com.janrain.android.utils.Archiver;
 import com.janrain.android.utils.CollectionUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.PrefUtils;
 import com.janrain.android.utils.StringUtils;
+import android.support.v4.content.LocalBroadcastManager;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -102,10 +100,11 @@ public class JRSession implements JRConnectionManagerDelegate {
     private List<JRSessionDelegate> mDelegates;
 
     private JRProvider mCurrentlyAuthenticatingProvider;
+    private String[] mCurrentlyAuthenticatingProviderPermissions;
     private JRProvider mCurrentlyPublishingProvider;
-    private JRNativeAuth.NativeProvider mCurrentNativeProvider;
-
+    
     private String mReturningAuthProvider;
+    private String[] mReturningAuthProviderPermissions;
     private String mReturningSharingProvider;
 
     private Map<String, JRProvider> mProviders;
@@ -251,6 +250,7 @@ public class JRSession implements JRConnectionManagerDelegate {
             /* load the last used auth and social providers */
             mReturningSharingProvider = PrefUtils.getString(PrefUtils.KEY_JR_LAST_USED_SHARING_PROVIDER, "");
             mReturningAuthProvider = PrefUtils.getString(PrefUtils.KEY_JR_LAST_USED_AUTH_PROVIDER, "");
+            mReturningAuthProviderPermissions = PrefUtils.getStringArray(PrefUtils.KEY_JR_LAST_USED_AUTH_PROVIDER_PERMISSIONS, null,"*#*");
 
             /* Load the library state from disk */
             mAuthenticatedUsersByProvider = Archiver.load(ARCHIVE_AUTH_USERS_BY_PROVIDER);
@@ -292,6 +292,7 @@ public class JRSession implements JRConnectionManagerDelegate {
             // Note that these values are not removed from the Prefs, they can't result in invalid state
             // (The library is accepting of values not belonging to the set of enabled providers.)
             mReturningAuthProvider = PrefUtils.getString(PrefUtils.KEY_JR_LAST_USED_AUTH_PROVIDER, null);
+            mReturningAuthProviderPermissions = PrefUtils.getStringArray(PrefUtils.KEY_JR_LAST_USED_AUTH_PROVIDER_PERMISSIONS, null,"*#*");
             mReturningSharingProvider = PrefUtils.getString(PrefUtils.KEY_JR_LAST_USED_SHARING_PROVIDER,
                     null);
             //mConfigDone = false;
@@ -338,6 +339,14 @@ public class JRSession implements JRConnectionManagerDelegate {
 
     public void setCurrentlyAuthenticatingProvider(JRProvider provider) {
         mCurrentlyAuthenticatingProvider = provider;
+    }
+
+    public String[] getCurrentlyAuthenticatingProviderPermissions() {
+        return mCurrentlyAuthenticatingProviderPermissions;
+    }
+
+    public void setCurrentlyAuthenticatingProviderPermissions(String[] permissions) {
+        mCurrentlyAuthenticatingProviderPermissions = permissions;
     }
 
     public ArrayList<JRProvider> getAuthProviders() {
@@ -407,6 +416,16 @@ public class JRSession implements JRConnectionManagerDelegate {
 
         mReturningAuthProvider = returningAuthProvider;
         PrefUtils.putString(PrefUtils.KEY_JR_LAST_USED_AUTH_PROVIDER, returningAuthProvider);
+    }
+
+    public void setReturningAuthProviderPermissions(String[] returningAuthProviderPermissions) {
+        if(returningAuthProviderPermissions!=null && returningAuthProviderPermissions.length>0){
+            mReturningAuthProviderPermissions = returningAuthProviderPermissions;
+        }else{
+            mReturningAuthProviderPermissions = null;
+        }
+
+        PrefUtils.putStringArray(PrefUtils.KEY_JR_LAST_USED_AUTH_PROVIDER_PERMISSIONS, returningAuthProviderPermissions,"*#*");
     }
 
     public String getReturningSharingProvider() {
@@ -707,9 +726,12 @@ public class JRSession implements JRConnectionManagerDelegate {
         PrefUtils.putString(PrefUtils.KEY_JR_RP_BASE_URL, mRpBaseUrl);
 
         mProviders = new HashMap<String, JRProvider>();
-        JRDictionary providerInfo = jsonDict.getAsDictionary("provider_info");
+        JRDictionary providerInfo = jsonDict.getAsDictionary("provider_info",true);
         for (String name : providerInfo.keySet()) {
-            mProviders.put(name, new JRProvider(name, providerInfo.getAsDictionary(name)));
+        	JRProvider value = new JRProvider(name, providerInfo.getAsDictionary(name));
+        	if(!mProviders.containsKey(name)){
+        		mProviders.put(name, value);
+        	}
         }
         Archiver.asyncSave(ARCHIVE_ALL_PROVIDERS, mProviders);
 
@@ -724,6 +746,7 @@ public class JRSession implements JRConnectionManagerDelegate {
         /* Ensures that the returning auth and sharing providers,
          * if set, are members of the configured set of providers. */
         setReturningAuthProvider(mReturningAuthProvider);
+        setReturningAuthProviderPermissions(mReturningAuthProviderPermissions);
         setReturningSharingProvider(mReturningSharingProvider);
 
         PrefUtils.putString(PrefUtils.KEY_JR_CONFIGURATION_ETAG, mNewEtag);
@@ -771,6 +794,7 @@ public class JRSession implements JRConnectionManagerDelegate {
 
     public void saveLastUsedAuthProvider() {
         setReturningAuthProvider(mCurrentlyAuthenticatingProvider.getName());
+        setReturningAuthProviderPermissions(mCurrentlyAuthenticatingProviderPermissions);
     }
 
     public URL startUrlForCurrentlyAuthenticatingProvider() {
@@ -873,41 +897,6 @@ public class JRSession implements JRConnectionManagerDelegate {
             mAuthenticatedUsersByProvider.remove(providerName);
             Archiver.asyncSave(ARCHIVE_AUTH_USERS_BY_PROVIDER, mAuthenticatedUsersByProvider);
             triggerUserWasSignedOut(providerName);
-        }
-    }
-
-    public void signOutNativeProviders(Activity fromActivity) {
-        String providerName = "googleplus";
-        if (mAuthenticatedNativeAuthProviders.contains(providerName)) {
-            mAuthenticatedNativeAuthProviders.clear();
-            Archiver.asyncSave(ARCHIVE_AUTH_NATIVE_PROVIDERS, mAuthenticatedNativeAuthProviders);
-
-            JRProvider provider = getAllProviders().get(providerName);
-            if (provider == null) {
-                throwDebugException(new IllegalStateException("Unknown provider name:" + providerName));
-                return;
-            }
-
-            if (JRNativeAuth.canHandleProvider(provider) && fromActivity != null) {
-                Intent i = JRFragmentHostActivity.createNativeAuthIntent(fromActivity);
-                i.putExtra(JRFragmentHostActivity.JR_SIGN_OUT_PROVIDER, provider.getName());
-                fromActivity.startActivity(i);
-            }
-        }
-    }
-
-    public void revokeAndDisconnectNativeGooglePlus(Activity fromActivity) {
-        String providerName = "googleplus";
-        JRProvider provider = getAllProviders().get(providerName);
-        if (provider == null) {
-            throwDebugException(new IllegalStateException("Unknown provider name:" + providerName));
-            return;
-        }
-
-        if (JRNativeAuth.canHandleProvider(provider) && fromActivity != null) {
-            Intent i = JRFragmentHostActivity.createNativeAuthIntent(fromActivity);
-            i.putExtra(JRFragmentHostActivity.JR_REVOKE_PROVIDER, provider.getName());
-            fromActivity.startActivity(i);
         }
     }
 
@@ -1084,7 +1073,9 @@ public class JRSession implements JRConnectionManagerDelegate {
 
     public void triggerAuthenticationDidCancel() {
         setCurrentlyAuthenticatingProvider(null);
+        setCurrentlyAuthenticatingProviderPermissions(null);
         setReturningAuthProvider(null);
+        setReturningAuthProviderPermissions(null);
 
         for (JRSessionDelegate delegate : getDelegatesCopy()) delegate.authenticationDidCancel();
     }
@@ -1217,11 +1208,4 @@ public class JRSession implements JRConnectionManagerDelegate {
         return mLinkAccount;
     }
 
-    public void setCurrentNativeProvider(JRNativeAuth.NativeProvider nativeProvider) {
-        mCurrentNativeProvider = nativeProvider;
-    }
-
-    public JRNativeAuth.NativeProvider getCurrentNativeProvider() {
-        return mCurrentNativeProvider;
-    }
 }

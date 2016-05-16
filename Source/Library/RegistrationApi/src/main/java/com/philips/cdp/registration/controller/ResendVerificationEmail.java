@@ -1,22 +1,31 @@
 
 package com.philips.cdp.registration.controller;
 
+import android.content.Context;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture.CaptureApiRequestCallback;
 import com.janrain.android.capture.CaptureApiError;
+import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-public class ResendVerificationEmail implements CaptureApiRequestCallback {
+public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFlowDownloadStatusListener {
 
 	private ResendVerificationEmailHandler mResendVerificationEmail;
-
-	public ResendVerificationEmail(ResendVerificationEmailHandler resendVerificationEmail) {
+	private Context mContext;
+	private String mEmailAddress;
+	public ResendVerificationEmail(final Context context, final ResendVerificationEmailHandler resendVerificationEmail) {
 		mResendVerificationEmail = resendVerificationEmail;
+		mContext = context;
 	}
 
 	public void onSuccess() {
@@ -82,5 +91,40 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback {
 			return null;
 		}
 		return (String) jsonArray.get(0);
+	}
+
+	public void resendVerificationMail(final String emailAddress){
+		mEmailAddress = emailAddress;
+		if(!UserRegistrationInitializer.getInstance().isJumpInitializated()){
+			UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+		}else {
+			Jump.resendEmailVerification(emailAddress, this);
+			return;
+		}
+
+		if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
+			RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+		}
+
+	}
+
+	@Override
+	public void onFlowDownloadSuccess() {
+		Jump.resendEmailVerification(mEmailAddress, this);
+		UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
+
+	}
+
+	@Override
+	public void onFlowDownloadFailure() {
+		if(mResendVerificationEmail != null) {
+			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+			userRegistrationFailureInfo.setErrorCode(RegConstants.RESEND_MAIL_FAILED_SERVER_ERROR);
+			mResendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
+		}
+		UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
+
+
 	}
 }

@@ -14,13 +14,12 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.servertime.ServerTime;
+import com.philips.cdp.servertime.constants.ServerTimeConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class UpdateUserRecord implements UpdateUserRecordHandler {
 
@@ -72,7 +71,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     private String CONSUMER_PRIMARY_ADDRESS = "primaryAddress";
 
-    private String LOG_TAG = "ContinueSocialProviderLogin";
+    private String LOG_TAG = "RegisterSocial";
 
     public UpdateUserRecord(Context context) {
         mContext = context;
@@ -90,10 +89,8 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
             RegistrationHelper userSettings = RegistrationHelper.getInstance();
             // visitedMicroSites
             try {
-                Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-                String currentDate = sdf.format(c.getTime());
-
+                ServerTime.init(mContext);
+                String currentDate = ServerTime.getInstance().getCurrentUTCTimeWithFormat(DATE_FORMAT);
                 JSONObject visitedMicroSitesObject = new JSONObject();
                 visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
                 visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
@@ -171,9 +168,8 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                     RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
             String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
             try {
-                Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-                String currentDate = sdf.format(c.getTime());
+                ServerTime.init(mContext);
+                String currentDate = ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
 
                 JSONObject visitedMicroSitesObject = new JSONObject();
                 visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);

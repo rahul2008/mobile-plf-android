@@ -3,6 +3,7 @@ package com.philips.dhpclient.test;
 import android.test.InstrumentationTestCase;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.philips.cdp.servertime.ServerTime;
 import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpApiSigner;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
@@ -28,6 +29,8 @@ public class DhpApiSignerTest extends InstrumentationTestCase {
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
+        ServerTime.init(getInstrumentation()
+                .getTargetContext());
     }
 
     public void testSignedSignature() {
@@ -61,12 +64,12 @@ public class DhpApiSignerTest extends InstrumentationTestCase {
         assertNotNull(response.userId);
     }
 
-    public void testAccessToken() {
+    public void testResponseMessage() {
         DhpAuthenticationResponse response = getServerMockResponse();
         assertNotNull(response.message);
     }
 
-    public void testResponseMessage() {
+    public void testAccessToken() {
         DhpAuthenticationResponse response = getServerMockResponse();
         assertNotNull(response.accessToken);
     }
@@ -97,6 +100,16 @@ public class DhpApiSignerTest extends InstrumentationTestCase {
         assertNotNull(userUUID);
     }
 
+    public void testSuccesResponse() {
+        DhpAuthenticationResponse response = getServerMockResponse();
+        assertEquals("200",response.responseCode);
+    }
+
+    public void testRefreshSecretResponseSize() {
+        DhpAuthenticationResponse response = getServerMockResponse();
+        assertTrue(response.rawResponse.size() > 0);
+    }
+
     private Map<String, Object> readStream(String in) throws IOException, JSONException {
         final ObjectMapper JSON_MAPPER = new ObjectMapper();
         return JSON_MAPPER.readValue(in.toString(), Map.class);
@@ -125,7 +138,7 @@ public class DhpApiSignerTest extends InstrumentationTestCase {
         }
         DhpResponse dhpResponse = new DhpResponse(rawResponse);
         DhpAuthenticationResponse dhpAuthenticationResponse = new DhpAuthenticationResponse("6cstbqh7bzwt3z4b", "bxqyqs86kgq7ks3g4f5n", Integer.parseInt("3600"), "nhggh", dhpResponse.rawResponse);
-        Mockito.when(dhpAuthenticationManagementClientMock.authenticate("maqsoodphilips@gmail.com", "password")).thenReturn(dhpAuthenticationResponse);
+        Mockito.when(dhpAuthenticationManagementClientMock.authenticate("maqsoodphilips@gmail.com", "password","aa6c3f0dd953bcf11053e00e686af2e0d9b1d05b")).thenReturn(dhpAuthenticationResponse);
         return dhpAuthenticationResponse;
     }
 }

@@ -29,6 +29,7 @@ public class RegUtility {
 
     private static final String FILE_NAME = "FILE_NAME";
     private static final String TRADITIONAL_PASSWORD_ID = "TRADITIONAL_PASSWORD_ID";
+    private static long createAccountStartTime;
 
     public static int getCheckBoxPadding(Context context) {
         float scale = context.getResources().getDisplayMetrics().density;
@@ -166,5 +167,13 @@ public class RegUtility {
                 }
             }
         }
+    }
+
+    public static long getCreateAccountStartTime() {
+        return createAccountStartTime;
+    }
+
+    public static void setCreateAccountStartTime(long createAccountStartTime) {
+        RegUtility.createAccountStartTime = createAccountStartTime;
     }
 }

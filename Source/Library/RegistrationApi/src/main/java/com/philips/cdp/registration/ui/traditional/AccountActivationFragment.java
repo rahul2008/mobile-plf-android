@@ -20,7 +20,6 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -182,7 +181,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleActivate() {
         showActivateSpinner();
         mBtnActivate.setEnabled(false);
-       	mUser.refreshUser(mContext, this);
+       	mUser.refreshUser( this);
     }
 
     private void initUI(View view) {
@@ -207,8 +206,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mTvContent.setVisibility(View.GONE);
         }
 
-        DIUserProfile userProfile = mUser.getUserInstance(mContext);
-        mEmailId = userProfile.getEmail();
+        mEmailId = mUser.getEmail();
 
         String email = getString(R.string.VerifyEmail_EmailSentto_lbltxt);
         email = String.format(email, mEmailId);
@@ -258,7 +256,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void updateActivationUIState() {
         hideActivateSpinner();
         mBtnActivate.setEnabled(true);
-        if (mUser.getEmailVerificationStatus(mContext)) {
+        if (mUser.getEmailVerificationStatus()) {
             mBtnResend.setVisibility(View.GONE);
             mEMailVerifiedError.hideError();
             mRegError.hideError();
@@ -388,7 +386,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleResendVerificationEmailFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK,"AccountActivationFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
-        trackActionResendVerificationFailure(userRegistrationFailureInfo.getError().code);
+        trackActionResendVerificationFailure(userRegistrationFailureInfo.getErrorCode());
         mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"+ userRegistrationFailureInfo.getEmailErrorMessage());
         mBtnResend.setEnabled(true);
     }

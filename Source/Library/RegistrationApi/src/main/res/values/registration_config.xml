@@ -60,7 +60,10 @@
     <color name="reg_text_desc_color">#252525</color>
 
     <!-- 9. Background -->
-    <color name="reg_layout_bg">#FFFFFF</color>
+    <!--Layout background-->
+    <drawable name="reg_layout_bg">#FFFFFF</drawable>
+    <!--Dailog background-->
+    <drawable name="reg_dailog_bg">#FFFFFF</drawable>
 
     <!-- 10.Primary text color -->
     <color name="reg_text_heading_one_color">#003377</color>
@@ -116,5 +119,13 @@
 
 
     <color name="reg_provider_icon_color">#FFFFFF</color>
+
+    <color name="transparent">#00000000</color>
+
+    <!-- Coppa confirm approval title color -->
+    <color name="reg_coppa_confirm_title_color">#252525</color>
+
+    <!-- shadow color -->
+    <color name="reg_shadow_color">#E4EAFD</color>
 
 </resources>

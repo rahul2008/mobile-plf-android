@@ -3,6 +3,7 @@ package com.philips.cdp.registration.settings;
 
 import android.content.Context;
 
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
 import com.philips.cdp.registration.datamigration.DataMigration;
@@ -38,7 +39,11 @@ public class RegistrationHelper {
 
     public synchronized static RegistrationHelper getInstance() {
         if (mRegistrationHelper == null) {
-            mRegistrationHelper = new RegistrationHelper();
+            synchronized (RegistrationHelper.class) {
+                if (mRegistrationHelper == null) {
+                    mRegistrationHelper = new RegistrationHelper();
+                }
+            }
 
         }
         return mRegistrationHelper;
@@ -49,12 +54,19 @@ public class RegistrationHelper {
      * @param isInitialized true for initialize and false for reinitialize
      * Janrain
      */
-    public void initializeUserRegistration(final Context context,
-                                           final Locale locale) {
-        RLog.i("LOCALE", "App JAnrain Init locale :" + locale.toString());
-        mLocale = locale;
+    public void initializeUserRegistration(final Context context) {
+
+        PILLocaleManager localeManager = new PILLocaleManager(context);
+
+        if (localeManager.getLanguageCode() != null && localeManager.getCountryCode() != null) {
+            mLocale = new Locale(localeManager.getLanguageCode(), localeManager.getCountryCode());
+        }
+        if (mLocale == null) {
+            throw new RuntimeException("Please set the locale in LocaleMatch");
+        }
+
         mContext = context.getApplicationContext();
-        countryCode = locale.getCountry();
+        countryCode = mLocale.getCountry();
 
         if (Tagging.isTagginEnabled() && null == Tagging.getTrackingIdentifer()) {
             throw new RuntimeException("Please set appid for tagging before you invoke registration");
@@ -67,14 +79,14 @@ public class RegistrationHelper {
 
             @Override
             public void run() {
-                refreshNTPOffset();
                 if (!isJsonRead) {
                     isJsonRead = RegistrationStaticConfiguration.getInstance().parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
                     EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
                 }
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
-                    UserRegistrationInitializer.getInstance().initializeEnvironment(mContext, locale);
+                    refreshNTPOffset();
+                    UserRegistrationInitializer.getInstance().initializeEnvironment(mContext, mLocale);
                 } else {
                     if (UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener() != null) {
                         UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener().onFlowDownloadFailure();
@@ -82,14 +94,13 @@ public class RegistrationHelper {
                 }
             }
         };
-        Thread thread = new Thread( new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             public void run() {
                 android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
                 runnable.run();
             }
         });
         thread.start();
-
 
 
     }
@@ -138,8 +149,20 @@ public class RegistrationHelper {
     }
 
 
-    public Locale getLocale() {
-        return mLocale;
+    public Locale getLocale(Context context) {
+        RLog.i("Locale", "Locale locale  " + mLocale);
+        if (null != mLocale) {
+            return mLocale;
+        }
+
+        String locale = (new PILLocaleManager(mContext)).getInputLocale();
+        RLog.i("Locale", "Locale from LOcale match" + locale);
+
+        if (locale == null) {
+            return Locale.getDefault();
+        }
+
+        return new Locale(locale);
     }
 
     public static String getRegistrationApiVersion() {

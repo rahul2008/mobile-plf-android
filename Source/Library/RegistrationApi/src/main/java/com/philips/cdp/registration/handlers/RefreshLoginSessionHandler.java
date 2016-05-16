@@ -3,8 +3,10 @@ package com.philips.cdp.registration.handlers;
 
 public interface RefreshLoginSessionHandler {
 
-	public void onRefreshLoginSessionSuccess();
+	void onRefreshLoginSessionSuccess();
 
-	public void onRefreshLoginSessionFailedWithError(int error);
+	void onRefreshLoginSessionFailedWithError(int error);
+
+	void onRefreshLoginSessionInProgress(String message);
 
 }

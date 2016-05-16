@@ -22,6 +22,16 @@ import java.util.Locale;
 
 public class UserRegistrationInitializer {
 
+    private boolean mIsJumpInitializationInProgress;
+
+    private boolean mReceivedDownloadFlowSuccess;
+
+    private boolean mReceivedProviderFlowSuccess;
+
+    private boolean mJanrainIntialized = false;
+
+    private boolean isRefreshUserSessionInProgress = false;
+
     private static UserRegistrationInitializer mUserRegistrationInitializer;
 
     private UserRegistrationInitializer() {
@@ -45,12 +55,6 @@ public class UserRegistrationInitializer {
         this.mIsJumpInitializationInProgress = isInitializationInProgress;
     }
 
-    private boolean mIsJumpInitializationInProgress;
-    private boolean mReceivedDownloadFlowSuccess;
-    private boolean mReceivedProviderFlowSuccess;
-
-
-    private boolean mJanrainIntialized = false;
 
     public JumpFlowDownloadStatusListener getJumpFlowDownloadStatusListener() {
         return mJumpFlowDownloadStatusListener;
@@ -104,7 +108,9 @@ public class UserRegistrationInitializer {
                             mHandler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
+                                    if (mJumpFlowDownloadStatusListener != null) {
+                                        mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
+                                    }
                                 }
                             }, CALL_AFTER_DELAY);
 
@@ -124,7 +130,9 @@ public class UserRegistrationInitializer {
                         mHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mJumpFlowDownloadStatusListener.onFlowDownloadFailure();
+                                if (mJumpFlowDownloadStatusListener != null) {
+                                    mJumpFlowDownloadStatusListener.onFlowDownloadFailure();
+                                }
                             }
                         }, CALL_AFTER_DELAY);
 
@@ -165,9 +173,14 @@ public class UserRegistrationInitializer {
     }
 
 
-    public static synchronized UserRegistrationInitializer getInstance() {
+    public static UserRegistrationInitializer getInstance() {
         if (mUserRegistrationInitializer == null) {
-            mUserRegistrationInitializer = new UserRegistrationInitializer();
+            synchronized (UserRegistrationInitializer.class) {
+                if (mUserRegistrationInitializer == null) {
+                    mUserRegistrationInitializer = new UserRegistrationInitializer();
+                }
+
+            }
 
         }
         return mUserRegistrationInitializer;
@@ -204,6 +217,24 @@ public class UserRegistrationInitializer {
         }
         LocalBroadcastManager.getInstance(context).registerReceiver(UserRegistrationInitializer.getInstance().janrainStatusReceiver,
                 flowFilter);
+    }
+
+    public boolean isJumpInitializated() {
+
+        return !isJumpInitializationInProgress() && isJanrainIntialized();
+    }
+
+    public boolean isRegInitializationInProgress() {
+        return isJumpInitializationInProgress() && !isJanrainIntialized();
+
+    }
+
+    public boolean isRefreshUserSessionInProgress() {
+        return isRefreshUserSessionInProgress;
+    }
+
+    public void setRefreshUserSessionInProgress(boolean refreshUserSessionInProgress) {
+        isRefreshUserSessionInProgress = refreshUserSessionInProgress;
     }
 
 

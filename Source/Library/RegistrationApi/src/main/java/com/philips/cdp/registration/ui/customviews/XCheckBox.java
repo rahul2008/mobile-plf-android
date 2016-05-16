@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class XCheckBox extends LinearLayout {
 
@@ -47,10 +49,11 @@ public class XCheckBox extends LinearLayout {
 
         checkBoxText = (TextView) parentView.findViewById(R.id.reg_tv_checkbox);
         checkBoxTick = (TextView) parentView.findViewById(R.id.reg_check);
+        FontLoader.getInstance().setTypeface(checkBoxTick, RegConstants.PUIICON_TTF);
         typedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.Registration_CheckBox, 0, 0);
-        isChecked = typedArray.getBoolean(R.styleable.Registration_CheckBox_checked, false);
-        text = typedArray.getString(R.styleable.Registration_CheckBox_textValue);
+        isChecked = typedArray.getBoolean(R.styleable.Registration_CheckBox_reg_checked, false);
+        text = typedArray.getString(R.styleable.Registration_CheckBox_reg_textValue);
         checkBoxText.setText(text);
         typedArray.recycle();
         changeBackGround();

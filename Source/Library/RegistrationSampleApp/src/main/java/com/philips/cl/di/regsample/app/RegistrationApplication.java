@@ -3,7 +3,11 @@ package com.philips.cl.di.regsample.app;
 
 import android.app.Application;
 
+import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -21,10 +25,9 @@ public class RegistrationApplication extends Application {
 		Tagging.enableAppTagging(true);
 		Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 		Tagging.setLaunchingPageName("demoapp:home");
-		RegistrationConfiguration.getInstance().setCoppaFlow(true);
 		RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 		initRegistration();
-    	//	RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(), Locale.getDefault());
+		//	RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(), Locale.getDefault());
 		//	Tagging.init(Locale.getDefault(), getApplicationContext());
 	}
 
@@ -63,19 +66,37 @@ public class RegistrationApplication extends Application {
 		providers.put("US", values2);
 		providers.put("DEFAULT", values3);
 		RegistrationDynamicConfiguration.getInstance().getSignInProviders().setProviders(providers);
+		*/
+
+
+	/*	HSDPInfo hsdpInfo = new HSDPInfo();
+		hsdpInfo.setApplicationName("uGrowApp");
+		hsdpInfo.setSharedId("f129afcc-55f4-11e5-885d-feff819cdc9f");
+		hsdpInfo.setSecreteId("f129b5a8-55f4-11e5-885d-feff819cdc9f");
+		hsdpInfo.setBaseURL("http://ugrow-userregistration15.cloud.pcftest.com");
+
+
 
 		//Configure HSDP
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setApplicationName("uGrowApp");
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setSharedId("f129afcc-55f4-11e5-885d-feff819cdc9f");
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setSecret("f129b5a8-55f4-11e5-885d-feff819cdc9f");
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setBaseURL("http://ugrow-userregistration15.cloud.pcftest.com");
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setEnvironment(Configuration.EVALUATION);*/
+		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING,hsdpInfo);
+*/
+		HSDPInfo hsdpInfo = new HSDPInfo();
+		hsdpInfo.setApplicationName("uGrow");
+		hsdpInfo.setSharedId("c62362a0-f02c-11e5-9ce9-5e5517507c66");
+		hsdpInfo.setSecreteId("c623685e-f02c-11e5-9ce9-5e5517507c66");
+		hsdpInfo.setBaseURL("https://user-registration-assembly-testing-1600.us-east.philips-healthsuite.com");
+		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);
 
 
+		String languageCode = Locale.getDefault().getLanguage();
+		String countryCode = Locale.getDefault().getCountry();
 
+		PILLocaleManager localeManager = new PILLocaleManager(this);
+		localeManager.setInputLocale(languageCode,countryCode);
 
-		RegistrationHelper.getInstance().initializeUserRegistration(this, Locale.getDefault());
-		Tagging.init(Locale.getDefault(), this,"Philips Registration");
+		RegistrationHelper.getInstance().initializeUserRegistration(this);
+		Tagging.init( this, "Philips Registration");
+
 	}
 }
 

@@ -3,7 +3,6 @@ package com.philips.cdp.registration.configuration;
 
 import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.cdp.registration.settings.RegistrationEnvironmentConstants;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,8 +65,7 @@ public class ConfigurationParser {
             }
 
             if (!configurationJson.isNull(HSDP_CONFIGURATION)) {
-                JSONObject hsdpConfiguartion = configurationJson.getJSONObject(HSDP_CONFIGURATION);
-                registrationConfiguration.setHsdpConfiguration(parseHsdpConfiguration(hsdpConfiguartion));
+                throw new RuntimeException("HSDP configuration should not be provided via json file");
             }
 
         } catch (JSONException e) {
@@ -139,44 +137,6 @@ public class ConfigurationParser {
         }
         return configuration;
     }
-
-    private HSDPConfiguration parseHsdpConfiguration(JSONObject hsdpConfiguartion) throws JSONException {
-        HSDPConfiguration hsdpConfiguration = new HSDPConfiguration();
-        HashMap<Configuration, HSDPInfo> hsdpClientInfos = new HashMap<>();
-        Iterator<String> iterator = hsdpConfiguartion.keys();
-        String shared = null;
-        String secret = null;
-        while (iterator.hasNext()) {
-            String registrationEnv = iterator.next();
-
-            HSDPInfo hsdpInfo = new HSDPInfo();
-            JSONObject hsdpConfiguartionJSONObject = hsdpConfiguartion.getJSONObject(registrationEnv);
-            Iterator<String> hsdpIdIterator = hsdpConfiguartionJSONObject.keys();
-            HashMap<String, String> hsdpInfos = new HashMap<String, String>();
-            while (hsdpIdIterator.hasNext()) {
-                String key = hsdpIdIterator.next();
-                String value = hsdpConfiguartionJSONObject.getString(key);
-                if ("ApplicationName".equals(key)) {
-                    hsdpInfo.setApplicationName(hsdpConfiguartionJSONObject.getString(key));
-                } else if ("BaseURL".equals(key)) {
-                    hsdpInfo.setBaseURL(value);
-                } else if ("Shared".equals(key)) {
-                    hsdpInfo.setSharedId(value);
-                } else if ("Secret".equals(key)) {
-                    hsdpInfo.setSecretId(value);
-                }
-
-            }
-            hsdpClientInfos.put(RegUtility.getConfiguration(registrationEnv), hsdpInfo);
-
-        }
-
-        System.out.println(hsdpClientInfos.size());
-
-        hsdpConfiguration.setHsdpInfos(hsdpClientInfos);
-        return hsdpConfiguration;
-    }
-
 
     private JanRainConfiguration parseJanRainConfiguration(JSONObject janRainConfiguration)
             throws JSONException {

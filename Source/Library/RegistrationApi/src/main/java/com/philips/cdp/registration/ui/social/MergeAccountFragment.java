@@ -375,7 +375,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
         } else {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
         }
-        trackActionLoginError(userRegistrationFailureInfo.getError().code);
+        trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
         scrollViewAutomatically(mRegError, mSvRootLayout);
     }
 
@@ -422,7 +422,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
                     mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
                     return;
                 }
-                trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
+                trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
                 mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             }

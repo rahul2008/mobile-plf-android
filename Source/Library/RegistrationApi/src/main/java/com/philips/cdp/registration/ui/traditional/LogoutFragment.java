@@ -1,6 +1,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -22,7 +23,6 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
@@ -58,10 +58,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     private ProgressBar mPbWelcomeCheck;
 
-    private ProgressBar mPbLogoutFromBegin;
-
-    private DIUserProfile userProfile;
-
     private ScrollView mSvRootLayout;
 
     private TextView mAccessAccountSettingsLink;
@@ -69,6 +65,8 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     private FrameLayout mFlReceivePhilipsNewsContainer;
 
     public static final int BAD_RESPONSE_ERROR_CODE = 7008;
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -131,6 +129,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+        hideLogoutSpinner();
         super.onDestroy();
     }
 
@@ -169,14 +168,18 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
         mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_continue_id);
         mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
-        //FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
         mCbTerms.setVisibility(view.VISIBLE);
-        mCbTerms.setChecked(mUser.getUserInstance(mContext).getReceiveMarketingEmail());
+        mCbTerms.setChecked(mUser.getReceiveMarketingEmail());
         mCbTerms.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mPbWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_welcome_spinner);
-        mPbLogoutFromBegin = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_from_begin);
+
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
+
         mTvEmailDetails = (TextView) view.findViewById(R.id.tv_reg_email_details_container);
         mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
         mBtnLogOut = (Button) view.findViewById(R.id.btn_reg_sign_out);
@@ -188,11 +191,10 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsLinkClick);
         RegUtility.linkifyAccountSettingPhilips(mAccessAccountSettingsLink, getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
 
-        userProfile = mUser.getUserInstance(mContext);
-        mTvWelcome.setText(getString(R.string.Signin_Success_Hello_lbltxt) + " " + userProfile.getGivenName());
+        mTvWelcome.setText(getString(R.string.Signin_Success_Hello_lbltxt) + " " + mUser.getGivenName());
 
         String email = getString(R.string.InitialSignedIn_SigninEmailText);
-        email = String.format(email, userProfile.getEmail());
+        email = String.format(email, mUser.getEmail());
         mTvSignInEmail.setText(email);
     }
 
@@ -211,8 +213,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
                 AppTagingConstants.SIGN_OUT);
         mUser.logout(this);
     }
-
-    
 
     private void handleUpdate() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -281,7 +281,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             }
             return;
         }
-        if(error == -1 || error == BAD_RESPONSE_ERROR_CODE){
+        if (error == -1 || error == BAD_RESPONSE_ERROR_CODE) {
             mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
             return;
         }
@@ -331,13 +331,15 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     private void showLogoutSpinner() {
-        mPbLogoutFromBegin.setVisibility(View.VISIBLE);
+        if (!(getActivity().isFinishing()) && (mProgressDialog != null)) mProgressDialog.show();
         mBtnLogOut.setEnabled(false);
         mCbTerms.setEnabled(false);
     }
 
     private void hideLogoutSpinner() {
-        mPbLogoutFromBegin.setVisibility(View.GONE);
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
         mBtnLogOut.setEnabled(true);
         mCbTerms.setEnabled(true);
     }

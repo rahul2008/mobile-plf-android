@@ -3,7 +3,7 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="@color/reg_layout_bg">
+    android:background="@drawable/reg_layout_bg">
 
     <ScrollView
         android:id="@+id/sv_root_layout"
@@ -22,6 +22,15 @@
                 style="@style/reg_titleTextStyle"
                 android:text="@string/Welcome_Welcome_lbltxt"
                 reglib:fontAssetName="CentraleSans-Light.otf" />
+
+            <com.philips.cdp.registration.ui.customviews.XTextView
+                android:id="@+id/tv_reg_create_account"
+                style="@style/reg_textStyle"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:text="@string/Welcome_needAccountto_lbltxt"
+                reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <LinearLayout
                 android:id="@+id/rl_reg_welcome_container"
@@ -49,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/reg_layout_margin"
-                android:paddingRight="@dimen/reg_layout_margin" android:layout_marginBottom="@dimen/reg_margin_bottom">
+                android:paddingRight="@dimen/reg_layout_margin"
+                android:layout_marginBottom="@dimen/reg_margin_bottom">
 
 
                 <com.philips.cdp.registration.ui.customviews.XProviderButton
@@ -58,7 +68,6 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     reglib:providerBackground="@drawable/reg_btn_selector"
-                    reglib:providerLogo="@drawable/reg_philips_ic"
                     reglib:providerName="@string/myphilips"
                     reglib:providerTextColor="@drawable/reg_btn_text_selector" />
 
@@ -67,7 +76,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"  />
-
 
             </LinearLayout>
 
@@ -103,12 +111,6 @@
                         android:padding="@dimen/reg_pb_padding"
                         android:visibility="invisible" />
                 </RelativeLayout>
-
-                <com.philips.cdp.registration.ui.customviews.XTextView
-                    android:id="@+id/tv_reg_create_account"
-                    style="@style/reg_textStyle"
-                    android:text="@string/Welcome_needAccountto_lbltxt"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/btn_reg_create_account"

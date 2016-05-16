@@ -9,8 +9,6 @@ import java.util.HashMap;
 
 public class RegistrationConfiguration {
 
-    private boolean isCoppaFlow;
-
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
     private static RegistrationConfiguration registrationConfiguration;
@@ -158,19 +156,8 @@ public class RegistrationConfiguration {
         hsdpClientInfos.putAll(RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().getHsdpInfos());
         hsdpConfiguration.setHsdpInfos(hsdpClientInfos);
 
-
         return hsdpConfiguration;
     }
-
-
-    public boolean isCoppaFlow() {
-        return isCoppaFlow;
-    }
-
-    public void setCoppaFlow(boolean isCoppaFlow) {
-        this.isCoppaFlow = isCoppaFlow;
-    }
-
 
     public void setPrioritisedFunction(RegistrationFunction prioritisedFunction) {
         this.prioritisedFunction = prioritisedFunction;

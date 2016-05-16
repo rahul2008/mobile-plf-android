@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:reglib="http://reg.lib/schema"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/reg_layout_bg"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <RelativeLayout
+        android:id="@+id/rl_reg_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/reg_header_height"
+        android:background="@color/reg_btn_bg_enabled_color" >
+
+        <com.philips.cdp.registration.ui.customviews.XTextView
+            android:id="@+id/tv_reg_coppa_header_title"
+            style="@style/reg_style_homescreen_title"
+            android:layout_toRightOf="@+id/iv_reg_back"
+            android:textColor="@color/reg_header_text_color"
+            reglib:fontAssetName="CentraleSans-Book.OTF" />
+    </RelativeLayout>
+
+
+    <NumberPicker
+        android:id="@+id/reg_age_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:showDividers="none"
+        android:divider="@color/reg_btn_forgot_bg"
+        android:layout_marginBottom="@dimen/reg_coppa_number_picker_margin_bottom"
+        android:layout_marginTop="@dimen/reg_coppa_number_picker_margin_top" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/reg_coppa_picker_button_layout_height"
+        android:layout_below="@+id/reg_age_picker"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true">
+
+        <com.philips.cdp.registration.ui.customviews.XButton
+            android:id="@+id/reg_btn_cancel"
+            style="@style/reg_forgot_password"
+            android:background="@drawable/reg_btn_forgot_selector"
+            android:enabled="true"
+            android:layout_width="@dimen/reg_coppa_picker_cancel_btn_width"
+            android:layout_marginRight="20dip"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_height="@dimen/reg_coppa_picker_btn_height"
+            android:text="@string/Social_Merge_Cancel_btntxt"
+            reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+        <com.philips.cdp.registration.ui.customviews.XButton
+            android:id="@+id/reg_btn_ok"
+            style="@style/reg_style_btn"
+            android:layout_width="@dimen/reg_coppa_picker_ok_btn_width"
+            android:layout_height="@dimen/reg_coppa_picker_btn_height"
+            android:enabled="true"
+            android:layout_marginRight="@dimen/reg_coppa_picker_btn_margin"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:paddingRight="@dimen/reg_coppa_picker_btn_padding"
+            android:layout_alignRight="@+id/reg_btn_cancel"
+            android:text="@string/Ok_Btn_Txt"
+            android:gravity="center"
+            reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/reg_scroll_margin" />
+
+</RelativeLayout>

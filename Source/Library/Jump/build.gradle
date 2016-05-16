@@ -31,7 +31,7 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-version = "5.0.3"
+version = "6.0.0"
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
@@ -66,14 +66,26 @@ android {
     lintOptions {
         abortOnError false
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFile 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             debuggable true
             testCoverageEnabled true
             proguardFile 'proguard-rules.pro'
@@ -82,8 +94,10 @@ android {
 }
 
 dependencies {
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.1', ext: 'aar')
     compile 'com.android.support:appcompat-v7:23+'
-    compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
-    compile project (':servertime')
+    compile 'org.apache.http.legacy:org.apache.http.legacy:1.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'com.squareup.okhttp:okhttp-apache:2.5.0'
+    compile 'com.squareup.okio:okio:1.6.0'
+    compile project(':servertime')
 }

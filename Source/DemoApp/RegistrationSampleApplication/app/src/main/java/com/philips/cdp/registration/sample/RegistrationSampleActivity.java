@@ -1,7 +1,6 @@
 package com.philips.cdp.registration.sample;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,8 +10,8 @@ import android.widget.Button;
 import com.adobe.mobile.Config;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 public class RegistrationSampleActivity extends Activity implements OnClickListener, UserRegistrationListener {
 
@@ -70,7 +69,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         switch (v.getId()) {
             case R.id.btn_registration:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-                startActivity(new Intent(this, RegistrationActivity.class));
+                RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
 
             default:

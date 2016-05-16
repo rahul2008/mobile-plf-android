@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Coppa_Give_Approval_txt">Aby umożliwić pełne korzystanie z aplikacji, firma Philips wymaga zgody na gromadzenie i wykorzystywanie informacji dotyczących użytkowania przez dziecko szczoteczki Philips Sonicare i aplikacji.\n\nInformacje te będą obejmować czas, okres i częstotliwość szczotkowania. Będą pobierane ze szczoteczki i z aplikacji.\n\nDane te umożliwią kształtowanie i monitorowanie przyzwyczajeń dziecka w zakresie szczotkowania zębów. Pozwolą one również na otrzymywanie spersonalizowanych informacji o szczotkowaniu i przypomnień o konieczności wymiany główki szczoteczki.\n\nNie będziemy gromadzić ani wykorzystywać żadnych informacji osobistych dotyczących dziecka, o ile nie wyrazisz odpowiedniej zgody.\n\n</string>
+<string name="Coppa_Give_Approval_US_txt">Jeśli wyrazisz zgodę, otrzymasz prośbę o potwierdzenie zgody po ponownym odwiedzeniu sekcji dla rodzica po upływie co najmniej 24 godzin od tej chwili.\n\n</string>
+<string name="Coppa_Give_Approval_PrivacyNotes_txt">Więcej informacji można znaleźć w dokumencie %s.</string>
+<string name="Coppa_Confirm_Approval_Title_txt">Potwierdź zgodę</string>
+<string name="Coppa_Confirm_Approval_Content_txt">Dziękujemy za zgodę na przechowywanie informacji o dziecku. To druga zgoda potwierdzająca akceptację.\n\nAby uzyskać możliwość pełnego korzystania z aplikacji, potwierdź zgodę rodzicielską na gromadzenie i wykorzystywanie informacji dotyczących użytkowania przez dziecko szczoteczki Philips Sonicare i aplikacji. Informacje te będą obejmować czas, okres i częstotliwość szczotkowania. Będą pobierane ze szczoteczki i z aplikacji.\n\nDane te umożliwią kształtowanie i monitorowanie przyzwyczajeń dziecka w zakresie szczotkowania zębów. Pozwolą one również na otrzymywanie spersonalizowanych informacji o szczotkowaniu i przypomnień o konieczności wymiany główki szczoteczki.\n\nNie będziemy gromadzić ani wykorzystywać żadnych informacji osobistych dotyczących dziecka, o ile nie wyrazisz odpowiedniej zgody.\n\n</string>
+<string name="Coppa_Privacy_Notice_Content_txt">Firma Koninklijke Philips N.V. oraz jej spółki zależne („Philips”) przywiązują dużą wagę do ochrony danych udostępnianych jej przez użytkowników. Firma Philips wierzy również w zasadność informowania użytkowników o sposobie wykorzystywania ich danych oraz oferowania im możliwości wyboru sposobu, w jaki dane te będą wykorzystywane. Dlatego zachęcamy użytkowników do uważnego przeczytania niniejszego Oświadczenia o prywatności przed dokonaniem wyboru i przyznaniem nam prawa do zarządzania swoimi danymi. To oświadczenie dotyczy zasad firmy Philips związanych z prywatnością — nie jest to kontrakt ani umowa.</string>
+<string name="Coppa_Privacy_Notice_Content_Title_txt">Oświadczenie o prywatności — aplikacja</string>
+<string name="Coppa_Privacy_Notice_Screen_Title_txt">Oświadczenie o prywatności</string>
+<string name="Coppa_Consent_Approval_Screen_Title_txt">Zgoda</string>
+<string name="Coppa_Age_Verification_Screen_Title_txt">Dostęp rodzicielski</string>
+<string name="Coppa_Age_Verification_UnderAge_Txt">Nie mam ukończonych %d lat</string>
+<string name="Coppa_Age_Verification_OverAge_Txt">Mam ukończone %d lat</string>
+<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Ta sekcja jest przeznaczona dla osób, które ukończyły %d lat. Poproś jednego z rodziców, aby zrobił to za Ciebie.</string>
+<string name="Ok_Btn_Txt">OK</string>
+<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Rok urodzenia</string>
+<string name="Coppa_Age_Verification_How_Old_Txt">Ile masz lat?</string>
+<string name="Coppa_Age_Verification_Alert_Title">Wiek i rok urodzenia nie zgadzają się</string>
+<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">Podany wiek nie zgadza się z rokiem urodzenia. Upewnij się, że wiek i rok urodzenia są podane poprawnie.</string>
+<string name="Coppa_Parent_Access_Attempt_Txt">Próbujesz przejść do sekcji przeznaczonej dla rodziców.</string>
+<string name="Coppa_Parent_Access_Agree_Button_Txt">Zgadzam się</string>
+<string name="Coppa_Parent_Access_Disagree_Button_Txt">Nie zgadzam się</string>
+</resources>

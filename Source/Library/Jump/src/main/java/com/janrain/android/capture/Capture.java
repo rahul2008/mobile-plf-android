@@ -32,17 +32,16 @@
 
 package com.janrain.android.capture;
 
-import static com.janrain.android.Jump.getCaptureClientId;
-import static com.janrain.android.utils.LogUtils.throwDebugException;
+import com.janrain.android.Jump;
+import com.janrain.android.utils.ApiConnection;
+import org.json.JSONObject;
 
 import java.security.SecureRandom;
 import java.util.Set;
 
-import org.json.JSONObject;
-
-import com.janrain.android.Jump;
-import com.janrain.android.Jump.TraditionalSignInType;
-import com.janrain.android.utils.ApiConnection;
+import static com.janrain.android.Jump.TraditionalSignInType;
+import static com.janrain.android.Jump.getCaptureClientId;
+import static com.janrain.android.utils.LogUtils.throwDebugException;
 
 /**
  * This class implements Capture operations
@@ -131,22 +130,6 @@ public class Capture {
          * Called on successful API request
          */
         public void onSuccess();
-
-        /**
-         * Called on occurrence of error
-         * @param e the error which occurred
-         */
-        public void onFailure(CaptureApiError e);
-    }
-    
-    /**
-     * An interface used to communicate Capture API request results, or errors.
-     */
-    public static interface CaptureApiRequestCallbackWithResponse {
-        /**
-         * Called on successful API request
-         */
-        public CaptureRecord onSuccess(CaptureRecord response);
 
         /**
          * Called on occurrence of error
@@ -248,7 +231,7 @@ public class Capture {
                 "flow", Jump.getCaptureFlowName(),
                 "form", registrationForm,
                 "refresh_secret", refreshSecret
-                );
+        );
 
         c.maybeAddParam("flow_version", CaptureFlowUtils.getFlowVersion(Jump.getCaptureFlow()));
         c.maybeAddParam("token", socialRegistrationToken);
@@ -368,6 +351,53 @@ public class Capture {
 
     private static CaptureApiConnection getUpdateUserProfileConnection(CaptureRecord user) {
         String editProfileForm = Jump.getCaptureEditUserProfileFormName();
+
+        if (editProfileForm == null) {
+            throwDebugException(new IllegalArgumentException("You must set captureEditUserProfileFormName"));
+        }
+
+        CaptureApiConnection c = new CaptureApiConnection("/oauth/update_profile_native");
+
+        c.addAllToParams(CaptureFlowUtils.getFormFields(user, editProfileForm, Jump.getCaptureFlow()));
+
+        c.addAllToParams(
+                "client_id", Jump.getCaptureClientId(),
+                "locale", Jump.getCaptureLocale(),
+                "flow", Jump.getCaptureFlowName(),
+                "flow_version", Jump.getCaptureFlowVersion(),
+                "form", Jump.getCaptureEditUserProfileFormName(),
+                "access_token", user.accessToken
+        );
+
+        return c;
+    }
+
+    public static CaptureApiConnection updateUserProfile(CaptureRecord user,
+                                                         String editProfileFormName,
+                                                         final CaptureApiRequestCallback handler) {
+
+        if (user == null) {
+            throwDebugException(new IllegalArgumentException("null user"));
+        }
+
+        CaptureApiConnection c = getUpdateUserProfileConnection(user, editProfileFormName);
+
+        c.fetchResponseAsJson(new ApiConnection.FetchJsonCallback() {
+            public void run(JSONObject response) {
+                if (response == null) {
+                    handler.onFailure(CaptureApiError.INVALID_API_RESPONSE);
+                } else if ("ok".equals(response.opt("stat"))) {
+                    handler.onSuccess();
+                } else {
+                    handler.onFailure(new CaptureApiError(response, null, null));
+                }
+            }
+        });
+
+        return c;
+    }
+
+    private static CaptureApiConnection getUpdateUserProfileConnection(CaptureRecord user, String editProfileForm) {
 
         if (editProfileForm == null) {
             throwDebugException(new IllegalArgumentException("You must set captureEditUserProfileFormName"));

@@ -102,6 +102,8 @@ public class RegConstants {
 
     public static final String REGISTRATION_FRAGMENT_TAG = "Registration_fragment_tag";
 
+    public static final String REGISTRATION_COPPA_FRAGMENT_TAG = "Registration_Coppa_fragment_tag";
+
     public static final String ORIENTAION = "Orientaion";
 
     public static final String ACCOUNT_SETTINGS = "ACCOUNT_SETTINGS";
@@ -141,5 +143,9 @@ public class RegConstants {
     public static final String INVALID_REFRESH_TOKEN_CODE = "1151";
 
     public static final String PHILIPS_LOGIN_URL = "https://www.philips.co.uk/myphilips/login.html";
+
+    public static final String DI_PROFILE_FILE = "diProfile";
+
+    public static final String PUIICON_TTF = "PUIIcon.ttf";
 
 }

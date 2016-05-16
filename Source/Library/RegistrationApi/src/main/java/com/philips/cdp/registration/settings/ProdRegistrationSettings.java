@@ -5,10 +5,6 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
-import com.janrain.android.capture.Capture;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-
-import java.io.EOFException;
 
 public class ProdRegistrationSettings extends RegistrationSettings {
 
@@ -23,13 +19,11 @@ public class ProdRegistrationSettings extends RegistrationSettings {
 
     private String PROD_CAPTURE_APP_ID = "hffxcm638rna8wrxxggx2gykhc";
 
-    private String PROD_REGISTER_ACTIVATION_URL = "https://secure.philips.com/ps/verify-account";
+    private String PROD_REGISTER_ACTIVATION_URL = "https://www.philips.com/ps/verify-account";
 
-    private String PROD_REGISTER_FORGOT_MAIL_URL = "https://secure.philips.com/ps/reset-password?cl=mob";
+    private String PROD_REGISTER_FORGOT_MAIL_URL = "https://www.philips.com/ps/reset-password?cl=mob";
 
     private static String PROD_PRX_RESEND_CONSENT_URL = "https://www.usa.philips.com/prx/registration/resendConsentMail";
-
-    private static String PROD_REGISTER_COPPA_ACTIVATION_URL = "https://secure.philips.com/ps/user-registration/consent.html";
 
     private String LOG_TAG = "RegistrationAPI";
 
@@ -45,7 +39,7 @@ public class ProdRegistrationSettings extends RegistrationSettings {
 
         JumpConfig jumpConfig = new JumpConfig();
         jumpConfig.captureClientId = mCaptureClientId;
-        jumpConfig.captureFlowName = getFlowName();
+        jumpConfig.captureFlowName = "standard";
         jumpConfig.captureTraditionalRegistrationFormName = "registrationForm";
         jumpConfig.captureEnableThinRegistration = false;
         jumpConfig.captureSocialRegistrationFormName = "socialRegistrationForm";
@@ -64,7 +58,6 @@ public class ProdRegistrationSettings extends RegistrationSettings {
         mProductRegisterListUrl = PROD_PRODUCT_REGISTER_LIST_URL;
 
         mResendConsentUrl = PROD_PRX_RESEND_CONSENT_URL;
-        mRegisterCoppaActivationUrl = PROD_REGISTER_COPPA_ACTIVATION_URL;
 
         mRegisterBaseCaptureUrl = PROD_BASE_CAPTURE_URL;
 
@@ -80,11 +73,9 @@ public class ProdRegistrationSettings extends RegistrationSettings {
             countryCode = "US";
         }
 
-        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
-            jumpConfig.captureRedirectUri = PROD_REGISTER_COPPA_ACTIVATION_URL;
-        } else {
-            jumpConfig.captureRedirectUri = PROD_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
-        }
+
+        jumpConfig.captureRedirectUri = PROD_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
+
 
         jumpConfig.captureRecoverUri = PROD_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
         jumpConfig.captureLocale = locale;
@@ -95,7 +86,7 @@ public class ProdRegistrationSettings extends RegistrationSettings {
         try {
             Jump.reinitialize(mContext, jumpConfig);
         } catch (Exception e) {
-            if(e instanceof EOFException){
+            if (e instanceof RuntimeException) {
                 Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE EOFException");
                 //clear flow file
                 mContext.deleteFile("jr_capture_flow");

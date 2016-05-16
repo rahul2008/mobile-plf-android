@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class Flow {
 
-    private Boolean emailVerificationRequired;
+    private Boolean emailVerificationRequired = true;
 
     private Boolean termsAndConditionsAcceptanceRequired;
 

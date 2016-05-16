@@ -7,6 +7,7 @@ import com.philips.cdp.servertime.ServerTime;
 import com.philips.cdp.servertime.constants.ServerTimeConstants;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.response.DhpResponseVerifier;
+import com.philips.dhpclient.util.HsdpLog;
 
 import org.json.JSONException;
 
@@ -20,10 +21,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
 
 public class DhpApiClient {
 
@@ -58,15 +56,15 @@ public class DhpApiClient {
     protected DhpResponse sendSignedRequest(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
         String bodyString = asJsonString(body);
         addSignedDateHeader(headers);
-
         sign(headers, apiEndpoint, queryParams, httpMethod, bodyString);
-
         URI uri = URI.create(apiBaseUrl + apiEndpoint + queryParams(queryParams));
+        HsdpLog.d("Hsdp URI : ",""+uri.toString());
+        HsdpLog.d("Hsdp Headers : ",""+headers);
+        HsdpLog.d("Hsdp httpMethod type : ",""+httpMethod);
+        if(body != null) {
+            HsdpLog.d("Hsdp body : ", "" + body.toString());
+        }
 
-        System.out.println("Hsdp URI : "+uri.toString());
-        System.out.println("Hsdp httpMethod type : "+httpMethod);
-        System.out.println("hsdp headers headers : " + headers);
-        System.out.println("hsdp headers body : " + body);
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
 
@@ -77,10 +75,10 @@ public class DhpApiClient {
         sign(headers, apiEndpoint, queryParams, httpMethod, bodyString);
         URI uri = URI.create(apiBaseUrl + apiEndpoint + queryParams(queryParams));
 
-        System.out.println("Social Hsdp URI : "+uri.toString());
-        System.out.println("Social Hsdp httpMethod type : "+httpMethod);
-        System.out.println("Social hsdp headers headers : " + headers);
-        System.out.println("Social hsdp headers body : " + body);
+        HsdpLog.d("Social Hsdp URI : ",""+uri.toString());
+        HsdpLog.d("Social Hsdp httpMethod type : ",""+httpMethod);
+        HsdpLog.d("Social Hsdp headers : ",""+headers);
+        HsdpLog.d("Social Hsdp headers body : ",""+body);
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
 
@@ -117,7 +115,7 @@ public class DhpApiClient {
             long requestDuration = (requestEnd - requestStart);
 
             if (requestDuration > DHP_RESPONSE_TIME_LOGGING_THRESHOLD_MS)
-                System.out.println(String.format("DHP request %s %s took %d ms", httpMethod, uri, requestDuration));
+                HsdpLog.d("DHP request : ",""+String.format("DHP request %s %s took %d ms", httpMethod, uri, requestDuration));
         }
     }
 
@@ -197,16 +195,6 @@ public class DhpApiClient {
     public static String UTCDatetimeAsString(){
         return ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT);
     }
-
-    /*public static String UTCDatetimeAsString()
-    {
-
-        final SimpleDateFormat sdf = new SimpleDateFormat(DATE_TIME_FORMAT);
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        final String utcTime = sdf.format(new Date());
-        System.out.println("UTCDatetimeAsString " +utcTime);
-        return utcTime;
-    }*/
 
     public void setResponseVerifier(DhpResponseVerifier responseVerifier) {
         this.responseVerifier = responseVerifier;

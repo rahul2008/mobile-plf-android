@@ -17,10 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class XProviderButton extends RelativeLayout {
 
     private static final String XMLNS = "http://reg.lib/schema";
+
 
     private Context mContext;
 
@@ -66,6 +69,7 @@ public class XProviderButton extends RelativeLayout {
 
         mFlProvider = (FrameLayout) findViewById(R.id.fl_reg_provider_bg);
         mIvProviderLogo = (TextView) findViewById(R.id.iv_reg_provider_logo);
+        FontLoader.getInstance().setTypeface(mIvProviderLogo, RegConstants.PUIICON_TTF);
         mTvProvider = (TextView) findViewById(R.id.tv_reg_provider_name);
         mPbSpinner = (ProgressBar) findViewById(R.id.pb_reg_spinner);
         if (mProviderNameStringID != -1) {

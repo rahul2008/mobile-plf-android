@@ -3,7 +3,6 @@ package com.philips.cdp.registration.hsdp;
 import android.content.Context;
 import android.os.Handler;
 
-import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -16,6 +15,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
@@ -46,14 +46,14 @@ public class HsdpUser {
         this.mContext = context;
     }
 
-    public void login(final String email, final String password, final TraditionalLoginHandler loginHandler) {
+    public void login(final String email, final String password,final String refreshSecret, final TraditionalLoginHandler loginHandler) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             final Handler handler = new Handler();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     DhpAuthenticationManagementClient authenticationManagementClient = new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
-                    final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.authenticate(email, password);
+                    final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.authenticate(email, password,refreshSecret );
                     if (dhpAuthenticationResponse == null) {
                         handler.post(new Runnable() {
                             @Override
@@ -68,7 +68,7 @@ public class HsdpUser {
                         final Map<String, Object> rawResponse = dhpAuthenticationResponse.rawResponse;
                         mHsdpUserRecord = new HsdpUserRecord(mContext);
                         mHsdpUserRecord = mHsdpUserRecord.parseHsdpUserInfo(rawResponse);
-
+                        mHsdpUserRecord.setRefreshSecret(refreshSecret);
                         saveToDisk(new UserFileWriteListener() {
                             @Override
                             public void onFileWriteSuccess() {
@@ -176,18 +176,13 @@ public class HsdpUser {
                     if (mHsdpUserRecord == null) {
                         mHsdpUserRecord = getHsdpUserRecord();
                     }
-
-                    if (mHsdpUserRecord == null || mHsdpUserRecord.getUserUUID() == null || mHsdpUserRecord.getAccessCredential().getRefreshToken() == null) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                refreshHandler.onRefreshLoginSessionFailedWithError(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND);
-                            }
-                        });
-                        return;
+                    final DhpAuthenticationResponse dhpAuthenticationResponse;
+                    if(mHsdpUserRecord.getAccessCredential().getRefreshToken()==null && mHsdpUserRecord!=null ){
+                        dhpAuthenticationResponse = authenticationManagementClient.refreshSecret(mHsdpUserRecord.getUserUUID(), mHsdpUserRecord.getAccessCredential().getAccessToken(),mHsdpUserRecord.getRefreshSecret());
+                    }else{
+                        dhpAuthenticationResponse = authenticationManagementClient.refresh(mHsdpUserRecord.getUserUUID(), mHsdpUserRecord.getAccessCredential().getRefreshToken());
                     }
 
-                    final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.refresh(mHsdpUserRecord.getUserUUID(), mHsdpUserRecord.getAccessCredential().getRefreshToken());
                     if (dhpAuthenticationResponse == null) {
                         handler.post(new Runnable() {
                             @Override
@@ -247,11 +242,11 @@ public class HsdpUser {
         DhpApiClientConfiguration dhpApiClientConfiguration = null;
         String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
         HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHsdpConfiguration().getHSDPInfo(RegUtility.getConfiguration(environment));
-        if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null != hsdpInfo.getSecretId() && null != hsdpInfo.getSharedId()
+        if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null != hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
                 && null != hsdpInfo.getApplicationName()) {
 
-            RLog.i(RLog.HSDP, "Social base URL " + hsdpInfo.getBaseURL());
-            dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(), hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecretId());
+            RLog.i(RLog.HSDP, "Base URL " + hsdpInfo.getBaseURL());
+            dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(), hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecreteId());
         }
         return dhpApiClientConfiguration;
     }
@@ -372,7 +367,7 @@ public class HsdpUser {
 
     public boolean isHsdpUserSignedIn(){
         HsdpUserRecord hsdpUserRecord = getHsdpUserRecord();
-        if(hsdpUserRecord != null && hsdpUserRecord.getAccessCredential().getRefreshToken()!=null && hsdpUserRecord.getUserUUID()!=null
+        if(hsdpUserRecord != null && (hsdpUserRecord.getAccessCredential().getRefreshToken()!=null || hsdpUserRecord.getRefreshSecret()!=null) && hsdpUserRecord.getUserUUID()!=null
                 && getHsdpUserRecord().getAccessCredential().getAccessToken()!=null){
             return true;
         }

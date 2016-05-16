@@ -1,7 +1,6 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -84,11 +83,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private TextView mTvEmailExist;
 
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onAttach");
-        super.onAttach(activity);
-    }
+    private long mTrackCreateAccountTime;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,9 +108,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
         initUI(view);
         handleOrientation(view);
+        mTrackCreateAccountTime = System.currentTimeMillis();
         return view;
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -355,6 +352,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         } else {
             launchWelcomeFragment();
         }
+
+        if(mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0){
+            mTrackCreateAccountTime =  (System.currentTimeMillis() - RegUtility.getCreateAccountStartTime())/1000;
+        }else{
+            mTrackCreateAccountTime =  (System.currentTimeMillis() - mTrackCreateAccountTime)/1000;
+        }
+        trackActionStatus(AppTagingConstants.SEND_DATA,AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT,String.valueOf(mTrackCreateAccountTime));
+        mTrackCreateAccountTime =0;
     }
 
     private void launchAccountActivateFragment() {
@@ -393,7 +398,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
-        if(userRegistrationFailureInfo.getErrorCode() == -1){
+        if(userRegistrationFailureInfo.getErrorCode() == -1 ){
             mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
         }
         trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());

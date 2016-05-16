@@ -16,7 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class XPassword extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
@@ -67,6 +71,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         mEtPassword.addTextChangedListener(this);
         mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
         mTvMaskPassword = (TextView) findViewById(R.id.tv_password_mask);
+        FontLoader.getInstance().setTypeface(mTvMaskPassword, RegConstants.PUIICON_TTF);
         disableMaskPassoword();
     }
 
@@ -224,10 +229,11 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         if (validatePassword()) {
             showValidPasswordAlert();
         } else {
-
             if (mEtPassword.getText().toString().trim().length() == 0) {
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_PASSWORD);
                 setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
             } else {
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.WRONG_PASSWORD);
                 setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
             }
             showInvalidPasswordAlert();
@@ -239,6 +245,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
             showValidPasswordAlert();
         } else {
             if (mEtPassword.getText().toString().trim().length() == 0) {
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_PASSWORD);
                 setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
             }
             showInvalidPasswordAlert();
@@ -307,15 +314,15 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     private void togglePasswordMask() {
         if(mEtPassword.getInputType()!=(InputType.TYPE_CLASS_TEXT |
                 InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)){
+            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,true);
             mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 
             mEtPassword.setSelection(mEtPassword.getText().length());
-
         }else{
+            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,false);
             mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
             mEtPassword.setSelection(mEtPassword.getText().length());
         }
     }

@@ -1,7 +1,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,8 +11,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.janrain.android.Jump;
@@ -20,7 +18,6 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -49,17 +46,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     private XRegError mRegError;
 
-    private ProgressBar mPbLogout;
-
-    private DIUserProfile userProfile;
-
-    private ScrollView mSvRootLayout;
-
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onAttach");
-        super.onAttach(activity);
-    }
+    private ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +62,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         View view = inflater.inflate(R.layout.fragment_welcome, null);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
-        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         init(view);
         handleUiState();
         handleOrientation(view);
@@ -122,6 +108,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+        hideLogoutSpinner();
         super.onDestroy();
     }
 
@@ -163,14 +150,16 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mBtnSignOut.setOnClickListener(this);
         mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
         mBtnContinue.setOnClickListener(this);
-        mPbLogout = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_spinner);
 
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
 
-        userProfile = mUser.getUserInstance(mContext);
-        mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + userProfile.getGivenName());
+        mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
 
         String email = getString(R.string.InitialSignedIn_SigninEmailText);
-        email = String.format(email, userProfile.getEmail());
+        email = String.format(email, mUser.getEmail());
         String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
         RLog.d(RLog.ONCLICK, "WelcomeFragment : accesstoken " + accesstoken);
@@ -247,12 +236,15 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     }
 
     private void showLogoutSpinner() {
-        mPbLogout.setVisibility(View.VISIBLE);
+        if (!(getActivity().isFinishing()) && (mProgressDialog != null)) mProgressDialog.show();
         mBtnSignOut.setEnabled(false);
     }
 
     private void hideLogoutSpinner() {
-        mPbLogout.setVisibility(View.GONE);
+
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
         mBtnSignOut.setEnabled(true);
     }
 

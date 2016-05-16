@@ -34,7 +34,7 @@
     <!-- Home screen -->
     <dimen name="reg_title_text_size">24sp</dimen>
     <dimen name="reg_header_margin_top">32dip</dimen>
-    <dimen name="reg_title_text_size_medium">17sp</dimen>
+    <dimen name="reg_title_text_size_medium">20sp</dimen>
     <dimen name="reg_title_text_size_small">14sp</dimen>
     <dimen name="reg_margin_bottom">14dp</dimen>
     <dimen name="reg_title_text_size_medium_neg">-17sp</dimen>

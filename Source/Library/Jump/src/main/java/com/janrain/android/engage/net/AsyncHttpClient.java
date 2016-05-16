@@ -54,37 +54,32 @@ import android.os.Handler;
 import com.janrain.android.engage.net.async.HttpResponseHeaders;
 import com.janrain.android.utils.IoUtils;
 import com.janrain.android.utils.LogUtils;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.apache.OkApacheClient;
 
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.params.HttpClientParams;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
 import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnection;
 
 /**
  * @internal
+ *
  * @class AsyncHttpClient
  */
 /*package*/ class AsyncHttpClient {
@@ -92,11 +87,10 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
     private static final String HEADER_ACCEPT_ENCODING = "Accept-Encoding";
     private static final String ENCODING_GZIP = "gzip";
 
-    private AsyncHttpClient() {
-    }
+    private AsyncHttpClient() {}
 
     /*package*/ static class HttpExecutor implements Runnable {
-        private static final DefaultHttpClient mHttpClient = setupHttpClient();
+        private static final HttpClient mHttpClient = setupHttpClient();
         private final Handler mHandler;
         private final ManagedConnection mConn;
         private final JRConnectionManager.HttpCallback callBack;
@@ -107,26 +101,14 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
             callBack = new JRConnectionManager.HttpCallback(mConn);
         }
 
-        static private DefaultHttpClient setupHttpClient() {
-            HttpParams connectionParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(connectionParams, 30000); // thirty seconds
-            HttpConnectionParams.setSoTimeout(connectionParams, 30000);
-            HttpClientParams.setRedirecting(connectionParams, false);
-            DefaultHttpClient client = new DefaultHttpClient();
-            ClientConnectionManager mgr = client.getConnectionManager();
-            client = new DefaultHttpClient(new ThreadSafeClientConnManager(connectionParams,
-                    mgr.getSchemeRegistry()), connectionParams);
-            client.addRequestInterceptor(new HttpRequestInterceptor() {
-                public void process(HttpRequest request, HttpContext context) {
-                    if (!request.containsHeader(HEADER_ACCEPT_ENCODING)) {
-                        request.addHeader(HEADER_ACCEPT_ENCODING, ENCODING_GZIP);
-                    }
-                }
-            });
+        static private HttpClient setupHttpClient() {
+            OkHttpClient client = new OkHttpClient();
+            client.setConnectTimeout(30, TimeUnit.SECONDS);
+            client.setFollowRedirects(false);
+            OkApacheClient apacheClient = new OkApacheClient(client);
 
-            return client;
+            return apacheClient;
         }
-
 
         public void run() {
             try {
@@ -134,7 +116,9 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
                 InetAddress ia = InetAddress.getByName(request.getURI().getHost());
                 LogUtils.logd("Requesting: " + mConn.getRequestUrl() + " (" + ia.getHostAddress() + ")");
 
-                request.addHeader("User-Agent", USER_AGENT);
+                if (USER_AGENT != null) {
+                    request.addHeader("User-Agent", USER_AGENT);
+                }
                 for (NameValuePair header : mConn.getRequestHeaders()) {
                     request.addHeader(header.getName(), header.getValue());
                 }
@@ -239,12 +223,12 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
                     + "\npostData: " + postData;
         }
 
-        private static class AbortedRequestException extends Exception {
-        }
+        private static class AbortedRequestException extends Exception {}
     }
 
     /**
      * @internal
+     *
      * @class AsyncHttpResponseHolder
      * Wraps the possible data returned from a full asynchronous HTTP request.  This object will
      * contain either headers and data (if successful) or an Exception object (if failed).
@@ -268,7 +252,8 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
         /**
          * Gets the URL that this HTTP response (or error) corresponds to.
          *
-         * @return The URL that this HTTP response (or error) corresponds to.
+         * @return
+         *      The URL that this HTTP response (or error) corresponds to.
          */
         /*package*/ String getUrl() {
             return mManagedConnection.getRequestUrl();
@@ -277,8 +262,9 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
         /**
          * Gets the headers object.  If the operation failed, it will return null.
          *
-         * @return The HttpResponseHeaders object synthesized from the HTTP response if
-         * the operation was successful, null otherwise.
+         * @return
+         *         The HttpResponseHeaders object synthesized from the HTTP response if
+         *         the operation was successful, null otherwise.
          */
         /*package*/ HttpResponseHeaders getHeaders() {
             return mHeaders;
@@ -287,8 +273,9 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
         /**
          * Gets the payload array.  If the operation failed, it will return null.
          *
-         * @return The byte array containing the data (payload) from the HTTP response if
-         * the operation was successful, null otherwise.
+         * @return
+         *         The byte array containing the data (payload) from the HTTP response if
+         *         the operation was successful, null otherwise.
          */
         /*package*/ byte[] getPayload() {
             return mPayload;
@@ -297,8 +284,9 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
         /**
          * Gets the exception object.  If the operation succeeded, it will return null.
          *
-         * @return The Exception that occurred as a result of the asynchronous HTTP request if
-         * the operation failed, null otherwise.
+         * @return
+         *         The Exception that occurred as a result of the asynchronous HTTP request if
+         *         the operation failed, null otherwise.
          */
         /*package*/ Exception getException() {
             return mException;
@@ -307,7 +295,8 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
         /**
          * Checks to see if the holder contains a valid (non-null) headers object.
          *
-         * @return <code>true</code> if the headers object is valid, <code>false</code> otherwise.
+         * @return
+         *         <code>true</code> if the headers object is valid, <code>false</code> otherwise.
          */
         /*package*/ boolean hasHeaders() {
             return (mHeaders != null);
@@ -316,7 +305,8 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
         /**
          * Checks to see if the holder contains a valid (non-null) payload array.
          *
-         * @return <code>true</code> if the payload array is valid, <code>false</code> otherwise.
+         * @return
+         *         <code>true</code> if the payload array is valid, <code>false</code> otherwise.
          */
         /*package*/ boolean hasPayload() {
             return (mPayload != null);
@@ -325,7 +315,8 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
         /**
          * Checks to see if the holder contains a valid (non-null) exception object.
          *
-         * @return <code>true</code> if the exception object is valid, <code>false</code> otherwise.
+         * @return
+         *         <code>true</code> if the exception object is valid, <code>false</code> otherwise.
          */
         /*package*/ boolean hasException() {
             return (mException != null);

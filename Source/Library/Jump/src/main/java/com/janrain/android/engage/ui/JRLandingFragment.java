@@ -186,6 +186,7 @@ public class JRLandingFragment extends JRUiFragment {
         //mSession.getCurrentlyAuthenticatingProvider().setForceReauth(true);
         mSession.signOutUserForProvider(mSession.getCurrentlyAuthenticatingProvider().getName());
         mSession.setReturningAuthProvider("");
+        mSession.setCurrentlyAuthenticatingProviderPermissions(null);
         mSession.triggerAuthenticationDidRestart();
         finishFragmentWithResult(RESULT_SWITCH_ACCOUNTS);
     }

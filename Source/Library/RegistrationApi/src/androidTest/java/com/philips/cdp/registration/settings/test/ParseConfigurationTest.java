@@ -45,7 +45,6 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
         Tagging.setLaunchingPageName("demoapp:home");
         mRegistrationHelper = RegistrationHelper.getInstance();
        // mRegistrationHelper.initializeUserRegistration(getInstrumentation().getTargetContext(), locale);
-        RegistrationConfiguration.getInstance().setCoppaFlow(true);
         //mEmailValidator = mock(EmailValidator.class);
     }
 

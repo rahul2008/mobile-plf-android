@@ -17,10 +17,6 @@ import com.philips.cdp.registration.errormapping.CheckLocale;
 
 public abstract class RegistrationSettings implements LocaleMatchListener {
 
-    private static final String FLOW_STANDARD = "standard";
-
-    private static final String FLOW_COPPA = "coppa";
-
     protected String mProductRegisterUrl = null;
 
     protected String mProductRegisterListUrl = null;
@@ -31,7 +27,6 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
 
     protected String mResendConsentUrl = null;
 
-    protected String mRegisterCoppaActivationUrl = null;
 
     protected String mRegisterBaseCaptureUrl = null;
 
@@ -52,8 +47,8 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
     String mCaptureClientId = null;
     String mLocale = null;
 
-    public  void intializeRegistrationSettings(Context context, String captureClientId,
-                                                       String locale){
+    public void intializeRegistrationSettings(Context context, String captureClientId,
+                                              String locale) {
         storeMicrositeId(context);
 
         mCaptureClientId = captureClientId;
@@ -83,18 +78,7 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
         return mPreferredLangCode;
     }
 
-    public String getFlowName() {
-        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
-            return FLOW_COPPA;
-        } else {
-            return FLOW_STANDARD;
-        }
 
-    }
-
-    public String getRegisterCoppaActivationUrl() {
-        return mRegisterCoppaActivationUrl;
-    }
 
     public String getResendConsentUrl() {
         return mResendConsentUrl;
@@ -127,17 +111,12 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
     @Override
     public void onLocaleMatchRefreshed(String locale) {
 
-        PILLocaleManager manager = new PILLocaleManager();
+        PILLocaleManager manager = new PILLocaleManager(mContext);
 
 
         PILLocale pilLocaleInstance = null;
-        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
-         /*  pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext, locale,
-                    Platform.JANRAIN, Sector.B2C, Catalog.COPPA);*/
-        } else {
-            pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext, locale,
-                    Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
-        }
+        pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext, locale,
+                Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
 
 
         if (null != pilLocaleInstance) {
@@ -150,10 +129,22 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
             initialiseConfigParameters(
                     pilLocaleInstance.getLanguageCode().toLowerCase() + "-"
                             + pilLocaleInstance.getCountrycode().toUpperCase());
-        } else {
+        }else  {
             Log.i("LolaleMatch", "REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
-            String verifiedLocale = verifyInputLocale(mLanguageCode + "-" + mCountryCode);
-            initialiseConfigParameters(verifiedLocale);
+            String localeCode = null;
+            pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(mContext, locale,
+                    Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
+            if(pilLocaleInstance!=null){
+                localeCode= pilLocaleInstance.getLocaleCode().replace("_","-");
+            }else{
+                localeCode = "en-US";
+            }
+
+            if ("zh-TW".equals(localeCode)) {
+                localeCode = "zh-HK";
+            }
+            Log.i("LocaleCode", "localeCode : "+localeCode);
+            initialiseConfigParameters(localeCode);
         }
 
     }
@@ -177,8 +168,7 @@ public abstract class RegistrationSettings implements LocaleMatchListener {
     }
 
     public void refreshLocale(LocaleMatchListener localeMatchListener) {
-        PILLocaleManager localeManager = new PILLocaleManager();
-        localeManager.init(mContext, localeMatchListener);
-        localeManager.refresh(mContext, mLanguageCode, mCountryCode);
+        PILLocaleManager localeManager = new PILLocaleManager(mContext);
+        localeManager.refresh(localeMatchListener);
     }
 }

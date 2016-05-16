@@ -81,7 +81,7 @@
     <!-- User name max length -->
     <integer name="reg_et_name_max_length">256</integer>
     <integer name="reg_et_email_max_length">256</integer>
-    <integer name="reg_et_password_max_length">256</integer>
+    <integer name="reg_et_password_max_length">32</integer>
 
     <!-- scroll margin -->
     <dimen name="reg_scroll_margin">15dip</dimen>
@@ -120,7 +120,23 @@
     <dimen name="reg_notification_label_default_radius">33dp</dimen>
     <dimen name="reg_notification_label_square_round_textSize_small">14sp</dimen>
     <dimen name="reg_notification_label_small_circle_radius">20dp</dimen>
-
     <dimen name="reg_check_size">11dp</dimen>
+
+    <!--Added for new coppa flow-->
+    <dimen name="reg_coppa_button_margin_top">50dip</dimen>
+    <dimen name="reg_coppa_layout_margin">5dip</dimen>
+    <dimen name="reg_coppa_text_size">13sp</dimen>
+    <dimen name="reg_coppa_header_margin">20dip</dimen>
+    <dimen name="reg_coppa_number_picker_margin_top">40dip</dimen>
+    <dimen name="reg_coppa_number_picker_margin_bottom">24dip</dimen>
+    <dimen name="reg_coppa_picker_button_layout_height">60dip</dimen>
+    <dimen name="reg_coppa_picker_cancel_btn_width">100dip</dimen>
+    <dimen name="reg_coppa_picker_ok_btn_width">100dip</dimen>
+    <dimen name="reg_coppa_picker_btn_height">40dip</dimen>
+    <dimen name="reg_coppa_picker_btn_padding">20dip</dimen>
+    <dimen name="reg_coppa_picker_btn_margin">10dip</dimen>
+
+    <dimen name="reg_shadow_height">7dip</dimen>
+    <dimen name="reg_shadow_title_bar_height">4dip</dimen>
 
 </resources>

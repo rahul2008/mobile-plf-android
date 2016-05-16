@@ -2,30 +2,35 @@
 package com.philips.cdp.registration.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ConsumerArray {
 
-	private ArrayList<ConsumerInterest> mConsumerInterestArray;
+    private List<ConsumerInterest> mConsumerInterestArray;
 
-	private static ConsumerArray mConsumerArray = null;
+    private static ConsumerArray mConsumerArray = null;
 
-	public ConsumerArray() {
-		mConsumerInterestArray = new ArrayList<ConsumerInterest>();
-	}
+    public ConsumerArray() {
+        mConsumerInterestArray = new ArrayList<>();
+    }
 
-	public static ConsumerArray getInstance() {
-		if (mConsumerArray == null) {
-			mConsumerArray = new ConsumerArray();
-		}
-		return mConsumerArray;
-	}
+    public static ConsumerArray getInstance() {
+        if (mConsumerArray == null) {
+            synchronized (ConsumerArray.class) {
+                if (mConsumerArray == null) {
+                    mConsumerArray = new ConsumerArray();
+                }
+            }
+        }
+        return mConsumerArray;
+    }
 
-	public ArrayList<ConsumerInterest> getConsumerArraylist() {
-		return mConsumerInterestArray;
-	}
+    public List<ConsumerInterest> getConsumerArraylist() {
+        return mConsumerInterestArray;
+    }
 
-	public void setConsumerArraylist(ArrayList<ConsumerInterest> listConsumerInterest) {
-		mConsumerInterestArray = listConsumerInterest;
-	}
+    public void setConsumerArraylist(ArrayList<ConsumerInterest> listConsumerInterest) {
+        mConsumerInterestArray = listConsumerInterest;
+    }
 
 }

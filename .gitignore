@@ -1,3 +1,6 @@
 Source/Library/servertime/servertime.iml
 *.iml
 Source/Library/hsdp/build/tmp/packageReleaseJar/MANIFEST.MF
+Source/Library/RegistrationCoppaSampleApp/build/
+Source/Library/RegistrationSampleApp/.idea/
+Source/Library/RegistrationCoppaSampleApp/.idea/

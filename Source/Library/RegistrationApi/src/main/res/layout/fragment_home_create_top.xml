@@ -2,7 +2,7 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="@color/reg_layout_bg">
+    android:background="@drawable/reg_layout_bg">
 
     <ScrollView
         android:id="@+id/sv_root_layout"
@@ -22,10 +22,19 @@
                 android:text="@string/Welcome_Welcome_lbltxt"
                 reglib:fontAssetName="CentraleSans-Light.otf" />
 
+            <com.philips.cdp.registration.ui.customviews.XTextView
+                android:id="@+id/tv_reg_create_account"
+                style="@style/reg_textStyle"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:text="@string/Welcome_needAccountto_lbltxt"
+                reglib:fontAssetName="CentraleSans-Book.OTF" />
+
             <LinearLayout
                 android:id="@+id/rl_reg_welcome_container"
                 style="@style/reg_text_background"
-                android:layout_marginBottom="@dimen/reg_common_margin_top"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
                 android:orientation="vertical">
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
@@ -50,14 +59,9 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin">
 
-                <com.philips.cdp.registration.ui.customviews.XTextView
-                    android:id="@+id/tv_reg_create_account"
-                    style="@style/reg_textStyle"
-                    android:text="@string/Welcome_needAccountto_lbltxt"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
-
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/btn_reg_create_account"
+                    android:layout_marginTop="@dimen/reg_margin_bottom"
                     style="@style/reg_style_btn"
                     android:enabled="false"
                     android:text="@string/Create_Account_CreateMyPhilips_btntxt"
@@ -116,7 +120,8 @@
                     android:id="@+id/reg_error_msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/reg_margin_bottom"></com.philips.cdp.registration.ui.customviews.XRegError>
+                    android:layout_marginTop="@dimen/reg_margin_bottom">
+                </com.philips.cdp.registration.ui.customviews.XRegError>
 
                 <View
                     android:layout_width="wrap_content"

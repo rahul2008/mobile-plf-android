@@ -33,9 +33,12 @@ package com.janrain.android.utils;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
+import android.text.util.*;
 import com.janrain.android.engage.JREngage;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Set;
 
 /**
  * @internal
@@ -48,6 +51,7 @@ public final class PrefUtils {
     public static final String KEY_JR_HIDE_POWERED_BY = "jr_hide_powered_by";
     public static final String KEY_JR_CONFIGURATION_ETAG = "jr_configuration_etag";
     public static final String KEY_JR_LAST_USED_AUTH_PROVIDER = "jr_last_used_auth_provider";
+    public static final String KEY_JR_LAST_USED_AUTH_PROVIDER_PERMISSIONS = "jr_last_used_auth_provider_permissions";
     public static final String KEY_JR_LAST_USED_SHARING_PROVIDER = "jr_last_used_social_provider";
     public static final String KEY_JR_RP_BASE_URL = "jr_base_url";
     public static final String KEY_JR_ENGAGE_LIBRARY_VERSION = "jr_engage_library_version";
@@ -92,6 +96,37 @@ public final class PrefUtils {
 
     public static void putString(String key, String value) {
         sharedPreferenceEditorApplyOrCommit(getEditor().putString(key, value));
+    }
+
+    public static void putStringArray(String key, String[] values, String delimiter) {
+    	String value = "";
+    	if(values!=null && values.length>0){
+    		value = TextUtils.join(delimiter, values); 
+    	}
+        sharedPreferenceEditorApplyOrCommit(getEditor().putString(key, value));
+    }
+    
+    /**
+     * Wrapper for getting shared preference String Array value by key.
+     *
+     * @param key      The key of the preference to get.
+     * @param defValue The default value if not found.
+     * @param delimiter The delimiter used to convert the string to array.
+     * @return The value of the preference, or defValue if not found.
+     */
+    @SuppressWarnings("null")
+	public static String[] getStringArray(String key, String[] defValue, String delimiter){
+    	String[] result = null;
+    	String value = getSharedPreferences().getString(key, "");
+    	if(value.indexOf(delimiter)>= 0){
+    		result = value.split(delimiter);
+    	}else{
+    		if(value.length() > 0){
+    			result[0] = value;
+    		}
+    	}
+		return result;
+    	
     }
 
     public static void putBoolean(String key, boolean value) {
