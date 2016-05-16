@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcareapp;
+package com.philips.cdp.sampledigitalcare;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,13 +21,14 @@ import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
-import com.philips.cdp.sampledigitalcareapp.adapter.SampleAdapter;
-import com.philips.cdp.sampledigitalcareapp.adapter.SimpleItemTouchHelperCallback;
-import com.philips.cdp.sampledigitalcareapp.view.CustomDialog;
+import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
+import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
+import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,10 +40,9 @@ import java.util.List;
     @author: ritesh.jha@philips.com
  */
 
-public class  LaunchDigitalCare extends FragmentActivity implements OnClickListener,
+public class LaunchDigitalCare extends FragmentActivity implements OnClickListener,
         MainMenuListener, ProductMenuListener, SocialProviderListener {
 
-    public static final String HOCKEY_APP_ID = "9d6c50153b0c5394faa920d9dda951c7";
     private static final String TAG = LaunchDigitalCare.class.getSimpleName();
     public static ArrayList<String> mList = null;
     private static boolean mActivityButtonSelected = true;
@@ -191,6 +191,11 @@ public class  LaunchDigitalCare extends FragmentActivity implements OnClickListe
     }
 
     private void initializeDigitalCareLibrary() {
+
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        //  localeManager.setInputLocale("ar", "SA");
+
         // Initializing DigitalCare Component.
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
                 this);
@@ -203,11 +208,6 @@ public class  LaunchDigitalCare extends FragmentActivity implements OnClickListe
                 this);
 
 
-        // Passing default Locale to DigitalCare Library, app should pass the locale which is used
-        // by application and also set locale to digitalcare library dynamically when ever app
-        // locale changes
-        setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
-        //For Debugging purpose, enable this only in debug build
         DigiCareLogger.enableLogging();
     }
 
@@ -297,8 +297,10 @@ public class  LaunchDigitalCare extends FragmentActivity implements OnClickListe
         }
     }
 
-    private void setDigitalCareLocale(String language, String country) {
+   /* private void setDigitalCareLocale(String language, String country) {
 
-        //DigitalCareConfigManager.getInstance().setLocale(language, country);
-    }
+        DigitalCareConfigManager.getInstance().setLocale(language, country);
+
+
+    }*/
 }

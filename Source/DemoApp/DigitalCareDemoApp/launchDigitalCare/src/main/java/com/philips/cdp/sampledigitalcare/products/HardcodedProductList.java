@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcareapp.products;
+package com.philips.cdp.sampledigitalcare.products;
 
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 //import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
