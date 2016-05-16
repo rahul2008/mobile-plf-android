@@ -31,5 +31,24 @@ public class JanRainConfiguration {
         this.clientIds = clientIds;
     }
 
+    public String getClientId(Configuration configurationType) {
+
+        switch (configurationType) {
+            case EVALUATION:
+                return getClientIds().getEvaluationId();
+            case DEVELOPMENT:
+                return getClientIds().getDevelopmentId();
+            case PRODUCTION:
+                return getClientIds().getProductionId();
+            case STAGING:
+                return getClientIds().getStagingId();
+            case TESTING:
+                return getClientIds().getTestingId();
+            default:
+                return null;
+
+        }
+
+    }
 
 }

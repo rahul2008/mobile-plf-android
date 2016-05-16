@@ -1,7 +1,5 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Html;
@@ -16,22 +14,12 @@ import android.widget.TextView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RLog;
 
-/**
- * Created by 310190722 on 11/13/2015.
- */
 public class PhilipsNewsFragment extends RegistrationBaseFragment implements View.OnClickListener {
 
-    private Context mContext;
     private LinearLayout mLlNewsContainer;
     private Button mBtnBack;
     private RelativeLayout mRlBackBtnContainer;
 
-
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "PhilipsNewsFragment : onAttach");
-        super.onAttach(activity);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +30,6 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment implements Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "PhilipsNewsFragment : onCreateView");
-        mContext = getRegistrationFragment().getActivity().getApplicationContext();
         View view = inflater.inflate(R.layout.fragment_philips_news, null);
         initUI(view);
         handleOrientation(view);
@@ -51,19 +38,19 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment implements Vie
 
     private void initUI(View view) {
         consumeTouch(view);
-        mLlNewsContainer = (LinearLayout)view.findViewById(R.id.ll_reg_news_container);
-        mBtnBack = (Button)view.findViewById(R.id.reg_btn_back);
+        mLlNewsContainer = (LinearLayout) view.findViewById(R.id.ll_reg_news_container);
+        mBtnBack = (Button) view.findViewById(R.id.reg_btn_back);
         mBtnBack.setOnClickListener(this);
-        mRlBackBtnContainer = (RelativeLayout)view.findViewById(R.id.rl_reg_btn_back_container);
+        mRlBackBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_btn_back_container);
 
 
-        TextView tvFirstDesc = (TextView)view.findViewById(R.id.tv_first_desc);
-        String s = " <i>"+getString(R.string.Philips_News_Description_First_Bulleted_Description_lbltxt)+"</i>";
+        TextView tvFirstDesc = (TextView) view.findViewById(R.id.tv_first_desc);
+        String s = " <i>" + getString(R.string.Philips_News_Description_First_Bulleted_Description_lbltxt) + "</i>";
         tvFirstDesc.setText(Html.fromHtml(s));
 
 
-        TextView tvSecondDesc = (TextView)view.findViewById(R.id.tv_second_desc);
-         s = " <i>"+getString(R.string.Philips_News_Description_Second_Bulleted_Description_lbltxt)+"</i>";
+        TextView tvSecondDesc = (TextView) view.findViewById(R.id.tv_second_desc);
+        s = " <i>" + getString(R.string.Philips_News_Description_Second_Bulleted_Description_lbltxt) + "</i>";
         tvSecondDesc.setText(Html.fromHtml(s));
 
     }
@@ -129,7 +116,7 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment implements Vie
         int id = v.getId();
         if (id == R.id.reg_btn_back) {
             RLog.d(RLog.ONCLICK, "PhilipsNewsFragment : back pressed");
-            getFragmentManager().popBackStack();
+            getRegistrationFragment().onBackPressed();
         }
     }
 

@@ -1,11 +1,11 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -45,14 +45,17 @@ public abstract class RegistrationBaseFragment extends Fragment {
     protected static int mWidth = 0;
     protected static int mHeight = 0;
 
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private Thread mUiThread = Looper.getMainLooper().getThread();
+    protected final void handleOnUIThread(Runnable runnable) {
+        if (Thread.currentThread() != mUiThread) {
+            mHandler.post(runnable);
+        } else {
+            runnable.run();
+        }
+    }
 
     private final int JELLY_BEAN = 16;
-
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onAttach");
-        super.onAttach(activity);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +68,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     private void setCustomLocale() {
         Locale locale;
-        if (RegistrationHelper.getInstance().getUiLocale() != null) {
-            locale = RegistrationHelper.getInstance().getUiLocale();
+        if (RegistrationHelper.getInstance().getLocale() != null) {
+            locale = RegistrationHelper.getInstance().getLocale();
         } else {
             locale = RegistrationHelper.getInstance().getLocale();
         }

@@ -2,6 +2,7 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/reg_layout_bg"
     android:focusable="true"
     android:focusableInTouchMode="true">
@@ -78,16 +79,16 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin">
 
-                <CheckBox
+                <com.philips.cdp.registration.ui.customviews.XCheckBox
                     android:id="@+id/cb_reg_accept_terms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/reg_checkbox_selector"
                     android:gravity="center_vertical"
-                    android:paddingLeft="10dip"
+                    android:paddingLeft="@dimen/reg_checkbox_padding_left"
                     android:paddingRight="0dip"
-                    android:textColor="@color/reg_text_heading_one_color"
-                    android:textSize="@dimen/reg_title_text_size_medium" />
+                    android:textSize="@dimen/reg_title_text_size_medium">
+
+                </com.philips.cdp.registration.ui.customviews.XCheckBox>
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_accept_terms"
@@ -119,16 +120,15 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin">
 
-                <CheckBox
+                <com.philips.cdp.registration.ui.customviews.XCheckBox
                     android:id="@+id/cb_reg_register_terms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/reg_checkbox_selector"
                     android:gravity="center_vertical"
-                    android:paddingLeft="10dip"
+                    android:paddingLeft="@dimen/reg_checkbox_padding_left"
                     android:paddingRight="0dip"
-                    android:textColor="@color/reg_text_heading_one_color"
-                    android:textSize="@dimen/reg_title_text_size_medium" />
+                    android:textSize="@dimen/reg_title_text_size_medium">
+                </com.philips.cdp.registration.ui.customviews.XCheckBox>
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_philips_news"

@@ -23,7 +23,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     private Context mContext;
 
-    private ImageView mIvPasswordErrAlert;
+    private TextView mIvPasswordErrAlert;
 
     private ImageView mIvArrowUpView;
 
@@ -57,7 +57,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     public final void initUi(int resourceId) {
         LayoutInflater li = LayoutInflater.from(mContext);
         li.inflate(resourceId, this, true);
-        mIvPasswordErrAlert = (ImageView) findViewById(R.id.iv_reg_password_error_alert);
+        mIvPasswordErrAlert = (TextView) findViewById(R.id.iv_reg_password_error_alert);
         mIvPasswordErrAlert.setOnClickListener(this);
         mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
         mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_password_err);
@@ -287,12 +287,12 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     }
 
 
-    private void enableMaskPassword() {
+    public void enableMaskPassword() {
         mTvMaskPassword.setTextColor(mContext.getResources().getColor(R.color.reg_password_mask_enable_ic_color));
         mTvMaskPassword.setOnClickListener(mMaskPasswordOnclickListener);
     }
 
-    private void disableMaskPassoword() {
+    public void disableMaskPassoword() {
         mTvMaskPassword.setTextColor(mContext.getResources().getColor(R.color.reg_password_mask_disable_ic_color));
         mTvMaskPassword.setOnClickListener(null);
     }
@@ -324,4 +324,8 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         mEtPassword.setHint(hintText);
     }
 
+    public void setClicableTrue(boolean isClickable){
+        mEtPassword.setClickable(isClickable);
+        mEtPassword.setEnabled(isClickable);
+    }
 }

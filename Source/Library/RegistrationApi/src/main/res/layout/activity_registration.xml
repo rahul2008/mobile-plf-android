@@ -9,17 +9,18 @@
         android:layout_height="@dimen/reg_header_height"
         android:background="@drawable/reg_header_bg" >
 
-        <ImageView
+        <com.philips.cdp.registration.ui.customviews.XIconTextView
             android:id="@+id/iv_reg_back"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
             android:layout_centerVertical="true"
-            android:clickable="false"
-            android:contentDescription="@string/content_desc"
             android:padding="@dimen/reg_header_iv_back_padding"
-            android:src="@drawable/reg_back_press"
-            android:visibility="visible" />
+            android:text="@string/ic_reg_left"
+            android:textColor="@color/reg_back_arrow_color"
+            android:textSize="@dimen/reg_back_arrow_size" />
 
         <com.philips.cdp.registration.ui.customviews.XTextView
             android:id="@+id/tv_reg_header_title"

@@ -5,9 +5,9 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
-import com.janrain.android.utils.SecureUtility;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.CoppaConfiguration;
 import com.philips.cdp.registration.coppa.CoppaExtension;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -15,7 +15,6 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;
@@ -49,12 +48,12 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         Jump.saveToDisk(mContext);
         final User user = new User(mContext);
         user.buildCoppaConfiguration();
-        if (CoppaConfiguration.getCoppaCommunicationSentAt() != null && RegistrationHelper.getInstance().isCoppaFlow()) {
+        if (CoppaConfiguration.getCoppaCommunicationSentAt() != null && RegistrationConfiguration.getInstance().isCoppaFlow()) {
             CoppaExtension coppaExtension = new CoppaExtension();
             coppaExtension.triggerSendCoppaMailAfterLogin(user.getUserInstance(mContext).getEmail());
         }
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (RegistrationHelper.getInstance().isHsdpFlow() && user.getEmailVerificationStatus(mContext)) {
+        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus(mContext)) {
 
             HsdpUser login = new HsdpUser(mContext);
             login.login(mEmail, mPassword, new TraditionalLoginHandler() {

@@ -1,10 +1,17 @@
 
 package com.philips.cdp.registration.configuration;
 
+import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.cdp.registration.ui.utils.RegUtility;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RegistrationConfiguration {
+
+    private boolean isCoppaFlow;
+
+    private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
     private static RegistrationConfiguration registrationConfiguration;
 
@@ -28,7 +35,7 @@ public class RegistrationConfiguration {
         JanRainConfiguration janRainConfiguration = new JanRainConfiguration();
         RegistrationClientId registrationClientId = new RegistrationClientId();
 
-        if(null!=RegistrationStaticConfiguration.getInstance().getJanRainConfiguration().getClientIds()){
+        if (null != RegistrationStaticConfiguration.getInstance().getJanRainConfiguration().getClientIds()) {
             registrationClientId = RegistrationStaticConfiguration.getInstance().getJanRainConfiguration().getClientIds();
         }
 
@@ -79,13 +86,13 @@ public class RegistrationConfiguration {
 
     public Flow getFlow() {
 
-        if(RegistrationDynamicConfiguration.getInstance().getFlow() == null){
-           return RegistrationStaticConfiguration.getInstance().getFlow();
+        if (RegistrationDynamicConfiguration.getInstance().getFlow() == null) {
+            return RegistrationStaticConfiguration.getInstance().getFlow();
         }
 
         Flow flow = new Flow();
 
-        if(null!=RegistrationStaticConfiguration.getInstance().getFlow()){
+        if (null != RegistrationStaticConfiguration.getInstance().getFlow()) {
             flow = RegistrationStaticConfiguration.getInstance().getFlow();
         }
 
@@ -97,7 +104,7 @@ public class RegistrationConfiguration {
             flow.setEmailVerificationRequired(false);
         }
 
-       if (null != dynFlow.isTermsAndConditionsAcceptanceRequired()) {
+        if (null != dynFlow.isTermsAndConditionsAcceptanceRequired()) {
             flow.setTermsAndConditionsAcceptanceRequired(dynFlow.isTermsAndConditionsAcceptanceRequired());
         } else if (null == flow.isTermsAndConditionsAcceptanceRequired()) {
             flow.setTermsAndConditionsAcceptanceRequired(false);
@@ -116,6 +123,10 @@ public class RegistrationConfiguration {
 
     public SigninProviders getSignInProviders() {
 
+        HashMap<String, ArrayList<String>> providers = RegistrationDynamicConfiguration.getInstance().getSignInProviders().getProviders();
+
+        RegUtility.checkIsValidSignInProviders(providers);
+
         if (RegistrationDynamicConfiguration.getInstance().getSignInProviders().getProviders() == null) {
             return RegistrationStaticConfiguration.getInstance().getSignInProviders();
         }
@@ -126,10 +137,8 @@ public class RegistrationConfiguration {
         }
 
         temp.putAll(RegistrationDynamicConfiguration.getInstance().getSignInProviders().getProviders());
-
         SigninProviders signinProviders = new SigninProviders();
         signinProviders.setProviders(temp);
-
         return signinProviders;
     }
 
@@ -151,6 +160,24 @@ public class RegistrationConfiguration {
 
 
         return hsdpConfiguration;
+    }
+
+
+    public boolean isCoppaFlow() {
+        return isCoppaFlow;
+    }
+
+    public void setCoppaFlow(boolean isCoppaFlow) {
+        this.isCoppaFlow = isCoppaFlow;
+    }
+
+
+    public void setPrioritisedFunction(RegistrationFunction prioritisedFunction) {
+        this.prioritisedFunction = prioritisedFunction;
+    }
+
+    public RegistrationFunction getPrioritisedFunction() {
+        return prioritisedFunction;
     }
 
 

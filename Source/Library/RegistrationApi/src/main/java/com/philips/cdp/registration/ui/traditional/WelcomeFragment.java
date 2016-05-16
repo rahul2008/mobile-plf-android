@@ -24,6 +24,7 @@ import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -165,7 +166,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mPbLogout = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_spinner);
 
 
-
         userProfile = mUser.getUserInstance(mContext);
         mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + userProfile.getGivenName());
 
@@ -197,24 +197,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mUser.logout(this);
     }
 
-    private void handleUpdate() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-            mRegError.hideError();
-            showProgressBar();
-        } else {
-            mRegError.setError(getString(R.string.NoNetworkConnection));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
-            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
-        }
-    }
-
-    private void showProgressBar() {
-        mBtnContinue.setEnabled(false);
-    }
-
-    private void hideProgressBar() {
-        mBtnContinue.setEnabled(true);
-    }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
@@ -228,23 +210,32 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     @Override
     public void onLogoutSuccess() {
-        trackPage(AppTaggingPages.HOME);
-        hideLogoutSpinner();
-        getRegistrationFragment().replaceWithHomeFragment();
-        RegistrationHelper.getInstance().getUserRegistrationListener()
-                .notifyOnUserLogoutSuccess();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                trackPage(AppTaggingPages.HOME);
+                hideLogoutSpinner();
+                if (null != getRegistrationFragment()) {
+                    getRegistrationFragment().replaceWithHomeFragment();
+                }
+            }
+        });
     }
 
     @Override
     public void onLogoutFailure(int responseCode, final String message) {
-        mRegError.setError(message);
-        hideLogoutSpinner();
-        RegistrationHelper.getInstance().getUserRegistrationListener()
-                .notifyOnUserLogoutFailure();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                mRegError.setError(message);
+                hideLogoutSpinner();
+            }
+        });
     }
+
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
                 mRegError.hideError();

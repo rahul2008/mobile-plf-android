@@ -23,6 +23,7 @@ import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
@@ -33,16 +34,12 @@ import com.philips.dhpclient.BuildConfig;
 
 import org.json.JSONObject;
 
-import java.lang.reflect.Field;
-
 public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener {
 
 
     private final String REGISTRATION_VERSION_TAG = "registrationVersion";
 
     private FragmentManager mFragmentManager;
-
-    private final boolean VERIFICATION_SUCCESS = true;
 
     private Activity mActivity;
 
@@ -64,10 +61,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
         Bundle bunble = getArguments();
-        if(bunble!=null){
-            isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS,true);
+        if (bunble != null) {
+            isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
         }
-        System.out.println("isAccountSettings"+isAccountSettings);
+        System.out.println("isAccountSettings" + isAccountSettings);
         super.onCreate(savedInstanceState);
     }
 
@@ -203,19 +200,19 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
         //account setting true or no
         //if true follow bellow else cckech for sign in status and repave with wel come screen on sing els ehome
-        if(isAccountSettings){
-            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext()) ) {
+        if (isAccountSettings) {
+            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
             }
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
-        }else{
-            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext()) ) {
+        } else {
+            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 replaceWithLogoutFragment();
-               // replaceWithLogoutFragment();
+                // replaceWithLogoutFragment();
                 //replace with welcome
                 replaceWithWelcomeFragment();
                 return;
@@ -232,9 +229,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     public void replaceWithHomeFragment() {
         try {
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
-            fragmentTransaction.commitAllowingStateLoss();
+            if (null != mFragmentManager) {
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
+                fragmentTransaction.commitAllowingStateLoss();
+            }
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
                     "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
@@ -277,8 +276,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             for (int i = fragmentCount; i >= 0; i--) {
                 fragmentManager.popBackStack();
             }
-        }catch (IllegalStateException ignore){
-        }catch (Exception ignore){
+        } catch (IllegalStateException ignore) {
+        } catch (Exception ignore) {
         }
     }
 
@@ -326,7 +325,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
                             + e.getMessage());
         }
     }
-
 
 
     public void addAlmostDoneFragment(JSONObject preFilledRecord, String provider,
@@ -408,16 +406,16 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        if(!isOnline && !RegistrationHelper.getInstance().isJanrainIntialized()){
+        if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
 
-            RegistrationHelper.getInstance().resetInitializationState();
+            UserRegistrationInitializer.getInstance().resetInitializationState();
 
         }
-        if (!RegistrationHelper.getInstance().isJanrainIntialized() && !RegistrationHelper.getInstance().isJumpInitializationInProgress()) {
+        if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() && !UserRegistrationInitializer.getInstance().isJumpInitializationInProgress()) {
             RLog.d(RLog.NETWORK_STATE, "RegistrationFragment :onNetWorkStateReceived");
             RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
             registrationSettings
-                    .intializeRegistrationSettings(mActivity
+                    .initializeUserRegistration(mActivity
                             .getApplicationContext(), RegistrationHelper.getInstance().getLocale());
             RLog.d(RLog.JANRAIN_INITIALIZE,
                     "RegistrationFragment : Janrain reinitialization with locale : "

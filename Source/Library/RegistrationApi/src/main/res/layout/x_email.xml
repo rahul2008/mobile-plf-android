@@ -21,13 +21,15 @@
             android:layout_marginRight="@dimen/reg_x_edit_field_margin_right"
             android:layout_marginTop="@dimen/reg_x_edit_field_margin" android:visibility="gone">
 
-            <ImageView
+
+            <com.philips.cdp.registration.ui.customviews.XErrorAlertIcon
                 android:id="@+id/iv_reg_email_error_alert"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/content_desc"
-                android:src="@drawable/reg_error_alert"
-                android:visibility="gone" />
+                android:textSize="@dimen/reg_error_alert_size"
+                android:textStyle="bold"
+                android:text="!"
+                android:visibility="gone"/>
         </FrameLayout>
 
         <com.philips.cdp.registration.ui.customviews.XEditText

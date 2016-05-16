@@ -27,6 +27,7 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -220,7 +221,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
                 mBtnActivate.setEnabled(true);
                 mBtnResend.setEnabled(true);
@@ -309,12 +310,26 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onRefreshUserSuccess() {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
-        updateActivationUIState();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
+                updateActivationUIState();
+            }
+        });
     }
 
     @Override
-    public void onRefreshUserFailed(int error) {
+    public void onRefreshUserFailed(final int error) {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleRefreshUserFailed(error);
+            }
+        });
+    }
+
+    private void handleRefreshUserFailed(int error) {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
         if (error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED) {
             mEMailVerifiedError.setError(mContext.getString(R.string.JanRain_Server_Connection_Failed));
@@ -327,19 +342,20 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onResendVerificationEmailSuccess() {
+       handleOnUIThread(new Runnable() {
+           @Override
+           public void run() {
+               handleResendVerificationEmailSuccess();
+           }
+       });
+    }
+
+    private void handleResendVerificationEmailSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
         map.put(AppTagingConstants.STATUS_NOTIFICATION, AppTagingConstants.RESEND_VERIFICATION_MAIL_LINK_SENT);
         trackMultipleActionsMap(AppTagingConstants.SEND_DATA,map);
-
-/*
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
-
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.STATUS_NOTIFICATION, AppTagingConstants.RESEND_VERIFICATION_MAIL_LINK_SENT);
-*/
         updateResendUIState();
         RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.Verification_email_Title),
                 mContext.getResources().getString(R.string.Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
@@ -359,13 +375,21 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onResendVerificationEmailFailedWithError(
-            UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK,
-                "AccountActivationFragment : onResendVerificationEmailFailedWithError");
+            final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
+            }
+        });
+
+    }
+
+    private void handleResendVerificationEmailFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        RLog.i(RLog.CALLBACK,"AccountActivationFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
         trackActionResendVerificationFailure(userRegistrationFailureInfo.getError().code);
-        mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
-                + userRegistrationFailureInfo.getEmailErrorMessage());
+        mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"+ userRegistrationFailureInfo.getEmailErrorMessage());
         mBtnResend.setEnabled(true);
     }
 
@@ -378,14 +402,26 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onLoginSuccess() {
-        updateActivationUIState();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                updateActivationUIState();
+            }
+        });
     }
 
     @Override
-    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        mEMailVerifiedError.setError(userRegistrationFailureInfo.getErrorDescription());
-        hideActivateSpinner();
-        mBtnActivate.setEnabled(true);
+    public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                mEMailVerifiedError.setError(userRegistrationFailureInfo.getErrorDescription());
+                hideActivateSpinner();
+                mBtnActivate.setEnabled(true);
+            }
+        });
+
     }
 
     private OnClickListener mContinueBtnClick = new OnClickListener() {

@@ -66,29 +66,60 @@
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
 
-#Hockey app and enabling excpetion catching
--keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
+-keepattributes InnerClasses,Exceptions
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable
 
-#Tagging lib and jar
--keep public class com.adobe.mobile.** {*;}
--keep public class com.philips.cdp.tagging.** {*;}
+
 
 #Janrain lib
 -keep public class com.janrain.android.** {*;}
+-keep  class com.janrain.android.Jump$* {*;}
+-keep  class com.janrain.android.capture.Capture$* {*;}
 
-#Locale match
--keep public class com.philips.cdp.localematch.** {*;}
 
-#Registration API
--keep public class com.philips.cdp.registration.** {*;}
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static void init(android.content.Context);
+}
 
-#HSDP Lib
--keep  class com.philips.dhpclient.** {*;}
--keep  class com.fasterxml.jackson.annotation.** {*;}
--keep  class com.fasterxml.jackson.core.** {*;}
--keep  class com.fasterxml.jackson.databind.** {*;}
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static java.lang.String objectToString(java.io.Serializable);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static java.lang.Object stringToObject(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static void migrateUserData(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static byte[] encrypt(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static byte[] decrypt(byte[]);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static void generateSecretKey();
+}
+
+
+
+
+
+-keepclasseswithmembernames public class com.janrain.android.** {*;}
+-keepclasseswithmembernames public class com.janrain.android.Jump {*;}
+-keepclasseswithmembernames public class com.janrain.android.JumpConfig {*;}
+-keepclasseswithmembernames public class com.janrain.android.TradSignInUi {*;}
+
+
+
+
+
+
 
 
 #GSM

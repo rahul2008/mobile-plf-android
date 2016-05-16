@@ -55,6 +55,7 @@ import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
+import com.philips.cdp.security.SecureStorage;
 
 import org.json.JSONObject;
 
@@ -790,7 +791,10 @@ public class Jump {
         try {
             fis = state.context.openFileInput(Capture.JR_REFRESH_SECRET);
             ois = new ObjectInputStream(fis);
-            state.refreshSecret = (String) ois.readObject();
+            byte[] encryptedText = (byte[])ois.readObject();
+            byte[] decrtext = SecureStorage.decrypt(encryptedText);
+            //  state.refreshSecret = (String) ois.readObject();
+            state.refreshSecret = new String(decrtext);
         } catch (ClassCastException e) {
             throwDebugException(e);
         } catch (FileNotFoundException ignore) {
@@ -905,7 +909,7 @@ public class Jump {
                 try {
                     fos = state.context.openFileOutput(tokenType, Context.MODE_PRIVATE);
                     oos = new ObjectOutputStream(fos);
-                    oos.writeObject(token);
+                    oos.writeObject(SecureStorage.encrypt(token));
                 } catch (FileNotFoundException e) {
                     throwDebugException(new RuntimeException(e));
                 } catch (IOException e) {

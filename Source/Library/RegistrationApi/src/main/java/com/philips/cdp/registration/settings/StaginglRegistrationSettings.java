@@ -8,30 +8,22 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
+import com.janrain.android.capture.Capture;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+
+import java.io.EOFException;
 
 public class StaginglRegistrationSettings extends RegistrationSettings {
 
-    private String mCountryCode;
-
-    private String mLanguageCode;
-
-    String mCaptureClientId = null;
-
-    String mLocale = null;
-
-    boolean mIsIntialize = false;
-
-    private Context mContext = null;
-
     private String LOG_TAG = "RegistrationAPI";
 
-    private  String STAGE_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
+    private String STAGE_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
 
-    private  String STAGE_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
+    private String STAGE_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
-    private  String STAGE_PRX_RESEND_CONSENT_URL = "https://acc.usa.philips.com/prx/registration/resendConsentMail";
+    private String STAGE_PRX_RESEND_CONSENT_URL = "https://acc.usa.philips.com/prx/registration/resendConsentMail";
 
-    private  String STAGE_REGISTER_COPPA_ACTIVATION_URL = "https://acc.philips.com/ps/user-registration/consent.html";
+    private String STAGE_REGISTER_COPPA_ACTIVATION_URL = "https://acc.philips.com/ps/user-registration/consent.html";
 
     private String STAGE_ENGAGE_APP_ID = "jgehpoggnhbagolnihge";
 
@@ -48,36 +40,6 @@ public class StaginglRegistrationSettings extends RegistrationSettings {
 
     private String STAGE_REGISTER_FORGOT_MAIL_URL = "https://dev.philips.com/ps/reset-password?cl=mob";
 
-
-
-
-    @Override
-    public void intializeRegistrationSettings(Context context, String captureClientId,
-                                              String microSiteId, String registrationType, boolean isintialize, String locale) {
-        SharedPreferences pref = context.getSharedPreferences(REGISTRATION_API_PREFERENCE, 0);
-        Editor editor = pref.edit();
-        editor.putString(MICROSITE_ID, microSiteId);
-        editor.commit();
-
-        mCaptureClientId = captureClientId;
-        mLocale = locale;
-        mIsIntialize = isintialize;
-        mContext = context;
-
-        String localeArr[] = locale.split("_");
-
-        if (localeArr != null && localeArr.length > 1) {
-            mLanguageCode = localeArr[0].toLowerCase();
-            mCountryCode = localeArr[1].toUpperCase();
-        } else {
-            mLanguageCode = "en";
-            mCountryCode = "US";
-        }
-
-        LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext, mLanguageCode,
-                mCountryCode);
-        Log.i("registration", "" + localeMatchHelper);
-    }
 
     @Override
     public void initialiseConfigParameters(String locale) {
@@ -120,13 +82,13 @@ public class StaginglRegistrationSettings extends RegistrationSettings {
             countryCode = "US";
         }
 
-        if (RegistrationHelper.getInstance().isCoppaFlow()) {
+        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
             jumpConfig.captureRedirectUri = STAGE_REGISTER_COPPA_ACTIVATION_URL;
         } else {
             jumpConfig.captureRedirectUri = STAGE_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
         }
 
-        jumpConfig.captureRecoverUri = STAGE_REGISTER_FORGOT_MAIL_URL +"&loc=" + langCode + "_" + countryCode;
+        jumpConfig.captureRecoverUri = STAGE_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
 
         jumpConfig.captureLocale = locale;
 
@@ -134,14 +96,14 @@ public class StaginglRegistrationSettings extends RegistrationSettings {
         mPreferredLangCode = langCode;
 
         try {
-            if (mIsIntialize) {
-                Jump.init(mContext, jumpConfig);
-            } else {
+            Jump.reinitialize(mContext, jumpConfig);
+        } catch (Exception e) {
+            if(e instanceof EOFException){
+                Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE EOFException");
+                //clear flow file
+                mContext.deleteFile("jr_capture_flow");
                 Jump.reinitialize(mContext, jumpConfig);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE");
         }
 
     }

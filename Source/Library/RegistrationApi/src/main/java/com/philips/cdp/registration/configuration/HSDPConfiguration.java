@@ -1,9 +1,15 @@
 package com.philips.cdp.registration.configuration;
 
+import android.support.annotation.Nullable;
+
+import com.philips.cdp.registration.ui.utils.RegUtility;
+
 import java.util.HashMap;
 
 
 public class HSDPConfiguration {
+
+
     private HashMap<Configuration, HSDPInfo> hsdpInfos = new HashMap<>();
 
     /**
@@ -44,4 +50,69 @@ public class HSDPConfiguration {
         hsdpInfos.put(configuration, hsdpInfo);
     }
 
+
+    public boolean isHsdpFlow() {
+        HSDPConfiguration hsdpConfiguration = RegistrationConfiguration.getInstance().getHsdpConfiguration();
+        if (hsdpConfiguration == null) {
+            return false;
+        }
+
+        if (hsdpConfiguration.getHsdpInfos().size() == 0) {
+            return false;
+        }
+        String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+        if (environment == null) {
+            return false;
+        }
+
+        HSDPInfo hsdpInfo = hsdpConfiguration.getHSDPInfo(RegUtility.getConfiguration(environment));
+        if (hsdpInfo == null) {
+            throw new RuntimeException("HSDP configuration is not configured for " + environment + " environment ");
+        }
+        if (null != hsdpConfiguration && null != hsdpInfo) {
+
+            String exception = buildException(hsdpInfo);
+
+            if (null != exception) {
+                throw new RuntimeException("HSDP configuration is not configured for " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment() + " environment for " + exception.toString().substring(4));
+            }
+        }
+
+
+        return (null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
+                && null != hsdpInfo.getSecretId()
+                && null != hsdpInfo.getBaseURL());
+    }
+
+    private String buildException(HSDPInfo hsdpInfo) {
+        String exception = null;
+
+        if (hsdpInfo.getApplicationName() == null) {
+            exception += "Application Name";
+        }
+
+        if (hsdpInfo.getSharedId() == null) {
+            if (null != exception) {
+                exception += ",shared key ";
+            } else {
+                exception += "shared key ";
+            }
+        }
+        if (hsdpInfo.getSecretId() == null) {
+            if (null != exception) {
+                exception += ",Secret key ";
+            } else {
+                exception += "Secret key ";
+            }
+        }
+
+        if (hsdpInfo.getBaseURL() == null) {
+            if (null != exception) {
+                exception += ",Base Url ";
+            } else {
+                exception += "Base Url ";
+            }
+        }
+        return exception;
+    }
 }

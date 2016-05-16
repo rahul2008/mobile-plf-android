@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -30,13 +28,13 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XPasswordHint;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.XUserName;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
-import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -44,7 +42,7 @@ import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        TraditionalRegistrationHandler, onUpdateListener, NetworStateListener, EventListener, CompoundButton.OnCheckedChangeListener {
+        TraditionalRegistrationHandler, onUpdateListener, NetworStateListener, EventListener, XCheckBox.OnCheckedChangeListener {
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -56,9 +54,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private Button mBtnCreateAccount;
 
-    private CheckBox mCbTerms;
+    private XCheckBox mCbTerms;
 
-    private CheckBox mCbAcceptTerms;
+    private XCheckBox mCbAcceptTerms;
 
     private User mUser;
 
@@ -110,6 +108,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         View view = inflater.inflate(R.layout.fragment_create_account, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
+
         initUI(view);
         handleOrientation(view);
         return view;
@@ -190,17 +189,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         applyParams(config, mTvEmailExist, width);
     }
 
-
-
-
     @Override
     protected void handleOrientation(View view) {
-            handleOrientationOnView(view);
+        handleOrientationOnView(view);
     }
 
     @Override
     public void onClick(View v) {
-
         if (v.getId() == R.id.btn_reg_register) {
             RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
             if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
@@ -230,14 +225,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mRlCreateActtBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_singin_options);
 
         mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_register);
-        mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
-        FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
-        mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
-
+        mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_register_terms);
+        mCbTerms.setOnClickListener(this);
+        mCbAcceptTerms = (XCheckBox) view.findViewById(R.id.cb_reg_accept_terms);
+        mCbAcceptTerms.setOnClickListener(this);
         mTvEmailExist = (TextView) view.findViewById(R.id.tv_reg_email_exist);
-
         TextView acceptTermsView = (TextView) view.findViewById(R.id.tv_reg_accept_terms);
-        mCbAcceptTerms = (CheckBox) view.findViewById(R.id.cb_reg_accept_terms);
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
 
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
@@ -319,7 +312,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
 
-                mRegError.hideError();
+            mRegError.hideError();
 
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
@@ -340,6 +333,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onRegisterSuccess() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleRegistrationSuccess();
+            }
+        });
+    }
+
+    private void handleRegistrationSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
             RegPreferenceUtility.storePreference(mContext, mEmail, true);
@@ -366,10 +368,20 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
-    public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void onRegisterFailedWithFailure(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleRegisterFailedWithFailure(userRegistrationFailureInfo);
+            }
+        });
+    }
+
+    private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
 
-        if (userRegistrationFailureInfo.getError().code == EMAIL_ADDRESS_ALREADY_USE_CODE) {
+        if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
             mEtEmail.setErrDescription(mContext.getResources().getString(R.string.EmailAlreadyUsed_TxtFieldErrorAlertMsg));
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
@@ -377,11 +389,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mPasswordHintView.setVisibility(View.GONE);
             mTvEmailExist.setVisibility(View.VISIBLE);
         }
-        if (userRegistrationFailureInfo.getError().code != EMAIL_ADDRESS_ALREADY_USE_CODE) {
+        if (userRegistrationFailureInfo.getErrorCode() != EMAIL_ADDRESS_ALREADY_USE_CODE) {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
-        trackActionRegisterError(userRegistrationFailureInfo.getError().code);
+        if(userRegistrationFailureInfo.getErrorCode() == -1){
+            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+        }
+        trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
         mPbSpinner.setVisibility(View.INVISIBLE);
         mBtnCreateAccount.setEnabled(false);
     }
@@ -393,7 +408,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onUpadte() {
-        updateUiStatus();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUiStatus();
+            }
+        });
     }
 
     private void updateUiStatus() {
@@ -429,8 +449,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton viewId, boolean isChecked) {
-        int id = viewId.getId();
+    public void onCheckedChanged(View view, boolean isChecked) {
+        int id = mCbAcceptTerms.getId();
         if (id == R.id.cb_reg_accept_terms) {
             if (isChecked) {
                 mRegAccptTermsError.setVisibility(View.GONE);

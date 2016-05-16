@@ -9,6 +9,7 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
+import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
@@ -48,6 +49,9 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 	public void onFailure(SignInError error) {
 		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 		userRegistrationFailureInfo.setError(error.captureApiError);
+		if(error.captureApiError.code == -1){
+			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+		}
 		handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
 		userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
 		mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);

@@ -25,6 +25,7 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
@@ -253,7 +254,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     private void handleUiErrorState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
                 mRegError.setError(getString(R.string.NoNetworkConnection));
@@ -268,7 +269,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     private void updateUiStatus() {
         RLog.i("MergeSocialToSocialAccountFragment", "updateUiStatus");
         if (NetworkUtility.isNetworkAvailable(mContext)
-                && RegistrationHelper.getInstance().isJanrainIntialized()) {
+                && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             mBtnMerge.setEnabled(true);
             mBtnCancel.setEnabled(true);
             mRegError.hideError();
@@ -300,7 +301,12 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void onUpadte() {
-        updateUiStatus();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUiStatus();
+            }
+        });
     }
 
     @Override
@@ -324,14 +330,30 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void onLoginSuccess() {
-        hideMergeSpinner();
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
-        launchWelcomeFragment();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                hideMergeSpinner();
+                trackActionStatus(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
+                launchWelcomeFragment();
+            }
+        });
     }
 
     @Override
-    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleLoginFaiedWithError(userRegistrationFailureInfo);
+            }
+        });
+
+    }
+
+    private void handleLoginFaiedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onLoginFailedWithError");
         hideMergeSpinner();
         if (null != userRegistrationFailureInfo && null != userRegistrationFailureInfo.getError()) {
@@ -343,30 +365,51 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-        RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onLoginFailedWithTwoStepError");
-        hideMergeSpinner();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onLoginFailedWithTwoStepError");
+                hideMergeSpinner();
+            }
+        });
     }
 
     @Override
     public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider
             , String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-        RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onLoginFailedWithMergeFlowError");
-        hideMergeSpinner();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onLoginFailedWithMergeFlowError");
+                hideMergeSpinner();
+            }
+        });
+
     }
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
-        RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onContinueSocialProviderLoginSuccess");
-        hideMergeSpinner();
-        launchWelcomeFragment();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onContinueSocialProviderLoginSuccess");
+                hideMergeSpinner();
+                launchWelcomeFragment();
+            }
+        });
     }
 
     @Override
-    public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onContinueSocialProviderLoginFailure");
-        hideMergeSpinner();
-        if (null != userRegistrationFailureInfo && null != userRegistrationFailureInfo.getError()) {
-            trackActionLoginError(userRegistrationFailureInfo.getError().code);
-        }
+    public void onContinueSocialProviderLoginFailure(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onContinueSocialProviderLoginFailure");
+                hideMergeSpinner();
+                if (null != userRegistrationFailureInfo && null != userRegistrationFailureInfo.getError()) {
+                    trackActionLoginError(userRegistrationFailureInfo.getError().code);
+                }
+            }
+        });
     }
 }

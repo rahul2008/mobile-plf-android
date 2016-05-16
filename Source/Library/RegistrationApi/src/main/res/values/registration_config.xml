@@ -96,4 +96,25 @@
     <color name="reg_password_mask_enable_ic_color">@android:color/black</color>
     <color name="reg_password_mask_disable_ic_color">#C4C4C4</color>
 
+
+    <!-- Check box border color-->
+    <!--<color name="reg_check_box_color">#E88200</color>-->
+    <!-- Back arrow color-->
+    <color name="reg_back_arrow_color">#FFFFFF</color>
+
+    <!-- Check box border color -->
+    <color name="reg_check_box_border_color">#003377</color>
+
+    <!-- Check box tick color -->
+    <color name="reg_check_box_tick_color">#003377</color>
+
+    <!-- Check error symbol  color -->
+    <color name="reg_error_symbol_color">#E88200</color>
+
+    <!-- Check error exclamation symbol  color -->
+    <color name="reg_exclamation_color">#FFFFFF</color>
+
+
+    <color name="reg_provider_icon_color">#FFFFFF</color>
+
 </resources>

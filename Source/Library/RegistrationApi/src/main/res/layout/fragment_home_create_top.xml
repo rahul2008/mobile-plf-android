@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
@@ -125,13 +124,15 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:id="@+id/ll_root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/reg_social_to_social_ui_blocker_bg"
         android:gravity="center"
-        android:visibility="invisible"
-        android:background="@color/reg_social_to_social_ui_blocker_bg">
+        android:visibility="invisible">
+
         <ProgressBar
             android:layout_width="@dimen/reg_btn_height"
             android:layout_height="@dimen/reg_btn_height"
@@ -139,6 +140,5 @@
 
             />
     </LinearLayout>
-
 
 </RelativeLayout>

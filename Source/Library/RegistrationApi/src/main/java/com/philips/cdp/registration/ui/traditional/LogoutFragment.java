@@ -1,22 +1,17 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -32,21 +27,22 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class LogoutFragment extends RegistrationBaseFragment implements OnClickListener,
-        UpdateReceiveMarketingEmailHandler, OnCheckedChangeListener, NetworStateListener, LogoutHandler {
+        UpdateReceiveMarketingEmailHandler, NetworStateListener, LogoutHandler, XCheckBox.OnCheckedChangeListener {
 
     private TextView mTvWelcome;
 
     private TextView mTvSignInEmail;
 
-    private CheckBox mCbTerms;
+    private XCheckBox mCbTerms;
 
     private LinearLayout mLlContinueBtnContainer;
 
@@ -72,11 +68,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     private FrameLayout mFlReceivePhilipsNewsContainer;
 
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onAttach");
-        super.onAttach(activity);
-    }
+    public static final int BAD_RESPONSE_ERROR_CODE = 7008;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -176,8 +168,8 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         consumeTouch(view);
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
         mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_continue_id);
-        mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
-        FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
+        mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
+        //FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
         mCbTerms.setVisibility(view.VISIBLE);
         mCbTerms.setChecked(mUser.getUserInstance(mContext).getReceiveMarketingEmail());
@@ -220,12 +212,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mUser.logout(this);
     }
 
-
-    @Override
-    public void onCheckedChanged(
-            CompoundButton buttonView, boolean isChecked) {
-        handleUpdate();
-    }
+    
 
     private void handleUpdate() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -246,6 +233,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mPbWelcomeCheck.setVisibility(View.VISIBLE);
         mCbTerms.setEnabled(false);
         mBtnLogOut.setEnabled(false);
+
     }
 
     private void updateUser() {
@@ -254,12 +242,17 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     @Override
     public void onUpdateReceiveMarketingEmailSuccess() {
-        hideProgressBar();
-        if (mCbTerms.isChecked()) {
-            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
-        } else {
-            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
-        }
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                hideProgressBar();
+                if (mCbTerms.isChecked()) {
+                    trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
+                } else {
+                    trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
+                }
+            }
+        });
     }
 
     private void hideProgressBar() {
@@ -269,17 +262,32 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     @Override
-    public void onUpdateReceiveMarketingEmailFailedWithError(int error) {
+    public void onUpdateReceiveMarketingEmailFailedWithError(final int error) {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleUpdateReceiveMarket(error);
+            }
+        });
+
+    }
+
+    private void handleUpdateReceiveMarket(int error) {
         hideProgressBar();
-        if(error== Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)){
-            getRegistrationFragment().replaceWithHomeFragment();
-            RegistrationHelper.getInstance().getUserRegistrationListener()
-                    .notifyOnLogoutSuccessWithInvalidAccessToken();
+        if (error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+            if (getRegistrationFragment() != null) {
+                getRegistrationFragment().replaceWithHomeFragment();
+            }
+            return;
+        }
+        if(error == -1 || error == BAD_RESPONSE_ERROR_CODE){
+            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
             return;
         }
         mCbTerms.setOnCheckedChangeListener(null);
         mCbTerms.setChecked(!mCbTerms.isChecked());
-        mCbTerms.setOnCheckedChangeListener(this);
+        mCbTerms.setOnCheckedChangeListener(LogoutFragment.this);
     }
 
     @Override
@@ -292,24 +300,24 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         return R.string.Account_Setting_Titletxt;
     }
 
-    private Handler handler = new Handler();
     @Override
     public void onLogoutSuccess() {
-        handler.post(new Runnable() {
+
+        handleOnUIThread(new Runnable() {
             @Override
             public void run() {
                 trackPage(AppTaggingPages.HOME);
                 hideLogoutSpinner();
                 getRegistrationFragment().replaceWithHomeFragment();
-                RegistrationHelper.getInstance().getUserRegistrationListener()
-                        .notifyOnUserLogoutSuccess();
             }
         });
+
     }
 
     @Override
     public void onLogoutFailure(int responseCode, final String message) {
-        handler.post(new Runnable() {
+
+        handleOnUIThread(new Runnable() {
             @Override
             public void run() {
                 if (mBtnLogOut.getVisibility() == View.VISIBLE) {
@@ -318,8 +326,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
                 }
                 hideLogoutSpinner();
                 mRegError.setError(message);
-                RegistrationHelper.getInstance().getUserRegistrationListener()
-                        .notifyOnUserLogoutFailure();
             }
         });
     }
@@ -327,16 +333,18 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     private void showLogoutSpinner() {
         mPbLogoutFromBegin.setVisibility(View.VISIBLE);
         mBtnLogOut.setEnabled(false);
+        mCbTerms.setEnabled(false);
     }
 
     private void hideLogoutSpinner() {
         mPbLogoutFromBegin.setVisibility(View.GONE);
         mBtnLogOut.setEnabled(true);
+        mCbTerms.setEnabled(true);
     }
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
                 mRegError.hideError();
@@ -363,4 +371,9 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
         }
     };
+
+    @Override
+    public void onCheckedChanged(View view, boolean checked) {
+        handleUpdate();
+    }
 }

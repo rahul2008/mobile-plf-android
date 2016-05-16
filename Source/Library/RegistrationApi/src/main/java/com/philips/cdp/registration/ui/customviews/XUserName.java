@@ -23,7 +23,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	private Context mContext;
 
-	private ImageView mIvErrAlert;
+	private TextView mIvErrAlert;
 
 	private EditText mEtUserName;
 
@@ -61,7 +61,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		mEtUserName.setOnFocusChangeListener(this);
 		mEtUserName.addTextChangedListener(this);
 
-		mIvErrAlert = (ImageView) findViewById(R.id.iv_reg_name_error_alert);
+		mIvErrAlert = (TextView) findViewById(R.id.iv_reg_name_error_alert);
 		mIvErrAlert.setOnClickListener(this);
 		mRlEtName = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
 

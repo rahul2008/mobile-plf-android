@@ -1,13 +1,14 @@
 
 package com.philips.cdp.registration.settings;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
+import com.janrain.android.capture.Capture;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+
+import java.io.EOFException;
 
 public class ProdRegistrationSettings extends RegistrationSettings {
 
@@ -30,52 +31,12 @@ public class ProdRegistrationSettings extends RegistrationSettings {
 
     private static String PROD_REGISTER_COPPA_ACTIVATION_URL = "https://secure.philips.com/ps/user-registration/consent.html";
 
-    private String mCountryCode;
-
-    private String mLanguageCode;
-
-    String mCaptureClientId = null;
-
-    String mLocale = null;
-
-    boolean mIsIntialize = false;
-
-    private Context mContext = null;
-
     private String LOG_TAG = "RegistrationAPI";
 
     private static String PROD_PRODUCT_REGISTER_URL = "https://www.philips.co.uk/prx/registration/";
 
     private static String PROD_PRODUCT_REGISTER_LIST_URL = "https://www.philips.co.uk/prx/registration.registeredProducts/";
 
-    @Override
-    public void intializeRegistrationSettings(Context context, String captureClientId,
-                                              String microSiteId, String registrationType, boolean isintialize, String locale) {
-        SharedPreferences pref = context.getSharedPreferences(REGISTRATION_API_PREFERENCE, 0);
-        Editor editor = pref.edit();
-        editor.putString(MICROSITE_ID, microSiteId);
-        editor.commit();
-
-        mCaptureClientId = captureClientId;
-        mLocale = locale;
-        mIsIntialize = isintialize;
-        mContext = context;
-
-        String localeArr[] = locale.split("_");
-
-        if (localeArr != null && localeArr.length > 1) {
-            mLanguageCode = localeArr[0].toLowerCase();
-            mCountryCode = localeArr[1].toUpperCase();
-        } else {
-            mLanguageCode = "en";
-            mCountryCode = "US";
-        }
-
-        LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext, mLanguageCode,
-                mCountryCode);
-        Log.i("registration", "" + localeMatchHelper);
-
-    }
 
     @Override
     public void initialiseConfigParameters(String locale) {
@@ -119,27 +80,27 @@ public class ProdRegistrationSettings extends RegistrationSettings {
             countryCode = "US";
         }
 
-        if (RegistrationHelper.getInstance().isCoppaFlow()) {
+        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
             jumpConfig.captureRedirectUri = PROD_REGISTER_COPPA_ACTIVATION_URL;
         } else {
             jumpConfig.captureRedirectUri = PROD_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
         }
 
-        jumpConfig.captureRecoverUri = PROD_REGISTER_FORGOT_MAIL_URL +"&loc=" + langCode + "_" + countryCode;
+        jumpConfig.captureRecoverUri = PROD_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
         jumpConfig.captureLocale = locale;
 
         mPreferredCountryCode = countryCode;
         mPreferredLangCode = langCode;
 
         try {
-            if (mIsIntialize) {
-                Jump.init(mContext, jumpConfig);
-            } else {
+            Jump.reinitialize(mContext, jumpConfig);
+        } catch (Exception e) {
+            if(e instanceof EOFException){
+                Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE EOFException");
+                //clear flow file
+                mContext.deleteFile("jr_capture_flow");
                 Jump.reinitialize(mContext, jumpConfig);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE");
         }
     }
 

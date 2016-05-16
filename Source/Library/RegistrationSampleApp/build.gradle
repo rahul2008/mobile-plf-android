@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.artifactory-upload'
 
 buildscript {
     repositories {
-        jcenter()
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
@@ -27,8 +27,8 @@ repositories {
 
 dependencies {
     compile(group:'adobeMobileLibrary', name:'adobeMobileLibrary', version:'4.5.1')
-    compile(group: 'com.philips.cdp', name: 'Tagging', version: '1.0.0', ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.0', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.0.0', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.1', ext: 'aar')
 }
 
 apply plugin: 'cdpSCM'
@@ -74,14 +74,17 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFile 'proguard-rules.pro'
         }
 
         debug {
+            minifyEnabled true
             debuggable true
             testCoverageEnabled true
+            proguardFile 'proguard-rules.pro'
+
         }
     }
 
@@ -112,6 +115,7 @@ artifactory {
             publishPom = true
             publishIvy = false
             publishBuildInfo = true
+            maven = true
         }
     }
     resolve {

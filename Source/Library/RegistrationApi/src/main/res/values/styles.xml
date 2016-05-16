@@ -139,7 +139,4 @@
         <item name="android:textSize">@dimen/reg_password_hint_correct_text_size</item>
     </style>
 
-
-
-
 </resources>

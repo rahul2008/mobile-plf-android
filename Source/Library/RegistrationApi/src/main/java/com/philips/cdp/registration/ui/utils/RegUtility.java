@@ -10,15 +10,16 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
-import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by 310190722 on 8/6/2015.
@@ -151,5 +152,19 @@ public class RegUtility {
             return Configuration.TESTING;
 
         return Configuration.EVALUATION;
+    }
+
+    public static void checkIsValidSignInProviders(HashMap<String, ArrayList<String>> providers) {
+        if(providers!=null){
+            for (Map.Entry<String, ArrayList<String>> entry : providers.entrySet()) {
+                String countryKeyCode = entry.getKey();
+                ArrayList<String> value = entry.getValue();
+                for(String val : value){
+                    if(providers.get(countryKeyCode).contains(SocialProvider.TWITTER)){
+                        throw new RuntimeException( SocialProvider.TWITTER +" Provider is not supporting");
+                    }
+                }
+            }
+        }
     }
 }

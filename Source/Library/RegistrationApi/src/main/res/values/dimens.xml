@@ -91,6 +91,36 @@
     <dimen name="reg_password_hint_hor_gap">6dip</dimen>
     <dimen name="reg_password_hint_correct_text_size">12sp</dimen>
 
+    <!-- font Icon size -->
+    <dimen name="reg_provider_icon_size">25sp</dimen>
+    <dimen name="reg_error_alert_size">20sp</dimen>
+    <dimen name="reg_back_arrow_size">24sp</dimen>
 
+
+    <!-- UI KIT font Icon size -->
+    <dimen name="reg_button_corner_rounding">2dp</dimen>
+    <dimen name="reg_button_stroke_width">1dp</dimen>
+    <dimen name="reg_button_height">44dp</dimen>
+    <dimen name="reg_button_padding_sides">20dp</dimen>
+    <dimen name="reg_button_text_size">14sp</dimen>
+    <dimen name="reg_action_button_margin">16dp</dimen>
+
+
+    <dimen name="reg_notification_label_square_round_width_small">27dp</dimen>
+    <dimen name="reg_notification_label_square_round_height_small">20dp</dimen>
+    <dimen name="reg_checkbox_padding_left">10dip</dimen>
+    <dimen name="reg_arrow_padding">5dip</dimen>
+    <dimen name="reg_x_checkbox_width">26dip</dimen>
+    <dimen name="reg_x_checkbox_height">26dip</dimen>
+
+    <dimen name="reg_notification_label_square_round_width">45dp</dimen>
+    <dimen name="reg_notification_label_square_round_height">33dp</dimen>
+    <dimen name="reg_notification_label_square_round_padding">5dp</dimen>
+
+    <dimen name="reg_notification_label_default_radius">33dp</dimen>
+    <dimen name="reg_notification_label_square_round_textSize_small">14sp</dimen>
+    <dimen name="reg_notification_label_small_circle_radius">20dp</dimen>
+
+    <dimen name="reg_check_size">11dp</dimen>
 
 </resources>

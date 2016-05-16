@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
@@ -42,9 +41,10 @@
                     android:visibility="gone" />
             </LinearLayout>
 
-            <View style="@style/reg_line"
+            <View
                 android:id="@+id/reg_view_line"
-                android:visibility="gone"/>
+                style="@style/reg_line"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/ll_reg_accept_terms"
@@ -54,16 +54,16 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin">
 
-                <CheckBox
+                <com.philips.cdp.registration.ui.customviews.XCheckBox
                     android:id="@+id/cb_reg_accept_terms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/reg_checkbox_selector"
                     android:gravity="center_vertical"
-                    android:paddingLeft="10dip"
+                    android:paddingLeft="@dimen/reg_checkbox_padding_left"
                     android:paddingRight="0dip"
                     android:textColor="@color/reg_text_heading_one_color"
-                    android:textSize="@dimen/reg_title_text_size_medium" />
+                    android:textSize="@dimen/reg_title_text_size_medium"></com.philips.cdp.registration.ui.customviews.XCheckBox>
+
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_accept_terms"
@@ -83,8 +83,9 @@
                 android:paddingRight="@dimen/reg_layout_margin"
                 android:visibility="gone" />
 
-            <View style="@style/reg_line"
-                android:id="@+id/reg_view_accep_terms_line"/>
+            <View
+                android:id="@+id/reg_view_accep_terms_line"
+                style="@style/reg_line" />
 
             <LinearLayout
                 android:id="@+id/ll_reg_periodic_offers_check"
@@ -94,16 +95,16 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin">
 
-                <CheckBox
+                <com.philips.cdp.registration.ui.customviews.XCheckBox
                     android:id="@+id/cb_reg_receive_philips_news"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/reg_checkbox_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dip"
                     android:paddingRight="0dip"
                     android:textColor="@color/reg_text_heading_one_color"
-                    android:textSize="@dimen/reg_title_text_size_medium" />
+                    android:textSize="@dimen/reg_title_text_size_medium"></com.philips.cdp.registration.ui.customviews.XCheckBox>
+
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_philips_news"
@@ -115,8 +116,9 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/reg_recieve_email_line"
                 style="@style/reg_line"
-                android:layout_marginBottom="@dimen/reg_margin_bottom" android:id="@+id/reg_recieve_email_line" />
+                android:layout_marginBottom="@dimen/reg_margin_bottom" />
 
             <RelativeLayout
                 android:id="@+id/rl_reg_btn_continue_container"

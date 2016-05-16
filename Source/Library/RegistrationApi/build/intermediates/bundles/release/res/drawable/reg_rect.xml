@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle" >
-
-    <solid android:color="@color/reg_error_box_color" />
-    <corners android:radius="5dp" />
-
-</shape><!-- From: file:/C:/Users/310221907/Desktop/Benit/PINS/MySourceTreeWork/hor-registration-android/Source/Library/RegistrationApi/src/main/res/drawable/reg_rect.xml -->

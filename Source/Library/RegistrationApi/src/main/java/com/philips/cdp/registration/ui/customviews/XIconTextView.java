@@ -24,10 +24,7 @@ public class XIconTextView extends TextView {
 
     public XIconTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         applyAttributes(this, iconFontAssetName);
-
-
     }
 
     private void applyAttributes(TextView view, String fontAssetName) {
