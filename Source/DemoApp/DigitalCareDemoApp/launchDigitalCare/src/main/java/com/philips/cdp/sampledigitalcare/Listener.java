@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcareapp;
+package com.philips.cdp.sampledigitalcare;
 
 /**
  * Created by 310190678 on 20-Jan-16.

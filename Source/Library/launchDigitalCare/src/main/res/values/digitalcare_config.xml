@@ -45,11 +45,11 @@
     <!--
         &lt;!&ndash; List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions &ndash;&gt; -->
     <array name="main_menu_title">
-        <item>@string/view_product_details</item>
+        <!-- <item>@string/view_product_details</item>-->
         <item>@string/view_faq</item>
         <item>@string/contact_us</item>
-        <item>@string/find_philips_near_you</item>
-        <item>@string/feedback</item>
+        <!--  <item>@string/find_philips_near_you</item>-->
+        <!--<item>@string/feedback</item>-->
         <item>@string/myphilips_CC</item>
         <item>@string/Change_Selected_Product</item>
     </array>
@@ -69,7 +69,7 @@
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->
     <string-array name="product_menu_title" translatable="false">
-      <!--  <item>@string/product_open_manual</item>-->
+        <!--  <item>@string/product_open_manual</item>-->
         <item>@string/product_download_manual</item>
         <item>@string/product_information</item>
     </string-array>
@@ -82,8 +82,8 @@
 
     <!-- List of social service providers image names, please follow naming conventions -->
     <string-array name="social_service_provider_menu_resources" translatable="false">
-        <item>@drawable/dc_twitter</item>
-        <item>@drawable/dc_facebook</item>
+        <!--  <item>@drawable/dc_twitter</item>
+          <item>@drawable/dc_facebook</item>-->
     </string-array>
 
     <!-- Facebook product support page -->
