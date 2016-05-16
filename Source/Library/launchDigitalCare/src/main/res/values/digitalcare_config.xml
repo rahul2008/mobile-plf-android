@@ -76,14 +76,14 @@
 
     <!-- List of social service providers localised resource keys, please follow naming conventions -->
     <string-array name="social_service_provider_menu_title" translatable="false">
-        <item>@string/twitter</item>
-        <item>@string/facebook</item>
+        <!--  <item>@string/twitter</item>
+          <item>@string/facebook</item>-->
     </string-array>
 
     <!-- List of social service providers image names, please follow naming conventions -->
     <string-array name="social_service_provider_menu_resources" translatable="false">
-        <!--  <item>@drawable/dc_twitter</item>
-          <item>@drawable/dc_facebook</item>-->
+        <item>@drawable/dc_twitter</item>
+        <item>@drawable/dc_facebook</item>
     </string-array>
 
     <!-- Facebook product support page -->
