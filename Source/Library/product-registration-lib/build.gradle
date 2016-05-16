@@ -110,7 +110,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.0.rc_3"
+        versionName "1.0.0"
         testApplicationId "com.philips.cdp.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
@@ -160,7 +160,7 @@ dependencies {
         transitive = true
     }
 
-    compile('com.philips.cdp:registrationApi:5.0.0-rc.10@aar') {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '6.0.0', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
