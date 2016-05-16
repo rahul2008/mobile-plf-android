@@ -4,17 +4,18 @@
       "Development": "fgpfgkdmwnkkqya2bjsk43fvt2y7vr9x",
       "Testing": "xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7",
       "Evaluation": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-      "Production": "8ksbmshunmccyynzrh5bajdg33em3ypv"
+      "Production": "8ksbmshunmccyynzrh5bajdg33em3ypv",
+      "Staging": "f2stykcygm7enbwfw2u9fbg6h6syb8yd"
     }
   },
   "PILConfiguration": {
     "MicrositeID": 77000,
-    "RegistrationEnvironment": "Evaluation",
+    "RegistrationEnvironment": "Staging",
     "CampaignID": "CL20150501_PC_TB_COPPA"
   },
   "Flow": {
     "EmailVerificationRequired": true,
-    "TermsAndConditionsAcceptanceRequired": false,
+    "TermsAndConditionsAcceptanceRequired": true,
     "MinimumAgeLimit": {
       "NL": 16,
       "GB": 16,

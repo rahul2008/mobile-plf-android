@@ -5,23 +5,26 @@ import android.app.Activity;
 
 import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaListener;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserRegistrationCoppaHelper {
 
-    private static UserRegistrationCoppaHelper eventHelper;
+    private static volatile UserRegistrationCoppaHelper eventHelper;
 
-    private List<UserRegistrationCoppaListener> userRegistrationListeners;
+    private CopyOnWriteArrayList<UserRegistrationCoppaListener> userRegistrationListeners;
 
     private UserRegistrationCoppaHelper() {
-        userRegistrationListeners = Collections.synchronizedList(new ArrayList<UserRegistrationCoppaListener>());
+        userRegistrationListeners = new CopyOnWriteArrayList<UserRegistrationCoppaListener>();
     }
 
     public static synchronized UserRegistrationCoppaHelper getInstance() {
         if (eventHelper == null) {
-            eventHelper = new UserRegistrationCoppaHelper();
+            synchronized (UserRegistrationCoppaHelper.class) {
+                if (eventHelper == null) {
+                    eventHelper = new UserRegistrationCoppaHelper();
+                }
+            }
+
         }
         return eventHelper;
     }
