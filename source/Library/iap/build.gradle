@@ -132,7 +132,6 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.17'
     compile 'com.android.support:design:23.1.1'
     compile 'com.google.code.gson:gson:2.2.4'
-//    compile(name: 'prx-release', ext: 'aar')
     compile 'com.android.support:cardview-v7:+'
     compile 'com.philips.cdp:prx:2.0.0-rc.7'
     compile 'com.philips.cdp:uikitLib:3.1.0'
@@ -141,7 +140,7 @@ dependencies {
     // Tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
-    compile('com.philips.cdp:registrationApi:5.0.0-rc.10@aar') {
+    compile('com.philips.cdp:registrationApi:6.0.0@aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
