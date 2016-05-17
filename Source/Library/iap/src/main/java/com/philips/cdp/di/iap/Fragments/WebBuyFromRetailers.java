@@ -5,9 +5,9 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
-import android.view.View;
 
-import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
@@ -27,6 +27,7 @@ public class WebBuyFromRetailers extends WebFragment {
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_WEB_PAGE_NAME);
         setTitle(getArguments().getString(IAPConstant.IAP_STORE_NAME));
     }
 
