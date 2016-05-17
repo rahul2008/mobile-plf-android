@@ -45,8 +45,6 @@ public class UserWithProducts {
     private ErrorHandler errorHandler;
     private String uuid = "";
     private ProdRegListener appListener;
-    private boolean requiresSerialNumber;
-    private boolean requiresPurchaseDate;
 
     UserWithProducts(final Context context, final User user, final ProdRegListener appListener) {
         this.mContext = context;
@@ -232,7 +230,6 @@ public class UserWithProducts {
     protected boolean validatePurchaseDateFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct, final ProdRegListener listener) {
         final String purchaseDate = registeredProduct.getPurchaseDate();
         if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
-            requiresPurchaseDate = true;
             if (purchaseDate != null && purchaseDate.length() > 0) {
                 return true;
             } else {
@@ -240,8 +237,7 @@ public class UserWithProducts {
                 listener.onProdRegFailed(registeredProduct, getUserProduct());
                 return false;
             }
-        } else
-            requiresPurchaseDate = false;
+        }
         return true;
     }
 
@@ -258,11 +254,8 @@ public class UserWithProducts {
 
     protected boolean validateSerialNumberFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
-            requiresSerialNumber = true;
             if (processSerialNumber(data, registeredProduct, appListener))
                 return false;
-        } else {
-            requiresSerialNumber = false;
         }
         return true;
     }
@@ -270,8 +263,6 @@ public class UserWithProducts {
     @NonNull
     protected RegistrationRequest getRegistrationRequest(final Context context, final RegisteredProduct registeredProduct) {
         RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), registeredProduct.getSerialNumber(), getUser().getAccessToken());
-        registrationRequest.setRequiresSerialNumber(requiresSerialNumber);
-        registrationRequest.setRequiresPurchaseDate(requiresPurchaseDate);
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
         final String MICRO_SITE_ID = "MS";
