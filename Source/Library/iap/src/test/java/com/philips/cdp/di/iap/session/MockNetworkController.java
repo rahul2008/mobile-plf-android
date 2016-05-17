@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.hybris.HybrisNetworkEssentials;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
@@ -23,14 +24,16 @@ public class MockNetworkController extends NetworkController {
     private IAPJsonRequest mIAPJSONRequest;
 
     public MockNetworkController(final Context context) {
-        super(context);
+        super(context, new HybrisNetworkEssentials());
         mMockedContext = mock(Context.class);
     }
 
     @Override
     void initHurlStack(final Context context) {
-        mIAPHurlStack = new MockIAPHurlStack(oAuthHandler);
-        mIAPHurlStack.setContext(mMockedContext);
+        MockIAPHurlStack mockIAPHurlStack = new MockIAPHurlStack(oAuthHandler);
+        mockIAPHurlStack.setContext(mMockedContext);
+
+        mIAPHurlStack = mockIAPHurlStack.getHurlStack();
     }
 
     @Override
