@@ -42,8 +42,6 @@ public class RegistrationRequest extends PrxRequest {
     private String PURCHASE_DATE = "purchaseDate";
     private String SEND_EMAIL = "sendEmail";
     private String shouldSendEmailAfterRegistration = "true";
-    private boolean requiresSerialNumber;
-    private boolean requiresPurchaseDate;
 
     public RegistrationRequest(String ctn, final String serialNumber, String accessToken) {
         this.ctn = ctn;
@@ -205,12 +203,12 @@ public class RegistrationRequest extends PrxRequest {
 
     private void validateSerialNumber(final Map<String, String> params) {
         final String productSerialNumber = getProductSerialNumber();
-        if (requiresSerialNumber && productSerialNumber != null && productSerialNumber.length() > 0)
+        if (productSerialNumber != null && productSerialNumber.length() > 0)
             params.put(PRODUCT_SERIAL_NUMBER, productSerialNumber);
     }
 
     private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
-        if (requiresPurchaseDate && purchaseDate != null && purchaseDate.length() > 0)
+        if (purchaseDate != null && purchaseDate.length() > 0)
             params.put(PURCHASE_DATE, purchaseDate);
     }
 
@@ -236,21 +234,5 @@ public class RegistrationRequest extends PrxRequest {
         }
         Log.d(getClass() + "", url);
         return url;
-    }
-
-    public boolean isRequiresSerialNumber() {
-        return requiresSerialNumber;
-    }
-
-    public void setRequiresSerialNumber(final boolean requiresSerialNumber) {
-        this.requiresSerialNumber = requiresSerialNumber;
-    }
-
-    public boolean isRequiresPurchaseDate() {
-        return requiresPurchaseDate;
-    }
-
-    public void setRequiresPurchaseDate(final boolean requiresPurchaseDate) {
-        this.requiresPurchaseDate = requiresPurchaseDate;
     }
 }
