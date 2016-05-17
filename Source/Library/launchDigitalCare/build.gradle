@@ -9,7 +9,7 @@ repositories {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.philips.cdp.sampledigitalcare"
@@ -70,13 +70,13 @@ android {
     productFlavors {
         simulator {
             applicationId 'com.philips.cdp.sampledigitalcare'
-            versionCode 141
-            versionName "5.0.0"
+            versionCode 140
+            versionName "4.2.0"
         }
         device {
             applicationId 'com.philips.cdp.sampledigitalcare'
-            versionCode 141
-            versionName "5.0.0"
+            versionCode 140
+            versionName "4.2.0"
         }
     }
 
