@@ -8,6 +8,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 
 public class ControllerFactory {
     private static ControllerFactory mController = new ControllerFactory();
@@ -31,7 +32,7 @@ public class ControllerFactory {
         return true;
     }
 
-    private boolean loadLocalData() {
+    public boolean loadLocalData() {
         return mRequestCode == NetworkEssentialsFactory.LOAD_LOCAL_DATA;
     }
 
@@ -42,6 +43,17 @@ public class ControllerFactory {
             //Still need to implement
         } else {
             api = new ShoppingCartPresenter(context, listener, fragmentManager);
+        }
+        return api;
+    }
+
+    public ProductCatalogAPI getProductCatalogPresenter(Context context, ProductCatalogPresenter.LoadListener listener,
+                                                        FragmentManager fragmentManager) {
+        ProductCatalogAPI api = null;
+        if (loadLocalData()) {
+            //Still need to implement
+        } else {
+            api = new ProductCatalogPresenter(context, listener, fragmentManager);
         }
         return api;
     }

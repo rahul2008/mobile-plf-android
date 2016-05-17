@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
+import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -23,7 +24,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class ProductCatalogPresenter {
+public class ProductCatalogPresenter implements ProductCatalogAPI {
 
     private Context mContext;
     private ArrayList<ProductCatalogData> mProductData;
@@ -73,6 +74,7 @@ public class ProductCatalogPresenter {
     }
 
 
+    @Override
     public void getProductCatalog() {
         GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), null,
                 new AbstractModel.DataLoadListener() {
