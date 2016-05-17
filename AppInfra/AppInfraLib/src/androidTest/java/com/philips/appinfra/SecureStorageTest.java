@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.appinfra;
 
 import android.content.Context;
@@ -24,7 +29,7 @@ public class SecureStorageTest extends MockitoTestCase {
         context = getInstrumentation().getContext();
 
         assertNotNull(context);
-        mSecureStorage = new SecureStorage(context, SecureStorage.DEVICE_FILE);
+        mSecureStorage = new SecureStorage(context);
         assertNotNull(mSecureStorage);
 
     }
@@ -66,7 +71,7 @@ public class SecureStorageTest extends MockitoTestCase {
         when(sharedPreferencesMock.getString("key",null)).thenReturn("value");
         when(sharedPreferencesMock.getString("",null)).thenReturn(null);
         when(sharedPreferencesMock.getString(null,null)).thenReturn(null);
-        SecureStorage secureStorage = new SecureStorage(context,SecureStorage.DEVICE_FILE){
+        SecureStorage secureStorage = new SecureStorage(context){
             @Override
             protected SharedPreferences getSharedPreferences() {
                 return sharedPreferencesMock;
@@ -76,8 +81,8 @@ public class SecureStorageTest extends MockitoTestCase {
 
     public void testRemoveValueForKey() throws Exception {
 
-        assertFalse(mSecureStorage.RemoveValueForKey(""));
-        assertFalse(mSecureStorage.RemoveValueForKey(null));
+        assertFalse(mSecureStorage.removeValueForKey(""));
+        assertFalse(mSecureStorage.removeValueForKey(null));
 
         //assertEquals(mSecureStorage.RemoveValueForKey("key"),mSecureStorage.deleteEncryptedData("key"));
 
@@ -88,7 +93,7 @@ public class SecureStorageTest extends MockitoTestCase {
         String keyStored= "key";
         assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored));
         assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
-        assertTrue(mSecureStorage.RemoveValueForKey(keyStored));
+        assertTrue(mSecureStorage.removeValueForKey(keyStored));
         assertNull(mSecureStorage.fetchValueForKey(keyStored));
     }
 
@@ -103,9 +108,9 @@ public class SecureStorageTest extends MockitoTestCase {
             assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
         }
 
-        assertTrue(mSecureStorage.RemoveValueForKey(keyStored));
+        assertTrue(mSecureStorage.removeValueForKey(keyStored));
         for(iCount=0;iCount<10;iCount++) {
-            assertFalse(mSecureStorage.RemoveValueForKey(keyStored));
+            assertFalse(mSecureStorage.removeValueForKey(keyStored));
         }
     }
 

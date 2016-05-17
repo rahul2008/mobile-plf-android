@@ -1,7 +1,13 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.appinfra.securestorage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.security.KeyPairGeneratorSpec;
 import android.util.Log;
 
@@ -9,16 +15,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.math.BigInteger;
-import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Calendar;
 
@@ -29,32 +29,31 @@ import javax.security.auth.x500.X500Principal;
 /**
  * Created by 310238114 on 4/5/2016.
  * Current RSA implementation encrypts/decrypts given string in multiple of 256 character blocks.
- * RSA can encrypt only keyLength/8 byte at a time., eg 2048/8 = 256
- * "ISO-8859-1"  encoding id used for String because "ISO-8859-1" creates 1-1 mapping between byte and char. 1 byte will be converted to 1 char only.
+ * RSA can encrypt only keyLength/8 byte at a time., eg 2048/8 -11  = 245  (11 bytes for padding)
+ * "ISO-8859-1"  encoding id used for String because "ISO-8859-1" creates 1-1 mapping between byte and char. 1 byte will be converted to only 1 char only.
  *
  */
 public class SecureStorage implements SecureStorageInterface{
-    private static final String SINGLE_UNIVERSAL_KEY = "Single Universal key in keystore";
+    private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
     private static final String ENCRYPTION_ALGORITHM =  "RSA/ECB/PKCS1Padding";
-    private final String FILE_NAME = "appinfra_file_name";
-    public static final String DEVICE_FILE = "AppInfra Device file";
+    private final String FILE_NAME = "AppInfra.SecureStorage.file.name";
+    //public static final String DEVICE_FILE = "AppInfra Device file";
     private   Context mContext;
-    private   String mEncryptedDataOutput ;
     private static KeyStore keyStore = null;
 
     //this variable(encryptedTextTemp) must only  be used  for Demo App to see encrypted text and must be removed from release build
     public static  String encryptedTextTemp= null;
 
 
-    public  SecureStorage(Context pContext, String pEncryptedDataOutput){
+    public  SecureStorage(Context pContext){
         mContext = pContext;
-        mEncryptedDataOutput = pEncryptedDataOutput;
     }
 
 
 
     @Override
     public synchronized boolean storeValueForKey(String userKey,String valueToBeEncrypted) {
+        // TODO: RayKlo: define max size limit recommendation
         boolean returnResult= true;
         String encryptedString=null;
         try {
@@ -87,7 +86,10 @@ public class SecureStorage implements SecureStorageInterface{
             encryptedString = new String(byteArrayOutputStream.toByteArray(), "ISO-8859-1");
             returnResult = storeEncryptedData(userKey, encryptedString);
             encryptedString = returnResult?encryptedString:null; // if save of encryption data fails return null
-            encryptedTextTemp=encryptedString; // to be removed from release build
+            boolean isDebuggable =  ( 0 != ( mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
+            if (isDebuggable) {
+                encryptedTextTemp = encryptedString; // to be removed from release build
+            }
         } catch (Exception e) {
             Log.e("SecureStorage", Log.getStackTraceString(e));
         }finally{
@@ -148,7 +150,7 @@ public class SecureStorage implements SecureStorageInterface{
 
 
     @Override
-    public synchronized boolean RemoveValueForKey(String userKey) {
+    public synchronized boolean removeValueForKey(String userKey) {
         boolean deleteResult =false;
         if(null==userKey ||  userKey.isEmpty() ) {
             return false;
@@ -181,17 +183,7 @@ public class SecureStorage implements SecureStorageInterface{
                /* System.out.println("key private" +keyPair.getPrivate().getEncoded().toString());
                 System.out.println("key public" +keyPair.getPublic().getEncoded().toString());*/
             }
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        } catch (CertificateException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -202,12 +194,10 @@ public class SecureStorage implements SecureStorageInterface{
     protected boolean storeEncryptedData(String key, String encryptedData){
         boolean storeEncryptedDataResult= true;
         try {
-            if (mEncryptedDataOutput.equals(DEVICE_FILE)) {
                 // encrypted data will be saved in device  SharedPreferences
                 SharedPreferences.Editor editor = getSharedPreferences().edit();
                 editor.putString(key, encryptedData);
                 storeEncryptedDataResult=editor.commit();
-            }
         }catch(Exception e){
             storeEncryptedDataResult=false;
             e.printStackTrace();
@@ -218,11 +208,9 @@ public class SecureStorage implements SecureStorageInterface{
 
     protected String  fetchEncryptedData(String key){
         String result =null;
-        if(mEncryptedDataOutput.equals(DEVICE_FILE)) {
             // encrypted data will be fetched from device  SharedPreferences
             SharedPreferences prefs = getSharedPreferences();
             result = prefs.getString(key, null);
-        }
         return result;
         }
 
@@ -233,7 +221,6 @@ public class SecureStorage implements SecureStorageInterface{
     protected boolean deleteEncryptedData(String key){
         boolean deleteResult= false;
         try {
-            if (mEncryptedDataOutput.equals(DEVICE_FILE)) {
                 SharedPreferences prefs = getSharedPreferences();
                // String isGivenKeyPresentInSharedPreferences = prefs.getString(key, null);
                if( prefs.contains(key)){  // if given key is present in SharedPreferences
@@ -243,7 +230,6 @@ public class SecureStorage implements SecureStorageInterface{
                    deleteResult=editor.commit();
                }
 
-            }
         }catch(Exception e){
             e.printStackTrace();
             deleteResult= false;

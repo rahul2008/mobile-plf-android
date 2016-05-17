@@ -19,7 +19,7 @@ public class SecureStorageActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secure_storage);
-        mSecureStorage = new SecureStorage(getApplicationContext(), SecureStorage.DEVICE_FILE);
+        mSecureStorage = new SecureStorage(getApplicationContext());
 
 
         final EditText userKey = (EditText) findViewById(R.id.Key_editText);
@@ -75,7 +75,7 @@ public class SecureStorageActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
 
-                mSecureStorage.RemoveValueForKey(userKey.getText().toString());
+                mSecureStorage.removeValueForKey(userKey.getText().toString());
                 data.setText(null);
                 encryptedDataTextView.setText(null);
                 decryptedDataTextView.setText(null);
