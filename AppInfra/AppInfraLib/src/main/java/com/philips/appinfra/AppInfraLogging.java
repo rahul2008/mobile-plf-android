@@ -34,9 +34,7 @@ public class AppInfraLogging implements  LoggingInterface {
     protected String mComponentID;
     protected String mComponentVersion;
 
-    int AIlogFileSize= 2* 1024*1024; //2MB
-    int AImaxLogFileCount = 5; // File iteration count
-    boolean AIlogFileAppendMode=true; // File append
+
     private AppInfra mAppInfra;
     private Logger javaLogger;
     private ConsoleHandler consoleHandler;
@@ -133,7 +131,6 @@ public class AppInfraLogging implements  LoggingInterface {
             mInputStream = mAppInfra.getAppInfraContext().getAssets().open(PROPERTIES_FILE_NAME);
             if (mInputStream != null) {
                 LogManager.getLogManager().readConfiguration(mInputStream);// reads default logging.properties from AppInfra library asset in first run
-
                 mInputStream = mAppInfra.getAppInfraContext().getAssets().open(PROPERTIES_FILE_NAME); // re initializing InputStream for writing in device else InputStream will be empty as already consumed by LogManager
                 mProperties.load(mInputStream);
                 OutputStream outputStream = new FileOutputStream(pFileExternalStorage.getAbsolutePath() + "/" + PROPERTIES_FILE_NAME); // External storage
@@ -146,12 +143,7 @@ public class AppInfraLogging implements  LoggingInterface {
         }
     }
 
-    /*
-   * Console Output: AndroidHandler should be used in place of java ConsoleHandler
-   * com.android.internal.logging.AndroidHandler is responsible for displaying the logs properly in logcat.
-   * AndroidHandler is necessary if you want to see the logs in logcat as well.
-   * If you will not add this handler in the logging properties, all the logs will be thrown on logcat as sys.err (warn level).
-   * */
+
     @Override
     public void enableConsoleLog(boolean isEnabled ) {
         if(isEnabled) {
@@ -185,7 +177,9 @@ public class AppInfraLogging implements  LoggingInterface {
             if(null==fileHandler) {// add file log
                 fileHandler = getFileHandler();
                 fileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion));
+
                 javaLogger.addHandler(fileHandler);
+
             }else{
                 // nothing to do, fileHandler already added to Logger
             }
@@ -197,6 +191,8 @@ public class AppInfraLogging implements  LoggingInterface {
                     if (handler instanceof FileHandler) {
                         handler.close(); // flush and close connection of file
                         javaLogger.removeHandler(handler);
+                        fileHandler.flush();
+                        fileHandler.close();
                         fileHandler=null;
                     }
                 }
@@ -207,7 +203,7 @@ public class AppInfraLogging implements  LoggingInterface {
     private FileHandler getFileHandler() {
         FileHandler fileHandler = null;
         File appInfraFile;
-        if (0 == Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED))
+       if (0 == Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED))
             appInfraFile = Environment.getExternalStorageDirectory();//
         else
             appInfraFile = Environment.getDataDirectory();
@@ -216,11 +212,15 @@ public class AppInfraLogging implements  LoggingInterface {
         if (!directoryCreated.exists()) {
             directoryCreated.mkdirs(); // create directory in first run
         }
-
-        String filePath = directoryCreated.getAbsolutePath()+"/" + APP_INFRA_LOG_FILE_NAME;
-
+      //  String filePath = directoryCreated.getAbsolutePath()+"/" + APP_INFRA_LOG_FILE_NAME;
         try {
-            Log.e("App Infra File Path", filePath);
+
+            String logFileName= LogManager.getLogManager().getProperty("java.util.logging.FileHandler.pattern").trim();
+            String filePath = directoryCreated.getAbsolutePath()+"/" + logFileName;
+            Log.e("App Infra log File Path", filePath);// this path will be dynamic for each device
+            int AIlogFileSize = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.limit").trim());
+            int AImaxLogFileCount = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.count").trim());
+            boolean AIlogFileAppendMode = Boolean.parseBoolean(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.append").trim());
             fileHandler = new FileHandler(filePath, AIlogFileSize, AImaxLogFileCount, AIlogFileAppendMode);
         } catch (Exception e)
         {
@@ -228,7 +228,7 @@ public class AppInfraLogging implements  LoggingInterface {
 
         }finally{
             if (fileHandler != null){
-                //fh.close();
+                //fileHandler.close();
             }
         }
         return fileHandler;
