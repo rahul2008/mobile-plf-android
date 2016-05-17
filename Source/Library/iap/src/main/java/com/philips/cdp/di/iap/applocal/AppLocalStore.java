@@ -15,6 +15,11 @@ import com.philips.cdp.di.iap.store.IAPUser;
  * All other urls, we are forced to override though it makes no sense.
  */
 public class AppLocalStore implements StoreSpec {
+    private Context mContext;
+    public AppLocalStore(final Context context) {
+        mContext = context;
+    }
+
     @Override
     public void setNewUser(final Context context) {
 
