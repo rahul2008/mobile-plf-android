@@ -2,14 +2,14 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.State.RegionsList;
-import com.philips.cdp.di.iap.store.Store;
 
 import java.util.Map;
 
 public class GetRegionsRequest extends AbstractModel {
 
-    public GetRegionsRequest(final Store store, final Map<String, String> query, DataLoadListener loadListener) {
+    public GetRegionsRequest(final StoreSpec store, final Map<String, String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
     }
 

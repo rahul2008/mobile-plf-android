@@ -11,14 +11,14 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.store.HybrisStore;
 
 import org.json.JSONObject;
 
 import static org.mockito.Mockito.mock;
 
 public class MockNetworkController extends NetworkController {
-    private Store mMockStore;
+    private HybrisStore mMockHybrisStore;
     private Context mMockedContext;
     private IAPJsonRequest mIAPJSONRequest;
 

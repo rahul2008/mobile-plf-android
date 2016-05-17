@@ -6,12 +6,13 @@ package com.philips.cdp.di.iap;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.session.NetworkController;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.store.HybrisStore;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.mock;
 
 public class TestUtils {
     private static HybrisDelegate delegate;
-    private static Store mockStore;
+    private static HybrisStore mockHybrisStore;
 
     public static HybrisDelegate getStubbedHybrisDelegate() {
         if(delegate != null) {
@@ -46,11 +47,11 @@ public class TestUtils {
         return delegate;
     }
 
-    public static Store getStubbedStore() {
-        if(mockStore != null) {
-            return mockStore;
+    public static StoreSpec getStubbedStore() {
+        if(mockHybrisStore != null) {
+            return mockHybrisStore;
         }
-        Store mockStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
+        StoreSpec mockStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
         mockStore.initStoreConfig("en","US", null);
         return mockStore;
     }

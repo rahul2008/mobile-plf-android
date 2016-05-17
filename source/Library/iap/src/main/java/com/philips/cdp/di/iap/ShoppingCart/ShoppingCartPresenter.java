@@ -33,7 +33,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -53,7 +53,7 @@ public class ShoppingCartPresenter {
     private LoadListener mLoadListener;
     private LoadListenerForRetailer mLoadListenerForRetailer;
     private HybrisDelegate mHybrisDelegate;
-    private Store mStore;
+    private HybrisStore mStore;
     private FragmentManager mFragmentManager;
 
     public interface LoadListener {
@@ -102,9 +102,9 @@ public class ShoppingCartPresenter {
         return mHybrisDelegate;
     }
 
-    private Store getStore() {
+    private HybrisStore getStore() {
         if (mStore == null) {
-            mStore = getHybrisDelegate().getStore();
+            mStore = (HybrisStore) getHybrisDelegate().getStore();
         }
         return mStore;
     }

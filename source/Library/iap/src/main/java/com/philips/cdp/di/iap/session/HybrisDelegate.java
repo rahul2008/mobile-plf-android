@@ -7,8 +7,8 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.store.Store;
 
 public class HybrisDelegate {
 
@@ -48,7 +48,7 @@ public class HybrisDelegate {
         controller.sendHybrisRequest(requestCode, model, requestListener);
     }
 
-    public Store getStore() {
+    public StoreSpec getStore() {
         return controller.getStore();
     }
 }

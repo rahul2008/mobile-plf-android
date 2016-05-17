@@ -2,8 +2,8 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.retailers.WebResults;
-import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class GetRetailersInfoRequest extends AbstractModel {
 
-    public GetRetailersInfoRequest(final Store store, final Map<String, String> query, DataLoadListener loadListener) {
+    public GetRetailersInfoRequest(final StoreSpec store, final Map<String, String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
     }
 

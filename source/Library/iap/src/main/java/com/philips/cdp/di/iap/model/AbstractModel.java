@@ -3,14 +3,14 @@ package com.philips.cdp.di.iap.model;
 import android.content.Context;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.store.Store;
 
 import java.util.Map;
 
 public abstract class AbstractModel implements RequestListener {
 
-    final protected Store store;
+    final protected StoreSpec store;
     protected Map<String, String> params;
     Context mContext;
     protected DataLoadListener mDataloadListener;
@@ -20,11 +20,11 @@ public abstract class AbstractModel implements RequestListener {
         void onModelDataError(Message msg);
     }
 
-    public AbstractModel(Store store, Map<String, String> query) {
+    public AbstractModel(StoreSpec store, Map<String, String> query) {
         this(store, query, null);
     }
 
-    public AbstractModel(Store store, Map<String, String> query, DataLoadListener listener) {
+    public AbstractModel(StoreSpec store, Map<String, String> query, DataLoadListener listener) {
         this.store = store;
         this.params = query;
         mDataloadListener = listener;
@@ -56,7 +56,7 @@ public abstract class AbstractModel implements RequestListener {
         }
     }
 
-    public Store getStore() {
+    public StoreSpec getStore() {
         return store;
     }
 

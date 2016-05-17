@@ -7,8 +7,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.tagging.Tagging;
 
@@ -18,7 +19,7 @@ public class NetworkController {
     IAPHurlStack mIAPHurlStack;
     RequestQueue hybrisVolleyQueue;
     Context context;
-    Store store;
+    StoreSpec store;
     OAuthHandler oAuthHandler;
 
     public NetworkController(Context context) {
@@ -35,7 +36,7 @@ public class NetworkController {
     }
 
     void initStore() {
-        store = new Store(context);
+        store = new HybrisStore(context);
     }
 
     public void hybrisVolleyCreateConnection(Context context) {
@@ -102,7 +103,7 @@ public class NetworkController {
         hybrisVolleyQueue.add(jsObjRequest);
     }
 
-    public Store getStore() {
+    public StoreSpec getStore() {
         return store;
     }
 

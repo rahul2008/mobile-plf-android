@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetPaymentDetailRequest;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -16,7 +17,7 @@ import com.philips.cdp.di.iap.model.PlaceOrderRequest;
 import com.philips.cdp.di.iap.model.SetPaymentDetailsRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.store.HybrisStore;
 
 import java.util.HashMap;
 
@@ -26,7 +27,7 @@ public class PaymentController implements AbstractModel.DataLoadListener {
     private PaymentListener mPaymentListener;
     private MakePaymentListener mMakePaymentListener;
     private HybrisDelegate mDelegate;
-    private Store mStore;
+    private StoreSpec mStore;
 
     public interface PaymentListener {
         void onGetPaymentDetails(Message msg);
@@ -117,11 +118,11 @@ public class PaymentController implements AbstractModel.DataLoadListener {
         return mDelegate;
     }
 
-    void setStore(Store store) {
+    void setStore(HybrisStore store) {
         mStore = store;
     }
 
-    Store getStore() {
+    StoreSpec getStore() {
         if (mStore == null) {
             mStore = getHybrisDelegate().getStore();
         }

@@ -14,7 +14,7 @@ import com.philips.cdp.di.iap.store.IAPUser;
  * It should be refactored again to minimize the apis, as these apis are server dependant and
  * it's not scalable to add all the apis in single config interface.
  */
-public interface StoreConfig {
+public interface StoreSpec {
     void setNewUser(Context context);
 
     void setLangAndCountry(String language, String countryCode);
@@ -69,4 +69,6 @@ public interface StoreConfig {
     void setUserLogout(boolean userLoggedout);
 
     boolean isUserLoggedOut();
+
+    boolean isStoreInitialized();
 }

@@ -6,6 +6,8 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.core.StoreSpec;
+
 import static org.mockito.Mockito.when;
 
 public class MockStore {
@@ -20,8 +22,8 @@ public class MockStore {
         when(user.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
     }
 
-    public Store getStore() {
-        return new Store(mContext) {
+    public StoreSpec getStore() {
+        return new HybrisStore(mContext) {
             @Override
             protected StoreConfiguration getStoreConfig(final Context context) {
                 return getStoreConfiguration(this);
@@ -34,8 +36,8 @@ public class MockStore {
         };
     }
 
-    private StoreConfiguration getStoreConfiguration(Store store) {
-        return new StoreConfiguration(mContext, store) {
+    private StoreConfiguration getStoreConfiguration(HybrisStore hybrisStore) {
+        return new StoreConfiguration(mContext, hybrisStore) {
             @Override
             VerticalAppConfig getVerticalAppConfig(final Context context) {
                 return new MockVerticalAppConfig(mContext);

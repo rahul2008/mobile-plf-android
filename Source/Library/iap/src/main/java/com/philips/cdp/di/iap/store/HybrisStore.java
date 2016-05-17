@@ -7,12 +7,12 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.core.StoreConfig;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
-public class Store implements StoreConfig {
+public class HybrisStore implements StoreSpec {
 
     //Public since required by StoreConfiguration initialization
     public static final String HTTPS = "https://";
@@ -84,7 +84,7 @@ public class Store implements StoreConfig {
     private boolean mStoreInitialized;
     private String mLanguage;
 
-    public Store(Context context) {
+    public HybrisStore(Context context) {
         mIAPUser = initIAPUser(context);
         mStoreConfig = getStoreConfig(context);
     }
@@ -345,6 +345,7 @@ public class Store implements StoreConfig {
         return mUserLoggedout;
     }
 
+    @Override
     public boolean isStoreInitialized() {
         return mStoreInitialized;
     }
