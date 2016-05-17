@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogAdapter;
@@ -35,7 +36,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     public static final String TAG = ProductCatalogFragment.class.getName();
 
     private ProductCatalogAdapter mAdapter;
-    private ShoppingCartPresenter mShoppingCartPresenter;
+    private ShoppingCartAPI mShoppingCartAPI;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -71,7 +72,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mShoppingCartPresenter = new ShoppingCartPresenter(getFragmentManager());
+        mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
@@ -90,7 +91,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
-        mShoppingCartPresenter.getProductCartCount(getContext(), mProductCountListener);
+        mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener);
         mAdapter.tagProducts();
     }
 

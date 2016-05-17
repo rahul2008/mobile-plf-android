@@ -18,7 +18,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -40,7 +40,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context mContext;
     private Resources mResources;
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
-    private ShoppingCartPresenter mPresenter;
+    private ShoppingCartAPI mPresenter;
     private Drawable countArrow;
     private UIKitListPopupWindow mPopupWindow;
     private FragmentManager mFragmentManager;
@@ -61,11 +61,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData,
-                               FragmentManager fragmentManager, OutOfStockListener iOutOfStock, final ShoppingCartPresenter shoppingCartPresenter) {
+                               FragmentManager fragmentManager, OutOfStockListener iOutOfStock, final ShoppingCartAPI shoppingCartAPI) {
         mContext = context;
         mResources = context.getResources();
         mData = shoppingCartData;
-        mPresenter = shoppingCartPresenter;
+        mPresenter = shoppingCartAPI;
         mFragmentManager = fragmentManager;
         setCountArrow(context);
         initDrawables();

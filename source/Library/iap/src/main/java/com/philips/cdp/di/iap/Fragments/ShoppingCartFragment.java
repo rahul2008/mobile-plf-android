@@ -19,6 +19,8 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
+import com.philips.cdp.di.iap.core.ControllerFactory;
+import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.State.RegionsList;
@@ -42,7 +44,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private RecyclerView mRecyclerView;
     private AddressController mAddressController;
     private Context mContext;
-    private ShoppingCartPresenter mShoppingCartPresenter;
+    private ShoppingCartAPI mShoppingCartAPI;
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -77,7 +79,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
 
-        mShoppingCartPresenter = new ShoppingCartPresenter(getContext(), this, getFragmentManager());
+        mShoppingCartAPI = ControllerFactory.getInstance()
+                .getShoppingCartPresenter(getContext(), this, getFragmentManager());
 
         mAddressController = new AddressController(getContext(), this);
         return rootView;
@@ -96,7 +99,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
         }
-        updateCartDetails(mShoppingCartPresenter);
+        updateCartDetails(mShoppingCartAPI);
     }
 
     @Override
@@ -107,7 +110,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         NetworkUtility.getInstance().dismissErrorDialog();
     }
 
-    private void updateCartDetails(ShoppingCartPresenter presenter) {
+    private void updateCartDetails(ShoppingCartAPI presenter) {
         presenter.getCurrentCartDetails();
     }
 
@@ -241,7 +244,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         onOutOfStock(false);
         mContinuesBtn.setVisibility(View.VISIBLE);
         mCheckoutBtn.setVisibility(View.VISIBLE);
-        mAdapter = new ShoppingCartAdapter(getContext(), data, getFragmentManager(), this, mShoppingCartPresenter);
+        mAdapter = new ShoppingCartAdapter(getContext(), data, getFragmentManager(), this, mShoppingCartAPI);
         if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
             updateCount(data.get(0).getDeliveryItemsQuantity());
         }

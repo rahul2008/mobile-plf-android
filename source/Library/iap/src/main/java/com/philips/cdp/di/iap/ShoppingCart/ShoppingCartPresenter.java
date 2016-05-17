@@ -46,7 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShoppingCartPresenter {
+public class ShoppingCartPresenter implements com.philips.cdp.di.iap.core.ShoppingCartAPI {
     Context mContext;
     ArrayList<ShoppingCartData> mProductData;
     ArrayList<StoreEntity> mStoreEntities;
@@ -61,11 +61,6 @@ public class ShoppingCartPresenter {
     }
 
     public ShoppingCartPresenter() {
-    }
-
-    public ShoppingCartPresenter(Context context, android.support.v4.app.FragmentManager fragmentManager) {
-        mContext = context;
-        mFragmentManager = fragmentManager;
     }
 
     public interface LoadListenerForRetailer {
@@ -125,6 +120,7 @@ public class ShoppingCartPresenter {
         getHybrisDelegate().sendRequest(code, model, model);
     }
 
+    @Override
     public void getCurrentCartDetails() {
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(getStore(), null,
                 new AbstractModel.DataLoadListener() {
@@ -219,6 +215,7 @@ public class ShoppingCartPresenter {
             Utility.dismissProgressDialog();
     }
 
+    @Override
     public void deleteProduct(final ShoppingCartData summary) {
         Map<String, String> query = new HashMap<>();
         query.put(ModelConstants.ENTRY_CODE, String.valueOf(summary.getEntryNumber()));
@@ -241,6 +238,7 @@ public class ShoppingCartPresenter {
         sendHybrisRequest(0, model, model);
     }
 
+    @Override
     public void updateProductQuantity(final ShoppingCartData data, final int count, final int quantityStatus) {
         HashMap<String, String> query = new HashMap<String, String>();
         query.put(ModelConstants.PRODUCT_CODE, data.getCtnNumber());
@@ -296,6 +294,7 @@ public class ShoppingCartPresenter {
         });
     }
 
+    @Override
     public void addProductToCart(final Context context, String productCTN, final IAPCartListener
             iapHandlerListener,
                                  final boolean isFromBuyNow) {
@@ -326,6 +325,7 @@ public class ShoppingCartPresenter {
         });
     }
 
+    @Override
     public void getProductCartCount(final Context context, final IAPCartListener
             iapHandlerListener) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
@@ -369,6 +369,7 @@ public class ShoppingCartPresenter {
         transaction.commitAllowingStateLoss();
     }
 
+    @Override
     public void buyProduct(final Context context, final String ctnNumber, final IAPCartListener
             iapHandlerListener) {
         if (ctnNumber == null) return;

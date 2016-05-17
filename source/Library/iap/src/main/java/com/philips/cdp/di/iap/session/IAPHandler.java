@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.NetworkEssentialsFactory;
@@ -23,6 +24,7 @@ public class IAPHandler implements IAPExposedAPI {
         IAPHandler handler = new IAPHandler();
         handler.mImplementationHandler = handler.getExposedAPIImplementor(context, config);
         handler.initHybrisDelegate(context, config);
+        handler.initControllerFactory(config);
         return handler;
     }
 
@@ -61,5 +63,10 @@ public class IAPHandler implements IAPExposedAPI {
         }
 
         return requestCode;
+    }
+
+    private void initControllerFactory(IAPSettings config) {
+        int requestCode = getNetworkEssentialReqeustCode(config.isUseLocalData());
+        ControllerFactory.getInstance().init(requestCode);
     }
 }

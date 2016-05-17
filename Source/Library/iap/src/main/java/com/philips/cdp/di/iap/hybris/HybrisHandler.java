@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
+import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -122,7 +123,7 @@ public class HybrisHandler implements IAPExposedAPI {
     }
 
     private void getProductCount(final IAPHandlerListener iapHandlerListener) {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter();
+        ShoppingCartAPI presenter = new ShoppingCartPresenter();
         presenter.getProductCartCount(mContext, new IAPCartListener() {
             @Override
             public void onSuccess(final int count) {
@@ -137,7 +138,7 @@ public class HybrisHandler implements IAPExposedAPI {
     }
 
     private void buyProduct(final String ctnNumber, final IAPHandlerListener listener) {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter();
+        ShoppingCartAPI presenter = new ShoppingCartPresenter();
         presenter.buyProduct(mContext, ctnNumber, new IAPCartListener() {
             @Override
             public void onSuccess(final int count) {
