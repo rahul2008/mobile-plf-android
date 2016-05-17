@@ -10,7 +10,7 @@ public enum ProdRegError {
     UNKNOWN(-1, "unknown"),
     USER_NOT_SIGNED_IN(10, "User not signed in"),
     MISSING_DATE(12, "Required date field is missing"),
-    INVALID_DATE(3, "Date should be less than year 2000"),
+    INVALID_DATE(3, "Enter valid date"),
     MISSING_SERIALNUMBER(4, "Required serial number is missing"),
     INVALID_SERIALNUMBER(5, "Enter valid Serial number"),
     PRODUCT_ALREADY_REGISTERED(6, "Product already registered"),
