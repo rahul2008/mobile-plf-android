@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegError;
@@ -115,7 +113,7 @@ public class UserWithProducts {
                 } else {
                     UserWithProducts userWithProducts = getUserProduct();
                     userWithProducts.setLocale(this.locale);
-                    userWithProducts.getRegisteredProducts(userWithProducts.getRegisteredProductsListener(registeredProduct, appListener), registeredProduct.getSector(), registeredProduct.getCatalog());
+                    userWithProducts.getRegisteredProducts(userWithProducts.getRegisteredProductsListener(registeredProduct, appListener));
                 }
             }
         }
@@ -125,15 +123,13 @@ public class UserWithProducts {
      * API to fetch list of products which are registered locally and remote
      *
      * @param registeredProductsListener - call back listener to get list of products
-     * @param sector                     - to get Sector as enum's
-     * @param catalog                    - to get catalog as enum's
      */
-    public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener, final Sector sector, final Catalog catalog) {
+    public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
         if (getUser().isUserSignIn()) {
             setRequestType(FETCH_REGISTERED_PRODUCTS);
             this.registeredProductsListener = registeredProductsListener;
             final RemoteRegisteredProducts remoteRegisteredProducts = new RemoteRegisteredProducts();
-            remoteRegisteredProducts.getRegisteredProducts(mContext, getUserProduct(), getUser(), registeredProductsListener, sector, catalog);
+            remoteRegisteredProducts.getRegisteredProducts(mContext, getUserProduct(), getUser(), registeredProductsListener);
         } else {
             registeredProductsListener.getRegisteredProductsSuccess(getLocalRegisteredProductsInstance().getRegisteredProducts(), -1);
         }
@@ -326,7 +322,7 @@ public class UserWithProducts {
                 getUserProduct().makeRegistrationRequest(mContext, registeredProduct, appListener);
                 break;
             case FETCH_REGISTERED_PRODUCTS:
-                getUserProduct().getRegisteredProducts(getRegisteredProductsListener(), registeredProduct.getSector(), registeredProduct.getCatalog());
+                getUserProduct().getRegisteredProducts(getRegisteredProductsListener());
                 break;
             default:
                 break;

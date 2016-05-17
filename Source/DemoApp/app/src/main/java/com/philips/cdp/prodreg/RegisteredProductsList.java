@@ -8,8 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -58,6 +56,6 @@ public class RegisteredProductsList extends AppCompatActivity {
                 });
                 mRecyclerView.setAdapter(productAdapter);
             }
-        }, Sector.B2C, Catalog.CONSUMER);
+        });
     }
 }

@@ -3,6 +3,8 @@ package com.philips.cdp.prodreg.prxrequest;
 import android.net.Uri;
 import android.util.Log;
 
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
@@ -82,5 +84,15 @@ public class RegisteredProductsRequest extends PrxRequest {
                 .build();
         Log.d(getClass() + "", builtUri.toString());
         return builtUri.toString();
+    }
+
+    @Override
+    public Sector getSector() {
+        return Sector.DEFAULT;
+    }
+
+    @Override
+    public Catalog getCatalog() {
+        return Catalog.DEFAULT;
     }
 }

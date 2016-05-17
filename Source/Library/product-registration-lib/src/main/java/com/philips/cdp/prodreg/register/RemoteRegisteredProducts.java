@@ -4,8 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
@@ -23,7 +21,7 @@ import com.philips.cdp.registration.User;
 public class RemoteRegisteredProducts {
 
     @NonNull
-    ResponseListener getPrxResponseListenerForRegisteredProducts(final UserWithProducts userWithProducts, final LocalRegisteredProducts localRegisteredProducts, final RegisteredProductsListener registeredProductsListener, final Sector sector, final Catalog catalog) {
+    ResponseListener getPrxResponseListenerForRegisteredProducts(final UserWithProducts userWithProducts, final LocalRegisteredProducts localRegisteredProducts, final RegisteredProductsListener registeredProductsListener) {
         return new ResponseListener() {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
@@ -39,7 +37,7 @@ public class RemoteRegisteredProducts {
             public void onResponseError(PrxError prxError) {
                 try {
                     if (prxError.getStatusCode() == PrxError.PrxErrorType.AUTHENTICATION_FAILURE.getId()) {
-                        userWithProducts.onAccessTokenExpire(getRegisteredProduct(sector, catalog), null);
+                        userWithProducts.onAccessTokenExpire(null, null);
                     } else
                         registeredProductsListener.getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
                 } catch (Exception e) {
@@ -50,21 +48,14 @@ public class RemoteRegisteredProducts {
     }
 
     @NonNull
-    protected RegisteredProduct getRegisteredProduct(final Sector sector, final Catalog catalog) {
-        return new RegisteredProduct(null, sector, catalog);
-    }
-
-    @NonNull
     protected Gson getGson() {
         return new Gson();
     }
 
-    public void getRegisteredProducts(final Context mContext, final UserWithProducts userWithProducts, final User user, final RegisteredProductsListener registeredProductsListener, final Sector sector, final Catalog catalog) {
+    public void getRegisteredProducts(final Context mContext, final UserWithProducts userWithProducts, final User user, final RegisteredProductsListener registeredProductsListener) {
         RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest(user);
-        registeredProductsRequest.setSector(sector);
-        registeredProductsRequest.setCatalog(catalog);
         final RequestManager mRequestManager = getRequestManager(mContext);
-        mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(userWithProducts, new LocalRegisteredProducts(mContext, user), registeredProductsListener, sector, catalog));
+        mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(userWithProducts, new LocalRegisteredProducts(mContext, user), registeredProductsListener));
     }
 
     @NonNull
