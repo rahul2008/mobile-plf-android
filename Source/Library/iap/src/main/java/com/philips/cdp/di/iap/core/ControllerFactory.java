@@ -14,7 +14,7 @@ public class ControllerFactory {
     private int mRequestCode;
 
     /**
-     * Must not be called from outside.
+     * Must be called only from IAPHandler.
      */
     public void init(int requestCode) {
         mRequestCode = requestCode;
@@ -24,10 +24,21 @@ public class ControllerFactory {
         return mController;
     }
 
+    public boolean shouldDisplayCartIcon() {
+        if (loadLocalData()) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean loadLocalData() {
+        return mRequestCode == NetworkEssentialsFactory.LOAD_LOCAL_DATA;
+    }
+
     public ShoppingCartAPI getShoppingCartPresenter(Context context,
                                                     ShoppingCartPresenter.LoadListener listener, FragmentManager fragmentManager) {
         ShoppingCartAPI api = null;
-        if (mRequestCode == NetworkEssentialsFactory.LOAD_LOCAL_DATA) {
+        if (loadLocalData()) {
             //Still need to implement
         } else {
             api = new ShoppingCartPresenter(context, listener, fragmentManager);

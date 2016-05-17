@@ -19,6 +19,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.tagging.Tagging;
 
@@ -115,9 +116,11 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         mActivityListener.updateCount(count);
     }
 
-
     public void setCartIconVisibility(final int visibility) {
-        mActivityListener.setCartIconVisibility(visibility);
+        if (ControllerFactory.getInstance().shouldDisplayCartIcon()) {
+            mActivityListener.setCartIconVisibility(View.GONE);
+        } else {
+            mActivityListener.setCartIconVisibility(visibility);
+        }
     }
-
 }
