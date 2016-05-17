@@ -62,7 +62,7 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context
                     .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.geo_list_item, null);
+            convertView = mInflater.inflate(R.layout.consumercare_geo_list_item, null);
         }
 
         ViewHolder holder = new ViewHolder();

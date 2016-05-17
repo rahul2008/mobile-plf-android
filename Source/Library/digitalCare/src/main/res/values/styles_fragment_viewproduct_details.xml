@@ -38,7 +38,7 @@
     <style name="viewProductDetailsButtons_prodinfo_philips_tab">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">40dp</item>
-        <item name="android:background">@drawable/selector_option_button_bg</item>
+        <item name="android:background">@drawable/consumercare_selector_option_button_bg</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textSize">15sp</item>
@@ -48,7 +48,7 @@
     <style name="viewProductDetails_Buttons">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">30dp</item>
-        <item name="android:background">@drawable/selector_option_button_bg</item>
+        <item name="android:background">@drawable/consumercare_selector_option_button_bg</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textSize">15sp</item>

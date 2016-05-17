@@ -44,7 +44,7 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
-        View view = inflater.inflate(R.layout.fragment_productreview, container,
+        View view = inflater.inflate(R.layout.consumercare_fragment_productreview, container,
                 false);
         return view;
     }

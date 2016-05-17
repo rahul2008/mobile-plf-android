@@ -86,9 +86,9 @@
                         android:id="@+id/your_product_review_rating_ratingbar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/your_product_review_rating_header_text"
                         android:layout_gravity="center"
-                        android:fitsSystemWindows="true"
-                        android:layout_below="@+id/your_product_review_rating_header_text" />
+                        android:fitsSystemWindows="true" />
                 </RelativeLayout>
 
 
@@ -180,9 +180,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/marginTopButton"
                 android:orientation="horizontal"
                 android:visibility="visible"
-                android:layout_marginBottom="@dimen/marginTopButton"
                 android:weightSum="2">
 
 
@@ -190,7 +190,7 @@
                     android:id="@+id/your_product_review_preview_cancel_button"
                     style="@style/fontButton"
                     android:layout_weight="1"
-                    android:background="@drawable/selector_no_thanks_button_bg"
+                    android:background="@drawable/consumercare_selector_no_thanks_button_bg"
                     android:text="@string/cancel"
                     android:textAlignment="center"
                     android:textColor="@color/button_background"
@@ -202,9 +202,9 @@
                     style="@style/fontButton"
                     android:layout_marginLeft="@dimen/marginTopButton"
                     android:layout_weight="1"
+                    android:ellipsize="end"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:ellipsize="end"
                     android:text="@string/bazzarvoice_productreview_preview_submitmyreview_text"
                     android:textAlignment="center"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
@@ -225,7 +225,7 @@
                          android:id="@+id/your_product_review_preview_cancel_button"
                          style="@style/fontButton"
                          android:layout_marginTop="0dp"
-                         android:background="@drawable/selector_no_thanks_button_bg"
+                         android:background="@drawable/consumercare_selector_no_thanks_button_bg"
                          android:text="@string/cancel"
                          android:textColor="@color/button_background" />
                  </RelativeLayout>

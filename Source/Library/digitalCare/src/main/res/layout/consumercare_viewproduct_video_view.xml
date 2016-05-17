@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -15,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/viewproduct_video_play"></ImageView>
+        android:background="@drawable/consumercare_viewproduct_video_play"></ImageView>
 
     <ImageView
         android:id="@+id/videoLeftArrow"
@@ -23,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/viewproduct_video_leftarrow"></ImageView>
+        android:background="@drawable/consumercare_viewproduct_video_leftarrow"></ImageView>
 
     <ImageView
         android:id="@+id/videoRightArrow"
@@ -31,6 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/viewproduct_videorightarrow"></ImageView>
+        android:background="@drawable/consumercare_viewproduct_videorightarrow"></ImageView>
 
 </RelativeLayout>

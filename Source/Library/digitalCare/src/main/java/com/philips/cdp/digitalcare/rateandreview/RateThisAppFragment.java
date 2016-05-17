@@ -29,12 +29,12 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
-/*import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
-import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrapper;*/
 import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+
+/*import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
+import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrapper;*/
 
 
 public class RateThisAppFragment extends DigitalCareBaseFragment {
@@ -65,7 +65,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
-        View mView = inflater.inflate(R.layout.fragment_tellus, container,
+        View mView = inflater.inflate(R.layout.consumercare_fragment_tellus, container,
                 false);
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
@@ -92,7 +92,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
-        mDividerView = (View) getActivity().findViewById(R.id.divider);
+        mDividerView = getActivity().findViewById(R.id.divider);
         mRatePlayStoreBtn.setOnClickListener(this);
         mRatePhilipsBtn.setTransformationMethod(null);
         mRatePlayStoreBtn.setTransformationMethod(null);
@@ -183,8 +183,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
                 rateThisApp();
         }
     }
-
-    ;
 
     @Override
     public void setViewParams(Configuration config) {

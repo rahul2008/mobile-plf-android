@@ -23,7 +23,7 @@
         map:uiZoomControls="false"
         map:uiZoomGestures="true" />
 
-    <include layout="@layout/locate_search" />
+    <include layout="@layout/consumercare_locate_search" />
 
     <RelativeLayout
         android:id="@+id/locate_layout"
@@ -92,7 +92,7 @@
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/call"
                     style="@style/fontButton"
-                    android:background="@drawable/selector_call_button_bg"
+                    android:background="@drawable/consumercare_selector_call_button_bg"
                     android:text="@string/call" />
 
                 <TextView

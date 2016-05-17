@@ -77,7 +77,7 @@
                         android:id="@+id/chatNoThanks"
                         style="@style/fontButton"
                         android:layout_marginTop="0dp"
-                        android:background="@drawable/selector_no_thanks_button_bg"
+                        android:background="@drawable/consumercare_selector_no_thanks_button_bg"
                         android:text="@string/cancel"
                         android:textColor="@color/button_background"
                         custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
@@ -88,10 +88,10 @@
                 android:id="@+id/chatNowParentLand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:weightSum="2"
                 android:layout_gravity="center"
-                android:gravity="center">
+                android:layout_weight="1"
+                android:gravity="center"
+                android:weightSum="2">
 
                 <RelativeLayout
                     android:id="@+id/chatNoThanksParentLand"
@@ -105,7 +105,7 @@
                         android:id="@+id/chatNoThanksLand"
                         style="@style/fontButton"
                         android:layout_marginTop="0dp"
-                        android:background="@drawable/selector_no_thanks_button_bg"
+                        android:background="@drawable/consumercare_selector_no_thanks_button_bg"
                         android:text="@string/cancel"
                         android:textColor="@color/button_background"
                         custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />

@@ -45,7 +45,7 @@
     <!-- <style name="Social_font_SendButton">
        <item name="android:layout_width">fill_parent</item>
        <item name="android:layout_height">@dimen/support_btn_height</item>
-       <item name="android:background">@drawable/social_send</item>
+       <item name="android:background">@drawable/consumercare_social_send</item>
        <item name="android:gravity">center</item>
        <item name="android:textColor">@color/button_text_color</item>
        <item name="android:textSize">@dimen/btn_text_size_large</item>
@@ -55,7 +55,7 @@
     <style name="fb_font_CancelButton">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/support_btn_height</item>
-        <item name="android:background">@drawable/social_cancel</item>
+        <item name="android:background">@drawable/consumercare_social_cancel</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/button_background</item>
         <item name="android:textSize">@dimen/btn_text_size_large</item>

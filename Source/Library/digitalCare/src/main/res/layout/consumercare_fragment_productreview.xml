@@ -30,8 +30,8 @@
 
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                     style="@style/productreview_header_textone"
-                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf"
-                    android:text="@string/bazzarvoice_productreview_guidline_header_text">
+                    android:text="@string/bazzarvoice_productreview_guidline_header_text"
+                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf">
 
                 </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
 
@@ -76,7 +76,7 @@
                         android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
                         android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/productreview_tick" />
+                        android:src="@drawable/consumercare_productreview_tick" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_first_expandableimage_text"
@@ -101,14 +101,14 @@
                         android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
                         android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/productreview_cross" />
+                        android:src="@drawable/consumercare_productreview_cross" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_second_expandableimage_text"
                         style="@style/productreview_expandable_contents"
                         android:layout_toRightOf="@+id/productreview_second_expandableimage"
-                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf"
-                        android:text="@string/bazzarvoice_productreview_guidline_secondguide">
+                        android:text="@string/bazzarvoice_productreview_guidline_secondguide"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf">
 
                     </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
 
@@ -126,14 +126,14 @@
                         android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
                         android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/productreview_cross" />
+                        android:src="@drawable/consumercare_productreview_cross" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_third_expandableimage_text"
                         style="@style/productreview_expandable_contents"
                         android:layout_toRightOf="@+id/productreview_third_expandableimage"
-                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf"
-                        android:text="@string/bazzarvoice_productreview_guidline_thirdguide">
+                        android:text="@string/bazzarvoice_productreview_guidline_thirdguide"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf">
 
                     </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
                 </RelativeLayout>
@@ -150,14 +150,14 @@
                         android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
                         android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/productreview_cross" />
+                        android:src="@drawable/consumercare_productreview_cross" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_fourth_expandableimage_text"
                         style="@style/productreview_expandable_contents"
                         android:layout_toRightOf="@+id/productreview_fourth_expandableimage"
-                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf"
-                        android:text="@string/bazzarvoice_productreview_guidline_fourthguide">
+                        android:text="@string/bazzarvoice_productreview_guidline_fourthguide"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf">
 
                     </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
 

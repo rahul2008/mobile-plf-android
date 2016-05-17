@@ -46,6 +46,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
-        android:src="@drawable/list_right_arrow" />
+        android:src="@drawable/consumercare_list_right_arrow" />
 
 </RelativeLayout>

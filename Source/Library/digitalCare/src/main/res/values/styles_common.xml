@@ -5,7 +5,7 @@
     <style name="fontButton">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/support_btn_height</item>
-        <item name="android:background">@drawable/selector_option_button_bg</item>
+        <item name="android:background">@drawable/consumercare_selector_option_button_bg</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textSize">@dimen/btn_text_size_large</item>

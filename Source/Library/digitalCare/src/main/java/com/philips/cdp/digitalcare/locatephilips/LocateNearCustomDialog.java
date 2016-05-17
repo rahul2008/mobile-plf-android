@@ -42,7 +42,7 @@ public class LocateNearCustomDialog extends Dialog implements android.view.View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.locate_philips_dialog);
+        setContentView(R.layout.consumercare_locate_philips_dialog);
         mTextViewOk = (DigitalCareFontTextView) findViewById(R.id.dialogTextViewOk);
         mTextViewOk.setOnClickListener(this);
 

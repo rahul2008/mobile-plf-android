@@ -1,8 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chatScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/chatScrollView"
     android:background="@color/transparent">
 
     <LinearLayout
@@ -28,8 +28,8 @@
                 <TextView
                     android:id="@+id/helpText"
                     style="@style/chatNowHelpText"
-                    android:layout_marginTop="@dimen/activity_margin"
                     android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
             </FrameLayout>
         </LinearLayout>
@@ -56,8 +56,8 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
-                android:orientation="horizontal"
                 android:layout_weight="1"
+                android:orientation="horizontal"
                 android:weightSum="2">
 
                 <RelativeLayout
@@ -72,7 +72,7 @@
                         android:id="@+id/chatNoThanks"
                         style="@style/fontButton"
                         android:layout_marginTop="0dp"
-                        android:background="@drawable/selector_no_thanks_button_bg"
+                        android:background="@drawable/consumercare_selector_no_thanks_button_bg"
                         android:text="@string/cancel"
                         android:textColor="@color/button_background"
                         custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
@@ -111,7 +111,7 @@
                         android:id="@+id/chatNoThanksLand"
                         style="@style/fontButton"
                         android:layout_marginTop="0dp"
-                        android:background="@drawable/selector_no_thanks_button_bg"
+                        android:background="@drawable/consumercare_selector_no_thanks_button_bg"
                         android:text="@string/cancel"
                         android:textColor="@color/button_background"
                         custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />

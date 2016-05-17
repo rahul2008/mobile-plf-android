@@ -18,10 +18,10 @@
 
             <ImageView
                 android:id="@+id/productimage"
-                android:visibility="gone"
+                style="@style/viewProductDetails_ProdImage"
                 android:layout_width="110dp"
                 android:layout_height="120dp"
-                style="@style/viewProductDetails_ProdImage" />
+                android:visibility="gone" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/name"
@@ -31,18 +31,18 @@
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/variant"
                 style="@style/viewProductDetails_Product_Variant"
-                android:layout_toRightOf="@id/productimage"
                 android:layout_below="@id/name"
+                android:layout_toRightOf="@id/productimage"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
             <ImageView
                 android:id="@+id/productImageTablet"
-                android:layout_below="@id/variant"
-                android:visibility="gone"
-                android:layout_marginTop="20dp"
+                style="@style/viewProductDetails_ProdImage"
                 android:layout_width="120dp"
                 android:layout_height="130dp"
-                style="@style/viewProductDetails_ProdImage" />
+                android:layout_below="@id/variant"
+                android:layout_marginTop="20dp"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <View
@@ -57,29 +57,29 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
+            android:orientation="vertical"
             android:paddingLeft="@dimen/activity_margin"
-            android:paddingRight="@dimen/activity_margin"
-            android:orientation="vertical">
+            android:paddingRight="@dimen/activity_margin">
 
         </LinearLayout>
 
         <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
             android:id="@+id/productVideoText"
             style="@style/viewProductDetails_Product_Header"
-            android:text="@string/product_view_videos"
-            android:visibility="gone"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="0dp"
+            android:layout_marginTop="10dp"
             android:paddingLeft="@dimen/activity_margin"
-            android:paddingRight="@dimen/activity_margin" />
+            android:paddingRight="@dimen/activity_margin"
+            android:text="@string/product_view_videos"
+            android:visibility="gone" />
 
         <HorizontalScrollView
+            android:id="@+id/videoScrollView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/videoScrollView"
-            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="15dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_marginTop="15dp">
 
             <LinearLayout
                 android:id="@+id/videoContainerParent"

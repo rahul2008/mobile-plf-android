@@ -24,6 +24,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -98,7 +99,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
         mSdkVersion = Build.VERSION.SDK_INT;
-        View view = inflater.inflate(R.layout.fragment_view_product,
+        View view = inflater.inflate(R.layout.consumercare_fragment_view_product,
                 container, false);
         if (getActivity() != null)
             mActivity = getActivity();
@@ -178,7 +179,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
 
         for (int i = 0; i < mVideoLength.size(); i++) {
-            View child = mActivity.getLayoutInflater().inflate(R.layout.viewproduct_video_view, null);
+            View child = mActivity.getLayoutInflater().inflate(R.layout.consumercare_viewproduct_video_view, null);
             ImageView videoThumbnail = (ImageView) child.findViewById(R.id.videoContainer);
             ImageView videoPlay = (ImageView) child.findViewById(R.id.videoPlay);
             ImageView videoLeftArrow = (ImageView) child.findViewById(R.id.videoLeftArrow);
@@ -236,7 +237,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             return (int) mActivity.getResources().getDimension(R.dimen.view_prod_details_video_height);
         }
 
-        return (int) mSmallerResolution;
+        return mSmallerResolution;
     }
 
     protected void loadVideoThumbnail(final ImageView imageView, final String thumbnail) {
@@ -257,6 +258,18 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
         RequestQueue imageRequestQueue = Volley.newRequestQueue(getContext());
         imageRequestQueue.add(request);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        DigiCareLogger.d(TAG, "onViewState Restored");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        DigiCareLogger.d(TAG, "onViewStateSaved");
     }
 
     private Bitmap addBlankThumbnail() {
@@ -469,7 +482,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 .getDimension(R.dimen.support_btn_height) * density));
         relativeLayout.setLayoutParams(params);
         relativeLayout
-                .setBackgroundResource(R.drawable.selector_option_button_bg);
+                .setBackgroundResource(R.drawable.consumercare_selector_option_button_bg);
         return relativeLayout;
     }
 

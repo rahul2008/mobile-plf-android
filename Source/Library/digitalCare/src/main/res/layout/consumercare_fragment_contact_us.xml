@@ -41,10 +41,10 @@
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
-            android:visibility="gone"
             android:id="@+id/contactUsChat"
             style="@style/fontButton"
             android:text="@string/live_chat"
+            android:visibility="gone"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
@@ -54,12 +54,12 @@
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
-            android:visibility="gone"
             android:id="@+id/contactUsCall"
             style="@style/fontButton"
             android:layout_marginBottom="@dimen/marginTopButton"
-            android:background="@drawable/selector_call_button_bg"
+            android:background="@drawable/consumercare_selector_call_button_bg"
             android:text="@string/call_number"
+            android:visibility="gone"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView

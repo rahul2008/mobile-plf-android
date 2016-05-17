@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/marginTopButton"
                     android:contentDescription="@string/img_description"
-                    android:src="@drawable/social_fb_icon" />
+                    android:src="@drawable/consumercare_social_fb_icon" />
             </LinearLayout>
         </LinearLayout>
 
@@ -98,7 +98,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginRight="8dp"
                 android:contentDescription="@string/img_description"
-                android:src="@drawable/social_photo_default" />
+                android:src="@drawable/consumercare_social_photo_default" />
 
             <ImageView
                 android:id="@+id/fb_Post_camera_close"
@@ -110,7 +110,7 @@
                 android:layout_marginRight="10dp"
                 android:contentDescription="@string/img_description"
                 android:scaleType="fitXY"
-                android:src="@drawable/social_close"
+                android:src="@drawable/consumercare_social_close"
                 android:visibility="gone" />
 
             <TextView
@@ -150,7 +150,7 @@
                     android:id="@+id/facebookCancelPort"
                     style="@style/fontButton"
                     android:layout_marginTop="0dp"
-                    android:background="@drawable/selector_no_thanks_button_bg"
+                    android:background="@drawable/consumercare_selector_no_thanks_button_bg"
                     android:text="@string/cancel"
                     android:textColor="@color/button_background"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
@@ -174,7 +174,7 @@
                     android:id="@+id/facebookCancelLand"
                     style="@style/fontButton"
                     android:layout_marginTop="0dp"
-                    android:background="@drawable/selector_no_thanks_button_bg"
+                    android:background="@drawable/consumercare_selector_no_thanks_button_bg"
                     android:text="@string/cancel"
                     android:textColor="@color/button_background"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />

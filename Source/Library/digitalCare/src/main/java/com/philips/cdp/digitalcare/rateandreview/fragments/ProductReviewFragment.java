@@ -28,19 +28,15 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class ProductReviewFragment extends DigitalCareBaseFragment {
 
+    private static final String PRODUCT_REVIEW_URL = "https://%s%s/%s";
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-
-    private static final String PRODUCT_REVIEW_URL = "https://%s%s/%s";
     private String TAG = ProductReviewFragment.class.getSimpleName();
 
     @Override
@@ -48,7 +44,7 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
                              Bundle savedInstanceState) {
 
         if (mView == null) {
-            mView = inflater.inflate(R.layout.common_webview, container, false);
+            mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         }
         return mView;
     }

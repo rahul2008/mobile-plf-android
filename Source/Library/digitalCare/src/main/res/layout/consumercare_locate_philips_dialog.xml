@@ -8,49 +8,49 @@
 
     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
         android:id="@+id/dialogTextViewDesc"
+        style="@style/contactUsHelpText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:gravity="center"
-        android:text="@string/servicecenters_not_found"
-        style="@style/contactUsHelpText"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/servicecenters_not_found"
+        android:textColor="@android:color/black"
         custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf" />
 
     <View
         android:id="@+id/seperatorOne"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#cccccc"
-        android:layout_below="@id/dialogTextViewDesc" />
+        android:layout_below="@id/dialogTextViewDesc"
+        android:background="#cccccc" />
 
     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
         android:id="@+id/dialogTextViewSupportPage"
+        style="@style/contactUsHelpText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_below="@id/dialogTextViewDesc"
+        android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="@string/localtephilips_contactus"
-        style="@style/contactUsHelpText"
         custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf" />
 
     <View
         android:id="@+id/seperatorTwo"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#cccccc"
-        android:layout_below="@id/dialogTextViewSupportPage" />
+        android:layout_below="@id/dialogTextViewSupportPage"
+        android:background="#cccccc" />
 
     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
         android:id="@+id/dialogTextViewOk"
+        style="@style/contactUsHelpText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_below="@id/seperatorTwo"
+        android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="@android:string/ok"
-        style="@style/contactUsHelpText"
         custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf" />
 </RelativeLayout>

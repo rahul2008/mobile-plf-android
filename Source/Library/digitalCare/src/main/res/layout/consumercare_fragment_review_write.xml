@@ -125,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:src="@drawable/dc_error_alert"
+                        android:src="@drawable/consumercare_dc_error_alert"
                         android:visibility="gone" />
 
                     <ImageView
@@ -133,7 +133,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:src="@drawable/dc_valid_alert"
+                        android:src="@drawable/consumercare_dc_valid_alert"
                         android:visibility="gone" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -146,7 +146,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/review_write_rate_product_header_summary"
                 android:layout_marginRight="@dimen/err_top_arrow_margin_right"
-                android:src="@drawable/dc_arrow_up"
+                android:src="@drawable/consumercare_dc_arrow_up"
                 android:visibility="gone" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
@@ -154,7 +154,7 @@
                 style="@style/write_product_review_edittext"
                 android:layout_below="@+id/iv_up_arrow_summary"
                 android:layout_marginTop="@dimen/err_edit_fields_margin_top"
-                android:background="@drawable/error_rect"
+                android:background="@drawable/consumercare_error_rect"
                 android:text="@string/EmptyField_ErrorMsg"
                 android:visibility="gone"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
@@ -199,14 +199,14 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="match_parent"
                                             android:contentDescription="@string/product_name"
-                                            android:src="@drawable/dc_error_alert" />
+                                            android:src="@drawable/consumercare_dc_error_alert" />
 
                                         <ImageView
                                             android:id="@+id/correct_icon_desc"
                                             android:layout_width="wrap_content"
                                             android:layout_height="match_parent"
                                             android:contentDescription="@string/product_name"
-                                            android:src="@drawable/dc_valid_alert" />
+                                            android:src="@drawable/consumercare_dc_valid_alert" />
                                     </RelativeLayout>
                                 </RelativeLayout>-->
 
@@ -245,14 +245,14 @@
                             android:layout_alignParentRight="true"
                             android:layout_below="@+id/desc_edit_text"
                             android:layout_marginRight="@dimen/err_top_arrow_margin_right"
-                            android:src="@drawable/dc_arrow_up" />
+                            android:src="@drawable/consumercare_dc_arrow_up" />
 
                         <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                             android:id="@+id/tv_desc"
                             style="@style/write_product_review_edittext"
                             android:layout_below="@+id/iv_up_arrow_desc"
                             android:layout_marginTop="@dimen/err_edit_fields_margin_top"
-                            android:background="@drawable/error_rect"
+                            android:background="@drawable/consumercare_error_rect"
                             android:text="@string/EmptyField_ErrorMsg"
                             android:visibility="gone"
                             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />-->
@@ -298,7 +298,7 @@
                                     android:layout_height="match_parent"
                                     android:contentDescription="@string/product_name"
                                     android:visibility="gone"
-                                    android:src="@drawable/dc_error_alert" />
+                                    android:src="@drawable/consumercare_dc_error_alert" />
 
                                 <ImageView
                                     android:id="@+id/reviewNameIconValid"
@@ -306,7 +306,7 @@
                                     android:layout_height="match_parent"
                                     android:contentDescription="@string/product_name"
                                     android:visibility="gone"
-                                    android:src="@drawable/dc_valid_alert" />
+                                    android:src="@drawable/consumercare_dc_valid_alert" />
                             </RelativeLayout>
 
                         </RelativeLayout>
@@ -339,7 +339,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:src="@drawable/dc_error_alert"
+                        android:src="@drawable/consumercare_dc_error_alert"
                         android:visibility="gone" />
 
                     <ImageView
@@ -347,7 +347,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:src="@drawable/dc_valid_alert"
+                        android:src="@drawable/consumercare_dc_valid_alert"
                         android:visibility="gone" />
                 </RelativeLayout>
 
@@ -360,7 +360,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/review_write_rate_product_nickname_header_value"
                 android:layout_marginRight="@dimen/err_top_arrow_margin_right"
-                android:src="@drawable/dc_arrow_up"
+                android:src="@drawable/consumercare_dc_arrow_up"
                 android:visibility="gone" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
@@ -368,7 +368,7 @@
                 style="@style/write_product_review_edittext"
                 android:layout_below="@+id/iv_up_arrow_name"
                 android:layout_marginTop="@dimen/err_edit_fields_margin_top"
-                android:background="@drawable/error_rect"
+                android:background="@drawable/consumercare_error_rect"
                 android:text="@string/EmptyField_ErrorMsg"
                 android:visibility="gone"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
@@ -414,7 +414,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:src="@drawable/dc_error_alert"
+                        android:src="@drawable/consumercare_dc_error_alert"
                         android:visibility="gone" />
 
                     <ImageView
@@ -422,7 +422,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:src="@drawable/dc_valid_alert"
+                        android:src="@drawable/consumercare_dc_valid_alert"
                         android:visibility="gone" />
                 </RelativeLayout>
 
@@ -435,7 +435,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/review_write_rate_product_email_header_value"
                 android:layout_marginRight="@dimen/err_top_arrow_margin_right"
-                android:src="@drawable/dc_arrow_up"
+                android:src="@drawable/consumercare_dc_arrow_up"
                 android:visibility="gone" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
@@ -443,7 +443,7 @@
                 style="@style/write_product_review_edittext"
                 android:layout_below="@+id/iv_up_arrow_email"
                 android:layout_marginTop="@dimen/err_edit_fields_margin_top"
-                android:background="@drawable/error_rect"
+                android:background="@drawable/consumercare_error_rect"
                 android:text="@string/kemailFieldErrorText"
                 android:visibility="gone"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
@@ -508,10 +508,10 @@
                 android:id="@+id/review_write_rate_product_terms_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleX="1.3"
-                android:scaleY="1.2"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginLeft="15dp" />
+                android:scaleX="1.3"
+                android:scaleY="1.2" />
 
         </LinearLayout>
 
@@ -539,7 +539,7 @@
                 style="@style/fontButton"
                 android:layout_marginTop="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/selector_no_thanks_button_bg"
+                android:background="@drawable/consumercare_selector_no_thanks_button_bg"
                 android:text="@string/cancel"
                 android:textAlignment="center"
                 android:textColor="@color/button_background"

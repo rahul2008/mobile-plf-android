@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/home_action_bar" />
+    <include layout="@layout/consumercare_home_action_bar" />
     <!-- android:background="@drawable/tuscanybackground"-->
     <RelativeLayout
         android:id="@+id/mainContainer"

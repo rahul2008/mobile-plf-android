@@ -41,7 +41,7 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
                              Bundle savedInstanceState) {
 
         try {
-            mView = inflater.inflate(R.layout.common_webview, container, false);
+            mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         } catch (InflateException e) {
         }
         return mView;

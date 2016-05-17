@@ -232,7 +232,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             }
         }
         try {
-            mView = inflater.inflate(R.layout.fragment_locate_philips, container, false);
+            mView = inflater.inflate(R.layout.consumercare_fragment_locate_philips, container, false);
         } catch (InflateException e) {
         }
 
@@ -310,7 +310,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         MarkerOptions mMarkerOptions = new MarkerOptions();
         mMarkerOptions.position(new LatLng(lat, lang));
         mMarkerOptions.icon(BitmapDescriptorFactory
-                .fromResource(R.drawable.marker_current));
+                .fromResource(R.drawable.consumercare_marker_current));
         mMarkerOptions.anchor(0.5f, 0.5f);
 
         CircleOptions mOptions = new CircleOptions()
@@ -488,7 +488,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         int resultsetSize = resultModelSet.size();
         mHashMapResults = new HashMap<String, AtosResultsModel>(resultsetSize);
         if (mMap != null) {
-            mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
+            mMap.setOnMarkerClickListener(this);
 
             for (int i = 0; i < resultsetSize; i++) {
                 AtosResultsModel resultModel = resultModelSet.get(i);
@@ -514,7 +514,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     private void createBitmap() {
         mBitmapMarker = BitmapFactory.decodeResource(
-                getActivity().getResources(), R.drawable.marker_shadow).copy(
+                getActivity().getResources(), R.drawable.consumercare_marker_shadow).copy(
                 Bitmap.Config.ARGB_8888, true);
     }
 
@@ -550,10 +550,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             return true;
         }
 
-        if (provider != null) {
-            return true;
-        }
-        return false;
+        return provider != null;
     }
 
     @Override
@@ -774,8 +771,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         setViewParams(config);
     }
-
-    ;
 
     @Override
     public String getActionbarTitle() {

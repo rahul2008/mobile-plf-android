@@ -16,12 +16,12 @@ public class DigitalCareConstants {
     public static final String SCREEN_ORIENTATION = "orientation";
 
     public static final String OPTION_SUPPORT_SCREEN = "support_screen";
-    public static final String OPTION_PRODUCS_DETAILS = "view_product_details";
+    public static final String OPTION_PRODUCS_DETAILS = "consumercare_view_product_details";
     public static final String OPTION_FAQ = "faq";
-    public static final String OPTION_CONTACT_US = "contact_us";
-    public static final String OPTION_FIND_PHILIPS_NEARBY = "find_philips_near_you";
-    public static final String OPTION_WHAT_ARE_YOU_THINKING = "feedback";
-    public static final String OPTION_REGISTER_PRODUCT = "registration";
+    public static final String OPTION_CONTACT_US = "consumercare_contact_us";
+    public static final String OPTION_FIND_PHILIPS_NEARBY = "consumercare_find_philips_near_you";
+    public static final String OPTION_WHAT_ARE_YOU_THINKING = "consumercare_feedback";
+    public static final String OPTION_REGISTER_PRODUCT = "consumercare_registration";
 
     public static final int IMAGE_PICK = 1010;
     public static final int IMAGE_CAPTURE = 1001;
