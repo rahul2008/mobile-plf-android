@@ -85,7 +85,6 @@ public class UserWithProductsTest extends MockitoTestCase {
                 return userMock;
             }
         };
-
     }
 
     public void testIsUserSignedIn() {
@@ -223,7 +222,7 @@ public class UserWithProductsTest extends MockitoTestCase {
     public void
     testGettingRegisteredListener() {
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-        userWithProducts.getRegisteredProducts(registeredProductsListener, Sector.B2C, Catalog.CONSUMER);
+        userWithProducts.getRegisteredProducts(registeredProductsListener);
         assertEquals(registeredProductsListener, userWithProducts.getRegisteredProductsListener());
     }
 
@@ -235,7 +234,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         userWithProducts.registerProduct(product);
         assertTrue(userWithProducts.getRequestType() == UserWithProducts.PRODUCT_REGISTRATION);
         when(userMock.isUserSignIn()).thenReturn(false);
-        userWithProducts.getRegisteredProducts(registeredProductsListener, Sector.B2C, Catalog.CONSUMER);
+        userWithProducts.getRegisteredProducts(registeredProductsListener);
         assertTrue(userWithProducts.getRequestType() != (UserWithProducts.FETCH_REGISTERED_PRODUCTS));
     }
 
@@ -542,7 +541,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         userWithProducts.registerProduct(product);
         userWithProducts.retryRequests(context, registeredProduct, prodRegListenerMock);
         verify(userWithProductsMock).makeRegistrationRequest(context, registeredProduct, prodRegListenerMock);
-        userWithProducts.getRegisteredProducts(registeredProductsListenerMock, Sector.B2C, Catalog.CONSUMER);
+        userWithProducts.getRegisteredProducts(registeredProductsListenerMock);
         userWithProducts.retryRequests(context, registeredProduct, prodRegListenerMock);
         userWithProducts.setRequestType(-1);
         userWithProducts.retryRequests(context, registeredProduct, prodRegListenerMock);

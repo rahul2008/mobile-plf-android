@@ -3,8 +3,6 @@ package com.philips.cdp.prodreg.register;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
@@ -37,13 +35,7 @@ public class RemoteRegisteredProductsTest extends MockitoTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        remoteRegisteredProducts = new RemoteRegisteredProducts() {
-            @NonNull
-            @Override
-            protected RegisteredProduct getRegisteredProduct(final Sector sector, final Catalog catalog) {
-                return registeredProduct;
-            }
-        };
+        remoteRegisteredProducts = new RemoteRegisteredProducts();
         context = getInstrumentation().getContext();
     }
 
@@ -51,7 +43,7 @@ public class RemoteRegisteredProductsTest extends MockitoTestCase {
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         LocalRegisteredProducts localRegisteredProducts = mock(LocalRegisteredProducts.class);
-        ResponseListener responseListener = remoteRegisteredProducts.getPrxResponseListenerForRegisteredProducts(userWithProductsMock, localRegisteredProducts, registeredProductsListener, Sector.B2C, Catalog.CONSUMER);
+        ResponseListener responseListener = remoteRegisteredProducts.getPrxResponseListenerForRegisteredProducts(userWithProductsMock, localRegisteredProducts, registeredProductsListener);
         RegisteredResponse registeredResponse = mock(RegisteredResponse.class);
         final RegisteredResponseData registeredResponseData = new RegisteredResponseData();
         registeredResponseData.setProductModelNumber("HD8967/09");
@@ -69,7 +61,7 @@ public class RemoteRegisteredProductsTest extends MockitoTestCase {
         responseListener.onResponseError(new PrxError("test", 10));
         verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
         responseListener.onResponseError(new PrxError("test", ProdRegError.ACCESS_TOKEN_INVALID.getCode()));
-        verify(userWithProductsMock).onAccessTokenExpire(registeredProduct, null);
+        verify(userWithProductsMock).onAccessTokenExpire(null, null);
     }
 
     public void testRegisterMethod() {
@@ -79,7 +71,7 @@ public class RemoteRegisteredProductsTest extends MockitoTestCase {
         RemoteRegisteredProducts remoteRegisteredProducts = new RemoteRegisteredProducts() {
             @NonNull
             @Override
-            ResponseListener getPrxResponseListenerForRegisteredProducts(final UserWithProducts userWithProducts, final LocalRegisteredProducts localRegisteredProducts, final RegisteredProductsListener registeredProductsListener, final Sector sector, final Catalog catalog) {
+            ResponseListener getPrxResponseListenerForRegisteredProducts(final UserWithProducts userWithProducts, final LocalRegisteredProducts localRegisteredProducts, final RegisteredProductsListener registeredProductsListener) {
                 return responseListenerMock;
             }
 
@@ -98,7 +90,7 @@ public class RemoteRegisteredProductsTest extends MockitoTestCase {
         User user = mock(User.class);
         UserWithProducts userWithProducts = mock(UserWithProducts.class);
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-        remoteRegisteredProducts.getRegisteredProducts(context, userWithProducts, user, registeredProductsListener, Sector.B2C, Catalog.CONSUMER);
+        remoteRegisteredProducts.getRegisteredProducts(context, userWithProducts, user, registeredProductsListener);
         verify(requestManager).executeRequest(registeredProductsRequest, responseListenerMock);
     }
 
