@@ -78,7 +78,7 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_PAGE_NAME);
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitle(R.string.iap_retailer_title);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         getRetailersInformation();
