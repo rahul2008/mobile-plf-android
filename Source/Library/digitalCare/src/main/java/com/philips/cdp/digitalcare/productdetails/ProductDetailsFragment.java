@@ -7,7 +7,7 @@ import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
  *
  * @author : Ritesh.jha@philips.com
  * @since : 16 Jan 2015
- *
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -69,6 +69,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private static boolean isTablet = false;
     private static int mHeight = 0;
     private static int mScrollPosition = 0;
+    private static Activity mActivity = null;
     private RelativeLayout mFirstContainer = null;
     private LinearLayout.LayoutParams mFirstContainerParams = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
@@ -88,7 +89,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private LinearLayout.LayoutParams mScrollerLayoutParams = null;
     private LinearLayout.LayoutParams mProductVideoHeaderParams = null;
     private PrxWrapper mPrxWrapper = null;
-    private static Activity mActivity = null;
     private int mSdkVersion = 0;
     private RelativeLayout mManualRelativeLayout = null;
     private String mManualButtonTitle = null;
@@ -447,9 +447,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         relativeLayout.setOnClickListener(this);
 
         mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-        String mFilePath  = null;
+        String mFilePath = null;
 
-        if(mViewProductDetailsModel != null) {
+        if (mViewProductDetailsModel != null) {
             mFilePath = mViewProductDetailsModel.getManualLink();
         }
 
@@ -523,7 +523,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_download_manual))) {
-            Locale locale =  DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
+            Locale locale = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
             String country = locale.getCountry();
             String language = locale.getLanguage();
             String mFilePath = mViewProductDetailsModel.getManualLink();
@@ -533,9 +533,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             if ((mFilePath != null) && (mFilePath != "")) {
                 if (isConnectionAvailable()) {
                     DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
-                    downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable()) ;
+                    downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
 //                    showFragment(new ProductManualFragment());
-                    }
+                }
             } else {
                 showAlert(getResources().getString(R.string.no_data));
             }
@@ -608,9 +608,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             initView(viewProductDetailsModel.getVideoLinks());
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(viewProductDetailsModel);
 
-        if (mManualPdf != null && mManualButtonTitle.equalsIgnoreCase(
-                getResources().getResourceEntryName(R.string.product_download_manual))) {
-            mManualRelativeLayout.setVisibility(View.VISIBLE);
+        if (mManualPdf != null && mManualButtonTitle != null) {
+            if (mManualButtonTitle.equalsIgnoreCase(
+                    getResources().getResourceEntryName(R.string.product_download_manual))) {
+                mManualRelativeLayout.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

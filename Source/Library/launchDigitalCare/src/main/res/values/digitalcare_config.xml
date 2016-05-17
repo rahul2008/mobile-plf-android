@@ -45,11 +45,11 @@
     <!--
         &lt;!&ndash; List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions &ndash;&gt; -->
     <array name="main_menu_title">
-        <!-- <item>@string/view_product_details</item>-->
+        <item>@string/view_product_details</item>
         <item>@string/view_faq</item>
         <item>@string/contact_us</item>
-        <!--  <item>@string/find_philips_near_you</item>-->
-        <!--<item>@string/feedback</item>-->
+        <item>@string/find_philips_near_you</item>
+        <item>@string/feedback</item>
         <item>@string/myphilips_CC</item>
         <item>@string/Change_Selected_Product</item>
     </array>
