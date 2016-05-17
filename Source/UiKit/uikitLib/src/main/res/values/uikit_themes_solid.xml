@@ -222,7 +222,7 @@
         <item name="uikit_outlinedButtonTransparentStyle">@style/Button.TransparentOrange</item>
         <item name="editTextStyle">@style/InputStyle.DarkOrange</item>
         <item name="uikit_errorTextColor">@color/uikit_enricher_red</item>
-        <item name="uikit_errorIcon">@drawable/uikit_error_cross_red</item>
+        <item name="uikit_errorIcon">@drawable/uikit_red_error_cross</item>
         <item name="uikit_veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="uikit_brightColor">@color/uikit_philips_bright_orange</item>
         <item name="uikit_darkerColor">@color/uikit_philips_very_dark_orange</item>
@@ -411,7 +411,7 @@
         <item name="uikit_outlinedButtonTransparentStyle">@style/Button.TransparentOrange</item>
         <item name="editTextStyle">@style/InputStyle.BrightOrange</item>
         <item name="uikit_errorTextColor">@color/uikit_enricher_red</item>
-        <item name="uikit_errorIcon">@drawable/uikit_error_cross_red</item>
+        <item name="uikit_errorIcon">@drawable/uikit_red_error_cross</item>
         <item name="uikit_errorBackground">@drawable/uikit_edittext_error_bg_red</item>
         <item name="uikit_veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="uikit_brightColor">@color/uikit_philips_light_orange</item>
@@ -863,7 +863,7 @@
         <item name="uikit_pickerOutlinedButtonStyle">@style/PickerButton.OutlinedLightOrange</item>
         <item name="editTextStyle">@style/InputStyle.LightOrange</item>
         <item name="uikit_errorTextColor">@color/uikit_enricher_red</item>
-        <item name="uikit_errorIcon">@drawable/uikit_error_cross_red</item>
+        <item name="uikit_errorIcon">@drawable/uikit_red_error_cross</item>
         <item name="uikit_veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="uikit_brightColor">@color/uikit_philips_very_light_orange</item>
         <item name="uikit_darkerColor">@color/uikit_philips_bright_orange</item>

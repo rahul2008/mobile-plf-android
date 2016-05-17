@@ -12,7 +12,7 @@
         <item name="uikit_tabBarGradient">?attr/uikit_baseGradient</item>
         <item name="uikit_hamburgerGradient">?attr/uikit_darkerGradient</item>
         <item name="uikit_errorTextColor">@color/uikit_philips_bright_orange</item>
-        <item name="uikit_errorIcon">@drawable/uikit_error_cross_orange</item>
+        <item name="uikit_errorIcon">@drawable/uikit_orange_error_cross</item>
         <item name="uikit_errorBackground">@drawable/uikit_edittext_error_bg</item>
         <item name="actionBarStyle">@style/HoloActionBar</item>
         <item name="uikit_splashTitleStyle">@style/SplashTitle</item>
