@@ -31,6 +31,7 @@ import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements
         PRXProductAssetBuilder.AssetListener {
@@ -57,8 +58,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         @Override
         public void onSuccess(final int count) {
             //Added to cart tracking
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
-                    IAPAnalyticsConstant.ADD_TO_CART);
+            tagItemAddedToCart();
         }
 
         @Override
@@ -145,7 +145,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 mProductDiscountedPrice.setVisibility(View.GONE);
                 mPrice.setTextColor(Utility.getThemeColor(mContext));
             }
-        }else{
+        } else {
             mPrice.setVisibility(View.GONE);
             mProductDiscountedPrice.setText(mBundle.getString(IAPConstant.PRODUCT_PRICE));
         }
@@ -175,7 +175,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             mAddToCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    tagDiscountedItemAddedToCart();
                     buyProduct(mCTNValue);
                 }
             });
@@ -224,9 +223,12 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mShoppingCartPresenter.buyProduct(getContext(), ctnNumber, mBuyProductListener);
     }
 
-    private void tagDiscountedItemAddedToCart() {
+    private void tagItemAddedToCart() {
+        HashMap contextData = new HashMap();
+        contextData.put(IAPAnalyticsConstant.ORIGINAL_PRICE, mPrice.getText().toString());
         if (mProductDiscountedPrice.getVisibility() == View.VISIBLE)
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DISCOUNTED_PRICE,
-                    mProductDiscountedPrice.getText().toString());
+            contextData.put(IAPAnalyticsConstant.DISCOUNTED_PRICE, mProductDiscountedPrice.getText().toString());
+        contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
+        Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
 }
