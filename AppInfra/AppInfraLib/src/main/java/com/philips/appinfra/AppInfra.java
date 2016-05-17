@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.appinfra;
 
 import android.content.Context;
@@ -68,10 +73,10 @@ public class AppInfra {
         appInfraLogger = logger.createInstanceForComponent(this.getClass().getPackage().toString(), VERSION);
     }
 
-    protected LoggingInterface getAppInfraLogInstance() {
+     LoggingInterface getAppInfraLogInstance() { // this log should be used withing App Infra library
         return appInfraLogger;
     }
-    public Context getAppInfraContext() {
+     Context getAppInfraContext() {
         return appInfraContext;
     }
 }
