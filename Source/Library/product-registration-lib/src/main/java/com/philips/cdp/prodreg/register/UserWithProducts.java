@@ -25,6 +25,10 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -173,7 +177,21 @@ public class UserWithProducts {
 
     protected boolean isValidDate(final String date) {
         String[] dates = date.split("-");
-        return dates.length > 1 && Integer.parseInt(dates[0]) > 1999;
+        return dates.length > 1 && Integer.parseInt(dates[0]) > 1999 && !isFutureDate(date);
+    }
+
+    protected boolean isFutureDate(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        final String mGetDeviceDate = dateFormat.format(calendar.getTime());
+        try {
+            final Date mDisplayDate = dateFormat.parse(date);
+            final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
+            return mDisplayDate.after(mDeviceDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @NonNull
