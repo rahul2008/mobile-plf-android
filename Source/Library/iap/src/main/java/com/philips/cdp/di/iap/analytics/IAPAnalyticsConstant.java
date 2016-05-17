@@ -24,6 +24,7 @@ public class IAPAnalyticsConstant {
     public static final String SPECIAL_EVENTS = "specialEvents";
 
     public static final String PRODUCTS = "&&products";
+    public static final String ORIGINAL_PRICE = "originalPrice";
     public static final String DISCOUNTED_PRICE = "discountedPrice";
     public static final String RETAILER_SELECTED = "retailerSelected";
     public static final String ADD_TO_CART = "scAdd";
