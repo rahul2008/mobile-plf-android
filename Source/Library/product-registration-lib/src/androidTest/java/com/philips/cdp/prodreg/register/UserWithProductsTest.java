@@ -127,6 +127,7 @@ public class UserWithProductsTest extends MockitoTestCase {
 
     public void testReturnFalseForInValidDate() throws Exception {
         assertFalse(userWithProducts.isValidDate("1998-03-22"));
+        assertFalse(userWithProducts.isValidDate("2098-05-22"));
     }
 
     public void testRegisterProductWhenNotSignedIn() {
@@ -579,5 +580,12 @@ public class UserWithProductsTest extends MockitoTestCase {
         userWithProducts.registerCachedProducts(registeredProducts, prodRegListener);
         verify(userWithProductsMock).updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
         verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
+    }
+
+    public void testIsFutureDate() {
+        String date = "2098-05-22";
+        assertTrue(userWithProducts.isFutureDate(date));
+        String date1 = "2016-05-16";
+        assertFalse(userWithProducts.isFutureDate(date1));
     }
 }
