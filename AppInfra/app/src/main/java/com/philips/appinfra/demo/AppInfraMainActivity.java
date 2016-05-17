@@ -58,7 +58,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 break;
             case 3 :
                 Intent intentPrxActivity = new Intent(AppInfraMainActivity.this,
-                        LauncherActivity.class);
+                        PrxLauncherActivity.class);
                 startActivity(intentPrxActivity);
 
                 break;

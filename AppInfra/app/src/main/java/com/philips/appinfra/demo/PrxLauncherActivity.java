@@ -18,9 +18,9 @@ import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
-public class LauncherActivity extends AppCompatActivity {
+public class PrxLauncherActivity extends AppCompatActivity {
 
-    private static final String TAG = LauncherActivity.class.getSimpleName();
+    private static final String TAG = PrxLauncherActivity.class.getSimpleName();
 
     private String mCtn = "RQ1250/17";
     private String mLocale = "en_GB";

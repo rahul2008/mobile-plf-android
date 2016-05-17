@@ -38,7 +38,7 @@
         </activity>
 
         <activity
-            android:name=".LauncherActivity"
+            android:name=".PrxLauncherActivity"
             android:label="Log Test"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
