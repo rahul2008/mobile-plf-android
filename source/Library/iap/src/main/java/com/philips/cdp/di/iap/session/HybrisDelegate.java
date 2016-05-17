@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 
@@ -32,6 +33,13 @@ public class HybrisDelegate {
             delegate.mContext = context.getApplicationContext();
             delegate.controller = delegate.getNetworkController(context);
         }
+        return delegate;
+    }
+
+
+    static HybrisDelegate getDelegateWithNetworkEssentials(Context context,
+                                                           NetworkEssentials networkEssentials) {
+        delegate.controller = new NetworkController(context, networkEssentials);
         return delegate;
     }
 

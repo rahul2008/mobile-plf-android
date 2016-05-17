@@ -6,7 +6,9 @@ import android.os.Message;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.store.HybrisStore;
@@ -16,23 +18,31 @@ import com.philips.cdp.tagging.Tagging;
 import org.json.JSONObject;
 
 public class NetworkController {
-    IAPHurlStack mIAPHurlStack;
+    HurlStack mIAPHurlStack;
     RequestQueue hybrisVolleyQueue;
     Context context;
     StoreSpec store;
     OAuthHandler oAuthHandler;
 
+    NetworkEssentials mNetworkEssentials;
+
+
     public NetworkController(Context context) {
+        this(context, null);
+    }
+
+    public NetworkController(Context context, NetworkEssentials essentials) {
         this.context = context;
+        mNetworkEssentials = essentials;
         initStore();
-        oAuthHandler = new TestEnvOAuthHandler();
+        oAuthHandler = essentials.getOAuthHandler();
         initHurlStack(context);
         hybrisVolleyCreateConnection(context);
     }
 
     void initHurlStack(final Context context) {
-        mIAPHurlStack = new IAPHurlStack(oAuthHandler);
-        mIAPHurlStack.setContext(context);
+        mIAPHurlStack = mNetworkEssentials.getHurlStack(context, oAuthHandler);
+//        mIAPHurlStack.setContext(context);
     }
 
     void initStore() {
@@ -40,11 +50,13 @@ public class NetworkController {
     }
 
     public void hybrisVolleyCreateConnection(Context context) {
-        hybrisVolleyQueue = VolleyWrapper.newRequestQueue(context, mIAPHurlStack.getHurlStack());
+        hybrisVolleyQueue = VolleyWrapper.newRequestQueue(context, mIAPHurlStack);
     }
 
     void refreshOAuthToken(RequestListener listener) {
-        oAuthHandler.refreshToken(listener);
+        if (oAuthHandler != null) {
+            oAuthHandler.refreshToken(listener);
+        }
     }
 
     public void sendHybrisRequest(final int requestCode, final AbstractModel model, final

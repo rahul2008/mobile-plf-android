@@ -14,9 +14,9 @@ public class NetworkEssentialsFactory {
 
     public static NetworkEssentials getNetworkEssentials(int requestCode) {
         if (requestCode == LOAD_LOCAL_DATA) {
-            return new HybrisNetworkEssentials();
-        } else if (requestCode == LOAD_HYBRIS_DATA) {
             return new LocalNetworkEssentials();
+        } else if (requestCode == LOAD_HYBRIS_DATA) {
+            return new HybrisNetworkEssentials();
         }
         throw new RuntimeException("Request code not supported");
     }

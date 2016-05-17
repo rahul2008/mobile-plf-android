@@ -11,6 +11,6 @@ import com.philips.cdp.di.iap.session.OAuthHandler;
 
 public interface NetworkEssentials {
     StoreSpec getStore(Context context);
-    HurlStack getHurlStack(OAuthHandler oAuthHandler);
+    HurlStack getHurlStack(Context context, OAuthHandler oAuthHandler);
     OAuthHandler getOAuthHandler();
 }

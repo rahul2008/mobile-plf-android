@@ -20,7 +20,7 @@ public class LocalNetworkEssentials implements NetworkEssentials {
     }
 
     @Override
-    public HurlStack getHurlStack(final OAuthHandler oAuthHandler) {
+    public HurlStack getHurlStack(Context context, final OAuthHandler oAuthHandler) {
         return new HurlStack();
     }
 
