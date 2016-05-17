@@ -209,6 +209,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtState.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                Utility.hideKeypad(mContext);
                 mStateDropDown.show();
                 return false;
             }

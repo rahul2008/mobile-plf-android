@@ -92,7 +92,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtPostalCode.setText(mBillingAddressFields.getPostalCode());
             mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
             mEtEmail.setText(mBillingAddressFields.getEmail());
-            mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
 
             if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US") &&
                     mBillingAddressFields.getRegionIsoCode() != null) {
@@ -103,6 +102,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             }
         }
         mIgnoreTextChangeListener = false;
+        mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
     }
 
     private void clearAllFields() {

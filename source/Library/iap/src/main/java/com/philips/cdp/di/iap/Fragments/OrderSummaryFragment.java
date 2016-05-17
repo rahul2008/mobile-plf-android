@@ -132,6 +132,9 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     public void onClick(final View v) {
         if (v == mBtnPayNow) {
 
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
+                    IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
+
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
                 if (!isOrderPlaced() || paymentMethodAvailable()) {
