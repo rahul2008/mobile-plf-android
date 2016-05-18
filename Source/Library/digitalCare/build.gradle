@@ -121,7 +121,7 @@ android {
             abortOnError false
         }
     
-	resourcePrefix 'digitalCare'
+	resourcePrefix 'consumercare_'
 
     buildTypes {
         release {
