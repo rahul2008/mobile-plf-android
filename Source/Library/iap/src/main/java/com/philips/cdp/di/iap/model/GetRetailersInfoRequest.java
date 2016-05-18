@@ -4,6 +4,7 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.retailers.WebResults;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.Map;
@@ -13,10 +14,22 @@ import java.util.Map;
  * All rights reserved.
  */
 public class GetRetailersInfoRequest extends AbstractModel {
-    private static final String RETAILER_URL ="www.philips.com/api/wtb/v1/online-retailers?product=%s&lang=en";
+    private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1";
+    private static final String RETAILERS_ALTER = "online-retailers?product=%s&lang=en";
+    private final String mRetailerUrl;
 
     public GetRetailersInfoRequest(final StoreSpec store, final Map<String, String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
+        mRetailerUrl = createRetailersURL(store);
+    }
+
+    private String createRetailersURL(final StoreSpec store) {
+        StringBuilder builder = new StringBuilder("https://");
+        builder.append(PREFIX_RETAILERS).append("/");
+        builder.append(NetworkConstants.PRX_SECTOR_CODE).append("/");
+        builder.append(store.getLocale()).append("/");
+        builder.append(RETAILERS_ALTER);
+        return builder.toString();
     }
 
     @Override
@@ -40,7 +53,7 @@ public class GetRetailersInfoRequest extends AbstractModel {
             throw new RuntimeException("CTN must be specified");
         }
         String ctn = params.get(ModelConstants.PRODUCT_CODE);
-        return String.format(RETAILER_URL, ctn);
+        return String.format(mRetailerUrl, ctn);
     }
 }
 
