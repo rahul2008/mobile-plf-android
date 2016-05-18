@@ -13,6 +13,7 @@ import java.util.Map;
  * All rights reserved.
  */
 public class GetRetailersInfoRequest extends AbstractModel {
+    private static final String RETAILER_URL ="www.philips.com/api/wtb/v1/online-retailers?product=%s&lang=en";
 
     public GetRetailersInfoRequest(final StoreSpec store, final Map<String, String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
@@ -38,8 +39,8 @@ public class GetRetailersInfoRequest extends AbstractModel {
         if (params == null || !params.containsKey(ModelConstants.PRODUCT_CODE)) {
             throw new RuntimeException("CTN must be specified");
         }
-        String CTN = params.get(ModelConstants.PRODUCT_CODE);
-        return store.getRetailersAlterUrl(CTN);
+        String ctn = params.get(ModelConstants.PRODUCT_CODE);
+        return String.format(RETAILER_URL, ctn);
     }
 }
 

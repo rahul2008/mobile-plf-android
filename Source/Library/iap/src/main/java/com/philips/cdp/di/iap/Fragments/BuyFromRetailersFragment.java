@@ -20,6 +20,8 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.BuyFromRetailersAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.core.ControllerFactory;
+import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -29,7 +31,8 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import java.util.ArrayList;
 
 
-public class BuyFromRetailersFragment extends BaseAnimationSupportFragment implements ShoppingCartPresenter.LoadListenerForRetailer {
+public class BuyFromRetailersFragment extends BaseAnimationSupportFragment implements
+        ShoppingCartPresenter.LoadListener<StoreEntity> {
 
     public static final String TAG = BuyFromRetailersFragment.class.getName();
     FrameLayout mCrossContainer;
@@ -85,7 +88,8 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
     }
 
     private void getRetailersInformation() {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), this, getFragmentManager());
+        ShoppingCartAPI presenter = ControllerFactory.getInstance().getShoppingCartPresenter(getContext(), this, getFragmentManager());
+
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
             presenter.getRetailersInformation(mCtn);

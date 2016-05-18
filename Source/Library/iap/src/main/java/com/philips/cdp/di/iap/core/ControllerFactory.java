@@ -8,6 +8,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.applocal.LocalShoppingCartPresenter;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 
 public class ControllerFactory {
@@ -40,7 +41,7 @@ public class ControllerFactory {
                                                     ShoppingCartPresenter.LoadListener listener, FragmentManager fragmentManager) {
         ShoppingCartAPI api = null;
         if (loadLocalData()) {
-            //Still need to implement
+            api = new LocalShoppingCartPresenter(context, listener, fragmentManager);
         } else {
             api = new ShoppingCartPresenter(context, listener, fragmentManager);
         }

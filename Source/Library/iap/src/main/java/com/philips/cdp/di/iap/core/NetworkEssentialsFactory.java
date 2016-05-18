@@ -6,7 +6,7 @@
 package com.philips.cdp.di.iap.core;
 
 import com.philips.cdp.di.iap.hybris.HybrisNetworkEssentials;
-import com.philips.cdp.di.iap.local.LocalNetworkEssentials;
+import com.philips.cdp.di.iap.applocal.LocalNetworkEssentials;
 
 public class NetworkEssentialsFactory {
     public static int LOAD_LOCAL_DATA = 0;

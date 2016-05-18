@@ -35,7 +35,8 @@ import com.philips.cdp.tagging.Tagging;
 import java.util.ArrayList;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
-        implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener {
+        implements View.OnClickListener, EventListener, AddressController.AddressListener,
+        ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener<ShoppingCartData> {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
     private Button mCheckoutBtn;
@@ -72,7 +73,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.shopping_cart_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-
 
         mCheckoutBtn = (Button) rootView.findViewById(R.id.checkout_btn);
         mCheckoutBtn.setOnClickListener(this);
@@ -147,7 +147,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG);
         }
     }
-
 
     @Override
     public boolean onBackPressed() {

@@ -27,7 +27,8 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ShoppingCartPresenter.LoadListener {
+public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
+        ShoppingCartPresenter.LoadListener<ShoppingCartData> {
     private final static String TAG = OrderProductAdapter.class.getSimpleName();
 
     private List<ShoppingCartData> mShoppingCartDataList;

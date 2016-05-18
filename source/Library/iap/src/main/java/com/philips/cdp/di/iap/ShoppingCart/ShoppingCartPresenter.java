@@ -8,12 +8,10 @@ package com.philips.cdp.di.iap.ShoppingCart;
 import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
-import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
@@ -21,19 +19,15 @@ import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
-import com.philips.cdp.di.iap.model.GetRetailersInfoRequest;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.error.ServerError;
-import com.philips.cdp.di.iap.response.retailers.StoreEntity;
-import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -46,41 +40,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShoppingCartPresenter implements com.philips.cdp.di.iap.core.ShoppingCartAPI {
-    Context mContext;
-    ArrayList<ShoppingCartData> mProductData;
-    ArrayList<StoreEntity> mStoreEntities;
-    private LoadListener mLoadListener;
-    private LoadListenerForRetailer mLoadListenerForRetailer;
-    private HybrisDelegate mHybrisDelegate;
-    private HybrisStore mStore;
-    private FragmentManager mFragmentManager;
-
-    public interface LoadListener {
-        void onLoadFinished(ArrayList<ShoppingCartData> data);
-    }
+public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
 
     public ShoppingCartPresenter() {
     }
 
-    public interface LoadListenerForRetailer {
-        void onLoadFinished(ArrayList<StoreEntity> data);
-    }
-
-    public ShoppingCartPresenter(Context context, LoadListener listener, android.support.v4.app.FragmentManager fragmentManager) {
-        mContext = context;
+    public ShoppingCartPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
+        super(context, listener, fragmentManager);
         mProductData = new ArrayList<>();
-        mLoadListener = listener;
-        mFragmentManager = fragmentManager;
     }
-
-    public ShoppingCartPresenter(Context context, LoadListenerForRetailer listener, android.support.v4.app.FragmentManager fragmentManager) {
-        mContext = context;
-        mStoreEntities = new ArrayList<>();
-        mLoadListenerForRetailer = listener;
-        mFragmentManager = fragmentManager;
-    }
-
 
     public ShoppingCartPresenter(android.support.v4.app.FragmentManager pFragmentManager) {
         mFragmentManager = pFragmentManager;
@@ -88,36 +56,6 @@ public class ShoppingCartPresenter implements com.philips.cdp.di.iap.core.Shoppi
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
         mHybrisDelegate = delegate;
-    }
-
-    public HybrisDelegate getHybrisDelegate() {
-        if (mHybrisDelegate == null) {
-            mHybrisDelegate = HybrisDelegate.getInstance(mContext);
-        }
-        return mHybrisDelegate;
-    }
-
-    private HybrisStore getStore() {
-        if (mStore == null) {
-            mStore = (HybrisStore) getHybrisDelegate().getStore();
-        }
-        return mStore;
-    }
-
-    public void refreshList(ArrayList<ShoppingCartData> data) {
-        if (mLoadListener != null) {
-            mLoadListener.onLoadFinished(data);
-        }
-    }
-
-    public void refreshListForRetailer(ArrayList<StoreEntity> data) {
-        if (mLoadListenerForRetailer != null) {
-            mLoadListenerForRetailer.onLoadFinished(data);
-        }
-    }
-
-    private void sendHybrisRequest(int code, AbstractModel model, RequestListener listener) {
-        getHybrisDelegate().sendRequest(code, model, model);
     }
 
     @Override
@@ -167,52 +105,6 @@ public class ShoppingCartPresenter implements com.philips.cdp.di.iap.core.Shoppi
                 });
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
-    }
-
-    private void handleModelDataError(final Message msg) {
-        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
-        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
-        dismissProgressDialog();
-    }
-
-    public void getRetailersInformation(String ctn) {
-
-        Map<String, String> query = new HashMap<>();
-        query.put(ModelConstants.PRODUCT_CODE, String.valueOf(ctn));
-
-        GetRetailersInfoRequest model = new GetRetailersInfoRequest(getStore(), query,
-                new AbstractModel.DataLoadListener() {
-                    @Override
-                    public void onModelDataLoadFinished(Message msg) {
-                        WebResults webResults = null;
-                        if (msg.obj instanceof WebResults) {
-                            webResults = (WebResults) msg.obj;
-                        }
-
-                        if (webResults.getWrbresults().getOnlineStoresForProduct() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
-                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager,mContext.getString(R.string.iap_ok),"No Retailers for this product","No Retailers for this product");
-                            Utility.dismissProgressDialog();
-                            return;
-                        }
-                        mStoreEntities = (ArrayList<StoreEntity>) webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore();
-                        refreshListForRetailer(mStoreEntities);
-
-                        dismissProgressDialog();
-                    }
-
-                    @Override
-                    public void onModelDataError(final Message msg) {
-                        handleModelDataError(msg);
-                    }
-                });
-        model.setContext(mContext);
-        sendHybrisRequest(0, model, model);
-    }
-
-    private void dismissProgressDialog() {
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
     }
 
     @Override
@@ -360,13 +252,6 @@ public class ShoppingCartPresenter implements com.philips.cdp.di.iap.core.Shoppi
                 handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, null, false);
             }
         });
-    }
-
-    private void launchShoppingCart() {
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
-        transaction.addToBackStack(ShoppingCartFragment.TAG);
-        transaction.commitAllowingStateLoss();
     }
 
     @Override
