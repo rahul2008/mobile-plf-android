@@ -89,6 +89,7 @@ public class PaymentRequestTest {
         params.put(ModelConstants.TOWN, billingAddress.getTown());
         params.put(ModelConstants.PHONE_1, billingAddress.getPhoneNumber());
         params.put(ModelConstants.PHONE_2, "");
+        params.put(ModelConstants.REGION_ISOCODE, null);
 
         PaymentRequest request = new PaymentRequest(mStore, params, null);
         assertEquals(request.requestBody(), params);
@@ -110,6 +111,7 @@ public class PaymentRequestTest {
         params.put(ModelConstants.TOWN, billingAddress.getTown());
         params.put(ModelConstants.PHONE_1, billingAddress.getPhoneNumber());
         params.put(ModelConstants.PHONE_2, "");
+        params.put(ModelConstants.REGION_ISOCODE, null);
 
         PaymentRequest request = new PaymentRequest(mStore, params, null);
         assertEquals(request.requestBody(), params);

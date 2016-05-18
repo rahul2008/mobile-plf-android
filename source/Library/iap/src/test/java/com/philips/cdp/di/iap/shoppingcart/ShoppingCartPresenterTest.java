@@ -14,15 +14,14 @@ import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
-import com.philips.cdp.di.iap.model.GetRetailersInfoRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPJsonRequest;
 import com.philips.cdp.di.iap.session.NetworkController;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
+import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
-import com.philips.cdp.di.iap.store.HybrisStore;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -100,7 +99,7 @@ public class ShoppingCartPresenterTest {
                 mRequestListener.capture());
     }
 
-    @Test
+/*    @Test
     public void getRetailersInformation() {
         mPresenter.getRetailersInformation(mProductCTN);
         HybrisStore hybrisStore = mock(HybrisStore.class);
@@ -117,7 +116,7 @@ public class ShoppingCartPresenterTest {
         model.setContext(mock(Context.class));
         verify(mHybrisDelegate, times(1)).sendRequest(any(Integer.TYPE), any(AbstractModel.class),
                 mRequestListener.capture());
-    }
+    }*/
 
     @Test
     public void deleteProduct() {
