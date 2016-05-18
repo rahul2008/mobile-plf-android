@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.applocal.AppLocalHandler;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
@@ -25,6 +26,7 @@ public class IAPHandler implements IAPExposedAPI {
         handler.mImplementationHandler = handler.getExposedAPIImplementor(context, config);
         handler.initHybrisDelegate(context, config);
         handler.initControllerFactory(config);
+        handler.setLangAndCountry(config.getLanguage(), config.getCountry());
         return handler;
     }
 
@@ -38,11 +40,14 @@ public class IAPHandler implements IAPExposedAPI {
         mImplementationHandler.getProductCartCount(iapHandlerListener);
     }
 
+    private void setLangAndCountry(final String language, final String country) {
+        HybrisDelegate.getInstance().getStore().setLangAndCountry(language, country);
+    }
 
     private IAPExposedAPI getExposedAPIImplementor(Context context, IAPSettings settings) {
         IAPExposedAPI api = null;
         if (settings.isUseLocalData()) {
-            //Still need to implement
+            api = new AppLocalHandler();
         } else {
             api = new HybrisHandler(context, settings);
         }

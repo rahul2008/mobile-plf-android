@@ -11,7 +11,6 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.tagging.Tagging;
 
@@ -46,7 +45,7 @@ public class NetworkController {
     }
 
     void initStore() {
-        store = new HybrisStore(context);
+        store = mNetworkEssentials.getStore(context);
     }
 
     public void hybrisVolleyCreateConnection(Context context) {

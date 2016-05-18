@@ -7,12 +7,12 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.core.AbstractStoreSpec;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
-public class HybrisStore implements StoreSpec {
+public class HybrisStore extends AbstractStoreSpec {
 
     //Public since required by StoreConfiguration initialization
     public static final String HTTPS = "https://";
@@ -77,12 +77,8 @@ public class HybrisStore implements StoreSpec {
     private String mOauthRefreshUrl;
     private String mGetCartUrl;
     private String mGetProductCatalogUrl;
-    private String mCountry;
     private boolean mUserLoggedout;
     private String mRetailersAlter;
-
-    private boolean mStoreInitialized;
-    private String mLanguage;
 
     public HybrisStore(Context context) {
         mIAPUser = initIAPUser(context);
@@ -104,13 +100,6 @@ public class HybrisStore implements StoreSpec {
 
     StoreConfiguration getStoreConfig(final Context context) {
         return new StoreConfiguration(context, this);
-    }
-
-    @Override
-    public void setLangAndCountry(String language, String countryCode) {
-        checkAndUpdateStoreChange(language, countryCode);
-        mLanguage = language;
-        mCountry = countryCode;
     }
 
     @Override
@@ -165,17 +154,6 @@ public class HybrisStore implements StoreSpec {
         builder.append(SUFFIX_OAUTH);
 
         mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
-    }
-
-    void checkAndUpdateStoreChange(String language, String countryCode) {
-        if (language == null || countryCode == null || mLanguage == null || mCountry == null
-                || !mCountry.equals(countryCode) || !mLanguage.equals(language)) {
-            setStoreInitialized(false);
-        }
-    }
-
-    void setStoreInitialized(boolean changed) {
-        mStoreInitialized = changed;
     }
 
     private String createRegionsUrl() {
@@ -343,10 +321,5 @@ public class HybrisStore implements StoreSpec {
     @Override
     public boolean isUserLoggedOut() {
         return mUserLoggedout;
-    }
-
-    @Override
-    public boolean isStoreInitialized() {
-        return mStoreInitialized;
     }
 }

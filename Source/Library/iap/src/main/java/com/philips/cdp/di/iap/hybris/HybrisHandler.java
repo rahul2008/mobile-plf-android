@@ -5,16 +5,13 @@
 package com.philips.cdp.di.iap.hybris;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Message;
 import android.text.TextUtils;
 
-import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.activity.IAPActivity;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
+import com.philips.cdp.di.iap.core.IAPLaunchHelper;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
@@ -22,7 +19,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.tagging.Tagging;
 
 /**
  * We go via Hybris interface.
@@ -106,20 +102,7 @@ public class HybrisHandler implements IAPExposedAPI {
     }
 
     void launchIAPActivity(int screen) {
-        //Set component version key and value for InAppPurchase
-        Tagging.setComponentVersionKey(IAPAnalyticsConstant.COMPONENT_VERSION);
-        Tagging.setComponentVersionVersionValue("In app purchase " + BuildConfig.VERSION_NAME);
-
-        Intent intent = new Intent(mContext, IAPActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        //Check flag to differentiate shopping cart / product catalog
-        if (screen != IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW) {
-            intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, false);
-        }
-
-        intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, mThemeIndex);
-        mContext.startActivity(intent);
+        IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex);
     }
 
     private void getProductCount(final IAPHandlerListener iapHandlerListener) {
