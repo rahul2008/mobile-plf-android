@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -57,6 +58,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.demo_app_layout);
+        showAppVersion();
 
         Button register = (Button) findViewById(R.id.btn_register);
         register.setOnClickListener(this);
@@ -296,5 +298,17 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mShoppingCart.setVisibility(View.GONE);
         mSelectCountryLl.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
+    }
+
+    private void showAppVersion() {
+        String code = "";
+        try {
+            code = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        TextView versionView = (TextView) findViewById(R.id.appversion);
+        versionView.setText(String.valueOf(code));
+
     }
 }
