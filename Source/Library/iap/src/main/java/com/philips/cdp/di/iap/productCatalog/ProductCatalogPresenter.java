@@ -9,13 +9,14 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
+import com.philips.cdp.di.iap.core.ProductCatalogAPI;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -23,13 +24,13 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class ProductCatalogPresenter {
+public class ProductCatalogPresenter implements ProductCatalogAPI {
 
     private Context mContext;
     private ArrayList<ProductCatalogData> mProductData;
     private LoadListener mLoadListener;
     private HybrisDelegate mHybrisDelegate;
-    private Store mStore;
+    private StoreSpec mStore;
     private FragmentManager mFragmentManager;
 
     public interface LoadListener {
@@ -55,7 +56,7 @@ public class ProductCatalogPresenter {
         return mHybrisDelegate;
     }
 
-    private Store getStore() {
+    private StoreSpec getStore() {
         if (mStore == null) {
             mStore = getHybrisDelegate().getStore();
         }
@@ -73,6 +74,7 @@ public class ProductCatalogPresenter {
     }
 
 
+    @Override
     public void getProductCatalog() {
         GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), null,
                 new AbstractModel.DataLoadListener() {

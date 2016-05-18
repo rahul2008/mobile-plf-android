@@ -8,16 +8,16 @@ import android.os.Message;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.CartsEntity;
-import com.philips.cdp.di.iap.store.Store;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class CartCurrentInfoRequest extends AbstractModel {
-    public CartCurrentInfoRequest(Store store, Map<String, String> query,
+    public CartCurrentInfoRequest(StoreSpec store, Map<String, String> query,
                                   DataLoadListener listener) {
         super(store, query, listener);
     }

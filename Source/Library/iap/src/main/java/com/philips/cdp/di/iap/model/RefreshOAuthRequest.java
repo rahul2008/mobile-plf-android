@@ -5,7 +5,7 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class RefreshOAuthRequest extends AbstractModel {
 
-    public RefreshOAuthRequest(final Store store, final Map<String, String> query) {
+    public RefreshOAuthRequest(final StoreSpec store, final Map<String, String> query) {
         super(store, query);
     }
 

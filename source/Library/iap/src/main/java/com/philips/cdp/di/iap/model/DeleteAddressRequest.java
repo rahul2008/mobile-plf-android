@@ -1,7 +1,7 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class DeleteAddressRequest extends AbstractModel{
 
-    public DeleteAddressRequest(final Store store, final Map<String, String> query, DataLoadListener loadListener) {
+    public DeleteAddressRequest(final StoreSpec store, final Map<String, String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
     }
 

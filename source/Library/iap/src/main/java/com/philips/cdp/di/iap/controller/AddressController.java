@@ -8,19 +8,19 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CreateAddressRequest;
 import com.philips.cdp.di.iap.model.DeleteAddressRequest;
 import com.philips.cdp.di.iap.model.GetAddressRequest;
 import com.philips.cdp.di.iap.model.GetRegionsRequest;
-import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressModeRequest;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressRequest;
 import com.philips.cdp.di.iap.model.UpdateAddressRequest;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -30,7 +30,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
     private Context mContext;
     private AddressListener mAddressListener;
     private HybrisDelegate mDelegate;
-    private Store mStore;
+    private StoreSpec mStore;
 
     public interface AddressListener {
         void onGetAddress(Message msg);
@@ -177,11 +177,11 @@ public class AddressController implements AbstractModel.DataLoadListener {
         return mDelegate;
     }
 
-    public void setStore(Store store) {
+    public void setStore(StoreSpec store) {
         mStore = store;
     }
 
-    Store getStore() {
+    StoreSpec getStore() {
         if (mStore == null) {
             mStore = getHybrisDelegate().getStore();
         }

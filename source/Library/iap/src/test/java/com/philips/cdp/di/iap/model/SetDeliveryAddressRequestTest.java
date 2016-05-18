@@ -1,14 +1,9 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-
-import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,11 +24,11 @@ import static junit.framework.Assert.assertNull;
 @RunWith(MockitoJUnitRunner.class)
 public class SetDeliveryAddressRequestTest {
     @Mock
-    private Store mStore;
+    private HybrisStore mHybrisStore;
 
     @Test
     public void testRequestMethodIsPUT() {
-        SetDeliveryAddressRequest request = new SetDeliveryAddressRequest(mStore, null, null);
+        SetDeliveryAddressRequest request = new SetDeliveryAddressRequest(mHybrisStore, null, null);
         assertEquals(Request.Method.PUT, request.getMethod());
     }
 
@@ -68,7 +63,7 @@ public class SetDeliveryAddressRequestTest {
 
     @Test
     public void parseResponseShouldBeOfSetDeliveryAddressRequestDataType() {
-        SetDeliveryAddressRequest request = new SetDeliveryAddressRequest(mStore, null, null);
+        SetDeliveryAddressRequest request = new SetDeliveryAddressRequest(mHybrisStore, null, null);
         Object response = IAPConstant.IAP_SUCCESS;
         assertEquals(response, IAPConstant.IAP_SUCCESS);
     }

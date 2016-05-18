@@ -82,14 +82,20 @@ public class PRXBuilderForProductCatalog {
         productItem.setImageUrl(data.getImageURL());
         productItem.setProductTitle(data.getProductTitle());
         productItem.setCtnNumber(code);
+        productItem.setMarketingTextHeader(data.getMarketingTextHeader());
+        fillEntryBaseData(entry, productItem, data);
+        addWithNotify(productItem);
+    }
+
+    private void fillEntryBaseData(final ProductsEntity entry, final ProductCatalogData productItem, final Data data) {
+        if(entry.getPrice() == null || entry.getDiscountPrice() == null)
+            return;
         productItem.setFormatedPrice(entry.getPrice().getFormattedValue());
         productItem.setPriceValue(String.valueOf(entry.getPrice().getValue()));
-        productItem.setMarketingTextHeader(data.getMarketingTextHeader());
         if (entry.getDiscountPrice() != null && entry.getDiscountPrice().getFormattedValue() != null
                 && !entry.getDiscountPrice().getFormattedValue().isEmpty()) {
             productItem.setDiscountedPrice(entry.getDiscountPrice().getFormattedValue());
         }
-        addWithNotify(productItem);
     }
 
     private void notifyError(final String error) {

@@ -33,7 +33,7 @@ import java.util.List;
 public class DemoAppActivity extends Activity implements View.OnClickListener,
         UserRegistrationListener, IAPHandlerListener, AdapterView.OnItemSelectedListener {
 
-    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPurple_WhiteBackground;
+    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
 
     private IAPHandler mIapHandler;
     private TextView mCountText = null;
@@ -66,6 +66,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mCountText = (TextView) findViewById(R.id.count_txt);
 
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
+
         mIapHandler = IAPHandler.init(this, new IAPSettings("US", "en", DEFAULT_THEME));
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
@@ -252,7 +253,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             selectedCountry = "GB";
         if (!mProductCountRequested) {
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
-            mIapHandler = IAPHandler.init(this, new IAPSettings(selectedCountry,"en", DEFAULT_THEME));
+            IAPSettings settings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);
+            settings.setUseLocalData(true);
+            mIapHandler = IAPHandler.init(this, settings);
             mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
         }

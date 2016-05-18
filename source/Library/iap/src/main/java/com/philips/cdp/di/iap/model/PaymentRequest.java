@@ -4,8 +4,8 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
-import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class PaymentRequest extends AbstractModel {
 
-    public PaymentRequest(final Store store, final Map<String, String> query, final DataLoadListener listener) {
+    public PaymentRequest(final StoreSpec store, final Map<String, String> query, final DataLoadListener listener) {
         super(store, query, listener);
     }
 

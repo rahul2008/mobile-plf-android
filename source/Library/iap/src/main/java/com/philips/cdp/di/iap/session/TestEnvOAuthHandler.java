@@ -12,14 +12,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.model.NewOAuthRequest;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.error.ServerError;
-import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 
@@ -29,7 +29,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
 
     private String access_token;
     private NewOAuthRequest mOAuthRequest;
-    private Store mStore;
+    private StoreSpec mStore;
 
     private HurlStack mRetryHurlStack;
     @Override

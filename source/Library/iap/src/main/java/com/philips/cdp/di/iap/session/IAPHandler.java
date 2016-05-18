@@ -6,165 +6,72 @@
 package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Message;
-import android.text.TextUtils;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.activity.IAPActivity;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.tagging.Tagging;
+import com.philips.cdp.di.iap.applocal.AppLocalHandler;
+import com.philips.cdp.di.iap.core.ControllerFactory;
+import com.philips.cdp.di.iap.core.IAPExposedAPI;
+import com.philips.cdp.di.iap.core.NetworkEssentials;
+import com.philips.cdp.di.iap.core.NetworkEssentialsFactory;
+import com.philips.cdp.di.iap.hybris.HybrisHandler;
 
-public class IAPHandler {
+public class IAPHandler implements IAPExposedAPI {
 
-    private int mThemeIndex;
-    private Context mContext;
-    private String mLanguage;
-    private String mCountry;
+    private IAPExposedAPI mImplementationHandler;
 
     private IAPHandler() {
     }
 
     public static IAPHandler init(Context context, IAPSettings config) {
         IAPHandler handler = new IAPHandler();
-        handler.mThemeIndex = config.themeIndex;
-        handler.mContext = context.getApplicationContext();
-        handler.mLanguage = config.language;
-        handler.mCountry = config.country;
-
-        //Update store about country change
-        HybrisDelegate.getInstance(context).getStore().setLangAndCountry(handler.mLanguage, handler.mCountry);
-
+        handler.mImplementationHandler = handler.getExposedAPIImplementor(context, config);
+        handler.initHybrisDelegate(context, config);
+        handler.initControllerFactory(config);
+        handler.setLangAndCountry(config.getLanguage(), config.getCountry());
         return handler;
     }
 
+    @Override
     public void launchIAP(int landingView, String ctnNumber, IAPHandlerListener listener) {
-        if (isStoreInitialized()) {
-            checkLaunchOrBuy(landingView, ctnNumber, listener);
-        } else {
-            initIAP(landingView, ctnNumber, listener);
-        }
+        mImplementationHandler.launchIAP(landingView, ctnNumber, listener);
     }
 
-    void checkLaunchOrBuy(int screen, String ctnNumber, IAPHandlerListener listener) {
-        if (screen == IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW) {
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW);
-        } else if (screen == IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW && TextUtils.isEmpty(ctnNumber)) {
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW);
-        } else {
-            buyProduct(ctnNumber, listener);
-        }
-    }
-
-    void initIAP(final int screen, final String ctnNumber, final IAPHandlerListener listener) {
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        delegate.getStore().initStoreConfig(mLanguage, mCountry, new RequestListener() {
-            @Override
-            public void onSuccess(final Message msg) {
-                checkLaunchOrBuy(screen, ctnNumber, listener);
-                if (listener != null) {
-                    listener.onSuccess(IAPConstant.IAP_SUCCESS);
-                }
-            }
-
-            @Override
-            public void onError(final Message msg) {
-                if (listener != null) {
-                    listener.onFailure(getIAPErrorCode(msg));
-                }
-            }
-        });
-    }
-
-    void launchIAPActivity(int screen) {
-        //Set component version key and value for InAppPurchase
-        Tagging.setComponentVersionKey(IAPAnalyticsConstant.COMPONENT_VERSION);
-        Tagging.setComponentVersionVersionValue("In app purchase " + BuildConfig.VERSION_NAME);
-
-        Intent intent = new Intent(mContext, IAPActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        //Check flag to differentiate shopping cart / product catalog
-        if (screen != IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW) {
-            intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, false);
-        }
-
-        intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, mThemeIndex);
-        mContext.startActivity(intent);
-    }
-
+    @Override
     public void getProductCartCount(final IAPHandlerListener iapHandlerListener) {
-        if (isStoreInitialized()) {
-            getProductCount(iapHandlerListener);
+        mImplementationHandler.getProductCartCount(iapHandlerListener);
+    }
+
+    private void setLangAndCountry(final String language, final String country) {
+        HybrisDelegate.getInstance().getStore().setLangAndCountry(language, country);
+    }
+
+    private IAPExposedAPI getExposedAPIImplementor(Context context, IAPSettings settings) {
+        IAPExposedAPI api = null;
+        if (settings.isUseLocalData()) {
+            api = new AppLocalHandler(context, settings);
         } else {
-            HybrisDelegate.getInstance(mContext).getStore().
-                    initStoreConfig(mLanguage, mCountry, new RequestListener() {
-                        @Override
-                        public void onSuccess(final Message msg) {
-                            getProductCount(iapHandlerListener);
-                        }
-
-                        @Override
-                        public void onError(final Message msg) {
-                            iapHandlerListener.onFailure(getIAPErrorCode(msg));
-                        }
-                    });
+            api = new HybrisHandler(context, settings);
         }
+        return api;
     }
 
-    private void getProductCount(final IAPHandlerListener iapHandlerListener) {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter();
-        presenter.getProductCartCount(mContext, new IAPCartListener() {
-            @Override
-            public void onSuccess(final int count) {
-                updateSuccessListener(count, iapHandlerListener);
-            }
-
-            @Override
-            public void onFailure(final Message msg) {
-                updateErrorListener(msg, iapHandlerListener);
-            }
-        });
+    private void initHybrisDelegate(Context context, IAPSettings config) {
+        int requestCode = getNetworkEssentialReqeustCode(config.isUseLocalData());
+        NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(requestCode);
+        HybrisDelegate.getDelegateWithNetworkEssentials(context, essentials);
     }
 
-    private void buyProduct(final String ctnNumber, final IAPHandlerListener listener) {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter();
-        presenter.buyProduct(mContext, ctnNumber, new IAPCartListener() {
-            @Override
-            public void onSuccess(final int count) {
-                launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW);
-            }
 
-            @Override
-            public void onFailure(final Message msg) {
-                updateErrorListener(msg, listener);
-            }
-        });
-    }
-
-    private void updateErrorListener(final Message msg, final IAPHandlerListener iapHandlerListener) {
-        if (iapHandlerListener != null) {
-            iapHandlerListener.onFailure(getIAPErrorCode(msg));
+    private int getNetworkEssentialReqeustCode(boolean useLocalData) {
+        int requestCode = NetworkEssentialsFactory.LOAD_HYBRIS_DATA;
+        if (useLocalData) {
+            requestCode = NetworkEssentialsFactory.LOAD_LOCAL_DATA;
         }
+
+        return requestCode;
     }
 
-    private void updateSuccessListener(final int count, final IAPHandlerListener iapHandlerListener) {
-        if (iapHandlerListener != null) {
-            iapHandlerListener.onSuccess(count);
-        }
-    }
-
-    private int getIAPErrorCode(Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            return ((IAPNetworkError) msg.obj).getIAPErrorCode();
-        }
-        return IAPConstant.IAP_ERROR_UNKNOWN;
-    }
-
-    private boolean isStoreInitialized() {
-        return HybrisDelegate.getInstance(mContext).getStore().isStoreInitialized();
+    private void initControllerFactory(IAPSettings config) {
+        int requestCode = getNetworkEssentialReqeustCode(config.isUseLocalData());
+        ControllerFactory.getInstance().init(requestCode);
     }
 }
