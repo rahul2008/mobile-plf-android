@@ -125,7 +125,8 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         @Override
         public void onClick(final View v) {
             final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED, mStoreEntities.get(getAdapterPosition()).getName());
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.RETAILER_SELECTED, mStoreEntities.get(getAdapterPosition()).getName());
             addWebBuyFromRetailers(buyURL,mStoreEntities.get(getAdapterPosition()).getName());
         }
     }
