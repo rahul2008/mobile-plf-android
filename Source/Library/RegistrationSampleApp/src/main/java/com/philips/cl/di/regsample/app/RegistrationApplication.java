@@ -12,10 +12,7 @@ package com.philips.cl.di.regsample.app;
 import android.app.Application;
 
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -89,13 +86,13 @@ public class RegistrationApplication extends Application {
 		//Configure HSDP
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING,hsdpInfo);
 */
-		HSDPInfo hsdpInfo = new HSDPInfo();
+		/*HSDPInfo hsdpInfo = new HSDPInfo();
 		hsdpInfo.setApplicationName("uGrow");
 		hsdpInfo.setSharedId("c62362a0-f02c-11e5-9ce9-5e5517507c66");
 		hsdpInfo.setSecreteId("c623685e-f02c-11e5-9ce9-5e5517507c66");
 		hsdpInfo.setBaseURL("https://user-registration-assembly-testing.us-east.philips-healthsuite.com");
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);
-
+*/
 
 		String languageCode = Locale.getDefault().getLanguage();
 		String countryCode = Locale.getDefault().getCountry();
