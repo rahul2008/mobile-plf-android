@@ -1,7 +1,7 @@
 package package1.component1;
 
-import com.philips.appinfra.AppInfra;
-import com.philips.appinfra.LoggingInterface;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.LoggingInterface;
 
 import package2.component2.Component2;
 

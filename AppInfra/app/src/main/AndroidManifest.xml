@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.philips.appinfra.demo">
+    package="com.philips.platform.appinfra.demo">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -14,7 +14,7 @@
 
 
             <activity
-            android:name=".AppInfraMainActivity"
+            android:name="com.philips.platform.appinfra.demo.AppInfraMainActivity"
             android:label="@string/title_activity_app_infra_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,12 +24,12 @@
             </intent-filter>
             </activity>
             <activity
-                android:name=".SecureStorageActivity"
+                android:name="com.philips.platform.appinfra.demo.SecureStorageActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             </activity>
             <activity
-                android:name=".LoggingActivity"
+                android:name="com.philips.platform.appinfra.demo.LoggingActivity"
                 android:label="Log Test"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
@@ -38,7 +38,7 @@
         </activity>
 
         <activity
-            android:name=".PrxLauncherActivity"
+            android:name="com.philips.platform.appinfra.demo.PrxLauncherActivity"
             android:label="Log Test"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -46,7 +46,7 @@
 
         </activity>
         <activity
-            android:name=".LocalMatchMainActivity"
+            android:name="com.philips.platform.appinfra.demo.LocalMatchMainActivity"
             android:label="Log Test"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

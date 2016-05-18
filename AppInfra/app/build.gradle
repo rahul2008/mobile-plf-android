@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.philips.appinfra.demo"
+        applicationId "com.philips.platform.appinfra.demo"
         minSdkVersion 18
         targetSdkVersion 23
         versionCode 1

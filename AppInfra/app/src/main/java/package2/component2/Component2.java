@@ -2,8 +2,8 @@ package package2.component2;
 
 import android.content.Context;
 
-import com.philips.appinfra.AppInfra;
-import com.philips.appinfra.LoggingInterface;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.LoggingInterface;
 
 /**
  * Created by 310238114 on 5/13/2016.

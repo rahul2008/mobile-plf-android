@@ -1,4 +1,4 @@
-package com.philips.appinfra;
+package com.philips.platform;
 
 import org.junit.Test;
 
