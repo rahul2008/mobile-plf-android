@@ -169,9 +169,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         setTitle(R.string.iap_shopping_cart_item);
         if (mBundle != null && mLaunchedFromProductCatalog) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
-            mAddToCart.setVisibility(View.VISIBLE);
-            Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
-            mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
+            setAddToCartIcon();
             mBuyFromRetailors.setVisibility(View.VISIBLE);
             setCartIconVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +191,16 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             setCartIconVisibility(View.GONE);
         }
         tagProduct();
+    }
+
+    private void setAddToCartIcon() {
+        if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
+            mAddToCart.setVisibility(View.GONE);
+            return;
+        }
+        mAddToCart.setVisibility(View.VISIBLE);
+        Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
+        mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
     }
 
     private void buyFromRetailers() {

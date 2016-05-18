@@ -26,6 +26,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
@@ -33,6 +34,8 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     public interface LoadListener<T> {
         void onLoadFinished(ArrayList<T> data);
     }
+
+    private final static String PHILIPS_STORE_YES = "Y";
 
     protected FragmentManager mFragmentManager;
     protected Context mContext;
@@ -78,6 +81,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                             return;
                         }
                         mStoreEntities = (ArrayList<StoreEntity>) webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore();
+                        filterOutPhilipsStore();
                         refreshList(mStoreEntities);
 
                         dismissProgressDialog();
@@ -90,6 +94,16 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                 });
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
+    }
+
+    private void filterOutPhilipsStore() {
+        Iterator<StoreEntity> iterator = mStoreEntities.iterator();
+        while(iterator.hasNext()) {
+            StoreEntity entity = iterator.next();
+            if(PHILIPS_STORE_YES.equalsIgnoreCase(entity.getIsPhilipsStore())) {
+                iterator.remove();
+            }
+        }
     }
 
     protected void dismissProgressDialog() {

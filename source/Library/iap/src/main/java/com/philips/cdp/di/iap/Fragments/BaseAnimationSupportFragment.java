@@ -117,7 +117,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     public void setCartIconVisibility(final int visibility) {
-        if (ControllerFactory.getInstance().shouldDisplayCartIcon()) {
+        if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
             mActivityListener.setCartIconVisibility(View.GONE);
         } else {
             mActivityListener.setCartIconVisibility(visibility);

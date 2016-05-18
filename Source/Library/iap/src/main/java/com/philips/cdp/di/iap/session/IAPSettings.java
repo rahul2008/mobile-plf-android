@@ -18,7 +18,7 @@ public class IAPSettings {
     }
 
     public void setUseLocalData(final boolean useLocalData) {
-        this.mUseLocalData = mUseLocalData;
+        this.mUseLocalData = useLocalData;
     }
 
     public boolean isUseLocalData() {

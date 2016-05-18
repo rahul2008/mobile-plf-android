@@ -48,8 +48,16 @@ public abstract class AbstractStoreSpec implements StoreSpec {
         return null;
     }
 
+    /**
+     * Return default language combining input of lang and country.
+     * But depending on requirements, it can be changed or different as per locale matcher result.
+     * @return
+     */
     @Override
     public String getLocale() {
+        if (mCountry != null && mLanguage != null) {
+            return mLanguage + "_" + mCountry;
+        }
         return null;
     }
 

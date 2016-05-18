@@ -47,7 +47,7 @@ public class IAPHandler implements IAPExposedAPI {
     private IAPExposedAPI getExposedAPIImplementor(Context context, IAPSettings settings) {
         IAPExposedAPI api = null;
         if (settings.isUseLocalData()) {
-            api = new AppLocalHandler();
+            api = new AppLocalHandler(context, settings);
         } else {
             api = new HybrisHandler(context, settings);
         }
