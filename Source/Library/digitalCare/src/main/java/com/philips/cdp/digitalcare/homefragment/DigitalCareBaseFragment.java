@@ -3,7 +3,7 @@
  *
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
- *
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -354,9 +354,12 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     private void enableActionBarHome() {
-        mBackToHome.setVisibility(View.GONE);
-        mHomeIcon.setVisibility(View.VISIBLE);
-        mHomeIcon.bringToFront();
+
+        if (mBackToHome != null) mBackToHome.setVisibility(View.GONE);
+        if (mHomeIcon != null) {
+            mHomeIcon.setVisibility(View.VISIBLE);
+            mHomeIcon.bringToFront();
+        }
     }
 
     public void showFragment(/*FragmentActivity context, int parentContainer,*/
