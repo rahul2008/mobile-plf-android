@@ -47,6 +47,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private boolean mProductCountRequested;
     private Spinner mSpinner;
 
+
+    //We require this to track for hiding the cart icon in demo app
+    IAPSettings mIAPSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(DEFAULT_THEME);
@@ -67,7 +71,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
 
-        mIapHandler = IAPHandler.init(this, new IAPSettings("US", "en", DEFAULT_THEME));
+        mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
+        mIapHandler = IAPHandler.init(this, mIAPSettings);
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -253,17 +258,32 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             selectedCountry = "GB";
         if (!mProductCountRequested) {
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
-            IAPSettings settings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);
-            settings.setUseLocalData(true);
-            mIapHandler = IAPHandler.init(this, settings);
+            mIAPSettings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);;
+            setUseLocalData();
+            mIapHandler = IAPHandler.init(this, mIAPSettings);
+            updateCartIcon();
             mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
+        }
+    }
+
+    private void updateCartIcon() {
+        if(shouldUseLocalData()) {
+            mShoppingCart.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public void setUseLocalData() {
+        mIAPSettings.setUseLocalData(true);
+    }
+
+    public boolean shouldUseLocalData() {
+        return mIAPSettings.isUseLocalData();
     }
 
     private void displayViews() {
