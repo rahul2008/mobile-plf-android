@@ -41,7 +41,6 @@ public class NetworkController {
 
     void initHurlStack(final Context context) {
         mIAPHurlStack = mNetworkEssentials.getHurlStack(context, oAuthHandler);
-//        mIAPHurlStack.setContext(context);
     }
 
     void initStore() {
