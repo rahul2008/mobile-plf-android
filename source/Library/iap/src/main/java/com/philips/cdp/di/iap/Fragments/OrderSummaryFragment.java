@@ -238,6 +238,9 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void onDialogOkClick() {
+        //Track Payment cancelled action
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
         moveToProductCatalog();
     }
 
