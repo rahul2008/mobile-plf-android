@@ -24,10 +24,12 @@ public class LocalRegisteredProducts {
     private LocalSharedPreference localSharedPreference;
     private String uuid;
     private User user;
+    private Gson gson;
 
     public LocalRegisteredProducts(Context context, User user) {
         this.user = user;
         localSharedPreference = new LocalSharedPreference(context);
+        gson = new Gson();
         uuid = user.getJanrainUUID() != null ? user.getJanrainUUID() : "";
     }
 
@@ -42,7 +44,7 @@ public class LocalRegisteredProducts {
 
     @NonNull
     protected Gson getGSon() {
-        return new Gson();
+        return gson;
     }
 
     protected Set<RegisteredProduct> getUniqueRegisteredProducts() {

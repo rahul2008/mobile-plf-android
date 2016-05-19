@@ -114,9 +114,9 @@ public class RegisteredProduct extends Product {
             boolean parentState = parentUuid.length() != 0;
             boolean currentState = currentUuid.length() != 0;
             boolean shouldConsiderUUID = isShouldConsiderUUID(parentUuid, currentUuid, parentState, currentState);
-            if (!shouldConsiderUUID && registeredProduct.getCtn().equals(this.getCtn()) && registeredProduct.getSerialNumber().equals(this.getSerialNumber())) {
+            if (!shouldConsiderUUID && registeredProduct.getCtn().equals(getCtn()) && registeredProduct.getSerialNumber().equals(getSerialNumber())) {
                 return true;
-            } else if (registeredProduct.getCtn().equals(this.getCtn()) && registeredProduct.getSerialNumber().equals(this.getSerialNumber()) && parentUuid.equals(currentUuid))
+            } else if (registeredProduct.getCtn().equals(getCtn()) && registeredProduct.getSerialNumber().equals(getSerialNumber()) && parentUuid.equals(currentUuid))
                 return true;
         }
         return false;
@@ -132,15 +132,15 @@ public class RegisteredProduct extends Product {
         return shouldConsiderUUID;
     }
 
-    protected boolean IsUserRegisteredLocally(final LocalRegisteredProducts localRegisteredProducts) {
+    protected RegisteredProduct IsUserRegisteredLocally(final LocalRegisteredProducts localRegisteredProducts) {
         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
         final int index = registeredProducts.indexOf(this);
         if (index != -1) {
             RegisteredProduct product = registeredProducts.get(index);
-            final RegistrationState registrationState = product.getRegistrationState();
-            return registrationState == RegistrationState.REGISTERED;
+            localRegisteredProducts.updateRegisteredProducts(product);
+            return product;
         }
-        return false;
+        return null;
     }
 
     @Override

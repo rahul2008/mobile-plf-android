@@ -192,7 +192,8 @@ public class UserWithProductsTest extends MockitoTestCase {
         final Product product = new Product("ctn", null, null);
         RegisteredProduct registeredProduct = mock(RegisteredProduct.class);
         when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
-        when(registeredProduct.IsUserRegisteredLocally(localRegisteredProducts)).thenReturn(true);
+        when(registeredProduct.IsUserRegisteredLocally(localRegisteredProducts)).thenReturn(registeredProduct);
+        when(registeredProduct.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
         userWithProducts.registerProduct(product);
         verify(userWithProductsMock).createDummyRegisteredProduct(product);
         verify(userWithProductsMock).registerCachedProducts(registeredProducts, prodRegListener);
@@ -316,7 +317,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         registeredProducts.add(registeredProduct2);
         registeredProducts.add(registeredProduct3);
         assertTrue(userWithProducts.isCtnRegistered(registeredProducts, product, prodRegListener));
-        verify(userWithProductsMock).updateLocaleCacheOnError(product, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
         verify(prodRegListener).onProdRegFailed(product, userWithProductsMock);
     }
 
@@ -435,7 +436,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         RefreshLoginSessionHandler refreshLoginSessionHandler = userWithProducts.getRefreshLoginSessionHandler(product, prodRegListener, context);
         refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(50);
-        verify(userWithProductsMock).updateLocaleCacheOnError(product, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
         verify(localRegisteredProductsMock).updateRegisteredProducts(product);
         verify(prodRegListener).onProdRegFailed(product, userWithProductsMock);
         refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
@@ -551,7 +552,7 @@ public class UserWithProductsTest extends MockitoTestCase {
 
     public void testUpdateLocaleCacheOnError() {
         RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
-        userWithProducts.updateLocaleCacheOnError(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.FAILED);
+        userWithProducts.updateLocaleCache(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.FAILED);
         assertEquals(registeredProduct.getRegistrationState(), RegistrationState.FAILED);
         assertEquals(registeredProduct.getProdRegError(), ProdRegError.PRODUCT_ALREADY_REGISTERED);
         verify(localRegisteredProducts).updateRegisteredProducts(registeredProduct);
@@ -573,12 +574,12 @@ public class UserWithProductsTest extends MockitoTestCase {
         when(userWithProductsMock.isUserSignedIn(context)).thenReturn(false);
         userWithProducts.registerCachedProducts(registeredProducts, prodRegListener);
 
-        verify(userWithProductsMock).updateLocaleCacheOnError(registeredProduct1, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
+        verify(userWithProductsMock).updateLocaleCache(registeredProduct1, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
         verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
         when(userWithProductsMock.isUserSignedIn(context)).thenReturn(true);
         when(userWithProductsMock.isValidDate("2016-2-12")).thenReturn(false);
         userWithProducts.registerCachedProducts(registeredProducts, prodRegListener);
-        verify(userWithProductsMock).updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
+        verify(userWithProductsMock).updateLocaleCache(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
         verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
     }
 
