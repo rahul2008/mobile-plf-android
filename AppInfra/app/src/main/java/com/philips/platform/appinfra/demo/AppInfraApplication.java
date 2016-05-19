@@ -18,5 +18,11 @@ public class AppInfraApplication extends Application {
 
         mAIAppTaggingInterface = ai.getTagging().createInstanceForComponent("Component name","Component ID");
 
+        int x = 10;
+        if(x==10){
+            int y = x;
+        }
+
+
     }
 }

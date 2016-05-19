@@ -8,6 +8,7 @@ package com.philips.platform.appinfra;
 import android.content.Context;
 
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.tagging.AIAppTagging;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 /**
@@ -54,6 +55,8 @@ public class AppInfra {
             AppInfra ai = new AppInfra(pContext);
            // ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
+
+            ai.setTagging(tagging == null ? new AIAppTagging(ai) : tagging);
            // ai.setLogging(new AppInfraLogging(ai));
             return ai;
         }
