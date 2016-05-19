@@ -5,10 +5,15 @@
 package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Message;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
+import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.localematch.enums.Catalog;
@@ -85,13 +90,14 @@ public class PRXProductAssetBuilder {
 
     private ArrayList<String> fetchImageUrlsFromPRXAssets(List<Asset> assets) {
         ArrayList<String> mAssetsFromPRX = new ArrayList<>();
+        int width = (int)mContext.getResources().getDisplayMetrics().widthPixels;
 
         for (Asset asset : assets
                 ) {
-            boolean bool = asset.getExtension().equalsIgnoreCase("tif");
-
-            if (bool) {
-                mAssetsFromPRX.add(asset.getAsset());
+            if (asset.getType().equalsIgnoreCase("RTP") || asset.getType().equalsIgnoreCase("APP") || asset.getType().equalsIgnoreCase("DPP") || asset.getType().equalsIgnoreCase("MI1") || asset.getType().equalsIgnoreCase("PID")) {
+                String imagepath = asset.getAsset() + "?wid=" + width +
+                        "&hei=" + (int)mContext.getResources().getDimension(R.dimen.iap_image_height) + "&$pnglarge$" + "&fit=fit,1";
+                mAssetsFromPRX.add(imagepath);
             }
         }
 
