@@ -2,10 +2,10 @@ package com.philips.cdp.di.iap.model;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
-import com.philips.cdp.di.iap.store.Store;
 
 import junit.framework.Assert;
 
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.mock;
 @RunWith(MockitoJUnitRunner.class)
 public class UpdateAddressRequestTest {
     @Mock
-    private Store mStore;
+    private StoreSpec mStore;
 
     @Before
     public void setUP() {

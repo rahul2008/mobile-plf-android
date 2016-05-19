@@ -15,10 +15,11 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.core.ControllerFactory;
+import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -48,7 +49,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     ImageAdapter mAdapter;
     ViewPager mPager;
     Bundle mBundle;
-    private ShoppingCartPresenter mShoppingCartPresenter;
+    private ShoppingCartAPI mShoppingCartAPI;
     private boolean mLaunchedFromProductCatalog = false;
     private String mCTNValue;
     private String mProductTitle;
@@ -93,7 +94,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mShoppingCartPresenter = new ShoppingCartPresenter(getFragmentManager());
+        mShoppingCartAPI = ControllerFactory.
+                getInstance().getShoppingCartPresenter(getContext(), null, getFragmentManager());
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         mBundle = getArguments();
 
@@ -167,9 +169,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         setTitle(R.string.iap_shopping_cart_item);
         if (mBundle != null && mLaunchedFromProductCatalog) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
-            mAddToCart.setVisibility(View.VISIBLE);
-            Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
-            mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
+            setAddToCartIcon();
             mBuyFromRetailors.setVisibility(View.VISIBLE);
             setCartIconVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(new View.OnClickListener() {
@@ -191,6 +191,16 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             setCartIconVisibility(View.GONE);
         }
         tagProduct();
+    }
+
+    private void setAddToCartIcon() {
+        if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
+            mAddToCart.setVisibility(View.GONE);
+            return;
+        }
+        mAddToCart.setVisibility(View.VISIBLE);
+        Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
+        mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
     }
 
     private void buyFromRetailers() {
@@ -220,7 +230,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
     void buyProduct(final String ctnNumber) {
         Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-        mShoppingCartPresenter.buyProduct(getContext(), ctnNumber, mBuyProductListener);
+        mShoppingCartAPI.buyProduct(getContext(), ctnNumber, mBuyProductListener);
     }
 
     private void tagItemAddedToCart() {

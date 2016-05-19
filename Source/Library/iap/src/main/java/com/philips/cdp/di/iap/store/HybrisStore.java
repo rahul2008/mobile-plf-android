@@ -7,11 +7,12 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.core.AbstractStoreSpec;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
-public class Store {
+public class HybrisStore extends AbstractStoreSpec {
 
     //Public since required by StoreConfiguration initialization
     public static final String HTTPS = "https://";
@@ -76,14 +77,10 @@ public class Store {
     private String mOauthRefreshUrl;
     private String mGetCartUrl;
     private String mGetProductCatalogUrl;
-    private String mCountry;
     private boolean mUserLoggedout;
     private String mRetailersAlter;
 
-    private boolean mStoreInitialized;
-    private String mLanguage;
-
-    public Store(Context context) {
+    public HybrisStore(Context context) {
         mIAPUser = initIAPUser(context);
         mStoreConfig = getStoreConfig(context);
     }
@@ -95,6 +92,7 @@ public class Store {
         return mIAPUser;
     }
 
+    @Override
     public void setNewUser(Context context) {
         initIAPUser(context);
         generateStoreUrls();
@@ -104,12 +102,7 @@ public class Store {
         return new StoreConfiguration(context, this);
     }
 
-    public void setLangAndCountry(String language, String countryCode) {
-        checkAndUpdateStoreChange(language, countryCode);
-        mLanguage = language;
-        mCountry = countryCode;
-    }
-
+    @Override
     public void initStoreConfig(String language, String countryCode, RequestListener listener) {
         mLanguage = language;
         mCountry = countryCode;
@@ -163,17 +156,6 @@ public class Store {
         mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
     }
 
-    void checkAndUpdateStoreChange(String language, String countryCode) {
-        if (language == null || countryCode == null || mLanguage == null || mCountry == null
-                || !mCountry.equals(countryCode) || !mLanguage.equals(language)) {
-            setStoreInitialized(false);
-        }
-    }
-
-    void setStoreInitialized(boolean changed) {
-        mStoreInitialized = changed;
-    }
-
     private String createRegionsUrl() {
         StringBuilder builder = new StringBuilder(HTTPS);
         builder.append(mStoreConfig.getHostPort()).append(SEPERATOR);
@@ -206,6 +188,7 @@ public class Store {
                 .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
     }
 
+    @Override
     public String getCountry() {
         if (mCountry != null) {
             return mCountry;
@@ -213,6 +196,7 @@ public class Store {
         return "";
     }
 
+    @Override
     public String getLocale() {
         return mStoreConfig.getLocale();
     }
@@ -223,47 +207,58 @@ public class Store {
         createOauthUrl();
     }
 
+    @Override
     public String getOauthUrl() {
         return mOauthUrl;
     }
 
+    @Override
     public String getOauthRefreshUrl() {
         return mOauthRefreshUrl;
     }
 
+    @Override
     public String getJanRainEmail() {
         return mIAPUser.getJanRainEmail();
     }
 
+    @Override
     public IAPUser getUser() {
         return mIAPUser;
     }
 
     //Request Urls
+    @Override
     public String getCurrentCartDetailsUrl() {
         return mGetCartUrl;
     }
 
+    @Override
     public String getProductCatalogUrl() {
         return mGetProductCatalogUrl;
     }
 
+    @Override
     public String getCreateCartUrl() {
         return mCreateCartUrl;
     }
 
+    @Override
     public String getAddToCartUrl() {
         return mAddToCartUrl;
     }
 
+    @Override
     public String getModifyProductUrl(String productID) {
         return String.format(mModifyProductUrl, productID);
     }
 
+    @Override
     public String getPaymentDetailsUrl() {
         return mPaymentDetailsUrl;
     }
 
+    @Override
     public String getAddressDetailsUrl() {
         if (getCountry().equalsIgnoreCase("GB")){
             return mAddressDetailsUrl.concat(LANG_GB);
@@ -273,51 +268,58 @@ public class Store {
         return mAddressDetailsUrl;
     }
 
+    @Override
     public String getRegionsUrl() {
         return mRegionsUrl;
     }
 
+    @Override
     public String getAddressAlterUrl(String addressID) {
         return String.format(mAddressAlterUrl, addressID);
     }
 
+    @Override
     public String getRetailersAlterUrl(String CTN) {
         return String.format(mRetailersAlter, CTN);
     }
 
+    @Override
     public String getUpdateDeliveryModeUrl() {
         return mDeliveryModeUrl;
     }
 
+    @Override
     public String getUpdateDeliveryAddressUrl() {
         return mDeliveryAddressUrl;
     }
 
+    @Override
     public String getSetPaymentUrl(String id) {
         return String.format(mSetPaymentUrl, id);
     }
 
+    @Override
     public String getPlaceOrderUrl() {
         return mPlaceOrderUrl;
     }
 
+    @Override
     public String getSetPaymentDetailsUrl() {
         return mSetPaymentDetails;
     }
 
+    @Override
     public void refreshLoginSession() {
         mIAPUser.refreshLoginSession();
     }
 
+    @Override
     public void setUserLogout(boolean userLoggedout) {
         this.mUserLoggedout = userLoggedout;
     }
 
+    @Override
     public boolean isUserLoggedOut() {
         return mUserLoggedout;
-    }
-
-    public boolean isStoreInitialized() {
-        return mStoreInitialized;
     }
 }

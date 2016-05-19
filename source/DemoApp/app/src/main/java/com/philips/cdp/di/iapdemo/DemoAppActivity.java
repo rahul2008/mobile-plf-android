@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -33,7 +34,7 @@ import java.util.List;
 public class DemoAppActivity extends Activity implements View.OnClickListener,
         UserRegistrationListener, IAPHandlerListener, AdapterView.OnItemSelectedListener {
 
-    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPurple_WhiteBackground;
+    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
 
     private IAPHandler mIapHandler;
     private TextView mCountText = null;
@@ -47,12 +48,17 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private boolean mProductCountRequested;
     private Spinner mSpinner;
 
+
+    //We require this to track for hiding the cart icon in demo app
+    IAPSettings mIAPSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(DEFAULT_THEME);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.demo_app_layout);
+        showAppVersion();
 
         Button register = (Button) findViewById(R.id.btn_register);
         register.setOnClickListener(this);
@@ -66,7 +72,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mCountText = (TextView) findViewById(R.id.count_txt);
 
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
-        mIapHandler = IAPHandler.init(this, new IAPSettings("US", "en", DEFAULT_THEME));
+
+        mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
+        mIapHandler = IAPHandler.init(this, mIAPSettings);
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -233,10 +241,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        configureHybris(parent, position);
-    }
-
-    private void configureHybris(final AdapterView<?> parent, final int position) {
         mShopNow.setEnabled(true);
         //Don't process Select country
         mSelectedCountryIndex = position;
@@ -256,15 +260,32 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             selectedCountry = "GB";
         if (!mProductCountRequested) {
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
-            mIapHandler = IAPHandler.init(this, new IAPSettings(selectedCountry, "en", DEFAULT_THEME));
+            mIAPSettings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);;
+//            setUseLocalData();
+            mIapHandler = IAPHandler.init(this, mIAPSettings);
+            updateCartIcon();
             mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
+        }
+    }
+
+    private void updateCartIcon() {
+        if(shouldUseLocalData()) {
+            mShoppingCart.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public void setUseLocalData() {
+        mIAPSettings.setUseLocalData(true);
+    }
+
+    public boolean shouldUseLocalData() {
+        return mIAPSettings.isUseLocalData();
     }
 
     private void displayViews() {
@@ -277,5 +298,17 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mShoppingCart.setVisibility(View.GONE);
         mSelectCountryLl.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
+    }
+
+    private void showAppVersion() {
+        String code = "";
+        try {
+            code = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        TextView versionView = (TextView) findViewById(R.id.appversion);
+        versionView.setText(String.valueOf(code));
+
     }
 }

@@ -6,13 +6,13 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.carts.CreateCartData;
-import com.philips.cdp.di.iap.store.Store;
 
 import java.util.Map;
 
 public class CartCreateRequest extends AbstractModel {
-    public CartCreateRequest(final Store store, final Map<String, String> query, final DataLoadListener listener) {
+    public CartCreateRequest(final StoreSpec store, final Map<String, String> query, final DataLoadListener listener) {
         super(store, query, listener);
     }
 

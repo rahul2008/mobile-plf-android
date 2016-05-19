@@ -4,8 +4,9 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 public class PaymentRequest extends AbstractModel {
 
-    public PaymentRequest(final Store store, final Map<String, String> query, final DataLoadListener listener) {
+    public PaymentRequest(final StoreSpec store, final Map<String, String> query, final DataLoadListener listener) {
         super(store, query, listener);
     }
 
@@ -51,7 +52,9 @@ public class PaymentRequest extends AbstractModel {
         params.put(ModelConstants.LAST_NAME, billingAddress.getLastName());
         params.put(ModelConstants.TITLE_CODE, billingAddress.getTitleCode().toLowerCase(Locale.getDefault()));
         params.put(ModelConstants.COUNTRY_ISOCODE, billingAddress.getCountryIsocode());
-        params.put(ModelConstants.REGION_ISOCODE, billingAddress.getRegionIsoCode());
+        if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
+            params.put(ModelConstants.REGION_ISOCODE, billingAddress.getRegionIsoCode());
+        }
         params.put(ModelConstants.LINE_1, billingAddress.getLine1());
         params.put(ModelConstants.LINE_2, billingAddress.getLine2());
         params.put(ModelConstants.POSTAL_CODE, billingAddress.getPostalCode());

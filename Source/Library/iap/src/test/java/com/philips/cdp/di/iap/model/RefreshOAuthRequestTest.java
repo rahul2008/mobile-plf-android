@@ -3,10 +3,11 @@ package com.philips.cdp.di.iap.model;
 import android.content.Context;
 
 import com.android.volley.Request;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.store.HybrisStore;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,7 @@ public class RefreshOAuthRequestTest {
     Context mContext;
     @Mock
     IAPUser mUser;
-    private Store mStore;
+    private StoreSpec mStore;
     private AbstractModel mModel;
 
     @Before
@@ -55,7 +56,7 @@ public class RefreshOAuthRequestTest {
 
     @Test
     public void testParseResponseIsNull() {
-        assertNull(mModel.parseResponse(mock(Store.class)));
+        assertNull(mModel.parseResponse(mock(HybrisStore.class)));
     }
 
     @Test

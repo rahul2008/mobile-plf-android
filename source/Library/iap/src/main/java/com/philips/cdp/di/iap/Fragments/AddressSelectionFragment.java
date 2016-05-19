@@ -352,6 +352,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
         if (addr.getRegion() != null) {
             fields.setRegionIsoCode(addr.getRegion().getName());
+            CartModelContainer.getInstance().setRegionIsoCode(addr.getRegion().getIsocode());
         }
 
         return fields;

@@ -2,6 +2,8 @@ package com.philips.cdp.di.iap.store;//package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.core.StoreSpec;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,12 +20,12 @@ import static org.mockito.Mockito.when;
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
 @RunWith(RobolectricTestRunner.class)
-public class StoreTest {
+public class HybrisStoreTest {
     @Mock
     Context mContext;
     @Mock IAPUser mIAPMockedUser;
     @Mock StoreConfiguration mStoreConfig;
-    private Store mStore;
+    private StoreSpec mStore;
 
     @Before
     public void setUp() {
@@ -36,8 +38,10 @@ public class StoreTest {
 
     @Test
     public void confirmOAuthURL() {
-        mStore.updateJanRainIDBasedUrls();
-        assertEquals(NetworkURLConstants.OAUTH_URL, mStore.getOauthUrl());
+        if (mStore instanceof HybrisStore) {
+            ((HybrisStore)mStore).updateJanRainIDBasedUrls();
+            assertEquals(NetworkURLConstants.OAUTH_URL, mStore.getOauthUrl());
+        }
     }
 
     @Test
