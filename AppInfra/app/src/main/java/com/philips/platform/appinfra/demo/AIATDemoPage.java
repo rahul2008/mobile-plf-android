@@ -7,7 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
-import com.philips.platform.appinfra.tagging.AIAppTaggingWrapper;
+
+import java.util.HashMap;
 
 
 /**
@@ -34,9 +35,25 @@ public class AIATDemoPage extends AppCompatActivity {
 
         TaggPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("DemoPage",key.getText().toString(), value.getText().toString());
+            public void onClick(View v)
+            {  if(null==key.getText().toString() || key.getText().toString().isEmpty() || null==value.getText().toString() || value.getText().toString().isEmpty()){
+                // invalid key value
 
+            }else {
+                if (key.getText().toString().contains(",")) { // if multiple keys passed
+                    HashMap<String, String> keyValuePair ;
+                    String[] keyArray  =key.getText().toString().split(",");
+                    String[] valueArray =value.getText().toString().split(",");
+                    if(keyArray.length >0 && keyArray.length==valueArray.length){ // number of keys should be same as that of values
+                        keyValuePair = new HashMap<String, String>();
+                        for(int keyCount=0;keyCount<keyArray.length;keyCount++){
+                            keyValuePair.put(keyArray[keyCount].trim(),valueArray[keyCount].trim());
+                        }
+                        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("DemoPage", keyValuePair);
+                    }
+                }else { // if single key present
+                    AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("DemoPage", key.getText().toString(), value.getText().toString());
+                }
 //                AIAppTaggingWrapper.setTrackingIdentifier(""+value.getText().toString());
 //                AIAppTaggingWrapper.setLaunchingPageName("demoapp:AIAppTagging");
 //                AIAppTaggingWrapper.setComponentVersionKey(""+key.getText().toString());
@@ -44,6 +61,7 @@ public class AIATDemoPage extends AppCompatActivity {
 
 //                AIAppTaggingWrapper.trackPage("DemoTaggingPAge", ""+key.getText().toString(), ""+value.getText().toString());
 //                AIAppTaggingWrapper.trackAction("ButtonClick","Key", null );
+            }
 
             }
         });
