@@ -18,6 +18,8 @@ package com.philips.cdp.di.iap.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -51,8 +53,12 @@ public class NetworkUtility {
         }
     }
 
-    public void showErrorDialog(Context context, FragmentManager pFragmentManager, String pButtonText,
-                                String pErrorString, String pErrorDescription) {
+    public void showErrorDialog(Context context, ErrorDialogFragment.ErrorDialogListener errorDialogListener, FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
+        showErrorDialog(context, errorDialogListener, pFragmentManager, pButtonText, pErrorString, pErrorDescription, false);
+    }
+
+
+    private void showErrorDialog(Context context, ErrorDialogFragment.ErrorDialogListener errorDialogListener, FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription, boolean pIsVisible) {
 
         //Track pop up
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -66,13 +72,14 @@ public class NetworkUtility {
             if (mModalAlertDemoFragment.getShowsDialog()) {
                 return;
             }
-
             Bundle bundle = new Bundle();
             bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
             bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
             bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
+            bundle.putBoolean(IAPConstant.MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE, pIsVisible);
             try {
                 mModalAlertDemoFragment.setArguments(bundle);
+                mModalAlertDemoFragment.setOnDialogClickListener(errorDialogListener);
                 mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
                 mModalAlertDemoFragment.setShowsDialog(true);
             } catch (Exception e) {
@@ -81,7 +88,7 @@ public class NetworkUtility {
         }
     }
 
-    public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
+    public void showErrorMessage(ErrorDialogFragment.ErrorDialogListener pErrorDialogListener, final Message msg, FragmentManager pFragmentManager, Context context) {
         if (context == null) return;
         /*
          *  Dismiss The Dialog if it not yet dismissed as Error Occured
@@ -94,13 +101,17 @@ public class NetworkUtility {
          */
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
-
-            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
+            showErrorDialog(context, pErrorDialogListener, pFragmentManager, context.getString(R.string.iap_ok),
                     getErrorTitleMessageFromErrorCode(context, error.getIAPErrorCode()),
-                    getErrorDescriptionMessageFromErrorCode(context, error));
+                    getErrorDescriptionMessageFromErrorCode(context, error), false);
+        } else if (msg.obj.equals("No internet connection")) {
+            showErrorDialog(context, pErrorDialogListener, pFragmentManager, context.getString(R.string.iap_ok),
+                    getErrorTitleMessageFromErrorCode(context, IAPConstant.IAP_ERROR_NO_CONNECTION),
+                    context.getString(R.string.iap_check_connection)
+                    , false);
         } else {
-            NetworkUtility.getInstance().showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
-                    context.getString(R.string.iap_server_error), context.getString(R.string.iap_something_went_wrong));
+            showErrorDialog(context, pErrorDialogListener, pFragmentManager, context.getString(R.string.iap_ok),
+                    context.getString(R.string.iap_server_error), context.getString(R.string.iap_something_went_wrong), true);
         }
     }
 
@@ -133,5 +144,12 @@ public class NetworkUtility {
             errorMessage = context.getString(R.string.iap_something_went_wrong);
         }
         return errorMessage;
+    }
+
+    public boolean isNetworkAvailable(Context pContext) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

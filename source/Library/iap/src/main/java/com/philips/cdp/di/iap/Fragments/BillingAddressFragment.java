@@ -170,7 +170,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     public void onClick(View v) {
 
         Utility.hideKeypad(mContext);
-
+        if (isNetworkConnected()) return;
         if (v == mBtnContinue) {
             mBillingAddressFields = setAddressFields(mBillingAddressFields.clone());
             CartModelContainer.getInstance().setBillingAddress(mBillingAddressFields);

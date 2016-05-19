@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
+public class ShoppingCartPresenter extends AbstractShoppingCartPresenter {
 
     public interface ShoppingCartLauncher{
         void launchShoppingCart();
@@ -159,7 +159,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
+                NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, mFragmentManager, mContext);
                 Utility.dismissProgressDialog();
             }
         });

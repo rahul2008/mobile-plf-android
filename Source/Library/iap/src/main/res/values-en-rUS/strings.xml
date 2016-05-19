@@ -100,7 +100,8 @@
     <string name="iap_validity">Validity</string>
     <string name="cancelPaymentMsg">Do you want to cancel the payment? Your cart will be emptied.</string>
     <string name="iap_server_error">Server Error</string>
-    <string name="iap_something_went_wrong">Something went wrong!</string>
+    <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked.
+Please try again, or if the problem persists: contact Philips Consumer Care</string>
 
     <!-- Product Catalog -->
     <string name="iap_product_catalog">Products</string>

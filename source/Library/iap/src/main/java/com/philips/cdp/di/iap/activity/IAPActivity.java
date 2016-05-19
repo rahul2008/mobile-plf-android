@@ -116,8 +116,13 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
-                        BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+                if (NetworkUtility.getInstance().isNetworkAvailable(IAPActivity.this)) {
+                    addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                            BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+                } else {
+                    NetworkUtility.getInstance().showErrorDialog(IAPActivity.this, null, getSupportFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                }
+
             }
         });
 

@@ -138,25 +138,28 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void onClick(final View v) {
+        if (isNetworkConnected()) return;
         if (v == mBtnPayNow) {
-
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
-                    IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
-
-            if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-                if (!isOrderPlaced() || paymentMethodAvailable()) {
-                    mPaymentController.placeOrder();
-                } else {
-                    mPaymentController.makPayment(orderID);
-                }
-            }
+            placeOrderElseMakePayment();
         } else if (v == mBtnCancel) {
-            moveToProductCatalog();
+            moveToShoppingCart();
         }
     }
 
-    private void moveToProductCatalog() {
+    private void placeOrderElseMakePayment() {
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
+                IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
+        if (!Utility.isProgressDialogShowing()) {
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            if (!isOrderPlaced() || paymentMethodAvailable()) {
+                mPaymentController.placeOrder();
+            } else {
+                mPaymentController.makPayment(orderID);
+            }
+        }
+    }
+
+    private void moveToShoppingCart() {
         setSetOrderPlaceFalse();
         moveToFragment(ShoppingCartFragment.TAG);
     }
@@ -180,7 +183,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
         }
     }
 
@@ -212,7 +215,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             if (null != iapNetworkError.getServerError()) {
                 checkForOutOfStock(iapNetworkError, msg);
             } else {
-                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+                NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
             }
         }
     }
@@ -222,11 +225,10 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         String type = error.getType();
         if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
             String subject = error.getMessage();
-            NetworkUtility.getInstance().showErrorDialog(mContext,
-                    getFragmentManager(), mContext.getString(R.string.iap_ok),
-                    mContext.getString(R.string.iap_out_of_stock), subject);
+            NetworkUtility.getInstance().showErrorDialog(mContext, mErrorDialogListener, getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_out_of_stock), subject);
         } else {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
         }
     }
 
@@ -252,7 +254,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         //Track Payment cancelled action
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
-        moveToProductCatalog();
+        moveToShoppingCart();
     }
 
     @Override

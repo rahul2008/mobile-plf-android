@@ -59,6 +59,7 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
 
     @Override
     public void onClick(final View v) {
+        if (isNetworkConnected()) return;
         if (v == mContinueShopping) {
             //Track continue shopping action
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,

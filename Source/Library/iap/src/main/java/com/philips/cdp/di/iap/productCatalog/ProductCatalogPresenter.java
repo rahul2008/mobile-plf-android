@@ -38,7 +38,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI {
     }
 
 
-    public ProductCatalogPresenter(Context context, LoadListener listener, FragmentManager fragmentManager){
+    public ProductCatalogPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
         mContext = context;
         mProductData = new ArrayList<>();
         mLoadListener = listener;
@@ -104,11 +104,11 @@ public class ProductCatalogPresenter implements ProductCatalogAPI {
                             }
                             //addShippingCostRowToTheList();
                             refreshList(mProductData);
-                        } else{
+                        } else {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
                             Utility.dismissProgressDialog();
                         }
-                        if(Utility.isProgressDialogShowing()) {
+                        if (Utility.isProgressDialogShowing()) {
                             Utility.dismissProgressDialog();
                         }
                     }
@@ -117,8 +117,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI {
                     public void onModelDataError(final Message msg) {
                         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
                         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                        NetworkUtility.getInstance().showErrorMessage(msg,mFragmentManager,mContext);
-                        if(Utility.isProgressDialogShowing()) {
+                        NetworkUtility.getInstance().showErrorMessage(null, msg, mFragmentManager, mContext);
+                        if (Utility.isProgressDialogShowing()) {
                             Utility.dismissProgressDialog();
                         }
                     }

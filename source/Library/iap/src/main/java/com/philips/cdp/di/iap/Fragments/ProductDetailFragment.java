@@ -37,6 +37,7 @@ import java.util.HashMap;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements
         PRXProductAssetBuilder.AssetListener, ShoppingCartPresenter.ShoppingCartLauncher {
+
     public static final String TAG = ProductDetailFragment.class.getName();
 
     private Context mContext;
@@ -70,12 +71,12 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
-                    NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                    NetworkUtility.getInstance().showErrorDialog(mContext, mErrorDialogListener, getFragmentManager(),
                             mContext.getString(R.string.iap_ok),
                             mContext.getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
                 }
             } else {
-                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+                NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
             }
         }
     };
@@ -94,6 +95,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mShoppingCartAPI = ControllerFactory.
                 getInstance().getShoppingCartPresenter(mContext, null, getFragmentManager());
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -207,6 +209,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void buyFromRetailers() {
+        if (isNetworkConnected()) return;
+
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.PRODUCT_CODE, mCTNValue);
         addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE), BuyFromRetailersFragment.TAG);
@@ -228,7 +232,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
         NetworkUtility.getInstance().
-                showErrorMessage(msg, getFragmentManager(), getContext());
+                showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
     }
 
     void buyProduct(final String ctnNumber) {
@@ -244,4 +248,5 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
         Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
+
 }

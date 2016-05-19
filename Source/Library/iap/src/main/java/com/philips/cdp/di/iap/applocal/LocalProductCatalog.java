@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -18,6 +19,7 @@ import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
@@ -32,7 +34,14 @@ public class LocalProductCatalog implements ProductCatalogAPI {
     private Context mContext;
     private ProductCatalogPresenter.LoadListener mLoadListener;
     private FragmentManager mFragmentManager;
-
+//    protected ErrorDialogFragment.ErrorDialogListener mErrorDialogListener = new ErrorDialogFragment.ErrorDialogListener() {
+//        @Override
+//        public void onTryAgainClick() {
+//            IAPLog.i(IAPLog.LOG, "onTryAgainClick = " + this.getClass().getSimpleName());
+//            // sendShippingAddressesRequest();
+//            //  moveToPreviousFragment();
+//        }
+//    };
     private ArrayList<ProductCatalogData> mProductData;
 
     public LocalProductCatalog(final Context context, final ProductCatalogPresenter.LoadListener listener, final FragmentManager fragmentManager) {
@@ -48,7 +57,7 @@ public class LocalProductCatalog implements ProductCatalogAPI {
 
     private void loadFromLocal() {
         String locale = HybrisDelegate.getInstance().getStore().getLocale();
-        String fileName = locale+ ".json";
+        String fileName = locale + ".json";
         Products productCatalog = loadFromAsset(mContext, fileName);
         getPRXData(productCatalog);
     }
@@ -86,9 +95,9 @@ public class LocalProductCatalog implements ProductCatalogAPI {
         return context.getResources().getAssets().open(fileName);
     }
 
-    public void getPRXData(Products productCatalog){
+    public void getPRXData(Products productCatalog) {
         PRXBuilderForProductCatalog builder = new PRXBuilderForProductCatalog(mContext, productCatalog,
-                new AbstractModel.DataLoadListener(){
+                new AbstractModel.DataLoadListener() {
 
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
@@ -105,22 +114,22 @@ public class LocalProductCatalog implements ProductCatalogAPI {
                             if (mLoadListener != null) {
                                 mLoadListener.onLoadFinished(mProductData);
                             }
-                        } else{
+                        } else {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                            if(Utility.isProgressDialogShowing())
+                            if (Utility.isProgressDialogShowing())
                                 Utility.dismissProgressDialog();
                         }
-                        if(Utility.isProgressDialogShowing()) {
+                        if (Utility.isProgressDialogShowing()) {
                             Utility.dismissProgressDialog();
                         }
                     }
 
                     @Override
                     public void onModelDataError(final Message msg) {
-                        if(Utility.isProgressDialogShowing()) {
+                        if (Utility.isProgressDialogShowing()) {
                             Utility.dismissProgressDialog();
                         }
-                        NetworkUtility.getInstance().showErrorMessage(msg,mFragmentManager,mContext);
+                        NetworkUtility.getInstance().showErrorMessage(null, msg, mFragmentManager, mContext);
                     }
                 });
         builder.build();

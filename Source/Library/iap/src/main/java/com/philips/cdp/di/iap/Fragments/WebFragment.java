@@ -32,6 +32,7 @@ public class WebFragment extends BaseAnimationSupportFragment {
     private CircularLineProgressBar mProgress;
     private boolean mShowProgressBar = true;
 
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
@@ -77,6 +78,13 @@ public class WebFragment extends BaseAnimationSupportFragment {
         return false;
     }
 
+    private boolean shouldHandleError(final int errorCode) {
+        return (errorCode == WebViewClient.ERROR_CONNECT
+                || errorCode == WebViewClient.ERROR_BAD_URL
+                || errorCode == WebViewClient.ERROR_TIMEOUT
+                || errorCode == WebViewClient.ERROR_HOST_LOOKUP);
+    }
+
     private class IAPWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
@@ -89,10 +97,7 @@ public class WebFragment extends BaseAnimationSupportFragment {
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             // Handle the error
             if (isVisible()) {
-                NetworkUtility.getInstance().showErrorDialog(mContext,
-                        getFragmentManager(), mContext.getString(R.string.iap_ok),
-                        mContext.getString(R.string.iap_network_error),
-                        mContext.getString(R.string.iap_check_connection));
+                if (isNetworkConnected()) return;
             }
         }
 
@@ -115,12 +120,5 @@ public class WebFragment extends BaseAnimationSupportFragment {
                 mProgress.setVisibility(View.GONE);
             }
         }
-    }
-
-    private boolean shouldHandleError(final int errorCode) {
-        return (errorCode == WebViewClient.ERROR_CONNECT
-                || errorCode == WebViewClient.ERROR_BAD_URL
-                || errorCode == WebViewClient.ERROR_TIMEOUT
-                || errorCode == WebViewClient.ERROR_HOST_LOOKUP);
     }
 }

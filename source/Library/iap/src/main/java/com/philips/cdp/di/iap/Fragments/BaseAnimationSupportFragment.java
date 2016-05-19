@@ -21,10 +21,28 @@ import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.tagging.Tagging;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
     private IAPFragmentListener mActivityListener;
+
+    protected ErrorDialogFragment.ErrorDialogListener mErrorDialogListener = new ErrorDialogFragment.ErrorDialogListener() {
+        @Override
+        public void onTryAgainClick() {
+            IAPLog.i(IAPLog.LOG, "onTryAgainClick = " + this.getClass().getSimpleName());
+            moveToPreviousFragment();
+        }
+    };
+
+
+    protected boolean isNetworkConnected() {
+        if (!NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
+            NetworkUtility.getInstance().showErrorDialog(getContext(), mErrorDialogListener, getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void onAttach(final Context context) {

@@ -249,7 +249,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             addFragment(
                     BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
             //Track new address creation
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -268,7 +268,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onClick(final View v) {
 
         Utility.hideKeypad(mContext);
-
         if (v == mBtnContinue) {
             //Edit and save address
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
@@ -294,13 +293,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
             }
         } else if (v == mBtnCancel) {
-            /*if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY) ||
-                    (getArguments().containsKey(IAPConstant.IS_SECOND_USER) && getArguments().getBoolean(IAPConstant.IS_SECOND_USER))) {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
-            } else {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            }*/
-            getFragmentManager().popBackStackImmediate();
+            if (isNetworkConnected()) return;
+                getFragmentManager().popBackStackImmediate();
         }
     }
 
@@ -363,14 +357,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
                 mBtnContinue.setEnabled(false);
             } else if (error.getMessage() != null) {
-                NetworkUtility.getInstance().showErrorDialog(mContext,
-                        getFragmentManager(), mContext.getString(R.string.iap_ok),
-                        mContext.getString(R.string.iap_network_error), error.getMessage());
-            } else {
-                NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
-                        mContext.getString(R.string.iap_ok),
-                        mContext.getString(R.string.iap_network_error),
-                        mContext.getString(R.string.iap_check_connection));
+                if (isNetworkConnected()) return;
             }
         }
     }
@@ -474,15 +461,16 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
-        if(getArguments() != null && getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+        if (getArguments() != null && getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
-        }else{
+        } else {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
         }
         setTitle(R.string.iap_address);
         if (CartModelContainer.getInstance().getRegionIsoCode() != null)
             mShippingAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
     }
+
 
     public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {
         ShippingAddressFragment fragment = new ShippingAddressFragment();
@@ -497,7 +485,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mAddressController.setDeliveryMode();
         } else {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
         }
     }
 
@@ -507,7 +495,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mPaymentController.getPaymentDetails();
         } else {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
         }
     }
 
@@ -663,7 +651,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressFields.setPhoneNumber(mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressFields.setEmail(mEtEmail.getText().toString());
 
-        if(this instanceof BillingAddressFragment) {
+        if (this instanceof BillingAddressFragment) {
             if (mlLState.getVisibility() == View.VISIBLE) {
                 addressFields.setRegionIsoCode(mShippingAddressFields.getRegionIsoCode());
             } else {
@@ -681,10 +669,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 showErrorFromServer(error);
             }
         } else {
-            NetworkUtility.getInstance().showErrorDialog(mContext,
-                    getFragmentManager(), mContext.getString(R.string.iap_ok),
-                    mContext.getString(R.string.iap_network_error),
-                    mContext.getString(R.string.iap_check_connection));
+            if (isNetworkConnected()) return;
         }
     }
 

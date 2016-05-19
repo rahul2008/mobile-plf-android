@@ -262,7 +262,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         if (!mProductCountRequested) {
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
             mIAPSettings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);;
-            setUseLocalData();
+           //+ setUseLocalData();
             mIapHandler = IAPHandler.init(this, mIAPSettings);
             updateCartIcon();
             mProductCountRequested = true;
