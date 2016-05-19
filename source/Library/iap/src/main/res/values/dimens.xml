@@ -53,7 +53,7 @@
 
 
     <!-- Product Detail Dimens-->
-    <dimen name="iap_image_height">223dp</dimen>
+    <dimen name="iap_product_detail_image_height">223dp</dimen>
     <dimen name="iap_image_bottom_margin">12dp</dimen>
     <dimen name="iap_image_top_margin">4dp</dimen>
     <dimen name="iap_dots_padding">10dp</dimen>
