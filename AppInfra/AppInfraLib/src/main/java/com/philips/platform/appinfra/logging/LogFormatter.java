@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-package com.philips.platform.appinfra;
+package com.philips.platform.appinfra.logging;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,11 +21,9 @@ String componentNameAndVersion;
     public LogFormatter(String ComponentName, String componentVersion){
         componentNameAndVersion=ComponentName+" "+componentVersion;
     }
-    //
+
     // Create a DateFormat to format the logger ;.
-    //
-    //private static final DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
-    private static final DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+    private static final DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
         builder.append("[");

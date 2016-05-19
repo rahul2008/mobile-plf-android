@@ -33,12 +33,7 @@
             android:layout_below="@+id/textView"
             />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test_Tagging"
-            android:id="@+id/button_tagg"
-            android:layout_gravity="right" />
+
 
         <ScrollView
             android:id="@+id/SCROLLER_ID3"

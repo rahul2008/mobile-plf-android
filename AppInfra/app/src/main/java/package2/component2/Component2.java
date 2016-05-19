@@ -3,7 +3,7 @@ package package2.component2;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.LoggingInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 /**
  * Created by 310238114 on 5/13/2016.
@@ -15,8 +15,8 @@ public class Component2 {
 
     public Component2(AppInfra pAppInfra){
 
-        mAppInfra=pAppInfra;
-       // mAppInfra = new AppInfra.Builder().build(mContext);
+       // mAppInfra=pAppInfra;
+       mAppInfra = new AppInfra.Builder().build(pAppInfra.getAppInfraContext());
         AILoggingInterface = mAppInfra.getLogging().createInstanceForComponent("package2.component2", "2.0.1"); //this.getClass().getPackage().toString()
         AILoggingInterface.enableConsoleLog(true);
         AILoggingInterface.enableFileLog(true);

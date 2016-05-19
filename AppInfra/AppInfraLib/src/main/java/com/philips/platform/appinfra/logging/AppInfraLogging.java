@@ -3,11 +3,14 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-package com.philips.platform.appinfra;
+package com.philips.platform.appinfra.logging;
 
 
+import android.content.pm.ApplicationInfo;
 import android.os.Environment;
 import android.util.Log;
+
+import com.philips.platform.appinfra.AppInfra;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,9 +32,11 @@ import java.util.logging.Logger;
 public class AppInfraLogging implements  LoggingInterface {
     private static final String DIRECTORY_FILE_NAME = "AppInfra Logs";
     private static final String PROPERTIES_FILE_NAME = "logging.properties";
-    private static final String APP_INFRA_LOG_FILE_NAME = "AppInfra.log"; //AppInfra.log0, AppInfra.log1, AppInfra.log2, AppInfra.log3, AppInfra.log4
+    private static final String APP_INFRA_LOG_FILE_NAME = "AppInfra.log%u"; //AppInfra.log0, AppInfra.log1, AppInfra.log2, AppInfra.log3, AppInfra.log4
+
 
     protected String mComponentID;
+
     protected String mComponentVersion;
 
 
@@ -43,7 +48,10 @@ public class AppInfraLogging implements  LoggingInterface {
     private InputStream mInputStream = null;
 
 
-
+    /**
+     * Instantiates a new App infra .
+     * @param aAppInfra the a app infra
+     */
     public AppInfraLogging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         // Class shall not presume appInfra to be completely initialized at this point.
@@ -51,6 +59,7 @@ public class AppInfraLogging implements  LoggingInterface {
 
     }
 
+    // This method to be used by all component to get their respective logger
     @Override
     public LoggingInterface createInstanceForComponent(String componentId, String componentVersion) {
        return new LoggingWrapper(mAppInfra, componentId, componentVersion);
@@ -86,7 +95,10 @@ public class AppInfraLogging implements  LoggingInterface {
     }*/
 
 
-
+    /**
+     * Create logger.
+     * @param pComponentId the  component id
+     */
     protected void createLogger(String pComponentId){
         readLogConfigFile();
         javaLogger = Logger.getLogger(pComponentId); // returns new or existing log
@@ -95,9 +107,10 @@ public class AppInfraLogging implements  LoggingInterface {
         javaLogger.log(Level.INFO, "Logger created"); //R-AI-LOG-6
     }
 
-    // read config file from asset/loging.properties and store in phone memory in first run
-    // second run onwards read file from phone memory so that it can be configured at runtime
-    // change loging.properties file in phone memory and relaunch the App
+    /* read config file from asset/loging.properties and store in phone memory in first run
+       second run onwards read file from phone memory so that it can be configured at runtime
+       change logging.properties file in phone memory and relaunch the App
+     */
     private void readLogConfigFile(){
         try {
             File fileOnExternalStorage=null;
@@ -146,23 +159,29 @@ public class AppInfraLogging implements  LoggingInterface {
 
     @Override
     public void enableConsoleLog(boolean isEnabled ) {
-        if(isEnabled) {
-            if(null==consoleHandler) {
-                consoleHandler = new ConsoleHandler();
-                consoleHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion));
-                // consoleHandler.setFilter(new LogFilter(null,"ev1"));
-                javaLogger.addHandler(consoleHandler);
-            }else{
-                // nothing to do, consoleHandler already added to Logger
-            }
-        }else{ // remove console log if any
-            Handler[] currentComponentHandlers = javaLogger.getHandlers();
-            if (null!=currentComponentHandlers && currentComponentHandlers.length>0 ) {
-                for (Handler handler : currentComponentHandlers) {
-                    if (handler instanceof ConsoleHandler) {
-                        handler.close(); // flush and close connection of file
-                        javaLogger.removeHandler(handler);
-                        consoleHandler=null;
+        boolean isDebuggable =  ( 0 != ( mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
+        if(!isDebuggable){ // if app is in release mode then disable console logs
+            consoleHandler = null;
+        }else {// if app is in debug mode then only enable console logs
+
+            if (isEnabled) {
+                if (null == consoleHandler) {
+                    consoleHandler = new ConsoleHandler();
+                    consoleHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion));
+                    // consoleHandler.setFilter(new LogFilter(null,"ev1"));
+                    javaLogger.addHandler(consoleHandler);
+                } else {
+                    // nothing to do, consoleHandler already added to Logger
+                }
+            } else { // remove console log if any
+                Handler[] currentComponentHandlers = javaLogger.getHandlers();
+                if (null != currentComponentHandlers && currentComponentHandlers.length > 0) {
+                    for (Handler handler : currentComponentHandlers) {
+                        if (handler instanceof ConsoleHandler) {
+                            handler.close(); // flush and close connection of file
+                            javaLogger.removeHandler(handler);
+                            consoleHandler = null;
+                        }
                     }
                 }
             }
