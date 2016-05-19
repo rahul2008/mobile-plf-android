@@ -87,7 +87,7 @@ public class UserWithProducts {
         final RegisteredProduct localRegisteredProduct = registeredProduct.getRegisteredProductIfExists(localRegisteredProducts);
         if (localRegisteredProduct == null) {
             localRegisteredProducts.store(registeredProduct);
-        } else if (localRegisteredProduct.getProdRegError() != null && localRegisteredProduct.getProdRegError() == ProdRegError.PRODUCT_ALREADY_REGISTERED) {
+        } else if (localRegisteredProduct.getRegistrationState() != null && localRegisteredProduct.getRegistrationState() == RegistrationState.REGISTERED) {
             registeredProduct.setProdRegError(ProdRegError.PRODUCT_ALREADY_REGISTERED);
             appListener.onProdRegFailed(registeredProduct, getUserProduct());
         }
