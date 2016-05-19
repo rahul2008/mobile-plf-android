@@ -4,21 +4,16 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.google.gson.Gson;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class StateDropDown {
+
     public interface StateListener {
         void onStateSelect(String state);
         void stateRegionCode(String regionCode);
@@ -45,18 +40,13 @@ public class StateDropDown {
 
     private List<RowItem> createRowItems() {
         List<RowItem> rowItems = new ArrayList<>();
-        try {
-            InputStream fromAsset = mContext.getResources().getAssets().open("USRegions.json");
-            Reader reader = new BufferedReader(new InputStreamReader(fromAsset));
-            mRegionList = new Gson().fromJson(reader, RegionsList.class);
+        mRegionList = CartModelContainer.getInstance().getRegionList();
 
+        if(mRegionList != null) {
             for (int i = 0; i < mRegionList.getRegions().size(); i++) {
                 rowItems.add(new RowItem(mRegionList.getRegions().get(i).getName()));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
         return rowItems;
     }
 
@@ -69,7 +59,6 @@ public class StateDropDown {
             dismiss();
         }
     };
-
 
     public void show() {
         if (!isShowing()) {
@@ -84,5 +73,4 @@ public class StateDropDown {
     public boolean isShowing() {
         return mPopUp.isShowing();
     }
-
 }

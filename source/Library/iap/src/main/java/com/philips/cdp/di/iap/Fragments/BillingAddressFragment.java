@@ -14,14 +14,18 @@ import android.widget.LinearLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 
 public class BillingAddressFragment extends ShippingAddressFragment {
-
+    public static final String TAG = BillingAddressFragment.class.getName();
     private Context mContext;
     private PuiSwitch mSwitchBillingAddress;
 
@@ -38,15 +42,9 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mTvTitle.setText(getResources().getString(R.string.iap_billing_address));
         mSameAsBillingAddress.setVisibility(View.VISIBLE);
 
-       /* if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
-            mBillingAddressFields = (AddressFields) bundle.getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS);
-            disableAllFields();
-            prePopulateShippingAddress();
-            mBtnContinue.setEnabled(true);
-        }*/
-
         if (CartModelContainer.getInstance().getShippingAddressFields() != null) {
             mBillingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
+            CartModelContainer.getInstance().setSwitchToBillingAddress(false);
             disableAllFields();
             prePopulateShippingAddress();
             mBtnContinue.setEnabled(true);
@@ -55,6 +53,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mSwitchBillingAddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                CartModelContainer.getInstance().setSwitchToBillingAddress(!isChecked);
+                IAPLog.i(IAPLog.LOG, "isSwitch = " + isChecked);
                 if (isChecked) {
                     disableAllFields();
                     prePopulateShippingAddress();
@@ -72,6 +72,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
         setTitle(R.string.iap_address);
         if (mSwitchBillingAddress.isChecked()) {
             disableAllFields();
@@ -89,11 +90,12 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtAddressLineTwo.setText(mBillingAddressFields.getLine2());
             mEtTown.setText(mBillingAddressFields.getTown());
             mEtPostalCode.setText(mBillingAddressFields.getPostalCode());
-            mEtCountry.setText(mBillingAddressFields.getCountryIsocode());
+            mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
             mEtEmail.setText(mBillingAddressFields.getEmail());
             mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
 
-            if (mBillingAddressFields.getRegionIsoCode() != null) {
+            if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US") &&
+                    mBillingAddressFields.getRegionIsoCode() != null) {
                 mEtState.setText(mBillingAddressFields.getRegionIsoCode());
                 mlLState.setVisibility(View.VISIBLE);
             } else {
@@ -112,11 +114,13 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtAddressLineTwo.setText("");
         mEtTown.setText("");
         mEtPostalCode.setText("");
-        mEtCountry.setText("");
-        mEtEmail.setText("");
         mEtPhoneNumber.setText("");
-        mlLState.setVisibility(View.VISIBLE);
         mEtState.setText("");
+        if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
+            mlLState.setVisibility(View.VISIBLE);
+        } else {
+            mlLState.setVisibility(View.GONE);
+        }
         mIgnoreTextChangeListener = false;
         enableAllFields();
         enableFocus();
@@ -151,8 +155,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 mInlineFormsParent.removeError(mEtAddressLineTwo);
                 mInlineFormsParent.removeError(mEtTown);
                 mInlineFormsParent.removeError(mEtPostalCode);
-                mInlineFormsParent.removeError(mEtCountry);
-                mInlineFormsParent.removeError(mEtEmail);
                 mInlineFormsParent.removeError(mEtPhoneNumber);
             }
         });
@@ -171,20 +173,21 @@ public class BillingAddressFragment extends ShippingAddressFragment {
 
         if (v == mBtnContinue) {
             mBillingAddressFields = setAddressFields(mBillingAddressFields.clone());
+            CartModelContainer.getInstance().setBillingAddress(mBillingAddressFields);
             if (!Utility.isProgressDialogShowing()) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mBillingAddressFields);
                 addFragment(
-                        OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
+                        OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
             }
         } else if (v == mBtnCancel) {
-            if (getArguments().containsKey(IAPConstant.FROM_PAYMENT_SELECTION) &&
+           /* if (getArguments().containsKey(IAPConstant.FROM_PAYMENT_SELECTION) &&
                     getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
-                getFragmentManager().popBackStackImmediate();
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
             } else {
-                addFragment
-                        (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-            }
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
+            }*/
+            moveToPreviousFragment();
         }
     }
 
@@ -203,11 +206,9 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtAddressLineTwo.setEnabled(enable);
         mEtTown.setEnabled(enable);
         mEtPostalCode.setEnabled(enable);
-        mEtCountry.setEnabled(enable);
         if (mlLState.getVisibility() == View.VISIBLE) {
             mEtState.setEnabled(enable);
         }
-        mEtEmail.setEnabled(enable);
         mEtPhoneNumber.setEnabled(enable);
     }
 
@@ -219,11 +220,9 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtAddressLineTwo.setFocusable(focusable);
         mEtTown.setFocusable(focusable);
         mEtPostalCode.setFocusable(focusable);
-        mEtCountry.setFocusable(focusable);
         if (mlLState.getVisibility() == View.VISIBLE) {
             mEtState.setFocusable(focusable);
         }
-        mEtEmail.setFocusable(focusable);
         mEtPhoneNumber.setFocusable(focusable);
 
         if (focusable) {
@@ -234,11 +233,9 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtAddressLineTwo.setFocusableInTouchMode(true);
             mEtTown.setFocusableInTouchMode(true);
             mEtPostalCode.setFocusableInTouchMode(true);
-            mEtCountry.setFocusableInTouchMode(true);
             if (mlLState.getVisibility() == View.VISIBLE) {
                 mEtState.setFocusableInTouchMode(true);
             }
-            mEtEmail.setFocusableInTouchMode(true);
             mEtPhoneNumber.setFocusableInTouchMode(true);
         }
     }

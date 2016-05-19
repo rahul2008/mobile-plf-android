@@ -18,12 +18,14 @@ import android.widget.Button;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
-import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
@@ -50,7 +52,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private List<Addresses> mAddresses;
     private Button mCancelButton;
     private Context mContext;
-
+    public static final String TAG = AddressSelectionFragment.class.getName();
     private boolean mIsAddressUpdateAfterDelivery;
     private String mJanRainEmail;
 
@@ -62,9 +64,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         mCancelButton = (Button) view.findViewById(R.id.btn_cancel);
         bindCancelListener();
         sendShippingAddressesRequest();
-
         mJanRainEmail = HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail();
-
         registerEvents();
         return view;
     }
@@ -86,14 +86,14 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void moveToShoppingCart() {
-        addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+        moveToFragment(ShoppingCartFragment.TAG);
     }
 
     private void sendShippingAddressesRequest() {
         String msg = getContext().getString(R.string.iap_please_wait);
         if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), msg);
-                mAddrController.getShippingAddresses();
+            Utility.showProgressDialog(getContext(), msg);
+            mAddrController.getShippingAddresses();
         }
     }
 
@@ -113,6 +113,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitle(R.string.iap_address);
     }
 
@@ -165,7 +166,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void onSetDeliveryAddress(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             Addresses selectedAddress = retrieveSelectedAddress();
-            CartModelContainer.getInstance().setDeliveryAddress(selectedAddress);
             mIsAddressUpdateAfterDelivery = true;
             mAddrController.setDefaultAddress(selectedAddress);
             mAddrController.setDeliveryMode();
@@ -173,10 +173,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             Utility.dismissProgressDialog();
         }
-    }
-
-    @Override
-    public void onGetDeliveryAddress(final Message msg) {
     }
 
     @Override
@@ -190,7 +186,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
-    public void onGetDeliveryModes(final Message msg) {
+    public void onGetRegions(Message msg) {
 
     }
 
@@ -199,11 +195,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void raiseEvent(final String event) {
-
     }
 
     @Override
@@ -219,25 +210,27 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
-            addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
+            addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE),
+                    ShippingAddressFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
             if (!Utility.isProgressDialogShowing()) {
-                    Utility.showProgressDialog(getContext(), getResources().getString(R.string.iap_please_wait));
-                    mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
+                Utility.showProgressDialog(getContext(), getResources().getString(R.string.iap_please_wait));
+                mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
+                CartModelContainer.getInstance().setAddressId(retrieveSelectedAddress().getId());
             }
         }
     }
 
     public void checkPaymentDetails() {
         PaymentController paymentController = new PaymentController(mContext, this);
-            paymentController.getPaymentDetails();
+        paymentController.getPaymentDetails();
     }
 
     private void deleteShippingAddress() {
         if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), getString(R.string.iap_delete_address));
-                int pos = mAdapter.getOptionsClickPosition();
-                mAddrController.deleteAddress(mAddresses.get(pos).getId());
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_delete_address));
+            int pos = mAdapter.getOptionsClickPosition();
+            mAddrController.deleteAddress(mAddresses.get(pos).getId());
         }
     }
 
@@ -261,7 +254,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         addressHashMap.put(ModelConstants.TOWN, address.getTown());
         addressHashMap.put(ModelConstants.ADDRESS_ID, address.getId());
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, address.getLine1());
-        addressHashMap.put(ModelConstants.PHONE_NUMBER, address.getPhone());
+        addressHashMap.put(ModelConstants.PHONE_1, address.getPhone1());
 
         if (address.getRegion() != null) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, address.getRegion().getName());
@@ -279,35 +272,32 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private void moveToShippingAddressFragment(final HashMap<String, String> payload) {
         Bundle extras = new Bundle();
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
-        addFragment(ShippingAddressFragment.createInstance(extras, AnimationType.NONE), null);
+        addFragment(ShippingAddressFragment.createInstance(extras, AnimationType.NONE),
+                ShippingAddressFragment.TAG);
     }
 
     @Override
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+
             Addresses address = retrieveSelectedAddress();
             AddressFields selectedAddress = prepareAddressFields(address);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
-
-            /*Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);*/
-            addFragment(
-                    BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            addFragment(BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE),
+                    BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
             AddressFields selectedAddress = prepareAddressFields(retrieveSelectedAddress());
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
-
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
 
             Bundle bundle = new Bundle();
-//            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
-                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
+                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG);
         }
     }
 
@@ -356,11 +346,11 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             fields.setEmail(mJanRainEmail); // Since there is no email response from hybris
         }
 
-        if (isNotNullNorEmpty(addr.getPhone())) {
-            fields.setPhoneNumber(addr.getPhone());
+        if (isNotNullNorEmpty(addr.getPhone1())) {
+            fields.setPhoneNumber(addr.getPhone1());
         }
 
-        if(addr.getRegion() != null){
+        if (addr.getRegion() != null) {
             fields.setRegionIsoCode(addr.getRegion().getName());
         }
 

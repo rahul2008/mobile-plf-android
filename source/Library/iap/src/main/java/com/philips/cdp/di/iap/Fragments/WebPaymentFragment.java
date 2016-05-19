@@ -5,25 +5,19 @@
 
 package com.philips.cdp.di.iap.Fragments;
 
-import android.annotation.TargetApi;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
+import com.philips.cdp.tagging.Tagging;
 
-public class WebPaymentFragment extends BaseAnimationSupportFragment {
-
+public class WebPaymentFragment extends WebFragment {
+    public static final String TAG = WebPaymentFragment.class.getName();
     private static final String SUCCESS_KEY = "successURL";
     private static final String PENDING_KEY = "pendingURL";
     private static final String FAILURE_KEY = "failureURL";
@@ -34,45 +28,12 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
     private static final String PAYMENT_FAILURE_CALLBACK_URL = "http://www.philips.com/paymentFailure";
     private static final String PAYMENT_CANCEL_CALLBACK_URL = "http://www.philips.com/paymentCancel";
 
-    private WebView mPaymentWebView;
-    private String mUrl;
-
-    private CircularLineProgressBar mProgress;
-    private boolean mShowProgressBar = true;
-
-    @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
-
-        mPaymentWebView = (WebView) group.findViewById(R.id.wv_payment);
-        mProgress = (CircularLineProgressBar) group.findViewById(R.id.cl_progress);
-        mProgress.startAnimation(100);
-        mPaymentWebView.setWebViewClient(new PaymentWebViewClient());
-        mPaymentWebView.getSettings().setJavaScriptEnabled(true);
-//        if (BuildConfig.DEBUG)
-//            mPaymentWebView.setWebContentsDebuggingEnabled(true);
-        mUrl = getPaymentURL();
-        return group;
-    }
-
-    @Override
-    public void onViewCreated(final View view, final Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mPaymentWebView.loadUrl(mUrl);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
-        mPaymentWebView.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.WORLD_PAY_PAGE_NAME);
         setTitle(R.string.iap_payment);
         setBackButtonVisibility(View.GONE);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPaymentWebView.onPause();
     }
 
     public static WebPaymentFragment createInstance(Bundle args, AnimationType animType) {
@@ -82,7 +43,8 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         return fragment;
     }
 
-    private String getPaymentURL() {
+    @Override
+    protected String getWebUrl() {
         Bundle arguments = getArguments();
         if (arguments == null || !arguments.containsKey(ModelConstants.WEBPAY_URL)) {
             return null;
@@ -97,17 +59,7 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
     }
 
     private Bundle createSuccessBundle(String url) {
-        String orderNum = "";
-        if (!TextUtils.isEmpty(url)) {
-            // TODO: 04-03-2016 Need to fix with proper logic
-            String[] temp = url.split("%5E");
-            if (temp.length > 2) {
-                temp = temp[2].split("-");
-                if (temp.length > 0) {
-                    orderNum = temp[0];
-                }
-            }
-        }
+        String orderNum = CartModelContainer.getInstance().getOrderNumber();
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.ORDER_NUMBER, orderNum);
         bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, true);
@@ -121,61 +73,30 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
     }
 
     private void launchConfirmationScreen(Bundle bundle) {
-        replaceFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
+        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 
-    private void goBackToOrderSummary() {
-        getFragmentManager().popBackStackImmediate();
+    @Override
+    protected boolean shouldOverrideUrlLoading(final String url) {
+        return verifyResultCallBacks(url);
     }
 
-    private class PaymentWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-
-            return verifyResultCallBacks(url);
+    private boolean verifyResultCallBacks(String url) {
+        boolean match = true;
+        if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
+            launchConfirmationScreen(createSuccessBundle(url));
+        } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
+            launchConfirmationScreen(createErrorBundle());
+        } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
+            launchConfirmationScreen(createErrorBundle());
+        } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
+            //Track Payment cancelled action
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
+            moveToPreviousFragment();
+        } else {
+            match = false;
         }
-
-        @SuppressWarnings("deprecation")
-        @Override
-        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            // Handle the error
-            if(isVisible()) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-            }
-        }
-
-        @TargetApi(android.os.Build.VERSION_CODES.M)
-        @Override
-        public void onReceivedError(WebView     view, WebResourceRequest req, WebResourceError rerr) {
-            // Redirect to deprecated method, so you can use it in all SDK versions
-            if(isVisible()) {
-                onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
-            }
-        }
-
-        @Override
-        public void onPageFinished(final WebView view, final String url) {
-            super.onPageFinished(view, url);
-            if (mProgress != null && mShowProgressBar) {
-                mShowProgressBar = false;
-                mProgress.setVisibility(View.GONE);
-            }
-        }
-
-        private boolean verifyResultCallBacks(String url) {
-            boolean match = true;
-            if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
-                launchConfirmationScreen(createSuccessBundle(url));
-            } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
-                launchConfirmationScreen(createErrorBundle());
-            } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
-                launchConfirmationScreen(createErrorBundle());
-            } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
-                goBackToOrderSummary();
-            } else {
-                match = false;
-            }
-            return match;
-        }
+        return match;
     }
 }

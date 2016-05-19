@@ -50,7 +50,7 @@
         <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
         <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_right</item>
         <item name="android:paddingLeft">@dimen/iap_shopping_cart_image_margin_top</item>
-        <item name="android:src">@drawable/toothbrush</item>
+        <item name="android:src">@drawable/no_icon</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
@@ -83,6 +83,19 @@
         <item name="android:textSize">13sp</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
+    </style>
+
+    <style name="iap_right_arrow_product_catalog" parent="FontIcon.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:gravity">right</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:text">@string/uikit_fonticon_arrow_right</item>
+        <item name="android:textColor">?attr/uikit_listtextselector</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_marginLeft">15dp</item>
     </style>
 
     <style name="iap_delivery_via_ups">

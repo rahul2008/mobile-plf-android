@@ -6,9 +6,11 @@ import android.os.Message;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.tagging.Tagging;
 
 import org.json.JSONObject;
 
@@ -16,18 +18,23 @@ public class NetworkController {
     IAPHurlStack mIAPHurlStack;
     RequestQueue hybrisVolleyQueue;
     Context context;
-    private Store store;
-    private OAuthHandler oAuthHandler;
+    Store store;
+    OAuthHandler oAuthHandler;
 
     public NetworkController(Context context) {
         this.context = context;
         initStore();
         oAuthHandler = new TestEnvOAuthHandler();
-        mIAPHurlStack = new IAPHurlStack(oAuthHandler);
+        initHurlStack(context);
         hybrisVolleyCreateConnection(context);
     }
 
-    private void initStore() {
+    void initHurlStack(final Context context) {
+        mIAPHurlStack = new IAPHurlStack(oAuthHandler);
+        mIAPHurlStack.setContext(context);
+    }
+
+    void initStore() {
         store = new Store(context);
     }
 
@@ -36,11 +43,11 @@ public class NetworkController {
     }
 
     void refreshOAuthToken(RequestListener listener) {
-            oAuthHandler.refreshToken(listener);
+        oAuthHandler.refreshToken(listener);
     }
 
     public void sendHybrisRequest(final int requestCode, final AbstractModel model, final
-                                  RequestListener requestListener) {
+    RequestListener requestListener) {
         if (store.isUserLoggedOut()) {
             store.setNewUser(context);
             oAuthHandler.resetAccessToken();
@@ -52,6 +59,9 @@ public class NetworkController {
                 IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error
                         .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
                         requestListener.getClass().getSimpleName());
+                if (error != null && error.getMessage() != null)
+                    Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                            IAPAnalyticsConstant.ERROR, error.getMessage());
                 if (requestListener != null) {
                     new IAPNetworkError(error, requestCode, requestListener);
                 }
@@ -66,22 +76,26 @@ public class NetworkController {
                     Message msg = Message.obtain();
                     msg.what = requestCode;
 
-                    if(response != null && response.length() == 0){
+                    if (response != null && response.length() == 0) {
                         msg.obj = NetworkConstants.EMPTY_RESPONSE;
-                    }else{
+                    } else {
                         msg.obj = model.parseResponse(response);
                     }
 
                     requestListener.onSuccess(msg);
-                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onSuccess =" + msg +  " requestCode=" + requestCode + "in " +
+                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onSuccess =" + msg + " requestCode=" + requestCode + "in " +
                             requestListener.getClass().getSimpleName());
                 }
             }
         };
 
-        IAPJsonRequest jsObjRequest = new IAPJsonRequest(model.getMethod(), model.getUrl(),
-                model.requestBody(), response, error);
+        IAPJsonRequest jsObjRequest = getIapJsonRequest(model, error, response);
         addToVolleyQueue(jsObjRequest);
+    }
+
+    IAPJsonRequest getIapJsonRequest(final AbstractModel model, final Response.ErrorListener error, final Response.Listener<JSONObject> response) {
+        return new IAPJsonRequest(model.getMethod(), model.getUrl(),
+                    model.requestBody(), response, error);
     }
 
     public void addToVolleyQueue(final IAPJsonRequest jsObjRequest) {

@@ -5,5 +5,5 @@ package com.philips.cdp.di.iap.activity;
  * All rights reserved.
  */
 public interface IAPBackButtonListener {
-    void onBackPressed();
+    boolean onBackPressed();
 }

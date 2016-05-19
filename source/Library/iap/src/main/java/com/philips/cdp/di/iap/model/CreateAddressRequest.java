@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +41,8 @@ public class CreateAddressRequest extends AbstractModel {
         payload.put(ModelConstants.LINE_2, getValue(ModelConstants.LINE_2));
         payload.put(ModelConstants.POSTAL_CODE, getValue(ModelConstants.POSTAL_CODE));
         payload.put(ModelConstants.TOWN, getValue(ModelConstants.TOWN));
-        payload.put(ModelConstants.PHONE_NUMBER, getValue(ModelConstants.PHONE_NUMBER));
+        payload.put(ModelConstants.PHONE_1, getValue(ModelConstants.PHONE_1));
+        payload.put(ModelConstants.PHONE_2, getValue(ModelConstants.PHONE_2));
         payload.put(ModelConstants.REGION_ISOCODE, getValue(ModelConstants.REGION_ISOCODE));
         return payload;
     }

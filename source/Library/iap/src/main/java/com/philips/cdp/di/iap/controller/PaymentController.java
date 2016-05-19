@@ -10,7 +10,7 @@ import android.os.Message;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetPaymentDetailRequest;
-import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.model.PaymentRequest;
 import com.philips.cdp.di.iap.model.PlaceOrderRequest;
 import com.philips.cdp.di.iap.model.SetPaymentDetailsRequest;
@@ -30,13 +30,11 @@ public class PaymentController implements AbstractModel.DataLoadListener {
 
     public interface PaymentListener {
         void onGetPaymentDetails(Message msg);
-
         void onSetPaymentDetails(Message msg);
     }
 
     public interface MakePaymentListener {
         void onMakePayment(Message msg);
-
         void onPlaceOrder(Message msg);
     }
 
@@ -110,10 +108,6 @@ public class PaymentController implements AbstractModel.DataLoadListener {
                 mMakePaymentListener.onMakePayment(msg);
                 break;
         }
-    }
-
-    void setHybrisDelegate(HybrisDelegate delegate) {
-        mDelegate = delegate;
     }
 
     HybrisDelegate getHybrisDelegate() {

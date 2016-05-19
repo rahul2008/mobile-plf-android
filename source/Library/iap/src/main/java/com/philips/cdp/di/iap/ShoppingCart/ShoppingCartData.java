@@ -26,6 +26,26 @@ public class ShoppingCartData {
     private String mTotalPriceFormatedPrice;
     private String mTotalPriceWithTaxFormatedPrice;
     private String mFormatedPrice;
+    private String mValuePrice;
+    private String mVatValue;
+
+    public String getValuePrice() {
+        return mValuePrice;
+    }
+
+    public void setValuePrice(String mValuePrice) {
+        this.mValuePrice = mValuePrice;
+    }
+
+    public int getDeliveryItemsQuantity() {
+        return mDeliveryItemsQuantity;
+    }
+
+    public void setDeliveryItemsQuantity(final int mDeliveryItemsQuantity) {
+        this.mDeliveryItemsQuantity = mDeliveryItemsQuantity;
+    }
+
+    private int mDeliveryItemsQuantity;
 
     public String getMarketingTextHeader() {
         return mMarketingTextHeader;
@@ -160,5 +180,13 @@ public class ShoppingCartData {
 
     public void setTotalPriceFormatedPrice(String mTotalPriceFormatedPrice) {
         this.mTotalPriceFormatedPrice = mTotalPriceFormatedPrice;
+    }
+
+    public String getVatValue() {
+        return mVatValue;
+    }
+
+    public void setVatValue(String mVatValue) {
+        this.mVatValue = mVatValue;
     }
 }

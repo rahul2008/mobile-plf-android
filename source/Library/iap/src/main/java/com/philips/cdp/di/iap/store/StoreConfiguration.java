@@ -6,62 +6,64 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import com.philips.cdp.di.iap.session.RequestListener;
 
 public class StoreConfiguration {
+    private static final String SUFFIX_INAPPCONFIG = "inAppConfig";
+
+    private Store mStore;
     private String hostport;
     private String site;
-    private int mTheme;
+    private VerticalAppConfig mVerticalAppConfig;
+    private WebStoreConfig mWebStoreConfig;
 
-    public StoreConfiguration(Context context) {
-        loadConfigurationFromAsset(context);
+    public StoreConfiguration(Context context, Store store) {
+        mStore = store;
+        mVerticalAppConfig = getVerticalAppConfig(context);
+        mWebStoreConfig = getWebStoreConfig(context);
+    }
+
+    void initConfig(final String language, String countryCode, RequestListener listener) {
+        mWebStoreConfig.initConfig(language, countryCode, listener);
     }
 
     public String getHostPort() {
-        return hostport;
+        return mVerticalAppConfig.getHostPort();
     }
 
     public String getSite() {
-        return site;
+        return mWebStoreConfig.getSiteID();
     }
 
-    public int getTheme() {
-        return mTheme;
+    public String getPropositionID() {
+        return mVerticalAppConfig.getPropositionID();
     }
 
-    private void loadConfigurationFromAsset(Context context) {
-        InputStream fromAsset = null;
-        Reader reader = null;
-        try {
-            fromAsset = context.getResources().getAssets().open("PhilipsInAppPurchaseConfiguration.json");
-            reader = new BufferedReader(new InputStreamReader(fromAsset));
-            StoreConfiguration configuration = new Gson().fromJson(reader, StoreConfiguration.class);
-            hostport = configuration.hostport;
-            site = configuration.site;
-            mTheme = configuration.mTheme;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if(fromAsset != null) {
-                try {
-                    fromAsset.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    VerticalAppConfig getVerticalAppConfig(final Context context) {
+        return new VerticalAppConfig(context);
+    }
+
+    WebStoreConfig getWebStoreConfig(final Context context) {
+        return new WebStoreConfig(context, this);
+    }
+
+    public String getRawConfigUrl() {
+        StringBuilder builder = new StringBuilder(Store.HTTPS);
+        builder.append(getHostPort()).append(Store.SEPERATOR);
+        builder.append(Store.WEB_ROOT).append(Store.SEPERATOR);
+        builder.append(Store.V2).append(Store.SEPERATOR);
+        builder.append(SUFFIX_INAPPCONFIG).append(Store.SEPERATOR);
+        builder.append(mWebStoreConfig.getLocale()).append(Store.SEPERATOR);
+        builder.append(getPropositionID());
+
+        return builder.toString();
+    }
+
+    public void generateStoreUrls() {
+        mStore.generateStoreUrls();
+    }
+
+    public String getLocale() {
+        return mWebStoreConfig.getLocale();
     }
 }

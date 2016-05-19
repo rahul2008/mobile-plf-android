@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iap.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,12 +13,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
+import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -32,16 +37,24 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     private TextView mTitleTextView;
     private ImageView mBackButton;
     private FrameLayout frameLayout;
+    private TextView mCartCount;
+    private ImageView mCartIcon;
+    private FrameLayout mCartContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
-        IAPLog.d(IAPLog.LOG, "OnCreate");
         setContentView(R.layout.iap_activity);
         addActionBar();
-        addShoppingFragment();
-
+        Boolean isShoppingCartViewSelected = getIntent().getBooleanExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, true);
+        if (isShoppingCartViewSelected) {
+            addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                    BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+        } else {
+            addFragment(ProductCatalogFragment.createInstance(new Bundle(),
+                    BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
+        }
     }
 
     private void initTheme() {
@@ -53,12 +66,18 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         setTheme(themeIndex);
     }
 
-    private void addShoppingFragment() {
+    public void addFragment(BaseAnimationSupportFragment newFragment,
+                            String newFragmentTag) {
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
-        transaction.addToBackStack(null);
+        transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+        transaction.addToBackStack(newFragmentTag);
         transaction.commitAllowingStateLoss();
+
+        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+                + newFragmentTag + ")");
     }
+
 
     private void addActionBar() {
         ActionBar mActionBar = getSupportActionBar();
@@ -69,19 +88,28 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-
+        Drawable mShoppingCartIcon = VectorDrawable.create(this, R.drawable.iap_shopping_cart);
         View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
 
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
-
+        mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
+        mCartIcon.setImageDrawable(mShoppingCartIcon);
         mBackButton = (ImageView) mCustomView.findViewById(R.id.arrow);
-        mBackButton.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
-
+        mBackButton.setImageDrawable(VectorDrawable.create(this, R.drawable.iap_back_arrow));
+        mCartCount = (TextView) mCustomView.findViewById(R.id.item_count);
         frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 onBackPressed();
+            }
+        });
+        mCartContainer = (FrameLayout) mCustomView.findViewById(R.id.cart_container);
+        mCartContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                        BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
             }
         });
 
@@ -94,9 +122,13 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
 
     @Override
     public void onBackPressed() {
+        IAPLog.i(IAPLog.LOG, "OnBackpressed Called");
         Utility.hideKeypad(this);
-        dispatchBackToFragments();
-        super.onBackPressed();
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
+        boolean dispatchBackHandled = dispatchBackToFragments();
+        if (!dispatchBackHandled)
+            super.onBackPressed();
     }
 
     @Override
@@ -111,23 +143,62 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     }
 
     @Override
+    public void updateCount(final int count) {
+        if (count == 0) {
+            mCartCount.setVisibility(View.GONE);
+        } else {
+            mCartCount.setVisibility(View.VISIBLE);
+            mCartCount.setText(String.valueOf(count));
+        }
+    }
+
+    @Override
+    public void setCartIconVisibility(final int visibility) {
+        mCartContainer.setVisibility(visibility);
+        mCartIcon.setVisibility(visibility);
+        mCartIcon.setVisibility(visibility);
+    }
+
+    @Override
     public void setBackButtonVisibility(final int isVisible) {
-        if(isVisible == View.GONE){
+        if (isVisible == View.GONE) {
             frameLayout.setEnabled(false);
             frameLayout.setClickable(false);
-        }else if (isVisible == View.VISIBLE){
+        } else if (isVisible == View.VISIBLE) {
             frameLayout.setEnabled(true);
             frameLayout.setClickable(true);
         }
         mBackButton.setVisibility(isVisible);
     }
 
-    public void dispatchBackToFragments() {
+    @Override
+    public void setHeaderTitle(final String title) {
+        mTitleTextView.setText(title);
+    }
+
+    public boolean dispatchBackToFragments() {
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called = " + fragments);
+        boolean isBackHandled = false;
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.isVisible() && (fragment instanceof IAPBackButtonListener)) {
-                ((IAPBackButtonListener) fragment).onBackPressed();
+
+                isBackHandled = ((IAPBackButtonListener) fragment).onBackPressed();
+                IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called");
             }
         }
+        return isBackHandled;
+    }
+
+    @Override
+    protected void onPause() {
+        Tagging.pauseCollectingLifecycleData();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        Tagging.collectLifecycleData();
+        super.onResume();
     }
 }

@@ -12,7 +12,8 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CreateAddressRequest;
 import com.philips.cdp.di.iap.model.DeleteAddressRequest;
 import com.philips.cdp.di.iap.model.GetAddressRequest;
-import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.model.GetRegionsRequest;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressModeRequest;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressRequest;
 import com.philips.cdp.di.iap.model.UpdateAddressRequest;
@@ -33,21 +34,20 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
     public interface AddressListener {
         void onGetAddress(Message msg);
-
         void onCreateAddress(Message msg);
-
         void onSetDeliveryAddress(Message msg);
-
-        void onGetDeliveryAddress(Message msg);
-
         void onSetDeliveryModes(Message msg);
-
-        void onGetDeliveryModes(Message msg);
+        void onGetRegions(Message msg);
     }
 
     public AddressController(Context context, AddressListener listener) {
         mContext = context;
         mAddressListener = listener;
+    }
+
+    public void getRegions(){
+        GetRegionsRequest model = new GetRegionsRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.GET_REGIONS, model, model);
     }
 
     public void createAddress(AddressFields addressFields) {
@@ -119,15 +119,11 @@ public class AddressController implements AbstractModel.DataLoadListener {
             case RequestCode.SET_DELIVERY_ADDRESS:
                 mAddressListener.onSetDeliveryAddress(msg);
                 break;
-            case RequestCode.GET_DELIVERY_ADDRESS:
-                mAddressListener.onGetDeliveryAddress(msg);
-                break;
             case RequestCode.SET_DELIVERY_MODE:
                 mAddressListener.onSetDeliveryModes(msg);
                 break;
-            case RequestCode.GET_DELIVERY_MODE:
-                mAddressListener.onGetDeliveryModes(msg);
-                break;
+            case RequestCode.GET_REGIONS:
+                mAddressListener.onGetRegions(msg);
         }
     }
 
@@ -141,7 +137,8 @@ public class AddressController implements AbstractModel.DataLoadListener {
         params.put(ModelConstants.LINE_2, addressFields.getLine2());
         params.put(ModelConstants.POSTAL_CODE, addressFields.getPostalCode());
         params.put(ModelConstants.TOWN, addressFields.getTown());
-        params.put(ModelConstants.PHONE_NUMBER, addressFields.getPhoneNumber());
+        params.put(ModelConstants.PHONE_1, addressFields.getPhoneNumber());
+        params.put(ModelConstants.PHONE_2, "");
         params.put(ModelConstants.REGION_ISOCODE, addressFields.getRegionIsoCode());
         return params;
     }
@@ -162,8 +159,8 @@ public class AddressController implements AbstractModel.DataLoadListener {
         addressHashMap.put(ModelConstants.TOWN, addr.getTown());
         addressHashMap.put(ModelConstants.ADDRESS_ID, addr.getId());
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, isDefaultAddress.toString());
-        addressHashMap.put(ModelConstants.PHONE_NUMBER, addr.getPhone());
-
+        addressHashMap.put(ModelConstants.PHONE_1, addr.getPhone1());
+        addressHashMap.put(ModelConstants.PHONE_2, "");
         if (addr.getRegion() != null)
             addressHashMap.put(ModelConstants.REGION_ISOCODE, addr.getRegion().getIsocode());
         return addressHashMap;

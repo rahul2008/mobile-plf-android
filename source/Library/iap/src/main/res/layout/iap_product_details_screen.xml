@@ -47,23 +47,40 @@
             android:layout_alignParentStart="true"
             android:layout_below="@id/product_description"
             android:layout_marginStart="@dimen/iap_product_detail_left_padding"
-            android:paddingBottom="@dimen/iap_product_detail_top_padding"
             android:paddingEnd="@dimen/iap_product_detail_right_padding"
-            android:text="@string/iap_product_id"
             android:textColor="@color/uikit_enricher4"
             android:textSize="@dimen/iap_product_ctn" />
 
-        <TextView
-            android:id="@+id/individual_price"
-            style="@style/iapCentralesansBoldFont"
+        <LinearLayout
+            android:id="@+id/price_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/product_description"
             android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
-            android:paddingBottom="@dimen/iap_product_detail_top_padding"
+            android:layout_marginLeft="@dimen/iap_image_bottom_margin"
+            android:orientation="vertical"
+            android:layout_alignTop="@id/ctn"
+            >
+        <TextView
+            android:id="@+id/tv_discounted_price"
+            style="@style/iapCentralesansBoldFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="?attr/uikit_baseColor"
-            android:textSize="@dimen/iap_product_ctn" />
+            android:textSize="@dimen/iap_product_ctn"
+            />
+
+        <TextView
+            android:id="@+id/individual_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/uikit_enricher4"
+            fontPath="fonts/centralesansbold.ttf"
+            android:textSize="@dimen/iap_product_original_price"
+            />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/product_overview"
@@ -75,6 +92,37 @@
             android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
             android:layout_marginStart="@dimen/iap_product_detail_left_padding"
             android:textColor="?attr/uikit_baseColor"
+            android:paddingTop="@dimen/iap_product_detail_top_padding"
             android:textSize="@dimen/iap_product_overview" />
+
+        <Button
+            android:id="@+id/add_to_cart"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/product_overview"
+            android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+            android:enabled="true"
+            android:text="@string/iap_add_to_cart"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/network_margin_left_right"
+            />
+
+        <Button
+            android:id="@+id/buy_from_retailor"
+            style="?attr/uikit_outlinedButtonStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/add_to_cart"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
+            android:enabled="true"
+            android:visibility="gone"
+            android:text="@string/iap_buy_from_retailers"/>
+
     </RelativeLayout>
 </ScrollView>

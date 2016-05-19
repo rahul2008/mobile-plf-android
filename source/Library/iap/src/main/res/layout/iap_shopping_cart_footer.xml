@@ -5,18 +5,21 @@
 
     <TextView
         android:id="@+id/iap_tv_redeem_vochur"
-        style="@style/iap_redeem_voucher" />
+        style="@style/iap_redeem_voucher"
+        android:visibility="gone" />
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/arrow"
-        style="@style/iap_right_arrow" />
+        style="@style/iap_right_arrow"
+        android:visibility="gone" />
 
     <View
         android:id="@+id/iap_redeem_bottom_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
         android:layout_below="@id/iap_tv_redeem_vochur"
-        android:background="?attr/uikit_listDividerColor" />
+        android:background="?attr/uikit_listDividerColor"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/iap_tv_delivery_via_ups"

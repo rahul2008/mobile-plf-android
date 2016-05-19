@@ -14,7 +14,7 @@ public class HybrisDelegate {
 
     private static HybrisDelegate delegate = new HybrisDelegate();
 
-    private NetworkController controller;
+    NetworkController controller;
     private Context mContext;
 
     private HybrisDelegate() {
@@ -45,7 +45,7 @@ public class HybrisDelegate {
 
     public void sendRequest(int requestCode, AbstractModel model, final RequestListener
             requestListener) {
-        getNetworkController(mContext).sendHybrisRequest(requestCode, model, requestListener);
+        controller.sendHybrisRequest(requestCode, model, requestListener);
     }
 
     public Store getStore() {

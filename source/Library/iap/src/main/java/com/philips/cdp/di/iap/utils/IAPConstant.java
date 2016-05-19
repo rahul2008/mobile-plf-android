@@ -22,6 +22,7 @@ public class IAPConstant {
     public static final String PRODUCT_TITLE = "PRODUCT_TITLE";
     public static final String PRODUCT_CTN = "PRODUCT_CTN";
     public static final String PRODUCT_PRICE = "PRODUCT_PRICE";
+    public static final String PRODUCT_VALUE_PRICE = "PRODUCT_VALUE_PRICE";
     public static final String PRODUCT_OVERVIEW = "PRODUCT_OVERVIEW";
     public static final String UPDATE_SHIPPING_ADDRESS_KEY = "UPDATE_SHIPPING_ADDRESS_KEY";
     public static final String MODEL_ALERT_BUTTON_TEXT = "MODEL_ALERT_BUTTON_TEXT";
@@ -38,4 +39,21 @@ public class IAPConstant {
     public static final String PRODUCT_DETAIL_FRAGMENT_IMAGE_URL = "PRODUCT_DETAIL_FRAGMENT_IMAGE_URL";
     public final static String NEW_LINE_ESCAPE_CHARACTER = "\n";
     public static final String INSUFFICIENT_STOCK_LEVEL_ERROR = "InsufficientStockLevelError";
+    public static final String IAP_IS_SHOPPING_CART_VIEW_SELECTED = "IAP_IS_SHOPPING_CART_VIEW_SELECTED";
+    public static final String IS_PRODUCT_CATALOG = "IS_PRODUCT_CATALOG";
+    public static final String PRODUCT_DETAIL_FRAGMENT_CATALOG = "PRODUCT_DETAIL_FRAGMENT_CATALOG";
+    public static final String IAP_LAUNCH_PRODUCT_CATALOG = "IAP_LAUNCH_PRODUCT_CATALOG";
+    public static final String IAP_PRODUCT_DISCOUNTED_PRICE = "IAP_PRODUCT_DISCOUNTED_PRICE";
+    public static final String IAP_FRAGMENT_STATE_KEY = "IAP_FRAGMENT_STATE_KEY";
+    public static final String IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR = "IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR";
+    public static final String IAP_BUY_URL = "IAP_BUY_URL";
+    public static final String IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART = "IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART";
+    public static final java.lang.String MODEL_ALERT_CONFIRM_DESCRIPTION = "MODEL_ALERT_CONFIRM_DESCRIPTION";
+
+    public interface IAPLandingViews {
+        int IAP_PRODUCT_CATALOG_VIEW = 0;
+        int IAP_SHOPPING_CART_VIEW = 1;
+    }
+
+    public static final String IAP_STORE_NAME = "IAP_STORE_NAME";
 }

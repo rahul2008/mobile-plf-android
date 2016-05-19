@@ -1,11 +1,18 @@
 package com.philips.cdp.di.iap.model;
 
+import android.content.Context;
+
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
+import com.philips.cdp.di.iap.store.IAPUser;
+import com.philips.cdp.di.iap.store.MockStore;
+import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -16,6 +23,7 @@ import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -25,6 +33,12 @@ import static junit.framework.Assert.assertNotNull;
 public class PlaceOrderRequestTest {
     @Mock
     private Store mStore;
+
+    @Before
+    public void setUP() {
+        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
+        mStore.initStoreConfig("en", "us", null);
+    }
 
     @Test
     public void testRequestMethodIsPOST() {
@@ -48,15 +62,9 @@ public class PlaceOrderRequestTest {
     }
 
     @Test
-    public void testTestingUrilIsNotNull() {
-       /* PlaceOrderRequest request = new PlaceOrderRequest(mStore, null, null);
-        assertNotNull(request.getUrl());*/
-    }
-
-    @Test
-    public void testTestingUrilIsForPlaceOrder() {
+    public void matchPlaceOrderURL() {
         PlaceOrderRequest request = new PlaceOrderRequest(mStore, null, null);
-//        assertEquals(request.getUrl(), NetworkConstants.PLACE_ORDER_URL);
+        assertEquals(NetworkURLConstants.PLACE_ORDER_URL, request.getUrl());
     }
 
     @Test

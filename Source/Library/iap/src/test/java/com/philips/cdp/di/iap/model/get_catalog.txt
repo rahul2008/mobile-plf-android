@@ -1,0 +1,33 @@
+{
+  "type": "catalogWsDTO",
+  "id": "PL_PubProductCatalog",
+  "url": "/PL_PubProductCatalog",
+  "catalogVersions": [
+    {
+      "id": "Staged",
+      "url": "/PL_PubProductCatalog/Staged"
+    },
+    {
+      "id": "Online",
+      "url": "/PL_PubProductCatalog/Online",
+      "categories": [
+        {
+          "id": "OriflameMain_Campaign",
+          "url": "//c/OriflameMain_Campaign"
+        },
+        {
+          "id": "OriflameDaily_Campaign",
+          "url": "//c/OriflameDaily_Campaign"
+        },
+        {
+          "id": "Statoil_Campaign",
+          "url": "//c/Statoil_Campaign"
+        },
+        {
+          "id": "Employee_Campaign",
+          "url": "//c/Employee_Campaign"
+        }
+      ]
+    }
+  ]
+}

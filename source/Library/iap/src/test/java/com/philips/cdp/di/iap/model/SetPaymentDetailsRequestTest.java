@@ -1,15 +1,15 @@
 package com.philips.cdp.di.iap.model;
 
+import android.content.Context;
+
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.response.payment.MakePaymentData;
-import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
-import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.store.IAPUser;
+import com.philips.cdp.di.iap.store.MockStore;
+import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -22,6 +22,7 @@ import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by 310164421 on 3/8/2016.
@@ -31,41 +32,55 @@ public class SetPaymentDetailsRequestTest {
     @Mock
     private Store mStore;
 
+    @Before
+    public void setUP() {
+        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
+        mStore.initStoreConfig("en", "us", null);
+    }
+
     @Test
     public void testRequestMethodIsPOST() {
         SetPaymentDetailsRequest request = new SetPaymentDetailsRequest(mStore, null, null);
         assertEquals(Request.Method.PUT, request.getMethod());
     }
 
-//    @Test
-//    public void testQueryParamsIsNotNull() {
-//        SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
-//        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
-//        assertNotNull(mockSetPaymentDetailsRequest.requestBody());
-//    }
 
-//    @Test
-//    public void testQueryParamsHasBody() {
-//        SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
-//        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
-//        Map<String, String> params = new HashMap<String, String>();
-//
-//        assertEquals(mockSetPaymentDetailsRequest.requestBody(), params);
-//    }
+    @Test
+    public void testQueryParamsHasBody() {
+        SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
+        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkURLConstants.PAYMENT_DETAILS_URL);
+        Map<String, String> params = new HashMap<String, String>();
+        assertEquals(mockSetPaymentDetailsRequest.requestBody(), params);
+    }
 
-//    @Test
-//    public void testTestingUriIsNotNull() {
-//        SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
-//        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
-//        assertNotNull(mockSetPaymentDetailsRequest.getUrl());
+    //    @Test
+//    public void testQueryParamsWithPaymentDetailId() {
+//        Map<String, String> params = new HashMap<>();
+//        params.put(ModelConstants.PAYMENT_DETAILS_ID, ModelConstants.PAYMENT_DETAILS_ID);
+//        GetPaymentDetailRequest request = new GetPaymentDetailRequest(mStore, params, null);
+//        assertEquals(request.requestBody(), params);
 //    }
+    @Test
+    public void testQueryParamsWithPaymentDetailId() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(ModelConstants.PAYMENT_DETAILS_ID, ModelConstants.PAYMENT_DETAILS_ID);
+        SetPaymentDetailsRequest request = new SetPaymentDetailsRequest(mStore, params, null);
+        assertEquals(request.requestBody(), params);
+    }
 
-//    @Test
-//    public void testTestingUrilIsForSetPaymentDetailsRequest() {
-//        SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
-//        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkConstants.SET_PAYMENT_DETAILS_URL);
-//        assertEquals(mockSetPaymentDetailsRequest.getUrl(), NetworkConstants.SET_PAYMENT_DETAILS_URL);
-//    }
+    @Test
+    public void testTestingUriIsNotNull() {
+        SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
+        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkURLConstants.PAYMENT_DETAILS_URL);
+        assertNotNull(mockSetPaymentDetailsRequest.getUrl());
+    }
+
+    @Test
+    public void testTestingUrilIsForSetPaymentDetailsRequest() {
+        SetPaymentDetailsRequest mockSetPaymentDetailsRequest = Mockito.mock(SetPaymentDetailsRequest.class);
+        Mockito.when(mockSetPaymentDetailsRequest.getUrl()).thenReturn(NetworkURLConstants.PAYMENT_DETAILS_URL);
+        assertEquals(mockSetPaymentDetailsRequest.getUrl(), NetworkURLConstants.PAYMENT_DETAILS_URL);
+    }
 
     @Test
     public void parseResponseShouldBeOfSetPaymentDetailsRequestDataType() {
@@ -73,5 +88,11 @@ public class SetPaymentDetailsRequestTest {
         String str = null;
         Object response = request.parseResponse(str);
         assertNull(null, response);
+    }
+
+    @Test
+    public void matchAddressDetailURL() {
+        SetPaymentDetailsRequest request = new SetPaymentDetailsRequest(mStore, null, null);
+        assertEquals(NetworkURLConstants.PAYMENT_DETAILS_URL, request.getUrl());
     }
 }

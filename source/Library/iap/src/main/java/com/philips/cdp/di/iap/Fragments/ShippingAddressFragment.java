@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,13 +22,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.PaymentController;
-import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
@@ -37,10 +41,13 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
+import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -54,9 +61,22 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         PaymentController.PaymentListener, InlineForms.Validator,
         AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener,
         StateDropDown.StateListener {
-    private Context mContext;
 
+    private Context mContext;
+    public static final String TAG = ShippingAddressFragment.class.getName();
+
+    protected LinearLayout mLlFirstName;
+    protected LinearLayout mLlLastName;
+    protected LinearLayout mLlSalutation;
+    protected LinearLayout mLlAddressLineOne;
+    protected LinearLayout mLlAddressLineTwo;
+    protected LinearLayout mLlTown;
+    protected LinearLayout mLlPostalCode;
+    protected LinearLayout mLlCountry;
     protected LinearLayout mlLState;
+    protected LinearLayout mLlEmail;
+    protected LinearLayout mLlPhoneNumber;
+
     protected TextView mTvTitle;
     protected EditText mEtFirstName;
     protected EditText mEtLastName;
@@ -84,30 +104,53 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private StateDropDown mStateDropDown;
 
     private HashMap<String, String> mAddressFieldsHashmap = null;
-    private HashMap<String, String> addressHashMap = null;
-    private Addresses mAddresses;
+    private HashMap<String, String> addressHashMap = new HashMap<>();
     private Drawable imageArrow;
     protected boolean mIgnoreTextChangeListener = false;
+
+    PhoneNumberUtil phoneNumberUtil;
+    Phonenumber.PhoneNumber phoneNumber = null;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (!(this instanceof BillingAddressFragment))
+            CartModelContainer.getInstance().setAddressId(null);
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_shipping_address_layout, container, false);
-        mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
+        phoneNumberUtil = PhoneNumberUtil.getInstance();
+        mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.inlineForms);
 
-        mlLState = (LinearLayout) rootView.findViewById(R.id.ll_state);
         mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
-        mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
-        mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
-        mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
-        mEtAddressLineOne = (EditText) rootView.findViewById(R.id.et_address_line_one);
-        mEtAddressLineTwo = (EditText) rootView.findViewById(R.id.et_address_line_two);
-        mEtTown = (EditText) rootView.findViewById(R.id.et_town);
-        mEtPostalCode = (EditText) rootView.findViewById(R.id.et_postal_code);
-        mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
-        mEtState = (EditText) rootView.findViewById(R.id.et_state);
-        mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
-        mEtPhoneNumber = (EditText) rootView.findViewById(R.id.et_phone_number);
 
+        mLlFirstName = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_first_name);
+        mLlLastName = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_last_name);
+        mLlSalutation = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_salutation);
+        mLlAddressLineOne = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_one);
+        mLlAddressLineTwo = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_two);
+        mLlTown = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_town);
+        mLlPostalCode = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_postal_code);
+        mLlCountry = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_country);
+        mlLState = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_state);
+        mLlEmail = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_email);
+        mLlPhoneNumber = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_phone_number);
+
+        mEtFirstName = (EditText) mInlineFormsParent.findViewById(R.id.et_first_name);
+        mEtLastName = (EditText) mInlineFormsParent.findViewById(R.id.et_last_name);
+        mEtSalutation = (EditText) mInlineFormsParent.findViewById(R.id.et_salutation);
+        mEtAddressLineOne = (EditText) mInlineFormsParent.findViewById(R.id.et_address_line_one);
+        mEtAddressLineTwo = (EditText) mInlineFormsParent.findViewById(R.id.et_address_line_two);
+        mEtTown = (EditText) mInlineFormsParent.findViewById(R.id.et_town);
+        mEtPostalCode = (EditText) mInlineFormsParent.findViewById(R.id.et_postal_code);
+        mEtCountry = (EditText) mInlineFormsParent.findViewById(R.id.et_country);
+        mEtState = (EditText) mInlineFormsParent.findViewById(R.id.et_state);
+        mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
+        mEtPhoneNumber = (EditText) mInlineFormsParent.findViewById(R.id.et_phone_number);
+
+        mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         mEtSalutation.setKeyListener(null);
         mEtState.setKeyListener(null);
 
@@ -125,6 +168,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mShippingAddressFields = new AddressFields();
 
         mEtEmail.setText(HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail());
+        mEtEmail.setEnabled(false);
+
+        mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+        showUSRegions();
+        mEtCountry.setEnabled(false);
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
@@ -135,12 +183,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
         mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
         mEtPhoneNumber.addTextChangedListener(new IAPTextWatcher(mEtPhoneNumber));
+
         mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
         mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
 
         Bundle bundle = getArguments();
         if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            addressHashMap = new HashMap<>();
             updateFields();
         }
 
@@ -193,19 +241,25 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (mlLState.getVisibility() == View.VISIBLE)
             mShippingAddressFields.setRegionIsoCode(mEtState.getText().toString());
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            //Track new address creation
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
             CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
             addFragment(
-                    BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                    BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
+            //Track new address creation
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
             CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
-                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
+                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG);
         }
     }
 
@@ -227,27 +281,42 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     if (mlLState.getVisibility() == View.GONE)
                         mShippingAddressFields.setRegionIsoCode(null);
-                    mAddressController.createAddress(mShippingAddressFields);
+                    if (CartModelContainer.getInstance().getAddressId() != null) {
+                        HashMap<String, String> updateAddressPayload = addressPayload();
+                        if (mlLState.getVisibility() == View.VISIBLE && CartModelContainer.getInstance().getRegionIsoCode() != null)
+                            updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
+                        updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
+                        mAddressController.updateAddress(updateAddressPayload);
+                    } else {
+                        mAddressController.createAddress(mShippingAddressFields);
+                    }
                 }
             }
         } else if (v == mBtnCancel) {
-            if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-                getFragmentManager().popBackStackImmediate();
+            /*if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY) ||
+                    (getArguments().containsKey(IAPConstant.IS_SECOND_USER) && getArguments().getBoolean(IAPConstant.IS_SECOND_USER))) {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
             } else {
-                addFragment
-                        (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-            }
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
+            }*/
+            getFragmentManager().popBackStackImmediate();
         }
     }
 
+
     @Override
     public void onGetAddress(Message msg) {
-        Utility.dismissProgressDialog();
         if (msg.what == RequestCode.UPDATE_ADDRESS) {
             if (msg.obj instanceof IAPNetworkError) {
+                Utility.dismissProgressDialog();
                 handleError(msg);
             } else {
-                getFragmentManager().popBackStackImmediate();
+                if (CartModelContainer.getInstance().getAddressId() == null) {
+                    Utility.dismissProgressDialog();
+                    getFragmentManager().popBackStackImmediate();
+                } else {
+                    mAddressController.setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
+                }
             }
         }
     }
@@ -256,7 +325,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onCreateAddress(Message msg) {
         if (msg.obj instanceof Addresses) {
             mBtnContinue.setEnabled(true);
-            mAddresses = (Addresses) msg.obj;
+            Addresses mAddresses = (Addresses) msg.obj;
+            CartModelContainer.getInstance().setAddressId(mAddresses.getId());
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
             Utility.dismissProgressDialog();
@@ -265,17 +335,39 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     private void showErrorFromServer(Error error) {
-        if (error != null && (error.getSubject() != null) && error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
-            String errorMessage = getResources().getString(R.string.iap_country_error);
-            mInlineFormsParent.setErrorMessage(errorMessage);
-            mInlineFormsParent.showError(mEtCountry);
-            mBtnContinue.setEnabled(false);
-        } else if (error != null && error.getMessage() != null) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), error.getMessage());
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+
+        if (error != null) {
+            if (error.getSubject() != null) {
+                String errorMessage;
+                if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
+                    errorMessage = getResources().getString(R.string.iap_country_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtCountry);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.POSTAL_CODE)) {
+                    errorMessage = getResources().getString(R.string.iap_postal_code_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtPostalCode);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.PHONE_1)) {
+                    errorMessage = getResources().getString(R.string.iap_phone_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtPhoneNumber);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
+                    errorMessage = getResources().getString(R.string.iap_address_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtAddressLineTwo);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_1)) {
+                    errorMessage = getResources().getString(R.string.iap_address_error);
+                    mInlineFormsParent.setErrorMessage(errorMessage);
+                    mInlineFormsParent.showError(mEtAddressLineOne);
+                }
+                mBtnContinue.setEnabled(false);
+            } else if (error.getMessage() != null) {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                        getString(R.string.iap_network_error), error.getMessage());
+            } else {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            }
         }
     }
 
@@ -284,8 +376,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         String lastName = mEtLastName.getText().toString();
         String addressLineOne = mEtAddressLineOne.getText().toString();
         String addressLineTwo = mEtAddressLineTwo.getText().toString();
-        String postalCode = mEtPostalCode.getText().toString();
-        String phoneNumber = mEtPhoneNumber.getText().toString();
+        String postalCode = mEtPostalCode.getText().toString().replaceAll(" ", "");
+        String phoneNumber = mEtPhoneNumber.getText().toString().replaceAll(" ", "");
         String town = mEtTown.getText().toString();
         String country = mEtCountry.getText().toString();
         String email = mEtEmail.getText().toString();
@@ -324,7 +416,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             errorMessage = getResources().getString(R.string.iap_town_error);
         }
         if (editText.getId() == R.id.et_phone_number && !hasFocus) {
-            result = mValidator.isValidPhoneNumber(mEtPhoneNumber.getText().toString());
+            result = validatePhoneNumber(HybrisDelegate.getInstance().getStore().getCountry()
+                    , mEtPhoneNumber.getText().toString());
             errorMessage = getResources().getString(R.string.iap_phone_error);
         }
         if (editText.getId() == R.id.et_country && !hasFocus) {
@@ -366,9 +459,24 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
     }
 
+    private void showUSRegions() {
+        if (mEtCountry.getText().toString().equals("US")) {
+            mlLState.setVisibility(View.VISIBLE);
+        } else {
+            mlLState.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+        if (!(this instanceof BillingAddressFragment)) {
+            if (getArguments() != null && getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
+            } else {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
+            }
+        }
         setTitle(R.string.iap_address);
         if (CartModelContainer.getInstance().getRegionIsoCode() != null)
             mShippingAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
@@ -384,7 +492,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onSetDeliveryAddress(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            CartModelContainer.getInstance().setDeliveryAddress(mAddresses);
             mAddressController.setDeliveryMode();
         } else {
             Utility.dismissProgressDialog();
@@ -400,6 +507,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
+    }
+
+    @Override
+    public void onGetRegions(Message msg) {
+
     }
 
     @Override
@@ -421,16 +533,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         CartModelContainer.getInstance().setRegionIsoCode(regionCode);
     }
 
-    private void showUSRegions() {
-        if (mEtCountry.getText().toString().equals("US")) {
-            mlLState.setVisibility(View.VISIBLE);
-        } else {
-            mlLState.setVisibility(View.GONE);
-        }
-    }
-
     private class IAPTextWatcher implements TextWatcher {
-
         private EditText mEditText;
 
         public IAPTextWatcher(EditText editText) {
@@ -441,32 +544,56 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (!mIgnoreTextChangeListener) {
+            if (mEditText != mEtPhoneNumber && !mIgnoreTextChangeListener) {
                 validate(mEditText, false);
             }
         }
 
-        public void afterTextChanged(Editable s) {
+        private boolean isInAfterTextChanged;
+
+        public synchronized void afterTextChanged(Editable text) {
+            if (mEditText == mEtPhoneNumber && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
+                isInAfterTextChanged = true;
+                validate(mEditText, false);
+                isInAfterTextChanged = false;
+            }
         }
     }
 
-    private HashMap<String, String> addressPayload() {
+    private boolean validatePhoneNumber(String country, String number) {
+        try {
+            phoneNumber = phoneNumberUtil.parse(number, country);
+            boolean isValid = phoneNumberUtil.isValidNumber(phoneNumber);
+            String formattedPhoneNumber = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
+            mEtPhoneNumber.setText(formattedPhoneNumber);
+            mEtPhoneNumber.setSelection(mEtPhoneNumber.getText().length());
+            return isValid;
+        } catch (Exception e) {
+            IAPLog.d("ShippingAddressFragment", "NumberParseException");
+        }
+        return false;
+    }
 
+    private HashMap<String, String> addressPayload() {
         addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
         addressHashMap.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
         addressHashMap.put(ModelConstants.LINE_1, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.LINE_2, mEtAddressLineTwo.getText().toString());
         addressHashMap.put(ModelConstants.TITLE_CODE, mEtSalutation.getText().toString().toLowerCase(Locale.getDefault()));
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
-        addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
+        addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString().replaceAll(" ", ""));
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
-        addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
+        if (mAddressFieldsHashmap != null)
+            addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
-        addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
+        addressHashMap.put(ModelConstants.PHONE_1, mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
+        addressHashMap.put(ModelConstants.PHONE_2, "");
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
+
         if (mlLState.getVisibility() == View.GONE) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, null);
         }
+
         return addressHashMap;
     }
 
@@ -486,7 +613,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
-        mEtPhoneNumber.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_NUMBER));
+        mEtPhoneNumber.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_1));
         mEtEmail.setText(mAddressFieldsHashmap.get(ModelConstants.EMAIL_ADDRESS));
 
         if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_ISOCODE) &&
@@ -529,14 +656,18 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressFields.setCountryIsocode(mEtCountry.getText().toString());
         addressFields.setLine1(mEtAddressLineOne.getText().toString());
         addressFields.setLine2(mEtAddressLineTwo.getText().toString());
-        addressFields.setPostalCode(mEtPostalCode.getText().toString());
+        addressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
         addressFields.setTown(mEtTown.getText().toString());
-        addressFields.setPhoneNumber(mEtPhoneNumber.getText().toString());
+        addressFields.setPhoneNumber(mEtPhoneNumber.getText().toString().replaceAll(" ", ""));
         addressFields.setEmail(mEtEmail.getText().toString());
-        /*if (mlLState.getVisibility() == View.VISIBLE) {
-            addressFields.setRegionIsoCode(mEtState.getText().toString());
-        }*/
 
+        if (this instanceof BillingAddressFragment) {
+            if (mlLState.getVisibility() == View.VISIBLE) {
+                addressFields.setRegionIsoCode(mShippingAddressFields.getRegionIsoCode());
+            } else {
+                addressFields.setRegionIsoCode(null);
+            }
+        }
         return addressFields;
     }
 
@@ -554,18 +685,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onGetDeliveryModes(final Message msg) {
-        //NOP
-    }
-
-    @Override
     public void onSetPaymentDetails(Message msg) {
 
-    }
-
-    @Override
-    public void onGetDeliveryAddress(final Message msg) {
-        //NOP
     }
 
     @Override
@@ -577,5 +698,4 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 }

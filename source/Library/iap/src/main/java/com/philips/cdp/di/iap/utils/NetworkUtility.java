@@ -24,7 +24,9 @@ import android.text.TextUtils;
 
 import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.tagging.Tagging;
 
 public class NetworkUtility {
 
@@ -50,11 +52,17 @@ public class NetworkUtility {
 
     public void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
 
-        if (mModalAlertDemoFragment != null && mModalAlertDemoFragment.isAdded())
-            return;
-
-        if (mModalAlertDemoFragment == null)
+        //Track pop up
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
+        if (mModalAlertDemoFragment == null) {
             mModalAlertDemoFragment = new ErrorDialogFragment();
+            mModalAlertDemoFragment.setShowsDialog(false);
+        }
+
+        if (mModalAlertDemoFragment.getShowsDialog()) {
+            return;
+        }
 
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
@@ -63,12 +71,14 @@ public class NetworkUtility {
         try {
             mModalAlertDemoFragment.setArguments(bundle);
             mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
+            mModalAlertDemoFragment.setShowsDialog(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
+        if (context == null) return;
         /*
          *  Dismiss The Dialog if it not yet dismissed as Error Occured
          */

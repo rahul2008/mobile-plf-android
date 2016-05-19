@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.store;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.User;
@@ -23,6 +24,9 @@ public class IAPUser implements UserRegistrationListener {
     private Store mStore;
     private boolean mTokenRefreshSuccessful;
 
+    //Track the locking. It should not lock if the call back was received earlier than locking
+    private volatile boolean mLockReleaseRequested;
+
     public IAPUser(final Context context, final Store store) {
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mStore = store;
@@ -34,11 +38,13 @@ public class IAPUser implements UserRegistrationListener {
     }
 
     public String getJanRainEmail() {
+        Log.i("Janrain UUID", mJanRainUser.getJanrainUUID());
         return mJanRainUser.getEmail();
     }
 
     public void refreshLoginSession() {
         mTokenRefreshSuccessful = false;
+        mLockReleaseRequested = false;
         IAPLog.d(TAG, " requesting refresh login session for user");
         mJanRainUser.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
@@ -46,12 +52,14 @@ public class IAPUser implements UserRegistrationListener {
                 IAPLog.d(TAG, " refreshLoginSuccessful");
                 mStore.updateJanRainIDBasedUrls();
                 mTokenRefreshSuccessful = true;
+                mLockReleaseRequested = true;
                 unlockOAuthThread();
             }
 
             @Override
             public void onRefreshLoginSessionFailedWithError(final int i) {
                 IAPLog.d(TAG, " refreshLoginSuccessful failed with error=" + i);
+                mLockReleaseRequested = true;
                 unlockOAuthThread();
             }
 
@@ -72,6 +80,10 @@ public class IAPUser implements UserRegistrationListener {
     }
 
     private void lockOAuthThread() {
+        //We got the refresh call back earlier than request locking.
+        if (mLockReleaseRequested)
+            return;
+
         try {
             mSemaphore.acquire();
         } catch (InterruptedException e) {

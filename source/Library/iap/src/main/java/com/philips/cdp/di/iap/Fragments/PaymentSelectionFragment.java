@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.controller.PaymentController;
@@ -21,12 +23,13 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.tagging.Tagging;
 
 import java.util.List;
 
 public class PaymentSelectionFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, EventListener, PaymentController.PaymentListener {
-
+    public static final String TAG = PaymentSelectionFragment.class.getName();
     private Context mContext;
     private RecyclerView mPaymentMethodsRecyclerView;
     private Button mBtnCancel;
@@ -72,6 +75,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
         setTitle(R.string.iap_payment);
     }
 
@@ -92,7 +96,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     @Override
     public void onClick(View v) {
         if (v == mBtnCancel) {
-            addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            moveToFragment(ShoppingCartFragment.TAG);
         }
     }
 
@@ -102,26 +106,19 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void raiseEvent(String event) {
-
-    }
-
-    @Override
     public void onEventReceived(String event) {
         if (event.equalsIgnoreCase(IAPConstant.USE_PAYMENT)) {
             if (!Utility.isProgressDialogShowing()) {
-                    Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-                    mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
+                Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PAYMENT_METHOD,
+                        selectedPaymentMethod().getCardType().getCode());
+                mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
             }
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
-           /* if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
-                bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS,
-                        getArguments().getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS));
-                bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
-            }*/
             Bundle bundle = new Bundle();
             bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
-            addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE),
+                    BillingAddressFragment.TAG);
         }
     }
 
@@ -138,7 +135,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
         } else {
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());
-            addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
         }
     }
 }

@@ -44,7 +44,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/dialogButtonCancel"
+                android:id="@+id/btn_dialog_ok"
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

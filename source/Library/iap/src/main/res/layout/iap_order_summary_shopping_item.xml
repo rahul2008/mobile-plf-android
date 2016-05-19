@@ -33,6 +33,7 @@
             <TextView
                 android:id="@+id/tv_total_price"
                 style="@style/tvBoldTitle"
+                android:layout_marginStart="@dimen/iap_quantity_price_start_margin"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
                 android:layout_marginTop="3dp"

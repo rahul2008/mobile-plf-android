@@ -28,17 +28,15 @@
         <TextView
             android:id="@+id/tv_shipping_first_name"
             style="@style/iapCentralesansBoldFont"
-            android:textColor="?attr/uikit_baseColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/iap_first_name" />
+            android:layout_marginTop="5dp"
+            android:textColor="?attr/uikit_baseColor" />
 
         <TextView
             android:id="@+id/tv_shipping_address"
-            style="@style/tvTitle"
-            android:text="@string/iap_address" />
+            style="@style/tvTitle" />
     </LinearLayout>
 
     <View
@@ -67,17 +65,16 @@
         <TextView
             android:id="@+id/tv_billing_first_name"
             style="@style/iapCentralesansBoldFont"
-            android:textColor="?attr/uikit_baseColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/iap_first_name" />
+            android:layout_marginTop="5dp"
+
+            android:textColor="?attr/uikit_baseColor" />
 
         <TextView
             android:id="@+id/tv_billing_address"
-            style="@style/tvTitle"
-            android:text="@string/iap_address" />
+            style="@style/tvTitle" />
     </LinearLayout>
 
     <View
@@ -121,15 +118,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
             android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
             android:layout_marginEnd="@dimen/iap_shopping_cart_image_margin_top"
             android:layout_marginStart="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
             android:orientation="horizontal">
 
             <TextView
@@ -144,15 +142,15 @@
                 style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="0dp"
-                android:text="$0.0"
-                />
+                android:text="0.0" />
         </RelativeLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/uikit_listDividerColor" />
+        android:background="?attr/uikit_listDividerColor"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -167,8 +165,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
             android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
             android:orientation="horizontal">
 
             <TextView
@@ -184,8 +182,7 @@
                 style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="0dp"
-                android:layout_marginStart="0dp"
-                android:text="@string/zeroval" />
+                android:layout_marginStart="0dp" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -198,11 +195,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginEnd="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginStart="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -224,7 +221,6 @@
                 android:id="@+id/tv_vat_price"
                 style="@style/tvTitle"
                 android:layout_alignParentEnd="true"
-                android:text="@string/zeroval"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -245,8 +241,7 @@
             <TextView
                 android:id="@+id/tv_total_price"
                 style="@style/tvBoldTitle"
-                android:layout_alignParentEnd="true"
-                android:text="@string/zeroval" />
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

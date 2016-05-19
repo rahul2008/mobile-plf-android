@@ -1,10 +1,16 @@
 package com.philips.cdp.di.iap.model;
 
+import android.content.Context;
+
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
+import com.philips.cdp.di.iap.store.IAPUser;
+import com.philips.cdp.di.iap.store.MockStore;
+import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.Store;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -12,6 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by 310164421 on 3/8/2016.
@@ -20,6 +27,12 @@ import static junit.framework.Assert.assertNull;
 public class GetPaymentDetailRequestTest {
     @Mock
     private Store mStore;
+
+    @Before
+    public void setUP() {
+        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
+        mStore.initStoreConfig("en", "us", null);
+    }
 
     @Test
     public void testRequestMethodIsGET() {
@@ -34,13 +47,9 @@ public class GetPaymentDetailRequestTest {
     }
 
     @Test
-    public void testTestingUrilIsNotNull() {
-       /* GetPaymentDetailRequest request = new GetPaymentDetailRequest(mStore, null, null);
-        IAPConfiguration iapConfiguration = Mockito.mock(IAPConfiguration.class);
-//        CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
-//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
-//        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
-        assertNotNull(request.getUrl());*/
+    public void matchAddressDetailURL() {
+        GetPaymentDetailRequest request = new GetPaymentDetailRequest(mStore, null, null);
+        assertEquals(NetworkURLConstants.CART_PAYMENT_DETAILS_URL, request.getUrl());
     }
 
     @Test

@@ -2,12 +2,14 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -15,6 +17,7 @@ import java.util.Map;
  * All rights reserved.
  */
 public class PaymentRequest extends AbstractModel {
+
     public PaymentRequest(final Store store, final Map<String, String> query, final DataLoadListener listener) {
         super(store, query, listener);
     }
@@ -31,20 +34,30 @@ public class PaymentRequest extends AbstractModel {
 
     @Override
     public Map<String, String> requestBody() {
-        Addresses deliveryAddress = CartModelContainer.getInstance().getDeliveryAddress();
+        AddressFields billingAddress = CartModelContainer.getInstance().getBillingAddress();
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(ModelConstants.ADDRESS_ID, deliveryAddress.getId());
-        params.put(ModelConstants.FIRST_NAME, deliveryAddress.getFirstName());
-        params.put(ModelConstants.LAST_NAME, deliveryAddress.getLastName());
-        params.put(ModelConstants.TITLE_CODE, deliveryAddress.getTitleCode());
-        params.put(ModelConstants.COUNTRY_ISOCODE, deliveryAddress.getCountry().getIsocode());
-        params.put(ModelConstants.LINE_1, deliveryAddress.getLine1());
-        params.put(ModelConstants.LINE_2, deliveryAddress.getLine2());
-        params.put(ModelConstants.POSTAL_CODE, deliveryAddress.getPostalCode());
-        params.put(ModelConstants.TOWN, deliveryAddress.getTown());
-        params.put(ModelConstants.PHONE_NUMBER, deliveryAddress.getPhone());
+        Map<String, String> params = new HashMap<>();
+        if (!CartModelContainer.getInstance().isSwitchToBillingAddress()) {
+            params.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
+            setBillingAddressParams(billingAddress, params);
+        } else
+            setBillingAddressParams(billingAddress, params);
+
         return params;
+    }
+
+    private void setBillingAddressParams(AddressFields billingAddress, Map<String, String> params) {
+        params.put(ModelConstants.FIRST_NAME, billingAddress.getFirstName());
+        params.put(ModelConstants.LAST_NAME, billingAddress.getLastName());
+        params.put(ModelConstants.TITLE_CODE, billingAddress.getTitleCode().toLowerCase(Locale.getDefault()));
+        params.put(ModelConstants.COUNTRY_ISOCODE, billingAddress.getCountryIsocode());
+        params.put(ModelConstants.REGION_ISOCODE, billingAddress.getRegionIsoCode());
+        params.put(ModelConstants.LINE_1, billingAddress.getLine1());
+        params.put(ModelConstants.LINE_2, billingAddress.getLine2());
+        params.put(ModelConstants.POSTAL_CODE, billingAddress.getPostalCode());
+        params.put(ModelConstants.TOWN, billingAddress.getTown());
+        params.put(ModelConstants.PHONE_1, billingAddress.getPhoneNumber());
+        params.put(ModelConstants.PHONE_2, "");
     }
 
     @Override

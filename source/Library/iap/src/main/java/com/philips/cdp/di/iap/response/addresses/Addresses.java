@@ -24,6 +24,18 @@ public class Addresses {
     private String formattedAddress;
     private String email;
 
+    //New Parameters
+    private String phone1;
+    private String phone2;
+
+    public String getPhone1() {
+        return phone1;
+    }
+
+    public String getPhone2() {
+        return phone2;
+    }
+
     public Country getCountry() {
         return country;
     }

@@ -11,11 +11,14 @@ import java.util.regex.Pattern;
 public class Validator {
 
     private static final String NAME = "^[a-zA-Z ]{1,17}$";
-    private static final String ADDRESS = "^[a-zA-Z0-9(.,#/\\-)_\\s]{1,35}$";
+    private static final String ADDRESS = "^[a-zA-Z0-9(.',#/\\-)_\\s]{1,35}$";
     private static final String TOWN = "^[a-zA-Z\\s]{1,35}$";
-    private static final String POSTAL_CODE = "^[A-Za-z0-9]{1,10}$";
+    private static final String POSTAL_CODE = "^[A-Za-z0-9 ]{1,10}$";
     private static final String COUNTRY = "^[A-Z]{2,2}$";
-    private static final String PHONE_NUMBER = ("[\\+]?[0-9.-]+");
+    private static final String PHONE_NUMBER =
+            "(\\+[0-9]+[\\- \\.]*)?"
+                    + "(\\([0-9]+\\)[\\- \\.]*)?"
+                    + "([0-9][0-9\\- \\.]+[0-9])";
     private static final String EMAIL =
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +
@@ -33,7 +36,7 @@ public class Validator {
     private Pattern mPhoneNumberPattern;
     private Pattern mEmailPattern;
 
-    public Validator(){
+    public Validator() {
         mNamePattern = Pattern.compile(NAME);
         mEmailPattern = Pattern.compile(EMAIL);
         mAddressPattern = Pattern.compile(ADDRESS);

@@ -7,8 +7,10 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.tagging.Tagging;
 
 public class IAPNetworkError implements IAPNetworkErrorListener {
 
@@ -24,10 +26,16 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
         } else {
             mVolleyError = error;
         }
+
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.ERROR, getMessage());
+
         Message msg = Message.obtain();
         msg.what = requestCode;
         msg.obj = this;
-        requestListener.onError(msg);
+        if (requestListener != null) {
+            requestListener.onError(msg);
+        }
     }
 
     private void initErrorCode(final VolleyError error) {
@@ -47,6 +55,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     @Override
     public String getMessage() {
         if (mServerError != null) {
+            if(mServerError.getErrors() == null || mServerError.getErrors().get(0)== null) {
+                return null;
+            }
             return mServerError.getErrors().get(0).getMessage();
         } else if (mVolleyError != null) {
             return mVolleyError.getMessage();
@@ -56,7 +67,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
 
     @Override
     public int getStatusCode() {
-        if (mVolleyError.networkResponse != null)
+        if (mVolleyError!= null && mVolleyError.networkResponse != null)
             return mVolleyError.networkResponse.statusCode;
         return mIAPErrorCode;
     }
@@ -78,7 +89,13 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     }
 
     private void checkInsufficientStockError(ServerError serverError) {
-        if("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
+        if (serverError == null || serverError.getErrors() == null
+                || serverError.getErrors().get(0) == null) {
+            return;
+        }
+        if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.INSUFFICIENT_STOCK_ERROR);
             mIAPErrorCode = IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR;
         }
     }

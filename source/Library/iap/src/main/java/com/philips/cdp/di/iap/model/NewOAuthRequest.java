@@ -60,7 +60,7 @@ public class NewOAuthRequest extends AbstractModel implements OAuthHandler {
 
     public String getrefreshToken() {
         if(mOAuthResponse == null) {
-            return null;
+            return ""; //Avoid NPE in Volley
         }
         return mOAuthResponse.getRefreshToken();
     }

@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name">InAppPurchase</string>
+
     <string name="iap_please_wait">Please Wait</string>
     <string name="iap_shopping_cart">Shopping Cart</string>
     <string name="iap_shopping_cart_item">Shopping Cart item</string>
@@ -6,14 +8,10 @@
     <string name="iap_product_item_quantity">Quantity: </string>
     <string name="iap_delete">Delete</string>
     <string name="iap_info">Info</string>
-    <!--<string name="iap_code">code</string>-->
-    <!--<string name="iap_entry_number">entrynumber</string>-->
     <string name="iap_continue_shopping">Continue shopping</string>
     <string name="iap_checkout">Checkout</string>
     <string name="iap_empty_cart">Your shopping cart is currently empty</string>
-    <string name="iap_out_of_stock">Out of stock</string>
-    <!--<string name="iap_add_to_cart">Add to cart</string>-->
-    <!--<string name="no_stock_description">No enough stock</string>-->
+    <string name="iap_out_of_stock">out of stock</string>
     <string name="iap_deleting_item">Deleting Item</string>
     <string name="iap_total">Total</string>
     <string name="iap_items"> items</string>
@@ -32,7 +30,7 @@
     <string name="iap_address">Address</string>
     <string name="iap_address_line_one">Address line 1</string>
     <string name="iap_address_line_two">Address line 2</string>
-    <string name="iap_address_line_one_hint">Enter first address line 1</string>
+    <string name="iap_address_line_one_hint">Enter address line 1</string>
     <string name="iap_address_line_two_hint">(optional)</string>
     <string name="iap_town">Town/City</string>
     <string name="iap_town_hint">Enter your town or city</string>
@@ -69,11 +67,12 @@
     <string name="iap_update_address">Updating Shipping Address</string>
     <string name="iap_delete_address">Deleting Shipping Address</string>
 
-    <!--Order Sammary-->
+    <!--Order Summary-->
     <string name="iap_order_summary">Order Summary</string>
     <string name="iap_pay_now">Pay now</string>
     <string name="iap_deliver_via_parcel">Delivery via UPS Parcel</string>
     <string name="iap_voucher">Claim voucher</string>
+
     <!--Payment-->
     <string name="iap_payment">Payment</string>
     <string name="iap_payment_method">Payment method</string>
@@ -85,29 +84,42 @@
     <string name="iap_ok">OK</string>
     <string name="iap_network_error">Network Error</string>
     <string name="iap_check_connection">Please check the connection</string>
+
     <!-- Payment -->
     <string name="iap_confirmation">Confirmation</string>
     <string name="iap_thank_for_order">Thank you for your order</string>
     <string name="iap_your_order_number">Your order number is</string>
     <string name="iap_confirmation_email_msg">You will receive a confirmation e-mail shortly at %s</string>
     <string name="iap_get_image_url">getting images from server</string>
-
     <string name="iap_time_out_error">Network timeout reached!</string>
-    <string name="iap_authentication_failure">Authentication failed</string>
-
     <string name="iap_redeem_voucher">Redeem voucher</string>
-    <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
     <string name="iap_delivery_description">Delivery is FREE when you spend $100 or more</string>
     <string name="iap_vat">VAT</string>
-    <string name="iap_product_id">HX9332/05</string>
     <string name="Settings">Settings</string>
     <string name="mastercard">Master card</string>
-    <string name="zeroval">$0.0</string>
     <string name="iap_total_val">Total(0 Items)</string>
     <string name="iap_validity">Validity</string>
     <string name="cancelPaymentMsg">Do you want to cancel the payment? Your cart will be empty.</string>
     <string name="iap_server_error">Server Error</string>
     <string name="iap_something_went_wrong">Something went wrong!</string>
+
+    <!-- Product Catalog -->
+    <string name="iap_product_catalog">Products</string>
+
+    <!-- Product Details -->
+    <string name="iap_buy_from_retailers">Buy from retailer</string>
+    <string name="iap_add_to_cart">Add to cart</string>
+    <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
+
+    <!-- Retailers-->
+    <string name="iap_select_retailer">Select retailer</string>
+    <string name="iap_retailer_title">Retailer</string>
+
+    <!--Not Localized-->
+    <string name="iap_get_product_catalog_details">Getting Product Details</string>
+    <string name="iap_authentication_failure">Authentication failed</string>
     <string name="iap_payment_failed">Payment failed</string>
+    <string name="iap_in_stock">in stock</string>
+    <string name="iap_continue_shopping_description">Do you want to continue shopping?</string>
 
 </resources>

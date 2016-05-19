@@ -21,18 +21,11 @@ package com.philips.cdp.di.iap.eventhelper;
  */
 public interface EventListener {
 
-	/**
-	 * raise a event
-	 * 
-	 * @param event
-	 */
-	public void raiseEvent(String event);
-
-	/**
-	 * take action on this event
-	 * 
-	 * @param event
-	 */
-	public void onEventReceived(String event);
+    /**
+     * take action on this event
+     *
+     * @param event
+     */
+    public void onEventReceived(String event);
 
 }

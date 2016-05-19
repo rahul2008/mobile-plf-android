@@ -9,7 +9,6 @@ public class NetworkConstants {
      * Prx data
      **/
     public static final String PRX_SECTOR_CODE = "B2C";
-    public static final String PRX_LOCALE = "en_US";
     public static final String PRX_CATALOG_CODE = "CONSUMER";
     public static final String EXTRA_ANIMATIONTYPE = "EXTRA_ANIMATIONTYPE";
     public static final String IS_ONLINE = "IS_ONLINE";

@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 import java.util.Map;

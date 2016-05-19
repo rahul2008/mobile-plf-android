@@ -19,7 +19,6 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 public class IAPJsonRequest extends Request<JSONObject> {
@@ -55,35 +54,15 @@ public class IAPJsonRequest extends Request<JSONObject> {
 
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-
         try {
-            String jsonString = new String(response.data,
-                    HttpHeaderParser.parseCharset(response.headers));
-
+            String jsonString = new String(response.data);
             JSONObject result = null;
-
             if (jsonString.length() > 0)
                 result = new JSONObject(jsonString);
-
             return Response.success(result,
                     HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException e) {
-            return Response.error(new ParseError(e));
         } catch (JSONException je) {
             return Response.error(new ParseError(je));
-        }
-    }
-
-    private Response<JSONObject> parseSuccessResponse(NetworkResponse response) {
-        try {
-            String jsonString = new String(response.data,
-                    HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(new JSONObject(jsonString),
-                    HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException exception) {
-            return Response.error(new ParseError(exception));
-        } catch (JSONException jsonException) {
-            return Response.error(new ParseError(jsonException));
         }
     }
 
@@ -95,12 +74,11 @@ public class IAPJsonRequest extends Request<JSONObject> {
     @Override
     public void deliverError(VolleyError error) {
         handleMiscErrors(error);
-//        mErrorListener.onErrorResponse(error);
     }
 
     private void handleMiscErrors(final VolleyError error) {
         if (error instanceof AuthFailureError) {
-            HybrisDelegate.getInstance().getNetworkController().refreshOAuthToken(new RequestListener() {
+            HybrisDelegate.getNetworkController().refreshOAuthToken(new RequestListener() {
                 @Override
                 public void onSuccess(final Message msg) {
                     postSelfAgain();
@@ -108,18 +86,18 @@ public class IAPJsonRequest extends Request<JSONObject> {
 
                 @Override
                 public void onError(final Message msg) {
-                    postVolleyErrorOnUIThread(error);
+                    postErrorResponseOnUIThread(error);
                 }
             });
         } else {
-            postVolleyErrorOnUIThread(error);
+            postErrorResponseOnUIThread(error);
         }
     }
 
     private void postSelfAgain() {
-        SynchronizedNetwork network = new SynchronizedNetwork(HybrisDelegate.getInstance()
-                .getNetworkController().mIAPHurlStack.getHurlStack());
-        network.performRequest(this, new SynchronizedNetworkCallBack() {
+        SynchronizedNetwork synchronizedNetwork = new SynchronizedNetwork
+                (HybrisDelegate.getNetworkController().mIAPHurlStack.getHurlStack());
+        synchronizedNetwork.performRequest(this, new SynchronizedNetworkCallBack() {
             @Override
             public void onSyncRequestSuccess(final Response<JSONObject> jsonObjectResponse) {
                 postSuccessResponseOnUIThread(jsonObjectResponse.result);
@@ -127,7 +105,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
 
             @Override
             public void onSyncRequestError(final VolleyError volleyError) {
-                mErrorListener.onErrorResponse(volleyError);
+                postErrorResponseOnUIThread(volleyError);
             }
         });
     }
@@ -141,7 +119,7 @@ public class IAPJsonRequest extends Request<JSONObject> {
         });
     }
 
-    private void postVolleyErrorOnUIThread(final VolleyError volleyError) {
+    private void postErrorResponseOnUIThread(final VolleyError volleyError) {
         mMainHandler.post(new Runnable() {
             @Override
             public void run() {

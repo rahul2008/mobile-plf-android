@@ -2,7 +2,7 @@ package com.philips.cdp.di.iap.container;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.address.AddressFields;
-import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.response.State.RegionsList;
 
 import java.util.ArrayList;
 
@@ -12,20 +12,18 @@ import java.util.ArrayList;
  */
 public class CartModelContainer {
     private static CartModelContainer container;
-    private Addresses mDeliveryAddress;
+    private AddressFields mBillingAddress;
     private boolean isOrderPlaced;
     private ArrayList<ShoppingCartData> mShoppingCartData;
     private AddressFields mShippingAddressFields;
     private String cartNumber;
     private String regionIsoCode;
+    private String mAddressId;
+    private String mOrderNumber;
+    private RegionsList mRegionList;
 
-    public String getRegionIsoCode() {
-        return regionIsoCode;
-    }
 
-    public void setRegionIsoCode(String regionIsoCode) {
-        this.regionIsoCode = regionIsoCode;
-    }
+    private boolean switchToBillingAddress;
 
     public static CartModelContainer getInstance() {
         synchronized (CartModelContainer.class) {
@@ -34,6 +32,22 @@ public class CartModelContainer {
             }
         }
         return container;
+    }
+
+    public String getAddressId() {
+        return mAddressId;
+    }
+
+    public void setAddressId(String mAddressId) {
+        this.mAddressId = mAddressId;
+    }
+
+    public String getRegionIsoCode() {
+        return regionIsoCode;
+    }
+
+    public void setRegionIsoCode(String regionIsoCode) {
+        this.regionIsoCode = regionIsoCode;
     }
 
     public String getCartNumber() {
@@ -60,16 +74,24 @@ public class CartModelContainer {
         this.mShippingAddressFields = mShippingAddressFields;
     }
 
-    public void setDeliveryAddress(final Addresses mDeliveryAddress) {
-        this.mDeliveryAddress = mDeliveryAddress;
+    public void setBillingAddress(final AddressFields mBillingAddress) {
+        this.mBillingAddress = mBillingAddress;
     }
 
-    public Addresses getDeliveryAddress() {
-        return mDeliveryAddress;
+    public AddressFields getBillingAddress() {
+        return mBillingAddress;
     }
 
     public void setOrderPlaced(final boolean pIsOrderPlaced) {
         this.isOrderPlaced = pIsOrderPlaced;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        mOrderNumber = orderNumber;
+    }
+
+    public String getOrderNumber() {
+        return mOrderNumber;
     }
 
 
@@ -80,8 +102,25 @@ public class CartModelContainer {
     public void resetApplicationFields() {
         setOrderPlaced(false);
         cartNumber = null;
-        mDeliveryAddress = null;
+        mBillingAddress = null;
         mShoppingCartData = null;
         mShippingAddressFields = null;
+        mOrderNumber = null;
+    }
+
+    public void setSwitchToBillingAddress(boolean switchToBillingAddress) {
+        this.switchToBillingAddress = switchToBillingAddress;
+    }
+
+    public boolean isSwitchToBillingAddress() {
+        return switchToBillingAddress;
+    }
+
+    public void setRegionList(RegionsList regionList){
+        mRegionList = regionList;
+    }
+
+    public RegionsList getRegionList(){
+        return mRegionList;
     }
 }

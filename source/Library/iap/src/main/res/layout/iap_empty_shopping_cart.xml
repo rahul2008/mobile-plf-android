@@ -19,7 +19,7 @@
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/continues"
+        android:id="@+id/btn_continue_shopping"
         style="?attr/uikit_outlinedButtonStyle"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
