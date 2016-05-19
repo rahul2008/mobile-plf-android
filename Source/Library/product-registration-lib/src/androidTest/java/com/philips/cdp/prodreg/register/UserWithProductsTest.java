@@ -192,12 +192,12 @@ public class UserWithProductsTest extends MockitoTestCase {
         final Product product = new Product("ctn", null, null);
         RegisteredProduct registeredProduct = mock(RegisteredProduct.class);
         when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
-        when(registeredProduct.IsUserRegisteredLocally(localRegisteredProducts)).thenReturn(registeredProduct);
+        when(registeredProduct.getRegisteredProductIfExists(localRegisteredProducts)).thenReturn(registeredProduct);
         when(registeredProduct.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
         userWithProducts.registerProduct(product);
         verify(userWithProductsMock).createDummyRegisteredProduct(product);
         verify(userWithProductsMock).registerCachedProducts(registeredProducts, prodRegListener);
-        verify(registeredProduct).IsUserRegisteredLocally(localRegisteredProducts);
+        verify(registeredProduct).getRegisteredProductIfExists(localRegisteredProducts);
         verify(prodRegListener).onProdRegFailed(registeredProduct, userWithProductsMock);
         testMapProductToRegisteredProduct(product);
         testThrowExceptionWhenListenerNull(userWithProducts, product);

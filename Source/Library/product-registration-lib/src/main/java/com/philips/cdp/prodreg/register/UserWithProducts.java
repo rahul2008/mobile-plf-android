@@ -84,7 +84,7 @@ public class UserWithProducts {
         setUuid();
         RegisteredProduct registeredProduct = getUserProduct().createDummyRegisteredProduct(product);
         LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance();
-        final RegisteredProduct localRegisteredProduct = registeredProduct.IsUserRegisteredLocally(localRegisteredProducts);
+        final RegisteredProduct localRegisteredProduct = registeredProduct.getRegisteredProductIfExists(localRegisteredProducts);
         if (localRegisteredProduct == null) {
             localRegisteredProducts.store(registeredProduct);
         } else if (localRegisteredProduct.getProdRegError() != null && localRegisteredProduct.getProdRegError() == ProdRegError.PRODUCT_ALREADY_REGISTERED) {

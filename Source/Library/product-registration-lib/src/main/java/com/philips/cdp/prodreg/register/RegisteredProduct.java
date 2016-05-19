@@ -132,7 +132,7 @@ public class RegisteredProduct extends Product {
         return shouldConsiderUUID;
     }
 
-    protected RegisteredProduct IsUserRegisteredLocally(final LocalRegisteredProducts localRegisteredProducts) {
+    protected RegisteredProduct getRegisteredProductIfExists(final LocalRegisteredProducts localRegisteredProducts) {
         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
         final int index = registeredProducts.indexOf(this);
         if (index != -1) {
