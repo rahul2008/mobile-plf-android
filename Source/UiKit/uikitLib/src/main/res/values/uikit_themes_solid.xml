@@ -118,6 +118,8 @@
         <item name="uikit_LighterColorOpacity20">@color/uikit_bright_purple_with_opacity_20</item>
         <item name="uikit_favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_purple
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.DarkPurple</item>
+
     </style>
 
     <style name="Theme.Philips.DarkPurple.NoActionBar">

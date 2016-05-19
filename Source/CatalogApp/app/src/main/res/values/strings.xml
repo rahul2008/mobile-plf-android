@@ -83,4 +83,6 @@
         <item>@drawable/uikit_arrow_up</item>
         <item>@drawable/uikit_arrow_down</item>
     </array>
+    <string name="title_activity_tab_bar_demo_bottom">TabBarDemoBottom</string>
+    <string name="title_activity_tab_bar_demo_top">TabBarDemoTop</string>
 </resources>
