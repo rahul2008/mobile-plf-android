@@ -35,7 +35,7 @@ public class AIATDemoPage extends AppCompatActivity {
         TaggPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("DemoPage","Key", "Value");
+                AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("DemoPage",key.getText().toString(), value.getText().toString());
 
 //                AIAppTaggingWrapper.setTrackingIdentifier(""+value.getText().toString());
 //                AIAppTaggingWrapper.setLaunchingPageName("demoapp:AIAppTagging");
@@ -50,7 +50,7 @@ public class AIATDemoPage extends AppCompatActivity {
         TaggActionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("DemoPage","Key", "Value");
+                AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("DemoPage",key.getText().toString(), value.getText().toString());
 //               AIAppTaggingWrapper.trackAction("ButtonClick","Key", null );
 
             }
