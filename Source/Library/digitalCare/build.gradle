@@ -141,21 +141,20 @@ android {
 
 
 dependencies {
-    compile 'com.google.android.gms:play-services:6.1.+'
-    compile 'com.android.support:appcompat-v7:23+'
-    compile(group: 'adobeMobileLibrary', name: 'adobeMobileLibrary', version: '4.5.1', ext: 'jar')
-    compile(group: 'com.google.code.gson', name: 'gson', version: '2.2.2')
-//    compile(group: 'com.philips.cdp', name: 'prx', version: '2.0.0-rc.7', ext: 'aar')
-//    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.0.0', ext: 'aar')
-
+    compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1@jar'
+    compile 'com.google.code.gson:gson:2.2.2'
+    //    compile(group: 'com.philips.cdp', name: 'prx', version: '2.0.0-rc.7', ext: 'aar')
+    //    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.0.0', ext: 'aar')
     compile 'com.mcxiaoke.volley:library:1.0.17'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
-    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:support-v4:23.4.0'
     //compile project(':productselection')
-    compile(group: 'com.philips.cdp', name: 'productselection', version: '1.2.0', ext: 'aar' ){
+    compile('com.philips.cdp:productselection:1.2.0@aar') {
         transitive = true
     }
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.google.android.gms:play-services:8.4.0'
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
