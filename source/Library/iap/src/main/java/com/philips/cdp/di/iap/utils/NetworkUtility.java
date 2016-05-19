@@ -16,6 +16,7 @@ Revision History: version 1:
 
 package com.philips.cdp.di.iap.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
@@ -50,30 +51,33 @@ public class NetworkUtility {
         }
     }
 
-    public void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
+    public void showErrorDialog(Context context, FragmentManager pFragmentManager, String pButtonText,
+                                String pErrorString, String pErrorDescription) {
 
         //Track pop up
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
-        if (mModalAlertDemoFragment == null) {
-            mModalAlertDemoFragment = new ErrorDialogFragment();
-            mModalAlertDemoFragment.setShowsDialog(false);
-        }
+        if (!((Activity) context).isFinishing()) {
+            if (mModalAlertDemoFragment == null) {
+                mModalAlertDemoFragment = new ErrorDialogFragment();
+                mModalAlertDemoFragment.setShowsDialog(false);
+            }
 
-        if (mModalAlertDemoFragment.getShowsDialog()) {
-            return;
-        }
+            if (mModalAlertDemoFragment.getShowsDialog()) {
+                return;
+            }
 
-        Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
-        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
-        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
-        try {
-            mModalAlertDemoFragment.setArguments(bundle);
-            mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
-            mModalAlertDemoFragment.setShowsDialog(true);
-        } catch (Exception e) {
-            e.printStackTrace();
+            Bundle bundle = new Bundle();
+            bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
+            bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
+            bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
+            try {
+                mModalAlertDemoFragment.setArguments(bundle);
+                mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
+                mModalAlertDemoFragment.setShowsDialog(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -91,11 +95,11 @@ public class NetworkUtility {
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
 
-            showErrorDialog(pFragmentManager, context.getString(R.string.iap_ok),
+            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
                     getErrorTitleMessageFromErrorCode(context, error.getIAPErrorCode()),
                     getErrorDescriptionMessageFromErrorCode(context, error));
         } else {
-            NetworkUtility.getInstance().showErrorDialog(pFragmentManager, context.getString(R.string.iap_ok),
+            NetworkUtility.getInstance().showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
                     context.getString(R.string.iap_server_error), context.getString(R.string.iap_something_went_wrong));
         }
     }

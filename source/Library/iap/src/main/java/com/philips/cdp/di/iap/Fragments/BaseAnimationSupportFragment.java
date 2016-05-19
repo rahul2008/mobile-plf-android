@@ -29,7 +29,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
-        mActivityListener = (IAPFragmentListener) getActivity();
+        mActivityListener = (IAPFragmentListener) context;
     }
 
     public enum AnimationType {
@@ -49,23 +49,26 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     public void addFragment(BaseAnimationSupportFragment newFragment,
                             String newFragmentTag) {
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
-        transaction.addToBackStack(newFragmentTag);
-        transaction.commitAllowingStateLoss();
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+            transaction.addToBackStack(newFragmentTag);
+            transaction.commitAllowingStateLoss();
 
-        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
-                + newFragmentTag + ")");
+            IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+                    + newFragmentTag + ")");
+        }
     }
 
     private void clearStackAndLaunchProductCatalog() {
-        FragmentManager manager = getActivity().getSupportFragmentManager();
-        clearFragmentStack();
-        manager.beginTransaction().
-                replace(R.id.fl_mainFragmentContainer,
-                        ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
-                        ProductCatalogFragment.TAG).addToBackStack(ProductCatalogFragment.TAG)
-                .commitAllowingStateLoss();
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            clearFragmentStack();
+            manager.beginTransaction().replace(R.id.fl_mainFragmentContainer,
+                    ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
+                    ProductCatalogFragment.TAG).addToBackStack(ProductCatalogFragment.TAG)
+                    .commitAllowingStateLoss();
+        }
     }
 
     public void launchProductCatalog() {
@@ -74,6 +77,16 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
             clearStackAndLaunchProductCatalog();
         } else {
             getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
+        }
+    }
+
+    public void launchShoppingCart() {
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
+            transaction.addToBackStack(ShoppingCartFragment.TAG);
+            transaction.commitAllowingStateLoss();
         }
     }
 
@@ -91,7 +104,9 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
     protected void finishActivity() {
         IAPAnalytics.trackPage(Tagging.getLaunchingPageName());
-        getActivity().finish();
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            getActivity().finish();
+        }
     }
 
     @Override
@@ -100,7 +115,10 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     public boolean moveToFragment(String tag) {
-        return getActivity().getSupportFragmentManager().popBackStackImmediate(tag, 0);
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            return getActivity().getSupportFragmentManager().popBackStackImmediate(tag, 0);
+        }
+        return false;
     }
 
     public boolean moveToPreviousFragment() {
@@ -108,7 +126,9 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     public void clearFragmentStack() {
-        getActivity().getSupportFragmentManager().popBackStackImmediate(null, 0);
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            getActivity().getSupportFragmentManager().popBackStackImmediate(null, 0);
+        }
 
     }
 

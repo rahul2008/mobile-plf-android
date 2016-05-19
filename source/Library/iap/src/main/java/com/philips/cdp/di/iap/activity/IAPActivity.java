@@ -21,6 +21,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -64,6 +65,13 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
             themeIndex = DEFAULT_THEME;
         }
         setTheme(themeIndex);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Utility.dismissProgressDialog();
+        NetworkUtility.getInstance().dismissErrorDialog();
+        super.onDestroy();
     }
 
     public void addFragment(BaseAnimationSupportFragment newFragment,

@@ -363,11 +363,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
                 mBtnContinue.setEnabled(false);
             } else if (error.getMessage() != null) {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                        getString(R.string.iap_network_error), error.getMessage());
+                NetworkUtility.getInstance().showErrorDialog(mContext,
+                        getFragmentManager(), mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_network_error), error.getMessage());
             } else {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                        mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_network_error),
+                        mContext.getString(R.string.iap_check_connection));
             }
         }
     }
@@ -678,8 +681,10 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 showErrorFromServer(error);
             }
         } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            NetworkUtility.getInstance().showErrorDialog(mContext,
+                    getFragmentManager(), mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_network_error),
+                    mContext.getString(R.string.iap_check_connection));
         }
     }
 

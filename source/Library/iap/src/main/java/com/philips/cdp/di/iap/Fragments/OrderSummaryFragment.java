@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,6 +46,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private Button mBtnCancel;
     private PaymentController mPaymentController;
     private String orderID;
+    private Context mContext;
     public static final String TAG = OrderSummaryFragment.class.getName();
     private TwoButtonDailogFragment mDailogFragment;
 
@@ -89,6 +91,12 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         }
         mOrderListView.setAdapter(mAdapter);
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     private void updateCartOnResume() {
@@ -214,8 +222,9 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         String type = error.getType();
         if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
             String subject = error.getMessage();
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_out_of_stock), subject);
+            NetworkUtility.getInstance().showErrorDialog(mContext,
+                    getFragmentManager(), mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_out_of_stock), subject);
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }

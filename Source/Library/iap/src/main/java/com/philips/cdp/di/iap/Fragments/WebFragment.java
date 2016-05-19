@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ public class WebFragment extends BaseAnimationSupportFragment {
 
     protected WebView mWebView;
     private String mUrl;
-
+    private Context mContext;
     private CircularLineProgressBar mProgress;
     private boolean mShowProgressBar = true;
 
@@ -48,6 +49,12 @@ public class WebFragment extends BaseAnimationSupportFragment {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mWebView.loadUrl(mUrl);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -82,7 +89,10 @@ public class WebFragment extends BaseAnimationSupportFragment {
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             // Handle the error
             if (isVisible()) {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                NetworkUtility.getInstance().showErrorDialog(mContext,
+                        getFragmentManager(), mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_network_error),
+                        mContext.getString(R.string.iap_check_connection));
             }
         }
 

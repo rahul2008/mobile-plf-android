@@ -42,6 +42,10 @@ import java.util.Map;
 
 public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
 
+    public interface ShoppingCartLauncher{
+        void launchShoppingCart();
+    }
+
     public ShoppingCartPresenter() {
     }
 
@@ -162,14 +166,16 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
         sendHybrisRequest(0, model, model);
     }
 
-    private void createCart(final Context context, final IAPCartListener iapHandlerListener, final String ctnNumber, final boolean isBuy) {
+    private void createCart(final Context context, final IAPCartListener iapHandlerListener,
+                            final String ctnNumber, final ShoppingCartLauncher mShoppingCartLauncher,
+                            final boolean isBuy) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         CartCreateRequest model = new CartCreateRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.CREATE_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
                 if (isBuy) {
-                    addProductToCart(context, ctnNumber, iapHandlerListener, true);
+                    addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher, true);
                 } else {
                     if (iapHandlerListener != null) {
                         iapHandlerListener.onSuccess(0);
@@ -188,7 +194,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
 
     @Override
     public void addProductToCart(final Context context, String productCTN, final IAPCartListener
-            iapHandlerListener,
+            iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher,
                                  final boolean isFromBuyNow) {
         if (productCTN == null) return;
         HashMap<String, String> params = new HashMap<>();
@@ -199,7 +205,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
             @Override
             public void onSuccess(final Message msg) {
                 if (isFromBuyNow) {
-                    launchShoppingCart();
+                    mShoppingCartLauncher.launchShoppingCart();
                     if (iapHandlerListener != null) {
                         iapHandlerListener.onSuccess(0);
                     }
@@ -219,7 +225,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
 
     @Override
     public void getProductCartCount(final Context context, final IAPCartListener
-            iapHandlerListener) {
+            iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
         model.setContext(context);
@@ -228,7 +234,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
             @Override
             public void onSuccess(final Message msg) {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                    createCart(context, iapHandlerListener, null, false);
+                    createCart(context, iapHandlerListener, null, mShoppingCartLauncher, false);
                 } else {
                     Carts getCartData = (Carts) msg.obj;
                     if (null != getCartData) {
@@ -249,14 +255,15 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
 
             @Override
             public void onError(final Message msg) {
-                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, null, false);
+                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, null, mShoppingCartLauncher,
+                        false);
             }
         });
     }
 
     @Override
     public void buyProduct(final Context context, final String ctnNumber, final IAPCartListener
-            iapHandlerListener) {
+            iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher) {
         if (ctnNumber == null) return;
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
@@ -266,7 +273,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
             @Override
             public void onSuccess(final Message msg) {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                    createCart(context, iapHandlerListener, ctnNumber, true);
+                    createCart(context, iapHandlerListener, ctnNumber, mShoppingCartLauncher, true);
                 } else if (msg.obj instanceof Carts) {
                     Carts getCartData = (Carts) msg.obj;
                     if (null != getCartData) {
@@ -277,17 +284,18 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
                             for (int i = 0; i < entries.size(); i++) {
                                 if (entries.get(i).getProduct().getCode().equalsIgnoreCase(ctnNumber)) {
                                     isProductAvailable = true;
-                                    launchShoppingCart();
+                                    mShoppingCartLauncher.launchShoppingCart();
                                     break;
                                 }
                             }
                             if (!isProductAvailable)
-                                addProductToCart(context, ctnNumber, iapHandlerListener, true);
+                                addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher,
+                                        true);
                             if (iapHandlerListener != null) {
                                 iapHandlerListener.onSuccess(0);
                             }
                         } else {
-                            addProductToCart(context, ctnNumber, iapHandlerListener, true);
+                            addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher, true);
                         }
                     }
                 }
@@ -295,14 +303,19 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
 
             @Override
             public void onError(final Message msg) {
-                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, ctnNumber, true);
+                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, ctnNumber, mShoppingCartLauncher,
+                        true);
             }
         });
     }
 
-    private void handleNoCartErrorOrNotifyError(final Message msg, final Context context, final IAPCartListener iapHandlerListener, final String ctnNumber, final boolean isBuy) {
+    private void handleNoCartErrorOrNotifyError(final Message msg, final Context context,
+                                                final IAPCartListener iapHandlerListener,
+                                                final String ctnNumber,
+                                                final ShoppingCartLauncher mShoppingCartLauncher,
+                                                final boolean isBuy) {
         if (isNoCartError(msg)) {
-            createCart(context, iapHandlerListener, ctnNumber, isBuy);
+            createCart(context, iapHandlerListener, ctnNumber, mShoppingCartLauncher, isBuy);
         } else if (iapHandlerListener != null) {
             iapHandlerListener.onFailure(msg);
         }

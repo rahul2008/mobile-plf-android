@@ -37,17 +37,17 @@ public class LocalShoppingCartPresenter extends AbstractShoppingCartPresenter{
     }
 
     @Override
-    public void addProductToCart(final Context context, final String productCTN, final IAPCartListener iapHandlerListener, final boolean isFromBuyNow) {
+    public void addProductToCart(Context context, String productCTN, IAPCartListener iapHandlerListener, ShoppingCartPresenter.ShoppingCartLauncher mShoppingCartLauncher, boolean isFromBuyNow) {
 
     }
 
     @Override
-    public void getProductCartCount(final Context context, final IAPCartListener iapHandlerListener) {
+    public void getProductCartCount(Context context, IAPCartListener iapHandlerListener, ShoppingCartPresenter.ShoppingCartLauncher mShoppingCartLauncher) {
 
     }
 
     @Override
-    public void buyProduct(final Context context, final String ctnNumber, final IAPCartListener iapHandlerListener) {
+    public void buyProduct(Context context, String ctnNumber, IAPCartListener iapHandlerListener, ShoppingCartPresenter.ShoppingCartLauncher mShoppingCartLauncher) {
 
     }
 }

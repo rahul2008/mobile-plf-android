@@ -7,9 +7,7 @@ package com.philips.cdp.di.iap.core;
 import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -76,7 +74,9 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                         }
 
                         if (webResults.getWrbresults().getOnlineStoresForProduct() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
-                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), "No Retailers for this product", "No Retailers for this product");
+                            NetworkUtility.getInstance().showErrorDialog(mContext,
+                                    mFragmentManager, mContext.getString(R.string.iap_ok),
+                                    "No Retailers for this product", "No Retailers for this product");
                             Utility.dismissProgressDialog();
                             return;
                         }
@@ -111,12 +111,13 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
             Utility.dismissProgressDialog();
     }
 
-    protected void launchShoppingCart() {
+   /* protected void launchShoppingCart() {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
         transaction.addToBackStack(ShoppingCartFragment.TAG);
+
         transaction.commitAllowingStateLoss();
-    }
+    }*/
 
     @SuppressWarnings({"unchecked"})
     public void refreshList(ArrayList data) {
