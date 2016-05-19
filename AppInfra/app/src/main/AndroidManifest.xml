@@ -11,10 +11,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
-            <activity
-            android:name="com.philips.platform.appinfra.demo.AppInfraMainActivity"
+        <activity
+            android:name=".AppInfraMainActivity"
             android:label="@string/title_activity_app_infra_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -22,37 +20,30 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            </activity>
-            <activity
-                android:name="com.philips.platform.appinfra.demo.SecureStorageActivity"
-                android:label="@string/app_name"
-                android:theme="@style/AppTheme.NoActionBar">
-            </activity>
-            <activity
-                android:name="com.philips.platform.appinfra.demo.LoggingActivity"
-                android:label="Log Test"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-
-
-        </activity>
-
-        <activity
-            android:name="com.philips.platform.appinfra.demo.PrxLauncherActivity"
-            android:label="Log Test"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
         </activity>
         <activity
-            android:name="com.philips.platform.appinfra.demo.LocalMatchMainActivity"
+            android:name=".SecureStorageActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".LoggingActivity"
             android:label="Log Test"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".PrxLauncherActivity"
+            android:label="Log Test"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".LocalMatchMainActivity"
+            android:label="Log Test"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".LocalMatchActivity"
+            android:label="Log Test"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

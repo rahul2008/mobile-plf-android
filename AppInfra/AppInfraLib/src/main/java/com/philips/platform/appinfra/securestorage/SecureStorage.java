@@ -31,7 +31,6 @@ import javax.security.auth.x500.X500Principal;
  * Current RSA implementation encrypts/decrypts given string in multiple of 256 character blocks.
  * RSA can encrypt only keyLength/8 byte at a time., eg 2048/8 -11  = 245  (11 bytes for padding)
  * "ISO-8859-1"  encoding id used for String because "ISO-8859-1" creates 1-1 mapping between byte and char. 1 byte will be converted to only 1 char only.
- *
  */
 public class SecureStorage implements SecureStorageInterface{
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
@@ -41,10 +40,16 @@ public class SecureStorage implements SecureStorageInterface{
     private   Context mContext;
     private static KeyStore keyStore = null;
 
+
     //this variable(encryptedTextTemp) must only  be used  for Demo App to see encrypted text and must be removed from release build
     public static  String encryptedTextTemp= null;
 
 
+    /**
+     * Instantiates a new Secure storage.
+     *
+     * @param pContext the p context
+     */
     public  SecureStorage(Context pContext){
         mContext = pContext;
     }
@@ -179,9 +184,6 @@ public class SecureStorage implements SecureStorageInterface{
                 KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
                 generator.initialize(spec);
                 KeyPair keyPair = generator.generateKeyPair();
-
-               /* System.out.println("key private" +keyPair.getPrivate().getEncoded().toString());
-                System.out.println("key public" +keyPair.getPublic().getEncoded().toString());*/
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -190,7 +192,12 @@ public class SecureStorage implements SecureStorageInterface{
     }
 
 
-
+    /**
+     * Store encrypted data in shared preferences.
+     * @param key           the key
+     * @param encryptedData the encrypted data
+     * @return the boolean
+     */
     protected boolean storeEncryptedData(String key, String encryptedData){
         boolean storeEncryptedDataResult= true;
         try {
@@ -206,6 +213,11 @@ public class SecureStorage implements SecureStorageInterface{
     }
 
 
+    /**
+     * Fetch encrypted data from shared preferences..
+     * @param key the key
+     * @return the string
+     */
     protected String  fetchEncryptedData(String key){
         String result =null;
             // encrypted data will be fetched from device  SharedPreferences
@@ -214,15 +226,25 @@ public class SecureStorage implements SecureStorageInterface{
         return result;
         }
 
+
+    /**
+     * Gets shared preferences.
+     * @return the shared preferences
+     */
     protected SharedPreferences getSharedPreferences() {
         return mContext.getSharedPreferences(FILE_NAME, mContext.MODE_PRIVATE);
     }
 
+
+    /**
+     * Delete encrypted data in shared preferences.
+     * @param key the key
+     * @return the boolean
+     */
     protected boolean deleteEncryptedData(String key){
         boolean deleteResult= false;
         try {
                 SharedPreferences prefs = getSharedPreferences();
-               // String isGivenKeyPresentInSharedPreferences = prefs.getString(key, null);
                if( prefs.contains(key)){  // if given key is present in SharedPreferences
                    // encrypted data will be deleted from device  SharedPreferences
                    SharedPreferences.Editor editor = getSharedPreferences().edit();

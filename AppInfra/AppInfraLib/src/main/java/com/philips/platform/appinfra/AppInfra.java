@@ -7,6 +7,8 @@ package com.philips.platform.appinfra;
 
 import android.content.Context;
 
+import com.philips.platform.appinfra.logging.AppInfraLogging;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
@@ -28,27 +30,53 @@ public class AppInfra {
     private final static String VERSION = "1.2.3";
 
 
-
+    /**
+     * The App infra context.
+     */
     Context appInfraContext;
 
+    /**
+     * The type Builder.
+     */
     public static class Builder {
         private SecureStorageInterface secStor;
-        private LoggingInterface       logger;
+        private LoggingInterface       logger; // builder logger
         private AIAppTaggingInterface tagging;
 
+        /**
+         * Instantiates a new Builder.
+         */
         public Builder() {
             secStor = null;
             logger = null;
             tagging = null;
         }
+
+        /**
+         * Sets Builder logging.
+         * @param log the log
+         * @return the logging
+         */
         public Builder setLogging(LoggingInterface log) {
             logger = log;
             return this;
         }
+
+        /**
+         * Sets Builder secure storage.
+         * @param secureStorage the secure storage
+         * @return the secure storage
+         */
         public Builder setSecureStorage(SecureStorageInterface secureStorage) {
             secStor = secureStorage;
             return this;
         }
+
+        /**
+         * Build app infra.
+         * @param pContext  context
+         * @return the app infra
+         */
         public AppInfra build(Context pContext ) {
 
             AppInfra ai = new AppInfra(pContext);
@@ -59,18 +87,27 @@ public class AppInfra {
         }
     }
 
+    /**
+     * Gets secure storage.
+     * @return the secure storage
+     */
     public SecureStorageInterface getSecureStorage() {
         return secStor;
     }
 
+    /**
+     * Gets AppInfra log instance to be used by component and app framework.
+     * @return the logging
+     */
     public LoggingInterface getLogging() {
         return logger;
     }
 
 
-
-    /*private AppInfra() {
-    }*/
+    /**
+     * Instantiates a new App infra.
+     * @param pContext  context
+     */
     public AppInfra(Context pContext) {
         appInfraContext = pContext;
     }
@@ -88,15 +125,29 @@ public class AppInfra {
         tagging = tagg;
 
     }
+
+    /**
+     * Gets AppInfra tagging.
+     * @return the tagging
+     */
     public AIAppTaggingInterface getTagging() {
         return tagging;
     }
 
 
-     LoggingInterface getAppInfraLogInstance() { // this log should be used withing App Infra library
+    /**
+     * Gets app infra log instance to be used within App Infra library.
+     * @return the app infra log instance
+     */
+    LoggingInterface getAppInfraLogInstance() { // this log should be used withing App Infra library
         return appInfraLogger;
     }
-     public Context getAppInfraContext() {
+
+    /**
+     * Gets app infra context.
+     * @return the app infra context
+     */
+    public Context getAppInfraContext() {
         return appInfraContext;
     }
 }

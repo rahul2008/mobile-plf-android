@@ -1,7 +1,7 @@
 package package1.component1;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.LoggingInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import package2.component2.Component2;
 
@@ -12,8 +12,8 @@ public class Component1 {
     private AppInfra mAppInfra = null;
     private LoggingInterface AILoggingInterface;
     public Component1(AppInfra pAppInfra){
-        mAppInfra=pAppInfra;
-        //mAppInfra = new AppInfra.Builder().build(mContext);
+       // mAppInfra=pAppInfra;
+        mAppInfra = new AppInfra.Builder().build(pAppInfra.getAppInfraContext());
         AILoggingInterface = mAppInfra.getLogging().createInstanceForComponent("package1.component1", "1.0.1"); //this.getClass().getPackage().toString()
         AILoggingInterface.enableConsoleLog(true);
         AILoggingInterface.enableFileLog(true);

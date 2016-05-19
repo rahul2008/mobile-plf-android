@@ -4,7 +4,7 @@
  * consent of the copyright holder.
  */
 
-package com.philips.platform.appinfra;
+package com.philips.platform.appinfra.logging;
 
 /**
  * Created by 310209604 on 2016-05-04.

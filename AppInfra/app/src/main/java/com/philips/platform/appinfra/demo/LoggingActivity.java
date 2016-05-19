@@ -12,7 +12,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.LoggingInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.logging.Logger;
 
