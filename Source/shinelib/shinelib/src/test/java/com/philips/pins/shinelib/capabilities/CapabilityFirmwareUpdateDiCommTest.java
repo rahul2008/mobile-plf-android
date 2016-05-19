@@ -257,7 +257,8 @@ public class CapabilityFirmwareUpdateDiCommTest {
         assertEquals(firmwareData[progress], data[0]);
         assertEquals(firmwareData[progress + 1], data[1]);
         assertEquals(firmwareData[progress + 2], data[2]);
-        verify(shnCapabilityFirmwareUpdateListenerMock).onProgressUpdate(capabilityFirmwareUpdateDiComm, (float) progress / firmwareData.length);
+        float progressIndicator = (float) progress / firmwareData.length;
+        verify(shnCapabilityFirmwareUpdateListenerMock).onProgressUpdate(capabilityFirmwareUpdateDiComm, progressIndicator);
     }
 
     @Test
@@ -358,7 +359,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         verifyUploadFailed(SHNResult.SHNErrorInvalidParameter, capabilityFirmwareUpdateDiComm.getState());
     }
 
-    private void sendResponseWithState(DiCommFirmwarePort.State state) {
+    private void sendResponseWithState(DiCommFirmwarePort.State state, int progress) {
         reset(shnCapabilityFirmwareUpdateListenerMock, diCommPortMock);
         when(diCommPortMock.getMaxChunkSize()).thenReturn(TEST_MAX_CHUNK_SIZE);
         when(diCommPortMock.getState()).thenReturn(state);
@@ -371,7 +372,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void whenAChunkIsWrittenWithNotDownloadingStateThenNxtChunkIsNotWritten() throws Exception {
         whenStateSwitchesToDownloadingThenFirstChunkIsWritten();
 
-        sendResponseWithState(DiCommFirmwarePort.State.Error);
+        sendResponseWithState(DiCommFirmwarePort.State.Error, 0);
 
         verify(diCommPortMock, never()).putProperties(anyMap(), any(SHNMapResultListener.class));
     }
@@ -380,9 +381,10 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void whenStateSwitchesToCheckingThenNextChunkIsNotWritten() throws Exception {
         whenThirdChunkIsWrittenSuccessfullyThenLastChunkIsWritten();
 
-        sendResponseWithState(DiCommFirmwarePort.State.Checking);
+        sendResponseWithState(DiCommFirmwarePort.State.Checking, firmwareData.length);
 
         verify(diCommPortMock, never()).putProperties(anyMap(), any(SHNMapResultListener.class));
+        verify(shnCapabilityFirmwareUpdateListenerMock).onProgressUpdate(capabilityFirmwareUpdateDiComm, 1.0f);
     }
 
     @Test
@@ -417,5 +419,60 @@ public class CapabilityFirmwareUpdateDiCommTest {
         waiterListenerArgumentCaptor.getValue().onRequestReceived(DiCommFirmwarePort.State.Error, SHNResult.SHNErrorConnectionLost);
 
         verifyUploadFailed(SHNResult.SHNErrorConnectionLost, capabilityFirmwareUpdateDiComm.getState());
+    }
+
+    @Test
+    public void whenPortBecomesAvailableWithIdleStateThenStateIsNotUpdated() throws Exception {
+        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Idle);
+        capabilityFirmwareUpdateDiComm.onPortAvailable(diCommPortMock);
+
+        verify(shnCapabilityFirmwareUpdateListenerMock, never()).onStateChanged(capabilityFirmwareUpdateDiComm);
+    }
+
+    @Test
+    public void whenPortBecomesAvailableWithPreparingStateThenStateIsUpdated() throws Exception {
+        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Preparing);
+        capabilityFirmwareUpdateDiComm.onPortAvailable(diCommPortMock);
+
+        verify(shnCapabilityFirmwareUpdateListenerMock).onStateChanged(capabilityFirmwareUpdateDiComm);
+    }
+
+    @Test
+    public void whenPortBecomesAvailableAgainThenStateIsNotUpdated() throws Exception {
+        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Preparing);
+
+        capabilityFirmwareUpdateDiComm.onPortAvailable(diCommPortMock);
+        capabilityFirmwareUpdateDiComm.onPortAvailable(diCommPortMock);
+
+        verify(shnCapabilityFirmwareUpdateListenerMock).onStateChanged(capabilityFirmwareUpdateDiComm);
+    }
+
+    @Test
+    public void whenPortBecomesUnavailableWithCancellingThenStateIsUpdated() throws Exception {
+        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Canceling);
+
+        capabilityFirmwareUpdateDiComm.onPortUnavailable(diCommPortMock);
+
+        verify(shnCapabilityFirmwareUpdateListenerMock).onStateChanged(capabilityFirmwareUpdateDiComm);
+    }
+
+    @Test
+    public void whenStateOfThePortIsUpdatedThenListenerIsNotified() throws Exception {
+        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Canceling);
+
+        capabilityFirmwareUpdateDiComm.onPropertiesChanged(new HashMap<String, Object>());
+
+        verify(shnCapabilityFirmwareUpdateListenerMock).onStateChanged(capabilityFirmwareUpdateDiComm);
+    }
+
+    @Test
+    public void whenStateOfThePortIsUpdatedTwiceToExternalStateIdleThenListenerIsNotifiedOnce() throws Exception {
+        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Downloading);
+        capabilityFirmwareUpdateDiComm.onPropertiesChanged(new HashMap<String, Object>());
+
+        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Canceling);
+        capabilityFirmwareUpdateDiComm.onPropertiesChanged(new HashMap<String, Object>());
+
+        verify(shnCapabilityFirmwareUpdateListenerMock).onStateChanged(capabilityFirmwareUpdateDiComm);
     }
 }

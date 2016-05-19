@@ -31,7 +31,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     private final Timer requestTimer;
 
     private void requestTimedOut() {
-        SHNLogger.d(TAG, "requestTimedOut for"+ pendingRequests.get(0).getRequestMessage().getMessageType());
+        SHNLogger.d(TAG, "requestTimedOut for " + pendingRequests.get(0).getRequestMessage().getMessageType());
 
         shnProtocolMoonshineStreaming.transitionToError(SHNResult.SHNErrorTimeout);
     }
@@ -50,7 +50,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     // implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingLister
     @Override
     public void onDataReceived(byte[] data) {
-        SHNLogger.d(TAG, "onDataReceived " + data);
+        SHNLogger.d(TAG, "onDataReceived " + data.length);
 
         appendReceivedData(data);
         ByteBuffer byteBuffer = ByteBuffer.wrap(receiveBuffer);
