@@ -8,6 +8,7 @@ package com.philips.platform.appinfra;
 import android.content.Context;
 
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 /**
  * Created by 310238114 on 5/5/2016.
@@ -17,7 +18,13 @@ public class AppInfra {
 
     private SecureStorageInterface secStor;
     private LoggingInterface logger;
+
+
+
+
+    private AIAppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
+
     private final static String VERSION = "1.2.3";
 
 
@@ -27,10 +34,12 @@ public class AppInfra {
     public static class Builder {
         private SecureStorageInterface secStor;
         private LoggingInterface       logger;
+        private AIAppTaggingInterface tagging;
 
         public Builder() {
             secStor = null;
             logger = null;
+            tagging = null;
         }
         public Builder setLogging(LoggingInterface log) {
             logger = log;
@@ -58,6 +67,8 @@ public class AppInfra {
         return logger;
     }
 
+
+
     /*private AppInfra() {
     }*/
     public AppInfra(Context pContext) {
@@ -73,10 +84,19 @@ public class AppInfra {
         appInfraLogger = logger.createInstanceForComponent(this.getClass().getPackage().toString(), VERSION);
     }
 
+    private void setTagging(AIAppTaggingInterface tagg) {
+        tagging = tagg;
+
+    }
+    public AIAppTaggingInterface getTagging() {
+        return tagging;
+    }
+
+
      LoggingInterface getAppInfraLogInstance() { // this log should be used withing App Infra library
         return appInfraLogger;
     }
-     Context getAppInfraContext() {
+     public Context getAppInfraContext() {
         return appInfraContext;
     }
 }

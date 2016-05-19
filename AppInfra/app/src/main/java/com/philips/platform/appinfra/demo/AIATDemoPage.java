@@ -6,7 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.philips.platform.appinfra.tagging.TaggingWrapper;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+import com.philips.platform.appinfra.tagging.AIAppTaggingWrapper;
 
 
 /**
@@ -34,45 +35,49 @@ public class AIATDemoPage extends AppCompatActivity {
         TaggPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("DemoPage","Key", "Value");
 
-                TaggingWrapper.setTrackingIdentifier(""+value.getText().toString());
-                TaggingWrapper.setLaunchingPageName("demoapp:Tagging");
-//                TaggingWrapper.setComponentVersionKey(""+key.getText().toString());
-                TaggingWrapper.setComponentVersionVersionValue("FrameworkTaggingValue");
+//                AIAppTaggingWrapper.setTrackingIdentifier(""+value.getText().toString());
+//                AIAppTaggingWrapper.setLaunchingPageName("demoapp:AIAppTagging");
+//                AIAppTaggingWrapper.setComponentVersionKey(""+key.getText().toString());
+//                AIAppTaggingWrapper.setComponentVersionVersionValue("FrameworkTaggingValue");
 
-                TaggingWrapper.trackPage("DemoTaggingPAge", ""+key.getText().toString(), ""+value.getText().toString());
-//                TaggingWrapper.trackAction("ButtonClick","Key", null );
+//                AIAppTaggingWrapper.trackPage("DemoTaggingPAge", ""+key.getText().toString(), ""+value.getText().toString());
+//                AIAppTaggingWrapper.trackAction("ButtonClick","Key", null );
 
             }
         });
         TaggActionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-               TaggingWrapper.trackAction("ButtonClick","Key", null );
+                AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("DemoPage","Key", "Value");
+//               AIAppTaggingWrapper.trackAction("ButtonClick","Key", null );
 
             }
         });
         TaggOptInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AppInfraApplication.mAIAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
 
-                TaggingWrapper.setPrivacyStatus(TaggingWrapper.AIATMobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN);
+//                AIAppTaggingWrapper.setPrivacyStatus(AIAppTaggingWrapper.AIATMobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN);
 
             }
         });
         TaggOptOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AppInfraApplication.mAIAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTOUT);
 
-                TaggingWrapper.setPrivacyStatus(TaggingWrapper.AIATMobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT);
+//                AIAppTaggingWrapper.setPrivacyStatus(AIAppTaggingWrapper.AIATMobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT);
             }
         });
         TaggUnknownBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AppInfraApplication.mAIAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.UNKNOWN);
 
-                TaggingWrapper.setPrivacyStatus(TaggingWrapper.AIATMobilePrivacyStatus.MOBILE_PRIVACY_STATUS_UNKNOWN);
+//                AIAppTaggingWrapper.setPrivacyStatus(AIAppTaggingWrapper.AIATMobilePrivacyStatus.MOBILE_PRIVACY_STATUS_UNKNOWN);
             }
         });
 
@@ -81,12 +86,12 @@ public class AIATDemoPage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        TaggingWrapper.collectLifecycleData();
+//        AIAppTaggingWrapper.collectLifecycleData();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        TaggingWrapper.pauseCollectingLifecycleData();
+//        AIAppTaggingWrapper.pauseCollectingLifecycleData();
     }
 }
