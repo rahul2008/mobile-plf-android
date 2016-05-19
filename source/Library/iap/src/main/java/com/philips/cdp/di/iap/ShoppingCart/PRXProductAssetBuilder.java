@@ -9,6 +9,7 @@ import android.os.Message;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
+import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.localematch.enums.Catalog;
@@ -85,17 +86,22 @@ public class PRXProductAssetBuilder {
 
     private ArrayList<String> fetchImageUrlsFromPRXAssets(List<Asset> assets) {
         ArrayList<String> mAssetsFromPRX = new ArrayList<>();
+        int width = (int)mContext.getResources().getDisplayMetrics().widthPixels;
+        int height =  (int)mContext.getResources().getDimension(R.dimen.iap_product_detail_image_height);
 
-        for (Asset asset : assets
-                ) {
-            boolean bool = asset.getExtension().equalsIgnoreCase("tif");
-
-            if (bool) {
-                mAssetsFromPRX.add(asset.getAsset());
+        for (Asset asset : assets) {
+            if (isSupportedType(asset)) {
+                String imagepath = asset.getAsset() + "?wid=" + width +
+                        "&hei=" + height + "&$pnglarge$" + "&fit=fit,1";
+                mAssetsFromPRX.add(imagepath);
             }
         }
 
         return mAssetsFromPRX;
+    }
+
+    private boolean isSupportedType(final Asset asset) {
+        return asset.getType().equalsIgnoreCase("RTP") || asset.getType().equalsIgnoreCase("APP") || asset.getType().equalsIgnoreCase("DPP") || asset.getType().equalsIgnoreCase("MI1") || asset.getType().equalsIgnoreCase("PID");
     }
 
     private void notifyError(final String error) {
