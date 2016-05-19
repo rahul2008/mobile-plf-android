@@ -31,6 +31,7 @@ public class DiCommPort {
     private Map<String, Object> properties = new HashMap<>();
     private Set<UpdateListener> updateListeners = new HashSet<>();
     private final Timer subscriptionTimer;
+    @NonNull
     private Handler internalHandler;
 
     public DiCommPort(@NonNull String name, @NonNull Handler internalHandler) {
@@ -142,15 +143,7 @@ public class DiCommPort {
             }
         }
 
-        if (internalHandler == null) {
-            internalHandler = new Handler();
-        }
-        internalHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                shnResultListener.onActionCompleted(SHNResult.SHNOk);
-            }
-        }, 1);
+        postResult(shnResultListener, SHNResult.SHNOk);
     }
 
     private void refreshSubscription() {
@@ -172,7 +165,6 @@ public class DiCommPort {
         }
     }
 
-    @NonNull
     private void mergeProperties(Map<String, Object> properties) {
         Map<String, Object> mergedProperties = new HashMap<>(DiCommPort.this.properties);
         mergedProperties.putAll(properties);

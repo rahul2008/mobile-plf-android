@@ -31,7 +31,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     private final Timer requestTimer;
 
     private void requestTimedOut() {
-        SHNLogger.d(TAG, "requestTimedOut");
+        SHNLogger.d(TAG, "requestTimedOut for"+ pendingRequests.get(0).getRequestMessage().getMessageType());
 
         shnProtocolMoonshineStreaming.transitionToError(SHNResult.SHNErrorTimeout);
     }
