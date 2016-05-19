@@ -6,6 +6,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
@@ -51,7 +52,9 @@ public class PaymentRequest extends AbstractModel {
         params.put(ModelConstants.LAST_NAME, billingAddress.getLastName());
         params.put(ModelConstants.TITLE_CODE, billingAddress.getTitleCode().toLowerCase(Locale.getDefault()));
         params.put(ModelConstants.COUNTRY_ISOCODE, billingAddress.getCountryIsocode());
-        params.put(ModelConstants.REGION_ISOCODE, billingAddress.getRegionIsoCode());
+        if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
+            params.put(ModelConstants.REGION_ISOCODE, billingAddress.getRegionIsoCode());
+        }
         params.put(ModelConstants.LINE_1, billingAddress.getLine1());
         params.put(ModelConstants.LINE_2, billingAddress.getLine2());
         params.put(ModelConstants.POSTAL_CODE, billingAddress.getPostalCode());
