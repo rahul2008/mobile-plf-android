@@ -14,19 +14,16 @@ import com.android.volley.toolbox.ImageLoader;
 
 /**
  * Custom implementation of Volley Request Queue
-        */
-        public class NetworkImageLoader {
+ */
+public class NetworkImageLoader {
 
-            private static NetworkImageLoader mInstance;
-            private static Context mCtx;
-            private RequestQueue mRequestQueue;
-            private ImageLoader mImageLoader;
-            private LruCache<String, Bitmap> mMemoryCache;
+    private static NetworkImageLoader mInstance;
+    private RequestQueue mRequestQueue;
+    private ImageLoader mImageLoader;
+    private LruCache<String, Bitmap> mMemoryCache;
 
-
-            private NetworkImageLoader(Context context) {
-                mCtx = context;
-                mRequestQueue = getRequestQueue();
+    private NetworkImageLoader(Context context) {
+        mRequestQueue = getRequestQueue(context);
 
         // Get max available VM memory, exceeding this amount will throw an
         // OutOfMemory exception. Stored in kilobytes as LruCache takes an
@@ -58,7 +55,7 @@ import com.android.volley.toolbox.ImageLoader;
                     @Override
                     public void putBitmap(String url, Bitmap bitmap) {
                         //mMemoryCache.put(url, bitmap);
-                        addBitmapToMemoryCache(url,bitmap);
+                        addBitmapToMemoryCache(url, bitmap);
                     }
 
                     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
@@ -70,7 +67,6 @@ import com.android.volley.toolbox.ImageLoader;
                     public Bitmap getBitmapFromMemCache(String key) {
                         return mMemoryCache.get(key);
                     }
-
                 });
     }
 
@@ -81,9 +77,9 @@ import com.android.volley.toolbox.ImageLoader;
         return mInstance;
     }
 
-    public RequestQueue getRequestQueue() {
+    private RequestQueue getRequestQueue(final Context context) {
         if (mRequestQueue == null) {
-            Cache cache = new DiskBasedCache(mCtx.getCacheDir(), 10 * 1024 * 1024);
+            Cache cache = new DiskBasedCache(context.getCacheDir(), 10 * 1024 * 1024);
             Network network = new BasicNetwork(new HurlStack());
             mRequestQueue = new RequestQueue(cache, network);
             // Don't forget to start the volley request queue
