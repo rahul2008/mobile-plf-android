@@ -80,6 +80,10 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
         mCountryBased_button = (Button)findViewById(R.id.countrybased_btn);
         mLangauageBased_button = (Button)findViewById(R.id.language_based_btn);
 
+        pilLocaleManager = new PILLocaleManager(LocalMatchActivity.this);
+
+
+
         mCountryBased_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,8 +119,7 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
            @Override
            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                // initializeDigitalCareLibrary();
-               pilLocaleManager = new PILLocaleManager(LocalMatchActivity.this);
-//                pilLocaleManager.setInputLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
+
                language = parent.getAdapter().getItem(position).toString();
 
 
@@ -182,6 +185,7 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
 
 
        if(language!= null && country != null){
+
            pilLocaleManager.setInputLocale(language, country);
            pilLocaleManager.refresh(LocalMatchActivity.this);
        }

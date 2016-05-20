@@ -55,14 +55,7 @@
 
 
         </activity>
-        <activity
-            android:name="com.philips.platform.appinfra.demo.LocalMatchMainActivity"
-            android:label="Log Test"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
 
-
-        </activity>
         <activity
             android:name="com.philips.platform.appinfra.demo.LocalMatchActivity"
             android:label="Log Test"
