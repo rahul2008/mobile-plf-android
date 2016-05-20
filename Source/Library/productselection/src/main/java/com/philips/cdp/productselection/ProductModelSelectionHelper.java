@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.appcompat.BuildConfig;
 import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import com.philips.cdp.productselection.activity.ProductSelectionActivity;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
@@ -36,12 +37,12 @@ public class ProductModelSelectionHelper {
     private static ProductModelSelectionHelper mProductModelSelectionHelper = null;
     private static Context mContext = null;
     private static Locale mLocale = null;
+    private static boolean isTabletLandscape = false;
+    private static Configuration mVerticalOrientation = null;
     private ProductSelectionListener mProductSelectionListener = null;
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
     private ProgressDialog mProgressDialog = null;
-    private static boolean isTabletLandscape = false;
-    private static Configuration mVerticalOrientation = null;
 
     /*
      * Initialize everything(resources, variables etc) required for product selection.
@@ -119,8 +120,13 @@ public class ProductModelSelectionHelper {
             mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mProgressDialog.setCancelable(false);
-        if (!(mActivity.isFinishing())) {
-            mProgressDialog.show();
+        if (!(mActivity.isFinishing()) && (mProgressDialog != null)) {
+
+            try {
+                mProgressDialog.show();
+            } catch (WindowManager.BadTokenException e) {
+                ProductSelectionLogger.e(TAG, "WindowManager Exception Handled : " + e);
+            }
         }
 
 
@@ -240,10 +246,7 @@ public class ProductModelSelectionHelper {
 
     public boolean isLaunchedAsActivity() {
 
-        if (mLauncherType instanceof ActivityLauncher)
-            return true;
-        else
-            return false;
+        return mLauncherType instanceof ActivityLauncher;
     }
 
 
