@@ -56,6 +56,21 @@ public class DiCommFirmwarePortTest {
     }
 
     @Test
+    public void whenCancelIsReceivedThenStateIsCanceling() throws Exception {
+        assertEquals(DiCommFirmwarePort.State.Canceling, DiCommFirmwarePort.State.fromString("cancel"));
+    }
+
+    @Test
+    public void whenCancelingIsReceivedThenStateIsCanceling() throws Exception {
+        assertEquals(DiCommFirmwarePort.State.Canceling, DiCommFirmwarePort.State.fromString("canceling"));
+    }
+
+    @Test
+    public void whenCancellingIsReceivedThenStateIsCanceling() throws Exception {
+        assertEquals(DiCommFirmwarePort.State.Canceling, DiCommFirmwarePort.State.fromString("cancelling"));
+    }
+
+    @Test
     public void canConvertCommandToAString() throws Exception {
         assertEquals("go", DiCommFirmwarePort.Command.DeployGo.getName());
     }
@@ -137,10 +152,9 @@ public class DiCommFirmwarePortTest {
 
     @Test
     public void whenPropertiesAreReceivedThenCanUpgradeIsUpdated() throws Exception {
-        String data = "true";
-        reloadProperties("canupgrade", data);
+        reloadProperties("canupgrade", true);
 
-        assertTrue(data, diCommFirmwarePort.getCanUpgrade());
+        assertTrue(diCommFirmwarePort.getCanUpgrade());
     }
 
     @Test
@@ -148,6 +162,6 @@ public class DiCommFirmwarePortTest {
         String data = "gtrue";
         reloadProperties("canupgrade", data);
 
-        assertFalse(data, diCommFirmwarePort.getCanUpgrade());
+        assertFalse(diCommFirmwarePort.getCanUpgrade());
     }
 }

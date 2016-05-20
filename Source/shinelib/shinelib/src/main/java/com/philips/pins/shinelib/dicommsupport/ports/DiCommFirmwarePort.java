@@ -30,35 +30,34 @@ public class DiCommFirmwarePort extends DiCommPort {
         Checking("checking"),
         Ready("ready"),
         Programming("programming"),
-        Canceling("canceling"),
+        Canceling("canceling", "cancel", "cancelling"),
         Error("error"),
         Unknown("unknown");
 
-        private String stateName;
+        private String[] stateNames;
 
-        State(String stateName) {
-            this.stateName = stateName;
+        State(String... stateNames) {
+            this.stateNames = stateNames;
         }
 
         public static State fromString(String stateString) {
             for (State state : State.values()) {
-                if (state.stateName.equalsIgnoreCase(stateString)) {
-                    return state;
+                for (String stateName : state.stateNames) {
+                    if (stateName.equalsIgnoreCase(stateString)) {
+                        return state;
+                    }
                 }
             }
 
             return Unknown;
-        }
-
-        public String getName() {
-            return stateName;
         }
     }
 
     public enum Command {
         Downloading("downloading"),
         DeployGo("go"),
-        Cancel("cancel");
+        Cancel("cancel"),
+        Idle("idle");
 
         private String commandName;
 
@@ -102,8 +101,13 @@ public class DiCommFirmwarePort extends DiCommPort {
     }
 
     public boolean getCanUpgrade() {
-        String canUpgrade = getString(Key.CAN_UPGRADE);
-        return Boolean.valueOf(canUpgrade);
+        Map<String, Object> properties = getProperties();
+        Object canUpgrade = properties.get(Key.CAN_UPGRADE);
+
+        if (canUpgrade instanceof Boolean) {
+            return (boolean) canUpgrade;
+        }
+        return false;
     }
 
     @Nullable
