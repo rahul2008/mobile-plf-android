@@ -7,9 +7,9 @@
     <GridLayout
         android:id="@+id/gridlayout1"
         android:layout_width="match_parent"
-        android:layout_height="174dp"
-        android:layout_below="@+id/textView3"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="10dp"
         android:columnCount="2"
         android:orientation="horizontal"
         android:rowCount="2">
@@ -34,16 +34,72 @@
             android:textStyle="bold" />
 
         <Spinner
-            android:id="@+id/spinner1"
+            android:id="@+id/spinnerLanguage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp" />
 
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/spinnerCountry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp" />
+
+        <TextView
+            android:id="@+id/textViewSector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Platform"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewCatolog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="Sector"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinnerPlatform"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
+
+        <Spinner
+            android:id="@+id/spinnerSector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
+        <TextView
+            android:id="@+id/textViewCTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="catalog"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinnerCatalog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
+
+
     </GridLayout>
 
     <Button

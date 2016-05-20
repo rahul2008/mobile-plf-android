@@ -19,12 +19,15 @@ import com.philips.cdp.localematch.enums.Sector;
 
 public class LocalMatchActivity extends AppCompatActivity implements LocaleMatchListener {
 
-    private Spinner mLanguage_spinner, mCountry_spinner;
-    private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
+    private Spinner mLanguage_spinner, mCountry_spinner, mSector_spinner, mPlatform_spinner,mCatalog_spinner;
+    private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[], mSector[], mPlatform[], mCatalog[];
     PILLocaleManager pilLocaleManager;
     private Button mCountryBased_button, mLangauageBased_button;
     String language, country;
-    private static final String TAG = LocalMatchMainActivity.class.getSimpleName();
+    Platform selectedPlatform = Platform.PRX;
+    Sector selectedSector = Sector.B2C;
+    Catalog selectedCatalog = Catalog.CONSUMER;
+    private static final String TAG = LocalMatchActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,7 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
         setContentView(R.layout.activity_local_match);
 
         // setting language spinner
-        mLanguage_spinner = (Spinner) findViewById(R.id.spinner1);
+        mLanguage_spinner = (Spinner) findViewById(R.id.spinnerLanguage);
         mLanguage = getResources().getStringArray(R.array.Language);
         mlanguageCode = getResources().getStringArray(R.array.Language_code);
         ArrayAdapter<String> mLanguage_adapter = new ArrayAdapter<String>(this,
@@ -40,13 +43,40 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
         mLanguage_spinner.setAdapter(mLanguage_adapter);
 
         // setting country spinner
-        mCountry_spinner = (Spinner) findViewById(R.id.spinner2);
+        mCountry_spinner = (Spinner) findViewById(R.id.spinnerCountry);
         mCountry = getResources().getStringArray(R.array.country);
         mcountryCode = getResources().getStringArray(R.array.country_code);
         ArrayAdapter<String> mCountry_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
-SpinnerclickActions();
+
+        // setting platform spinner
+        mPlatform_spinner = (Spinner) findViewById(R.id.spinnerPlatform);
+        mPlatform = getResources().getStringArray(R.array.platform_list);
+       // mcountryCode = getResources().getStringArray(R.array.country_code);
+        ArrayAdapter<String> mPlatform_adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, mPlatform);
+        mPlatform_spinner.setAdapter(mPlatform_adapter);
+
+        // setting sector spinner
+        mSector_spinner = (Spinner) findViewById(R.id.spinnerSector);
+        mSector = getResources().getStringArray(R.array.sector_list);
+       // mcountryCode = getResources().getStringArray(R.array.country_code);
+        ArrayAdapter<String> mSector_adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, mSector);
+        mSector_spinner.setAdapter(mSector_adapter);
+
+        // setting catalog spinner
+        mCatalog_spinner = (Spinner) findViewById(R.id.spinnerCatalog);
+        mCatalog = getResources().getStringArray(R.array.catalog_list);
+       // mcountryCode = getResources().getStringArray(R.array.country_code);
+        ArrayAdapter<String> mCatalogy_adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, mCatalog);
+        mCatalog_spinner.setAdapter(mCatalogy_adapter);
+
+
+        /////////////////////////////////
+        SpinnerclickActions();
         mCountryBased_button = (Button)findViewById(R.id.countrybased_btn);
         mLangauageBased_button = (Button)findViewById(R.id.language_based_btn);
 
@@ -55,7 +85,7 @@ SpinnerclickActions();
             public void onClick(View v) {
                 PILLocale pilLocale = null;
                 if(country!=null)
-                pilLocale = pilLocaleManager.currentLocaleWithCountryFallbackForPlatform(LocalMatchActivity.this, country, Platform.PRX, Sector.B2C, Catalog.CONSUMER);
+                pilLocale = pilLocaleManager.currentLocaleWithCountryFallbackForPlatform(LocalMatchActivity.this, country, selectedPlatform, selectedSector, selectedCatalog);
                 if(pilLocale!=null) {
                     Log.d(TAG, "****************country getCountrycodek " + pilLocale.getCountrycode());
                     Log.d(TAG, "****************country getLanguageCode " + pilLocale.getLanguageCode());
@@ -70,7 +100,7 @@ SpinnerclickActions();
             public void onClick(View v) {
                 PILLocale pilLocale = null;
                 if(language!=null)
-                pilLocale = pilLocaleManager.currentLocaleWithLanguageFallbackForPlatform(LocalMatchActivity.this, language, Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
+                pilLocale = pilLocaleManager.currentLocaleWithLanguageFallbackForPlatform(LocalMatchActivity.this, language, selectedPlatform, selectedSector, Catalog.MOBILE);
                 if(pilLocale!=null) {
                     Log.d(TAG, "****************lang getCountrycodek " + pilLocale.getCountrycode());
                     Log.d(TAG, "****************lang getLanguageCode " + pilLocale.getLanguageCode());
@@ -110,6 +140,46 @@ SpinnerclickActions();
 
            }
        });
+
+       mPlatform_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               //initializeDigitalCareLibrary();
+               selectedPlatform = Platform.valueOf(parent.getAdapter().getItem(position).toString());
+           }
+
+           @Override
+           public void onNothingSelected(AdapterView<?> parent) {
+
+           }
+       });
+
+       mCatalog_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               //initializeDigitalCareLibrary();
+               selectedCatalog = Catalog.valueOf(parent.getAdapter().getItem(position).toString());
+           }
+
+           @Override
+           public void onNothingSelected(AdapterView<?> parent) {
+
+           }
+       });
+
+       mSector_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               //initializeDigitalCareLibrary();
+               selectedSector = Sector.valueOf(parent.getAdapter().getItem(position).toString());
+           }
+
+           @Override
+           public void onNothingSelected(AdapterView<?> parent) {
+
+           }
+       });
+
 
        if(language!= null && country != null){
            pilLocaleManager.setInputLocale(language, country);
