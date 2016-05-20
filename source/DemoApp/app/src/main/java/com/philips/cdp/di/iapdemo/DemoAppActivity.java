@@ -20,6 +20,7 @@ import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -109,7 +110,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         User user = new User(this);
         if (user.isUserSignIn()) {
             displayViews();
-            if (mSelectedCountryIndex >0 && !mProductCountRequested) {
+            if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
                 Utility.showProgressDialog(this, getString(R.string.loading_cart));
                 mIapHandler.getProductCartCount(mProductCountListener);
             }
@@ -127,14 +128,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.shopping_cart_icon:
-                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW,null, mBuyProductListener);
+                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, null, mBuyProductListener);
                 break;
             case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
             case R.id.btn_shop_now:
-                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW,null, null);
+                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
                 break;
             default:
                 break;
@@ -203,15 +204,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private IAPHandlerListener mBuyProductListener = new IAPHandlerListener() {
         @Override
         public void onSuccess(final int count) {
-        Utility.dismissProgressDialog();
-    }
+            Utility.dismissProgressDialog();
+        }
 
-    @Override
-    public void onFailure(final int errorCode) {
-        Utility.dismissProgressDialog();
-        showToast(errorCode);
-    }
-};
+        @Override
+        public void onFailure(final int errorCode) {
+            Utility.dismissProgressDialog();
+            showToast(errorCode);
+        }
+    };
 
     private void showToast(int errorCode) {
         String errorText = "Unknown error";
@@ -259,10 +260,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         String selectedCountry = parent.getItemAtPosition(position).toString();
         if (selectedCountry.equals("UK"))
             selectedCountry = "GB";
+        setLocale("en", selectedCountry);
         if (!mProductCountRequested) {
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
-            mIAPSettings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);;
-           //+ setUseLocalData();
+            mIAPSettings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);
+            //setUseLocalData();
             mIapHandler = IAPHandler.init(this, mIAPSettings);
             updateCartIcon();
             mProductCountRequested = true;
@@ -270,8 +272,13 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         }
     }
 
+    private void setLocale(String languageCode, String countryCode) {
+        PILLocaleManager localeManager = new PILLocaleManager(DemoAppActivity.this);
+        localeManager.setInputLocale(languageCode, countryCode);
+    }
+
     private void updateCartIcon() {
-        if(shouldUseLocalData()) {
+        if (shouldUseLocalData()) {
             mShoppingCart.setVisibility(View.GONE);
         }
     }
