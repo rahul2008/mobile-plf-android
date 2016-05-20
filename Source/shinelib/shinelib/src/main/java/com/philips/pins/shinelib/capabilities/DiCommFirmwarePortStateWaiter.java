@@ -19,7 +19,6 @@ public class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener 
 
     private static final String TAG = "DiCommFirmwarePort";
     private State expectedState;
-    private Handler handler;
 
     public interface Listener {
 
@@ -80,17 +79,12 @@ public class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener 
                     notifyListenerAndCancel(newState, SHNResult.SHNOk);
                 } else {
                     if (!isTransientState(newState)) {
-                        SHNLogger.e(TAG, "was expecting state: " + expectedState + "but encountered state: " + newState);
+                        SHNLogger.e(TAG, "was expecting state: " + expectedState + " but encountered state: " + newState);
                         notifyListenerAndCancel(newState, SHNResult.SHNErrorInvalidState);
                     }
                 }
             }
         }
-    }
-
-    @Override
-    public void onSubscriptionFailed(SHNResult shnResult) {
-
     }
 
     private void notifyListenerAndCancel(final State newState, final SHNResult shnErrorInvalidState) {

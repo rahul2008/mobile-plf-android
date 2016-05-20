@@ -155,13 +155,9 @@ public class DiCommPort {
                         subscriptionTimer.restart();
 
                         mergeProperties(properties);
-                    } else {
-                        notifySubscriptionFailed(result);
                     }
                 }
             });
-        } else {
-            notifySubscriptionFailed(SHNResult.SHNErrorInvalidState);
         }
     }
 
@@ -202,13 +198,6 @@ public class DiCommPort {
         }
     }
 
-    private void notifySubscriptionFailed(@NonNull SHNResult result) {
-        Set<UpdateListener> copyOfUpdateListeners = new HashSet<>(updateListeners);
-        for (UpdateListener updateListener : copyOfUpdateListeners) {
-            updateListener.onSubscriptionFailed(result);
-        }
-    }
-
     public void unsubscribe(UpdateListener updateListener, @Nullable final SHNResultListener shnResultListener) {
         SHNLogger.d(TAG, "unsubscribe " + updateListener);
 
@@ -244,7 +233,5 @@ public class DiCommPort {
 
     public interface UpdateListener {
         void onPropertiesChanged(@NonNull Map<String, Object> properties);
-
-        void onSubscriptionFailed(SHNResult shnResult);
     }
 }

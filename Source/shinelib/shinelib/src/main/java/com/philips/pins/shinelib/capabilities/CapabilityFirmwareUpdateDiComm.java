@@ -33,7 +33,9 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
 
         this.firmwareDiCommPort.setListener(this);
 
-        //TODO refresh state if available
+        if (this.firmwareDiCommPort.isAvailable()) {
+            updateState();
+        }
     }
 
     @Override
@@ -54,16 +56,48 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
                         failWithResult(result);
                     } else {
                         if (firmwareDiCommPort.getState() != DiCommFirmwarePort.State.Idle) {
-                            // TODO: reset state
-                            failWithResult(SHNResult.SHNErrorInvalidState);
+                            resetFirmwarePortToIdle(firmwareDiCommPort.getState());
                         } else {
-                            CapabilityFirmwareUpdateDiComm.this.firmwareData = firmwareData;
-                            prepareForUpload();
+                            prepareForUpload(firmwareData);
                         }
                     }
                 }
             });
         }
+    }
+
+    private void resetFirmwarePortToIdle(DiCommFirmwarePort.State state) {
+        if (state == DiCommFirmwarePort.State.Programming) {
+            failWithResult(SHNResult.SHNErrorProcedureAlreadyInProgress);
+        } else if (state == DiCommFirmwarePort.State.Error) {
+            sendIdleCommand();
+        } else {
+            diCommFirmwarePortStateWaiter.waitUntilStateIsReached(DiCommFirmwarePort.State.Error, new DiCommFirmwarePortStateWaiter.Listener() {
+                @Override
+                public void onRequestReceived(DiCommFirmwarePort.State state, SHNResult shnResult) {
+                    if (shnResult == SHNResult.SHNOk) {
+                        sendIdleCommand();
+                    } else {
+                        failWithResult(shnResult);
+                    }
+                }
+            });
+
+            sendCancelCommand();
+        }
+    }
+
+    private void sendIdleCommand() {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(DiCommFirmwarePort.Key.STATE, DiCommFirmwarePort.Command.Idle.getName());
+        firmwareDiCommPort.putProperties(properties, new SHNMapResultListener<String, Object>() {
+            @Override
+            public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
+                if (result != SHNResult.SHNOk) {
+                    failWithResult(result);
+                }
+            }
+        });
     }
 
     private void setState(SHNFirmwareUpdateState state) {
@@ -78,12 +112,66 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
 
     @Override
     public void abortFirmwareUpload() {
+        switch (firmwareDiCommPort.getState()) {
+            case Preparing:
+            case Downloading:
+            case Checking:
+            case Ready:
+                sendCancelCommand();
+                break;
+        }
+    }
 
+    private void sendCancelCommand() {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(DiCommFirmwarePort.Key.STATE, DiCommFirmwarePort.Command.Cancel.getName());
+        firmwareDiCommPort.putProperties(properties, new SHNMapResultListener<String, Object>() {
+            @Override
+            public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
+                if (result != SHNResult.SHNOk) {
+                    failWithResult(result);
+                }
+            }
+        });
     }
 
     @Override
     public void deployFirmware() {
+        if (firmwareDiCommPort.getState() == DiCommFirmwarePort.State.Ready && firmwareDiCommPort.getCanUpgrade()) {
+            setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateDeploying);
 
+            diCommFirmwarePortStateWaiter.waitUntilStateIsReached(DiCommFirmwarePort.State.Idle, new DiCommFirmwarePortStateWaiter.Listener() {
+                @Override
+                public void onRequestReceived(DiCommFirmwarePort.State state, SHNResult shnResult) {
+                    if (shnResult == SHNResult.SHNOk) {
+                        setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle);
+                        if (shnCapabilityFirmwareUpdateListener != null) {
+                            shnCapabilityFirmwareUpdateListener.onDeployFinished(CapabilityFirmwareUpdateDiComm.this, shnResult);
+                        }
+                    } else {
+                        failWithResult(shnResult);
+                    }
+                }
+            });
+
+            sendDeployCommand();
+        } else {
+            SHNLogger.d(TAG, "Unable to start firmware deploy; State is not ready: " + firmwareDiCommPort.getState());
+        }
+    }
+
+    private void sendDeployCommand() {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(DiCommFirmwarePort.Key.STATE, DiCommFirmwarePort.Command.DeployGo.getName());
+        firmwareDiCommPort.putProperties(properties, new SHNMapResultListener<String, Object>() {
+            @Override
+            public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
+                if (result != SHNResult.SHNOk) {
+                    failWithResult(result);
+                    diCommFirmwarePortStateWaiter.cancel();
+                }
+            }
+        });
     }
 
     @Override
@@ -153,11 +241,6 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         setState(toShnFirmwareUpdateState(remoteState));
     }
 
-    @Override
-    public void onSubscriptionFailed(SHNResult shnResult) {
-
-    }
-
     private SHNFirmwareInfo.SHNFirmwareState toFirmwareState(DiCommFirmwarePort.State state) {
         switch (state) {
             case Idle:
@@ -176,20 +259,16 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         return null;
     }
 
-    private void notifyUploadFailed(@NonNull SHNResult result) {
-        if (shnCapabilityFirmwareUpdateListener != null) {
-            shnCapabilityFirmwareUpdateListener.onUploadFailed(CapabilityFirmwareUpdateDiComm.this, result);
-        }
-    }
+    private void prepareForUpload(byte[] firmwareData) {
+        CapabilityFirmwareUpdateDiComm.this.firmwareData = firmwareData;
 
-    private void prepareForUpload() {
         firmwareDiCommPort.subscribe(this, new SHNResultListener() {
             @Override
             public void onActionCompleted(SHNResult result) {
                 if (result != SHNResult.SHNOk) {
                     failWithResult(result);
                 } else {
-                    sendDownloading();
+                    sendDownloadingCommand();
 
                     diCommFirmwarePortStateWaiter.waitUntilStateIsReached(DiCommFirmwarePort.State.Downloading, new DiCommFirmwarePortStateWaiter.Listener() {
                         @Override
@@ -216,6 +295,7 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
                     if (shnResult == SHNResult.SHNOk) {
                         setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle);
                         if (shnCapabilityFirmwareUpdateListener != null) {
+                            updateProgress(firmwareData.length);
                             shnCapabilityFirmwareUpdateListener.onUploadFinished(CapabilityFirmwareUpdateDiComm.this);
                         }
                         firmwareDiCommPort.unsubscribe(CapabilityFirmwareUpdateDiComm.this, null);
@@ -232,9 +312,9 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         }
     }
 
-    private void sendDownloading() {
+    private void sendDownloadingCommand() {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(DiCommFirmwarePort.Key.STATE, DiCommFirmwarePort.State.Downloading.getName());
+        properties.put(DiCommFirmwarePort.Key.STATE, DiCommFirmwarePort.Command.Downloading.getName());
         properties.put(DiCommFirmwarePort.Key.SIZE, firmwareData.length);
         firmwareDiCommPort.putProperties(properties, new SHNMapResultListener<String, Object>() {
             @Override
@@ -266,8 +346,6 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
                             failWithResult(SHNResult.SHNErrorInvalidParameter);
                         }
                     } else if (firmwareDiCommPort.getState() == DiCommFirmwarePort.State.Checking) {
-                        updateProgress(firmwareData.length);
-                        // TODO: verify
                         SHNLogger.d(TAG, "Upload finished, waiting for the device to finish validating the firmware image");
                     }
                 } else {
@@ -286,7 +364,24 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
     }
 
     private void failWithResult(SHNResult shnResult) {
+        if (state == SHNFirmwareUpdateState.SHNFirmwareUpdateStateUploading) {
+            notifyUploadFailed(shnResult);
+        } else if (state == SHNFirmwareUpdateState.SHNFirmwareUpdateStateDeploying) {
+            notifyDeployFailed(shnResult);
+        }
+        firmwareDiCommPort.unsubscribe(this, null);
         setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle);
-        notifyUploadFailed(shnResult);
+    }
+
+    private void notifyUploadFailed(@NonNull SHNResult result) {
+        if (shnCapabilityFirmwareUpdateListener != null) {
+            shnCapabilityFirmwareUpdateListener.onUploadFailed(CapabilityFirmwareUpdateDiComm.this, result);
+        }
+    }
+
+    private void notifyDeployFailed(SHNResult shnResult) {
+        if (shnCapabilityFirmwareUpdateListener != null) {
+            shnCapabilityFirmwareUpdateListener.onDeployFailed(CapabilityFirmwareUpdateDiComm.this, shnResult);
+        }
     }
 }
