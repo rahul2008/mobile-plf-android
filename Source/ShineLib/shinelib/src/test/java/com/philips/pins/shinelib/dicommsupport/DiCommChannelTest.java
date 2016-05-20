@@ -415,6 +415,7 @@ public class DiCommChannelTest {
 
         verify(resultListenerMock).onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
         verify(resultListenerMock2).onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
+        assertEquals(0, mockedHandler.getScheduledExecutionCount());
     }
 
     @Test

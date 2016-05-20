@@ -50,8 +50,6 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     // implements SHNProtocolMoonshineStreaming.SHNProtocolMoonshineStreamingLister
     @Override
     public void onDataReceived(byte[] data) {
-        SHNLogger.d(TAG, "onDataReceived " + data.length);
-
         appendReceivedData(data);
         ByteBuffer byteBuffer = ByteBuffer.wrap(receiveBuffer);
 
@@ -161,6 +159,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
                     requestInfo.getResultListener().onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
                 }
                 pendingRequests.clear();
+                requestTimer.stop();
             }
         }
     }
