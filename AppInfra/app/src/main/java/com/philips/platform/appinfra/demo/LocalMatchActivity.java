@@ -100,7 +100,7 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
             public void onClick(View v) {
                 PILLocale pilLocale = null;
                 if(language!=null)
-                pilLocale = pilLocaleManager.currentLocaleWithLanguageFallbackForPlatform(LocalMatchActivity.this, language, selectedPlatform, selectedSector, Catalog.MOBILE);
+                pilLocale = pilLocaleManager.currentLocaleWithLanguageFallbackForPlatform(LocalMatchActivity.this, language, selectedPlatform, selectedSector, selectedCatalog);
                 if(pilLocale!=null) {
                     Log.d(TAG, "****************lang getCountrycodek " + pilLocale.getCountrycode());
                     Log.d(TAG, "****************lang getLanguageCode " + pilLocale.getLanguageCode());
