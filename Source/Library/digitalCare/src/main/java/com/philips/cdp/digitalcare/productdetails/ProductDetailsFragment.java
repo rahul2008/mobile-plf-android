@@ -7,7 +7,7 @@ import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
  *
  * @author : Ritesh.jha@philips.com
  * @since : 16 Jan 2015
- *
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -24,6 +24,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -69,6 +70,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private static boolean isTablet = false;
     private static int mHeight = 0;
     private static int mScrollPosition = 0;
+    private static Activity mActivity = null;
     private RelativeLayout mFirstContainer = null;
     private LinearLayout.LayoutParams mFirstContainerParams = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
@@ -88,7 +90,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private LinearLayout.LayoutParams mScrollerLayoutParams = null;
     private LinearLayout.LayoutParams mProductVideoHeaderParams = null;
     private PrxWrapper mPrxWrapper = null;
-    private static Activity mActivity = null;
     private int mSdkVersion = 0;
     private RelativeLayout mManualRelativeLayout = null;
     private String mManualButtonTitle = null;
@@ -98,7 +99,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
         mSdkVersion = Build.VERSION.SDK_INT;
-        View view = inflater.inflate(R.layout.fragment_view_product,
+        View view = inflater.inflate(R.layout.consumercare_fragment_view_product,
                 container, false);
         if (getActivity() != null)
             mActivity = getActivity();
@@ -178,7 +179,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
 
         for (int i = 0; i < mVideoLength.size(); i++) {
-            View child = mActivity.getLayoutInflater().inflate(R.layout.viewproduct_video_view, null);
+            View child = mActivity.getLayoutInflater().inflate(R.layout.consumercare_viewproduct_video_view, null);
             ImageView videoThumbnail = (ImageView) child.findViewById(R.id.videoContainer);
             ImageView videoPlay = (ImageView) child.findViewById(R.id.videoPlay);
             ImageView videoLeftArrow = (ImageView) child.findViewById(R.id.videoLeftArrow);
@@ -236,7 +237,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             return (int) mActivity.getResources().getDimension(R.dimen.view_prod_details_video_height);
         }
 
-        return (int) mSmallerResolution;
+        return mSmallerResolution;
     }
 
     protected void loadVideoThumbnail(final ImageView imageView, final String thumbnail) {
@@ -257,6 +258,18 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
         RequestQueue imageRequestQueue = Volley.newRequestQueue(getContext());
         imageRequestQueue.add(request);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        DigiCareLogger.d(TAG, "onViewState Restored");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        DigiCareLogger.d(TAG, "onViewStateSaved");
     }
 
     private Bitmap addBlankThumbnail() {
@@ -447,9 +460,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         relativeLayout.setOnClickListener(this);
 
         mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-        String mFilePath  = null;
+        String mFilePath = null;
 
-        if(mViewProductDetailsModel != null) {
+        if (mViewProductDetailsModel != null) {
             mFilePath = mViewProductDetailsModel.getManualLink();
         }
 
@@ -469,7 +482,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 .getDimension(R.dimen.support_btn_height) * density));
         relativeLayout.setLayoutParams(params);
         relativeLayout
-                .setBackgroundResource(R.drawable.selector_option_button_bg);
+                .setBackgroundResource(R.drawable.consumercare_selector_option_button_bg);
         return relativeLayout;
     }
 
@@ -523,7 +536,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_download_manual))) {
-            Locale locale =  DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
+            Locale locale = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
             String country = locale.getCountry();
             String language = locale.getLanguage();
             String mFilePath = mViewProductDetailsModel.getManualLink();
@@ -533,9 +546,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             if ((mFilePath != null) && (mFilePath != "")) {
                 if (isConnectionAvailable()) {
                     DownloadAndShowPDFHelper downloadAndShowPDFHelper = new DownloadAndShowPDFHelper();
-                    downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable()) ;
+                    downloadAndShowPDFHelper.downloadAndOpenPDFManual(getActivity(), mFilePath, pdfName, isConnectionAvailable());
 //                    showFragment(new ProductManualFragment());
-                    }
+                }
             } else {
                 showAlert(getResources().getString(R.string.no_data));
             }
@@ -608,9 +621,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             initView(viewProductDetailsModel.getVideoLinks());
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(viewProductDetailsModel);
 
-        if (mManualPdf != null && mManualButtonTitle.equalsIgnoreCase(
-                getResources().getResourceEntryName(R.string.product_download_manual))) {
-            mManualRelativeLayout.setVisibility(View.VISIBLE);
+        if (mManualPdf != null && mManualButtonTitle != null) {
+            if (mManualButtonTitle.equalsIgnoreCase(
+                    getResources().getResourceEntryName(R.string.product_download_manual))) {
+                mManualRelativeLayout.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

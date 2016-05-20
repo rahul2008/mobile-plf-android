@@ -22,7 +22,6 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +39,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
                              Bundle savedInstanceState) {
 
         if (mView == null) {
-            mView = inflater.inflate(R.layout.common_webview, container, false);
+            mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         }
         setChatEndPoint(getChatUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app");
         return mView;

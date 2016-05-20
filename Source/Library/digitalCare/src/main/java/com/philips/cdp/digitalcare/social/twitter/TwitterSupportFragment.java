@@ -320,7 +320,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 	private void configureValues() {
 		mTweetfrom.setText("From @" + mUsername);
-		mTwitterIcon.setImageResource(R.drawable.social_twitter_icon);
+		mTwitterIcon.setImageResource(R.drawable.consumercare_social_twitter_icon);
 	}
 
 	@Override

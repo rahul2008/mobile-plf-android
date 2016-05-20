@@ -1,0 +1,243 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:fillViewport="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/product_preview_container_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin">
+
+            <RelativeLayout
+                android:id="@+id/your_product_review_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent">
+
+                <RelativeLayout
+                    android:id="@+id/your_product_review_parent_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent">
+
+
+                    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+
+                        android:id="@+id/your_productreview_header"
+                        style="@style/productyoureview_header"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf">
+
+                    </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/your_product_review_divider_one"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/your_product_review_parent_one"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#cccccc" />
+
+        <LinearLayout
+            android:id="@+id/product_preview_container_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin">
+
+            <RelativeLayout
+                android:id="@+id/your_product_review_parent_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/your_product_review_divider_one"
+                android:background="@color/transparent">
+
+
+                <RelativeLayout
+                    android:id="@+id/your_product_review_rating_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true">
+
+
+                    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                        android:id="@+id/your_product_review_rating_header_text"
+                        style="@style/your_product_preview_rating_header"
+                        android:text="@string/bazzarvoice_productreview_preview_rating_text"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+                    <RatingBar
+                        android:id="@+id/your_product_review_rating_ratingbar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/your_product_review_rating_header_text"
+                        android:layout_gravity="center"
+                        android:fitsSystemWindows="true" />
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/your_product_review_summary_header_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/your_product_review_rating_container"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                        android:id="@+id/your_product_review_summary_header_text"
+                        style="@style/your_product_preview_rating_header"
+                        android:text="@string/bazzarvoice_productreview_preview_review_summary_text"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+                    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                        android:id="@+id/your_product_review_summary_header_text_value"
+                        style="@style/your_product_preview_rating_header_value"
+                        android:layout_below="@+id/your_product_review_summary_header_text"
+                        android:text="Awesome"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
+
+                    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                        android:id="@+id/your_product_review__header_text"
+                        style="@style/your_product_preview_rating_header"
+                        android:layout_below="@+id/your_product_review_summary_header_text_value"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/bazzarvoice_productreview_preview_review_summary_review_text"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+                    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                        android:id="@+id/your_product_review__header_text_value"
+                        style="@style/your_product_preview_rating_header_value"
+                        android:layout_below="@+id/your_product_review_header_text"
+                        android:text="Quare obscurentur etiam haec, quae secundum naturam esse dicimus, in vita beata; Duo Reges: constructio interrete. Cur haec eadem Democritus! Hocest non diidere, sed frangere. Ut placet, inquit, etsi enim illuderat aptius, aequum cuique concedere "
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
+
+
+                    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                        android:id="@+id/your_product_review_nickname_header_text"
+                        style="@style/your_product_preview_rating_header"
+                        android:text="@string/bazzarvoice_productreview_preview_nickname_text"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+                    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                        android:id="@+id/your_product_review_nickname_header_text_value"
+                        style="@style/your_product_preview_rating_header_value"
+                        android:layout_below="@+id/your_product_review_summary_header_text"
+                        android:text="Bosmenneke"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
+
+                    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                        android:id="@+id/your_product_review_email_header_text"
+                        style="@style/your_product_preview_rating_header"
+                        android:text="@string/bazzarvoice_productreview_preview_email_text"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+                    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                        android:id="@+id/your_product_review_email_header_text_value"
+                        style="@style/your_product_preview_rating_header_value"
+                        android:layout_below="@+id/your_product_review_summary_header_text"
+                        android:text="naveen@philips.com"
+                        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/your_product_review_divider_two"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/your_product_review_parent_two"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:background="#cccccc" />
+
+        <LinearLayout
+            android:id="@+id/product_preview_container_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/marginTopButton"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                android:weightSum="2">
+
+
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                    android:id="@+id/your_product_review_preview_cancel_button"
+                    style="@style/fontButton"
+                    android:layout_weight="1"
+                    android:background="@drawable/consumercare_selector_no_thanks_button_bg"
+                    android:text="@string/cancel"
+                    android:textAlignment="center"
+                    android:textColor="@color/button_background"
+                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                    android:id="@+id/your_product_review_preview_send_button"
+                    style="@style/fontButton"
+                    android:layout_marginLeft="@dimen/marginTopButton"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@string/bazzarvoice_productreview_preview_submitmyreview_text"
+                    android:textAlignment="center"
+                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+            </LinearLayout>
+
+            <!-- <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/your_product_review_divider_two"
+                 android:visibility="gone">
+
+                 <RelativeLayout
+                     style="@style/fontButton"
+                     android:layout_weight="2"
+                     android:padding="2dp">
+
+                     <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                         android:id="@+id/your_product_review_preview_cancel_button"
+                         style="@style/fontButton"
+                         android:layout_marginTop="0dp"
+                         android:background="@drawable/consumercare_selector_no_thanks_button_bg"
+                         android:text="@string/cancel"
+                         android:textColor="@color/button_background" />
+                 </RelativeLayout>
+
+                 <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                     android:id="@+id/your_product_review_preview_send_button"
+                     style="@style/fontButton"
+                     android:layout_marginLeft="@dimen/marginTopButton"
+                     android:layout_weight="1"
+                     android:text="@string/bazzarvoice_productreview_preview_submitmyreview_text" />
+             </LinearLayout>-->
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

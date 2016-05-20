@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 repositories {
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local' }
 }
@@ -12,7 +11,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.philips.cdp.sampledigitalcareapp"
+        applicationId "com.philips.cdp.sampledigitalcare"
         minSdkVersion 14
         targetSdkVersion 23
         renderscriptTargetApi 23
@@ -38,12 +37,12 @@ android {
 
     productFlavors {
         simulator {
-            applicationId 'com.philips.cdp.sampledigitalcareapp'
+            applicationId 'com.philips.cdp.sampledigitalcare'
             versionCode 140
             versionName "4.2.0"
         }
         device {
-            applicationId 'com.philips.cdp.sampledigitalcareapp'
+            applicationId 'com.philips.cdp.sampledigitalcare'
             versionCode 140
             versionName "4.2.0"
         }
@@ -63,7 +62,7 @@ android {
 
 dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '4.2.0-rc.5', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '5.0.0', ext: 'aar'){
        transitive=true
    }
 }

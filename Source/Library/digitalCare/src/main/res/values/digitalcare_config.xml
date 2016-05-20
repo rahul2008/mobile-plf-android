@@ -20,12 +20,12 @@
 
     <!-- Action bar back arrow button -->
     <style name="actionbar_back_button">
-        <item name="android:src">@drawable/actionbar_back_arrow_white</item>
+        <item name="android:src">@drawable/consumercare_actionbar_back_arrow_white</item>
     </style>
 
     <!-- Action bar hamburger menu icon -->
     <style name="actionbar_hamburger_menu">
-        <item name="android:src">@drawable/actionbar_home_icon_white_1x</item>
+        <item name="android:src">@drawable/consumercare_actionbar_home_icon_white_1x</item>
     </style>
 
     <bool name="actionbar_title_required">true</bool>
@@ -62,13 +62,13 @@
         &lt;!&ndash; List of main menu image names, please follow naming conventions &ndash;&gt;
     -->
     <array name="main_menu_resources">
-        <item>@drawable/view_product_details</item>
-        <item>@drawable/view_faq</item>
-        <item>@drawable/contact_us</item>
-        <item>@drawable/find_philips_near_you</item>
-        <item>@drawable/feedback</item>
-        <item>@drawable/philips_logo</item>
-        <item>@drawable/product_selection</item>
+        <item>@drawable/consumercare_view_product_details</item>
+        <item>@drawable/consumercare_view_faq</item>
+        <item>@drawable/consumercare_contact_us</item>
+        <item>@drawable/consumercare_find_philips_near_you</item>
+        <item>@drawable/consumercare_feedback</item>
+        <item>@drawable/consumercare_philips_logo</item>
+        <item>@drawable/consumercare_product_selection</item>
     </array>
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->
@@ -86,8 +86,8 @@
 
     <!-- List of social service providers image names, please follow naming conventions -->
     <string-array name="social_service_provider_menu_resources" translatable="false">
-        <item>@drawable/dc_twitter</item>
-        <item>@drawable/dc_facebook</item>
+        <item>@drawable/consumercare_dc_twitter</item>
+        <item>@drawable/consumercare_dc_facebook</item>
     </string-array>
 
     <!-- Facebook product support page -->

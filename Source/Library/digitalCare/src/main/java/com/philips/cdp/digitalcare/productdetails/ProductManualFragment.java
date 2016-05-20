@@ -50,7 +50,7 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
                              Bundle savedInstanceState) {
 
         if (mView == null) {
-            mView = inflater.inflate(R.layout.common_webview, container, false);
+            mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         }
         mUrl = getPhilipsProductPageUrl();
 

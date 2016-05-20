@@ -76,6 +76,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private static final String CDLS_URL_PORT = "https://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
     private static final String TAG = ContactUsFragment.class.getSimpleName();
     private static View mView = null;
+    private static boolean isFirstTimeCdlsCall = true;
     private LinearLayout mContactUsParent = null;
     private LinearLayout mSocialProviderParent = null;
     private FrameLayout.LayoutParams mParams = null;
@@ -89,13 +90,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private ImageView mActionBarArrow = null;
     private String mCdlsResponseStr = null;
     private ProgressDialog mPostProgress = null;
-    private ProgressDialog mDialog = null;
-    private Configuration config = null;
-    private View mSocialDivider = null;
-    private int mSdkVersion;
-    private Utils mUtils = null;
-    private static boolean isFirstTimeCdlsCall = true;
-
     private final Runnable mTwitteroAuthRunnable = new Runnable() {
 
         @Override
@@ -106,7 +100,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             }
         }
     };
-
+    private ProgressDialog mDialog = null;
     private final CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
         @Override
         public void onCdlsParsingComplete(final CdlsResponseModel response) {
@@ -128,6 +122,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             }
         }
     };
+    private Configuration config = null;
+    private View mSocialDivider = null;
+    private int mSdkVersion;
+    private Utils mUtils = null;
 
     private boolean isCdlsResponseNull(CdlsResponseModel response) {
         return response == null;
@@ -164,11 +162,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             }
         }
         try {
-            mView = inflater.inflate(R.layout.fragment_contact_us, container, false);
+            mView = inflater.inflate(R.layout.consumercare_fragment_contact_us, container, false);
         } catch (InflateException e) {
             DigiCareLogger.e(TAG, "UI Inflation error : " + e);
         }
-        mSocialDivider = (View) mView.findViewById(R.id.socialDivider);
+        mSocialDivider = mView.findViewById(R.id.socialDivider);
 
         return mView;
     }
@@ -370,7 +368,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             }
 
           /*  if (hasEmptyChatContent(mCdlsParsedResponse)) {
-                mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
+                mChat.setBackgroundResource(R.drawable.consumercare_selector_option_button_faded_bg);
                 mChat.setEnabled(false);
             }*/
         } else if (isCdlsResponseModelNull()) {
@@ -422,8 +420,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             mDialog.show();
         }
     }
-
-    ;
 
     protected void callPhilips() {
         try {
@@ -651,7 +647,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         if (mCallPhilips != null) {
             mCallPhilips.setVisibility(View.GONE);
 //            mCallPhilips
-//                    .setBackgroundResource(R.drawable.selector_option_button_faded_bg);
+//                    .setBackgroundResource(R.drawable.consumercare_selector_option_button_faded_bg);
 //            mCallPhilips.setEnabled(false);
         }
       /*if (mChat != null) {
@@ -761,10 +757,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 .getDimension(R.dimen.support_btn_height) * density));
         relativeLayout.setLayoutParams(params);
         if (mSdkVersion < Build.VERSION_CODES.JELLY_BEAN) {
-            relativeLayout.setBackgroundResource(R.drawable.prod_reg_social_border_btn);
+            relativeLayout.setBackgroundResource(R.drawable.consumercare_prod_reg_social_border_btn);
         } else {
             relativeLayout
-                    .setBackground(getDrawable(R.drawable.prod_reg_social_border_btn));
+                    .setBackground(getDrawable(R.drawable.consumercare_prod_reg_social_border_btn));
         }
         return relativeLayout;
     }

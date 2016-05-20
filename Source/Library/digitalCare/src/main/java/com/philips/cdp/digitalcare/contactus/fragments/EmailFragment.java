@@ -44,7 +44,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mView == null) {
-            mView = inflater.inflate(R.layout.common_webview, container, false);
+            mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         }
         return mView;
     }

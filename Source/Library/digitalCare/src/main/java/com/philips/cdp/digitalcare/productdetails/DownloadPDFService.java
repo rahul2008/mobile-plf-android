@@ -15,7 +15,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.IBinder;
@@ -35,8 +34,8 @@ import java.net.URLConnection;
 
 public class DownloadPDFService extends Service {
 
-    private String mHelpManualFileName, mHelpManualUrl;
     private static final String PACKAGENAME_ADOBE_READER = "com.adobe.reader";
+    private String mHelpManualFileName, mHelpManualUrl;
     private String TAG = DownloadPDFService.class.getSimpleName();
 
 //    private ModelContainer mModelContainer;
@@ -44,6 +43,30 @@ public class DownloadPDFService extends Service {
     private int NOTIFICATION_ID = 1;
 
     private NotificationManager mNotifyManager;
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            DigiCareLogger.d(TAG, "BroadcastReceiver DownloadPDFService");
+            if (action.equals("com.philips.cdp.digitalcare.productdetails.services.OPENPDF")) {
+                mNotifyManager.cancel(NOTIFICATION_ID);
+
+                if(mHelpManualFileName == null){
+                    return;
+                }
+
+                //TODO: If PDF app is not installed then click on notification icon leads to crash.
+//                File file = new File(Environment.getExternalStorageDirectory(), mHelpManualFileName);
+//
+//                Intent intentPDF = new Intent(Intent.ACTION_VIEW);
+//                intentPDF.setDataAndType(Uri.fromFile(file), "application/pdf");
+//                intentPDF.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intentPDF.setPackage(PACKAGENAME_ADOBE_READER);
+//                context.startActivity(intentPDF);
+//                mModelContainer.getProperty().notifyObserver(PROPERTY_LISTNERS.DOWNLOAD_COMPLETED, mHelpManualFileName);
+            }
+        }
+    };
     private NotificationCompat.Builder mBuilder;
 
     public DownloadPDFService() {
@@ -92,7 +115,7 @@ public class DownloadPDFService extends Service {
     }
 
     private int getNotificationIcon() {
-        return R.drawable.contact_us;
+        return R.drawable.consumercare_contact_us;
     }
 
     @Override
@@ -100,38 +123,12 @@ public class DownloadPDFService extends Service {
         super.onDestroy();
     }
 
-    private final BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            DigiCareLogger.d(TAG, "BroadcastReceiver DownloadPDFService");
-            if (action.equals("com.philips.cdp.digitalcare.productdetails.services.OPENPDF")) {
-                mNotifyManager.cancel(NOTIFICATION_ID);
-
-                if(mHelpManualFileName == null){
-                    return;
-                }
-
-                //TODO: If PDF app is not installed then click on notification icon leads to crash.
-//                File file = new File(Environment.getExternalStorageDirectory(), mHelpManualFileName);
-//
-//                Intent intentPDF = new Intent(Intent.ACTION_VIEW);
-//                intentPDF.setDataAndType(Uri.fromFile(file), "application/pdf");
-//                intentPDF.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intentPDF.setPackage(PACKAGENAME_ADOBE_READER);
-//                context.startActivity(intentPDF);
-//                mModelContainer.getProperty().notifyObserver(PROPERTY_LISTNERS.DOWNLOAD_COMPLETED, mHelpManualFileName);
-            }
-        }
-    };
-
     private class DownloadFile extends AsyncTask<String, Integer, Boolean> {
         private static final int id = 1;
+        private static final int TIMEOUT_VALUE = 15000;
         File file = null;
         private Context mContext;
         private int mCurrentProgress;
-
-        private static final int TIMEOUT_VALUE = 15000;
 
         public DownloadFile(Context pContext) {
             this.mContext = pContext;

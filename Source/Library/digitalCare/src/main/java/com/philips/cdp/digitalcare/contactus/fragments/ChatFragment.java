@@ -59,7 +59,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
             }
         }
         try {
-            mView = inflater.inflate(R.layout.fragment_chat, container, false);
+            mView = inflater.inflate(R.layout.consumercare_fragment_chat, container, false);
         } catch (InflateException e) {
         }
 
@@ -140,11 +140,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
         float xInches= metrics.widthPixels/metrics.xdpi;
         double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
 
-        if (diagonalInches>=6.5){
-            // 6.5inch device or bigger
-            return true;
-        }
-        return false;
+        return diagonalInches >= 6.5;
     }
 
     @Override
@@ -158,12 +154,12 @@ public class ChatFragment extends DigitalCareBaseFragment {
             mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right), 0);
 
             if(isTablet()){
-                mChatNowBG.setBackgroundResource(R.drawable.live_chat_bg_tablet_port);
+                mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_tablet_port);
             }
             else{
                 mChatNowBgParams.height = (int) getResources().getDimension(R.dimen.chat_bg_height);
                 mChatNowBG.setLayoutParams(mChatNowBgParams);
-                mChatNowBG.setBackgroundResource(R.drawable.live_chat_bg_phone_port);
+                mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_phone_port);
             }
         } else {
             mChatNowParentLand.setVisibility(View.VISIBLE);
@@ -176,12 +172,12 @@ public class ChatFragment extends DigitalCareBaseFragment {
 //                }
 //            }, 100);
             if(isTablet()){
-                mChatNowBG.setBackgroundResource(R.drawable.live_chat_bg_tablet_land);
+                mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_tablet_land);
             }
             else{
                 mChatNowBgParams.height = (int) getResources().getDimension(R.dimen.chat_bg_height_land);
                 mChatNowBG.setLayoutParams(mChatNowBgParams);
-                mChatNowBG.setBackgroundResource(R.drawable.live_chat_bg_phone_land);
+                mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_phone_land);
             }
         }
     }
@@ -214,7 +210,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
                 .getDimension(R.dimen.support_btn_height) * density));
         chatbuttonparams.leftMargin = chatbuttonparams.rightMargin = (int) getActivity().getResources().getDimension(R.dimen.activity_margin);
         chatbuttonparams.topMargin = chatbuttonparams.bottomMargin = (int) getActivity().getResources().getDimension(R.dimen.chat_button_top_margin);
-        ;
         chatbuttonparams.weight = 1;
         //chat button params
         mChatNow.setLayoutParams(chatbuttonparams);

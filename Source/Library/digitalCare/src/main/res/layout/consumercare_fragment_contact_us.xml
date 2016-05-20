@@ -1,0 +1,82 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/transparent">
+
+    <LinearLayout
+        android:id="@+id/contactUsParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin">
+
+        <LinearLayout
+            android:id="@+id/contactUsSocialParent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                android:id="@+id/leaveMsgTitle"
+                style="@style/contactUsHelpText"
+                android:text="@string/leave_us_a_message"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/socialDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="40dp"
+            android:background="#cccccc" />
+
+        <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+            android:id="@+id/contactUsTitle"
+            style="@style/contactUsHelpText"
+            android:text="@string/contact_us_text"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+        <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+            android:id="@+id/contactUsChat"
+            style="@style/fontButton"
+            android:text="@string/live_chat"
+            android:visibility="gone"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+        <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+            android:id="@+id/contactUsEmail"
+            style="@style/fontButton"
+            android:text="@string/send_email"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+        <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+            android:id="@+id/contactUsCall"
+            style="@style/fontButton"
+            android:layout_marginBottom="@dimen/marginTopButton"
+            android:background="@drawable/consumercare_selector_call_button_bg"
+            android:text="@string/call_number"
+            android:visibility="gone"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+        <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+            android:id="@+id/contactUsOpeningHours"
+            style="@style/contactUsOpeningHoursText"
+            android:layout_marginBottom="0dp"
+            android:text="@string/opening_hours"
+            android:textStyle="bold"
+            android:visibility="gone"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
+
+        <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+            android:id="@+id/firstRowText"
+            style="@style/contactUsBottomText"
+            android:text="@string/opening_hours_first_row"
+            android:visibility="gone"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+    </LinearLayout>
+
+</ScrollView>

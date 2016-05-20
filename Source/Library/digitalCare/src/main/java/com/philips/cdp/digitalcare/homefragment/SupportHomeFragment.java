@@ -97,7 +97,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView Method");
-        mView = inflater.inflate(R.layout.fragment_support, container,
+        mView = inflater.inflate(R.layout.consumercare_fragment_support, container,
                 false);
         mIsFirstScreenLaunch = true;
         mProductInfo = new ConsumerProductInfo();
@@ -298,7 +298,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
         if (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))) {
             relativeLayout
-                    .setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
+                    .setBackgroundResource(R.drawable.consumercare_selector_option_prod_reg_button_bg);
             mProductChangeButton = relativeLayout;
             // if (isProductSelected() && !isSupportScreenLaunched)
             if (isProductSelected())
@@ -306,7 +306,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
         } else {
             relativeLayout
-                    .setBackgroundResource(R.drawable.selector_option_button_bg);
+                    .setBackgroundResource(R.drawable.consumercare_selector_option_button_bg);
         }
 
         if ((DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length < 2) && (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))))

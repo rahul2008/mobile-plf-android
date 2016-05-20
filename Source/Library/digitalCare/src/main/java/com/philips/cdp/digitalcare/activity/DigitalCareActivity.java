@@ -35,7 +35,7 @@ public  class DigitalCareActivity extends DigitalCareBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_digi_care);
+        setContentView(R.layout.consumercare_activity_digi_care);
         try {
             initActionBar();
         } catch (ClassCastException e) {

@@ -83,7 +83,7 @@
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:clickable">true</item>
         <item name="android:visibility">gone</item>
-        <item name="android:src">@drawable/actionbar_back_arrow_white</item>
+        <item name="android:src">@drawable/consumercare_actionbar_back_arrow_white</item>
         <item name="android:paddingLeft">12dp</item>
     </style>
 
