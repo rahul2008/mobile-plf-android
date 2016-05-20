@@ -64,7 +64,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 break;
             case 4 :
                 Intent intentlocalMatchActivity = new Intent(AppInfraMainActivity.this,
-                        LocalMatchMainActivity.class);
+                        LocalMatchActivity.class);
                 startActivity(intentlocalMatchActivity);
 
                 break;

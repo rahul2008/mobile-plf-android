@@ -51,6 +51,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
         localeManager.setInputLocale(mLangUageCode, mCountryCode);
 
         ProductSummaryRequest mProductAssetBuilder = new ProductSummaryRequest(mCtn, mRequestTag);
+
         mProductAssetBuilder.setSector(Sector.B2C);
         mProductAssetBuilder.setCatalog(Catalog.CONSUMER);
 

@@ -38,11 +38,12 @@ public class AIAppTagging implements AIAppTaggingInterface {
     protected String mComponentVersion;
 
     private static String[] defaultValues = {
-//            AIAppTaggingConstants.LANGUAGE_KEY,
-//            AIAppTaggingConstants.APPSID_KEY,
+            AIAppTaggingConstants.LANGUAGE_KEY,
+            AIAppTaggingConstants.APPSID_KEY,
             AIAppTaggingConstants.COMPONENT_ID,
             AIAppTaggingConstants.COMPONENT_VERSION,
-//            AIAppTaggingConstants.LOCAL_TIMESTAMP_KEY,
+
+            AIAppTaggingConstants.UTC_TIMESTAMP_KEY
 
 
     };
@@ -92,14 +93,14 @@ public class AIAppTagging implements AIAppTaggingInterface {
     private static Map<String, Object> addAnalyticsDataObject() {
         Map<String, Object> contextData = new HashMap<String, Object>();
 
-//        contextData.put(AIAppTaggingConstants.LANGUAGE_KEY, getLanguage());
+        contextData.put(AIAppTaggingConstants.LANGUAGE_KEY, getLanguage());
 //        contextData.put(AIAppTaggingConstants.CURRENCY_KEY, getCurrency());
 
-//        contextData.put(AIAppTaggingConstants.APPSID_KEY, getAppsId());
+        contextData.put(AIAppTaggingConstants.APPSID_KEY, getAppsId());
         contextData.put(AIAppTaggingConstants.COMPONENT_ID, getComponentId());
         contextData.put(AIAppTaggingConstants.COMPONENT_VERSION, getComponentVersionVersionValue());
-//        contextData.put(AIAppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
-//        contextData.put(AIAppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
+        contextData.put(AIAppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
+        contextData.put(AIAppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
         if (null != getNewKey() && null != getNewValue()) {
 //            contextData.put(getComponentVersionKey(), getComponentVersionVersionValue());
 
@@ -147,32 +148,32 @@ public class AIAppTagging implements AIAppTaggingInterface {
         AIAppTagging.mAppsIdkey = appsIdkey;
     }
 
-//    private static String getUTCTimestamp() {
-//
-//        if(mLocalTimestamp == null){
-//            DateFormat df = DateFormat.getTimeInstance();
-//            df.setTimeZone(TimeZone.getTimeZone("gmt"));
-//            String utcTime = df.format(new Date());
-//            mLocalTimestamp = utcTime;
-//        }
-//
-//
-//        return mLocalTimestamp;
-//    }
+    private static String getUTCTimestamp() {
 
-//    private static String getLocalTimestamp() {
-//
-//
-//        if(mUTCTimestamp == null){
-//            Calendar c = Calendar.getInstance();
-//            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//            String formattedDate = df.format(c.getTime());
-//            mUTCTimestamp = formattedDate;
-//        }
-//
-//
-//        return mUTCTimestamp;
-//    }
+        if(mLocalTimestamp == null){
+            DateFormat df = DateFormat.getTimeInstance();
+            df.setTimeZone(TimeZone.getTimeZone("gmt"));
+            String utcTime = df.format(new Date());
+            mLocalTimestamp = utcTime;
+        }
+
+
+        return mLocalTimestamp;
+    }
+
+    private static String getLocalTimestamp() {
+
+
+        if(mUTCTimestamp == null){
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedDate = df.format(c.getTime());
+            mUTCTimestamp = formattedDate;
+        }
+
+
+        return mUTCTimestamp;
+    }
 
     public static String getComponentId() {
         if(componentVersionKey == null){
