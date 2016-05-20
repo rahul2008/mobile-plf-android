@@ -172,8 +172,8 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         wrappedDrawable.setBounds(d.getBounds());
 
         if (wrappedDrawable instanceof DrawableWrapper) {
-            ((DrawableWrapper) wrappedDrawable).setCompatTintList(getColorStateList());
-            ((DrawableWrapper) wrappedDrawable).setCompatTintMode(PorterDuff.Mode.SRC_ATOP);
+         //   ((DrawableWrapper) wrappedDrawable).setCompatTintList(getColorStateList());
+         //   ((DrawableWrapper) wrappedDrawable).setCompatTintMode(PorterDuff.Mode.SRC_ATOP);
         } else {
             wrappedDrawable.setTintList(getColorStateList());
         }
