@@ -43,7 +43,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     protected StoreSpec mStore;
     protected LoadListener mLoadListener;
     protected HybrisDelegate mHybrisDelegate;
-    protected ArrayList<ShoppingCartData> mProductData;
 
     public AbstractShoppingCartPresenter() {}
 

@@ -19,6 +19,7 @@ import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
+import com.philips.cdp.di.iap.prx.PRXDataBuilder;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.response.error.Error;
@@ -33,6 +34,8 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
@@ -41,13 +44,14 @@ import java.util.List;
 import java.util.Map;
 
 public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
+    Carts mCartData = null;
 
     public ShoppingCartPresenter() {
     }
 
     public ShoppingCartPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
         super(context, listener, fragmentManager);
-        mProductData = new ArrayList<>();
+        //mProductData = new ArrayList<>();
     }
 
     public ShoppingCartPresenter(android.support.v4.app.FragmentManager pFragmentManager) {
@@ -62,35 +66,65 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
     public void getCurrentCartDetails() {
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(getStore(), null,
                 new AbstractModel.DataLoadListener() {
+
                     @Override
                     public void onModelDataLoadFinished(Message msg) {
+                        if (processResponseFromHybrisForGetCart(msg)) return;
+                        if (processResponseFromPRX(msg)) return;
+                        dismissProgressDialog();
+                    }
 
-                        if (msg.obj instanceof Carts) {
-                            Carts cartData = (Carts) msg.obj;
-                            if (cartData.getCarts().get(0).getEntries() == null) {
-                                msg = Message.obtain(msg);
-                            } else {
-                                PRXProductDataBuilder builder = new PRXProductDataBuilder(mContext, cartData,
-                                        this);
-                                builder.build();
-                                return;
-                            }
-                        }
-
-                        if (msg.obj instanceof ArrayList) {
-                            mProductData = (ArrayList<ShoppingCartData>) msg.obj;
-                            if (mProductData == null || mProductData.size() == 0) {
+                    private boolean processResponseFromPRX(final Message msg) {
+                        if (msg.obj instanceof HashMap) {
+                            HashMap<String,SummaryModel> prxModel = (HashMap<String,SummaryModel>)msg.obj;
+                            if (prxModel == null || prxModel.size() == 0) {
                                 EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
                                 Utility.dismissProgressDialog();
-                                return;
+                                return true;
                             }
-                            refreshList(mProductData);
-                            CartModelContainer.getInstance().setShoppingCartData(mProductData);
-                        } else {
+                            notifyListChanged(prxModel);
+                        }else {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
                             dismissProgressDialog();
                         }
-                        dismissProgressDialog();
+                        return false;
+                    }
+
+                    private boolean processResponseFromHybrisForGetCart(final Message msg) {
+                        if (msg.obj instanceof Carts) {
+                            mCartData = (Carts) msg.obj;
+                            if (mCartData!=null && mCartData.getCarts().get(0).getEntries() != null) {
+                                makePrxCall(mCartData);
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+
+                    private void makePrxCall(final Carts mCarts) {
+                        ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
+                        List<EntriesEntity> entries = mCarts.getCarts().get(0).getEntries();
+                        ArrayList<String> productsToBeShown = new ArrayList<>();
+                        String ctn;
+
+                        for(EntriesEntity entry:entries){
+                            ctn = entry.getProduct().getCode();
+                            productsToBeShown.add(ctn);
+                            if (!CartModelContainer.getInstance().isPRXDataPresent(ctn)) {
+                                ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
+                            }
+                        }
+                        if(ctnsToBeRequestedForPRX.size()>0) {
+                            PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnsToBeRequestedForPRX,
+                                    this);
+                            builder.preparePRXDataRequest();
+                        }else {
+                            HashMap<String, SummaryModel> prxModel = new HashMap<>();
+                            for(String ctnPresent: productsToBeShown){
+                                prxModel.put(ctnPresent,CartModelContainer.getInstance().getProductDataFromListIfPresent(ctnPresent));
+                            }
+                            notifyListChanged(prxModel);
+                        }
                     }
 
                     @Override
@@ -105,6 +139,49 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter{
                 });
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
+    }
+
+    private void notifyListChanged(final HashMap<String, SummaryModel> prxModel) {
+        ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX(mCartData, prxModel);
+        refreshList(products);
+        CartModelContainer.getInstance().setShoppingCartData(products);
+        if(Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
+    }
+
+    private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX(final Carts cartData, final HashMap<String, SummaryModel> prxModel) {
+        List<EntriesEntity> entries = cartData.getCarts().get(0).getEntries();
+        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
+        ArrayList<ShoppingCartData> products = new ArrayList<>();
+        String ctn;
+        for(EntriesEntity entry: entries){
+            ctn = entry.getProduct().getCode();
+            ShoppingCartData cartItem = new ShoppingCartData(entry,null);
+            Data data = null;
+            if(prxModel.containsKey(ctn)) {
+                data = prxModel.get(ctn).getData();
+            }else if(list.containsKey(ctn)){
+                data = list.get(ctn).getData();
+            }else {
+              return products;
+            }
+            cartItem.setImageUrl(data.getImageURL());
+            cartItem.setProductTitle(data.getProductTitle());
+            cartItem.setCtnNumber(ctn);
+            cartItem.setCartNumber(cartData.getCarts().get(0).getCode());
+            cartItem.setQuantity(entry.getQuantity());
+            cartItem.setFormatedPrice(entry.getBasePrice().getFormattedValue());
+            cartItem.setValuePrice(String.valueOf(entry.getBasePrice().getValue()));
+            cartItem.setTotalPriceWithTaxFormatedPrice(cartData.getCarts().get(0).getTotalPriceWithTax().getFormattedValue());
+            cartItem.setTotalPriceFormatedPrice(entry.getTotalPrice().getFormattedValue());
+            cartItem.setTotalItems(cartData.getCarts().get(0).getTotalItems());
+            cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
+            cartItem.setDeliveryAddressEntity(cartData.getCarts().get(0).getDeliveryAddress());
+            cartItem.setVatValue(cartData.getCarts().get(0).getTotalTax().getFormattedValue());
+            cartItem.setDeliveryItemsQuantity(cartData.getCarts().get(0).getDeliveryItemsQuantity());
+            products.add(cartItem);
+        }
+        return products;
     }
 
     @Override

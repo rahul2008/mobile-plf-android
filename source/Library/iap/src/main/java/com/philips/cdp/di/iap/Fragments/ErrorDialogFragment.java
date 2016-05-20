@@ -48,7 +48,7 @@ public class ErrorDialogFragment extends BlurDialogFragment implements EventList
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR);
+             //   EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR);
                 setShowsDialog(false);
                 dismiss();
             }
