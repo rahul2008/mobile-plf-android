@@ -1,7 +1,6 @@
 package com.philips.cdp.prxclient.network;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -59,7 +58,7 @@ public class NetworkWrapper {
             SSLCertificateManager.setSSLSocketFactory();
     }
 
-    @NonNull
+
     private Response.ErrorListener getVolleyErrorListener(final ResponseListener listener) {
         return new Response.ErrorListener() {
             @Override
@@ -89,7 +88,7 @@ public class NetworkWrapper {
         };
     }
 
-    @NonNull
+
     private Response.Listener<JSONObject> getVolleyResponseListener(final PrxRequest prxRequest, final ResponseListener listener) {
         return new Response.Listener<JSONObject>() {
             @Override
