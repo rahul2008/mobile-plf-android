@@ -288,12 +288,6 @@ public class UserWithProductsTest extends MockitoTestCase {
         assertEquals(productMock.getPurchaseDate(), registrationRequest.getPurchaseDate());
     }
 
-    public void testModelMapping() {
-        UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
-        userWithProducts.setLocale("en_GB");
-        assertEquals(userWithProducts.getLocale(), "en_GB");
-    }
-
     public void testIsCtnRegistered() {
         RegisteredProduct product = mock(RegisteredProduct.class);
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
@@ -509,8 +503,15 @@ public class UserWithProductsTest extends MockitoTestCase {
             ResponseListener getPrxResponseListener(final RegisteredProduct product, final ProdRegListener appListener) {
                 return responseListenerMock;
             }
+
+            @NonNull
+            @Override
+            UserWithProducts getUserProduct() {
+                return userWithProductsMock;
+            }
         };
         userWithProducts.makeRegistrationRequest(context, productMock, prodRegListenerMock);
+        verify(userWithProductsMock).updateLocaleCache(productMock, productMock.getProdRegError(), RegistrationState.PROCESSING);
         verify(requestManagerMock).executeRequest(registrationRequest, responseListenerMock);
     }
 

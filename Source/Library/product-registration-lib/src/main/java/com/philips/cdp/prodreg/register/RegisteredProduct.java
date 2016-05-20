@@ -137,10 +137,29 @@ public class RegisteredProduct extends Product {
         final int index = registeredProducts.indexOf(this);
         if (index != -1) {
             RegisteredProduct product = registeredProducts.get(index);
+            if (product.getProdRegError() != null)
+                updateFields(product);
             localRegisteredProducts.updateRegisteredProducts(product);
             return product;
         }
         return null;
+    }
+
+    private void updateFields(final RegisteredProduct product) {
+        switch (product.getProdRegError()) {
+            case MISSING_DATE:
+                product.setPurchaseDate(getPurchaseDate());
+                break;
+            case MISSING_SERIALNUMBER:
+                product.setSerialNumber(getSerialNumber());
+                break;
+            case INVALID_DATE:
+                product.setPurchaseDate(getPurchaseDate());
+                break;
+            case INVALID_SERIALNUMBER:
+                product.setSerialNumber(getSerialNumber());
+                break;
+        }
     }
 
     @Override
