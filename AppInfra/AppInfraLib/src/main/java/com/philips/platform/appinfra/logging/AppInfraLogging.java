@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.logging;
 
 
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Environment;
 import android.util.Log;
@@ -113,26 +114,16 @@ public class AppInfraLogging implements  LoggingInterface {
      */
     private void readLogConfigFile(){
         try {
-            File fileOnExternalStorage=null;
-            if (0 == Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED))// if device has SD card
-                fileOnExternalStorage = Environment.getExternalStorageDirectory();
-            else
-                fileOnExternalStorage = Environment.getDataDirectory();// if device does NOT has SD card
-
-            File directoryExternalStorage = new File(fileOnExternalStorage, DIRECTORY_FILE_NAME);
-            if (!directoryExternalStorage.exists()) { // if AppInfra Logs directory is not present
-                directoryExternalStorage.mkdirs(); // create AppInfra Logs directory in first run
-                writeLogConfigFileInPhoneMemory(directoryExternalStorage);
+            File appInfraLogdirectory=getInternalOrExternalDirectory();
+            String logPropertyFilePath = appInfraLogdirectory.getAbsolutePath()+File.separator + PROPERTIES_FILE_NAME;
+            File logPropertyFile = new File ( logPropertyFilePath );
+            //logPropertyFile.delete(); // to test first run Test this method should be uncommented
+            if ( logPropertyFile.exists() ){ // when logging.properties file is already present in  phone memory
+                mInputStream = new FileInputStream(logPropertyFile);
+                LogManager.getLogManager().readConfiguration(mInputStream);
+                mInputStream.close();
             }else{
-                File fileProperties = new File(directoryExternalStorage, PROPERTIES_FILE_NAME);
-                if (!fileProperties.exists()) { // if logging.properties file is not present
-                    writeLogConfigFileInPhoneMemory(directoryExternalStorage);
-                }else {
-                    // when logging.properties file is already present in external phone memory
-                    mInputStream = new FileInputStream(directoryExternalStorage + File.separator + PROPERTIES_FILE_NAME);
-                    LogManager.getLogManager().readConfiguration(mInputStream);
-                    mInputStream.close();
-                }
+                writeLogConfigFileInPhoneMemory(appInfraLogdirectory);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -146,7 +137,7 @@ public class AppInfraLogging implements  LoggingInterface {
                 LogManager.getLogManager().readConfiguration(mInputStream);// reads default logging.properties from AppInfra library asset in first run
                 mInputStream = mAppInfra.getAppInfraContext().getAssets().open(PROPERTIES_FILE_NAME); // re initializing InputStream for writing in device else InputStream will be empty as already consumed by LogManager
                 mProperties.load(mInputStream);
-                OutputStream outputStream = new FileOutputStream(pFileExternalStorage.getAbsolutePath() + "/" + PROPERTIES_FILE_NAME); // External storage
+                OutputStream outputStream = new FileOutputStream(pFileExternalStorage.getAbsolutePath() + File.separator + PROPERTIES_FILE_NAME); // phone storage
                 mProperties.store(outputStream, "Default config from App asset/logging.properties");// Write logging.properties file to phone memory for second  read onward
                 mInputStream.close();
                 outputStream.close();
@@ -163,7 +154,6 @@ public class AppInfraLogging implements  LoggingInterface {
         if(!isDebuggable){ // if app is in release mode then disable console logs
             consoleHandler = null;
         }else {// if app is in debug mode then only enable console logs
-
             if (isEnabled) {
                 if (null == consoleHandler) {
                     consoleHandler = new ConsoleHandler();
@@ -196,7 +186,6 @@ public class AppInfraLogging implements  LoggingInterface {
             if(null==fileHandler) {// add file log
                 fileHandler = getFileHandler();
                 fileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion));
-
                 javaLogger.addHandler(fileHandler);
 
             }else{
@@ -218,37 +207,50 @@ public class AppInfraLogging implements  LoggingInterface {
         }
     }
 
+    // return file handler for writting logs on file based on logging.properties config
     private FileHandler getFileHandler() {
         FileHandler fileHandler = null;
-        File appInfraFile;
-       if (0 == Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED))
-            appInfraFile = Environment.getExternalStorageDirectory();//
-        else
-            appInfraFile = Environment.getDataDirectory();
-
-        File directoryCreated = new File(appInfraFile, DIRECTORY_FILE_NAME);
-        if (!directoryCreated.exists()) {
-            directoryCreated.mkdirs(); // create directory in first run
-        }
-      //  String filePath = directoryCreated.getAbsolutePath()+"/" + APP_INFRA_LOG_FILE_NAME;
         try {
-
+            File directoryCreated = getInternalOrExternalDirectory();
             String logFileName= LogManager.getLogManager().getProperty("java.util.logging.FileHandler.pattern").trim();
             String filePath = directoryCreated.getAbsolutePath()+"/" + logFileName;
             Log.e("App Infra log File Path", filePath);// this path will be dynamic for each device
-            int AIlogFileSize = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.limit").trim());
-            int AImaxLogFileCount = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.count").trim());
-            boolean AIlogFileAppendMode = Boolean.parseBoolean(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.append").trim());
-            fileHandler = new FileHandler(filePath, AIlogFileSize, AImaxLogFileCount, AIlogFileAppendMode);
+            int logFileSize = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.limit").trim());
+            int maxLogFileCount = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.count").trim());
+            boolean logFileAppendMode = Boolean.parseBoolean(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.append").trim());
+            fileHandler = new FileHandler(filePath, logFileSize, maxLogFileCount, logFileAppendMode);
         } catch (Exception e)
         {
             Log.e("AI Log", "FileHandler exception", e);
-
-        }finally{
-            if (fileHandler != null){
-                //fileHandler.close();
-            }
         }
         return fileHandler;
     }
+
+
+    // creates or return "AppInfra Logs" directory from internal/external phone memory
+    private File getInternalOrExternalDirectory(){
+        File appInfraLogDirectory = null;
+        boolean isDebuggable =  ( 0 != ( mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
+        if (isDebuggable) { // debug mode is for development environment where logs and property file will be written to device external memory if available
+          File externalStorageRootDirectory =null;
+            if (0 == Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED)) {// if device has SD card or external memory
+                externalStorageRootDirectory = Environment.getExternalStorageDirectory();
+                appInfraLogDirectory=new File(externalStorageRootDirectory,DIRECTORY_FILE_NAME);
+                if (!appInfraLogDirectory.exists()) {
+                    appInfraLogDirectory.mkdirs(); // create directory in first run
+                }
+            }else{// if device does NOT has SD card or external memory
+                appInfraLogDirectory = createInternalDirectory();  //Creating an internal dir;
+            }
+        }else { // release mode is for production where logs and property file will be written ONLY to device internal memory
+            appInfraLogDirectory = createInternalDirectory(); //Creating an internal dir;
+        }
+        return appInfraLogDirectory;
+    }
+
+    // creates or return "AppInfra Logs" at phone internal memory
+      private File createInternalDirectory(){
+        return  mAppInfra.getAppInfraContext().getDir(DIRECTORY_FILE_NAME, Context.MODE_PRIVATE);
+      }
+
 }
