@@ -92,7 +92,7 @@
     <string name="iap_time_out_error">Network timeout reached!</string>
     <string name="iap_redeem_voucher">Redeem voucher</string>
     <string name="iap_delivery_description">Delivery is FREE when you spend $100 or more</string>
-    <string name="iap_vat">TAX</string>
+    <string name="iap_vat">Tax</string>
     <string name="Settings">Settings</string>
     <string name="mastercard">Master card</string>
     <string name="zeroval">0.0</string>
