@@ -6,19 +6,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
+import android.widget.Spinner;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
@@ -38,6 +38,10 @@ public class PrxLauncherActivity extends AppCompatActivity {
     private EditText mCTNEditText;
 
     private String mRequestTag = null;
+    Spinner mSector_spinner_prx,mSector_catalog_prx;
+    private String  mSector[],  mCatalog[];
+    Sector selectedSector ;
+    Catalog selectedCatalog ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,42 @@ public class PrxLauncherActivity extends AppCompatActivity {
 
         mCtn = mCTNEditText.getText().toString();
 
+        ///////////SECTOR AND CATALOG////////////
+        // setting sector spinner
+        mSector_spinner_prx = (Spinner) findViewById(R.id.prxSpinnerSector);
+        mSector = getResources().getStringArray(R.array.sector_list);
+        // mcountryCode = getResources().getStringArray(R.array.country_code);
+        ArrayAdapter<String> mSector_adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, mSector);
+        mSector_spinner_prx.setAdapter(mSector_adapter);
+        mSector_spinner_prx.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedSector = Sector.valueOf(parent.getAdapter().getItem(position).toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
+        // setting catalog spinner
+        mSector_catalog_prx = (Spinner) findViewById(R.id.prxSpinnerCatalog);
+        mCatalog = getResources().getStringArray(R.array.catalog_list);
+        // mcountryCode = getResources().getStringArray(R.array.country_code);
+        ArrayAdapter<String> mCatalogy_adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, mCatalog);
+        mSector_catalog_prx.setAdapter(mCatalogy_adapter);
+        mSector_catalog_prx.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCatalog = Catalog.valueOf(parent.getAdapter().getItem(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        ////////////////
         PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
         mCountryCode=localeManager.getCountryCode();
         mLangUageCode=localeManager.getLanguageCode();
@@ -96,24 +135,24 @@ public class PrxLauncherActivity extends AppCompatActivity {
     private void productAssetRequest(){
         ProductAssetRequest mProductAssetBuilder = new ProductAssetRequest(mCtn, mRequestTag);
 
-        mProductAssetBuilder.setSector(Sector.B2C);
-        mProductAssetBuilder.setCatalog(Catalog.CONSUMER);
+        mProductAssetBuilder.setSector(selectedSector);
+        mProductAssetBuilder.setCatalog(selectedCatalog);
         onRequestManagerCalled(mProductAssetBuilder);
 
     }
     private void productSupportRequest(){
         ProductSupportRequest mProductSupportBuilder = new ProductSupportRequest(mCtn, mRequestTag);
 
-        mProductSupportBuilder.setSector(Sector.B2C);
-        mProductSupportBuilder.setCatalog(Catalog.CONSUMER);
+        mProductSupportBuilder.setSector(selectedSector);
+        mProductSupportBuilder.setCatalog(selectedCatalog);
         onRequestManagerCalled(mProductSupportBuilder);
 
     }
     private void productSummaryRequest(){
         ProductSummaryRequest mProductSummeryBuilder = new ProductSummaryRequest(mCtn, mRequestTag);
 
-        mProductSummeryBuilder.setSector(Sector.B2C);
-        mProductSummeryBuilder.setCatalog(Catalog.CONSUMER);
+        mProductSummeryBuilder.setSector(selectedSector);
+        mProductSummeryBuilder.setCatalog(selectedCatalog);
         onRequestManagerCalled(mProductSummeryBuilder);
 
     }
