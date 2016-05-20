@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
 
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -30,10 +31,11 @@ public class PrxLauncherActivity extends AppCompatActivity {
 
     private static final String TAG = PrxLauncherActivity.class.getSimpleName();
 
-    private String mCtn = "RQ1250/17";
-    private String mLocale = "en_GB";
-    private String mLangUageCode = "en", mCountryCode = "GB";
+    private String mCtn;
+    private String mLocale ;
+    private String mLangUageCode, mCountryCode ;
     private Button msupportButton,mSummaryButton,mAssetButton;
+    private EditText mCTNEditText;
 
     private String mRequestTag = null;
 
@@ -44,9 +46,16 @@ public class PrxLauncherActivity extends AppCompatActivity {
         mSummaryButton = (Button)findViewById(R.id.summary_reqst_button);
         msupportButton = (Button)findViewById(R.id.support_rqst_button);
         mAssetButton = (Button)findViewById(R.id.assets_reqst_button);
+        mCTNEditText = (EditText) findViewById(R.id.textView);
+
+        mCtn = mCTNEditText.getText().toString();
+
 
         PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
-        localeManager.setInputLocale(mLangUageCode, mCountryCode);
+        mCountryCode=localeManager.getCountryCode();
+        mLangUageCode=localeManager.getLanguageCode();
+        mLocale=localeManager.getInputLocale();
+//        localeManager.setInputLocale(mLangUageCode, mCountryCode);
         PrxLogger.enablePrxLogger(true);
 
         mSummaryButton.setOnClickListener(new View.OnClickListener() {
@@ -120,8 +129,8 @@ public class PrxLauncherActivity extends AppCompatActivity {
         public void onResponseSuccess(ResponseData responseData) {
 
             SummaryModel mSummaryModel = (SummaryModel) responseData;
-            SupportModel mSupportModel = (SupportModel) responseData;
-            AssetModel mAssetModel = (AssetModel) responseData;
+//            SupportModel mSupportModel = (SupportModel) responseData;
+//            AssetModel mAssetModel = (AssetModel) responseData;
 
 //            switch(responseData != null) {
 //                case(responseData.equals(mSummaryModel)):
