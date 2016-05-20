@@ -17,4 +17,29 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="119dp"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Support"
+        android:id="@+id/support_rqst_button"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="73dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Summary"
+        android:id="@+id/summary_reqst_button"
+        android:layout_alignTop="@+id/support_rqst_button"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Assets"
+        android:id="@+id/assets_reqst_button"
+        android:layout_alignBottom="@+id/summary_reqst_button"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

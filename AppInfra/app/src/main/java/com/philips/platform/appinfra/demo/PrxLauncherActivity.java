@@ -5,16 +5,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Switch;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
+import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.cdp.prxclient.error.PrxError;
+import com.philips.cdp.prxclient.request.ProductAssetRequest;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
+import com.philips.cdp.prxclient.request.ProductSupportRequest;
+import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
@@ -25,6 +33,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
     private String mCtn = "RQ1250/17";
     private String mLocale = "en_GB";
     private String mLangUageCode = "en", mCountryCode = "GB";
+    private Button msupportButton,mSummaryButton,mAssetButton;
 
     private String mRequestTag = null;
 
@@ -32,6 +41,32 @@ public class PrxLauncherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+        mSummaryButton = (Button)findViewById(R.id.summary_reqst_button);
+        msupportButton = (Button)findViewById(R.id.support_rqst_button);
+        mAssetButton = (Button)findViewById(R.id.assets_reqst_button);
+
+        PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
+        localeManager.setInputLocale(mLangUageCode, mCountryCode);
+        PrxLogger.enablePrxLogger(true);
+
+        mSummaryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productSummaryRequest();
+            }
+        });
+        msupportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productSupportRequest();
+            }
+        });
+        mAssetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productAssetRequest();
+            }
+        });
     }
 
     @Override
@@ -45,41 +80,97 @@ public class PrxLauncherActivity extends AppCompatActivity {
         mProductAssetBuilder.setmCtnCode(mCtn);
 
         */
-        PrxLogger.enablePrxLogger(true);
 
-        PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
-        localeManager.setInputLocale(mLangUageCode, mCountryCode);
 
-        ProductSummaryRequest mProductAssetBuilder = new ProductSummaryRequest(mCtn, mRequestTag);
+
+    }
+    private void productAssetRequest(){
+        ProductAssetRequest mProductAssetBuilder = new ProductAssetRequest(mCtn, mRequestTag);
 
         mProductAssetBuilder.setSector(Sector.B2C);
         mProductAssetBuilder.setCatalog(Catalog.CONSUMER);
+        onRequestManagerCalled(mProductAssetBuilder);
 
-        RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(getApplicationContext());
-        Log.d(TAG, "Positive Request");
-        mRequestManager.executeRequest(mProductAssetBuilder, new ResponseListener() {
-            @Override
-            public void onResponseSuccess(ResponseData responseData) {
+    }
+    private void productSupportRequest(){
+        ProductSupportRequest mProductSupportBuilder = new ProductSupportRequest(mCtn, mRequestTag);
 
-                SummaryModel mAssetModel = (SummaryModel) responseData;
+        mProductSupportBuilder.setSector(Sector.B2C);
+        mProductSupportBuilder.setCatalog(Catalog.CONSUMER);
+        onRequestManagerCalled(mProductSupportBuilder);
 
-                Log.d(TAG, "Support Response Data : " + mAssetModel.isSuccess());
-                Data mData = mAssetModel.getData();
+    }
+    private void productSummaryRequest(){
+        ProductSummaryRequest mProductSummeryBuilder = new ProductSummaryRequest(mCtn, mRequestTag);
+
+        mProductSummeryBuilder.setSector(Sector.B2C);
+        mProductSummeryBuilder.setCatalog(Catalog.CONSUMER);
+        onRequestManagerCalled(mProductSummeryBuilder);
+
+    }
+        private void onRequestManagerCalled(PrxRequest prxRequest)
+        {
 
 
-                Log.d(TAG, " Positive Response Data : " + mAssetModel.isSuccess());
-                Log.d(TAG, " Positive Response Data : " + mData.getBrand());
-                Log.d(TAG, " Positive Response Data : " + mData.getCtn());
-                Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
+    RequestManager mRequestManager = new RequestManager();
+    mRequestManager.init(getApplicationContext());
+    Log.d(TAG, "Positive Request");
+    mRequestManager.executeRequest(prxRequest, new ResponseListener() {
+        @Override
+        public void onResponseSuccess(ResponseData responseData) {
 
-            }
+            SummaryModel mSummaryModel = (SummaryModel) responseData;
+            SupportModel mSupportModel = (SupportModel) responseData;
+            AssetModel mAssetModel = (AssetModel) responseData;
 
-            @Override
-            public void onResponseError(PrxError prxError) {
-                Log.d(TAG, "Response Error Message : " + prxError.getDescription());
-            }
-        });
+//            switch(responseData != null) {
+//                case(responseData.equals(mSummaryModel)):
+//
+//                    break;
+//            }
+
+
+                if(responseData.equals(mSummaryModel)){
+//                onLogedResponce(mSummaryModel);
+                    Log.d(TAG, "Support Response Data : " + mSummaryModel.isSuccess());
+                    Data mData = mSummaryModel.getData();
+                    Log.d(TAG, " Positive Response Data : " + mSummaryModel.isSuccess());
+                    Log.d(TAG, " Positive Response Data : " + mData.getBrand());
+                    Log.d(TAG, " Positive Response Data : " + mData.getCtn());
+                    Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
+                }else if(responseData.equals(mSupportModel)){
+
+                    Log.d(TAG, "Support Response Data : " + mSupportModel.isSuccess());
+                    mSupportModel.setData(responseData);
+                    com.philips.cdp.prxclient.datamodels.support.Data mData = mSupportModel.getData();
+                    Log.d(TAG, " Positive Response Data : " + mSupportModel.isSuccess());
+                    Log.d(TAG, " Positive Response Data : " + mSupportModel.getData().getBrand());
+                    Log.d(TAG, " Positive Response Data : " + mData.getCtn());
+                    Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
+                }else if(responseData.equals(mAssetModel)){
+                    onLogedResponce(mAssetModel);
+                }
+
+
+        }
+
+        @Override
+        public void onResponseError(PrxError prxError) {
+            Log.d(TAG, "Response Error Message : " + prxError.getDescription());
+        }
+    });
+
+}
+    public void onLogedResponce(ResponseData mresponceData){
+        if(mresponceData.equals(msu))
+
+        Log.d(TAG, "Support Response Data : " + mresponceData.isSuccess());
+        Data mData = mSupportModel.getData();
+        Log.d(TAG, " Positive Response Data : " + mSupportModel.isSuccess());
+        Log.d(TAG, " Positive Response Data : " + mData.getBrand());
+        Log.d(TAG, " Positive Response Data : " + mData.getCtn());
+        Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
+
     }
 
     @Override
