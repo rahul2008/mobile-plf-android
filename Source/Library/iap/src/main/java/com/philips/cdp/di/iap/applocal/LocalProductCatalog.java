@@ -9,17 +9,23 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
+import com.philips.cdp.di.iap.core.ProductCatalogHelper;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.productCatalog.PRXBuilderForProductCatalog;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
+import com.philips.cdp.di.iap.prx.PRXDataBuilder;
 import com.philips.cdp.di.iap.response.products.Products;
+import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,11 +33,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class LocalProductCatalog implements ProductCatalogAPI {
+public class LocalProductCatalog implements ProductCatalogAPI , AbstractModel.DataLoadListener{
     private Context mContext;
     private ProductCatalogPresenter.LoadListener mLoadListener;
     private FragmentManager mFragmentManager;
+    private ProductCatalogHelper mProductCatalogHelper;
+    Products mProductCatalog;
 
     private ArrayList<ProductCatalogData> mProductData;
 
@@ -39,6 +49,7 @@ public class LocalProductCatalog implements ProductCatalogAPI {
         mContext = context;
         mLoadListener = listener;
         mFragmentManager = fragmentManager;
+        mProductCatalogHelper = new ProductCatalogHelper(context,listener,this);
     }
 
     @Override
@@ -47,10 +58,11 @@ public class LocalProductCatalog implements ProductCatalogAPI {
     }
 
     private void loadFromLocal() {
-        String locale = HybrisDelegate.getInstance().getStore().getLocale();
-        String fileName = locale+ ".json";
-        Products productCatalog = loadFromAsset(mContext, fileName);
-        getPRXData(productCatalog);
+       //todo - In Local Store cant use Hybris
+       // String locale = HybrisDelegate.getInstance().getStore().getLocale();
+        String fileName = "en_US"+ ".json";
+        mProductCatalog = loadFromAsset(mContext, fileName);
+        mProductCatalogHelper.makePrxCall(mProductCatalog);
     }
 
     public Products loadFromAsset(Context context, String fileName) {
@@ -86,43 +98,22 @@ public class LocalProductCatalog implements ProductCatalogAPI {
         return context.getResources().getAssets().open(fileName);
     }
 
-    public void getPRXData(Products productCatalog){
-        PRXBuilderForProductCatalog builder = new PRXBuilderForProductCatalog(mContext, productCatalog,
-                new AbstractModel.DataLoadListener(){
+    @Override
+    public void onModelDataLoadFinished(final Message msg) {
+        if (mProductCatalogHelper.processPRXResponse(msg,mProductCatalog))
+            return;
 
-                    @Override
-                    public void onModelDataLoadFinished(final Message msg) {
-                        if (msg.obj instanceof ArrayList) {
-                            mProductData = (ArrayList<ProductCatalogData>) msg.obj;
-                            if (mProductData == null || mProductData.size() == 0) {
-                                EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                                if (Utility.isProgressDialogShowing()) {
-                                    Utility.dismissProgressDialog();
-                                }
-                                return;
-                            }
-                            //addShippingCostRowToTheList();
-                            if (mLoadListener != null) {
-                                mLoadListener.onLoadFinished(mProductData);
-                            }
-                        } else{
-                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                            if(Utility.isProgressDialogShowing())
-                                Utility.dismissProgressDialog();
-                        }
-                        if(Utility.isProgressDialogShowing()) {
-                            Utility.dismissProgressDialog();
-                        }
-                    }
+        if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
+    }
 
-                    @Override
-                    public void onModelDataError(final Message msg) {
-                        if(Utility.isProgressDialogShowing()) {
-                            Utility.dismissProgressDialog();
-                        }
-                        NetworkUtility.getInstance().showErrorMessage(msg,mFragmentManager,mContext);
-                    }
-                });
-        builder.build();
+    @Override
+    public void onModelDataError(final Message msg) {
+        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
+        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
+        NetworkUtility.getInstance().showErrorMessage(msg,mFragmentManager,mContext);
+        if(Utility.isProgressDialogShowing()) {
+            Utility.dismissProgressDialog();
+        }
     }
 }

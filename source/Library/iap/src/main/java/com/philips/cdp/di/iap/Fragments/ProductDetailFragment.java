@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
-import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
+import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;

@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.ProductCatalog;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.productCatalog.PRXBuilderForProductCatalog;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 
