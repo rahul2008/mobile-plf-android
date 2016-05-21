@@ -147,17 +147,14 @@ public class RegisteredProduct extends Product {
 
     private void updateFields(final RegisteredProduct product) {
         switch (product.getProdRegError()) {
-            case MISSING_DATE:
-                product.setPurchaseDate(getPurchaseDate());
-                break;
-            case MISSING_SERIALNUMBER:
-                product.setSerialNumber(getSerialNumber());
-                break;
             case INVALID_DATE:
                 product.setPurchaseDate(getPurchaseDate());
                 break;
             case INVALID_SERIALNUMBER:
                 product.setSerialNumber(getSerialNumber());
+            case INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE:
+                product.setSerialNumber(getSerialNumber());
+                product.setPurchaseDate(getPurchaseDate());
                 break;
         }
     }

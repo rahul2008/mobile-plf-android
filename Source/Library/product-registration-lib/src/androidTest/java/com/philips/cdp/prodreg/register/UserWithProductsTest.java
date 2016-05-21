@@ -246,12 +246,12 @@ public class UserWithProductsTest extends MockitoTestCase {
         final ProdRegListener listener = mock(ProdRegListener.class);
         final ProdRegListener listener2 = mock(ProdRegListener.class);
         when(data.getRequiresSerialNumber()).thenReturn("true");
-        userWithProducts.validateSerialNumberFromMetadata(data, productMock, listener);
+        userWithProducts.isValidSerialNumber(data, productMock);
         when(productMock.getSerialNumber()).thenReturn("1234");
         when(data.getSerialNumberFormat()).thenReturn("^[1]{1}[3-9]{1}[0-5]{1}[0-9]{1}$");
-        userWithProducts.validateSerialNumberFromMetadata(data, productMock, listener2);
+        userWithProducts.isValidSerialNumber(data, productMock);
         when(productMock.getSerialNumber()).thenReturn("1344");
-        assertTrue(userWithProducts.validateSerialNumberFromMetadata(data, productMock, listener2));
+        assertTrue(userWithProducts.isValidSerialNumber(data, productMock));
     }
 
     public void testValidatingPurchaseDate() {
@@ -259,13 +259,13 @@ public class UserWithProductsTest extends MockitoTestCase {
         RegisteredProduct productMock = mock(RegisteredProduct.class);
         when(data.getRequiresDateOfPurchase()).thenReturn("true");
         final ProdRegListener listener = mock(ProdRegListener.class);
-        assertFalse(userWithProducts.validatePurchaseDateFromMetadata(data, productMock, listener));
+        assertFalse(userWithProducts.validatePurchaseDateFromMetadata(data, productMock));
 
         when(productMock.getPurchaseDate()).thenReturn("2016-03-22");
         when(data.getRequiresDateOfPurchase()).thenReturn("false");
-        assertTrue(userWithProducts.validatePurchaseDateFromMetadata(data, productMock, listener));
+        assertTrue(userWithProducts.validatePurchaseDateFromMetadata(data, productMock));
         when(data.getRequiresDateOfPurchase()).thenReturn("true");
-        assertTrue(userWithProducts.validatePurchaseDateFromMetadata(data, productMock, listener));
+        assertTrue(userWithProducts.validatePurchaseDateFromMetadata(data, productMock));
     }
 
     public void testRegistrationRequestTest() {
@@ -443,12 +443,12 @@ public class UserWithProductsTest extends MockitoTestCase {
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
             @Override
-            protected boolean validatePurchaseDateFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct product, final ProdRegListener listener) {
+            protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct product) {
                 return true;
             }
 
             @Override
-            protected boolean validateSerialNumberFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct product, final ProdRegListener listener) {
+            protected boolean validatePurchaseDateFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct product) {
                 return true;
             }
 

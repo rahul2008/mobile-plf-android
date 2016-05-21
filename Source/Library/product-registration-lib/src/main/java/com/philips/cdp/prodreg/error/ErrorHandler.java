@@ -39,6 +39,9 @@ public class ErrorHandler {
         } else if (statusCode == ProdRegError.PARSE_ERROR.getCode()) {
             userProduct.updateLocaleCache(registeredProduct, ProdRegError.PARSE_ERROR, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct, userProduct);
+        } else if (statusCode == ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE.getCode()) {
+            userProduct.updateLocaleCache(registeredProduct, ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE, RegistrationState.FAILED);
+            appListener.onProdRegFailed(registeredProduct, userProduct);
         } else {
             userProduct.updateLocaleCache(registeredProduct, ProdRegError.UNKNOWN, RegistrationState.FAILED);
             appListener.onProdRegFailed(registeredProduct, userProduct);
