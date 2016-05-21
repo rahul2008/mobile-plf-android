@@ -39,6 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:layout_marginStart="@dimen/uikit_modal_alert_bottom_layout_margin"
             android:layout_marginTop="@dimen/uikit_modal_alert_button_top_margin"
             android:gravity="center"
             android:orientation="horizontal">
@@ -46,11 +47,23 @@
             <Button
                 android:id="@+id/btn_dialog_ok"
                 style="@style/iapCentralesansBookFont"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/uikit_modal_alert_button_width"
                 android:text="@string/uikit_modal_alert_negative_button_text"
+                android:visibility="gone"
                 android:textSize="@dimen/uikit_modal_alert_message_text_size" />
+
+            <Button
+                android:id="@+id/btn_dialog_tryAgain"
+                style="@style/iapCentralesansBookFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:minWidth="@dimen/uikit_modal_alert_button_width"
+                android:text="Try Again"
+                android:textSize="@dimen/uikit_modal_alert_message_text_size"
+                android:visibility="gone" />
 
         </LinearLayout>
 

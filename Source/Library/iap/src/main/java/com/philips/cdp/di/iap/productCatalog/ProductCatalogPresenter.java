@@ -49,7 +49,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI,AbstractModel.
         void onLoadFinished(ArrayList<ProductCatalogData> data);
     }
 
-    public ProductCatalogPresenter(Context context, LoadListener listener, FragmentManager fragmentManager){
+    public ProductCatalogPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
         mContext = context;
         mLoadListener = listener;
         mFragmentManager = fragmentManager;
@@ -114,7 +114,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI,AbstractModel.
     public void onModelDataError(final Message msg) {
         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-        NetworkUtility.getInstance().showErrorMessage(msg,mFragmentManager,mContext);
+        NetworkUtility.getInstance().showErrorMessage(null, msg, mFragmentManager, mContext);
         if(Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }

@@ -9,8 +9,10 @@ Project           : InAppPurchase
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -21,15 +23,59 @@ import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.tagging.Tagging;
+
+import java.util.Locale;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
     private IAPFragmentListener mActivityListener;
+    private FragmentActivity mFragmentActivity = null;
+
+    protected ErrorDialogFragment.ErrorDialogListener mErrorDialogListener = new ErrorDialogFragment.ErrorDialogListener() {
+        @Override
+        public void onTryAgainClick() {
+            IAPLog.i(IAPLog.LOG, "onTryAgainClick = " + this.getClass().getSimpleName());
+            moveToPreviousFragment();
+        }
+    };
+
+
+    protected boolean isNetworkConnected() {
+        if (!NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
+            NetworkUtility.getInstance().showErrorDialog(getContext(), mErrorDialogListener, getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mFragmentActivity = getActivity();
+        setLocale();
+    }
+
+    private void setLocale() {
+        PILLocaleManager localeManager = new PILLocaleManager(getActivity().getApplicationContext());
+        String localeAsString = localeManager.getInputLocale();
+        String[] localeArray = localeAsString.split("_");
+
+        Locale locale = new Locale(localeArray[0], localeArray[1]);
+        if (locale != null) {
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            mFragmentActivity.getResources().updateConfiguration(config,
+                    mFragmentActivity.getResources().getDisplayMetrics());
+        }
+    }
 
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
-        mActivityListener = (IAPFragmentListener) getActivity();
+        mActivityListener = (IAPFragmentListener) context;
     }
 
     public enum AnimationType {
@@ -49,23 +95,26 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     public void addFragment(BaseAnimationSupportFragment newFragment,
                             String newFragmentTag) {
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
-        transaction.addToBackStack(newFragmentTag);
-        transaction.commitAllowingStateLoss();
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+            transaction.addToBackStack(newFragmentTag);
+            transaction.commitAllowingStateLoss();
 
-        IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
-                + newFragmentTag + ")");
+            IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+                    + newFragmentTag + ")");
+        }
     }
 
     private void clearStackAndLaunchProductCatalog() {
-        FragmentManager manager = getActivity().getSupportFragmentManager();
-        clearFragmentStack();
-        manager.beginTransaction().
-                replace(R.id.fl_mainFragmentContainer,
-                        ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
-                        ProductCatalogFragment.TAG).addToBackStack(ProductCatalogFragment.TAG)
-                .commitAllowingStateLoss();
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            clearFragmentStack();
+            manager.beginTransaction().replace(R.id.fl_mainFragmentContainer,
+                    ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
+                    ProductCatalogFragment.TAG).addToBackStack(ProductCatalogFragment.TAG)
+                    .commitAllowingStateLoss();
+        }
     }
 
     public void launchProductCatalog() {
@@ -74,6 +123,16 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
             clearStackAndLaunchProductCatalog();
         } else {
             getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
+        }
+    }
+
+    public void launchShoppingCart() {
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
+            transaction.addToBackStack(ShoppingCartFragment.TAG);
+            transaction.commitAllowingStateLoss();
         }
     }
 
@@ -91,7 +150,9 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
     protected void finishActivity() {
         IAPAnalytics.trackPage(Tagging.getLaunchingPageName());
-        getActivity().finish();
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            getActivity().finish();
+        }
     }
 
     @Override
@@ -100,7 +161,10 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     public boolean moveToFragment(String tag) {
-        return getActivity().getSupportFragmentManager().popBackStackImmediate(tag, 0);
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            return getActivity().getSupportFragmentManager().popBackStackImmediate(tag, 0);
+        }
+        return false;
     }
 
     public boolean moveToPreviousFragment() {
@@ -108,7 +172,9 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     }
 
     public void clearFragmentStack() {
-        getActivity().getSupportFragmentManager().popBackStackImmediate(null, 0);
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            getActivity().getSupportFragmentManager().popBackStackImmediate(null, 0);
+        }
 
     }
 

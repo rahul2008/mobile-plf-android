@@ -28,6 +28,7 @@ public class IAPConstant {
     public static final String MODEL_ALERT_BUTTON_TEXT = "MODEL_ALERT_BUTTON_TEXT";
     public static final String MODEL_ALERT_ERROR_TEXT = "MODEL_ALERT_ERROR_TEXT";
     public static final String MODEL_ALERT_ERROR_DESCRIPTION = "MODEL_ALERT_ERROR_DESCRIPTION";
+    public static final String MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE = "MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE";
     public static final String IS_SECOND_USER = "IS_SECOND_USER";
     public static final String PAYMENT_METHOD_LIST = "PAYMENT_METHOD_LIST";
     public static final String ADD_DELIVERY_ADDRESS = "ADD_DELIVERY_ADDRESS";

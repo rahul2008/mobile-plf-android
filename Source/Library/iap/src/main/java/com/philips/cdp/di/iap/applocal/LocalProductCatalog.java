@@ -9,23 +9,16 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.ProductCatalogHelper;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
-import com.philips.cdp.di.iap.prx.PRXDataBuilder;
 import com.philips.cdp.di.iap.response.products.Products;
-import com.philips.cdp.di.iap.response.products.ProductsEntity;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.prxclient.datamodels.summary.Data;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,8 +26,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class LocalProductCatalog implements ProductCatalogAPI , AbstractModel.DataLoadListener{
     private Context mContext;
@@ -111,7 +102,7 @@ public class LocalProductCatalog implements ProductCatalogAPI , AbstractModel.Da
     public void onModelDataError(final Message msg) {
         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-        NetworkUtility.getInstance().showErrorMessage(msg,mFragmentManager,mContext);
+        NetworkUtility.getInstance().showErrorMessage(null, msg, mFragmentManager, mContext);
         if(Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }

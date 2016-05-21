@@ -32,7 +32,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener {
+public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener, ShoppingCartPresenter.ShoppingCartLauncher {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
@@ -93,7 +93,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
-        mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener);
+        mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
         mAdapter.tagProducts();
     }
 

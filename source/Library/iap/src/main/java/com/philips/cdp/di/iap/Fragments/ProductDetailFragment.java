@@ -14,12 +14,13 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
-import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
+import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -35,7 +36,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements
-        PRXProductAssetBuilder.AssetListener {
+        PRXProductAssetBuilder.AssetListener, ShoppingCartPresenter.ShoppingCartLauncher {
+
     public static final String TAG = ProductDetailFragment.class.getName();
 
     private Context mContext;
@@ -69,11 +71,12 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                            getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
+                    NetworkUtility.getInstance().showErrorDialog(mContext, mErrorDialogListener, getFragmentManager(),
+                            mContext.getString(R.string.iap_ok),
+                            mContext.getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
                 }
             } else {
-                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+                NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
             }
         }
     };
@@ -89,13 +92,15 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        mShoppingCartAPI = ControllerFactory.
+                getInstance().getShoppingCartPresenter(mContext, null, getFragmentManager());
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mShoppingCartAPI = ControllerFactory.
-                getInstance().getShoppingCartPresenter(getContext(), null, getFragmentManager());
+
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         mBundle = getArguments();
 
@@ -204,6 +209,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void buyFromRetailers() {
+        if (isNetworkConnected()) return;
+
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.PRODUCT_CODE, mCTNValue);
         addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE), BuyFromRetailersFragment.TAG);
@@ -225,12 +232,12 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
         NetworkUtility.getInstance().
-                showErrorMessage(msg, getFragmentManager(), getContext());
+                showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
     }
 
     void buyProduct(final String ctnNumber) {
-        Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-        mShoppingCartAPI.buyProduct(getContext(), ctnNumber, mBuyProductListener);
+        Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        mShoppingCartAPI.buyProduct(mContext, ctnNumber, mBuyProductListener, this);
     }
 
     private void tagItemAddedToCart() {
@@ -241,4 +248,5 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
         Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
+
 }

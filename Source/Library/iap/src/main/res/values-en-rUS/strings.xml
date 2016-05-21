@@ -92,7 +92,7 @@
     <string name="iap_time_out_error">Network timeout reached!</string>
     <string name="iap_redeem_voucher">Redeem voucher</string>
     <string name="iap_delivery_description">Delivery is FREE when you spend $100 or more</string>
-    <string name="iap_vat">TAX</string>
+    <string name="iap_vat">Tax</string>
     <string name="Settings">Settings</string>
     <string name="mastercard">Master card</string>
     <string name="zeroval">0.0</string>
@@ -100,7 +100,8 @@
     <string name="iap_validity">Validity</string>
     <string name="cancelPaymentMsg">Do you want to cancel the payment? Your cart will be emptied.</string>
     <string name="iap_server_error">Server Error</string>
-    <string name="iap_something_went_wrong">Something went wrong!</string>
+    <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked.
+Please try again, or if the problem persists: contact Philips Consumer Care</string>
 
     <!-- Product Catalog -->
     <string name="iap_product_catalog">Products</string>

@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +28,10 @@ public class WebFragment extends BaseAnimationSupportFragment {
 
     protected WebView mWebView;
     private String mUrl;
-
+    private Context mContext;
     private CircularLineProgressBar mProgress;
     private boolean mShowProgressBar = true;
+
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -48,6 +50,12 @@ public class WebFragment extends BaseAnimationSupportFragment {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mWebView.loadUrl(mUrl);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -70,6 +78,13 @@ public class WebFragment extends BaseAnimationSupportFragment {
         return false;
     }
 
+    private boolean shouldHandleError(final int errorCode) {
+        return (errorCode == WebViewClient.ERROR_CONNECT
+                || errorCode == WebViewClient.ERROR_BAD_URL
+                || errorCode == WebViewClient.ERROR_TIMEOUT
+                || errorCode == WebViewClient.ERROR_HOST_LOOKUP);
+    }
+
     private class IAPWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
@@ -82,7 +97,7 @@ public class WebFragment extends BaseAnimationSupportFragment {
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             // Handle the error
             if (isVisible()) {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                if (isNetworkConnected()) return;
             }
         }
 
@@ -105,12 +120,5 @@ public class WebFragment extends BaseAnimationSupportFragment {
                 mProgress.setVisibility(View.GONE);
             }
         }
-    }
-
-    private boolean shouldHandleError(final int errorCode) {
-        return (errorCode == WebViewClient.ERROR_CONNECT
-                || errorCode == WebViewClient.ERROR_BAD_URL
-                || errorCode == WebViewClient.ERROR_TIMEOUT
-                || errorCode == WebViewClient.ERROR_HOST_LOOKUP);
     }
 }

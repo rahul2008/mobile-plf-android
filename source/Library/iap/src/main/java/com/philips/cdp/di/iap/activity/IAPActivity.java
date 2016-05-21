@@ -21,6 +21,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -66,6 +67,13 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         setTheme(themeIndex);
     }
 
+    @Override
+    protected void onDestroy() {
+        Utility.dismissProgressDialog();
+        NetworkUtility.getInstance().dismissErrorDialog();
+        super.onDestroy();
+    }
+
     public void addFragment(BaseAnimationSupportFragment newFragment,
                             String newFragmentTag) {
 
@@ -108,8 +116,13 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
-                        BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+                if (NetworkUtility.getInstance().isNetworkAvailable(IAPActivity.this)) {
+                    addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                            BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+                } else {
+                    NetworkUtility.getInstance().showErrorDialog(IAPActivity.this, null, getSupportFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                }
+
             }
         });
 

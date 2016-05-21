@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by 310164421 on 5/3/2016.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class SetDeliveryAddressModeRequestTest {
     @Mock
     private StoreSpec mStore;
