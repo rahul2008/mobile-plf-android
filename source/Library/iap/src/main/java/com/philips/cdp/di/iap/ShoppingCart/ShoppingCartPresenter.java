@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShoppingCartPresenter extends AbstractShoppingCartPresenter {
+public class ShoppingCartPresenter extends AbstractShoppingCartPresenter implements AbstractModel.DataLoadListener {
 
     public interface ShoppingCartLauncher{
         void launchShoppingCart();
@@ -68,79 +68,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter {
 
     @Override
     public void getCurrentCartDetails() {
-        CartCurrentInfoRequest model = new CartCurrentInfoRequest(getStore(), null,
-                new AbstractModel.DataLoadListener() {
-
-                    @Override
-                    public void onModelDataLoadFinished(Message msg) {
-                        if (processResponseFromHybrisForGetCart(msg)) return;
-                        if (processResponseFromPRX(msg)) return;
-                        dismissProgressDialog();
-                    }
-
-                    private boolean processResponseFromPRX(final Message msg) {
-                        if (msg.obj instanceof HashMap) {
-                            HashMap<String,SummaryModel> prxModel = (HashMap<String,SummaryModel>)msg.obj;
-                            if (prxModel == null || prxModel.size() == 0) {
-                                EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                                Utility.dismissProgressDialog();
-                                return true;
-                            }
-                            notifyListChanged(prxModel);
-                        }else {
-                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                            dismissProgressDialog();
-                        }
-                        return false;
-                    }
-
-                    private boolean processResponseFromHybrisForGetCart(final Message msg) {
-                        if (msg.obj instanceof Carts) {
-                            mCartData = (Carts) msg.obj;
-                            if (mCartData!=null && mCartData.getCarts().get(0).getEntries() != null) {
-                                makePrxCall(mCartData);
-                                return true;
-                            }
-                        }
-                        return false;
-                    }
-
-                    private void makePrxCall(final Carts mCarts) {
-                        ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
-                        List<EntriesEntity> entries = mCarts.getCarts().get(0).getEntries();
-                        ArrayList<String> productsToBeShown = new ArrayList<>();
-                        String ctn;
-
-                        for(EntriesEntity entry:entries){
-                            ctn = entry.getProduct().getCode();
-                            productsToBeShown.add(ctn);
-                            if (!CartModelContainer.getInstance().isPRXDataPresent(ctn)) {
-                                ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
-                            }
-                        }
-                        if(ctnsToBeRequestedForPRX.size()>0) {
-                            PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnsToBeRequestedForPRX,
-                                    this);
-                            builder.preparePRXDataRequest();
-                        }else {
-                            HashMap<String, SummaryModel> prxModel = new HashMap<>();
-                            for(String ctnPresent: productsToBeShown){
-                                prxModel.put(ctnPresent,CartModelContainer.getInstance().getProductDataFromListIfPresent(ctnPresent));
-                            }
-                            notifyListChanged(prxModel);
-                        }
-                    }
-
-                    @Override
-                    public void onModelDataError(final Message msg) {
-                        if (isNoCartError(msg)) {
-                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                            Utility.dismissProgressDialog();
-                        } else {
-                            handleModelDataError(msg);
-                        }
-                    }
-                });
+        CartCurrentInfoRequest model = new CartCurrentInfoRequest(getStore(), null, this);
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
     }
@@ -412,4 +340,75 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter {
         }
         return false;
     }
+
+    @Override
+    public void onModelDataLoadFinished(final Message msg) {
+        if (processResponseFromHybrisForGetCart(msg)) return;
+        if (processResponseFromPRX(msg)) return;
+        dismissProgressDialog();
+    }
+
+    @Override
+    public void onModelDataError(final Message msg) {
+        if (isNoCartError(msg)) {
+            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+            Utility.dismissProgressDialog();
+        } else {
+            handleModelDataError(msg);
+        }
+    }
+
+    private boolean processResponseFromPRX(final Message msg) {
+        if (msg.obj instanceof HashMap) {
+            HashMap<String,SummaryModel> prxModel = (HashMap<String,SummaryModel>)msg.obj;
+            if (prxModel == null || prxModel.size() == 0) {
+                EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+                Utility.dismissProgressDialog();
+                return true;
+            }
+            notifyListChanged(prxModel);
+        }else {
+            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+            dismissProgressDialog();
+        }
+        return false;
+    }
+
+    private boolean processResponseFromHybrisForGetCart(final Message msg) {
+        if (msg.obj instanceof Carts) {
+            mCartData = (Carts) msg.obj;
+            if (mCartData!=null && mCartData.getCarts().get(0).getEntries() != null) {
+                makePrxCall(mCartData);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void makePrxCall(final Carts mCarts) {
+        ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
+        List<EntriesEntity> entries = mCarts.getCarts().get(0).getEntries();
+        ArrayList<String> productsToBeShown = new ArrayList<>();
+        String ctn;
+
+        for(EntriesEntity entry:entries){
+            ctn = entry.getProduct().getCode();
+            productsToBeShown.add(ctn);
+            if (!CartModelContainer.getInstance().isPRXDataPresent(ctn)) {
+                ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
+            }
+        }
+        if(ctnsToBeRequestedForPRX.size()>0) {
+            PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnsToBeRequestedForPRX,
+                    this);
+            builder.preparePRXDataRequest();
+        }else {
+            HashMap<String, SummaryModel> prxModel = new HashMap<>();
+            for(String ctnPresent: productsToBeShown){
+                prxModel.put(ctnPresent,CartModelContainer.getInstance().getProductDataFromListIfPresent(ctnPresent));
+            }
+            notifyListChanged(prxModel);
+        }
+    }
+
 }
