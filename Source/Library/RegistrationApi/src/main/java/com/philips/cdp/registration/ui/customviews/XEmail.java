@@ -24,15 +24,11 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     private Context mContext;
 
-    //private TextView mIvEmailErrAlert;
-
     private EditText mEtEmail;
 
     private TextView mTvErrDescriptionView;
 
     private boolean mValidEmail;
-
-    //private ImageView mIvArrowUpView;
 
     private onUpdateListener mUpdateStatusListener;
 
@@ -61,8 +57,6 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mEtEmail.setOnFocusChangeListener(this);
         mEtEmail.addTextChangedListener(this);
         mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_name_err);
-        /*mIvEmailErrAlert = (TextView) findViewById(R.id.iv_reg_email_error_alert);
-        mIvEmailErrAlert.setOnClickListener(this);*/
         mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_email_field_err);
 
     }
@@ -113,7 +107,6 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     }
 
     public void showEmailInvalidAlert() {
-       // mIvEmailErrAlert.setVisibility(VISIBLE);
     }
 
     private void showEmailIsInvalidAlert() {
@@ -124,16 +117,13 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     }
 
     private void showValidEmailAlert() {
-        //mEtEmail.setTextColor(mContext.getResources().getColor(R.C));
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
         mEtEmail.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
-       // mIvEmailErrAlert.setVisibility(GONE);
         mFlInvalidFieldAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }
 
     public void showInvalidAlert() {
-        //mIvEmailErrAlert.setVisibility(View.VISIBLE);reg_et_border_disable_color
         mEtEmail.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
         mFlInvalidFieldAlert.setVisibility(VISIBLE);
@@ -163,18 +153,6 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     @Override
     public void onClick(View v) {
-        /*if (v.getId() == R.id.iv_reg_email_error_alert) {
-            toggleErrorUi();
-        }*/
-
-    }
-
-    private void toggleErrorUi() {
-        if (mTvErrDescriptionView.isShown()) {
-            hideErrPopUp();
-        } else {
-            showErrPopUp();
-        }
     }
 
     public void showErrPopUp() {
@@ -227,7 +205,6 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         if (validateEmail()) {
             if (mTvErrDescriptionView != null && mFlInvalidFieldAlert != null) {
                 mTvErrDescriptionView.setVisibility(GONE);
-                //mIvEmailErrAlert.setVisibility(GONE);
                 mFlInvalidFieldAlert.setVisibility(GONE);
             }
         }
@@ -236,12 +213,6 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     public void setHint(String hintText) {
         if (mEtEmail != null) {
             mEtEmail.setHint(hintText);
-        }
-    }
-
-    public void clearEmailFieldData() {
-        if (mEtEmail != null) {
-            mEtEmail.getText().clear();
         }
     }
 

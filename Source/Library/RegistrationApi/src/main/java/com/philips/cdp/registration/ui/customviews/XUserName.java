@@ -26,8 +26,6 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	private Context mContext;
 
-	//private TextView mIvErrAlert;
-
 	private EditText mEtUserName;
 
 	private boolean mValidName;
@@ -37,8 +35,6 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	private RelativeLayout mRlEtName;
 
 	private TextView mTvErrDescriptionView;
-
-	//private ImageView mIvArrowUpView;
 
 	private FrameLayout mFlInvaliFielddAlert;
 
@@ -65,14 +61,9 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		mEtUserName = (EditText) findViewById(R.id.et_reg_fname);
 		mEtUserName.setOnFocusChangeListener(this);
 		mEtUserName.addTextChangedListener(this);
-
-		/*mIvErrAlert = (TextView) findViewById(R.id.iv_reg_name_error_alert);
-		mIvErrAlert.setOnClickListener(this);*/
 		mRlEtName = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
 
 		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_name_err);
-		//mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
-
 		mFlInvaliFielddAlert = (FrameLayout)findViewById(R.id.fl_reg_name_field_err);
 		mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
 		FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
@@ -80,27 +71,6 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	@Override
 	public void onClick(View v) {
-		/*if (v.getId() == R.id.iv_reg_name_error_alert) {
-			handleErrorUi();
-		}*/
-	}
-
-	private void handleErrorUi() {
-		if (mTvErrDescriptionView.isShown()) {
-			hideErrorPopUp();
-		} else {
-			showErrorPopUp();
-		}
-	}
-
-	private void showErrorPopUp() {
-		mTvErrDescriptionView.setVisibility(View.VISIBLE);
-		//mIvArrowUpView.setVisibility(View.VISIBLE);
-	}
-
-	private void hideErrorPopUp() {
-		mTvErrDescriptionView.setVisibility(View.GONE);
-		//mIvArrowUpView.setVisibility(View.GONE);
 	}
 
 	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
@@ -116,18 +86,12 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	private void showInvalidUserNameAlert() {
 		mEtUserName.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
 		mRlEtName.setBackgroundResource(R.drawable.reg_et_focus_error);
-		//mIvErrAlert.setVisibility(VISIBLE);
 		mFlInvaliFielddAlert.setVisibility(View.VISIBLE);
-		//mIvArrowUpView.setVisibility(VISIBLE);
 		mTvErrDescriptionView.setVisibility(VISIBLE);
 	}
 
 	private void showValidUserNameAlert() {
-		/*mEtUserName.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
-		mRlEtName.setBackgroundResource(R.drawable.reg_et_focus_disable);*/
 		mFlInvaliFielddAlert.setVisibility(GONE);
-		//mIvErrAlert.setVisibility(GONE);
-		//mIvArrowUpView.setVisibility(GONE);
 		mTvErrDescriptionView.setVisibility(GONE);
 	}
 
@@ -217,7 +181,6 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	public void afterTextChanged(Editable s) {
 		if (validateName()) {
 			mTvErrDescriptionView.setVisibility(View.GONE);
-		  //mIvArrowUpView.setVisibility(View.GONE);
 			mFlInvaliFielddAlert.setVisibility(GONE);
 		}
 		raiseUpdateUIEvent();
