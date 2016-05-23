@@ -28,6 +28,7 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
     Sector selectedSector = Sector.B2C;
     Catalog selectedCatalog = Catalog.CONSUMER;
     private static final String TAG = LocalMatchActivity.class.getSimpleName();
+    private boolean countryReqest =false, langRequest = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,14 +88,18 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
         mCountryBased_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PILLocale pilLocale = null;
-                if(country!=null)
-                pilLocale = pilLocaleManager.currentLocaleWithCountryFallbackForPlatform(LocalMatchActivity.this, country, selectedPlatform, selectedSector, selectedCatalog);
-                if(pilLocale!=null) {
-                    Log.d(TAG, "****************country getCountrycodek " + pilLocale.getCountrycode());
-                    Log.d(TAG, "****************country getLanguageCode " + pilLocale.getLanguageCode());
-                    Log.d(TAG, "****************country getLocaleCode " + pilLocale.getLocaleCode());
-                }
+                countryReqest = true;
+                langRequest = false;
+
+                pilLocaleManager.refresh(LocalMatchActivity.this);
+//                PILLocale pilLocale = null;
+//                if(country!=null)
+//                pilLocale = pilLocaleManager.currentLocaleWithCountryFallbackForPlatform(LocalMatchActivity.this, country, selectedPlatform, selectedSector, selectedCatalog);
+//                if(pilLocale!=null) {
+//                    Log.d(TAG, "****************country getCountrycodek " + pilLocale.getCountrycode());
+//                    Log.d(TAG, "****************country getLanguageCode " + pilLocale.getLanguageCode());
+//                    Log.d(TAG, "****************country getLocaleCode " + pilLocale.getLocaleCode());
+//                }
 
             }
         });
@@ -102,14 +107,17 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
         mLangauageBased_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PILLocale pilLocale = null;
-                if(language!=null)
-                pilLocale = pilLocaleManager.currentLocaleWithLanguageFallbackForPlatform(LocalMatchActivity.this, language, selectedPlatform, selectedSector, selectedCatalog);
-                if(pilLocale!=null) {
-                    Log.d(TAG, "****************lang getCountrycodek " + pilLocale.getCountrycode());
-                    Log.d(TAG, "****************lang getLanguageCode " + pilLocale.getLanguageCode());
-                    Log.d(TAG, "****************lang getLocaleCode " + pilLocale.getLocaleCode());
-                }
+                countryReqest = false;
+                langRequest = true;
+                pilLocaleManager.refresh(LocalMatchActivity.this);
+//                PILLocale pilLocale = null;
+//                if(language!=null)
+//                pilLocale = pilLocaleManager.currentLocaleWithLanguageFallbackForPlatform(LocalMatchActivity.this, language, selectedPlatform, selectedSector, selectedCatalog);
+//                if(pilLocale!=null) {
+//                    Log.d(TAG, "****************lang getCountrycodek " + pilLocale.getCountrycode());
+//                    Log.d(TAG, "****************lang getLanguageCode " + pilLocale.getLanguageCode());
+//                    Log.d(TAG, "****************lang getLocaleCode " + pilLocale.getLocaleCode());
+//                }
             }
         });
     }
@@ -120,9 +128,10 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                // initializeDigitalCareLibrary();
 
-               language = parent.getAdapter().getItem(position).toString();
 
-
+               String[] langArray = getResources().getStringArray(R.array.Language_code);
+               language = langArray[position];
+               onSpinnerItemChanged();
            }
 
            @Override
@@ -135,8 +144,11 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
            @Override
            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                //initializeDigitalCareLibrary();
-               country = parent.getAdapter().getItem(position).toString();
+               String[] countryArray = getResources().getStringArray(R.array.country_code);
+               country = countryArray[position];
+               onSpinnerItemChanged();
            }
+
 
            @Override
            public void onNothingSelected(AdapterView<?> parent) {
@@ -184,11 +196,16 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
        });
 
 
-       if(language!= null && country != null){
 
-           pilLocaleManager.setInputLocale(language, country);
-           pilLocaleManager.refresh(LocalMatchActivity.this);
-       }
+    }
+
+    private void onSpinnerItemChanged(){
+        if(language!= null && country != null){
+            pilLocaleManager.setInputLocale(language, country);
+
+        }
+
+
     }
 
     @Override
@@ -201,10 +218,30 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
     @Override
     public void onLocaleMatchRefreshed(String s) {
 
+        PILLocale pilLocale = null;
+        if(s!=null)
+        {
+            if(countryReqest){
+                pilLocale = pilLocaleManager.currentLocaleWithCountryFallbackForPlatform(LocalMatchActivity.this, s, selectedPlatform, selectedSector, selectedCatalog);
+            }
+            else{
+                pilLocale = pilLocaleManager.currentLocaleWithLanguageFallbackForPlatform(LocalMatchActivity.this, s, selectedPlatform, selectedSector, selectedCatalog);
+            }
+        }
+
+
+        if(pilLocale!=null) {
+            Log.d(TAG, "****************country getCountrycodek " + pilLocale.getCountrycode());
+            Log.d(TAG, "****************country getLanguageCode " + pilLocale.getLanguageCode());
+            Log.d(TAG, "****************country getLocaleCode " + pilLocale.getLocaleCode());
+
+        }
+
     }
 
     @Override
     public void onErrorOccurredForLocaleMatch(LocaleMatchError localeMatchError) {
 
+        Log.d(TAG, "****************country getLocaleCode " );
     }
 }
