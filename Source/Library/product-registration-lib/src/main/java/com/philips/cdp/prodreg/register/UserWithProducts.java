@@ -89,7 +89,7 @@ public class UserWithProducts {
         if (currentRegisteredProduct.getRegistrationState() == RegistrationState.REGISTERED) {
             currentRegisteredProduct.setProdRegError(ProdRegError.PRODUCT_ALREADY_REGISTERED);
             appListener.onProdRegFailed(currentRegisteredProduct, getUserProduct());
-        } else if (currentRegisteredProduct.getRegistrationState() != RegistrationState.PROCESSING) {
+        } else if (currentRegisteredProduct.getRegistrationState() != RegistrationState.REGISTERING) {
             localRegisteredProducts.store(currentRegisteredProduct);
             initRegistration(appListener, currentRegisteredProduct);
         }
@@ -118,7 +118,7 @@ public class UserWithProducts {
                 updateWithCallBack(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED, appListener);
             } else {
                 UserWithProducts userWithProducts = getUserProduct();
-                updateLocaleCache(registeredProduct, registeredProduct.getProdRegError(), RegistrationState.PROCESSING);
+                updateLocaleCache(registeredProduct, registeredProduct.getProdRegError(), RegistrationState.REGISTERING);
                 userWithProducts.getRegisteredProducts(userWithProducts.getRegisteredProductsListener(registeredProduct, appListener));
             }
         } else if (failedOnInvalidInput)
@@ -231,8 +231,8 @@ public class UserWithProducts {
             @Override
             public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
                 ProductMetadataResponseData productData = productMetadataResponse.getData();
-                boolean isValidSerialNumber = validateSerialNumberFromMetadata(productData, registeredProduct);
-                boolean isValidDate = validatePurchaseDateFromMetadata(productData, registeredProduct);
+                boolean isValidSerialNumber = isValidSerialNumber(productData, registeredProduct);
+                boolean isValidDate = isValidPurchaseDate(productData, registeredProduct);
                 if (!isValidDate && !isValidSerialNumber) {
                     updateWithCallBack(registeredProduct, ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE, RegistrationState.FAILED, appListener);
                 } else if (!isValidDate) {
@@ -259,13 +259,9 @@ public class UserWithProducts {
         }
     }
 
-    protected boolean isValidSerialNumber(final ProductMetadataResponseData productData, final RegisteredProduct registeredProduct) {
-        return productData.getRequiresSerialNumber().equalsIgnoreCase("true") && (isMissingSerialNumber(registeredProduct) || isSerialNumberFormatWrong(registeredProduct, productData));
-    }
-
-    protected boolean validatePurchaseDateFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
+    protected boolean isValidPurchaseDate(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
         final String purchaseDate = registeredProduct.getPurchaseDate();
-        if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
+        if (data != null && data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
             return purchaseDate != null && purchaseDate.length() > 0;
         }
         return true;
@@ -280,8 +276,8 @@ public class UserWithProducts {
         return false;
     }
 
-    protected boolean validateSerialNumberFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
-        if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
+    protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
+        if (data != null && data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
             if (processSerialNumber(data, registeredProduct))
                 return false;
         }
@@ -428,13 +424,5 @@ public class UserWithProducts {
             return registeredProduct;
         }
         return null;
-    }
-
-    public boolean isMissingSerialNumber(final RegisteredProduct registeredProduct) {
-        return registeredProduct.getSerialNumber() == null || registeredProduct.getSerialNumber().length() < 1;
-    }
-
-    private boolean isSerialNumberFormatWrong(final RegisteredProduct registeredProduct, final ProductMetadataResponseData productData) {
-        return registeredProduct.getSerialNumber().matches(productData.getSerialNumberFormat());
     }
 }

@@ -5,5 +5,5 @@ package com.philips.cdp.prodreg;
  * All rights reserved.
  */
 public enum RegistrationState {
-    PROCESSING, PENDING, REGISTERED, FAILED
+    REGISTERING, PENDING, REGISTERED, FAILED
 }
