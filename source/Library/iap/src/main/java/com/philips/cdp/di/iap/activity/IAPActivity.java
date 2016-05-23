@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iap.activity;
 
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,11 +24,13 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -48,6 +51,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_activity);
         addActionBar();
+        setLocale();
         Boolean isShoppingCartViewSelected = getIntent().getBooleanExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, true);
         if (isShoppingCartViewSelected) {
             addFragment(ShoppingCartFragment.createInstance(new Bundle(),
@@ -65,6 +69,19 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
             themeIndex = DEFAULT_THEME;
         }
         setTheme(themeIndex);
+    }
+
+    private void setLocale() {
+        PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
+        String localeAsString = localeManager.getInputLocale();
+        String[] localeArray = localeAsString.split("_");
+
+        Locale locale = new Locale(localeArray[0], localeArray[1]);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config,
+                getResources().getDisplayMetrics());
     }
 
     @Override

@@ -9,7 +9,6 @@ Project           : InAppPurchase
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -24,10 +23,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.tagging.Tagging;
-
-import java.util.Locale;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
     private IAPFragmentListener mActivityListener;
@@ -54,22 +50,6 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentActivity = getActivity();
-        setLocale();
-    }
-
-    private void setLocale() {
-        PILLocaleManager localeManager = new PILLocaleManager(getActivity().getApplicationContext());
-        String localeAsString = localeManager.getInputLocale();
-        String[] localeArray = localeAsString.split("_");
-
-        Locale locale = new Locale(localeArray[0], localeArray[1]);
-        if (locale != null) {
-            Locale.setDefault(locale);
-            Configuration config = new Configuration();
-            config.locale = locale;
-            mFragmentActivity.getResources().updateConfiguration(config,
-                    mFragmentActivity.getResources().getDisplayMetrics());
-        }
     }
 
     @Override
