@@ -325,12 +325,17 @@ public class AIAppTagging implements AIAppTaggingInterface {
 //        }
         Map<String, Object> contextData = addAnalyticsDataObject();
 
-        Map tmp = new HashMap(paramMap);
-        tmp.keySet().removeAll(contextData.keySet());
+        if(null!=paramMap) {
+            try {
+                Map tmp = new HashMap(paramMap);
+                tmp.keySet().removeAll(contextData.keySet());
 //        target.putAll(tmp);
-        contextData.putAll(paramMap);
-        Analytics.trackAction(pageName, contextData);
-
+                contextData.putAll(paramMap);
+                Analytics.trackAction(pageName, contextData);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public void collectLifecycleData(){
