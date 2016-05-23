@@ -156,3 +156,13 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
 	3. PRA-182 - Wrong version displayed in product list page.
 	4. PRA-178 - Adding PRX as artifactory and Updated User Registration to 6.0.0
 	
+	 Version - 1.0.1.rc1                        Date: 23-05-2016
+-------------------------------------------------------------
+	
+	Following features has fixed :
+	
+	1. PRA-190 - As a user i dont want to process invalid stored data like invalid CTN , invalid serial number
+	2. PRA-172 - (On-Line)For invalid ctn and serial number also data storing in locally on the device, next time when user to try to register the product with valid data, invalid stored data Toast messages  are  displayed for user always.
+	3. PRA-215 - Product registering process priority is not correct
+	4. PRA-196 - Duplicate products data getting register from different app/devices.
+	5. PRA-147 - Error popup displayed always with local stored invalid data, along with product registered successful message for valid data.
