@@ -46,7 +46,7 @@ import java.util.Map;
 
 public class ShoppingCartPresenter extends AbstractShoppingCartPresenter implements AbstractModel.DataLoadListener {
 
-    public interface ShoppingCartLauncher{
+    public interface ShoppingCartLauncher {
         void launchShoppingCart();
     }
     Carts mCartData = null;
@@ -163,7 +163,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, mFragmentManager, mContext);
+                NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
                 Utility.dismissProgressDialog();
             }
         });

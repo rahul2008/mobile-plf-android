@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
 
 /**
@@ -17,17 +20,17 @@ import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
  */
 public class ErrorDialogFragment extends BlurDialogFragment {
     public interface ErrorDialogListener {
-        void onTryAgainClick();
+        void OnOkClickFromSomethingWentWrong();
     }
 
     private Button mOkBtn, mTryAgain;
     private ErrorDialogListener mClickListener;
+    Bundle bundle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.iap_error_dialog, container, false);
-        //  EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR), this);
-        Bundle bundle = getArguments();
+        bundle = getArguments();
         TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
         dialogTitle.setText(bundle.getString(IAPConstant.MODEL_ALERT_ERROR_TEXT));
 
@@ -36,31 +39,10 @@ public class ErrorDialogFragment extends BlurDialogFragment {
 
         mOkBtn = (Button) v.findViewById(R.id.btn_dialog_ok);
         mOkBtn.setText(bundle.getString(IAPConstant.MODEL_ALERT_BUTTON_TEXT));
-        mTryAgain = (Button) v.findViewById(R.id.btn_dialog_tryAgain);
-        if (bundle != null && bundle.getBoolean(IAPConstant.MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE)) {
-            mTryAgain.setVisibility(View.VISIBLE);
-            mOkBtn.setVisibility(View.GONE);
-            mTryAgain.setOnClickListener(dismissDialogOnTryAgain());
-        } else {
-            mOkBtn.setVisibility(View.VISIBLE);
-            mTryAgain.setVisibility(View.GONE);
-            mOkBtn.setOnClickListener(dismissDialog());
-        }
+        mOkBtn.setOnClickListener(dismissDialog());
         return v;
     }
 
-    private View.OnClickListener dismissDialogOnTryAgain() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mClickListener != null) {
-                    mClickListener.onTryAgainClick();
-                }
-                setShowsDialog(false);
-                dismiss();
-            }
-        };
-    }
 
     @Override
     public void setShowsDialog(final boolean showsDialog) {
@@ -73,11 +55,29 @@ public class ErrorDialogFragment extends BlurDialogFragment {
             public void onClick(View v) {
                 setShowsDialog(false);
                 dismiss();
+                if (bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION).equals(getString(R.string.iap_time_out_error))) {
+                    IAPLog.i(IAPLog.LOG, "SWITCH_TO_NO_NETWORK_CONNECTION");
+                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.SWITCH_TO_NO_NETWORK_CONNECTION);
+                    addFragment(NoNetworkConnectionFragment.createInstance(bundle, BaseAnimationSupportFragment.AnimationType.NONE),
+                            NoNetworkConnectionFragment.TAG);
+                }
+
             }
         };
     }
 
-    public void setOnDialogClickListener(ErrorDialogListener pClickListener) {
-        mClickListener = pClickListener;
+    public void addFragment(BaseAnimationSupportFragment newFragment,
+                            String newFragmentTag) {
+
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+            transaction.addToBackStack(NoNetworkConnectionFragment.TAG);
+            transaction.commitAllowingStateLoss();
+
+            IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+                    + newFragmentTag + ")");
+        }
     }
+
 }

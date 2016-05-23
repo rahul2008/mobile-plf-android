@@ -170,7 +170,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     public void onClick(View v) {
 
         Utility.hideKeypad(mContext);
-        if (isNetworkConnected()) return;
+        if (isNetworkNotConnected()) return;
         if (v == mBtnContinue) {
             mBillingAddressFields = setAddressFields(mBillingAddressFields.clone());
             CartModelContainer.getInstance().setBillingAddress(mBillingAddressFields);
@@ -181,12 +181,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                         OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
             }
         } else if (v == mBtnCancel) {
-           /* if (getArguments().containsKey(IAPConstant.FROM_PAYMENT_SELECTION) &&
-                    getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
-            } else {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            }*/
             moveToPreviousFragment();
         }
     }

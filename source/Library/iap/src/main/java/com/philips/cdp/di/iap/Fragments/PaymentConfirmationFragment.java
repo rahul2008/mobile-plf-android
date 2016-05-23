@@ -138,7 +138,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
         mOKButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (isNetworkConnected()) return;
+                if (isNetworkNotConnected()) return;
 
                 handleExit();
             }

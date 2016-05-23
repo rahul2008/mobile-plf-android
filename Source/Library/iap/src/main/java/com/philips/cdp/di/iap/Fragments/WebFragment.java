@@ -17,7 +17,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
 
@@ -97,7 +96,7 @@ public class WebFragment extends BaseAnimationSupportFragment {
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             // Handle the error
             if (isVisible()) {
-                if (isNetworkConnected()) return;
+                if (isNetworkNotConnected()) return;
             }
         }
 

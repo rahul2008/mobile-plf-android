@@ -8,7 +8,6 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -29,14 +28,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
-    protected ErrorDialogFragment.ErrorDialogListener mErrorDialogListener = new ErrorDialogFragment.ErrorDialogListener() {
-        @Override
-        public void onTryAgainClick() {
-            IAPLog.i(IAPLog.LOG, "onTryAgainClick = " + this.getClass().getSimpleName());
-            //  moveToPreviousFragment();
-        }
-    };
-
     public interface LoadListener<T> {
         void onLoadFinished(ArrayList<T> data);
     }
@@ -62,7 +53,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     protected void handleModelDataError(final Message msg) {
         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-        NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, mFragmentManager, mContext);
+        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
         dismissProgressDialog();
     }
 
@@ -82,7 +73,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                         }
 
                         if (webResults.getWrbresults().getOnlineStoresForProduct() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
-                            NetworkUtility.getInstance().showErrorDialog(mContext, mErrorDialogListener, mFragmentManager, mContext.getString(R.string.iap_ok), "No Retailers for this product", "No Retailers for this product");
+                            NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), "No Retailers for this product", "No Retailers for this product");
                             Utility.dismissProgressDialog();
                             return;
                         }

@@ -141,7 +141,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             }
         }
         if (v == mContinuesBtn) {
-            if (isNetworkConnected()) return;
+            if (isNetworkNotConnected()) return;
 
             //Track continue shopping action
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
@@ -190,7 +190,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(

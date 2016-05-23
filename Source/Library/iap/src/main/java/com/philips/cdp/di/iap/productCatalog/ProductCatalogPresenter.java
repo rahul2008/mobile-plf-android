@@ -24,7 +24,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class ProductCatalogPresenter implements ProductCatalogAPI,AbstractModel.DataLoadListener {
+public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel.DataLoadListener {
 
     private Context mContext;
     private LoadListener mLoadListener;
@@ -42,7 +42,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI,AbstractModel.
         mContext = context;
         mLoadListener = listener;
         mFragmentManager = fragmentManager;
-        mProductCatalogHelper = new ProductCatalogHelper(mContext,mLoadListener,this);
+        mProductCatalogHelper = new ProductCatalogHelper(mContext, mLoadListener, this);
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
@@ -80,7 +80,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI,AbstractModel.
         if (processHybrisRequestForGetProductCatalogData(msg))
             return;
 
-        if (mProductCatalogHelper.processPRXResponse(msg,mProductData))
+        if (mProductCatalogHelper.processPRXResponse(msg, mProductData))
             return;
 
         if (Utility.isProgressDialogShowing())
@@ -103,8 +103,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI,AbstractModel.
     public void onModelDataError(final Message msg) {
         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-        NetworkUtility.getInstance().showErrorMessage(null, msg, mFragmentManager, mContext);
-        if(Utility.isProgressDialogShowing()) {
+        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
+        if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }
 

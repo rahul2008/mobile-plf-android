@@ -53,12 +53,12 @@ public class NetworkUtility {
         }
     }
 
-    public void showErrorDialog(Context context, ErrorDialogFragment.ErrorDialogListener errorDialogListener, FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
-        showErrorDialog(context, errorDialogListener, pFragmentManager, pButtonText, pErrorString, pErrorDescription, false);
+    public void showErrorDialog(Context context, FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
+        showErrorDialog(context, pFragmentManager, pButtonText, pErrorString, pErrorDescription, false);
     }
 
 
-    private void showErrorDialog(Context context, ErrorDialogFragment.ErrorDialogListener errorDialogListener, FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription, boolean pIsVisible) {
+    private void showErrorDialog(Context context, FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription, boolean pIsVisible) {
 
         //Track pop up
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -76,10 +76,10 @@ public class NetworkUtility {
             bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
             bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
             bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
-            bundle.putBoolean(IAPConstant.MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE, pIsVisible);
+            // bundle.putBoolean(IAPConstant.MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE, pIsVisible);
             try {
                 mModalAlertDemoFragment.setArguments(bundle);
-                mModalAlertDemoFragment.setOnDialogClickListener(errorDialogListener);
+//                mModalAlertDemoFragment.setOnDialogClickListener(errorDialogListener);
                 mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
                 mModalAlertDemoFragment.setShowsDialog(true);
             } catch (Exception e) {
@@ -88,7 +88,7 @@ public class NetworkUtility {
         }
     }
 
-    public void showErrorMessage(ErrorDialogFragment.ErrorDialogListener pErrorDialogListener, final Message msg, FragmentManager pFragmentManager, Context context) {
+    public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
         if (context == null) return;
         /*
          *  Dismiss The Dialog if it not yet dismissed as Error Occured
@@ -101,17 +101,12 @@ public class NetworkUtility {
          */
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
-            showErrorDialog(context, pErrorDialogListener, pFragmentManager, context.getString(R.string.iap_ok),
+            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
                     getErrorTitleMessageFromErrorCode(context, error.getIAPErrorCode()),
-                    getErrorDescriptionMessageFromErrorCode(context, error), false);
-        } else if (msg.obj.equals("No internet connection")) {
-            showErrorDialog(context, pErrorDialogListener, pFragmentManager, context.getString(R.string.iap_ok),
-                    getErrorTitleMessageFromErrorCode(context, IAPConstant.IAP_ERROR_NO_CONNECTION),
-                    context.getString(R.string.iap_check_connection)
-                    , false);
+                    getErrorDescriptionMessageFromErrorCode(context, error));
         } else {
-            showErrorDialog(context, pErrorDialogListener, pFragmentManager, context.getString(R.string.iap_ok),
-                    context.getString(R.string.iap_server_error), context.getString(R.string.iap_something_went_wrong), true);
+            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
+                    context.getString(R.string.iap_server_error), context.getString(R.string.iap_something_went_wrong));
         }
     }
 

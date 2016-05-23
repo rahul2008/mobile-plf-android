@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements
-        PRXProductAssetBuilder.AssetListener, ShoppingCartPresenter.ShoppingCartLauncher {
+        PRXProductAssetBuilder.AssetListener, View.OnClickListener, ShoppingCartPresenter.ShoppingCartLauncher {
 
     public static final String TAG = ProductDetailFragment.class.getName();
 
@@ -71,12 +71,12 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
-                    NetworkUtility.getInstance().showErrorDialog(mContext, mErrorDialogListener, getFragmentManager(),
+                    NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                             mContext.getString(R.string.iap_ok),
                             mContext.getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
                 }
             } else {
-                NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             }
         }
     };
@@ -177,18 +177,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             setAddToCartIcon();
             mBuyFromRetailors.setVisibility(View.VISIBLE);
             setCartIconVisibility(View.VISIBLE);
-            mAddToCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    buyProduct(mCTNValue);
-                }
-            });
-            mBuyFromRetailors.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    buyFromRetailers();
-                }
-            });
+            mAddToCart.setOnClickListener(this);
+            mBuyFromRetailors.setOnClickListener(this);
             mProductDiscountedPrice.setVisibility(View.VISIBLE);
             setTitle(mProductTitle);
         } else {
@@ -209,7 +199,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void buyFromRetailers() {
-        if (isNetworkConnected()) return;
+        if (isNetworkNotConnected()) return;
 
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.PRODUCT_CODE, mCTNValue);
@@ -232,7 +222,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
         NetworkUtility.getInstance().
-                showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
+                showErrorMessage(msg, getFragmentManager(), getContext());
     }
 
     void buyProduct(final String ctnNumber) {
@@ -249,4 +239,14 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
 
+    @Override
+    public void onClick(View v) {
+        if (isNetworkNotConnected()) return;
+        if (v == mAddToCart) {
+            buyProduct(mCTNValue);
+        }
+        if (v == mBuyFromRetailors) {
+            buyFromRetailers();
+        }
+    }
 }

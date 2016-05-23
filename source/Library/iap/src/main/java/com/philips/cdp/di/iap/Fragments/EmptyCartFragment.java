@@ -59,7 +59,7 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
 
     @Override
     public void onClick(final View v) {
-        if (isNetworkConnected()) return;
+        if (isNetworkNotConnected()) return;
         if (v == mContinueShopping) {
             //Track continue shopping action
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
@@ -72,7 +72,6 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
 
     @Override
     public boolean onBackPressed() {
-        //  finishActivity();
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment != null) {
             getFragmentManager().popBackStack();

@@ -138,7 +138,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void onClick(final View v) {
-        if (isNetworkConnected()) return;
+        if (isNetworkNotConnected()) return;
         if (v == mBtnPayNow) {
             placeOrderElseMakePayment();
         } else if (v == mBtnCancel) {
@@ -183,7 +183,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 
@@ -215,7 +215,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             if (null != iapNetworkError.getServerError()) {
                 checkForOutOfStock(iapNetworkError, msg);
             } else {
-                NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             }
         }
     }
@@ -225,10 +225,10 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         String type = error.getType();
         if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
             String subject = error.getMessage();
-            NetworkUtility.getInstance().showErrorDialog(mContext, mErrorDialogListener, getFragmentManager(), getString(R.string.iap_ok),
+            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_out_of_stock), subject);
         } else {
-            NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 

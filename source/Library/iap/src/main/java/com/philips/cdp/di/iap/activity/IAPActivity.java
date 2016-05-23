@@ -137,7 +137,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
                     addFragment(ShoppingCartFragment.createInstance(new Bundle(),
                             BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
                 } else {
-                    NetworkUtility.getInstance().showErrorDialog(IAPActivity.this, null, getSupportFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                    NetworkUtility.getInstance().showErrorDialog(IAPActivity.this, getSupportFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
 
             }

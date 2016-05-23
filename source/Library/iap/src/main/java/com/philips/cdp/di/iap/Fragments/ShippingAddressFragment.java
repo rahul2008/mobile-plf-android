@@ -249,7 +249,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             addFragment(
                     BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
             //Track new address creation
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -266,7 +266,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onClick(final View v) {
-
+        //TODO Use isNetworkNotConnected() inside Continue only not for back
+        if (isNetworkNotConnected()) return;
         Utility.hideKeypad(mContext);
         if (v == mBtnContinue) {
             //Edit and save address
@@ -293,8 +294,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
             }
         } else if (v == mBtnCancel) {
-            if (isNetworkConnected()) return;
-                getFragmentManager().popBackStackImmediate();
+
+            getFragmentManager().popBackStackImmediate();
         }
     }
 
@@ -357,7 +358,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
                 mBtnContinue.setEnabled(false);
             } else if (error.getMessage() != null) {
-                if (isNetworkConnected()) return;
+                if (isNetworkNotConnected()) return;
             }
         }
     }
@@ -485,7 +486,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mAddressController.setDeliveryMode();
         } else {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 
@@ -495,7 +496,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mPaymentController.getPaymentDetails();
         } else {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(mErrorDialogListener, msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 
@@ -669,7 +670,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 showErrorFromServer(error);
             }
         } else {
-            if (isNetworkConnected()) return;
+            if (isNetworkNotConnected()) return;
         }
     }
 
