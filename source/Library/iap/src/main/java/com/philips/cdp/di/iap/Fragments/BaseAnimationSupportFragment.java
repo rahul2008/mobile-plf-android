@@ -11,7 +11,6 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -27,7 +26,6 @@ import com.philips.cdp.tagging.Tagging;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
     private IAPFragmentListener mActivityListener;
-    private FragmentActivity mFragmentActivity = null;
 
     protected ErrorDialogFragment.ErrorDialogListener mErrorDialogListener = new ErrorDialogFragment.ErrorDialogListener() {
         @Override
@@ -37,19 +35,12 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         }
     };
 
-
     protected boolean isNetworkConnected() {
         if (!NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
             NetworkUtility.getInstance().showErrorDialog(getContext(), mErrorDialogListener, getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mFragmentActivity = getActivity();
     }
 
     @Override
