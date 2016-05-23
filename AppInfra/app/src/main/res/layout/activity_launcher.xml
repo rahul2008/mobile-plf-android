@@ -44,17 +44,23 @@
             android:layout_marginTop="5dp" />
         </GridLayout>
 
-    <EditText  android:layout_width="250dp"
+   <!-- <EditText  android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:hint="Enter ctn"
-        android:textAllCaps="true"
-        android:typeface="sans"
-        android:textStyle="bold"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
+
+
+
         android:layout_marginTop="119dp"
-        android:layout_toStartOf="@+id/assets_reqst_button" />
+        android:layout_toStartOf="@+id/assets_reqst_button" />-->
+    <EditText
+        android:layout_below="@+id/gridlayout1"
+        android:id="@+id/EditTextCTN"
+        android:layout_marginTop="119dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+
+        android:hint="Enter ctn"
+
+        />
 
     <Button
         android:layout_width="wrap_content"

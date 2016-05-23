@@ -17,8 +17,10 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
+import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
@@ -50,9 +52,9 @@ public class PrxLauncherActivity extends AppCompatActivity {
         mSummaryButton = (Button)findViewById(R.id.summary_reqst_button);
         msupportButton = (Button)findViewById(R.id.support_rqst_button);
         mAssetButton = (Button)findViewById(R.id.assets_reqst_button);
-        mCTNEditText = (EditText) findViewById(R.id.textView);
+        mCTNEditText = (EditText) findViewById(R.id.EditTextCTN);
 
-        mCtn = mCTNEditText.getText().toString();
+
 
         ///////////SECTOR AND CATALOG////////////
         // setting sector spinner
@@ -91,8 +93,10 @@ public class PrxLauncherActivity extends AppCompatActivity {
         });
         ////////////////
         PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
-        mCountryCode=localeManager.getCountryCode();
-        mLangUageCode=localeManager.getLanguageCode();
+       /* mCountryCode=localeManager.getCountryCode();
+        mLangUageCode=localeManager.getLanguageCode();*/
+        mCountryCode="GB";
+        mLangUageCode="en";
         mLocale=localeManager.getInputLocale();
 //        localeManager.setInputLocale(mLangUageCode, mCountryCode);
         PrxLogger.enablePrxLogger(true);
@@ -100,6 +104,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
         mSummaryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCtn = mCTNEditText.getText().toString();
                 productSummaryRequest();
             }
         });
@@ -166,8 +171,22 @@ public class PrxLauncherActivity extends AppCompatActivity {
     mRequestManager.executeRequest(prxRequest, new ResponseListener() {
         @Override
         public void onResponseSuccess(ResponseData responseData) {
+        String str = responseData.getClass().toString();
+            if(responseData instanceof SummaryModel)
+            {
+                SummaryModel mSummaryModel = (SummaryModel) responseData;
+                Log.d(TAG, "Support Response Data : " + mSummaryModel.isSuccess());
+                Data mData = mSummaryModel.getData();
+                Log.d(TAG, " Positive Response Data : " + mSummaryModel.isSuccess());
+                Log.d(TAG, " Positive Response Data : " + mData.getBrand());
+                Log.d(TAG, " Positive Response Data : " + mData.getCtn());
+                Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
 
-            SummaryModel mSummaryModel = (SummaryModel) responseData;
+            }else    if(responseData instanceof AssetModel){
+                AssetModel mAssetModel = (AssetModel) responseData;
+            }else {
+                SupportModel mSupportModel = (SupportModel) responseData;
+            }
 //            SupportModel mSupportModel = (SupportModel) responseData;
 //            AssetModel mAssetModel = (AssetModel) responseData;
 
@@ -176,12 +195,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
 //
 //                    break;
 //            }
-            Log.d(TAG, "Support Response Data : " + mSummaryModel.isSuccess());
-            Data mData = mSummaryModel.getData();
-            Log.d(TAG, " Positive Response Data : " + mSummaryModel.isSuccess());
-            Log.d(TAG, " Positive Response Data : " + mData.getBrand());
-            Log.d(TAG, " Positive Response Data : " + mData.getCtn());
-            Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
+
 
 
 //                if(responseData.equals(mSummaryModel)){
