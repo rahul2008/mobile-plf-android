@@ -147,7 +147,6 @@ public class DiCommPortTest {
 
     @Test
     public void whenReloadPropertiesIsCalledWhileUnavailableThenSHNErrorInvalidStateIsReported() throws Exception {
-        diCommPort.setDiCommChannel(diCommChannelMock);
         diCommPort.reloadProperties(mapResultListenerMock);
 
         verify(diCommChannelMock).reloadProperties(eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
@@ -155,14 +154,12 @@ public class DiCommPortTest {
 
     @Test
     public void whenPutPropertiesIsCalledWhileUnavailableThenSHNErrorInvalidStateIsReported() throws Exception {
-        diCommPort.setDiCommChannel(diCommChannelMock);
         diCommPort.putProperties(properties, mapResultListenerMock);
 
         verify(diCommChannelMock).sendProperties(eq(properties), eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
     }
 
     private void goToAvailableState() {
-        diCommPort.setDiCommChannel(diCommChannelMock);
         diCommPort.onChannelAvailabilityChanged(true);
 
         verify(diCommChannelMock).reloadProperties(eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
@@ -326,29 +323,32 @@ public class DiCommPortTest {
         verify(diCommChannelMock).reloadProperties(eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
     }
 
-    // Verify these tests
-//    @Test
-//    public void whenChannelBecomesUnavailableWhileSubscribedThenPollingIsStopped() throws Exception {
-//        whenSubscribedWhenReloadPropertiesIsCalled();
-//        diCommPort.setDiCommChannel(null);
-//
-//        mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
-//
-//        assertEquals(1, mockedHandler.getScheduledExecutionCount());
-//        reset(diCommChannelMock);
-//        mockedHandler.executeFirstScheduledExecution();
-//
-//        verify(diCommChannelMock, never()).reloadProperties(anyString(), any(SHNMapResultListener.class));
-//    }
-//
-//    @Test
-//    public void whenChannelBecomesAvailableAgainWhileSubscribedThenPollingIsRestarted() throws Exception {
-//        whenChannelBecomesUnavailableWhileSubscribedThenPollingIsStopped();
-//
-//        diCommPort.setDiCommChannel(diCommChannelMock);
-//
-//        verify(diCommChannelMock).reloadProperties(anyString(), any(SHNMapResultListener.class));
-//    }
+    @Test
+    public void whenChannelBecomesUnavailableWhileSubscribedThenPollingIsStopped() throws Exception {
+        whenSubscribedWhenReloadPropertiesIsCalled();
+        diCommPort.setDiCommChannel(null);
+        diCommPort.onChannelAvailabilityChanged(false);
+        reset(diCommChannelMock);
+
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(properties, SHNResult.SHNOk);
+
+        assertEquals(1, mockedHandler.getScheduledExecutionCount());
+        reset(diCommChannelMock);
+        mockedHandler.executeFirstScheduledExecution();
+
+        verify(diCommChannelMock, never()).reloadProperties(anyString(), any(SHNMapResultListener.class));
+    }
+
+    @Test
+    public void whenChannelBecomesAvailableAgainWhileSubscribedThenPollingIsRestarted() throws Exception {
+        whenChannelBecomesUnavailableWhileSubscribedThenPollingIsStopped();
+        reset(diCommChannelMock);
+
+        diCommPort.setDiCommChannel(diCommChannelMock);
+        goToAvailableState();
+
+        assertEquals(1, mockedHandler.getScheduledExecutionCount());
+    }
 
     @Test
     public void whenSubscribedTwiceThenNotifiedOnce() throws Exception {
