@@ -8,6 +8,8 @@ import android.content.Context;
 
 import com.philips.cdp.di.iap.core.StoreSpec;
 
+import org.mockito.Mockito;
+
 import static org.mockito.Mockito.when;
 
 public class MockStore {
@@ -18,8 +20,14 @@ public class MockStore {
     public MockStore(Context context, IAPUser user) {
         mContext = context;
         mUser = user;
-        when(user.getJanRainEmail()).thenReturn(NetworkURLConstants.JANRAIN_EMAIL);
-        when(user.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
+        if (context == null) {
+            mContext = Mockito.mock(Context.class);
+        }
+        if (user == null) {
+            mUser = Mockito.mock(IAPUser.class);
+        }
+        when(mUser.getJanRainEmail()).thenReturn(NetworkURLConstants.JANRAIN_EMAIL);
+        when(mUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
     }
 
     public StoreSpec getStore() {

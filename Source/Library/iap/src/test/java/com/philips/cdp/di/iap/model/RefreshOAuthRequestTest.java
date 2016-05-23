@@ -4,16 +4,16 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
-import com.philips.cdp.di.iap.store.HybrisStore;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 
@@ -22,7 +22,7 @@ import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class RefreshOAuthRequestTest {
 
     @Mock

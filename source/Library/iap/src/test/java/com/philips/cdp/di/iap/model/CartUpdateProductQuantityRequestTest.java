@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.mock;
 /**
  * Created by 310164421 on 3/8/2016.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class CartUpdateProductQuantityRequestTest extends TestCase {
     @Mock
     private StoreSpec mStore;
