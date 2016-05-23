@@ -23,6 +23,7 @@ import java.util.List;
 public class BTGatt extends BluetoothGattCallback {
     private static final String TAG = BTGatt.class.getSimpleName();
     private static final boolean ENABLE_DEBUG_LOGGING = false;
+    private Runnable currentCommand;
 
     public interface BTGattCallback {
         void onConnectionStateChange(BTGatt gatt, int status, int newState);
@@ -198,8 +199,8 @@ public class BTGatt extends BluetoothGattCallback {
 
     private void executeNextCommandIfAllowed() {
         if (!waitingForCompletion && !commandQueue.isEmpty()) {
-            Runnable runnable = commandQueue.remove(0);
-            runnable.run();
+            currentCommand = commandQueue.remove(0);
+            currentCommand.run();
         }
     }
 
@@ -237,6 +238,10 @@ public class BTGatt extends BluetoothGattCallback {
 
     @Override
     public void onCharacteristicRead(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic, final int status) {
+        if (retryCurrentCommandWhenStatusIndicatesAnError(status)) {
+            return;
+        }
+
         byte[] data = characteristic.getValue();
         if (data != null) data = data.clone();
         final byte[] finalData = data;
@@ -250,6 +255,22 @@ public class BTGatt extends BluetoothGattCallback {
             }
         };
         handler.post(runnable);
+    }
+
+    private boolean retryCurrentCommandWhenStatusIndicatesAnError(int status) {
+        if (status != BluetoothGatt.GATT_SUCCESS && currentCommand != null) {
+            handler.post(new Runnable() {
+                private Runnable retryCommandRunnable = currentCommand;
+                @Override
+                public void run() {
+                    waitingForCompletion = false;
+                    retryCommandRunnable.run();
+                }
+            });
+            currentCommand = null;
+            return true;
+        }
+        return false;
     }
 
     @Override
