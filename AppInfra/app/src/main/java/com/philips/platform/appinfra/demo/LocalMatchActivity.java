@@ -16,6 +16,7 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.LocaleMatchError;
 import com.philips.cdp.localematch.enums.Platform;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.platform.appinfra.AppInfra;
 
 public class LocalMatchActivity extends AppCompatActivity implements LocaleMatchListener {
 
@@ -80,8 +81,9 @@ public class LocalMatchActivity extends AppCompatActivity implements LocaleMatch
         SpinnerclickActions();
         mCountryBased_button = (Button)findViewById(R.id.countrybased_btn);
         mLangauageBased_button = (Button)findViewById(R.id.language_based_btn);
-
-        pilLocaleManager = new PILLocaleManager(LocalMatchActivity.this);
+        AppInfra   appInfra = new AppInfra.Builder().build(getApplicationContext());
+        pilLocaleManager=appInfra.getpILLocaleManager();
+        //pilLocaleManager = new PILLocaleManager(LocalMatchActivity.this);
 
 
 

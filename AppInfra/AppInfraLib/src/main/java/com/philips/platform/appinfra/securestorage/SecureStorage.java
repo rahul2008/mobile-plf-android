@@ -184,6 +184,9 @@ public class SecureStorage implements SecureStorageInterface{
                 KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
                 generator.initialize(spec);
                 KeyPair keyPair = generator.generateKeyPair();
+
+               /* System.out.println("key private" +keyPair.getPrivate().getEncoded().toString());
+                System.out.println("key public" +keyPair.getPublic().getEncoded().toString());*/
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -194,6 +197,7 @@ public class SecureStorage implements SecureStorageInterface{
 
     /**
      * Store encrypted data in shared preferences.
+     *
      * @param key           the key
      * @param encryptedData the encrypted data
      * @return the boolean
@@ -214,7 +218,8 @@ public class SecureStorage implements SecureStorageInterface{
 
 
     /**
-     * Fetch encrypted data from shared preferences..
+     * Fetch encrypted data string.
+     *
      * @param key the key
      * @return the string
      */
@@ -226,18 +231,18 @@ public class SecureStorage implements SecureStorageInterface{
         return result;
         }
 
-
     /**
      * Gets shared preferences.
+     *
      * @return the shared preferences
      */
     protected SharedPreferences getSharedPreferences() {
         return mContext.getSharedPreferences(FILE_NAME, mContext.MODE_PRIVATE);
     }
 
-
     /**
-     * Delete encrypted data in shared preferences.
+     * Delete encrypted data boolean.
+     *
      * @param key the key
      * @return the boolean
      */
@@ -245,6 +250,7 @@ public class SecureStorage implements SecureStorageInterface{
         boolean deleteResult= false;
         try {
                 SharedPreferences prefs = getSharedPreferences();
+               // String isGivenKeyPresentInSharedPreferences = prefs.getString(key, null);
                if( prefs.contains(key)){  // if given key is present in SharedPreferences
                    // encrypted data will be deleted from device  SharedPreferences
                    SharedPreferences.Editor editor = getSharedPreferences().edit();

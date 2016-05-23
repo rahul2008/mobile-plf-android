@@ -28,6 +28,7 @@ import com.philips.cdp.prxclient.request.ProductSupportRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.platform.appinfra.AppInfra;
 
 public class PrxLauncherActivity extends AppCompatActivity {
 
@@ -165,10 +166,12 @@ public class PrxLauncherActivity extends AppCompatActivity {
         {
 
 
-    RequestManager mRequestManager = new RequestManager();
-    mRequestManager.init(getApplicationContext());
-    Log.d(TAG, "Positive Request");
-    mRequestManager.executeRequest(prxRequest, new ResponseListener() {
+         //RequestManager mRequestManager = new RequestManager();
+        AppInfra   appInfra = new AppInfra.Builder().build(getApplicationContext());
+        RequestManager mRequestManager = appInfra.getRequestManager();
+        mRequestManager.init(getApplicationContext());
+        Log.d(TAG, "Positive Request");
+        mRequestManager.executeRequest(prxRequest, new ResponseListener() {
         @Override
         public void onResponseSuccess(ResponseData responseData) {
         String str = responseData.getClass().toString();
