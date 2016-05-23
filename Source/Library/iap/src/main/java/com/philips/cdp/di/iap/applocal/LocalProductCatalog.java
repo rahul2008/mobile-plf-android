@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.response.products.Products;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -29,7 +30,6 @@ import java.util.ArrayList;
 
 public class LocalProductCatalog implements ProductCatalogAPI , AbstractModel.DataLoadListener{
     private Context mContext;
-    private ProductCatalogPresenter.LoadListener mLoadListener;
     private FragmentManager mFragmentManager;
     private ProductCatalogHelper mProductCatalogHelper;
     Products mProductCatalog;
@@ -38,7 +38,6 @@ public class LocalProductCatalog implements ProductCatalogAPI , AbstractModel.Da
 
     public LocalProductCatalog(final Context context, final ProductCatalogPresenter.LoadListener listener, final FragmentManager fragmentManager) {
         mContext = context;
-        mLoadListener = listener;
         mFragmentManager = fragmentManager;
         mProductCatalogHelper = new ProductCatalogHelper(context,listener,this);
     }
@@ -49,9 +48,8 @@ public class LocalProductCatalog implements ProductCatalogAPI , AbstractModel.Da
     }
 
     private void loadFromLocal() {
-       //todo - In Local Store cant use Hybris
-       // String locale = HybrisDelegate.getInstance().getStore().getLocale();
-        String fileName = "en_US"+ ".json";
+        String locale = HybrisDelegate.getInstance().getStore().getLocale();
+        String fileName = locale + ".json";
         mProductCatalog = loadFromAsset(mContext, fileName);
         mProductCatalogHelper.makePrxCall(mProductCatalog);
     }

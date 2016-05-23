@@ -9,31 +9,20 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.ProductCatalogHelper;
 import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
-import com.philips.cdp.di.iap.prx.PRXDataBuilder;
-import com.philips.cdp.di.iap.response.carts.Carts;
-import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.response.products.Products;
-import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.prxclient.datamodels.summary.Data;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class ProductCatalogPresenter implements ProductCatalogAPI,AbstractModel.DataLoadListener {
 
@@ -88,7 +77,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI,AbstractModel.
 
     @Override
     public void onModelDataLoadFinished(final Message msg) {
-        if (processHybrisRequestForGetCurrentCartData(msg))
+        if (processHybrisRequestForGetProductCatalogData(msg))
             return;
 
         if (mProductCatalogHelper.processPRXResponse(msg,mProductData))
@@ -99,7 +88,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI,AbstractModel.
 
     }
 
-    public boolean processHybrisRequestForGetCurrentCartData(final Message msg) {
+    public boolean processHybrisRequestForGetProductCatalogData(final Message msg) {
         if (msg.obj instanceof Products) {
             mProductData = (Products) msg.obj;
             if (mProductData != null) {

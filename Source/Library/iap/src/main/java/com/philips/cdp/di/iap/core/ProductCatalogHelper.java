@@ -85,7 +85,7 @@ public class ProductCatalogHelper {
         }else {
             HashMap<String, SummaryModel> prxModel = new HashMap<>();
             for(String ctnPresent: productsToBeShown){
-                prxModel.put(ctnPresent,CartModelContainer.getInstance().getProductDataFromListIfPresent(ctnPresent));
+                prxModel.put(ctnPresent,CartModelContainer.getInstance().getProductData(ctnPresent));
             }
             ArrayList<ProductCatalogData> productCatalogDatas = mergeResponsesFromHybrisAndPRX(productData,prxModel);
             refreshList(productCatalogDatas);

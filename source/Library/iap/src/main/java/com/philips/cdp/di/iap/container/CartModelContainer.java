@@ -130,17 +130,12 @@ public class CartModelContainer {
         return mRegionList;
     }
 
-    public SummaryModel getProductDataFromListIfPresent(String ctn){
-        if(mPRXDataObjects.containsKey(ctn))
+    public SummaryModel getProductData(String ctn){
             return mPRXDataObjects.get(ctn);
-        else
-            return null;
     }
 
     public boolean isPRXDataPresent(String ctn) {
-        if (mPRXDataObjects.containsKey(ctn))
-            return true;
-        return false;
+        return mPRXDataObjects.containsKey(ctn);
     }
 
     public void addProductDataToList(String ctn, SummaryModel model){
