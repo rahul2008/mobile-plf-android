@@ -93,10 +93,10 @@ public class PrxLauncherActivity extends AppCompatActivity {
         });
         ////////////////
         PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
-       /* mCountryCode=localeManager.getCountryCode();
-        mLangUageCode=localeManager.getLanguageCode();*/
-        mCountryCode="GB";
-        mLangUageCode="en";
+        mCountryCode=localeManager.getCountryCode();
+        mLangUageCode=localeManager.getLanguageCode();
+//        mCountryCode="GB";
+//        mLangUageCode="en";
         mLocale=localeManager.getInputLocale();
 //        localeManager.setInputLocale(mLangUageCode, mCountryCode);
         PrxLogger.enablePrxLogger(true);
@@ -184,41 +184,19 @@ public class PrxLauncherActivity extends AppCompatActivity {
 
             }else    if(responseData instanceof AssetModel){
                 AssetModel mAssetModel = (AssetModel) responseData;
+                Log.d(TAG, "Support Response Data : " + mAssetModel.isSuccess());
+                com.philips.cdp.prxclient.datamodels.assets.Data myyData = mAssetModel.getData();
+                Log.d(TAG, " Positive Response Data : " + mAssetModel.isSuccess());
+                Log.d(TAG, " Positive Response Data : " + myyData.getAssets());
+//                Log.d(TAG, " Positive Response Data : " + mData.getCtn());
+//                Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
             }else {
                 SupportModel mSupportModel = (SupportModel) responseData;
+                Log.d(TAG, "Support Response Data : " + mSupportModel.isSuccess());
+                com.philips.cdp.prxclient.datamodels.support.Data msupportData = mSupportModel.getData();
+                Log.d(TAG, " Positive Response Data : " + mSupportModel.isSuccess());
+                Log.d(TAG, " Positive Response Data : " + msupportData.getRichTexts());
             }
-//            SupportModel mSupportModel = (SupportModel) responseData;
-//            AssetModel mAssetModel = (AssetModel) responseData;
-
-//            switch(responseData != null) {
-//                case(responseData.equals(mSummaryModel)):
-//
-//                    break;
-//            }
-
-
-
-//                if(responseData.equals(mSummaryModel)){
-////                onLogedResponce(mSummaryModel);
-//                    Log.d(TAG, "Support Response Data : " + mSummaryModel.isSuccess());
-//                    Data mData = mSummaryModel.getData();
-//                    Log.d(TAG, " Positive Response Data : " + mSummaryModel.isSuccess());
-//                    Log.d(TAG, " Positive Response Data : " + mData.getBrand());
-//                    Log.d(TAG, " Positive Response Data : " + mData.getCtn());
-//                    Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
-//                }else if(responseData.equals(mSupportModel)){
-
-//                    Log.d(TAG, "Support Response Data : " + mSupportModel.isSuccess());
-//                    mSupportModel.setData(responseData);
-//                    com.philips.cdp.prxclient.datamodels.support.Data mData = mSupportModel.getData();
-//                    Log.d(TAG, " Positive Response Data : " + mSupportModel.isSuccess());
-//                    Log.d(TAG, " Positive Response Data : " + mSupportModel.getData().getBrand());
-//                    Log.d(TAG, " Positive Response Data : " + mData.getCtn());
-//                    Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
-//                }else if(responseData.equals(mAssetModel)){
-//                    onLogedResponce(mAssetModel);
-//                }
-
 
         }
 
@@ -229,17 +207,6 @@ public class PrxLauncherActivity extends AppCompatActivity {
     });
 
 }
-//    public void onLogedResponce(ResponseData mresponceData){
-//        if(mresponceData.equals(msu))
-//
-//        Log.d(TAG, "Support Response Data : " + mresponceData.isSuccess());
-//        Data mData = mSupportModel.getData();
-//        Log.d(TAG, " Positive Response Data : " + mSupportModel.isSuccess());
-//        Log.d(TAG, " Positive Response Data : " + mData.getBrand());
-//        Log.d(TAG, " Positive Response Data : " + mData.getCtn());
-//        Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
-//
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
