@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpdate, DiCommPort.Listener, DiCommPort.UpdateListener {
+public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpdate {
 
     private static final String TAG = "FirmwareUpdateDiComm";
     private DiCommFirmwarePort firmwareDiCommPort;
@@ -27,11 +27,31 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
     private SHNCapabilityFirmwareUpdateListener shnCapabilityFirmwareUpdateListener;
     private byte[] firmwareData;
 
+    private DiCommPort.UpdateListener updateListener = new DiCommPort.UpdateListener() {
+        @Override
+        public void onPropertiesChanged(@NonNull Map<String, Object> properties) {
+            updateState();
+        }
+    };
+
+    private DiCommPort.Listener listener = new DiCommPort.Listener() {
+
+        @Override
+        public void onPortAvailable(DiCommPort diCommPort) {
+            updateState();
+        }
+
+        @Override
+        public void onPortUnavailable(DiCommPort diCommPort) {
+            updateState();
+        }
+    };
+
     public CapabilityFirmwareUpdateDiComm(@NonNull DiCommFirmwarePort diCommPort, @NonNull DiCommFirmwarePortStateWaiter diCommFirmwarePortStateWaiter) {
         this.firmwareDiCommPort = diCommPort;
         this.diCommFirmwarePortStateWaiter = diCommFirmwarePortStateWaiter;
 
-        this.firmwareDiCommPort.setListener(this);
+        this.firmwareDiCommPort.setListener(listener);
 
         if (this.firmwareDiCommPort.isAvailable()) {
             updateState();
@@ -45,24 +65,30 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
 
     @Override
     public void uploadFirmware(final byte[] firmwareData) {
-        if (firmwareData == null || firmwareData.length == 0) {
-            notifyUploadFailed(SHNResult.SHNErrorInvalidParameter);
-        } else {
-            setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateUploading);
-            firmwareDiCommPort.reloadProperties(new SHNMapResultListener<String, Object>() {
-                @Override
-                public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
-                    if (result != SHNResult.SHNOk) {
-                        failWithResult(result);
-                    } else {
-                        if (firmwareDiCommPort.getState() != DiCommFirmwarePort.State.Idle) {
-                            resetFirmwarePortToIdle(firmwareDiCommPort.getState());
+        if (state == SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle) {
+            if (firmwareData == null || firmwareData.length == 0) {
+                notifyUploadFailed(SHNResult.SHNErrorInvalidParameter);
+            } else {
+                setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateUploading);
+                CapabilityFirmwareUpdateDiComm.this.firmwareData = firmwareData;
+
+                firmwareDiCommPort.reloadProperties(new SHNMapResultListener<String, Object>() {
+                    @Override
+                    public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
+                        if (result != SHNResult.SHNOk) {
+                            failWithResult(result);
                         } else {
-                            prepareForUpload(firmwareData);
+                            if (firmwareDiCommPort.getState() != DiCommFirmwarePort.State.Idle) {
+                                resetFirmwarePortToIdle(firmwareDiCommPort.getState());
+                            } else {
+                                prepareForUpload();
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
+        } else {
+            SHNLogger.d(TAG, "Unable to start firmware upload; State is: " + state);
         }
     }
 
@@ -95,6 +121,8 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
             public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
                 if (result != SHNResult.SHNOk) {
                     failWithResult(result);
+                } else {
+                    prepareForUpload();
                 }
             }
         });
@@ -168,7 +196,6 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
             public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
                 if (result != SHNResult.SHNOk) {
                     failWithResult(result);
-                    diCommFirmwarePortStateWaiter.cancel();
                 }
             }
         });
@@ -197,24 +224,14 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         return state;
     }
 
-    // implements DiCommPort.Listener
-    @Override
-    public void onPortAvailable(DiCommPort diCommPort) {
-        updateState();
-    }
-
-    @Override
-    public void onPortUnavailable(DiCommPort diCommPort) {
-        updateState();
-    }
-
     @NonNull
     private SHNFirmwareUpdateState toShnFirmwareUpdateState(DiCommFirmwarePort.State remoteState) {
         switch (remoteState) {
+            case Error:
+                failWithResult(SHNResult.SHNErrorInvalidState);
             case Unknown:
             case Idle:
             case Ready:
-            case Error:
                 return SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle;
             case Preparing:
                 return SHNFirmwareUpdateState.SHNFirmwareUpdateStatePreparing;
@@ -228,12 +245,6 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         }
 
         return null;
-    }
-
-    // implements DiCommPort.UpdateListener
-    @Override
-    public void onPropertiesChanged(@NonNull Map<String, Object> properties) {
-        updateState();
     }
 
     private void updateState() {
@@ -259,10 +270,8 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         return null;
     }
 
-    private void prepareForUpload(byte[] firmwareData) {
-        CapabilityFirmwareUpdateDiComm.this.firmwareData = firmwareData;
-
-        firmwareDiCommPort.subscribe(this, new SHNResultListener() {
+    private void prepareForUpload() {
+        firmwareDiCommPort.subscribe(updateListener, new SHNResultListener() {
             @Override
             public void onActionCompleted(SHNResult result) {
                 if (result != SHNResult.SHNOk) {
@@ -298,7 +307,7 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
                             updateProgress(firmwareData.length);
                             shnCapabilityFirmwareUpdateListener.onUploadFinished(CapabilityFirmwareUpdateDiComm.this);
                         }
-                        firmwareDiCommPort.unsubscribe(CapabilityFirmwareUpdateDiComm.this, null);
+                        firmwareDiCommPort.unsubscribe(updateListener, null);
                     } else {
                         failWithResult(shnResult);
                     }
@@ -321,7 +330,6 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
             public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
                 if (result != SHNResult.SHNOk) {
                     failWithResult(result);
-                    diCommFirmwarePortStateWaiter.cancel();
                 }
             }
         });
@@ -369,7 +377,8 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         } else if (state == SHNFirmwareUpdateState.SHNFirmwareUpdateStateDeploying) {
             notifyDeployFailed(shnResult);
         }
-        firmwareDiCommPort.unsubscribe(this, null);
+        firmwareDiCommPort.unsubscribe(updateListener, null);
+        diCommFirmwarePortStateWaiter.cancel();
         setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle);
     }
 
