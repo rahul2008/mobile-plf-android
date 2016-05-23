@@ -212,6 +212,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         return null;
     }
 
+    public boolean isBonded() {
+        return btDevice.getBondState() == BluetoothDevice.BOND_BONDED;
+    }
+
     // implements SHNDevice
     @Override
     public State getState() {
