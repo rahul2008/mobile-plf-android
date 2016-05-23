@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.iap.ShoppingCart;
+package com.philips.cdp.di.iap.prx;
 
 import android.content.Context;
 import android.os.Message;
@@ -65,7 +65,6 @@ public class PRXProductAssetBuilder {
             public void onResponseError(final PrxError prxError) {
                 notifyError(prxError.getDescription());
             }
-
         });
     }
 
