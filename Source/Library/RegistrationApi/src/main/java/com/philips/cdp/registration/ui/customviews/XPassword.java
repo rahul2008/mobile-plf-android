@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,10 +27,6 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     private Context mContext;
 
-    private TextView mIvPasswordErrAlert;
-
-    private ImageView mIvArrowUpView;
-
     private TextView mTvErrDescriptionView;
 
     private EditText mEtPassword;
@@ -42,6 +38,8 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     private RelativeLayout mRlEtPassword;
 
     private TextView mTvMaskPassword;
+
+    private FrameLayout mFlInvaliFielddAlert;
 
     private boolean isValidatePassword = true;
 
@@ -61,9 +59,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     public final void initUi(int resourceId) {
         LayoutInflater li = LayoutInflater.from(mContext);
         li.inflate(resourceId, this, true);
-        mIvPasswordErrAlert = (TextView) findViewById(R.id.iv_reg_password_error_alert);
-        mIvPasswordErrAlert.setOnClickListener(this);
-        mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
+        mFlInvaliFielddAlert = (FrameLayout) findViewById(R.id.fl_reg_password_field_err);
         mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_password_err);
         mEtPassword = (EditText) findViewById(R.id.et_reg_password);
         mEtPassword.setOnClickListener(this);
@@ -142,6 +138,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
+        mEtPassword.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
         if (v.getId() == R.id.et_reg_password) {
             handlePassword(hasFocus);
             fireUpdateStatusEvent();
@@ -153,28 +150,17 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_reg_password_error_alert) {
-            handleErrorUi();
-        }
 
-    }
-
-    private void handleErrorUi() {
-        if (mTvErrDescriptionView.isShown()) {
-            hideErrPopUp();
-        } else {
-            showErrPopUp();
-        }
     }
 
     private void showErrPopUp() {
         mTvErrDescriptionView.setVisibility(View.VISIBLE);
-        mIvArrowUpView.setVisibility(View.VISIBLE);
+        mFlInvaliFielddAlert.setVisibility(View.VISIBLE);
     }
 
     private void hideErrPopUp() {
         mTvErrDescriptionView.setVisibility(View.GONE);
-        mIvArrowUpView.setVisibility(View.GONE);
+        mFlInvaliFielddAlert.setVisibility(View.GONE);
     }
 
     @Override
@@ -253,14 +239,16 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     }
 
     private void showInvalidPasswordAlert() {
-        mIvPasswordErrAlert.setVisibility(VISIBLE);
-        mIvArrowUpView.setVisibility(VISIBLE);
+        mEtPassword.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+        mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_error);
+        mFlInvaliFielddAlert.setVisibility(VISIBLE);
         mTvErrDescriptionView.setVisibility(VISIBLE);
     }
 
     private void showValidPasswordAlert() {
-        mIvPasswordErrAlert.setVisibility(GONE);
-        mIvArrowUpView.setVisibility(GONE);
+        mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_disable);
+        mEtPassword.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mFlInvaliFielddAlert.setVisibility(GONE);
         mTvErrDescriptionView.setVisibility(GONE);
     }
 
@@ -269,13 +257,11 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
         fireUpdateStatusEvent();
         if (isValidatePassword && validatePassword()) {
-            mIvArrowUpView.setVisibility(View.GONE);
+            mFlInvaliFielddAlert.setVisibility(View.GONE);
             mTvErrDescriptionView.setVisibility(View.GONE);
-            mIvPasswordErrAlert.setVisibility(View.GONE);
         } else if (validatePasswordWithoutPattern() && !isValidatePassword) {
-            mIvArrowUpView.setVisibility(View.GONE);
+            mFlInvaliFielddAlert.setVisibility(View.GONE);
             mTvErrDescriptionView.setVisibility(View.GONE);
-            mIvPasswordErrAlert.setVisibility(View.GONE);
         }
 
         handleMaskPasswordUi();

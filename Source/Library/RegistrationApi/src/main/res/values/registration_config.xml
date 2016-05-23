@@ -128,4 +128,6 @@
     <!-- shadow color -->
     <color name="reg_shadow_color">#E4EAFD</color>
 
+    <color name="reg_edt_text_feild_color">@android:color/black</color>
+
 </resources>

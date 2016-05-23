@@ -1,39 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:orientation="horizontal" >
+    android:layout_height="wrap_content">
 
-    <com.philips.cdp.registration.ui.customviews.XErrorAlertIcon
-        android:layout_width="@dimen/reg_err_alert_width"
-        android:layout_height="@dimen/reg_err_alert_width"
-        android:layout_gravity="top"
-        android:layout_marginRight="@dimen/reg_err_mapping_margin_right"
-        android:layout_marginTop="@dimen/reg_err_mapping_mergin_top"
-        android:textSize="@dimen/reg_error_alert_size"
-        android:textStyle="bold"
-        android:text="!"/>
-
-    <ImageView
-        android:layout_width="@dimen/reg_err_alert_width"
-        android:layout_height="@dimen/reg_err_alert_width"
-        android:layout_gravity="top"
-        android:layout_marginTop="@dimen/reg_left_arrow_margin_top"
-        android:layout_marginRight="@dimen/reg_left_arrow_margin_right"
-        android:layout_marginLeft="@dimen/reg_left_arrow_margin_left"
-        android:src="@drawable/reg_arrow_left"
-        android:contentDescription="@string/content_desc" />
-
-    <com.philips.cdp.registration.ui.customviews.XTextView
-        android:id="@+id/tv_reg_error_message"
-        style="@style/reg_error_textStyle"
+    <FrameLayout
+        android:id="@+id/fl_reg_err_mapping"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/reg_rect"
-        android:padding="@dimen/reg_err_mapping_padding"
-        android:text="@string/NoNetworkConnection"
-        reglib:fontAssetName="CentraleSans-Book.OTF" />
+        android:orientation="horizontal">
 
-</LinearLayout>
+        <com.philips.cdp.registration.ui.customviews.XIconTextView
+            android:id="@+id/iv_reg_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/reg_margin_bottom"
+            android:text="@string/ic_reg_close"
+            android:textColor="@color/reg_error_box_color"/>
+
+        <com.philips.cdp.registration.ui.customviews.XTextView
+            android:id="@+id/tv_reg_error_message"
+            style="@style/reg_error_textStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/reg_error_mapping_pdding"
+            android:padding="@dimen/reg_edit_fields_padding"
+            android:layout_marginBottom="-10dp"
+            android:text="@string/NoNetworkConnection"
+            android:textColor="@color/reg_error_box_color"
+            reglib:fontAssetName="CentraleSans-Book.OTF" />
+    </FrameLayout>
+
+</RelativeLayout>

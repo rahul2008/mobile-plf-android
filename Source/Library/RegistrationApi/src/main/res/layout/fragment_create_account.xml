@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_margin_bottom"
-                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingLeft="@dimen/reg_terms_condition_error_pdding"
                 android:paddingRight="@dimen/reg_layout_margin"
                 android:visibility="gone" />
 

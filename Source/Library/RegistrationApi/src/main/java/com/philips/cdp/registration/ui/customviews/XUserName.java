@@ -11,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,13 +18,15 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class XUserName extends RelativeLayout implements TextWatcher, OnFocusChangeListener,
         OnClickListener {
 
 	private Context mContext;
 
-	private TextView mIvErrAlert;
+	//private TextView mIvErrAlert;
 
 	private EditText mEtUserName;
 
@@ -37,9 +38,11 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	private TextView mTvErrDescriptionView;
 
-	private ImageView mIvArrowUpView;
+	//private ImageView mIvArrowUpView;
 
-	private FrameLayout mFlInvalidAlert;
+	private FrameLayout mFlInvaliFielddAlert;
+
+	private TextView mTvCloseIcon;
 
 	public XUserName(Context context) {
 		super(context);
@@ -63,21 +66,23 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		mEtUserName.setOnFocusChangeListener(this);
 		mEtUserName.addTextChangedListener(this);
 
-		mIvErrAlert = (TextView) findViewById(R.id.iv_reg_name_error_alert);
-		mIvErrAlert.setOnClickListener(this);
+		/*mIvErrAlert = (TextView) findViewById(R.id.iv_reg_name_error_alert);
+		mIvErrAlert.setOnClickListener(this);*/
 		mRlEtName = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
 
 		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_name_err);
-		mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
+		//mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
 
-		mFlInvalidAlert = (FrameLayout)findViewById(R.id.fl_reg_invalid_alert);
+		mFlInvaliFielddAlert = (FrameLayout)findViewById(R.id.fl_reg_name_field_err);
+		mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
+		FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.iv_reg_name_error_alert) {
+		/*if (v.getId() == R.id.iv_reg_name_error_alert) {
 			handleErrorUi();
-		}
+		}*/
 	}
 
 	private void handleErrorUi() {
@@ -90,12 +95,12 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	private void showErrorPopUp() {
 		mTvErrDescriptionView.setVisibility(View.VISIBLE);
-		mIvArrowUpView.setVisibility(View.VISIBLE);
+		//mIvArrowUpView.setVisibility(View.VISIBLE);
 	}
 
 	private void hideErrorPopUp() {
 		mTvErrDescriptionView.setVisibility(View.GONE);
-		mIvArrowUpView.setVisibility(View.GONE);
+		//mIvArrowUpView.setVisibility(View.GONE);
 	}
 
 	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
@@ -109,16 +114,20 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	}
 
 	private void showInvalidUserNameAlert() {
-		mIvErrAlert.setVisibility(VISIBLE);
-		mFlInvalidAlert.setVisibility(View.VISIBLE);
-		mIvArrowUpView.setVisibility(VISIBLE);
+		mEtUserName.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+		mRlEtName.setBackgroundResource(R.drawable.reg_et_focus_error);
+		//mIvErrAlert.setVisibility(VISIBLE);
+		mFlInvaliFielddAlert.setVisibility(View.VISIBLE);
+		//mIvArrowUpView.setVisibility(VISIBLE);
 		mTvErrDescriptionView.setVisibility(VISIBLE);
 	}
 
 	private void showValidUserNameAlert() {
-		mFlInvalidAlert.setVisibility(GONE);
-		mIvErrAlert.setVisibility(GONE);
-		mIvArrowUpView.setVisibility(GONE);
+		/*mEtUserName.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+		mRlEtName.setBackgroundResource(R.drawable.reg_et_focus_disable);*/
+		mFlInvaliFielddAlert.setVisibility(GONE);
+		//mIvErrAlert.setVisibility(GONE);
+		//mIvArrowUpView.setVisibility(GONE);
 		mTvErrDescriptionView.setVisibility(GONE);
 	}
 
@@ -166,6 +175,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
+		mEtUserName.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
 		if (v.getId() == R.id.et_reg_fname) {
 			handleName(hasFocus);
 			raiseUpdateUIEvent();
@@ -207,8 +217,8 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	public void afterTextChanged(Editable s) {
 		if (validateName()) {
 			mTvErrDescriptionView.setVisibility(View.GONE);
-			mIvArrowUpView.setVisibility(View.GONE);
-			mFlInvalidAlert.setVisibility(GONE);
+		  //mIvArrowUpView.setVisibility(View.GONE);
+			mFlInvaliFielddAlert.setVisibility(GONE);
 		}
 		raiseUpdateUIEvent();
 	}

@@ -139,4 +139,11 @@
     <dimen name="reg_shadow_height">7dip</dimen>
     <dimen name="reg_shadow_title_bar_height">4dip</dimen>
 
+    <!--Padding for edit text field-->
+    <dimen name="reg_edit_text_field_padding">8dip</dimen>
+    <dimen name="reg_terms_condition_error_pdding">42dip</dimen>
+    <dimen name="reg_error_mapping_pdding">11dip</dimen>
+    <dimen name="reg_field_error_left_margin">11dip</dimen>
+
+
 </resources>
