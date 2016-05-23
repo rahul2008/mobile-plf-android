@@ -5,7 +5,9 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import junit.framework.TestCase;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 /**
  * Created by 310164421 on 3/9/2016.
  */
+@RunWith(RobolectricTestRunner.class)
 public class EventHelperTest extends TestCase {
     EventHelper eventHelper = EventHelper.getInstance();
     EventListener listener = Mockito.mock(EventListener.class);

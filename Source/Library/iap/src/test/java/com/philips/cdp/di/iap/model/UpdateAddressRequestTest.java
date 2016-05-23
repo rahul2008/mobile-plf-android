@@ -13,14 +13,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.mockito.Mockito.mock;
 
 /**
  * Created by 310164421 on 5/4/2016.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class UpdateAddressRequestTest {
     @Mock
     private StoreSpec mStore;
