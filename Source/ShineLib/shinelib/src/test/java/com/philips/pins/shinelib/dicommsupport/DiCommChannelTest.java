@@ -498,6 +498,25 @@ public class DiCommChannelTest {
         verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNOk));
     }
 
+    @Test
+    public void whenMessageIsTransmittedAndAvailabilityChangesThenNextMessageIsParsedProperly() throws Exception {
+        diCommChannel.onProtocolAvailable();
+        diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
+
+        when(diCommResponseMock.getStatus()).thenReturn(StatusCode.NoError);
+        byte[] data = {(byte) 0xFE, (byte) 0xFF, MessageType.GenericResponse.getDiCommMessageTypeCode()};
+        diCommChannel.onDataReceived(data);
+
+        diCommChannel.onProtocolUnavailable();
+        reset(resultListenerMock);
+        diCommChannel.onProtocolAvailable();
+
+        diCommChannel.reloadProperties(PORT_NAME, resultListenerMock);
+        diCommChannel.onDataReceived(validMessageData);
+
+        verify(resultListenerMock).onActionCompleted(anyMap(), eq(SHNResult.SHNOk));
+    }
+
     private class DiCommChannelForTest extends DiCommChannel {
 
         public DiCommChannelForTest(SHNProtocolMoonshineStreaming shnProtocolMoonshineStreaming, int timeOut) {

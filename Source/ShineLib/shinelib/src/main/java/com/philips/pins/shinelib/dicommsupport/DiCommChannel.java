@@ -160,6 +160,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
                 }
                 pendingRequests.clear();
                 requestTimer.stop();
+                receiveBuffer = new byte[0];
             }
         }
     }
