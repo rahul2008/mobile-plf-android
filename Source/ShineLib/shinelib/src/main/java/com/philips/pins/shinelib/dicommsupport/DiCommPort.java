@@ -52,19 +52,16 @@ public class DiCommPort {
 
     public void onChannelAvailabilityChanged(boolean isAvailable) {
         if (isAvailable) {
-            if (diCommChannel != null) {
-                diCommChannel.reloadProperties(name, new SHNMapResultListener<String, Object>() {
-                    @Override
-                    public void onActionCompleted(Map<String, Object> properties, @NonNull SHNResult result) {
-                        if (result == SHNResult.SHNOk) {
-                            DiCommPort.this.properties = properties;
-                            setIsAvailable(true);
-                        } else {
-                            SHNLogger.d(TAG, "Failed to load properties result: " + result);
-                        }
+            reloadProperties(new SHNMapResultListener<String, Object>() {
+                @Override
+                public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
+                    if (result == SHNResult.SHNOk) {
+                        setIsAvailable(true);
+                    } else {
+                        SHNLogger.d(TAG, "Failed to load properties result: " + result);
                     }
-                });
-            }
+                }
+            });
         } else {
             setIsAvailable(false);
         }

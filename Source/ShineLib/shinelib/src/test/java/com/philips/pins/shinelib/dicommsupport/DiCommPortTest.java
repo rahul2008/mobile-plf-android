@@ -351,6 +351,19 @@ public class DiCommPortTest {
     }
 
     @Test
+    public void whenChannelBecomesAvailableAgainWithNewPropertiesThenUpdateListenerIsNotified() throws Exception {
+        whenChannelBecomesUnavailableWhileSubscribedThenPollingIsStopped();
+        reset(diCommChannelMock);
+        diCommPort.setDiCommChannel(diCommChannelMock);
+        diCommPort.onChannelAvailabilityChanged(true);
+        verify(diCommChannelMock).reloadProperties(eq(PORT_NAME), mapResultListenerArgumentCaptor.capture());
+
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(newProperties, SHNResult.SHNOk);
+
+        verify(diCommUpdateListenerMock).onPropertiesChanged(anyMap());
+    }
+
+    @Test
     public void whenSubscribedTwiceThenNotifiedOnce() throws Exception {
         whenSubscribedWhenReloadPropertiesIsCalled();
         diCommPort.subscribe(diCommUpdateListenerMock, resultListenerMock);
