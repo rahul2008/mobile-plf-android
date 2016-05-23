@@ -314,7 +314,7 @@ public class PrxWrapper {
                         }
                     }
                     if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                        mProgressDialog.cancel();
+                        mProgressDialog.dismiss();
                     }
                 }
             }

@@ -12,6 +12,7 @@
 package com.philips.cdp.digitalcare.activity;
 
 import android.os.Bundle;
+import android.provider.Settings;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
@@ -35,15 +36,34 @@ public  class DigitalCareActivity extends DigitalCareBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        int alwaysFinishActivity = 0;
+
+        try {
+            alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
+        } catch (NullPointerException e) {
+        }
+
         setContentView(R.layout.consumercare_activity_digi_care);
         try {
             initActionBar();
         } catch (ClassCastException e) {
             DigiCareLogger.e(TAG, "Actionbar: " + e.getMessage());
         }
-        animateThisScreen();
-        showFragment(new SupportHomeFragment());
-        enableActionBarHome();
+
+        if (alwaysFinishActivity == 0) {
+            animateThisScreen();
+            showFragment(new SupportHomeFragment());
+            enableActionBarHome();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        DigiCareLogger.i(DigiCareLogger.FRAGMENT, "--> BaseActivity protected onSaveInstanceState");
+        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
 
     private void animateThisScreen() {

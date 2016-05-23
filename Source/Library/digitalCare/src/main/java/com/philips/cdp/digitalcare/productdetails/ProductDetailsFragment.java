@@ -24,7 +24,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -260,17 +259,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         imageRequestQueue.add(request);
     }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        DigiCareLogger.d(TAG, "onViewState Restored");
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        DigiCareLogger.d(TAG, "onViewStateSaved");
-    }
 
     private Bitmap addBlankThumbnail() {
         int height = 0;
@@ -432,6 +420,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         super.onResume();
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
+
 
     /**
      * Create RelativeLayout at runTime. RelativeLayout will have button and
