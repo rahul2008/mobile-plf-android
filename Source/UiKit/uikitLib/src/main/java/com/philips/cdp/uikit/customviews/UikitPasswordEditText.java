@@ -19,7 +19,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.graphics.drawable.DrawableWrapper;
+import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.InputType;
@@ -172,10 +172,10 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         wrappedDrawable.setBounds(d.getBounds());
 
         if (wrappedDrawable instanceof DrawableWrapper) {
-         //   ((DrawableWrapper) wrappedDrawable).setCompatTintList(getColorStateList());
-         //   ((DrawableWrapper) wrappedDrawable).setCompatTintMode(PorterDuff.Mode.SRC_ATOP);
+            ((DrawableWrapper) wrappedDrawable).setTintList(getColorStateList());
+            ((DrawableWrapper) wrappedDrawable).setTintMode(PorterDuff.Mode.SRC_ATOP);
         } else {
-            wrappedDrawable.setTintList(getColorStateList());
+            DrawableCompat.setTintList(wrappedDrawable, getColorStateList());
         }
         return wrappedDrawable;
     }

@@ -137,8 +137,8 @@ public class PuiEditText extends RelativeLayout {
         String errorText = a.getString(R.styleable.InputTextField_uikit_errorText);
         boolean enabled = a.getBoolean(R.styleable.InputTextField_uikit_enabled, true);
         errorTextColor = a.getColor(R.styleable.InputTextField_uikit_errorTextColor, getResources().getColor(R.color.uikit_philips_bright_orange));
-        errorIcon = a.getDrawable(R.styleable.InputTextField_uikit_errorIcon);
-        errorBackground = a.getDrawable(R.styleable.InputTextField_uikit_errorBackground);
+        errorIcon = VectorDrawable.create(context, R.drawable.uikit_red_error_cross).getConstantState().newDrawable().mutate();;
+        errorBackground =a.getDrawable(R.styleable.InputTextField_uikit_errorBackground);
         isPassword = a.getBoolean(R.styleable.InputTextField_uikit_password_edit_field, false);
         a.recycle();
         a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
