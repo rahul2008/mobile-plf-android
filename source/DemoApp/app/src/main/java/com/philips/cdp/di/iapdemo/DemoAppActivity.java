@@ -35,7 +35,7 @@ import java.util.List;
 public class DemoAppActivity extends Activity implements View.OnClickListener,
         UserRegistrationListener, IAPHandlerListener, AdapterView.OnItemSelectedListener {
 
-    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
+    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
 
     private IAPHandler mIapHandler;
     private TextView mCountText = null;
