@@ -3,7 +3,6 @@ package com.philips.cdp.prodreg;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -21,13 +20,14 @@ import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.uikit.UiKitActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProductActivity extends UiKitActivity implements View.OnClickListener {
 
     private ToggleButton toggleButton;
     private EditText mRegChannel, mSerialNumber, mPurchaseDate, mCtn;

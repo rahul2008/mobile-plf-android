@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +25,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.cdp.uikit.UiKitActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,13 +33,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends UiKitActivity implements View.OnClickListener {
 
     String configurationType[] = {"Evaluation", "Testing", "Development", "Staging", "Production"};
     int count = 0;
     List<String> list = Arrays.asList(configurationType);
     private String TAG = getClass().toString();
-    private TextView txt_title;
+    private TextView txt_title, configurationTextView;
     private Spinner spinner;
     private SharedPreferences sharedPreferences;
 
@@ -52,13 +52,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new ProdRegHelper().init(this);
         spinner = (Spinner) findViewById(R.id.spinner);
         txt_title = (TextView) findViewById(R.id.txt_title);
+        configurationTextView = (TextView) findViewById(R.id.configuration);
         final ArrayAdapter<String> configType = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, configurationType);
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(configType);
         final int position = list.indexOf(sharedPreferences.getString("reg_env", "Evaluation"));
-        if (position >= 0)
+        if (position >= 0) {
             spinner.setSelection(position);
+            configurationTextView.setText(configurationType[position]);
+        } else {
+            configurationTextView.setText(configurationType[0]);
+        }
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -82,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         initialiseUserRegistration("Production");
                     }
                     Log.d(TAG, "After Configuration" + configuration);
+                    configurationTextView.setText(configuration);
                 }
                 count++;
             }
