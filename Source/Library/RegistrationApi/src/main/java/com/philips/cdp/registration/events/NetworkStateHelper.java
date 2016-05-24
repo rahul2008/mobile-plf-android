@@ -1,16 +1,16 @@
 
 package com.philips.cdp.registration.events;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class NetworkStateHelper {
 
 	private static NetworkStateHelper eventHelper;
 
-	private ArrayList<NetworStateListener> networStateListeners;
+	private CopyOnWriteArrayList<NetworStateListener> networStateListeners;
 
 	private NetworkStateHelper() {
-		networStateListeners = new ArrayList<NetworStateListener>();
+		networStateListeners = new CopyOnWriteArrayList<NetworStateListener>();
 	}
 
 	public static synchronized NetworkStateHelper getInstance() {
@@ -20,34 +20,40 @@ public class NetworkStateHelper {
 		return eventHelper;
 	}
 
-	public void registerEventNotification(NetworStateListener observer) {
-		if (networStateListeners != null && observer != null) {
-			for (int i = 0; i < networStateListeners.size(); i++) {
-				NetworStateListener tmp = networStateListeners.get(i);
-				if (tmp.getClass() == observer.getClass()) {
-					networStateListeners.remove(tmp);
+	public synchronized void registerEventNotification(NetworStateListener observer) {
+		synchronized (networStateListeners) {
+			if (networStateListeners != null && observer != null) {
+				for (int i = 0; i < networStateListeners.size(); i++) {
+					NetworStateListener tmp = networStateListeners.get(i);
+					if (tmp.getClass() == observer.getClass()) {
+						networStateListeners.remove(tmp);
+					}
 				}
-			}
-			networStateListeners.add(observer);
-		}
-	}
-
-	public void unregisterEventNotification(NetworStateListener observer) {
-		if (networStateListeners != null && observer != null) {
-			for (int i = 0; i < networStateListeners.size(); i++) {
-				NetworStateListener tmp = networStateListeners.get(i);
-				if (tmp.getClass() == observer.getClass()) {
-					networStateListeners.remove(tmp);
-				}
+				networStateListeners.add(observer);
 			}
 		}
 	}
 
-	public void notifyEventOccurred(boolean isOnline) {
-		if (networStateListeners != null) {
-			for (NetworStateListener eventListener : networStateListeners) {
-				if (eventListener != null) {
-					eventListener.onNetWorkStateReceived(isOnline);
+	public synchronized void unregisterEventNotification(NetworStateListener observer) {
+		synchronized (networStateListeners) {
+			if (networStateListeners != null && observer != null) {
+				for (int i = 0; i < networStateListeners.size(); i++) {
+					NetworStateListener tmp = networStateListeners.get(i);
+					if (tmp.getClass() == observer.getClass()) {
+						networStateListeners.remove(tmp);
+					}
+				}
+			}
+		}
+	}
+
+	public synchronized void notifyEventOccurred(boolean isOnline) {
+		synchronized (networStateListeners) {
+			if (networStateListeners != null) {
+				for (NetworStateListener eventListener : networStateListeners) {
+					if (eventListener != null) {
+						eventListener.onNetWorkStateReceived(isOnline);
+					}
 				}
 			}
 		}

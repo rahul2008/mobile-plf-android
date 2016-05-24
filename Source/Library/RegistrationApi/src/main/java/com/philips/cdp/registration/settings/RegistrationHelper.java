@@ -29,7 +29,7 @@ public class RegistrationHelper {
 
     private String countryCode;
 
-    private static RegistrationHelper mRegistrationHelper = null;
+    private static volatile RegistrationHelper mRegistrationHelper = null;
 
     private Locale mLocale;
 
@@ -54,7 +54,7 @@ public class RegistrationHelper {
      * @param isInitialized true for initialize and false for reinitialize
      * Janrain
      */
-    public void initializeUserRegistration(final Context context) {
+    public synchronized void initializeUserRegistration(final Context context) {
 
         PILLocaleManager localeManager = new PILLocaleManager(context);
 
@@ -118,38 +118,38 @@ public class RegistrationHelper {
     }
 
 
-    public String getCountryCode() {
+    public synchronized String getCountryCode() {
         return countryCode;
     }
 
 
-    public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
+    public synchronized void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
         UserRegistrationHelper.getInstance().registerEventNotification(userRegistrationListener);
     }
 
-    public void unRegisterUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
+    public synchronized void unRegisterUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
         UserRegistrationHelper.getInstance().unregisterEventNotification(userRegistrationListener);
     }
 
-    public UserRegistrationHelper getUserRegistrationListener() {
+    public synchronized UserRegistrationHelper getUserRegistrationListener() {
         return UserRegistrationHelper.getInstance();
     }
 
 
-    public void registerNetworkStateListener(NetworStateListener networStateListener) {
+    public synchronized void registerNetworkStateListener(NetworStateListener networStateListener) {
         NetworkStateHelper.getInstance().registerEventNotification(networStateListener);
     }
 
-    public void unRegisterNetworkListener(NetworStateListener networStateListener) {
+    public synchronized void unRegisterNetworkListener(NetworStateListener networStateListener) {
         NetworkStateHelper.getInstance().unregisterEventNotification(networStateListener);
     }
 
-    public NetworkStateHelper getNetworkStateListener() {
+    public synchronized NetworkStateHelper getNetworkStateListener() {
         return NetworkStateHelper.getInstance();
     }
 
 
-    public Locale getLocale(Context context) {
+    public synchronized Locale getLocale(Context context) {
         RLog.i("Locale", "Locale locale  " + mLocale);
         if (null != mLocale) {
             return mLocale;
@@ -165,7 +165,7 @@ public class RegistrationHelper {
         return new Locale(locale);
     }
 
-    public static String getRegistrationApiVersion() {
+    public synchronized static String getRegistrationApiVersion() {
         return BuildConfig.VERSION_NAME;
     }
 

@@ -122,6 +122,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        hideLogoutSpinner();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroyView");
     }
 
@@ -129,7 +130,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        hideLogoutSpinner();
         super.onDestroy();
     }
 

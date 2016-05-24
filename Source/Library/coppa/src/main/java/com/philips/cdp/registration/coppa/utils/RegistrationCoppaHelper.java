@@ -10,7 +10,7 @@ import com.philips.cdp.registration.events.UserRegistrationHelper;
 public class RegistrationCoppaHelper {
 
 
-    private static RegistrationCoppaHelper mRegistrationHelper = null;
+    private static volatile RegistrationCoppaHelper mRegistrationHelper = null;
 
 
     private RegistrationCoppaHelper() {
@@ -30,22 +30,22 @@ public class RegistrationCoppaHelper {
     }
 
 
-    public void registerUserRegistrationListener(UserRegistrationCoppaListener userRegistrationListener) {
+    public synchronized void registerUserRegistrationListener(UserRegistrationCoppaListener userRegistrationListener) {
         UserRegistrationCoppaHelper.getInstance().registerEventNotification(userRegistrationListener);
         UserRegistrationHelper.getInstance().registerEventNotification(RegistrationCoppaFragment.getUserRegistrationListener());
     }
 
-    public void unRegisterUserRegistrationListener(UserRegistrationCoppaListener userRegistrationListener) {
+    public synchronized void unRegisterUserRegistrationListener(UserRegistrationCoppaListener userRegistrationListener) {
         UserRegistrationCoppaHelper.getInstance().unregisterEventNotification(userRegistrationListener);
         UserRegistrationHelper.getInstance().registerEventNotification(RegistrationCoppaFragment.getUserRegistrationListener());
     }
 
-    public UserRegistrationCoppaHelper getUserRegistrationListener() {
+    public synchronized UserRegistrationCoppaHelper getUserRegistrationListener() {
         return UserRegistrationCoppaHelper.getInstance();
     }
 
 
-    public static String getRegistrationApiVersion() {
+    public synchronized static String getRegistrationApiVersion() {
         return BuildConfig.VERSION_NAME;
     }
 

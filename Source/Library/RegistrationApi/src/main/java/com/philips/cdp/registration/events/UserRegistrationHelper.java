@@ -5,23 +5,27 @@ import android.app.Activity;
 
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserRegistrationHelper {
 
-    private static UserRegistrationHelper eventHelper;
+    private static volatile UserRegistrationHelper eventHelper;
 
-    private List<UserRegistrationListener> userRegistrationListeners;
+    private CopyOnWriteArrayList<UserRegistrationListener> userRegistrationListeners;
 
     private UserRegistrationHelper() {
-        userRegistrationListeners = Collections.synchronizedList(new ArrayList<UserRegistrationListener>());
+        userRegistrationListeners = new CopyOnWriteArrayList<UserRegistrationListener>();
     }
+
 
     public static synchronized UserRegistrationHelper getInstance() {
         if (eventHelper == null) {
-            eventHelper = new UserRegistrationHelper();
+            synchronized (UserRegistrationHelper.class) {
+                if (eventHelper == null) {
+                    eventHelper = new UserRegistrationHelper();
+                }
+            }
+
         }
         return eventHelper;
     }

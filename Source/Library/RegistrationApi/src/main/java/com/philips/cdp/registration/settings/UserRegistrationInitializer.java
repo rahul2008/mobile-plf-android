@@ -32,7 +32,7 @@ public class UserRegistrationInitializer {
 
     private boolean isRefreshUserSessionInProgress = false;
 
-    private static UserRegistrationInitializer mUserRegistrationInitializer;
+    private static volatile UserRegistrationInitializer mUserRegistrationInitializer;
 
     private UserRegistrationInitializer() {
         mHandler = new Handler();

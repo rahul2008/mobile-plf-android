@@ -11,20 +11,25 @@ public class RegistrationConfiguration {
 
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
-    private static RegistrationConfiguration registrationConfiguration;
+    private static volatile RegistrationConfiguration registrationConfiguration;
 
     private RegistrationConfiguration() {
     }
 
-    public static RegistrationConfiguration getInstance() {
+    public static synchronized RegistrationConfiguration getInstance() {
         if (registrationConfiguration == null) {
-            registrationConfiguration = new RegistrationConfiguration();
+            synchronized (RegistrationConfiguration.class) {
+                if (registrationConfiguration == null) {
+                    registrationConfiguration = new RegistrationConfiguration();
+                }
+            }
+
         }
         return registrationConfiguration;
     }
 
 
-    public JanRainConfiguration getJanRainConfiguration() {
+    public synchronized JanRainConfiguration getJanRainConfiguration() {
         JanRainConfiguration dynJanRainConfiguration = RegistrationDynamicConfiguration.getInstance().getJanRainConfiguration();
         if (null == dynJanRainConfiguration.getClientIds()) {
             return RegistrationStaticConfiguration.getInstance().getJanRainConfiguration();
@@ -58,7 +63,7 @@ public class RegistrationConfiguration {
     }
 
 
-    public PILConfiguration getPilConfiguration() {
+    public synchronized PILConfiguration getPilConfiguration() {
         PILConfiguration pilConfiguration = new PILConfiguration();
 
         if (null != RegistrationStaticConfiguration.getInstance().getPilConfiguration()) {
@@ -82,7 +87,7 @@ public class RegistrationConfiguration {
         return pilConfiguration;
     }
 
-    public Flow getFlow() {
+    public synchronized Flow getFlow() {
 
         if (RegistrationDynamicConfiguration.getInstance().getFlow() == null) {
             return RegistrationStaticConfiguration.getInstance().getFlow();
@@ -119,7 +124,7 @@ public class RegistrationConfiguration {
         return flow;
     }
 
-    public SigninProviders getSignInProviders() {
+    public synchronized SigninProviders getSignInProviders() {
 
         HashMap<String, ArrayList<String>> providers = RegistrationDynamicConfiguration.getInstance().getSignInProviders().getProviders();
 
@@ -141,7 +146,7 @@ public class RegistrationConfiguration {
     }
 
 
-    public HSDPConfiguration getHsdpConfiguration() {
+    public synchronized HSDPConfiguration getHsdpConfiguration() {
         if (RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().getHsdpInfos().size() == 0) {
             return RegistrationStaticConfiguration.getInstance().getHsdpConfiguration();
         }
@@ -159,11 +164,11 @@ public class RegistrationConfiguration {
         return hsdpConfiguration;
     }
 
-    public void setPrioritisedFunction(RegistrationFunction prioritisedFunction) {
+    public synchronized void setPrioritisedFunction(RegistrationFunction prioritisedFunction) {
         this.prioritisedFunction = prioritisedFunction;
     }
 
-    public RegistrationFunction getPrioritisedFunction() {
+    public synchronized RegistrationFunction getPrioritisedFunction() {
         return prioritisedFunction;
     }
 

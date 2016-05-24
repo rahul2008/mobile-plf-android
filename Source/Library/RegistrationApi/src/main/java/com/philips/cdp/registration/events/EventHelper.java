@@ -1,18 +1,19 @@
 
 package com.philips.cdp.registration.events;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EventHelper {
 
 	private static EventHelper eventHelper;
 
 	private EventHelper() {
-		eventMap = new HashMap<String, List<EventListener>>();
+		eventMap = new ConcurrentHashMap<String, List<EventListener>>();
+
 	}
+
 
 	public static synchronized EventHelper getInstance() {
 		if (eventHelper == null) {
@@ -21,7 +22,7 @@ public class EventHelper {
 		return eventHelper;
 	}
 
-	private Map<String, List<EventListener>> eventMap;
+	private ConcurrentHashMap <String, List<EventListener>> eventMap;
 
 	public void registerEventNotification(List<String> list, EventListener observer) {
 		if (eventMap != null && observer != null) {
@@ -34,10 +35,10 @@ public class EventHelper {
 
 	public void registerEventNotification(String evenName, EventListener observer) {
 		if (eventMap != null && observer != null) {
-			ArrayList<EventListener> listnerList = (ArrayList<EventListener>) eventMap
+			CopyOnWriteArrayList<EventListener> listnerList = (CopyOnWriteArrayList<EventListener>) eventMap
 			        .get(evenName);
 			if (listnerList == null) {
-				listnerList = new ArrayList<EventListener>();
+				listnerList = new CopyOnWriteArrayList<EventListener>();
 			}
 			// Removing existing instance of same observer if exist
 			for (int i = 0; i < listnerList.size(); i++) {

@@ -13,7 +13,7 @@ import java.net.URLDecoder;
 public class RegistrationStaticConfiguration extends RegistrationBaseConfiguration {
 
 
-    private static RegistrationStaticConfiguration registrationConfiguration;
+    private static volatile RegistrationStaticConfiguration registrationConfiguration;
 
 
     private RegistrationStaticConfiguration() {

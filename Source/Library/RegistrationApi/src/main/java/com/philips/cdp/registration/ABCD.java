@@ -1,10 +1,7 @@
 package com.philips.cdp.registration;
 
-/**
- * Created by 310190722 on 19-Feb-16.
- */
 class ABCD {
-    private static ABCD mABCD;
+    private static volatile ABCD mABCD;
 
     public String getmP() {
         return mP;
@@ -17,11 +14,15 @@ class ABCD {
     private String mP;
 
 
-    public static synchronized ABCD getInstance(){
-        if(mABCD == null){
-            mABCD = new ABCD();
-        }
+    public static synchronized ABCD getInstance() {
+        if (mABCD == null) {
+            synchronized (ABCD.class) {
+                if (mABCD == null) {
+                    mABCD = new ABCD();
+                }
+            }
 
+        }
         return mABCD;
     }
 

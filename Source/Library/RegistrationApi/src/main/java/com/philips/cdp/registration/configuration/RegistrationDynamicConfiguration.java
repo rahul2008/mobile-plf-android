@@ -2,7 +2,7 @@
 package com.philips.cdp.registration.configuration;
 
 public class RegistrationDynamicConfiguration extends RegistrationBaseConfiguration {
-    private static RegistrationDynamicConfiguration registrationConfiguration;
+    private static volatile RegistrationDynamicConfiguration registrationConfiguration;
 
     private RegistrationDynamicConfiguration() {
 
@@ -13,7 +13,7 @@ public class RegistrationDynamicConfiguration extends RegistrationBaseConfigurat
      *
      * @return RegistrationDynamicConfiguration
      */
-    public static RegistrationDynamicConfiguration getInstance() {
+    public static synchronized RegistrationDynamicConfiguration getInstance() {
         if (registrationConfiguration == null) {
             synchronized (RegistrationDynamicConfiguration.class) {
                 if (registrationConfiguration == null) {        // Double checked
@@ -27,7 +27,7 @@ public class RegistrationDynamicConfiguration extends RegistrationBaseConfigurat
     /**
      * Reset an dynamic configuration
      */
-    public void resetDynamicConfiguration() {
+    public synchronized void  resetDynamicConfiguration() {
         registrationConfiguration = new RegistrationDynamicConfiguration();
     }
 }

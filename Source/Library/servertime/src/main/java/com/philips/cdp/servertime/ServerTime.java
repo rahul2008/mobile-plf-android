@@ -47,9 +47,9 @@ public class ServerTime {
 
     private static SharedPreferences mSharedPreferences;
 
-    private static ServerTime serverTimeInstance;
+    private static volatile ServerTime  serverTimeInstance;
 
-    public static void init(final Context pContext){
+    public synchronized static void init(final Context pContext){
         mContext = pContext;
         mSharedPreferences = mContext.getSharedPreferences(SERVERTIME_PREFERENCE, Context.MODE_PRIVATE);
     }
@@ -58,12 +58,16 @@ public class ServerTime {
 
     }
 
-    public static synchronized ServerTime getInstance(){
 
-        if(serverTimeInstance == null){
-            serverTimeInstance = new ServerTime();
+    public static synchronized ServerTime getInstance() {
+        if (serverTimeInstance == null) {
+            synchronized (ServerTime.class) {
+                if (serverTimeInstance == null) {
+                    serverTimeInstance = new ServerTime();
+                }
+            }
+
         }
-
         return serverTimeInstance;
     }
 
@@ -162,7 +166,7 @@ public class ServerTime {
         return System.currentTimeMillis() - SystemClock.elapsedRealtime();
     }
 
-    public  String getCurrentUTCTimeWithFormat(final String pFormat){
+    public  synchronized String getCurrentUTCTimeWithFormat(final String pFormat){
         long diffElapsedOffset = getCurrentElapsedDifference() -  getElapsedOffset() ;
         final SimpleDateFormat sdf = new SimpleDateFormat(pFormat, Locale.ROOT);
         Date date = null;
@@ -185,7 +189,7 @@ public class ServerTime {
         editor.commit();
     }
 
-    public  void  refreshOffset(){
+    public  synchronized void  refreshOffset(){
         isRefreshInProgress = true;
         long elapsedTime = SystemClock.elapsedRealtime();
         long currentTime = System.currentTimeMillis();
