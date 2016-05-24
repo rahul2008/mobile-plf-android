@@ -78,23 +78,7 @@ public class ProductInformationFragment extends DigitalCareBaseFragment {
             //DigiCareLogger.d("URLTest", getPhilipsProductPageUrl());
             DigiCareLogger.d(TAG, getPhilipsProductPageUrl());
             String url = getPhilipsProductPageUrl();
-            mWebView.getSettings().setJavaScriptEnabled(true);
-            mProgressBar.setVisibility(View.VISIBLE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-                mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
-                mWebView.getSettings().setDomStorageEnabled(true);
-            }
-            mWebView.setWebChromeClient(new WebChromeClient() {
-                @Override
-                public void onProgressChanged(WebView view, int newProgress) {
-                    super.onProgressChanged(view, newProgress);
-                    if (newProgress > 80) {
-                        mProgressBar.setVisibility(View.GONE);
-                    }
-                }
-            });
-            mWebView.loadUrl(url);
+            setWebSettingForWebview(url, mWebView, mProgressBar);
         }
     }
 

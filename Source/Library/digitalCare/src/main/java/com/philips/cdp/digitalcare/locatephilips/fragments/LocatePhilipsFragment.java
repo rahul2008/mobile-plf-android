@@ -1,42 +1,91 @@
 package com.philips.cdp.digitalcare.locatephilips.fragments;
 
 import android.Manifest;
-import android.annotation.*;
-import android.app.*;
-import android.content.*;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.*;
-import android.location.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.location.Criteria;
+import android.location.GpsStatus;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.net.Uri;
-import android.os.*;
-import android.view.*;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.InflateException;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.google.android.gms.common.*;
-import com.google.android.gms.maps.*;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.*;
-import com.philips.cdp.digitalcare.*;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.philips.cdp.digitalcare.ConsumerProductInfo;
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.RequestData;
 import com.philips.cdp.digitalcare.ResponseCallback;
-import com.philips.cdp.digitalcare.analytics.*;
+import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.customview.GpsAlertView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.locatephilips.*;
+import com.philips.cdp.digitalcare.locatephilips.CustomGeoAdapter;
+import com.philips.cdp.digitalcare.locatephilips.GoToContactUsListener;
+import com.philips.cdp.digitalcare.locatephilips.LocateNearCustomDialog;
+import com.philips.cdp.digitalcare.locatephilips.MapDirections;
 import com.philips.cdp.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
 import com.philips.cdp.digitalcare.locatephilips.fragments.GoogleMapFragment.onMapReadyListener;
-import com.philips.cdp.digitalcare.locatephilips.models.*;
-import com.philips.cdp.digitalcare.locatephilips.parser.*;
-import com.philips.cdp.digitalcare.util.*;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosAddressModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosResponseModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
+import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
+import com.philips.cdp.digitalcare.locatephilips.parser.AtosResponseParser;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.cdp.digitalcare.util.Utils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * LocateNearYouFragment will help to locate PHILIPS SERVICE CENTERS on the
@@ -45,7 +94,7 @@ import java.util.*;
  *
  * @author : Ritesh.jha@philips.com
  * @since : 8 May 2015
- *
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 @SuppressLint({"SetJavaScriptEnabled", "DefaultLocale"})
