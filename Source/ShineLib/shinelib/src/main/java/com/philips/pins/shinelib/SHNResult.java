@@ -30,5 +30,6 @@ public enum SHNResult {
     SHNErrorUnsupportedDataType,
     SHNErrorProcedureAlreadyInProgress,
     SHNErrorReceptionInterrupted,
-    SHNErrorBondLost
+    SHNErrorBondLost,
+    SHNErrorUnknown
 }
