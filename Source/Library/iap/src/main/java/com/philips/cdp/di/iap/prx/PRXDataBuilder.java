@@ -37,11 +37,18 @@ public class PRXDataBuilder {
         mContext = context;
         mCtns = ctns;
         mDataLoadListener = listener;
+        mPRXProductData = new HashMap<>();
     }
 
     public void preparePRXDataRequest(){
         for(String ctn: mCtns){
-            executeRequest(ctn,prepareSummaryRequest(ctn));
+            if (CartModelContainer.getInstance().isPRXDataPresent(ctn)) {
+                mProudctUpdateCount++;
+                mProductPresentInPRX++;
+                mPRXProductData.put(ctn, CartModelContainer.getInstance().getProductData(ctn));
+            }else {
+                executeRequest(ctn,prepareSummaryRequest(ctn));
+            }
         }
     }
 
@@ -79,9 +86,6 @@ public class PRXDataBuilder {
     }
 
     private void notifySucces(SummaryModel model) {
-        if (mPRXProductData == null) {
-            mPRXProductData = new HashMap<>();
-        }
         mPRXProductData.put(model.getData().getCtn(),model);
         if (mDataLoadListener != null && mProudctUpdateCount == mCtns.size()) {
             Message result = Message.obtain();

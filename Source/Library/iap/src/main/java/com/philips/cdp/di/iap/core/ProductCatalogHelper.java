@@ -79,7 +79,7 @@ public class ProductCatalogHelper {
             }
         }
         if(ctnsToBeRequestedForPRX.size()>0) {
-            PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnsToBeRequestedForPRX,
+            PRXDataBuilder builder = new PRXDataBuilder(mContext, productsToBeShown,
                     mGetProductCatalogListener);
             builder.preparePRXDataRequest();
         }else {
@@ -114,7 +114,7 @@ public class ProductCatalogHelper {
             }else if(list.containsKey(ctn)){
                 data = list.get(ctn).getData();
             }else {
-                return products;
+                continue;
             }
             productItem.setImageUrl(data.getImageURL());
             productItem.setProductTitle(data.getProductTitle());
