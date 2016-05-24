@@ -113,16 +113,17 @@ public class UserWithProducts {
         if (!failedOnInvalidInput && (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) && getUuid().equals(registeredProduct.getUserUUid())) {
             Log.e(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber() + "________" + registeredProduct.getUserUUid() + "_________" + getUuid());
             if (!getUserProduct().isUserSignedIn(mContext)) {
-                updateWithCallBack(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED, appListener);
+                getUserProduct().updateLocaleCache(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
+                appListener.onProdRegFailed(registeredProduct, getUserProduct());
             } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !getUserProduct().isValidDate(registeredProduct.getPurchaseDate())) {
+                currentRegisteredProduct = null;
                 updateWithCallBack(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED, appListener);
             } else {
                 UserWithProducts userWithProducts = getUserProduct();
                 updateLocaleCache(registeredProduct, registeredProduct.getProdRegError(), RegistrationState.REGISTERING);
                 userWithProducts.getRegisteredProducts(userWithProducts.getRegisteredProductsListener(registeredProduct, appListener));
             }
-        } else if (failedOnInvalidInput)
-            appListener.onProdRegFailed(registeredProduct, getUserProduct());
+        }
     }
 
     protected boolean isFailedOnInvalidInput(final RegisteredProduct registeredProduct) {

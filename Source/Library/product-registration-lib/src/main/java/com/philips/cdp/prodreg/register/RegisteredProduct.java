@@ -157,6 +157,8 @@ public class RegisteredProduct extends Product {
                 product.setPurchaseDate(getPurchaseDate());
                 break;
         }
+        product.setUserUUid(getUserUUid());
+        product.sendEmail(getEmail());
     }
 
     @Override
