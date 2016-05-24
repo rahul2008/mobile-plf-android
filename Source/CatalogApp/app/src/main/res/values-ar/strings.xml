@@ -1,44 +1,44 @@
 <resources>
     <string name="app_name">Catalog App</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
-    <string name="change_theme">Change theme</string>
-    <string name="previous_theme">Previous theme</string>
-    <string name="uikit_splash_title">Mobile App</string>
-    <string name="color_background">Use Color Background</string>
-    <string name="solid">solid</string>
-    <string name="gradient">gradient</string>
-    <string name="image">Image</string>
+    <string name="action_settings">الإعدادات</string>
+    <string name="title_activity_navigation_buttons">نشاط أزرار التنقل</string>
+    <string name="change_theme">تغيير النسق</string>
+    <string name="previous_theme">النسق السابق</string>
+    <string name="uikit_splash_title">تطبيق للجهاز المحمول</string>
+    <string name="color_background">استخدام لون في الخلفية</string>
+    <string name="solid">ثابت</string>
+    <string name="gradient">متدرج</string>
+    <string name="image">الصورة</string>
     <string name="blue_theme"> الأزرق موضوع</string>
     <string name="orange_theme"> البرتقال موضوع</string>
-    <string name="aqua_theme">Aqua Theme</string>
-    <string name="misc_shadow_message">Miscellaneous Buttons with Shadow</string>
-    <string name="action_icons">Action Icons</string>
+    <string name="aqua_theme">نسق أزرق</string>
+    <string name="misc_shadow_message">أزرار متفرقة مع ظل</string>
+    <string name="action_icons">أزرار النشاط</string>
     <string name="enter_text_here"> أدخل النص هنا</string>
-    <string name="FirstName">First Name</string>
-    <string name="LastName">Last Name</string>
-    <string name="FullName">Full Name</string>
-    <string name="EmailAddress">Email Address</string>
+    <string name="FirstName">الاسم</string>
+    <string name="LastName">اسم العائلة</string>
+    <string name="FullName">الاسم الكامل</string>
+    <string name="EmailAddress">عنوان البريد الإلكتروني</string>
     <string name="invalid_email_format"> شكل بريد إلكتروني غير صحيح</string>
     <string name="invalid_pwd_format"> صيغة كلمة السر غير صحيحة</string>
-    <string name="sample_button">Sample Button</string>
+    <string name="sample_button">زر نموذجي</string>
     <string name="uikit_hamburger">هامبورجر</string>
-    <string name="share">Share</string>
-    <string name="mail">Mail</string>
-    <string name="chat">Chat</string>
+    <string name="share">مشاركة</string>
+    <string name="mail">البريد الإلكتروني</string>
+    <string name="chat">الدردشة</string>
 
     <string-array name="hamburger_drawer_items">
         <item>عنوان طويل</item>
-        <item>Quisque</item>
-        <item>Eget Odio</item>
-        <item>Ac Lectus</item>
-        <item>Faucibus</item>
-        <item>Eget In</item>
-        <item>Pellentesque</item>
-        <item>Title long</item>
-        <item>Vestibulum</item>
-        <item>Tortor</item>
+        <item>لائحة التسوّق</item>
+        <item>القهوة</item>
+        <item>التغذية</item>
+        <item>نصيحة حول النمط</item>
+        <item>وصفات الطعام</item>
+        <item>لمحة عن التطبيق</item>
+        <item>العنوان طويل</item>
+        <item>الدعم</item>
+        <item>الإعدادات</item>
     </string-array>
 
     <array name="hamburger_drawer_icons">
@@ -56,24 +56,24 @@
 
     <string-array name="controls_array">
         <item>الخيار 1</item>
-        <item>Option 2</item>
-        <item>Option 3</item>
+        <item>الخيار 2</item>
+        <item>الخيار 3</item>
     </string-array>
 
     <string-array name="controls_array2">
-        <item>Option 1</item>
-        <item>Option 2</item>
+        <item>الخيار 1</item>
+        <item>الخيار 2</item>
     </string-array>
 
     <string name="title_activity_social_icons">أيقونات الاجتماعية</string>
-    <string name="title_activity_list_view_without_icons">ListViewWithoutIcons</string>
-    <string name="title_activity_pop_over_menu">PopOverMenu</string>
+    <string name="title_activity_list_view_without_icons">عرض القوائم من دون الرموز</string>
+    <string name="title_activity_pop_over_menu">قائمة منبثقة</string>
 
-    <string name="title_activity_spring_boardsctivity">SpringBoardsctivity</string>
+    <string name="title_activity_spring_boardsctivity">نشاط لوحة الانتقال السريع</string>
     <string name="title_activity_spring_board_six_grid">SpringBoardSixGridActivity</string>
-    <string name="title_activity_cards">CardsActivity</string>
+    <string name="title_activity_cards">نشاط البطاقات</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">مرحبًا!</string>
     <string name="title_activity_cards_spike">CardsSpike</string>
     <string name="title_activity_controls">آخر الضوابط</string>
 
