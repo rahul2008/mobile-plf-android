@@ -384,7 +384,7 @@ public class SHNDeviceAssociation {
      * exists or is needed by the device to function properly. For a successful completion, there must be a plugin registered that
      * handles the device indicated by the device type name.
      *
-     * @param deviceMACAddress  The MAC address of the device to inject.
+     * @param deviceMACAddress  The MAC address of the device to inject. Casing does not matter, only colon separated addresses are allowed.
      * @param deviceTypeName    The device type name as defined by the device plugin.
      * @param shnResultListener The result listener where the success or failure of the injection must be reported. A result of SHNOk
      *                          indicates that the injection was successful. A result of SHNErrorInvalidParameter indicates that

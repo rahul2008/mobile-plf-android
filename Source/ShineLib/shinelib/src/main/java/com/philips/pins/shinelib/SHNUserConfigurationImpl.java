@@ -50,161 +50,306 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     @NonNull
     private final Handler internalHandler;
     private final SHNUserConfigurationCalculations userConfigurationCalculations;
+    private ClockFormat clockFormat;
+    private String isoLanguageCode;
+    private String isoCountryCode;
+    private Boolean useMetricSystem;
+    private Sex sex;
+    private Integer restingHeartRate;
+    private Integer heightInCm;
+    private Double weightInKg;
+    private Handedness handedness;
+    private Character decimalSeparator;
+    private Date dateOfBirth;
+    private Integer maxHeartRate;
+    private int changeIncrement;
 
     public SHNUserConfigurationImpl(@NonNull final PersistentStorageFactory persistentStorageFactory, @NonNull final Handler internalHandler, final SHNUserConfigurationCalculations userConfigurationCalculations) {
         this.persistentStorage = persistentStorageFactory.getPersistentStorageForUser();
         this.internalHandler = internalHandler;
         this.userConfigurationCalculations = userConfigurationCalculations;
+
+        initFromStorage();
+    }
+
+    private void initFromStorage() {
+        clockFormat = readClockFormat();
+        isoLanguageCode = readIsoLanguageCode();
+        isoCountryCode = readIsoCountryCode();
+        useMetricSystem = readUseMetricSystem();
+        sex = readSex();
+        restingHeartRate = readRestingHeartRate();
+        heightInCm = readHeightInCm();
+        weightInKg = readWeightInKg();
+        handedness = readHandedness();
+        decimalSeparator = readDecimalSeparator();
+        dateOfBirth = readDateOfBirth();
+        maxHeartRate = readMaxHeartRate();
+        changeIncrement = readChangeIncrement();
     }
 
     @Override
-    public void clear() {
-        persistentStorage.clear();
-        persistentStorage.put(CHANGE_INCREMENT_KEY, 0);
-        incrementChangeIncrementAndNotifyModifiedListeners();
+    public synchronized void clear() {
+        internalHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                persistentStorage.clear();
+                changeIncrement = 0;
+                putChangeIncrementAndNotifyListeners(changeIncrement);
+            }
+        });
     }
 
     @Nullable
     @Override
-    public ClockFormat getClockFormat() {
+    public synchronized ClockFormat getClockFormat() {
+        return clockFormat;
+    }
+
+    @Override
+    public synchronized void setClockFormat(@NonNull final ClockFormat clockFormat) {
+        if (!isEqualTo(this.clockFormat, clockFormat)) {
+            this.clockFormat = clockFormat;
+            putChangedValueAndChangeIncrementOnInternalThread(CLOCK_FORMAT_KEY, clockFormat);
+        }
+    }
+
+    @Nullable
+    private ClockFormat readClockFormat() {
         return persistentStorage.get(CLOCK_FORMAT_KEY, DEFAULT_CLOCK_FORMAT);
     }
 
+    @NonNull
     @Override
-    public void setClockFormat(@NonNull final ClockFormat clockFormat) {
-        putValueIfChanged(CLOCK_FORMAT_KEY, clockFormat);
+    public synchronized String getIsoLanguageCode() {
+        return isoLanguageCode;
+    }
+
+    @Override
+    public synchronized void setIsoLanguageCode(String isoLanguageCode) {
+        if (!isEqualTo(this.isoLanguageCode, isoLanguageCode)) {
+            this.isoLanguageCode = isoLanguageCode;
+            putChangedValueAndChangeIncrementOnInternalThread(ISO_LANGUAGE_CODE_KEY, isoLanguageCode);
+        }
     }
 
     @NonNull
-    @Override
-    public String getIsoLanguageCode() {
+    private String readIsoLanguageCode() {
         return persistentStorage.get(ISO_LANGUAGE_CODE_KEY, Locale.getDefault().getLanguage());
     }
 
+    @NonNull
     @Override
-    public void setIsoLanguageCode(String isoLanguageCode) {
-        putValueIfChanged(ISO_LANGUAGE_CODE_KEY, isoLanguageCode);
+    public synchronized String getIsoCountryCode() {
+        return isoCountryCode;
+    }
+
+    @Override
+    public synchronized void setIsoCountryCode(final String isoCountryCode) {
+        if (!isEqualTo(this.isoCountryCode, isoCountryCode)) {
+            this.isoCountryCode = isoCountryCode;
+            putChangedValueAndChangeIncrementOnInternalThread(ISO_COUNTRY_CODE_KEY, isoCountryCode);
+        }
     }
 
     @NonNull
-    @Override
-    public String getIsoCountryCode() {
+    private String readIsoCountryCode() {
         return persistentStorage.get(ISO_COUNTRY_CODE_KEY, Locale.getDefault().getCountry());
     }
 
+    @NonNull
     @Override
-    public void setIsoCountryCode(final String isoCountryCode) {
-        putValueIfChanged(ISO_COUNTRY_CODE_KEY, isoCountryCode);
+    public synchronized Boolean getUseMetricSystem() {
+        return useMetricSystem;
+    }
+
+    @Override
+    public synchronized void setUseMetricSystem(Boolean useMetricSystem) {
+        if (!isEqualTo(this.useMetricSystem, useMetricSystem)) {
+            this.useMetricSystem = useMetricSystem;
+            putChangedValueAndChangeIncrementOnInternalThread(USE_METRIC_SYSTEM_KEY, useMetricSystem);
+        }
     }
 
     @NonNull
-    @Override
-    public Boolean getUseMetricSystem() {
+    private Boolean readUseMetricSystem() {
         return persistentStorage.get(USE_METRIC_SYSTEM_KEY, DEFAULT_USE_METRIC_SYSTEM);
     }
 
+    @NonNull
     @Override
-    public void setUseMetricSystem(Boolean useMetricSystem) {
-        putValueIfChanged(USE_METRIC_SYSTEM_KEY, useMetricSystem);
+    public synchronized Sex getSex() {
+        return sex;
+    }
+
+    @Override
+    public synchronized void setSex(Sex sex) {
+        if (!isEqualTo(this.sex, sex)) {
+            this.sex = sex;
+            putChangedValueAndChangeIncrementOnInternalThread(SEX_KEY, sex);
+        }
     }
 
     @NonNull
-    @Override
-    public Sex getSex() {
+    private Sex readSex() {
         return persistentStorage.get(SEX_KEY, DEFAULT_SEX);
     }
 
+    @NonNull
     @Override
-    public void setSex(Sex sex) {
-        putValueIfChanged(SEX_KEY, sex);
+    public synchronized Integer getRestingHeartRate() {
+        return restingHeartRate;
+    }
+
+    @Override
+    public synchronized void setRestingHeartRate(Integer restingHeartRate) {
+        if (!isEqualTo(this.restingHeartRate, restingHeartRate)) {
+            this.restingHeartRate = restingHeartRate;
+            putChangedValueAndChangeIncrementOnInternalThread(RESTING_HEART_RATE_KEY, restingHeartRate);
+        }
     }
 
     @NonNull
-    @Override
-    public Integer getRestingHeartRate() {
+    private Integer readRestingHeartRate() {
         return persistentStorage.get(RESTING_HEART_RATE_KEY, DEFAULT_RESTING_HEART_RATE);
     }
 
+    @Nullable
     @Override
-    public void setRestingHeartRate(Integer restingHeartRate) {
-        putValueIfChanged(RESTING_HEART_RATE_KEY, restingHeartRate);
+    public synchronized Integer getHeightInCm() {
+        return heightInCm;
+    }
+
+    @Override
+    public synchronized void setHeightInCm(Integer heightInCm) {
+        if (!isEqualTo(this.heightInCm, heightInCm)) {
+            this.heightInCm = heightInCm;
+            putChangedValueAndChangeIncrementOnInternalThread(HEIGHT_IN_CM_KEY, heightInCm);
+        }
     }
 
     @Nullable
-    @Override
-    public Integer getHeightInCm() {
+    private Integer readHeightInCm() {
         return persistentStorage.get(HEIGHT_IN_CM_KEY, DEFAULT_HEIGHT_IN_CM);
     }
 
+    @Nullable
     @Override
-    public void setHeightInCm(Integer heightInCm) {
-        putValueIfChanged(HEIGHT_IN_CM_KEY, heightInCm);
+    public synchronized Double getWeightInKg() {
+        return weightInKg;
+    }
+
+    @Override
+    public synchronized void setWeightInKg(Double weightInKg) {
+        if (!isEqualTo(this.weightInKg, weightInKg)) {
+            this.weightInKg = weightInKg;
+            putChangedValueAndChangeIncrementOnInternalThread(WEIGHT_IN_KG_KEY, weightInKg);
+        }
     }
 
     @Nullable
-    @Override
-    public Double getWeightInKg() {
+    private Double readWeightInKg() {
         return persistentStorage.get(WEIGHT_IN_KG_KEY, DEFAULT_WEIGHT_IN_KG);
     }
 
+    @NonNull
     @Override
-    public void setWeightInKg(Double weightInKg) {
-        putValueIfChanged(WEIGHT_IN_KG_KEY, weightInKg);
+    public synchronized Handedness getHandedness() {
+        return handedness;
+    }
+
+    @Override
+    public synchronized void setHandedness(Handedness handedness) {
+        handedness = (handedness == null ? DEFAULT_HANDEDNESS : handedness);
+        if (!isEqualTo(this.handedness, handedness)) {
+            this.handedness = handedness;
+            putChangedValueAndChangeIncrementOnInternalThread(HANDEDNESS_KEY, handedness);
+        }
     }
 
     @NonNull
-    @Override
-    public Handedness getHandedness() {
+    private Handedness readHandedness() {
         return persistentStorage.get(HANDEDNESS_KEY, Handedness.Unknown);
     }
 
+    @NonNull
     @Override
-    public void setHandedness(Handedness handedness) {
-        putValueIfChanged(HANDEDNESS_KEY, (handedness == null ? DEFAULT_HANDEDNESS : handedness));
+    public synchronized Character getDecimalSeparator() {
+        return decimalSeparator;
+    }
+
+    @Override
+    public synchronized void setDecimalSeparator(Character decimalSeparator) {
+        decimalSeparator = decimalSeparator == null ? DEFAULT_DECIMAL_SEPARATOR : decimalSeparator;
+        if (!isEqualTo(this.decimalSeparator, decimalSeparator)) {
+            this.decimalSeparator = decimalSeparator;
+            putChangedValueAndChangeIncrementOnInternalThread(DECIMAL_SEPARATOR_KEY, (int) decimalSeparator);
+        }
     }
 
     @NonNull
-    @Override
-    public Character getDecimalSeparator() {
+    private Character readDecimalSeparator() {
         int numericValue = persistentStorage.get(DECIMAL_SEPARATOR_KEY, (int) DEFAULT_DECIMAL_SEPARATOR);
         return (char) numericValue;
     }
 
+    @Nullable
     @Override
-    public void setDecimalSeparator(Character decimalSeparator) {
-        char dc = decimalSeparator == null ? DEFAULT_DECIMAL_SEPARATOR : decimalSeparator;
-        putValueIfChanged(DECIMAL_SEPARATOR_KEY, (int) dc);
+    public synchronized Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    @Override
+    public synchronized void setDateOfBirth(Date dateOfBirth) {
+        if (!isEqualTo(this.dateOfBirth, dateOfBirth)) {
+            this.dateOfBirth = dateOfBirth;
+            putChangedValueAndChangeIncrementOnInternalThread(DATE_OF_BIRTH_KEY, (dateOfBirth == null ? 0L : dateOfBirth.getTime()));
+            maxHeartRate = userConfigurationCalculations.getMaxHeartRate(maxHeartRate, getAge());
+        }
     }
 
     @Nullable
-    @Override
-    public Date getDateOfBirth() {
+    private Date readDateOfBirth() {
         long millis = persistentStorage.get(DATE_OF_BIRTH_KEY, 0L);
         return (millis == 0 ? DEFAULT_DATE_OF_BIRTH : new Date(millis));
     }
 
+    @Nullable
     @Override
-    public void setDateOfBirth(Date dateOfBirth) {
-        putValueIfChanged(DATE_OF_BIRTH_KEY, (dateOfBirth == null ? 0L : dateOfBirth.getTime()));
+    public synchronized Integer getMaxHeartRate() {
+        return maxHeartRate;
+    }
+
+    @Override
+    public synchronized void setMaxHeartRate(Integer maxHeartRate) {
+        if (!isEqualTo(this.maxHeartRate, maxHeartRate)) {
+            this.maxHeartRate = maxHeartRate;
+            putChangedValueAndChangeIncrementOnInternalThread(MAX_HEART_RATE_KEY, maxHeartRate);
+        }
     }
 
     @Nullable
-    @Override
-    public Integer getMaxHeartRate() {
+    private Integer readMaxHeartRate() {
         Integer maxHeartRate = persistentStorage.get(MAX_HEART_RATE_KEY, DEFAULT_MAX_HEART_RATE);
-        return userConfigurationCalculations.getMaxHeartRate(maxHeartRate, getAge());
+        maxHeartRate = userConfigurationCalculations.getMaxHeartRate(maxHeartRate, getAge());
+        return maxHeartRate;
     }
 
-    @Override
-    public void setMaxHeartRate(Integer maxHeartRate) {
-        putValueIfChanged(MAX_HEART_RATE_KEY, maxHeartRate);
+    private <T> void putChangedValueAndChangeIncrementOnInternalThread(final String key, @NonNull final T value) {
+        final int changeIncrement = ++this.changeIncrement;
+        internalHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                persistentStorage.put(key, value);
+                putChangeIncrementAndNotifyListeners(changeIncrement);
+            }
+        });
     }
 
-    private <T> void putValueIfChanged(final String key, final T value) {
-        if (!isEqualTo(persistentStorage.get(key), value)) {
-            persistentStorage.put(key, value);
-            incrementChangeIncrementAndNotifyModifiedListeners();
-        }
+    private void putChangeIncrementAndNotifyListeners(int changeIncrement) {
+        persistentStorage.put(CHANGE_INCREMENT_KEY, changeIncrement);
+        setChanged();
+        notifyObservers();
     }
 
     private boolean isEqualTo(Object object1, Object object2) {
@@ -218,7 +363,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
 
     @Nullable
     @Override
-    public Integer getAge() {
+    public synchronized Integer getAge() {
         Date dateOfBirth = getDateOfBirth();
         if (dateOfBirth == null) {
             return null;
@@ -229,7 +374,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
 
     @Nullable
     @Override
-    public Integer getBaseMetabolicRate() {
+    public synchronized Integer getBaseMetabolicRate() {
         Integer age = getAge();
         Sex sex = getSex();
         Double weightInKg = getWeightInKg();
@@ -242,21 +387,11 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         }
     }
 
-    private void incrementChangeIncrementAndNotifyModifiedListeners() {
-        int changeIncrement = getChangeIncrement();
-        changeIncrement++;
-        persistentStorage.put(CHANGE_INCREMENT_KEY, changeIncrement);
-
-        internalHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                setChanged();
-                notifyObservers();
-            }
-        });
+    public synchronized int getChangeIncrement() {
+        return changeIncrement;
     }
 
-    public int getChangeIncrement() {
+    private int readChangeIncrement() {
         return persistentStorage.get(CHANGE_INCREMENT_KEY, 0);
     }
 }

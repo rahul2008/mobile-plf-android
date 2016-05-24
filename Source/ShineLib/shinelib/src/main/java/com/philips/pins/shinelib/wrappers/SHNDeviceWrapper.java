@@ -75,6 +75,10 @@ public class SHNDeviceWrapper implements SHNDevice {
         shnDeviceListeners = new ArrayList<>();
     }
 
+    public boolean isBonded() {
+        return ((SHNDeviceImpl)shnDevice).isBonded();
+    }
+    
     // implements SHNDevice
     @Override
     public State getState() {
