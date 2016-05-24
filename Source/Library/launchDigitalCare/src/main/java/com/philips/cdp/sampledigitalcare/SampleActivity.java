@@ -54,31 +54,33 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         DigiCareLogger.i(TAG, " SampleActivity onCreate");
         setContentView(R.layout.activity_sample);
 
-        String[] ctnList = new String[LaunchDigitalCare.mList.size()];
-        for (int i = 0; i < LaunchDigitalCare.mList.size(); i++)
-            ctnList[i] = LaunchDigitalCare.mList.get(i);
-        ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
-        productsSelection.setCatalog(Catalog.CARE);
-        productsSelection.setSector(Sector.B2C);
+        if (LaunchDigitalCare.mList != null) {
+            String[] ctnList = new String[LaunchDigitalCare.mList.size()];
+            for (int i = 0; i < LaunchDigitalCare.mList.size(); i++)
+                ctnList[i] = LaunchDigitalCare.mList.get(i);
+            ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
+            productsSelection.setCatalog(Catalog.CARE);
+            productsSelection.setSector(Sector.B2C);
 
 
-        FragmentLauncher fragLauncher = new FragmentLauncher(
-                this, R.id.sampleMainContainer, actionBarClickListener);
-        // fragLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-        //Testing purpose (Fragments Launch without Animation)
-        fragLauncher.setAnimation(0, 0);
+            FragmentLauncher fragLauncher = new FragmentLauncher(
+                    this, R.id.sampleMainContainer, actionBarClickListener);
+            // fragLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+            //Testing purpose (Fragments Launch without Animation)
+            fragLauncher.setAnimation(0, 0);
 
-        DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
+            DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
 
-        try {
-            initActionBar();
-        } catch (ClassCastException e) {
-            DigiCareLogger.e(TAG, "SampleActivity Actionbar: " + e.getMessage());
+            try {
+                initActionBar();
+            } catch (ClassCastException e) {
+                DigiCareLogger.e(TAG, "SampleActivity Actionbar: " + e.getMessage());
+            }
+            enableActionBarHome();
+
+            DigitalCareConfigManager.getInstance();
+            fragmentManager = getSupportFragmentManager();
         }
-        enableActionBarHome();
-
-        DigitalCareConfigManager.getInstance();
-        fragmentManager = getSupportFragmentManager();
     }
 
     protected void initActionBar() throws ClassCastException {
