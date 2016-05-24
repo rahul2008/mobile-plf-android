@@ -5,11 +5,26 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "sample.com.appframework"
-        minSdkVersion 15
+        applicationId "philips.di.cl.appframework"
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0-rc1"
+
+        renderscriptTargetApi 20
+        renderscriptSupportModeEnabled true
+        multiDexEnabled true
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+
+    dexOptions {
+        incremental = true;
+        preDexLibraries = false
+        javaMaxHeapSize "4g" // 2g should be also OK
     }
     buildTypes {
         release {
@@ -17,10 +32,74 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+
+        pickFirst 'lib/mips/librsjni.so'
+        pickFirst 'lib/mips/libblasV8.so'
+        pickFirst 'lib/mips/libRSSupport.so'
+        pickFirst 'lib/x86/librsjni.so'
+        pickFirst 'lib/x86/libblasV8.so'
+        pickFirst 'lib/x86/libRSSupport.so'
+        pickFirst 'lib/armeabi-v7a/librsjni.so'
+        pickFirst 'lib/armeabi-v7a/libblasV8.so'
+        pickFirst 'lib/armeabi-v7a/libRSSupport.so'
+        pickFirst 'lib/arm64-v8a/libRSSupport.so'
+        pickFirst 'lib/arm64-v8a/librsjni.so'
+        exclude 'META-INF/INDEX.LIST'
+
+
+    }
+}
+
+
+repositories {
+    flatDir {
+        dirs 'lib'
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:support-annotations:23.2.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '6.0.0', ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.1.0', ext: 'aar') {
+        transitive = true
+    }
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '1.0.0', ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '5.0.0', ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive=true
+    }
+
+    compile(group: 'com.philips.cdp', name: 'productselection', version: '1.2.0', ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+
+    compile(group: 'com.philips.cdp', name: 'iap', version: '2.0.0', ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive=true
+    }
+
 }
+
+
