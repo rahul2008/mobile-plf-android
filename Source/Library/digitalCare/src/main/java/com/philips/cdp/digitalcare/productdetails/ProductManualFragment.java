@@ -11,6 +11,7 @@ package com.philips.cdp.digitalcare.productdetails;
 
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +85,10 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
             //DigiCareLogger.d("URLTest", getPhilipsProductPageUrl());
             DigiCareLogger.d(TAG, getPhilipsProductPageUrl());
             mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+            if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) &&
+                    (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO)) {
+                mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+            }
             mWebView.getSettings().setAllowFileAccess(true);
             mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             mWebView.setVerticalScrollBarEnabled(false);
