@@ -100,7 +100,7 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         } else {
             diCommFirmwarePortStateWaiter.waitUntilStateIsReached(DiCommFirmwarePort.State.Error, new DiCommFirmwarePortStateWaiter.Listener() {
                 @Override
-                public void onRequestReceived(DiCommFirmwarePort.State state, SHNResult shnResult) {
+                public void onStateUpdated(DiCommFirmwarePort.State state, SHNResult shnResult) {
                     if (shnResult == SHNResult.SHNOk) {
                         sendIdleCommand();
                     } else {
@@ -170,7 +170,7 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
 
             diCommFirmwarePortStateWaiter.waitUntilStateIsReached(DiCommFirmwarePort.State.Idle, new DiCommFirmwarePortStateWaiter.Listener() {
                 @Override
-                public void onRequestReceived(DiCommFirmwarePort.State state, SHNResult shnResult) {
+                public void onStateUpdated(DiCommFirmwarePort.State state, SHNResult shnResult) {
                     if (shnResult == SHNResult.SHNOk) {
                         setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle);
                         if (shnCapabilityFirmwareUpdateListener != null) {
@@ -281,7 +281,7 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
 
                     diCommFirmwarePortStateWaiter.waitUntilStateIsReached(DiCommFirmwarePort.State.Downloading, new DiCommFirmwarePortStateWaiter.Listener() {
                         @Override
-                        public void onRequestReceived(DiCommFirmwarePort.State state, SHNResult shnResult) {
+                        public void onStateUpdated(DiCommFirmwarePort.State state, SHNResult shnResult) {
                             if (shnResult == SHNResult.SHNOk) {
                                 startUpload();
                             } else {
@@ -300,7 +300,7 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
 
             diCommFirmwarePortStateWaiter.waitUntilStateIsReached(DiCommFirmwarePort.State.Ready, new DiCommFirmwarePortStateWaiter.Listener() {
                 @Override
-                public void onRequestReceived(DiCommFirmwarePort.State state, SHNResult shnResult) {
+                public void onStateUpdated(DiCommFirmwarePort.State state, SHNResult shnResult) {
                     if (shnResult == SHNResult.SHNOk) {
                         setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle);
                         if (shnCapabilityFirmwareUpdateListener != null) {

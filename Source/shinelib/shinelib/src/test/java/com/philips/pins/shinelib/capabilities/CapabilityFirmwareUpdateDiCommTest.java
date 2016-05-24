@@ -257,8 +257,8 @@ public class CapabilityFirmwareUpdateDiCommTest {
     @Test
     public void whenIdleHasSucceededThenUploadStarts() throws Exception {
         whenUploadIsCalledAndPortIsErrorThenIdleIsSent();
-
         reset(diCommPortMock);
+
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNOk);
 
         verify(diCommPortMock).subscribe(any(DiCommPort.UpdateListener.class), any(SHNResultListener.class));
@@ -309,7 +309,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         whenUploadIsCalledAndPortIsReadyThenStartsWaitingForErrorState();
         reset(diCommPortMock);
 
-        waiterListenerArgumentCaptor.getValue().onRequestReceived(DiCommFirmwarePort.State.Error, SHNResult.SHNOk);
+        waiterListenerArgumentCaptor.getValue().onStateUpdated(DiCommFirmwarePort.State.Error, SHNResult.SHNOk);
 
         verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
@@ -330,7 +330,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         whenUploadIsCalledAndPortIsReadyThenStartsWaitingForErrorState();
         reset(diCommPortMock);
 
-        waiterListenerArgumentCaptor.getValue().onRequestReceived(DiCommFirmwarePort.State.Downloading, SHNResult.SHNErrorInvalidParameter);
+        waiterListenerArgumentCaptor.getValue().onStateUpdated(DiCommFirmwarePort.State.Downloading, SHNResult.SHNErrorInvalidParameter);
 
         verifyUploadFailed(SHNResult.SHNErrorInvalidParameter, SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle);
     }
@@ -404,7 +404,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         reset(diCommPortMock);
 
         when(diCommPortMock.getMaxChunkSize()).thenReturn(TEST_MAX_CHUNK_SIZE);
-        waiterListenerArgumentCaptor.getValue().onRequestReceived(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
+        waiterListenerArgumentCaptor.getValue().onStateUpdated(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
 
         verifyChunkWritten(0);
     }
@@ -414,7 +414,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         whenSubscriptionIsSuccessfulThenStartsWaitingForDownloading();
         reset(shnCapabilityFirmwareUpdateListenerMock);
 
-        waiterListenerArgumentCaptor.getValue().onRequestReceived(DiCommFirmwarePort.State.Error, SHNResult.SHNErrorInvalidState);
+        waiterListenerArgumentCaptor.getValue().onStateUpdated(DiCommFirmwarePort.State.Error, SHNResult.SHNErrorInvalidState);
 
         verifyUploadFailed(SHNResult.SHNErrorInvalidState, capabilityFirmwareUpdateDiComm.getState());
     }
@@ -425,7 +425,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         reset(diCommPortMock, shnCapabilityFirmwareUpdateListenerMock);
 
         when(diCommPortMock.getMaxChunkSize()).thenReturn(Integer.MAX_VALUE);
-        waiterListenerArgumentCaptor.getValue().onRequestReceived(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
+        waiterListenerArgumentCaptor.getValue().onStateUpdated(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
 
         verifyUploadFailed(SHNResult.SHNErrorInvalidParameter, capabilityFirmwareUpdateDiComm.getState());
     }
@@ -529,7 +529,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         reset(diCommPortMock);
         when(diCommPortMock.getMaxChunkSize()).thenReturn(TEST_MAX_CHUNK_SIZE);
 
-        waiterListenerArgumentCaptor.getValue().onRequestReceived(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
+        waiterListenerArgumentCaptor.getValue().onStateUpdated(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
 
         verify(diCommFirmwarePortStateWaiter).waitUntilStateIsReached(eq(DiCommFirmwarePort.State.Ready), waiterListenerArgumentCaptor.capture());
     }
@@ -539,7 +539,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         whenStateSwitchesToDownloadingThenStartsWaitingForReady();
         reset(shnCapabilityFirmwareUpdateListenerMock);
 
-        waiterListenerArgumentCaptor.getValue().onRequestReceived(DiCommFirmwarePort.State.Ready, SHNResult.SHNOk);
+        waiterListenerArgumentCaptor.getValue().onStateUpdated(DiCommFirmwarePort.State.Ready, SHNResult.SHNOk);
 
         verify(shnCapabilityFirmwareUpdateListenerMock).onUploadFinished(capabilityFirmwareUpdateDiComm);
         verify(shnCapabilityFirmwareUpdateListenerMock).onProgressUpdate(capabilityFirmwareUpdateDiComm, 1.0f);
@@ -553,7 +553,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         whenStateSwitchesToDownloadingThenStartsWaitingForReady();
         reset(shnCapabilityFirmwareUpdateListenerMock);
 
-        waiterListenerArgumentCaptor.getValue().onRequestReceived(DiCommFirmwarePort.State.Error, SHNResult.SHNErrorConnectionLost);
+        waiterListenerArgumentCaptor.getValue().onStateUpdated(DiCommFirmwarePort.State.Error, SHNResult.SHNErrorConnectionLost);
 
         verifyUploadFailed(SHNResult.SHNErrorConnectionLost, capabilityFirmwareUpdateDiComm.getState());
     }
@@ -663,7 +663,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         whenInStateDeployingThenStartWaitingForIdle();
         reset(shnCapabilityFirmwareUpdateListenerMock);
 
-        waiterListenerArgumentCaptor.getValue().onRequestReceived(DiCommFirmwarePort.State.Error, SHNResult.SHNErrorInvalidParameter);
+        waiterListenerArgumentCaptor.getValue().onStateUpdated(DiCommFirmwarePort.State.Error, SHNResult.SHNErrorInvalidParameter);
 
         verify(shnCapabilityFirmwareUpdateListenerMock).onDeployFailed(capabilityFirmwareUpdateDiComm, SHNResult.SHNErrorInvalidParameter);
         assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle, capabilityFirmwareUpdateDiComm.getState());
@@ -675,7 +675,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         whenInStateDeployingThenStartWaitingForIdle();
         reset(shnCapabilityFirmwareUpdateListenerMock);
 
-        waiterListenerArgumentCaptor.getValue().onRequestReceived(DiCommFirmwarePort.State.Idle, SHNResult.SHNOk);
+        waiterListenerArgumentCaptor.getValue().onStateUpdated(DiCommFirmwarePort.State.Idle, SHNResult.SHNOk);
 
         verify(shnCapabilityFirmwareUpdateListenerMock).onDeployFinished(capabilityFirmwareUpdateDiComm, SHNResult.SHNOk);
         assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle, capabilityFirmwareUpdateDiComm.getState());

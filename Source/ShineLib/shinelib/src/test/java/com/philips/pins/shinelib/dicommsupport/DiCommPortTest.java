@@ -351,6 +351,13 @@ public class DiCommPortTest {
     }
 
     @Test
+    public void whenWithNoListenerChannelBecomesAvailableAgainWhileSubscribedThenPollingIsRestarted() throws Exception {
+        diCommPort.setListener(null);
+
+        whenChannelBecomesAvailableAgainWhileSubscribedThenPollingIsRestarted();
+    }
+
+    @Test
     public void whenChannelBecomesAvailableAgainWithNewPropertiesThenUpdateListenerIsNotified() throws Exception {
         whenChannelBecomesUnavailableWhileSubscribedThenPollingIsStopped();
         reset(diCommChannelMock);

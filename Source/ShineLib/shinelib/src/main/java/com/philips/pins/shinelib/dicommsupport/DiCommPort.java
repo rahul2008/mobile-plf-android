@@ -73,10 +73,9 @@ public class DiCommPort {
             if (isAvailable) {
                 if (listener != null) {
                     listener.onPortAvailable(this);
-
-                    if (!updateListeners.isEmpty()) {
-                        subscriptionTimer.restart();
-                    }
+                }
+                if (!updateListeners.isEmpty()) {
+                    subscriptionTimer.restart();
                 }
             } else {
                 if (listener != null) {

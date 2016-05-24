@@ -57,7 +57,7 @@ public class DiCommFirmwarePortStateWaiterTest{
 
         diCommFirmwarePortStateWaiter.waitUntilStateIsReached(DiCommFirmwarePort.State.Idle, listenerMock);
 
-        verify(listenerMock).onRequestReceived(DiCommFirmwarePort.State.Idle, SHNResult.SHNOk);
+        verify(listenerMock).onStateUpdated(DiCommFirmwarePort.State.Idle, SHNResult.SHNOk);
     }
 
     @Test
@@ -75,7 +75,7 @@ public class DiCommFirmwarePortStateWaiterTest{
 
         resultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNErrorConnectionLost);
 
-        verify(listenerMock).onRequestReceived(null, SHNResult.SHNErrorConnectionLost);
+        verify(listenerMock).onStateUpdated(null, SHNResult.SHNErrorConnectionLost);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class DiCommFirmwarePortStateWaiterTest{
 
         resultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNOk);
 
-        verify(listenerMock, never()).onRequestReceived(any(DiCommFirmwarePort.State.class), any(SHNResult.class));
+        verify(listenerMock, never()).onStateUpdated(any(DiCommFirmwarePort.State.class), any(SHNResult.class));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class DiCommFirmwarePortStateWaiterTest{
         properties.put("canupdate", "true");
         updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
 
-        verify(listenerMock, never()).onRequestReceived(any(DiCommFirmwarePort.State.class), any(SHNResult.class));
+        verify(listenerMock, never()).onStateUpdated(any(DiCommFirmwarePort.State.class), any(SHNResult.class));
     }
 
     @Test
@@ -109,7 +109,7 @@ public class DiCommFirmwarePortStateWaiterTest{
         updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
         mockedHandler.executeFirstScheduledExecution();
 
-        verify(listenerMock).onRequestReceived(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
+        verify(listenerMock).onStateUpdated(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class DiCommFirmwarePortStateWaiterTest{
         updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
         mockedHandler.executeFirstScheduledExecution();
 
-        verify(listenerMock).onRequestReceived(DiCommFirmwarePort.State.Error, SHNResult.SHNErrorInvalidState);
+        verify(listenerMock).onStateUpdated(DiCommFirmwarePort.State.Error, SHNResult.SHNErrorInvalidState);
     }
 
     @Test
@@ -134,7 +134,7 @@ public class DiCommFirmwarePortStateWaiterTest{
         properties.put("state", "preparing");
         updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
 
-        verify(listenerMock, never()).onRequestReceived(any(DiCommFirmwarePort.State.class), any(SHNResult.class));
+        verify(listenerMock, never()).onStateUpdated(any(DiCommFirmwarePort.State.class), any(SHNResult.class));
     }
 
     @Test
@@ -151,7 +151,7 @@ public class DiCommFirmwarePortStateWaiterTest{
         updateListenerArgumentCaptor.getValue().onPropertiesChanged(properties);
         mockedHandler.executeFirstScheduledExecution();
 
-        verify(listenerMock).onRequestReceived(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
+        verify(listenerMock).onStateUpdated(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
     }
 
     @Test

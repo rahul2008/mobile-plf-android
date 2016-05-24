@@ -22,7 +22,7 @@ public class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener 
 
     public interface Listener {
 
-        void onRequestReceived(State state, SHNResult shnResult);
+        void onStateUpdated(State state, SHNResult shnResult);
     }
 
     @NonNull
@@ -40,14 +40,14 @@ public class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener 
 
     public void waitUntilStateIsReached(@NonNull final State state, @NonNull final Listener listener) {
         if (diCommFirmwarePort.getState() == state) {
-            listener.onRequestReceived(state, SHNResult.SHNOk);
+            listener.onStateUpdated(state, SHNResult.SHNOk);
         } else {
             SHNLogger.d(TAG, "stateWaiter subscribe for State " + state);
             diCommFirmwarePort.subscribe(this, new SHNResultListener() {
                 @Override
                 public void onActionCompleted(SHNResult result) {
                     if (result != SHNResult.SHNOk) {
-                        listener.onRequestReceived(null, result);
+                        listener.onStateUpdated(null, result);
                     } else {
                         DiCommFirmwarePortStateWaiter.this.listener = listener;
                         DiCommFirmwarePortStateWaiter.this.expectedState = state;
@@ -94,7 +94,7 @@ public class DiCommFirmwarePortStateWaiter implements DiCommPort.UpdateListener 
 
                 @Override
                 public void run() {
-                    this.runnableListener.onRequestReceived(newState, shnErrorInvalidState);
+                    this.runnableListener.onStateUpdated(newState, shnErrorInvalidState);
                 }
             }, 1);
         }
