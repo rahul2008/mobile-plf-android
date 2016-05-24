@@ -11,18 +11,30 @@ package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
 import android.net.http.SslError;
-import android.os.*;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.*;
-import android.webkit.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.analytics.*;
+import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class FaqDetailedScreen extends DigitalCareBaseFragment {
@@ -129,8 +141,10 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
             });
             mWebView.setWebViewClient(new WebViewClient() {
 
-                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                    DigiCareLogger.e("browser", description);
+                @Override
+                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                    super.onReceivedError(view, request, error);
+                    DigiCareLogger.e("browser", error);
                     mProgressBar.setVisibility(View.GONE);
                 }
 
