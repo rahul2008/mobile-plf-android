@@ -99,8 +99,6 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
         mListener.onLoadError((IAPNetworkError) msg.obj);
-        //TODO for showing dialog
-//        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
         if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }

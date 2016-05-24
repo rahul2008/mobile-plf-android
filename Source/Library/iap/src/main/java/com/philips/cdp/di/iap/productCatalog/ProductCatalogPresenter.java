@@ -108,8 +108,6 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         if (mLoadListener != null) {
             mLoadListener.onLoadError((IAPNetworkError) msg.obj);
         }
-        //TODO for showing dialog
-        // NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
         if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }
