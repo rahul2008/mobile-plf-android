@@ -46,6 +46,9 @@ public class IAPAnalyticsConstant {
     public static final String DELIVERY_METHOD = "deliveryMethod";
     public static final String DELIVERY_UPS_PARCEL = "UPSParcel";
 
+    public static final String SHOPPING_CART_VIEW = "shoppingCartView";
+    public static final String PROD_VIEW = "prodView";
+
     public static final String IN_APP_NOTIFICATION_POP_UP = "inAppNotification";
     public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
 
@@ -57,10 +60,8 @@ public class IAPAnalyticsConstant {
     public static final String REDEEM_VOUCHER_CODE = "redeemedVoucherCode";
     public static final String REVOKED_VOUCHER_CODE = "revokedVoucherCode";
     public static final String REDEEM_VOUCHER_SELECTED = "redeemVoucherSelected";
-    public static final String SHOPPING_CART_VIEW = "shoppingCartView"; // need to get confirmation
-    public static final String PROD_VIEW = "prodView"; // need to get confirmation
 
     public static final String ERROR = "error";
-    public static final String INSUFFICIENT_STOCK_ERROR = "InsufficientStockError";
+//    public static final String INSUFFICIENT_STOCK_ERROR = "InsufficientStockError";
 }
 

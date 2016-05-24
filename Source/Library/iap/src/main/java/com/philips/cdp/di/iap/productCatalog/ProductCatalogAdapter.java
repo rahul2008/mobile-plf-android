@@ -19,6 +19,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -47,6 +48,11 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         mData = data;
         notifyDataSetChanged();
         tagProducts();
+    }
+
+    @Override
+    public void onLoadError(IAPNetworkError error) {
+
     }
 
     @Override

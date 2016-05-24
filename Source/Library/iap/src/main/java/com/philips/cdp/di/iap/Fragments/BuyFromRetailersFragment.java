@@ -23,6 +23,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -35,6 +36,8 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
         ShoppingCartPresenter.LoadListener<StoreEntity> {
 
     public static final String TAG = BuyFromRetailersFragment.class.getName();
+
+
     FrameLayout mCrossContainer;
     RecyclerView mRecyclerView;
     ImageView mCross;
@@ -107,5 +110,15 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
         mAdapter = new BuyFromRetailersAdapter(getContext(), data, getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoadListenerError(IAPNetworkError error) {
+        // NOP
+    }
+
+    @Override
+    public void onRetailerError(IAPNetworkError errorMsg) {
+        getIAPActivity().getNetworkUtility().showErrorDialog(getContext(), getFragmentManager(), getContext().getString(R.string.iap_ok), errorMsg.getMessage(), errorMsg.getMessage());
     }
 }

@@ -73,7 +73,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
-        setTitle(R.string.iap_address);
         if (mSwitchBillingAddress.isChecked()) {
             disableAllFields();
             mBtnContinue.setEnabled(true);

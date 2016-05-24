@@ -43,7 +43,6 @@ import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
@@ -249,7 +248,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             addFragment(
                     BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
             //Track new address creation
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -462,14 +461,17 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
-        if (getArguments() != null && getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
-        } else {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
-        }
         setTitle(R.string.iap_address);
-        if (CartModelContainer.getInstance().getRegionIsoCode() != null)
-            mShippingAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
+        if (!(this instanceof BillingAddressFragment)) {
+            if (getArguments() != null &&
+                    getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
+            } else {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
+            }
+            if (CartModelContainer.getInstance().getRegionIsoCode() != null)
+                mShippingAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
+        }
     }
 
 
@@ -486,7 +488,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mAddressController.setDeliveryMode();
         } else {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 
@@ -496,7 +498,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mPaymentController.getPaymentDetails();
         } else {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 

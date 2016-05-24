@@ -44,6 +44,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     private TextView mCartCount;
     private ImageView mCartIcon;
     private FrameLayout mCartContainer;
+    NetworkUtility networkUtility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     @Override
     protected void onDestroy() {
         Utility.dismissProgressDialog();
-        NetworkUtility.getInstance().dismissErrorDialog();
+        getNetworkUtility().dismissErrorDialog();
         super.onDestroy();
     }
 
@@ -133,11 +134,11 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (NetworkUtility.getInstance().isNetworkAvailable(IAPActivity.this)) {
+                if (getNetworkUtility().isNetworkAvailable(IAPActivity.this)) {
                     addFragment(ShoppingCartFragment.createInstance(new Bundle(),
                             BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
                 } else {
-                    NetworkUtility.getInstance().showErrorDialog(IAPActivity.this, getSupportFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                    getNetworkUtility().showErrorDialog(IAPActivity.this, getSupportFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
 
             }
@@ -231,4 +232,13 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         Tagging.collectLifecycleData();
         super.onResume();
     }
+
+
+    public NetworkUtility getNetworkUtility() {
+        if (networkUtility == null) {
+            networkUtility = new NetworkUtility();
+        }
+        return networkUtility;
+    }
+
 }

@@ -24,7 +24,7 @@ public class NoNetworkConnectionFragment extends BaseAnimationSupportFragment {
         iap_btnTryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (NetworkUtility.getInstance().isNetworkAvailable(getActivity())) {
+                if (getIAPActivity().getNetworkUtility().isNetworkAvailable(getActivity())) {
                     moveToPreviousFragment();
                 }
             }

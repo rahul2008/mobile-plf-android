@@ -1,19 +1,3 @@
-/*----------------------------------------------------------------------------
-Copyright(c) Philips Electronics India Ltd
-All rights reserved. Reproduction in whole or in part is prohibited without 
-the written consent of the copyright holder.
-
-Project           : SaecoAvanti
-
-File Name         : NetworkUtility.java
-
-Description       : Network State Utility.
-Revision History: version 1: 
-    Date: Aug 18, 2014
-    Original author: Vinayak Udikeri
-    Description: Initial version    
-----------------------------------------------------------------------------*/
-
 package com.philips.cdp.di.iap.utils;
 
 import android.app.Activity;
@@ -33,18 +17,7 @@ import com.philips.cdp.tagging.Tagging;
 
 public class NetworkUtility {
 
-    private static NetworkUtility mNetworkUtility;
     private ErrorDialogFragment mModalAlertDemoFragment;
-    private boolean isOnline;
-
-    public static NetworkUtility getInstance() {
-        synchronized (NetworkUtility.class) {
-            if (mNetworkUtility == null) {
-                mNetworkUtility = new NetworkUtility();
-            }
-        }
-        return mNetworkUtility;
-    }
 
     public void dismissErrorDialog() {
         if (null != mModalAlertDemoFragment && mModalAlertDemoFragment.isAdded()) {
@@ -53,12 +26,8 @@ public class NetworkUtility {
         }
     }
 
+
     public void showErrorDialog(Context context, FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
-        showErrorDialog(context, pFragmentManager, pButtonText, pErrorString, pErrorDescription, false);
-    }
-
-
-    private void showErrorDialog(Context context, FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription, boolean pIsVisible) {
 
         //Track pop up
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -76,10 +45,8 @@ public class NetworkUtility {
             bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
             bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
             bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
-            // bundle.putBoolean(IAPConstant.MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE, pIsVisible);
             try {
                 mModalAlertDemoFragment.setArguments(bundle);
-//                mModalAlertDemoFragment.setOnDialogClickListener(errorDialogListener);
                 mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
                 mModalAlertDemoFragment.setShowsDialog(true);
             } catch (Exception e) {

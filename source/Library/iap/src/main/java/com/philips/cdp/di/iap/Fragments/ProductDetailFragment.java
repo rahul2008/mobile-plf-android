@@ -26,7 +26,6 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
@@ -71,12 +70,12 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
-                    NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                    getIAPActivity().getNetworkUtility().showErrorDialog(mContext, getFragmentManager(),
                             mContext.getString(R.string.iap_ok),
                             mContext.getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
                 }
             } else {
-                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+                getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
             }
         }
     };
@@ -128,11 +127,14 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void tagProduct() {
+        HashMap contextData = new HashMap();
         StringBuilder product = new StringBuilder();
         product = product.append("Tuscany_Campaign").append(";")
                 .append(mProductTitle).append(";").append(";")
                 .append(mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE));
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, product);
+        contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PROD_VIEW);
+        contextData.put(IAPAnalyticsConstant.PRODUCTS, product);
+        Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
 
     private void populateViewFromBundle() {
@@ -172,6 +174,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_shopping_cart_item);
+        tagProduct();
         if (mBundle != null && mLaunchedFromProductCatalog) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
             setAddToCartIcon();
@@ -185,7 +188,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
             setCartIconVisibility(View.GONE);
         }
-        tagProduct();
     }
 
     private void setAddToCartIcon() {
@@ -221,8 +223,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
-        NetworkUtility.getInstance().
-                showErrorMessage(msg, getFragmentManager(), getContext());
+        getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
     }
 
     void buyProduct(final String ctnNumber) {

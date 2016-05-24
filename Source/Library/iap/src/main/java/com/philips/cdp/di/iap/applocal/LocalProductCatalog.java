@@ -12,13 +12,12 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.ProductCatalogHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.io.BufferedReader;
@@ -26,28 +25,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
 
-public class LocalProductCatalog implements ProductCatalogAPI , AbstractModel.DataLoadListener{
+public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.DataLoadListener {
     private Context mContext;
     private FragmentManager mFragmentManager;
-//    protected ErrorDialogFragment.ErrorDialogListener mErrorDialogListener = new ErrorDialogFragment.ErrorDialogListener() {
-//        @Override
-//        public void onTryAgainClick() {
-//            IAPLog.i(IAPLog.LOG, "onTryAgainClick = " + this.getClass().getSimpleName());
-//            // sendShippingAddressesRequest();
-//            //  moveToPreviousFragment();
-//        }
-//    };
     private ProductCatalogHelper mProductCatalogHelper;
     Products mProductCatalog;
-
-    private ArrayList<ProductCatalogData> mProductData;
+    ProductCatalogPresenter.LoadListener mListener;
 
     public LocalProductCatalog(final Context context, final ProductCatalogPresenter.LoadListener listener, final FragmentManager fragmentManager) {
         mContext = context;
+        mListener = listener;
         mFragmentManager = fragmentManager;
-        mProductCatalogHelper = new ProductCatalogHelper(context,listener,this);
+        mProductCatalogHelper = new ProductCatalogHelper(context, listener, this);
     }
 
     @Override
@@ -97,7 +87,7 @@ public class LocalProductCatalog implements ProductCatalogAPI , AbstractModel.Da
 
     @Override
     public void onModelDataLoadFinished(final Message msg) {
-        if (mProductCatalogHelper.processPRXResponse(msg,mProductCatalog))
+        if (mProductCatalogHelper.processPRXResponse(msg, mProductCatalog))
             return;
 
         if (Utility.isProgressDialogShowing())
@@ -108,8 +98,10 @@ public class LocalProductCatalog implements ProductCatalogAPI , AbstractModel.Da
     public void onModelDataError(final Message msg) {
         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
-        if(Utility.isProgressDialogShowing()) {
+        mListener.onLoadError((IAPNetworkError) msg.obj);
+        //TODO for showing dialog
+//        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
+        if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }
     }

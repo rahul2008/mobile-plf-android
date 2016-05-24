@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -136,6 +137,17 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mShoppingCartDataList = data;
         notifyDataSetChanged();
     }
+
+    @Override
+    public void onLoadListenerError(IAPNetworkError error) {
+        //NOP
+    }
+
+    @Override
+    public void onRetailerError(IAPNetworkError errorMsg) {
+        //NOP
+    }
+
 
     public class OrderProductHolder extends RecyclerView.ViewHolder {
         TextView mTvProductName;
