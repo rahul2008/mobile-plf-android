@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
@@ -22,12 +24,16 @@ public class RegisteredProductsList extends AppCompatActivity {
     public interface OnItemClickListener {
         void onItemClick(RegisteredProduct item);
     }
+
     private RecyclerView mRecyclerView;
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registered_list);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         final TextView mVersion = (TextView) findViewById(R.id.txt_version);
         final ProdRegHelper prodRegHelper = new ProdRegHelper();
         mVersion.setText("versionName :" + prodRegHelper.getLibVersion());
@@ -54,7 +60,9 @@ public class RegisteredProductsList extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+                progressBar.setVisibility(View.GONE);
                 mRecyclerView.setAdapter(productAdapter);
+                mRecyclerView.setVisibility(View.VISIBLE);
             }
         });
     }
