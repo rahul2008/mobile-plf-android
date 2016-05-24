@@ -143,8 +143,8 @@ android {
 dependencies {
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1@jar'
     compile 'com.google.code.gson:gson:2.2.2'
-    compile 'com.android.support:appcompat-v7:+'
-    compile 'com.android.support:support-v4:+'
+    //compile 'com.android.support:appcompat-v7:+'
+    //compile 'com.android.support:support-v4:+'
     //    compile(group: 'com.philips.cdp', name: 'prx', version: '2.0.0-rc.7', ext: 'aar')
     //    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.0.0', ext: 'aar')
     compile 'com.mcxiaoke.volley:library:1.0.17'

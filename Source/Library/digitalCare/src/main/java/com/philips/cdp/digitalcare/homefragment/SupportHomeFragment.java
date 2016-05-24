@@ -83,6 +83,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private PrxWrapper mPrxWrapper = null;
     private ConsumerProductInfo mProductInfo = null;
     private String mCtnFromPreference;
+    private ImageView mActionBarMenuIcon = null;
+    private ImageView mActionBarArrow = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -211,6 +213,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         mOptionParent = (LinearLayout) getActivity().findViewById(
                 R.id.optionParent);
         mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
+
+        if (getActivity() != null) {
+            mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+            mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        }
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
         ButtonMarginTop = (int) getActivity().getResources().getDimension(R.dimen.marginTopButtonLayout);
@@ -693,6 +701,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     @Override
     public void onResume() {
         super.onResume();
+        enableActionBarHamburgerIcon(mActionBarMenuIcon, mActionBarArrow);
         enableSupportButtonClickable();
         if (mProductViewProductButton != null) {
             if (!mProductChangeButton.isClickable())

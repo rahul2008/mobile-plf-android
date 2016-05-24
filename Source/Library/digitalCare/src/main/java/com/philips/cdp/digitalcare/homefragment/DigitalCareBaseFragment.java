@@ -210,10 +210,18 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     protected void enableActionBarLeftArrow(ImageView hambergermenu, ImageView backarrow) {
-        DigiCareLogger.d(TAG, "BackArrow Enabled");
+        DigiCareLogger.d(TAG, "BackArrow icon Enabled");
         if (hambergermenu != null && backarrow != null) {
             backarrow.setVisibility(View.VISIBLE);
             backarrow.bringToFront();
+        }
+    }
+
+    protected void enableActionBarHamburgerIcon(ImageView hambergermenu, ImageView backarrow) {
+        DigiCareLogger.d(TAG, "Hamburger icon Enabled");
+        if (hambergermenu != null && backarrow != null) {
+            hambergermenu.setVisibility(View.VISIBLE);
+            hambergermenu.bringToFront();
         }
     }
 
