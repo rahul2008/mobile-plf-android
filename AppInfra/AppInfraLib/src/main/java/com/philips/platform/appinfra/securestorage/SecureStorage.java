@@ -36,7 +36,7 @@ import javax.security.auth.x500.X500Principal;
 public class SecureStorage implements SecureStorageInterface{
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
     private static final String ENCRYPTION_ALGORITHM =  "RSA/ECB/PKCS1Padding";
-    private final String FILE_NAME = "AppInfra.SecureStorage.file.name";
+    private static final String FILE_NAME = "AppInfra.SecureStorage.file.name";
     //public static final String DEVICE_FILE = "AppInfra Device file";
     private   Context mContext;
     private static KeyStore keyStore = null;
