@@ -144,7 +144,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                 @Override
                 public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                     super.onReceivedError(view, request, error);
-                    DigiCareLogger.e("browser", error);
+                    DigiCareLogger.e(TAG, "Webcleient Response error : " + error);
                     mProgressBar.setVisibility(View.GONE);
                 }
 
