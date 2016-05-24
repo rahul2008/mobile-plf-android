@@ -1,19 +1,3 @@
-/*----------------------------------------------------------------------------
-Copyright(c) Philips Electronics India Ltd
-All rights reserved. Reproduction in whole or in part is prohibited without 
-the written consent of the copyright holder.
-
-Project           : SaecoAvanti
-
-File Name         : NetworkUtility.java
-
-Description       : Network State Utility.
-Revision History: version 1: 
-    Date: Aug 18, 2014
-    Original author: Vinayak Udikeri
-    Description: Initial version    
-----------------------------------------------------------------------------*/
-
 package com.philips.cdp.di.iap.utils;
 
 import android.app.Activity;
