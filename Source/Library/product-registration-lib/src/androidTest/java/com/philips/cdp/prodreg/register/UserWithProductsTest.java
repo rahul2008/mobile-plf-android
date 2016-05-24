@@ -35,10 +35,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 public class UserWithProductsTest extends MockitoTestCase {
 
     UserWithProducts userWithProducts;

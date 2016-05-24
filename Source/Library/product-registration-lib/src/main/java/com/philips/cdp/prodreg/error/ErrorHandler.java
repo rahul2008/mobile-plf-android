@@ -5,10 +5,11 @@ import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 public class ErrorHandler {
 
     public void handleError(final UserWithProducts userProduct, RegisteredProduct registeredProduct, int statusCode, ProdRegListener appListener) {

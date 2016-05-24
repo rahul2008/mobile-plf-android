@@ -14,10 +14,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 public class LocalRegisteredProducts {
 
     public static String PRODUCT_REGISTRATION_KEY = "prod_reg_key";

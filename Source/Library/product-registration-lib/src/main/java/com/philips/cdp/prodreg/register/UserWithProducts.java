@@ -31,10 +31,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 public class UserWithProducts {
 
     public static final int PRODUCT_REGISTRATION = 0;
