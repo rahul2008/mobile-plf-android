@@ -42,18 +42,20 @@ public class ProductAdapter  extends RecyclerView.Adapter<ListRowHolder>  {
     @Override
     public void onBindViewHolder(final ListRowHolder holder, final int position) {
         RegisteredProduct registeredProduct = registeredProducts.get(position);
-        holder.mCtn.setText("CTN : " +registeredProduct.getCtn());
+        holder.mCtn.setText("CTN : " + registeredProduct.getCtn());
         holder.mSerailNumber.setText("Serial No : " + registeredProduct.getSerialNumber());
-        if (registeredProduct.getRegistrationState().toString().equalsIgnoreCase("PENDING")){
+        if (registeredProduct.getRegistrationState().toString().equalsIgnoreCase("PENDING") || registeredProduct.getRegistrationState().toString().equalsIgnoreCase("REGISTERING")) {
             holder.mStatus.setTextColor(ContextCompat.getColor(mContext, R.color.gray));
-        }else if(registeredProduct.getRegistrationState().toString().equalsIgnoreCase("REGISTERED")){
+        } else if (registeredProduct.getRegistrationState().toString().equalsIgnoreCase("REGISTERED")) {
             holder.mStatus.setTextColor(ContextCompat.getColor(mContext, R.color.green));
-        }else {
+        } else {
             holder.mStatus.setTextColor(ContextCompat.getColor(mContext, R.color.red));
         }
-        holder.mStatus.setText(Html.fromHtml("<font color='#222'>Status : </font>"+registeredProduct.getRegistrationState()));
-    if (registeredProduct.getProdRegError()!=null)
-       holder.mErrorStatus.setText(Html.fromHtml("<font color='#222'>Error : </font>"+registeredProduct.getProdRegError()));
+        holder.mStatus.setText(Html.fromHtml("<font color='#222'>Status : </font>" + registeredProduct.getRegistrationState()));
+        if (registeredProduct.getProdRegError() != null)
+            holder.mErrorStatus.setText(Html.fromHtml("<font color='#222'>Error : </font>" + registeredProduct.getProdRegError()));
+        else
+            holder.mErrorStatus.setText("");
 
         holder.bind(registeredProducts.get(position), onItemClickListener);
     }
