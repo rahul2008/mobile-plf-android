@@ -3,9 +3,7 @@ package com.philips.cdp.digitalcare.locatephilips.fragments;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -44,7 +42,7 @@ public class GoogleMapFragment extends SupportMapFragment {
 
 	}
 
-	public static interface onMapReadyListener {
+	public interface onMapReadyListener {
 		void onMapReady();
 	}
 }
