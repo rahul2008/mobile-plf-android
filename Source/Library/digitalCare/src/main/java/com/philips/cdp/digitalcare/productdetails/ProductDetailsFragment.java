@@ -248,7 +248,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     public void onResponse(Bitmap bitmap) {
                         imageView.setImageBitmap(bitmap);
                     }
-                }, 0, 0, null,
+                }, 0, 0, null, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
                         imageView.setImageBitmap(addBlankThumbnail());
@@ -493,7 +493,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 //        button.setGravity(Gravity.START | Gravity.CENTER);
         button.setPadding((int) (20 * density), 0, 0, 0);
-        button.setTextAppearance(mActivity, R.style.fontButton);
+        if (Build.VERSION.SDK_INT < 23) {
+            button.setTextAppearance(getActivity(), R.style.fontButton);
+        } else {
+            button.setTextAppearance(R.style.fontButton);
+        }
         Typeface buttonTypeface = Typeface.createFromAsset(mActivity.getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         button.setTypeface(buttonTypeface);
         button.setGravity(Gravity.CENTER);
@@ -580,7 +584,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                                 mProductImage.setImageBitmap(bitmap);
                             }
                         }
-                    }, 0, 0, null,
+                    }, 0, 0, null, null,
                     new Response.ErrorListener() {
                         public void onErrorResponse(VolleyError error) {
                             // mProductImage.setImageResource(R.drawable.image_load_error);
