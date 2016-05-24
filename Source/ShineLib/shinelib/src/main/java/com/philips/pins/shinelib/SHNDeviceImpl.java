@@ -342,6 +342,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedReady);
             }
         }
+        if (state == SHNService.State.Error) {
+            disconnect();
+        }
     }
 
     private Boolean areAllRegisteredServicesReady() {
