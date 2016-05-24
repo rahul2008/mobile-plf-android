@@ -11,28 +11,18 @@ package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
 import android.net.http.SslError;
-import android.os.Build;
-import android.os.Bundle;
+import android.os.*;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.JavascriptInterface;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.view.*;
+import android.webkit.*;
+import android.widget.*;
 
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.analytics.*;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class FaqDetailedScreen extends DigitalCareBaseFragment {
