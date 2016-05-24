@@ -166,3 +166,15 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
 	3. PRA-215 - Product registering process priority is not correct
 	4. PRA-196 - Duplicate products data getting register from different app/devices.
 	5. PRA-147 - Error popup displayed always with local stored invalid data, along with product registered successful message for valid data.
+	
+	 Version - 1.0.1.rc2                        Date: 24-05-2016
+-------------------------------------------------------------
+
+	Following features has fixed :
+	
+	1. PRA-220 - No proper error message for user in product list page.
+	2. PRA-221 - Application is get hanging for invalid date
+	3. PRA-222 - No error pop-up message for invalid date
+	4. PRA-223 - Product is not get registered with local data, for first user sign -in
+	5. PRA-224 - integrate UI-kit
+	6. PRA-225 - Add spinner while displaying Registered products list
