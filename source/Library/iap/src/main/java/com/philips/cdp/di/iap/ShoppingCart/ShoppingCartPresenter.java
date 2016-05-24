@@ -164,8 +164,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
                 mLoadListener.onLoadListenerError((IAPNetworkError) msg.obj);
-                //TODO for showing dialog
-                // NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
                 Utility.dismissProgressDialog();
             }
         });
