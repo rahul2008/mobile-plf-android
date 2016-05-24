@@ -19,6 +19,7 @@
             fontPath="fonts/puicon.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:layout_marginRight="9dp"
             android:text="@string/uikit_fonticon_cross"
             android:textColor="?attr/uikit_erroriconcolorinlineforms"
