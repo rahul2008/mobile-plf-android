@@ -54,8 +54,10 @@ public class AppInfra {
         public Builder() {
             secStor = null;
             logger = null;
+            aiLogger = null;
             tagging = null;
             pILLocaleMgr = null;
+            reqMgr = null;
         }
 
 

@@ -331,7 +331,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
         if(null!=paramMap) {
             try {
-                Map<String, Object> tmp = new HashMap(paramMap);
+                Map<String, Object> tmp = new HashMap<String, Object>(paramMap);
                 tmp.keySet().removeAll(contextData.keySet());
 //        target.putAll(tmp);
                 contextData.putAll(paramMap);
