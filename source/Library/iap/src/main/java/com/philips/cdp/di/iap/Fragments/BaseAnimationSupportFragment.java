@@ -8,6 +8,7 @@ Project           : InAppPurchase
 
 package com.philips.cdp.di.iap.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,20 +17,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.tagging.Tagging;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
     private IAPFragmentListener mActivityListener;
 
     protected boolean isNetworkNotConnected() {
-        if (!NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
-            NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        if (!getIAPActivity().getNetworkUtility().isNetworkAvailable(getContext())) {
+            getIAPActivity().getNetworkUtility().showErrorDialog(getContext(), getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
             return true;
         }
         return false;
@@ -89,16 +90,6 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         }
     }
 
-    public void launchShoppingCart() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            FragmentManager manager = getActivity().getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
-            transaction.addToBackStack(ShoppingCartFragment.TAG);
-            transaction.commitAllowingStateLoss();
-        }
-    }
-
     protected void setTitle(int resourceId) {
         mActivityListener.setHeaderTitle(resourceId);
     }
@@ -138,7 +129,6 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         if (getActivity() != null && !getActivity().isFinishing()) {
             getActivity().getSupportFragmentManager().popBackStackImmediate(null, 0);
         }
-
     }
 
     public void updateCount(final int count) {
@@ -151,5 +141,13 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         } else {
             mActivityListener.setCartIconVisibility(visibility);
         }
+    }
+
+    public IAPActivity getIAPActivity() {
+        Activity activity = getActivity();
+        if (activity != null && (activity instanceof IAPActivity)) {
+            return (IAPActivity) activity;
+        }
+        return null;
     }
 }

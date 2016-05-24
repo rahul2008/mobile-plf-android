@@ -43,7 +43,6 @@ import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
@@ -249,7 +248,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             addFragment(
                     BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
             //Track new address creation
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -489,7 +488,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mAddressController.setDeliveryMode();
         } else {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 
@@ -499,7 +498,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mPaymentController.getPaymentDetails();
         } else {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 

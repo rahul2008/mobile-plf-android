@@ -28,7 +28,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 
@@ -109,7 +108,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         super.onStop();
         if (mAdapter != null)
             mAdapter.onStop();
-        NetworkUtility.getInstance().dismissErrorDialog();
+        getIAPActivity().getNetworkUtility().dismissErrorDialog();
     }
 
     private void updateCartDetails(ShoppingCartAPI presenter) {
@@ -192,7 +191,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(
@@ -252,5 +251,16 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             updateCount(data.get(0).getDeliveryItemsQuantity());
         }
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onLoadListenerError(IAPNetworkError error) {
+        if (Utility.isProgressDialogShowing()) Utility.dismissProgressDialog();
+        getIAPActivity().getNetworkUtility().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok), error.getMessage(), error.getMessage());
+    }
+
+    @Override
+    public void onRetailerError(IAPNetworkError errorMsg) {
+        //NOP
     }
 }

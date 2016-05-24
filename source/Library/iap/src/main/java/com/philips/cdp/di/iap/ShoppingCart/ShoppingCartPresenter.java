@@ -33,7 +33,6 @@ import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -49,6 +48,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
     public interface ShoppingCartLauncher {
         void launchShoppingCart();
     }
+
     Carts mCartData = null;
 
     public ShoppingCartPresenter() {
@@ -77,7 +77,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
         ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
         refreshList(products);
         CartModelContainer.getInstance().setShoppingCartData(products);
-        if(Utility.isProgressDialogShowing())
+        if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
     }
 
@@ -163,7 +163,9 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
+                mLoadListener.onLoadListenerError((IAPNetworkError) msg.obj);
+                //TODO for showing dialog
+                // NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
                 Utility.dismissProgressDialog();
             }
         });
@@ -359,14 +361,14 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
 
     private boolean processResponseFromPRX(final Message msg) {
         if (msg.obj instanceof HashMap) {
-            HashMap<String,SummaryModel> prxModel = (HashMap<String,SummaryModel>)msg.obj;
+            HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
             if (prxModel == null || prxModel.size() == 0) {
                 EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
                 Utility.dismissProgressDialog();
                 return true;
             }
             notifyListChanged(prxModel);
-        }else {
+        } else {
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
             dismissProgressDialog();
         }
@@ -376,7 +378,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
     private boolean processResponseFromHybrisForGetCart(final Message msg) {
         if (msg.obj instanceof Carts) {
             mCartData = (Carts) msg.obj;
-            if (mCartData!=null && mCartData.getCarts().get(0).getEntries() != null) {
+            if (mCartData != null && mCartData.getCarts().get(0).getEntries() != null) {
                 makePrxCall(mCartData);
                 return true;
             }

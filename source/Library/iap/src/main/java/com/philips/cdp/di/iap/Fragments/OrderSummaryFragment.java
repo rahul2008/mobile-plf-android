@@ -27,7 +27,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 
@@ -183,7 +182,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 
@@ -215,7 +214,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             if (null != iapNetworkError.getServerError()) {
                 checkForOutOfStock(iapNetworkError, msg);
             } else {
-                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+                getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
             }
         }
     }
@@ -225,10 +224,10 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         String type = error.getType();
         if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
             String subject = error.getMessage();
-            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), getString(R.string.iap_ok),
+            getIAPActivity().getNetworkUtility().showErrorDialog(mContext, getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_out_of_stock), subject);
         } else {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
         }
     }
 

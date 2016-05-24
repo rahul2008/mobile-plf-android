@@ -17,6 +17,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
     private ServerError mServerError;
     private VolleyError mVolleyError;
     private int mIAPErrorCode = IAPConstant.IAP_SUCCESS;
+    private String mCustomErrorMessage;
 
     public IAPNetworkError(VolleyError error, int requestCode,
                            RequestListener requestListener) {
@@ -54,7 +55,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
 
     @Override
     public String getMessage() {
-        if (mServerError != null) {
+        if(mCustomErrorMessage != null) {
+            return mCustomErrorMessage;
+        } else if (mServerError != null) {
             if(mServerError.getErrors() == null || mServerError.getErrors().get(0)== null) {
                 return null;
             }
@@ -63,6 +66,10 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             return mVolleyError.getMessage();
         }
         return null;
+    }
+
+    public void setCustomErrorMessage(String errorMessage) {
+        mCustomErrorMessage = errorMessage;
     }
 
     @Override
