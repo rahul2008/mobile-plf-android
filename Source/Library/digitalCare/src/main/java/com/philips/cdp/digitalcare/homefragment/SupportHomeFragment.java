@@ -610,8 +610,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             mProductViewProductButton.setVisibility(View.GONE);
 
         if (mProductChangeButton != null) {
-            mProductChangeButton.setVisibility(View.VISIBLE);
-            mProductChangeButton.setClickable(true);
+
+            if (!(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length < 2)) {
+                mProductChangeButton.setVisibility(View.VISIBLE);
+                mProductChangeButton.setClickable(true);
+            }
         }
     }
 
