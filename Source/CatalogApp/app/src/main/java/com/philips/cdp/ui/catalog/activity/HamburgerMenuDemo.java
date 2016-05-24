@@ -155,6 +155,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
     public void setTitle(CharSequence title) {
         super.setTitle(title);
         actionBarTitle.setText(title);
+        actionBarTitle.setSelected(true);
     }
 
     private void configureDrawer() {
