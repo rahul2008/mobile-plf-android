@@ -94,8 +94,8 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             return;
         }
         if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.INSUFFICIENT_STOCK_ERROR);
+//            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+//                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.INSUFFICIENT_STOCK_ERROR);
             mIAPErrorCode = IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR;
         }
     }

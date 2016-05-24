@@ -128,11 +128,14 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void tagProduct() {
+        HashMap contextData = new HashMap();
         StringBuilder product = new StringBuilder();
         product = product.append("Tuscany_Campaign").append(";")
                 .append(mProductTitle).append(";").append(";")
                 .append(mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE));
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, product);
+        contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PROD_VIEW);
+        contextData.put(IAPAnalyticsConstant.PRODUCTS, product);
+        Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
 
     private void populateViewFromBundle() {
@@ -172,6 +175,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_shopping_cart_item);
+        tagProduct();
         if (mBundle != null && mLaunchedFromProductCatalog) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
             setAddToCartIcon();
@@ -185,7 +189,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
             setCartIconVisibility(View.GONE);
         }
-        tagProduct();
     }
 
     private void setAddToCartIcon() {
