@@ -1,4 +1,8 @@
-
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.tagging;
 
 import android.content.Context;
@@ -327,7 +331,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
         if(null!=paramMap) {
             try {
-                Map tmp = new HashMap(paramMap);
+                Map<String, Object> tmp = new HashMap(paramMap);
                 tmp.keySet().removeAll(contextData.keySet());
 //        target.putAll(tmp);
                 contextData.putAll(paramMap);

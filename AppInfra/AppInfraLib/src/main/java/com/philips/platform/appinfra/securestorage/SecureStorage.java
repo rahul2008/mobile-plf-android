@@ -30,7 +30,8 @@ import javax.security.auth.x500.X500Principal;
  * Created by 310238114 on 4/5/2016.
  * Current RSA implementation encrypts/decrypts given string in multiple of 256 character blocks.
  * RSA can encrypt only keyLength/8 byte at a time., eg 2048/8 -11  = 245  (11 bytes for padding)
- * "ISO-8859-1"  encoding id used for String because "ISO-8859-1" creates 1-1 mapping between byte and char. 1 byte will be converted to only 1 char only.
+ * "ISO-8859-1"  encoding id used for String because "ISO-8859-1" creates 1-1 mapping
+ * between byte and char. 1 byte will be converted to only 1 char only.
  */
 public class SecureStorage implements SecureStorageInterface{
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";

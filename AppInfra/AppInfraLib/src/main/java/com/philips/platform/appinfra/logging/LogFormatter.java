@@ -17,7 +17,7 @@ import java.util.logging.LogRecord;
  * Created by 310238114 on 4/26/2016.
  */
 public class LogFormatter extends Formatter {
-String componentNameAndVersion;
+private String componentNameAndVersion;
     public LogFormatter(String ComponentName, String componentVersion){
         componentNameAndVersion=ComponentName+" "+componentVersion;
     }
@@ -26,14 +26,15 @@ String componentNameAndVersion;
     private static final DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
-        builder.append("[");
+        builder.append(" ");
         Date aiCurrentDate= new Date(record.getMillis());
-        builder.append(df.format(aiCurrentDate)).append("] ");
+        builder.append(df.format(aiCurrentDate)).append(" ");
         String componentName = "NA"; // Default component name
         /*if(null!=record.getLoggerName()){
             componentName=record.getLoggerName();
         }*/
-        builder.append("[").append(componentNameAndVersion).append("] ");
+        builder.append(" ").append(componentNameAndVersion).append(" ");
+        builder.append(" ").append(componentNameAndVersion).append(" ");
         Level logLevel = record.getLevel();
         String logLevelPrettyName = logLevel.toString();
         if(logLevel == Level.SEVERE){
@@ -43,7 +44,7 @@ String componentNameAndVersion;
         }else if(logLevel == Level.FINE){
             logLevelPrettyName="VERBOSE";
         }
-        builder.append("[").append(logLevelPrettyName).append("] ");
+        builder.append(" ").append(logLevelPrettyName).append(" ");
         //builder.append("[").append(record.getSourceClassName()).append("] ");
         //builder.append("[").append(record.getSourceMethodName()).append("] ");
         Object[] eventNameList= record.getParameters();
@@ -51,8 +52,8 @@ String componentNameAndVersion;
         if(null!=eventNameList && eventNameList.length>0){
             eventName=(String)eventNameList[0];
         }
-        builder.append("[").append(eventName).append("] ");
-        builder.append("[").append(formatMessage(record)).append("]");;
+        builder.append(" ").append(eventName).append(" ");
+        builder.append(" ").append(formatMessage(record)).append(" ");;
         builder.append("\n");
         return builder.toString();
     }
