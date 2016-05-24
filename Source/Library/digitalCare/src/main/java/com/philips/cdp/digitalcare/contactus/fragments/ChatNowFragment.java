@@ -11,20 +11,15 @@ import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.view.*;
+import android.webkit.*;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.analytics.*;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @SuppressLint("SetJavaScriptEnabled")
