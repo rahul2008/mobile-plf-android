@@ -14,7 +14,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
  * Created by 310238114 on 5/13/2016.
  */
 public class Component2 {
-    private AppInfra mAppInfra = null;
+    private final AppInfra mAppInfra ;
     private LoggingInterface AILoggingInterface;
     Context mContext;
 

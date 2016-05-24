@@ -14,7 +14,7 @@ import package2.component2.Component2;
  * Created by 310238114 on 5/13/2016.
  */
 public class Component1 {
-    private AppInfra mAppInfra = null;
+    private final AppInfra mAppInfra ;
     private LoggingInterface AILoggingInterface;
     public Component1(AppInfra pAppInfra){
        // mAppInfra=pAppInfra;
