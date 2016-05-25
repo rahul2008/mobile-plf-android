@@ -44,7 +44,9 @@ public class ProductAdapter  extends RecyclerView.Adapter<ListRowHolder>  {
     public void onBindViewHolder(final ListRowHolder holder, final int position) {
         RegisteredProduct registeredProduct = registeredProducts.get(position);
         holder.mCtn.setText("CTN : " + registeredProduct.getCtn());
-        holder.mSerailNumber.setText("Serial No : " + registeredProduct.getSerialNumber());
+        final String s = "Serial No : ";
+        final String text = s.concat(registeredProduct.getSerialNumber() != null ? registeredProduct.getSerialNumber() : "");
+        holder.mSerailNumber.setText(text);
         if (registeredProduct.getRegistrationState().toString().equalsIgnoreCase("PENDING") || registeredProduct.getRegistrationState().toString().equalsIgnoreCase("REGISTERING")) {
             holder.mStatus.setTextColor(ContextCompat.getColor(mContext, R.color.gray));
         } else if (registeredProduct.getRegistrationState().toString().equalsIgnoreCase("REGISTERED")) {

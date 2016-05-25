@@ -117,8 +117,8 @@ public class UserWithProducts {
                 getUserProduct().updateLocaleCache(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
                 appListener.onProdRegFailed(registeredProduct, getUserProduct());
             } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !getUserProduct().isValidDate(registeredProduct.getPurchaseDate())) {
-                currentRegisteredProduct = null;
                 updateWithCallBack(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED, appListener);
+                currentRegisteredProduct = null;
             } else {
                 UserWithProducts userWithProducts = getUserProduct();
                 updateLocaleCache(registeredProduct, registeredProduct.getProdRegError(), RegistrationState.REGISTERING);

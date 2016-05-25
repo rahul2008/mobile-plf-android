@@ -20,8 +20,8 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 */
 public class Product {
 
-    private String productModelNumber = "";
-    private String productSerialNumber = "";
+    private String productModelNumber;
+    private String productSerialNumber;
     private String purchaseDate;
     private Sector sector;
     private Catalog catalog;

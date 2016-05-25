@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Flow;
 import com.philips.cdp.registration.configuration.JanRainConfiguration;
@@ -49,7 +48,6 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
         setContentView(R.layout.activity_main);
         final String PRODUCT_REGISTRATION = "prod_demo";
         sharedPreferences = getSharedPreferences(PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-        new ProdRegHelper().init(this);
         spinner = (Spinner) findViewById(R.id.spinner);
         txt_title = (TextView) findViewById(R.id.txt_title);
         configurationTextView = (TextView) findViewById(R.id.configuration);
