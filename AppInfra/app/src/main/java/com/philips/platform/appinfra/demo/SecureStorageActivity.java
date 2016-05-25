@@ -26,7 +26,7 @@ public class SecureStorageActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secure_storage);
       //  mSecureStorage = new SecureStorage(getApplicationContext());
-        AppInfra appInfra = new AppInfra.Builder().build(getApplicationContext());
+        AppInfra appInfra = AppInfraApplication.gAppInfra;
         mSecureStorage = appInfra.getSecureStorage();
 
         final EditText userKey = (EditText) findViewById(R.id.Key_editText);

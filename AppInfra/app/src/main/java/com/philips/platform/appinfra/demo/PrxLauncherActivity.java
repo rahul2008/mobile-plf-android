@@ -63,9 +63,10 @@ public class PrxLauncherActivity extends AppCompatActivity {
         msupportButton = (Button)findViewById(R.id.support_rqst_button);
         mAssetButton = (Button)findViewById(R.id.assets_reqst_button);
         mCTNEditText = (EditText) findViewById(R.id.EditTextCTN);
-       /* mAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        /*mAppInfra = AppInfraApplication.gAppInfra;
         aiLogging = mAppInfra.getAppInfraLogInstance();
         aiLogging.log(AppInfraLogging.LogLevel.DEBUG,TAG,"TEST 1");*/
+
         ///////////SECTOR AND CATALOG////////////
         // setting sector spinner
         mSector_spinner_prx = (Spinner) findViewById(R.id.prxSpinnerSector);
@@ -192,7 +193,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
                 Log.d(TAG, " SummaryModel Positive Response Data CTN: " + mData.getCtn());
                 Log.d(TAG, " SummaryModel Positive Response Data Product Title: " + mData.getProductTitle());
 
-            }else    if(responseData instanceof AssetModel){
+            } else if (responseData instanceof AssetModel){
                 AssetModel mAssetModel = (AssetModel) responseData;
                 Log.d(TAG, "Support Response Data : " + mAssetModel.isSuccess());
                 com.philips.cdp.prxclient.datamodels.assets.Data myyData = mAssetModel.getData();

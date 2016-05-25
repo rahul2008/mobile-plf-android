@@ -16,23 +16,20 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.logging.Logger;
 
-import package1.component1.Component1;
-
 public class LoggingActivity extends AppCompatActivity {
 
-    private  AppInfra ai = null;
-    private  LoggingInterface AILoggingInterface;
+
+
     String[] LogLevels= {"ERROR","WARNING","INFO","DEBUG","VERBOSE"};
     LoggingInterface.LogLevel currentLogLevel = LoggingInterface.LogLevel.VERBOSE; //default
     String currentEventID="";
     String currentMessage="";
     int logCount=1;
-
+    LoggingInterface AILoggingInterface;
 
     static Logger logger;
     @Override
@@ -51,8 +48,8 @@ public class LoggingActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //  ai = new AppInfra.Builder().setLogging(myLogger).build(getApplicationContext());
-                ai = new AppInfra.Builder().build(getApplicationContext());
-                AILoggingInterface = ai.getLogging().createInstanceForComponent(componentNameText.getText().toString(), componentVersionCount.getText().toString()); //this.getClass().getPackage().toString()
+
+                AILoggingInterface = AppInfraApplication.gAppInfra.getLogging().createInstanceForComponent(componentNameText.getText().toString(), componentVersionCount.getText().toString()); //this.getClass().getPackage().toString()
             }
         });
         //////////////////////////////////////
@@ -123,54 +120,17 @@ public class LoggingActivity extends AppCompatActivity {
 
                     for(int logcount=1;logcount<=totalLogCount;logcount++) {
                         AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString());
-                       // testOtherComponent();
-                        Component1 component1= new Component1(ai);
 
-
-                        AILoggingInterface.log(currentLogLevel, "back", "back");
+                      // Component1 component1= new Component1(AppInfraApplication.gAppInfra);
+                       // AILoggingInterface.log(currentLogLevel, "back", "back");
                     }
                 }
             }
         });
 
 
-
-
-
-
-
-       /* ai = new AppInfra.Builder().build(getApplicationContext());
-       //  ai = new AppInfra.Builder().setLogging(myLogger).build(getApplicationContext());
-        AILoggingInterface = ai.getLogging().createInstanceForComponent("Uikit 3.0.0", "1.2.3"); //this.getClass().getPackage().toString()*/
-
-
-      /*  AILoggingInterface.enableFileLog(true);
-        AILoggingInterface.log(currentLogLevel, "event 1", "some msg 123 ");
-        //AILoggingInterface.enableFileLog(true);
-        //AILoggingInterface.log(LoggingInterface.LogLevel.DEBUG, "event id logging Activity", "some msg 123 ");
-        LoggingInterface AILoggingInterface2;
-        LoggingInterface AILoggingInterface3;
-         AILoggingInterface2 = ai.getLogging().createInstanceForComponent("User Reg", "4.2.0"); //this.getClass().getPackage().toString()
-        AILoggingInterface3 = ai.getLogging().createInstanceForComponent("User Reg", "4.2.0"); //this.getClass().getPackage().toString()
-        //AILoggingInterface.enableConsoleLog(false);
-
-        AILoggingInterface2.enableFileLog(true);
-        AILoggingInterface2.log(LoggingInterface.LogLevel.WARNING, "event 2", "some msg 1234  AILoggingInterface2 ");
-        AILoggingInterface3.log(LoggingInterface.LogLevel.WARNING, "event 11", "some msg 123 AILoggingInterface3");
-*/
-
-
-
-
-
-
-
     }
 
-    void testOtherComponent(){
-        LoggingInterface LoggingInterfaceUserReg = ai.getLogging().createInstanceForComponent("User Reg", "1.2.0"); //this.getClass().getPackage().toString()
-        LoggingInterfaceUserReg.log(currentLogLevel, "Event USer Log", "Msg 11");
-    }
 
 
 }

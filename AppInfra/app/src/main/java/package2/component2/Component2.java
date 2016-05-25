@@ -20,8 +20,8 @@ public class Component2 {
 
     public Component2(AppInfra pAppInfra){
 
-       // mAppInfra=pAppInfra;
-       mAppInfra = new AppInfra.Builder().build(pAppInfra.getAppInfraContext());
+      mAppInfra=pAppInfra;
+
         AILoggingInterface = mAppInfra.getLogging().createInstanceForComponent("package2.component2", "2.0.1"); //this.getClass().getPackage().toString()
         AILoggingInterface.enableConsoleLog(true);
         AILoggingInterface.enableFileLog(true);

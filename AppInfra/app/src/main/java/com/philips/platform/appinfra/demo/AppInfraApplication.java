@@ -15,19 +15,16 @@ import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
  */
 public class AppInfraApplication extends Application {
      public static AIAppTaggingInterface mAIAppTaggingInterface;
+    public static AppInfra gAppInfra;
     @Override
     public void onCreate() {
         super.onCreate();
 
-      AppInfra  ai = new AppInfra.Builder().build(getApplicationContext());
+        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
 
-        mAIAppTaggingInterface = ai.getTagging().createInstanceForComponent("Component name","Component ID");
-
-        int x = 10;
-        if(x==10){
-            int y = x;
-        }
+        mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name","Component ID");
 
 
     }
+
 }
