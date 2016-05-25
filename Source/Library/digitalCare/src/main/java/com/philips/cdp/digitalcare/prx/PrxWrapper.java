@@ -262,7 +262,7 @@ public class PrxWrapper {
                             mSupportCallback.onResponseReceived(null);
                         }
                     }
-                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
                         mProgressDialog.cancel();
                     }
                 }
@@ -313,8 +313,8 @@ public class PrxWrapper {
                             mSummaryCallback.onResponseReceived(null);
                         }
                     }
-                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                        mProgressDialog.dismiss();
+                    if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
+                        mProgressDialog.cancel();
                     }
                 }
             }
@@ -326,7 +326,7 @@ public class PrxWrapper {
                 if (mSummaryCallback != null) {
                     mSummaryCallback.onResponseReceived(null);
                 }
-                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
                     mProgressDialog.cancel();
                 }
             }
@@ -449,7 +449,7 @@ public class PrxWrapper {
                         mProductDetailsObject.setmVideoLinks(mVideoList);
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
-                        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                        if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
                             mProgressDialog.cancel();
                         }
 
@@ -461,7 +461,7 @@ public class PrxWrapper {
             public void onResponseError(PrxError error) {
                 DigiCareLogger.e(TAG, "Asset Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                if (mProgressDialog != null && mProgressDialog.isShowing())
+                if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing())
                     mProgressDialog.cancel();
             }
         });
