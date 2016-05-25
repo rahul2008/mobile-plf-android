@@ -150,6 +150,7 @@ Error --> Initializing : onServiceUnavailable
 import android.os.Handler;
 
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.services.SHNServiceMoonshineStreaming;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.Utilities;
 
@@ -160,21 +161,25 @@ import java.util.Queue;
 public class SHNProtocolMoonshineStreamingV3 implements SHNProtocolMoonshineStreaming, SHNServiceMoonshineStreaming.SHNServiceMoonshineStreamingListener {
     private static final boolean ENABLE_DEBUG_LOGGING = false;
     private static final String TAG = SHNProtocolMoonshineStreamingV3.class.getSimpleName();
+
     public static final int DEFAULT_TX_WINDOW_SIZE = 12;
     public static final int PROTOCOL_VERSION = 3;
     public static final long RECEIVE_ACK_TIMEOUT = 5000L;
     public static final long RECEIVE_NEXT_MSG_TIMEOUT = 30L;
     public static final int MAX_PAYLOAD_SIZE = 19;
     public static final int MAX_TX_RETRIES = 3;
+
     private final SHNServiceMoonshineStreaming shnServiceMoonshineStreaming;
     private final Handler internalHandler;
     private SHNProtocolMoonshineStreamingListener shnProtocolMoonshineStreamingListener;
     private SHNProtocolMoonshineStreamingState state = SHNProtocolMoonshineStreamingState.Initializing;
     private SHNProtocolMoonshineStreamingVersionSwitcher.SHNProtocolMoonshineStreamingSubstate substate = SHNProtocolMoonshineStreamingVersionSwitcher.SHNProtocolMoonshineStreamingSubstate.Idle;
+
     public static final int MAX_SEQUENCE_NR = 0x40; // Actually the max seqnumber used is one lower than this constant. Modulus calculation is used.
     public static final int HEADER_TYPE_MASK = 0xC0;
     public static final int HEADER_SEQNR_MASK = 0x3F;
     public static final int HEADER_PACKET_TYPE_START = 0x40;
+
     private int txWindowSize;
     private int txLastGenSequenceNr = -1;
     private int txLastSendSequenceNr = -1;
@@ -245,6 +250,11 @@ public class SHNProtocolMoonshineStreamingV3 implements SHNProtocolMoonshineStre
     public void transitionToError(SHNResult shnResult) {
         state = SHNProtocolMoonshineStreamingState.Error;
         shnServiceMoonshineStreaming.transitionToError();
+    }
+
+    @Override
+    public void transitionToReady() {
+        shnServiceMoonshineStreaming.transitionToReady();
     }
 
     private void setInitialState() {
@@ -490,7 +500,6 @@ public class SHNProtocolMoonshineStreamingV3 implements SHNProtocolMoonshineStre
             }
             if (state == SHNProtocolMoonshineStreamingState.WaitingForHandshakeAck) {
                 state = SHNProtocolMoonshineStreamingState.Ready;
-                shnServiceMoonshineStreaming.transitionToReady();
                 if (shnProtocolMoonshineStreamingListener != null) {
                     shnProtocolMoonshineStreamingListener.onProtocolAvailable();
                 }
@@ -502,7 +511,6 @@ public class SHNProtocolMoonshineStreamingV3 implements SHNProtocolMoonshineStre
     @Override
     public void onServiceAvailable() {
         SHNLogger.d(TAG, "onServiceAvailable");
-//        shnServiceMoonshineStreaming.readProtocolConfiguration();
         state = SHNProtocolMoonshineStreamingState.AcquiringConfiguration;
     }
 
