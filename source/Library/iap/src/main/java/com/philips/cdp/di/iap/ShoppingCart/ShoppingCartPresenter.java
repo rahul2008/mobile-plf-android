@@ -110,6 +110,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             cartItem.setDeliveryAddressEntity(cartsEntity.getDeliveryAddress());
             cartItem.setVatValue(cartsEntity.getTotalTax().getFormattedValue());
             cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
+            //required for Tagging
+            cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
             products.add(cartItem);
         }
         return products;

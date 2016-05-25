@@ -18,12 +18,14 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
+import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
@@ -319,6 +321,21 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTotalItems = (TextView) itemView.findViewById(R.id.iap_tv_totalItems);
             mTotalCost = (TextView) itemView.findViewById(R.id.iap_tv_totalcost);
         }
+    }
+
+    public void tagProducts(){
+        StringBuilder products = new StringBuilder();
+        //  CartsEntity cart = mCartData.getCarts().get(0);
+        for (int i = 0; i < mData.size(); i++) {
+            //EntriesEntity entriesEntity = cart.getEntries().get(i);
+            if (i > 0) {
+                products = products.append(",");
+            }
+            products = products.append(mData.get(i).getCategory()).append(";")
+                    .append(mData.get(i).getProductTitle()).append(";").append(String.valueOf(mData.get(i).getQuantity()))
+                    .append(";").append(mData.get(i).getValuePrice());
+        }
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, products);
     }
 
 }
