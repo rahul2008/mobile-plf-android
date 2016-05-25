@@ -7,8 +7,6 @@ package com.philips.platform.appinfra;
 
 import android.content.Context;
 
-import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.prxclient.RequestManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
@@ -26,9 +24,7 @@ public class AppInfra {
     private LoggingInterface logger;
     private AIAppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
-    private PILLocaleManager pILLocaleManager;
-    private RequestManager requestManager;
-    private final static String VERSION = "1.0.1";
+    private final static String APP_INFRA_VERSION = "1.0.1";
 
 
     /**
@@ -45,8 +41,6 @@ public class AppInfra {
         private LoggingInterface       logger; // builder logger
         private LoggingInterface    aiLogger; // app infra logger
         private AIAppTaggingInterface tagging;
-        private RequestManager reqMgr;
-        private PILLocaleManager pILLocaleMgr;
 
         /**
          * Instantiates a new Builder.
@@ -56,8 +50,6 @@ public class AppInfra {
             logger = null;
             aiLogger = null;
             tagging = null;
-            pILLocaleMgr = null;
-            reqMgr = null;
         }
 
 
@@ -72,25 +64,7 @@ public class AppInfra {
             return this;
         }
 
-        /**
-         * Sets req mgr.
-         *
-         * @param requestManager the request  manager
-         */
-        public Builder setRequestManager(RequestManager requestManager) {
-            reqMgr = requestManager;
-            return this;
-        }
 
-        /**
-         * Sets il locale manager.
-         *
-         * @param pILLocaleManager the  locale manager
-         */
-        public Builder setpILLocaleManager(PILLocaleManager pILLocaleManager) {
-            pILLocaleMgr = pILLocaleManager;
-            return this;
-        }
 
         /**
          * Sets Builder logging.
@@ -120,16 +94,12 @@ public class AppInfra {
         public AppInfra build(Context pContext ) {
 
             AppInfra ai = new AppInfra(pContext);
-            ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger );
+            //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai.getAppInfraContext()) : secStor);
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
             // ai.setLogging(new AppInfraLogging(ai));
 
             ai.setTagging(tagging == null ? new AIAppTagging(ai) : tagging);
-
-            ai.setpILLocaleManager(pILLocaleMgr == null ? new PILLocaleManager(ai.getAppInfraContext()) : pILLocaleMgr);
-            ai.setRequestManager(reqMgr == null ? new RequestManager() : reqMgr);
-
             return ai;
         }
     }
@@ -174,7 +144,7 @@ public class AppInfra {
 
     private void setLogging(LoggingInterface log) {
         logger = log;
-       // appInfraLogger = logger.createInstanceForComponent(this.getClass().getPackage().toString(), VERSION);
+        appInfraLogger = logger.createInstanceForComponent(this.getClass().getPackage().toString(), APP_INFRA_VERSION);
     }
 
     private void setTagging(AIAppTaggingInterface tagg) {
@@ -195,42 +165,10 @@ public class AppInfra {
      * Gets app infra log instance to be used within App Infra library.
      * @return the app infra log instance
      */
-    LoggingInterface getAppInfraLogInstance() { // this log should be used withing App Infra library
+    public LoggingInterface getAppInfraLogInstance() { // this log should be used withing App Infra library
         return appInfraLogger;
     }
 
-    /**
-     * Sets app infra logger.
-     *
-     * @param appInfraLogger the app infra logger to be used ONLY within App infra library and NOT for other components
-     */
-    private void setAppInfraLogger(LoggingInterface appInfraLogger) {
-        this.appInfraLogger = appInfraLogger;
-    }
 
-    /**
-     * Gets locale manager.
-     *
-     * @return the locale manager
-     */
-    public PILLocaleManager getpILLocaleManager() {
-        return pILLocaleManager;
-    }
 
-    private void setpILLocaleManager(PILLocaleManager pILLocaleManager) {
-        this.pILLocaleManager = pILLocaleManager;
-    }
-
-    /**
-     * Gets PRX request manager.
-     *
-     * @return the PRX request manager
-     */
-    public RequestManager getRequestManager() {
-        return requestManager;
-    }
-
-    private void setRequestManager(RequestManager requestManager) {
-        this.requestManager = requestManager;
-    }
 }

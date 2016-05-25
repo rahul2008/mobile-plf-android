@@ -34,6 +34,7 @@ import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 public class PrxLauncherActivity extends AppCompatActivity {
 
@@ -50,6 +51,9 @@ public class PrxLauncherActivity extends AppCompatActivity {
     private String  mSector[],  mCatalog[];
     Sector selectedSector ;
     Catalog selectedCatalog ;
+    AppInfra mAppInfra;
+    LoggingInterface aiLogging;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +63,9 @@ public class PrxLauncherActivity extends AppCompatActivity {
         msupportButton = (Button)findViewById(R.id.support_rqst_button);
         mAssetButton = (Button)findViewById(R.id.assets_reqst_button);
         mCTNEditText = (EditText) findViewById(R.id.EditTextCTN);
-
-
-
+       /* mAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        aiLogging = mAppInfra.getAppInfraLogInstance();
+        aiLogging.log(AppInfraLogging.LogLevel.DEBUG,TAG,"TEST 1");*/
         ///////////SECTOR AND CATALOG////////////
         // setting sector spinner
         mSector_spinner_prx = (Spinner) findViewById(R.id.prxSpinnerSector);
@@ -170,47 +174,45 @@ public class PrxLauncherActivity extends AppCompatActivity {
         private void onRequestManagerCalled(PrxRequest prxRequest)
         {
 
-
-         //RequestManager mRequestManager = new RequestManager();
-        AppInfra   appInfra = new AppInfra.Builder().build(getApplicationContext());
-        RequestManager mRequestManager = appInfra.getRequestManager();
-        mRequestManager.init(getApplicationContext());
-        Log.d(TAG, "Positive Request");
-        mRequestManager.executeRequest(prxRequest, new ResponseListener() {
-        @Override
-        public void onResponseSuccess(ResponseData responseData) {
-        String str = responseData.getClass().toString();
+            RequestManager mRequestManager = new RequestManager();
+            mRequestManager.init(getApplicationContext());
+            Log.d(TAG, "Positive Request");
+            mRequestManager.executeRequest(prxRequest, new ResponseListener() {
+            @Override
+            public void onResponseSuccess(ResponseData responseData) {
+            String str = responseData.getClass().toString();
             if(responseData instanceof SummaryModel)
             {
                 SummaryModel mSummaryModel = (SummaryModel) responseData;
+                //aiLogging.log(AppInfraLogging.LogLevel.DEBUG,TAG,"Support Response Data AI : " + mSummaryModel.isSuccess());
                 Log.d(TAG, "Support Response Data : " + mSummaryModel.isSuccess());
                 Data mData = mSummaryModel.getData();
-                Log.d(TAG, " Positive Response Data : " + mSummaryModel.isSuccess());
-                Log.d(TAG, " Positive Response Data : " + mData.getBrand());
-                Log.d(TAG, " Positive Response Data : " + mData.getCtn());
-                Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
+                Log.d(TAG, " SummaryModel Positive Response Data : " + mSummaryModel.isSuccess());
+                Log.d(TAG, " SummaryModel Positive Response Data Brand: " + mData.getBrand());
+                Log.d(TAG, " SummaryModel Positive Response Data CTN: " + mData.getCtn());
+                Log.d(TAG, " SummaryModel Positive Response Data Product Title: " + mData.getProductTitle());
 
             }else    if(responseData instanceof AssetModel){
                 AssetModel mAssetModel = (AssetModel) responseData;
                 Log.d(TAG, "Support Response Data : " + mAssetModel.isSuccess());
                 com.philips.cdp.prxclient.datamodels.assets.Data myyData = mAssetModel.getData();
-                Log.d(TAG, " Positive Response Data : " + mAssetModel.isSuccess());
-                Log.d(TAG, " Positive Response Data : " + myyData.getAssets());
+                Log.d(TAG, " AssetModel Positive Response Data : " + mAssetModel.isSuccess());
+                Log.d(TAG, " AssetModel Positive Response Data assets : " + myyData.getAssets());
 //                Log.d(TAG, " Positive Response Data : " + mData.getCtn());
 //                Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
             }else {
                 SupportModel mSupportModel = (SupportModel) responseData;
                 Log.d(TAG, "Support Response Data : " + mSupportModel.isSuccess());
                 com.philips.cdp.prxclient.datamodels.support.Data msupportData = mSupportModel.getData();
-                Log.d(TAG, " Positive Response Data : " + mSupportModel.isSuccess());
-                Log.d(TAG, " Positive Response Data : " + msupportData.getRichTexts());
+                Log.d(TAG, " SupportModel Positive Response Data : " + mSupportModel.isSuccess());
+                Log.d(TAG, " SupportModel Positive Response Data RichText: " + msupportData.getRichTexts());
             }
 
         }
 
         @Override
         public void onResponseError(PrxError prxError) {
-            Log.d(TAG, "Response Error Message : " + prxError.getDescription());
+            Log.d(TAG, "Response Error Message PRX: " + prxError.getDescription());
         }
     });
 
