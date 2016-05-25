@@ -489,8 +489,11 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
      */
     private void setActionbarTitle() {
         if (mContainerId == 0) {
-            ((DigitalCareFontTextView) getActivity().findViewById(
-                    R.id.action_bar_title)).setText(getActionbarTitle());
+            DigitalCareFontTextView actionBarTitle =
+
+                    ((DigitalCareFontTextView) getActivity().findViewById(
+                            R.id.action_bar_title));
+            actionBarTitle.setText(getActionbarTitle());
         } else {
             updateActionbar();
         }
