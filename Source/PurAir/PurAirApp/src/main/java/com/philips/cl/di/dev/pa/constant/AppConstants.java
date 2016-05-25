@@ -19,7 +19,7 @@ public class AppConstants {
 	public static final String APP_TYPE="AC4373APP";
 	public static final String COMPONENT_ID = "AC4373-AND";
 	
-	public static final String DEVICE_PORT_URL="https://dp.cpp.philips.com.cn/DevicePortalICPRequestHandler/RequestHandler.ashx";
+	public static final String DEVICE_PORT_URL="https://www.bat.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";
 	
 	/** URLS FOR WEATHER DATA. */	
 	public static final String WEATHER_SERVICE_URL = "http://ixuanwu.com.cn/app/weather.php?q=%s" ;
