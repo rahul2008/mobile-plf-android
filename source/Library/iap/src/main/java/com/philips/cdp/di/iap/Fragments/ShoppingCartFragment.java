@@ -99,8 +99,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitle(R.string.iap_shopping_cart);
         updateCartOnResume();
-        if(mAdapter!=null)
-            mAdapter.tagProducts();
     }
 
     private void updateCartOnResume() {
