@@ -118,7 +118,6 @@ public class UserWithProducts {
                 appListener.onProdRegFailed(registeredProduct, getUserProduct());
             } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !getUserProduct().isValidDate(registeredProduct.getPurchaseDate())) {
                 updateWithCallBack(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED, appListener);
-                currentRegisteredProduct = null;
             } else {
                 UserWithProducts userWithProducts = getUserProduct();
                 updateLocaleCache(registeredProduct, registeredProduct.getProdRegError(), RegistrationState.REGISTERING);
@@ -158,7 +157,10 @@ public class UserWithProducts {
     public void updateLocaleCache(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
         registeredProduct.setRegistrationState(registrationState);
         registeredProduct.setProdRegError(prodRegError);
-        getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
+        if (prodRegError == ProdRegError.INVALID_DATE || prodRegError == ProdRegError.MISSING_DATE) {
+            getLocalRegisteredProductsInstance().removeProductFromCache(registeredProduct);
+        } else
+            getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
     }
 
     @NonNull
@@ -234,11 +236,14 @@ public class UserWithProducts {
             public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
                 ProductMetadataResponseData productData = productMetadataResponse.getData();
                 boolean isValidSerialNumber = isValidSerialNumber(productData, registeredProduct);
-                boolean isValidDate = isValidPurchaseDate(productData, registeredProduct);
+                boolean isValidDate = true;
+                if (productData != null && productData.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
+                    isValidDate = isValidPurchaseDate(registeredProduct.getPurchaseDate());
+                }
                 if (!isValidDate && !isValidSerialNumber) {
                     updateWithCallBack(registeredProduct, ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE, RegistrationState.FAILED, appListener);
                 } else if (!isValidDate) {
-                    updateWithCallBack(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED, appListener);
+                    updateWithCallBack(registeredProduct, ProdRegError.MISSING_DATE, RegistrationState.FAILED, appListener);
                 } else if (!isValidSerialNumber) {
                     updateWithCallBack(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED, appListener);
                 } else {
@@ -261,12 +266,8 @@ public class UserWithProducts {
         }
     }
 
-    protected boolean isValidPurchaseDate(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
-        final String purchaseDate = registeredProduct.getPurchaseDate();
-        if (data != null && data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
+    protected boolean isValidPurchaseDate(String purchaseDate) {
             return purchaseDate != null && purchaseDate.length() > 0;
-        }
-        return true;
     }
 
     protected boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {

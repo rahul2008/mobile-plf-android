@@ -178,3 +178,11 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
 	4. PRA-223 - Product is not get registered with local data, for first user sign -in
 	5. PRA-224 - integrate UI-kit
 	6. PRA-225 - Add spinner while displaying Registered products list
+	
+	 Version - 1.0.1.rc3                        Date: 25-05-2016
+-------------------------------------------------------------
+
+	Following features has fixed :
+	
+	1. PRA-227 - Application is getting crash while user login itself 
+	2. PRA-228 - Purchase date to be not cached if it is invalid and missing

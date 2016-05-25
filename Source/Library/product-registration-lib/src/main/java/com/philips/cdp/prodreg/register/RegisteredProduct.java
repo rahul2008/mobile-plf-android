@@ -155,6 +155,9 @@ public class RegisteredProduct extends Product {
             case INVALID_DATE:
                 product.setPurchaseDate(getPurchaseDate());
                 break;
+            case MISSING_DATE:
+                product.setPurchaseDate(getPurchaseDate());
+                break;
             case INVALID_SERIALNUMBER:
                 product.setSerialNumber(getSerialNumber());
             case INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE:

@@ -113,4 +113,12 @@ public class LocalRegisteredProducts {
     protected User getUser() {
         return user;
     }
+
+    public void removeProductFromCache(final RegisteredProduct registeredProduct) {
+        Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();
+        if (registeredProducts.contains(registeredProduct)) {
+            registeredProducts.remove(registeredProduct);
+        }
+        getLocalSharedPreference().storeData(PRODUCT_REGISTRATION_KEY, getGSon().toJson(registeredProducts));
+    }
 }

@@ -10,7 +10,8 @@ public enum ProdRegError {
     //Defined Error code
     UNKNOWN(-1, "unknown"),
     USER_NOT_SIGNED_IN(10, "User not signed in"),
-    INVALID_DATE(3, "Entered date is invalid"),
+    INVALID_DATE(3, "Please enter date between year 2000 to today's date"),
+    MISSING_DATE(4, "Purchase date required to register product"),
     INVALID_SERIALNUMBER(5, "Enter valid Serial number"),
     PRODUCT_ALREADY_REGISTERED(6, "Product already registered"),
     FETCH_REGISTERED_PRODUCTS_FAILED(7, "Failed to fetch registered products"),
