@@ -41,6 +41,7 @@ import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.security.SecureStorage;
 
 import org.json.JSONArray;
@@ -320,6 +321,15 @@ public class User {
         if (RegistrationConfiguration.getInstance().getJanRainConfiguration() != null) {
             signedIn = signedIn && capturedRecord.getAccessToken() != null;
         }
+
+        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+            boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext,getEmail());
+            if(!isTermAccepted){
+                signedIn=false;
+                clearData();
+            }
+        }
+
         return signedIn;
     }
 
