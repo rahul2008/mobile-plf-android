@@ -35,6 +35,7 @@ import com.philips.cdp.prxclient.datamodels.support.RichText;
 import com.philips.cdp.prxclient.datamodels.support.RichTexts;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -43,7 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class FAQCustomView {
+public class FAQCustomView implements Serializable {
 
     private static final String TAG = FAQCustomView.class.getSimpleName();
     private final int COLLAPSE_ALL = 0;

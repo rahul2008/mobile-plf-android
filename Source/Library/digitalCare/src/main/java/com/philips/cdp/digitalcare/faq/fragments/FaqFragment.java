@@ -10,21 +10,28 @@ package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.*;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.analytics.*;
+import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.faq.listeners.FaqCallback;
 import com.philips.cdp.digitalcare.faq.view.FAQCustomView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 
 
 public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback {
 
+    private static SupportModel mSupportModel = null;
     private final int EXPAND_FIRST = 2;
     private final int COLLAPSE_ALL = 0;
     private View mView = null;
@@ -32,32 +39,55 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private SupportModel mSupportModel = null;
     private String TAG = FaqFragment.class.getSimpleName();
     private FAQCustomView faqCustomView = null;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
+        faqCustomView.setDeviceType(isTablet());
+        mView = faqCustomView.init();
+        faqCustomView.updateView(null, COLLAPSE_ALL);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
 
                              Bundle savedInstanceState) {
-        if (faqCustomView == null) {
-            faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
-            faqCustomView.setDeviceType(isTablet());
-            mView = faqCustomView.init();
+        faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
+        faqCustomView.setDeviceType(isTablet());
+        mView = faqCustomView.init();
             faqCustomView.updateView(null, COLLAPSE_ALL);
-        }
         return mView;
     }
 
     public void setSupportModel(SupportModel supportModel) {
-        this.mSupportModel = supportModel;
+        mSupportModel = supportModel;
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        //  outState.putSerializable();
+        DigiCareLogger.d("FragmentLifecycle", "onSaveinstanceState in FaqFragment");
+        int alwaysFinishActivity = Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        outState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
+        super.onSaveInstanceState(outState);
+    }
+
+
+/*
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        DigiCareLogger.d("FragmentLifecycle", "onViewStateRestored in FaqFragment with Bundle : " +
+                "" + savedInstanceState);
+
+    }*/
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -105,7 +135,15 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
     }
 
     @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+
+        setViewParams(config);
+    }
+
+    @Override
     public void setViewParams(Configuration config) {
+        DigiCareLogger.d("FragmentLifecycle", "SetViewParams");
     }
 
     @Override
@@ -113,10 +151,6 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
         return AnalyticsConstants.PAGE_FAQ;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     public void onFaqQuestionClicked(String webUrl) {

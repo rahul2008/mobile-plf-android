@@ -13,6 +13,7 @@ import android.content.res.Configuration;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,12 +79,24 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        //  outState.putSerializable();
+        DigiCareLogger.d("FragmentLifecycle", "onSaveinstanceState in FaqFragment");
+        int alwaysFinishActivity = Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        outState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
+        initView();
+        loadFaq();
     }
 
     @Override
@@ -94,10 +107,6 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
         loadFaq();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        if (mView != null) ((WebView) mView.findViewById(R.id.webView)).saveState(outState);
-    }
 
     @Override
     public void onPause() {
