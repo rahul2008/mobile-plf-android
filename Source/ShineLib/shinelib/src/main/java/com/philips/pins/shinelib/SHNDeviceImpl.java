@@ -23,6 +23,7 @@ ConnectedReady --> Disconnected : onConnectionStateChange(Disconnected) /\nclose
  */
 package com.philips.pins.shinelib;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -42,7 +43,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener {
+public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener, SHNCentral.SHNCentralListener {
+
     private enum InternalState {
         Disconnected, Disconnecting, Connecting, ConnectedWaitingUntilBonded, ConnectedDiscoveringServices, ConnectedInitializingServices, ConnectedReady
     }
@@ -104,6 +106,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
             reportStateUpdate(oldExternalState, newExternalState);
             setTimers();
+
+            if (internalState == InternalState.Disconnected) {
+                shnCentral.unregisterBondStatusListenerForAddress(this, getAddress());
+            }
         }
     }
 
@@ -185,6 +191,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         }
         setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnected);
         shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
+        shnCentral.unregisterSHNCentralStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
     }
 
     private boolean shouldWaitUntilBonded() {
@@ -243,20 +250,27 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     public void connect(boolean withTimeout, long timeoutInMS) {
-        if (internalState == InternalState.Disconnected) {
-            SHNLogger.i(TAG, "connect");
-            setInternalStateReportStateUpdateAndSetTimers(InternalState.Connecting);
-            shnCentral.registerBondStatusListenerForAddress(this, getAddress());
-            if (withTimeout) {
-                if (timeoutInMS > 0) {
-                    connectTimer.setTimeoutForSubsequentRestartsInMS(timeoutInMS);
+        if (shnCentral.isBluetoothAdapterEnabled()) {
+            if (internalState == InternalState.Disconnected) {
+                SHNLogger.i(TAG, "connect");
+                setInternalStateReportStateUpdateAndSetTimers(InternalState.Connecting);
+                shnCentral.registerBondStatusListenerForAddress(this, getAddress());
+                shnCentral.registerSHNCentralStatusListenerForAddress(this, getAddress());
+                if (withTimeout) {
+                    if (timeoutInMS > 0) {
+                        connectTimer.setTimeoutForSubsequentRestartsInMS(timeoutInMS);
+                    }
+                    btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, btGattCallback);
+                } else {
+                    btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), true, btGattCallback);
                 }
-                btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, btGattCallback);
             } else {
-                btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), true, btGattCallback);
+                SHNLogger.i(TAG, "ignoring 'connect' call; not disconnected");
             }
         } else {
-            SHNLogger.i(TAG, "ignoring 'connect' call; not disconnected");
+            if (shnDeviceListener != null) {
+                shnDeviceListener.onStateUpdated(this);
+            }
         }
     }
 
@@ -341,9 +355,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             if (areAllRegisteredServicesReady()) {
                 setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedReady);
             }
-        }
-        if (state == SHNService.State.Error) {
-            disconnect();
         }
     }
 
@@ -460,6 +471,18 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 } else if (bondState == BluetoothDevice.BOND_NONE) {
                     disconnect();
                 }
+            }
+        }
+    }
+
+    // implements SHNCentral.SHNCentralListener
+    @Override
+    public void onStateUpdated(SHNCentral shnCentral) {
+        if (shnCentral.getBluetoothAdapterState() == BluetoothAdapter.STATE_OFF) {
+            SHNLogger.i(TAG, "BluetoothAdapter disabled");
+            if (internalState != InternalState.Disconnected) {
+                SHNLogger.e(TAG, "The bluetooth stack didn't disconnect the connection to the peripheral. This is a best effort attempt to solve that.");
+                handleGattDisconnectEvent();
             }
         }
     }
