@@ -1,0 +1,3 @@
+include ':app'
+include ':AppInfraLib'
+project(':AppInfraLib').projectDir = new File('../Library')

@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".PrxLauncherActivity">
+    <GridLayout
+        android:id="@+id/gridlayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="10dp"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:rowCount="2">
+        <TextView
+            android:id="@+id/prxTextViewSector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sector"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/prxTextViewCatalog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="Catalog"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/prxSpinnerSector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
+        <Spinner
+            android:id="@+id/prxSpinnerCatalog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
+        </GridLayout>
+
+   <!-- <EditText  android:layout_width="250dp"
+        android:layout_height="wrap_content"
+
+
+
+        android:layout_marginTop="119dp"
+        android:layout_toStartOf="@+id/assets_reqst_button" />-->
+    <EditText
+        android:layout_below="@+id/gridlayout1"
+        android:id="@+id/EditTextCTN"
+        android:layout_marginTop="119dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+
+        android:hint="Enter ctn"
+
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Support"
+        android:id="@+id/support_rqst_button"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="73dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Summary"
+        android:id="@+id/summary_reqst_button"
+        android:layout_alignTop="@+id/support_rqst_button"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Assets"
+        android:id="@+id/assets_reqst_button"
+        android:layout_alignBottom="@+id/summary_reqst_button"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
