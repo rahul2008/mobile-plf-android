@@ -264,6 +264,7 @@ public class PrxWrapper {
                     }
                     if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
                         mProgressDialog.cancel();
+                        mProgressDialog = null;
                     }
                 }
             }
@@ -275,6 +276,7 @@ public class PrxWrapper {
                 }
                 if (mProgressDialog != null && mProgressDialog.isShowing()) {
                     mProgressDialog.cancel();
+                    mProgressDialog = null;
                 }
             }
         });
@@ -315,6 +317,7 @@ public class PrxWrapper {
                     }
                     if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
                         mProgressDialog.cancel();
+                        mProgressDialog = null;
                     }
                 }
             }
@@ -328,6 +331,7 @@ public class PrxWrapper {
                 }
                 if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
                     mProgressDialog.cancel();
+                    mProgressDialog = null;
                 }
             }
         });
@@ -451,6 +455,7 @@ public class PrxWrapper {
 
                         if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
                             mProgressDialog.cancel();
+                            mProgressDialog = null;
                         }
 
                     }
@@ -461,8 +466,10 @@ public class PrxWrapper {
             public void onResponseError(PrxError error) {
                 DigiCareLogger.e(TAG, "Asset Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing())
+                if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
                     mProgressDialog.cancel();
+                    mProgressDialog = null;
+                }
             }
         });
     }

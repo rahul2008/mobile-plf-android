@@ -13,7 +13,7 @@ import android.content.res.Configuration;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,11 +81,18 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
-        //  outState.putSerializable();
-        DigiCareLogger.d("FragmentLifecycle", "onSaveinstanceState in FaqFragment");
-        int alwaysFinishActivity = Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
-        outState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
+        outState.putString("url", FAQ_PAGE_URL);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        initView();
+        if (savedInstanceState != null) {
+            FAQ_PAGE_URL = savedInstanceState.getString("url");
+        }
+        loadFaq();
     }
 
     @Override
