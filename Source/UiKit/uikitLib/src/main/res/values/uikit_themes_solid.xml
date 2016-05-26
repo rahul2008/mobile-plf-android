@@ -43,6 +43,7 @@
             @drawable/uikit_popup_very_light_blue_selector
         </item>
         <item name="uikit_springBoardButton">@style/SpringBoardButton.Solid.DarkBlue</item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.DarkBlue</item>
         <item name="uikit_springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkBlue
         </item>
         <item name="uikit_springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkBlue
@@ -117,6 +118,8 @@
         <item name="uikit_LighterColorOpacity20">@color/uikit_bright_purple_with_opacity_20</item>
         <item name="uikit_favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_purple
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.DarkPurple</item>
+
     </style>
 
     <style name="Theme.Philips.DarkPurple.NoActionBar">
@@ -167,6 +170,7 @@
         <item name="uikit_springBoardButton">@style/SpringBoardButton.Solid.DarkGreen</item>
         <item name="uikit_springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkGreen
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.DarkGreen</item>
         <item name="uikit_springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkGreen
         </item>
         <item name="uikit_springBoardButtonOutLinedWithIcon">
@@ -220,7 +224,7 @@
         <item name="uikit_outlinedButtonTransparentStyle">@style/Button.TransparentOrange</item>
         <item name="editTextStyle">@style/InputStyle.DarkOrange</item>
         <item name="uikit_errorTextColor">@color/uikit_enricher_red</item>
-        <item name="uikit_errorIcon">@drawable/uikit_error_cross_red</item>
+        <item name="uikit_errorIcon">@drawable/uikit_red_error_cross</item>
         <item name="uikit_veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="uikit_brightColor">@color/uikit_philips_bright_orange</item>
         <item name="uikit_darkerColor">@color/uikit_philips_very_dark_orange</item>
@@ -237,6 +241,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedDarkOrange
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.DarkOrange</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_orange</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_bright_orange_with_opacity_80</item>
         <item name="uikit_LighterColorOpacity60">@color/uikit_bright_orange_with_opacity_60</item>
@@ -297,6 +302,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedDarkAqua
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.DarkAqua</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_aqua</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_bright_aqua_with_opacity_80</item>
         <item name="uikit_LighterColorOpacity60">@color/uikit_bright_aqua_with_opacity_60</item>
@@ -358,6 +364,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedDarkPink
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.DarkPink</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_pink</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_bright_pink_with_opacity_80</item>
         <item name="uikit_LighterColorOpacity60">@color/uikit_bright_pink_with_opacity_60</item>
@@ -406,7 +413,7 @@
         <item name="uikit_outlinedButtonTransparentStyle">@style/Button.TransparentOrange</item>
         <item name="editTextStyle">@style/InputStyle.BrightOrange</item>
         <item name="uikit_errorTextColor">@color/uikit_enricher_red</item>
-        <item name="uikit_errorIcon">@drawable/uikit_error_cross_red</item>
+        <item name="uikit_errorIcon">@drawable/uikit_red_error_cross</item>
         <item name="uikit_errorBackground">@drawable/uikit_edittext_error_bg_red</item>
         <item name="uikit_veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="uikit_brightColor">@color/uikit_philips_light_orange</item>
@@ -427,6 +434,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedBrightOrange
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.BrightOrange</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_orange</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_light_orange_with_opacity_80</item>
         <item name="uikit_LighterColorOpacity60">@color/uikit_light_orange_with_opacity_60</item>
@@ -487,6 +495,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedBrightAqua
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.BrightAqua</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_aqua</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_light_aqua_with_opacity_80</item>
         <item name="uikit_LighterColorOpacity60">@color/uikit_light_aqua_with_opacity_60</item>
@@ -549,6 +558,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedBrightGreen
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.BrightGreen</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_green</item>
 
 
@@ -613,6 +623,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedBrightPink
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.BrightPink</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_pink</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_light_pink_with_opacity_80</item>
         <item name="uikit_LighterColorOpacity60">@color/uikit_light_pink_with_opacity_60</item>
@@ -674,6 +685,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedBrightBlue
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.BrightBlue</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_blue</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_light_orange_with_opacity_80</item>
         <item name="uikit_LighterColorOpacity60">@color/uikit_light_orange_with_opacity_60</item>
@@ -737,6 +749,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedBrightPurple
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.BrightPurple</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_purple</item>
 
 
@@ -803,6 +816,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedLightBlue
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.LightBlue</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_blue</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_very_light_blue_with_opacity_80</item>
         <item name="uikit_LighterColorOpacity60">@color/uikit_very_light_blue_with_opacity_60</item>
@@ -851,7 +865,7 @@
         <item name="uikit_pickerOutlinedButtonStyle">@style/PickerButton.OutlinedLightOrange</item>
         <item name="editTextStyle">@style/InputStyle.LightOrange</item>
         <item name="uikit_errorTextColor">@color/uikit_enricher_red</item>
-        <item name="uikit_errorIcon">@drawable/uikit_error_cross_red</item>
+        <item name="uikit_errorIcon">@drawable/uikit_red_error_cross</item>
         <item name="uikit_veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="uikit_brightColor">@color/uikit_philips_very_light_orange</item>
         <item name="uikit_darkerColor">@color/uikit_philips_bright_orange</item>
@@ -869,6 +883,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedLightOrange
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.LightOrange</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_orange</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_very_light_orange_with_opacity_80
         </item>
@@ -936,6 +951,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedLightAqua
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.LightAqua</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_aqua</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_very_light_aqua_with_opacity_80</item>
         <item name="uikit_LighterColorOpacity60">@color/uikit_very_light_aqua_with_opacity_60</item>
@@ -1000,6 +1016,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedLightGreen
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.LightGreen</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_green</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_very_light_green_with_opacity_80
         </item>
@@ -1066,6 +1083,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedLightPink
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.LightPink</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_pink</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_very_light_pink_with_opacity_80</item>
         <item name="uikit_LighterColorOpacity60">@color/uikit_very_light_pink_with_opacity_60</item>
@@ -1130,6 +1148,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedLightPurple
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.LightPurple</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_purple</item>
         <item name="uikit_LighterColorOpacity80">@color/uikit_very_light_purple_with_opacity_80
         </item>

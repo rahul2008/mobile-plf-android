@@ -6,7 +6,7 @@
     <string name="uikit_minus">-</string>
     <string name="uikit_greater">&gt;</string>
     <string name="uikit_cross_mark">X</string>
-    <string name="uikit_release_version">UIKITLib Version 3.1.0</string>
+    <string name="uikit_release_version">UIKITLib Version 3.2.0</string>
 
     <!-- Splash screen title-->
     <string name="uikit_splash_title">Hello World</string>
@@ -23,7 +23,8 @@
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="action_settings">Settings</string>
-    <string name="reload">Reload</string>
+    <string name="uikit_reload">Reload</string>
+    <string name="uikit_info">Info</string>
 
     <string name="uikit_modal_alert_label">Alert Label</string>
     <string name="uikit_modal_alert_message">Lorem ipsum dolor sit amet, consectetur adipisicing elit dolor sit amet dolor sit amet magnus et domine.</string>

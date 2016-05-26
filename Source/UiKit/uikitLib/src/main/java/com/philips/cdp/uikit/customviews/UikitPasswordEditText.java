@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 /**
  * Created by 310213373 on 3/18/2016.
  */
@@ -14,7 +19,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.graphics.drawable.DrawableWrapper;
+import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.InputType;
@@ -23,7 +28,6 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,8 +36,6 @@ import android.view.View;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-
-import java.util.Locale;
 
 /**
  * <b></b> UikitPasswordEditTetxt is UI Component providing password masking/unmasking capability</b>
@@ -66,7 +68,7 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
     private static final int[] STATE_MASKED_PASSWORD = {R.attr.uikit_state_maskedPassword};
     private static final int[] STATE_SHOW_PASSWORD = {R.attr.uikit_state_showPassword};
     final int DRAWABLE_RIGHT = 2;
-    int basecolor;
+    int basecolor,brightColor;
     private boolean isPreLollipop = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
     Context context;
     private boolean passwordVisible;
@@ -74,12 +76,13 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
     public UikitPasswordEditText(final Context cont, AttributeSet attrs) {
         super(cont, attrs);
         context=cont;
+        TypedArray a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor,R.attr.uikit_brightColor});
+        basecolor = a.getInt(0, R.attr.uikit_baseColor);
+        brightColor = a.getInt(1,R.attr.uikit_brightColor);
+        a.recycle();
         setCompoundDrawablesWithIntrinsicBounds(null, null, getIcon(), null);
         setCompoundDrawablePadding((int) getResources().getDimension(R.dimen.uikit_tab_badge_margin_top));
         setEnabled(true);
-        TypedArray a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
-        basecolor = a.getInt(0, R.attr.uikit_baseColor);
-        a.recycle();
         setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         handlePasswordInputVisibility();
         addTextChangedListener(this);
@@ -158,7 +161,7 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
 
     private ColorStateList getColorStateList(){
         int[][] states = {{R.attr.uikit_state_emptyPassword}, {R.attr.uikit_state_maskedPassword},{R.attr.uikit_state_showPassword}};
-        int[] colors = { ContextCompat.getColor(context, R.color.uikit_enricher4), ContextCompat.getColor(context,R.color.uikit_password_icon_color), ContextCompat.getColor(context,R.color.uikit_philips_bright_blue)};
+        int[] colors = { ContextCompat.getColor(context, R.color.uikit_enricher4), ContextCompat.getColor(context,R.color.uikit_password_icon_color), brightColor};
 
         return new ColorStateList(states, colors);
     }
@@ -169,10 +172,10 @@ public class UikitPasswordEditText extends AppCompatEditText implements TextWatc
         wrappedDrawable.setBounds(d.getBounds());
 
         if (wrappedDrawable instanceof DrawableWrapper) {
-            ((DrawableWrapper) wrappedDrawable).setCompatTintList(getColorStateList());
-            ((DrawableWrapper) wrappedDrawable).setCompatTintMode(PorterDuff.Mode.SRC_ATOP);
+            ((DrawableWrapper) wrappedDrawable).setTintList(getColorStateList());
+            ((DrawableWrapper) wrappedDrawable).setTintMode(PorterDuff.Mode.SRC_ATOP);
         } else {
-            wrappedDrawable.setTintList(getColorStateList());
+            DrawableCompat.setTintList(wrappedDrawable, getColorStateList());
         }
         return wrappedDrawable;
     }

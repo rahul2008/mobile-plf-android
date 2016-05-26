@@ -72,6 +72,7 @@
     </style>
 
     <style name="FavTabLayout" parent="PTablayout">
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:layout_height">@dimen/uikit_tab_layout_height_without_image</item>
         <item name="tabBackground">?attr/uikit_favoriteTabSelector</item>
         <item name="tabSelectedTextColor">?attr/uikit_baseColor</item>

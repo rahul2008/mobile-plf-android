@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.philips.cdp.ui.catalog" >
+    package="com.philips.cdp.ui.catalog">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -9,10 +9,10 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Philips.BrightOrange" >
+        android:theme="@style/Theme.Philips.BrightOrange">
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,9 +21,7 @@
         </activity>
         <activity
             android:name=".activity.ActionButtonsActivity"
-
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".activity.ThemesActivity"
             android:label="@string/app_name" />
@@ -54,10 +52,11 @@
         <activity android:name=".activity.DummyActivityForListItemClick" />
         <activity android:name=".activity.ListDemo" />
         <activity android:name=".activity.SocialIconsActivity" />
-        <activity android:name=".activity.PopOverMenu"/>
-		<activity android:name=".activity.SpringBoardListActivity" />
-        <activity android:name=".activity.ProgressBarActivity"
-                  android:configChanges="keyboardHidden|screenSize|orientation"/>
+        <activity android:name=".activity.PopOverMenu" />
+        <activity android:name=".activity.SpringBoardListActivity" />
+        <activity
+            android:name=".activity.ProgressBarActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation" />
         <activity
             android:name=".activity.SpringboardFullBlocksActivity"
             android:screenOrientation="portrait" />
@@ -65,17 +64,24 @@
         <activity
             android:name=".activity.SpringBoardSixGridActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.TextLayoutInputFeildInlineForms"/>
+        <activity android:name=".activity.TextLayoutInputFeildInlineForms" />
         <activity android:name=".cardviewpager.CardActivity" />
         <activity android:name=".activity.ModalAlertDemo" />
-        <activity android:name=".activity.FavoritesActivity"/>
-        <activity android:name=".activity.PickerActivity"/>
+        <activity android:name=".activity.FavoritesActivity" />
+        <activity android:name=".activity.PickerActivity" />
         <activity
             android:name=".activity.ControlsActivity"
             android:configChanges="keyboardHidden|screenSize|orientation" />
         <activity
             android:name=".activity.FontActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.SpinnerOnButtonActivity" />
+        <activity
+            android:name=".activity.TabBarDemoBottom"
+            android:label="@string/title_activity_tab_bar_demo_bottom" />
+        <activity
+            android:name=".activity.TabBarDemoTop"
+            android:label="@string/title_activity_tab_bar_demo_top"></activity>
     </application>
 
 </manifest>

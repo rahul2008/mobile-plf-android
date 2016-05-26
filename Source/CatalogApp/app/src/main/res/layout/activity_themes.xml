@@ -64,14 +64,19 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
+                    android:gravity="left"
+                    android:layout_weight=".3"
                     android:text="@string/color_background" />
 
                 <com.philips.cdp.uikit.customviews.PuiSwitch
                     android:id="@+id/colorSwitch"
-                    android:layout_width="wrap_content"
+                    android:gravity="right"
+                    android:layout_weight=".7"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 

@@ -86,6 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/philips_action_button_margin"
+                android:layout_marginRight="16dp"
                 android:layout_marginTop="5dp" />
 
         </LinearLayout>
@@ -176,6 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/philips_action_button_margin"
+                    android:layout_marginRight="16dp"
                     android:layout_marginTop="5dp" />
 
         </LinearLayout>

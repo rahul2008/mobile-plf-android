@@ -155,14 +155,14 @@
                 android:layout_height="86dp"
                 android:layout_below="@+id/progressBar1"
                 android:layout_marginLeft="23dp"
-                app:uikit_duration="50"
+                app:uikit_duration="63"
                 android:layout_marginTop="10dp" />
 
             <com.philips.cdp.uikit.customviews.CircularLineProgressBar
                 android:layout_width="43dp"
                 android:layout_height="43dp"
                 android:layout_below="@+id/progressBar1"
-                app:uikit_duration="500"
+                app:uikit_duration="63"
                 android:layout_marginLeft="23dp"
                 android:layout_marginTop="10dp" />
         </LinearLayout>

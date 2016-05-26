@@ -274,7 +274,7 @@ public class ThemeUtils {
         noActionBarMap.put(R.style.Theme_Philips_BrightOrange_Gradient, R.style.Theme_Philips_BrightOrange_Gradient_NoActionBar);
 
         //BrightAqua
-        noActionBarMap.put(R.style.Theme_Philips_BrightGreen, R.style.Theme_Philips_BrightAqua_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_BrightAqua, R.style.Theme_Philips_BrightAqua_NoActionBar);
         noActionBarMap.put(R.style.Theme_Philips_BrightAqua_WhiteBackground, R.style.Theme_Philips_BrightAqua_WhiteBackground_NoActionBar);
         noActionBarMap.put(R.style.Theme_Philips_BrightAqua_Gradient_WhiteBackground, R.style.Theme_Philips_BrightAqua_Gradient_WhiteBackground_NoActionBar);
         noActionBarMap.put(R.style.Theme_Philips_BrightAqua_Gradient, R.style.Theme_Philips_BrightAqua_Gradient_NoActionBar);

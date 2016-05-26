@@ -4,9 +4,12 @@ import android.os.Bundle;
 
 import com.philips.cdp.ui.catalog.R;
 
-/**
- * Created by 310240027 on 4/28/2016.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
+
 public class FontActivity extends CatalogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

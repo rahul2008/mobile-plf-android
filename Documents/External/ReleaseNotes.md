@@ -1,5 +1,16 @@
 PhilipsUIKit for Android Release Notes
 ======================================
+Version -3.2.0								Date: 26-05-2016
+-------------------------------------------------------------
+1.	Added Support for Spinner over a button 
+	UiKitLineSpinnerOnButton & UiKitSpinnerOnButton are the two custom Buttons       added .Please refer Javadocs for details
+
+2.	Fixed  Marquee text is getting ellipsis at the end  in hamburger Menu title 
+
+3.	Crash issue on Buttons in Catalog App due to build tools upgrade.
+
+
+
 Version - 3.1.0                              Date:02-05-2015
 ---------------------------------------------------------------
 1.	Password EditText is added , which can be used to show and hide password . 

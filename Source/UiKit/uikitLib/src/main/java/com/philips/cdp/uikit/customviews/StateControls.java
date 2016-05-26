@@ -184,22 +184,25 @@ public class StateControls extends LinearLayout {
         for (int i = 0; i < size; i++) {
             if (buttons.get(i) instanceof ImageButton) {
                 ImageButton button = (ImageButton) buttons.get(i);
-                if (i == 0 && !button.isSelected() && size > 1 && !buttons.get(i + 1).isSelected()) {
-                    dividers.get(i).setVisibility(VISIBLE);
-                } else if (i != 0 && !button.isSelected() && i != (size - 1) && (size - 1) > i && !buttons.get(i + 1).isSelected()) {
-                    dividers.get(i).setVisibility(VISIBLE);
-                } else {
-                    dividers.get(i).setVisibility(GONE);
-                }
+                setDividers(button);
             } else {
                 Button button = (Button) buttons.get(i);
-                if (i == 0 && !button.isSelected() && size > 1 && !buttons.get(i + 1).isSelected()) {
-                    dividers.get(i).setVisibility(VISIBLE);
-                } else if (i != 0 && !button.isSelected() && i != (size - 1) && (size - 1) > i && !buttons.get(i + 1).isSelected()) {
-                    dividers.get(i).setVisibility(VISIBLE);
-                } else {
-                    dividers.get(i).setVisibility(GONE);
-                }
+
+                setDividers(button);
+            }
+
+        }
+    }
+
+    private void setDividers(View button) {
+        int size = buttons.size();
+        for (int i = 0; i < size; i++) {
+            if (i == 0 && !button.isSelected() && size > 1 && !buttons.get(i + 1).isSelected()) {
+                dividers.get(i).setVisibility(VISIBLE);
+            } else if (i != 0 && !button.isSelected() && i != (size - 1) && (size - 1) > i && !buttons.get(i + 1).isSelected()) {
+                dividers.get(i).setVisibility(VISIBLE);
+            } else {
+                dividers.get(i).setVisibility(GONE);
             }
         }
     }

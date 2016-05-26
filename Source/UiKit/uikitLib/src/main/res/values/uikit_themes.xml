@@ -12,7 +12,7 @@
         <item name="uikit_tabBarGradient">?attr/uikit_baseGradient</item>
         <item name="uikit_hamburgerGradient">?attr/uikit_darkerGradient</item>
         <item name="uikit_errorTextColor">@color/uikit_philips_bright_orange</item>
-        <item name="uikit_errorIcon">@drawable/uikit_error_cross_orange</item>
+        <item name="uikit_errorIcon">@drawable/uikit_red_error_cross</item>
         <item name="uikit_errorBackground">@drawable/uikit_edittext_error_bg</item>
         <item name="actionBarStyle">@style/HoloActionBar</item>
         <item name="uikit_splashTitleStyle">@style/SplashTitle</item>
@@ -45,6 +45,7 @@
         <item name="uikit_springBoardButtonOutLinedWithIcon">
             @style/SpringBoardButtonIcon.OutlinedDarkBlue
         </item>
+        <item name="uikit_progressBarButton">@style/ProgressBarButton.Solid.DarkBlue</item>
         <item name="uikit_LightColor">@color/uikit_philips_light_blue</item>
         <item name="colorControlHighlight">?attr/uikit_veryLightColor</item>
     </style>

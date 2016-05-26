@@ -46,6 +46,7 @@
         <attr name="uikit_LighterColorOpacity60" format="reference|color"/>
         <attr name="uikit_LighterColorOpacity40" format="reference|color"/>
         <attr name="uikit_LighterColorOpacity20" format="reference|color"/>
+        <attr name="uikit_progressBarButton" format="reference"/>
 
     </declare-styleable>
 
@@ -89,7 +90,7 @@
         <attr name="uikit_errorText" format="string"/>
         <attr name="uikit_enabled" format="boolean"/>
         <attr name="uikit_errorTextColor" format="color"/>
-        <attr name="uikit_errorIcon" format="integer"/>
+        <attr name="uikit_errorIcon" format="reference"/>
         <attr name="uikit_errorBackground" format="reference"/>
         <attr name="uikit_password_edit_field" format="boolean"/>
     </declare-styleable>
@@ -183,6 +184,7 @@
         <attr name="uikit_grayprogress" format="boolean" />
         <attr name="uikit_transparentprogress" format="boolean" />
         <attr name="uikit_circularprogresssmall" format="boolean" />
+        <attr name="uikit_themeable" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="Controls">

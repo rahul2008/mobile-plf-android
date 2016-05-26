@@ -6,8 +6,9 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.graphics.drawable.DrawableWrapper;
+import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 
@@ -97,10 +98,11 @@ public class UIKitButton extends AppCompatButton {
         Drawable wrappedDrawable = DrawableCompat.wrap(d).mutate();
         wrappedDrawable.setBounds(d.getBounds());
         if (wrappedDrawable instanceof DrawableWrapper) {
-            ((DrawableWrapper) wrappedDrawable).setCompatTintList(mTintList);
-            ((DrawableWrapper) wrappedDrawable).setCompatTintMode(PorterDuff.Mode.SRC_ATOP);
+           ((DrawableWrapper) wrappedDrawable).setTintList(mTintList);
+           ((DrawableWrapper) wrappedDrawable).setTintMode(PorterDuff.Mode.SRC_ATOP);
         } else {
-            wrappedDrawable.setTintList(mTintList);
+
+            DrawableCompat.setTintList(wrappedDrawable, mTintList);
         }
         return wrappedDrawable;
     }

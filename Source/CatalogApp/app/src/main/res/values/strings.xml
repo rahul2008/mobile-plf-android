@@ -27,6 +27,8 @@
     <string name="share">Share</string>
     <string name="mail">Mail</string>
     <string name="chat">Chat</string>
+    <string name="spinneronbuttontext">Philips account</string>
+    <string name="finishloading">Finish loading</string>
 
     <string-array name="hamburger_drawer_items">
         <item>Title Long</item>
@@ -81,4 +83,6 @@
         <item>@drawable/uikit_arrow_up</item>
         <item>@drawable/uikit_arrow_down</item>
     </array>
+    <string name="title_activity_tab_bar_demo_bottom">TabBarDemoBottom</string>
+    <string name="title_activity_tab_bar_demo_top">TabBarDemoTop</string>
 </resources>

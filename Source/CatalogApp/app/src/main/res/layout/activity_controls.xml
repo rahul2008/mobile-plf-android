@@ -46,7 +46,7 @@
                 app:uikit_controlButtonHeight="44dp"
                 app:uikit_controlButtonWidth="143dp"
                 app:uikit_controlEntries="@array/controls_array2"
-                app:uikit_controlMultiChoice="true" />
+                app:uikit_controlMultiChoice="false" />
 
             <com.philips.cdp.uikit.customviews.StateControls
                 android:id="@+id/controls2"
@@ -57,7 +57,7 @@
                 app:uikit_controlButtonHeight="@dimen/uikit_controls_default_height"
                 app:uikit_controlButtonWidth="@dimen/uikit_controls_default_width"
                 app:uikit_controlEntries="@array/controls_array"
-                app:uikit_controlMultiChoice="true" />
+                app:uikit_controlMultiChoice="false" />
 
 
             <RadioGroup
