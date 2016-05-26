@@ -262,10 +262,7 @@ public class PrxWrapper {
                             mSupportCallback.onResponseReceived(null);
                         }
                     }
-                    if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
-                        mProgressDialog.cancel();
-                        mProgressDialog = null;
-                    }
+                    closeProgressDialog();
                 }
             }
 
@@ -280,6 +277,17 @@ public class PrxWrapper {
                 }
             }
         });
+    }
+
+    private void closeProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
+            try {
+                mProgressDialog.cancel();
+                mProgressDialog = null;
+            } catch (IllegalArgumentException e) {
+                DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+            }
+        }
     }
 
 
@@ -315,10 +323,7 @@ public class PrxWrapper {
                             mSummaryCallback.onResponseReceived(null);
                         }
                     }
-                    if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
-                        mProgressDialog.cancel();
-                        mProgressDialog = null;
-                    }
+                    closeProgressDialog();
                 }
             }
 
@@ -329,10 +334,7 @@ public class PrxWrapper {
                 if (mSummaryCallback != null) {
                     mSummaryCallback.onResponseReceived(null);
                 }
-                if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
-                    mProgressDialog.cancel();
-                    mProgressDialog = null;
-                }
+                closeProgressDialog();
             }
         });
     }
@@ -453,10 +455,7 @@ public class PrxWrapper {
                         mProductDetailsObject.setmVideoLinks(mVideoList);
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
-                        if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
-                            mProgressDialog.cancel();
-                            mProgressDialog = null;
-                        }
+                        closeProgressDialog();
 
                     }
                 }
@@ -466,10 +465,7 @@ public class PrxWrapper {
             public void onResponseError(PrxError error) {
                 DigiCareLogger.e(TAG, "Asset Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
-                    mProgressDialog.cancel();
-                    mProgressDialog = null;
-                }
+                closeProgressDialog();
             }
         });
     }
