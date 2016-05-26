@@ -46,20 +46,26 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
-        faqCustomView.setDeviceType(isTablet());
-        mView = faqCustomView.init();
-        faqCustomView.updateView(null, COLLAPSE_ALL);
+
+        if (faqCustomView == null) {
+            faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
+            faqCustomView.setDeviceType(isTablet());
+            mView = faqCustomView.init();
+            faqCustomView.updateView(null, COLLAPSE_ALL);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
 
                              Bundle savedInstanceState) {
-        faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
+
+        if (faqCustomView == null) {
+            faqCustomView = new FAQCustomView(getActivity(), mSupportModel, this);
         faqCustomView.setDeviceType(isTablet());
         mView = faqCustomView.init();
             faqCustomView.updateView(null, COLLAPSE_ALL);
+        }
         return mView;
     }
 
