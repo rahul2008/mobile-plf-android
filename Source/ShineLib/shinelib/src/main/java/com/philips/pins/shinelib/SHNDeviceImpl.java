@@ -108,7 +108,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             setTimers();
 
             if (internalState == InternalState.Disconnected) {
-                shnCentral.unregisterBondStatusListenerForAddress(this, getAddress());
+                shnCentral.unregisterSHNCentralStatusListenerForAddress(this, getAddress());
             }
         }
     }
@@ -355,6 +355,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             if (areAllRegisteredServicesReady()) {
                 setInternalStateReportStateUpdateAndSetTimers(InternalState.ConnectedReady);
             }
+        }
+        if (state == SHNService.State.Error) {
+            disconnect();
         }
     }
 
