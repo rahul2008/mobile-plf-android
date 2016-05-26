@@ -29,6 +29,16 @@ public class ShoppingCartData {
     private String mValuePrice;
     private String mVatValue;
 
+    public boolean isVatInclusive() {
+        return mVatInclusive;
+    }
+
+    public void setVatInclusive(boolean mVatInclusive) {
+        this.mVatInclusive = mVatInclusive;
+    }
+
+    private boolean mVatInclusive;
+
     public String getCategory() {
         return mCategory;
     }

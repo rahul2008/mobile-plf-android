@@ -216,10 +216,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total) + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
                 shoppingCartFooter.mVatValue.setText(data.getVatValue());
+                if (!data.isVatInclusive()) {
+                    shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mVatInclusiveValue.setText(String.format(mContext.getString(R.string.iap_vat_inclusive_text), mContext.getString(R.string.iap_vat)));
+                } else
+                    shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
                 shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
                 if (null != data.getDeliveryCost()) {
                     String deliveryCost = data.getDeliveryCost().getFormattedValue();
-                    if((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")){
+                    if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
@@ -267,7 +272,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return shoppingCartDataForProductDetailPage;
     }
 
-    public boolean isFreeDelivery(){
+    public boolean isFreeDelivery() {
         return mIsFreeDelivery;
     }
 
@@ -311,6 +316,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public class FooterShoppingCartViewHolder extends RecyclerView.ViewHolder {
         TextView mDeliveryPrice;
         TextView mVatValue;
+        TextView mVatInclusiveValue;
         TextView mTotalItems;
         TextView mTotalCost;
 
@@ -318,12 +324,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
             mDeliveryPrice = (TextView) itemView.findViewById(R.id.iap_tv_delivery_price);
             mVatValue = (TextView) itemView.findViewById(R.id.iap_tv_vat_value);
+            mVatInclusiveValue = (TextView) itemView.findViewById(R.id.iap_tv_vat_inclusive);
             mTotalItems = (TextView) itemView.findViewById(R.id.iap_tv_totalItems);
             mTotalCost = (TextView) itemView.findViewById(R.id.iap_tv_totalcost);
         }
     }
 
-    public void tagProducts(){
+    public void tagProducts() {
         StringBuilder products = new StringBuilder();
         //  CartsEntity cart = mCartData.getCarts().get(0);
         for (int i = 0; i < mData.size(); i++) {
