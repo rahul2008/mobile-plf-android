@@ -97,7 +97,7 @@ android {
         minSdkVersion 11
         targetSdkVersion 23
         versionName objcdp.getVersionWithHash()
-        testApplicationId "com.philips.platform.appinfra.test"
+        testApplicationId "com.philips.platform.Appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     packagingOptions {
