@@ -6,31 +6,39 @@ apply plugin: 'jacoco'
 def coverageSourceDirs = [
         '../AppInfra/src/main/java'
 ]
+
 buildscript {
     repositories {
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'
-        }
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
                 username = "readonly"
                 password = "readonly"
             }
-        }
-
+        }       
     }
 
     dependencies {
-		classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     }
 }
 
+apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+
+
 allprojects {
-    repositories {
+	repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
@@ -58,14 +66,44 @@ allprojects {
     }
 }
 
-apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'maven-publish'
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
+    
+    group = 'com.philips.cdp'
+	version = objcdp.getVersion()
+	
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = true
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+        }
+    }
+}
 
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
     compileSdkVersion 23
@@ -74,7 +112,11 @@ android {
     defaultConfig {
         minSdkVersion 18
         targetSdkVersion 23
-        versionCode 1
+		versionName objcdp.getVersionWithHash()
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
+        generatedDensities = []
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -107,42 +149,6 @@ dependencies {
     }
 }
 
-//maven configuration stuff required for artifactory plugin
-group = 'com.philips.cdp'
-version = objcdp.getVersion()
-
-artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
-            publishArtifacts = true
-        }
-    }
-    resolve {
-        repository {
-            repoKey = 'libs-release-local-android'
-        }
-    }
-}
-
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
-}
-
-artifactoryPublish {
-    dependsOn sourceJar
-}
-
-artifacts {
-    archives sourceJar
-}
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
 
