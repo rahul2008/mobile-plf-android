@@ -8,7 +8,7 @@ package com.philips.platform.appinfra;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.philips.platform.appinfra.securestorage.SecureStorage;
+import com.philips.platform.appinfra.SecureStorage;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
