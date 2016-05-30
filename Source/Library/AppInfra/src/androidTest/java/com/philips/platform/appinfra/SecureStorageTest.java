@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by 310238114 on 4/7/2016.
  */
-public class SecureStorage extends MockitoTestCase {
+public class SecureStorageTest extends MockitoTestCase {
     SecureStorage mSecureStorage=null;
    // Context context = Mockito.mock(Context.class);
 
