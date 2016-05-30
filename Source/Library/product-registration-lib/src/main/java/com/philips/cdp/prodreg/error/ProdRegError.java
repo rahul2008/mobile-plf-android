@@ -1,17 +1,17 @@
 package com.philips.cdp.prodreg.error;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 public enum ProdRegError {
 
     //Defined Error code
     UNKNOWN(-1, "unknown"),
     USER_NOT_SIGNED_IN(10, "User not signed in"),
-    MISSING_DATE(12, "Required date field is missing"),
-    INVALID_DATE(3, "Date should be less than year 2000"),
-    MISSING_SERIALNUMBER(4, "Required serial number is missing"),
+    INVALID_DATE(3, "Please enter date between year 2000 to today's date"),
+    MISSING_DATE(4, "Purchase date required to register product"),
     INVALID_SERIALNUMBER(5, "Enter valid Serial number"),
     PRODUCT_ALREADY_REGISTERED(6, "Product already registered"),
     FETCH_REGISTERED_PRODUCTS_FAILED(7, "Failed to fetch registered products"),
@@ -22,6 +22,7 @@ public enum ProdRegError {
     PARSE_ERROR(1, "Indicates that the server's response could not be parsed"),
     INVALID_CTN(404, "Enter valid CTN number"),
     ACCESS_TOKEN_INVALID(401, "malformed access token"),
+    INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE(507, "purchase date is missing and please enter valid serialnumber also"),
     INVALID_VALIDATION(422, "Input validation Error");
 
     private final int id;
