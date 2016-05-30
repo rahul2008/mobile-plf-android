@@ -10,7 +10,7 @@ package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,24 +76,14 @@ public class FaqFragment extends DigitalCareBaseFragment implements FaqCallback 
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
-        //  outState.putSerializable();
-        DigiCareLogger.d("FragmentLifecycle", "onSaveinstanceState in FaqFragment");
-        int alwaysFinishActivity = Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
-        outState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
         super.onSaveInstanceState(outState);
     }
-
-
-/*
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        DigiCareLogger.d("FragmentLifecycle", "onViewStateRestored in FaqFragment with Bundle : " +
-                "" + savedInstanceState);
 
-    }*/
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

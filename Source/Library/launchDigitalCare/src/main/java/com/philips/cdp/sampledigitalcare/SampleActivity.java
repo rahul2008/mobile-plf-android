@@ -58,6 +58,7 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
             String[] ctnList = new String[LaunchDigitalCare.mList.size()];
             for (int i = 0; i < LaunchDigitalCare.mList.size(); i++)
                 ctnList[i] = LaunchDigitalCare.mList.get(i);
+
             ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
             productsSelection.setCatalog(Catalog.CARE);
             productsSelection.setSector(Sector.B2C);
