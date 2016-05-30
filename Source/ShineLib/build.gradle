@@ -113,20 +113,6 @@ def coverageExcludes = ['**/R.class',
                         '**/*_Factory.*',
                         '**/PagerTitleStripV22*.*']
 
-def publicApiClassesForJavaDoc = ['SHNCentral',
-                                  'SHNDeviceDefinitionInfo', // for plugin registration via SHNCentral
-                                  'SharedPreferencesProvider',
-                                  'SHNDeviceScanner',
-                                  'SHNDeviceAssociation',
-                                  'SHNAssociationProcedure',
-                                  'SHNUserConfiguration',
-                                  'SHNDevice',
-                                  'SHNCapability',
-                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',// aligned by PO
-                                  'SHNData',
-                                  'SHNDataType', 'SHNDataBloodPressure', 'SHNDataHeartRate', 'SHNDataWeight', 'SHNDataBodyTemperature', 'SHNTemperatureType',// aligned by PO
-                                  'SHNResult', 'SHNResultListener', 'SHNIntegerResultListener', 'SHNStringResultListener', 'SHNSetResultListener', 'SHNMapResultListener', 'SHNObjectResultListener', 'SHNTemperatureMeasurementResultListener']
-
 def coverageClassDirectories = [fileTree(dir: 'shinelib/build/intermediates/classes/debug', excludes: coverageExcludes)]
 
 task jacocoRootReport(type: JacocoReport) {

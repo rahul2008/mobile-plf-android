@@ -61,3 +61,45 @@ def getLibVersionName(shineLibVersion) {
 
     return "${shineLibVersion}"
 }
+
+def javaDocClassesForPublicApi = ['SHNCentral',
+                                  'SHNDeviceDefinitionInfo', // for plugin registration via SHNCentral
+                                  'SharedPreferencesProvider',
+                                  'SHNDeviceScanner',
+                                  'SHNDeviceAssociation',
+                                  'SHNAssociationProcedure',
+                                  'SHNUserConfiguration',
+                                  'SHNDevice',
+                                  'SHNCapability',
+                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',// aligned by PO
+                                  'SHNData',
+                                  'SHNDataType', 'SHNDataBloodPressure', 'SHNDataHeartRate', 'SHNDataWeight', 'SHNDataBodyTemperature', 'SHNTemperatureType',// aligned by PO
+                                  'SHNResult', 'SHNResultListener', 'SHNIntegerResultListener', 'SHNStringResultListener', 'SHNSetResultListener', 'SHNMapResultListener', 'SHNObjectResultListener', 'SHNTemperatureMeasurementResultListener']
+
+def javaDocClassesForPluginApi = javaDocClassesForPublicApi + []
+
+task generateJavadocPublicApi(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("../../../Documents/External/BluelibApi/")
+    for (file in javaDocClassesForPublicApi) {
+        include("**/" + file + ".java")
+    }
+    failOnError false
+}
+
+task generateJavadocPluginApi(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("../../../Documents/External/BluelibPluginApi/")
+    for (file in javaDocClassesForPluginApi) {
+        include("**/" + file + ".java")
+    }
+    failOnError false
+}
+
+task generateJavadoc()
+
+generateJavadoc.dependsOn {
+    tasks.findAll { task -> task.name.startsWith('generateJavadoc') && task.name != "generateJavadoc" }
+}
