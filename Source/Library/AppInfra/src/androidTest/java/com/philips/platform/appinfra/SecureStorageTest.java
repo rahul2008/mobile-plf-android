@@ -8,7 +8,7 @@ package com.philips.platform.appinfra;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.philips.platform.appinfra.SecureStorage;
+import com.philips.platform.appinfra.SecureStorageTest;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
  * Created by 310238114 on 4/7/2016.
  */
 public class SecureStorageTest extends MockitoTestCase {
-    SecureStorage mSecureStorage=null;
+    SecureStorageTest mSecureStorage=null;
    // Context context = Mockito.mock(Context.class);
 
     private Context context;
@@ -29,7 +29,7 @@ public class SecureStorageTest extends MockitoTestCase {
         context = getInstrumentation().getContext();
 
         assertNotNull(context);
-        mSecureStorage = new SecureStorage(context);
+        mSecureStorage = new SecureStorageTest(context);
         assertNotNull(mSecureStorage);
 
     }
@@ -39,7 +39,7 @@ public class SecureStorageTest extends MockitoTestCase {
 
     public void testStoreValueForKey() throws Exception {
 
-        SecureStorage secureStorageMock = mock(SecureStorage.class);
+        SecureStorageTest secureStorageMock = mock(SecureStorageTest.class);
 
 
 
@@ -71,7 +71,7 @@ public class SecureStorageTest extends MockitoTestCase {
         when(sharedPreferencesMock.getString("key",null)).thenReturn("value");
         when(sharedPreferencesMock.getString("",null)).thenReturn(null);
         when(sharedPreferencesMock.getString(null,null)).thenReturn(null);
-        SecureStorage secureStorage = new SecureStorage(context){
+        SecureStorageTest secureStorage = new SecureStorageTest(context){
             @Override
             protected SharedPreferences getSharedPreferences() {
                 return sharedPreferencesMock;
