@@ -186,7 +186,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
 
         public AddressSelectionHolder(final View view) {
             super(view);
-            addressItem = (RelativeLayout) view.findViewById(R.id.address_item);
             name = (TextView) view.findViewById(R.id.tv_name);
             address = (TextView) view.findViewById(R.id.tv_address);
             toggle = (UIKitRadioButton) view.findViewById(R.id.rbtn_toggle);
