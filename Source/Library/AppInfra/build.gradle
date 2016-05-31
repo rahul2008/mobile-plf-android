@@ -58,7 +58,7 @@ allprojects {
         }
 
         apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
+        group = 'com.philips.platform.appinfra'
 
         flatDir {
             dirs 'libs'
@@ -94,12 +94,19 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 18
         targetSdkVersion 23
         versionName objcdp.getVersionWithHash()
-        testApplicationId "com.philips.platform.Appinfra.test"
+        testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
+
+    testOptions {
+
+        unitTests.returnDefaultValues = true
+
+    }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -121,12 +128,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles  'proguard-rules.pro'
         }
 
         debug {
-            minifyEnabled true
+            minifyEnabled false
             debuggable true
             testCoverageEnabled true
             proguardFile 'proguard-rules.pro'
@@ -140,11 +147,12 @@ android {
 //}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    //testCompile 'junit:junit:4.12'
-   androidTestCompile 'org.mockito:mockito-core:1.9.5'
-	//androidTestCompile project(':mockito-all-1.10.19')
+//    testCompile 'org.mockito:mockito-core:1.10.19'
+//    testCompile 'org.robolectric:robolectric:3.0'
+    androidTestCompile "org.mockito:mockito-core:1.9.5"
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+//    testCompile 'com.google.dexmaker:dexmaker-dx:1.2'
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile(group:'adobeMobileLibrary', name:'adobeMobileLibrary', version:'4.8.3')
 
