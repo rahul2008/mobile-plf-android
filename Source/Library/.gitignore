@@ -7,3 +7,9 @@
 /.gradle/**
 /captures
 /build
+/digitalCare/gradle/wrapper/
+/digitalCare/build/
+/launchDigitalCare/build/
+/launchDigitalCare/gradle/wrapper/
+/.idea/
+/build/generated/

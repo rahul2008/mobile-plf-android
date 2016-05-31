@@ -271,10 +271,7 @@ public class PrxWrapper {
                 if (mSupportCallback != null) {
                     mSupportCallback.onResponseReceived(null);
                 }
-                if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                    mProgressDialog.cancel();
-                    mProgressDialog = null;
-                }
+                closeProgressDialog();
             }
         });
     }
