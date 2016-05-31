@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib.protocols.moonshinestreaming;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
+import com.philips.pins.shinelib.services.SHNServiceMoonshineStreaming;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -189,8 +190,9 @@ public class SHNProtocolMoonshineStreamingV2Test {
     }
 
     @Test
-    public void whenOnReceiveAckIsCalledWithTheCorrectSNThenTransitionToReadyIsCalled() {
-        getProtocolToReadyStateWithTestWindowsSize();
+    public void whenTransitionToReadyIsCalledThenTransitionToReadyIsCalledOnService() {
+        shnProtocolMoonshineStreamingV2.transitionToReady();
+
         verify(mockedShnServiceMoonshineStreaming).transitionToReady();
     }
 
