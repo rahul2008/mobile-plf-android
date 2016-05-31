@@ -93,8 +93,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private long mTrackCreateAccountTime;
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreate");
