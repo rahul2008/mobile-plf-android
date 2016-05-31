@@ -15,7 +15,7 @@ public class IAPAnalyticsConstant {
     public static final String PAYMENT_SELECTION_PAGE_NAME = "PaymentSelectionPage";
     public static final String EMPTY_SHOPPING_CART_PAGE_NAME = "EmptyShoppingCartPage";
     public static final String ORDER_SUMMARY_PAGE_NAME = "OrderSummaryPage";
-    public static final String WORLD_PAY_PAGE_NAME = "WorldPayPage";
+    public static final String WORLD_PAY_PAGE_NAME = "CreditCardInputPage";
     public static final String PAYMENT_CONFIRMATION_PAGE_NAME = "PaymentConfirmationPage";
 
     public static final String VERSION_KEY = "app.version";

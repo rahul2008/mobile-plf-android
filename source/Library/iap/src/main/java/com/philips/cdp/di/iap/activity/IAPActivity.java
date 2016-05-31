@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
+import com.philips.cdp.di.iap.Fragments.EmptyPurchaseHistoryFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
@@ -53,13 +54,17 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         setContentView(R.layout.iap_activity);
         addActionBar();
         setLocale();
-        Boolean isShoppingCartViewSelected = getIntent().getBooleanExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, true);
-        if (isShoppingCartViewSelected) {
-            addFragment(ShoppingCartFragment.createInstance(new Bundle(),
-                    BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
-        } else {
+        int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, -1);
+
+        if (landingScreen == 0) {
             addFragment(ProductCatalogFragment.createInstance(new Bundle(),
                     BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
+        } else if (landingScreen == 1) {
+            addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                    BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+        } else if (landingScreen == 2) {
+            addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
+                    BaseAnimationSupportFragment.AnimationType.NONE), "");
         }
     }
 
@@ -75,14 +80,15 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     private void setLocale() {
         PILLocaleManager localeManager = new PILLocaleManager(getApplicationContext());
         String localeAsString = localeManager.getInputLocale();
-        String[] localeArray = localeAsString.split("_");
-
-        Locale locale = new Locale(localeArray[0], localeArray[1]);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getResources().updateConfiguration(config,
-                getResources().getDisplayMetrics());
+        if (localeAsString != null) {
+            String[] localeArray = localeAsString.split("_");
+            Locale locale = new Locale(localeArray[0], localeArray[1]);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getResources().updateConfiguration(config,
+                    getResources().getDisplayMetrics());
+        }
     }
 
     @Override
