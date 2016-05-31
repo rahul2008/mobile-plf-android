@@ -639,40 +639,44 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
                 mPrxWrapper.executePrxAssetRequestWithSummaryData(productSummaryModel);
 */
-                Data summaryData = productSummaryModel.getData();
-                List<String> filterKeys = summaryData.getFilterKeys();
-                String productGroup = null;
-                String productCategory = null;
-                String productSubCategory = null;
-                for (String filterData : filterKeys) {
-                    if (filterData != null && filterData.endsWith("SU"))
-                        productSubCategory = filterData;
-
-                    if (filterData != null && filterData.endsWith("GR"))
-                        productGroup = filterData;
-
-                    if (filterData != null && filterData.endsWith("CA"))
-                        productCategory = filterData;
-                }
-
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryData.getCtn());
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategory(productSubCategory);
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCategory(productCategory);
-
-                ViewProductDetailsModel productDetailsModel = new ViewProductDetailsModel();
-                productDetailsModel.setProductName(summaryData.getProductTitle());
-                productDetailsModel.setCtnName(summaryData.getCtn());
-                productDetailsModel.setProductImage(summaryData.getImageURL());
-                productDetailsModel.setProductInfoLink(summaryData.getProductURL());
-                DigitalCareConfigManager.getInstance().setViewProductDetailsData(productDetailsModel);
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());
-                editor.apply();
+                setDataToModels(productSummaryModel);
             }
         }
+    }
+
+    private void setDataToModels(SummaryModel productSummaryModel) {
+        Data summaryData = productSummaryModel.getData();
+        List<String> filterKeys = summaryData.getFilterKeys();
+        String productGroup = null;
+        String productCategory = null;
+        String productSubCategory = null;
+        for (String filterData : filterKeys) {
+            if (filterData != null && filterData.endsWith("SU"))
+                productSubCategory = filterData;
+
+            if (filterData != null && filterData.endsWith("GR"))
+                productGroup = filterData;
+
+            if (filterData != null && filterData.endsWith("CA"))
+                productCategory = filterData;
+        }
+
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryData.getCtn());
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategory(productSubCategory);
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCategory(productCategory);
+
+        ViewProductDetailsModel productDetailsModel = new ViewProductDetailsModel();
+        productDetailsModel.setProductName(summaryData.getProductTitle());
+        productDetailsModel.setCtnName(summaryData.getCtn());
+        productDetailsModel.setProductImage(summaryData.getImageURL());
+        productDetailsModel.setProductInfoLink(summaryData.getProductURL());
+        DigitalCareConfigManager.getInstance().setViewProductDetailsData(productDetailsModel);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());
+        editor.apply();
     }
 
 
@@ -738,39 +742,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 if (mProductViewProductButton != null)
                     mProductViewProductButton.setVisibility(View.VISIBLE);
 
-
-                Data summaryData = productSummaryModel.getData();
-                List<String> filterKeys = summaryData.getFilterKeys();
-                String productGroup = null;
-                String productCategory = null;
-                String productSubCategory = null;
-                for (String filterData : filterKeys) {
-                    if (filterData != null && filterData.endsWith("SU"))
-                        productSubCategory = filterData;
-
-                    if (filterData != null && filterData.endsWith("GR"))
-                        productGroup = filterData;
-
-                    if (filterData != null && filterData.endsWith("CA"))
-                        productCategory = filterData;
-                }
-
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryData.getCtn());
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategory(productSubCategory);
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCategory(productCategory);
-
-                ViewProductDetailsModel productDetailsModel = new ViewProductDetailsModel();
-                productDetailsModel.setProductName(summaryData.getProductTitle());
-                productDetailsModel.setCtnName(summaryData.getCtn());
-                productDetailsModel.setProductImage(summaryData.getImageURL());
-                productDetailsModel.setProductInfoLink(summaryData.getProductURL());
-                DigitalCareConfigManager.getInstance().setViewProductDetailsData(productDetailsModel);
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());
-                editor.apply();
+                setDataToModels(productSummaryModel);
             } finally {
                 DigiCareLogger.v(TAG, "Menu is creating in NonNull Summary");
                 createMainMenu();
