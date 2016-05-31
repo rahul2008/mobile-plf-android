@@ -595,10 +595,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 }
             }
         } else {
-            mEtEmail.showEmailInvalidAlert();
+            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.Janrain_Error_Need_Email_Verification));
+            mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
             mBtnSignInAccount.setEnabled(false);
-            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.Janrain_Error_Need_Email_Verification));
             mBtnResend.setVisibility(View.VISIBLE);
             mViewHavingProblem.setVisibility(View.VISIBLE);
             mTvResendDetails.setVisibility(View.GONE);

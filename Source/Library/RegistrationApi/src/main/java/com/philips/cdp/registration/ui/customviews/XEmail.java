@@ -114,9 +114,6 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
     }
 
-    public void showEmailInvalidAlert() {
-    }
-
     private void showEmailIsInvalidAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
         mEtEmail.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
@@ -165,10 +162,6 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     public void showErrPopUp() {
         mTvErrDescriptionView.setVisibility(View.VISIBLE);
-    }
-
-    public void hideErrPopUp() {
-        mTvErrDescriptionView.setVisibility(View.GONE);
     }
 
     @Override
