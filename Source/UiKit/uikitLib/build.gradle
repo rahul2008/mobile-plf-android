@@ -7,7 +7,7 @@ def libVersionNumber = new File('../../VERSION').text.trim()
 
 buildscript {
     repositories {
-        jcenter()
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
     }
 
     dependencies {
