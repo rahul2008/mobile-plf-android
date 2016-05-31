@@ -5,8 +5,6 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.RegistrationState;
 
-import org.mockito.Mock;
-
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
@@ -15,15 +13,13 @@ import org.mockito.Mock;
 public class RegisteredProductTest extends MockitoTestCase {
 
     RegisteredProduct registeredProduct;
-    @Mock
-    String mCTN, mSerialNumber, mPurchdate;
-    @Mock
+    String mCTN;
     Sector mSector;
-    @Mock
     Catalog mCatalog;
 
     @Override
     protected void setUp() throws Exception {
+        super.setUp();
         registeredProduct = new RegisteredProduct(mCTN, mSector, mCatalog);
     }
 

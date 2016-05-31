@@ -76,6 +76,7 @@ public class Product {
      * @return return model number as string
      */
     public String getCtn() {
+        productModelNumber = productModelNumber != null ? productModelNumber : "";
         return productModelNumber;
     }
 
@@ -84,6 +85,7 @@ public class Product {
      * @return return serial number as string
      */
     public String getSerialNumber() {
+        productSerialNumber = productSerialNumber != null ? productSerialNumber : "";
         return productSerialNumber;
     }
 

@@ -258,14 +258,11 @@ public class UserWithProductsTest extends MockitoTestCase {
         ProductMetadataResponseData data = mock(ProductMetadataResponseData.class);
         RegisteredProduct productMock = mock(RegisteredProduct.class);
         when(data.getRequiresDateOfPurchase()).thenReturn("true");
-        final ProdRegListener listener = mock(ProdRegListener.class);
-        assertFalse(userWithProducts.isValidPurchaseDate(data, productMock));
-
         when(productMock.getPurchaseDate()).thenReturn("2016-03-22");
         when(data.getRequiresDateOfPurchase()).thenReturn("false");
-        assertTrue(userWithProducts.isValidPurchaseDate(data, productMock));
+        assertTrue(userWithProducts.isValidPurchaseDate("2016-03-22"));
         when(data.getRequiresDateOfPurchase()).thenReturn("true");
-        assertTrue(userWithProducts.isValidPurchaseDate(data, productMock));
+        assertTrue(userWithProducts.isValidPurchaseDate("2016-03-22"));
     }
 
     public void testRegistrationRequestTest() {
@@ -446,7 +443,7 @@ public class UserWithProductsTest extends MockitoTestCase {
             }
 
             @Override
-            protected boolean isValidPurchaseDate(final ProductMetadataResponseData data, final RegisteredProduct product) {
+            protected boolean isValidPurchaseDate(String date) {
                 return true;
             }
 

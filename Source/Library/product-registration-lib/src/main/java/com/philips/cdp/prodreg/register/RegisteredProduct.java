@@ -110,19 +110,19 @@ public class RegisteredProduct extends Product {
     public boolean equals(final Object object) {
         if (object instanceof RegisteredProduct) {
             RegisteredProduct registeredProduct = (RegisteredProduct) object;
-            if (getCtn() == null || registeredProduct.getCtn() == null || getSerialNumber() == null || registeredProduct.getSerialNumber() == null) {
-                return false;
-            } else {
                 final String parentUuid = registeredProduct.getUserUUid();
                 final String currentUuid = getUserUUid();
                 boolean parentState = parentUuid.length() != 0;
                 boolean currentState = currentUuid.length() != 0;
                 boolean shouldConsiderUUID = isShouldConsiderUUID(parentUuid, currentUuid, parentState, currentState);
-                if (!shouldConsiderUUID && registeredProduct.getCtn().equals(getCtn()) && registeredProduct.getSerialNumber().equals(getSerialNumber())) {
+            final String previousCtn = registeredProduct.getCtn();
+            final String currentCtn = getCtn();
+            final String previousSerialNumber = registeredProduct.getSerialNumber();
+            final String currentSerialNumber = getSerialNumber();
+            if (!shouldConsiderUUID && previousCtn.equals(currentCtn) && previousSerialNumber.equals(currentSerialNumber)) {
                     return true;
-                } else if (registeredProduct.getCtn().equals(getCtn()) && registeredProduct.getSerialNumber().equals(getSerialNumber()) && parentUuid.equals(currentUuid))
+            } else if (previousCtn.equals(currentCtn) && previousSerialNumber.equals(currentSerialNumber) && parentUuid.equals(currentUuid))
                     return true;
-            }
         }
         return false;
     }
