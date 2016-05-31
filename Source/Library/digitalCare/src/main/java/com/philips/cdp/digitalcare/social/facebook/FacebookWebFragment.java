@@ -9,14 +9,12 @@
 package com.philips.cdp.digitalcare.social.facebook;
 
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -24,12 +22,13 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.util.Utils;
 
 public class FacebookWebFragment extends DigitalCareBaseFragment {
 
     private final String TAG = FacebookWebFragment.class.getSimpleName();
-    private View mView = null;
-    private WebView mWebView = null;
+    private View mFacebookScreenView = null;
+    private WebView mFacebookWebView = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     // private ProgressDialog mProgressDialog = null;
@@ -41,10 +40,10 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
                              Bundle savedInstanceState) {
 
         try {
-            mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
+            mFacebookScreenView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         } catch (InflateException e) {
         }
-        return mView;
+        return mFacebookScreenView;
     }
 
     @Override
@@ -60,34 +59,13 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
     }
 
     private void loadInAppFacebook() {
-        mWebView.loadUrl(getFacebookUrl());
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setWebViewClient(new WebViewClient() {
+        Utils.loadWebPageContent(getFacebookUrl(), mFacebookWebView, mProgressBar);
 
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                mProgressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                mProgressBar.setVisibility(View.GONE);
-            }
-
-        });
     }
 
     private void initView() {
-        mWebView = (WebView) mView.findViewById(R.id.webView);
-        mProgressBar = (ProgressBar) mView
+        mFacebookWebView = (WebView) mFacebookScreenView.findViewById(R.id.webView);
+        mProgressBar = (ProgressBar) mFacebookScreenView
                 .findViewById(R.id.common_webview_progress);
         mProgressBar.setVisibility(View.GONE);
     }
@@ -119,8 +97,8 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
     public void onDestroy() {
         super.onDestroy();
 
-        if (mWebView != null) {
-            mWebView = null;
+        if (mFacebookWebView != null) {
+            mFacebookWebView = null;
         }
     }
 
