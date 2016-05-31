@@ -13,30 +13,45 @@
         android:layout_weight="1"
         />
 
-<LinearLayout android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
     android:orientation="horizontal">
+
     <com.shamanland.fonticon.FontIconView
         android:id="@+id/appframework_leftarrow"
-        style="@style/FontIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="@string/uikit_fonticon_arrow_left" />
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:layout_alignParentLeft="true"
+        android:text="@string/uikit_fonticon_arrow_left"/>
     <com.philips.cdp.uikit.customviews.CircleIndicator
         android:id="@+id/indicator"
+        android:gravity="center"
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:padding="10dp"
         />
     <com.shamanland.fonticon.FontIconView
         android:id="@+id/appframework_rightarrow"
-        style="@style/FontIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:layout_alignParentEnd="true"
+        android:text="@string/uikit_fonticon_arrow_right"/>
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/appframework_skip_button"
+        android:textSize="32sp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="@string/uikit_fonticon_arrow_right" />
-    </LinearLayout>
+        android:text="Skip"/>
+
 
 </LinearLayout>

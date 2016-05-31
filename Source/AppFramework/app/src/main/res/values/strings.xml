@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AppFramework</string>
+    <string name="left_arrow">&lt;</string>
+    <string name="right_arrow">&gt;</string>
 </resources>
