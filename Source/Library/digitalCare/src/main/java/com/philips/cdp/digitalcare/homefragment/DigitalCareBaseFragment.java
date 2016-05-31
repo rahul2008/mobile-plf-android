@@ -330,8 +330,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     protected String getAppName() {
         String appName = getActivity().getString(R.string.app_name);
         try {
-            ApplicationInfo appInfo = getActivity().getPackageManager().getApplicationInfo(getActivity().getPackageName(),
-                    getActivity().getPackageManager().GET_META_DATA);
+            int metaData = getActivity().getPackageManager().GET_META_DATA;
+            ApplicationInfo appInfo = getActivity().getPackageManager().getApplicationInfo
+                    (getActivity().getPackageName(),
+                            metaData);
             appName = appInfo.loadLabel(getActivity().getPackageManager()).toString();
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
