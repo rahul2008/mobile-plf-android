@@ -123,6 +123,7 @@
     <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
     <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked.
 Please try again, or if the problem persists: contact Philips Consumer Care</string>
+    <string name="iap_try_again">Try Again</string>
 
     <!-- Purchase History -->
     <string name="iap_order_history">Order history</string>
