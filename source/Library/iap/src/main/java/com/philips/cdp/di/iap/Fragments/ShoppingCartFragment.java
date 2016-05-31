@@ -45,6 +45,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private AddressController mAddressController;
     private Context mContext;
     private ShoppingCartAPI mShoppingCartAPI;
+    private ArrayList<ShoppingCartData> mData = new ArrayList<>();
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -64,8 +65,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         super.onCreate(savedInstanceState);
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(getContext(), this, getFragmentManager());
-        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(), getFragmentManager(), this, mShoppingCartAPI);
-
+        updateCartOnResume();
     }
 
     @Override
@@ -98,11 +98,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitle(R.string.iap_shopping_cart);
-        updateCartOnResume();
+        mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void updateCartOnResume() {
-
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
         }
@@ -248,11 +248,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
         if (getActivity() == null) return;
-
+        mData = data;
         onOutOfStock(false);
-        mContinuesBtn.setVisibility(View.VISIBLE);
-        mCheckoutBtn.setVisibility(View.VISIBLE);
-        mAdapter = new ShoppingCartAdapter(getContext(), data, getFragmentManager(), this, mShoppingCartAPI);
+        mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
         if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
             updateCount(data.get(0).getDeliveryItemsQuantity());
         }

@@ -39,6 +39,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -48,22 +49,26 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private RecyclerView mAddressListView;
     private AddressController mAddrController;
     AddressSelectionAdapter mAdapter;
-    private List<Addresses> mAddresses;
+    private List<Addresses> mAddresses = new ArrayList<>();
     private Button mCancelButton;
     private Context mContext;
     public static final String TAG = AddressSelectionFragment.class.getName();
     private boolean mIsAddressUpdateAfterDelivery;
     private String mJanRainEmail;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAddrController = new AddressController(getContext(), this);
+        sendShippingAddressesRequest();
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
-        mAddrController = new AddressController(getContext(), this);
         mCancelButton = (Button) view.findViewById(R.id.btn_cancel);
         bindCancelListener();
-        sendShippingAddressesRequest();
         mJanRainEmail = HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail();
         registerEvents();
         return view;
@@ -115,6 +120,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitle(R.string.iap_address);
+        mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
+        mAddressListView.setAdapter(mAdapter);
     }
 
     @Override

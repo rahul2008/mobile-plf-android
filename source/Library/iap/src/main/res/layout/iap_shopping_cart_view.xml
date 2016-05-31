@@ -1,7 +1,7 @@
-<RelativeLayout android:id="@+id/layout"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <Button
         android:id="@+id/continues_btn"
@@ -14,12 +14,13 @@
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
         android:enabled="true"
-        android:visibility="gone"
-        android:text="@string/iap_continue_shopping"/>
+        android:text="@string/iap_continue_shopping"
+        android:visibility="visible" />
 
 
     <Button
         android:id="@+id/checkout_btn"
+        style="@style/Button.Solid.BrightOrange"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_above="@id/continues_btn"
@@ -29,10 +30,8 @@
         android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:enabled="true"
-        style="@style/Button.Solid.BrightOrange"
-        android:visibility="gone"
         android:text="@string/iap_checkout"
-        />
+        android:visibility="visible" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/shopping_cart_recycler_view"
@@ -40,8 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/checkout_btn"
         android:layout_alignParentTop="true"
-        android:listSelector="@android:color/transparent"
-        >
-    </android.support.v7.widget.RecyclerView>
+        android:listSelector="@android:color/transparent"></android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
