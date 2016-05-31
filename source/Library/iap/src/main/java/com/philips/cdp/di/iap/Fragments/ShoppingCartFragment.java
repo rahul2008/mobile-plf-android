@@ -60,6 +60,15 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mShoppingCartAPI = ControllerFactory.getInstance()
+                .getShoppingCartPresenter(getContext(), this, getFragmentManager());
+        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(), getFragmentManager(), this, mShoppingCartAPI);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
@@ -77,9 +86,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mCheckoutBtn.setOnClickListener(this);
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
-
-        mShoppingCartAPI = ControllerFactory.getInstance()
-                .getShoppingCartPresenter(getContext(), this, getFragmentManager());
 
         mAddressController = new AddressController(getContext(), this);
         return rootView;
@@ -251,6 +257,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             updateCount(data.get(0).getDeliveryItemsQuantity());
         }
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.tagProducts();
     }
 
     @Override

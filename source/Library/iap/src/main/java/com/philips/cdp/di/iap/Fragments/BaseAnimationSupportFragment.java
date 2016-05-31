@@ -90,6 +90,16 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         }
     }
 
+    public void launchShoppingCart() {
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
+            transaction.addToBackStack(ShoppingCartFragment.TAG);
+            transaction.commitAllowingStateLoss();
+        }
+    }
+
     protected void setTitle(int resourceId) {
         mActivityListener.setHeaderTitle(resourceId);
     }
@@ -129,6 +139,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         if (getActivity() != null && !getActivity().isFinishing()) {
             getActivity().getSupportFragmentManager().popBackStackImmediate(null, 0);
         }
+
     }
 
     public void updateCount(final int count) {

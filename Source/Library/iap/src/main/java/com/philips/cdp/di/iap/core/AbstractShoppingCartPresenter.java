@@ -57,11 +57,9 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     protected void handleModelDataError(final Message msg) {
         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-        //TODO for showing dialog
         if (mLoadListener != null) {
             mLoadListener.onLoadListenerError((IAPNetworkError) msg.obj);
         }
-        //   NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
         dismissProgressDialog();
     }
 
@@ -79,16 +77,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                         if (msg.obj instanceof WebResults) {
                             webResults = (WebResults) msg.obj;
                         }
-                        dismissProgressDialog();
-                        if (mLoadListener != null) {
-                            mLoadListener.onRetailerError(createIAPErrorMessage("No Retailers for this product"));
-                            return;
-                        }
-
                         if (webResults.getWrbresults().getOnlineStoresForProduct() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
-
-                            //TODO for showing dialog
-                            //   NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), "No Retailers for this product", "No Retailers for this product");
                             dismissProgressDialog();
                             if (mLoadListener != null) {
                                 mLoadListener.onRetailerError(createIAPErrorMessage("No Retailers for this product"));

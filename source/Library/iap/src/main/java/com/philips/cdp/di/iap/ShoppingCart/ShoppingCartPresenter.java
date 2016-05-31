@@ -90,6 +90,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
         for (EntriesEntity entry : entries) {
             ctn = entry.getProduct().getCode();
             ShoppingCartData cartItem = new ShoppingCartData(entry, null);
+            cartItem.setVatInclusive(cartsEntity.isNet());
             Data data;
             if (list.containsKey(ctn)) {
                 data = list.get(ctn).getData();
@@ -110,6 +111,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             cartItem.setDeliveryAddressEntity(cartsEntity.getDeliveryAddress());
             cartItem.setVatValue(cartsEntity.getTotalTax().getFormattedValue());
             cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
+            //required for Tagging
+            cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
             products.add(cartItem);
         }
         return products;
@@ -164,8 +167,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
                 mLoadListener.onLoadListenerError((IAPNetworkError) msg.obj);
-                //TODO for showing dialog
-                // NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
                 Utility.dismissProgressDialog();
             }
         });

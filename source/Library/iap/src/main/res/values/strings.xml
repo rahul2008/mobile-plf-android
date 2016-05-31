@@ -95,6 +95,7 @@
     <string name="iap_redeem_voucher">Redeem voucher</string>
     <string name="iap_delivery_description">Delivery is FREE when you spend $100 or more</string>
     <string name="iap_vat">VAT</string>
+    <string name="iap_vat_inclusive_text">Inclusive of %s</string>
     <string name="Settings">Settings</string>
     <string name="mastercard">Master card</string>
     <string name="iap_total_val">Total(0 Items)</string>
