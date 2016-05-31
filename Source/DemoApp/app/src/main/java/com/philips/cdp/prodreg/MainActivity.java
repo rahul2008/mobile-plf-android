@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.prodreg.ui.TestURActivity;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Flow;
 import com.philips.cdp.registration.configuration.JanRainConfiguration;
@@ -178,6 +179,11 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
             case R.id.btn_register_list:
                 initialiseUserRegistration(env);
                 intent = new Intent(this, RegisteredProductsList.class);
+                startActivity(intent);
+                break;
+
+            case R.id.btn_spike_ur:
+                intent = new Intent(this, TestURActivity.class);
                 startActivity(intent);
                 break;
             default:

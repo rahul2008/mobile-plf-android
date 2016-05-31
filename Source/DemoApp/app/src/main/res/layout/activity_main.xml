@@ -48,6 +48,16 @@
             android:text="@string/register_list"
             android:textAllCaps="false"/>
 
+        <Button
+            android:id="@+id/btn_spike_ur"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:onClick="onClick"
+            android:text="User Registration into PR"
+            android:textAllCaps="false"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

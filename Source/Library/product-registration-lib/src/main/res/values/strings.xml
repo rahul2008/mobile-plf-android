@@ -5,4 +5,5 @@
     <string name="serial_number_not_entered">Serial number not entered</string>
     <string name="volley_error">"Volley Error : "</string>
     <string name="date_format_error">Purchase date not entered</string>
+    <string name="title_activity_prod_reg">ProdRegActivity</string>
 </resources>
