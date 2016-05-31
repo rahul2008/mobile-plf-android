@@ -39,10 +39,8 @@ public  class DigitalCareActivity extends DigitalCareBaseActivity {
 
         int alwaysFinishActivity = 0;
 
-        try {
+        if (savedInstanceState != null)
             alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
-        } catch (NullPointerException e) {
-        }
 
         setContentView(R.layout.consumercare_activity_digi_care);
         try {

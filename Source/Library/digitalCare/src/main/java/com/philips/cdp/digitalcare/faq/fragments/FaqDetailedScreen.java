@@ -266,12 +266,14 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     private class myJavaScriptInterface {
         @JavascriptInterface
         public void setVisible() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mWebView.setVisibility(View.VISIBLE);
-                }
-            });
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mWebView.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
         }
     }
 }
