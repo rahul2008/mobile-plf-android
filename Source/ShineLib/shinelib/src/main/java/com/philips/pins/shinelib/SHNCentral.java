@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
 
@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
@@ -38,14 +39,40 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
+/**
+ * Central class for handling BlueLib initialisation, associating to peripherals and retrieving currently associated peripherals.
+ */
 public class SHNCentral {
 
+    /**
+     * State that the {@link SHNCentral} currently is in.
+     */
     public enum State {
-        SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
+        /**
+         * {@code SHNCentral} is in an error state
+         */
+        SHNCentralStateError,
+        /**
+         * {@code SHNCentral} is not yet ready to communicate with peripherals
+         */
+        SHNCentralStateNotReady,
+        /**
+         * {@code SHNCentral} is ready to communicate with peripherals
+         */
+        SHNCentralStateReady
     }
 
+    /**
+     * A listener for changes in {@code SHNCentral}.
+     */
     public interface SHNCentralListener {
-        void onStateUpdated(SHNCentral shnCentral);
+
+        /**
+         * Called when the state of the {@code SHNCentral} was changed.
+         *
+         * @param shnCentral the {@code SHNCentral} object that had its state changed.
+         */
+        void onStateUpdated(@NonNull SHNCentral shnCentral);
     }
 
     private static final String TAG = SHNCentral.class.getSimpleName();
@@ -102,6 +129,14 @@ public class SHNCentral {
         }
     };
 
+    /**
+     * Old constructor of {@code SHNCentral}. Do not use.
+     *
+     * @param handler
+     * @param context
+     * @throws SHNBluetoothHardwareUnavailableException
+     * @deprecated Use the {@link SHNCentral.Builder} instead.
+     */
     @Deprecated
     public SHNCentral(Handler handler, final Context context) throws SHNBluetoothHardwareUnavailableException {
         this(handler, context, false, null, false);
@@ -378,6 +413,11 @@ public class SHNCentral {
         return shnDeviceAssociation;
     }
 
+    /**
+     * Get the state of this {@code SHNCentral}.
+     *
+     * @return state of this {@code SHNCentral}
+     */
     public State getShnCentralState() {
         return shnCentralState;
     }
@@ -391,6 +431,7 @@ public class SHNCentral {
     // TEMPORARY HACK TO ENABLE VERIFICATION TESTS WITH BLE SECURITY ENABLED
     // TODO: Remove this once the ShineVerificationApp uses DeviceAssociation.
     @Deprecated
+    @VisibleForTesting
     public SHNDevice createSHNDeviceForAddressAndDefinition(@NonNull String deviceAddress, @NonNull SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         String key = deviceAddress + shnDeviceDefinitionInfo.getDeviceTypeName();
         SHNDevice shnDevice = createdDevices.get(key);
@@ -403,6 +444,9 @@ public class SHNCentral {
         return shnDevice;
     }
 
+    /**
+     * The {@code SHNCentral.Builder} is used to build a {@code SHNCentral} object.
+     */
     public static class Builder {
         private Handler handler;
         private final Context context;
@@ -410,30 +454,73 @@ public class SHNCentral {
         private Boolean migrateFromDefaultProviderToCustom = false;
         private SharedPreferencesProvider sharedPreferencesProvider;
 
+        /**
+         * Create a {@code SHNCentral.Builder}.
+         *
+         * @param context the {@code Context} in which the {@link SHNCentral} will be used
+         */
         public Builder(@NonNull final Context context) {
             this.context = context;
         }
 
+        /**
+         * Add a handler to the {@link SHNCentral} you are currently building.
+         * <p/>
+         * This handler will be used to post callbacks from {@code SHNCentral on}.
+         *
+         * @param handler a {@code Handler} to use for callbacks
+         * @return {@code Builder} to chain more calls
+         */
         public Builder setHandler(Handler handler) {
             this.handler = handler;
             return this;
         }
 
+        /**
+         * Shows a popup if for some reason BlueTooth was not enabled.
+         *
+         * @param showPopupIfBLEIsTurnedOff set to true if you want the popup to show
+         * @return {@code Builder} to chain more calls
+         */
         public Builder showPopupIfBLEIsTurnedOff(Boolean showPopupIfBLEIsTurnedOff) {
             this.showPopupIfBLEIsTurnedOff = showPopupIfBLEIsTurnedOff;
             return this;
         }
 
+        /**
+         * Set a custom SharedPreferencesProvider for {@link SHNCentral} to use.
+         *
+         * @param sharedPreferencesProvider custom SharedPreferencesProvider for {@link SHNCentral} to use
+         * @return {@code Builder} to chain more calls
+         */
         public Builder setSharedPreferencesProvider(SharedPreferencesProvider sharedPreferencesProvider) {
             this.sharedPreferencesProvider = sharedPreferencesProvider;
             return this;
         }
 
+        /**
+         * Set to true to indicate that data needs to be migrated.
+         * <p/>
+         * Data that was previously stored in SharedPreferences will be
+         * migrated to the new custom {@link SharedPreferencesProvider} that was set using
+         * {@link #setSharedPreferencesProvider(SharedPreferencesProvider)}.
+         * If migration was previously completed to the custom SharedPreferencesProvider
+         * it will not be done again.
+         *
+         * @param migrateFromDefaultProviderToCustom set to true to indicate migration is wanted
+         * @return {@code Builder} to chain more calls
+         */
         public Builder migrateFromDefaultProviderToCustom(Boolean migrateFromDefaultProviderToCustom) {
             this.migrateFromDefaultProviderToCustom = migrateFromDefaultProviderToCustom;
             return this;
         }
 
+        /**
+         * Finish this {@code Builder} by creating the actual {@code SHNCentral} using previously specified parameters.
+         *
+         * @return the created {@code SHNCentral}
+         * @throws SHNBluetoothHardwareUnavailableException if no BlueTooth hardware was available on the device
+         */
         public SHNCentral create() throws SHNBluetoothHardwareUnavailableException {
             return new SHNCentral(handler, context, showPopupIfBLEIsTurnedOff, sharedPreferencesProvider, migrateFromDefaultProviderToCustom);
         }
