@@ -543,7 +543,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             public void onProductModelSelected(SummaryModel summaryModel) {
                 isSupportScreenLaunched = false;
                 if (summaryModel != null) {
-                    mProductChangeButton.setClickable(true);
+                    if (mProductChangeButton != null) mProductChangeButton.setClickable(true);
                     enableSupportButtonClickable();
                     updateSummaryData(summaryModel);
                 } else {
@@ -612,8 +612,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         if (mProductChangeButton != null) {
 
             if (!(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length < 2)) {
-                mProductChangeButton.setVisibility(View.VISIBLE);
-                mProductChangeButton.setClickable(true);
+                if (mProductChangeButton != null) {
+                    mProductChangeButton.setVisibility(View.VISIBLE);
+                    mProductChangeButton.setClickable(true);
+                }
             }
         }
     }
