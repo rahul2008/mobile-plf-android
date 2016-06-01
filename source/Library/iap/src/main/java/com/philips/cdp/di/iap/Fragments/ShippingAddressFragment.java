@@ -272,7 +272,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             //Edit and save address
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
                 if (!Utility.isProgressDialogShowing()) {
-                    Utility.showProgressDialog(mContext, getString(R.string.iap_update_address));
+                    Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     HashMap<String, String> addressHashMap = addressPayload();
                     mAddressController.updateAddress(addressHashMap);
                 }

@@ -114,7 +114,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         if (user.isUserSignIn()) {
             displayViews();
             if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
-                Utility.showProgressDialog(this, getString(R.string.loading_cart));
+                Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
                 mIapHandler.getProductCartCount(mProductCountListener);
             }
         }
@@ -274,7 +274,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         setLocale("en", selectedCountry);
 
         if (!mProductCountRequested) {
-            Utility.showProgressDialog(this, getString(R.string.loading_cart));
+            Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
             mIAPSettings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);
             //setUseLocalData();
             mIapHandler = IAPHandler.init(this, mIAPSettings);

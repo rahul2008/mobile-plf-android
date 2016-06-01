@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -82,7 +83,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         ProductCatalogAPI presenter = ControllerFactory.getInstance()
                                         .getProductCatalogPresenter(getContext(), mAdapter, getFragmentManager());
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_get_product_catalog_details));
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
         presenter.getProductCatalog();
     }
@@ -127,7 +128,15 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     @Override
     public boolean onBackPressed() {
-        finishActivity();
+        Fragment fragment = getActivity().getSupportFragmentManager().
+                findFragmentByTag(EmptyPurchaseHistoryFragment.TAG);
+        if (fragment != null) {
+            getFragmentManager().popBackStack();
+        } else {
+            finishActivity();
+        }
         return false;
+       /* finishActivity();
+        return false;*/
     }
 }

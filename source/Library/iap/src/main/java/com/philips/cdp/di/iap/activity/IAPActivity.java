@@ -64,7 +64,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
                     BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
         } else if (landingScreen == 2) {
             addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
-                    BaseAnimationSupportFragment.AnimationType.NONE), "");
+                    BaseAnimationSupportFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
         }
     }
 

@@ -114,6 +114,13 @@
     <string name="iap_select_retailer">Select retailer</string>
     <string name="iap_retailer_title">Retailer</string>
 
+    <!-- Purchase History -->
+    <string name="iap_order_history">Order history</string>
+    <string name="iap_no_items">No items here yet&#8230;</string>
+    <string name="iap_empty_purchase_history">If you placed an order using this app, Please check your mail for the confirmation e-mail</string>
+    <string name="iap_other_channel">If you ordered using another sales channel your purchase might not show up here</string>
+    <string name="iap_contact_consumer_care">Contact Consumer Care</string>
+
     <!--Not Localized-->
     <string name="iap_get_product_catalog_details">Getting Product Details</string>
     <string name="iap_authentication_failure">Authentication failed</string>
@@ -124,12 +131,5 @@
     <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked.
 Please try again, or if the problem persists: contact Philips Consumer Care</string>
     <string name="iap_try_again">Try Again</string>
-
-    <!-- Purchase History -->
-    <string name="iap_order_history">Order history</string>
-    <string name="iap_no_items">No items here yet&#8230;</string>
-    <string name="iap_empty_purchase_history">If you placed an order using this app, Please check your mail for the confirmation e-mail</string>
-    <string name="iap_other_channel">If you ordered using another sales channel your purchase might not show up here</string>
-    <string name="iap_contact_consumer_care">Contact Consumer Care</string>
 
 </resources>

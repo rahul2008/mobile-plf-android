@@ -14,13 +14,13 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 
 public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener {
-
+    public static final String TAG = EmptyPurchaseHistoryFragment.class.getName();
     private Context mContext;
     private Button mContinueShoppingBtn;
     private Button mContactConsumerCare;
 
-    public static EmptyPurchaseHistoryFragment createInstance(Bundle args,
-                                                              BaseAnimationSupportFragment.AnimationType animType) {
+    public static EmptyPurchaseHistoryFragment createInstance
+            (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
         EmptyPurchaseHistoryFragment fragment = new EmptyPurchaseHistoryFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
@@ -53,7 +53,8 @@ public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
 
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        Fragment fragment = getActivity().getSupportFragmentManager().
+                findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment != null) {
             getFragmentManager().popBackStack();
         } else {

@@ -104,7 +104,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     private void updateCartOnResume() {
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
         updateCartDetails(mShoppingCartAPI);
     }

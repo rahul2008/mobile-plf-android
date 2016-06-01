@@ -235,7 +235,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private void deleteShippingAddress() {
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_delete_address));
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
             int pos = mAdapter.getOptionsClickPosition();
             mAddrController.deleteAddress(mAddresses.get(pos).getId());
         }
