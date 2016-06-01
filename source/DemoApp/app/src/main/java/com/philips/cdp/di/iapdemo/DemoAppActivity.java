@@ -123,7 +123,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     @Override
     protected void onDestroy() {
         Utility.dismissProgressDialog();
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
         super.onDestroy();
     }
 
