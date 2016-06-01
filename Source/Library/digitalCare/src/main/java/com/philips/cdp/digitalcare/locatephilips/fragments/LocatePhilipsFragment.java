@@ -298,7 +298,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             try {
                 mDialog.show();
             } catch (Exception e) {
-                DigiCareLogger.e(TAG, "Window Leakaeg handled : " + e);
+                DigiCareLogger.e(TAG, "Window Leakage handled : " + e);
             }
         }
     }
