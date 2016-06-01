@@ -18,6 +18,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -53,6 +54,10 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if (getActivity() != null) getActivity().getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
         if (mView == null) {
             mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
@@ -223,7 +228,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     private void initView() {
         mWebView = (WebView) mView.findViewById(R.id.webView);
-        mWebView.setVisibility(View.INVISIBLE);
+        mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         mProgressBar = (ProgressBar) mView
                 .findViewById(R.id.common_webview_progress);
         mProgressBar.setVisibility(View.GONE);
