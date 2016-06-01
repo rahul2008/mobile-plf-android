@@ -262,7 +262,7 @@ public class SHNCentral {
         shnCentralStatusListeners.remove(address);
     }
 
-    /* package */ int getBluetoothAdapterState () {
+    /* package */ int getBluetoothAdapterState() {
         return bluetoothAdapterState;
     }
 
@@ -325,7 +325,7 @@ public class SHNCentral {
 
     private void onSHNCentralStateChanged() {
         Set<String> keys = new HashSet<>(shnCentralStatusListeners.keySet());
-        for (String key: keys) {
+        for (String key : keys) {
             WeakReference<SHNCentralListener> shnCentralListenerWeakReference = shnCentralStatusListeners.get(key);
             SHNCentralListener shnCentralListener = shnCentralListenerWeakReference.get();
             if (shnCentralListener != null) {
@@ -366,14 +366,30 @@ public class SHNCentral {
         void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
     }
 
+    /**
+     * Get the {@code Handler} that is used to run internal tasks on.
+     *
+     * @return the {@code Handler} that is used for internal tasks
+     */
     public Handler getInternalHandler() {
         return internalHandler;
     }
 
+    /**
+     * Get the {@code Handler} that is used to run callbacks on.
+     *
+     * @return the {@code Handler} that is used for callbacks
+     * @see com.philips.pins.shinelib.SHNCentral.Builder#setHandler(Handler)
+     */
     public Handler getUserHandler() {
         return userHandler;
     }
 
+    /**
+     * Shutdown {@code SHNCentral}.
+     * <p/>
+     * This should be called before the object is destroyed by the garbage collector.
+     */
     public void shutdown() {
         internalHandler.getLooper().quitSafely();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
@@ -385,6 +401,12 @@ public class SHNCentral {
         shnDeviceScannerInternal = null;
     }
 
+    /**
+     * Get the {@code Context} set during construction of the {@code SHNCentral}.
+     *
+     * @return the {@code SHNCentral Context}
+     * @see com.philips.pins.shinelib.SHNCentral.Builder
+     */
     public Context getApplicationContext() {
         return applicationContext;
     }
@@ -432,6 +454,11 @@ public class SHNCentral {
         return shnUserConfiguration;
     }
 
+    /**
+     * Get the {@link SHNDeviceScanner} for this {@code SHNCentral}.
+     *
+     * @return the {@code SHNDeviceScanner} for this {@code SHNCentral}
+     */
     public SHNDeviceScanner getShnDeviceScanner() {
         return shnDeviceScanner;
     }
