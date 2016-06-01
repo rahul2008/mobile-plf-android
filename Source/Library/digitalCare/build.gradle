@@ -112,7 +112,6 @@ android {
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         generatedDensities = []
-        multiDexEnabled true
         testApplicationId "com.philips.cdp.digitalcare.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
