@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="32sp"
+        android:textSize="35sp"
         android:layout_alignParentLeft="true"
         android:text="@string/uikit_fonticon_arrow_left"/>
     <com.philips.cdp.uikit.customviews.CircleIndicator
@@ -39,13 +39,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="32sp"
+        android:textSize="35sp"
         android:layout_alignParentEnd="true"
         android:text="@string/uikit_fonticon_arrow_right"/>
     </RelativeLayout>
     <TextView
         android:id="@+id/appframework_skip_button"
-        android:textSize="32sp"
+        android:textSize="28sp"
         android:textColor="@color/white"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
