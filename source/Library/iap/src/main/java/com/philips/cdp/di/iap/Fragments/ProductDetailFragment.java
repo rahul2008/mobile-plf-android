@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
@@ -33,6 +34,8 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements
         PRXProductAssetBuilder.AssetListener, View.OnClickListener, ShoppingCartPresenter.ShoppingCartLauncher {
@@ -161,13 +164,28 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void makeAssetRequest() {
-        //Removing Loading indecator as per Ajit Suggestion
-        /*if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-        }*/
         String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
-        PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn, this);
-        builder.build();
+        if (!CartModelContainer.getInstance().isPRXAssetPresent(ctn)) {
+            //Removing Loading indecator as per Ajit Suggestion
+            if (!Utility.isProgressDialogShowing()) {
+                Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            }
+            PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn, this);
+            builder.build();
+        } else {
+            final HashMap<String, ArrayList<String>> prxAssetObjects = CartModelContainer.getInstance().getPRXAssetObjects();
+            for (Map.Entry<String, ArrayList<String>> entry : prxAssetObjects.entrySet()) {
+                System.out.printf("Key : %s and Value: %s %n", entry.getKey(), entry.getValue());
+                if (entry.getKey().equalsIgnoreCase(ctn)) {
+                    mAsset = entry.getValue();
+                    break;
+                }
+            }
+            mAdapter.setAsset(mAsset);
+            mAdapter.notifyDataSetChanged();
+            if (Utility.isProgressDialogShowing())
+                Utility.dismissProgressDialog();
+        }
     }
 
     @Override
@@ -212,6 +230,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onFetchAssetSuccess(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
+        CartModelContainer.getInstance().addAssetDataToList(mBundle.getString(IAPConstant.PRODUCT_CTN), mAsset);
         mAdapter.setAsset(mAsset);
         mAdapter.notifyDataSetChanged();
         if (Utility.isProgressDialogShowing())

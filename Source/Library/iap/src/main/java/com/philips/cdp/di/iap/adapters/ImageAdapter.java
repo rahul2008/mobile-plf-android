@@ -44,7 +44,7 @@ public class ImageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getItemPosition(final Object object) {
-        return POSITION_NONE;
+        return POSITION_UNCHANGED;
     }
 
     @Override
