@@ -125,6 +125,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     private void loadFaq() {
         if (FAQ_PAGE_URL == null) {
             mProgressBar.setVisibility(View.GONE);
+            mWebView.setVisibility(View.VISIBLE);
         } else {
             //DigiCareLogger.d("URLTest", getPhilipsProductPageUrl());
             DigiCareLogger.d(TAG, FAQ_PAGE_URL);
@@ -150,8 +151,9 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                 @Override
                 public void onProgressChanged(WebView view, int newProgress) {
                     super.onProgressChanged(view, newProgress);
-                    if (newProgress > 80) {
+                    if (newProgress > 95) {
                         mProgressBar.setVisibility(View.GONE);
+                        enableWebView();
                     }
                 }
             });
@@ -162,12 +164,14 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                     super.onReceivedError(view, request, error);
                     DigiCareLogger.e(TAG, "WebClient Response error : " + error);
                     mProgressBar.setVisibility(View.GONE);
+                    enableWebView();
                 }
 
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     DigiCareLogger.d(TAG, "OnPage Finished invoked with URL " + url);
                     mProgressBar.setVisibility(View.GONE);
+                    enableWebView();
 
                   /*  mWebView.getSettings().setDefaultFontSize((int) getActivity().getResources().
                             getDimension(R.dimen.title_text_size_small));*/
@@ -196,6 +200,11 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
         }
     }
 
+    private void enableWebView() {
+        if (mWebView != null)
+            if (mWebView.getVisibility() == View.INVISIBLE) mWebView.setVisibility(View.VISIBLE);
+    }
+
     private void setPaddingForWebdata() {
         if (mWebView == null) initView();
         // mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#003478\");");
@@ -214,6 +223,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     private void initView() {
         mWebView = (WebView) mView.findViewById(R.id.webView);
+        mWebView.setVisibility(View.INVISIBLE);
         mProgressBar = (ProgressBar) mView
                 .findViewById(R.id.common_webview_progress);
         mProgressBar.setVisibility(View.GONE);
@@ -266,14 +276,12 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     private class myJavaScriptInterface {
         @JavascriptInterface
         public void setVisible() {
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mWebView.setVisibility(View.VISIBLE);
-                    }
-                });
-            }
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.setVisibility(View.VISIBLE);
+                }
+            });
         }
     }
 }
