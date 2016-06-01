@@ -7,11 +7,11 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.philips.cdp.prodreg"
+        applicationId "com.philips.cdp.demo"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 2
-        versionName "1.0.1.rc3"
+        versionCode 3
+        versionName "1.0.1"
         testApplicationId "com.philips.cdp.demo.androidTest"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         renderscriptTargetApi 23
@@ -50,14 +50,14 @@ android {
 
     productFlavors {
         simulator {
-            applicationId 'com.philips.cdp.prodreg'
+            applicationId 'com.philips.cdp.demo'
             versionCode 2
-            versionName "1.0.1.rc3"
+            versionName "1.0.1"
         }
         device {
-            applicationId 'com.philips.cdp.prodreg'
+            applicationId 'com.philips.cdp.demo'
             versionCode 2
-            versionName "1.0.1.rc3"
+            versionName "1.0.1"
         }
     }
 
