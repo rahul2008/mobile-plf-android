@@ -49,23 +49,25 @@
 
         <com.philips.cdp.registration.ui.customviews.XIconTextView
             android:id="@+id/iv_reg_close"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/reg_margin_bottom"
             android:text="@string/ic_reg_close"
+            android:paddingTop="@dimen/reg_close_icon_padding_top"
+            android:textSize="@dimen/reg_close_icon_size"
             android:textColor="@color/reg_error_box_color"/>
 
         <com.philips.cdp.registration.ui.customviews.XTextView
-            android:id="@+id/tv_reg_name_err"
-            style="@style/reg_style_tab_hint"
+            android:id="@+id/tv_reg_email_err"
+            style="@style/reg_error_textStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/reg_field_error_left_margin"
+            android:layout_marginLeft="@dimen/reg_error_mapping_pdding"
             android:padding="@dimen/reg_edit_fields_padding"
-            android:layout_marginBottom="-10dp"
             android:text="@string/EmptyField_ErrorMsg"
             android:textColor="@color/reg_error_box_color"
             reglib:fontAssetName="CentraleSans-Book.OTF" />
+
     </FrameLayout>
 
 </RelativeLayout>

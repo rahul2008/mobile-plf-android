@@ -64,7 +64,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mEtEmail.setOnClickListener(this);
         mEtEmail.setOnFocusChangeListener(this);
         mEtEmail.addTextChangedListener(this);
-        mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_name_err);
+        mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_email_err);
         mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_email_field_err);
 
     }

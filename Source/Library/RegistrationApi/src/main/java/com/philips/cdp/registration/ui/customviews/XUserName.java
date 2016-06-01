@@ -71,7 +71,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		mEtUserName.addTextChangedListener(this);
 		mRlEtName = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
 
-		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_name_err);
+		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_email_err);
 		mFlInvaliFielddAlert = (FrameLayout)findViewById(R.id.fl_reg_name_field_err);
 		mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
 		FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
