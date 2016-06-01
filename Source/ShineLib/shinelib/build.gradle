@@ -81,6 +81,7 @@ def javaDocClassesForPluginApi = javaDocClassesForPublicApi + [
         'SHNAssociationProcedurePlugin',
         'SHNDeviceScannerInternal',
         'SHNDeviceFoundInfo',
+        'BleScanRecord',
         'PersistentStorage',
         'PersistentStorageFactory',
         'PersistentStorageCleaner',

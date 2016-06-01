@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
 
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by 310188215 on 17/09/15.
+ * BleScanRecord is a convenience class that converts from raw advertisement data extracting list of UUIDs, local name and remaining manufacturer specific data.
  */
 public class BleScanRecord {
     private static final String TAG = "BleScanRecord";
@@ -36,10 +36,20 @@ public class BleScanRecord {
         parseScanRecord(scanRecord);
     }
 
+    /**
+     * Returns the content of the advertisement record offered by the remote peripheral.
+     *
+     * @return raw advertisement data offered by the remote peripheral
+     */
     public byte[] getScanRecord() {
         return scanRecord.clone();
     }
 
+    /**
+     * Returns the content of the manufacturer specific data. No defined format, just an array of bytes.
+     *
+     * @return raw advertisement specified by the peripheral's manufacturer. null if there is no data
+     */
     @Nullable
     public byte[] getManufacturerSpecificData() {
         if (manufacturerSpecificData != null)
@@ -47,6 +57,11 @@ public class BleScanRecord {
         return null;
     }
 
+    /**
+     * Returns the list of {@link java.util.UUID} exposed by the peripheral.
+     *
+     * @return list of UUIDs exposed by the peripheral.  null if there is no UUIDs exposed
+     */
     @Nullable
     public List<UUID> getUuids() {
         if (uuids != null)
@@ -54,6 +69,11 @@ public class BleScanRecord {
         return null;
     }
 
+    /**
+     * Returns the local peripheral's name.
+     *
+     * @return local name of the peripheral. null if not specified
+     */
     @Nullable
     public String getLocalName() {
         return localName;
