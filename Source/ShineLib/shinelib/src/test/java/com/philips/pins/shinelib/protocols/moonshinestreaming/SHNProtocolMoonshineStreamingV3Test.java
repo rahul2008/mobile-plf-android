@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.protocols.moonshinestreaming;
 
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.helper.MockedHandler;
+import com.philips.pins.shinelib.services.SHNServiceMoonshineStreaming;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +31,7 @@ public class SHNProtocolMoonshineStreamingV3Test {
     private static final int TEST_TX_WINDOW_SIZE = 2;
     private static final int TEST_RX_WINDOW_SIZE = 3;
     public static final byte[] OK_PROTOCOL_INFO_DATA = new byte[]{SHNProtocolMoonshineStreamingV3.PROTOCOL_VERSION, TEST_TX_WINDOW_SIZE, TEST_RX_WINDOW_SIZE};
-    public static final byte[] OK_PROTOCOL_INFO_DATA_VPLUS = new byte[]{SHNProtocolMoonshineStreamingV3.PROTOCOL_VERSION+1, TEST_TX_WINDOW_SIZE, TEST_RX_WINDOW_SIZE};
+    public static final byte[] OK_PROTOCOL_INFO_DATA_VPLUS = new byte[]{SHNProtocolMoonshineStreamingV3.PROTOCOL_VERSION + 1, TEST_TX_WINDOW_SIZE, TEST_RX_WINDOW_SIZE};
     private SHNProtocolMoonshineStreamingV3 shnProtocolMoonshineStreamingV3;
     private SHNServiceMoonshineStreaming mockedShnServiceMoonshineStreaming;
     private SHNProtocolMoonshineStreamingVersionSwitcher.SHNProtocolMoonshineStreamingListener mockedShnProtocolMoonshineStreamingListener;
@@ -210,8 +211,9 @@ public class SHNProtocolMoonshineStreamingV3Test {
     }
 
     @Test
-    public void whenOnReceiveAckIsCalledWithTheCorrectSNThenTransitionToReadyIsCalled() {
-        getProtocolToReadyStateWithTestWindowsSize();
+    public void whenTransitionToReadyIsCalledThenTransitionToReadyIsCalledOnService() {
+        shnProtocolMoonshineStreamingV3.transitionToReady();
+
         verify(mockedShnServiceMoonshineStreaming).transitionToReady();
     }
 
@@ -345,7 +347,6 @@ public class SHNProtocolMoonshineStreamingV3Test {
         assertEquals(2, argumentCaptor.getValue().length);
         assertEquals(4, argumentCaptor.getValue()[0]);
         assertEquals(0x13, argumentCaptor.getValue()[1]);
-
     }
 
     @Test
@@ -467,7 +468,7 @@ public class SHNProtocolMoonshineStreamingV3Test {
         ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
 
         for (int seqNr = 1; seqNr < 255; seqNr++) {
-            byte[] packet = new byte[]{(byte)seqNr};
+            byte[] packet = new byte[]{(byte) seqNr};
             shnProtocolMoonshineStreamingV3.sendData(packet);
             verify(mockedShnServiceMoonshineStreaming, times(seqNr)).sendData(argumentCaptor.capture());
             assertEquals(seqNr % SHNProtocolMoonshineStreamingV3.MAX_SEQUENCE_NR, argumentCaptor.getValue()[0] & SHNProtocolMoonshineStreamingV3.HEADER_SEQNR_MASK);
@@ -482,7 +483,7 @@ public class SHNProtocolMoonshineStreamingV3Test {
 
         ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
 
-        byte[] packet = new byte[]{(byte)1};
+        byte[] packet = new byte[]{(byte) 1};
         shnProtocolMoonshineStreamingV3.sendData(packet);
         verify(mockedShnServiceMoonshineStreaming).sendData(argumentCaptor.capture());
         assertEquals(1, argumentCaptor.getValue()[0] & SHNProtocolMoonshineStreamingV3.HEADER_SEQNR_MASK);
@@ -490,7 +491,7 @@ public class SHNProtocolMoonshineStreamingV3Test {
 
         for (int seqNr = 2; seqNr < 255; seqNr++) {
             byte[] previousPacket = packet;
-            packet = new byte[]{(byte)seqNr};
+            packet = new byte[]{(byte) seqNr};
             shnProtocolMoonshineStreamingV3.sendData(packet);
             verify(mockedShnServiceMoonshineStreaming, times(seqNr)).sendData(argumentCaptor.capture());
             assertEquals(seqNr % SHNProtocolMoonshineStreamingV3.MAX_SEQUENCE_NR, argumentCaptor.getValue()[0] & SHNProtocolMoonshineStreamingV3.HEADER_SEQNR_MASK);
@@ -537,8 +538,8 @@ public class SHNProtocolMoonshineStreamingV3Test {
         getProtocolToReadyStateWithTestWindowsSize();
         reset(mockedShnServiceMoonshineStreaming);
 
-        for(int seqNr = 0; seqNr < TEST_RX_WINDOW_SIZE; seqNr++) {
-            shnProtocolMoonshineStreamingV3.onReceiveData(new byte[]{(byte)seqNr, 0x00});
+        for (int seqNr = 0; seqNr < TEST_RX_WINDOW_SIZE; seqNr++) {
+            shnProtocolMoonshineStreamingV3.onReceiveData(new byte[]{(byte) seqNr, 0x00});
         }
         ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
         verify(mockedShnServiceMoonshineStreaming).sendAck(argumentCaptor.capture());
@@ -554,8 +555,8 @@ public class SHNProtocolMoonshineStreamingV3Test {
         getProtocolToReadyStateWithTestWindowsSize();
         reset(mockedShnServiceMoonshineStreaming);
 
-        for(int seqNr = 0; seqNr < (2 * TEST_RX_WINDOW_SIZE); seqNr++) {
-            shnProtocolMoonshineStreamingV3.onReceiveData(new byte[]{(byte)seqNr, 0x00});
+        for (int seqNr = 0; seqNr < (2 * TEST_RX_WINDOW_SIZE); seqNr++) {
+            shnProtocolMoonshineStreamingV3.onReceiveData(new byte[]{(byte) seqNr, 0x00});
         }
         ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
         verify(mockedShnServiceMoonshineStreaming, times(2)).sendAck(argumentCaptor.capture());
@@ -573,7 +574,7 @@ public class SHNProtocolMoonshineStreamingV3Test {
 
         int packetCount = ((((SHNProtocolMoonshineStreamingV3.MAX_SEQUENCE_NR / TEST_RX_WINDOW_SIZE) + 1) * TEST_RX_WINDOW_SIZE) * 2) + 1;
         for (int packetNr = 0; packetNr < packetCount; packetNr++) {
-            shnProtocolMoonshineStreamingV3.onReceiveData(new byte[]{(byte)(packetNr & SHNProtocolMoonshineStreamingV3.HEADER_SEQNR_MASK), 0x00});
+            shnProtocolMoonshineStreamingV3.onReceiveData(new byte[]{(byte) (packetNr & SHNProtocolMoonshineStreamingV3.HEADER_SEQNR_MASK), 0x00});
 
             if (((packetNr + 1) % TEST_RX_WINDOW_SIZE) == 0) {
                 ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
@@ -675,7 +676,7 @@ public class SHNProtocolMoonshineStreamingV3Test {
         verify(mockedShnServiceMoonshineStreaming, times(TEST_RX_WINDOW_SIZE)).sendData(isA(byte[].class));
 
         for (int i = 1; i < 240; i++) {
-            shnProtocolMoonshineStreamingV3.onReceiveAck(new byte[]{(byte)(i % SHNProtocolMoonshineStreamingV3.MAX_SEQUENCE_NR)});
+            shnProtocolMoonshineStreamingV3.onReceiveAck(new byte[]{(byte) (i % SHNProtocolMoonshineStreamingV3.MAX_SEQUENCE_NR)});
             verify(mockedShnServiceMoonshineStreaming, times(TEST_RX_WINDOW_SIZE + i)).sendData(isA(byte[].class));
         }
     }

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.pins.shinelib.protocols.moonshinestreaming;
+package com.philips.pins.shinelib.services;
 
 import android.support.annotation.NonNull;
 
