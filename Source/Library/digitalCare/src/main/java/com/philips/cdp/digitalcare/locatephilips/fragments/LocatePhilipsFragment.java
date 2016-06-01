@@ -295,7 +295,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mDialog.setMessage(getResources().getString(R.string.loading));
         mDialog.setCancelable(true);
         if (!(getActivity().isFinishing())) {
-            mDialog.show();
+            try {
+                mDialog.show();
+            } catch (Exception e) {
+                DigiCareLogger.e(TAG, "Window Leakaeg handled : " + e);
+            }
         }
     }
 
