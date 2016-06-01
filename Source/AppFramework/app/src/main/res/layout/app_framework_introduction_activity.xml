@@ -1,57 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:gravity="center"
-    android:orientation="horizontal">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
-    <com.shamanland.fonticon.FontIconView
-        android:id="@+id/appframework_leftarrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="35sp"
-        android:layout_alignParentLeft="true"
-        android:text="@string/uikit_fonticon_arrow_left"/>
-    <com.philips.cdp.uikit.customviews.CircleIndicator
-        android:id="@+id/indicator"
-        android:gravity="center"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    <com.shamanland.fonticon.FontIconView
-        android:id="@+id/appframework_rightarrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="35sp"
-        android:layout_alignParentEnd="true"
-        android:text="@string/uikit_fonticon_arrow_right"/>
-    </RelativeLayout>
-    <TextView
-        android:id="@+id/appframework_skip_button"
-        android:textSize="28sp"
-        android:textColor="@color/white"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Skip"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/pager_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/appframework_skip_button"
+                android:layout_alignParentStart="true"
+                android:orientation="horizontal">
+
+                <com.shamanland.fonticon.FontIconView
+                    android:id="@+id/appframework_leftarrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/uikit_fonticon_arrow_left"
+                    android:textColor="@color/white"
+                    android:textSize="35sp" />
+
+                <com.philips.cdp.uikit.customviews.CircleIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center" />
+
+                <com.shamanland.fonticon.FontIconView
+                    android:id="@+id/appframework_rightarrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/uikit_fonticon_arrow_right"
+                    android:textColor="@color/white"
+                    android:textSize="35sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/appframework_skip_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="Skip"
+                android:textColor="@color/white"
+                android:textSize="28sp" />
+
+        </RelativeLayout>
+    </FrameLayout>
 
 
 </LinearLayout>

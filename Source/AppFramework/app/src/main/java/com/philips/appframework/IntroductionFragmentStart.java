@@ -14,7 +14,7 @@ public class IntroductionFragmentStart extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.introduction_screen_start,null);
+        return inflater.inflate(R.layout.introduction_screen_start, null);
     }
 
     public static IntroductionFragmentStart newInstance(int page, String title) {

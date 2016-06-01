@@ -17,12 +17,15 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        switch (position){
+        switch (position) {
             case 0:
-                return IntroductionFragmentStart.newInstance(0,"");
-            case 1:return IntroductionFragmentStart.newInstance(1,"");
-            case 2:return IntroductionFragmentStart.newInstance(2,"");
-            default:return null;
+                return IntroductionFragmentStart.newInstance(0, "");
+            case 1:
+                return IntroductionFragmentStart.newInstance(1, "");
+            case 2:
+                return IntroductionFragmentStart.newInstance(2, "");
+            default:
+                return null;
 
         }
     }
