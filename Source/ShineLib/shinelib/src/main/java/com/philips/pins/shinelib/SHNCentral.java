@@ -32,13 +32,17 @@ import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 public class SHNCentral {
+
+    private int bluetoothAdapterState;
 
     public enum State {
         SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
@@ -62,8 +66,8 @@ public class SHNCentral {
             final String action = intent.getAction();
 
             if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
-                switch (state) {
+                bluetoothAdapterState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+                switch (bluetoothAdapterState) {
                     case BluetoothAdapter.STATE_OFF:
                     case BluetoothAdapter.STATE_TURNING_OFF:
                     case BluetoothAdapter.STATE_TURNING_ON:
@@ -87,6 +91,7 @@ public class SHNCentral {
     private SHNDeviceDefinitions shnDeviceDefinitions;
     private PersistentStorageFactory persistentStorageFactory;
     private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners = new HashMap<>();
+    private Map<String, WeakReference<SHNCentralListener>> shnCentralStatusListeners = new HashMap<>();
 
     private SharedPreferencesProvider defaultSharedpreferencesProvider = new SharedPreferencesProvider() {
         @NonNull
@@ -214,11 +219,24 @@ public class SHNCentral {
         shnBondStatusListeners.remove(address);
     }
 
+    /* package */ void registerSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
+        shnCentralStatusListeners.put(address, new WeakReference<>(shnCentralListener));
+    }
+
+    /* package */ void unregisterSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
+        shnCentralStatusListeners.remove(address);
+    }
+
+    /* package */ int getBluetoothAdapterState () {
+        return bluetoothAdapterState;
+    }
+
     private void setState(final State state) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
                 SHNCentral.this.shnCentralState = state;
+                onSHNCentralStateChanged();
                 if (registeredShnCentralListeners != null) {
                     // copy the array to prevent ConcurrentModificationException
                     ArrayList<SHNCentralListener> copyOfRegisteredShnCentralListeners = new ArrayList<>(registeredShnCentralListeners);
@@ -266,6 +284,19 @@ public class SHNCentral {
                 listener.onBondStatusChanged(device, bondState, previousBondState);
             } else {
                 shnBondStatusListeners.remove(device.getAddress());
+            }
+        }
+    }
+
+    private void onSHNCentralStateChanged() {
+        Set<String> keys = new HashSet<>(shnCentralStatusListeners.keySet());
+        for (String key: keys) {
+            WeakReference<SHNCentralListener> shnCentralListenerWeakReference = shnCentralStatusListeners.get(key);
+            SHNCentralListener shnCentralListener = shnCentralListenerWeakReference.get();
+            if (shnCentralListener != null) {
+                shnCentralListener.onStateUpdated(this);
+            } else {
+                shnCentralStatusListeners.remove(key);
             }
         }
     }

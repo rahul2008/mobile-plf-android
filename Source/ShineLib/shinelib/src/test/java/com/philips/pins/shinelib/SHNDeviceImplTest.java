@@ -102,6 +102,7 @@ public class SHNDeviceImplTest {
 
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
+        doReturn(true).when(mockedSHNCentral).isBluetoothAdapterEnabled();
 
         doAnswer(new Answer<BTGatt>() {
             @Override
@@ -329,10 +330,10 @@ public class SHNDeviceImplTest {
     public void whenInStateConnectingConnectIsCalledAndThenCallIsIgnored() {
         shnDevice.connect();
 
-        reset(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        reset(mockedBTDevice, mockedSHNDeviceListener);
         shnDevice.connect();
 
-        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener);
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 
@@ -397,10 +398,10 @@ public class SHNDeviceImplTest {
     public void whenInStateDiscoveringConnectIsCalledAndThenCallIsIgnored() {
         connectTillGATTConnected();
 
-        reset(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        reset(mockedBTDevice, mockedSHNDeviceListener);
         shnDevice.connect();
 
-        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener);
         assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
     }
 
@@ -485,10 +486,10 @@ public class SHNDeviceImplTest {
     public void whenServicesAreDiscoveredConnectIsCalledAndThenCallIsIgnored() {
         connectTillGATTServicesDiscovered();
 
-        reset(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        reset(mockedBTDevice, mockedSHNDeviceListener);
         shnDevice.connect();
 
-        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener);
         assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
     }
 
@@ -551,11 +552,11 @@ public class SHNDeviceImplTest {
     @Test
     public void whenInStateConnectedConnectIsCalledAndThenCallIsIgnored() {
         getDeviceInConnectedState();
-        reset(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        reset(mockedBTDevice, mockedSHNDeviceListener);
 
         shnDevice.connect();
 
-        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener);
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 
@@ -652,11 +653,11 @@ public class SHNDeviceImplTest {
     public void whenInStateDisconnectingConnectMethodIsCalledThenThenCallIsIgnored() {
         getDeviceInConnectedState();
         shnDevice.disconnect();
-        reset(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        reset(mockedBTDevice, mockedSHNDeviceListener);
 
         shnDevice.connect();
 
-        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener);
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
 
@@ -761,11 +762,11 @@ public class SHNDeviceImplTest {
     @Test
     public void whenBondingSHNDeviceInStateConnectingAndConnectIsCalledThenCallIsIgnored() {
         whenBondingSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting();
-        reset(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        reset(mockedBTDevice, mockedSHNDeviceListener);
 
         shnDevice.connect();
 
-        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener, mockedSHNCentral);
+        verifyNoMoreInteractions(mockedBTDevice, mockedSHNDeviceListener);
         assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
     }
 
