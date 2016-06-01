@@ -73,10 +73,10 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
                 R.string.support_productinformation)
                 + " "
                 + DigitalCareConfigManager.getInstance()
-                .getConsumerProductInfo().getProductTitle()
+                .getViewProductDetailsData().getProductName()
                 + " "
                 + DigitalCareConfigManager.getInstance()
-                .getConsumerProductInfo().getCtn();
+                .getViewProductDetailsData().getCtnName();
     }
 
 

@@ -22,6 +22,7 @@ import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -195,6 +196,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             showFragment(new ContactUsFragment());
         }
     };
+    private boolean isDialogShown;
     private AtosParsingCallback mParsingCompletedCallback = new AtosParsingCallback() {
         @Override
         public void onAtosParsingComplete(final AtosResponseModel response) {
@@ -354,7 +356,23 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private void showCustomAlert() {
         LocateNearCustomDialog locateNearCustomDialog = new LocateNearCustomDialog(getActivity(),
                 getActivity().getSupportFragmentManager(), mGoToContactUsListener);
-        locateNearCustomDialog.show();
+        if (!isDialogShown) {
+            locateNearCustomDialog.show();
+            isDialogShown = true;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("dialog_key", isDialogShown);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null)
+            isDialogShown = savedInstanceState.getBoolean("dialog_key");
     }
 
     @Override

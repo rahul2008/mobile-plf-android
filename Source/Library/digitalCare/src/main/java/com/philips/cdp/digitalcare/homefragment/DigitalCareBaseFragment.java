@@ -319,9 +319,11 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                 .findViewById(R.id.back_to_home_img);
         mHomeIcon = (ImageView) mFragmentActivityContext
                 .findViewById(R.id.home_icon);
-        mHomeIcon.setVisibility(View.GONE);
-        mBackToHome.setVisibility(View.VISIBLE);
-        mBackToHome.bringToFront();
+        if (mHomeIcon != null) mHomeIcon.setVisibility(View.GONE);
+        if (mBackToHome != null) {
+            mBackToHome.setVisibility(View.VISIBLE);
+            mBackToHome.bringToFront();
+        }
     }
 
     /*
