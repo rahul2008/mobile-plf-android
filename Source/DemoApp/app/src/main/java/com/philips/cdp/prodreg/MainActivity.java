@@ -183,6 +183,7 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
                 break;
 
             case R.id.btn_spike_ur:
+                initialiseUserRegistration(env);
                 intent = new Intent(this, TestURActivity.class);
                 startActivity(intent);
                 break;
