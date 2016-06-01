@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2016
  * All rights reserved.
  */
 
@@ -60,4 +60,65 @@ def getLibVersionName(shineLibVersion) {
     }
 
     return "${shineLibVersion}"
+}
+
+def javaDocClassesForPublicApi = ['SHNCentral',
+                                  'SHNBluetoothHardwareUnavailableException',
+                                  'SHNDeviceDefinitionInfo', // for plugin registration via SHNCentral
+                                  'SharedPreferencesProvider',
+                                  'SHNDeviceScanner',
+                                  'SHNDeviceAssociation',
+                                  'SHNAssociationProcedure',
+                                  'SHNUserConfiguration',
+                                  'SHNDevice',
+                                  'SHNCapability',
+                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',
+                                  'SHNData',
+                                  'SHNDataType', 'SHNDataBloodPressure', 'SHNDataHeartRate', 'SHNDataWeight', 'SHNDataBodyTemperature', 'SHNTemperatureType',
+                                  'SHNResult', 'SHNResultListener', 'SHNIntegerResultListener', 'SHNStringResultListener', 'SHNSetResultListener', 'SHNMapResultListener', 'SHNObjectResultListener', 'SHNTemperatureMeasurementResultListener']
+
+def javaDocClassesForPluginApi = javaDocClassesForPublicApi + [
+        'SHNAssociationProcedurePlugin',
+        'SHNDeviceScannerInternal',
+        'PersistentStorage',
+        'PersistentStorageFactory',
+        'PersistentStorageCleaner',
+        'Timer',
+
+        // existing building blocks
+        'SHNDeviceImpl',
+        'SHNAssociationProcedureNearestDevice',
+        'SHNCapabilityLogSyncHealthThermometer', 'SHNServiceHealthThermometer', 'SHNTemperatureMeasurement', 'SHNTemperatureMeasurementInterval',
+        'SHNCapabilityLogSyncWeightScale', 'SHNServiceWeightScale', 'SHNWeightMeasurement', 'SHNWeightScaleFeatures', 'SHNServiceBodyComposition', 'SHNBodyCompositionMeasurement', 'SHNBodyCompositionFeatures',
+
+        'SHNCapabilityDeviceInformationImpl', 'SHNCapabilityDeviceInformationCached', 'SHNServiceDeviceInformation',
+        'SHNCapabilityBatteryImpl', 'SHNServiceBattery',
+        'CapabilityFirmwareUpdateDiComm', 'DiCommFirmwarePort', 'DiCommFirmwarePortStateWaiter',
+        'SHNDeviceTimeAdjusterCurrentTimeService', 'SHNServiceCurrentTime'
+]
+
+task generateJavadocPublicApi(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("../../../Documents/External/BluelibApi/")
+    for (file in javaDocClassesForPublicApi) {
+        include("**/" + file + ".java")
+    }
+    failOnError false
+}
+
+task generateJavadocPluginApi(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("../../../Documents/External/BluelibPluginApi/")
+    for (file in javaDocClassesForPluginApi) {
+        include("**/" + file + ".java")
+    }
+    failOnError false
+}
+
+task generateJavadoc()
+
+generateJavadoc.dependsOn {
+    tasks.findAll { task -> task.name.startsWith('generateJavadoc') && task.name != "generateJavadoc" }
 }

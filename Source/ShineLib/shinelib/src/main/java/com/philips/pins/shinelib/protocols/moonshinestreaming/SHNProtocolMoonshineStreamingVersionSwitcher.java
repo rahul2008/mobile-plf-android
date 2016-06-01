@@ -8,6 +8,7 @@ package com.philips.pins.shinelib.protocols.moonshinestreaming;
 import android.os.Handler;
 
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.services.SHNServiceMoonshineStreaming;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 public class SHNProtocolMoonshineStreamingVersionSwitcher implements SHNProtocolMoonshineStreaming {
@@ -82,6 +83,13 @@ public class SHNProtocolMoonshineStreamingVersionSwitcher implements SHNProtocol
         DebugLog("transitionToError: " + shnResult);
         if (shnProtocolMoonshineStreaming != null) {
             shnProtocolMoonshineStreaming.transitionToError(shnResult);
+        }
+    }
+
+    @Override
+    public void transitionToReady() {
+        if (shnProtocolMoonshineStreaming != null) {
+            shnProtocolMoonshineStreaming.transitionToReady();
         }
     }
 

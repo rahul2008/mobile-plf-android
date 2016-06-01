@@ -51,7 +51,7 @@ allprojects {
     ext._targetSdkVersion = 23
     ext._versionCode = 3
 
-    ext.shineLibVersion = '0.5'
+    ext.shineLibVersion = '0.5.1'
 
     ext.artifactoryVersion = ext.shineLibVersion
     ext.artifactoryGroup = 'com.philips.cdp.shine'
@@ -112,20 +112,6 @@ def coverageExcludes = ['**/R.class',
                         '**/*_Member*Injector.*',
                         '**/*_Factory.*',
                         '**/PagerTitleStripV22*.*']
-
-def publicApiClassesForJavaDoc = ['SHNCentral',
-                                  'SHNDeviceDefinitionInfo', // for plugin registration via SHNCentral
-                                  'SharedPreferencesProvider',
-                                  'SHNDeviceScanner',
-                                  'SHNDeviceAssociation',
-                                  'SHNAssociationProcedure',
-                                  'SHNUserConfiguration',
-                                  'SHNDevice',
-                                  'SHNCapability',
-                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',// aligned by PO
-                                  'SHNData',
-                                  'SHNDataType', 'SHNDataBloodPressure', 'SHNDataHeartRate', 'SHNDataWeight', 'SHNDataBodyTemperature', 'SHNTemperatureType',// aligned by PO
-                                  'SHNResult', 'SHNResultListener', 'SHNIntegerResultListener', 'SHNStringResultListener', 'SHNSetResultListener', 'SHNMapResultListener', 'SHNObjectResultListener', 'SHNTemperatureMeasurementResultListener']
 
 def coverageClassDirectories = [fileTree(dir: 'shinelib/build/intermediates/classes/debug', excludes: coverageExcludes)]
 

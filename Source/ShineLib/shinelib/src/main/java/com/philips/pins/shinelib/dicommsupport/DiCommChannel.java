@@ -140,6 +140,7 @@ public class DiCommChannel implements SHNProtocolMoonshineStreaming.SHNProtocolM
     @Override
     public void onProtocolAvailable() {
         setAvailable(true);
+        shnProtocolMoonshineStreaming.transitionToReady();
     }
 
     @Override
