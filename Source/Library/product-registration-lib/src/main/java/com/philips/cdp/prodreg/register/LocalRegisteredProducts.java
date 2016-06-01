@@ -14,20 +14,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 public class LocalRegisteredProducts {
 
     public static String PRODUCT_REGISTRATION_KEY = "prod_reg_key";
     private LocalSharedPreference localSharedPreference;
     private String uuid;
     private User user;
+    private Gson gson;
 
     public LocalRegisteredProducts(Context context, User user) {
         this.user = user;
         localSharedPreference = new LocalSharedPreference(context);
+        gson = new Gson();
         uuid = user.getJanrainUUID() != null ? user.getJanrainUUID() : "";
     }
 
@@ -42,7 +45,7 @@ public class LocalRegisteredProducts {
 
     @NonNull
     protected Gson getGSon() {
-        return new Gson();
+        return gson;
     }
 
     protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
@@ -63,6 +66,7 @@ public class LocalRegisteredProducts {
             ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
             for (RegisteredProduct registeredProduct : products) {
                 if (registeredProduct.getUserUUid().length() == 0 || registeredProduct.getUserUUid().equals(uuid)) {
+                    registeredProduct.setUserUUid(uuid);
                     registeredProducts.add(registeredProduct);
                 }
             }
@@ -108,5 +112,13 @@ public class LocalRegisteredProducts {
 
     protected User getUser() {
         return user;
+    }
+
+    public void removeProductFromCache(final RegisteredProduct registeredProduct) {
+        Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();
+        if (registeredProducts.contains(registeredProduct)) {
+            registeredProducts.remove(registeredProduct);
+        }
+        getLocalSharedPreference().storeData(PRODUCT_REGISTRATION_KEY, getGSon().toJson(registeredProducts));
     }
 }

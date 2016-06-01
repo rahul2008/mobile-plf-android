@@ -3,10 +3,8 @@ package com.philips.cdp.prodreg;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,16 +20,16 @@ import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.uikit.UiKitActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProductActivity extends UiKitActivity implements View.OnClickListener {
 
     private ToggleButton toggleButton;
-    private Button submitButton;
     private EditText mRegChannel, mSerialNumber, mPurchaseDate, mCtn;
     private String TAG = getClass().toString();
     private Calendar mCalendar;
@@ -83,7 +81,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         mPurchaseDate = (EditText) findViewById(R.id.edt_purchase_date);
         mCtn = (EditText) findViewById(R.id.edt_ctn);
         toggleButton = (ToggleButton) findViewById(R.id.toggbutton);
-        submitButton = (Button) findViewById(R.id.submitproduct);
         toggleButton.setChecked(eMailConfiguration);
         prodRegHelper = new ProdRegHelper();
         Intent intent = getIntent();
@@ -102,13 +99,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         final ProdRegListener listener = new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                submitButton.setEnabled(true);
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.product_registered_successfully), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                submitButton.setEnabled(true);
                 Log.d(TAG, "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
                 Toast.makeText(ProductActivity.this, registeredProduct.getProdRegError().getDescription(), Toast.LENGTH_SHORT).show();
             }
@@ -131,7 +126,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 if (mCtn.getText().toString().equalsIgnoreCase("")) {
                     Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
                 } else {
-                    submitButton.setEnabled(false);
                     String MICRO_SITE_ID = "MS";
                     final String text = MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId();
                     mRegChannel.setText(text);

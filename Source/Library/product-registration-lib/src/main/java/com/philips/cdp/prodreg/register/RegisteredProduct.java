@@ -7,10 +7,11 @@ import com.philips.cdp.prodreg.error.ProdRegError;
 
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 public class RegisteredProduct extends Product {
 
     private RegistrationState registrationState;
@@ -109,15 +110,19 @@ public class RegisteredProduct extends Product {
     public boolean equals(final Object object) {
         if (object instanceof RegisteredProduct) {
             RegisteredProduct registeredProduct = (RegisteredProduct) object;
-            final String parentUuid = registeredProduct.getUserUUid();
-            final String currentUuid = getUserUUid();
-            boolean parentState = parentUuid.length() != 0;
-            boolean currentState = currentUuid.length() != 0;
-            boolean shouldConsiderUUID = isShouldConsiderUUID(parentUuid, currentUuid, parentState, currentState);
-            if (!shouldConsiderUUID && registeredProduct.getCtn().equals(this.getCtn()) && registeredProduct.getSerialNumber().equals(this.getSerialNumber())) {
-                return true;
-            } else if (registeredProduct.getCtn().equals(this.getCtn()) && registeredProduct.getSerialNumber().equals(this.getSerialNumber()) && parentUuid.equals(currentUuid))
-                return true;
+                final String parentUuid = registeredProduct.getUserUUid();
+                final String currentUuid = getUserUUid();
+                boolean parentState = parentUuid.length() != 0;
+                boolean currentState = currentUuid.length() != 0;
+                boolean shouldConsiderUUID = isShouldConsiderUUID(parentUuid, currentUuid, parentState, currentState);
+            final String previousCtn = registeredProduct.getCtn();
+            final String currentCtn = getCtn();
+            final String previousSerialNumber = registeredProduct.getSerialNumber();
+            final String currentSerialNumber = getSerialNumber();
+            if (!shouldConsiderUUID && previousCtn.equals(currentCtn) && previousSerialNumber.equals(currentSerialNumber)) {
+                    return true;
+            } else if (previousCtn.equals(currentCtn) && previousSerialNumber.equals(currentSerialNumber) && parentUuid.equals(currentUuid))
+                    return true;
         }
         return false;
     }
@@ -132,15 +137,22 @@ public class RegisteredProduct extends Product {
         return shouldConsiderUUID;
     }
 
-    protected boolean IsUserRegisteredLocally(final LocalRegisteredProducts localRegisteredProducts) {
+    protected RegisteredProduct getRegisteredProductIfExists(final LocalRegisteredProducts localRegisteredProducts) {
         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
         final int index = registeredProducts.indexOf(this);
         if (index != -1) {
             RegisteredProduct product = registeredProducts.get(index);
-            final RegistrationState registrationState = product.getRegistrationState();
-            return registrationState == RegistrationState.REGISTERED;
+            if (product.getProdRegError() != null)
+                updateFields(product);
+            localRegisteredProducts.updateRegisteredProducts(product);
+            return product;
         }
-        return false;
+        return null;
+    }
+
+    private void updateFields(final RegisteredProduct product) {
+        product.setUserUUid(getUserUUid());
+        product.sendEmail(getEmail());
     }
 
     @Override

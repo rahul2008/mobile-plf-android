@@ -25,19 +25,23 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 public class UserWithProducts {
 
     public static final int PRODUCT_REGISTRATION = 0;
     public static final int FETCH_REGISTERED_PRODUCTS = 1;
     private final String TAG = getClass() + "";
     private int requestType = -1;
-    private String locale;
     private RegisteredProductsListener registeredProductsListener;
     private Context mContext;
     private User user;
@@ -45,13 +49,13 @@ public class UserWithProducts {
     private ErrorHandler errorHandler;
     private String uuid = "";
     private ProdRegListener appListener;
-    private boolean requiresSerialNumber;
-    private boolean requiresPurchaseDate;
+    private RegisteredProduct currentRegisteredProduct;
 
     UserWithProducts(final Context context, final User user, final ProdRegListener appListener) {
         this.mContext = context;
         this.appListener = appListener;
         this.user = user;
+        setUuid();
         localRegisteredProducts = new LocalRegisteredProducts(context, this.user);
         errorHandler = new ErrorHandler();
     }
@@ -79,18 +83,17 @@ public class UserWithProducts {
             throw new RuntimeException("Listener not Set");
         }
         setRequestType(PRODUCT_REGISTRATION);
-        setUuid();
-        RegisteredProduct registeredProduct = getUserProduct().createDummyRegisteredProduct(product);
+        currentRegisteredProduct = getUserProduct().createDummyRegisteredProduct(product);
         LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance();
-        if (!registeredProduct.IsUserRegisteredLocally(localRegisteredProducts)) {
-            localRegisteredProducts.store(registeredProduct);
-        } else {
-            registeredProduct.setProdRegError(ProdRegError.PRODUCT_ALREADY_REGISTERED);
-            appListener.onProdRegFailed(registeredProduct, getUserProduct());
+        final RegisteredProduct registeredProductIfExists = currentRegisteredProduct.getRegisteredProductIfExists(localRegisteredProducts);
+        currentRegisteredProduct = registeredProductIfExists != null ? registeredProductIfExists : currentRegisteredProduct;
+        if (currentRegisteredProduct.getRegistrationState() == RegistrationState.REGISTERED) {
+            currentRegisteredProduct.setProdRegError(ProdRegError.PRODUCT_ALREADY_REGISTERED);
+            appListener.onProdRegFailed(currentRegisteredProduct, getUserProduct());
+        } else if (currentRegisteredProduct.getRegistrationState() != RegistrationState.REGISTERING) {
+            localRegisteredProducts.store(currentRegisteredProduct);
+            initRegistration(appListener, currentRegisteredProduct);
         }
-
-        final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
-        getUserProduct().registerCachedProducts(registeredProducts, appListener);
     }
 
     /**
@@ -101,22 +104,31 @@ public class UserWithProducts {
      */
     public void registerCachedProducts(final List<RegisteredProduct> registeredProducts, final ProdRegListener appListener) {
         for (RegisteredProduct registeredProduct : registeredProducts) {
-            final RegistrationState registrationState = registeredProduct.getRegistrationState();
-            if (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED && getUuid().equals(registeredProduct.getUserUUid())) {
-                Log.e(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber() + "________" + registeredProduct.getUserUUid() + "_________" + getUuid());
-                if (!getUserProduct().isUserSignedIn(mContext)) {
-                    getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
-                    appListener.onProdRegFailed(registeredProduct, getUserProduct());
-                } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !getUserProduct().isValidDate(registeredProduct.getPurchaseDate())) {
-                    getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
-                    appListener.onProdRegFailed(registeredProduct, getUserProduct());
-                } else {
-                    UserWithProducts userWithProducts = getUserProduct();
-                    userWithProducts.setLocale(this.locale);
-                    userWithProducts.getRegisteredProducts(userWithProducts.getRegisteredProductsListener(registeredProduct, appListener));
-                }
+            initRegistration(appListener, registeredProduct);
+        }
+    }
+
+    protected void initRegistration(final ProdRegListener appListener, final RegisteredProduct registeredProduct) {
+        final RegistrationState registrationState = registeredProduct.getRegistrationState();
+        final boolean failedOnInvalidInput = isFailedOnInvalidInput(registeredProduct);
+        if (!failedOnInvalidInput && (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) && getUuid().equals(registeredProduct.getUserUUid())) {
+            Log.e(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber() + "________" + registeredProduct.getUserUUid() + "_________" + getUuid());
+            if (!getUserProduct().isUserSignedIn(mContext)) {
+                getUserProduct().updateLocaleCache(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
+                appListener.onProdRegFailed(registeredProduct, getUserProduct());
+            } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !getUserProduct().isValidDate(registeredProduct.getPurchaseDate())) {
+                updateWithCallBack(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED, appListener);
+            } else {
+                UserWithProducts userWithProducts = getUserProduct();
+                updateLocaleCache(registeredProduct, registeredProduct.getProdRegError(), RegistrationState.REGISTERING);
+                userWithProducts.getRegisteredProducts(userWithProducts.getRegisteredProductsListener(registeredProduct, appListener));
             }
         }
+    }
+
+    protected boolean isFailedOnInvalidInput(final RegisteredProduct registeredProduct) {
+        final ProdRegError prodRegError = registeredProduct.getProdRegError();
+        return prodRegError != null && (prodRegError == ProdRegError.INVALID_CTN || prodRegError == ProdRegError.INVALID_SERIALNUMBER || prodRegError == ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE);
     }
 
     /**
@@ -142,23 +154,13 @@ public class UserWithProducts {
      * @param prodRegError      - to get Error code and description
      * @param registrationState - registrationState as Enum's
      */
-    public void updateLocaleCacheOnError(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
+    public void updateLocaleCache(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
         registeredProduct.setRegistrationState(registrationState);
         registeredProduct.setProdRegError(prodRegError);
-        getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
-    }
-
-    private boolean processSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct, final ProdRegListener listener) {
-        if (registeredProduct.getSerialNumber() == null || registeredProduct.getSerialNumber().length() < 1) {
-            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.MISSING_SERIALNUMBER, RegistrationState.FAILED);
-            listener.onProdRegFailed(registeredProduct, getUserProduct());
-            return true;
-        } else if (!registeredProduct.getSerialNumber().matches(data.getSerialNumberFormat())) {
-            getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
-            listener.onProdRegFailed(registeredProduct, getUserProduct());
-            return true;
-        }
-        return false;
+        if (prodRegError == ProdRegError.INVALID_DATE || prodRegError == ProdRegError.MISSING_DATE) {
+            getLocalRegisteredProductsInstance().removeProductFromCache(registeredProduct);
+        } else
+            getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
     }
 
     @NonNull
@@ -175,7 +177,21 @@ public class UserWithProducts {
 
     protected boolean isValidDate(final String date) {
         String[] dates = date.split("-");
-        return dates.length > 1 && Integer.parseInt(dates[0]) > 1999;
+        return dates.length > 1 && Integer.parseInt(dates[0]) > 1999 && !isFutureDate(date);
+    }
+
+    protected boolean isFutureDate(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        final String mGetDeviceDate = dateFormat.format(calendar.getTime());
+        try {
+            final Date mDisplayDate = dateFormat.parse(date);
+            final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
+            return mDisplayDate.after(mDeviceDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @NonNull
@@ -196,8 +212,11 @@ public class UserWithProducts {
         return new RegisteredProductsListener() {
             @Override
             public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
-                if (!isCtnRegistered(registeredProducts, registeredProduct, appListener))
+                if (!isCtnRegistered(registeredProducts, registeredProduct, appListener)) {
                     registeredProduct.getProductMetadata(mContext, getUserProduct().getMetadataListener(registeredProduct, appListener));
+                } else {
+                    updateWithCallBack(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED, appListener);
+                }
             }
         };
     }
@@ -216,10 +235,20 @@ public class UserWithProducts {
             @Override
             public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
                 ProductMetadataResponseData productData = productMetadataResponse.getData();
-                if (validateSerialNumberFromMetadata(productData, registeredProduct, appListener)
-                        && validatePurchaseDateFromMetadata(productData, registeredProduct, appListener))
-
+                boolean isValidSerialNumber = isValidSerialNumber(productData, registeredProduct);
+                boolean isValidDate = true;
+                if (productData != null && productData.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
+                    isValidDate = isValidPurchaseDate(registeredProduct.getPurchaseDate());
+                }
+                if (!isValidDate && !isValidSerialNumber) {
+                    updateWithCallBack(registeredProduct, ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE, RegistrationState.FAILED, appListener);
+                } else if (!isValidDate) {
+                    updateWithCallBack(registeredProduct, ProdRegError.MISSING_DATE, RegistrationState.FAILED, appListener);
+                } else if (!isValidSerialNumber) {
+                    updateWithCallBack(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED, appListener);
+                } else {
                     getUserProduct().makeRegistrationRequest(mContext, registeredProduct, appListener);
+                }
             }
 
             @Override
@@ -229,49 +258,43 @@ public class UserWithProducts {
         };
     }
 
-    protected boolean validatePurchaseDateFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct, final ProdRegListener listener) {
-        final String purchaseDate = registeredProduct.getPurchaseDate();
-        if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
-            requiresPurchaseDate = true;
-            if (purchaseDate != null && purchaseDate.length() > 0) {
-                return true;
-            } else {
-                getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.MISSING_DATE, RegistrationState.FAILED);
-                listener.onProdRegFailed(registeredProduct, getUserProduct());
-                return false;
-            }
-        } else
-            requiresPurchaseDate = false;
-        return true;
+    private void updateWithCallBack(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState, final ProdRegListener appListener) {
+        getUserProduct().updateLocaleCache(registeredProduct, prodRegError, registrationState);
+        appListener.onProdRegFailed(registeredProduct, getUserProduct());
+        if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct)) {
+            registerCachedProducts(getLocalRegisteredProductsInstance().getRegisteredProducts(), appListener);
+        }
+    }
+
+    protected boolean isValidPurchaseDate(String purchaseDate) {
+            return purchaseDate != null && purchaseDate.length() > 0;
     }
 
     protected boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
         for (RegisteredProduct result : registeredProducts) {
             if (registeredProduct.getCtn().equalsIgnoreCase(result.getCtn()) && registeredProduct.getSerialNumber().equals(result.getSerialNumber()) && result.getRegistrationState() == RegistrationState.REGISTERED) {
-                getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
-                appListener.onProdRegFailed(registeredProduct, getUserProduct());
                 return true;
             }
         }
         return false;
     }
 
-    protected boolean validateSerialNumberFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
-        if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
-            requiresSerialNumber = true;
-            if (processSerialNumber(data, registeredProduct, appListener))
+    protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
+        if (data != null && data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
+            if (processSerialNumber(data, registeredProduct))
                 return false;
-        } else {
-            requiresSerialNumber = false;
         }
         return true;
+    }
+
+    private boolean processSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
+        final String serialNumber = registeredProduct.getSerialNumber();
+        return serialNumber == null || serialNumber.length() < 1 || !serialNumber.matches(data.getSerialNumberFormat());
     }
 
     @NonNull
     protected RegistrationRequest getRegistrationRequest(final Context context, final RegisteredProduct registeredProduct) {
         RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), registeredProduct.getSerialNumber(), getUser().getAccessToken());
-        registrationRequest.setRequiresSerialNumber(requiresSerialNumber);
-        registrationRequest.setRequiresPurchaseDate(requiresPurchaseDate);
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
         final String MICRO_SITE_ID = "MS";
@@ -304,9 +327,10 @@ public class UserWithProducts {
             @Override
             public void onRefreshLoginSessionFailedWithError(final int error) {
                 Log.d(TAG, "error in refreshing session");
-                getUserProduct().updateLocaleCacheOnError(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
-                getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
-                appListener.onProdRegFailed(registeredProduct, getUserProduct());
+                if (registeredProduct != null) {
+                    getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
+                    updateWithCallBack(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED, appListener);
+                }
             }
 
             @Override
@@ -340,12 +364,20 @@ public class UserWithProducts {
                 registeredProduct.setProdRegError(null);
                 getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                 appListener.onProdRegSuccess(registeredProduct, getUserProduct());
+                if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct)) {
+                    final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
+                    getUserProduct().registerCachedProducts(registeredProducts, appListener);
+                }
             }
 
             @Override
             public void onResponseError(PrxError prxError) {
                 try {
                     getErrorHandler().handleError(getUserProduct(), registeredProduct, prxError.getStatusCode(), appListener);
+                    if (currentRegisteredProduct.equals(registeredProduct)) {
+                        final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
+                        getUserProduct().registerCachedProducts(registeredProducts, appListener);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -370,24 +402,6 @@ public class UserWithProducts {
         return registeredProductsListener;
     }
 
-    /**
-     * API return Locale
-     *
-     * @return return local as string
-     */
-    public String getLocale() {
-        return locale;
-    }
-
-    /**
-     * API set Local
-     *
-     * @param locale local
-     */
-    public void setLocale(final String locale) {
-        this.locale = locale;
-    }
-
     protected long getTimeStamp() {
         return System.currentTimeMillis();
     }
@@ -405,7 +419,6 @@ public class UserWithProducts {
     protected RegisteredProduct createDummyRegisteredProduct(final Product product) {
         if (product != null) {
             RegisteredProduct registeredProduct = new RegisteredProduct(product.getCtn(), product.getSector(), product.getCatalog());
-            registeredProduct.setLocale(getLocale());
             registeredProduct.setSerialNumber(product.getSerialNumber());
             registeredProduct.setPurchaseDate(product.getPurchaseDate());
             registeredProduct.sendEmail(product.getEmail());

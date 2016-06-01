@@ -35,10 +35,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 public class UserWithProductsTest extends MockitoTestCase {
 
     UserWithProducts userWithProducts;
@@ -127,6 +128,7 @@ public class UserWithProductsTest extends MockitoTestCase {
 
     public void testReturnFalseForInValidDate() throws Exception {
         assertFalse(userWithProducts.isValidDate("1998-03-22"));
+        assertFalse(userWithProducts.isValidDate("2098-05-22"));
     }
 
     public void testRegisterProductWhenNotSignedIn() {
@@ -142,7 +144,7 @@ public class UserWithProductsTest extends MockitoTestCase {
                 return localRegisteredProducts;
             }
         };
-        Product productMock = mock(Product.class);
+        Product productMock = new Product("", Sector.B2C, Catalog.CONSUMER);
         userWithProducts.registerProduct(productMock);
         assertEquals(userWithProducts.getRequestType(), (UserWithProducts.PRODUCT_REGISTRATION));
     }
@@ -191,11 +193,11 @@ public class UserWithProductsTest extends MockitoTestCase {
         final Product product = new Product("ctn", null, null);
         RegisteredProduct registeredProduct = mock(RegisteredProduct.class);
         when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
-        when(registeredProduct.IsUserRegisteredLocally(localRegisteredProducts)).thenReturn(true);
+        when(registeredProduct.getRegisteredProductIfExists(localRegisteredProducts)).thenReturn(registeredProduct);
+        when(registeredProduct.getRegistrationState()).thenReturn(RegistrationState.REGISTERED);
         userWithProducts.registerProduct(product);
         verify(userWithProductsMock).createDummyRegisteredProduct(product);
-        verify(userWithProductsMock).registerCachedProducts(registeredProducts, prodRegListener);
-        verify(registeredProduct).IsUserRegisteredLocally(localRegisteredProducts);
+        verify(registeredProduct).getRegisteredProductIfExists(localRegisteredProducts);
         verify(prodRegListener).onProdRegFailed(registeredProduct, userWithProductsMock);
         testMapProductToRegisteredProduct(product);
         testThrowExceptionWhenListenerNull(userWithProducts, product);
@@ -244,26 +246,23 @@ public class UserWithProductsTest extends MockitoTestCase {
         final ProdRegListener listener = mock(ProdRegListener.class);
         final ProdRegListener listener2 = mock(ProdRegListener.class);
         when(data.getRequiresSerialNumber()).thenReturn("true");
-        userWithProducts.validateSerialNumberFromMetadata(data, productMock, listener);
+        userWithProducts.isValidSerialNumber(data, productMock);
         when(productMock.getSerialNumber()).thenReturn("1234");
         when(data.getSerialNumberFormat()).thenReturn("^[1]{1}[3-9]{1}[0-5]{1}[0-9]{1}$");
-        userWithProducts.validateSerialNumberFromMetadata(data, productMock, listener2);
+        userWithProducts.isValidSerialNumber(data, productMock);
         when(productMock.getSerialNumber()).thenReturn("1344");
-        assertTrue(userWithProducts.validateSerialNumberFromMetadata(data, productMock, listener2));
+        assertTrue(userWithProducts.isValidSerialNumber(data, productMock));
     }
 
     public void testValidatingPurchaseDate() {
         ProductMetadataResponseData data = mock(ProductMetadataResponseData.class);
         RegisteredProduct productMock = mock(RegisteredProduct.class);
         when(data.getRequiresDateOfPurchase()).thenReturn("true");
-        final ProdRegListener listener = mock(ProdRegListener.class);
-        assertFalse(userWithProducts.validatePurchaseDateFromMetadata(data, productMock, listener));
-
         when(productMock.getPurchaseDate()).thenReturn("2016-03-22");
         when(data.getRequiresDateOfPurchase()).thenReturn("false");
-        assertTrue(userWithProducts.validatePurchaseDateFromMetadata(data, productMock, listener));
+        assertTrue(userWithProducts.isValidPurchaseDate("2016-03-22"));
         when(data.getRequiresDateOfPurchase()).thenReturn("true");
-        assertTrue(userWithProducts.validatePurchaseDateFromMetadata(data, productMock, listener));
+        assertTrue(userWithProducts.isValidPurchaseDate("2016-03-22"));
     }
 
     public void testRegistrationRequestTest() {
@@ -284,12 +283,6 @@ public class UserWithProductsTest extends MockitoTestCase {
         assertEquals(registrationRequest.getCtn(), ctn);
         assertEquals(registrationRequest.getProductSerialNumber(), serialNumber);
         assertEquals(productMock.getPurchaseDate(), registrationRequest.getPurchaseDate());
-    }
-
-    public void testModelMapping() {
-        UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
-        userWithProducts.setLocale("en_GB");
-        assertEquals(userWithProducts.getLocale(), "en_GB");
     }
 
     public void testIsCtnRegistered() {
@@ -315,8 +308,6 @@ public class UserWithProductsTest extends MockitoTestCase {
         registeredProducts.add(registeredProduct2);
         registeredProducts.add(registeredProduct3);
         assertTrue(userWithProducts.isCtnRegistered(registeredProducts, product, prodRegListener));
-        verify(userWithProductsMock).updateLocaleCacheOnError(product, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
-        verify(prodRegListener).onProdRegFailed(product, userWithProductsMock);
     }
 
     public void testIsCtnNotRegistered() {
@@ -434,7 +425,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         ProdRegListener prodRegListener = mock(ProdRegListener.class);
         RefreshLoginSessionHandler refreshLoginSessionHandler = userWithProducts.getRefreshLoginSessionHandler(product, prodRegListener, context);
         refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(50);
-        verify(userWithProductsMock).updateLocaleCacheOnError(product, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
         verify(localRegisteredProductsMock).updateRegisteredProducts(product);
         verify(prodRegListener).onProdRegFailed(product, userWithProductsMock);
         refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
@@ -447,12 +438,12 @@ public class UserWithProductsTest extends MockitoTestCase {
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener) {
             @Override
-            protected boolean validatePurchaseDateFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct product, final ProdRegListener listener) {
+            protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct product) {
                 return true;
             }
 
             @Override
-            protected boolean validateSerialNumberFromMetadata(final ProductMetadataResponseData data, final RegisteredProduct product, final ProdRegListener listener) {
+            protected boolean isValidPurchaseDate(String date) {
                 return true;
             }
 
@@ -507,6 +498,12 @@ public class UserWithProductsTest extends MockitoTestCase {
             ResponseListener getPrxResponseListener(final RegisteredProduct product, final ProdRegListener appListener) {
                 return responseListenerMock;
             }
+
+            @NonNull
+            @Override
+            UserWithProducts getUserProduct() {
+                return userWithProductsMock;
+            }
         };
         userWithProducts.makeRegistrationRequest(context, productMock, prodRegListenerMock);
         verify(requestManagerMock).executeRequest(registrationRequest, responseListenerMock);
@@ -550,7 +547,7 @@ public class UserWithProductsTest extends MockitoTestCase {
 
     public void testUpdateLocaleCacheOnError() {
         RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
-        userWithProducts.updateLocaleCacheOnError(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.FAILED);
+        userWithProducts.updateLocaleCache(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.FAILED);
         assertEquals(registeredProduct.getRegistrationState(), RegistrationState.FAILED);
         assertEquals(registeredProduct.getProdRegError(), ProdRegError.PRODUCT_ALREADY_REGISTERED);
         verify(localRegisteredProducts).updateRegisteredProducts(registeredProduct);
@@ -572,12 +569,19 @@ public class UserWithProductsTest extends MockitoTestCase {
         when(userWithProductsMock.isUserSignedIn(context)).thenReturn(false);
         userWithProducts.registerCachedProducts(registeredProducts, prodRegListener);
 
-        verify(userWithProductsMock).updateLocaleCacheOnError(registeredProduct1, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
+        verify(userWithProductsMock).updateLocaleCache(registeredProduct1, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
         verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
         when(userWithProductsMock.isUserSignedIn(context)).thenReturn(true);
         when(userWithProductsMock.isValidDate("2016-2-12")).thenReturn(false);
         userWithProducts.registerCachedProducts(registeredProducts, prodRegListener);
-        verify(userWithProductsMock).updateLocaleCacheOnError(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
+        verify(userWithProductsMock).updateLocaleCache(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
         verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
+    }
+
+    public void testIsFutureDate() {
+        String date = "2098-05-22";
+        assertTrue(userWithProducts.isFutureDate(date));
+        String date1 = "2016-05-16";
+        assertFalse(userWithProducts.isFutureDate(date1));
     }
 }

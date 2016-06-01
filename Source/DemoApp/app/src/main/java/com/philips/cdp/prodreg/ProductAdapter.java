@@ -13,10 +13,11 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 public class ProductAdapter  extends RecyclerView.Adapter<ListRowHolder>  {
 
     Context mContext;
@@ -42,18 +43,22 @@ public class ProductAdapter  extends RecyclerView.Adapter<ListRowHolder>  {
     @Override
     public void onBindViewHolder(final ListRowHolder holder, final int position) {
         RegisteredProduct registeredProduct = registeredProducts.get(position);
-        holder.mCtn.setText("CTN : " +registeredProduct.getCtn());
-        holder.mSerailNumber.setText("Serial No : " + registeredProduct.getSerialNumber());
-        if (registeredProduct.getRegistrationState().toString().equalsIgnoreCase("PENDING")){
+        holder.mCtn.setText("CTN : " + registeredProduct.getCtn());
+        final String s = "Serial No : ";
+        final String text = s.concat(registeredProduct.getSerialNumber() != null ? registeredProduct.getSerialNumber() : "");
+        holder.mSerailNumber.setText(text);
+        if (registeredProduct.getRegistrationState().toString().equalsIgnoreCase("PENDING") || registeredProduct.getRegistrationState().toString().equalsIgnoreCase("REGISTERING")) {
             holder.mStatus.setTextColor(ContextCompat.getColor(mContext, R.color.gray));
-        }else if(registeredProduct.getRegistrationState().toString().equalsIgnoreCase("REGISTERED")){
+        } else if (registeredProduct.getRegistrationState().toString().equalsIgnoreCase("REGISTERED")) {
             holder.mStatus.setTextColor(ContextCompat.getColor(mContext, R.color.green));
-        }else {
+        } else {
             holder.mStatus.setTextColor(ContextCompat.getColor(mContext, R.color.red));
         }
-        holder.mStatus.setText(Html.fromHtml("<font color='#222'>Status : </font>"+registeredProduct.getRegistrationState()));
-    if (registeredProduct.getProdRegError()!=null)
-       holder.mErrorStatus.setText(Html.fromHtml("<font color='#222'>Error : </font>"+registeredProduct.getProdRegError()));
+        holder.mStatus.setText(Html.fromHtml("<font color='#222'>Status : </font>" + registeredProduct.getRegistrationState()));
+        if (registeredProduct.getProdRegError() != null)
+            holder.mErrorStatus.setText(Html.fromHtml("<font color='#222'>Error : </font>" + registeredProduct.getProdRegError()));
+        else
+            holder.mErrorStatus.setText("");
 
         holder.bind(registeredProducts.get(position), onItemClickListener);
     }
