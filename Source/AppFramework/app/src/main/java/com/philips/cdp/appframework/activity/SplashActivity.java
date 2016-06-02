@@ -26,7 +26,7 @@ import sample.com.appframework.R;
  *     To change default background following code can be used
  *     <pre>
  *          ViewGroup group = (ViewGroup) findViewById(<font color="red">R.id.splash_layout</font>);
- *          group.setBackgroundResource(R.drawable.uikit_food);
+ *          group.setBackgroundResource(R.drawable.splashscreen_background);
  *     </pre>
  *
  * </p>
