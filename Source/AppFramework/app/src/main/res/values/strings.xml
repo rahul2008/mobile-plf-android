@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AppFramework</string>
+    <string name="splash_screen_title">Mobile &lt;b>Apps&lt;/b></string>
 </resources>
