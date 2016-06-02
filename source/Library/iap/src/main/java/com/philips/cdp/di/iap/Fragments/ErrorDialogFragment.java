@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
@@ -53,15 +52,14 @@ public class ErrorDialogFragment extends BlurDialogFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setShowsDialog(false);
-                dismiss();
+
                 if (bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION).equals(getString(R.string.iap_time_out_error))) {
                     IAPLog.i(IAPLog.LOG, "SWITCH_TO_NO_NETWORK_CONNECTION");
-                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.SWITCH_TO_NO_NETWORK_CONNECTION);
                     addFragment(NoNetworkConnectionFragment.createInstance(bundle, BaseAnimationSupportFragment.AnimationType.NONE),
                             NoNetworkConnectionFragment.TAG);
                 }
-
+                setShowsDialog(false);
+                dismiss();
             }
         };
     }

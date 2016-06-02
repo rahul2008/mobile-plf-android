@@ -76,6 +76,8 @@ public class HybrisHandler implements IAPExposedAPI {
             launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW);
         } else if (screen == IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW && TextUtils.isEmpty(ctnNumber)) {
             launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW);
+        } else if (screen == IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW) {
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW);
         } else {
             buyProduct(ctnNumber, listener);
         }

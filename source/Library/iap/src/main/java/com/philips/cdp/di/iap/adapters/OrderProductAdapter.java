@@ -65,6 +65,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (mShoppingCartDataList.size() == 0) return;
         if (holder instanceof FooterOrderSummaryViewHolder) {
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
+            footerHolder.mTitleBillingAddress.setText(R.string.iap_billing_address);
+            footerHolder.mTitleDelivery.setText(R.string.iap_deliver_via_parcel);
+            footerHolder.mTitleVat.setText(R.string.iap_vat);
+            footerHolder.mTitleTotalPrice.setText(R.string.iap_total_val);
             AddressFields shippingAddress = CartModelContainer.getInstance().getShippingAddressFields();
             String shippingName = shippingAddress.getFirstName() + " " + shippingAddress.getLastName();
             footerHolder.mShippingFirstName.setText(shippingName);
@@ -171,6 +175,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class FooterOrderSummaryViewHolder extends RecyclerView.ViewHolder {
+
+        TextView mTitleDeliveryAddress;
+        TextView mTitleBillingAddress;
         TextView mShippingFirstName;
         TextView mShippingAddress;
         TextView mBillingFirstName;
@@ -178,14 +185,19 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         LinearLayout mLLPaymentMode;
         TextView mPaymentCardName;
         TextView mPaymentCardHolderName;
+        TextView mTitleDelivery;
         TextView mDeliveryPrice;
         TextView mTotalPriceLable;
         TextView mTotalPrice;
+        TextView mTitleVat;
         TextView mVatValue;
+        TextView mTitleTotalPrice;
         TextView mVatInclusive;
 
         public FooterOrderSummaryViewHolder(View itemView) {
             super(itemView);
+            mTitleDeliveryAddress = (TextView) itemView.findViewById(R.id.tv_title_delivery_address);
+            mTitleBillingAddress = (TextView) itemView.findViewById(R.id.tv_title_billing_address);
             mShippingFirstName = (TextView) itemView.findViewById(R.id.tv_shipping_first_name);
             mShippingAddress = (TextView) itemView.findViewById(R.id.tv_shipping_address);
             mBillingFirstName = (TextView) itemView.findViewById(R.id.tv_billing_first_name);
@@ -193,10 +205,13 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mLLPaymentMode = (LinearLayout) itemView.findViewById(R.id.ll_payment_mode);
             mPaymentCardName = (TextView) itemView.findViewById(R.id.tv_card_type);
             mPaymentCardHolderName = (TextView) itemView.findViewById(R.id.tv_card_holder_name);
+            mTitleDelivery = (TextView) itemView.findViewById(R.id.tv_delivery);
             mDeliveryPrice = (TextView) itemView.findViewById(R.id.tv_delivery_price);
             mTotalPriceLable = (TextView) itemView.findViewById(R.id.tv_total_lable);
             mTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_price);
+            mTitleVat = (TextView) itemView.findViewById(R.id.tv_vat);
             mVatValue = (TextView) itemView.findViewById(R.id.tv_vat_price);
+            mTitleTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_lable);
             mVatInclusive = (TextView) itemView.findViewById(R.id.tv_vat_inclusive);
         }
     }

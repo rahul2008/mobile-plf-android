@@ -160,7 +160,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 switch (position) {
                     case DELETE:
                         if (!Utility.isProgressDialogShowing()) {
-                            Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_deleting_item));
+                            Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
                             mPresenter.deleteProduct(mData.get(selectedItem));
                             mPopupWindow.dismiss();
                         }

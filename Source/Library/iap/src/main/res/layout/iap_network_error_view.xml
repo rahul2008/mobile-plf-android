@@ -16,16 +16,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="No network connection!" />
+        android:text="@string/iap_check_connection" />
 
     <Button
         android:id="@+id/iap_btnTryAgain"
+        style="?attr/uikit_outlinedButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Try Again" />
+        android:text="@string/iap_try_again" />
 
     <!--<Button
         android:id="@+id/iap_btnexit"

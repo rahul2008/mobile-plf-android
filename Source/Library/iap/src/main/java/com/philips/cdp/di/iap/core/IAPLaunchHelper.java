@@ -24,9 +24,9 @@ public class IAPLaunchHelper {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         //Check flag to differentiate shopping cart / product catalog
-        if (screen != IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW) {
-            intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, false);
-        }
+//        if (screen != IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW) {
+            intent.putExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, screen);
+//        }
 
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, themeIndex);
         context.startActivity(intent);

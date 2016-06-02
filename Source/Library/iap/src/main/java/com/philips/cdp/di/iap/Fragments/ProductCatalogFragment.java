@@ -83,9 +83,9 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     private void loadProducts() {
         ProductCatalogAPI presenter = ControllerFactory.getInstance()
-                                        .getProductCatalogPresenter(getContext(), mAdapter, getFragmentManager());
+                .getProductCatalogPresenter(getContext(), mAdapter, getFragmentManager());
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_get_product_catalog_details));
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
         presenter.getProductCatalog();
     }

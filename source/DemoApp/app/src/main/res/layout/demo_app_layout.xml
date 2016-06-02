@@ -91,13 +91,21 @@
         android:text="@string/register" />
 
     <Button
-        android:id="@+id/btn_shop_now"
+        android:id="@+id/btn_purchase_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_register"
         android:enabled="false"
-        android:text="SHOP NOW"
+        android:text="@string/purchase_history"
         android:visibility="gone" />
 
+    <Button
+        android:id="@+id/btn_shop_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_purchase_history"
+        android:enabled="false"
+        android:text="@string/shop_now"
+        android:visibility="gone" />
 
 </RelativeLayout>
