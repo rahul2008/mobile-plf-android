@@ -15,7 +15,8 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/textView"
             android:layout_marginLeft="29dp"
-            android:text="Title bottom aligned"
+            android:text="@string/introduction_screen_top_text"
+            fontPath="fonts/centralesansxbold.ttf"
             android:textColor="@color/white"
             android:textSize="34sp" />
 
@@ -25,11 +26,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="29dp"
-            android:text="Second benefit text is bottom aligned"
+            android:text="@string/introduction_screen_bottom_text"
+            fontPath="fonts/centralesansbook.ttf"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:layout_marginTop="27.5dp"
-            android:layout_marginBottom="136.5dp"/>
+            android:layout_marginBottom="137.5dp"/>
     </RelativeLayout>
 
 </LinearLayout>
