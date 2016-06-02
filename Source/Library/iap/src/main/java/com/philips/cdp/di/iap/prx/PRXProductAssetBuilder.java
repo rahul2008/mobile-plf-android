@@ -26,13 +26,22 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.TreeMap;
 
 public class PRXProductAssetBuilder {
     private static final String TAG = PRXProductAssetBuilder.class.getSimpleName();
     private AssetListener mAssetListener;
     private Context mContext;
     String mCTN;
+    private static final int RTP = 1;
+    private static final int APP = 2;
+    private static final int DPP = 3;
+    private static final int MI1 = 4;
+    private static final int PID = 5;
 
     public interface AssetListener {
         void onFetchAssetSuccess(Message msg);
@@ -84,23 +93,54 @@ public class PRXProductAssetBuilder {
     }
 
     private ArrayList<String> fetchImageUrlsFromPRXAssets(List<Asset> assets) {
+        ArrayList<String> values = new ArrayList<>();
+        PriorityQueue<PriorityCompare> priorityQueue = new PriorityQueue<>(5, new Comparator<PriorityCompare>() {
+            @Override
+            public int compare(final PriorityCompare lhs, final PriorityCompare rhs) {
+                return lhs.priorityStatus-rhs.priorityStatus;
+            }
+        });
+
         ArrayList<String> mAssetsFromPRX = new ArrayList<>();
+        TreeMap<Integer,String> treeMap = new TreeMap<>();
         int width = (int)mContext.getResources().getDisplayMetrics().widthPixels;
         int height =  (int)mContext.getResources().getDimension(R.dimen.iap_product_detail_image_height);
 
         for (Asset asset : assets) {
-            if (isSupportedType(asset)) {
+            int priority = isSupportedType(asset);
+            if (priority!=-1) {
                 String imagepath = asset.getAsset() + "?wid=" + width +
                         "&hei=" + height + "&$pnglarge$" + "&fit=fit,1";
                 mAssetsFromPRX.add(imagepath);
+                priorityQueue.add(new PriorityCompare(imagepath,priority));
+                //priorityQueue.offer();
+                treeMap.put(priority,imagepath);
             }
+            values = (ArrayList<String>)treeMap.values();
         }
 
-        return mAssetsFromPRX;
+        return values;
     }
 
-    private boolean isSupportedType(final Asset asset) {
-        return asset.getType().equalsIgnoreCase("RTP") || asset.getType().equalsIgnoreCase("APP") || asset.getType().equalsIgnoreCase("DPP") || asset.getType().equalsIgnoreCase("MI1") || asset.getType().equalsIgnoreCase("PID");
+    private int isSupportedType(final Asset asset) {
+        //if(asset.getType().equalsIgnoreCase("RTP") || asset.getType().equalsIgnoreCase("APP") || asset.getType().equalsIgnoreCase("DPP") || asset.getType().equalsIgnoreCase("MI1") || asset.getType().equalsIgnoreCase("PID")){
+            switch (asset.getType()) {
+                case "RTP":
+                    return RTP;
+                case "APP":
+                    return APP;
+                case "DPP":
+                    return DPP;
+                case "MI1":
+                    return MI1;
+                case "PID":
+                    return PID;
+                default:
+                    return -1;
+            }
+        /*}else {
+            return -1;
+        }*/
     }
 
     private void notifyError(final String error) {
