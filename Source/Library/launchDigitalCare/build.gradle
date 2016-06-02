@@ -103,6 +103,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:+'
     compile 'com.android.support:support-v4:+'
     compile 'com.philips.cdp:Tagging:3.0.0@aar'
+    compile 'com.android.support:multidex:+'
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
