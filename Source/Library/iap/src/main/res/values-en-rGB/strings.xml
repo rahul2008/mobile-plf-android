@@ -119,7 +119,7 @@
     <string name="iap_authentication_failure">Authentication failed</string>
     <string name="iap_payment_failed">Payment failed</string>
     <string name="iap_in_stock">in stock</string>
-    <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
+    <string name="iap_delivery_via">Delivery via FedEx</string>
     <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked.
 Please try again, or if the problem persists: contact Philips Consumer Care</string>
 

@@ -24,7 +24,7 @@ public class NoNetworkConnectionFragment extends BaseAnimationSupportFragment {
             @Override
             public void onClick(View v) {
                 if (getIAPActivity().getNetworkUtility().isNetworkAvailable(getActivity())) {
-                    moveToPreviousFragment();
+                    getFragmentManager().popBackStackImmediate();
                 }
             }
         });
