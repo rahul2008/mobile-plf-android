@@ -1,4 +1,4 @@
-package com.philips.appframework;
+package com.philips.cdp.appframework.introscreen;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

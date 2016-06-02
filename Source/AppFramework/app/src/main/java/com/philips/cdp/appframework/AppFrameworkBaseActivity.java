@@ -1,4 +1,4 @@
-package com.philips.cdp.appframework.activity;
+package com.philips.cdp.appframework;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -24,8 +24,6 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-
-import sample.com.appframework.R;
 
 /**
  * AppFrameworkBaseActivity is the main container class which can contain fragments. This

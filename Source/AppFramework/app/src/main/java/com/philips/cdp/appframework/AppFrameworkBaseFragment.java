@@ -1,4 +1,4 @@
-package com.philips.cdp.appframework.fragment;
+package com.philips.cdp.appframework;
 
 import android.content.Context;
 import android.content.IntentFilter;
@@ -20,13 +20,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.philips.cdp.appframework.customview.NetworkAlertView;
 import com.philips.cdp.appframework.utility.Constants;
 import com.philips.cdp.appframework.utility.Logger;
-import com.philips.cdp.appframework.customview.NetworkAlertView;
 import com.philips.cdp.appframework.utility.NetworkReceiver;
 import com.philips.cdp.appframework.utility.NetworkStateListener;
-
-import sample.com.appframework.R;
 
 /**
  * AppFrameworkBaseFragment is the <b>Base class</b> for all fragments.

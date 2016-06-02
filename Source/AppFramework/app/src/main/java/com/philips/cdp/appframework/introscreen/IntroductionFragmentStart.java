@@ -1,4 +1,4 @@
-package com.philips.appframework;
+package com.philips.cdp.appframework.introscreen;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import com.philips.cdp.appframework.R;
 /**
  * Created by 310240027 on 5/31/2016.
  */

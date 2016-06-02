@@ -1,4 +1,4 @@
-package com.philips.appframework;
+package com.philips.cdp.appframework.introscreen;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.philips.cdp.appframework.R;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.shamanland.fonticon.FontIconView;
@@ -17,7 +18,7 @@ import com.shamanland.fonticon.FontIconView;
  */
 public class IntroductionScreenActivity extends UiKitActivity {
     private FontIconView appframework_leftarrow, appframework_rightarrow;
-    private TextView startRegistrationScreenButton,appframeworkSkipButton;
+    private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
 
     @Override
@@ -25,6 +26,7 @@ public class IntroductionScreenActivity extends UiKitActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
         setContentView(R.layout.app_framework_introduction_activity);
         final ViewPager mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
@@ -48,18 +50,21 @@ public class IntroductionScreenActivity extends UiKitActivity {
 
             @Override
             public void onPageSelected(int position) {
-                switch(position){
-                    case 0: appframework_leftarrow.setVisibility(FontIconView.GONE);
+                switch (position) {
+                    case 0:
+                        appframework_leftarrow.setVisibility(FontIconView.GONE);
                         appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
                         startRegistrationScreenButton.setVisibility(TextView.GONE);
                         appframeworkSkipButton.setVisibility(TextView.VISIBLE);
                         break;
-                    case 1: appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
+                    case 1:
+                        appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
                         appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
                         startRegistrationScreenButton.setVisibility(TextView.GONE);
                         appframeworkSkipButton.setVisibility(TextView.VISIBLE);
                         break;
-                    case 2: appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
+                    case 2:
+                        appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
                         appframework_rightarrow.setVisibility(FontIconView.GONE);
                         startRegistrationScreenButton.setVisibility(TextView.VISIBLE);
                         appframeworkSkipButton.setVisibility(TextView.GONE);

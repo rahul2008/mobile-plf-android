@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.appframework.activity;
+package com.philips.cdp.appframework.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +15,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.appframework.R;
+import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-
-import sample.com.appframework.MainActivity;
-import sample.com.appframework.R;
 
 /**
  * <H1>Dev Guide</H1>
@@ -107,8 +106,8 @@ public class SplashActivity extends UiKitActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-//                Intent i = new Intent(SplashActivity.this, MainActivity.class);
-//                startActivity(i);
+               Intent i = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
+                startActivity(i);
 
                 // close this activity
                 finish();
