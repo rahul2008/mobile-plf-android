@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/iap_tv_delivery_via_ups"
-        style="@style/iap_delivery_via_ups"
+        style="@style/iap_delivery_via"
         android:layout_below="@+id/iap_redeem_bottom_divider"
         android:includeFontPadding="false" />
 
