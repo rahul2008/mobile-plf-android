@@ -131,5 +131,9 @@
     <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked.
 Please try again, or if the problem persists: contact Philips Consumer Care</string>
     <string name="iap_try_again">Try Again</string>
+    <string name="iap_order_number">Order number # </string>
+    <string name="iap_payment_by">Payed by</string>
+    <string name="iap_track_order">Track my order</string>
+    <string name="iap_order_details">Order details</string>
 
 </resources>

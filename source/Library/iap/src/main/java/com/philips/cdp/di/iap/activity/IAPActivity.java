@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.activity;
 
 import android.content.res.Configuration;
@@ -17,6 +21,7 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.EmptyPurchaseHistoryFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
+import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -33,10 +38,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
     private TextView mTitleTextView;
@@ -56,15 +58,15 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         setLocale();
         int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, -1);
 
-        if (landingScreen == 0) {
+        if (landingScreen == IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW) {
             addFragment(ProductCatalogFragment.createInstance(new Bundle(),
                     BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
-        } else if (landingScreen == 1) {
+        } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW) {
             addFragment(ShoppingCartFragment.createInstance(new Bundle(),
                     BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
-        } else if (landingScreen == 2) {
-            addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
-                    BaseAnimationSupportFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
+        } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW) {
+            addFragment(PurchaseHistoryFragment.createInstance(new Bundle(),
+                    BaseAnimationSupportFragment.AnimationType.NONE), PurchaseHistoryFragment.TAG);
         }
     }
 
