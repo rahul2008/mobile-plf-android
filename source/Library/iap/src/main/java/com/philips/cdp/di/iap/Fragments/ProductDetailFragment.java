@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
@@ -33,6 +34,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements
         PRXProductAssetBuilder.AssetListener, View.OnClickListener, ShoppingCartPresenter.ShoppingCartLauncher {
@@ -95,19 +97,19 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 getInstance().getShoppingCartPresenter(mContext, null, getFragmentManager());
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
-        mBundle = getArguments();
 
+        mBundle = getArguments();
         mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
         mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
         mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
+
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mAdapter = new ImageAdapter(getFragmentManager(), mLaunchedFromProductCatalog);
+        mAdapter = new ImageAdapter(getContext(),getFragmentManager(), mLaunchedFromProductCatalog, new ArrayList<String>());
         mPager.setAdapter(mAdapter);
 
         CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
@@ -122,7 +124,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.tv_discounted_price);
 
         populateViewFromBundle();
-        makeAssetRequest();
         return rootView;
     }
 
@@ -150,7 +151,11 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 mProductDiscountedPrice.setVisibility(View.VISIBLE);
                 mProductDiscountedPrice.setText(discountedPrice);
                 mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            } else {
+            } else if(discountedPrice.equalsIgnoreCase(mBundle.getString(IAPConstant.PRODUCT_PRICE))) {
+                mPrice.setVisibility(View.GONE);
+                mProductDiscountedPrice.setVisibility(View.VISIBLE);
+                mProductDiscountedPrice.setText(discountedPrice);
+            }else{
                 mProductDiscountedPrice.setVisibility(View.GONE);
                 mPrice.setTextColor(Utility.getThemeColor(mContext));
             }
@@ -161,13 +166,27 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void makeAssetRequest() {
-        //Removing Loading indecator as per Ajit Suggestion
-        /*if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-        }*/
         String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
-        PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn, this);
-        builder.build();
+        if (!CartModelContainer.getInstance().isPRXAssetPresent(ctn)) {
+            if (!Utility.isProgressDialogShowing()) {
+                Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            }
+            PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn, this);
+            builder.build();
+        } else {
+            final HashMap<String, ArrayList<String>> prxAssetObjects = CartModelContainer.getInstance().getPRXAssetObjects();
+            for (Map.Entry<String, ArrayList<String>> entry : prxAssetObjects.entrySet()) {
+                if (entry.getKey().equalsIgnoreCase(ctn)) {
+                    mAsset = entry.getValue();
+                    break;
+                }
+            }
+            mAdapter = new ImageAdapter(getContext(),getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
+            mPager.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+            if (Utility.isProgressDialogShowing())
+                Utility.dismissProgressDialog();
+        }
     }
 
     @Override
@@ -188,6 +207,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
             setCartIconVisibility(View.GONE);
         }
+        makeAssetRequest();
     }
 
     private void setAddToCartIcon() {
@@ -212,7 +232,9 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onFetchAssetSuccess(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
-        mAdapter.setAsset(mAsset);
+        CartModelContainer.getInstance().addAssetDataToList(mBundle.getString(IAPConstant.PRODUCT_CTN), mAsset);
+        mAdapter = new ImageAdapter(getContext(),getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
+        mPager.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();

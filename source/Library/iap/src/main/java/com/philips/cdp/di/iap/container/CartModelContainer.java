@@ -24,11 +24,13 @@ public class CartModelContainer {
     private String mOrderNumber;
     private RegionsList mRegionList;
     private HashMap<String, SummaryModel> mPRXDataObjects;
+    private HashMap<String, ArrayList<String>> mPRXAssetObjects;
 
     private boolean switchToBillingAddress;
 
     private CartModelContainer(){
         mPRXDataObjects = new HashMap<>();
+        mPRXAssetObjects = new HashMap<>();
     }
 
     public static CartModelContainer getInstance() {
@@ -144,5 +146,17 @@ public class CartModelContainer {
 
     public HashMap<String, SummaryModel> getPRXDataObjects(){
         return mPRXDataObjects;
+    }
+
+    public boolean isPRXAssetPresent(String ctn) {
+        return mPRXAssetObjects.containsKey(ctn);
+    }
+
+    public void addAssetDataToList(String ctn, ArrayList<String> assets){
+        mPRXAssetObjects.put(ctn,assets);
+    }
+
+    public HashMap<String, ArrayList<String>> getPRXAssetObjects(){
+        return mPRXAssetObjects;
     }
 }

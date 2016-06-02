@@ -73,11 +73,16 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if(productCatalogData.getDiscountedPrice()==null || productCatalogData.getDiscountedPrice()==""){
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
             productHolder.mPrice.setTextColor(Utility.getThemeColor(mContext));
+        }else if(productCatalogData.getDiscountedPrice() == productCatalogData.getFormatedPrice()) {
+            productHolder.mPrice.setVisibility(View.GONE);
+            productHolder.mDiscountedPrice.setVisibility(View.VISIBLE);
+            productHolder.mDiscountedPrice.setText(productCatalogData.getDiscountedPrice());
         }else {
             productHolder.mDiscountedPrice.setVisibility(View.VISIBLE);
             productHolder.mDiscountedPrice.setText(productCatalogData.getDiscountedPrice());
             productHolder.mPrice.setPaintFlags(productHolder.mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
+
         getNetworkImage(productHolder, imageURL);
 
         productHolder.mArrow.setOnClickListener(new View.OnClickListener() {
