@@ -140,7 +140,7 @@ dependencies {
     // Tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
-    compile('com.philips.cdp:registrationApi:6.0.2@aar') {
+    compile('com.philips.cdp:registrationApi:6.0.2') {
         exclude group: 'com.android.support'
         transitive = true
     }
