@@ -1,8 +1,7 @@
-package com.philips.cdp.prodreg.ui;
+package com.philips.cdp.prodreg.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,8 +21,13 @@ import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class InitialFragment extends Fragment {
+public class InitialFragment extends ProdRegBaseFragment {
     Button activity, fragment;
+
+    @Override
+    public String getActionbarTitle() {
+        return null;
+    }
 
     @Nullable
     @Override

@@ -1,0 +1,15 @@
+<FrameLayout android:id="@+id/parentActivity"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="match_parent">
+
+    <include layout="@layout/prodreg_home_action_bar"/>
+    <!-- android:background="@drawable/tuscanybackground"-->
+    <RelativeLayout
+        android:id="@+id/mainContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="@dimen/actionbar_height"
+        android:orientation="vertical"></RelativeLayout>
+
+</FrameLayout>

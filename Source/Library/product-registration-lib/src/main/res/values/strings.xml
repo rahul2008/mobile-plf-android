@@ -6,4 +6,6 @@
     <string name="volley_error">"Volley Error : "</string>
     <string name="date_format_error">Purchase date not entered</string>
     <string name="title_activity_prod_reg">ProdRegActivity</string>
+    <string name="img_description"> description </string>
+    <string name="actionbar_title_support"> Support </string>
 </resources>
