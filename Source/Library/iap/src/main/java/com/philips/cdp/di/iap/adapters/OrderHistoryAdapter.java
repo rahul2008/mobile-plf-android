@@ -43,17 +43,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Orders order = mOrders.get(position);
         OrderHistoryHolder orderHistoryHolder = (OrderHistoryHolder) holder;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        Date convertedDate = null;
-        try {
-            convertedDate = dateFormat.parse(order.getPlaced());
-        } catch (ParseException e) {
-            IAPLog.d(OrderHistoryAdapter.TAG, e.getMessage());
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy"); // Set your date format
-        String date = sdf.format(convertedDate);
-        orderHistoryHolder.mTime.setText(date);
+        orderHistoryHolder.mTime.setText(getFormattedDate(order.getPlaced()));
         orderHistoryHolder.mOrderState.setText(order.getStatusDisplay());
         orderHistoryHolder.mOrderNumber.setText(order.getCode());
 
@@ -61,7 +51,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return mOrders.size();
+        if(mOrders!=null)
+            return mOrders.size();
+        return 0;
     }
 
     public class OrderHistoryHolder extends RecyclerView.ViewHolder {
@@ -83,5 +75,18 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mOrderNumber = (TextView) itemView.findViewById(R.id.tv_order_number);
             mOrderState = (TextView) itemView.findViewById(R.id.tv_order_state);
         }
+    }
+
+    private String getFormattedDate(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        Date convertedDate = null;
+        try {
+            convertedDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            IAPLog.d(OrderHistoryAdapter.TAG, e.getMessage());
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy"); // Set your date format
+        return sdf.format(convertedDate);
     }
 }

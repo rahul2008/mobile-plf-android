@@ -40,7 +40,6 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
         setTitle(R.string.iap_order_history);
     }
 
@@ -98,7 +97,6 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
                     mOrders = mOrderData.getOrders();
                     mAdapter = new OrderHistoryAdapter(getContext(), mOrders);
                     mOrderHistoryView.setAdapter(mAdapter);
-                    //mAdapter.notifyDataSetChanged();
                 }
             }
         }

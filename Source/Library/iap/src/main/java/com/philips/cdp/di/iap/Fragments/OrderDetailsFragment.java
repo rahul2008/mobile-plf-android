@@ -25,7 +25,6 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment {
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_SUMMARY_PAGE_NAME);
         setTitle(R.string.iap_order_details);
     }
 
