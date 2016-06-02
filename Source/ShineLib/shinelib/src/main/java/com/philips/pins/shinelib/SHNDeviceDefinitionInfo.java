@@ -20,9 +20,9 @@ public interface SHNDeviceDefinitionInfo {
         /**
          * Specifies how to instantiate a SHNDevice for a peripheral.
          *
-         * @param deviceAddress             The mac address of the peripheral.
-         * @param shnDeviceDefinitionInfo   The corresponding device definition info for this peripheral.
-         * @param shnCentral                An instance of SHNCentral used to provide support.
+         * @param deviceAddress           The mac address of the peripheral.
+         * @param shnDeviceDefinitionInfo The corresponding device definition info for this peripheral.
+         * @param shnCentral              An instance of SHNCentral used to provide support.
          * @return an instance of SHNDevice implementation used by BlueLib to communicate with the peripheral.
          */
         SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral);
@@ -43,10 +43,10 @@ public interface SHNDeviceDefinitionInfo {
     Set<UUID> getPrimaryServiceUUIDs();
 
     /**
-     *  Specifies an association procedure to be used to associate with the peripheral. The procedure will be used by SHNDeviceAssociation.
+     * Specifies an association procedure to be used to associate with the peripheral. The procedure will be used by SHNDeviceAssociation.
      *
-     * @param central                           An instance of SHNCentral used to provide support.
-     * @param shnAssociationProcedureListener   An internal listener for the association procedure. Use this listener to provide callbacks to BlueLib.
+     * @param central                         An instance of SHNCentral used to provide support.
+     * @param shnAssociationProcedureListener An internal listener for the association procedure. Use this listener to provide callbacks to BlueLib.
      * @return an instance of SHNAssociationProcedurePlugin and SHNAssociationProcedure to be used to associate with the peripheral.
      */
     SHNAssociationProcedurePlugin createSHNAssociationProcedure(SHNCentral central, SHNAssociationProcedurePlugin.SHNAssociationProcedureListener shnAssociationProcedureListener);
@@ -69,10 +69,10 @@ public interface SHNDeviceDefinitionInfo {
     /**
      * Indicates to the scanner whether the received advertisement data is recognised as belonging to a device that can be handled by the plugin.
      *
-     * @param bluetoothDevice   The BluetoothDevice from which the advertised data is received. Use it to query the device but don't connect or...
-     * @param bleScanRecord     An instance of the BleScanRecord containing both the raw and the parsed form of the advertised data.
-     * @param rssi              The Received Signal Strength Indicator from the bluetooth radio.
-     * @return  true when the AdvertisementData matches what is expected for a device handled by the plugin, false otherwise.
+     * @param bluetoothDevice The BluetoothDevice from which the advertised data is received. Use it to query the device but don't connect or...
+     * @param bleScanRecord   An instance of the BleScanRecord containing both the raw and the parsed form of the advertised data.
+     * @param rssi            The Received Signal Strength Indicator from the bluetooth radio.
+     * @return true when the AdvertisementData matches what is expected for a device handled by the plugin, false otherwise.
      */
     boolean matchesOnAdvertisedData(BluetoothDevice bluetoothDevice, BleScanRecord bleScanRecord, int rssi);
 }

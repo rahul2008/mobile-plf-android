@@ -7,9 +7,6 @@ package com.philips.pins.shinelib.framework;
 
 import android.bluetooth.BluetoothDevice;
 
-/**
- * Created by 310188215 on 10/03/15.
- */
 public class BleDeviceFoundInfo {
     private final BluetoothDevice bluetoothDevice;
     private final int rssi;
