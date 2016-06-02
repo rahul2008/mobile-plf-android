@@ -70,7 +70,7 @@
     <!--Order Summary-->
     <string name="iap_order_summary">Order Summary</string>
     <string name="iap_pay_now">Pay now</string>
-    <string name="iap_deliver_via_parcel">Delivery via UPS Parcel</string>
+    <string name="iap_deliver_via_parcel">Delivery via FedEx</string>
     <string name="iap_voucher">Claim voucher</string>
 
     <!--Payment-->
@@ -127,9 +127,13 @@
     <string name="iap_payment_failed">Payment failed</string>
     <string name="iap_in_stock">in stock</string>
     <string name="iap_continue_shopping_description">Do you want to continue shopping?</string>
-    <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
+    <string name="iap_delivery_via">Delivery via FedEx</string>
     <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked.
 Please try again, or if the problem persists: contact Philips Consumer Care</string>
     <string name="iap_try_again">Try Again</string>
+    <string name="iap_order_number">Order number # </string>
+    <string name="iap_payment_by">Payed by</string>
+    <string name="iap_track_order">Track my order</string>
+    <string name="iap_order_details">Order details</string>
 
 </resources>
