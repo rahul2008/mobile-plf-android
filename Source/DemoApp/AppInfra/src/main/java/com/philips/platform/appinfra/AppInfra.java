@@ -11,6 +11,10 @@ import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.servicediscovery.AppIdentityInterface;
+import com.philips.platform.appinfra.servicediscovery.AppIdentityManager;
+import com.philips.platform.appinfra.servicediscovery.LocalInterface;
+import com.philips.platform.appinfra.servicediscovery.LocalManager;
 import com.philips.platform.appinfra.tagging.AIAppTagging;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
@@ -25,6 +29,8 @@ public class AppInfra {
     private AIAppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
     private final static String APP_INFRA_VERSION = "1.0.1";
+    private AppIdentityInterface appIdentity;
+    private LocalInterface local;
 
 
     /**
@@ -41,6 +47,8 @@ public class AppInfra {
         private LoggingInterface       logger; // builder logger
         private LoggingInterface    aiLogger; // app infra logger
         private AIAppTaggingInterface tagging;
+        private AppIdentityInterface appIdentity;
+        private LocalInterface local;
 
         /**
          * Instantiates a new Builder.
@@ -50,6 +58,8 @@ public class AppInfra {
             logger = null;
             aiLogger = null;
             tagging = null;
+            appIdentity = null;
+            local = null;
         }
 
 
@@ -100,6 +110,8 @@ public class AppInfra {
             // ai.setLogging(new AppInfraLogging(ai));
 
             ai.setTagging(tagging == null ? new AIAppTagging(ai) : tagging);
+            ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
+            ai.setLocal(local == null ? new LocalManager(ai) : local);
             return ai;
         }
     }
@@ -119,6 +131,14 @@ public class AppInfra {
      */
     public SecureStorageInterface getSecureStorage() {
         return secureStorage;
+    }
+
+    public AppIdentityInterface getAppIdentity() {
+        return appIdentity;
+    }
+
+    public LocalInterface getLocal() {
+        return local;
     }
 
     /**
@@ -149,6 +169,16 @@ public class AppInfra {
 
     private void setTagging(AIAppTaggingInterface tagg) {
         tagging = tagg;
+
+    }
+
+    private void setAppIdentity(AppIdentityInterface identity) {
+        appIdentity = identity;
+
+    }
+
+    private void setLocal(LocalInterface locale) {
+        local = locale;
 
     }
 

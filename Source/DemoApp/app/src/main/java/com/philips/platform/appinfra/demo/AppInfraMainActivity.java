@@ -21,7 +21,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
-    String appInfraComponents[] = {"Secure Storage", "AIAppTagging", "Logging", "Prx", "LocalMatch"};
+    String appInfraComponents[] = {"Secure Storage", "AIAppTagging", "Logging", "Prx", "LocalMatch", "AppIdentity", "LocalMain"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,19 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 startActivity(intentlocalMatchActivity);
 
                 break;
+            case 5 :
+                Intent intentAppIdentityActivity = new Intent(AppInfraMainActivity.this,
+                        AppIndentityDemoPage.class);
+                startActivity(intentAppIdentityActivity);
+
+                break;
+            case 6 :
+                Intent intentLocalMainActivity = new Intent(AppInfraMainActivity.this,
+                        LocalMainDemoPage.class);
+                startActivity(intentLocalMainActivity);
+
+                break;
+
         }
     }
 

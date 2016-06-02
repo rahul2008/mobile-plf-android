@@ -64,6 +64,24 @@
 
 
         </activity>
+
+        <activity
+            android:name="com.philips.platform.appinfra.demo.AppIndentityDemoPage"
+            android:label="AppIdentity Test"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name="com.philips.platform.appinfra.demo.LocalMainDemoPage"
+            android:label="LocalMainDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+
+
+
     </application>
 
 </manifest>
