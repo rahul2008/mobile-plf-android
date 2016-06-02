@@ -151,11 +151,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 mProductDiscountedPrice.setVisibility(View.VISIBLE);
                 mProductDiscountedPrice.setText(discountedPrice);
                 mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            } else if(discountedPrice.equalsIgnoreCase(mBundle.getString(IAPConstant.PRODUCT_PRICE))) {
-                mPrice.setVisibility(View.GONE);
-                mProductDiscountedPrice.setVisibility(View.VISIBLE);
-                mProductDiscountedPrice.setText(discountedPrice);
-            }else{
+            } else{
                 mProductDiscountedPrice.setVisibility(View.GONE);
                 mPrice.setTextColor(Utility.getThemeColor(mContext));
             }
