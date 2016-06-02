@@ -52,7 +52,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private static final String TAG_BASE = SHNDeviceImpl.class.getSimpleName();
     private final String TAG = TAG_BASE + "@" + Integer.toHexString(hashCode());
 
-    private static final long CONNECT_TIMEOUT = 10000l;
+    private static final long CONNECT_TIMEOUT = 20000L;
     private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
     private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 3000;
 
