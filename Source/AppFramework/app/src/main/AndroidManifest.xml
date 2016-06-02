@@ -22,8 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".introscreen.IntroductionScreenActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".introscreen.IntroductionScreenActivity" />
+        <activity android:name=".homoscreen.HomeActivity"/>
         <receiver
             android:name="com.philips.cdp.appframework.utility.NetworkReceiver"
             android:exported="false">

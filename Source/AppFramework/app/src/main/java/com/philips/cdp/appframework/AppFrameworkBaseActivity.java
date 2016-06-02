@@ -43,11 +43,11 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         ProductSelectionLogger.i(Constants.ACTIVITY, "onCreate");
         fragmentManager = getSupportFragmentManager();
 
-        initActionBar();
+       // initActionBar();
     }
 
     private void initActionBar() {
-        ActionBar mActionBar = this.getSupportActionBar();
+        ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !

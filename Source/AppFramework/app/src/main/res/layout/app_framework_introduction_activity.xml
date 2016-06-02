@@ -34,6 +34,7 @@
 
                 <com.shamanland.fonticon.FontIconView
                     android:id="@+id/appframework_leftarrow"
+                    style="@style/FontIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -50,6 +51,7 @@
 
                 <com.shamanland.fonticon.FontIconView
                     android:id="@+id/appframework_rightarrow"
+                    style="@style/FontIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

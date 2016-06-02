@@ -10,4 +10,14 @@
     <string name="introduction_screen_top_text">Title bottom aligned</string>
     <string name="introduction_screen_bottom_text">Second benefit text is bottom aligned</string>
     <string name="splash_screen_title">Mobile &lt;b>Apps&lt;/b></string>
+
+    <string-array name="hamburger_drawer_items">
+            
+        <item>Mobile App Home </item>
+            
+        <item>Support</item>
+            
+        <item>Settings</item>
+
+    </string-array>
 </resources>

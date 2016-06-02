@@ -1,14 +1,15 @@
 package com.philips.cdp.appframework.introscreen;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.philips.cdp.appframework.R;
+import com.philips.cdp.appframework.homoscreen.HomeActivity;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.shamanland.fonticon.FontIconView;
@@ -23,9 +24,9 @@ public class IntroductionScreenActivity extends UiKitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
         setContentView(R.layout.app_framework_introduction_activity);
         final ViewPager mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
@@ -34,11 +35,16 @@ public class IntroductionScreenActivity extends UiKitActivity {
         appframework_rightarrow = (FontIconView) findViewById(R.id.appframework_rightarrow);
         startRegistrationScreenButton = (TextView) findViewById(R.id.start_registration_button);
         appframeworkSkipButton = (TextView) findViewById(R.id.appframework_skip_button);
+        appframeworkSkipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+            }
+        });
         mIndicator = (CircleIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(mPager);
         mIndicator.setFillColor(Color.WHITE);
         mIndicator.setStrokeColor(Color.WHITE);
-
         appframework_leftarrow.setVisibility(FontIconView.GONE);
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
