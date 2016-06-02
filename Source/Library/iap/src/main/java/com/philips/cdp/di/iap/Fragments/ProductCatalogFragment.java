@@ -7,6 +7,9 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -115,7 +118,25 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
-            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
+            //addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
+            moveToProductDetailFragment(bundle);
+        }
+    }
+
+    private void moveToProductDetailFragment(Bundle bundle) {
+        Fragment fragment = getFragmentManager().findFragmentByTag(ProductDetailFragment.TAG);
+        if (fragment == null) {
+           // getFragmentManager().popBackStack(ShoppingCartFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE),
+                    ProductDetailFragment.TAG);
+        } else {
+            fragment.setArguments(bundle);
+            if (getActivity() != null && !getActivity().isFinishing()) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fl_mainFragmentContainer, fragment, ProductDetailFragment.TAG);
+                transaction.addToBackStack(ProductDetailFragment.TAG);
+                transaction.commitAllowingStateLoss();
+            }
         }
     }
 
