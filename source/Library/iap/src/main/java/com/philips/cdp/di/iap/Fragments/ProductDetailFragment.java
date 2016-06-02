@@ -34,7 +34,6 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements
@@ -169,7 +168,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private void makeAssetRequest() {
         String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
         if (!CartModelContainer.getInstance().isPRXAssetPresent(ctn)) {
-            //Removing Loading indecator as per Ajit Suggestion
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
             }
@@ -178,7 +176,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         } else {
             final HashMap<String, ArrayList<String>> prxAssetObjects = CartModelContainer.getInstance().getPRXAssetObjects();
             for (Map.Entry<String, ArrayList<String>> entry : prxAssetObjects.entrySet()) {
-                System.out.printf("Key : %s and Value: %s %n", entry.getKey(), entry.getValue());
                 if (entry.getKey().equalsIgnoreCase(ctn)) {
                     mAsset = entry.getValue();
                     break;

@@ -161,7 +161,7 @@ public class ShoppingCartData {
     }
 
     public int getStockLevel() {
-            return mEntry.getProduct().getStock().getStockLevel();
+        return mEntry.getProduct().getStock().getStockLevel();
     }
 
     @Override

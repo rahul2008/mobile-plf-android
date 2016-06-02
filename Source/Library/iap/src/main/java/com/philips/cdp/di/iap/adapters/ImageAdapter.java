@@ -17,33 +17,15 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends PagerAdapter {
     protected static ArrayList<String> mAssetsFromPRX = new ArrayList<>();
-    //private boolean mIsLaunchedFromProductCatalog;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 
     public ImageAdapter(Context context, FragmentManager fm, boolean isLaunchedFromProductCatalog, ArrayList<String> assets) {
         super();
-      //  mIsLaunchedFromProductCatalog = isLaunchedFromProductCatalog;
         mAssetsFromPRX = assets;
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
     }
-
-    /*public void setAsset(ArrayList<String> assets){
-        mAssetsFromPRX = assets;
-        notifyDataSetChanged();
-    }*/
-
-
-    /*@Override
-    public Fragment getItem(int position) {
-        ProductDetailImageNavigationFragment productDetailImageNavigationFragment = ProductDetailImageNavigationFragment.newInstance();
-        Bundle bundle = new Bundle();
-        bundle.putString(NetworkConstants.IAP_ASSET_URL, mAssetsFromPRX.get(position % mAssetsFromPRX.size()));
-        bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG,mIsLaunchedFromProductCatalog);
-        productDetailImageNavigationFragment.setArguments(bundle);
-        return productDetailImageNavigationFragment;
-    }*/
 
     @Override
     public int getCount() {
@@ -65,7 +47,6 @@ public class ImageAdapter extends PagerAdapter {
     }
 
     private void bindImageToViewPager(NetworkImageView imageView, String imageURL) {
-       // imageView = new NetworkImageView(mContext);
         ImageLoader mImageLoader;
         // Instantiate the RequestQueue.
         mImageLoader = NetworkImageLoader.getInstance(mContext)
@@ -75,8 +56,6 @@ public class ImageAdapter extends PagerAdapter {
                 0, R.drawable
                         .no_icon));
         imageView.setImageUrl(imageURL, mImageLoader);
-
-        //imageView.setImageResource(R.drawable.no_icon);
     }
 
     @Override
