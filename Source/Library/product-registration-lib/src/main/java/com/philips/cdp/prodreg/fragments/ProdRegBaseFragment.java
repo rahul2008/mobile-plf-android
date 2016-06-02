@@ -65,8 +65,8 @@ public abstract class ProdRegBaseFragment extends Fragment {
         mActivityContext = fragmentLauncher.getFragmentActivity();
         mActionbarUpdateListener = fragmentLauncher.getActionbarUpdateListener();
 
-        String startAnim = null;
-        String endAnim = null;
+        String startAnim;
+        String endAnim;
 
         if ((startAnimation != 0) && (endAnimation != 0)) {
             startAnim = mActivityContext.getResources().getResourceName(startAnimation);
