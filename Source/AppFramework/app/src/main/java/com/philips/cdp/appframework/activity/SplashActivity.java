@@ -5,7 +5,9 @@
 
 package com.philips.cdp.appframework.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
+import sample.com.appframework.MainActivity;
 import sample.com.appframework.R;
 
 /**
@@ -53,6 +56,7 @@ import sample.com.appframework.R;
  *
  */
 public class SplashActivity extends UiKitActivity {
+    private static int SPLASH_TIME_OUT = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,14 @@ public class SplashActivity extends UiKitActivity {
 
         super.onCreate(savedInstanceState);
 
+        initView();
+        startTimer();
+    }
+
+    /*
+     * Initialize the views.
+     */
+    private void initView() {
         //Hide the Action bar
         getSupportActionBar().hide();
         setContentView(R.layout.uikit_splash_screen_logo_center_tb);
@@ -78,5 +90,29 @@ public class SplashActivity extends UiKitActivity {
 
         TextView title = (TextView) findViewById(R.id.splash_title);
         title.setText(titleText);
+    }
+
+    /*
+     * Splash screen has to go off after specified timeframe.
+     */
+    private void startTimer() {
+        new Handler().postDelayed(new Runnable() {
+
+            /*
+             * Showing splash screen with a timer. This will be useful when you
+             * want to show case your app logo / company
+             */
+
+            @Override
+            public void run() {
+                // This method will be executed once the timer is over
+                // Start your app main activity
+//                Intent i = new Intent(SplashActivity.this, MainActivity.class);
+//                startActivity(i);
+
+                // close this activity
+                finish();
+            }
+        }, SPLASH_TIME_OUT);
     }
 }
