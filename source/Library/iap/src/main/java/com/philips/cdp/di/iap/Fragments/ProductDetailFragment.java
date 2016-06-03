@@ -139,14 +139,35 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void populateViewFromBundle() {
+        String actualPrice = mBundle.getString(IAPConstant.PRODUCT_PRICE);
+        String discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
+
         mProductDescription.setText(mBundle.getString(IAPConstant.PRODUCT_TITLE));
         mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
-        mPrice.setText(mBundle.getString(IAPConstant.PRODUCT_PRICE));
+        mPrice.setText(actualPrice);
         mProductOverview.setText(mBundle.getString(IAPConstant.PRODUCT_OVERVIEW));
-        String discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
 
         if (mLaunchedFromProductCatalog) {
             setCartIconVisibility(View.VISIBLE);
+
+            if(discountedPrice ==null || discountedPrice ==""){
+                mProductDiscountedPrice.setVisibility(View.GONE);
+                mPrice.setTextColor(Utility.getThemeColor(mContext));
+            }else if(actualPrice!=null && discountedPrice.equalsIgnoreCase(actualPrice)) {
+                mPrice.setVisibility(View.GONE);
+                mProductDiscountedPrice.setVisibility(View.VISIBLE);
+                mProductDiscountedPrice.setText(discountedPrice);
+            }else {
+                mProductDiscountedPrice.setVisibility(View.VISIBLE);
+                mProductDiscountedPrice.setText(discountedPrice);
+                mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+
+            /*if(actualPrice!=null && discountedPrice!=null && discountedPrice.equalsIgnoreCase(actualPrice)) {
+                mPrice.setVisibility(View.GONE);
+                mProductDiscountedPrice.setVisibility(View.VISIBLE);
+                mProductDiscountedPrice.setText(discountedPrice);
+            }else
             if (discountedPrice != null) {
                 mProductDiscountedPrice.setVisibility(View.VISIBLE);
                 mProductDiscountedPrice.setText(discountedPrice);
@@ -154,10 +175,10 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             } else{
                 mProductDiscountedPrice.setVisibility(View.GONE);
                 mPrice.setTextColor(Utility.getThemeColor(mContext));
-            }
+            }*/
         } else {
             mPrice.setVisibility(View.GONE);
-            mProductDiscountedPrice.setText(mBundle.getString(IAPConstant.PRODUCT_PRICE));
+            mProductDiscountedPrice.setText(actualPrice);
         }
     }
 

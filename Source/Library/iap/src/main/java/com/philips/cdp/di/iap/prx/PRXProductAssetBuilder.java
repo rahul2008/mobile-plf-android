@@ -27,12 +27,18 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 public class PRXProductAssetBuilder {
     private static final String TAG = PRXProductAssetBuilder.class.getSimpleName();
     private AssetListener mAssetListener;
     private Context mContext;
     String mCTN;
+    private static final int RTP = 1;
+    private static final int APP = 2;
+    private static final int DPP = 3;
+    private static final int MI1 = 4;
+    private static final int PID = 5;
 
     public interface AssetListener {
         void onFetchAssetSuccess(Message msg);
@@ -85,22 +91,38 @@ public class PRXProductAssetBuilder {
 
     private ArrayList<String> fetchImageUrlsFromPRXAssets(List<Asset> assets) {
         ArrayList<String> mAssetsFromPRX = new ArrayList<>();
-        int width = (int)mContext.getResources().getDisplayMetrics().widthPixels;
-        int height =  (int)mContext.getResources().getDimension(R.dimen.iap_product_detail_image_height);
+        TreeMap<Integer, String> sortedAssetsFromPRX = new TreeMap<>();
+        int width = (int) mContext.getResources().getDisplayMetrics().widthPixels;
+        int height = (int) mContext.getResources().getDimension(R.dimen.iap_product_detail_image_height);
 
         for (Asset asset : assets) {
-            if (isSupportedType(asset)) {
+            int assetType = getAssetType(asset);
+            if (assetType != -1) {
                 String imagepath = asset.getAsset() + "?wid=" + width +
                         "&hei=" + height + "&$pnglarge$" + "&fit=fit,1";
-                mAssetsFromPRX.add(imagepath);
+                sortedAssetsFromPRX.put(assetType, imagepath);
             }
+            mAssetsFromPRX = new ArrayList<>(sortedAssetsFromPRX.values());
         }
 
         return mAssetsFromPRX;
     }
 
-    private boolean isSupportedType(final Asset asset) {
-        return asset.getType().equalsIgnoreCase("RTP") || asset.getType().equalsIgnoreCase("APP") || asset.getType().equalsIgnoreCase("DPP") || asset.getType().equalsIgnoreCase("MI1") || asset.getType().equalsIgnoreCase("PID");
+    private int getAssetType(final Asset asset) {
+            switch (asset.getType()) {
+                case "RTP":
+                    return RTP;
+                case "APP":
+                    return APP;
+                case "DPP":
+                    return DPP;
+                case "MI1":
+                    return MI1;
+                case "PID":
+                    return PID;
+                default:
+                    return -1;
+            }
     }
 
     private void notifyError(final String error) {
