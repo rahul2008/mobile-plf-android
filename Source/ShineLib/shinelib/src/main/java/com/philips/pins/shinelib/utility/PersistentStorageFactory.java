@@ -10,12 +10,17 @@ import com.philips.pins.shinelib.SharedPreferencesProvider;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Class responsible for initializing various shared preferences used for storage.
+ * <p/>
+ * Use this class to obtain and retrieve/store storage for user data preferences, associated devices' info and other data.
+ */
 public class PersistentStorageFactory {
 
-    public static final String SHINELIB_KEY = "SHINELIB_PREFERENCES";
-    public static final String DEVICE_KEY = "_SHINELIB_DEVICE_PREFERENCES_FILE_KEY";
-    public static final String USER_KEY = "SHINELIB_USER_PREFERENCES";
-    public static final String DEVICE_ADDRESS_KEY = "SHINELIB_DEVICE_ADDRESS";
+    static final String SHINELIB_KEY = "SHINELIB_PREFERENCES";
+    static final String DEVICE_KEY = "_SHINELIB_DEVICE_PREFERENCES_FILE_KEY";
+    static final String USER_KEY = "SHINELIB_USER_PREFERENCES";
+    static final String DEVICE_ADDRESS_KEY = "SHINELIB_DEVICE_ADDRESS";
 
     @NonNull
     private final SharedPreferencesProvider sharedPreferencesProvider;
@@ -24,21 +29,43 @@ public class PersistentStorageFactory {
         this.sharedPreferencesProvider = sharedPreferencesProvider;
     }
 
+    /**
+     * Returns BlueLib general storage.
+     *
+     * @return storage that can be used to retrieve/store general data.
+     */
     @NonNull
     public PersistentStorage getPersistentStorage() {
         return new PersistentStorage(getSharedPreferences(SHINELIB_KEY));
     }
 
+    /**
+     * Returns BlueLib user specific storage.
+     *
+     * @return storage that can be used to retrieve/store user data.
+     */
     @NonNull
     public PersistentStorage getPersistentStorageForUser() {
         return new PersistentStorage(getSharedPreferences(USER_KEY));
     }
 
+    /**
+     * Returns BlueLib device specific storage.
+     *
+     * @param device instance to access storage for
+     * @return storage that can be used to retrieve/store device data.
+     */
     @NonNull
     public PersistentStorage getPersistentStorageForDevice(@NonNull final SHNDevice device) {
         return getPersistentStorageForDevice(device.getAddress());
     }
 
+    /**
+     * Returns BlueLib device specific storage.
+     *
+     * @param deviceAddress of a device to access storage for
+     * @return storage that can be used to retrieve/store device data.
+     */
     @NonNull
     public PersistentStorage getPersistentStorageForDevice(@NonNull final String deviceAddress) {
         String key = getDeviceKey(deviceAddress);
@@ -63,6 +90,11 @@ public class PersistentStorageFactory {
         return new PersistentStorage(getSharedPreferences(DEVICE_ADDRESS_KEY));
     }
 
+    /**
+     * Returns a cleaner class instance.
+     *
+     * @return persistent storage cleaner
+     */
     public PersistentStorageCleaner getPersistentStorageCleaner() {
         return new PersistentStorageCleaner(this);
     }

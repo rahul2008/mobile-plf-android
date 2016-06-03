@@ -11,6 +11,9 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+/**
+ * Deprecated. Use {@link com.philips.pins.shinelib.utility.PersistentStorage} instead.
+ */
 @Deprecated
 public class SHNDevicePersistentStorage {
 
@@ -19,6 +22,9 @@ public class SHNDevicePersistentStorage {
     @NonNull
     private final SharedPreferences sharedPreferences;
 
+    /**
+     * Deprecated. Obtain the proper device storage via {@link com.philips.pins.shinelib.utility.PersistentStorageFactory#getPersistentStorageForDevice(String)}
+     */
     @Deprecated
     public static SHNDevicePersistentStorage createNewSHNDevicePersistentStorage(@NonNull final Context context, @NonNull final String address) {
         return new SHNDevicePersistentStorage(context, address);
