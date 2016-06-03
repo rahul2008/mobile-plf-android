@@ -98,7 +98,9 @@ public class CaptureRecord extends JSONObject {
      */
     /*package*/ CaptureRecord(JSONObject jo, String accessToken) {
         super();
-
+        if(jo!= null && jo.optString("password") != null) {
+            jo.remove("password");
+        }
         original = (JSONObject) copyJsonVal(jo);
         JsonUtils.deepCopy(original, this);
         this.accessToken = accessToken;
