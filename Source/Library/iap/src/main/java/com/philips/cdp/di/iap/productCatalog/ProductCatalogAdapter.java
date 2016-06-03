@@ -66,16 +66,20 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ProductCatalogData productCatalogData = mData.get(position);
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
         String imageURL = productCatalogData.getImageURL();
+
+        String discountedPrice = productCatalogData.getDiscountedPrice();
+        String formatedPrice = productCatalogData.getFormatedPrice();
+
         productHolder.mProductName.setText(productCatalogData.getProductTitle());
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
-        productHolder.mPrice.setText(productCatalogData.getFormatedPrice());
+        productHolder.mPrice.setText(formatedPrice);
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());
-        if(productCatalogData.getDiscountedPrice()==null || productCatalogData.getDiscountedPrice()==""){
+        if(discountedPrice ==null || discountedPrice ==""){
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
             productHolder.mPrice.setTextColor(Utility.getThemeColor(mContext));
         }else {
             productHolder.mDiscountedPrice.setVisibility(View.VISIBLE);
-            productHolder.mDiscountedPrice.setText(productCatalogData.getDiscountedPrice());
+            productHolder.mDiscountedPrice.setText(discountedPrice);
             productHolder.mPrice.setPaintFlags(productHolder.mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
