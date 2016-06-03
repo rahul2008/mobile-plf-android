@@ -9,9 +9,6 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 
-/**
- * Created by 310188215 on 28/04/15.
- */
 public interface ISHNBluetoothGattCallback {
     void onConnectionStateChange(BluetoothGatt gatt, int status, int newState);
 

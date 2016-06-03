@@ -2,6 +2,7 @@
  * Copyright (c) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
+
 package com.philips.pins.shinelib;
 
 import android.os.Handler;
@@ -76,7 +77,7 @@ public class SHNInternalScanRequest {
     };
 
     /**
-     * Stops current running scan.
+     * Stops scanning for this request.
      */
     public void stopScanning() {
         deviceScannerInternal.stopScanning(SHNInternalScanRequest.this);
