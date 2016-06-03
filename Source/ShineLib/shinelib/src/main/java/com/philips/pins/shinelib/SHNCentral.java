@@ -43,6 +43,10 @@ import java.util.concurrent.FutureTask;
 
 /**
  * Central class for handling BlueLib initialisation, associating to peripherals and retrieving currently associated peripherals.
+ * <p/>
+ * Use a {@link com.philips.pins.shinelib.SHNCentral.Builder} to construct a {@code SHNCentral}.
+ * After that add {@link SHNDeviceDefinitionInfo} for device types using
+ * {@link #registerDeviceDefinition(SHNDeviceDefinitionInfo)} and then associate with a device type or start scanning for it.
  */
 public class SHNCentral {
 
@@ -411,30 +415,69 @@ public class SHNCentral {
         return applicationContext;
     }
 
+    /**
+     * Get the {@code PersistentStorageFactory} for this {@code SHNCentral}.
+     *
+     * @return the {@code PersistentStorageFactory}
+     */
     public PersistentStorageFactory getPersistentStorageFactory() {
         return persistentStorageFactory;
     }
 
+    /**
+     * Convenience method to run a {@code Runnable} on the {@code Handler} set with
+     * {@link com.philips.pins.shinelib.SHNCentral.Builder#setHandler(Handler)}
+     *
+     * @param runnable to run on the {@code Handler}
+     * @see com.philips.pins.shinelib.SHNCentral.Builder#setHandler(Handler)
+     */
     public void runOnUserHandlerThread(Runnable runnable) {
         userHandler.post(runnable);
     }
 
+    /**
+     * Get the bluetooth adapter's state.
+     *
+     * @return true if bluetooth adapter is enabled
+     */
     public boolean isBluetoothAdapterEnabled() {
         return bluetoothAdapterEnabled;
     }
 
+    /**
+     * Get the current BlueLib version (currently not supported)
+     *
+     * @return nothing
+     * @throws UnsupportedOperationException
+     */
     public String getVersion() {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Add a Device Definition to the {@link SHNDeviceDefinitions} managed by {@code SHNCentral}
+     *
+     * @param shnDeviceDefinitionInfo
+     * @return
+     */
     public boolean registerDeviceDefinition(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         return shnDeviceDefinitions.add(shnDeviceDefinitionInfo);
     }
 
+    /**
+     * Get the collection of currently registered device definitions.
+     *
+     * @return the collection of device definitions
+     */
     public SHNDeviceDefinitions getSHNDeviceDefinitions() {
         return shnDeviceDefinitions;
     }
 
+    /**
+     * Register a {@Link SHNCentralListener}.
+     *
+     * @param shnCentralListener listener to register
+     */
     public void registerShnCentralListener(SHNCentralListener shnCentralListener) {
         if (registeredShnCentralListeners == null) {
             registeredShnCentralListeners = new ArrayList<>();
@@ -444,12 +487,23 @@ public class SHNCentral {
         }
     }
 
+    /**
+     * Unregister a {@Link SHNCentralListener}.
+     *
+     * @param shnCentralListener listener to unregister
+     */
     public void unregisterShnCentralListener(SHNCentralListener shnCentralListener) {
         if (registeredShnCentralListeners != null) {
             registeredShnCentralListeners.remove(shnCentralListener);
         }
     }
 
+    /**
+     * Get the {@code SHNUserConfiguration} for this {@code SHNCentral}.
+     *
+     * @return the {@code SHNUserConfiguration} for this {@code SHNCentral}
+     */
+    @NonNull
     public SHNUserConfiguration getSHNUserConfiguration() {
         return shnUserConfiguration;
     }
@@ -463,6 +517,12 @@ public class SHNCentral {
         return shnDeviceScanner;
     }
 
+    /**
+     * Get the {@link SHNDeviceAssociation} for this {@code SHNCentral}.
+     *
+     * @return the {@code SHNDeviceAssociation} for this {@code SHNCentral}
+     */
+    @NonNull
     public SHNDeviceAssociation getShnDeviceAssociation() {
         if (shnDeviceAssociation == null) {
             shnDeviceAssociation = new SHNDeviceAssociation(this, shnDeviceScannerInternal, persistentStorageFactory);
@@ -480,6 +540,12 @@ public class SHNCentral {
         return shnCentralState;
     }
 
+    /**
+     * Get the {@code BTDevice} with the specified address.
+     *
+     * @param address to retrieve the device for
+     * @return the Bluetooth device
+     */
     public BTDevice getBTDevice(String address) {
         return btAdapter.getRemoteDevice(address);
     }
