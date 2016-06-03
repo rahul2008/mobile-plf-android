@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.ui;
+package com.philips.cdp.prodreg.launcher;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

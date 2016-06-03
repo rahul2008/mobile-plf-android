@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.ui;
+package com.philips.cdp.prodreg.launcher;
 
 import android.support.v4.app.FragmentActivity;
 

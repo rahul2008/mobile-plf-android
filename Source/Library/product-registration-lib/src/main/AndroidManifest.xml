@@ -6,7 +6,7 @@
         android:allowBackup="true"
         android:label="@string/app_name">
         <activity
-            android:name="com.philips.cdp.prodreg.ui.TestURActivity">
+            android:name="com.philips.cdp.prodreg.activity.ProdRegBaseActivity">
         </activity>
     </application>
 

@@ -14,8 +14,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
-import com.philips.cdp.prodreg.ui.FragmentLauncher;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
 
@@ -31,11 +31,10 @@ public abstract class ProdRegBaseFragment extends Fragment {
     private static int mExitAnimation = 0;
     private static FragmentActivity mFragmentActivityContext = null;
     private static FragmentActivity mActivityContext = null;
+    private static ActionbarUpdateListener mActionbarUpdateListener;
     private FragmentManager fragmentManager;
-    private ActionbarUpdateListener mActionbarUpdateListener;
-    private FragmentLauncher mFragmentLauncher;
     private ImageView mBackToHome = null;
-    private ImageView mHomeIcon = null;
+//    private ImageView mHomeIcon = null;
 
     public abstract String getActionbarTitle();
 
@@ -60,7 +59,6 @@ public abstract class ProdRegBaseFragment extends Fragment {
     public void showFragment(Fragment fragment, FragmentLauncher fragmentLauncher,
                              int startAnimation, int endAnimation) {
         Log.i("testing", "DigitalCare Base Fragment -- Fragment Invoke");
-        mFragmentLauncher = fragmentLauncher;
         mContainerId = fragmentLauncher.getParentContainerResourceID();
         mActivityContext = fragmentLauncher.getFragmentActivity();
         mActionbarUpdateListener = fragmentLauncher.getActionbarUpdateListener();
@@ -101,7 +99,8 @@ public abstract class ProdRegBaseFragment extends Fragment {
             containerId = mContainerId;
             mFragmentActivityContext = mActivityContext;
         } else {
-            enableActionBarLeftArrow();
+            mFragmentActivityContext = getActivity();
+//            enableActionBarLeftArrow();
             InputMethodManager imm = (InputMethodManager) mFragmentActivityContext
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             if (mFragmentActivityContext.getWindow() != null
@@ -188,9 +187,9 @@ public abstract class ProdRegBaseFragment extends Fragment {
     private void enableActionBarLeftArrow() {
         mBackToHome = (ImageView) mFragmentActivityContext
                 .findViewById(R.id.back_to_home_img);
-        mHomeIcon = (ImageView) mFragmentActivityContext
+        /*mHomeIcon = (ImageView) mFragmentActivityContext
                 .findViewById(R.id.home_icon);
-        mHomeIcon.setVisibility(View.GONE);
+        mHomeIcon.setVisibility(View.GONE);*/
         mBackToHome.setVisibility(View.VISIBLE);
         mBackToHome.bringToFront();
     }

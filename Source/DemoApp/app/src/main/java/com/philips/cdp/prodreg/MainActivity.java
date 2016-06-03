@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.prodreg.ui.TestURActivity;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Flow;
 import com.philips.cdp.registration.configuration.JanRainConfiguration;

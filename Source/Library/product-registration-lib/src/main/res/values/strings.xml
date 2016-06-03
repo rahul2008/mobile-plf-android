@@ -8,4 +8,5 @@
     <string name="title_activity_prod_reg">ProdRegActivity</string>
     <string name="img_description"> description </string>
     <string name="actionbar_title_support"> Support </string>
+    <string name="prod_reg_register_product_message">Register your products and</string>
 </resources>

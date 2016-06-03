@@ -15,14 +15,20 @@ package com.philips.cdp.prodreg.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
-import com.philips.cdp.prodreg.fragments.InitialFragment;
+import com.philips.cdp.prodreg.fragments.RegisterProductWelcomeFragment;
+import com.philips.cdp.prodreg.launcher.ActivityLauncher;
+import com.philips.cdp.prodreg.launcher.FragmentLauncher;
+import com.philips.cdp.prodreg.launcher.UiLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
-import com.philips.cdp.prodreg.ui.ActivityLauncher;
-import com.philips.cdp.prodreg.ui.FragmentLauncher;
-import com.philips.cdp.prodreg.ui.UiLauncher;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class ProdRegConfigManager {
 
@@ -57,6 +63,12 @@ public class ProdRegConfigManager {
 //        AnalyticsTracker.initContext(context);
     }
 
+    public void initializeProductRegistration(Context applicationContext) {
+        if (mContext == null) {
+            ProdRegConfigManager.mContext = applicationContext;
+        }
+    }
+
     /**
      * Returs the Context used in the DigitalCare Component
      *
@@ -71,9 +83,8 @@ public class ProdRegConfigManager {
      * method.
      * </p>
      * <b>Note: </b>
-     * <p> 1) Please consider the string "digitalcare" to identify the MainScreen Fragment as a
+     * <p> 1) Please consider the string "product_registration" to identify the MainScreen Fragment as a
      * Fragment ID. </p>
-     * <p> 2) Please make sure to set the Locale before calling this method.  </p>
      *
      * @param context                 Context of the FragmentActivity
      * @param parentContainerResId    Fragment container resource ID
@@ -96,10 +107,40 @@ public class ProdRegConfigManager {
 
         FragmentLauncher fragmentLauncher = new FragmentLauncher(context, parentContainerResId,
                 actionbarUpdateListener);
+        User user = new User(context);
 
-        InitialFragment supportFrag = new InitialFragment();
-        supportFrag.showFragment(supportFrag,
-                fragmentLauncher, enterAnim, exitAnim);
+        if (user.isUserSignIn()) {
+            RegisterProductWelcomeFragment supportFrag = new RegisterProductWelcomeFragment();
+            supportFrag.showFragment(supportFrag,
+                    fragmentLauncher, enterAnim, exitAnim);
+        } else {
+            RegistrationFragment registrationFragment = new RegistrationFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
+            registrationFragment.setArguments(bundle);
+            registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
+                @Override
+                public void updateRegistrationTitle(final int i) {
+
+                }
+
+                @Override
+                public void updateRegistrationTitleWithBack(final int i) {
+
+                }
+
+                @Override
+                public void updateRegistrationTitleWithOutBack(final int i) {
+
+                }
+            });
+            FragmentTransaction fragmentTransaction = context.getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.addToBackStack(registrationFragment.getTag());
+            fragmentTransaction.replace(parentContainerResId, registrationFragment,
+                    RegConstants.REGISTRATION_FRAGMENT_TAG);
+            fragmentTransaction.commit();
+        }
+
     }
 
     public void invokeProductRegistration(UiLauncher uiLauncher) {

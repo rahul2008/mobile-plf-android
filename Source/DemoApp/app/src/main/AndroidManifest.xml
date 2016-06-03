@@ -29,6 +29,9 @@
         </activity>
         <activity android:name="com.philips.cdp.prodreg.ProductActivity"/>
         <activity android:name="com.philips.cdp.prodreg.RegisteredProductsList"/>
+        <activity
+            android:name="com.philips.cdp.prodreg.TestURActivity">
+        </activity>
 
     </application>
 

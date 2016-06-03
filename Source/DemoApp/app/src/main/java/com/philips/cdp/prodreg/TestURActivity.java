@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.ui;
+package com.philips.cdp.prodreg;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 
+import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.util.ProdRegConfigManager;
-import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.UiKitActivity;
 
 public class TestURActivity extends UiKitActivity {

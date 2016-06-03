@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,16 +24,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.philips.cdp.prodreg.fragments.InitialFragment;
+import com.philips.cdp.prodreg.fragments.RegisterProductWelcomeFragment;
 import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
-public abstract class ProdRegBaseActivity extends FragmentActivity {
+public class ProdRegBaseActivity extends FragmentActivity {
     private static String TAG = ProdRegBaseActivity.class.getSimpleName();
 
-    private RelativeLayout mActionBarlayout = null;
-    private ImageView mActionBarMenuIcon = null;
+    private RelativeLayout mActionBarLayout = null;
+    //    private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private TextView mActionBarTitle = null;
     private FragmentManager fragmentManager = null;
@@ -45,13 +48,13 @@ public abstract class ProdRegBaseActivity extends FragmentActivity {
         public void onClick(View view) {
             int _id = view.getId();
             if (_id == R.id.action_bar_icon_parent) {
-                if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
-                    finish();
-                else if (mActionBarArrow.getVisibility() == View.VISIBLE)
+               /* if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
+                    finish();*/
+                if (mActionBarArrow.getVisibility() == View.VISIBLE)
                     backStackFragment();
-            } else if (_id == R.id.home_icon) {
+            } /*else if (_id == R.id.home_icon) {
                 finish();
-            } else if (_id == R.id.back_to_home_img)
+            } */ else if (_id == R.id.back_to_home_img)
                 backStackFragment();
         }
     };
@@ -60,6 +63,7 @@ public abstract class ProdRegBaseActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.prodreg_activity);
         ProdRegConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
 
@@ -69,19 +73,57 @@ public abstract class ProdRegBaseActivity extends FragmentActivity {
             Log.e(TAG, "Actionbar: " + e.getMessage());
         }
         animateThisScreen();
-        showFragment(new InitialFragment());
-        enableActionBarHome();
+        User user = new User(this);
+        if (user.isUserSignIn()) {
+            showFragment(new RegisterProductWelcomeFragment());
+        } else {
+            showUserRegistrationFragment();
+        }
+//        enableActionBarHome();
+        enableActionBarLeftArrow();
+    }
+
+    private void showUserRegistrationFragment() {
+        launchRegistrationFragment();
+    }
+
+    private void launchRegistrationFragment() {
+        RegistrationFragment registrationFragment = new RegistrationFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
+        registrationFragment.setArguments(bundle);
+        registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
+            @Override
+            public void updateRegistrationTitle(final int i) {
+
+            }
+
+            @Override
+            public void updateRegistrationTitleWithBack(final int i) {
+
+            }
+
+            @Override
+            public void updateRegistrationTitleWithOutBack(final int i) {
+
+            }
+        });
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(registrationFragment.getTag());
+        fragmentTransaction.replace(R.id.mainContainer, registrationFragment,
+                RegConstants.REGISTRATION_FRAGMENT_TAG);
+        fragmentTransaction.commit();
     }
 
     protected void initActionBar() throws ClassCastException {
-        mActionBarlayout = (RelativeLayout) findViewById(R.id.action_bar_icon_parent);
-        mActionBarMenuIcon = (ImageView) findViewById(R.id.home_icon);
+        mActionBarLayout = (RelativeLayout) findViewById(R.id.action_bar_icon_parent);
+//        mActionBarMenuIcon = (ImageView) findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) findViewById(R.id.back_to_home_img);
         mActionBarTitle = (TextView) findViewById(R.id.action_bar_title);
 
-        mActionBarMenuIcon.setOnClickListener(actionBarClickListener);
+//        mActionBarMenuIcon.setOnClickListener(actionBarClickListener);
         mActionBarArrow.setOnClickListener(actionBarClickListener);
-        mActionBarlayout.setOnClickListener(actionBarClickListener);
+        mActionBarLayout.setOnClickListener(actionBarClickListener);
     }
 
     @Override
@@ -102,18 +144,13 @@ public abstract class ProdRegBaseActivity extends FragmentActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return backStackFragment();
-        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+    public void onBackPressed() {
+        super.onBackPressed();
+        backStackFragment();
     }
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         if (prodRegConfigManager != null) {
             prodRegConfigManager = null;
@@ -144,18 +181,18 @@ public abstract class ProdRegBaseActivity extends FragmentActivity {
     }
 
     private void enableActionBarLeftArrow() {
-        mActionBarMenuIcon.setVisibility(View.GONE);
+//        mActionBarMenuIcon.setVisibility(View.GONE);
         mActionBarArrow.setVisibility(View.VISIBLE);
         mActionBarArrow.bringToFront();
     }
 
-    protected void enableActionBarHome() {
+    /*protected void enableActionBarHome() {
         mActionBarMenuIcon.setVisibility(View.VISIBLE);
         mActionBarMenuIcon.bringToFront();
         mActionBarArrow.setVisibility(View.GONE);
         mActionBarTitle.setText(getResources().getString(
                 R.string.actionbar_title_support));
-    }
+    }*/
 
     protected void showFragment(Fragment fragment) {
         try {
@@ -178,10 +215,6 @@ public abstract class ProdRegBaseActivity extends FragmentActivity {
 
     private void animateThisScreen() {
         Bundle bundleExtras = getIntent().getExtras();
-
-        String startAnim = null;
-        String endAnim = null;
-
         int startAnimation = bundleExtras.getInt(ProdRegConstants.START_ANIMATION_ID);
         int endAnimation = bundleExtras.getInt(ProdRegConstants.STOP_ANIMATION_ID);
         int orientation = bundleExtras.getInt(ProdRegConstants.SCREEN_ORIENTATION);
@@ -190,8 +223,8 @@ public abstract class ProdRegBaseActivity extends FragmentActivity {
             return;
         }
 
-        startAnim = getResources().getResourceName(startAnimation);
-        endAnim = getResources().getResourceName(endAnimation);
+        final String startAnim = getResources().getResourceName(startAnimation);
+        final String endAnim = getResources().getResourceName(endAnimation);
 
         String packageName = getPackageName();
         final int mEnterAnimation = getApplicationContext().getResources().getIdentifier(startAnim,

@@ -13,10 +13,10 @@
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/home_icon"
             style="@style/actionbarIconHomeImageView"
-            android:contentDescription="@string/img_description"/>
+            android:contentDescription="@string/img_description"/>-->
 
         <ImageView
             android:id="@+id/back_to_home_img"

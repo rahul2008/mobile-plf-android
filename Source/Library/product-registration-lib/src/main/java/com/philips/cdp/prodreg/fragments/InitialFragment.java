@@ -54,7 +54,7 @@ public class InitialFragment extends ProdRegBaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                launchRegistrationFragment(R.id.parent_layout, getActivity(), false);
+//                launchRegistrationFragment(R.id.parent_layout, getActivity(), false);
             }
         };
     }
