@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".introscreen.IntroductionScreenActivity" />
+        <activity android:name=".userregistrationscreen.UserRegistrationActivity" />
         <activity android:name=".homoscreen.HomeActivity"/>
         <receiver
             android:name="com.philips.cdp.appframework.utility.NetworkReceiver"

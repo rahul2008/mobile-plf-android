@@ -12,11 +12,11 @@ import android.widget.TextView;
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homoscreen.HomeActivity;
+import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.shamanland.fonticon.FontIconView;
 
@@ -167,14 +167,14 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
                 if(user.isUserSignIn()){
                     startActivity(new Intent(IntroductionScreenActivity.this,HomeActivity.class));
                 }else {
-                    startActivity(new Intent(IntroductionScreenActivity.this, RegistrationActivity.class));
+                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
                 }
                 break;
             case R.id.appframework_skip_button :
                 if(user.isUserSignIn()){
                     startActivity(new Intent(IntroductionScreenActivity.this,HomeActivity.class));
                 }else {
-                    startActivity(new Intent(IntroductionScreenActivity.this, RegistrationActivity.class));
+                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
                 }
                 break;
 
