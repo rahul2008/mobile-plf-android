@@ -5,12 +5,12 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "philips.di.cl.appframework"
+        applicationId "com.philips.cdp.appframework"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "0.0.1"
-
+        vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         generatedDensities = []
