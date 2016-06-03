@@ -6,7 +6,7 @@
 package com.philips.pins.shinelib.exceptions;
 
 /**
- * Created by 310188215 on 04/03/15.
+ * Error that is thrown when no Bluetooth hardware is available
  */
 public class SHNBluetoothHardwareUnavailableException extends Throwable {
 }
