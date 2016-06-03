@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
 
@@ -27,21 +27,24 @@ public interface SHNCapabilityDeviceInformation extends SHNCapability {
         /**
          * The requested data has been retrieved successfully.
          *
-         * @param deviceInformationType The type of information retrieved.
-         * @param value                 The value of the information.
-         * @param dateWhenAcquired      The date when the value was acquired.
+         * @param deviceInformationType type of information retrieved
+         * @param value                 value of the information
+         * @param dateWhenAcquired      date when the value was acquired
          */
         void onDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final String value, @NonNull final Date dateWhenAcquired);
 
         /**
          * An error occurred while retrieving the required information.
          *
-         * @param deviceInformationType The type of information retrieved.
-         * @param error                 The error that occurred.
+         * @param deviceInformationType type of information retrieved
+         * @param error                 that occurred
          */
         void onError(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final SHNResult error);
     }
 
+    /**
+     * Supported device information types.
+     */
     enum SHNDeviceInformationType {
         ManufacturerName,
         ModelNumber,
@@ -65,8 +68,8 @@ public interface SHNCapabilityDeviceInformation extends SHNCapability {
     /**
      * Read out the device information.
      *
-     * @param deviceInformationType The type of information to read.
-     * @param listener              A listener to receive callbacks on.
+     * @param deviceInformationType type of information to read
+     * @param listener              to receive callbacks on
      */
     void readDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final Listener listener);
 }
