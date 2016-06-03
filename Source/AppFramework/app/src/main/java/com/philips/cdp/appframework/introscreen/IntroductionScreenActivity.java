@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homoscreen.HomeActivity;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -159,12 +160,22 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
     @Override
     public void onClick(View v) {
+        User user = new User(this);
+
         switch (v.getId()){
             case R.id.start_registration_button :
-                startActivity(new Intent(IntroductionScreenActivity.this, RegistrationActivity.class));
+                if(user.isUserSignIn()){
+                    startActivity(new Intent(IntroductionScreenActivity.this,HomeActivity.class));
+                }else {
+                    startActivity(new Intent(IntroductionScreenActivity.this, RegistrationActivity.class));
+                }
                 break;
             case R.id.appframework_skip_button :
-                startActivity(new Intent(IntroductionScreenActivity.this, RegistrationActivity.class));
+                if(user.isUserSignIn()){
+                    startActivity(new Intent(IntroductionScreenActivity.this,HomeActivity.class));
+                }else {
+                    startActivity(new Intent(IntroductionScreenActivity.this, RegistrationActivity.class));
+                }
                 break;
 
         }

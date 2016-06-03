@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -98,7 +97,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         Tagging.pauseCollectingLifecycleData();
     }
 
-    @Override
+  /*  @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             return backstackFragment();
@@ -106,7 +105,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
 
     @Override
     protected void onDestroy() {
