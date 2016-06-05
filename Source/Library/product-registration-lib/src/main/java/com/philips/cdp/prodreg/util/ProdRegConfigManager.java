@@ -183,6 +183,7 @@ public class ProdRegConfigManager {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, startAnimation);
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, endAnimation);
+        intent.putExtra(ProdRegConstants.PROD_REG_ON_REGISTRATION, mUiLauncher.isOnUserRegistrationSuccess());
         intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, orientation.getOrientationValue());
         getContext().startActivity(intent);
     }
