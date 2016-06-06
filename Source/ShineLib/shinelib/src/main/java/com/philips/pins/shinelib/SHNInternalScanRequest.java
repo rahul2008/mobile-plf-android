@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import android.os.Handler;
@@ -7,6 +12,12 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Used by the {@link SHNDeviceScannerInternal} to scan for devices.
+ * <p/>
+ * When the {@code SHNDeviceScannerInternal} finds a device that it supports, it will inform all {@code SHNInternalScanRequests}.
+ * Each {@code SHNInternalScanRequest} will use its parameters to determine if it should inform its listener.
+ */
 public class SHNInternalScanRequest {
 
     @NonNull
@@ -28,16 +39,13 @@ public class SHNInternalScanRequest {
     private Handler internalHandler;
 
     /**
-     * Used by the SHNDeviceScannerInternal to scan for devices. When the SHNDeviceScannerInternal finds a device that it supports,
-     * it will inform all SHNInternalScanRequests. Each SHNInternalScanRequest will use its parameters to determine if it should inform its listener.
-     *
-     * @param deviceDefinitionsToFilter  Optional list of SHNDeviceDefinitionInfo to filter. When a non-empty list is supplied, only devices
+     * @param deviceDefinitionsToFilter  optional list of SHNDeviceDefinitionInfo to filter. When a non-empty list is supplied, only devices
      *                                   of the supplied type will be reported.
-     * @param deviceMacAddressesToFilter Optional list of mac addresses to filter. When a non-empty list is supplied, only devices
+     * @param deviceMacAddressesToFilter optional list of mac addresses to filter. When a non-empty list is supplied, only devices
      *                                   with addresses on the list will be reported.
-     * @param allowDuplicates            Flag to indicate if a certain device should be reported more than once.
+     * @param allowDuplicates            flag to indicate if a certain device should be reported more than once.
      * @param stopScanningAfterMS        timeout for scanning in milliseconds.
-     * @param shnDeviceScannerListener   Listener for callbacks.
+     * @param shnDeviceScannerListener   listener for callbacks.
      */
     public SHNInternalScanRequest(@Nullable final List<SHNDeviceDefinitionInfo> deviceDefinitionsToFilter, @Nullable final List<String> deviceMacAddressesToFilter, final boolean allowDuplicates, final long stopScanningAfterMS, @NonNull final SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
         this.deviceDefinitions = (deviceDefinitionsToFilter != null ? deviceDefinitionsToFilter : new ArrayList<SHNDeviceDefinitionInfo>());
@@ -71,6 +79,9 @@ public class SHNInternalScanRequest {
         }
     };
 
+    /**
+     * Stops scanning for this request.
+     */
     public void stopScanning() {
         deviceScannerInternal.stopScanning(SHNInternalScanRequest.this);
     }

@@ -10,14 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Class representing a wrapper around {@link android.content.SharedPreferences} interface. Use this class to store any information withing BlueLib.
+ */
 public class PersistentStorage implements SharedPreferences {
     private static final String TAG = "PersistentStorage";
 
     private static final String SHORT_VALUE = "SHORT_VALUE";
-    public static final String ENUM_NAME = "ENUM_NAME";
-    public static final String DOUBLE_VALUE = "DOUBLE_VALUE";
-    public static final String LIST_BASE = "_LIST_";
-    public static final String SIZE = "SIZE";
+    private static final String ENUM_NAME = "ENUM_NAME";
+    private static final String DOUBLE_VALUE = "DOUBLE_VALUE";
+    private static final String LIST_BASE = "_LIST_";
+    private static final String SIZE = "SIZE";
 
     @NonNull
     private SharedPreferences sharedPreferences;
@@ -26,6 +29,13 @@ public class PersistentStorage implements SharedPreferences {
         this.sharedPreferences = sharedPreferences;
     }
 
+    /**
+     * Stores a value in SharedPreferences for the specified key.
+     *
+     * @param key   to use for storage
+     * @param value to store
+     * @param <T>   type of the value to store
+     */
     public <T> void put(@NonNull final String key, @Nullable final T value) {
         SharedPreferences.Editor edit = sharedPreferences.edit();
         if (value == null) {
@@ -84,11 +94,26 @@ public class PersistentStorage implements SharedPreferences {
         }
     }
 
+    /**
+     * Retrieves a value in SharedPreferences for the specified key with specified default value.
+     *
+     * @param key          used for storage
+     * @param defaultValue returned in case the key is not found
+     * @param <T>          type of the return value
+     * @return
+     */
     public <T> T get(@NonNull final String key, @Nullable T defaultValue) {
         T value = get(key);
         return (value != null ? value : defaultValue);
     }
 
+    /**
+     * Retrieves a value in SharedPreferences for the specified key with predefined default value.
+     *
+     * @param key used for storage
+     * @param <T> type of the return value
+     * @return
+     */
     public <T> T get(@NonNull final String key) {
         Object value = getAll().get(key);
         if (value == null) {
@@ -183,66 +208,120 @@ public class PersistentStorage implements SharedPreferences {
         return storedList;
     }
 
+    /**
+     * Clear this storage.
+     */
     public void clear() {
         sharedPreferences.edit().clear().commit();
     }
 
-    // Pass through methods
-
+    /**
+     * Pass through method
+     *
+     * @see android.content.SharedPreferences#getAll()
+     */
     @Override
     public Map<String, ?> getAll() {
         return sharedPreferences.getAll();
     }
 
+    /**
+     * Pass through method
+     *
+     * @see android.content.SharedPreferences#getString(String, String)
+     */
     @Nullable
     @Override
     public String getString(final String key, final String defValue) {
         return sharedPreferences.getString(key, defValue);
     }
 
+    /**
+     * Pass through method
+     *
+     * @see android.content.SharedPreferences#getStringSet(String, Set)
+     */
     @Nullable
     @Override
     public Set<String> getStringSet(final String key, final Set<String> defValues) {
         return sharedPreferences.getStringSet(key, defValues);
     }
 
+    /**
+     * Pass through method
+     *
+     * @see android.content.SharedPreferences#getInt(String, int)
+     */
     @Override
     public int getInt(final String key, final int defValue) {
         return sharedPreferences.getInt(key, defValue);
     }
 
+    /**
+     * Pass through method
+     *
+     * @see android.content.SharedPreferences#getLong(String, long)
+     */
     @Override
     public long getLong(final String key, final long defValue) {
         return sharedPreferences.getLong(key, defValue);
     }
 
+    /**
+     * Pass through method
+     *
+     * @see android.content.SharedPreferences#getFloat(String, float)
+     */
     @Override
     public float getFloat(final String key, final float defValue) {
         return sharedPreferences.getFloat(key, defValue);
     }
 
+    /**
+     * Pass through method
+     *
+     * @see android.content.SharedPreferences#getBoolean(String, boolean)
+     */
     @Override
     public boolean getBoolean(final String key, final boolean defValue) {
         return sharedPreferences.getBoolean(key, defValue);
     }
 
+    /**
+     * Pass through method
+     *
+     * @see android.content.SharedPreferences#contains(String)
+     */
     @Override
     public boolean contains(final String key) {
         return sharedPreferences.contains(key);
     }
 
+    /**
+     * Pass through method
+     *
+     * @see android.content.SharedPreferences#registerOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener)
+     */
     @Override
     public void registerOnSharedPreferenceChangeListener(
             final OnSharedPreferenceChangeListener listener) {
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
+    /**
+     * Pass through method
+     *
+     * @see android.content.SharedPreferences#unregisterOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener)
+     */
     @Override
     public void unregisterOnSharedPreferenceChangeListener(
             final OnSharedPreferenceChangeListener listener) {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
+    /**
+     * Throws IllegalAccessError. For threading purposes usage of Editor is prohibited. Use generic put instead.
+     */
     @Override
     @Deprecated
     public Editor edit() {

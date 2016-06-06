@@ -80,6 +80,9 @@ def javaDocClassesForPublicApi = ['SHNCentral',
 def javaDocClassesForPluginApi = javaDocClassesForPublicApi + [
         'SHNAssociationProcedurePlugin',
         'SHNDeviceScannerInternal',
+        'SHNInternalScanRequest',
+        'SHNDeviceFoundInfo',
+        'BleScanRecord',
         'PersistentStorage',
         'PersistentStorageFactory',
         'PersistentStorageCleaner',
@@ -104,6 +107,13 @@ task generateJavadocPublicApi(type: Javadoc) {
     for (file in javaDocClassesForPublicApi) {
         include("**/" + file + ".java")
     }
+
+    options {
+        memberLevel = JavadocMemberLevel.PUBLIC
+        links("http://docs.oracle.com/javase/7/docs/api/");
+        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
+    }
+
     failOnError false
 }
 
@@ -114,6 +124,13 @@ task generateJavadocPluginApi(type: Javadoc) {
     for (file in javaDocClassesForPluginApi) {
         include("**/" + file + ".java")
     }
+
+    options {
+        memberLevel = JavadocMemberLevel.PUBLIC
+        links("http://docs.oracle.com/javase/7/docs/api/");
+        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
+    }
+
     failOnError false
 }
 

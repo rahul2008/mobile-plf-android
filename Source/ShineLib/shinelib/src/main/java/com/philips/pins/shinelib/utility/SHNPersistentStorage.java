@@ -14,6 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Deprecated. Use {@link com.philips.pins.shinelib.utility.PersistentStorage} instead.
+ */
 @Deprecated
 public class SHNPersistentStorage {
     public static final String SHINELIB_PREFERENCES_FILE_KEY = "SHINELIB_PREFERENCES";
@@ -124,5 +127,4 @@ public class SHNPersistentStorage {
         }
         return null;
     }
-
 }

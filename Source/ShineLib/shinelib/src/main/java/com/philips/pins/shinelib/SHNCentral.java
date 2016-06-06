@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
 
@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
@@ -32,20 +33,54 @@ import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
+/**
+ * Central class for handling BlueLib initialisation, associating to peripherals and retrieving currently associated peripherals.
+ * <p/>
+ * Use a {@link com.philips.pins.shinelib.SHNCentral.Builder} to construct a {@code SHNCentral}.
+ * After that add {@link SHNDeviceDefinitionInfo} for device types using
+ * {@link #registerDeviceDefinition(SHNDeviceDefinitionInfo)} and then associate with a device type or start scanning for it.
+ */
 public class SHNCentral {
 
+    private int bluetoothAdapterState;
+
+    /**
+     * State that the {@link SHNCentral} currently is in.
+     */
     public enum State {
-        SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
+        /**
+         * {@code SHNCentral} is in an error state
+         */
+        SHNCentralStateError,
+        /**
+         * {@code SHNCentral} is not yet ready to communicate with peripherals
+         */
+        SHNCentralStateNotReady,
+        /**
+         * {@code SHNCentral} is ready to communicate with peripherals
+         */
+        SHNCentralStateReady
     }
 
+    /**
+     * A listener for changes in {@code SHNCentral}.
+     */
     public interface SHNCentralListener {
-        void onStateUpdated(SHNCentral shnCentral);
+
+        /**
+         * Called when the state of the {@code SHNCentral} was changed.
+         *
+         * @param shnCentral the {@code SHNCentral} object that had its state changed.
+         */
+        void onStateUpdated(@NonNull SHNCentral shnCentral);
     }
 
     private static final String TAG = SHNCentral.class.getSimpleName();
@@ -62,8 +97,8 @@ public class SHNCentral {
             final String action = intent.getAction();
 
             if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
-                switch (state) {
+                bluetoothAdapterState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+                switch (bluetoothAdapterState) {
                     case BluetoothAdapter.STATE_OFF:
                     case BluetoothAdapter.STATE_TURNING_OFF:
                     case BluetoothAdapter.STATE_TURNING_ON:
@@ -87,6 +122,7 @@ public class SHNCentral {
     private SHNDeviceDefinitions shnDeviceDefinitions;
     private PersistentStorageFactory persistentStorageFactory;
     private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners = new HashMap<>();
+    private Map<String, WeakReference<SHNCentralListener>> shnCentralStatusListeners = new HashMap<>();
 
     private SharedPreferencesProvider defaultSharedpreferencesProvider = new SharedPreferencesProvider() {
         @NonNull
@@ -102,6 +138,14 @@ public class SHNCentral {
         }
     };
 
+    /**
+     * Old constructor of {@code SHNCentral}. Do not use.
+     *
+     * @param handler
+     * @param context
+     * @throws SHNBluetoothHardwareUnavailableException
+     * @deprecated Use the {@link SHNCentral.Builder} instead.
+     */
     @Deprecated
     public SHNCentral(Handler handler, final Context context) throws SHNBluetoothHardwareUnavailableException {
         this(handler, context, false, null, false);
@@ -214,11 +258,24 @@ public class SHNCentral {
         shnBondStatusListeners.remove(address);
     }
 
+    /* package */ void registerSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
+        shnCentralStatusListeners.put(address, new WeakReference<>(shnCentralListener));
+    }
+
+    /* package */ void unregisterSHNCentralStatusListenerForAddress(SHNCentralListener shnCentralListener, String address) {
+        shnCentralStatusListeners.remove(address);
+    }
+
+    /* package */ int getBluetoothAdapterState() {
+        return bluetoothAdapterState;
+    }
+
     private void setState(final State state) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
                 SHNCentral.this.shnCentralState = state;
+                onSHNCentralStateChanged();
                 if (registeredShnCentralListeners != null) {
                     // copy the array to prevent ConcurrentModificationException
                     ArrayList<SHNCentralListener> copyOfRegisteredShnCentralListeners = new ArrayList<>(registeredShnCentralListeners);
@@ -270,6 +327,19 @@ public class SHNCentral {
         }
     }
 
+    private void onSHNCentralStateChanged() {
+        Set<String> keys = new HashSet<>(shnCentralStatusListeners.keySet());
+        for (String key : keys) {
+            WeakReference<SHNCentralListener> shnCentralListenerWeakReference = shnCentralStatusListeners.get(key);
+            SHNCentralListener shnCentralListener = shnCentralListenerWeakReference.get();
+            if (shnCentralListener != null) {
+                shnCentralListener.onStateUpdated(this);
+            } else {
+                shnCentralStatusListeners.remove(key);
+            }
+        }
+    }
+
     private PersistentStorageFactory setUpPersistentStorageFactory(Context context, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
         PersistentStorageFactory defaultPersistentStorageFactory = createPersistentStorageFactory(defaultSharedpreferencesProvider);
 
@@ -300,14 +370,30 @@ public class SHNCentral {
         void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
     }
 
+    /**
+     * Get the {@code Handler} that is used to run internal tasks on.
+     *
+     * @return the {@code Handler} that is used for internal tasks
+     */
     public Handler getInternalHandler() {
         return internalHandler;
     }
 
+    /**
+     * Get the {@code Handler} that is used to run callbacks on.
+     *
+     * @return the {@code Handler} that is used for callbacks
+     * @see com.philips.pins.shinelib.SHNCentral.Builder#setHandler(Handler)
+     */
     public Handler getUserHandler() {
         return userHandler;
     }
 
+    /**
+     * Shutdown {@code SHNCentral}.
+     * <p/>
+     * This should be called before the object is destroyed by the garbage collector.
+     */
     public void shutdown() {
         internalHandler.getLooper().quitSafely();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
@@ -319,34 +405,79 @@ public class SHNCentral {
         shnDeviceScannerInternal = null;
     }
 
+    /**
+     * Get the {@code Context} set during construction of the {@code SHNCentral}.
+     *
+     * @return the {@code SHNCentral Context}
+     * @see com.philips.pins.shinelib.SHNCentral.Builder
+     */
     public Context getApplicationContext() {
         return applicationContext;
     }
 
+    /**
+     * Get the {@code PersistentStorageFactory} for this {@code SHNCentral}.
+     *
+     * @return the {@code PersistentStorageFactory}
+     */
     public PersistentStorageFactory getPersistentStorageFactory() {
         return persistentStorageFactory;
     }
 
+    /**
+     * Convenience method to run a {@code Runnable} on the {@code Handler} set with
+     * {@link com.philips.pins.shinelib.SHNCentral.Builder#setHandler(Handler)}
+     *
+     * @param runnable to run on the {@code Handler}
+     * @see com.philips.pins.shinelib.SHNCentral.Builder#setHandler(Handler)
+     */
     public void runOnUserHandlerThread(Runnable runnable) {
         userHandler.post(runnable);
     }
 
+    /**
+     * Get the bluetooth adapter's state.
+     *
+     * @return true if bluetooth adapter is enabled
+     */
     public boolean isBluetoothAdapterEnabled() {
         return bluetoothAdapterEnabled;
     }
 
+    /**
+     * Get the current BlueLib version (currently not supported)
+     *
+     * @return nothing
+     * @throws UnsupportedOperationException
+     */
     public String getVersion() {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Add a Device Definition to the {@link SHNDeviceDefinitions} managed by {@code SHNCentral}
+     *
+     * @param shnDeviceDefinitionInfo
+     * @return
+     */
     public boolean registerDeviceDefinition(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         return shnDeviceDefinitions.add(shnDeviceDefinitionInfo);
     }
 
+    /**
+     * Get the collection of currently registered device definitions.
+     *
+     * @return the collection of device definitions
+     */
     public SHNDeviceDefinitions getSHNDeviceDefinitions() {
         return shnDeviceDefinitions;
     }
 
+    /**
+     * Register a {@Link SHNCentralListener}.
+     *
+     * @param shnCentralListener listener to register
+     */
     public void registerShnCentralListener(SHNCentralListener shnCentralListener) {
         if (registeredShnCentralListeners == null) {
             registeredShnCentralListeners = new ArrayList<>();
@@ -356,20 +487,42 @@ public class SHNCentral {
         }
     }
 
+    /**
+     * Unregister a {@Link SHNCentralListener}.
+     *
+     * @param shnCentralListener listener to unregister
+     */
     public void unregisterShnCentralListener(SHNCentralListener shnCentralListener) {
         if (registeredShnCentralListeners != null) {
             registeredShnCentralListeners.remove(shnCentralListener);
         }
     }
 
+    /**
+     * Get the {@code SHNUserConfiguration} for this {@code SHNCentral}.
+     *
+     * @return the {@code SHNUserConfiguration} for this {@code SHNCentral}
+     */
+    @NonNull
     public SHNUserConfiguration getSHNUserConfiguration() {
         return shnUserConfiguration;
     }
 
+    /**
+     * Get the {@link SHNDeviceScanner} for this {@code SHNCentral}.
+     *
+     * @return the {@code SHNDeviceScanner} for this {@code SHNCentral}
+     */
     public SHNDeviceScanner getShnDeviceScanner() {
         return shnDeviceScanner;
     }
 
+    /**
+     * Get the {@link SHNDeviceAssociation} for this {@code SHNCentral}.
+     *
+     * @return the {@code SHNDeviceAssociation} for this {@code SHNCentral}
+     */
+    @NonNull
     public SHNDeviceAssociation getShnDeviceAssociation() {
         if (shnDeviceAssociation == null) {
             shnDeviceAssociation = new SHNDeviceAssociation(this, shnDeviceScannerInternal, persistentStorageFactory);
@@ -378,10 +531,21 @@ public class SHNCentral {
         return shnDeviceAssociation;
     }
 
+    /**
+     * Get the state of this {@code SHNCentral}.
+     *
+     * @return state of this {@code SHNCentral}
+     */
     public State getShnCentralState() {
         return shnCentralState;
     }
 
+    /**
+     * Get the {@code BTDevice} with the specified address.
+     *
+     * @param address to retrieve the device for
+     * @return the Bluetooth device
+     */
     public BTDevice getBTDevice(String address) {
         return btAdapter.getRemoteDevice(address);
     }
@@ -391,6 +555,7 @@ public class SHNCentral {
     // TEMPORARY HACK TO ENABLE VERIFICATION TESTS WITH BLE SECURITY ENABLED
     // TODO: Remove this once the ShineVerificationApp uses DeviceAssociation.
     @Deprecated
+    @VisibleForTesting
     public SHNDevice createSHNDeviceForAddressAndDefinition(@NonNull String deviceAddress, @NonNull SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         String key = deviceAddress + shnDeviceDefinitionInfo.getDeviceTypeName();
         SHNDevice shnDevice = createdDevices.get(key);
@@ -403,6 +568,9 @@ public class SHNCentral {
         return shnDevice;
     }
 
+    /**
+     * The {@code SHNCentral.Builder} is used to build a {@code SHNCentral} object.
+     */
     public static class Builder {
         private Handler handler;
         private final Context context;
@@ -410,30 +578,73 @@ public class SHNCentral {
         private Boolean migrateFromDefaultProviderToCustom = false;
         private SharedPreferencesProvider sharedPreferencesProvider;
 
+        /**
+         * Create a {@code SHNCentral.Builder}.
+         *
+         * @param context the {@code Context} in which the {@link SHNCentral} will be used
+         */
         public Builder(@NonNull final Context context) {
             this.context = context;
         }
 
+        /**
+         * Add a handler to the {@link SHNCentral} you are currently building.
+         * <p/>
+         * This handler will be used to post callbacks from {@code SHNCentral on}.
+         *
+         * @param handler a {@code Handler} to use for callbacks
+         * @return {@code Builder} to chain more calls
+         */
         public Builder setHandler(Handler handler) {
             this.handler = handler;
             return this;
         }
 
+        /**
+         * Shows a popup if for some reason BlueTooth was not enabled.
+         *
+         * @param showPopupIfBLEIsTurnedOff set to true if you want the popup to show
+         * @return {@code Builder} to chain more calls
+         */
         public Builder showPopupIfBLEIsTurnedOff(Boolean showPopupIfBLEIsTurnedOff) {
             this.showPopupIfBLEIsTurnedOff = showPopupIfBLEIsTurnedOff;
             return this;
         }
 
+        /**
+         * Set a custom SharedPreferencesProvider for {@link SHNCentral} to use.
+         *
+         * @param sharedPreferencesProvider custom SharedPreferencesProvider for {@link SHNCentral} to use
+         * @return {@code Builder} to chain more calls
+         */
         public Builder setSharedPreferencesProvider(SharedPreferencesProvider sharedPreferencesProvider) {
             this.sharedPreferencesProvider = sharedPreferencesProvider;
             return this;
         }
 
+        /**
+         * Set to true to indicate that data needs to be migrated.
+         * <p/>
+         * Data that was previously stored in SharedPreferences will be
+         * migrated to the new custom {@link SharedPreferencesProvider} that was set using
+         * {@link #setSharedPreferencesProvider(SharedPreferencesProvider)}.
+         * If migration was previously completed to the custom SharedPreferencesProvider
+         * it will not be done again.
+         *
+         * @param migrateFromDefaultProviderToCustom set to true to indicate migration is wanted
+         * @return {@code Builder} to chain more calls
+         */
         public Builder migrateFromDefaultProviderToCustom(Boolean migrateFromDefaultProviderToCustom) {
             this.migrateFromDefaultProviderToCustom = migrateFromDefaultProviderToCustom;
             return this;
         }
 
+        /**
+         * Finish this {@code Builder} by creating the actual {@code SHNCentral} using previously specified parameters.
+         *
+         * @return the created {@code SHNCentral}
+         * @throws SHNBluetoothHardwareUnavailableException if no BlueTooth hardware was available on the device
+         */
         public SHNCentral create() throws SHNBluetoothHardwareUnavailableException {
             return new SHNCentral(handler, context, showPopupIfBLEIsTurnedOff, sharedPreferencesProvider, migrateFromDefaultProviderToCustom);
         }

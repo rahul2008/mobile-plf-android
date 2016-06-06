@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  */
 
@@ -7,6 +7,7 @@ package com.philips.pins.shinelib;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -17,7 +18,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Created by 310188215 on 02/03/15.
+ * Class that allows the API users to discover peripherals.
+ * <p/>
+ * Note that only peripherals registered with {@link SHNCentral} are exposed by {@code SHNDeviceScanner}.
+ * The matching behaviour of the scanner is  under control of {@link SHNDeviceDefinitionInfo#useAdvertisedDataMatcher()} method in the corresponding
+ * peripheral's device definition info. {@code SHNDeviceScanner} can be obtained via {@link SHNCentral#getShnDeviceScanner()}.
  */
 public class SHNDeviceScanner {
     private static final String TAG = "SHNDeviceScanner";
@@ -28,13 +33,37 @@ public class SHNDeviceScanner {
 
     private SHNInternalScanRequest shnInternalScanRequest;
 
+    /**
+     * Possible scanning settings. Indicates if a certain device could be reported more than once.
+     */
     public enum ScannerSettingDuplicates {
-        DuplicatesNotAllowed, DuplicatesAllowed
+        /**
+         *  Indicates if a certain device should not be reported more than once.
+         */
+        DuplicatesNotAllowed,
+        /**
+         *  Indicates if a certain device could be reported more than once.
+         */
+        DuplicatesAllowed
     }
 
+    /**
+     * Interface that provides updates for a scanning result.
+     */
     public interface SHNDeviceScannerListener {
+        /**
+         * Gives an indication that a peripheral was found.
+         *
+         * @param shnDeviceScanner   used for scanning
+         * @param shnDeviceFoundInfo of the found peripheral
+         */
         void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo);
 
+        /**
+         * Gives an indication that the scan has been stopped.
+         *
+         * @param shnDeviceScanner used for scanning
+         */
         void scanStopped(SHNDeviceScanner shnDeviceScanner);
     }
 
@@ -44,7 +73,8 @@ public class SHNDeviceScanner {
         this.internalHandler = internalHandler;
     }
 
-    protected FutureTask<Boolean> startScanningWithFuture(final SHNDeviceScannerListener shnDeviceScannerListener, final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS) {
+    @VisibleForTesting
+    /* package */  FutureTask<Boolean> startScanningWithFuture(final SHNDeviceScannerListener shnDeviceScannerListener, final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS) {
         final SHNDeviceScannerListener wrappedSHNDeviceScannerListener = new SHNDeviceScannerListener() {
             @Override
             public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull final SHNDeviceFoundInfo shnDeviceFoundInfo) {
@@ -88,10 +118,18 @@ public class SHNDeviceScanner {
     }
 
     @NonNull
-    SHNInternalScanRequest createScanRequest(final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS, final SHNDeviceScannerListener wrappedSHNDeviceScannerListener) {
+    /* package */ SHNInternalScanRequest createScanRequest(final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS, final SHNDeviceScannerListener wrappedSHNDeviceScannerListener) {
         return new SHNInternalScanRequest(null, null, scannerSettingDuplicates == ScannerSettingDuplicates.DuplicatesAllowed, stopScanningAfterMS, wrappedSHNDeviceScannerListener);
     }
 
+    /**
+     * Starts a new scan with the duplication option and the timeout interval in milliseconds. If a scan was running, it will stop previously started scan.
+     *
+     * @param shnDeviceScannerListener an instance of a listener to receive scanning callbacks
+     * @param scannerSettingDuplicates specified duplication option
+     * @param stopScanningAfterMS timeout interval in milliseconds
+     * @return true if scan was started successfully, false otherwise
+     */
     public boolean startScanning(final SHNDeviceScannerListener shnDeviceScannerListener, final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS) {
         FutureTask<Boolean> futureTask = startScanningWithFuture(shnDeviceScannerListener, scannerSettingDuplicates, stopScanningAfterMS);
 
@@ -111,6 +149,9 @@ public class SHNDeviceScanner {
         return result;
     }
 
+    /**
+     * Stops any currently running scan.
+     */
     public void stopScanning() {
         internalHandler.post(new Runnable() {
             @Override
@@ -127,6 +168,11 @@ public class SHNDeviceScanner {
         }
     }
 
+    /**
+     * Get a scanner that creates requests and handles responses on the internal BlueLib thread. Do not use in an app.
+     *
+     * @return an instance of an internal scanner.
+     */
     public SHNDeviceScannerInternal getShnDeviceScannerInternal() {
         return shnDeviceScannerInternal;
     }

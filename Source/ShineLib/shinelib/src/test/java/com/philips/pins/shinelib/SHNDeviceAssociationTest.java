@@ -156,6 +156,7 @@ public class SHNDeviceAssociationTest {
         // mockedSHNDevice
         doReturn(DEVICE_MAC_ADDRESS).when(mockedSHNDevice).getAddress();
         doReturn(DEVICE_TYPE_NAME).when(mockedSHNDevice).getDeviceTypeName();
+        doReturn(SHNDevice.State.Disconnected).when(mockedSHNDevice).getState();
 
         doReturn(Collections.emptyList()).when(deviceAssociationHelperMock).readAssociatedDeviceInfos();
         doNothing().when(deviceAssociationHelperMock).storeAssociatedDeviceInfos(anyList());
@@ -365,7 +366,7 @@ public class SHNDeviceAssociationTest {
     @Test
     public void whenRemoveDeviceIsCalled_ThenDeviceIsRemoved() {
         String macAddress = "11:22:33:44:55:66";
-        SHNDevice shnDevice = mock(SHNDevice.class);
+        SHNDevice shnDevice = createMockedDisconnectedSHNDevice();
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
 
         shnDeviceAssociation.removeAssociatedDevice(shnDevice);
@@ -377,8 +378,8 @@ public class SHNDeviceAssociationTest {
     public void whenRemoveAllDevicesIsCalled_ThenAllDeviceAreRemoved() {
         String macAddress1 = "11:11:11:11:11:11";
         String macAddress2 = "22:22:22:22:22:22";
-        SHNDevice shnDevice1 = mock(SHNDevice.class);
-        SHNDevice shnDevice2 = mock(SHNDevice.class);
+        SHNDevice shnDevice1 = createMockedDisconnectedSHNDevice();
+        SHNDevice shnDevice2 = createMockedDisconnectedSHNDevice();
         startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
         startAssociationAndCompleteWithDevice(macAddress2, shnDevice2, 2);
 
@@ -387,14 +388,20 @@ public class SHNDeviceAssociationTest {
         assertThat(shnDeviceAssociation.getAssociatedDevices()).isEmpty();
     }
 
+    private SHNDevice createMockedDisconnectedSHNDevice() {
+        SHNDevice shnDevice1 = mock(SHNDevice.class);
+        doReturn(SHNDevice.State.Disconnected).when(shnDevice1).getState();
+        return shnDevice1;
+    }
+
     @Test
     public void whenRemoveDeviceIsCalled_ThenProperDeviceIsRemoved() {
         String macAddress = "11:22:33:44:55:66";
-        SHNDevice shnDevice = mock(SHNDevice.class);
+        SHNDevice shnDevice = createMockedDisconnectedSHNDevice();
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
 
         String macAddress2 = "11:22:33:44:55:77";
-        SHNDevice shnDevice2 = mock(SHNDevice.class);
+        SHNDevice shnDevice2 = createMockedDisconnectedSHNDevice();
         startAssociationAndCompleteWithDevice(macAddress2, shnDevice2, 2);
 
         shnDeviceAssociation.removeAssociatedDevice(shnDevice);
@@ -405,9 +412,10 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenRemoveDeviceIsCalled_ThenDataIsCleared() {
+    public void whenRemoveDeviceIsCalledWhenTheDeviceIsConnected_ThenDataIsClearedWhenTheDeviceStartDisconnecting() {
         String macAddress = "11:22:33:44:55:66";
         SHNDevice shnDevice = mock(SHNDevice.class);
+        doReturn(SHNDevice.State.Connected).when(shnDevice).getState();
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
 
         shnDeviceAssociation.removeAssociatedDevice(shnDevice);
@@ -422,14 +430,42 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenRemoveDeviceIsCalled_ThenTheDeviceIsToldToDisconnect() {
+    public void whenRemoveDeviceIsCalledWhenTheDeviceIsConnected_ThenTheDeviceIsToldToDisconnect() {
         String macAddress = "11:22:33:44:55:66";
         SHNDevice shnDevice = mock(SHNDevice.class);
+        doReturn(SHNDevice.State.Connected).when(shnDevice).getState();
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
 
         shnDeviceAssociation.removeAssociatedDevice(shnDevice);
 
         verify(shnDevice).disconnect();
+    }
+
+    @Test
+    public void whenRemoveDeviceIsCalledWhenTheDeviceIsDisconnected_ThenDataIsCleared() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = createMockedDisconnectedSHNDevice();
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        shnDeviceAssociation.removeAssociatedDevice(shnDevice);
+
+        assertEquals(0, mockedInternalHandler.getPostedExecutionCount());
+        verify(shnDevice, never()).registerSHNDeviceListener(deviceListenerCaptor.capture());
+        verify(persistentStorageCleanerMock).clearDeviceData(shnDevice);
+    }
+
+    @Test
+    public void whenRemoveDeviceIsCalledWhenTheDeviceIsDisconnecting_ThenDataIsCleared() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        doReturn(SHNDevice.State.Disconnecting).when(shnDevice).getState();
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        shnDeviceAssociation.removeAssociatedDevice(shnDevice);
+
+        assertEquals(0, mockedInternalHandler.getPostedExecutionCount());
+        verify(shnDevice, never()).registerSHNDeviceListener(deviceListenerCaptor.capture());
+        verify(persistentStorageCleanerMock).clearDeviceData(shnDevice);
     }
 
     @Test
@@ -547,7 +583,7 @@ public class SHNDeviceAssociationTest {
     @Test
     public void ShouldInformGenericDeviceRemovedListener_WhenDeviceIsRemoved() {
         String macAddress1 = "11:11:11:11:11:11";
-        SHNDevice shnDevice1 = mock(SHNDevice.class);
+        SHNDevice shnDevice1 = createMockedDisconnectedSHNDevice();
         startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
 
         shnDeviceAssociation.addDeviceRemovedListeners(deviceRemovedListenerMock);
@@ -559,7 +595,7 @@ public class SHNDeviceAssociationTest {
     @Test
     public void ShouldInformSpecificDeviceRemovedListener_WhenDeviceIsRemoved() {
         String macAddress1 = "11:11:11:11:11:11";
-        SHNDevice shnDevice1 = mock(SHNDevice.class);
+        SHNDevice shnDevice1 = createMockedDisconnectedSHNDevice();
         startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
 
         shnDeviceAssociation.removeAllAssociatedDevices(deviceRemovedListenerMock);
@@ -570,7 +606,7 @@ public class SHNDeviceAssociationTest {
     @Test
     public void ShouldNotInformDeviceRemovedListener_WhenDeviceIsRemovedAndTheListenerHasBeenRemoved() {
         String macAddress1 = "11:11:11:11:11:11";
-        SHNDevice shnDevice1 = mock(SHNDevice.class);
+        SHNDevice shnDevice1 = createMockedDisconnectedSHNDevice();
         startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
 
         shnDeviceAssociation.addDeviceRemovedListeners(deviceRemovedListenerMock);

@@ -24,6 +24,10 @@
     public static ** valueOf(java.lang.String);
     public protected *;
 }
+
+-keepclassmembers class com.philips.pins.shinelib.capabilities.SHNCapabilityConfigEnergyIntake$MealConfiguration {
+    private *;
+}
 #------------------ End: For when enums are persistently stored ------------#
 
 #----------------- For serializable classes --------------------------------#

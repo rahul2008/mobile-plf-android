@@ -12,9 +12,6 @@ import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 
 import java.util.UUID;
 
-/**
- * Created by 310188215 on 11/03/15.
- */
 /* This class prevents the Android Bluetooth stack from holding on the object that implements the
  * LeScanCallback and *everything it references* after stopping the scan.
  *
@@ -25,6 +22,7 @@ public class LeScanCallbackProxy implements BluetoothAdapter.LeScanCallback {
     public interface LeScanCallback {
         void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord);
     }
+
     private LeScanCallback leScanCallback;
 
     public boolean startLeScan(LeScanCallback leScanCallback, Object callbackParameter) {
@@ -50,6 +48,5 @@ public class LeScanCallbackProxy implements BluetoothAdapter.LeScanCallback {
             leScanCallback.onLeScan(device, rssi, scanRecord);
         }
     }
-
 }
 
