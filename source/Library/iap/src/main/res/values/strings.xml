@@ -135,5 +135,8 @@ Please try again, or if the problem persists: contact Philips Consumer Care</str
     <string name="iap_payment_by">Payed by</string>
     <string name="iap_track_order">Track my order</string>
     <string name="iap_order_details">Order details</string>
+    <string name="iap_cancel_order">Cancel my order</string>
+    <string name="iap_buy">Buy</string>
+    <string name="view_invoice">View invoice</string>
 
 </resources>

@@ -71,4 +71,6 @@ public interface StoreSpec {
     boolean isUserLoggedOut();
 
     boolean isStoreInitialized();
+
+    String getOrderDetailUrl(String orderID);
 }

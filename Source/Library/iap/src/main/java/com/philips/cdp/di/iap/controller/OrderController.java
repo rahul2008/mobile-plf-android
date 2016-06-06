@@ -9,9 +9,13 @@ import android.os.Message;
 
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.model.OrderDetailRequest;
 import com.philips.cdp.di.iap.model.OrderHistoryRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.utils.ModelConstants;
+
+import java.util.HashMap;
 
 public class OrderController implements AbstractModel.DataLoadListener {
 
@@ -22,6 +26,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
 
     public interface OrderListener {
         void onGetOrderList(Message msg);
+        void onGetOrderDetail(Message msg);
     }
 
     public OrderController(Context context, OrderListener listener) {
@@ -33,6 +38,14 @@ public class OrderController implements AbstractModel.DataLoadListener {
         OrderHistoryRequest model = new OrderHistoryRequest(getStore(), null, this);
         model.setContext(mContext);
         getHybrisDelegate().sendRequest(RequestCode.GET_ORDERS, model, model);
+    }
+
+    public void getOrderDetails(String orderNumber) {
+        HashMap<String, String> query = new HashMap<>();
+        query.put(ModelConstants.ORDER_NUMBER, orderNumber);
+        OrderDetailRequest request = new OrderDetailRequest(getStore(), query, this);
+        request.setContext(mContext);
+        getHybrisDelegate().sendRequest(RequestCode.GET_ORDER_DETAIL, request, request);
     }
 
     @Override
@@ -53,6 +66,9 @@ public class OrderController implements AbstractModel.DataLoadListener {
         switch (requestCode) {
             case RequestCode.GET_ORDERS:
                 mOrderListener.onGetOrderList(msg);
+                break;
+            case RequestCode.GET_ORDER_DETAIL:
+                mOrderListener.onGetOrderDetail(msg);
                 break;
         }
     }

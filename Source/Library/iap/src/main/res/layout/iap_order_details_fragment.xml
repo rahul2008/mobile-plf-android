@@ -1,172 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
 
-    <include layout="@layout/iap_order_history_shopping_item" />
-
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/uikit_listDividerColor" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/shipping_status"
-        style="@style/iapCentralesansBoldFont"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:textColor="?attr/uikit_baseColor" />
+        <include layout="@layout/iap_order_history_shopping_item" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/uikit_listDividerColor" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/iap_divider_height"
+            android:background="?attr/uikit_listDividerColor"
+            android:visibility="gone"/>
 
         <TextView
+            android:id="@+id/shipping_status"
             style="@style/iapCentralesansBoldFont"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="?attr/uikit_baseColor"
+            android:visibility="gone"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/iap_divider_height"
+            android:background="?attr/uikit_listDividerColor"
+            android:visibility="gone"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top">
+
+            <TextView
+                style="@style/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
+                android:text="@string/iap_track_order"
+                android:textColor="?attr/uikit_baseColor" />
+
+            <com.shamanland.fonticon.FontIconTextView
+                android:id="@+id/track_order_arrow"
+                style="@style/iap_right_arrow_product_catalog"
+                android:layout_marginEnd="10dp"/>
+
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
             android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
-            android:layout_marginTop="5dp"
-            android:text="@string/iap_track_order"
-            android:textColor="?attr/uikit_baseColor" />
-
-        <com.shamanland.fonticon.FontIconTextView
-            android:id="@+id/arrow"
-            style="@style/iap_right_arrow_product_catalog" />
-
-
-    </RelativeLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
-        android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
-
-
-        <TextView
-            style="@style/tvHeaderTitle"
-            android:layout_marginBottom="0dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:text="@string/iap_shipping_address" />
-
-        <TextView
-            android:id="@+id/tv_shipping_first_name"
-            style="@style/iapCentralesansBoldFont"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:textColor="?attr/uikit_baseColor" />
-
-        <TextView
-            android:id="@+id/tv_shipping_address"
-            style="@style/tvTitle" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
-        android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
-
-        <TextView
-            style="@style/tvHeaderTitle"
-            android:layout_marginBottom="0dp"
-            android:layout_marginStart="0dp"
             android:layout_marginTop="10dp"
-            android:text="@string/iap_billing_address" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_billing_first_name"
-            style="@style/iapCentralesansBoldFont"
-            android:layout_width="wrap_content"
+
+            <TextView
+                style="@style/tvHeaderTitle"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="@string/iap_shipping_address" />
+
+            <TextView
+                android:id="@+id/tv_shipping_first_name"
+                style="@style/iapCentralesansBoldFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="?attr/uikit_baseColor" />
+
+            <TextView
+                android:id="@+id/tv_shipping_address"
+                style="@style/tvTitle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:textColor="?attr/uikit_baseColor" />
-
-        <TextView
-            android:id="@+id/tv_billing_address"
-            style="@style/tvTitle" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/uikit_listDividerColor" />
-
-    <LinearLayout
-        android:id="@+id/ll_payment_mode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
-        android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-
-        <TextView
-            style="@style/tvHeaderTitle"
-            android:layout_marginBottom="0dp"
-            android:layout_marginStart="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
+            android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
             android:layout_marginTop="10dp"
-            android:text="@string/iap_payment_by" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_card_type"
-            style="@style/tvTitle"
-            android:layout_marginTop="5dp"
-            android:text="@string/mastercard" />
+            <TextView
+                style="@style/tvHeaderTitle"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/iap_billing_address" />
+
+            <TextView
+                android:id="@+id/tv_billing_first_name"
+                style="@style/iapCentralesansBoldFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="?attr/uikit_baseColor" />
+
+            <TextView
+                android:id="@+id/tv_billing_address"
+                style="@style/tvTitle" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/iap_divider_height"
+            android:background="?attr/uikit_listDividerColor" />
+
+        <LinearLayout
+            android:id="@+id/ll_payment_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
+            android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+
+            <TextView
+                style="@style/tvHeaderTitle"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/iap_payment_by" />
+
+            <TextView
+                android:id="@+id/tv_card_type"
+                style="@style/tvTitle"
+                android:layout_marginTop="5dp"
+                android:text="@string/mastercard" />
+
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/iap_divider_height"
+            android:background="?attr/uikit_listDividerColor" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
+            android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
+            android:layout_marginTop="10dp"
+            android:id="@+id/invoice_layout"
+            android:visibility="gone">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view_invoice"/>
+
+            <com.shamanland.fonticon.FontIconTextView
+                android:id="@+id/invoice_arrow"
+                style="@style/iap_right_arrow_product_catalog"
+                android:layout_marginEnd="10dp"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_paynow"
+            style="?attr/uikit_outlinedButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/iap_shipping_address_continue_button_height"
+            android:layout_marginBottom="@dimen/iap_shipping_address_continue_margin_bottom"
+            android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+            android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+            android:text="@string/iap_buy" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="?attr/uikit_outlinedButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/iap_shipping_address_cancel_button_height"
+            android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+            android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+            android:layout_marginBottom="@dimen/network_margin_left_right"
+            android:text="@string/iap_cancel_order" />
 
     </LinearLayout>
-
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/uikit_listDividerColor" />
-
-    <Button
-        android:id="@+id/btn_paynow"
-        style="@style/Button.Solid.BrightOrange"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/iap_shipping_address_continue_button_height"
-        android:layout_marginBottom="@dimen/iap_shipping_address_continue_margin_bottom"
-        android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
-        android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
-        android:text="@string/iap_pay_now" />
-
-    <Button
-        android:id="@+id/btn_cancel"
-        style="?attr/uikit_outlinedButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/iap_shipping_address_cancel_button_height"
-        android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
-        android:layout_marginLeft="@dimen/iap_shipping_address_cancel_button_margin_left_right"
-        android:layout_marginRight="@dimen/iap_shipping_address_cancel_button_margin_left_right"
-        android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
-        android:text="@string/iap_cancel" />
-
-</LinearLayout>
+</ScrollView>

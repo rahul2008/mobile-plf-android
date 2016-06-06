@@ -7,7 +7,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/jr_preview_outer_grey_bg_rect">
+        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+        android:background="@color/uikit_enricher7">
 
         <TextView
             android:id="@+id/tv_time"
@@ -22,9 +23,9 @@
         android:id="@+id/order_summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top">
 
         <TextView
             android:id="@+id/order_number_text"
@@ -50,10 +51,9 @@
 
         <com.shamanland.fonticon.FontIconTextView
             android:id="@+id/arrow"
-            style="@style/iap_right_arrow_product_catalog"
+            style="@style/iap_right_arrow"
             android:layout_alignBaseline="@id/order_number_text"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp" />
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
 
