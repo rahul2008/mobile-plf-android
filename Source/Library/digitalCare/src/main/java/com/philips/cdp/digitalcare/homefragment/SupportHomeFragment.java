@@ -511,8 +511,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         mPrxWrapper = new PrxWrapper(getActivity(), new PrxFaqCallback() {
             @Override
             public void onResponseReceived(SupportModel supportModel) {
-                if (supportModel == null) showAlert(getString(R.string.NO_SUPPORT_KEY));
-                else {
+                if (supportModel == null && getActivity() != null) {
+                    showAlert(getString(R.string.NO_SUPPORT_KEY));
+                } else {
                     FaqFragment faqFragment = new FaqFragment();
                     faqFragment.setSupportModel(supportModel);
                     showFragment(faqFragment);
