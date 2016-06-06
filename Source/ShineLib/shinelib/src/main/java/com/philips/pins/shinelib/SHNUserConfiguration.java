@@ -8,11 +8,12 @@ package com.philips.pins.shinelib;
 import java.util.Date;
 
 /**
- * Interface representing user data. Includes various user data as gender, date of birth, age, height, weight etc. Also contains user related preferences such as language and country code, clock format etc.
+ * Interface representing user data. Includes various user data as gender, date of birth, age, height, weight etc.
+ * Also contains user related preferences such as language and country code, clock format etc.
  */
 public interface SHNUserConfiguration {
     /**
-     * Supported ganders.
+     * Supported genders.
      */
     enum Sex {
         Female,
@@ -39,16 +40,16 @@ public interface SHNUserConfiguration {
     }
 
     /**
-     * Gender the user.
+     * Gender of the user.
      *
-     * @return gender of the user. Returns {@code Sex.Unspecified} if not set.
+     * @return gender of the user. Returns {@code Sex#Unspecified} if not set.
      */
     Sex getSex();
 
     void setSex(Sex sex);
 
     /**
-     * Maximum heart of the user.
+     * Maximum heart rate of the user.
      *
      * @return maximum heart of the user. Returns {@code null} if not set.
      */
@@ -57,7 +58,7 @@ public interface SHNUserConfiguration {
     void setMaxHeartRate(Integer maxHeartRate);
 
     /**
-     * Resting heart of the user.
+     * Resting heart rate of the user.
      *
      * @return resting heart of the user. Returns -1 if not set.
      */
@@ -100,7 +101,7 @@ public interface SHNUserConfiguration {
     Integer getAge();
 
     /**
-     * Handedness of birth of the user.
+     * Handedness of the user.
      *
      * @return handedness of the user. Returns {@code Handedness.Unknown} if not set.
      */
