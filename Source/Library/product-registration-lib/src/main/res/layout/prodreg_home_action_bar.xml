@@ -2,7 +2,8 @@
 <RelativeLayout android:id="@+id/action_bar_lyt"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/actionbar_height">
+                android:layout_height="@dimen/actionbar_height"
+                android:background="@drawable/prodreg_actionbar_shape_gradient_bg">
 
     <RelativeLayout
         android:id="@+id/action_bar_icon_parent"
@@ -12,11 +13,6 @@
         android:layout_centerInParent="true"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp">
-
-        <!--<ImageView
-            android:id="@+id/home_icon"
-            style="@style/actionbarIconHomeImageView"
-            android:contentDescription="@string/img_description"/>-->
 
         <ImageView
             android:id="@+id/back_to_home_img"

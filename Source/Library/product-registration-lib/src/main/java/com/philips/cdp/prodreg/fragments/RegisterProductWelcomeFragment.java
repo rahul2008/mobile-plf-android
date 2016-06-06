@@ -24,7 +24,6 @@ public class RegisterProductWelcomeFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_extend_warranty, container, false);
-        view.setFocusableInTouchMode(true);
         extendWarranty = (Button) view.findViewById(R.id.yes_register_button);
         registerLater = (Button) view.findViewById(R.id.no_thanks_button);
         extendWarranty.setOnClickListener(onClickExtendWarranty());
@@ -47,7 +46,7 @@ public class RegisterProductWelcomeFragment extends ProdRegBaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-
+                showFragment(new RegisterSingleProductFragment());
             }
         };
     }

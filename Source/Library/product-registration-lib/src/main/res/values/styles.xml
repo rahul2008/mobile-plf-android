@@ -15,11 +15,11 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="actionbar_back_button">
-        <item name="android:src">@drawable/consumercare_actionbar_back_arrow_white</item>
+        <item name="android:src">@drawable/prodreg_actionbar_back_arrow_white</item>
     </style>
 
     <style name="actionbar_hamburger_menu">
-        <item name="android:src">@drawable/consumercare_actionbar_home_icon_white_1x</item>
+        <item name="android:src">@drawable/prodreg_actionbar_home_icon_white_1x</item>
     </style>
 
 </resources>

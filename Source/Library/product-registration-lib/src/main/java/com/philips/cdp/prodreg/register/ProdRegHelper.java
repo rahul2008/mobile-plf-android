@@ -43,7 +43,7 @@ public class ProdRegHelper {
                     }
                 });
                 final ProdRegConfigManager prodRegConfigManager = ProdRegConfigManager.getInstance();
-                prodRegConfigManager.initializeProductRegistration(activity);
+                prodRegConfigManager.initializeProductRegistration(context);
                 final ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
                 uiLauncher.setOnUserRegistrationSuccess(true);
                 prodRegConfigManager.invokeProductRegistration(uiLauncher);

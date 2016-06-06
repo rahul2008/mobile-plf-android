@@ -6,7 +6,14 @@
         android:allowBackup="true"
         android:label="@string/app_name">
         <activity
-            android:name="com.philips.cdp.prodreg.activity.ProdRegBaseActivity">
+            android:name="com.philips.cdp.prodreg.activity.ProdRegBaseActivity"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SUPPORT_DIGITAL"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
     </application>
 

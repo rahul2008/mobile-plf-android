@@ -4,14 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
@@ -32,10 +30,6 @@ public abstract class ProdRegBaseFragment extends Fragment {
     private static FragmentActivity mFragmentActivityContext = null;
     private static FragmentActivity mActivityContext = null;
     private static ActionbarUpdateListener mActionbarUpdateListener;
-    private FragmentManager fragmentManager;
-    private ImageView mBackToHome = null;
-//    private ImageView mHomeIcon = null;
-
     public abstract String getActionbarTitle();
 
     @Override
@@ -100,7 +94,6 @@ public abstract class ProdRegBaseFragment extends Fragment {
             mFragmentActivityContext = mActivityContext;
         } else {
             mFragmentActivityContext = getActivity();
-//            enableActionBarLeftArrow();
             InputMethodManager imm = (InputMethodManager) mFragmentActivityContext
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             if (mFragmentActivityContext.getWindow() != null
@@ -124,32 +117,6 @@ public abstract class ProdRegBaseFragment extends Fragment {
             Log.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    protected void enableActionBarLeftArrow(ImageView hambergermenu, ImageView backarrow) {
-        Log.d(TAG, "BackArrow Enabled");
-        if (hambergermenu != null && backarrow != null) {
-            backarrow.setVisibility(View.VISIBLE);
-            backarrow.bringToFront();
-        }
-    }
-
-    protected void hideActionBarIcons(ImageView hambergermenu, ImageView backarrow) {
-        Log.d(TAG, "Hide menu & arrow icons");
-        if (hambergermenu != null && backarrow != null) {
-            hambergermenu.setVisibility(View.GONE);
-            backarrow.setVisibility(View.GONE);
-        }
-    }
-
-    protected boolean backStackFragment() {
-        if (fragmentManager == null && mActivityContext != null) {
-            fragmentManager = mActivityContext.getSupportFragmentManager();
-        } else if (fragmentManager == null) {
-            fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-        }
-        fragmentManager.popBackStack();
-        return false;
     }
 
     protected void hideKeyboard() {
@@ -182,16 +149,6 @@ public abstract class ProdRegBaseFragment extends Fragment {
         } else {
             mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
         }
-    }
-
-    private void enableActionBarLeftArrow() {
-        mBackToHome = (ImageView) mFragmentActivityContext
-                .findViewById(R.id.back_to_home_img);
-        /*mHomeIcon = (ImageView) mFragmentActivityContext
-                .findViewById(R.id.home_icon);
-        mHomeIcon.setVisibility(View.GONE);*/
-        mBackToHome.setVisibility(View.VISIBLE);
-        mBackToHome.bringToFront();
     }
 }
 

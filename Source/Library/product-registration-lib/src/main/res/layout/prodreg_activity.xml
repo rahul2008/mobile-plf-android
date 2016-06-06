@@ -4,7 +4,7 @@
              android:layout_height="match_parent">
 
     <include layout="@layout/prodreg_home_action_bar"/>
-    <!-- android:background="@drawable/tuscanybackground"-->
+
     <RelativeLayout
         android:id="@+id/mainContainer"
         android:layout_width="fill_parent"

@@ -32,9 +32,9 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class ProdRegConfigManager {
 
-    private static final String TAG = ProdRegConfigManager.class.getSimpleName();
     private static Context mContext = null;
     private static ProdRegConfigManager prodRegConfigManager;
+    private final String TAG = ProdRegConfigManager.class.getSimpleName();
     private String mAppID = null;
     private String mAppName = null;
     private String mPageName = null;
@@ -42,8 +42,8 @@ public class ProdRegConfigManager {
     private UiLauncher mUiLauncher;
 
     /*
-     * Initialize everything(resources, variables etc) required for DigitalCare.
-     * Hosting app, which will integrate this DigitalCare, has to pass app
+     * Initialize everything(resources, variables etc) required for Product Registration.
+     * Hosting app, which will integrate this Product Registration, has to pass app
      * context.
      */
     private ProdRegConfigManager() {
@@ -59,14 +59,8 @@ public class ProdRegConfigManager {
         return prodRegConfigManager;
     }
 
-    private static void initializeTaggingContext(Context context) {
-//        AnalyticsTracker.initContext(context);
-    }
-
     public void initializeProductRegistration(Context applicationContext) {
-        if (mContext == null) {
-            ProdRegConfigManager.mContext = applicationContext;
-        }
+        mContext = applicationContext;
     }
 
     /**
@@ -96,51 +90,44 @@ public class ProdRegConfigManager {
                                                      int parentContainerResId,
                                                      ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
                                                      int exitAnim) {
-
-        if (mTaggingEnabled) {
-            if (mAppID == null || mAppID.equals("") || (mAppName == null) || (mAppName == "") || (mPageName == null) || (mPageName == "")) {
-                throw new RuntimeException("Please make sure to set the valid App Tagging inputs by invoking setAppTaggingInputs API");
-            }
-        }
-
-//        AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
-
         FragmentLauncher fragmentLauncher = new FragmentLauncher(context, parentContainerResId,
                 actionbarUpdateListener);
         User user = new User(context);
-
         if (user.isUserSignIn()) {
             RegisterProductWelcomeFragment supportFrag = new RegisterProductWelcomeFragment();
             supportFrag.showFragment(supportFrag,
                     fragmentLauncher, enterAnim, exitAnim);
         } else {
-            RegistrationFragment registrationFragment = new RegistrationFragment();
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
-            registrationFragment.setArguments(bundle);
-            registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
-                @Override
-                public void updateRegistrationTitle(final int i) {
-
-                }
-
-                @Override
-                public void updateRegistrationTitleWithBack(final int i) {
-
-                }
-
-                @Override
-                public void updateRegistrationTitleWithOutBack(final int i) {
-
-                }
-            });
-            FragmentTransaction fragmentTransaction = context.getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.addToBackStack(registrationFragment.getTag());
-            fragmentTransaction.replace(parentContainerResId, registrationFragment,
-                    RegConstants.REGISTRATION_FRAGMENT_TAG);
-            fragmentTransaction.commit();
+            launchRegistrationFragment(context, parentContainerResId);
         }
+    }
 
+    private void launchRegistrationFragment(final FragmentActivity context, final int parentContainerResId) {
+        RegistrationFragment registrationFragment = new RegistrationFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
+        registrationFragment.setArguments(bundle);
+        registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
+            @Override
+            public void updateRegistrationTitle(final int i) {
+
+            }
+
+            @Override
+            public void updateRegistrationTitleWithBack(final int i) {
+
+            }
+
+            @Override
+            public void updateRegistrationTitleWithOutBack(final int i) {
+
+            }
+        });
+        FragmentTransaction fragmentTransaction = context.getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(registrationFragment.getTag());
+        fragmentTransaction.replace(parentContainerResId, registrationFragment,
+                RegConstants.REGISTRATION_FRAGMENT_TAG);
+        fragmentTransaction.commit();
     }
 
     public void invokeProductRegistration(UiLauncher uiLauncher) {
@@ -171,14 +158,6 @@ public class ProdRegConfigManager {
         if (mContext == null) {
             throw new RuntimeException("Please initialise context before Support page is invoked");
         }
-        if (mTaggingEnabled) {
-            if (mAppID == null || mAppID.equals("") || (mAppName == null) || (mAppName == "") || (mPageName == null) || (mPageName == "")) {
-                throw new RuntimeException("Please make sure to set the valid App Tagging inputs by invoking setAppTaggingInputs API");
-            }
-        }
-
-//        AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
-
         Intent intent = new Intent(this.getContext(), ProdRegBaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, startAnimation);

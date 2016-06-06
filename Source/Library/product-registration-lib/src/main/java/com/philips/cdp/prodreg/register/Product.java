@@ -6,8 +6,11 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.listener.MetadataListener;
+import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
+import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
+import com.philips.cdp.prodreg.prxrequest.ProductSummaryRequest;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -43,6 +46,15 @@ public class Product {
         mRequestManager.executeRequest(productMetadataRequest, metadataResponseListener);
     }
 
+    public void getProductSummary(final Context context, final Product product, final SummaryListener summaryListener) {
+        ProductSummaryRequest productSummaryRequest = new ProductSummaryRequest(product.getCtn());
+        productSummaryRequest.setSector(product.getSector());
+        productSummaryRequest.setCatalog(product.getCatalog());
+        RequestManager mRequestManager = getRequestManager(context);
+        final ResponseListener summaryResponseListener = getPrxResponseListenerForSummary(summaryListener);
+        mRequestManager.executeRequest(productSummaryRequest, summaryResponseListener);
+    }
+
     @NonNull
     ResponseListener getPrxResponseListener(final MetadataListener metadataListener) {
         return new ResponseListener() {
@@ -55,6 +67,22 @@ public class Product {
             @Override
             public void onResponseError(PrxError prxError) {
                 metadataListener.onErrorResponse(prxError.getDescription(), prxError.getStatusCode());
+            }
+        };
+    }
+
+    @NonNull
+    ResponseListener getPrxResponseListenerForSummary(final SummaryListener summaryListener) {
+        return new ResponseListener() {
+            @Override
+            public void onResponseSuccess(ResponseData responseData) {
+                ProductSummaryResponse productSummaryResponse = (ProductSummaryResponse) responseData;
+                summaryListener.onSummaryResponse(productSummaryResponse);
+            }
+
+            @Override
+            public void onResponseError(PrxError prxError) {
+                summaryListener.onErrorResponse(prxError.getDescription(), prxError.getStatusCode());
             }
         };
     }

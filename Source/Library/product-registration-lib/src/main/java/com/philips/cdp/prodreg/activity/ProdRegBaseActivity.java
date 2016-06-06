@@ -16,17 +16,17 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.philips.cdp.prodreg.fragments.RegisterProductWelcomeFragment;
 import com.philips.cdp.prodreg.fragments.RegisterSingleProductFragment;
-import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
@@ -38,24 +38,15 @@ public class ProdRegBaseActivity extends FragmentActivity {
     private static String TAG = ProdRegBaseActivity.class.getSimpleName();
     private boolean onUserRegistrationSuccess;
     private RelativeLayout mActionBarLayout = null;
-    //    private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private TextView mActionBarTitle = null;
     private FragmentManager fragmentManager = null;
-    private ProdRegConfigManager prodRegConfigManager = null;
     private OnClickListener actionBarClickListener = new OnClickListener() {
-
         @Override
         public void onClick(View view) {
             int _id = view.getId();
-            if (_id == R.id.action_bar_icon_parent) {
-               /* if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
-                    finish();*/
-                if (mActionBarArrow.getVisibility() == View.VISIBLE)
-                    backStackFragment();
-            } /*else if (_id == R.id.home_icon) {
-                finish();
-            } */ else if (_id == R.id.back_to_home_img)
+            if (_id == R.id.action_bar_icon_parent && mActionBarArrow.getVisibility() == View.VISIBLE)
+                backStackFragment();
+            else if (_id == R.id.back_to_home_img)
                 backStackFragment();
         }
     };
@@ -68,7 +59,6 @@ public class ProdRegBaseActivity extends FragmentActivity {
         if (getIntent() != null && getIntent().getExtras() != null) {
             onUserRegistrationSuccess = getIntent().getExtras().getBoolean(ProdRegConstants.PROD_REG_ON_REGISTRATION);
         }
-        ProdRegConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
 
         try {
@@ -85,8 +75,17 @@ public class ProdRegBaseActivity extends FragmentActivity {
         else
             showFragment(new RegisterSingleProductFragment());
 
-//        enableActionBarHome();
         enableActionBarLeftArrow();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                backStackFragment();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void showUserRegistrationFragment() {
@@ -123,11 +122,7 @@ public class ProdRegBaseActivity extends FragmentActivity {
 
     protected void initActionBar() throws ClassCastException {
         mActionBarLayout = (RelativeLayout) findViewById(R.id.action_bar_icon_parent);
-//        mActionBarMenuIcon = (ImageView) findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) findViewById(R.id.back_to_home_img);
-        mActionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-
-//        mActionBarMenuIcon.setOnClickListener(actionBarClickListener);
         mActionBarArrow.setOnClickListener(actionBarClickListener);
         mActionBarLayout.setOnClickListener(actionBarClickListener);
     }
@@ -138,36 +133,20 @@ public class ProdRegBaseActivity extends FragmentActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-//        AnalyticsTracker.startCollectLifecycleData();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        AnalyticsTracker.stopCollectLifecycleData();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        backStackFragment();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (prodRegConfigManager != null) {
-            prodRegConfigManager = null;
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return backStackFragment();
+        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
+            return true;
         }
+        return super.onKeyDown(keyCode, event);
     }
+
 
     private boolean backStackFragment() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+        if (fragmentManager.getBackStackEntryCount() == 1) {
             finish();
         } else {
-//            enableActionBarHome();
             fragmentManager.popBackStack();
             removeCurrentFragment();
         }
@@ -176,10 +155,8 @@ public class ProdRegBaseActivity extends FragmentActivity {
 
     private void removeCurrentFragment() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-
         Fragment currentFrag = fragmentManager
                 .findFragmentById(R.id.mainContainer);
-
         if (currentFrag != null) {
             transaction.remove(currentFrag);
         }
@@ -187,18 +164,9 @@ public class ProdRegBaseActivity extends FragmentActivity {
     }
 
     private void enableActionBarLeftArrow() {
-//        mActionBarMenuIcon.setVisibility(View.GONE);
         mActionBarArrow.setVisibility(View.VISIBLE);
         mActionBarArrow.bringToFront();
     }
-
-    /*protected void enableActionBarHome() {
-        mActionBarMenuIcon.setVisibility(View.VISIBLE);
-        mActionBarMenuIcon.bringToFront();
-        mActionBarArrow.setVisibility(View.GONE);
-        mActionBarTitle.setText(getResources().getString(
-                R.string.actionbar_title_support));
-    }*/
 
     protected void showFragment(Fragment fragment) {
         try {
