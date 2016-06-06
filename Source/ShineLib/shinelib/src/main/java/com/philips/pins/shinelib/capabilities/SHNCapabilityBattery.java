@@ -15,34 +15,37 @@ import com.philips.pins.shinelib.SHNResultListener;
 public interface SHNCapabilityBattery extends SHNCapability {
 
     /**
-     * Interface to receive notification for battery level change.
+     * Interface to receive notifications for battery level changes.
      */
     interface SHNCapabilityBatteryListener {
         /**
-         * Indicates that battery level has changed
+         * Indicates that the battery level has changed.
          *
-         * @param level new battery level
+         * @param level new battery level in percent
          */
         void onBatteryLevelChanged(int level);
     }
 
     /**
-     * Get battery level.
+     * Get battery level asynchronously.
      *
-     * @param listener callback for battery level
+     * @param listener will be called when battery level has been retrieved
      */
     void getBatteryLevel(SHNIntegerResultListener listener);
 
     /**
-     * Enable or disable battery notifications. Note that notification are received via {@code SHNCapabilityBatteryListener} which can be set via the setter method.
+     * Enable or disable battery notifications. Note that notifications are received via
+     * {@code SHNCapabilityBatteryListener} which can be set via {@link #setSetSHNCapabilityBatteryListener(SHNCapabilityBatteryListener)}.
      *
-     * @param enabled  flag to enable or disable notifications.
-     * @param listener callback to provide feedback about subscription result.
+     * @param enabled  flag to enable or disable notifications
+     * @param listener callback to provide feedback about subscription result
      */
     void setBatteryLevelNotifications(boolean enabled, SHNResultListener listener);
 
     /**
-     * Set callback to receive notification about battery level changed. Note requires subscription t be enabled.
+     * Set callback to receive notifications about battery level changes.
+     * <p/>
+     * Requires subscription to be enabled.
      *
      * @param shnCapabilityBatteryListener to receive updates.
      */
