@@ -4,23 +4,22 @@
 -dontskipnonpubliclibraryclassmembers
 -dontpreverify
 -keepattributes *Annotation*
+-keepattributes Signature
+
 
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 -keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
+-keep class com.google.gson.examples.android.model.** { *; }
 
 
 
-#Tagging 
- 
+
+#Tagging
+
 -keep public class com.adobe.mobile.** {*;}
 -keep public class com.philips.cdp.tagging.** {*;}
-
-
-#UIKit
--keep public class com.philips.cdp.uikit.customviews.**{*;}
-
 
 
 #LocaleMatch
@@ -29,75 +28,74 @@
 
 
 #Network
-
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
-
-#Calligraphy Library
--keep class uk.co.chrisjenx.calligraphy.** {*;}
-
-#PRX Component
--keep class com.philips.cdp.prxclient.**{*;}
 
 
 #ConsumerCare
 
 
--keep public class * extends android.app.Activity 
+-keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.content.BroadcastReceiver
 
+    -keepclassmembers enum * {
+        public static **[] values();
+        public static ** valueOf(java.lang.String);
+    }
 
--keepclasseswithmembers class * 
-  {
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
     public <init>(android.content.Context, android.util.AttributeSet);
-  }
-
--keepclasseswithmembers class * 
-  {
     public <init>(android.content.Context, android.util.AttributeSet, int);
-  }
+    public void set*(...);
+}
 
-   -keep class * extends android.view.View 
-    { 
-                 
-                  void set*(***);
-                   *** get*();
-    }
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
 
-   -keepclassmembers class * 
-    {
-                    static final %                *;
-                    static final java.lang.String *;
-    }
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
 
-    -dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
-    -dontwarn  com.philips.cdp.productselection.R$id
+-keepclassmembers class * extends android.content.Context {
+   public void *(android.view.View);
+   public void *(android.view.MenuItem);
+}
 
-  
+-keepclassmembers class * implements android.os.Parcelable {
+    static android.os.Parcelable$Creator CREATOR;
+}
+
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
 
 
 
 #GooglePLayServices
 
-
--keep class android.support.v13.** { *; }  
+-keep class android.support.v4.view.ViewCompatApi24.** {*;}
+-keep class android.support.v13.** { *; }
 -keep interface android.support.v13.app.** { *; }
--keep class com.google.android.gms.** { *; }
--keep android.support.v4.app.**{*;}
--keep public class * extends android.support.v13.**   
+-keep public class * extends android.support.v13.**
 -keep public class * extends android.app.Fragment
+-keep class android.support.v4.app.BaseFragmentActivityApi24.**{*;}
+-keep class com.philips.cdp.uikit.customviews.**
+-keep class android.support.v4.graphics.drawable.**{*;}
 
--dontwarn com.google.android.gms.maps.**
+#-keep class com.google.android.gms.** { *; }
 -dontwarn com.google.android.gms.**
--dontwarn com.philips.cdp.uikit.**
+
+-dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
+-dontwarn  com.philips.cdp.productselection.R$id
+-dontwarn android.view.**
+-dontwarn android.media.session
+-dontwarn android.app.**
+
 -dontwarn com.philips.cdp.digitalcare.**
 -dontwarn com.philips.cdp.productselection.**
--dontwarn android.support.v13.**
--dontwarn uk.co.chrisjenx.calligraphy.**
 -dontwarn org.apache.**
--dontwarn com.philips.cdp.prxclient.**
--dontwarn com.philips.cdp.localematch.**
--dontwarn android.support.v4.app.**
-
-
+-dontwarn android.support.**
