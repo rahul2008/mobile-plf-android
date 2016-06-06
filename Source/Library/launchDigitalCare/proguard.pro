@@ -18,15 +18,26 @@
 -keep public class com.philips.cdp.tagging.** {*;}
 
 
+#UIKit
+-keep public class com.philips.cdp.uikit.customviews.**{*;}
+
+
+
 #LocaleMatch
 
 -keep public class com.philips.cdp.localematch.** {*;}
 
 
 #Network
--dontwarn org.apache.**
+
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
+
+#Calligraphy Library
+-keep class uk.co.chrisjenx.calligraphy.** {*;}
+
+#PRX Component
+-keep class com.philips.cdp.prxclient.**{*;}
 
 
 #ConsumerCare
@@ -59,20 +70,34 @@
                     static final %                *;
                     static final java.lang.String *;
     }
+
+    -dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
+    -dontwarn  com.philips.cdp.productselection.R$id
+
   
--dontwarn com.philips.cdp.digitalcare.**
--dontwarn com.philips.cdp.productselection.**
+
 
 
 #GooglePLayServices
 
--dontwarn android.support.v13.**    
+
 -keep class android.support.v13.** { *; }  
--keep interface android.support.v13.app.** { *; }  
+-keep interface android.support.v13.app.** { *; }
+-keep class com.google.android.gms.** { *; }
+-keep android.support.v4.app.**{*;}
 -keep public class * extends android.support.v13.**   
 -keep public class * extends android.app.Fragment
 
+-dontwarn com.google.android.gms.maps.**
 -dontwarn com.google.android.gms.**
--keep class com.google.android.gms.** { *; }
+-dontwarn com.philips.cdp.uikit.**
+-dontwarn com.philips.cdp.digitalcare.**
+-dontwarn com.philips.cdp.productselection.**
+-dontwarn android.support.v13.**
+-dontwarn uk.co.chrisjenx.calligraphy.**
+-dontwarn org.apache.**
+-dontwarn com.philips.cdp.prxclient.**
+-dontwarn com.philips.cdp.localematch.**
+-dontwarn android.support.v4.app.**
 
 
