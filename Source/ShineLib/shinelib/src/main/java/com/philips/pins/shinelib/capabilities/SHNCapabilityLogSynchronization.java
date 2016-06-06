@@ -12,7 +12,10 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.datatypes.SHNLog;
 
 /**
- * Interface to obtain log of new measurements from a peripheral. Allows to set log synchronization options. Note an option needs to supported by the peripheral.
+ * Interface to obtain the log of new measurements from a peripheral.
+ * <p/>
+ * Also allows setting log synchronization options.
+ * Not all options are supported by all peripherals.
  */
 public interface SHNCapabilityLogSynchronization extends SHNCapability {
     /**
@@ -31,11 +34,12 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
         AutomaticSynchronizationInterval,
 
         /**
-         * Sunshine-specific options.
+         * Sunshine-specific options
          */
         ShouldClear,
+
         /**
-         * Sunshine-specific options.
+         * Sunshine-specific options
          */
         ShouldReadHighResolutionData,
 
@@ -46,7 +50,7 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
     }
 
     /**
-     * Interface used to receive notifications about on going synchronization.
+     * Interface used to receive notifications about ongoing synchronization.
      */
     interface SHNCapabilityLogSynchronizationListener {
         /**
@@ -93,38 +97,40 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
     /**
      * Attach the callback to receive synchronized log items.
      *
-     * @param SHNCapabilityLogSynchronizationListener callback to receive synchronized log.
+     * @param SHNCapabilityLogSynchronizationListener callback to receive synchronized log
      */
     void setSHNCapabilityLogSynchronizationListener(SHNCapabilityLogSynchronizationListener SHNCapabilityLogSynchronizationListener);
 
     /**
-     * Returns current state of the capability.
+     * Returns the current state of the capability.
      *
-     * @return current state of the capability
+     * @return the current state of the capability
      */
     State getState();
 
     /**
      * Returns the token stored after last log synchronization.
      *
-     * @return last synchronization token.
+     * @return the last synchronization token
      */
     Object getLastSynchronizationToken();
 
     /**
      * Start synchronization from the given token.
      *
-     * @param synchronizationToken to start synchronization from.
+     * @param synchronizationToken to start synchronization from
      */
     void startSynchronizationFromToken(Object synchronizationToken);
 
     /**
-     * Abort current running synchronization.
+     * Abort currently running synchronization.
      */
     void abortSynchronization();
 
     /**
-     * Get log synchronization option. Note that option needs to be supported by  the peripheral.
+     * Get log synchronization options.
+     * <p/>
+     * Not all options are supported by all peripherals.
      *
      * @param option            selected option
      * @param shnResultListener callback to receive retrieved value
@@ -132,7 +138,9 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
     void getValueForOption(Option option, SHNIntegerResultListener shnResultListener);
 
     /**
-     * Set log synchronization option. Note that option needs to be supported by  the peripheral.
+     * Set log synchronization options.
+     * <p/>
+     * Not all options are supported by all peripherals.
      *
      * @param value             to set for the option
      * @param option            selected option
