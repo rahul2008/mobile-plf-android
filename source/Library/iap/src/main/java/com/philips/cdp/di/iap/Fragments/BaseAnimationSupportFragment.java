@@ -70,6 +70,18 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         }
     }
 
+    public void removeFragment() {
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            Fragment currentFragment = getActivity().getSupportFragmentManager()
+                    .findFragmentById(R.id.fl_mainFragmentContainer);
+            if (currentFragment != null) {
+                transaction.remove(currentFragment);
+            }
+            transaction.commit();
+        }
+    }
+
     private void clearStackAndLaunchProductCatalog() {
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentManager manager = getActivity().getSupportFragmentManager();

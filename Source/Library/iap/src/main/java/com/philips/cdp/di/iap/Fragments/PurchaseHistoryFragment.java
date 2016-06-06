@@ -16,8 +16,6 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.OrderHistoryAdapter;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.controller.OrderController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
@@ -51,11 +49,12 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         View rootView = inflater.inflate(R.layout.iap_order_history_fragment, container, false);
 
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PURCHASE_HISTORY_DETAIL), this);
+
         mOrderHistoryView = (RecyclerView) rootView.findViewById(R.id.order_history);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderHistoryView.setLayoutManager(layoutManager);
 
-        mAdapter = new OrderHistoryAdapter(getContext(), mOrders);
+        mAdapter = new OrderHistoryAdapter(mContext, mOrders);
         mOrderHistoryView.setAdapter(mAdapter);
         if(mOrders.size() == 0)
             updateHistoryListOnResume();
@@ -88,9 +87,9 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     }
 
     private void updateHistoryListOnResume() {
-        OrderController controller = new OrderController(getContext(), this);
+        OrderController controller = new OrderController(mContext, this);
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
             controller.getOrderList();
         }
     }
@@ -99,18 +98,23 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     public void onGetOrderList(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
+            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             if (msg.what == RequestCode.GET_ORDERS) {
                 if (msg.obj instanceof OrdersData) {
                     OrdersData mOrderData = (OrdersData) msg.obj;
                     mOrders = mOrderData.getOrders();
-                    mAdapter = new OrderHistoryAdapter(getContext(), mOrders);
-                    mOrderHistoryView.setAdapter(mAdapter);
+                    if (mOrders == null || mOrders.size() == 0) {
+                        removeFragment();
+                        addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
+                                BaseAnimationSupportFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
+                    }else{
+                        mAdapter = new OrderHistoryAdapter(mContext, mOrders);
+                        mOrderHistoryView.setAdapter(mAdapter);
+                    }
                 }
             }
         }
-
     }
 
     @Override
