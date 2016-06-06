@@ -37,7 +37,8 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
-            proguardFile 'proguard.pro'
+            //proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/launchDigitalCare/proguard.pro'
+            minifyEnabled false
         }
     }
 
