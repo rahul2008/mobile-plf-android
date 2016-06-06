@@ -932,9 +932,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     private void showServiceCentreDetails(AtosResultsModel resultModel) {
 
-        /*
-            While tagging its recommended to remove commama"'" and remove pipe"|" which comes at last.
-         */
+
         String addressForTag = resultModel.getAddressModel().getAddress1();
         if (addressForTag.isEmpty() || addressForTag == null) {
             addressForTag = resultModel.getAddressModel().getAddress2();
