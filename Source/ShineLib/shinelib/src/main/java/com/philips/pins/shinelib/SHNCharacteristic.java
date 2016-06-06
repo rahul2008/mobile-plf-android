@@ -75,8 +75,8 @@ public class SHNCharacteristic {
 
     public void write(byte[] data, SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
-            btGatt.writeCharacteristic(bluetoothGattCharacteristic, data);
             pendingCompletions.add(resultReporter);
+            btGatt.writeCharacteristic(bluetoothGattCharacteristic, data);
         } else {
             SHNLogger.w(TAG, "Error write; characteristic not active: " + uuid);
             if (resultReporter != null) {
@@ -87,8 +87,8 @@ public class SHNCharacteristic {
 
     public void read(@NonNull final SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
-            btGatt.readCharacteristic(bluetoothGattCharacteristic);
             pendingCompletions.add(resultReporter);
+            btGatt.readCharacteristic(bluetoothGattCharacteristic);
         } else {
             SHNLogger.w(TAG, "Error read; characteristic not active: " + uuid);
             if (resultReporter != null) {
@@ -154,8 +154,8 @@ public class SHNCharacteristic {
                 BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_UUID);
                 if (descriptor != null) {
                     supported = true;
-                    btGatt.writeDescriptor(descriptor, valueToWriteToDescriptor);
                     pendingCompletions.add(resultReporter);
+                    btGatt.writeDescriptor(descriptor, valueToWriteToDescriptor);
                 }
             }
 
