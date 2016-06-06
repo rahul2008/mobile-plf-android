@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Used by the SHNDeviceScannerInternal to scan for devices. When the SHNDeviceScannerInternal finds a device that it supports, it will inform all SHNInternalScanRequests. Each SHNInternalScanRequest will use its parameters to determine if it should inform its listener.
+ * Used by the {@link SHNDeviceScannerInternal} to scan for devices.
+ * <p/>
+ * When the {@code SHNDeviceScannerInternal} finds a device that it supports, it will inform all {@code SHNInternalScanRequests}.
+ * Each {@code SHNInternalScanRequest} will use its parameters to determine if it should inform its listener.
  */
 public class SHNInternalScanRequest {
 
