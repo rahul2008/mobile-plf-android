@@ -95,7 +95,7 @@ import java.util.Map;
  *
  * @author : Ritesh.jha@philips.com
  * @since : 8 May 2015
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 @SuppressLint({"SetJavaScriptEnabled", "DefaultLocale"})
@@ -305,9 +305,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     protected void closeProgressDialog() {
         if (mDialog != null && mDialog.isShowing()) {
-            mDialog.dismiss();
-            mDialog.cancel();
-            mDialog = null;
+            try {
+                mDialog.dismiss();
+                mDialog.cancel();
+                mDialog = null;
+            } catch (RuntimeException ex) {
+                DigiCareLogger.e(TAG, "Dialog Window Leak is handled");
+            }
         }
     }
 
@@ -991,7 +995,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         if ((mSearchBox != null) && (mArabicSearchIcon != null) && (mSearchBox != null)) {
 
-            mSearchBox.setFocusable(false);
 
             if (getActivity().getResources().getConfiguration().locale.getLanguage().toString().contains("ar")) {
                 mSearchIcon.setVisibility(View.GONE);
