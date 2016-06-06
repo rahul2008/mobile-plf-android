@@ -994,7 +994,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     protected void setSearchIcon() {
 
         if ((mSearchBox != null) && (mArabicSearchIcon != null) && (mSearchBox != null)) {
-
+            hideKeyboard();
 
             if (getActivity().getResources().getConfiguration().locale.getLanguage().toString().contains("ar")) {
                 mSearchIcon.setVisibility(View.GONE);
