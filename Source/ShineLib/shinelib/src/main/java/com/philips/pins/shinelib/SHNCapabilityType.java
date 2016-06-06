@@ -8,7 +8,8 @@ package com.philips.pins.shinelib;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 
 /**
- * Supported capabilities types by BlueLib. Use the value to access capability from a device via {@link com.philips.pins.shinelib.SHNDevice#getCapabilityForType(SHNCapabilityType)}
+ * Capability types supported by BlueLib.
+ * Use the value to access a capability from a device via {@link com.philips.pins.shinelib.SHNDevice#getCapabilityForType(SHNCapabilityType)}
  */
 public enum SHNCapabilityType {
 
@@ -85,7 +86,7 @@ public enum SHNCapabilityType {
     UserInformationLifeSense,
 
     /**
-     * Data streaming provides interface to enable data streaming for various {@link com.philips.pins.shinelib.datatypes.SHNDataType}.
+     * Data streaming provides an interface to enable data streaming for various {@link com.philips.pins.shinelib.datatypes.SHNDataType}.
      *
      * @see com.philips.pins.shinelib.capabilities.SHNCapabilityDataStreaming
      */
@@ -99,35 +100,35 @@ public enum SHNCapabilityType {
     DEVICE_INFORMATION,
 
     /**
-     * Firmware update provides interface to update device to a different version.
+     * Firmware update provides an interface to update device to a different version.
      *
      * @see com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate
      */
     FIRMWARE_UPDATE,
 
     /**
-     * Log synchronization provides interface to retrieve stored measurements from a peripheral.
+     * Log synchronization provides an interface to retrieve stored measurements from a peripheral.
      *
      * @see com.philips.pins.shinelib.capabilities.SHNCapabilityLogSynchronization
      */
     LOG_SYNCHRONIZATION,
 
     /**
-     * Notifications provides interface to show notification on a peripheral.
+     * Notifications provides an interface to show notification on a peripheral.
      *
      * @see com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications
      */
     NOTIFICATIONS,
 
     /**
-     * Wearing position provides interface to set and retrieve wearing position from a peripheral.
+     * Wearing position provides an interface to set and retrieve wearing position from a peripheral.
      *
      * @see com.philips.pins.shinelib.capabilities.SHNCapabilityConfigWearingPosition
      */
     WEARING_POSITION,
 
     /**
-     * Battery provides interface to retrieve battery level from a peripheral.
+     * Battery provides an interface to retrieve battery level from a peripheral.
      *
      * @see com.philips.pins.shinelib.capabilities.SHNCapabilityBattery
      */
@@ -139,7 +140,7 @@ public enum SHNCapabilityType {
     USER_INFORMATION_LIFE_SENSE,
 
     /**
-     * Sedentary provides interface to retrieve a sedentary period and subscribe for notifications from a peripheral.
+     * Sedentary provides an interface to retrieve a sedentary period and subscribe for notifications from a peripheral.
      *
      * @see com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary
      */
@@ -167,7 +168,7 @@ public enum SHNCapabilityType {
     CONFIG_TARGETS,
 
     /**
-     * Energy intake provides interface to set meal configurations for a peripheral.
+     * Energy intake provides an interface to set meal configurations for a peripheral.
      *
      * @see com.philips.pins.shinelib.capabilities.SHNCapabilityConfigEnergyIntake
      */
@@ -179,6 +180,7 @@ public enum SHNCapabilityType {
      * @see com.philips.pins.shinelib.capabilities.SHNCapabilityClearUserData
      */
     CLEAR_USER_DATA,
+
     /**
      * Moonshine plugin specific value.
      *
