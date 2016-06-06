@@ -186,6 +186,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 case LocationProvider.AVAILABLE:
                     DigiCareLogger.v(TAG, "Status Changed: Available");
                     break;
+
+                default:
+                    DigiCareLogger.i(TAG, "Default in onStatusChanged");
+                    break;
             }
         }
     };
@@ -706,6 +710,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
             case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
                 break;
+
+            default:
+                DigiCareLogger.d(TAG, "default method on onGPSStatusChanged");
+                break;
         }
     }
 
@@ -994,7 +1002,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     protected void setSearchIcon() {
 
         if ((mSearchBox != null) && (mArabicSearchIcon != null) && (mSearchBox != null)) {
-            hideKeyboard();
+
 
             if (getActivity().getResources().getConfiguration().locale.getLanguage().toString().contains("ar")) {
                 mSearchIcon.setVisibility(View.GONE);
@@ -1005,6 +1013,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 mArabicSearchIcon.setVisibility(View.GONE);
                 mSearchBox.setGravity(Gravity.LEFT);
             }
+
+            hideKeyboard();
         }
     }
 
