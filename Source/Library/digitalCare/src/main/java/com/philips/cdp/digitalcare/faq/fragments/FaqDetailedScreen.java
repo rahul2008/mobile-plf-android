@@ -285,7 +285,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mWebView.setVisibility(View.VISIBLE);
+                        if (mWebView != null) mWebView.setVisibility(View.VISIBLE);
                     }
                 });
             }
