@@ -2,6 +2,7 @@ package com.philips.cdp.prodreg.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.philips.cdp.prodreg.alert.ModalAlertDemoFragment;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
@@ -23,7 +25,7 @@ import com.philips.cdp.product_registration_lib.R;
  */
 public abstract class ProdRegBaseFragment extends Fragment {
 
-    private static String TAG = InitialFragment.class.getSimpleName();
+    private static String TAG = ProdRegBaseFragment.class.getSimpleName();
     private static int mContainerId = 0;
     private static int mEnterAnimation = 0;
     private static int mExitAnimation = 0;
@@ -143,12 +145,20 @@ public abstract class ProdRegBaseFragment extends Fragment {
     }
 
     private void updateActionbar() {
-        if (this.getClass().getSimpleName()
-                .equalsIgnoreCase(InitialFragment.class.getSimpleName())) {
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
-        } else {
             mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
-        }
+    }
+
+    protected void showAlert(final String title, final String description, final int responseCode) {
+        final ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
+        modalAlertDemoFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                modalAlertDemoFragment.setTitle(title);
+                modalAlertDemoFragment.setDescription(description);
+            }
+        }, 200);
     }
 }
 

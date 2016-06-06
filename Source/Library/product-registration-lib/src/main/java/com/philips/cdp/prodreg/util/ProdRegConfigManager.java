@@ -34,11 +34,6 @@ public class ProdRegConfigManager {
 
     private static Context mContext = null;
     private static ProdRegConfigManager prodRegConfigManager;
-    private final String TAG = ProdRegConfigManager.class.getSimpleName();
-    private String mAppID = null;
-    private String mAppName = null;
-    private String mPageName = null;
-    private boolean mTaggingEnabled = false;
     private UiLauncher mUiLauncher;
 
     /*
@@ -167,42 +162,4 @@ public class ProdRegConfigManager {
         getContext().startActivity(intent);
     }
 
-    /**
-     * @throws RuntimeException
-     */
-    public String getAppIdForTagging() throws RuntimeException {
-        return mAppID;
-    }
-
-    /**
-     * @throws RuntimeException
-     */
-    public String getAppNameForTagging() throws RuntimeException {
-        return mAppName;
-    }
-
-    /**
-     * This method provides to enable Debug Logs
-     *
-     * @param taggingEnabled True to enable & False to disable
-     */
-    public void setAppTaggingInputs(boolean taggingEnabled, String appId, String appName, String launchingPageName) {
-        mTaggingEnabled = taggingEnabled;
-        mPageName = launchingPageName;
-        mAppName = appName;
-        mAppID = appId;
-    }
-
-    public boolean isTaggingEnabled() {
-        return mTaggingEnabled;
-    }
-
-    /**
-     * It returns the previously set Page name for tagging.
-     *
-     * @return mPageScreenpageName
-     */
-    public String getPreviousPageNameForTagging() {
-        return mPageName;
-    }
 }

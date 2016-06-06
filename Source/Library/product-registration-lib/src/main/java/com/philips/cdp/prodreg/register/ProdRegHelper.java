@@ -33,7 +33,7 @@ public class ProdRegHelper {
             @Override
             public void onUserRegistrationComplete(final Activity activity) {
                 final User user = new User(context);
-                new UserWithProducts(context, new User(context), prodRegListener).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts(), new ProdRegListener() {
+                new UserWithProducts(context, user, prodRegListener).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts(), new ProdRegListener() {
                     @Override
                     public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                     }
@@ -42,11 +42,9 @@ public class ProdRegHelper {
                     public void onProdRegFailed(final RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                     }
                 });
-                final ProdRegConfigManager prodRegConfigManager = ProdRegConfigManager.getInstance();
-                prodRegConfigManager.initializeProductRegistration(context);
                 final ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
                 uiLauncher.setOnUserRegistrationSuccess(true);
-                prodRegConfigManager.invokeProductRegistration(uiLauncher);
+                ProdRegConfigManager.getInstance().invokeProductRegistration(uiLauncher);
             }
 
             @Override

@@ -30,7 +30,8 @@
         <activity android:name="com.philips.cdp.prodreg.ProductActivity"/>
         <activity android:name="com.philips.cdp.prodreg.RegisteredProductsList"/>
         <activity
-            android:name="com.philips.cdp.prodreg.TestURActivity">
+            android:name="com.philips.cdp.prodreg.TestURActivity"
+            android:configChanges="orientation|screenSize|locale|layoutDirection">
         </activity>
 
     </application>

@@ -18,7 +18,7 @@ public class RegisterProductWelcomeFragment extends ProdRegBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return null;
+        return getActivity().getString(R.string.prodreg_actionbar_title);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class RegisterProductWelcomeFragment extends ProdRegBaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                showFragment(new InitialFragment());
+                getActivity().finish();
             }
         };
     }

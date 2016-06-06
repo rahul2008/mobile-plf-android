@@ -35,7 +35,7 @@ public class RegisterSingleProductFragment extends ProdRegBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return null;
+        return getActivity().getString(R.string.prodreg_actionbar_title);
     }
 
     @Override
@@ -66,7 +66,8 @@ public class RegisterSingleProductFragment extends ProdRegBaseFragment {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-
+                progressBar.setVisibility(View.GONE);
+                showAlert("Summary", errorMessage, responseCode);
             }
         });
     }

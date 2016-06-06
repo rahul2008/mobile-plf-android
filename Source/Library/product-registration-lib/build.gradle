@@ -111,6 +111,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0.1"
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
         testApplicationId "com.philips.cdp.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }

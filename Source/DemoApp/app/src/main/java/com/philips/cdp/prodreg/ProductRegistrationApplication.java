@@ -3,6 +3,7 @@ package com.philips.cdp.prodreg;
 import android.app.Application;
 
 import com.philips.cdp.prodreg.register.ProdRegHelper;
+import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 
 public class ProductRegistrationApplication extends Application {
 
@@ -12,5 +13,6 @@ public class ProductRegistrationApplication extends Application {
     public void onCreate() {
         super.onCreate();
         new ProdRegHelper().init(getApplicationContext());
+        ProdRegConfigManager.getInstance().initializeProductRegistration(getApplicationContext());
     }
 }
