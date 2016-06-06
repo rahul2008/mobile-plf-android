@@ -52,7 +52,7 @@ public abstract class ProdRegBaseFragment extends Fragment {
 
     public void showFragment(Fragment fragment, FragmentLauncher fragmentLauncher,
                              int startAnimation, int endAnimation) {
-        Log.i("testing", "DigitalCare Base Fragment -- Fragment Invoke");
+        Log.i("testing", "Product Registration Base Fragment -- Fragment Invoke");
         mContainerId = fragmentLauncher.getParentContainerResourceID();
         mActivityContext = fragmentLauncher.getFragmentActivity();
         mActionbarUpdateListener = fragmentLauncher.getActionbarUpdateListener();

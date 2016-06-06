@@ -1,5 +1,5 @@
 /**
- * DigitalCareBaseActivity is the parent abstract class for DigitalCare
+ * ProdRegBaseActivity is the parent abstract class for Product Registration
  * Activity.
  *
  * @author: ritesh.jha@philips.com

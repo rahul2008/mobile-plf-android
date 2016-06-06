@@ -64,7 +64,7 @@ public class ProdRegConfigManager {
     }
 
     /**
-     * Returs the Context used in the DigitalCare Component
+     * Returns the Context used in the Product Registration Component
      *
      * @return Returns the Context using by the Component.
      */

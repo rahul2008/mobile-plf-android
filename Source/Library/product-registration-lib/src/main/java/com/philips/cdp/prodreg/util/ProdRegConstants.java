@@ -1,5 +1,5 @@
 /**
- * DigitalCareContants class is for application level constants.
+ * ProdRegConstants class is for application level constants.
  *
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
