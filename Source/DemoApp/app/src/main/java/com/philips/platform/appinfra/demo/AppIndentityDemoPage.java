@@ -26,21 +26,7 @@ public class AppIndentityDemoPage extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         AppInfra appInfra = AppInfraApplication.gAppInfra;
         mappIdentityinterface = appInfra.getAppIdentity();
-        try {
-            JSONObject obj = new JSONObject(mappIdentityinterface.loadJSONFromAsset());
-            String str1= obj.getString("micrositeId");
-            String str2 = obj.getString("sector");
+        mappIdentityinterface.loadJSONFromAsset();
 
-            Log.i("Obj tag1", str1);
-            Log.i("Obj tag2", str2);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        String countryCode = tm.getSimCountryIso();
-        if(countryCode == null){
-
-        }
     }
 }
