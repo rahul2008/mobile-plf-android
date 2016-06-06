@@ -20,7 +20,8 @@ import java.util.concurrent.TimeoutException;
 /**
  * Class that allows the API users to discover peripherals.
  * <p/>
- * Note that only peripherals registered with {@link SHNCentral} are exposed by {@code SHNDeviceScanner}. The matching behaviour of the scanner is  under control of {@link SHNDeviceDefinitionInfo#useAdvertisedDataMatcher()} method in the corresponding
+ * Note that only peripherals registered with {@link SHNCentral} are exposed by {@code SHNDeviceScanner}.
+ * The matching behaviour of the scanner is  under control of {@link SHNDeviceDefinitionInfo#useAdvertisedDataMatcher()} method in the corresponding
  * peripheral's device definition info. {@code SHNDeviceScanner} can be obtained via {@link SHNCentral#getShnDeviceScanner()}.
  */
 public class SHNDeviceScanner {
@@ -126,7 +127,7 @@ public class SHNDeviceScanner {
      *
      * @param shnDeviceScannerListener an instance of a listener to receive scanning callbacks
      * @param scannerSettingDuplicates specified duplication option
-     * @param stopScanningAfterMS      time out interval in milliseconds
+     * @param stopScanningAfterMS timeout interval in milliseconds
      * @return true if scan was started successfully, false otherwise
      */
     public boolean startScanning(final SHNDeviceScannerListener shnDeviceScannerListener, final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS) {
@@ -149,7 +150,7 @@ public class SHNDeviceScanner {
     }
 
     /**
-     * Stops any current running scan.
+     * Stops any currently running scan.
      */
     public void stopScanning() {
         internalHandler.post(new Runnable() {
