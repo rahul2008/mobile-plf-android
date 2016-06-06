@@ -900,7 +900,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                             AnalyticsConstants.ACTION_SEND_DATA,
                             AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                             AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION);
-            if (mPhoneNumber != null && !mAtosResponse.getSuccess()) {
+            if (mAtosResponse != null && mPhoneNumber != null && !mAtosResponse.getSuccess()) {
                 DigiCareLogger.i(TAG, mAtosResponse.getCdlsErrorModel()
                         .getErrorMessage());
             } else if (mUtils.isSimAvailable(getActivity())) {
@@ -931,7 +931,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     private void showServiceCentreDetails(AtosResultsModel resultModel) {
-
 
         String addressForTag = resultModel.getAddressModel().getAddress1();
         if (addressForTag.isEmpty() || addressForTag == null) {
