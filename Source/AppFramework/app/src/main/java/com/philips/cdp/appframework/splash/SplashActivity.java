@@ -16,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.appframework.R;
+import com.philips.cdp.appframework.homoscreen.HomeActivity;
 import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -78,7 +80,7 @@ public class SplashActivity extends UiKitActivity {
         setContentView(R.layout.uikit_splash_screen_logo_center_tb);
 
         ViewGroup group = (ViewGroup) findViewById(R.id.splash_layout);
-        group.setBackgroundResource(R.drawable.splashscreen_background);
+        group.setBackgroundResource(R.drawable.introduction_start_page_bg);
 
         ImageView logo = (ImageView) findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_philips_logo));
@@ -106,10 +108,15 @@ public class SplashActivity extends UiKitActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-               Intent i = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
-                startActivity(i);
+                User user = new User(SplashActivity.this);
+                if (user.isUserSignIn()) {
+                    Intent i = new Intent(SplashActivity.this, HomeActivity.class);
+                    startActivity(i);
+                } else {
+                    Intent i = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
+                    startActivity(i);
+                }
 
-                // close this activity
                 finish();
             }
         }, SPLASH_TIME_OUT);
