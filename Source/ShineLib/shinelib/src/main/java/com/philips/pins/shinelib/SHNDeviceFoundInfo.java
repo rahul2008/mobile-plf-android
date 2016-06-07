@@ -13,7 +13,9 @@ import com.philips.pins.shinelib.utility.BleScanRecord;
 import java.lang.ref.WeakReference;
 
 /**
- * {@code SHNDeviceFoundInfo} is an instance returned by {@link com.philips.pins.shinelib.SHNDeviceScanner}. {@code SHNDeviceFoundInfo} contains information obtained from the peripheral during scanning.
+ * {@code SHNDeviceFoundInfo} contains information obtained from the peripheral during scanning.
+ * <p/>
+ * {@code SHNDeviceFoundInfo} is returned by {@link com.philips.pins.shinelib.SHNDeviceScanner}.
  */
 public class SHNDeviceFoundInfo {
     private static WeakReference<SHNCentral> weakSHNCentral = new WeakReference<SHNCentral>(null);
@@ -65,7 +67,7 @@ public class SHNDeviceFoundInfo {
     /**
      * Returns the string representation of MAC address for the bluetooth peripheral.
      *
-     * @return string representation of the peripheral MAC address {@link android.bluetooth.BluetoothDevice#getAddress()}
+     * @return string representation of the peripheral MAC address as returned by {@link android.bluetooth.BluetoothDevice#getAddress()}
      */
     public String getDeviceAddress() {
         return deviceAddress;
@@ -74,7 +76,7 @@ public class SHNDeviceFoundInfo {
     /**
      * Returns the name of the bluetooth peripheral.
      *
-     * @return name of the peripheral {@link android.bluetooth.BluetoothDevice#getName()}
+     * @return name of the peripheral as returned by {@link android.bluetooth.BluetoothDevice#getName()}
      */
     public String getDeviceName() {
         return deviceName;
