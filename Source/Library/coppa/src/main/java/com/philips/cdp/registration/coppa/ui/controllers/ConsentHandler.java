@@ -15,6 +15,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
+import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalApprovalFragment;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
@@ -100,9 +101,9 @@ public class ConsentHandler implements RefreshUserHandler {
                         mUser.refreshUser(ConsentHandler.this);
                         AppTagging.trackAction(mTaggingState, mTaggingKey, "Yes");
                         mParentalApprovalFragment.hideRefreshProgress();
-                        if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                        /*if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                             RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
-                        }
+                        }*/
                     }
 
                     @Override
@@ -215,7 +216,24 @@ public class ConsentHandler implements RefreshUserHandler {
     @Override
     public void onRefreshUserSuccess() {
         mCoppaExtension.buildConfiguration();
+        updateUIBasedOnConsentStatus(mCoppaExtension.getCoppaEmailConsentStatus());
+
     }
+
+    private void updateUIBasedOnConsentStatus(final CoppaStatus coppaStatus){
+        if(coppaStatus == CoppaStatus.kDICOPPAConfirmationPending){
+            //show thank you and 24 hour screen
+        }else{
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+            }
+        }
+
+    }
+
+
+
+
 
     @Override
     public void onRefreshUserFailed(int error) {
