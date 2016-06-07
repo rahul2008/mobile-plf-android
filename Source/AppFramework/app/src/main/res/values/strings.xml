@@ -8,7 +8,9 @@
     <string name="skip_introduction_button_text">Skip</string>
     <string name="start_registration_button_text">Start</string>
     <string name="introduction_screen_top_text">Title bottom aligned</string>
-    <string name="introduction_screen_bottom_text">Second benefit text is bottom aligned</string>
+    <string name="introduction_screen_one_bottom_text">First benefit text is bottom aligned</string>
+    <string name="introduction_screen_two_bottom_text">Second benefit text is bottom aligned</string>
+    <string name="introduction_screen_three_bottom_text">Third benefit text is bottom aligned</string>
     <string name="splash_screen_title">Mobile &lt;b>Apps&lt;/b></string>
 
     <string-array name="hamburger_drawer_items">
@@ -18,6 +20,8 @@
         <item>Support</item>
             
         <item>Settings</item>
+
+        <item>Log Out</item>
 
     </string-array>
 </resources>

@@ -1,4 +1,4 @@
-package com.philips.cdp.appframework.homoscreen;
+package com.philips.cdp.appframework.homescreen;
 
 import android.app.Fragment;
 import android.os.Bundle;

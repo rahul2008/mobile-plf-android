@@ -1,6 +1,7 @@
-package com.philips.cdp.appframework.homoscreen;
+package com.philips.cdp.appframework.homescreen;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
+import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -147,15 +149,22 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     }
 
     private void displayView(int position) {
-        final HomeScreenFragment fragment = new HomeScreenFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        // Bundle bundle = getBundle(hamburgerMenuTitles[position], hamburgerMenuIcons.getResourceId(position, -1));
-        //   fragment.setArguments(bundle);
-        fragmentManager.beginTransaction()
-                .replace(R.id.frame_container, fragment).commit();
+
+        if(hamburgerMenuTitles[position].equalsIgnoreCase("Log Out")){
+            startActivity(new Intent(HomeActivity.this, UserRegistrationActivity.class));
+        }
+        else {
+            final HomeScreenFragment fragment = new HomeScreenFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            // Bundle bundle = getBundle(hamburgerMenuTitles[position], hamburgerMenuIcons.getResourceId(position, -1));
+            //   fragment.setArguments(bundle);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frame_container, fragment).commit();
+        }
         setTitle(hamburgerMenuTitles[position]);
         philipsDrawerLayout.closeDrawer(navigationView);
     }
+
 
 
 }

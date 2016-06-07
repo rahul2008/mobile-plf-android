@@ -11,9 +11,10 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/large_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/textView"
+            android:layout_above="@+id/small_text"
             android:layout_marginLeft="29dp"
             android:text="@string/introduction_screen_top_text"
             fontPath="fonts/centralesansxbold.ttf"
@@ -21,12 +22,12 @@
             android:textSize="34sp" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/small_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="29dp"
-            android:text="@string/introduction_screen_bottom_text"
+            android:text="@string/introduction_screen_one_bottom_text"
             fontPath="fonts/centralesansbook.ttf"
             android:textColor="@color/white"
             android:textSize="17sp"
