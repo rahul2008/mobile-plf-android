@@ -82,7 +82,7 @@ public class SHNInternalScanRequest {
     /**
      * Stops scanning for this request.
      */
-    public void stopScanning() {
+    private void stopScanning() {
         deviceScannerInternal.stopScanning(SHNInternalScanRequest.this);
     }
 

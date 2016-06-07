@@ -6,7 +6,9 @@
 package com.philips.pins.shinelib.datatypes;
 
 /**
- * Created by 310188215 on 07/05/15.
+ * All datatypes supported by BlueLib.
+ * <p/>
+ * Returned by classes inheriting {@link SHNData#getSHNDataType()} to indicate what datatype they are.
  */
 public enum SHNDataType {
     Unknown,
