@@ -65,7 +65,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         mProgressDialog = new ProgressDialog(RegistrationSampleActivity.this);
         mProgressDialog.setCancelable(false);
         //  if (RegistrationHelper.getInstance().isHsdpFlow()) {
-       // mBtnHsdpRefreshAccessToken.setVisibility(View.VISIBLE);
+        mBtnHsdpRefreshAccessToken.setVisibility(View.VISIBLE);
         
         //  }
 
