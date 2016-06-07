@@ -18,6 +18,8 @@ import java.lang.ref.WeakReference;
  * {@code SHNDeviceFoundInfo} is returned by {@link com.philips.pins.shinelib.SHNDeviceScanner}.
  */
 public class SHNDeviceFoundInfo {
+
+    @NonNull
     private static WeakReference<SHNCentral> weakSHNCentral = new WeakReference<SHNCentral>(null);
 
     /**
@@ -25,7 +27,7 @@ public class SHNDeviceFoundInfo {
      *
      * @param shnCentral to inject
      */
-    public static void setSHNCentral(SHNCentral shnCentral) {
+    public static void setSHNCentral(@NonNull SHNCentral shnCentral) {
         weakSHNCentral = new WeakReference<SHNCentral>(shnCentral);
     }
 
@@ -35,7 +37,6 @@ public class SHNDeviceFoundInfo {
     @NonNull
     private final String deviceName;
 
-    @NonNull
     private final int rssi;
 
     @NonNull
@@ -69,6 +70,7 @@ public class SHNDeviceFoundInfo {
      *
      * @return string representation of the peripheral MAC address as returned by {@link android.bluetooth.BluetoothDevice#getAddress()}
      */
+    @NonNull
     public String getDeviceAddress() {
         return deviceAddress;
     }
@@ -78,6 +80,7 @@ public class SHNDeviceFoundInfo {
      *
      * @return name of the peripheral as returned by {@link android.bluetooth.BluetoothDevice#getName()}
      */
+    @NonNull
     public String getDeviceName() {
         return deviceName;
     }
@@ -96,6 +99,7 @@ public class SHNDeviceFoundInfo {
      *
      * @return raw advertisement data offered by the remote peripheral.
      */
+    @NonNull
     public byte[] getScanRecord() {
         return scanRecord;
     }
@@ -105,6 +109,7 @@ public class SHNDeviceFoundInfo {
      *
      * @return {@code SHNDeviceDefinitionInfo} for the found peripheral
      */
+    @NonNull
     public SHNDeviceDefinitionInfo getShnDeviceDefinitionInfo() {
         return shnDeviceDefinitionInfo;
     }
@@ -114,6 +119,7 @@ public class SHNDeviceFoundInfo {
      *
      * @return {@code SHNDevice} for the found peripheral
      */
+    @NonNull
     public SHNDevice getShnDevice() {
         return shnDevice;
     }
@@ -123,6 +129,7 @@ public class SHNDeviceFoundInfo {
      *
      * @return {@code BleScanRecord} that wraps raw advertisement data
      */
+    @NonNull
     public BleScanRecord getBleScanRecord() {
         return bleScanRecord;
     }
@@ -133,6 +140,7 @@ public class SHNDeviceFoundInfo {
      * @return string representing {@code SHNDeviceFoundInfo} including deviceName, deviceAddress and rssi
      */
     @Override
+    @NonNull
     public String toString() {
         return deviceName + " [" + deviceAddress + "]" + " (" + rssi + ")";
     }
