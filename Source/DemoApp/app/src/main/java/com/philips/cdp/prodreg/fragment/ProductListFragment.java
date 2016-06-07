@@ -14,11 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.adaptor.ProductAdapter;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
-import com.philips.cdp.product_registration_lib.R;
 
 import java.util.List;
 
