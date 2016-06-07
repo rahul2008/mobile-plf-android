@@ -148,4 +148,6 @@ public class RegConstants {
 
     public static final String PUIICON_TTF = "PUIIcon.ttf";
 
+    public static final String COPPA_STATUS = "CoppaStatus";
+
 }

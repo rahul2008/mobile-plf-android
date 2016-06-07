@@ -20,6 +20,14 @@
 <string name="Coppa_Age_Verification_Alert_Title">Age and birth year mismatch</string>
 <string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">The provided age does not match with year of birth. Please make sure your age and year of birth are correct.</string>
 <string name="Coppa_Parent_Access_Attempt_Txt">You are trying to access a section intended for parents.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">I agree</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">Disagree</string>
+<string name="Coppa_Parent_Access_Agree_Button_Txt">Confirm parental consent</string>
+<string name="Coppa_Parent_Access_Disagree_Button_Txt">Deny parental consent</string>
+    <string name="Coppa_Thanks_Parent_Consent_Txt">Thank you for caring and sharing! </string>
+    <string name="Coppa_Parental_Consent_Screen_Title_txt">Parental consent</string>
+    <string name="Coppa_Parental_Consent_Button_Txt">View parent dashboard</string>
+    <string name="Coppa_Parental_Consent_Txt">You have given your consent to Philips to collect information about brushing time, period and frequency collected from the brush handle and the App</string>
+    <string name="Coppa_Parental_Consent_Privacy_Txt">Philips taken your privacy and personal data very seriously. We will never use this data for any other purposes than improving the Sonicare for Kids experience</string>
+    <string name="Coppa_Parental_Thank_Consent_Txt">You will receive a confirmatory consent request when you enter the parental section again after a minimum period of 24 hours from now.</string>
+    <string name="Coppa_Parental_Thank_Consent_Privacy_Txt">Read the privacy notice for more information.</string>
+
 </resources>
