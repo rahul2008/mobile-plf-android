@@ -83,6 +83,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mOrders.clear();
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PURCHASE_HISTORY_DETAIL), this);
     }
 
@@ -124,6 +125,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
     private void startOrderDetailFragment()
     {
+        if (isNetworkNotConnected()) return;
         int pos = mAdapter.getSelectedPosition();
         Orders order = mOrders.get(pos);
         Bundle bundle = new Bundle();

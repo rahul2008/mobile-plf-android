@@ -138,5 +138,9 @@ Please try again, or if the problem persists: contact Philips Consumer Care</str
     <string name="iap_cancel_order">Cancel my order</string>
     <string name="iap_buy">Buy</string>
     <string name="view_invoice">View invoice</string>
+    <string name="iap_track_order_title">Track order</string>
+    <string name="iap_track_my_shipment">Track my shipment</string>
+    <string name="iap_shipping_to">Shipping to</string>
+    <string name="iap_track_package_text">You can track your package anytime with tracking number</string>
 
 </resources>

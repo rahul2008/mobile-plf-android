@@ -35,6 +35,7 @@
             android:visibility="gone"/>
 
         <RelativeLayout
+            android:id="@+id/track_order_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"

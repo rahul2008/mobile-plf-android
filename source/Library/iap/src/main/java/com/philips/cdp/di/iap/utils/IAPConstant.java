@@ -53,6 +53,8 @@ public class IAPConstant {
     public static final String SWITCH_TO_NO_NETWORK_CONNECTION = "SWITCH_TO_NO_NETWORK_CONNECTION";
     public static final String PURCHASE_HISTORY_DETAIL = "PURCHASE_HISTORY_DETAIL";
     public static final String PURCHASE_ID = "PURCHASE_ID";
+    public static final String TRACKING_ID = "TRACKING_ID";
+    public static final String DELIVERY_NAME="DELIVERY_NAME";
 
     public interface IAPLandingViews {
         int IAP_PRODUCT_CATALOG_VIEW = 0;
