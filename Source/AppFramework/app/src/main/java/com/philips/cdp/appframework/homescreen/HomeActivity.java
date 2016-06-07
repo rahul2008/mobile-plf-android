@@ -44,8 +44,9 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);
-
-
+        /*
+         * Setting Philips UI KIT standard BLUE theme.
+         */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
@@ -129,9 +130,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     }
 
     private void setHamburgerAdaptor() {
-
         addDrawerItems();
-
     }
 
     private void loadSlideMenuItems() {
@@ -150,10 +149,9 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
     private void displayView(int position) {
 
-        if(hamburgerMenuTitles[position].equalsIgnoreCase("Log Out")){
+        if (hamburgerMenuTitles[position].equalsIgnoreCase("Log Out")) {
             startActivity(new Intent(HomeActivity.this, UserRegistrationActivity.class));
-        }
-        else {
+        } else {
             final HomeScreenFragment fragment = new HomeScreenFragment();
             FragmentManager fragmentManager = getFragmentManager();
             // Bundle bundle = getBundle(hamburgerMenuTitles[position], hamburgerMenuIcons.getResourceId(position, -1));
@@ -167,7 +165,5 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
     @Override
     public void onBackPressed() {
-
-
     }
 }

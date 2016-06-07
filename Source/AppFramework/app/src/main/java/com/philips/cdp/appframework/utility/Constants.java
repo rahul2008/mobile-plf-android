@@ -3,8 +3,8 @@
  *
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
- *
- *  Copyright (c) 2016 Philips. All rights reserved.
+ * <p/>
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 
 package com.philips.cdp.appframework.utility;

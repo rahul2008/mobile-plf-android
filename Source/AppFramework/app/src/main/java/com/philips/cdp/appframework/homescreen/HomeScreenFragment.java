@@ -25,8 +25,8 @@ public class HomeScreenFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.home_screen, container, false);
-     //   textView = (TextView)rootView.findViewById(R.id.txtLabel);
-      //  imageView = (ImageView) rootView.findViewById(R.id.frag_icon);
+        //   textView = (TextView)rootView.findViewById(R.id.txtLabel);
+        //  imageView = (ImageView) rootView.findViewById(R.id.frag_icon);
 
         setDateToView();
 
@@ -34,7 +34,7 @@ public class HomeScreenFragment extends Fragment {
     }
 
     private void setDateToView() {
-        Bundle bundle= getArguments();
+        Bundle bundle = getArguments();
 //        textView.setText(bundle.getString("data"));
 //        imageView.setImageDrawable(VectorDrawable.create(getActivity().getApplicationContext(), bundle.getInt("resId")));
     }

@@ -23,7 +23,7 @@ import com.shamanland.fonticon.FontIconView;
 /**
  * Created by 310240027 on 5/31/2016.
  */
-public class IntroductionScreenActivity extends AppFrameworkBaseActivity implements UserRegistrationListener,RegistrationTitleBarListener,View.OnClickListener {
+public class IntroductionScreenActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener, View.OnClickListener {
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
@@ -107,7 +107,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        if(null != activity) {
+        if (null != activity) {
             startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
         }
     }
@@ -162,22 +162,22 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onClick(View v) {
         User user = new User(this);
 
-        switch (v.getId()){
-            case R.id.start_registration_button :
-                if(user.isUserSignIn()){
-                    startActivity(new Intent(IntroductionScreenActivity.this,HomeActivity.class));
-                }else {
+        switch (v.getId()) {
+            case R.id.start_registration_button:
+                setIntroScreenDonePressed();
+                if (user.isUserSignIn()) {
+                    startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+                } else {
                     startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
                 }
                 break;
-            case R.id.appframework_skip_button :
-                if(user.isUserSignIn()){
-                    startActivity(new Intent(IntroductionScreenActivity.this,HomeActivity.class));
-                }else {
+            case R.id.appframework_skip_button:
+                if (user.isUserSignIn()) {
+                    startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+                } else {
                     startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
                 }
                 break;
-
         }
     }
 }

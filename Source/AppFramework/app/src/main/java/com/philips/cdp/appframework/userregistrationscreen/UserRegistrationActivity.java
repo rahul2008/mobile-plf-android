@@ -13,7 +13,7 @@ public class UserRegistrationActivity extends RegistrationActivity {
 
     @Override
     public void onBackPressed() {
-        if(!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+        if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
             startActivity(new Intent(UserRegistrationActivity.this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
             super.onBackPressed();
         }

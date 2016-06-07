@@ -1,6 +1,7 @@
 package com.philips.cdp.appframework;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,8 +33,11 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
  * @since : 31 May 2016
  */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity {
+    public static final String SHARED_PREFERENCES = "SharedPref";
+    public static final String DONE_PRESSED = "donePressed";
     private static String TAG = AppFrameworkBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
+    private SharedPreferences mSharedpreferences = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         ProductSelectionLogger.i(Constants.ACTIVITY, "onCreate");
         fragmentManager = getSupportFragmentManager();
 
-       // initActionBar();
+        // initActionBar();
     }
 
     private void initActionBar() {
@@ -133,6 +137,18 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
             transaction.remove(currentFrag);
         }
         transaction.commit();
+    }
+
+    protected void setIntroScreenDonePressed() {
+        mSharedpreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedpreferences.edit();
+        editor.putBoolean(DONE_PRESSED, true);
+        editor.commit();
+    }
+
+    protected Boolean getIntroScreenDonePressed() {
+        mSharedpreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        return mSharedpreferences.getBoolean(DONE_PRESSED, false);
     }
 
     protected void showFragment(Fragment fragment) {

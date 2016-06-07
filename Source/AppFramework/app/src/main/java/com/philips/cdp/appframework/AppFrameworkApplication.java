@@ -35,9 +35,9 @@ public class AppFrameworkApplication extends Application {
         String countryCode = Locale.getDefault().getCountry();
 
         PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode,countryCode);
+        localeManager.setInputLocale(languageCode, countryCode);
 
         RegistrationHelper.getInstance().initializeUserRegistration(this);
-        Tagging.init( this, "Philips Registration");
+        Tagging.init(this, "Philips Registration");
     }
 }

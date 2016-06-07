@@ -15,30 +15,31 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HomeActivity;
 import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
+import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
  * <H1>Dev Guide</H1>
  * <p>
- *     UIKit provides 3 basic templates that can be filled via target activity.<br>
- *     By default themed gradient background is applied.<br>
- *     To change default background following code can be used
- *     <pre>
+ * UIKit provides 3 basic templates that can be filled via target activity.<br>
+ * By default themed gradient background is applied.<br>
+ * To change default background following code can be used
+ * <pre>
  *          ViewGroup group = (ViewGroup) findViewById(<font color="red">R.id.splash_layout</font>);
  *          group.setBackgroundResource(R.drawable.splashscreen_background);
  *     </pre>
- *
+ * <p/>
  * </p>
  * <H5>With Philips logo</H5>
  * Inflate <pre>com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_top</pre> or
- *     <pre>com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_bottom</pre> or
- *     <pre>com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_center_tb</pre>
- *     as per the requirement.
+ * <pre>com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_bottom</pre> or
+ * <pre>com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_center_tb</pre>
+ * as per the requirement.
  *
  * <p>
  * <H3>Modifying title</H3>
@@ -53,10 +54,8 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
  *
  * @author : Ritesh.jha@philips.com
  * @since : 2 June 2016
- *
- *
  */
-public class SplashActivity extends UiKitActivity {
+public class SplashActivity extends AppFrameworkBaseActivity {
     private static int SPLASH_TIME_OUT = 3000;
 
     @Override
@@ -109,9 +108,12 @@ public class SplashActivity extends UiKitActivity {
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 User user = new User(SplashActivity.this);
-                if (user.isUserSignIn()) {
-                    Intent i = new Intent(SplashActivity.this, HomeActivity.class);
-                    startActivity(i);
+                if (getIntroScreenDonePressed()) {
+                    if (user.isUserSignIn()) {
+                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    } else {
+                        startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
+                    }
                 } else {
                     Intent i = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
                     startActivity(i);
