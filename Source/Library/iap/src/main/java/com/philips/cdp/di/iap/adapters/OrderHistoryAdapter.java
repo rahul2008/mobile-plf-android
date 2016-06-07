@@ -5,15 +5,20 @@
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.response.orders.Orders;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
@@ -27,10 +32,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final String TAG = OrderHistoryAdapter.class.getName();
     private Context mContext;
     private List<Orders> mOrders;
+    private int mSelectedIndex;
 
     public OrderHistoryAdapter(final Context context, final List<Orders> orders) {
         mContext = context;
         mOrders = orders;
+        mSelectedIndex = 0;
     }
 
     @Override
@@ -56,7 +63,11 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return 0;
     }
 
-    public class OrderHistoryHolder extends RecyclerView.ViewHolder {
+    public int getSelectedPosition() {
+        return mSelectedIndex;
+    }
+
+    public class OrderHistoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView mTvProductName;
         NetworkImageView mNetworkImage;
         TextView mTvQuantity;
@@ -64,6 +75,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTime;
         TextView mOrderNumber;
         TextView mOrderState;
+        RelativeLayout mOrderSummaryLayout;
 
         public OrderHistoryHolder(final View itemView) {
             super(itemView);
@@ -74,6 +86,18 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTime = (TextView) itemView.findViewById(R.id.tv_time);
             mOrderNumber = (TextView) itemView.findViewById(R.id.tv_order_number);
             mOrderState = (TextView) itemView.findViewById(R.id.tv_order_state);
+            mOrderSummaryLayout = (RelativeLayout) itemView.findViewById(R.id.order_summary);
+            mOrderSummaryLayout.setOnClickListener(this);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            mSelectedIndex = getAdapterPosition();
+            if(v.getId() == R.id.order_summary)
+            {
+                EventHelper.getInstance().notifyEventOccurred(IAPConstant.PURCHASE_HISTORY_DETAIL);
+            }
         }
     }
 

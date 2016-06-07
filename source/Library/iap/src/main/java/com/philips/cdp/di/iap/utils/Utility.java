@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.location.Address;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -19,11 +18,16 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.carts.CountryEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
+import com.philips.cdp.di.iap.response.orders.Address;
 import com.philips.cdp.di.iap.response.payment.BillingAddress;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class Utility {
+    public static final String TAG = Utility.class.getName();
 
     private static ProgressDialog mProgressDialog = null;
 
@@ -124,6 +128,15 @@ public class Utility {
             if (country != null) {
                 sb.append(country);
             }
+        }else if (addressObj instanceof Address) {
+            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine1());
+            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine2());
+            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getTown());
+            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getPostalCode());
+            String country = getCountryName(((Address) addressObj).getCountry().getIsocode());
+            if (country != null) {
+                sb.append(country);
+            }
         }
         return sb.toString();
     }
@@ -133,6 +146,19 @@ public class Utility {
         int mThemeBaseColor = a.getColor(0, ContextCompat.getColor(context, R.color.uikit_philips_blue));
         a.recycle();
         return mThemeBaseColor;
+    }
+
+    public static String getFormattedDate(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        Date convertedDate = null;
+        try {
+            convertedDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            IAPLog.d(Utility.TAG, e.getMessage());
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy"); // Set your date format
+        return sdf.format(convertedDate);
     }
 
 }

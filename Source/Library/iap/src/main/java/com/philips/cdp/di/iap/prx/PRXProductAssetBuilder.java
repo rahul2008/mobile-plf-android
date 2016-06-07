@@ -90,19 +90,19 @@ public class PRXProductAssetBuilder {
     }
 
     private ArrayList<String> fetchImageUrlsFromPRXAssets(List<Asset> assets) {
-         ArrayList<String> mAssetsFromPRX = new ArrayList<>();
+        ArrayList<String> mAssetsFromPRX = new ArrayList<>();
         TreeMap<Integer, String> sortedAssetsFromPRX = new TreeMap<>();
         int width = (int) mContext.getResources().getDisplayMetrics().widthPixels;
         int height = (int) mContext.getResources().getDimension(R.dimen.iap_product_detail_image_height);
 
         for (Asset asset : assets) {
-            int priority = getAssetType(asset);
-            if (priority != -1) {
+            int assetType = getAssetType(asset);
+            if (assetType != -1) {
                 String imagepath = asset.getAsset() + "?wid=" + width +
                         "&hei=" + height + "&$pnglarge$" + "&fit=fit,1";
-                sortedAssetsFromPRX.put(priority, imagepath);
+                sortedAssetsFromPRX.put(assetType, imagepath);
             }
-            mAssetsFromPRX = new ArrayList<String>(new ArrayList<>(sortedAssetsFromPRX.values()));
+            mAssetsFromPRX = new ArrayList<>(sortedAssetsFromPRX.values());
         }
 
         return mAssetsFromPRX;

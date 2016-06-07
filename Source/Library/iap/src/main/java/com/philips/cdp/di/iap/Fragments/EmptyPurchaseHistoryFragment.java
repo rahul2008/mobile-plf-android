@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,13 +52,7 @@ public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
 
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getActivity().getSupportFragmentManager().
-                findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment != null) {
-            getFragmentManager().popBackStack();
-        } else {
-            finishActivity();
-        }
+        finishActivity();
         return false;
     }
 

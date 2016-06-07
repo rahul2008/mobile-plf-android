@@ -54,6 +54,8 @@ public class HybrisStore extends AbstractStoreSpec {
     private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1/";
     private static final String RETAILERS_ALTER = "online-retailers?product=%s&lang=en";
 
+    private static final String SUFFIX_ORDER_DETAIL_URL = "/orders/%s";
+
     private StoreConfiguration mStoreConfig;
     public IAPUser mIAPUser;
 
@@ -79,6 +81,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private String mGetProductCatalogUrl;
     private boolean mUserLoggedout;
     private String mRetailersAlter;
+    private String mOrderDetailUrl;
 
     public HybrisStore(Context context) {
         mIAPUser = initIAPUser(context);
@@ -186,6 +189,7 @@ public class HybrisStore extends AbstractStoreSpec {
         mRetailersAlter = mGetRetailersUrl.concat(RETAILERS_ALTER);
         mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
                 .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
+        mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDER_DETAIL_URL);
     }
 
     @Override
@@ -321,5 +325,10 @@ public class HybrisStore extends AbstractStoreSpec {
     @Override
     public boolean isUserLoggedOut() {
         return mUserLoggedout;
+    }
+
+    @Override
+    public String getOrderDetailUrl(String orderId) {
+        return String.format(mOrderDetailUrl, orderId);
     }
 }

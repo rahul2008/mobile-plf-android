@@ -175,4 +175,9 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     public boolean isStoreInitialized() {
         return mStoreInitialized;
     }
+
+    @Override
+    public String getOrderDetailUrl(String orderID) {
+        return null;
+    }
 }
