@@ -8,7 +8,7 @@ public class UiLauncher {
 
     protected int mEnterAnimation;
     protected int mExitAnimation;
-    private boolean onUserRegistrationSuccess;
+    private boolean isFirstLaunch;
 
     public UiLauncher() {
     }
@@ -26,11 +26,11 @@ public class UiLauncher {
         this.mExitAnimation = exitAnimation;
     }
 
-    public boolean isOnUserRegistrationSuccess() {
-        return onUserRegistrationSuccess;
+    public boolean isFirstLaunch() {
+        return isFirstLaunch;
     }
 
-    public void setOnUserRegistrationSuccess(final boolean onUserRegistrationSuccess) {
-        this.onUserRegistrationSuccess = onUserRegistrationSuccess;
+    public void setFirstLaunch(final boolean firstLaunch) {
+        this.isFirstLaunch = firstLaunch;
     }
 }

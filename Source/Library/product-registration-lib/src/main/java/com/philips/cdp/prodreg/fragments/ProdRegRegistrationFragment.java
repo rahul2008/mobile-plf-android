@@ -28,7 +28,7 @@ import com.philips.cdp.product_registration_lib.R;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegisterSingleProductFragment extends ProdRegBaseFragment {
+public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
 
     ImageLoader imageLoader;
     private TextView productTitle;
@@ -91,7 +91,7 @@ public class RegisterSingleProductFragment extends ProdRegBaseFragment {
                     summaryLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                     final String productTitle = productSummaryResponse.getData().getProductTitle();
-                    RegisterSingleProductFragment.this.productTitle.setText(productTitle != null ? productTitle : "");
+                    ProdRegRegistrationFragment.this.productTitle.setText(productTitle != null ? productTitle : "");
                     imageLoader.get(productSummaryResponse.getData().getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.ic_launcher, R.drawable.ic_launcher));
                 }
 

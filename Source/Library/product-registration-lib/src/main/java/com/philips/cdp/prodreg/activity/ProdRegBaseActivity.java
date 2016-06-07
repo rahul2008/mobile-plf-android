@@ -25,8 +25,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.philips.cdp.prodreg.fragments.RegisterProductWelcomeFragment;
-import com.philips.cdp.prodreg.fragments.RegisterSingleProductFragment;
+import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
+import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
@@ -36,7 +36,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class ProdRegBaseActivity extends FragmentActivity {
     private static String TAG = ProdRegBaseActivity.class.getSimpleName();
-    private boolean onUserRegistrationSuccess;
+    private boolean isFirstLaunch;
     private RelativeLayout mActionBarLayout = null;
     private ImageView mActionBarArrow = null;
     private FragmentManager fragmentManager = null;
@@ -57,7 +57,7 @@ public class ProdRegBaseActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prodreg_activity);
         if (getIntent() != null && getIntent().getExtras() != null) {
-            onUserRegistrationSuccess = getIntent().getExtras().getBoolean(ProdRegConstants.PROD_REG_ON_REGISTRATION);
+            isFirstLaunch = getIntent().getExtras().getBoolean(ProdRegConstants.PROD_REG_ON_FIRST_LAUNCH);
         }
         fragmentManager = getSupportFragmentManager();
 
@@ -68,12 +68,12 @@ public class ProdRegBaseActivity extends FragmentActivity {
         }
         animateThisScreen();
         User user = new User(this);
-        if (!user.isUserSignIn())
+        if (isFirstLaunch)
+            showFragment(new ProdRegFirstLaunchFragment());
+        else if (!user.isUserSignIn())
             showUserRegistrationFragment();
-        else if (onUserRegistrationSuccess)
-            showFragment(new RegisterProductWelcomeFragment());
         else
-            showFragment(new RegisterSingleProductFragment());
+            showFragment(new ProdRegRegistrationFragment());
 
         enableActionBarLeftArrow();
     }

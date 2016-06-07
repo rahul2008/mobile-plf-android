@@ -1,7 +1,6 @@
 package com.philips.cdp.prodreg.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -192,7 +191,6 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent intent;
         final String env = sharedPreferences.getString("reg_env", "Evaluation");
 
         switch (v.getId()) {

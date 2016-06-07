@@ -39,7 +39,7 @@ public class Product implements Serializable {
         this.catalog = catalog;
     }
 
-    protected void getProductMetadata(final Context context, final MetadataListener metadataListener) {
+    public void getProductMetadata(final Context context, final MetadataListener metadataListener) {
         ProductMetadataRequest productMetadataRequest = getProductMetadataRequest(getCtn());
         productMetadataRequest.setSector(getSector());
         productMetadataRequest.setCatalog(getCatalog());

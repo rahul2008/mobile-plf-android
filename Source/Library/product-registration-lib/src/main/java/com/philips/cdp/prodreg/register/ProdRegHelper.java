@@ -9,11 +9,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
-import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 import com.philips.cdp.product_registration_lib.BuildConfig;
-import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -44,9 +41,9 @@ public class ProdRegHelper {
                     public void onProdRegFailed(final RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                     }
                 });
-                final ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
-                uiLauncher.setOnUserRegistrationSuccess(true);
-                ProdRegConfigManager.getInstance().invokeProductRegistration(uiLauncher);
+               /* final ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
+                uiLauncher.setFirstLaunch(true);
+                ProdRegConfigManager.getInstance().invokeProductRegistration(uiLauncher);*/
             }
 
             @Override

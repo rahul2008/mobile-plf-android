@@ -212,7 +212,7 @@ public class UserWithProducts {
         return new RegisteredProductsListener() {
             @Override
             public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
-                if (!isCtnRegistered(registeredProducts, registeredProduct, appListener)) {
+                if (!isCtnRegistered(registeredProducts, registeredProduct)) {
                     registeredProduct.getProductMetadata(mContext, getUserProduct().getMetadataListener(registeredProduct, appListener));
                 } else {
                     updateWithCallBack(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED, appListener);
@@ -270,7 +270,7 @@ public class UserWithProducts {
             return purchaseDate != null && purchaseDate.length() > 0;
     }
 
-    protected boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct, final ProdRegListener appListener) {
+    protected boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct) {
         for (RegisteredProduct result : registeredProducts) {
             if (registeredProduct.getCtn().equalsIgnoreCase(result.getCtn()) && registeredProduct.getSerialNumber().equals(result.getSerialNumber()) && result.getRegistrationState() == RegistrationState.REGISTERED) {
                 return true;

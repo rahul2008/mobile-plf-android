@@ -1,12 +1,13 @@
 
 package com.philips.cdp.prodreg.model.summary;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Data {
+public class Data implements Serializable {
 
     private String locale;
     private String ctn;

@@ -8,12 +8,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegisterProductWelcomeFragment extends ProdRegBaseFragment {
+public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     Button extendWarranty, registerLater;
 
     @Override
@@ -46,7 +49,18 @@ public class RegisterProductWelcomeFragment extends ProdRegBaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                showFragment(new RegisterSingleProductFragment());
+                User user = new User(getActivity());
+                if (user.isUserSignIn()) {
+                    final ProdRegProcessFragment processFragment = new ProdRegProcessFragment();
+                    processFragment.setArguments(getArguments());
+                    showFragment(processFragment);
+                } else {
+                    RegistrationFragment registrationFragment = new RegistrationFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
+                    registrationFragment.setArguments(bundle);
+                    showFragment(registrationFragment);
+                }
             }
         };
     }
