@@ -1,5 +1,6 @@
 package com.philips.cdp.prodreg.launcher;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
@@ -12,6 +13,7 @@ public class FragmentLauncher extends UiLauncher {
     protected int mParentContainerResourceID;
     protected ActionbarUpdateListener mActionbarUpdateListener = null;
     protected FragmentActivity mFragmentActivity = null;
+    private Bundle arguments;
 
     public FragmentLauncher(FragmentActivity fragmentActivity, int parentContainerResId, ActionbarUpdateListener actionbarUpdateListener) {
         this.mParentContainerResourceID = parentContainerResId;
@@ -29,5 +31,13 @@ public class FragmentLauncher extends UiLauncher {
 
     public FragmentActivity getFragmentActivity() {
         return this.mFragmentActivity;
+    }
+
+    public Bundle getArguments() {
+        return arguments;
+    }
+
+    public void setArguments(final Bundle arguments) {
+        this.arguments = arguments;
     }
 }

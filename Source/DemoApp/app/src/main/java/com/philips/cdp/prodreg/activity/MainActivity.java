@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg;
+package com.philips.cdp.prodreg.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,12 +13,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.prodreg.launcher.FragmentLauncher;
-import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
-import com.philips.cdp.prodreg.util.ProdRegConfigManager;
+import com.philips.cdp.prodreg.R;
+import com.philips.cdp.prodreg.fragment.LaunchFragment;
 import com.philips.cdp.uikit.UiKitActivity;
 
-public class TestURActivity extends UiKitActivity {
+public class MainActivity extends UiKitActivity {
 
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
@@ -28,20 +27,13 @@ public class TestURActivity extends UiKitActivity {
         super.onCreate(savedInstanceState);
         initCustomActionBar();
         setContentView(R.layout.activity_test_ur);
-        invokeProdRegFragment();
-    }
 
-    private void invokeProdRegFragment() {
         fragmentManager = getSupportFragmentManager();
-        FragmentLauncher fragLauncher = new FragmentLauncher(
-                this, R.id.parent_layout, new ActionbarUpdateListener() {
-            @Override
-            public void updateActionbar(final String var1, final Boolean var2) {
-                setTitle(var1);
-            }
-        });
-        fragLauncher.setAnimation(0, 0);
-        ProdRegConfigManager.getInstance().invokeProductRegistration(fragLauncher);
+        LaunchFragment launchFragment = new LaunchFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.parent_layout, launchFragment,
+                "Demo_Launch_fragment");
+        fragmentTransaction.commit();
     }
 
     private void initCustomActionBar() {
@@ -61,7 +53,7 @@ public class TestURActivity extends UiKitActivity {
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                finish();
+                backStackFragment();
             }
         });
 
@@ -70,11 +62,12 @@ public class TestURActivity extends UiKitActivity {
         arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_actionbar_back_arrow_white));
 
         mActionBar.setCustomView(mCustomView, params);
+        setTitle(getString(R.string.app_name));
         mActionBar.setDisplayShowCustomEnabled(true);
     }
 
     private boolean backStackFragment() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             finish();
         } else {
             fragmentManager.popBackStack();
@@ -110,4 +103,6 @@ public class TestURActivity extends UiKitActivity {
         super.setTitle(title);
         mTitleTextView.setText(title);
     }
+
+
 }

@@ -35,8 +35,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/fab_margin"
             android:focusable="false"
-            android:hint="Purchase date"
-            android:onClick="onClickPurchaseDate"/>
+            android:hint="Purchase date"/>
 
         <EditText
             android:id="@+id/edt_serial_number"
@@ -81,7 +80,6 @@
                 android:layout_marginLeft="@dimen/fab_margin"
                 android:background="@drawable/bgtoggle"
                 android:button="@null"
-                android:onClick="onClick"
                 android:textOff=""
                 android:textOn=""
                 />
@@ -93,7 +91,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/fab_margin"
-            android:onClick="onClick"
             android:text="Submit"/>
 
     </LinearLayout>

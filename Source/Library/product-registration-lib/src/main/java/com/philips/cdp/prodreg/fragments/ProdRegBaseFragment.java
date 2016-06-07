@@ -145,7 +145,7 @@ public abstract class ProdRegBaseFragment extends Fragment {
     }
 
     private void updateActionbar() {
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
+        mActionbarUpdateListener.updateActionbar(getActionbarTitle());
     }
 
     protected void showAlert(final String title, final String description, final int responseCode) {

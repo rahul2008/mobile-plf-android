@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg;
+package com.philips.cdp.prodreg.adaptor;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cdp.prodreg.R;
+import com.philips.cdp.prodreg.fragment.ProductListFragment;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 
 import java.util.List;
@@ -21,10 +23,10 @@ import java.util.List;
 public class ProductAdapter  extends RecyclerView.Adapter<ListRowHolder>  {
 
     Context mContext;
-    RegisteredProductsList.OnItemClickListener onItemClickListener;
+    ProductListFragment.OnItemClickListener onItemClickListener;
     private List<RegisteredProduct> registeredProducts;
 
-    public ProductAdapter(Context mContext, List<RegisteredProduct> registeredProducts, final RegisteredProductsList.OnItemClickListener onItemClickListener) {
+    public ProductAdapter(Context mContext, List<RegisteredProduct> registeredProducts, final ProductListFragment.OnItemClickListener onItemClickListener) {
         this.registeredProducts = registeredProducts;
         this.mContext = mContext;
         this.onItemClickListener = onItemClickListener;

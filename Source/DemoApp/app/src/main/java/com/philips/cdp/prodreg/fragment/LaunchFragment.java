@@ -1,17 +1,29 @@
-package com.philips.cdp.prodreg;
+package com.philips.cdp.prodreg.fragment;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.prodreg.R;
+import com.philips.cdp.prodreg.Util;
+import com.philips.cdp.prodreg.launcher.FragmentLauncher;
+import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
+import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Flow;
 import com.philips.cdp.registration.configuration.JanRainConfiguration;
@@ -24,7 +36,6 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.tagging.Tagging;
-import com.philips.cdp.uikit.UiKitActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +43,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends UiKitActivity implements View.OnClickListener {
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+public class LaunchFragment extends Fragment implements View.OnClickListener {
 
     String configurationType[] = {"Evaluation", "Testing", "Development", "Staging", "Production"};
     int count = 0;
@@ -41,17 +56,33 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
     private TextView txt_title, configurationTextView;
     private Spinner spinner;
     private SharedPreferences sharedPreferences;
+    private Button user_registration_button, pr_button, reg_list_button, spike_ur_button;
+    private Context context;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_main, container, false);
+        init(view);
+        return view;
+    }
+
+    private void init(final View view) {
+        context = getActivity();
         final String PRODUCT_REGISTRATION = "prod_demo";
-        sharedPreferences = getSharedPreferences(PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-        spinner = (Spinner) findViewById(R.id.spinner);
-        txt_title = (TextView) findViewById(R.id.txt_title);
-        configurationTextView = (TextView) findViewById(R.id.configuration);
-        final ArrayAdapter<String> configType = new ArrayAdapter<>(this,
+        sharedPreferences = context.getSharedPreferences(PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+        txt_title = (TextView) view.findViewById(R.id.txt_title);
+        user_registration_button = (Button) view.findViewById(R.id.btn_user_registration);
+        pr_button = (Button) view.findViewById(R.id.btn_product_registration);
+        reg_list_button = (Button) view.findViewById(R.id.btn_register_list);
+        spike_ur_button = (Button) view.findViewById(R.id.btn_spike_ur);
+        user_registration_button.setOnClickListener(this);
+        pr_button.setOnClickListener(this);
+        reg_list_button.setOnClickListener(this);
+        spike_ur_button.setOnClickListener(this);
+        configurationTextView = (TextView) view.findViewById(R.id.configuration);
+        final ArrayAdapter<String> configType = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, configurationType);
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(configType);
@@ -70,7 +101,7 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
                 final String configuration = adapter.getItemAtPosition(position).toString();
 
                 if (count > 0) {
-                    User user = new User(MainActivity.this);
+                    User user = new User(context);
                     user.logout(null);
                     Log.d(TAG, "Before Configuration" + configuration);
                     if (configuration.equalsIgnoreCase("Development")) {
@@ -152,11 +183,11 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
 
-        PILLocaleManager localeManager = new PILLocaleManager(this);
+        PILLocaleManager localeManager = new PILLocaleManager(context);
         localeManager.setInputLocale(languageCode, countryCode);
 
-        RegistrationHelper.getInstance().initializeUserRegistration(this);
-        Tagging.init(this, "Product Registration");
+        RegistrationHelper.getInstance().initializeUserRegistration(context);
+        Tagging.init(context, "Product Registration");
     }
 
     @Override
@@ -167,27 +198,45 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.btn_user_registration:
                 initialiseUserRegistration(env);
-                RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
+                RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(context);
                 Util.navigateFromUserRegistration();
                 break;
             case R.id.btn_product_registration:
                 initialiseUserRegistration(env);
-                intent = new Intent(this, ProductActivity.class);
-                startActivity(intent);
+                showFragment(new ManualRegistrationFragment());
                 break;
             case R.id.btn_register_list:
                 initialiseUserRegistration(env);
-                intent = new Intent(this, RegisteredProductsList.class);
-                startActivity(intent);
+                showFragment(new ProductListFragment());
                 break;
-
             case R.id.btn_spike_ur:
                 initialiseUserRegistration(env);
-                intent = new Intent(this, TestURActivity.class);
-                startActivity(intent);
+                invokeProdRegFragment();
                 break;
             default:
                 break;
         }
+    }
+
+    private void showFragment(final Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        final String demo_launch_fragment = "Demo_Launch_fragment";
+        fragmentTransaction.replace(R.id.parent_layout, fragment,
+                demo_launch_fragment);
+        fragmentTransaction.addToBackStack(demo_launch_fragment);
+        fragmentTransaction.commit();
+    }
+
+    private void invokeProdRegFragment() {
+        FragmentLauncher fragLauncher = new FragmentLauncher(
+                getActivity(), R.id.parent_layout, new ActionbarUpdateListener() {
+            @Override
+            public void updateActionbar(final String var1) {
+            }
+        });
+        fragLauncher.setAnimation(0, 0);
+        fragLauncher.setArguments(getActivity().getIntent().getExtras());
+        ProdRegConfigManager.getInstance().invokeProductRegistration(fragLauncher);
     }
 }

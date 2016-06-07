@@ -20,11 +20,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
-import com.philips.cdp.prodreg.fragments.RegisterProductWelcomeFragment;
+import com.philips.cdp.prodreg.fragments.RegisterSingleProductFragment;
 import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.UiLauncher;
-import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
@@ -75,25 +74,16 @@ public class ProdRegConfigManager {
      * <p> 1) Please consider the string "product_registration" to identify the MainScreen Fragment as a
      * Fragment ID. </p>
      *
-     * @param context                 Context of the FragmentActivity
-     * @param parentContainerResId    Fragment container resource ID
-     * @param actionbarUpdateListener ActionbarUpdateListener instance
-     * @param enterAnim               Animation resource ID.
-     * @param exitAnim                Animation resource ID.
      */
-    private void invokeProductRegistrationAsFragment(FragmentActivity context,
-                                                     int parentContainerResId,
-                                                     ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
-                                                     int exitAnim) {
-        FragmentLauncher fragmentLauncher = new FragmentLauncher(context, parentContainerResId,
-                actionbarUpdateListener);
-        User user = new User(context);
-        if (user.isUserSignIn()) {
-            RegisterProductWelcomeFragment supportFrag = new RegisterProductWelcomeFragment();
-            supportFrag.showFragment(supportFrag,
-                    fragmentLauncher, enterAnim, exitAnim);
+    private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher) {
+        User user = new User(fragmentLauncher.getFragmentActivity());
+        if (!user.isUserSignIn()) {
+            launchRegistrationFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID());
         } else {
-            launchRegistrationFragment(context, parentContainerResId);
+            RegisterSingleProductFragment supportFrag = new RegisterSingleProductFragment();
+            supportFrag.setArguments(fragmentLauncher.getArguments());
+            supportFrag.showFragment(supportFrag,
+                    fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
         }
     }
 
@@ -132,8 +122,7 @@ public class ProdRegConfigManager {
             invokeProductRegistrationAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
         } else {
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-            invokeProductRegistrationAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
-                    fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+            invokeProductRegistrationAsFragment(fragmentLauncher);
         }
     }
 

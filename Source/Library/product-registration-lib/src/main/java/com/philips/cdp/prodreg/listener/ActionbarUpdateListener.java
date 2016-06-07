@@ -6,5 +6,5 @@ package com.philips.cdp.prodreg.listener;
  */
 public interface ActionbarUpdateListener {
 
-    void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable);
+    void updateActionbar(String titleActionbar);
 }
