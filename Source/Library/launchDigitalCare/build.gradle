@@ -3,8 +3,12 @@ apply from: '../extra/calabash.gradle'
 
 repositories {
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android' }
-    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+    maven {
+        url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+    }
+    maven {
+        url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+    }
 }
 
 android {
@@ -31,15 +35,15 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            proguardFile 'proguard.pro'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            //  proguardFile 'proguard.pro'
             signingConfig signingConfigs.release
         }
         debug {
             //   proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/launchDigitalCare/proguard.pro'
+            minifyEnabled false
             proguardFile 'proguard.pro'
-            minifyEnabled true
         }
     }
 
@@ -48,10 +52,10 @@ android {
      */
     def Properties props = new Properties()
     def propFile = new File('signing.properties')
-    if (propFile.canRead()){
+    if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
 
-        if (props!=null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
             android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
             android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
             android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
@@ -60,7 +64,7 @@ android {
             println 'signing.properties found but some entries are missing'
             android.buildTypes.release.signingConfig = null
         }
-    }else {
+    } else {
         println 'signing.properties not found'
         android.buildTypes.release.signingConfig = null
     }

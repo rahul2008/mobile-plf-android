@@ -91,11 +91,17 @@
 
 -dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
 -dontwarn  com.philips.cdp.productselection.R$id
+-dontwarn  android.support.v4.view.ViewCompatApi24.**
+-dontwarn android.support.v7.media.**
 -dontwarn android.view.**
 -dontwarn android.media.session
--dontwarn android.app.**
+-dontwarn android.app.Notification$MessagingStyle$*
+-dontwarn android.app.Notification$MessagingStyle$*$*
 
 -dontwarn com.philips.cdp.digitalcare.**
 -dontwarn com.philips.cdp.productselection.**
+-dontwarn android.support.v13.**
+-dontwarn android.support.v4.graphics.drawable.**
 -dontwarn org.apache.**
--dontwarn android.support.**
+
+
