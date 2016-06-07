@@ -20,9 +20,12 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.shamanland.fonticon.FontIconView;
 
-/**
- * Created by 310240027 on 5/31/2016.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
+
 public class IntroductionScreenActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener, View.OnClickListener {
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;

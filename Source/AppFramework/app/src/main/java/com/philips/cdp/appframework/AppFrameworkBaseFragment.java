@@ -25,13 +25,12 @@ import com.philips.cdp.appframework.utility.Constants;
 import com.philips.cdp.appframework.utility.Logger;
 import com.philips.cdp.appframework.utility.NetworkReceiver;
 import com.philips.cdp.appframework.utility.NetworkStateListener;
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 
-/**
- * AppFrameworkBaseFragment is the <b>Base class</b> for all fragments.
- *
- * @author: ritesh.jha@philips.com, naveen@phililps.com
- * @since: May 31, 2016
- */
 public abstract class AppFrameworkBaseFragment extends Fragment implements
         NetworkStateListener {
 

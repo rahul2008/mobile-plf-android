@@ -12,9 +12,12 @@ import com.philips.cdp.tagging.Tagging;
 
 import java.util.Locale;
 
-/**
- * Created by 310240027 on 6/2/2016.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
+
 public class AppFrameworkApplication extends Application {
     @Override
     public void onCreate() {

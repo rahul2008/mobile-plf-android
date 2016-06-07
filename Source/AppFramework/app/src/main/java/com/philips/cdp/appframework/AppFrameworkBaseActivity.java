@@ -24,14 +24,12 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 
-/**
- * AppFrameworkBaseActivity is the main container class which can contain fragments. This
- * class is UiKit enabled.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 31 May 2016
- */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     public static final String SHARED_PREFERENCES = "SharedPref";
     public static final String DONE_PRESSED = "donePressed";
