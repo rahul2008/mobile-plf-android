@@ -22,7 +22,8 @@ public class LocalManager implements LocalInterface {
 
     AppInfra mAppInfra;
     Context context;
-    String s;
+    String mCountry;
+    private static final String COUNTRY_URL = "";
 
     public LocalManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -43,35 +44,35 @@ public class LocalManager implements LocalInterface {
     @Override
     public String  getCountry() {
         SharedPreferences pref = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE);
-        if(s == null){
-            s = pref.getString("COUNTRY_NAME", null);
-            Log.i("Retried Country", " "+s);
+        if(mCountry == null){
+            mCountry = pref.getString("COUNTRY_NAME", null);
+            Log.i("Retried Country", " "+mCountry);
         }
-        if(s== null){
+        if(mCountry== null){
             SharedPreferences.Editor editor = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE).edit();
             try {
                 final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 final String simCountry = tm.getSimCountryIso();
                 if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
-                    s = simCountry.toLowerCase(Locale.US);
+                    mCountry = simCountry.toLowerCase(Locale.US);
 
-                    editor.putString("COUNTRY_NAME", s);
+                    editor.putString("COUNTRY_NAME", mCountry);
                     editor.commit();
-                    return s;
+                    return mCountry;
                 } else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { //
                     String networkCountry = tm.getNetworkCountryIso();
                     if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
-                        s= networkCountry.toLowerCase(Locale.US);
-                        editor.putString("COUNTRY_NAME", s);
+                        mCountry= networkCountry.toLowerCase(Locale.US);
+                        editor.putString("COUNTRY_NAME", mCountry);
                         editor.commit();
-                        return s;
+                        return mCountry;
                     }
                 }
             } catch (Exception e) {
             }
         }
 
-        if(s == null){
+        if(mCountry == null){
         new RequestManager(context).execute("https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en");
         }
         return null;
