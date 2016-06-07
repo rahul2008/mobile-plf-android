@@ -8,6 +8,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -15,6 +16,7 @@ import com.philips.cdp.di.iap.actionlayout.IAPActionLayout;
 import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 
 public class IAPFragmentActionLayout extends IAPActionLayout implements IAPFragmentListener {
+    private ImageView mCartIcon;
     private TextView mCountView;
     private TextView mHeaderTitle;
     private ViewGroup mCartContainer;
@@ -22,6 +24,7 @@ public class IAPFragmentActionLayout extends IAPActionLayout implements IAPFragm
     public IAPFragmentActionLayout(Context context, FragmentManager v4FragManager) {
         super(context, v4FragManager);
         mCountView = (TextView) mMainLayout.findViewById(R.id.item_count);
+        mCartIcon = (ImageView) mMainLayout.findViewById(R.id.cart_icon);
         mHeaderTitle = (TextView) mMainLayout.findViewById(R.id.text);
         mCartContainer = (ViewGroup) mMainLayout.findViewById(R.id.cart_container);
         setBackButtonListener();
@@ -64,6 +67,7 @@ public class IAPFragmentActionLayout extends IAPActionLayout implements IAPFragm
     @Override
     public void setCartIconVisibility(final int visibility) {
         mCartContainer.setVisibility(visibility);
+        mCartIcon.setVisibility(visibility);
     }
 
     @Override

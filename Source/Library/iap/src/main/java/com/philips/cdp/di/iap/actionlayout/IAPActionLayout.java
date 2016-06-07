@@ -4,13 +4,13 @@
  */
 package com.philips.cdp.di.iap.actionlayout;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class IAPActionLayout implements ActionLayoutCallBack {
 
-    protected ImageView mBackButton;
+    protected View mBackButton;
     protected ViewGroup mMainLayout;
 
     protected FragmentManager v4FragManager;
@@ -34,9 +34,16 @@ public class IAPActionLayout implements ActionLayoutCallBack {
 
     @Override
     public View getCustomView(Context context) {
-        View v = View.inflate(context, R.layout.iap_action_bar, null);
-        mBackButton = (ImageView) v.findViewById(R.id.arrow);
-        mMainLayout = (ViewGroup) v.findViewById(R.id.ratingtheme);
+        View v = null;
+        if (context instanceof Activity) {
+            v = ((Activity) context).findViewById(R.id.ratingthememain);
+            mMainLayout = (ViewGroup) v;
+        }
+        if (v == null) {
+            v = View.inflate(context, R.layout.iap_action_bar, null);
+            mMainLayout = (ViewGroup) v.findViewById(R.id.ratingtheme);
+        }
+        mBackButton = v.findViewById(R.id.arrow);
         return v;
     }
 
