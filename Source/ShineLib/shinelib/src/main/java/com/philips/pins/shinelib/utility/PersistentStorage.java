@@ -11,7 +11,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Class representing a wrapper around {@link android.content.SharedPreferences} interface. Use this class to store any information withing BlueLib.
+ * Class representing a wrapper around {@link android.content.SharedPreferences} interface.
+ * <p/>
+ * Use this class to store any information withing BlueLib.
  */
 public class PersistentStorage implements SharedPreferences {
     private static final String TAG = "PersistentStorage";
