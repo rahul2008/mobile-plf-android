@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_introduction_fragment_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/introduction_center_page_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView"
+            android:layout_marginLeft="29dp"
+            android:text="@string/introduction_screen_top_text"
+            fontPath="fonts/centralesansxbold.ttf"
+            android:textColor="@color/white"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="29dp"
+            android:text="@string/introduction_screen_bottom_text"
+            fontPath="fonts/centralesansbook.ttf"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:layout_marginTop="27.5dp"
+            android:layout_marginBottom="137.5dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.philips.cdp.appframework.activity;
+package com.philips.cdp.appframework;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -24,8 +23,6 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-
-import sample.com.appframework.R;
 
 /**
  * AppFrameworkBaseActivity is the main container class which can contain fragments. This
@@ -45,11 +42,11 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         ProductSelectionLogger.i(Constants.ACTIVITY, "onCreate");
         fragmentManager = getSupportFragmentManager();
 
-        initActionBar();
+       // initActionBar();
     }
 
     private void initActionBar() {
-        ActionBar mActionBar = this.getSupportActionBar();
+        ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
@@ -100,7 +97,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         Tagging.pauseCollectingLifecycleData();
     }
 
-    @Override
+  /*  @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             return backstackFragment();
@@ -108,7 +105,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
 
     @Override
     protected void onDestroy() {

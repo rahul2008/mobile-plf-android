@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="sample.com.appframework">
+    package="com.philips.cdp.appframework">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="com.philips.cdp.appframework.AppFrameworkApplication"
         android:allowBackup="true"
+        tools:replace="android:theme"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Philips.DarkBlue"
-        tools:replace="android:theme">
-        <activity android:name=".MainActivity">
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+       android:theme="@style/Theme.Philips.DarkBlue">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
-
-        <activity android:name="com.philips.cdp.appframework.activity.SplashActivity">
+        <activity android:name="com.philips.cdp.appframework.splash.SplashActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".introscreen.IntroductionScreenActivity" />
+        <activity android:name=".userregistrationscreen.UserRegistrationActivity" />
+        <activity android:name=".homoscreen.HomeActivity"/>
         <receiver
             android:name="com.philips.cdp.appframework.utility.NetworkReceiver"
             android:exported="false">
