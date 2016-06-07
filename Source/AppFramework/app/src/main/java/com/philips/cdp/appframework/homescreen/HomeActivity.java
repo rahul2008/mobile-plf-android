@@ -165,6 +165,9 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         philipsDrawerLayout.closeDrawer(navigationView);
     }
 
+    @Override
+    public void onBackPressed() {
 
 
+    }
 }

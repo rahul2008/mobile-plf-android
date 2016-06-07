@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.appframework.R;
-import com.philips.cdp.appframework.homoscreen.HomeActivity;
+import com.philips.cdp.appframework.homescreen.HomeActivity;
 import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.UiKitActivity;
