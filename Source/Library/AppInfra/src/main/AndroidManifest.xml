@@ -1,12 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.philips.platform.appinfra">
 
     <application
+        android:name=".AppInfraLibraryApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
+        tools:replace="android:name"
         android:supportsRtl="true">
 
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
 </manifest>

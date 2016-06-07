@@ -1,4 +1,4 @@
-package com.philips.appinfra;
+package com.philips.platform.appinfra;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
