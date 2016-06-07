@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * BleScanRecord is a convenience class that converts from raw advertisement data extracting list of UUIDs, local name and remaining manufacturer specific data.
+ * {@code BleScanRecord} is a convenience class that converts raw advertisement data.
+ * <p/>
+ * It extracts a list of UUIDs, local name and remaining manufacturer specific data.
  */
 public class BleScanRecord {
     private static final String TAG = "BleScanRecord";
@@ -60,7 +62,7 @@ public class BleScanRecord {
     /**
      * Returns the list of {@link java.util.UUID} exposed by the peripheral.
      *
-     * @return list of UUIDs exposed by the peripheral.  null if there is no UUIDs exposed
+     * @return list of UUIDs exposed by the peripheral. null if there is no UUIDs exposed
      */
     @Nullable
     public List<UUID> getUuids() {
