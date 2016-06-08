@@ -37,14 +37,19 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     private FragmentManager mFragmentManager;
     private int mThemeBaseColor;
 
-    public BuyFromRetailersAdapter(Context context, ArrayList<StoreEntity> storeEntities, FragmentManager fragmentManager) {
+    private int mContainerID;
+
+    public BuyFromRetailersAdapter(Context context, ArrayList<StoreEntity> storeEntities, FragmentManager fragmentManager, int id) {
         mContext = context;
         mStoreEntities = storeEntities;
         mFragmentManager = fragmentManager;
         mThemeBaseColor = Utility.getThemeColor(context);
         mImageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
+        mContainerID = id;
     }
+
+
 
     @Override
     public RetailerViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
@@ -91,18 +96,9 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         WebBuyFromRetailers webBuyFromRetailers = new WebBuyFromRetailers();
         webBuyFromRetailers.setArguments(bundle);
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.replace(getPreviousFragmentID(), webBuyFromRetailers, WebBuyFromRetailers.class.getName());
+        transaction.replace(mContainerID, webBuyFromRetailers, WebBuyFromRetailers.class.getName());
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
-    }
-
-    // TODO: 08-06-2016  This must be avoided and code using this function must be moved to
-    // basefragment. It can have side effects if this is the first fragment. It will replace the
-    // vertical fragment. Please check for code duplication as well.
-    private int getPreviousFragmentID() {
-        List<Fragment> fragments = mFragmentManager.getFragments();
-        int size = fragments.size();
-        return fragments.get(fragments.size() -1).getId();
     }
 
     private void getNetworkImage(final RetailerViewHolder retailerHolder, final String imageURL) {

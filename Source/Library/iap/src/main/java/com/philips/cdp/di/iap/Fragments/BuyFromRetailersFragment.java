@@ -108,7 +108,7 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onLoadFinished(final ArrayList<StoreEntity> data) {
-        mAdapter = new BuyFromRetailersAdapter(getContext(), data, getFragmentManager());
+        mAdapter = new BuyFromRetailersAdapter(getContext(), data, getFragmentManager(), getId());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }

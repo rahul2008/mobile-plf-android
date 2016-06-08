@@ -26,7 +26,7 @@ public class IAPFragmentActionLayout extends IAPActionLayout implements IAPFragm
         super(context, v4FragManager);
         mCountView = (TextView) mMainLayout.findViewById(R.id.item_count);
         mCartIcon = (ImageView) mMainLayout.findViewById(R.id.cart_icon);
-        mHeaderTitle = (TextView) mMainLayout.findViewById(R.id.text);
+        mHeaderTitle = (TextView) mMainLayout.findViewById(R.id.iap_header_title);
         mCartContainer = (ViewGroup) mMainLayout.findViewById(R.id.cart_container);
         mUPButtonLayout = (ViewGroup) mMainLayout.findViewById(R.id.UpButton);
         setUPButtonListener();
