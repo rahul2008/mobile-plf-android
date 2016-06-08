@@ -120,7 +120,6 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 	public void onFlowDownloadSuccess() {
 		Jump.resendEmailVerification(mEmailAddress, this);
 		UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
-
 	}
 
 	@Override
