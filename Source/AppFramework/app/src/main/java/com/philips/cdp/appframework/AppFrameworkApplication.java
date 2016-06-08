@@ -1,4 +1,9 @@
 package com.philips.cdp.appframework;
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 
 import android.app.Application;
 import android.support.multidex.MultiDex;
@@ -12,11 +17,7 @@ import com.philips.cdp.tagging.Tagging;
 
 import java.util.Locale;
 
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+
 
 public class AppFrameworkApplication extends Application {
     @Override

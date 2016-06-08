@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
+
 package com.philips.cdp.appframework.homescreen;
 
 import android.app.Fragment;
@@ -10,11 +16,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.R;
 
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
 
 public class HomeScreenFragment extends Fragment {
     private TextView textView;

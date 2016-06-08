@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.appframework;
 
 import android.content.Context;
@@ -24,11 +29,7 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+
 
 /*
 * This is the base Activity. Each activity has to extend this base activity in order to
