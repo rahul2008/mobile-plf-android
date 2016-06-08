@@ -70,7 +70,6 @@
     <!--Order Summary-->
     <string name="iap_order_summary">Order Summary</string>
     <string name="iap_pay_now">Pay now</string>
-    <string name="iap_deliver_via_parcel">Delivery via FedEx</string>
     <string name="iap_voucher">Claim voucher</string>
 
     <!--Payment-->

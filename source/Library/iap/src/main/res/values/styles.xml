@@ -121,6 +121,7 @@
         <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">@dimen/iap_redeem_vochur_text_size</item>
         <item name="android:text">$0</item>
+        <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
         <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
 
