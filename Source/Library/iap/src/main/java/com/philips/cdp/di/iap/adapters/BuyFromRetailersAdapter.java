@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -23,6 +24,7 @@ import com.philips.cdp.tagging.Tagging;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -89,9 +91,18 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         WebBuyFromRetailers webBuyFromRetailers = new WebBuyFromRetailers();
         webBuyFromRetailers.setArguments(bundle);
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, webBuyFromRetailers, WebBuyFromRetailers.class.getName());
+        transaction.replace(getPreviousFragmentID(), webBuyFromRetailers, WebBuyFromRetailers.class.getName());
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
+    }
+
+    // TODO: 08-06-2016  This must be avoided and code using this function must be moved to
+    // basefragment. It can have side effects if this is the first fragment. It will replace the
+    // vertical fragment. Please check for code duplication as well.
+    private int getPreviousFragmentID() {
+        List<Fragment> fragments = mFragmentManager.getFragments();
+        int size = fragments.size();
+        return fragments.get(fragments.size() -1).getId();
     }
 
     private void getNetworkImage(final RetailerViewHolder retailerHolder, final String imageURL) {

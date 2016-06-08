@@ -66,7 +66,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+            transaction.replace(getId(), newFragment, newFragmentTag);
             transaction.addToBackStack(newFragmentTag);
             transaction.commitAllowingStateLoss();
 
@@ -79,7 +79,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             Fragment currentFragment = getActivity().getSupportFragmentManager()
-                    .findFragmentById(R.id.fl_mainFragmentContainer);
+                    .findFragmentById(getId());
             if (currentFragment != null) {
                 transaction.remove(currentFragment);
             }
@@ -91,7 +91,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentManager manager = getActivity().getSupportFragmentManager();
             clearFragmentStack();
-            manager.beginTransaction().replace(R.id.fl_mainFragmentContainer,
+            manager.beginTransaction().replace(getId(),
                     ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
                     ProductCatalogFragment.TAG).addToBackStack(ProductCatalogFragment.TAG)
                     .commitAllowingStateLoss();
@@ -111,7 +111,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentManager manager = getActivity().getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
+            transaction.replace(getId(), new ShoppingCartFragment());
             transaction.addToBackStack(ShoppingCartFragment.TAG);
             transaction.commitAllowingStateLoss();
         }
