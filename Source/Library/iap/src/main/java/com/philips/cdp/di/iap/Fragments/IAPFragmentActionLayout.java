@@ -20,6 +20,7 @@ public class IAPFragmentActionLayout extends IAPActionLayout implements IAPFragm
     private TextView mCountView;
     private TextView mHeaderTitle;
     private ViewGroup mCartContainer;
+    private ViewGroup mUPButtonLayout;
 
     public IAPFragmentActionLayout(Context context, FragmentManager v4FragManager) {
         super(context, v4FragManager);
@@ -27,12 +28,16 @@ public class IAPFragmentActionLayout extends IAPActionLayout implements IAPFragm
         mCartIcon = (ImageView) mMainLayout.findViewById(R.id.cart_icon);
         mHeaderTitle = (TextView) mMainLayout.findViewById(R.id.text);
         mCartContainer = (ViewGroup) mMainLayout.findViewById(R.id.cart_container);
-        setBackButtonListener();
+        mUPButtonLayout = (ViewGroup) mMainLayout.findViewById(R.id.UpButton);
+        setUPButtonListener();
         setCartContainerListener();
     }
 
-    private void setBackButtonListener() {
-        mBackButton.setOnClickListener(new View.OnClickListener() {
+    private void setUPButtonListener() {
+        if (mUPButtonLayout.hasOnClickListeners())
+            return;
+
+        mUPButtonLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 onHWBackPressed();
@@ -41,6 +46,9 @@ public class IAPFragmentActionLayout extends IAPActionLayout implements IAPFragm
     }
 
     private void setCartContainerListener() {
+        if (mCartContainer.hasOnClickListeners()) {
+            return;
+        }
         mCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
