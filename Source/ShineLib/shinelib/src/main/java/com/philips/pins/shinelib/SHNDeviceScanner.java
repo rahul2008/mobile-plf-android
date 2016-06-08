@@ -20,8 +20,8 @@ import java.util.concurrent.TimeoutException;
 /**
  * Class that allows the API users to discover peripherals.
  * <p/>
- * Note that only peripherals registered with {@link SHNCentral} are exposed by {@code SHNDeviceScanner}.
- * The matching behaviour of the scanner is  under control of {@link SHNDeviceDefinitionInfo#useAdvertisedDataMatcher()} method in the corresponding
+ * Note that only peripherals serviced by a plugin that is registered with {@link SHNCentral} are exposed by {@code SHNDeviceScanner}.
+ * The matching behaviour of the scanner is under control of the {@link SHNDeviceDefinitionInfo#useAdvertisedDataMatcher()} method in the corresponding
  * peripheral's device definition info. {@code SHNDeviceScanner} can be obtained via {@link SHNCentral#getShnDeviceScanner()}.
  */
 public class SHNDeviceScanner {
@@ -34,15 +34,15 @@ public class SHNDeviceScanner {
     private SHNInternalScanRequest shnInternalScanRequest;
 
     /**
-     * Possible scanning settings. Indicates if a certain device could be reported more than once.
+     * Possible scanning settings. Indicates if devices may be reported more than once.
      */
     public enum ScannerSettingDuplicates {
         /**
-         *  Indicates if a certain device should not be reported more than once.
+         *  Indicates that devices may not be reported more than once.
          */
         DuplicatesNotAllowed,
         /**
-         *  Indicates if a certain device could be reported more than once.
+         *  Indicates that devices could be reported more than once.
          */
         DuplicatesAllowed
     }
@@ -52,7 +52,7 @@ public class SHNDeviceScanner {
      */
     public interface SHNDeviceScannerListener {
         /**
-         * Gives an indication that a peripheral was found.
+         * This method is called to indicate that a peripheral was found.
          *
          * @param shnDeviceScanner   used for scanning
          * @param shnDeviceFoundInfo of the found peripheral
@@ -60,7 +60,7 @@ public class SHNDeviceScanner {
         void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo);
 
         /**
-         * Gives an indication that the scan has been stopped.
+         * This method is called to indicate that the scan has been stopped.
          *
          * @param shnDeviceScanner used for scanning
          */
@@ -123,7 +123,7 @@ public class SHNDeviceScanner {
     }
 
     /**
-     * Starts a new scan with the duplication option and the timeout interval in milliseconds. If a scan was running, it will stop previously started scan.
+     * Starts a new scan with the duplication option and the timeout interval in milliseconds. If a previously started scan is still running, it will be stopped.
      *
      * @param shnDeviceScannerListener an instance of a listener to receive scanning callbacks
      * @param scannerSettingDuplicates specified duplication option
