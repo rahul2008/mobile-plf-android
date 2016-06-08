@@ -6,8 +6,9 @@
 package com.philips.pins.shinelib;
 
 /**
- * A procedure used to associate with a peripheral. AssociationProcedure is started and stopped by {@link SHNDeviceAssociation}. If association is successful then the peripheral
- * is stored by {@link SHNDeviceAssociation}. In case association procedure needs to expose information to the client of the BlueLib, it should always use the user handler obtained by {@link SHNCentral#getUserHandler()}.
+ * A procedure used to associate with a peripheral. An associationProcedure is intended to be started and stopped by {@link SHNDeviceAssociation}. If association is successful then the peripheral
+ * is stored by {@link SHNDeviceAssociation} in the list of associated devices. In case association procedure needs to expose information to the client of the BlueLib, it should always
+ * use the user handler obtained by {@link SHNCentral#getUserHandler()}.
  */
 public interface SHNAssociationProcedurePlugin extends SHNAssociationProcedure {
 
@@ -32,20 +33,20 @@ public interface SHNAssociationProcedurePlugin extends SHNAssociationProcedure {
     boolean getShouldScan();
 
     /**
-     * Provides an opportunity for {@link SHNDeviceScanner} to inject found peripherals.
+     * This callback is used by {@link SHNDeviceScanner} to report discovered peripherals.
      *
-     * @param shnDevice          an instance of {@link SHNDevice} corresponding to the found peripheral
+     * @param shnDevice          an instance of {@link SHNDevice} corresponding to the discovered peripheral
      * @param shnDeviceFoundInfo an instance of {@link SHNDeviceFoundInfo} that give additional information like RSSI
      */
     void deviceDiscovered(SHNDevice shnDevice, SHNDeviceFoundInfo shnDeviceFoundInfo);
 
     /**
-     * Provides an opportunity for {@link SHNDeviceScanner} to indicate scanning timed out.
+     * This callback is used by {@link SHNDeviceScanner} to indicate scanning timed out.
      */
     void scannerTimeout();
 
     /**
-     * Provides an opportunity to attach a listener for the association procedure.
+     * Provides a means to attach a listener for the association procedure.
      *
      * @param SHNAssociationProcedureListener an instance of the listener to receive callbacks
      */
