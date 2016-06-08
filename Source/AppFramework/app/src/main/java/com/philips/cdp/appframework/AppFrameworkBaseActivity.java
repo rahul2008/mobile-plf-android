@@ -30,6 +30,14 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
  * consent of the copyright holder.
 */
 
+/*
+* This is the base Activity. Each activity has to extend this base activity in order to
+* achieve UIKit theme and common utility.
+*
+* @author : Ritesh.jha@philips.com
+* @since : 8 June 2016
+*/
+
 public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     public static final String SHARED_PREFERENCES = "SharedPref";
     public static final String DONE_PRESSED = "donePressed";

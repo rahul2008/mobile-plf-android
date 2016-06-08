@@ -21,6 +21,9 @@ public class IntroductionFragmentStart extends Fragment {
     // Store instance variables
     private int page;
     private TextView largeText, smallText;
+    private static final int PAGE_ONE = 0;
+    private static final int PAGE_TWO = 1;
+    private static final int PAGE_THREE = 2;
 
     public static IntroductionFragmentStart newInstance(int page, String title) {
         IntroductionFragmentStart fragmentFirst = new IntroductionFragmentStart();
@@ -37,16 +40,16 @@ public class IntroductionFragmentStart extends Fragment {
         largeText = (TextView) view.findViewById(R.id.large_text);
         smallText = (TextView) view.findViewById(R.id.small_text);
         switch (page) {
-            case 0:
+            case PAGE_ONE:
                 view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
                         ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
                 break;
-            case 1:
+            case PAGE_TWO:
                 view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
                         ContextCompat.getDrawable(getActivity(), R.drawable.introduction_center_page_bg));
                 smallText.setText(getResources().getString(R.string.introduction_screen_two_bottom_text));
                 break;
-            case 2:
+            case PAGE_THREE:
                 view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
                         ContextCompat.getDrawable(getActivity(), R.drawable.introduction_end_page_bg));
                 smallText.setText(getResources().getString(R.string.introduction_screen_three_bottom_text));
