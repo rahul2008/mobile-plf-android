@@ -46,17 +46,15 @@ public class TrackOrderFragment extends BaseAnimationSupportFragment
         mBillingAddress = (TextView) rootView.findViewById(R.id.tv_shipping_address);
 
         Bundle bundle = getArguments();
-        if (null != bundle)
-        {
-            if(bundle.containsKey(IAPConstant.PURCHASE_ID))
+        if (null != bundle) {
+            if (bundle.containsKey(IAPConstant.PURCHASE_ID))
                 mOrderId.setText("#" + bundle.getString(IAPConstant.PURCHASE_ID));
-            if(bundle.containsKey(IAPConstant.TRACKING_ID))
+            if (bundle.containsKey(IAPConstant.TRACKING_ID))
                 mTrackingId.setText("You can track your package anytime with tracking number " + bundle.getString(IAPConstant.TRACKING_ID));
-            if(bundle.containsKey(IAPConstant.DELIVERY_NAME))
+            if (bundle.containsKey(IAPConstant.DELIVERY_NAME))
                 mBillingName.setText(bundle.getString(IAPConstant.DELIVERY_NAME));
-            if(bundle.containsKey(IAPConstant.ADD_DELIVERY_ADDRESS))
+            if (bundle.containsKey(IAPConstant.ADD_DELIVERY_ADDRESS))
                 mBillingAddress.setText(bundle.getString(IAPConstant.ADD_DELIVERY_ADDRESS));
-
         }
 
         mTrackOrderBtn.setOnClickListener(this);
@@ -78,8 +76,7 @@ public class TrackOrderFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btn_track)
-        {
+        if (v.getId() == R.id.btn_track) {
             Toast.makeText(getContext(), "Yet to implement", Toast.LENGTH_SHORT).show();
         }
 

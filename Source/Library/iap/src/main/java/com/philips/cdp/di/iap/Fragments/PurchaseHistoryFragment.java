@@ -131,6 +131,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         Bundle bundle = new Bundle();
         if (order != null) {
             bundle.putString(IAPConstant.PURCHASE_ID, order.getCode());
+            bundle.putString(IAPConstant.ORDER_STATUS, order.getStatusDisplay());
             addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), null);
         }
     }
