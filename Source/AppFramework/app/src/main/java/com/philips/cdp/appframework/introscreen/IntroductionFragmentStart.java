@@ -3,6 +3,7 @@ package com.philips.cdp.appframework.introscreen;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,19 +38,22 @@ public class IntroductionFragmentStart extends Fragment {
         smallText = (TextView) view.findViewById(R.id.small_text);
         switch (page) {
             case 0:
-                view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(getResources().getDrawable(R.drawable.introduction_start_page_bg));
-                smallText.setText(getResources().getString(R.string.introduction_screen_one_bottom_text));
+                view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+                        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
                 break;
             case 1:
-                view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(getResources().getDrawable(R.drawable.introduction_center_page_bg));
+                view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+                        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_center_page_bg));
                 smallText.setText(getResources().getString(R.string.introduction_screen_two_bottom_text));
                 break;
             case 2:
-                view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(getResources().getDrawable(R.drawable.introduction_end_page_bg));
+                view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+                        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_end_page_bg));
                 smallText.setText(getResources().getString(R.string.introduction_screen_three_bottom_text));
                 break;
             default:
-                view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(getResources().getDrawable(R.drawable.introduction_start_page_bg));
+                view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+                        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
                 smallText.setText(getResources().getString(R.string.introduction_screen_one_bottom_text));
         }
 
