@@ -89,7 +89,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
         String ctn;
         for (EntriesEntity entry : entries) {
             ctn = entry.getProduct().getCode();
-            ShoppingCartData cartItem = new ShoppingCartData(entry, mCartData.getCarts().get(0).getDeliveryCost());
+            ShoppingCartData cartItem = new ShoppingCartData(entry, mCartData.getCarts().get(0).getDeliveryMode());
             cartItem.setVatInclusive(cartsEntity.isNet());
             Data data;
             if (list.containsKey(ctn)) {
