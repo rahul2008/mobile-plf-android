@@ -219,8 +219,16 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (!data.isVatInclusive()) {
                     shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mVatInclusiveValue.setText(String.format(mContext.getString(R.string.iap_vat_inclusive_text), mContext.getString(R.string.iap_vat)));
-                } else
+                    shoppingCartFooter.mVatValueUK.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mVatValueUK.setText(data.getVatValue());
+                    shoppingCartFooter.mVatValue.setVisibility(View.GONE);
+                    shoppingCartFooter.mVAT.setVisibility(View.GONE);
+                } else {
+                    shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
+                    shoppingCartFooter.mVatValueUK.setVisibility(View.GONE);
+                }
                 shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
                 if (null != data.getDeliveryMode()) {
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
@@ -330,6 +338,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTotalCost;
         View mDeliveryView;
         TextView mDeliveryVia;
+        TextView mVatValueUK;
+        TextView mVAT;
 
         public FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -340,6 +350,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTotalCost = (TextView) itemView.findViewById(R.id.iap_tv_totalcost);
             mDeliveryView = (View) itemView.findViewById(R.id.iap_divider_bottom_delivery);
             mDeliveryVia = (TextView) itemView.findViewById(R.id.iap_tv_delivery_via_ups);
+            mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_shopping_cart);
+            mVAT = (TextView) itemView.findViewById(R.id.iap_tv_vat);
         }
     }
 

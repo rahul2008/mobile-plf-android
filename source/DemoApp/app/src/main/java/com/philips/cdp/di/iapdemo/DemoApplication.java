@@ -8,7 +8,6 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.tagging.Tagging;
-import com.squareup.leakcanary.LeakCanary;
 
 import java.util.Locale;
 
@@ -19,7 +18,7 @@ public class DemoApplication extends Application {
         super.onCreate();
         initializeUserRegistration();
         initializeTagging();
-        LeakCanary.install(this);
+     //   LeakCanary.install(this);
     }
 
     private void initializeTagging() {

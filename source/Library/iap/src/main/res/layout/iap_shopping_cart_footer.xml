@@ -51,9 +51,14 @@
         android:text="@string/iap_vat" />
 
     <TextView
+        android:id="@+id/iap_tv_totalItems"
+        style="@style/iap_total_items"
+        android:layout_below="@id/iap_tv_vat" />
+
+    <TextView
         android:id="@+id/iap_tv_vat_inclusive"
-        style="@style/iap_vat"
-        android:layout_below="@id/iap_tv_vat"
+        style="@style/iap_vat_uk"
+        android:layout_below="@id/iap_tv_totalItems"
         android:text="@string/iap_vat_inclusive_text" />
 
     <TextView
@@ -62,9 +67,11 @@
         android:layout_alignBaseline="@id/iap_tv_vat" />
 
     <TextView
-        android:id="@+id/iap_tv_totalItems"
-        style="@style/iap_total_items"
-        android:layout_below="@id/iap_tv_vat" />
+        android:id="@+id/iap_tv_vat_value_uk_shopping_cart"
+        style="@style/iap_vat_value"
+        android:layout_alignBaseline="@id/iap_tv_vat_inclusive"
+        android:visibility="gone"
+        />
 
     <TextView
         android:id="@+id/iap_tv_totalcost"

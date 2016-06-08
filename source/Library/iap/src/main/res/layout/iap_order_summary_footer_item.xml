@@ -202,7 +202,6 @@
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginStart="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -240,15 +239,25 @@
 
             <TextView
                 android:id="@+id/tv_vat_inclusive"
-                style="@style/tvTitle"
+                style="@style/tvTitleInclusiveVat"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/tv_total_lable"
                 android:includeFontPadding="false" />
 
             <TextView
+                android:id="@+id/iap_tv_vat_value_uk_order_summary"
+                style="@style/tvVatValueUK"
+                android:layout_alignBaseline="@id/tv_vat_inclusive"
+                android:visibility="gone"
+                />
+
+            <TextView
                 android:id="@+id/tv_total_price"
                 style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true" />
+
+
+
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

@@ -110,8 +110,15 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (!getLastValidItem().isVatInclusive()) {
                 footerHolder.mVatInclusive.setVisibility(View.VISIBLE);
                 footerHolder.mVatInclusive.setText(String.format(mContext.getString(R.string.iap_vat_inclusive_text), mContext.getString(R.string.iap_vat)));
+                footerHolder.mVatValueUK.setVisibility(View.VISIBLE);
+                footerHolder.mVatValueUK.setText(getLastValidItem().getVatValue());
+                footerHolder.mVatValue.setVisibility(View.GONE);
+                footerHolder.mTitleVat.setVisibility(View.GONE);
             } else {
+                footerHolder.mVatValue.setVisibility(View.VISIBLE);
+                footerHolder.mTitleVat.setVisibility(View.VISIBLE);
                 footerHolder.mVatInclusive.setVisibility(View.GONE);
+                footerHolder.mVatValueUK.setVisibility(View.GONE);
             }
         } else {
             OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
@@ -203,6 +210,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTitleTotalPrice;
         TextView mVatInclusive;
         View mDeliveryView;
+        TextView mVatValueUK;
 
         public FooterOrderSummaryViewHolder(View itemView) {
             super(itemView);
@@ -224,6 +232,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTitleTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_lable);
             mVatInclusive = (TextView) itemView.findViewById(R.id.tv_vat_inclusive);
             mDeliveryView = (View) itemView.findViewById(R.id.delivery_view);
+            mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_order_summary);
         }
     }
 }
