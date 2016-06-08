@@ -53,7 +53,7 @@ public class RequestManager{
     private Context mContext = null;
     private boolean isHttpsRequest = false;
     private RequestQueue mVolleyRequest;
-    ServiceDiscovery mServiceDiscovery=null;
+    static ServiceDiscovery mServiceDiscovery;
 
     public RequestManager(Context context) {
         this.mContext = context;
