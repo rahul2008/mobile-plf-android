@@ -8,6 +8,9 @@
 
 package com.philips.cdp.registration.coppa.ui.controllers;
 
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.philips.cdp.registration.User;
@@ -18,12 +21,15 @@ import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.ui.customviews.RegCoppaAlertDialog;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalApprovalFragment;
+import com.philips.cdp.registration.coppa.ui.fragment.ParentalCaringSharingFragment;
+import com.philips.cdp.registration.coppa.ui.fragment.ParentalConsentFragment;
 import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaLaunchHelper;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.cdp.servertime.constants.ServerTimeConstants;
 
@@ -38,6 +44,9 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
     private ParentalApprovalFragment mParentalApprovalFragment;
     private CoppaExtension mCoppaExtension;
     private boolean isCoppaConsent;
+    public static FragmentManager mFragmentManager;
+    private ParentalConsentFragment mParentalConsentFragment;
+
 
     public ParentalApprovalFragmentController(ParentalApprovalFragment fragment) {
         mParentalApprovalFragment = fragment;
@@ -97,12 +106,34 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
         return mCoppaExtension;
     }
 
+    private void addParentalConsentFragment(final CoppaStatus coppaStatus) {
+        mFragmentManager = mParentalApprovalFragment.getParentFragment().getChildFragmentManager();
+        if (mFragmentManager != null) {
+            try {
+                ParentalCaringSharingFragment parentalCaringSharingFragment = new ParentalCaringSharingFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(RegConstants.COPPA_STATUS, coppaStatus.toString());
+                parentalCaringSharingFragment.setArguments(bundle);
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.fl_reg_fragment_container, parentalCaringSharingFragment, "Parental Access");
+                fragmentTransaction.addToBackStack(parentalCaringSharingFragment.getTag());
+                fragmentTransaction.commitAllowingStateLoss();
+            } catch (IllegalStateException e) {
+                RLog.e(RLog.EXCEPTION,
+                        "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
+                                + e.getMessage());
+            }
+        }
+    }
+
     private void updateUIBasedOnConsentStatus(final CoppaStatus coppaStatus){
         RLog.d("Consent status :", "" + coppaStatus);
-        if(coppaStatus == CoppaStatus.kDICOPPAConsentPending){
+        if(coppaStatus == CoppaStatus.kDICOPPAConsentPending || coppaStatus == CoppaStatus.kDICOPPAConsentNotGiven ){
             mParentalApprovalFragment.setConfirmApproval();
             isCoppaConsent = true;
             RLog.d("ParentalApprovalFragmentController Consent Pending :", "");
+        }else if(coppaStatus == CoppaStatus.kDICOPPAConfirmationGiven){
+            addParentalConsentFragment(coppaStatus);
         } else{
             //first consent success
             if(mCoppaExtension.getConsent().getLocale().equalsIgnoreCase("en_US")) {
@@ -115,7 +146,9 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
                                 RLog.d("ParentalApprovalFragmentController  :","Consent status"+hoursSinceLastConsent());
                                 isCoppaConsent = false;
                                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS, AppCoppaTaggingConstants.SECOND_CONSENT_VIEW);
-                                mParentalApprovalFragment.setIsUSRegionCode();
+                               // mParentalApprovalFragment.setIsUSRegionCode();
+                                addReConfirmParentalConsentFragment();
+
                             }else{
                                 if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                                     RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
@@ -181,7 +214,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
                 consentHandler.agreeConsent(AppTagingConstants.SEND_DATA, AppCoppaTaggingConstants.FIRST_LEVEL_CONSENT, mParentalApprovalFragment);
 
             }else{
-                consentHandler.agreeConfirmation(AppTagingConstants.SEND_DATA, AppCoppaTaggingConstants.SECOND_LEVEL_CONSENT, mParentalApprovalFragment );
+                consentHandler.agreeConfirmation(AppTagingConstants.SEND_DATA, AppCoppaTaggingConstants.SECOND_LEVEL_CONSENT, mParentalConsentFragment );
 
             }
         } else if (id == R.id.reg_btn_dis_agree) {
@@ -190,7 +223,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
                 consentHandler.disAgreeConsent(mParentalApprovalFragment);
 
             } else {
-                consentHandler.disAgreeConfirmation(mParentalApprovalFragment);
+                consentHandler.disAgreeConfirmation(mParentalConsentFragment);
             }
 
             if (mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationNotGiven) {
@@ -203,5 +236,20 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
 
 
     }
-
+    private void addReConfirmParentalConsentFragment() {
+        mFragmentManager = mParentalApprovalFragment.getParentFragment().getChildFragmentManager();
+        if (mFragmentManager != null) {
+            try {
+                ParentalConsentFragment parentalConsentFragment = new ParentalConsentFragment();
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.fl_reg_fragment_container, parentalConsentFragment, "Parental Access");
+                fragmentTransaction.addToBackStack(parentalConsentFragment.getTag());
+                fragmentTransaction.commitAllowingStateLoss();
+            } catch (IllegalStateException e) {
+                RLog.e(RLog.EXCEPTION,
+                        "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
+                                + e.getMessage());
+            }
+        }
+    }
 }

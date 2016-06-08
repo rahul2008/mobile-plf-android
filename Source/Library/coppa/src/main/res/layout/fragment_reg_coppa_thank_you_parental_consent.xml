@@ -41,13 +41,6 @@
                         android:gravity="left"
                         android:textSize="@dimen/reg_title_text_size"
                         reglib:fontAssetName="CentraleSans-Book.OTF"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_coppa_reg_consent_details"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
 
                     <com.philips.cdp.registration.ui.customviews.XTextView
                         android:id="@+id/tv_coppa_reg_thanks_consent_details"
@@ -56,23 +49,15 @@
                         android:layout_marginTop="0dip"
                         android:visibility="visible"
                         reglib:fontAssetName="CentraleSans-Book.OTF"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_reg_coppa_dashboard"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
 
                     <com.philips.cdp.registration.ui.customviews.XButton
                         android:id="@+id/coppa_reg_btn_dashboard"
                         style="@style/reg_style_btn"
-                        android:layout_marginTop="@dimen/reg_header_margin_top"
+                        android:layout_marginTop="@dimen/reg_marginTopButton"
                         android:enabled="true"
                         android:text="@string/Coppa_Parental_Consent_Button_Txt"
                         android:visibility="visible"
                         reglib:fontAssetName="CentraleSans-Book.OTF"/>
-
                 </LinearLayout>
 
             </LinearLayout>

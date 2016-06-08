@@ -473,7 +473,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         CoppaExtension mCoppaExtension;
         mCoppaExtension = new CoppaExtension(getParentActivity().getApplicationContext());
         mCoppaExtension.buildConfiguration();
-
         if(mCoppaExtension.getCoppaEmailConsentStatus()==CoppaStatus.kDICOPPAConfirmationGiven || mCoppaExtension.getCoppaEmailConsentStatus()==CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus()==CoppaStatus.kDICOPPAConfirmationNotGiven){
             if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                 RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(getParentActivity());
