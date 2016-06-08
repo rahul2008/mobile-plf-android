@@ -9,6 +9,26 @@
         <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">@dimen/title</item>
         <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
+    </style>
+
+    <style name="tvTitleInclusiveVat">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">@dimen/title</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_marginTop">@dimen/iap_image_top_margin</item>
+    </style>
+
+    <style name="tvVatValueUK">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">@dimen/title</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentRight">true</item>
     </style>
 
     <style name="tvBoldTitle">

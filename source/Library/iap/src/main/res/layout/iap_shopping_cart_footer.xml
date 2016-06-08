@@ -67,7 +67,7 @@
         android:layout_alignBaseline="@id/iap_tv_vat" />
 
     <TextView
-        android:id="@+id/iap_tv_vat_value_uk"
+        android:id="@+id/iap_tv_vat_value_uk_shopping_cart"
         style="@style/iap_vat_value"
         android:layout_alignBaseline="@id/iap_tv_vat_inclusive"
         android:visibility="gone"
