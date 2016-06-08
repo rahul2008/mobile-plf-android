@@ -5,6 +5,9 @@
 
 package com.philips.pins.shinelib;
 
+/**
+ * Possible requests' outcomes.
+ */
 public enum SHNResult {
     SHNOk,
     SHNAborted,
