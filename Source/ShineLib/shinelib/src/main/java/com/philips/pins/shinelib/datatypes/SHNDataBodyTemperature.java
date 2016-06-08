@@ -6,7 +6,11 @@
 package com.philips.pins.shinelib.datatypes;
 
 /**
- * Created by 310188215 on 09/07/15.
+ * Body temperature measurement data.
+ * <p/>
+ * Contains temperature and location of temperature measurement.
+ *
+ * @see SHNTemperatureType
  */
 public class SHNDataBodyTemperature extends SHNData {
     private final float temperatureInCelsius;
@@ -25,6 +29,9 @@ public class SHNDataBodyTemperature extends SHNData {
         return location;
     }
 
+    /**
+     * @return {@link SHNDataType#BodyTemperature}
+     */
     @Override
     public SHNDataType getSHNDataType() {
         return SHNDataType.BodyTemperature;

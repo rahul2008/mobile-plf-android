@@ -6,7 +6,7 @@
 package com.philips.pins.shinelib.datatypes;
 
 /**
- * Created by 310188215 on 09/07/15.
+ * Blood pressure measurement data.
  */
 public class SHNDataBloodPressure extends SHNData {
     public enum SHNPulseRateStatus {
@@ -57,11 +57,19 @@ public class SHNDataBloodPressure extends SHNData {
         return hasPulseRateInBeatsPerMinute;
     }
 
+    /**
+     * @return {@link SHNDataType#BloodPressure}
+     */
     @Override
     public SHNDataType getSHNDataType() {
         return SHNDataType.BloodPressure;
     }
 
+    /**
+     * Builder for {@link SHNDataBloodPressure}.
+     * <p/>
+     * Chain calls to setters and finish with {@link Builder#build()} to get a {@code SHNDataBloodPressure} object.
+     */
     public static class Builder {
         private SHNDataBloodPressure shnDataBloodPressure;
 
