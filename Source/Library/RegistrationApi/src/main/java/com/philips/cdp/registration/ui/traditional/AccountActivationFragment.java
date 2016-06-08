@@ -34,6 +34,8 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
+import org.json.JSONException;
+
 import java.util.HashMap;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -387,8 +389,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         RLog.i(RLog.CALLBACK,"AccountActivationFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
         trackActionResendVerificationFailure(userRegistrationFailureInfo.getErrorCode());
-        mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"+ userRegistrationFailureInfo.getEmailErrorMessage());
+        try {
+            mRegError.setError(userRegistrationFailureInfo.getError().raw_response.getString("message"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         mBtnResend.setEnabled(true);
+        mEMailVerifiedError.setVisibility(View.GONE);
     }
 
     @Override

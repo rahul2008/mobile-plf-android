@@ -118,6 +118,10 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mIvEmailErrAlert.setVisibility(VISIBLE);
     }
 
+    public void hideEmailInvalidAlert() {
+        mIvEmailErrAlert.setVisibility(GONE);
+    }
+
     private void showEmailIsInvalidAlert() {
         mIvEmailErrAlert.setVisibility(VISIBLE);
         mFlInvalidAlert.setVisibility(VISIBLE);

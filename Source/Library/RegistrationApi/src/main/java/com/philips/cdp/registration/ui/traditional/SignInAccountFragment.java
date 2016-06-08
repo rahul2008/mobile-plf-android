@@ -195,9 +195,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         int id = v.getId();
         if (id == R.id.btn_reg_sign_in) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : SignIn");
+            hideValidations();
             signIn();
         } else if (id == R.id.btn_reg_forgot_password) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
+            hideValidations();
             mEtEmail.clearFocus();
             mEtPassword.clearFocus();
             if (mEtEmail.getEmailId().length() == 0) {
@@ -212,6 +214,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
             handleResend();
         }
+    }
+
+    private void hideValidations() {
+        mEtEmail.hideErrPopUp();
+        mEtEmail.hideEmailInvalidAlert();
+        mRegError.hideError();
     }
 
     private void launchResetPasswordFragment() {
@@ -327,7 +335,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
                 //HSDP related error description
                 scrollViewAutomatically(mRegError, mSvRootLayout);
-                mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+                mRegError.setError(mContext.getResources().getString(R.string.Generic_Network_Error));
                 trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             } else {
