@@ -72,6 +72,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
 
     @Override
     public void onRefreshUserSuccess() {
+        System.out.println("**** On user refresh success");
         mCoppaExtension.buildConfiguration();
         mParentalApprovalFragment.showContent();
         mParentalApprovalFragment.hideRefreshProgress();
@@ -142,7 +143,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
                         @Override
                         public void onRefreshUserSuccess() {
                             mCoppaExtension.buildConfiguration();
-                            if (coppaStatus == CoppaStatus.kDICOPPAConfirmationPending) {
+                            if (coppaStatus == CoppaStatus.kDICOPPAConfirmationPending  || coppaStatus == CoppaStatus.kDICOPPAConfirmationNotGiven ) {
                                 RLog.d("ParentalApprovalFragmentController  :","Consent status"+hoursSinceLastConsent());
                                 isCoppaConsent = false;
                                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS, AppCoppaTaggingConstants.SECOND_CONSENT_VIEW);

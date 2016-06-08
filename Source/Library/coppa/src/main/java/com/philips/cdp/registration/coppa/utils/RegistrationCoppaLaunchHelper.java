@@ -32,6 +32,11 @@ public class RegistrationCoppaLaunchHelper {
         launchFixedOrientationRegistrationActivity(context, orientation);
     }
 
+    public static void launchParentalConsent(Context context){
+        launchParentalConsentScreen(context);
+
+    }
+
     public static void launchRegistrationActivityWithAccountSettings(Context context) {
         launchDefaultRegistrationMode(context);
     }
@@ -86,6 +91,15 @@ public class RegistrationCoppaLaunchHelper {
         Bundle bundle = new Bundle();
         bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, true);
         bundle.putInt(RegConstants.ORIENTAION, orientation);
+        registrationIntent.putExtras(bundle);
+        context.startActivity(registrationIntent);
+    }
+
+    private static void launchParentalConsentScreen(Context context) {
+        Intent registrationIntent = new Intent(context, RegistrationCoppaActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+        bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, true);
         registrationIntent.putExtras(bundle);
         context.startActivity(registrationIntent);
     }

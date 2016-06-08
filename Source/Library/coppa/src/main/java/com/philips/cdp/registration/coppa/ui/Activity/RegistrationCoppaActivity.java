@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
+import com.philips.cdp.registration.coppa.utils.CoppaConstants;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaLaunchHelper;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -32,7 +33,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         RegistrationTitleBarListener {
 
     private  boolean isAccountSettings = true;
-
+    private boolean isParentalConsent;
     private TextView ivBack;
     private Handler mSiteCatalistHandler = new Handler();
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
@@ -58,6 +59,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS,true);
+            isParentalConsent = bundle.getBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT,false);
             int orientation = bundle.getInt(RegConstants.ORIENTAION,-1);
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -122,17 +124,18 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     private void initUI() {
         ivBack = (TextView) findViewById(R.id.iv_reg_back);
         ivBack.setOnClickListener(this);
-        launchRegistrationFragment(isAccountSettings);
+        launchRegistrationFragment(isAccountSettings,isParentalConsent);
 
 
     }
 
-    private void launchRegistrationFragment(boolean isAccountSettings) {
+    private void launchRegistrationFragment(boolean isAccountSettings, boolean isParentalConsent) {
         try {
             FragmentManager mFragmentManager = getSupportFragmentManager();
             RegistrationCoppaFragment registrationFragment = new RegistrationCoppaFragment();
             Bundle bundle = new Bundle();
             bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS,isAccountSettings);
+            bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT,isParentalConsent);
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(this);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();

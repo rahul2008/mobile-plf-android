@@ -27,6 +27,7 @@ import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
+import com.philips.cdp.registration.coppa.utils.CoppaConstants;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
@@ -55,6 +56,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private boolean isAccountSettings = true;
 
+
+    private static  boolean isParentConsentRequested;
+
     private static int lastKnownResourceId = -99;
 
     private CoppaExtension coppaExtension;
@@ -73,8 +77,10 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         Bundle bunble = getArguments();
         if (bunble != null) {
             isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+            isParentConsentRequested = bunble.getBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT,false);
         }
         RLog.d("RegistrationCoppaFragment", "isAccountSettings : " + isAccountSettings);
+        RLog.d("RegistrationCoppaFragment", "isParentConsentRequested : " + isParentConsentRequested);
         super.onCreate(savedInstanceState);
         lastKnownResourceId = -99;
         coppaExtension = new CoppaExtension(getContext());
@@ -207,7 +213,13 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
         User user = new User(mActivity);
         if (user.isUserSignIn()) {
-            launchRegistrationFragmentOnLoggedIn(isAccountSettings);
+            if(!isParentConsentRequested) {
+                launchRegistrationFragmentOnLoggedIn(isAccountSettings);
+            }else{
+                addParentalApprovalFragment();
+
+
+            }
         } else {
             AppTagging.trackFirstPage(AppTaggingCoppaPages.COPPA_PARENTAL_ACCESS);
             replaceWithParentalAccess();
@@ -231,15 +243,15 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private static void performReplaceWithPerentalAccess() {
 
-            if (mFragmentManager != null) {
-                mFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                ParentalAccessFragment parentalAccessFragment = new ParentalAccessFragment();
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalAccessFragment, "Parental Access");
-                fragmentTransaction.commitAllowingStateLoss();
-                RegPreferenceUtility.storePreference(getParentActivity().getApplicationContext(), "doPopBackStack", false);
+        if (mFragmentManager != null) {
+            mFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            ParentalAccessFragment parentalAccessFragment = new ParentalAccessFragment();
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalAccessFragment, "Parental Access");
+            fragmentTransaction.commitAllowingStateLoss();
+            RegPreferenceUtility.storePreference(getParentActivity().getApplicationContext(), "doPopBackStack", false);
 
-            }
+        }
     }
 
 
@@ -407,8 +419,8 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                     parentalAccessFragment.setPrevTitleResourceId(lastKnownResourceId);
                 }
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.fl_reg_fragment_container, parentalAccessFragment, "Parental Access");
-                fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalAccessFragment, "Parental Access");
+                //fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 RLog.e(RLog.EXCEPTION,
@@ -470,15 +482,21 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
 
     private static  void handleConsentState() {
+System.out.println("Handle Consent State");
         CoppaExtension mCoppaExtension;
         mCoppaExtension = new CoppaExtension(getParentActivity().getApplicationContext());
         mCoppaExtension.buildConfiguration();
-        if(mCoppaExtension.getCoppaEmailConsentStatus()==CoppaStatus.kDICOPPAConfirmationGiven || mCoppaExtension.getCoppaEmailConsentStatus()==CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus()==CoppaStatus.kDICOPPAConfirmationNotGiven){
-            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(getParentActivity());
+        if(!isParentConsentRequested) {
+            if (mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationGiven || mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationNotGiven) {
+                if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                    RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(getParentActivity());
+                }
+            } else {
+                addParentalApprovalFragment();
             }
         }else{
             addParentalApprovalFragment();
+            isParentConsentRequested = false;
         }
     }
 

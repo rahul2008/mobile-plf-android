@@ -40,6 +40,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     private Button mBtnRegistrationWithAccountSettings;
     private Button mBtnRegistrationWithOutAccountSettings;
     private Button mBtnRefresh;
+    private Button mBtnParentalConsent;
     private Context mContext;
     private ProgressDialog mProgressDialog;
 
@@ -54,7 +55,8 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         RegistrationCoppaHelper.getInstance().registerUserRegistrationListener(this);
         mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.btn_registration_with_account);
         mBtnRegistrationWithAccountSettings.setOnClickListener(this);
-
+        mBtnParentalConsent = (Button)findViewById(R.id.btn_parental_consent);
+        mBtnParentalConsent.setOnClickListener(this);
         mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
 
@@ -135,6 +137,15 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
                     }
                 }
                 break;
+
+            case R.id.btn_parental_consent:
+                User user = new User(mContext);
+                if(user.isUserSignIn()){
+                    RegistrationCoppaLaunchHelper.launchParentalConsent(this);
+                }else{
+                    Toast.makeText(this, "Please login before accessing parental consent", Toast.LENGTH_LONG).show();
+                }
+
 
             default:
                 break;
