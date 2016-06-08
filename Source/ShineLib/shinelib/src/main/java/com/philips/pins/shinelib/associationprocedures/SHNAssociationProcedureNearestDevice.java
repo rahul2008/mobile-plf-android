@@ -84,7 +84,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     /**
      * Checks if the peripheral can be chosen as the nearest.
      *
-     * @param successivelyNearestDeviceCount number of times in a row the peripheral is discover as nearest
+     * @param successivelyNearestDeviceCount number of times in a row the peripheral is discovered as nearest
      * @return true if the successivelyNearestDeviceCount number equals ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT
      */
     protected boolean deviceIsSufficientlyOftenNearest(int successivelyNearestDeviceCount) {
