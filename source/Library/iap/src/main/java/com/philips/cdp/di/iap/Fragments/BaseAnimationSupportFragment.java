@@ -8,7 +8,6 @@ Project           : InAppPurchase
 
 package com.philips.cdp.di.iap.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -29,9 +27,21 @@ import com.philips.cdp.tagging.Tagging;
 import java.util.List;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
-    private IAPFragmentListener mActivityListener;
     private IAPFragmentActionLayout mFragmentLayout;
 
+    private View.OnClickListener mCartIconListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            if (NetworkUtility.getInstance().isNetworkAvailable(getActivity())) {
+                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                        BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+            } else {
+                NetworkUtility.getInstance().showErrorDialog(getActivity(), getActivity()
+                                .getSupportFragmentManager(), getString(R.string.iap_ok),
+                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            }
+        }
+    };
 
     protected boolean isNetworkNotConnected() {
         if (!NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
@@ -44,10 +54,9 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
-        if(mFragmentLayout == null) {
+        if (mFragmentLayout == null) {
             mFragmentLayout = new IAPFragmentActionLayout(getContext(), getActivity().getSupportFragmentManager());
         }
-        mActivityListener = (IAPFragmentListener) context;
     }
 
     public enum AnimationType {
@@ -186,13 +195,5 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
             mFragmentLayout.setCartIconVisibility(visibility);
 //            mActivityListener.setCartIconVisibility(visibility);
         }
-    }
-
-    public IAPActivity getIAPActivity() {
-        Activity activity = getActivity();
-        if (activity != null && (activity instanceof IAPActivity)) {
-            return (IAPActivity) activity;
-        }
-        return null;
     }
 }
