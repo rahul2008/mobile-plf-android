@@ -12,9 +12,9 @@ import java.util.Set;
 /**
  * SHNDevice is a representation of a peripheral inside BlueLib.
  * <p/>
- * This interface provides an means to connect and disconnect to the peripheral.
- * The state updates are provided via {@code SHNDeviceListener}.
- * To receive updates an instance of the listener has to be registered for the SHNDevice instance.
+ * This interface provides a means to connect and disconnect to the peripheral.
+ * State updates can be received through the {@code SHNDeviceListener} interface.
+ * To receive updates an instance of the listener has to be registered with the SHNDevice instance.
  */
 public interface SHNDevice {
     /**
@@ -49,6 +49,10 @@ public interface SHNDevice {
      * Provides a means to connect to the peripheral.
      * <p/>
      * Callbacks about state changes are provided via a registered SHNDeviceListener instance.
+     * <p/>
+     * Please note that even in seemingly perfect conditions the Bluetooth stack may be unsuccessful
+     * in establishing a connection. Bluelib attempts to resolve this as much as possible, but users
+     * of this API need to handle connection failures through a relaxed re-connect mechanism.
      */
     void connect();
 
@@ -99,7 +103,16 @@ public interface SHNDevice {
      */
     interface SHNDeviceListener {
         /**
-         * Gives updates for the peripheral state.
+         * Indicates that the peripheral state changed.
+         * <p/>
+         * Please note that when the user receives this callback and retrieves the state via the
+         * {@link #getState()} method, the state may already have changed again and a second
+         * {@link #onStateUpdated(SHNDevice)} is already queued. This can happen for example when
+         * disconnecting and the device state changes rapidly from {@link State#Connected} to
+         * {@link State#Disconnecting} to {@link State#Disconnected}. In this case there are two state changes
+         * resulting in to calls to {@link #onStateUpdated(SHNDevice)}, but at the time the first
+         * callback is processed by the listener, the device state may have already changed state to
+         * {@link State#Disconnected}.
          *
          * @param shnDevice instance that has changed state
          */
