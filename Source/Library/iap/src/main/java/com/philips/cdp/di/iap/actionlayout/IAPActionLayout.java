@@ -41,7 +41,7 @@ public class IAPActionLayout implements ActionLayoutCallBack {
         }
         if (v == null) {
             v = View.inflate(context, R.layout.iap_action_bar, null);
-            mMainLayout = (ViewGroup) v.findViewById(R.id.ratingtheme);
+            mMainLayout = (ViewGroup) v.findViewById(R.id.ratingthememain);
         }
         mBackButton = v.findViewById(R.id.arrow);
         return v;
