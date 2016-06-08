@@ -275,7 +275,7 @@ public class ConsentHandler implements RefreshUserHandler {
                 bundle.putString(RegConstants.COPPA_STATUS, coppaStatus.toString());
                 parentalCaringSharingFragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.fl_reg_fragment_container, parentalCaringSharingFragment, "Parental Access");
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalCaringSharingFragment, "Parental Access");
                 fragmentTransaction.addToBackStack(parentalCaringSharingFragment.getTag());
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {

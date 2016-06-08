@@ -47,7 +47,10 @@
                         style="@style/reg_textStyle"
                         android:layout_marginBottom="@dimen/reg_margin_bottom"
                         android:layout_marginTop="0dip"
+                        android:textColor="@color/reg_text_desc_color"
+                        android:textSize="@dimen/reg_title_text_size_medium"
                         android:visibility="visible"
+
                         reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
                     <com.philips.cdp.registration.ui.customviews.XButton
@@ -61,9 +64,10 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/reg_scroll_margin" />
+                android:layout_height="@dimen/reg_scroll_margin"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

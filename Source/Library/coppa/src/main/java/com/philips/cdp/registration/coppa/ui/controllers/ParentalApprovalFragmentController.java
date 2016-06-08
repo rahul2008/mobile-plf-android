@@ -116,8 +116,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
                 bundle.putString(RegConstants.COPPA_STATUS, coppaStatus.toString());
                 parentalCaringSharingFragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.fl_reg_fragment_container, parentalCaringSharingFragment, "Parental Access");
-                fragmentTransaction.addToBackStack(parentalCaringSharingFragment.getTag());
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalCaringSharingFragment, "Parental Access");
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 RLog.e(RLog.EXCEPTION,
@@ -243,8 +242,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
             try {
                 ParentalConsentFragment parentalConsentFragment = new ParentalConsentFragment();
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.fl_reg_fragment_container, parentalConsentFragment, "Parental Access");
-                fragmentTransaction.addToBackStack(parentalConsentFragment.getTag());
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalConsentFragment, "Parental Access");
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 RLog.e(RLog.EXCEPTION,

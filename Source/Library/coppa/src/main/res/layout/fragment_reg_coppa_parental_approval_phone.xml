@@ -29,6 +29,17 @@
                 android:paddingRight="@dimen/reg_layout_margin">
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_confirm_approval_title"
+                    style="@style/reg_titleTextStyle"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
+                    android:layout_marginTop="0dip"
+                    android:paddingLeft="0dip"
+                    android:text="@string/Request_Parental_consent_Title"
+                    android:textColor="@color/reg_coppa_confirm_title_color"
+                    android:visibility="visible"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_confirm_approval"
                     style="@style/reg_titleTextStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"

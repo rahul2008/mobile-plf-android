@@ -33,11 +33,14 @@ import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 
+import org.w3c.dom.Text;
+
 public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment implements NetworStateListener {
 
     private LinearLayout mLlConfirmApprovalParent;
     private TextView mTvConfirmApprovalDesc;
     private TextView mTvRegConfirmApproval;
+    private TextView mTVRegConfirmApprovalTitle;
     private Button mBtnAgree;
     private Button mBtnDisAgree;
     private ParentalApprovalFragmentController mParentalApprovalFragmentController;
@@ -181,6 +184,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         mLlConfirmApprovalParent = (LinearLayout) view.findViewById(R.id.ll_reg_confirm_root_container);
         mTvConfirmApprovalDesc = (TextView) view.findViewById(R.id.tv_reg_confirm_approval_details);
         mTvRegConfirmApproval = (TextView) view.findViewById(R.id.tv_reg_confirm_approval);
+        mTVRegConfirmApprovalTitle = (TextView) view.findViewById(R.id.tv_reg_confirm_approval_title);
         mBtnAgree = (Button) view.findViewById(R.id.reg_btn_agree);
         mBtnAgree.setOnClickListener(mParentalApprovalFragmentController);
         mBtnDisAgree = (Button) view.findViewById(R.id.reg_btn_dis_agree);
@@ -228,7 +232,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Coppa_Consent_Approval_Screen_Title_txt;
+        return R.string.Coppa_Parental_Consent_Screen_Title_txt;
     }
 
     public void showRefreshProgress() {
