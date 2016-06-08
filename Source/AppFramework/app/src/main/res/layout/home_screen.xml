@@ -7,14 +7,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.philips.cdp.appframework.activity.HomeActivity">
+    tools:context="com.philips.cdp.appframework.homescreen.HomeActivity">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="15dp"
         android:textSize="21sp"
         android:textColor="@color/uikit_white"
         fontPath="fonts/centralesansbold.ttf"
@@ -25,8 +25,8 @@
         android:layout_below="@+id/title"
         fontPath="fonts/centralesansbook.ttf"
         android:textColor="@color/uikit_white"
-        android:layout_marginTop="18dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="26dp"
         android:textSize="14sp"
         android:layout_marginBottom="18dp"
         android:text="Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit." />
