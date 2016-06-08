@@ -26,6 +26,7 @@ import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -119,6 +120,6 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onRetailerError(IAPNetworkError errorMsg) {
-        getIAPActivity().getNetworkUtility().showErrorDialog(getContext(), getFragmentManager(), getContext().getString(R.string.iap_ok), errorMsg.getMessage(), errorMsg.getMessage());
+        NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getContext().getString(R.string.iap_ok), errorMsg.getMessage(), errorMsg.getMessage());
     }
 }

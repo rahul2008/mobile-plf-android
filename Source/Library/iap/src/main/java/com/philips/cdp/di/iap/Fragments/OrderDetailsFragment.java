@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,24 +17,18 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.adapters.OrderHistoryAdapter;
-import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.controller.OrderController;
-import com.philips.cdp.di.iap.response.orders.Address;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
-import com.philips.cdp.di.iap.response.orders.OrdersData;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.shamanland.fonticon.FontIconTextView;
 
-import java.util.Locale;
 
-
-public class OrderDetailsFragment extends BaseAnimationSupportFragment implements OrderController.OrderListener, View.OnClickListener{
+public class OrderDetailsFragment extends BaseAnimationSupportFragment implements OrderController.OrderListener, View.OnClickListener {
 
     public static final String TAG = OrderDetailsFragment.class.getName();
     private Context mContext;
@@ -83,10 +76,10 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mBillingAddress = (TextView) view.findViewById(R.id.tv_billing_address);
         mOrderDetailArrow = (FontIconTextView) view.findViewById(R.id.arrow);
         mOrderDetailArrow.setVisibility(View.GONE);
-        mPaymentCardType = (TextView)view.findViewById(R.id.tv_card_type);
-        mBuyNow = (Button)view.findViewById(R.id.btn_paynow);
+        mPaymentCardType = (TextView) view.findViewById(R.id.tv_card_type);
+        mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
         mBuyNow.setOnClickListener(this);
-        mCancelOrder = (Button)view.findViewById(R.id.btn_cancel);
+        mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
 
         Bundle bundle = getArguments();
@@ -131,7 +124,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         Utility.dismissProgressDialog();
         mParentView.setVisibility(View.VISIBLE);
         if (msg.obj instanceof IAPNetworkError) {
-            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
                 if (msg.obj instanceof OrderDetail) {
@@ -145,13 +138,12 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btn_cancel || v.getId() == R.id.btn_paynow)
+        if (v.getId() == R.id.btn_cancel || v.getId() == R.id.btn_paynow)
             Toast.makeText(getContext(), "Yet to implement", Toast.LENGTH_SHORT).show();
 
     }
 
-    public void updateUIwithDetails(OrderDetail detail)
-    {
+    public void updateUIwithDetails(OrderDetail detail) {
         mTime.setText(Utility.getFormattedDate(detail.getCreated()));
         mOrderState.setText(detail.getStatusDisplay());
         mOrderNumber.setText(detail.getCode());

@@ -35,6 +35,7 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 
@@ -146,7 +147,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             moveToShoppingCart();
         } else {
             if (msg.what == RequestCode.DELETE_ADDRESS) {
@@ -177,7 +178,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             mAddrController.setDefaultAddress(selectedAddress);
             mAddrController.setDeliveryMode();
         } else {
-            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             Utility.dismissProgressDialog();
         }
     }
@@ -187,7 +188,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             checkPaymentDetails();
         } else {
-            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             Utility.dismissProgressDialog();
         }
     }
@@ -294,7 +295,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             addFragment(BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE),
                     BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
             AddressFields selectedAddress = prepareAddressFields(retrieveSelectedAddress());
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);

@@ -46,7 +46,6 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     private TextView mCartCount;
     private ImageView mCartIcon;
     private FrameLayout mCartContainer;
-    NetworkUtility networkUtility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +94,7 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     @Override
     protected void onDestroy() {
         Utility.dismissProgressDialog();
-        getNetworkUtility().dismissErrorDialog();
+        NetworkUtility.getInstance().dismissErrorDialog();
         super.onDestroy();
     }
 
@@ -141,11 +140,11 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         mCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (getNetworkUtility().isNetworkAvailable(IAPActivity.this)) {
+                if (NetworkUtility.getInstance().isNetworkAvailable(IAPActivity.this)) {
                     addFragment(ShoppingCartFragment.createInstance(new Bundle(),
                             BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
                 } else {
-                    getNetworkUtility().showErrorDialog(IAPActivity.this, getSupportFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                    NetworkUtility.getInstance().showErrorDialog(IAPActivity.this, getSupportFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
 
             }
@@ -238,14 +237,6 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
     protected void onResume() {
         Tagging.collectLifecycleData();
         super.onResume();
-    }
-
-
-    public NetworkUtility getNetworkUtility() {
-        if (networkUtility == null) {
-            networkUtility = new NetworkUtility();
-        }
-        return networkUtility;
     }
 
 }

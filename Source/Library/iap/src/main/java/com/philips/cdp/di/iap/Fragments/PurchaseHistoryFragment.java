@@ -25,6 +25,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
         mAdapter = new OrderHistoryAdapter(mContext, mOrders);
         mOrderHistoryView.setAdapter(mAdapter);
-        if(mOrders.size() == 0)
+        if (mOrders.size() == 0)
             updateHistoryListOnResume();
 
         return rootView;
@@ -98,7 +99,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     public void onGetOrderList(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), mContext);
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             if (msg.what == RequestCode.GET_ORDERS) {
                 if (msg.obj instanceof OrdersData) {
@@ -108,7 +109,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
                         removeFragment();
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
                                 BaseAnimationSupportFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
-                    }else{
+                    } else {
                         mAdapter = new OrderHistoryAdapter(mContext, mOrders);
                         mOrderHistoryView.setAdapter(mAdapter);
                     }
@@ -122,8 +123,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
     }
 
-    private void startOrderDetailFragment()
-    {
+    private void startOrderDetailFragment() {
         int pos = mAdapter.getSelectedPosition();
         Orders order = mOrders.get(pos);
         Bundle bundle = new Bundle();
