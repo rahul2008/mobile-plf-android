@@ -72,7 +72,7 @@ def javaDocClassesForPublicApi = ['SHNCentral',
                                   'SHNUserConfiguration',
                                   'SHNDevice',
                                   'SHNCapability',
-                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',
+                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNFirmwareInfoResultListener','SHNFirmwareInfo','SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',
                                   'SHNData',
                                   'SHNDataType', 'SHNDataBloodPressure', 'SHNDataHeartRate', 'SHNDataWeight', 'SHNDataBodyTemperature', 'SHNTemperatureType',
                                   'SHNResult', 'SHNResultListener', 'SHNIntegerResultListener', 'SHNStringResultListener', 'SHNSetResultListener', 'SHNMapResultListener', 'SHNObjectResultListener', 'SHNTemperatureMeasurementResultListener']
