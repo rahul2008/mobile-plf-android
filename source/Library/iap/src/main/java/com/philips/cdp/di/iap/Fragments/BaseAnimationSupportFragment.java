@@ -25,6 +25,8 @@ import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.tagging.Tagging;
 
+import java.util.List;
+
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
     private IAPFragmentListener mActivityListener;
     private IAPFragmentActionLayout mFragmentLayout;
@@ -157,9 +159,17 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
     public void clearFragmentStack() {
         if (getActivity() != null && !getActivity().isFinishing()) {
-            getActivity().getSupportFragmentManager().popBackStackImmediate(null, 0);
+            FragmentManager fragManager = getActivity().getSupportFragmentManager();
+            int count = fragManager.getBackStackEntryCount();
+            for (; count >= 0; count--) {
+                List<Fragment> fragmentList = fragManager.getFragments();
+                if (fragmentList != null && fragmentList.size() > 0) {
+                    if (fragmentList.get(fragmentList.size() - 1) instanceof IAPFragmentListener) {
+                        fragManager.popBackStackImmediate();
+                    }
+                }
+            }
         }
-
     }
 
     public void updateCount(final int count) {
