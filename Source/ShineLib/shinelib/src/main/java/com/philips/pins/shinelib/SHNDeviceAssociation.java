@@ -22,25 +22,68 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
+/**
+ * Class that allows the API users to add new associate peripherals and remove them.
+ * <p/>
+ * Note that only peripherals registered with {@link SHNCentral} are exposed by {@code SHNDeviceScanner}.
+ * The matching behaviour of the scanner is  under control of {@link SHNDeviceDefinitionInfo#useAdvertisedDataMatcher()} method in the corresponding
+ * peripheral's device definition info. {@code SHNDeviceScanner} can be obtained via {@link SHNCentral#getShnDeviceScanner()}.
+ */
 public class SHNDeviceAssociation {
 
+    /**
+     * Possible state of {@code SHNDeviceAssociation}
+     */
     public enum State {
-        Idle, Associating
+        Idle,
+        Associating
     }
 
+    /**
+     * Interface to receive updates for the current association.
+     */
     public interface SHNDeviceAssociationListener {
+        /**
+         * Indicates that the association was started with the {@code SHNAssociationProcedure}.
+         *
+         * @param shnDeviceAssociationProcedure used to associate with the peripheral
+         */
         void onAssociationStarted(SHNAssociationProcedure shnDeviceAssociationProcedure);
 
+        /**
+         * Indicates that the association has been stopped.
+         */
         void onAssociationStopped();
 
+        /**
+         * Indicates that the association has finished successfully. The associated device is stored automatically. It can be obtained via {@link #getAssociatedDevices()}.
+         *
+         * @param shnDevice created for the associated peripheral
+         */
         void onAssociationSucceeded(SHNDevice shnDevice);
 
+        /**
+         * Indicates that the association has failed for the peripheral.
+         *
+         * @param shnError that occurred during the association
+         */
         void onAssociationFailed(SHNResult shnError);
 
+        /**
+         * Indicates that the association has been updated. Will be called if the peripheral information was injected successfully via {@link #injectAssociatedDevice(String, String, SHNResultListener)}.
+         */
         void onAssociatedDevicesUpdated();
     }
 
+    /**
+     * Interface to receive updates for an associated device getting removed.
+     */
     public interface DeviceRemovedListener {
+        /**
+         * Indicates that device was removed.
+         *
+         * @param device that has been removed
+         */
         void onAssociatedDeviceRemoved(@NonNull final SHNDevice device);
     }
 
@@ -58,8 +101,11 @@ public class SHNDeviceAssociation {
     @Nullable
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
     private final SHNCentral shnCentral;
+    private SHNInternalScanRequest shnInternalScanRequest;
 
+    private boolean scanStoppedIndicatesScanTimeout;
     private boolean useQuickTest = false;
+
     private SHNAssociationProcedurePlugin.SHNAssociationProcedureListener shnAssociationProcedureListener = new SHNAssociationProcedurePlugin.SHNAssociationProcedureListener() {
         @Override
         public void onStopScanRequest() {
@@ -111,7 +157,6 @@ public class SHNDeviceAssociation {
         }
     };
 
-    private boolean scanStoppedIndicatesScanTimeout;
     private SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
         @Override
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, @NonNull SHNDeviceFoundInfo shnDeviceFoundInfo) {
@@ -130,7 +175,6 @@ public class SHNDeviceAssociation {
             }
         }
     };
-    private SHNInternalScanRequest shnInternalScanRequest;
 
     public SHNDeviceAssociation(final @NonNull SHNCentral shnCentral, final @NonNull SHNDeviceScannerInternal shnDeviceScannerInternal, final @NonNull PersistentStorageFactory persistentStorageFactory) {
         this.shnCentral = shnCentral;
@@ -138,7 +182,7 @@ public class SHNDeviceAssociation {
         this.persistentStorageFactory = persistentStorageFactory;
     }
 
-    void initAssociatedDevicesListOnInternalThread() {
+    /*package*/ void initAssociatedDevicesListOnInternalThread() {
         if (isRunningOnTheInternalThread()) {
             initAssociatedDevicesList();
         } else {
@@ -168,7 +212,7 @@ public class SHNDeviceAssociation {
     }
 
     @VisibleForTesting
-    boolean isRunningOnTheInternalThread() {
+    /*package*/ boolean isRunningOnTheInternalThread() {
         return shnCentral.getInternalHandler().getLooper().getThread().equals(Thread.currentThread());
     }
 
@@ -194,19 +238,38 @@ public class SHNDeviceAssociation {
     }
 
     @NonNull
-    SHNDeviceAssociationHelper getShnDeviceAssociationHelper() {
+     /*package*/ SHNDeviceAssociationHelper getShnDeviceAssociationHelper() {
         PersistentStorage persistentStorage = persistentStorageFactory.getPersistentStorage();
         return new SHNDeviceAssociationHelper(persistentStorage);
     }
 
+    /**
+     * Returns current state of the device assocaition.
+     * <p/>
+     * Note new association can only be started in state {@code Idle}.
+     *
+     * @return current state of the device assocaition
+     */
     public State getState() {
         return (shnAssociationProcedure != null) ? State.Associating : State.Idle;
     }
 
+    /**
+     * Set callback to receive updates about the ongoing association.
+     *
+     * @param shnDeviceAssociationListener to receive updates.
+     */
     public void setShnDeviceAssociationListener(@Nullable SHNDeviceAssociationListener shnDeviceAssociationListener) {
         this.shnDeviceAssociationListener = shnDeviceAssociationListener;
     }
 
+    /**
+     * Start association procedure for the device type. Please use device type name as specified in {@link SHNDeviceDefinitionInfo#getDeviceTypeName()}.
+     * <p/>
+     * Callbacks about association are provided via {@code SHNDeviceAssociationListener}
+     *
+     * @param deviceTypeName to start association for
+     */
     public void startAssociationForDeviceType(final String deviceTypeName) {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
@@ -220,14 +283,31 @@ public class SHNDeviceAssociation {
         });
     }
 
+    /**
+     * Returns a list of all associated device.
+     *
+     * @return list of associated device
+     */
     public List<SHNDevice> getAssociatedDevices() {
         return Collections.unmodifiableList(associatedDevices);
     }
 
+    /**
+     * Remove all associated devices.
+     * <p/>
+     * Devices' persistent storage will be removed. Do not issue calls to the {@code SHNDevice} instance after it has been removed. Note the function does not remove bonds on OS level.
+     */
     public void removeAllAssociatedDevices() {
         removeAllAssociatedDevices(new NullDeviceRemovedListener());
     }
 
+    /**
+     * Remove all associated devices.
+     * <p/>
+     * Devices' persistent storage will be removed. Do not issue calls to the {@code SHNDevice} instance after it has been removed. Note the function does not remove bonds on OS level.
+     *
+     * @param deviceRemovedListener to receive result of the deletion
+     */
     public void removeAllAssociatedDevices(@NonNull final DeviceRemovedListener deviceRemovedListener) {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
@@ -239,10 +319,25 @@ public class SHNDeviceAssociation {
         });
     }
 
+    /**
+     * Remove this associated device.
+     * <p/>
+     * Device persistent storage will be removed. Do not issue calls to the {@code SHNDevice} instance after it has been removed. Note the function does not remove bonds on OS level.
+     *
+     * @param shnDeviceToRemove device to be removed
+     */
     public void removeAssociatedDevice(@NonNull final SHNDevice shnDeviceToRemove) {
         removeAssociatedDevice(shnDeviceToRemove, new NullDeviceRemovedListener());
     }
 
+    /**
+     * Remove this associated device.
+     * <p/>
+     * Device persistent storage will be removed. Do not issue calls to the {@code SHNDevice} instance after it has been removed. Note the function does not remove bonds on OS level.
+     *
+     * @param shnDeviceToRemove     device to be removed
+     * @param deviceRemovedListener to receive result of the deletion
+     */
     public void removeAssociatedDevice(@NonNull final SHNDevice shnDeviceToRemove, @NonNull final DeviceRemovedListener deviceRemovedListener) {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
@@ -360,6 +455,11 @@ public class SHNDeviceAssociation {
         });
     }
 
+    /**
+     * Stops current running association and sets the state of the device association to {@code Idle}
+     * <p/>
+     * Callbacks are provided via {@code SHNDeviceAssociationListener}
+     */
     public void stopAssociation() {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
@@ -383,19 +483,18 @@ public class SHNDeviceAssociation {
     }
 
     /**
-     * With this function a device can be added to the associated devices list. Please note that when using this function,
-     * the data provided by the device information capability is not available from cache until the first time a connection has been made.
-     * More importantly this function will not restore a previously existing bond on the OS level, nor will it check that such a bond
-     * exists or is needed by the device to function properly. For a successful completion, there must be a plugin registered that
-     * handles the device indicated by the device type name.
+     * With this function a device can be added to the associated devices list. Note that the data provided by the device information capability
+     * is not available from cache until the first time a connection has been made. More importantly this function will not restore a previously
+     * existing bond on the OS level, nor will it check that such a bond exists or is needed by the device to function properly.
+     * For a successful completion, there must be a plugin registered that handles the device indicated by the device type name. A result of SHNOk
+     * indicates that the injection was successful. A result of SHNErrorInvalidParameter indicates that
+     * either the MAC address is invalid or that there is no plugin registered for the deviceTypeName. A result
+     * of SHNErrorOperationFailed indicates that an association already exists for a device with the given address.
+     * A result of SHNErrorInvalidResponse indicates that there was an error creating the device.
      *
      * @param deviceMACAddress  The MAC address of the device to inject. Casing does not matter, only colon separated addresses are allowed.
      * @param deviceTypeName    The device type name as defined by the device plugin.
-     * @param shnResultListener The result listener where the success or failure of the injection must be reported. A result of SHNOk
-     *                          indicates that the injection was successful. A result of SHNErrorInvalidParameter indicates that
-     *                          either the MAC address is invalid or that there is no plugin registered for the deviceTypeName. A result
-     *                          of SHNErrorOperationFailed indicates that an association already exists for a device with the given address.
-     *                          A result of SHNErrorInvalidResponse indicates that there was an error creating the device.
+     * @param shnResultListener The result listener where the success or failure of the injection must be reported.
      */
     public void injectAssociatedDevice(@NonNull final String deviceMACAddress, @NonNull final String deviceTypeName, @NonNull final SHNResultListener shnResultListener) {
         shnCentral.getInternalHandler().post(new Runnable() {
@@ -452,7 +551,7 @@ public class SHNDeviceAssociation {
     }
 
     private boolean hasAssociatedDeviceForTheMACAddress(@NonNull String deviceMACAddress) {
-        for (SHNDevice associatedDevice :associatedDevices) {
+        for (SHNDevice associatedDevice : associatedDevices) {
             if (associatedDevice.getAddress().equalsIgnoreCase(deviceMACAddress)) {
                 return true;
             }
@@ -500,14 +599,24 @@ public class SHNDeviceAssociation {
     }
 
     @NonNull
-    QuickTestConnection createQuickTestConnection() {
+    /*package*/ QuickTestConnection createQuickTestConnection() {
         return new QuickTestConnection(shnCentral.getInternalHandler());
     }
 
+    /**
+     * Use this function to receive notification if a {@link SHNDevice} is removed from the list of associated device.
+     *
+     * @param listener to be added
+     */
     public void addDeviceRemovedListeners(@NonNull final DeviceRemovedListener listener) {
         deviceRemovedListeners.add(listener);
     }
 
+    /**
+     * Use this function to stop receive notification if a {@link SHNDevice} is removed from the list of associated device.
+     *
+     * @param listener to be removed
+     */
     public void removeDeviceRemovedListeners(@NonNull final DeviceRemovedListener listener) {
         deviceRemovedListeners.remove(listener);
     }
