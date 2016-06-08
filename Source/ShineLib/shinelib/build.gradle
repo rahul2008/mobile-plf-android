@@ -96,7 +96,7 @@ def javaDocClassesForPluginApi = javaDocClassesForPublicApi + [
 
         'SHNCapabilityDeviceInformationImpl', 'SHNCapabilityDeviceInformationCached', 'SHNServiceDeviceInformation',
         'SHNCapabilityBatteryImpl', 'SHNServiceBattery',
-        'CapabilityFirmwareUpdateDiComm', 'DiCommFirmwarePort', 'DiCommFirmwarePortStateWaiter',
+        'CapabilityFirmwareUpdateDiComm', 'DiCommFirmwarePort',
         'SHNDeviceTimeAdjusterCurrentTimeService', 'SHNServiceCurrentTime'
 ]
 

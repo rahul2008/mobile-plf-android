@@ -6,7 +6,7 @@
 package com.philips.pins.shinelib.datatypes;
 
 /**
- * Heart rate measurement data in BPM.
+ * Heart rate measurement data in beats per minute.
  */
 public class SHNDataHeartRate extends SHNData {
     private final int heartRate;

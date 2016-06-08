@@ -8,7 +8,7 @@ package com.philips.pins.shinelib.datatypes;
 /**
  * Body temperature measurement data.
  * <p/>
- * Contains temperature and location of temperature measurement.
+ * Contains temperature and location of a temperature measurement.
  *
  * @see SHNTemperatureType
  */
