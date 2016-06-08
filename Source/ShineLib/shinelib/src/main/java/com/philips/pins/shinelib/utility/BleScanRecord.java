@@ -20,6 +20,9 @@ import java.util.UUID;
  * {@code BleScanRecord} is a convenience class that converts raw advertisement data.
  * <p/>
  * It extracts a list of UUIDs, local name and remaining manufacturer specific data.
+ * <p/>
+ * Starting from Android 6 the Bluetooth API includes an interface to the data in the scanrecord.
+ * This is a different interface that should not be confused with {@code BleScanRecord}.
  */
 public class BleScanRecord {
     private static final String TAG = "BleScanRecord";
@@ -39,18 +42,18 @@ public class BleScanRecord {
     }
 
     /**
-     * Returns the content of the advertisement record offered by the remote peripheral.
+     * Returns the content of the advertisement and scan result received from the remote peripheral.
      *
-     * @return raw advertisement data offered by the remote peripheral
+     * @return raw advertisement and scan data received from the remote peripheral
      */
     public byte[] getScanRecord() {
         return scanRecord.clone();
     }
 
     /**
-     * Returns the content of the manufacturer specific data. No defined format, just an array of bytes.
+     * When present, in the raw advertisement and scan data received, returns the content of the manufacturer specific data. No defined format, just an array of bytes.
      *
-     * @return raw advertisement specified by the peripheral's manufacturer. null if there is no data
+     * @return raw manufacterer data specified by the peripheral's manufacturer. null if there is no data
      */
     @Nullable
     public byte[] getManufacturerSpecificData() {
@@ -60,9 +63,9 @@ public class BleScanRecord {
     }
 
     /**
-     * Returns the list of {@link java.util.UUID} exposed by the peripheral.
+     * Returns the list of {@link java.util.UUID} present in the raw advertisement and scan data received from the peripheral.
      *
-     * @return list of UUIDs exposed by the peripheral. null if there is no UUIDs exposed
+     * @return list of UUIDs. null if there are no UUIDs in the raw advertisement and scan data received.
      */
     @Nullable
     public List<UUID> getUuids() {
