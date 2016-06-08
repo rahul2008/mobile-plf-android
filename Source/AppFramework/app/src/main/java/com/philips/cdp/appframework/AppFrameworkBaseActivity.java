@@ -1,7 +1,7 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.cdp.appframework;
 
@@ -12,39 +12,20 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.philips.cdp.appframework.utility.Constants;
 import com.philips.cdp.appframework.utility.Logger;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
-
-
-/*
-* This is the base Activity. Each activity has to extend this base activity in order to
-* achieve UIKit theme and common utility.
-*
-* @author : Ritesh.jha@philips.com
-* @since : 8 June 2016
-*/
 
 public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     public static final String SHARED_PREFERENCES = "SharedPref";
     public static final String DONE_PRESSED = "donePressed";
     private static String TAG = AppFrameworkBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
-    private SharedPreferences mSharedpreferences = null;
+    private static SharedPreferences mSharedPreference = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +37,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         // initActionBar();
     }
 
+/*
     private void initActionBar() {
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -87,6 +69,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
     }
+*/
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -147,18 +130,22 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     }
 
     protected void setIntroScreenDonePressed() {
-        mSharedpreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSharedpreferences.edit();
+        if (mSharedPreference == null) {
+            mSharedPreference = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        }
+        SharedPreferences.Editor editor = mSharedPreference.edit();
         editor.putBoolean(DONE_PRESSED, true);
         editor.commit();
     }
 
     protected Boolean getIntroScreenDonePressed() {
-        mSharedpreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        return mSharedpreferences.getBoolean(DONE_PRESSED, false);
+        if (mSharedPreference == null) {
+            mSharedPreference = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        }
+        return mSharedPreference.getBoolean(DONE_PRESSED, false);
     }
 
-    protected void showFragment(Fragment fragment) {
+/*    protected void showFragment(Fragment fragment) {
         try {
             FragmentTransaction fragmentTransaction = fragmentManager
                     .beginTransaction();
@@ -175,5 +162,5 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
             imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
                     .getWindowToken(), 0);
         }
-    }
+    }*/
 }
