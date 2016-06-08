@@ -21,16 +21,16 @@
 
     <Button
         android:id="@+id/yes_register_button"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/no_thanks_button"
         android:layout_centerHorizontal="true"
-        android:text="Yes extend my warranty"
+        android:text="Register"
         android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/no_thanks_button"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

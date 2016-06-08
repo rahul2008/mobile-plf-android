@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.prodreg.RegistrationState;
+import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
@@ -47,16 +48,16 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
 
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         final Bundle bundle = getArguments();
         if (bundle != null) {
             currentProduct = (Product) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
         }
-        makeSummaryRequest();
+        getRegisteredProducts();
     }
 
     private void makeSummaryRequest() {
         if (currentProduct != null) {
-            dependencyBundle = new Bundle();
             dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
             currentProduct.getProductSummary(getActivity(), currentProduct, getSummaryListener());
         }
@@ -69,17 +70,24 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
             public void onSummaryResponse(final ProductSummaryResponse productSummaryResponse) {
                 if (productSummaryResponse != null) {
                     dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY, productSummaryResponse.getData());
-                    ProdRegHelper prodRegHelper = new ProdRegHelper();
-                    prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
+                    final ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
+                    prodRegRegistrationFragment.setArguments(dependencyBundle);
+                    showFragment(prodRegRegistrationFragment);
                 }
             }
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                progressBar.setVisibility(View.GONE);
-                showAlert("Summary Failed", errorMessage, responseCode);
+                showAlert("Summary Failed", new ErrorHandler().getError(responseCode).getDescription());
             }
         };
+    }
+
+    private void getRegisteredProducts() {
+        if (currentProduct != null) {
+            ProdRegHelper prodRegHelper = new ProdRegHelper();
+            prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
+        }
     }
 
     @NonNull
@@ -90,7 +98,8 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
                 if (!isCtnRegistered(registeredProducts, currentProduct)) {
                     currentProduct.getProductMetadata(getActivity(), getMetadataListener());
                 } else {
-
+                    showFragment(new ProdRegConnectionFragment());
+//                    removeCurrentFragment();
                 }
             }
         };
@@ -111,16 +120,15 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
             @Override
             public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
                 if (productMetadataResponse != null) {
+                    dependencyBundle = new Bundle();
                     dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA, productMetadataResponse.getData());
-                    final ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
-                    prodRegRegistrationFragment.setArguments(dependencyBundle);
-                    showFragment(prodRegRegistrationFragment);
+                    makeSummaryRequest();
                 }
             }
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                showAlert("Metadata Failed", errorMessage, responseCode);
+                showAlert("Metadata Failed", new ErrorHandler().getError(responseCode).getDescription());
             }
         };
     }

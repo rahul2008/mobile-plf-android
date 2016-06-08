@@ -23,6 +23,7 @@ import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.util.ProdRegConfigManager;
+import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
@@ -179,7 +180,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         });
         fragLauncher.setAnimation(0, 0);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("product", product);
+        bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, product);
         fragLauncher.setArguments(bundle);
         ProdRegConfigManager.getInstance().invokeProductRegistration(fragLauncher);
     }

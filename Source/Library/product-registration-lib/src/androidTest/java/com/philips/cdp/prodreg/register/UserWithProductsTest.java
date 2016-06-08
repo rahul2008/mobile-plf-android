@@ -307,7 +307,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         registeredProducts.add(registeredProduct1);
         registeredProducts.add(registeredProduct2);
         registeredProducts.add(registeredProduct3);
-        assertTrue(userWithProducts.isCtnRegistered(registeredProducts, product, prodRegListener));
+        assertTrue(userWithProducts.isCtnRegistered(registeredProducts, product));
     }
 
     public void testIsCtnNotRegistered() {
@@ -328,7 +328,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         registeredProducts.add(registeredProduct1);
         registeredProducts.add(registeredProduct2);
         registeredProducts.add(registeredProduct3);
-        assertFalse(userWithProducts.isCtnRegistered(registeredProducts, product, prodRegListener));
+        assertFalse(userWithProducts.isCtnRegistered(registeredProducts, product));
     }
 
     public void testGetPrxResponseListenerForRegisteringProducts() {

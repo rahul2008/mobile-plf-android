@@ -48,4 +48,30 @@ public class ErrorHandler {
             appListener.onProdRegFailed(registeredProduct, userProduct);
         }
     }
+
+    public ProdRegError getError(int statusCode) {
+        if (statusCode == ProdRegError.INVALID_CTN.getCode()) {
+            return ProdRegError.INVALID_CTN;
+        } else if (statusCode == ProdRegError.ACCESS_TOKEN_INVALID.getCode()) {
+            return ProdRegError.ACCESS_TOKEN_INVALID;
+        } else if (statusCode == ProdRegError.INVALID_VALIDATION.getCode()) {
+            return ProdRegError.INVALID_VALIDATION;
+        } else if (statusCode == ProdRegError.INVALID_SERIALNUMBER.getCode()) {
+            return ProdRegError.INVALID_SERIALNUMBER;
+        } else if (statusCode == ProdRegError.NO_INTERNET_AVAILABLE.getCode()) {
+            return ProdRegError.NO_INTERNET_AVAILABLE;
+        } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()) {
+            return ProdRegError.INTERNAL_SERVER_ERROR;
+        } else if (statusCode == ProdRegError.TIME_OUT.getCode()) {
+            return ProdRegError.TIME_OUT;
+        } else if (statusCode == ProdRegError.NETWORK_ERROR.getCode()) {
+            return ProdRegError.NETWORK_ERROR;
+        } else if (statusCode == ProdRegError.PARSE_ERROR.getCode()) {
+            return ProdRegError.PARSE_ERROR;
+        } else if (statusCode == ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE.getCode()) {
+            return ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE;
+        } else {
+            return ProdRegError.UNKNOWN;
+        }
+    }
 }

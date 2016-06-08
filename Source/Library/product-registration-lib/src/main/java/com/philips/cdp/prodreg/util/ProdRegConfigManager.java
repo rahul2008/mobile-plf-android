@@ -21,11 +21,12 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
-import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
+import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
 import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.UiLauncher;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
@@ -85,23 +86,44 @@ public class ProdRegConfigManager {
         } else if (!user.isUserSignIn()) {
             launchRegistrationFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID());
         } else {
-            ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
-            prodRegRegistrationFragment.setArguments(fragmentLauncher.getArguments());
-            prodRegRegistrationFragment.showFragment(prodRegRegistrationFragment,
+            ProdRegProcessFragment prodRegProcessFragment = new ProdRegProcessFragment();
+            prodRegProcessFragment.setArguments(fragmentLauncher.getArguments());
+            prodRegProcessFragment.showFragment(prodRegProcessFragment,
                     fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
         }
     }
 
     private void launchRegistrationFragment(final FragmentActivity context, final int parentContainerResId) {
-        RegistrationFragment registrationFragment = new RegistrationFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
-        registrationFragment.setArguments(bundle);
-        FragmentTransaction fragmentTransaction = context.getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(registrationFragment.getTag());
-        fragmentTransaction.replace(parentContainerResId, registrationFragment,
-                RegConstants.REGISTRATION_FRAGMENT_TAG);
-        fragmentTransaction.commit();
+        try {
+            RegistrationFragment registrationFragment = new
+                    RegistrationFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
+            registrationFragment.setArguments(bundle);
+            registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
+                @Override
+                public void updateRegistrationTitle(final int i) {
+
+                }
+
+                @Override
+                public void updateRegistrationTitleWithBack(final int i) {
+
+                }
+
+                @Override
+                public void updateRegistrationTitleWithOutBack(final int i) {
+
+                }
+            });
+            FragmentTransaction fragmentTransaction =
+                    context.getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(parentContainerResId, registrationFragment,
+                    RegConstants.REGISTRATION_FRAGMENT_TAG);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
     public void invokeProductRegistration(UiLauncher uiLauncher) {

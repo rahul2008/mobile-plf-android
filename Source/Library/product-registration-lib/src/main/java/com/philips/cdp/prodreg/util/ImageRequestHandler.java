@@ -13,14 +13,13 @@ import com.android.volley.toolbox.Volley;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ImageRequester {
-
-    private static ImageRequester mInstance;
+public class ImageRequestHandler {
+    private static ImageRequestHandler mInstance;
     private static Context mCtx;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
 
-    private ImageRequester(Context context) {
+    private ImageRequestHandler(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();
 
@@ -41,9 +40,9 @@ public class ImageRequester {
                 });
     }
 
-    public static synchronized ImageRequester getInstance(Context context) {
+    public static synchronized ImageRequestHandler getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new ImageRequester(context);
+            mInstance = new ImageRequestHandler(context);
         }
         return mInstance;
     }

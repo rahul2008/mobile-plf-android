@@ -80,8 +80,9 @@ public abstract class ProdRegBaseFragment extends Fragment {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
-            fragmentTransaction.replace(mContainerId, fragment, ProdRegConstants.PROD_REG_FRAGMENT_TAG);
-            fragmentTransaction.addToBackStack(fragment.getTag());
+            fragmentTransaction.replace(mContainerId, fragment);
+            if (!(fragment instanceof ProdRegProcessFragment))
+                fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
             Log.e(TAG, e.getMessage());
@@ -113,7 +114,8 @@ public abstract class ProdRegBaseFragment extends Fragment {
             }
             fragmentTransaction.replace(containerId, fragment, ProdRegConstants.PROD_REG_FRAGMENT_TAG);
             fragmentTransaction.hide(this);
-            fragmentTransaction.addToBackStack(fragment.getTag());
+            if (!(fragment instanceof ProdRegProcessFragment))
+                fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
             Log.e(TAG, "IllegalStateException" + e.getMessage());
@@ -148,7 +150,7 @@ public abstract class ProdRegBaseFragment extends Fragment {
         mActionbarUpdateListener.updateActionbar(getActionbarTitle());
     }
 
-    protected void showAlert(final String title, final String description, final int responseCode) {
+    protected void showAlert(final String title, final String description) {
         final ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
         modalAlertDemoFragment.show(getActivity().getSupportFragmentManager(), "dialog");
         Handler handler = new Handler();

@@ -33,6 +33,7 @@ public class MainActivity extends UiKitActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.parent_layout, launchFragment,
                 "Demo_Launch_fragment");
+        fragmentTransaction.addToBackStack(launchFragment.getTag());
         fragmentTransaction.commit();
     }
 
