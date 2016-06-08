@@ -1,6 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.philips.platform.appinfra.AppInfra;
 
@@ -17,6 +23,17 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     AppInfra mAppInfra;
     Context context;
     Context localContext;
+    boolean isDataAvailable = false;
+    String countryCode;
+    String URL = "https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en&country=IN";
+    boolean mHomeCountry = false;
+    boolean mServiceUrlWithLanguagePreference = false;
+    boolean mServiceUrlWithCountryPreference= false;
+    boolean mServiceLocaleWithLanguagePreference= false;
+    boolean mServiceLocaleWithCountryPreference= false;
+    boolean mServicesWithLanguagePreferenceMultiple= false;
+    boolean mmServiceUrlWithCountryPreferenceMultiple= false;
+
 
     OnGetServicesListener mOnGetServicesListener;
 
@@ -31,74 +48,258 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public void getservice() {
-//        ServiceDiscoveryMain demo = new ServiceDiscoveryMain(this);
-        new RequestManager(context).execute("https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en&country=IN");
+
+        String url = buildUrl();
+        new RequestManager(context).execute(url);
+    }
+    private String  buildUrl(){
+        AppIdentityManager idntityManager = new AppIdentityManager(mAppInfra);
+        LocalManager locamManager= new LocalManager(mAppInfra);
+        String URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&country="+ locamManager.getCountry();
+        return URL;
     }
 
     @Override
-    public void getHomeCountry(OnGetHomeCountryListener listener) {
+    public void getHomeCountry(final OnGetHomeCountryListener listener) {
+        String country = null;
+        LocalManager locamManager= new LocalManager(mAppInfra);
+        country=locamManager.getCountry();
+        if(country == null && country.contains("")){
+
+        }else{
+            setHomeCountry(country);
+            listener.onSuccess(country, OnGetHomeCountryListener.SOURCE.GEOIP);
+        }
+//        mHomeCountry = true;
+//        if(isDataAvailable){
+//            filteresDataServicesWithCountryPreference(null,null, null, listener, null);
+//        }else{
+//            refresh((new OnRefreshListener() {
+//                @Override
+//                public void onError(ERRORVALUES error, String message) {
+//
+//                }
+//
+//                @Override
+//                public void onSuccess() {
+//                    filteresDataServicesWithCountryPreference(null,null, null, listener, null);
+//                }
+//            }));
+//        }
 
     }
 
     @Override
     public void setHomeCountry(String countryCode) {
+        this.countryCode =countryCode;
+    }
+
+    @Override
+    public void getServiceUrlWithLanguagePreference(final String serviceId, final OnGetServiceUrlListener listener) {
+        mServiceUrlWithLanguagePreference = true;
+        if(isDataAvailable){
+            filteresDataServicesWithCountryPreference(serviceId, null, listener, null, null);
+        }else{
+            refresh((new OnRefreshListener() {
+                @Override
+                public void onError(ERRORVALUES error, String message) {
+
+                }
+
+                @Override
+                public void onSuccess() {
+                    filteresDataServicesWithCountryPreference(serviceId, null, listener, null, null);
+                }
+            }));
+        }
 
     }
 
     @Override
-    public void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener) {
+    public void getServiceUrlWithCountryPreference(final String serviceId, final OnGetServiceUrlListener listener) {
+        mServiceUrlWithCountryPreference = true;
+        if(isDataAvailable){
+            filteresDataServicesWithCountryPreference(serviceId, null, listener, null, null);
+        }else{
+            refresh((new OnRefreshListener() {
+                @Override
+                public void onError(ERRORVALUES error, String message) {
+
+                }
+
+                @Override
+                public void onSuccess() {
+                    filteresDataServicesWithCountryPreference(serviceId,null,  listener, null, null);
+                }
+            }));
+        }
 
     }
 
     @Override
-    public void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener) {
+    public void getServiceLocaleWithLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener) {
+        mServiceLocaleWithLanguagePreference = true;
+
+        if(isDataAvailable){
+            filteresDataServicesWithCountryPreference(serviceId,listener, null, null, null);
+        }else{
+            refresh((new OnRefreshListener() {
+                @Override
+                public void onError(ERRORVALUES error, String message) {
+
+                }
+
+                @Override
+                public void onSuccess() {
+                    filteresDataServicesWithCountryPreference(serviceId, listener,null, null, null);
+                }
+            }));
+        }
 
     }
 
     @Override
-    public void getServiceLocaleWithLanguagePreference(String serviceId, OnGetServiceLocaleListener listener) {
+    public void getServiceLocaleWithCountryPreference(final String serviceId, final OnGetServiceLocaleListener listener) {
+        mServiceLocaleWithCountryPreference = true;
+        if(isDataAvailable){
+            filteresDataServicesWithCountryPreference(serviceId, listener, null, null, null);
+        }else{
+            refresh((new OnRefreshListener() {
+                @Override
+                public void onError(ERRORVALUES error, String message) {
+
+                }
+
+                @Override
+                public void onSuccess() {
+                    filteresDataServicesWithCountryPreference(serviceId, listener, null, null, null);
+                }
+            }));
+        }
 
     }
 
     @Override
-    public void getServiceLocaleWithCountryPreference(String serviceId, OnGetServiceLocaleListener listener) {
+    public void getServicesWithLanguagePreference(final String serviceIds, final OnGetServicesListener listener) {
+        mServicesWithLanguagePreferenceMultiple = true;
+        if(isDataAvailable){
+            filteresDataServicesWithCountryPreference(serviceIds,null, null, null, listener);
+        }else{
+            refresh((new OnRefreshListener() {
+                @Override
+                public void onError(ERRORVALUES error, String message) {
+
+                }
+
+                @Override
+                public void onSuccess() {
+                    filteresDataServicesWithCountryPreference(serviceIds,null, null, null, listener);
+                }
+            }));
+        }
 
     }
 
     @Override
-    public void getServicesWithLanguagePreference(String[] serviceIds, OnGetServicesListener listener) {
+    public void getServicesWithCountryPreference(final String serviceIds, final OnGetServicesListener listener) {
+        mmServiceUrlWithCountryPreferenceMultiple = true;
+
+        if(isDataAvailable){
+            filteresDataServicesWithCountryPreference(serviceIds,null, null, null, listener);
+        }else{
+            refresh((new OnRefreshListener() {
+                @Override
+                public void onError(ERRORVALUES error, String message) {
+
+                }
+
+                @Override
+                public void onSuccess() {
+                    filteresDataServicesWithCountryPreference(serviceIds,null, null, null, listener);
+                }
+            }));
+        }
 
     }
 
-    @Override
-    public void getServicesWithCountryPreference(String serviceIds, OnGetServicesListener listener) {
+    private void filteresDataServicesWithCountryPreference(String serviceIds, OnGetServiceLocaleListener listener, OnGetServiceUrlListener mOnGetServiceUrlListener, OnGetHomeCountryListener mOnGetHomeCountryListener, OnGetServicesListener mOnGetServicesListener){
+
 
         Map<String,ServiceUrlandLocale> responseMap= new HashMap<String,ServiceUrlandLocale>();
-        for(int configCount=0;configCount<RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().size();configCount++) {
-            HashMap<String, String> urls = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(configCount).getUrls();
-            String serviceUrlval = null;
-            for (String key : urls.keySet()) {
-                if (key.contains(serviceIds)) {
-                    serviceUrlval = urls.get(key);
-                    URL serviceURL = null;
-                    try {
-                        serviceURL = new URL(serviceUrlval);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
 
-                    ServiceUrlandLocale serviceUrlandLocale = new ServiceUrlandLocale(serviceURL, RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
-                    responseMap.put(key,serviceUrlandLocale );
-                }
+       if(mServiceUrlWithLanguagePreference){
+            try {
+                mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds)));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
             }
 
+        }else if(mServiceUrlWithCountryPreference){
+            try {
+                mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds)));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+        }else if(mServiceLocaleWithLanguagePreference){
+            listener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
+
+        }else if(mServiceLocaleWithCountryPreference){
+           listener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
+        }else if(mServicesWithLanguagePreferenceMultiple){
+            mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds));
+
+        }else if(mmServiceUrlWithCountryPreferenceMultiple){
+            mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds));
         }
-        listener.onSuccess(responseMap);
+
+
+        //this is future implementaion
+
+//        for(int configCount=0;configCount<RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().size();configCount++) {
+//            HashMap<String, String> urls = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(configCount).getUrls();
+//            String serviceUrlval = null;
+//            for (String key : urls.keySet()) {
+//                if (key.contains(serviceIds)) {
+//                    serviceUrlval = urls.get(key);
+//                    URL serviceURL = null;
+//                    try {
+//                        serviceURL = new URL(serviceUrlval);
+//                    } catch (MalformedURLException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    ServiceUrlandLocale serviceUrlandLocale = new ServiceUrlandLocale(serviceURL, RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
+//                    responseMap.put(key,serviceUrlandLocale );
+//                }
+//            }
+//
+//        }
 
     }
 
-    @Override
-    public void refresh(OnRefreshListener listener) {
 
+    @Override
+    public void refresh(final OnRefreshListener listener) {
+        new AsyncTask<String, String, String>(){
+
+            @Override
+            protected String doInBackground(String... params) {
+                getservice();
+                return null;
+            }
+            protected void onProgressUpdate(String... progress) {
+            }
+            protected void onPostExecute(String result) {
+                if(RequestManager.mServiceDiscovery.isSuccess()){
+                    isDataAvailable = true;
+                listener.onSuccess();
+                }else{
+//                    if(RequestManager.mServiceDiscovery.getHttpStatus())
+//                    listener.onError();
+                }
+
+            }
+                }.execute(URL,"","");
     }
 }

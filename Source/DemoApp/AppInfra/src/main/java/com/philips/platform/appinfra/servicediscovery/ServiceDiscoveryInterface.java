@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.servicediscovery;
 
 import java.net.URL;
@@ -35,7 +40,8 @@ public interface ServiceDiscoveryInterface {
         void onSuccess(String locale);
     }
     interface OnGetServicesListener extends OnErrorListener {
-        void onSuccess(Map<String, ServiceUrlandLocale> services);
+//        void onSuccess(Map<String, ServiceUrlandLocale> services);
+            void onSuccess(String services);
     }
     interface OnRefreshListener extends OnErrorListener {
         void onSuccess();
@@ -85,7 +91,7 @@ public interface ServiceDiscoveryInterface {
      *                 and their URL + locale (value), the value will be null if the service is unknown;
      *                 or returns onError the error code when retrieval failed.
      */
-    void getServicesWithLanguagePreference(String[] serviceIds, OnGetServicesListener listener);
+    void getServicesWithLanguagePreference(String serviceIds, OnGetServicesListener listener);
     /**
      * Returns the URLs + locales for a set of services with a preference for the current home country.
      * @param serviceIds list of service names for which the URL + locale are to be retrieved

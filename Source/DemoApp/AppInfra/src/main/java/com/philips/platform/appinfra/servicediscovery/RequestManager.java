@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.app.Activity;
@@ -94,6 +99,7 @@ public class RequestManager{
 
                                 // START setting match by country
                                 JSONObject payloadJSONObject = response.getJSONObject("payload");
+                                mServiceDiscovery.setSuccess(response.optBoolean("success"));
                                 JSONObject matchByCountryJSONObject = payloadJSONObject.getJSONObject("matchByCountry");
                                 MatchByCountry
                                         matchByCountry = new MatchByCountry();

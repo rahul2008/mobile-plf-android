@@ -29,7 +29,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     }
 
     @Override
-    public void onSuccess(Map<String, ServiceDiscoveryInterface.ServiceUrlandLocale> services) {
+    public void onSuccess(String services) {
         Log.i("Success", ""+services);
     }
 
