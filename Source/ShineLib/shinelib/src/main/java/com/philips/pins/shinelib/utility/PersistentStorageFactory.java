@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * Class responsible for initializing various shared preferences used for storage.
  * <p/>
- * Use this class to obtain and retrieve/store storage for user data preferences, associated devices' info and other data.
+ * Use this class to obtain persistent storage for user data, associated devices' info and other data.
  */
 public class PersistentStorageFactory {
 
@@ -32,7 +32,7 @@ public class PersistentStorageFactory {
     /**
      * Returns BlueLib general storage.
      *
-     * @return storage that can be used to retrieve/store general data.
+     * @return persistent storage that must be used to retrieve/store general data.
      */
     @NonNull
     public PersistentStorage getPersistentStorage() {
@@ -42,7 +42,7 @@ public class PersistentStorageFactory {
     /**
      * Returns BlueLib user specific storage.
      *
-     * @return storage that can be used to retrieve/store user data.
+     * @return persistent storage that maust be used to retrieve/store user data.
      */
     @NonNull
     public PersistentStorage getPersistentStorageForUser() {
@@ -52,8 +52,8 @@ public class PersistentStorageFactory {
     /**
      * Returns BlueLib device specific storage.
      *
-     * @param device instance to access storage for
-     * @return storage that can be used to retrieve/store device data.
+     * @param device instance to obtain persistent storage for
+     * @return persistent storage that must be used to retrieve/store device data.
      */
     @NonNull
     public PersistentStorage getPersistentStorageForDevice(@NonNull final SHNDevice device) {
@@ -63,8 +63,8 @@ public class PersistentStorageFactory {
     /**
      * Returns BlueLib device specific storage.
      *
-     * @param deviceAddress of a device to access storage for
-     * @return storage that can be used to retrieve/store device data.
+     * @param deviceAddress of a device to obtain persistent storage for
+     * @return persistent storage that must be used to retrieve/store device data.
      */
     @NonNull
     public PersistentStorage getPersistentStorageForDevice(@NonNull final String deviceAddress) {
