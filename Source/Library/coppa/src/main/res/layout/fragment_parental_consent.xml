@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:reglib="http://reg.lib/schema"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/reg_layout_bg"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+              xmlns:reglib="http://reg.lib/schema"
+              android:layout_width="match_parent"
+              android:layout_height="fill_parent"
+              android:background="@drawable/reg_layout_bg"
+              android:focusable="true"
+              android:focusableInTouchMode="true">
 
     <ScrollView
         android:id="@+id/sv_root_layout"
@@ -28,13 +28,14 @@
                 android:paddingRight="@dimen/reg_layout_margin">
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
-                    style="@style/reg_textStyle"
+                    android:id="@+id/tv_reg_confirm_approval_title"
+                    style="@style/reg_titleTextStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
-                    android:gravity="left"
-                    android:text="@string/Parental_consent_reconfirm_title"
-                    android:textSize="@dimen/reg_title_text_size"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+                    android:paddingLeft="0dip"
+                    android:text="@string/Request_Parental_consent_Title"
+                    android:visibility="visible"
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     style="@style/reg_textStyle"
@@ -42,9 +43,7 @@
                     android:layout_marginTop="0dip"
                     android:gravity="left"
                     android:text="@string/Parental_consent_reconfirm_title_desc1"
-                    android:textColor="@color/reg_text_desc_color"
-                    android:textSize="@dimen/reg_title_text_size_medium"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     style="@style/reg_textStyle"
@@ -52,33 +51,33 @@
                     android:layout_marginTop="0dip"
                     android:gravity="left"
                     android:text="@string/Parental_consent_reconfirm_title_desc2"
-                    android:textColor="@color/reg_text_desc_color"
-                    android:textSize="@dimen/reg_title_text_size_medium"
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/btn_parental_consent_reconfirm_confirm"
                     style="@style/reg_style_btn"
-                    android:layout_marginTop="@dimen/reg_marginTopButton"
                     android:layout_height="@dimen/reg_btn_height"
+                    android:layout_marginTop="@dimen/reg_marginTopButton"
 
                     android:background="@drawable/reg_btn_enabled_rect"
                     android:text="@string/Parental_consent_reconfirm_btn_confirm"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/btn_parental_consent_reconfirm_cancel"
                     style="@style/reg_style_btn"
-                    android:layout_marginTop="@dimen/reg_marginTopButton"
                     android:layout_height="@dimen/reg_btn_height"
+                    android:layout_marginTop="@dimen/reg_marginTopButton"
                     android:background="@drawable/reg_btn_forgot_rect"
                     android:text="@string/Parental_consent_reconfirm_btn_cancel"
                     android:textColor="@color/reg_text_heading_one_color"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
             </LinearLayout>
 
 
-
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/reg_scroll_margin"/>
 
 
         </LinearLayout>
