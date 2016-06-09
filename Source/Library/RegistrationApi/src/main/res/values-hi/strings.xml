@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">कृपया मान्य ईमेल पता दर्ज करें.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">ईमेल पता पहले से उपयोग में है</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">यह ईमेल पता पहले से किसी Philips खाते या सामाजिक मीडिया खाते के साथ उपयोग में है.\nकृपया \'लॉग इन करें\' चरण पर वापस जाएँ या किसी अन्य ईमेल पते का उपयोग करें.</string>
-<string name="PrivacyPolicyText">गोपनीयता नोटिस</string>
+<string name="PrivacyNoticeText">गोपनीयता नोटिस</string>
 <string name="TermsAndConditionsText">नियम और शर्तें</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">कृपया आपके ईमेल खाते पर भेजी गई सक्रियण लिंक के माध्यम से अपने ईमेल पते का सत्यापन करें</string>
 <string name="RegVerifyEmailView_VerificationEmailText">हमने इस पर एक ईमेल भेजा है: %s. ईमेल पहुँचने में कुछ समय लग सकता है.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">हमारी %s और %s पढ़ें.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">हमारी %s और %s पढ़ें.</string>
+<string name="LegalNoticeText">हमारी %s पढ़ें</string>
 <string name="AgeLimitText">कोई खाता बनाकर या साइन इन करके आप यह सत्यापित करते हैं, कि आप %s वर्ष के या इससे बड़े हैं.\n</string>
 <string name="TermsAndConditionsAcceptanceText">मैं अनुप्रयोग के %s को स्वीकार करता हूँ</string>
 <string name="TermsAndConditionsAcceptanceText_Error">कृपया नियम और शर्तों को स्वीकारें</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">खाता सेटिंग्स</string>
 <string name="Create_With_lbltxt">या कोई खाता बनाएँ</string>
 <string name="myphilips_CC">MyPhilips खाता</string>
+<string name="Generic_Network_Error">ओह! कुछ गलत हुआ. कृपया बाद में फिर से प्रयास करें</string>
+<string name="Already_Verified_Message">आपका ईमेल पहले से सत्यापित किया गया है. आप जारी रख सकते हैं.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

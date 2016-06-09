@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Sila masukkan alamat e-mel yang sah.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Alamat e-mel telah digunakan</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Alamat e-mel ini telah digunakan untuk akaun Philips atau akaun media sosial. \nSila kembali ke langkah \'Log masuk\' atau gunakan alamat e-mel lain.</string>
-<string name="PrivacyPolicyText">Notis Privasi</string>
+<string name="PrivacyNoticeText">Notis Privasi</string>
 <string name="TermsAndConditionsText">Terma dan Syarat</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Sila sahkan alamat e-mel anda melalui pautan pengesahan yang dihantar kepada akaun e-mel anda</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Kami telah menghantar e-mel kepada %s. E-mel tersebut akan mengambil sedikit masa untuk sampai.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Sila baca %s dan %s kami.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Sila baca %s dan %s kami.</string>
+<string name="LegalNoticeText">Sila baca %s kami</string>
 <string name="AgeLimitText">Dengan mencipta akaun atau mendaftar masuk, anda mengesahkan yang anda berumur %s tahun atau ke atas.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Saya menerima %s aplikasi</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Sila terima Terma &amp; Syarat</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Tetapan akaun</string>
 <string name="Create_With_lbltxt">Atau cipta akaun</string>
 <string name="myphilips_CC">Akaun MyPhilips</string>
+<string name="Generic_Network_Error">Op! Terdapat ralat. Sila cuba lagi kemudian</string>
+<string name="Already_Verified_Message">E-mel anda telah disahkan. Anda boleh teruskan.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Introduza um endereço de correio electrónico válido.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">O endereço de correio electrónico já está a ser utilizado</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Este endereço de correio electrónico já está a ser utilizado com uma conta Philips ou de uma rede social.\nVolte ao passo \'Iniciar sessão\' ou utilize outro endereço de correio electrónico.</string>
-<string name="PrivacyPolicyText">Declaração de privacidade</string>
+<string name="PrivacyNoticeText">Declaração de privacidade</string>
 <string name="TermsAndConditionsText">Termos e condições</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Verifique o seu endereço de correio electrónico através da ligação de activação enviada para a sua conta de correio electrónico</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Enviámos uma mensagem de correio electrónico para: %s. Esta pode demorar algum tempo a chegar.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Leia os nossos %s e %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Leia os nossos %s e %s.</string>
+<string name="LegalNoticeText">Leia os nossos %s</string>
 <string name="AgeLimitText">Ao criar uma conta ou iniciar sessão, está a garantir de que tem idade igual ou superior a %s anos.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Aceito os %s da aplicação</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Aceite os Termos e condições</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Definições da conta</string>
 <string name="Create_With_lbltxt">Ou crie uma conta</string>
 <string name="myphilips_CC">Conta MyPhilips</string>
+<string name="Generic_Network_Error">Ups! Ocorreu um erro. Tente novamente mais tarde</string>
+<string name="Already_Verified_Message">O seu correio electrónico já foi verificado. Pode continuar.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

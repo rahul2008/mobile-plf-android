@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Wprowadź prawidłowy adres e-mail.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Adres e-mail jest już w użyciu</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Ten adres e-mail jest już używany z kontem Philips lub kontem w serwisie społecznościowym.\nCofnij się do ekranu logowania lub użyj innego adresu e-mail.</string>
-<string name="PrivacyPolicyText">Oświadczenie dotyczące prywatności</string>
+<string name="PrivacyNoticeText">Oświadczenie dotyczące prywatności</string>
 <string name="TermsAndConditionsText">Warunki</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Zweryfikuj adres e-mail za pomocą łącza aktywacji wysłanego na Twoje konto e-mail</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Wysłaliśmy wiadomość e-mail na adres %s. Dostarczenie wiadomości e-mail może trochę potrwać.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Przeczytaj dokumenty %s i %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Przeczytaj dokumenty %s i %s.</string>
+<string name="LegalNoticeText">Przeczytaj dokumenty %s</string>
 <string name="AgeLimitText">Tworząc konto lub logując się, potwierdzasz, że masz ukończone %s lat.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Akceptuję %s aplikacji</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Zaakceptuj warunki</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Ustawienia konta</string>
 <string name="Create_With_lbltxt">Możesz też utworzyć konto</string>
 <string name="myphilips_CC">Konto MyPhilips</string>
+<string name="Generic_Network_Error">Niestety wystąpił błąd. Spróbuj ponownie później.</string>
+<string name="Already_Verified_Message">Twój adres e-mail został już zweryfikowany. Możesz kontynuować.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Kirjoita kelvollinen sähköpostiosoite.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Sähköpostiosoite on jo käytössä</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Tämä sähköpostiosoite on jo Philips-tilin tai yhteisöpalvelun tilin käytössä.\nPalaa takaisin kirjautumisvaiheeseen tai käytä toista sähköpostiosoitetta.</string>
-<string name="PrivacyPolicyText">Tietosuojalausunto</string>
+<string name="PrivacyNoticeText">Tietosuojalausunto</string>
 <string name="TermsAndConditionsText">Käyttöehdot</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Vahvista sähköpostiosoitteesi sinulle lähetetyssä viestissä olevan aktivointilinkin kautta</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Olemme lähettäneet viestin sähköpostiosoitteeseen %s. Viestin saapuminen saattaa kestää jonkin aikaa.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">WordPress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Lue seuraavat: %s ja %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Lue seuraavat: %s ja %s.</string>
+<string name="LegalNoticeText">Lue seuraavat: %s</string>
 <string name="AgeLimitText">Luomalla tilin tai kirjautumalla sisään vahvistat olevasi vähintään %s-vuotias.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Hyväksyn sovelluksen %s</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Hyväksy Käyttöehdot</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Tilin asetukset</string>
 <string name="Create_With_lbltxt">Tai luo tili</string>
 <string name="myphilips_CC">MyPhilips-tili</string>
+<string name="Generic_Network_Error">Voi ei, jokin meni pieleen. Yritä myöhemmin uudelleen.</string>
+<string name="Already_Verified_Message">Sähköpostiosoitteesi on jo vahvistettu. Voit jatkaa.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

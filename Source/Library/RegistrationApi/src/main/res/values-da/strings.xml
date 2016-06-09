@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Indtast gyldig e-mailadresse.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">E-mailadressen anvendes allerede</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Denne e-mailadresse anvendes allerede med en Philips-konto eller en konto på de sociale medier.\nGå tilbage til trinnet \"Log ind\", eller brug en anden e-mailadresse.</string>
-<string name="PrivacyPolicyText">Meddelelse om beskyttelse af personlige oplysninger</string>
+<string name="PrivacyNoticeText">Meddelelse om beskyttelse af personlige oplysninger</string>
 <string name="TermsAndConditionsText">Vilkår og betingelser</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Kontroller din e-mailadresse via det aktiveringslink, der er sendt til din e-mailkonto</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Vi har sendt en e-mail til: %s. Det kan tage noget tid, før e-mailen kommer.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Læs vores %s og %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Læs vores %s og %s.</string>
+<string name="LegalNoticeText">Læs vores %s</string>
 <string name="AgeLimitText">Ved at oprette en konto eller logge på bekræfter du, at du er %s år eller ældre.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Jeg accepterer app\'ens %s</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Accepter Vilkår og betingelser</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Kontoindstillinger</string>
 <string name="Create_With_lbltxt">Eller opret en konto</string>
 <string name="myphilips_CC">MyPhilips-konto</string>
+<string name="Generic_Network_Error">Ups! Noget gik galt. Prøv igen senere</string>
+<string name="Already_Verified_Message">Din e-mail er allerede bekræftet. Du kan fortsætte.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

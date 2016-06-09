@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Γράψτε μια έγκυρη διεύθυνση email.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Η διεύθυνση email χρησιμοποιείται ήδη</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Αυτή η διεύθυνση email χρησιμοποιείται ήδη με ένα λογαριασμό Philips ή λογαριασμό κοινωνικής δικτύωσης.\nΕπιστρέψτε στο βήμα \"Σύνδεση\" ή χρησιμοποιήστε μια άλλη διεύθυνση email.</string>
-<string name="PrivacyPolicyText">Δήλωση απορρήτου</string>
+<string name="PrivacyNoticeText">Δήλωση απορρήτου</string>
 <string name="TermsAndConditionsText">Όροι και προϋποθέσεις</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Επαληθεύστε τη διεύθυνση email σας μέσω του συνδέσμου ενεργοποίησης που έχει σταλεί στο λογαριασμό email σας</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Έχουμε στείλει ένα email στη διεύθυνση %s. Ίσως χρειαστεί λίγη ώρα μέχρι να φτάσει το email.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">WordPress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Διαβάστε τους %s και τις %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Διαβάστε τους %s και τις %s.</string>
+<string name="LegalNoticeText">Διαβάστε τους %s </string>
 <string name="AgeLimitText">Αν δημιουργήσετε λογαριασμό ή συνδεθείτε, βεβαιώνετε ότι είστε %s ετών και άνω.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Αποδέχομαι τους %s της εφαρμογής</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Αποδεχτείτε τους Όρους και τις προϋποθέσεις</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Ρυθμίσεις λογαριασμού</string>
 <string name="Create_With_lbltxt">Ή δημιουργήστε λογαριασμό</string>
 <string name="myphilips_CC">Λογαριασμός MyPhilips</string>
+<string name="Generic_Network_Error">Δυστυχώς, προέκυψε κάποιο σφάλμα. Δοκιμάστε ξανά αργότερα.</string>
+<string name="Already_Verified_Message">Η διεύθυνση email έχει επαληθευτεί. Μπορείτε να συνεχίσετε.</string>
+<string name="Ok_Btn_Txt">ΟΚ</string>
 </resources>

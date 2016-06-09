@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Внесете валидна e-mail адреса.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">E-mail адресата е веќе во употреба</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Оваа e-mail адреса е веќе во употреба од страна на друга Philips сметка или сметка на социјална мрежа.\nВратете се на чекорот \'Најавување\', или пак искористете друга e-mail адреса.</string>
-<string name="PrivacyPolicyText">Известување за приватност</string>
+<string name="PrivacyNoticeText">Известување за приватност</string>
 <string name="TermsAndConditionsText">Одредби и услови</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Ве молиме потврдете ја вашата e-mail адреса преку врската за активирање која ви е испратена на вашата e-mail сметка</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Испративме e-mail порака на: %s. Можеби ќе биде потребно одредено време за да пристигне e-mail пораката.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Прочитајте ги нашите %s и %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Прочитајте ги нашите %s и %s.</string>
+<string name="LegalNoticeText">Прочитајте ги нашите %s</string>
 <string name="AgeLimitText">Со креирањето на смета или со најавувањето потврдувате дека имате %s години или повеќе.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Ги прифаќам %s на апликацијата</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Ве молиме прифатете ги одредбите и условите</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Поставки за сметка</string>
 <string name="Create_With_lbltxt">Или креирајте сметка</string>
 <string name="myphilips_CC">MyPhilips сметка</string>
+<string name="Generic_Network_Error">Упс! Нешто тргна наопаку. Обидете се подоцна</string>
+<string name="Already_Verified_Message">Вашата е-пошта е веќе потврдена. Можете да продолжите.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>
