@@ -10,7 +10,7 @@ import com.philips.pins.shinelib.SHNFirmwareInfoResultListener;
 import com.philips.pins.shinelib.SHNResult;
 
 /**
- * Interface to upload and deploy a different firmware version to a peripheral.
+ * Interface to upload and deploy firmware to a peripheral.
  */
 public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
 
@@ -19,11 +19,12 @@ public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
      */
     enum SHNFirmwareUpdateState {
         /**
-         * Idle state. Firmware upload can only be started in {@code SHNFirmwareUpdateStateIdle} state.
+         * Idle state. Firmware upload can only be started from {@code SHNFirmwareUpdateStateIdle} state.
          */
         SHNFirmwareUpdateStateIdle,
         /**
-         * Preparing state. Note all devices require {@code SHNFirmwareUpdateStatePreparing} state.
+         * Preparing state. In this state, the peripheral is preparing for receiving a firmware image.
+         * Note that a devices may not go through this state.
          */
         SHNFirmwareUpdateStatePreparing,
         /**
@@ -31,7 +32,8 @@ public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
          */
         SHNFirmwareUpdateStateUploading,
         /**
-         * Verifying state. Note all devices require {@code SHNFirmwareUpdateStateVerifying} state.
+         * Verifying state. In this state the peripheral is verifying the received firmware image.
+         * Note that a devices may not go through this state.
          */
         SHNFirmwareUpdateStateVerifying,
         /**
@@ -99,7 +101,7 @@ public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
         void onStateChanged(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
 
         /**
-         * Indicates the progress in firmware upload.
+         * Indicates the progress of the firmware upload.
          *
          * @param shnCapabilityFirmwareUpdate that made the progress
          * @param progress                    current progress
@@ -107,7 +109,7 @@ public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
         void onProgressUpdate(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, float progress);
 
         /**
-         * Indicates that upload has failed.
+         * Indicates that the upload has failed.
          *
          * @param shnCapabilityFirmwareUpdate that failed to upload the firmware image
          * @param shnResult                   reason to fail
@@ -115,14 +117,14 @@ public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
         void onUploadFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult);
 
         /**
-         * Indicates that upload of the firmware image has been finished successfully.
+         * Indicates that the upload of the firmware image has finished successfully.
          *
          * @param shnCapabilityFirmwareUpdate that succeeded to upload the firmware image
          */
         void onUploadFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
 
         /**
-         * Indicates that deploy of the firmware image has failed.
+         * Indicates that deploying the firmware image has failed.
          *
          * @param shnCapabilityFirmwareUpdate that failed to deploy the firmware image
          * @param shnResult                   reason to fail
@@ -130,7 +132,9 @@ public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
         void onDeployFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult);
 
         /**
-         * Indicates that deploy of the firmware image has been finished with the result.
+         * Indicates that deploying the firmware image has finished successfully. The shnResult parameter
+         * provides additional information about the deploy. The peripheral documentation should provide
+         * details on the meaning of this parameter.
          *
          * @param shnCapabilityFirmwareUpdate that finished the deploy of the firmware image
          * @param shnResult                   the result of the firmware deploy

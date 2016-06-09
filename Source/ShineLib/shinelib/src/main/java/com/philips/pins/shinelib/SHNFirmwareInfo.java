@@ -45,7 +45,7 @@ public class SHNFirmwareInfo {
     }
 
     /**
-     * @return a string representation of firmware version for the being uploaded or already uploaded firmware image.
+     * @return a string representation of the firmware version for the being uploaded or already uploaded firmware image.
      */
     public String getVersion() {
         return version;
