@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ratingthememain"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -51,8 +50,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:paddingRight="@dimen/network_margin_left_right"
-            android:visibility="gone"
-            app:srcCompat="@drawable/iap_shopping_cart" />
+            android:visibility="gone" />
 
         <com.philips.cdp.uikit.customviews.BadgeView
             android:id="@+id/item_count"
