@@ -1,5 +1,6 @@
 package com.philips.platform.appinfra.demo;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,17 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         mServiceDiscoveryInterface = appInfra.getServiceDiscoveryInterface();
 //        mServiceDiscoveryInterface.getservice();
         mServiceDiscoveryInterface.getServicesWithCountryPreference("ugrow.privacy",this );
+        mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+        }, "");
 //        mServiceDiscoveryInterface.getServicesWithLanguagePreference("ugrow.terms",this );
 //        mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference("ugrow.privacy",this );
 //        mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference("ugrow.privacy",this );
