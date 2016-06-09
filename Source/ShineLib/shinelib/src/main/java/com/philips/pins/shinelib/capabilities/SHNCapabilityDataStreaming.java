@@ -12,16 +12,25 @@ import com.philips.pins.shinelib.datatypes.SHNData;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 
 /**
- * Interface to receive stream of {@link SHNData} from a peripheral.
+ * Interface to receive a stream of {@link SHNData} objects from a peripheral. Each peripheral
+ * has its own set of data types for which it supports streaming.
  */
 public interface SHNCapabilityDataStreaming extends SHNCapability {
 
+    /**
+     * Interface containing the callback through which received streaming events are reported.
+     */
     interface SHNCapabilityDataStreamingListener {
+        /**
+         * Callback carrying a data element for which streaming is enabled.
+         *
+         * @param data the streamed event data.
+         */
         void onReceiveData(SHNData data);
     }
 
     /**
-     * Returns a list of supported {@link SHNDataType} for streaming by the peripheral.
+     * Returns a set of {@link SHNDataType} for which the peripheral supports streaming.
      *
      * @param listener a callback to receive the list
      */
