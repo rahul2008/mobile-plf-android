@@ -55,7 +55,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             urlBuild= buildUrl();
         }
 
-        if(url!= null){
+        if(urlBuild!= null){
             new RequestManager(context).execute(urlBuild);
         }
 

@@ -20,14 +20,21 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     ServiceDiscoveryInterface.OnGetServicesListener mOnGetServicesListener = null;
+    ServiceDiscoveryInterface.OnGetServiceLocaleListener mOnGetServiceLocaleListener = null;
+    ServiceDiscoveryInterface.OnGetServiceUrlListener mOnGetServiceUrlListener = null;
+    AppInfra appInfra;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppInfra appInfra = AppInfraApplication.gAppInfra;
+        appInfra = AppInfraApplication.gAppInfra;
         mServiceDiscoveryInterface = appInfra.getServiceDiscoveryInterface();
 //        mServiceDiscoveryInterface.getservice();
         mServiceDiscoveryInterface.getServicesWithCountryPreference("ugrow.privacy",this );
+        mOnGetServicesListener=this;
+        mOnGetServiceLocaleListener=this;
+        mOnGetServiceUrlListener=this;
+
         mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
             @Override
             public void onError(ERRORVALUES error, String message) {
@@ -36,19 +43,19 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
             @Override
             public void onSuccess() {
-
+                mServiceDiscoveryInterface.getServicesWithCountryPreference("ugrow.privacy",mOnGetServicesListener );
+                mServiceDiscoveryInterface.getServicesWithLanguagePreference("ugrow.terms",mOnGetServicesListener );
+                mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference("ugrow.privacy",mOnGetServiceLocaleListener );
+                mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference("ugrow.terms",mOnGetServiceLocaleListener );
+                mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("ugrow.privacy",mOnGetServiceUrlListener );
+                mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference("ugrow.terms",mOnGetServiceUrlListener );
             }
-        }, "");
-//        mServiceDiscoveryInterface.getServicesWithLanguagePreference("ugrow.terms",this );
-//        mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference("ugrow.privacy",this );
-//        mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference("ugrow.privacy",this );
-//        mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("ugrow.privacy",this );
-//        mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference("ugrow.terms",this );
+        }, "https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en&country=IN");
     }
 
     @Override
     public void onSuccess(String services) {
-        Log.i("Success", ""+services);
+        Log.i("OnGetServicesListener", ""+services);
     }
 
     @Override
