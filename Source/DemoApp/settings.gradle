@@ -1,3 +1,4 @@
 include ':app'
 include ':AppInfra'
+project(':AppInfra').projectDir =new File('../Library/AppInfra')
 

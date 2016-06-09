@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.Manifest;
@@ -22,7 +27,8 @@ public class LocalManager implements LocalInterface {
 
     AppInfra mAppInfra;
     Context context;
-    String s;
+    String mCountry;
+    private static final String COUNTRY_URL = "";
 
     public LocalManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -42,33 +48,59 @@ public class LocalManager implements LocalInterface {
     }
     @Override
     public String  getCountry() {
-        if(s == null){
-            SharedPreferences pref = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE);
-            s = pref.getString("COUNTRY_NAME", null);
-            Log.i("Retried Country", " "+s);
+        SharedPreferences pref = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE);
+        if(mCountry == null){
+            mCountry = pref.getString("COUNTRY_NAME", null);
+            Log.i("Retried Country", " "+mCountry);
+            if(mCountry!= null)
+                return mCountry;
+
         }
-        if(s== null){
+        if(mCountry== null){
+            SharedPreferences.Editor editor = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE).edit();
             try {
                 final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 final String simCountry = tm.getSimCountryIso();
                 if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
-                    s = simCountry.toLowerCase(Locale.US);
-                    return s;
+                    mCountry = simCountry.toLowerCase(Locale.US);
+
+                    editor.putString("COUNTRY_NAME", mCountry);
+                    editor.commit();
+                    if(mCountry!= null)
+                    return mCountry;
                 } else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { //
                     String networkCountry = tm.getNetworkCountryIso();
                     if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
-                        s= networkCountry.toLowerCase(Locale.US);
-                        return s;
+                        mCountry= networkCountry.toLowerCase(Locale.US);
+                        editor.putString("COUNTRY_NAME", mCountry);
+                        editor.commit();
+                        if(mCountry!= null)
+                        return mCountry;
                     }
                 }
             } catch (Exception e) {
             }
         }
 
-        if(s == null){
-        new RequestManager(context).execute("https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en");
+        if(mCountry == null){
+
+            new ServiceDiscoveryManager(mAppInfra).refresh((new ServiceDiscoveryInterface.OnRefreshListener() {
+                @Override
+                public void onError(ERRORVALUES error, String message) {
+
+                }
+                @Override
+                public void onSuccess() {
+                    SharedPreferences pref = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE);
+                    mCountry = pref.getString("COUNTRY_NAME", null);
+                    Log.i("Retried Country", " "+mCountry);
+
+                }
+            }),"https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en");
+        //new RequestManager(context).execute("https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en");
+            return mCountry;
         }
-        return null;
+        return mCountry;
     }
 
 

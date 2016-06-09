@@ -15,6 +15,8 @@ import com.philips.platform.appinfra.servicediscovery.AppIdentityInterface;
 import com.philips.platform.appinfra.servicediscovery.AppIdentityManager;
 import com.philips.platform.appinfra.servicediscovery.LocalInterface;
 import com.philips.platform.appinfra.servicediscovery.LocalManager;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 import com.philips.platform.appinfra.tagging.AIAppTagging;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
@@ -31,6 +33,7 @@ public class AppInfra {
     private final static String APP_INFRA_VERSION = "1.0.1";
     private AppIdentityInterface appIdentity;
     private LocalInterface local;
+    private ServiceDiscoveryInterface mServiceDiscoveryInterface;
 
 
     /**
@@ -49,6 +52,7 @@ public class AppInfra {
         private AIAppTaggingInterface tagging;
         private AppIdentityInterface appIdentity;
         private LocalInterface local;
+        private ServiceDiscoveryInterface mServiceDiscoveryInterface;
 
         /**
          * Instantiates a new Builder.
@@ -60,6 +64,7 @@ public class AppInfra {
             tagging = null;
             appIdentity = null;
             local = null;
+            mServiceDiscoveryInterface = null;
         }
 
 
@@ -112,6 +117,7 @@ public class AppInfra {
             ai.setTagging(tagging == null ? new AIAppTagging(ai) : tagging);
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
             ai.setLocal(local == null ? new LocalManager(ai) : local);
+            ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
             return ai;
         }
     }
@@ -148,6 +154,9 @@ public class AppInfra {
     public LoggingInterface getLogging() {
         return logger;
     }
+    public ServiceDiscoveryInterface getServiceDiscoveryInterface() {
+        return mServiceDiscoveryInterface;
+    }
 
 
     /**
@@ -179,6 +188,11 @@ public class AppInfra {
 
     private void setLocal(LocalInterface locale) {
         local = locale;
+
+    }
+
+    private void setServiceDiscoveryInterface(ServiceDiscoveryInterface mServiceDiscoveryInterfac) {
+        mServiceDiscoveryInterface = mServiceDiscoveryInterfac;
 
     }
 
