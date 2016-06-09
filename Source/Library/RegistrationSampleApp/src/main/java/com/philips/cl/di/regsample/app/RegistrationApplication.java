@@ -87,6 +87,7 @@ public class RegistrationApplication extends Application {
 		hsdpInfo.setBaseURL("https://user-registration-assembly-testing-1600.us-east.philips-healthsuite.com");
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);
 */
+
 		HSDPInfo hsdpInfo = new HSDPInfo();
 		hsdpInfo.setApplicationName("uGrow");
 		hsdpInfo.setSharedId("c62362a0-f02c-11e5-9ce9-5e5517507c66");
