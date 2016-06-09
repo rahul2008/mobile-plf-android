@@ -66,6 +66,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof FooterOrderSummaryViewHolder) {
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
             footerHolder.mTitleBillingAddress.setText(R.string.iap_billing_address);
+            footerHolder.mTitleDeliveryAddress.setText(R.string.iap_shipping_address);
             footerHolder.mTitleVat.setText(R.string.iap_vat);
             footerHolder.mTitleTotalPrice.setText(R.string.iap_total_val);
             AddressFields shippingAddress = CartModelContainer.getInstance().getShippingAddressFields();
