@@ -1,5 +1,8 @@
 package com.philips.pins.shinelib.capabilities;
 
+import android.os.Handler;
+import android.support.annotation.NonNull;
+
 import com.philips.pins.shinelib.SHNFirmwareInfo;
 import com.philips.pins.shinelib.SHNFirmwareInfoResultListener;
 import com.philips.pins.shinelib.SHNMapResultListener;
@@ -43,7 +46,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     private DiCommFirmwarePort diCommPortMock;
 
     @Mock
-    private DiCommFirmwarePortStateWaiter diCommFirmwarePortStateWaiter;
+    private DiCommFirmwarePortStateWaiter diCommFirmwarePortStateWaiterMock;
 
     @Mock
     private SHNCapabilityFirmwareUpdate.SHNCapabilityFirmwareUpdateListener shnCapabilityFirmwareUpdateListenerMock;
@@ -77,14 +80,14 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        capabilityFirmwareUpdateDiComm = new CapabilityFirmwareUpdateDiComm(diCommPortMock, diCommFirmwarePortStateWaiter);
+        capabilityFirmwareUpdateDiComm = new CapabilityFirmwareUpdateDiCommForTest(diCommPortMock, null);
 
         capabilityFirmwareUpdateDiComm.setSHNCapabilityFirmwareUpdateListener(shnCapabilityFirmwareUpdateListenerMock);
     }
 
     @Test
     public void canCreate() throws Exception {
-        new CapabilityFirmwareUpdateDiComm(diCommPortMock, diCommFirmwarePortStateWaiter);
+        new CapabilityFirmwareUpdateDiCommForTest(diCommPortMock, null);
     }
 
     @Test
@@ -107,7 +110,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         when(diCommPortMock.isAvailable()).thenReturn(true);
         when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Downloading);
 
-        CapabilityFirmwareUpdateDiComm capabilityFirmwareUpdateDiComm = new CapabilityFirmwareUpdateDiComm(diCommPortMock, diCommFirmwarePortStateWaiter);
+        CapabilityFirmwareUpdateDiComm capabilityFirmwareUpdateDiComm = new CapabilityFirmwareUpdateDiCommForTest(diCommPortMock, null);
 
         assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateUploading, capabilityFirmwareUpdateDiComm.getState());
     }
@@ -301,7 +304,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         respondWithPortState(DiCommFirmwarePort.State.Ready);
 
-        verify(diCommFirmwarePortStateWaiter).waitUntilStateIsReached(eq(DiCommFirmwarePort.State.Error), waiterListenerArgumentCaptor.capture());
+        verify(diCommFirmwarePortStateWaiterMock).waitUntilStateIsReached(eq(DiCommFirmwarePort.State.Error), waiterListenerArgumentCaptor.capture());
     }
 
     @Test
@@ -371,7 +374,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void whenSubscriptionIsSuccessfulThenStartsWaitingForDownloading() throws Exception {
         whenSubscriptionIsSuccessfulThenDownloadingIsStarted();
 
-        verify(diCommFirmwarePortStateWaiter).waitUntilStateIsReached(eq(DiCommFirmwarePort.State.Downloading), waiterListenerArgumentCaptor.capture());
+        verify(diCommFirmwarePortStateWaiterMock).waitUntilStateIsReached(eq(DiCommFirmwarePort.State.Downloading), waiterListenerArgumentCaptor.capture());
     }
 
     @Test
@@ -382,7 +385,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         verify(shnCapabilityFirmwareUpdateListenerMock).onUploadFailed(capabilityFirmwareUpdateDiComm, SHNResult.SHNErrorConnectionLost);
         assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle, capabilityFirmwareUpdateDiComm.getState());
-        verify(diCommFirmwarePortStateWaiter).cancel();
+        verify(diCommFirmwarePortStateWaiterMock).cancel();
     }
 
     private void verifyChunkWritten(int progress) {
@@ -531,7 +534,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         waiterListenerArgumentCaptor.getValue().onStateUpdated(DiCommFirmwarePort.State.Downloading, SHNResult.SHNOk);
 
-        verify(diCommFirmwarePortStateWaiter).waitUntilStateIsReached(eq(DiCommFirmwarePort.State.Ready), waiterListenerArgumentCaptor.capture());
+        verify(diCommFirmwarePortStateWaiterMock).waitUntilStateIsReached(eq(DiCommFirmwarePort.State.Ready), waiterListenerArgumentCaptor.capture());
     }
 
     @Test
@@ -655,7 +658,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     public void whenInStateDeployingThenStartWaitingForIdle() throws Exception {
         whenPortIsReadyAndDeployFirmwareIsCalledThenStateIsDeploying();
 
-        verify(diCommFirmwarePortStateWaiter).waitUntilStateIsReached(eq(DiCommFirmwarePort.State.Idle), waiterListenerArgumentCaptor.capture());
+        verify(diCommFirmwarePortStateWaiterMock).waitUntilStateIsReached(eq(DiCommFirmwarePort.State.Idle), waiterListenerArgumentCaptor.capture());
     }
 
     @Test
@@ -710,7 +713,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNErrorConnectionLost);
 
-        verify(diCommFirmwarePortStateWaiter).cancel();
+        verify(diCommFirmwarePortStateWaiterMock).cancel();
     }
 
     private void verifyCancelSent() {
@@ -777,7 +780,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         verify(shnCapabilityFirmwareUpdateListenerMock).onUploadFailed(capabilityFirmwareUpdateDiComm, SHNResult.SHNErrorInvalidState);
         verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), any(SHNResultListener.class));
-        verify(diCommFirmwarePortStateWaiter).cancel();
+        verify(diCommFirmwarePortStateWaiterMock).cancel();
     }
 
     @Test
@@ -790,7 +793,18 @@ public class CapabilityFirmwareUpdateDiCommTest {
 
         verify(shnCapabilityFirmwareUpdateListenerMock).onDeployFailed(capabilityFirmwareUpdateDiComm, SHNResult.SHNErrorInvalidState);
         verify(diCommPortMock).unsubscribe(any(DiCommPort.UpdateListener.class), any(SHNResultListener.class));
-        verify(diCommFirmwarePortStateWaiter).cancel();
+        verify(diCommFirmwarePortStateWaiterMock).cancel();
     }
 
+    class CapabilityFirmwareUpdateDiCommForTest extends CapabilityFirmwareUpdateDiComm {
+
+        public CapabilityFirmwareUpdateDiCommForTest(@NonNull DiCommFirmwarePort diCommPort, Handler internalHandler) {
+            super(diCommPort, internalHandler);
+        }
+
+        @Override
+        protected DiCommFirmwarePortStateWaiter createDiCommFirmwarePortStateWaiter(@NonNull DiCommFirmwarePort diCommPort, @NonNull Handler internalHandler) {
+            return diCommFirmwarePortStateWaiterMock;
+        }
+    }
 }
