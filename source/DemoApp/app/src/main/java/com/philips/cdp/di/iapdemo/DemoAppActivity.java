@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -63,6 +64,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         Button mRegister = (Button) findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
+
+        Button mFragmentLaunch = (Button) findViewById(R.id.btn_fragment_launch);
+        mFragmentLaunch.setOnClickListener(this);
 
         mShopNow = (Button) findViewById(R.id.btn_shop_now);
         mShopNow.setOnClickListener(this);
@@ -141,6 +145,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 break;
             case R.id.btn_purchase_history:
                 mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, null, null);
+                break;
+            case R.id.btn_fragment_launch:
+                Intent intent = new Intent(this, LauncherFragmentActivity.class);
+                this.startActivity(intent);
                 break;
             default:
                 break;

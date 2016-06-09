@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.actionlayout;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +18,7 @@ import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.List;
 
@@ -24,12 +26,18 @@ public class IAPActionLayout implements ActionLayoutCallBack {
 
     protected View mBackButton;
     protected ViewGroup mMainLayout;
+    protected Drawable mCartIconDrawable;
+    protected Drawable mBackDrawable;
 
     protected FragmentManager v4FragManager;
+    protected Context mContext;
 
     public IAPActionLayout(Context context, FragmentManager v4FragManager) {
+        this.mContext = context;
         this.v4FragManager = v4FragManager;
         getCustomView(context);
+        mBackDrawable = VectorDrawable.create(context, R.drawable.iap_back_arrow);
+        mCartIconDrawable = VectorDrawable.create(context, R.drawable.iap_shopping_cart);
     }
 
     @Override
@@ -42,8 +50,11 @@ public class IAPActionLayout implements ActionLayoutCallBack {
         if (v == null) {
             v = View.inflate(context, R.layout.iap_action_bar, null);
             mMainLayout = (ViewGroup) v.findViewById(R.id.ratingthememain);
+            mMainLayout.setBackground(getActionBarBackground(context));
+            mMainLayout.setMinimumHeight(getActionBarHeight(context));
         }
-        mBackButton = v.findViewById(R.id.arrow);
+        mBackButton = v.findViewById(R.id.iap_iv_header_back_button);
+        mBackButton.setBackground(mBackDrawable);
         return v;
     }
 
@@ -77,5 +88,21 @@ public class IAPActionLayout implements ActionLayoutCallBack {
             }
         }
         return isBackHandled;
+    }
+
+    private Drawable getActionBarBackground(Context context) {
+        final TypedArray styledAttributes =context.getTheme().obtainStyledAttributes(
+                new int[] { R.attr.uikit_actionBarBackground});
+        Drawable drawable = styledAttributes.getDrawable(0);
+        styledAttributes.recycle();
+        return drawable;
+    }
+
+    private int getActionBarHeight(Context context) {
+        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
+                new int[] { android.R.attr.actionBarSize });
+        int actionBarSize = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
+        return actionBarSize;
     }
 }

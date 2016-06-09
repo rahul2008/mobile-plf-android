@@ -4,8 +4,10 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,30 +27,30 @@ public class IAPFragmentActionLayout extends IAPActionLayout implements IAPFragm
     public IAPFragmentActionLayout(Context context, FragmentManager v4FragManager) {
         super(context, v4FragManager);
         mCountView = (TextView) mMainLayout.findViewById(R.id.item_count);
+
         mCartIcon = (ImageView) mMainLayout.findViewById(R.id.cart_icon);
-        mHeaderTitle = (TextView) mMainLayout.findViewById(R.id.text);
+        mCartIcon.setBackground(mCartIconDrawable);
+        mBackButton.setBackground(mBackDrawable);
+
+        mHeaderTitle = (TextView) mMainLayout.findViewById(R.id.iap_header_title);
         mCartContainer = (ViewGroup) mMainLayout.findViewById(R.id.cart_container);
-        mUPButtonLayout = (ViewGroup) mMainLayout.findViewById(R.id.UpButton);
+        mUPButtonLayout = (ViewGroup) mMainLayout.findViewById(R.id.iap_header_back_button);
         setUPButtonListener();
         setCartContainerListener();
     }
 
     private void setUPButtonListener() {
-        if (mUPButtonLayout.hasOnClickListeners())
-            return;
-
         mUPButtonLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                onHWBackPressed();
+               if(!onHWBackPressed() && mContext instanceof Activity) {
+                   ((Activity) mContext).onBackPressed();
+               };
             }
         });
     }
 
     private void setCartContainerListener() {
-        if (mCartContainer.hasOnClickListeners()) {
-            return;
-        }
         mCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
