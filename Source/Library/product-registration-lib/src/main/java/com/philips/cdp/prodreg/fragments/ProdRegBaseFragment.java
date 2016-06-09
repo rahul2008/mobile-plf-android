@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 import com.philips.cdp.prodreg.alert.ModalAlertDemoFragment;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
-import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
 
 /**
@@ -80,10 +80,10 @@ public abstract class ProdRegBaseFragment extends Fragment {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
-            fragmentTransaction.replace(mContainerId, fragment);
+            fragmentTransaction.replace(mContainerId, fragment, fragment.getClass().toString());
             if (!(fragment instanceof ProdRegProcessFragment))
                 fragmentTransaction.addToBackStack(fragment.getTag());
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             Log.e(TAG, e.getMessage());
         }
@@ -112,11 +112,11 @@ public abstract class ProdRegBaseFragment extends Fragment {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
-            fragmentTransaction.replace(containerId, fragment, ProdRegConstants.PROD_REG_FRAGMENT_TAG);
+            fragmentTransaction.replace(containerId, fragment, fragment.getClass().toString());
             fragmentTransaction.hide(this);
             if (!(fragment instanceof ProdRegProcessFragment))
                 fragmentTransaction.addToBackStack(fragment.getTag());
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             Log.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
@@ -161,6 +161,24 @@ public abstract class ProdRegBaseFragment extends Fragment {
                 modalAlertDemoFragment.setDescription(description);
             }
         }, 200);
+    }
+
+    protected boolean backStackFragment() {
+        FragmentManager fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+        if (fragmentManager == null && mActivityContext != null) {
+            fragmentManager = mActivityContext.getSupportFragmentManager();
+        } else if (fragmentManager == null) {
+            fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+        }
+        fragmentManager.popBackStack();
+        return false;
+    }
+
+    public void onBackTapped(Fragment fragment, String s) {
+        if (fragment instanceof ProdRegConnectionFragment) {
+            FragmentManager fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+            fragmentManager.popBackStackImmediate(s, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
     }
 }
 

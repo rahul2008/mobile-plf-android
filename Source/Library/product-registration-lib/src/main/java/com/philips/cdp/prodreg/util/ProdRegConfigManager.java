@@ -16,10 +16,13 @@ package com.philips.cdp.prodreg.util;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
+import com.philips.cdp.prodreg.fragments.ProdRegBaseFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
 import com.philips.cdp.prodreg.launcher.ActivityLauncher;
@@ -33,6 +36,8 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 public class ProdRegConfigManager {
 
     private static Context mContext = null;
+    private static FragmentManager fragmentManager = null;
+    private static int mContainerId;
     private static ProdRegConfigManager prodRegConfigManager;
     private UiLauncher mUiLauncher;
 
@@ -74,9 +79,10 @@ public class ProdRegConfigManager {
      * <b>Note: </b>
      * <p> 1) Please consider the string "product_registration" to identify the MainScreen Fragment as a
      * Fragment ID. </p>
-     *
      */
     private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher) {
+        fragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
+        mContainerId = fragmentLauncher.getParentContainerResourceID();
         User user = new User(fragmentLauncher.getFragmentActivity());
         if (fragmentLauncher.isFirstLaunch()) {
             ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
@@ -98,7 +104,7 @@ public class ProdRegConfigManager {
             RegistrationFragment registrationFragment = new
                     RegistrationFragment();
             Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, true);
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
                 @Override
@@ -142,7 +148,7 @@ public class ProdRegConfigManager {
     }
 
     /**
-     * <p> Invoking DigitalCare Component from the Intent. </p>
+     * <p> Invoking Product Registration Component from the Intent. </p>
      * <b> Note: </b> Please make sure to set the Locale before invoking this method.
      *
      * @param startAnimation Animation resource ID.
@@ -150,7 +156,7 @@ public class ProdRegConfigManager {
      * @param orientation
      */
     private void invokeProductRegistrationAsActivity(int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
-        if (mContext == null) {
+        if (fragmentManager == null) {
             throw new RuntimeException("Please initialise context before Support page is invoked");
         }
         Intent intent = new Intent(this.getContext(), ProdRegBaseActivity.class);
@@ -162,4 +168,14 @@ public class ProdRegConfigManager {
         getContext().startActivity(intent);
     }
 
+    public void onBackPressed(final String s) {
+        if (fragmentManager != null && mContainerId != 0) {
+            Fragment currentFrag = fragmentManager
+                    .findFragmentById(mContainerId);
+            if (currentFrag != null && currentFrag instanceof ProdRegBaseFragment) {
+                ProdRegBaseFragment prodRegBaseFragment = (ProdRegBaseFragment) currentFrag;
+                prodRegBaseFragment.onBackTapped(currentFrag,s);
+            }
+        }
+    }
 }

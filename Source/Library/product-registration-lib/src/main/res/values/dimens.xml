@@ -4,4 +4,5 @@
     <dimen name="actionbar_icon_margin">30dp</dimen>
     <dimen name="actionbar_title_text_size">21dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="prodreg_edittext_width">240dp</dimen>
 </resources>

@@ -1,10 +1,11 @@
 
 package com.philips.cdp.prodreg.model.summary;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Price {
+public class Price implements Serializable {
 
     private String productPrice;
     private String displayPriceType;

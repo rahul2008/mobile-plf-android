@@ -9,4 +9,6 @@
     <string name="img_description"> description </string>
     <string name="prodreg_actionbar_title">Register your product</string>
     <string name="prod_reg_register_product_message">Register your products and</string>
+    <string name="zero">0</string>
+    <string name="date_formate">yyyy-MM-dd</string>
 </resources>

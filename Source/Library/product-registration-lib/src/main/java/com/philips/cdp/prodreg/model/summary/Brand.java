@@ -1,10 +1,11 @@
 
 package com.philips.cdp.prodreg.model.summary;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Brand {
+public class Brand implements Serializable {
 
     private String brandLogo;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
