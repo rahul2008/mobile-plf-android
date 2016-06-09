@@ -47,6 +47,8 @@ import java.util.concurrent.FutureTask;
  * Use a {@link com.philips.pins.shinelib.SHNCentral.Builder} to construct a {@code SHNCentral}.
  * After that add {@link SHNDeviceDefinitionInfo} for device types using
  * {@link #registerDeviceDefinition(SHNDeviceDefinitionInfo)} and then associate with a device type or start scanning for it.
+ * <p/>
+ * Applications should create only one instance of {@code SHNCentral}.
  */
 public class SHNCentral {
 
@@ -61,7 +63,7 @@ public class SHNCentral {
          */
         SHNCentralStateError,
         /**
-         * {@code SHNCentral} is not yet ready to communicate with peripherals
+         * {@code SHNCentral} is not yet ready to communicate with peripherals (for instance when bluetooth is disabled)
          */
         SHNCentralStateNotReady,
         /**
@@ -71,7 +73,7 @@ public class SHNCentral {
     }
 
     /**
-     * A listener for changes in {@code SHNCentral}.
+     * A listener for changes in the state of {@code SHNCentral}.
      */
     public interface SHNCentralListener {
 
@@ -83,7 +85,7 @@ public class SHNCentral {
         void onStateUpdated(@NonNull SHNCentral shnCentral);
     }
 
-    private static final String TAG = SHNCentral.class.getSimpleName();
+    private static final String TAG = "SHNCentral";
     private SHNUserConfiguration shnUserConfiguration;
     private SHNDeviceScanner shnDeviceScanner;
     private final Handler userHandler;
@@ -366,12 +368,15 @@ public class SHNCentral {
         dataMigrater.execute(context, createPersistentStorageFactory(sharedPreferencesProvider));
     }
 
-    public interface SHNBondStatusListener {
+    /* package */ interface SHNBondStatusListener {
         void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
     }
 
     /**
-     * Get the {@code Handler} that is used to run internal tasks on.
+     * Get a {@code Handler} that is used to run internal tasks on. To prevent threading issues,
+     * Bluelib code runs on a single thread. This function gives access to a handler that executes
+     * the tasks on this "internal" thread. This handler should not be used to execute application
+     * level code. This function will be removed from the interface in a future version of Bluelib.
      *
      * @return the {@code Handler} that is used for internal tasks
      */
@@ -380,7 +385,7 @@ public class SHNCentral {
     }
 
     /**
-     * Get the {@code Handler} that is used to run callbacks on.
+     * Get the {@code Handler} that is used to run application level callbacks on.
      *
      * @return the {@code Handler} that is used for callbacks
      * @see com.philips.pins.shinelib.SHNCentral.Builder#setHandler(Handler)
@@ -426,7 +431,8 @@ public class SHNCentral {
 
     /**
      * Convenience method to run a {@code Runnable} on the {@code Handler} set with
-     * {@link com.philips.pins.shinelib.SHNCentral.Builder#setHandler(Handler)}
+     * {@link com.philips.pins.shinelib.SHNCentral.Builder#setHandler(Handler)}. See also
+     * {@link #getUserHandler()}.
      *
      * @param runnable to run on the {@code Handler}
      * @see com.philips.pins.shinelib.SHNCentral.Builder#setHandler(Handler)
@@ -455,7 +461,10 @@ public class SHNCentral {
     }
 
     /**
-     * Add a Device Definition to the {@link SHNDeviceDefinitions} managed by {@code SHNCentral}
+     * Add a Device Definition to the {@link SHNDeviceDefinitions} managed by {@code SHNCentral}.
+     * Typically a device definition has a one to one relation to a plugin. By registering the device
+     * definition through this function, Bluelib gains support for devices managed by the plugin that
+     * contains it.
      *
      * @param shnDeviceDefinitionInfo
      * @return
@@ -541,10 +550,11 @@ public class SHNCentral {
     }
 
     /**
-     * Get the {@code BTDevice} with the specified address.
+     * Get the {@code BTDevice} with the specified address. This function is not intended for
+     * application level code and will be removed from the interface in a future version.
      *
      * @param address to retrieve the device for
-     * @return the Bluetooth device
+     * @return the BTDevice
      */
     public BTDevice getBTDevice(String address) {
         return btAdapter.getRemoteDevice(address);
@@ -590,7 +600,7 @@ public class SHNCentral {
         /**
          * Add a handler to the {@link SHNCentral} you are currently building.
          * <p/>
-         * This handler will be used to post callbacks from {@code SHNCentral on}.
+         * This handler will be used to post callbacks from Bluelib on.
          *
          * @param handler a {@code Handler} to use for callbacks
          * @return {@code Builder} to chain more calls
@@ -601,7 +611,7 @@ public class SHNCentral {
         }
 
         /**
-         * Shows a popup if for some reason BlueTooth was not enabled.
+         * Shows a popup if for some reason Bluetooth was not enabled.
          *
          * @param showPopupIfBLEIsTurnedOff set to true if you want the popup to show
          * @return {@code Builder} to chain more calls
