@@ -483,7 +483,9 @@ public class SHNDeviceAssociation {
     }
 
     /**
-     * With this function a device can be added to the associated devices list. Note that the data provided by the device information capability
+     * With this function a device can be added to the associated devices list.
+     * <p/>
+     * Note that the data provided by the device information capability
      * is not available from cache until the first time a connection has been made. More importantly this function will not restore a previously
      * existing bond on the OS level, nor will it check that such a bond exists or is needed by the device to function properly.
      * For a successful completion, there must be a plugin registered that handles the device indicated by the device type name. A result of SHNOk
