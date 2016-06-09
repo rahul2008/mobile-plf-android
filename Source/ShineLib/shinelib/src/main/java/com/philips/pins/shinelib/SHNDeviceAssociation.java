@@ -25,8 +25,8 @@ import java.util.concurrent.FutureTask;
 /**
  * Class that allows the API users to add new associate peripherals and remove them.
  * <p/>
- * Note that only peripherals registered with {@link SHNCentral} are exposed by {@code SHNDeviceScanner}.
- * The matching behaviour of the scanner is  under control of {@link SHNDeviceDefinitionInfo#useAdvertisedDataMatcher()} method in the corresponding
+ * Note that only peripherals for which a {@link SHNDeviceDefinitionInfo} is registered with {@link SHNCentral} are exposed by {@code SHNDeviceScanner}.
+ * The matching behaviour of the scanner is under control of {@link SHNDeviceDefinitionInfo#useAdvertisedDataMatcher()} method in the corresponding
  * peripheral's device definition info. {@code SHNDeviceScanner} can be obtained via {@link SHNCentral#getShnDeviceScanner()}.
  */
 public class SHNDeviceAssociation {
