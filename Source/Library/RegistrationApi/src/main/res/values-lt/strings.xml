@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Įveskite galiojantį el. pašto adresą.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">El. pašto adresas jau naudojamas</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Šis el. pašto adresas jau naudojamas „Philips“ paskyroje arba socialinio tinklo paskyroje.\nGrįžkite į\„Prisijungimą\“ arba naudokite kitą el. pašto adresą.</string>
-<string name="PrivacyPolicyText">Privatumo nuostatos</string>
+<string name="PrivacyNoticeText">Privatumo nuostatos</string>
 <string name="TermsAndConditionsText">Nuostatos ir sąlygos</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Patvirtinkite el. pašto adresą pasinaudodami į jūsų el. pašto paskyra atsiųsta aktyvinimo nuoroda</string>
 <string name="RegVerifyEmailView_VerificationEmailText">El. laišką išsiuntėme adresu: %s. Gali šiek tiek užtrukti, kol gausite el. laišką.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Perskaitykite mūsų %s ir %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Perskaitykite mūsų %s ir %s.</string>
+<string name="LegalNoticeText">Perskaitykite mūsų %s</string>
 <string name="AgeLimitText">Sukurdami paskyrą arba prisijungdami patvirtinate, kad jūs esate %s m. arba vyresni.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Sutinku su programos %s</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Sutikite su sąlygomis ir taisyklėmis</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Paskyros nustatymai</string>
 <string name="Create_With_lbltxt">Arba sukurti paskyrą</string>
 <string name="myphilips_CC">„MyPhilips“ paskyra</string>
+<string name="Generic_Network_Error">Oi! Įvyko klaida. Bandykite dar kartą vėliau</string>
+<string name="Already_Verified_Message">Jūsų el. paštas jau patvirtintas. Galite tęsti.</string>
+<string name="Ok_Btn_Txt">Gerai</string>
 </resources>

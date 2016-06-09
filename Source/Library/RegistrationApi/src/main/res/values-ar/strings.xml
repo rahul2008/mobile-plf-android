@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">يرجى إدخال عنوان بريد إلكتروني صالح.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">إن عنوان البريد الإلكتروني قيد الاستخدام</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">إن عنوان البريد الإلكتروني مستخدم مع حساب Philips أو حساب الوسائط الاجتماعية. \nيرجى العودة إلى خطوة \'تسجيل الدخول\' أو استخدام عنوان بريد إلكتروني آخر.</string>
-<string name="PrivacyPolicyText">إشعار الخصوصية</string>
+<string name="PrivacyNoticeText">إشعار الخصوصية</string>
 <string name="TermsAndConditionsText">الأحكام والشروط</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">يرجى التحقق من عنوان بريدك الإلكتروني من خلال ارتباط التنشيط الذي تم إرساله إلى حساب بريدك الإلكتروني</string>
 <string name="RegVerifyEmailView_VerificationEmailText">لقد أرسلنا بريدًا إلكترونيًا إلى: %s. قد تستغرق عملية استلام البريد الإلكتروني بعض الوقت.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">يرجى قراءة %s و%s الخاصة بنا.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">يرجى قراءة %s و%s الخاصة بنا.</string>
+<string name="LegalNoticeText">يرجى قراءة و%s الخاصة بنا.</string>
 <string name="AgeLimitText">من خلال إنشاء حساب أو تسجيل الدخول فأنت تقرّ بأنك تبلغ من العمر %s سنة أو أكثر.\n</string>
 <string name="TermsAndConditionsAcceptanceText">أوافق على %s التطبيق</string>
 <string name="TermsAndConditionsAcceptanceText_Error">يرجى الموافقة على الشروط والأحكام</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">إعدادات الحساب</string>
 <string name="Create_With_lbltxt">أو إنشاء حساب</string>
 <string name="myphilips_CC">حساب MyPhilips</string>
+<string name="Generic_Network_Error">عذرًا! حدث خطأ. الرجاء إعادة المحاولة لاحقًا</string>
+<string name="Already_Verified_Message">سبق أن تم التحقق من بريدك الإلكتروني. يمكنك المتابعة.</string>
+<string name="Ok_Btn_Txt">موافق</string>
 </resources>

@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Veuillez entrer une adresse courriel valide.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Cette adresse est déjà utilisée.</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Cette adresse courriel est déjà associée à un compte Philips ou à un compte de réseau social.\nVeuillez revenir à l\'étape \'Se connecter\' ou utiliser une autre adresse courriel.</string>
-<string name="PrivacyPolicyText">Politique de confidentialité</string>
+<string name="PrivacyNoticeText">Politique de confidentialité</string>
 <string name="TermsAndConditionsText">Conditions générales</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Veuillez vérifier votre adresse courriel par l\'intermédiaire du lien d\'activation envoyé à votre compte de messagerie</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Nous avons envoyé un courriel à : %s. La réception du message peut prendre un certain temps.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">WordPress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Veuillez lire notre %s et notre %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Veuillez lire notre %s et notre %s.</string>
+<string name="LegalNoticeText">Veuillez lire notre %s</string>
 <string name="AgeLimitText">En créant un compte ou en vous connectant, vous certifiez être âgé de %s ans ou plus.\n</string>
 <string name="TermsAndConditionsAcceptanceText">J\'accepte les %s de l\'application</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Veuillez accepter les conditions générales</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Paramètres du compte</string>
 <string name="Create_With_lbltxt">Vous pouvez aussi créer un compte</string>
 <string name="myphilips_CC">Compte MyPhilips</string>
+<string name="Generic_Network_Error">Oups, une erreur s\'est produite! Réessaye plus tard!</string>
+<string name="Already_Verified_Message">Votre adresse de courriel a été vérifiée. Vous pouvez continuer.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

@@ -5,7 +5,7 @@
 <string name="EmptyField_ErrorMsg">Поле не може бути порожнім</string>
 <string name="ForgotPwdEmailResendMsg">Ми надіслали Вам електронного листа для скидання Вашого паролю. Електронний лист може надійти через деякий час.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Скинути пароль</string>
-<string name="InValid_PwdErrorMsg">Пароль не відповідає вказівкам щодо пароля нижче.</string>
+<string name="InValid_PwdErrorMsg">Скинути пароль</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Недійсна адреса ел. пошти</string>
 <string name="InValidFirstName_ErrorMsg">Недійсне ім’я</string>
 <string name="MaxiumCharacters_ErrorMsg">У полі не повинно бути більше 256 символів</string>
@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Введіть дійсну адресу ел. пошти.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Ця ел. адреса вже використовується</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Ця адреса ел. пошти вже використовується з обліковим записом Philips або обліковим записом соціальної мережі.\nПоверніться до кроку \"Увійти\" або скористайтеся іншою адресою ел. пошти.</string>
-<string name="PrivacyPolicyText">Повідомлення про конфіденційність</string>
+<string name="PrivacyNoticeText">Повідомлення про конфіденційність</string>
 <string name="TermsAndConditionsText">Умови та положення</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Підтвердіть свою адресу ел. пошти за допомогою посилання для активації, надісланого на обліковий запис ел. пошти</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Повідомлення надіслано на: %s. Воно може надійти через деякий час.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Прочитайте наші %s та %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Прочитайте наші %s та %s.</string>
+<string name="LegalNoticeText">Прочитайте наші %s</string>
 <string name="AgeLimitText">Створюючи обліковий запис чи виконуючи вхід у систему, Ви засвідчуєте, що досягли віку %s років або більше.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Я приймаю %s додатка</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Прийміть Умови використання</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Налаштування облікового запису</string>
 <string name="Create_With_lbltxt">Або створіть обліковий запис</string>
 <string name="myphilips_CC">Обліковий запис MyPhilips</string>
+<string name="Generic_Network_Error">Ой! Виникла помилка. Спробуйте пізніше</string>
+<string name="Already_Verified_Message">Ел. пошту підтверджено. Можна продовжувати.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

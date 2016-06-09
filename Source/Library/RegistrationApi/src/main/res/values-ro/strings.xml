@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Introdu o adresă de e-mail valabilă.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Adresa de e-mail este deja în uz</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Această adresă de e-mail este deja în uz pentru un cont Philips sau un cont de reţele de socializare.\nTe rugăm să mergi înapoi la pasul de \'Conectare\' sau să foloseşti o altă adresă de e-mail.</string>
-<string name="PrivacyPolicyText">Notificare de confidenţialitate</string>
+<string name="PrivacyNoticeText">Notificare de confidenţialitate</string>
 <string name="TermsAndConditionsText">Termeni şi condiţii</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Te rugăm să-ţi verifici adresa de e-mail prin legătura de activare expediată către contul tău de e-mail</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Am expediat un e-mail către: %s. Poate dura ceva timp până vei primi mesajul.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Te rugăm citeşte %s şi %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Te rugăm citeşte %s şi %s.</string>
+<string name="LegalNoticeText">Te rugăm citeşte %s</string>
 <string name="AgeLimitText">Prin crearea unui cont sau prin conectare, confirmi că ai vârsta de %s ani sau mai mult.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Sunt de acord cu %s aplicaţiei</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Te rugăm să accepţi termenii şi condiţiile</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Setările contului</string>
 <string name="Create_With_lbltxt">Sau creează un cont</string>
 <string name="myphilips_CC">Cont MyPhilips</string>
+<string name="Generic_Network_Error">Hmm! S-a întâmplat ceva. Încearcă din nou mai târziu</string>
+<string name="Already_Verified_Message">Adresa ta de e-mail este deja verificată. Poţi continua.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

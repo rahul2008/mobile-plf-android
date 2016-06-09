@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Masukkan alamat email yang valid.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Alamat email sudah digunakan</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Alamat email ini sudah digunakan dengan akun Philips atau akun media sosial.\nHarap kembali ke langkah \'Masuk\' atau gunakan alamat email lainnya.</string>
-<string name="PrivacyPolicyText">Pemberitahuan Privasi</string>
+<string name="PrivacyNoticeText">Pemberitahuan Privasi</string>
 <string name="TermsAndConditionsText">Syarat dan Ketentuan</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Harap verifikasi alamat email melalui tautan aktivasi yang dikirimkan ke akun email Anda</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Kami sudah mengirimkan email ke: %s. Dibutuhkan waktu hingga email masuk.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Harap baca %s dan %s kami.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Harap baca %s dan %s kami.</string>
+<string name="LegalNoticeText">Harap baca %s kami</string>
 <string name="AgeLimitText">Dengan membuat akun atau masuk, Anda menyatakan bahwa Anda berusia %s tahun ke atas.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Saya menerima %s aplikasi</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Harap terima Syarat &amp; Ketentuan</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Pengaturan akun</string>
 <string name="Create_With_lbltxt">Atau buat akun</string>
 <string name="myphilips_CC">Akun MyPhilips</string>
+<string name="Generic_Network_Error">Opps! Terjadi kesalahan. Silakan coba lagi nanti</string>
+<string name="Already_Verified_Message">Email Anda sudah diverifikasi. Anda dapat melanjutkan.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

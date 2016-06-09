@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Vnesite veljaven e-poštni naslov.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">E-poštni naslov je že uporabljen</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Ta e-poštni naslov je že uporabljen za račun Philips ali račun družabnega omrežja.\nVrnite se na korak \"Prijava\" ali uporabite drug e-poštni naslov.</string>
-<string name="PrivacyPolicyText">Obvestilo o zasebnosti</string>
+<string name="PrivacyNoticeText">Obvestilo o zasebnosti</string>
 <string name="TermsAndConditionsText">Pogoji in določila</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Prek povezave, ki smo vam jo poslali v e-poštnem sporočilu, preverite svoj e-poštni naslov</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Poslali smo e-poštno sporočilo na naslov: %s. Za prejem boste mogoče morali malo počakati.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Preberite naše %s in %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Preberite naše %s in %s.</string>
+<string name="LegalNoticeText">Preberite naše %s</string>
 <string name="AgeLimitText">Z ustvarjanjem računa ali prijavo potrjujete, da ste stari vsaj %s let.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Sprejmem %s aplikacije</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Sprejmite pogoje in določila</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Nastavitve računa</string>
 <string name="Create_With_lbltxt">Ali ustvarite račun</string>
 <string name="myphilips_CC">Račun MyPhilips</string>
+<string name="Generic_Network_Error">Opa! Nekaj je bilo narobe. Poskusite znova pozneje</string>
+<string name="Already_Verified_Message">Vaš e-poštni naslov je že preverjen. Lahko nadaljujete.</string>
+<string name="Ok_Btn_Txt">V redu</string>
 </resources>

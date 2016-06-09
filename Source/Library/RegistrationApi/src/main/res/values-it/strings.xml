@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Inserisci un indirizzo e-mail valido.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Indirizzo e-mail già in uso</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Questo indirizzo e-mail è già utilizzato da un account di un social network o un account Philips.\nTorna indietro alla fase di \'Accesso\' oppure utilizza un altro indirizzo e-mail.</string>
-<string name="PrivacyPolicyText">Informativa sulla privacy</string>
+<string name="PrivacyNoticeText">Informativa sulla privacy</string>
 <string name="TermsAndConditionsText">Termini e condizioni</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Verifica il tuo indirizzo e-mail tramite il collegamento di attivazione che è stato inviato sul tuo account</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Abbiamo inviato un\'e-mail all\'indirizzo: %s. La ricezione potrebbe richiedere un po\' di tempo.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Leggi %s e %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Leggi %s e %s.</string>
+<string name="LegalNoticeText">Leggi %s</string>
 <string name="AgeLimitText">Creando un account o eseguendo l\'accesso, certifichi di avere almeno %s anni.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Accetto %s dell\'app</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Accetta i termini e le condizioni</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Impostazioni account</string>
 <string name="Create_With_lbltxt">Oppure crea un account</string>
 <string name="myphilips_CC">Account MyPhilips</string>
+<string name="Generic_Network_Error">Si è verificato un errore. Riprova più tardi</string>
+<string name="Already_Verified_Message">Il suo indirizzo di posta elettronica è già stato verificato. Può continuare.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

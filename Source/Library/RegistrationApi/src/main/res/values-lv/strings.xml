@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Lūdzu, ievadiet derīgu e-pasta adresi.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">E-pasta adrese jau tiek izmantota</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Šī e-pasta adrese jau tiek izmantota ar Philips kontu vai sociālā tīkla kontu.\nLūdzu, pārejiet atpakaļ uz soli \'Pieteikšanās\' vai izmantojiet citu e-pasta adresi.</string>
-<string name="PrivacyPolicyText">Paziņojums par konfidencialitāti</string>
+<string name="PrivacyNoticeText">Paziņojums par konfidencialitāti</string>
 <string name="TermsAndConditionsText">Noteikumi un nosacījumi</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Lūdzu, apstipriniet e-pasta adresi, izmantojot aktivizācijas saiti, kas nosūtīta uz jūsu e-pasta kontu</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Mēs nosūtījām e-pasta ziņojumu uz: %s. Iespējams, jāuzgaida, līdz e-pasta pienākšanai.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Lūdzu, izlasiet %s un %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Lūdzu, izlasiet %s un %s.</string>
+<string name="LegalNoticeText">Lūdzu, izlasiet %s</string>
 <string name="AgeLimitText">Izveidojot kontu vai pierakstoties, apliecināt, ka esat vismaz %s gadus vecs.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Es piekrītu lietotnes %s</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Lūdzu, piekrītiet noteikumiem un nosacījumiem</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Konta iestatījumi</string>
 <string name="Create_With_lbltxt">Vai izveidojiet kontu</string>
 <string name="myphilips_CC">MyPhilips konts</string>
+<string name="Generic_Network_Error">Radās nezināma kļūda. Lūdzu, vēlāk mēģiniet vēlreiz</string>
+<string name="Already_Verified_Message">Jūsu e-pasts jau ir apstiprināts. Varat turpināt.</string>
+<string name="Ok_Btn_Txt">Labi</string>
 </resources>

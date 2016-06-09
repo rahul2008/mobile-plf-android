@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Lütfen geçerli bir e-posta adresi girin.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Bu e-posta adresi zaten kullanılıyor</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Bu e-posta adresi zaten bir Philips hesabıyla veya sosyal medya hesabıyla kullanılıyor.\nLütfen \"Oturum açma\"\ adımına geri dönün ya da farklı bir e-posta adresi kullanın.</string>
-<string name="PrivacyPolicyText">Gizlilik Bildirimi</string>
+<string name="PrivacyNoticeText">Gizlilik Bildirimi</string>
 <string name="TermsAndConditionsText">Şartlar ve Koşullar</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Lütfen e-posta hesabınıza gönderilen etkinleştirme bağlantısını kullanarak e-posta adresinizi doğrulayın</string>
 <string name="RegVerifyEmailView_VerificationEmailText">%s adresine bir e-posta gönderdik. Bu e-postanın size ulaşması biraz zaman alabilir.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">WordPress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Lütfen şunları okuyun: %s ve %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Lütfen şunları okuyun: %s ve %s.</string>
+<string name="LegalNoticeText">Lütfen şunları okuyun: %s</string>
 <string name="AgeLimitText">Bir hesap oluşturarak ya da giriş yaparak en az %s yaşında olduğunuzu onaylarsınız.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Uygulamaya ilişkin şunları kabul ediyorum: %s</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Lütfen Şartlar ve Koşulları kabul edin</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Hesap ayarları</string>
 <string name="Create_With_lbltxt">Veya bir hesap oluşturun</string>
 <string name="myphilips_CC">MyPhilips hesabı</string>
+<string name="Generic_Network_Error">Bir sorun oluştu. Lütfen daha sonra tekrar deneyin</string>
+<string name="Already_Verified_Message">E-posta adresiniz zaten doğrulandı. Devam edebilirsiniz.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

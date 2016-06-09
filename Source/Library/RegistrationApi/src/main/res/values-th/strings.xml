@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">โปรดป้อนอีเมล์แอดเดรสที่ถูกต้อง</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">มีการใช้อีเมล์แอดเดรสนี้แล้ว</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">อีเมล์แอดเดรสนี้ได้ถูกใช้งานกับบัญชี Phillips หรือบัญชีสื่อสังคมออนไลน์แล้ว\nโปรดย้อนกลับไปยังขั้นตอน \'ล็อกอิน\' หรือใช้อีเมล์แอดเดรสอื่น</string>
-<string name="PrivacyPolicyText">ประกาศเกี่ยวกับการคุ้มครองข้อมูลส่วนบุคคล</string>
+<string name="PrivacyNoticeText">ประกาศเกี่ยวกับการคุ้มครองข้อมูลส่วนบุคคล</string>
 <string name="TermsAndConditionsText">ข้อกำหนดและเงื่อนไข</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">โปรดยืนยันอีเมล์แอดเดรสของคุณผ่านทางลิงค์สำหรับเปิดการใช้งานที่ส่งไปยังบัญชีอีเมล์ของคุณ</string>
 <string name="RegVerifyEmailView_VerificationEmailText">เราได้ส่งอีเมล์ไปยัง: %s อาจจะใช้เวลาสักครู่ก่อนที่อีเมล์จะไปถึง</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">โปรดอ่าน %s และ %s ของเรา</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">โปรดอ่าน %s และ %s ของเรา</string>
+<string name="LegalNoticeText">โปรดอ่าน %s ของเรา</string>
 <string name="AgeLimitText">โดยการสร้างบัญชีหรือลงชื่อเข้าใช้ คุณรับรองว่าคุณมีอายุถึง %s ปีหรือมากกว่า\n</string>
 <string name="TermsAndConditionsAcceptanceText">ฉันยอมรับ %s ของแอปพลิเคชัน</string>
 <string name="TermsAndConditionsAcceptanceText_Error">โปรดยอมรับข้อกำหนดและเงื่อนไข</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">การตั้งค่าบัญชี</string>
 <string name="Create_With_lbltxt">หรือสร้างแอคเคาท์ใหม่</string>
 <string name="myphilips_CC">แอคเคาท์ MyPhilips</string>
+<string name="Generic_Network_Error">ขออภัย! เกิดข้อผิดพลาดบางประการ โปรดลองอีกครั้งในภายหลัง</string>
+<string name="Already_Verified_Message">อีเมล์ของคุณถูกตรวจสอบแล้ว คุณสามารถลงชื่อเข้าใช้</string>
+<string name="Ok_Btn_Txt">ตกลง</string>
 </resources>

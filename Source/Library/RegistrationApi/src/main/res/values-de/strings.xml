@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Bitte geben Sie eine gültige E-Mail-Adresse ein.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Diese E-Mail-Adresse wird bereits verwendet.</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Diese E-Mail-Adresse wird bereits mit einem Philips Konto oder einem Konto eines sozialen Netzwerks verwendet.\nGehen Sie zurück zum Schritt \"Anmelden\", oder verwenden Sie eine andere E-Mail-Adresse.</string>
-<string name="PrivacyPolicyText">Datenschutzbestimmungen</string>
+<string name="PrivacyNoticeText">Datenschutzbestimmungen</string>
 <string name="TermsAndConditionsText">Allg. Nutzungsbedingungen</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Verifizieren Sie Ihre E-Mail-Adresse über den Aktivierungslink, der an Ihre E-Mail-Adresse gesendet wurde.</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Wir haben eine E-Mail an folgende Adresse gesendet: %s. Es kann einige Zeit dauern, bis die E-Mail bei Ihnen ankommt.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">WordPress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Lesen Sie Folgendes: %s und %s</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Lesen Sie Folgendes: %s und %s</string>
+<string name="LegalNoticeText">Lesen Sie Folgendes: %s </string>
 <string name="AgeLimitText">Mit dem Erstellen eines Kontos oder der Anmeldung bestätigen Sie, dass Sie mindestens %s Jahre alt sind.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Ich akzeptiere die %s der App</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Akzeptieren Sie die allgemeinen Geschäftsbedingungen</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Kontoeinstellungen</string>
 <string name="Create_With_lbltxt">Oder Konto erstellen</string>
 <string name="myphilips_CC">MyPhilips-Konto</string>
+<string name="Generic_Network_Error">Hoppla! Ein Fehler ist aufgetreten. Versuchen Sie es später erneut.</string>
+<string name="Already_Verified_Message">Ihre E-Mail-Adresse ist bereits verifiziert. Sie können fortfahren.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

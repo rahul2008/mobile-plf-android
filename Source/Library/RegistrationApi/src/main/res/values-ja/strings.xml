@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">有効なメールアドレスを入力してください。</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">メールアドレスは既に使用されています</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">このメールアドレスは、フィリップスアカウントまたはソーシャルメディアアカウントで既に使用されています。\n戻って「ログイン」手順を実行するか、別のメールアドレスを使用してください。</string>
-<string name="PrivacyPolicyText">プライバシーに関する通知</string>
+<string name="PrivacyNoticeText">プライバシーに関する通知</string>
 <string name="TermsAndConditionsText">諸条件</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">お客様のメールアカウントに送信されたアクティベーションリンクを使用して、メールアドレスの照合を行ってください。</string>
 <string name="RegVerifyEmailView_VerificationEmailText">次のアドレスにメールを送信しました：%s。メール受信まで少々時間がかかる場合があります。</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">当社の %s および %s をお読みください。</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">当社の %s および %s をお読みください。</string>
+<string name="LegalNoticeText">当社の %s をお読みください</string>
 <string name="AgeLimitText">アカウントを作成するかサインインすることにより、%s 歳以上であることを証明することになります。\n</string>
 <string name="TermsAndConditionsAcceptanceText">アプリの %s に同意する</string>
 <string name="TermsAndConditionsAcceptanceText_Error">諸条件に同意してください</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">アカウント設定</string>
 <string name="Create_With_lbltxt">アカウントを作成</string>
 <string name="myphilips_CC">MyPhilips アカウント</string>
+<string name="Generic_Network_Error">問題が発生しました。しばらくしてから再試行してください</string>
+<string name="Already_Verified_Message">お客様のメールアドレスは照合済みです。続行可能です。</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

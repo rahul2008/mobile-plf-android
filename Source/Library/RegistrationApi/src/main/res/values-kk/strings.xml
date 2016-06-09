@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Жарамды электрондық пошта мекенжайын енгізіңіз.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Электрондық пошта мекенжайы бұрыннан қолданыста</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Бұл мекенжай Philips не бір әлеуметтік медиа тіркелгісімен бұрыннан қолданылуда.\n\"Жүйеге кіру\" қадамына қайтыңыз не басқа мекенжайды қолданыңыз.</string>
-<string name="PrivacyPolicyText">Құпиялық туралы ескерту</string>
+<string name="PrivacyNoticeText">Құпиялық туралы ескерту</string>
 <string name="TermsAndConditionsText">Шарттар мен ережелер</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Электрондық пошта тіркелгісіне жіберілген іске қосу сілтемесі арқылы электрондық пошта мекенжайыңызды растаңыз</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Электрондық хат %s мекенжайына жіберілді. Электрондық хат келгенше шамалы уақыт кетуі мүмкін.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">%s және %s оқыңыз.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">%s және %s оқыңыз.</string>
+<string name="LegalNoticeText">%s оқыңыз</string>
 <string name="AgeLimitText">Тіркелгіні жасау немесе жүйеге кіру арқылы %s жаста немесе одан үлкен екеніңізді растайсыз.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Бағдарлама %s қабылдаймын</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Шарттар мен ережелерді қабылдаңыз</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Тіркелгі параметрлері</string>
 <string name="Create_With_lbltxt">Не болмаса, тіркелгі жасаңыз</string>
 <string name="myphilips_CC">Philips тіркелгім</string>
+<string name="Generic_Network_Error">Қап! Бір қате кетті. Кейінірек қайтадан көріңіз</string>
+<string name="Already_Verified_Message">Электрондық поштаңыз расталды. Жалғастыруыңызға болады.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

@@ -16,7 +16,7 @@
 <string name="JanRain_Invalid_Credentials">The email address or password you entered is incorrect.</string>
 <string name="JanRain_Error_Check_Internet">Network connection problem.</string>
 <string name="JanRain_LogIn_Failed">Failed to log in. Please try again later.</string>
-<string name="JanRain_Server_Connection_Failed">Failed to connect to the server. Please try again later.</string>
+<string name="JanRain_Server_Connection_Failed">LegalNoticeText_With_Terms_And_Conditions</string>
 <string name="SigIn_TitleTxt">Log In</string>
 <string name="RegBaseViewNav_TitleTxt">Account</string>
 <string name="RegCreateAccount_NavTitle">Create Account</string>
@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Please enter a valid email address.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Email address is already in use</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">This email address is already in use with a Philips account or a social media account.\nPlease go back to the \'Log in\' step, or use another email address.</string>
-<string name="PrivacyPolicyText">Privacy Notice</string>
+<string name="PrivacyNoticeText">Privacy Notice</string>
 <string name="TermsAndConditionsText">Terms and Conditions</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Please verify your email address through the activation link sent to your email account</string>
 <string name="RegVerifyEmailView_VerificationEmailText">We have sent an email to: %s. It may take some time for the email to arrive.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Please read our %s and %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Please read our %s and %s.</string>
+<string name="LegalNoticeText">Please read our %s</string>
 <string name="AgeLimitText">By creating an account or signing in you certify that you are %s years or older.\n</string>
 <string name="TermsAndConditionsAcceptanceText">I accept the app\'s %s</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Please accept the Terms and Conditions</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Account settings</string>
 <string name="Create_With_lbltxt">Or create an account</string>
 <string name="myphilips_CC">MyPhilips account</string>
+<string name="Generic_Network_Error">Oops! Something went wrong. Please try again later</string>
+<string name="Already_Verified_Message">Your email address is already verified. You may continue.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

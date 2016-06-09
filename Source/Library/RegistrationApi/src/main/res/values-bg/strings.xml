@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Въведете валиден имейл адрес.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Имейл адресът вече се използва</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Настоящият имейл адрес вече се използва за акаунт във Philips или друг акаунт в социални мрежи.\nВърнете се обратно към стъпка \"Влизане\" или използвайте друг имейл адрес.</string>
-<string name="PrivacyPolicyText">Бележка за поверителност</string>
+<string name="PrivacyNoticeText">Бележка за поверителност</string>
 <string name="TermsAndConditionsText">Правила и условия</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Потвърдете вашия имейл адрес от връзката за активиране, изпратена на имейл акаунта ви</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Изпратихме имейл до: %s. Възможно е да мине известно време, преди имейлът да пристигне.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Прочетете нашите %s и %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Прочетете нашите %s и %s.</string>
+<string name="LegalNoticeText">Прочетете нашите %s</string>
 <string name="AgeLimitText">Създавайки акаунт или влизайки тук, вие удостоверявате, че сте на %s години или повече.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Приемам %s на приложението</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Приемете правилата и условията</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Настройки на акаунта</string>
 <string name="Create_With_lbltxt">Или създайте акаунт</string>
 <string name="myphilips_CC">Акаунт в MyPhilips</string>
+<string name="Generic_Network_Error">Опа! Нещо се обърка. Опитайте отново по-късно</string>
+<string name="Already_Verified_Message">Имейл адресът ви е потвърден. Можете да продължите.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>
