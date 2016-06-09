@@ -19,11 +19,11 @@ public class RegCoppaUtility {
     public static void linkifyTermAndPolicy(TextView privacyTextView, final Activity activity, ClickableSpan privacyClickListener) {
 
         String privacyPolicyText = privacyTextView.getText().toString();
-        String privacyLink = activity.getString(R.string.PrivacyPolicyText);
+        String privacyLink = activity.getString(R.string.PrivacyNoticeText);
         privacyPolicyText = String.format(privacyPolicyText, privacyLink);
         privacyTextView.setText(privacyPolicyText);
 
-        String link = activity.getString(R.string.PrivacyPolicyText);
+        String link = activity.getString(R.string.PrivacyNoticeText);
         SpannableString spanableString = new SpannableString(privacyPolicyText);
         int termStartIndex = privacyPolicyText.toLowerCase().indexOf(link.toLowerCase());
         spanableString.setSpan(privacyClickListener, termStartIndex, termStartIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

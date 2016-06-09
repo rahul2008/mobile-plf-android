@@ -199,12 +199,12 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     private String getUsText() {
         return mContext.getString(R.string.Coppa_Give_Approval_txt) +
                 "\n" + mContext.getString(R.string.Coppa_Give_Approval_US_txt) +
-                String.format(mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.PrivacyPolicyText));
+                String.format(mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.PrivacyNoticeText));
     }
 
     private String getNonUsText() {
         return mContext.getString(R.string.Coppa_Give_Approval_txt)
-                + String.format(mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.PrivacyPolicyText));
+                + String.format(mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.PrivacyNoticeText));
     }
 
     public void setIsUSRegionCode() {
