@@ -74,24 +74,10 @@ public class RequestManager{
                     @Override
                     public void onResponse(JSONObject response) {
                         String mcountry = null;
-//                        try {
-//                                mcountry = response.getJSONArray("payload").getString(0);
                         String str = null;
                         try {
                             mcountry = response.getJSONObject("payload").getString("country");
-                           /* JSONObject obj = response.getJSONObject("payload");
-                            obj = obj.getJSONObject("matchByLanguage");
-                            obj = obj.getJSONObject("results");
 
-                            // str = obj.getJSONArray("configs").toString();
-                            JSONArray JSONArrayConfig = obj.getJSONArray("configs");
-                            URLModel uRLModel = new URLModel();
-                            String[] urls = new String[JSONArrayConfig.length()];
-
-                            for (int count = 0; count < JSONArrayConfig.length(); count++) {
-                                urls[count] = JSONArrayConfig.getJSONObject(count).optString("urls", null);
-                            }
-                            uRLModel.setURLs(urls);*/
                             ////////////////start of parse///////////
                             if (null == mServiceDiscovery) {
                                 mServiceDiscovery = new ServiceDiscovery();
@@ -195,18 +181,6 @@ public class RequestManager{
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.i("Responce", " ");
-                        InputStream is = null;
-//                        try {
-//                            is = new ByteArrayInputStream(str.getBytes("UTF-8"));
-//                        } catch (UnsupportedEncodingException e) {
-//                            e.printStackTrace();
-//                        }
-//                        try {
-//                                List list = new ServiceResponseManager().readJsonStream(is);
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
 
                             if(mcountry!= null && mcountry.contains("")){
                                 SharedPreferences.Editor editor = mContext.getSharedPreferences("PrefNAme", mContext.MODE_PRIVATE).edit();

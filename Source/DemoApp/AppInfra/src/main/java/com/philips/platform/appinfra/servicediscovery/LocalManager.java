@@ -52,6 +52,9 @@ public class LocalManager implements LocalInterface {
         if(mCountry == null){
             mCountry = pref.getString("COUNTRY_NAME", null);
             Log.i("Retried Country", " "+mCountry);
+            if(mCountry!= null)
+                return mCountry;
+
         }
         if(mCountry== null){
             SharedPreferences.Editor editor = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE).edit();
@@ -63,6 +66,7 @@ public class LocalManager implements LocalInterface {
 
                     editor.putString("COUNTRY_NAME", mCountry);
                     editor.commit();
+                    if(mCountry!= null)
                     return mCountry;
                 } else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { //
                     String networkCountry = tm.getNetworkCountryIso();
@@ -70,6 +74,7 @@ public class LocalManager implements LocalInterface {
                         mCountry= networkCountry.toLowerCase(Locale.US);
                         editor.putString("COUNTRY_NAME", mCountry);
                         editor.commit();
+                        if(mCountry!= null)
                         return mCountry;
                     }
                 }
@@ -78,9 +83,24 @@ public class LocalManager implements LocalInterface {
         }
 
         if(mCountry == null){
-        new RequestManager(context).execute("https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en");
+
+            new ServiceDiscoveryManager(mAppInfra).refresh((new ServiceDiscoveryInterface.OnRefreshListener() {
+                @Override
+                public void onError(ERRORVALUES error, String message) {
+
+                }
+                @Override
+                public void onSuccess() {
+                    SharedPreferences pref = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE);
+                    mCountry = pref.getString("COUNTRY_NAME", null);
+                    Log.i("Retried Country", " "+mCountry);
+
+                }
+            }),"https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en");
+        //new RequestManager(context).execute("https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en");
+            return mCountry;
         }
-        return null;
+        return mCountry;
     }
 
 
