@@ -28,11 +28,12 @@ import java.util.List;
 
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
     private IAPFragmentActionLayout mFragmentLayout;
+    private Context mContext;
 
     private View.OnClickListener mCartIconListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-            if (NetworkUtility.getInstance().isNetworkAvailable(getActivity())) {
+            if (NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
                 addFragment(ShoppingCartFragment.createInstance(new Bundle(),
                         BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
             } else {
@@ -54,6 +55,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
+        mContext = context;
         if (mFragmentLayout == null) {
             mFragmentLayout = new IAPFragmentActionLayout(getContext(), getActivity().getSupportFragmentManager());
         }
@@ -71,6 +73,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         super.onResume();
         setBackButtonVisibility(View.VISIBLE);
         setCartIconVisibility(View.GONE);
+        mFragmentLayout.getCartContainer().setOnClickListener(mCartIconListener);
     }
 
     public void addFragment(BaseAnimationSupportFragment newFragment,

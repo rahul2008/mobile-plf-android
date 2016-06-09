@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,27 +35,22 @@ public class IAPFragmentActionLayout extends IAPActionLayout implements IAPFragm
         mCartContainer = (ViewGroup) mMainLayout.findViewById(R.id.cart_container);
         mUPButtonLayout = (ViewGroup) mMainLayout.findViewById(R.id.iap_header_back_button);
         setUPButtonListener();
-        setCartContainerListener();
     }
 
     private void setUPButtonListener() {
         mUPButtonLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-               if(!onHWBackPressed() && mContext instanceof Activity) {
-                   ((Activity) mContext).onBackPressed();
-               };
+                if (!onHWBackPressed() && mContext instanceof Activity) {
+                    ((Activity) mContext).onBackPressed();
+                }
+                ;
             }
         });
     }
 
-    private void setCartContainerListener() {
-        mCartContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-
-            }
-        });
+    public View getCartContainer() {
+        return mCartContainer;
     }
 
     @Override
