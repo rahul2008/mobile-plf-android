@@ -24,7 +24,7 @@ public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
         SHNFirmwareUpdateStateIdle,
         /**
          * Preparing state. In this state, the peripheral is preparing for receiving a firmware image.
-         * Note that a devices may not go through this state.
+         * Note that a device may not go through this state.
          */
         SHNFirmwareUpdateStatePreparing,
         /**
@@ -33,7 +33,7 @@ public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
         SHNFirmwareUpdateStateUploading,
         /**
          * Verifying state. In this state the peripheral is verifying the received firmware image.
-         * Note that a devices may not go through this state.
+         * Note that a device may not go through this state.
          */
         SHNFirmwareUpdateStateVerifying,
         /**
