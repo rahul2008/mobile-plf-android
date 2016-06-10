@@ -56,7 +56,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
         mAdapter = new OrderHistoryAdapter(mContext, mOrders);
         mOrderHistoryView.setAdapter(mAdapter);
-        if(mOrders.size() == 0)
+        if (mOrders.size() == 0)
             updateHistoryListOnResume();
 
         return rootView;
@@ -83,7 +83,8 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mOrders.clear();
+        if (mOrders != null)
+            mOrders.clear();
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PURCHASE_HISTORY_DETAIL), this);
     }
 
@@ -109,7 +110,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
                         removeFragment();
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
                                 BaseAnimationSupportFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
-                    }else{
+                    } else {
                         mAdapter = new OrderHistoryAdapter(mContext, mOrders);
                         mOrderHistoryView.setAdapter(mAdapter);
                     }
@@ -123,8 +124,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
     }
 
-    private void startOrderDetailFragment()
-    {
+    private void startOrderDetailFragment() {
         if (isNetworkNotConnected()) return;
         int pos = mAdapter.getSelectedPosition();
         Orders order = mOrders.get(pos);
