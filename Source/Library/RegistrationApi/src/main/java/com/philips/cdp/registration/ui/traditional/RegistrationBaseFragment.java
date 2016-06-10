@@ -172,20 +172,23 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 && -99 != fragment.getResourceID()) {
             mPrevTitleResourceId = fragment.getResourceID();
         }
-        if (fragment.getFragmentCount() > 1) {
-            if (this instanceof WelcomeFragment) {
-                fragment.getUpdateTitleListener().updateRegistrationTitleWithOutBack(getTitleResourceId());
-            }
-            else if (this instanceof HomeFragment) {
-                fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+        if(null != fragment) {
+            if (fragment.getFragmentCount() > 1) {
+                if (this instanceof WelcomeFragment && null!=fragment.getUpdateTitleListener()) {
+                    fragment.getUpdateTitleListener().updateRegistrationTitleWithOutBack(getTitleResourceId());
+                } else if (this instanceof HomeFragment && null!=fragment.getUpdateTitleListener()) {
+                    fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+                } else {
+                    if(null!=fragment.getUpdateTitleListener())
+                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
+                }
             } else {
-                fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
+                if(null!=fragment.getUpdateTitleListener())
+                fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
             }
-        } else {
-            fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+            fragment.setResourceID(getTitleResourceId());
+            fragment.setCurrentTitleResource(getTitleResourceId());
         }
-        fragment.setResourceID(getTitleResourceId());
-        fragment.setCurrentTitleResource(getTitleResourceId());
     }
 
     public RegistrationFragment getRegistrationFragment() {

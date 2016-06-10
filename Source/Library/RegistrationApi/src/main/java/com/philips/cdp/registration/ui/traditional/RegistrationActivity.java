@@ -12,6 +12,7 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -31,7 +32,6 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         RegistrationTitleBarListener {
 
     private  boolean isAccountSettings = true;
-
     private TextView ivBack;
     private Handler mSiteCatalistHandler = new Handler();
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
@@ -69,9 +69,35 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             }
         }
 
-        setContentView(R.layout.reg_activity_registration);
+        int alwaysFinishActivity = 0;
+        try {
+            alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
+        } catch (NullPointerException e) {
+        }
+
+        System.out.println("************* ACTIVITY  is  " + alwaysFinishActivity);
+        setContentView(R.layout.activity_registration);
+        ivBack = (TextView) findViewById(R.id.iv_reg_back);
+        ivBack.setOnClickListener(this);
+        /*try {
+            initActionBar();
+        } catch (ClassCastException e) {
+            RLog.e("Exception ", "RegistrationActivity : " + e.getMessage());
+        }*/
+
+        if (alwaysFinishActivity == 0) {
+            initUI();
+        }
+
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity  Register: NetworStateListener");
-        initUI();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        RLog.i("Exception ", "--> BaseActivity protected onSaveInstanceState");
+        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
 
     @Override
@@ -118,11 +144,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     }
 
     private void initUI() {
-        ivBack = (TextView) findViewById(R.id.iv_reg_back);
-        ivBack.setOnClickListener(this);
         launchRegistrationFragment(isAccountSettings);
-
-
     }
 
     private void launchRegistrationFragment(boolean isAccountSettings) {

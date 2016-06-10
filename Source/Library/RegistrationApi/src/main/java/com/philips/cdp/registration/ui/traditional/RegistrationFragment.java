@@ -85,7 +85,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment  Register: NetworStateListener");
         mFragmentManager = getChildFragmentManager();
-        loadFirstFragment();
+        if(mFragmentManager.getBackStackEntryCount() < 1){
+            loadFirstFragment();
+        }
         return view;
     }
 
