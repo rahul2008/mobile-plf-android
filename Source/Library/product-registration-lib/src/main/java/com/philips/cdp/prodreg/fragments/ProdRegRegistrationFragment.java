@@ -37,6 +37,7 @@ import java.util.Date;
  */
 public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
 
+    public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
     private TextView productTitleTextView;
     private Button register;
@@ -44,10 +45,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     private ProductMetadataResponseData productMetadataResponseData;
     private Product currentProduct;
     private PuiEditText serial_number_editText, date_EditText;
-
     private View.OnFocusChangeListener mFocusChangeListenerDate;
     private View.OnFocusChangeListener mFocusChangeListenerSerial;
-    private String TAG = getClass().toString();
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -108,7 +107,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                showAlert("Success", "Registration success");
+                showFragment(new ProdRegSuccessFragment());
             }
 
             @Override
@@ -283,7 +282,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                     ProdRegHelper prodRegHelper = new ProdRegHelper();
                     final ProdRegListener listener = getProdRegListener();
                     prodRegHelper.addProductRegistrationListener(listener);
-                    prodRegHelper.getSignedInUserWithProducts().makeRegistrationRequest(getActivity(), getMappedRegisteredProduct(), listener);
+                    prodRegHelper.getSignedInUserWithProducts().registerProduct(getMappedRegisteredProduct());
                 }
             }
         };
