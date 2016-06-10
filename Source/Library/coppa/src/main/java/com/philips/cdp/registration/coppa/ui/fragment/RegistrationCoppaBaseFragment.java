@@ -156,15 +156,17 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
                 }
 
             }else {
-                if (fragment.getFragmentBackStackCount() > 2) {
-                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-                            mPrevTitleResourceId);
-                } else {
-                    fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);
-                }
+                if (null != fragment) {
+                    if (fragment.getFragmentBackStackCount() > 2) {
+                        fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                                mPrevTitleResourceId);
+                    } else {
+                        fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);
+                    }
 
-                trackBackActionPage();
-                fragment.setResourceID(mPrevTitleResourceId);
+                    trackBackActionPage();
+                    fragment.setResourceID(mPrevTitleResourceId);
+                }
             }
         }else{
             if( this instanceof ParentalApprovalFragment){
@@ -199,12 +201,14 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
                 && -99 != fragment.getResourceID()) {
             mPrevTitleResourceId =  fragment.getResourceID();
         }
-        if (fragment.getFragmentBackStackCount() > 1) {
+        if (null != fragment) {
+            if (fragment.getFragmentBackStackCount() > 1) {
                 fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
-        } else {
-            fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+            } else {
+                fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+            }
+            fragment.setResourceID(getTitleResourceId());
         }
-        fragment.setResourceID(getTitleResourceId());
     }
 
     public RegistrationCoppaFragment getRegistrationFragment() {
