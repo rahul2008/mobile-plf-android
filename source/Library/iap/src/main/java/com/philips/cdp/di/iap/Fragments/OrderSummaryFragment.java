@@ -163,7 +163,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         moveToFragment(ShoppingCartFragment.TAG);
     }
 
-
     private boolean paymentMethodAvailable() {
         return mPaymentMethod != null;
     }
@@ -183,6 +182,9 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (msg.obj instanceof IAPNetworkError) {
             getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
+        } else {
+            getIAPActivity().getNetworkUtility().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
     }
 

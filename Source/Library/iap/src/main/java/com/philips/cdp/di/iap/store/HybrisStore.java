@@ -32,7 +32,7 @@ public class HybrisStore extends AbstractStoreSpec {
 
     //Requests
     private static final String SUFFIX_CURRENT_CART = "/carts/current";
-    private static final String SUFFIX_GET_CART = "?fields=FULL";
+    private static final String SUFFIX_GET_CART = "?fields=FULL&lang=en";
     private static final String SUFFIX_CART_CREATE = "/carts";
     private static final String SUFFIX_CART_ENTRIES = "/entries";
     private static final String SUFFIX_PRODUCT_MODIFY = "/entries/%s";
