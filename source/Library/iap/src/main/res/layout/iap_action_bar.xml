@@ -29,7 +29,6 @@
         android:ellipsize="end"
         android:maxEms="10"
         android:singleLine="true"
-        android:text="@string/Settings"
         android:textColor="#FFFFFF"
         android:textSize="@dimen/header" />
 
