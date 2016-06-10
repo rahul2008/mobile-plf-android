@@ -57,13 +57,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private String mJanRainEmail;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mAddrController = new AddressController(getContext(), this);
-        sendShippingAddressesRequest();
-    }
-
-    @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
@@ -120,6 +113,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitle(R.string.iap_address);
+        if (!isNetworkNotConnected()) {
+            mAddrController = new AddressController(getContext(), this);
+            sendShippingAddressesRequest();
+        }
         mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
         mAddressListView.setAdapter(mAdapter);
     }
@@ -211,6 +208,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 HashMap<String, String> addressHashMap = updateShippingAddress();
                 moveToShippingAddressFragment(addressHashMap);
             } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
+                if (isNetworkNotConnected()) return;
                 deleteShippingAddress();
             }
         }
