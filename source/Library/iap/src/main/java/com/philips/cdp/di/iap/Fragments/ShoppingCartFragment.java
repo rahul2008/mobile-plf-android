@@ -261,6 +261,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onLoadListenerError(IAPNetworkError error) {
         if (Utility.isProgressDialogShowing()) Utility.dismissProgressDialog();
+        if (isNetworkNotConnected()) return;
         getIAPActivity().getNetworkUtility().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok), error.getMessage(), error.getMessage());
     }
 
