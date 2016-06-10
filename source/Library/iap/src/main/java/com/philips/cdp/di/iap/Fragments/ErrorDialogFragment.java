@@ -52,8 +52,8 @@ public class ErrorDialogFragment extends BlurDialogFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION).equals(getString(R.string.iap_time_out_error))) {
+                String error = bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION);
+                if (error!=null && error.equals(getString(R.string.iap_time_out_error))) {
                     IAPLog.i(IAPLog.LOG, "SWITCH_TO_NO_NETWORK_CONNECTION");
                     addFragment(NoNetworkConnectionFragment.createInstance(bundle, BaseAnimationSupportFragment.AnimationType.NONE),
                             NoNetworkConnectionFragment.TAG);
