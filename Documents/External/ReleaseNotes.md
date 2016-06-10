@@ -11,19 +11,8 @@ Version v1.1.2
 * Upgraded ICPClient to v7.1.0_A.1
 --------------------------------------------------------------------------------
 ### Bugs fixed:
-* DE11299 DevicePort now supports subscription 
---------------------------------------------------------------------------------
-### Known issues:
-================================================================================
-
-Version v1.1.1
---------------------------------------------------------------------------------
-
---------------------------------------------------------------------------------
-### New features:
---------------------------------------------------------------------------------
-### Bugs fixed:
 * DE11257 Remote subscriptions' reponse messages are now parsed properly. 
+* DE11299 DevicePort now supports subscription 
 --------------------------------------------------------------------------------
 ### Known issues:
 ================================================================================
@@ -33,7 +22,7 @@ Version v1.1.0
 
 --------------------------------------------------------------------------------
 ### New features:
-* The following fiels on the Firmware port are now non optional: name, version and progress.
+* The following fields on the Firmware port are now non optional: name, version and progress.
 * When an appliance is disconnected it is not subscribed anymore. As soon as it become connected, the subscription will still occur.
 * The interface of PairingListener has changed, now it know the type of appliance, and will return the appliance instead of just its network node on success or failure.
 --------------------------------------------------------------------------------
