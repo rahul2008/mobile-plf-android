@@ -43,7 +43,7 @@ public interface SHNDeviceDefinitionInfo {
     Set<UUID> getPrimaryServiceUUIDs();
 
     /**
-     * Specifies an association procedure to be used to associate with the peripheral.
+     * Through this function {@link SHNDeviceAssociation} creates an association procedure to be used to associate with the peripheral.
      * <p/>
      * The procedure will be used by {@link com.philips.pins.shinelib.SHNDeviceAssociation}.
      *
@@ -54,24 +54,24 @@ public interface SHNDeviceDefinitionInfo {
     SHNAssociationProcedurePlugin createSHNAssociationProcedure(SHNCentral central, SHNAssociationProcedurePlugin.SHNAssociationProcedureListener shnAssociationProcedureListener);
 
     /**
-     * Specifies a device definition for this device definition info.
+     * Through this function a {@link com.philips.pins.shinelib.SHNDeviceDefinitionInfo.SHNDeviceDefinition} for this device definition info can be retrieved.
      *
-     * @return {@code SHNDeviceDefinition} instance that specifies the corresponding {@code SHNDevice} for this device definition info
+     * @return {@link com.philips.pins.shinelib.SHNDeviceDefinitionInfo.SHNDeviceDefinition} instance that specifies the corresponding {@link SHNDevice} for this device definition info
      */
     SHNDeviceDefinition getSHNDeviceDefinition();
 
     /**
-     * Indicates to the scanner whether it should use the matchesOnAdvertisedData function or match with primary UUIDs.
+     * Indicates to the scanner whether it should use the matchesOnAdvertisedData function or match based on the list of primary UUIDs.
      * <p/>
-     * If true then {@code matchesOnAdvertisedData} is used to determine if the advertised data received from a peripheral matches what is supported by the plugin.
-     * Otherwise the matching should be done using the UUID's obtained through the {@code getPrimaryServiceUUIDS} function.
+     * If true then {@link #matchesOnAdvertisedData(BluetoothDevice, BleScanRecord, int)} is called to determine if the scanrecord received from a peripheral identifies a peripheral serviced by the plugin.
+     * If false the matching should be done using the UUID's obtained through the {@link #getPrimaryServiceUUIDs()} function.
      *
      * @return true if the {@code matchesOnAdvertisedData} function should be used, false when matching on service UUIDs should be used
      */
     boolean useAdvertisedDataMatcher();
 
     /**
-     * Indicates to the scanner whether the received advertisement data is recognised as belonging to the peripheral that is supported by the plugin.
+     * Indicates to the scanner whether the received scanrecord identifies a peripheral serviced by the plugin. See also {@link #useAdvertisedDataMatcher()}.
      * <p/>
      * Do not connect to the provided {@code bluetoothDevice}.
      *

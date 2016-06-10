@@ -6,7 +6,7 @@
 package com.philips.pins.shinelib.datatypes;
 
 /**
- * Created by 310188215 on 07/05/15.
+ * Heart rate measurement data in beats per minute.
  */
 public class SHNDataHeartRate extends SHNData {
     private final int heartRate;
@@ -25,6 +25,9 @@ public class SHNDataHeartRate extends SHNData {
         return valid;
     }
 
+    /**
+     * @return {@link SHNDataType#HeartRate}
+     */
     @Override
     public SHNDataType getSHNDataType() {
         return SHNDataType.HeartRate;

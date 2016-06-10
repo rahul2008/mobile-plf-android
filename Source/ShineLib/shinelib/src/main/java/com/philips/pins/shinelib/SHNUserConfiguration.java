@@ -8,8 +8,10 @@ package com.philips.pins.shinelib;
 import java.util.Date;
 
 /**
- * Interface representing user data. Includes various user data as gender, date of birth, age, height, weight etc.
- * Also contains user related preferences such as language and country code, clock format etc.
+ * Interface for managing user data.
+ * <p/>
+ * Includes items like gender, date of birth, age, height, weight etc.
+ * But also contains user related preferences such as language and country code, clock format etc.
  */
 public interface SHNUserConfiguration {
     /**

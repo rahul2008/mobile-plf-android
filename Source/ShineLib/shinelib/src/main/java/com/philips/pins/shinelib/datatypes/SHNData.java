@@ -6,8 +6,16 @@
 package com.philips.pins.shinelib.datatypes;
 
 /**
- * Created by 310188215 on 07/05/15.
+ * Interface for data types returned from capabilities.
+ * <p/>
+ * Is currently an abstract class for historic reasons.
  */
 public abstract class SHNData {
+
+    /**
+     * Get the data type of the class implementing {@code SHNData}.
+     *
+     * @return data type
+     */
     public abstract SHNDataType getSHNDataType();
 }

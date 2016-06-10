@@ -1,7 +1,9 @@
 package com.philips.pins.shinelib.capabilities;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.SHNFirmwareInfo;
 import com.philips.pins.shinelib.SHNFirmwareInfoResultListener;
@@ -47,9 +49,9 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         }
     };
 
-    public CapabilityFirmwareUpdateDiComm(@NonNull DiCommFirmwarePort diCommPort, @NonNull DiCommFirmwarePortStateWaiter diCommFirmwarePortStateWaiter) {
+    public CapabilityFirmwareUpdateDiComm(@NonNull DiCommFirmwarePort diCommPort, @NonNull Handler internalHandler) {
         this.firmwareDiCommPort = diCommPort;
-        this.diCommFirmwarePortStateWaiter = diCommFirmwarePortStateWaiter;
+        this.diCommFirmwarePortStateWaiter = createDiCommFirmwarePortStateWaiter(diCommPort, internalHandler);
 
         this.firmwareDiCommPort.setListener(listener);
 
@@ -90,6 +92,11 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         } else {
             SHNLogger.d(TAG, "Unable to start firmware upload; State is: " + state);
         }
+    }
+
+    @VisibleForTesting
+    protected DiCommFirmwarePortStateWaiter createDiCommFirmwarePortStateWaiter(@NonNull DiCommFirmwarePort diCommPort, @NonNull Handler internalHandler) {
+        return new DiCommFirmwarePortStateWaiter(diCommPort, internalHandler);
     }
 
     private void resetFirmwarePortToIdle(DiCommFirmwarePort.State state) {

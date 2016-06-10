@@ -72,10 +72,10 @@ def javaDocClassesForPublicApi = ['SHNCentral',
                                   'SHNUserConfiguration',
                                   'SHNDevice',
                                   'SHNCapability',
-                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',
+                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNFirmwareInfoResultListener','SHNFirmwareInfo','SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',
                                   'SHNData',
                                   'SHNDataType', 'SHNDataBloodPressure', 'SHNDataHeartRate', 'SHNDataWeight', 'SHNDataBodyTemperature', 'SHNTemperatureType',
-                                  'SHNResult', 'SHNResultListener', 'SHNIntegerResultListener', 'SHNStringResultListener', 'SHNSetResultListener', 'SHNMapResultListener', 'SHNObjectResultListener', 'SHNTemperatureMeasurementResultListener']
+                                  'SHNResult', 'SHNResultListener', 'SHNIntegerResultListener', 'SHNStringResultListener', 'SHNSetResultListener', 'SHNMapResultListener', 'SHNObjectResultListener']
 
 def javaDocClassesForPluginApi = javaDocClassesForPublicApi + [
         'SHNAssociationProcedurePlugin',
@@ -91,12 +91,12 @@ def javaDocClassesForPluginApi = javaDocClassesForPublicApi + [
         // existing building blocks
         'SHNDeviceImpl',
         'SHNAssociationProcedureNearestDevice',
-        'SHNCapabilityLogSyncHealthThermometer', 'SHNServiceHealthThermometer', 'SHNTemperatureMeasurement', 'SHNTemperatureMeasurementInterval',
+        'SHNCapabilityLogSyncHealthThermometer', 'SHNServiceHealthThermometer', 'SHNTemperatureMeasurement', 'SHNTemperatureMeasurementInterval', 'SHNTemperatureMeasurementResultListener',
         'SHNCapabilityLogSyncWeightScale', 'SHNServiceWeightScale', 'SHNWeightMeasurement', 'SHNWeightScaleFeatures', 'SHNServiceBodyComposition', 'SHNBodyCompositionMeasurement', 'SHNBodyCompositionFeatures',
 
         'SHNCapabilityDeviceInformationImpl', 'SHNCapabilityDeviceInformationCached', 'SHNServiceDeviceInformation',
         'SHNCapabilityBatteryImpl', 'SHNServiceBattery',
-        'CapabilityFirmwareUpdateDiComm', 'DiCommFirmwarePort', 'DiCommFirmwarePortStateWaiter',
+        'CapabilityFirmwareUpdateDiComm', 'DiCommFirmwarePort',
         'SHNDeviceTimeAdjusterCurrentTimeService', 'SHNServiceCurrentTime'
 ]
 

@@ -105,9 +105,9 @@ public class SHNDeviceFoundInfo {
     }
 
     /**
-     * Returns {@code SHNDeviceDefinitionInfo} that matches the found peripheral.
+     * Returns {@link SHNDeviceDefinitionInfo} that matches the found peripheral.
      *
-     * @return {@code SHNDeviceDefinitionInfo} for the found peripheral
+     * @return {@link SHNDeviceDefinitionInfo} for the found peripheral
      */
     @NonNull
     public SHNDeviceDefinitionInfo getShnDeviceDefinitionInfo() {
@@ -115,9 +115,9 @@ public class SHNDeviceFoundInfo {
     }
 
     /**
-     * Returns {@code SHNDevice} for the found peripheral.
+     * Returns {@link SHNDevice} for the found peripheral.
      *
-     * @return {@code SHNDevice} for the found peripheral
+     * @return {@link SHNDevice} for the found peripheral
      */
     @NonNull
     public SHNDevice getShnDevice() {
@@ -125,9 +125,9 @@ public class SHNDeviceFoundInfo {
     }
 
     /**
-     * Returns {@code BleScanRecord} instance of the found peripheral.
+     * Returns {@link BleScanRecord} instance of the found peripheral.
      *
-     * @return {@code BleScanRecord} that wraps raw advertisement data
+     * @return {@link BleScanRecord} that wraps raw advertisement data
      */
     @NonNull
     public BleScanRecord getBleScanRecord() {

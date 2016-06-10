@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Convenience class that provides functionality to clean BlueLib persistent storage.
+ * Convenience class that provides functionality to clear BlueLib persistent storage.
  */
 public class PersistentStorageCleaner {
 

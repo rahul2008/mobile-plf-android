@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Class representing a wrapper around {@link android.content.SharedPreferences} interface.
+ * Class implementing a wrapper around the {@link android.content.SharedPreferences} interface.
  * <p/>
- * Use this class to store any information withing BlueLib.
+ * Use this class to store any information within BlueLib.
  */
 public class PersistentStorage implements SharedPreferences {
     private static final String TAG = "PersistentStorage";
@@ -97,12 +97,14 @@ public class PersistentStorage implements SharedPreferences {
     }
 
     /**
-     * Retrieves a value in SharedPreferences for the specified key with specified default value.
+     * Retrieves a value from SharedPreferences for the specified key. When there is no value associated
+     * with the key or the value stored is of a different type than {@link T}, then the provided
+     * {@code defaultValue} will be returned.
      *
-     * @param key          used for storage
-     * @param defaultValue returned in case the key is not found
-     * @param <T>          type of the return value
-     * @return
+     * @param key           used for storage
+     * @param defaultValue  returned in case the key is not found
+     * @param <T>           type of the return value
+     * @return              when the type matches and a value was stored the value previously stored else the {@code defaultValue}.
      */
     public <T> T get(@NonNull final String key, @Nullable T defaultValue) {
         T value = get(key);
@@ -110,11 +112,12 @@ public class PersistentStorage implements SharedPreferences {
     }
 
     /**
-     * Retrieves a value in SharedPreferences for the specified key with predefined default value.
+     * Retrieves a value from SharedPreferences for the specified key. When there is no value associated
+     * with the key or the value stored is of a different type than {@link T}, then {@code null} will be returned.
      *
-     * @param key used for storage
-     * @param <T> type of the return value
-     * @return
+     * @param key   used for storage
+     * @param <T>   type of the return value
+     * @return      when the type matches and a value was stored the value previously stored else {@code null}.
      */
     public <T> T get(@NonNull final String key) {
         Object value = getAll().get(key);

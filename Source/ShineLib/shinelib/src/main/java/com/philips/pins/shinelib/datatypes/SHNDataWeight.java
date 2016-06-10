@@ -6,8 +6,7 @@
 package com.philips.pins.shinelib.datatypes;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Weight measurement data in kilograms (SI).
  */
 public class SHNDataWeight extends SHNData {
     private float weightInKg;
@@ -16,6 +15,9 @@ public class SHNDataWeight extends SHNData {
         this.weightInKg = weightInKg;
     }
 
+    /**
+     * @return {@link SHNDataType#Weight}
+     */
     @Override
     public SHNDataType getSHNDataType() {
         return SHNDataType.Weight;
