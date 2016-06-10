@@ -96,7 +96,7 @@ public class LocalManager implements LocalInterface {
                     Log.i("Retried Country", " "+mCountry);
 
                 }
-            }),"https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en");
+            }));
         //new RequestManager(context).execute("https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en");
             return mCountry;
         }

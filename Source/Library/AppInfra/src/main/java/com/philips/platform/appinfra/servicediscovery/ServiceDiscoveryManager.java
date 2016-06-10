@@ -46,24 +46,28 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     @Override
-    public void getservice(String url) {
+    public void getservice() {
         String urlBuild;
 
-        if(!url.contains("country")){
-            urlBuild=url;
-        }else{
+
             urlBuild= buildUrl();
-        }
 
         if(urlBuild!= null){
             new RequestManager(context).execute(urlBuild);
-        }
+            }
 
     }
     private String  buildUrl(){
         AppIdentityManager idntityManager = new AppIdentityManager(mAppInfra);
+        idntityManager.loadJSONFromAsset();
         LocalManager locamManager= new LocalManager(mAppInfra);
-//        URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&country="+ locamManager.getCountry();
+        locamManager.getlanguage();
+        if(locamManager.getCountry() == null){
+            URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage();
+        }else{
+            URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&country="+ locamManager.getCountry();
+        }
+
         return URL;
     }
 
@@ -102,7 +106,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 public void onSuccess() {
                     filteresDataServicesWithCountryPreference(serviceId, null, listener, null, null);
                 }
-            }),URL);
+            }));
         }
 
     }
@@ -123,7 +127,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 public void onSuccess() {
                     filteresDataServicesWithCountryPreference(serviceId,null,  listener, null, null);
                 }
-            }),URL);
+            }));
         }
 
     }
@@ -145,7 +149,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 public void onSuccess() {
                     filteresDataServicesWithCountryPreference(serviceId, listener,null, null, null);
                 }
-            }),URL);
+            }));
         }
 
     }
@@ -166,7 +170,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 public void onSuccess() {
                     filteresDataServicesWithCountryPreference(serviceId, listener, null, null, null);
                 }
-            }),URL);
+            }));
         }
 
     }
@@ -187,7 +191,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 public void onSuccess() {
                     filteresDataServicesWithCountryPreference(serviceIds,null, null, null, listener);
                 }
-            }),URL);
+            }));
         }
 
     }
@@ -209,7 +213,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 public void onSuccess() {
                     filteresDataServicesWithCountryPreference(serviceIds,null, null, null, listener);
                 }
-            }),URL);
+            }));
         }
 
     }
@@ -272,13 +276,17 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
 
     @Override
-    public void refresh(final OnRefreshListener listener, String url) {
-        final String URL=url;
+    public void refresh(final OnRefreshListener listener) {
         new AsyncTask<String, String, String>(){
 
             @Override
             protected String doInBackground(String... params) {
-                getservice(URL);
+                if(isDataAvailable){
+                    listener.onSuccess();
+                }else{
+                    getservice();
+                }
+
                 return null;
             }
             protected void onProgressUpdate(String... progress) {

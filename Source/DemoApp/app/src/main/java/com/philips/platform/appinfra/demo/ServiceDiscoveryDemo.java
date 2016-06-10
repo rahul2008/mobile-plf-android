@@ -50,7 +50,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
                 mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("ugrow.privacy",mOnGetServiceUrlListener );
                 mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference("ugrow.terms",mOnGetServiceUrlListener );
             }
-        }, "https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en&country=IN");
+        });
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public interface ServiceDiscoveryInterface {
 
-    public void getservice(String url);
+    public void getservice();
 
     public class ServiceUrlandLocale {
         public final URL    serviceUrl;
@@ -109,5 +109,5 @@ public interface ServiceDiscoveryInterface {
      * @param listener asynchronously returns using onSuccess when retrieval was successful;
      *                 or returns onError the error code when retrieval failed.
      */
-    void refresh(OnRefreshListener listener, String url);
+    void refresh(OnRefreshListener listener);
 }
