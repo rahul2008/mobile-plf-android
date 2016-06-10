@@ -51,7 +51,7 @@ allprojects {
     ext._targetSdkVersion = 23
     ext._versionCode = 3
 
-    ext.shineLibVersion = '0.6.0'
+    ext.shineLibVersion = '0.6.1'
 
     ext.artifactoryVersion = ext.shineLibVersion
     ext.artifactoryGroup = 'com.philips.cdp.shine'
