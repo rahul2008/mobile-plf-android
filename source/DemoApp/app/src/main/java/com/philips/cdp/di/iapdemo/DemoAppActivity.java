@@ -1,7 +1,10 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -130,17 +133,29 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.shopping_cart_icon:
-                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, null, mBuyProductListener);
+                if(isNetworkAvailable(DemoAppActivity.this)) {
+                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, null, mBuyProductListener);
+                }else{
+                    Toast.makeText(DemoAppActivity.this,"Network unavailable",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
             case R.id.btn_shop_now:
-                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+                if(isNetworkAvailable(DemoAppActivity.this)) {
+                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+                }else {
+                    Toast.makeText(DemoAppActivity.this,"Network unavailable",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btn_purchase_history:
-                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, null, null);
+                if(isNetworkAvailable(DemoAppActivity.this)) {
+                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, null, null);
+                }else {
+                    Toast.makeText(DemoAppActivity.this,"Network unavailable",Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 break;
@@ -334,5 +349,12 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         TextView versionView = (TextView) findViewById(R.id.appversion);
         versionView.setText(String.valueOf(code));
 
+    }
+
+    public boolean isNetworkAvailable(Context pContext) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

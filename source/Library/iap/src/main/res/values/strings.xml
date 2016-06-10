@@ -79,11 +79,6 @@
     <string name="iap_add_payment_method">Add a new payment method</string>
     <string name="iap_valid_until">Valid until</string>
 
-    <!-- Model Error -->
-    <string name="iap_ok">OK</string>
-    <string name="iap_network_error">Network Error</string>
-    <string name="iap_check_connection">Please check the connection</string>
-
     <!-- Payment -->
     <string name="iap_confirmation">Confirmation</string>
     <string name="iap_thank_for_order">Thank you for your order</string>
@@ -141,5 +136,10 @@ Please try again, or if the problem persists: contact Philips Consumer Care</str
     <string name="iap_track_my_shipment">Track my shipment</string>
     <string name="iap_shipping_to">Shipping to</string>
     <string name="iap_track_package_text">You can track your package anytime with tracking number</string>
+
+    <!-- Model Error -->
+    <string name="iap_ok">OK</string>
+    <string name="iap_network_error">You are offline</string>
+    <string name="iap_check_connection">Your internet connection doesn’t seem to be working. Please check and try again</string>
 
 </resources>
