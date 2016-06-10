@@ -32,7 +32,7 @@
     <string name="Coppa_Parental_Thank_Consent_Privacy_Txt">Read the privacy notice for more information.</string>
     <string name="Parental_consent_reconfirm_title">Reconfirm your parential  consent</string>
     <string name="Parental_consent_reconfirm_title_desc1">Your parental consent already given to Philips to collect and use certain information from the Philips Sonicare Kids App.</string>
-    <string name="Parental_consent_reconfirm_title_desc2">Philips takes the utmost care to protect your privacy. To make shure it was really you, please reconfirm.</string>
+    <string name="Parental_consent_reconfirm_title_desc2">Philips takes the utmost care to protect your privacy. To make sure it was really you, please reconfirm.</string>
     <string name="Parental_consent_reconfirm_btn_confirm">Reconfirm parental consent</string>
     <string name="Parental_consent_reconfirm_btn_cancel">No, Thanks. I changed my mind.</string>
     <string name="Request_Parental_consent_Title">Request for parental consent</string>

@@ -33,7 +33,7 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
                     android:paddingLeft="0dip"
-                    android:text="@string/Request_Parental_consent_Title"
+                    android:text="@string/Parental_consent_reconfirm_title"
                     android:visibility="visible"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
