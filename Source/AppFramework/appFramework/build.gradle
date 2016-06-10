@@ -37,7 +37,7 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    
+
     /*
     This defined for signing the apk -- start
      */
