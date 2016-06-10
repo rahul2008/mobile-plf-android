@@ -593,55 +593,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	private void checkInternetConnection() {
 		new InternetConnectionHandler(this, handler).checkInternetConnection() ;
 	}
-	
-	@Override
-	public void onPairingSuccess(NetworkNode networkNode) {	
-		if(getCurrentPurifier()==null) return;
-
-		if(networkNode.getCppId()==getCurrentPurifier().getNetworkNode().getCppId()){
-			cancelPairingDialog();
-
-			FragmentManager manager = getSupportFragmentManager();
-			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
-			if(fragment instanceof NotificationsFragment) {
-				runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						((NotificationsFragment) fragment).refreshNotificationLayout() ;
-					}
-				});
-
-			}
-		}
-	}
-
-	@Override
-	public void onPairingFailed(NetworkNode networkNode) {
-		if(getCurrentPurifier()==null) return;
-
-		if(networkNode.getCppId()==getCurrentPurifier().getNetworkNode().getCppId()){
-			cancelPairingDialog();
-			FragmentManager manager = getSupportFragmentManager();
-			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
-			if(fragment instanceof NotificationsFragment) {
-				runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						((NotificationsFragment) fragment).disableNotificationScreen() ;
-					}
-				});
-
-			}
-		}
-		//If pairing failed show alert
-		String title = "";
-		if (networkNode != null) title = networkNode.getName();
-		MetricsTracker.trackActionTechnicalError("Error : Pairing failed Purifier ID " + networkNode.getCppId());
-		showAlertDialogPairingFailed(title, getString(R.string.pairing_failed), "pairing_failed");
-	}
 
 	private void cancelPairingDialog(){
 		runOnUiThread(new Runnable() {
@@ -817,5 +768,54 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			communicationFailedMsgDisplayed = true;
 			showAlertDialogPairingFailed("", getString(msgId), tag);
 		}
+	}
+
+	@Override
+	public void onPairingSuccess(final DICommAppliance appliance) {
+		if(getCurrentPurifier()==null) return;
+
+		if(appliance.getNetworkNode().getCppId()==getCurrentPurifier().getNetworkNode().getCppId()){
+			cancelPairingDialog();
+
+			FragmentManager manager = getSupportFragmentManager();
+			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
+			if(fragment instanceof NotificationsFragment) {
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						((NotificationsFragment) fragment).refreshNotificationLayout() ;
+					}
+				});
+
+			}
+		}
+	}
+
+	@Override
+	public void onPairingFailed(final DICommAppliance appliance) {
+		if(getCurrentPurifier()==null) return;
+
+		if(appliance.getNetworkNode().getCppId()==getCurrentPurifier().getNetworkNode().getCppId()){
+			cancelPairingDialog();
+			FragmentManager manager = getSupportFragmentManager();
+			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
+			if(fragment instanceof NotificationsFragment) {
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						((NotificationsFragment) fragment).disableNotificationScreen() ;
+					}
+				});
+
+			}
+		}
+		//If pairing failed show alert
+		String title = "";
+		if (appliance.getNetworkNode() != null) title = appliance.getNetworkNode().getName();
+		MetricsTracker.trackActionTechnicalError("Error : Pairing failed Purifier ID " + appliance.getNetworkNode().getCppId());
+		showAlertDialogPairingFailed(title, getString(R.string.pairing_failed), "pairing_failed");
 	}
 }
