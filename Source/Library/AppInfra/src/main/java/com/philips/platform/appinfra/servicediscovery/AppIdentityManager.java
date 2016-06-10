@@ -5,15 +5,13 @@
  */
 package com.philips.platform.appinfra.servicediscovery;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.BuildConfig;
+import com.philips.platform.appinfra.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,6 +124,12 @@ public class AppIdentityManager implements AppIdentityInterface {
                          mAppName = pInfo.versionName;
                         if(mAppName!=null)
                             setmAppName(mAppName);
+
+                        /* Vertical App should have this string defined for all supported language files
+                        *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
+                        * */
+                        setmAppLocalizedNAme(context.getResources().getString(R.string.localized_commercial_app_name));
+
                         mAppVersion = String.valueOf(pInfo.versionCode);
                         if(mAppVersion!=null)
                             setmAppVersion(mAppVersion);
@@ -140,6 +144,7 @@ public class AppIdentityManager implements AppIdentityInterface {
                     Log.i("Obj tag1", ""+mAppState);
                     Log.i("Obj tag2", ""+mAppName);
                     Log.i("Obj tag1", ""+mAppVersion);
+                    Log.i("Obj tag1", ""+mAppLocalizedNAme);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
