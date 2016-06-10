@@ -34,7 +34,7 @@ public class IAPFragmentActionLayout extends IAPActionLayout implements IAPFragm
         mHeaderTitle = (TextView) mMainLayout.findViewById(R.id.iap_header_title);
         mCartContainer = (ViewGroup) mMainLayout.findViewById(R.id.cart_container);
         mUPButtonLayout = (ViewGroup) mMainLayout.findViewById(R.id.iap_header_back_button);
-        setUPButtonListener();
+       // setUPButtonListener();
     }
 
     private void setUPButtonListener() {
@@ -44,7 +44,6 @@ public class IAPFragmentActionLayout extends IAPActionLayout implements IAPFragm
                 if (!onHWBackPressed() && mContext instanceof Activity) {
                     ((Activity) mContext).onBackPressed();
                 }
-                ;
             }
         });
     }

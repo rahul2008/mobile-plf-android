@@ -35,9 +35,15 @@ public class LauncherFragmentActivity extends AppCompatActivity {
         layout = new IAPActionLayout(this, getSupportFragmentManager());
         mCustomView = layout.getCustomView(this);
         ((ViewGroup) findViewById(R.id.ll_custom_action)).addView(mCustomView);
-
+        ViewGroup mUPButtonLayout = (ViewGroup) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_header_back_button);
+        mUPButtonLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                onBackPressed();
+            }
+        });
         //Launch via interface
-        mIAPSettings = new IAPSettings("US","en", R.style.Theme_Philips_BrightOrange_Gradient);
+        mIAPSettings = new IAPSettings("US", "en", R.style.Theme_Philips_BrightOrange_Gradient);
         mIAPSettings.setLaunchAsFragment(true);
         mIAPSettings.setFragProperties(getSupportFragmentManager(), R.id.vertical_Container);
 
