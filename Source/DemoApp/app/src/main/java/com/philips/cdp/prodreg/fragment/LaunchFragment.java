@@ -201,11 +201,11 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_product_registration:
                 initialiseUserRegistration(env);
-                showFragment(new ManualRegistrationFragment());
+                showFragment(new ManualRegistrationFragment(), ManualRegistrationFragment.TAG);
                 break;
             case R.id.btn_register_list:
                 initialiseUserRegistration(env);
-                showFragment(new ProductListFragment());
+                showFragment(new ProductListFragment(), ProductListFragment.TAG);
                 break;
             case R.id.btn_spike_ur:
                 initialiseUserRegistration(env);
@@ -216,13 +216,12 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void showFragment(final Fragment fragment) {
+    private void showFragment(final Fragment fragment, final String TAG) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        final String demo_launch_fragment = "Demo_Launch_fragment";
         fragmentTransaction.replace(R.id.parent_layout, fragment,
-                demo_launch_fragment);
-        fragmentTransaction.addToBackStack(demo_launch_fragment);
+                TAG);
+        fragmentTransaction.addToBackStack(TAG);
         fragmentTransaction.commit();
     }
 

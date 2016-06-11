@@ -18,7 +18,8 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
  * All rights reserved.
  */
 public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
-    Button extendWarranty, registerLater;
+    public static final String TAG = ProdRegFirstLaunchFragment.class.getName();
+    private Button extendWarranty, registerLater;
 
     @Override
     public String getActionbarTitle() {

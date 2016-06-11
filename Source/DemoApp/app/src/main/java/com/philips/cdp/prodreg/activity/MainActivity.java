@@ -1,12 +1,10 @@
 package com.philips.cdp.prodreg.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,6 +13,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.fragment.LaunchFragment;
+import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 import com.philips.cdp.uikit.UiKitActivity;
 
 public class MainActivity extends UiKitActivity {
@@ -31,9 +30,7 @@ public class MainActivity extends UiKitActivity {
         fragmentManager = getSupportFragmentManager();
         LaunchFragment launchFragment = new LaunchFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.parent_layout, launchFragment,
-                "Demo_Launch_fragment");
-        fragmentTransaction.addToBackStack(launchFragment.getTag());
+        fragmentTransaction.replace(R.id.parent_layout, launchFragment);
         fragmentTransaction.commit();
     }
 
@@ -42,7 +39,7 @@ public class MainActivity extends UiKitActivity {
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
 
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
@@ -50,11 +47,11 @@ public class MainActivity extends UiKitActivity {
 
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
 
-        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
+        final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                backStackFragment();
+                onBackPressed();
             }
         });
 
@@ -71,32 +68,17 @@ public class MainActivity extends UiKitActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             finish();
         } else {
-            fragmentManager.popBackStack();
-            removeCurrentFragment();
+            if (!ProdRegConfigManager.getInstance().onBackPressed(this))
+                fragmentManager.popBackStack();
+//            removeCurrentFragment();
         }
         return true;
     }
 
-    private void removeCurrentFragment() {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        Fragment currentFrag = fragmentManager
-                .findFragmentById(R.id.parent_layout);
-
-        if (currentFrag != null) {
-            transaction.remove(currentFrag);
-        }
-        transaction.commit();
-    }
-
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return backStackFragment();
-        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+    public void onBackPressed() {
+        if (!ProdRegConfigManager.getInstance().onBackPressed(this))
+            super.onBackPressed();
     }
 
     @Override

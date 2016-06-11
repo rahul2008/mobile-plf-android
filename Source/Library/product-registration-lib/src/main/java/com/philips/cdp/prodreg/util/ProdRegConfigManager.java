@@ -22,12 +22,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
-import com.philips.cdp.prodreg.fragments.ProdRegBaseFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
 import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.UiLauncher;
+import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
@@ -35,8 +35,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class ProdRegConfigManager {
 
-    private static Context mContext = null;
-    private static FragmentManager fragmentManager = null;
     private static int mContainerId;
     private static ProdRegConfigManager prodRegConfigManager;
     private UiLauncher mUiLauncher;
@@ -59,19 +57,6 @@ public class ProdRegConfigManager {
         return prodRegConfigManager;
     }
 
-    public void initializeProductRegistration(Context applicationContext) {
-        mContext = applicationContext;
-    }
-
-    /**
-     * Returns the Context used in the Product Registration Component
-     *
-     * @return Returns the Context using by the Component.
-     */
-    public Context getContext() {
-        return mContext;
-    }
-
     /**
      * <p> Invoking ProductRegistration component features to your Fragment Container. Please use this
      * method.
@@ -81,9 +66,9 @@ public class ProdRegConfigManager {
      * Fragment ID. </p>
      */
     private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher) {
-        fragmentManager = fragmentLauncher.getFragmentActivity().getSupportFragmentManager();
         mContainerId = fragmentLauncher.getParentContainerResourceID();
-        User user = new User(fragmentLauncher.getFragmentActivity());
+        final Context mContext = fragmentLauncher.getFragmentActivity().getApplicationContext();
+        User user = new User(mContext);
         if (fragmentLauncher.isFirstLaunch()) {
             ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
             prodRegFirstLaunchFragment.setArguments(fragmentLauncher.getArguments());
@@ -136,7 +121,7 @@ public class ProdRegConfigManager {
         mUiLauncher = uiLauncher;
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            invokeProductRegistrationAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
+            invokeProductRegistrationAsActivity(activityLauncher.getFragmentActivity(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
         } else {
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             invokeProductRegistrationAsFragment(fragmentLauncher);
@@ -155,27 +140,37 @@ public class ProdRegConfigManager {
      * @param endAnimation   Animation Resource ID.
      * @param orientation
      */
-    private void invokeProductRegistrationAsActivity(int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
-        if (fragmentManager == null) {
-            throw new RuntimeException("Please initialise context before Support page is invoked");
-        }
-        Intent intent = new Intent(this.getContext(), ProdRegBaseActivity.class);
+    private void invokeProductRegistrationAsActivity(Context context, int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
+        Intent intent = new Intent(context, ProdRegBaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, startAnimation);
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, endAnimation);
         intent.putExtra(ProdRegConstants.PROD_REG_ON_FIRST_LAUNCH, mUiLauncher.isFirstLaunch());
         intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, orientation.getOrientationValue());
-        getContext().startActivity(intent);
+        context.startActivity(intent);
     }
 
-    public void onBackPressed(final String s) {
-        if (fragmentManager != null && mContainerId != 0) {
+    public boolean onBackPressed(FragmentActivity fragmentActivity) {
+        FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
+        if (fragmentManager != null && !fragmentActivity.isFinishing()) {
             Fragment currentFrag = fragmentManager
                     .findFragmentById(mContainerId);
-            if (currentFrag != null && currentFrag instanceof ProdRegBaseFragment) {
-                ProdRegBaseFragment prodRegBaseFragment = (ProdRegBaseFragment) currentFrag;
-                prodRegBaseFragment.onBackTapped(currentFrag,s);
+            if (currentFrag != null && currentFrag instanceof ProdRegBackListener) {
+                ((ProdRegBackListener) currentFrag).onBackPressed();
             }
         }
+        return false;
+    }
+
+    private void removeCurrentFragment(FragmentManager fragmentManager) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        Fragment currentFrag = fragmentManager
+                .findFragmentById(mContainerId);
+
+        if (currentFrag != null) {
+            transaction.remove(currentFrag);
+        }
+        transaction.commit();
     }
 }

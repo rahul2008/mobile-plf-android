@@ -28,10 +28,10 @@ import java.util.List;
  */
 public class ProductListFragment extends Fragment {
 
+    public static final String TAG = ProductListFragment.class.getName();
     public interface OnItemClickListener {
         void onItemClick(RegisteredProduct item);
     }
-
     private RecyclerView mRecyclerView;
     private ProgressBar progressBar;
 
@@ -85,10 +85,9 @@ public class ProductListFragment extends Fragment {
     private void showFragment(final Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        final String demo_launch_fragment = "Demo_Launch_fragment";
         fragmentTransaction.replace(R.id.parent_layout, fragment,
-                demo_launch_fragment);
-        fragmentTransaction.addToBackStack(demo_launch_fragment);
+                ManualRegistrationFragment.TAG);
+        fragmentTransaction.addToBackStack(ManualRegistrationFragment.TAG);
         fragmentTransaction.commit();
     }
 }

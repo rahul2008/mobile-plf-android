@@ -1,5 +1,7 @@
 package com.philips.cdp.prodreg.launcher;
 
+import android.support.v4.app.FragmentActivity;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -36,10 +38,12 @@ public class ActivityLauncher extends UiLauncher {
 
     protected ActivityLauncher.ActivityOrientation mScreenOrientation = null;
     protected int mUiKitTheme;
+    protected FragmentActivity mFragmentActivity = null;
 
-    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation, int uiKitTheme) {
+    public ActivityLauncher(FragmentActivity fragmentActivity, ActivityLauncher.ActivityOrientation screenOrientation, int uiKitTheme) {
         this.mScreenOrientation = screenOrientation;
         this.mUiKitTheme = uiKitTheme;
+        this.mFragmentActivity = fragmentActivity;
     }
 
     public ActivityLauncher.ActivityOrientation getScreenOrientation() {
@@ -48,5 +52,9 @@ public class ActivityLauncher extends UiLauncher {
 
     public int getmUiKitTheme() {
         return this.mUiKitTheme;
+    }
+
+    public FragmentActivity getFragmentActivity() {
+        return mFragmentActivity;
     }
 }

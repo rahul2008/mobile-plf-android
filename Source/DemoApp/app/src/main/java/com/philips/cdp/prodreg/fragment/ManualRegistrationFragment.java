@@ -39,9 +39,9 @@ import java.util.Date;
  */
 public class ManualRegistrationFragment extends Fragment implements View.OnClickListener {
 
+    public static final String TAG = ManualRegistrationFragment.class.getName();
     private ToggleButton toggleButton;
     private EditText mRegChannel, mSerialNumber, mPurchaseDate, mCtn;
-    private String TAG = getClass().toString();
     private Calendar mCalendar;
     private Button submitProduct;
     private boolean eMailConfiguration = false;

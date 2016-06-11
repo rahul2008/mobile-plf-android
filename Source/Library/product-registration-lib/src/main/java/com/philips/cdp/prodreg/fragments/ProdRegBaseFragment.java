@@ -17,21 +17,26 @@ import android.widget.TextView;
 import com.philips.cdp.prodreg.alert.ModalAlertDemoFragment;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
+import com.philips.cdp.prodreg.listener.ProdRegBackListener;
+import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
+
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public abstract class ProdRegBaseFragment extends Fragment {
+public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListener {
 
     private static String TAG = ProdRegBaseFragment.class.getSimpleName();
     private static int mContainerId = 0;
-    private static int mEnterAnimation = 0;
-    private static int mExitAnimation = 0;
     private static FragmentActivity mFragmentActivityContext = null;
     private static FragmentActivity mActivityContext = null;
     private static ActionbarUpdateListener mActionbarUpdateListener;
+    private int mEnterAnimation = 0;
+    private int mExitAnimation = 0;
+
     public abstract String getActionbarTitle();
 
     @Override
@@ -80,7 +85,7 @@ public abstract class ProdRegBaseFragment extends Fragment {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
-            fragmentTransaction.replace(mContainerId, fragment, fragment.getClass().toString());
+            fragmentTransaction.replace(mContainerId, fragment, ProdRegConstants.PROD_REG_FRAGMENT_TAG);
             if (!(fragment instanceof ProdRegProcessFragment))
                 fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commitAllowingStateLoss();
@@ -112,7 +117,7 @@ public abstract class ProdRegBaseFragment extends Fragment {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
-            fragmentTransaction.replace(containerId, fragment, fragment.getClass().toString());
+            fragmentTransaction.replace(containerId, fragment, ProdRegConstants.PROD_REG_FRAGMENT_TAG);
             fragmentTransaction.hide(this);
             if (!(fragment instanceof ProdRegProcessFragment))
                 fragmentTransaction.addToBackStack(fragment.getTag());
@@ -163,22 +168,40 @@ public abstract class ProdRegBaseFragment extends Fragment {
         }, 200);
     }
 
-    protected boolean backStackFragment() {
-        FragmentManager fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-        if (fragmentManager == null && mActivityContext != null) {
-            fragmentManager = mActivityContext.getSupportFragmentManager();
-        } else if (fragmentManager == null) {
-            fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+    public boolean clearFragmentStack() {
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentManager fragManager = getActivity().getSupportFragmentManager();
+            int count = fragManager.getBackStackEntryCount();
+            List<Fragment> fragmentList = fragManager.getFragments();
+            for (int i = 0; i <= count; i++) {
+                final Fragment fragment = fragmentList.get(i);
+                if (fragmentList != null && fragmentList.size() > 0 && fragment instanceof ProdRegBaseFragment) {
+                    removeCurrentFragment(fragment);
+                }
+            }
         }
-        fragmentManager.popBackStack();
         return false;
     }
 
-    public void onBackTapped(Fragment fragment, String s) {
-        if (fragment instanceof ProdRegConnectionFragment) {
-            FragmentManager fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-            fragmentManager.popBackStackImmediate(s, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    private void removeCurrentFragment(final Fragment currentFrag) {
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            if (currentFrag != null) {
+                transaction.remove(currentFrag);
+            }
+            transaction.commit();
         }
+    }
+
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
     }
 }
 

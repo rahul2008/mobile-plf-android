@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class ProdRegProductsFragment extends ProdRegBaseFragment {
 
+    public static final String TAG = ProdRegProductsFragment.class.getName();
     public interface OnItemClickListener {
         void onItemClick(RegisteredProduct item);
     }
