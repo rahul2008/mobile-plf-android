@@ -77,7 +77,7 @@ public class MainActivity extends UiKitActivity {
 
     @Override
     public void onBackPressed() {
-        if (!ProdRegConfigManager.getInstance().onBackPressed(this))
+        if (ProdRegConfigManager.getInstance().onBackPressed(this))
             super.onBackPressed();
     }
 

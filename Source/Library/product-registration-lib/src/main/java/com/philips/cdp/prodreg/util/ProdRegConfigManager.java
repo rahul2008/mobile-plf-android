@@ -159,6 +159,6 @@ public class ProdRegConfigManager {
                 ((ProdRegBackListener) currentFrag).onBackPressed();
             }
         }
-        return false;
+        return true;
     }
 }

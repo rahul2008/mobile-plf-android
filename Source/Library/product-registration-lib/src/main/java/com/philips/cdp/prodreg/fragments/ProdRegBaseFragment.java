@@ -198,7 +198,7 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
 
     @Override
     public boolean onBackPressed() {
-        return false;
+        return true;
     }
 }
 

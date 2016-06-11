@@ -31,8 +31,8 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
     public boolean onBackPressed() {
         if (getActivity() != null && !getActivity().isFinishing()) {
             clearFragmentStack();
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }
