@@ -11,6 +11,6 @@ public class ProductRegistrationApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        new ProdRegHelper().init(getApplicationContext());
+        ProdRegHelper.getInstance().init(getApplicationContext());
     }
 }

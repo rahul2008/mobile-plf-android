@@ -31,8 +31,6 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
 
     private static String TAG = ProdRegBaseFragment.class.getSimpleName();
     private static int mContainerId = 0;
-    private static FragmentActivity mFragmentActivityContext = null;
-    private static FragmentActivity mActivityContext = null;
     private static ActionbarUpdateListener mActionbarUpdateListener;
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
@@ -61,7 +59,7 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
                              int startAnimation, int endAnimation) {
         Log.i("testing", "Product Registration Base Fragment -- Fragment Invoke");
         mContainerId = fragmentLauncher.getParentContainerResourceID();
-        mActivityContext = fragmentLauncher.getFragmentActivity();
+        final FragmentActivity mActivityContext = fragmentLauncher.getFragmentActivity();
         mActionbarUpdateListener = fragmentLauncher.getActionbarUpdateListener();
 
         String startAnim;
@@ -97,11 +95,10 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
     protected void showFragment(Fragment fragment) {
         int containerId = R.id.mainContainer;
 
+        FragmentActivity mFragmentActivityContext = getActivity();
         if (mContainerId != 0) {
             containerId = mContainerId;
-            mFragmentActivityContext = mActivityContext;
         } else {
-            mFragmentActivityContext = getActivity();
             InputMethodManager imm = (InputMethodManager) mFragmentActivityContext
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             if (mFragmentActivityContext.getWindow() != null

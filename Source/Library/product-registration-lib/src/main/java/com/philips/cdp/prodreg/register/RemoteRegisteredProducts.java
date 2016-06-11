@@ -38,7 +38,7 @@ public class RemoteRegisteredProducts {
             public void onResponseError(PrxError prxError) {
                 try {
                     if (prxError.getStatusCode() == PrxError.PrxErrorType.AUTHENTICATION_FAILURE.getId()) {
-                        userWithProducts.onAccessTokenExpire(null, null);
+                        userWithProducts.onAccessTokenExpire(null);
                     } else
                         registeredProductsListener.getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
                 } catch (Exception e) {

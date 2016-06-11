@@ -47,7 +47,7 @@ public class ProductListFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         final TextView mVersion = (TextView) view.findViewById(R.id.txt_version);
-        final ProdRegHelper prodRegHelper = new ProdRegHelper();
+        final ProdRegHelper prodRegHelper = ProdRegHelper.getInstance();
         mVersion.setText("versionName :" + prodRegHelper.getLibVersion());
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -57,8 +57,7 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        ProdRegHelper prodRegHelper = new ProdRegHelper();
-        prodRegHelper.init(getActivity());
+        ProdRegHelper prodRegHelper = ProdRegHelper.getInstance();
         prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(new RegisteredProductsListener() {
             @Override
             public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {

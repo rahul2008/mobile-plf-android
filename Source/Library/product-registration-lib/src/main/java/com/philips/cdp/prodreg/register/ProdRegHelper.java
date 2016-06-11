@@ -22,17 +22,21 @@ import java.util.ArrayList;
  */
 public class ProdRegHelper {
 
+    public static ArrayList<ProdRegListener> prodRegListeners;
     private static Context context;
-    private static ProdRegListener prodRegListener;
     private static UserRegistrationListener userRegistrationListener;
-    private static ArrayList<ProdRegListener> prodRegListeners;
+    private static ProdRegHelper prodRegHelper;
+
+    private ProdRegHelper() {
+    }
+
     @NonNull
     private static UserRegistrationListener getUserRegistrationListener() {
         userRegistrationListener = new UserRegistrationListener() {
             @Override
             public void onUserRegistrationComplete(final Activity activity) {
                 final User user = new User(context);
-                new UserWithProducts(context, user, prodRegListener).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts(), new ProdRegListener() {
+                final ProdRegListener prodRegListener = new ProdRegListener() {
                     @Override
                     public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                     }
@@ -40,10 +44,9 @@ public class ProdRegHelper {
                     @Override
                     public void onProdRegFailed(final RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                     }
-                });
-               /* final ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
-                uiLauncher.setFirstLaunch(true);
-                ProdRegConfigManager.getInstance().invokeProductRegistration(uiLauncher);*/
+                };
+                new ProdRegHelper().addProductRegistrationListener(prodRegListener);
+                new UserWithProducts(context, user).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts());
             }
 
             @Override
@@ -69,6 +72,13 @@ public class ProdRegHelper {
         return userRegistrationListener;
     }
 
+    public static ProdRegHelper getInstance() {
+        if (prodRegHelper == null) {
+            prodRegHelper = new ProdRegHelper();
+        }
+        return prodRegHelper;
+    }
+
     /**
      * API to be called to initialize product registration
      *
@@ -86,7 +96,6 @@ public class ProdRegHelper {
      * @param listener - Pass listener instance to listen for call backs
      */
     public void addProductRegistrationListener(final ProdRegListener listener) {
-        prodRegListener = listener;
         prodRegListeners.add(listener);
     }
 
@@ -101,7 +110,7 @@ public class ProdRegHelper {
      * @return - returns instance of UserWithProducts
      */
     public UserWithProducts getSignedInUserWithProducts() {
-        final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
+        final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context));
         return userWithProducts;
     }
 

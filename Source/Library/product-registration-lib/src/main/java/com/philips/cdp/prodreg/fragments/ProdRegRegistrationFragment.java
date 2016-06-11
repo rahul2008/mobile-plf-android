@@ -279,7 +279,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                 } else {
                     currentProduct.setPurchaseDate(date_EditText.getEditText().getText().toString());
                     currentProduct.setSerialNumber(serial_number_editText.getEditText().getText().toString());
-                    ProdRegHelper prodRegHelper = new ProdRegHelper();
+                    ProdRegHelper prodRegHelper = ProdRegHelper.getInstance();
                     final ProdRegListener listener = getProdRegListener();
                     prodRegHelper.addProductRegistrationListener(listener);
                     prodRegHelper.getSignedInUserWithProducts().registerProduct(getMappedRegisteredProduct());

@@ -161,16 +161,4 @@ public class ProdRegConfigManager {
         }
         return false;
     }
-
-    private void removeCurrentFragment(FragmentManager fragmentManager) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        Fragment currentFrag = fragmentManager
-                .findFragmentById(mContainerId);
-
-        if (currentFrag != null) {
-            transaction.remove(currentFrag);
-        }
-        transaction.commit();
-    }
 }
