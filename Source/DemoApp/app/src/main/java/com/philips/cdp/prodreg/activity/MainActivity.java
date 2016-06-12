@@ -64,21 +64,13 @@ public class MainActivity extends UiKitActivity {
         mActionBar.setDisplayShowCustomEnabled(true);
     }
 
-    private boolean backStackFragment() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            finish();
-        } else {
-            if (!ProdRegConfigManager.getInstance().onBackPressed(this))
-                fragmentManager.popBackStack();
-//            removeCurrentFragment();
-        }
-        return true;
-    }
-
     @Override
     public void onBackPressed() {
-        if (ProdRegConfigManager.getInstance().onBackPressed(this))
+        if (fragmentManager.getBackStackEntryCount() == 1) {
+            finish();
+        } else if (ProdRegConfigManager.getInstance().onBackPressed(this)) {
             super.onBackPressed();
+        }
     }
 
     @Override

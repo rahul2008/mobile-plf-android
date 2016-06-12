@@ -20,10 +20,12 @@
         android:text="Your warranty has been extended"/>
 
     <Button
+        android:id="@+id/continueButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="25dp"
-        android:text="Continue"/>
+        android:text="Continue"
+        android:textAllCaps="false"/>
 </RelativeLayout>

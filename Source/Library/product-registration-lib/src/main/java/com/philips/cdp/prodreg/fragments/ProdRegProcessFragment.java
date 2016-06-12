@@ -3,6 +3,7 @@ package com.philips.cdp.prodreg.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,8 @@ import java.util.List;
  */
 public class ProdRegProcessFragment extends ProdRegBaseFragment {
 
-    ProgressBar progressBar;
+    public static final String TAG = ProdRegProcessFragment.class.getName();
+    private ProgressBar progressBar;
     private Product currentProduct;
     private Bundle dependencyBundle;
 
@@ -49,11 +51,14 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final Bundle bundle = getArguments();
-        if (bundle != null) {
-            currentProduct = (Product) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            final Bundle bundle = getArguments();
+            if (bundle != null) {
+                currentProduct = (Product) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+            }
+            getRegisteredProducts();
         }
-        getRegisteredProducts();
     }
 
     private void makeSummaryRequest() {
@@ -84,9 +89,12 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     }
 
     private void getRegisteredProducts() {
-        if (currentProduct != null) {
-            ProdRegHelper prodRegHelper = new ProdRegHelper();
-            prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            if (currentProduct != null) {
+                ProdRegHelper prodRegHelper = ProdRegHelper.getInstance();
+                prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
+            }
         }
     }
 
@@ -95,11 +103,12 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         return new RegisteredProductsListener() {
             @Override
             public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
-                if (!isCtnRegistered(registeredProducts, currentProduct)) {
-                    currentProduct.getProductMetadata(getActivity(), getMetadataListener());
-                } else {
-                    showFragment(new ProdRegConnectionFragment());
-//                    removeCurrentFragment();
+                if (registeredProducts.size() > 0) {
+                    if (!isCtnRegistered(registeredProducts, currentProduct) && getActivity() != null && !getActivity().isFinishing()) {
+                        currentProduct.getProductMetadata(getActivity(), getMetadataListener());
+                    } else {
+                        showFragment(new ProdRegConnectionFragment());
+                    }
                 }
             }
         };
