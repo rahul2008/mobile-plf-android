@@ -20,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
@@ -115,7 +115,7 @@ android {
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-		multiDexEnabled true
+		
     }
 
     testOptions {
@@ -168,7 +168,7 @@ dependencies {
 
     compile(group: 'com.philips.cdp', name: 'prx', version: '2.0.0', ext: 'aar'){
         exclude group: 'com.android.support'
-//        transitive=true
+        transitive=true
     }
     compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.0.0', ext: 'aar'){
         exclude group: 'com.android.support'

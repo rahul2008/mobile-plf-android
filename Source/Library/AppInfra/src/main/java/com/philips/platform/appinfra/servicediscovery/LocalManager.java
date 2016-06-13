@@ -5,14 +5,8 @@
  */
 package com.philips.platform.appinfra.servicediscovery;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -48,7 +42,7 @@ public class LocalManager implements LocalInterface {
     }
     @Override
     public String  getCountry() {
-        SharedPreferences pref = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences("PrefNAme", Context.MODE_PRIVATE);
         if(mCountry == null){
             mCountry = pref.getString("COUNTRY_NAME", null);
             Log.i("Retried Country", " "+mCountry);
@@ -57,7 +51,7 @@ public class LocalManager implements LocalInterface {
 
         }
         if(mCountry== null){
-            SharedPreferences.Editor editor = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = context.getSharedPreferences("PrefNAme", Context.MODE_PRIVATE).edit();
             try {
                 final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 final String simCountry = tm.getSimCountryIso();
@@ -91,7 +85,7 @@ public class LocalManager implements LocalInterface {
                 }
                 @Override
                 public void onSuccess() {
-                    SharedPreferences pref = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE);
+                    SharedPreferences pref = context.getSharedPreferences("PrefNAme", Context.MODE_PRIVATE);
                     mCountry = pref.getString("COUNTRY_NAME", null);
                     Log.i("Retried Country", " "+mCountry);
 

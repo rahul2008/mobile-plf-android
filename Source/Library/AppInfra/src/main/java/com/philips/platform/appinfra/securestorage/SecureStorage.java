@@ -42,7 +42,8 @@ public class SecureStorage implements SecureStorageInterface{
     private static KeyStore keyStore = null;
 
 
-    //this variable(encryptedTextTemp) must only  be used  for Demo App to see encrypted text and must be removed from release build
+    //this variable(encryptedTextTemp) must only  be used  for Demo App
+    // to see encrypted text and must be removed from release build
     public static  String encryptedTextTemp= null;
 
 

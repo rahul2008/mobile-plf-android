@@ -5,30 +5,18 @@
  */
 package com.philips.platform.appinfra.servicediscovery;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.android.volley.Cache;
-import com.android.volley.Network;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.network.SSLCertificateManager;
-import com.philips.cdp.prxclient.network.VolleyQueue;
-import com.philips.platform.appinfra.AppInfraLibraryApplication;
-import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.servicediscovery.model.Config;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountry;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByLanguage;
@@ -39,14 +27,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by 310238655 on 6/2/2016.
@@ -183,7 +166,7 @@ public class RequestManager{
                         }
 
                             if(mcountry!= null && mcountry.contains("")){
-                                SharedPreferences.Editor editor = mContext.getSharedPreferences("PrefNAme", mContext.MODE_PRIVATE).edit();
+                                SharedPreferences.Editor editor = mContext.getSharedPreferences("PrefNAme", Context.MODE_PRIVATE).edit();
                                 editor.putString("COUNTRY_NAME", mcountry);
                                 editor.commit();
                             }
