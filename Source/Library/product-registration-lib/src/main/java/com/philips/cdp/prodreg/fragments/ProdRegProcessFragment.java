@@ -1,6 +1,7 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.prodreg.RegistrationState;
+import com.philips.cdp.prodreg.alert.ModalAlertDemoFragment;
 import com.philips.cdp.prodreg.error.ErrorHandler;
+import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
@@ -69,9 +72,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
             } else {
                 getRegisteredProducts();
             }
-        } /*else if (activity != null && !activity.isFinishing()) {
-            activity.getSupportFragmentManager().popBackStackImmediate();
-        }*/
+        }
     }
 
     private void launchRegistrationFragment() {
@@ -196,5 +197,27 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     public boolean onBackPressed() {
         clearFragmentStack();
         return false;
+    }
+
+    @Override
+    protected void showAlert(final String title, final String description) {
+        final ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
+        modalAlertDemoFragment.setDialogOkButtonListener(new DialogOkButtonListener() {
+            @Override
+            public void onOkButtonPressed() {
+                if (getActivity() != null && !getActivity().isFinishing()) {
+                    getActivity().onBackPressed();
+                }
+            }
+        });
+        modalAlertDemoFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                modalAlertDemoFragment.setTitle(title);
+                modalAlertDemoFragment.setDescription(description);
+            }
+        }, 200);
     }
 }

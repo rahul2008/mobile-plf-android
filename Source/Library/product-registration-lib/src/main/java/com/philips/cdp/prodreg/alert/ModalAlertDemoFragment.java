@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
 
@@ -17,6 +18,7 @@ import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
 public class ModalAlertDemoFragment extends BlurDialogFragment {
 
     private TextView titleTextView, descriptionTextView;
+    private DialogOkButtonListener dialogOkButtonListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +35,8 @@ public class ModalAlertDemoFragment extends BlurDialogFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (dialogOkButtonListener != null)
+                    dialogOkButtonListener.onOkButtonPressed();
                 dismiss();
             }
         };
@@ -44,5 +48,9 @@ public class ModalAlertDemoFragment extends BlurDialogFragment {
 
     public void setDescription(String description) {
         descriptionTextView.setText(description != null ? description : "");
+    }
+
+    public void setDialogOkButtonListener(final DialogOkButtonListener dialogOkButtonListener) {
+        this.dialogOkButtonListener = dialogOkButtonListener;
     }
 }

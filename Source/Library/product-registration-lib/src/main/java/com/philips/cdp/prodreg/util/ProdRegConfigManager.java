@@ -120,8 +120,10 @@ public class ProdRegConfigManager {
         if (fragmentManager != null && !fragmentActivity.isFinishing()) {
             Fragment currentFrag = fragmentManager
                     .findFragmentById(mContainerId);
-            if (currentFrag != null && currentFrag instanceof ProdRegBackListener) {
+            if (currentFrag != null && currentFrag instanceof ProdRegBackListener && fragmentActivity instanceof ProdRegBaseActivity) {
                 ((ProdRegBackListener) currentFrag).onBackPressed();
+            } else if (currentFrag != null && currentFrag instanceof ProdRegBackListener) {
+                return ((ProdRegBackListener) currentFrag).onBackPressed();
             }
         }
         return true;
