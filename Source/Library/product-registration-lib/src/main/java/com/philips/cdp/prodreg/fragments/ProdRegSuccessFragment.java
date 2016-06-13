@@ -18,7 +18,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return getString(R.string.app_name);
+        return getActivity().getString(R.string.prodreg_actionbar_title);
     }
 
     @Override

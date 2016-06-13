@@ -63,6 +63,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
                     this, R.id.mainContainer, new ActionbarUpdateListener() {
                 @Override
                 public void updateActionbar(final String var1) {
+                    setTitle(var1);
                 }
             });
             fragLauncher.setAnimation(0, 0);
@@ -105,7 +106,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.uikit_action_bar, null); // layout which contains your button.
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.prodreg_home_action_bar, null); // layout which contains your button.
 
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
 

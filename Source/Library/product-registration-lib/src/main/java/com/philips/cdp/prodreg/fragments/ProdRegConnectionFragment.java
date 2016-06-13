@@ -19,7 +19,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
 
     @Override
     public String getActionbarTitle() {
-        return getString(R.string.app_name);
+        return getActivity().getString(R.string.prodreg_actionbar_title);
     }
 
     @Override

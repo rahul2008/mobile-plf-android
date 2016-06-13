@@ -72,7 +72,7 @@
                     android:layout_marginLeft="@dimen/fab_margin"
                     android:text="Email Configuration"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/black"/>
 
                 <ToggleButton
                     android:id="@+id/toggbutton"
