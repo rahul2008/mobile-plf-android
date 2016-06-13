@@ -3,6 +3,7 @@ package com.philips.cdp.prodreg.fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -55,44 +56,32 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
     private TextView txt_title, configurationTextView;
     private Spinner spinner;
     private SharedPreferences sharedPreferences;
-    private Button user_registration_button, pr_button, reg_list_button, spike_ur_button;
+    private Button user_registration_button, pr_button, reg_list_button;
     private Context context;
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main, container, false);
-        init(view);
+        setUp(view);
         return view;
     }
 
-    private void init(final View view) {
+    private void setUp(final View view) {
         context = getActivity();
         final String PRODUCT_REGISTRATION = "prod_demo";
         sharedPreferences = context.getSharedPreferences(PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-        txt_title = (TextView) view.findViewById(R.id.txt_title);
-        user_registration_button = (Button) view.findViewById(R.id.btn_user_registration);
-        pr_button = (Button) view.findViewById(R.id.btn_product_registration);
-        reg_list_button = (Button) view.findViewById(R.id.btn_register_list);
-        spike_ur_button = (Button) view.findViewById(R.id.btn_spike_ur);
-        user_registration_button.setOnClickListener(this);
-        pr_button.setOnClickListener(this);
-        reg_list_button.setOnClickListener(this);
-        spike_ur_button.setOnClickListener(this);
-        configurationTextView = (TextView) view.findViewById(R.id.configuration);
-        final ArrayAdapter<String> configType = new ArrayAdapter<>(context,
-                android.R.layout.simple_spinner_item, configurationType);
-        configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(configType);
+        initViews(view);
+        setOnClickListeners();
+        setSpinnerAdaptor();
         final int position = list.indexOf(sharedPreferences.getString("reg_env", "Evaluation"));
-        if (position >= 0) {
-            spinner.setSelection(position);
-            configurationTextView.setText(configurationType[position]);
-        } else {
-            configurationTextView.setText(configurationType[0]);
-        }
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        setSpinnerSelection(position);
+        spinner.setOnItemSelectedListener(getSpinnerListener());
+    }
+
+    @NonNull
+    private AdapterView.OnItemSelectedListener getSpinnerListener() {
+        return new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapter, View v,
@@ -123,7 +112,38 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }
-        });
+        };
+    }
+
+    private void setSpinnerSelection(final int position) {
+        if (position >= 0) {
+            spinner.setSelection(position);
+            configurationTextView.setText(configurationType[position]);
+        } else {
+            configurationTextView.setText(configurationType[0]);
+        }
+    }
+
+    private void setSpinnerAdaptor() {
+        final ArrayAdapter<String> configType = new ArrayAdapter<>(context,
+                android.R.layout.simple_spinner_item, configurationType);
+        configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(configType);
+    }
+
+    public void setOnClickListeners() {
+        user_registration_button.setOnClickListener(this);
+        pr_button.setOnClickListener(this);
+        reg_list_button.setOnClickListener(this);
+    }
+
+    private void initViews(final View view) {
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+        txt_title = (TextView) view.findViewById(R.id.txt_title);
+        user_registration_button = (Button) view.findViewById(R.id.btn_user_registration);
+        pr_button = (Button) view.findViewById(R.id.btn_product_registration);
+        reg_list_button = (Button) view.findViewById(R.id.btn_register_list);
+        configurationTextView = (TextView) view.findViewById(R.id.configuration);
     }
 
     private void hideSpinnerLayout(final Spinner spinner) {
@@ -206,10 +226,6 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_register_list:
                 initialiseUserRegistration(env);
                 showFragment(new ProductListFragment(), ProductListFragment.TAG);
-                break;
-            case R.id.btn_spike_ur:
-                initialiseUserRegistration(env);
-                invokeProdRegFragment();
                 break;
             default:
                 break;

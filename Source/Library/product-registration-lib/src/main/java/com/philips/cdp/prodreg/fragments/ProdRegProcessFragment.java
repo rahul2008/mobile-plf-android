@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
@@ -21,6 +21,11 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.util.List;
 
@@ -31,7 +36,6 @@ import java.util.List;
 public class ProdRegProcessFragment extends ProdRegBaseFragment {
 
     public static final String TAG = ProdRegProcessFragment.class.getName();
-    private ProgressBar progressBar;
     private Product currentProduct;
     private Bundle dependencyBundle;
 
@@ -44,7 +48,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_process, container, false);
-        progressBar = (ProgressBar) view.findViewById(R.id.prodreg_progressBar);
         return view;
     }
 
@@ -52,12 +55,59 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            final Bundle bundle = getArguments();
-            if (bundle != null) {
-                currentProduct = (Product) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+        final Bundle arguments = getArguments();
+
+        if (activity != null && !activity.isFinishing() && arguments != null) {
+            currentProduct = (Product) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+            final boolean isActivity = arguments.getBoolean(ProdRegConstants.PROD_REG_IS_ACTIVITY);
+            User user = new User(activity);
+            if (!user.isUserSignIn()) {
+                if (isActivity)
+                    RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(getActivity());
+                else
+                    launchRegistrationFragment();
+            } else {
+                getRegisteredProducts();
             }
-            getRegisteredProducts();
+        } /*else if (activity != null && !activity.isFinishing()) {
+            activity.getSupportFragmentManager().popBackStackImmediate();
+        }*/
+    }
+
+    private void launchRegistrationFragment() {
+        try {
+            final FragmentActivity activity = getActivity();
+            if (activity != null && !activity.isFinishing()) {
+
+                RegistrationFragment registrationFragment = new
+                        RegistrationFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+                registrationFragment.setArguments(bundle);
+                registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
+                    @Override
+                    public void updateRegistrationTitle(final int i) {
+
+                    }
+
+                    @Override
+                    public void updateRegistrationTitleWithBack(final int i) {
+
+                    }
+
+                    @Override
+                    public void updateRegistrationTitleWithOutBack(final int i) {
+
+                    }
+                });
+                FragmentTransaction fragmentTransaction =
+                        activity.getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(getId(), registrationFragment,
+                        RegConstants.REGISTRATION_FRAGMENT_TAG);
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
     }
 
@@ -140,5 +190,11 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
                 showAlert("Metadata Failed", new ErrorHandler().getError(responseCode).getDescription());
             }
         };
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        clearFragmentStack();
+        return false;
     }
 }

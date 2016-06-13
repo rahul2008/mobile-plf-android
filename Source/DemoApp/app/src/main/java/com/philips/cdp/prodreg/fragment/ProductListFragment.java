@@ -87,6 +87,6 @@ public class ProductListFragment extends Fragment {
         fragmentTransaction.replace(R.id.parent_layout, fragment,
                 ManualRegistrationFragment.TAG);
         fragmentTransaction.addToBackStack(ManualRegistrationFragment.TAG);
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 }

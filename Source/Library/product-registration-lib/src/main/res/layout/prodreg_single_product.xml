@@ -17,7 +17,9 @@
         android:id="@+id/product_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_centerInParent="true"/>
+        android:layout_below="@+id/product_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"/>
 
     <RelativeLayout
         android:id="@+id/date_edit_text_layout"
@@ -36,13 +38,13 @@
             android:text="Purchase Date:"/>
 
         <com.philips.cdp.uikit.customviews.PuiEditText
-        android:id="@+id/date_edit_text"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        app:errorText="Invalid date"
-        app:errorTextColor="@color/uikit_philips_bright_orange"
-        />
+            android:id="@+id/date_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            app:errorText="Invalid date"
+            app:errorTextColor="@color/uikit_philips_bright_orange"
+            />
     </RelativeLayout>
 
     <RelativeLayout
@@ -63,7 +65,7 @@
 
         <com.philips.cdp.uikit.customviews.PuiEditText
             android:id="@+id/serial_edit_text"
-            android:layout_width="@dimen/prodreg_edittext_width"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             app:errorText="Invalid serial number"

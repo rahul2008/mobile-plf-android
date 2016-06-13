@@ -2,8 +2,7 @@
 <RelativeLayout android:id="@+id/action_bar_lyt"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/actionbar_height"
-                android:background="@drawable/prodreg_actionbar_shape_gradient_bg">
+                android:layout_height="@dimen/actionbar_height">
 
     <RelativeLayout
         android:id="@+id/action_bar_icon_parent"

@@ -99,8 +99,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         productImageView = (ImageView) view.findViewById(R.id.product_image);
         register.setOnClickListener(onClickRegister());
         date_EditText.getEditText().setKeyListener(null);
-        date_EditText.setWidth((int) getActivity().getResources().getDimension(R.dimen.prodreg_edittext_width));
-        serial_number_editText.setWidth((int) getActivity().getResources().getDimension(R.dimen.prodreg_edittext_width));
+//        date_EditText.setWidth((int) getActivity().getResources().getDimension(R.dimen.prodreg_edittext_width));
+//        serial_number_editText.setWidth((int) getActivity().getResources().getDimension(R.dimen.prodreg_edittext_width));
         date_EditText.getEditText().setOnClickListener(onClickPurchaseDate());
         mFocusChangeListenerDate = date_EditText.getEditText().getOnFocusChangeListener();
         mFocusChangeListenerSerial = serial_number_editText.getEditText().getOnFocusChangeListener();
@@ -285,8 +285,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                     handleSerialNumberEditTextOnError();
                 } else {
                     ProgressDialog progress;
-                    progress = ProgressDialog.show(getActivity(), "Registering",
-                            "Loading", true);
+                    progress = ProgressDialog.show(getActivity(), "",
+                            "Registering your product", true);
                     progress.setCancelable(false);
                     currentProduct.setPurchaseDate(date_EditText.getEditText().getText().toString());
                     currentProduct.setSerialNumber(serial_number_editText.getEditText().getText().toString());

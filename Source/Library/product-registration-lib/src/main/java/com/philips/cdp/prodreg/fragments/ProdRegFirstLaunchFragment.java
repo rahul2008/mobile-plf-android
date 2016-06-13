@@ -8,10 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -41,6 +37,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                getActivity().onBackPressed();
             }
         };
     }
@@ -50,34 +47,9 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                User user = new User(getActivity());
-                if (user.isUserSignIn()) {
-                    final ProdRegProcessFragment processFragment = new ProdRegProcessFragment();
-                    processFragment.setArguments(getArguments());
-                    showFragment(processFragment);
-                } else {
-                    RegistrationFragment registrationFragment = new RegistrationFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
-                    registrationFragment.setArguments(bundle);
-                    registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
-                        @Override
-                        public void updateRegistrationTitle(final int i) {
-
-                        }
-
-                        @Override
-                        public void updateRegistrationTitleWithBack(final int i) {
-
-                        }
-
-                        @Override
-                        public void updateRegistrationTitleWithOutBack(final int i) {
-
-                        }
-                    });
-                    showFragment(registrationFragment);
-                }
+                final ProdRegProcessFragment processFragment = new ProdRegProcessFragment();
+                processFragment.setArguments(getArguments());
+                showFragment(processFragment);
             }
         };
     }

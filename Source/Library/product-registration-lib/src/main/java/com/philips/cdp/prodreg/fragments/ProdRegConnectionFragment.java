@@ -25,8 +25,8 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_connection, container, false);
-        Button button = (Button) view.findViewById(R.id.back_btn);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button backButton = (Button) view.findViewById(R.id.back_btn);
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 if (getActivity() != null && !getActivity().isFinishing()) {

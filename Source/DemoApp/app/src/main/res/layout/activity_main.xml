@@ -9,95 +9,84 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="56dp"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btn_user_registration"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="10dp"
-            android:text="@string/user_registration"
-            android:textAllCaps="false"/>
-
-        <Button
-            android:id="@+id/btn_product_registration"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="10dp"
-            android:text="@string/product_registration"
-            android:textAllCaps="false"/>
-
-        <Button
-            android:id="@+id/btn_register_list"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="10dp"
-            android:text="@string/register_list"
-            android:textAllCaps="false"/>
-
-        <Button
-            android:id="@+id/btn_spike_ur"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="10dp"
-            android:text="User Registration into PR"
-            android:textAllCaps="false"/>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="56dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txt_title"
+            <Button
+                android:id="@+id/btn_user_registration"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dip"
-                android:text="Change Configuration :"
-                android:textColor="#000"/>
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="10dp"
+                android:text="@string/user_registration"
+                android:textAllCaps="false"/>
 
-            <Spinner
-                android:id="@+id/spinner"
+            <Button
+                android:id="@+id/btn_product_registration"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:prompt="@string/spinner_title"/>
-        </LinearLayout>
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="10dp"
+                android:text="@string/product_registration"
+                android:textAllCaps="false"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/btn_register_list"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Current Configuration: "
-                android:textColor="@android:color/white"
-                android:textSize="18dp"/>
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="10dp"
+                android:text="@string/register_list"
+                android:textAllCaps="false"/>
 
-            <TextView
-                android:id="@+id/configuration"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dip"
+                    android:text="Change Configuration :"
+                    android:textColor="#000"/>
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:prompt="@string/spinner_title"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text=""
-                android:textColor="@android:color/white"
-                android:textSize="18dp"/>
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Current Configuration: "
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:id="@+id/configuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp"/>
+            </LinearLayout>
+
         </LinearLayout>
-
-    </LinearLayout>
-
 </RelativeLayout>

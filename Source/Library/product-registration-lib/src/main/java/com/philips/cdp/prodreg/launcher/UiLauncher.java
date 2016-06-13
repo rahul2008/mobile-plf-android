@@ -1,5 +1,7 @@
 package com.philips.cdp.prodreg.launcher;
 
+import android.os.Bundle;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -9,6 +11,7 @@ public class UiLauncher {
     protected int mEnterAnimation;
     protected int mExitAnimation;
     private boolean isFirstLaunch;
+    private Bundle arguments;
 
     public UiLauncher() {
     }
@@ -32,5 +35,13 @@ public class UiLauncher {
 
     public void setFirstLaunch(final boolean firstLaunch) {
         this.isFirstLaunch = firstLaunch;
+    }
+
+    public Bundle getArguments() {
+        return arguments;
+    }
+
+    public void setArguments(final Bundle arguments) {
+        this.arguments = arguments;
     }
 }

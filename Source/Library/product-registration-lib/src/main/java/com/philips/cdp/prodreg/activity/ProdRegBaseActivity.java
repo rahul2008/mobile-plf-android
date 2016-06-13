@@ -8,123 +8,38 @@
  */
 package com.philips.cdp.prodreg.activity;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
-import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
+import com.philips.cdp.prodreg.launcher.FragmentLauncher;
+import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
+import com.philips.cdp.prodreg.register.Product;
+import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
-import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.uikit.UiKitActivity;
 
-public class ProdRegBaseActivity extends FragmentActivity {
+public class ProdRegBaseActivity extends UiKitActivity {
     private static String TAG = ProdRegBaseActivity.class.getSimpleName();
-    private boolean isFirstLaunch;
-    private RelativeLayout mActionBarLayout = null;
-    private ImageView mActionBarArrow = null;
     private FragmentManager fragmentManager = null;
-    private OnClickListener actionBarClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            int _id = view.getId();
-            if (_id == R.id.action_bar_icon_parent && mActionBarArrow.getVisibility() == View.VISIBLE)
-                backStackFragment();
-            else if (_id == R.id.back_to_home_img)
-                backStackFragment();
-        }
-    };
+    private TextView mTitleTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        initCustomActionBar();
         setContentView(R.layout.prodreg_activity);
-        if (getIntent() != null && getIntent().getExtras() != null) {
-            isFirstLaunch = getIntent().getExtras().getBoolean(ProdRegConstants.PROD_REG_ON_FIRST_LAUNCH);
-        }
         fragmentManager = getSupportFragmentManager();
-
-        try {
-            initActionBar();
-        } catch (ClassCastException e) {
-            Log.e(TAG, "Actionbar: " + e.getMessage());
-        }
         animateThisScreen();
-        User user = new User(this);
-        if (isFirstLaunch)
-            showFragment(new ProdRegFirstLaunchFragment());
-        else if (!user.isUserSignIn())
-            showUserRegistrationFragment();
-        else
-            showFragment(new ProdRegRegistrationFragment());
-
-        enableActionBarLeftArrow();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                backStackFragment();
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void showUserRegistrationFragment() {
-        launchRegistrationFragment();
-    }
-
-    private void launchRegistrationFragment() {
-        RegistrationFragment registrationFragment = new RegistrationFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, false);
-        registrationFragment.setArguments(bundle);
-        registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
-            @Override
-            public void updateRegistrationTitle(final int i) {
-
-            }
-
-            @Override
-            public void updateRegistrationTitleWithBack(final int i) {
-
-            }
-
-            @Override
-            public void updateRegistrationTitleWithOutBack(final int i) {
-
-            }
-        });
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(registrationFragment.getTag());
-        fragmentTransaction.replace(R.id.mainContainer, registrationFragment,
-                RegConstants.REGISTRATION_FRAGMENT_TAG);
-        fragmentTransaction.commit();
-    }
-
-    protected void initActionBar() throws ClassCastException {
-        mActionBarLayout = (RelativeLayout) findViewById(R.id.action_bar_icon_parent);
-        mActionBarArrow = (ImageView) findViewById(R.id.back_to_home_img);
-        mActionBarArrow.setOnClickListener(actionBarClickListener);
-        mActionBarLayout.setOnClickListener(actionBarClickListener);
+        showFragment();
     }
 
     @Override
@@ -132,58 +47,30 @@ public class ProdRegBaseActivity extends FragmentActivity {
         super.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return backStackFragment();
-        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-
-    private boolean backStackFragment() {
-        if (fragmentManager.getBackStackEntryCount() == 1) {
-            finish();
-        } else {
-            fragmentManager.popBackStack();
-            removeCurrentFragment();
-        }
-        return true;
-    }
-
-    private void removeCurrentFragment() {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        Fragment currentFrag = fragmentManager
-                .findFragmentById(R.id.mainContainer);
-        if (currentFrag != null) {
-            transaction.remove(currentFrag);
-        }
-        transaction.commit();
-    }
-
-    private void enableActionBarLeftArrow() {
-        mActionBarArrow.setVisibility(View.VISIBLE);
-        mActionBarArrow.bringToFront();
-    }
-
-    protected void showFragment(Fragment fragment) {
+    protected void showFragment() {
         try {
-            enableActionBarLeftArrow();
-            FragmentTransaction fragmentTransaction = fragmentManager
-                    .beginTransaction();
-
-            fragmentTransaction.replace(R.id.mainContainer, fragment, ProdRegConstants.PROD_REG_FRAGMENT_TAG);
-            fragmentTransaction.addToBackStack(fragment.getTag());
-            fragmentTransaction.commit();
+            boolean isFirstLaunch = false;
+            Product product = null;
+            final Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                isFirstLaunch = extras.getBoolean(ProdRegConstants.PROD_REG_ON_FIRST_LAUNCH);
+                product = (Product) extras.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+            }
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, product);
+            bundle.putBoolean(ProdRegConstants.PROD_REG_IS_ACTIVITY, true);
+            FragmentLauncher fragLauncher = new FragmentLauncher(
+                    this, R.id.mainContainer, new ActionbarUpdateListener() {
+                @Override
+                public void updateActionbar(final String var1) {
+                }
+            });
+            fragLauncher.setAnimation(0, 0);
+            fragLauncher.setArguments(bundle);
+            fragLauncher.setFirstLaunch(isFirstLaunch);
+            ProdRegConfigManager.getInstance().invokeProductRegistration(fragLauncher);
         } catch (IllegalStateException e) {
-        }
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (getWindow() != null && getWindow().getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-                    .getWindowToken(), 0);
+            e.printStackTrace();
         }
     }
 
@@ -207,5 +94,50 @@ public class ProdRegBaseActivity extends FragmentActivity {
                 packageName);
         setRequestedOrientation(orientation);
         overridePendingTransition(mEnterAnimation, mExitAnimation);
+    }
+
+    private void initCustomActionBar() {
+        ActionBar mActionBar = this.getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
+                ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER);
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.uikit_action_bar, null); // layout which contains your button.
+
+        mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
+
+        final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                onBackPressed();
+            }
+        });
+
+        ImageView arrowImage = (ImageView) mCustomView
+                .findViewById(R.id.arrow);
+        arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_actionbar_back_arrow_white));
+
+        mActionBar.setCustomView(mCustomView, params);
+        setTitle(getString(R.string.app_name));
+        mActionBar.setDisplayShowCustomEnabled(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (fragmentManager.getBackStackEntryCount() == 1) {
+            finish();
+        } else if (ProdRegConfigManager.getInstance().onBackPressed(this)) {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void setTitle(final CharSequence title) {
+        super.setTitle(title);
+        mTitleTextView.setText(title);
     }
 }

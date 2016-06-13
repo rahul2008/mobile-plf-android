@@ -19,6 +19,7 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.Util;
+import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.register.Product;
@@ -43,7 +44,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
     private ToggleButton toggleButton;
     private EditText mRegChannel, mSerialNumber, mPurchaseDate, mCtn;
     private Calendar mCalendar;
-    private Button submitProduct;
+    private Button pr_activity_a, pr_activity_b, pr_fragment_a, pr_fragment_b;
     private boolean eMailConfiguration = false;
     private FragmentActivity fragmentActivity;
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -97,12 +98,13 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         mSerialNumber = (EditText) view.findViewById(R.id.edt_serial_number);
         mPurchaseDate = (EditText) view.findViewById(R.id.edt_purchase_date);
         mCtn = (EditText) view.findViewById(R.id.edt_ctn);
-        submitProduct = (Button) view.findViewById(R.id.submitproduct);
-        submitProduct.setOnClickListener(this);
-        mPurchaseDate.setOnClickListener(this);
+        pr_activity_a = (Button) view.findViewById(R.id.pr_activity_a);
+        pr_activity_b = (Button) view.findViewById(R.id.pr_activity_b);
+        pr_fragment_a = (Button) view.findViewById(R.id.pr_fragment_a);
+        pr_fragment_b = (Button) view.findViewById(R.id.pr_fragment_b);
         toggleButton = (ToggleButton) view.findViewById(R.id.toggbutton);
+        setOnClickListeners();
         toggleButton.setChecked(eMailConfiguration);
-        toggleButton.setOnClickListener(this);
         Bundle bundle = getArguments();
         if (bundle != null) {
             mCtn.setText(bundle.getString("ctn") != null ? bundle.getString("ctn") : "");
@@ -111,27 +113,30 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         }
     }
 
-
+    private void setOnClickListeners() {
+        pr_activity_a.setOnClickListener(this);
+        pr_activity_b.setOnClickListener(this);
+        pr_fragment_a.setOnClickListener(this);
+        pr_fragment_b.setOnClickListener(this);
+        mPurchaseDate.setOnClickListener(this);
+        toggleButton.setOnClickListener(this);
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.submitproduct:
-                final User mUser = new User(fragmentActivity);
-                if (!(mUser.isUserSignIn() && mUser.getEmailVerificationStatus())) {
-                    Log.d(TAG, "On Click : User Registration");
-                    RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(fragmentActivity);
-                    Util.navigateFromUserRegistration();
-                }
-                if (mCtn.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(fragmentActivity, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
-                } else {
-                    String MICRO_SITE_ID = "MS";
-                    final String text = MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId();
-                    mRegChannel.setText(text);
-                    registerProduct();
-                }
+            case R.id.pr_activity_a:
+                makeRegistrationRequest(true, "a");
+                break;
+            case R.id.pr_activity_b:
+                makeRegistrationRequest(true, "b");
+                break;
+            case R.id.pr_fragment_a:
+                makeRegistrationRequest(false, "a");
+                break;
+            case R.id.pr_fragment_b:
+                makeRegistrationRequest(false, "b");
                 break;
             case R.id.toggbutton:
                 eMailConfiguration = toggleButton.isChecked();
@@ -140,6 +145,23 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                 onClickPurchaseDate();
             default:
                 break;
+        }
+    }
+
+    private void makeRegistrationRequest(final boolean isActivity, final String type) {
+        final User mUser = new User(fragmentActivity);
+        if (!(mUser.isUserSignIn() && mUser.getEmailVerificationStatus())) {
+            Log.d(TAG, "On Click : User Registration");
+            RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(fragmentActivity);
+            Util.navigateFromUserRegistration();
+        }
+        if (mCtn.getText().toString().equalsIgnoreCase("")) {
+            Toast.makeText(fragmentActivity, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
+        } else {
+            String MICRO_SITE_ID = "MS";
+            final String text = MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId();
+            mRegChannel.setText(text);
+            registerProduct(isActivity, type);
         }
     }
 
@@ -163,25 +185,34 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         datePickerDialog.show();
     }
 
-    private void registerProduct() {
+    private void registerProduct(final boolean isActivity, final String type) {
         Product product = new Product(mCtn.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         product.setSerialNumber(mSerialNumber.getText().toString());
         product.setPurchaseDate(mPurchaseDate.getText().toString());
         product.sendEmail(eMailConfiguration);
-        invokeProdRegFragment(product);
+        invokeProdRegFragment(product, isActivity, type);
     }
 
-    private void invokeProdRegFragment(Product product) {
+    private void invokeProdRegFragment(Product product, final boolean isActivity, final String type) {
         FragmentLauncher fragLauncher = new FragmentLauncher(
                 fragmentActivity, R.id.parent_layout, new ActionbarUpdateListener() {
             @Override
             public void updateActionbar(final String var1) {
             }
         });
-        fragLauncher.setAnimation(0, 0);
         Bundle bundle = new Bundle();
         bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, product);
+        ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, -1);
+        if (type.equalsIgnoreCase("a")) {
+            activityLauncher.setFirstLaunch(true);
+            fragLauncher.setFirstLaunch(true);
+        }
         fragLauncher.setArguments(bundle);
-        ProdRegConfigManager.getInstance().invokeProductRegistration(fragLauncher);
+        activityLauncher.setArguments(bundle);
+        fragLauncher.setAnimation(0, 0);
+        if (!isActivity)
+            ProdRegConfigManager.getInstance().invokeProductRegistration(fragLauncher);
+        else
+            ProdRegConfigManager.getInstance().invokeProductRegistration(activityLauncher);
     }
 }

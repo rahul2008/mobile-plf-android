@@ -20,6 +20,7 @@ import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.product_registration_lib.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -100,8 +101,7 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
                             mExitAnimation, mEnterAnimation, mExitAnimation);
                 }
                 fragmentTransaction.replace(getId(), fragment, fragment.getClass().getSimpleName());
-                if (!(fragment instanceof ProdRegProcessFragment))
-                    fragmentTransaction.addToBackStack(fragment.getTag());
+                fragmentTransaction.addToBackStack(fragment.getTag());
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException e) {
@@ -153,15 +153,26 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
     public boolean clearFragmentStack() {
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentManager fragManager = getActivity().getSupportFragmentManager();
-            int count = fragManager.getBackStackEntryCount();
             List<Fragment> fragmentList = fragManager.getFragments();
-            for (int i = 0; i <= count; i++) {
-                if (fragmentList != null && fragmentList.size() > 0 && fragmentList.get(i) instanceof ProdRegBaseFragment) {
-                    fragManager.popBackStackImmediate();
-                }
+            ArrayList<String> tags = getTags(fragmentList);
+            boolean popStacked = false;
+            for (int i = 0; i < tags.size(); i++) {
+                popStacked = fragManager.popBackStackImmediate(tags.get(i), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+            return !popStacked;
+        }
+        return true;
+    }
+
+    private ArrayList<String> getTags(final List<Fragment> fragmentList) {
+        ArrayList<String> tags = new ArrayList<>();
+        for (int i = 0; i < fragmentList.size(); i++) {
+            final Fragment fragment = fragmentList.get(i);
+            if (fragment instanceof ProdRegBaseFragment) {
+                tags.add(fragment.getTag());
             }
         }
-        return false;
+        return tags;
     }
 
     @Override
