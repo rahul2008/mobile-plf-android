@@ -85,8 +85,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         if (mProductCatalogHelper.processPRXResponse(msg, mProductData))
             return;
 
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        /*if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();*/
 
     }
 

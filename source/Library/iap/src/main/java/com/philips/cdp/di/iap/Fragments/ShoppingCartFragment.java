@@ -34,6 +34,8 @@ import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 
+import static com.android.volley.Request.Method.HEAD;
+
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
         ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener<ShoppingCartData> {
@@ -62,14 +64,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mShoppingCartAPI = ControllerFactory.getInstance()
-                .getShoppingCartPresenter(getContext(), this, getFragmentManager());
-        updateCartOnResume();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
@@ -87,7 +81,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mCheckoutBtn.setOnClickListener(this);
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
-
+        mShoppingCartAPI = ControllerFactory.getInstance()
+                .getShoppingCartPresenter(getContext(), this, getFragmentManager());
         mAddressController = new AddressController(getContext(), this);
         return rootView;
     }
@@ -99,6 +94,10 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitle(R.string.iap_shopping_cart);
+        if (!isNetworkNotConnected()) {
+            updateCartOnResume();
+        }
+
         mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -238,6 +237,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onOutOfStock(boolean isOutOfStockReached) {
+        if (mCheckoutBtn == null) return;
         if (isOutOfStockReached) {
             mCheckoutBtn.setEnabled(false);
         } else {
@@ -260,7 +260,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onLoadListenerError(IAPNetworkError error) {
-        if (Utility.isProgressDialogShowing()) Utility.dismissProgressDialog();
+        if (Utility.isProgressDialogShowing()) {
+            Utility.dismissProgressDialog();
+        }
+        if (isNetworkNotConnected()) {
+            return;
+        }
         NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok), error.getMessage(), error.getMessage());
     }
 

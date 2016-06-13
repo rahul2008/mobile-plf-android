@@ -57,10 +57,11 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     protected void handleModelDataError(final Message msg) {
         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
+        dismissProgressDialog();
         if (mLoadListener != null) {
+            if(msg.obj instanceof IAPNetworkError)
             mLoadListener.onLoadListenerError((IAPNetworkError) msg.obj);
         }
-        dismissProgressDialog();
     }
 
     @Override

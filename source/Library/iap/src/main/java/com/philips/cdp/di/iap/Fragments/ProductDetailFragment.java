@@ -263,6 +263,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
+        if (isNetworkNotConnected()) return;
         NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
     }
 

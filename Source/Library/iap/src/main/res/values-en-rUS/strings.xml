@@ -70,7 +70,6 @@
     <!--Order Summary-->
     <string name="iap_order_summary">Order Summary</string>
     <string name="iap_pay_now">Pay now</string>
-    <string name="iap_deliver_via_parcel">Delivery via UPS Parcel</string>
     <string name="iap_voucher">Claim voucher</string>
 
     <!--Payment-->
@@ -79,11 +78,6 @@
     <string name="iap_use_payment_method">Use this payment method</string>
     <string name="iap_add_payment_method">Add a new payment method</string>
     <string name="iap_valid_until">Valid until</string>
-
-    <!-- Model Error -->
-    <string name="iap_ok">OK</string>
-    <string name="iap_network_error">Network Error</string>
-    <string name="iap_check_connection">Please check the connection</string>
 
     <!-- Payment -->
     <string name="iap_confirmation">Confirmation</string>
@@ -122,5 +116,10 @@
     <string name="iap_delivery_via">Delivery via FedEx</string>
     <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked.
 Please try again, or if the problem persists: contact Philips Consumer Care</string>
+
+    <!-- Model Error -->
+    <string name="iap_ok">OK</string>
+    <string name="iap_network_error">You are offline</string>
+    <string name="iap_check_connection">Your internet connection doesn’t seem to be working. Please check and try again</string>
 
 </resources>

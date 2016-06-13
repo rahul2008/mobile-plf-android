@@ -219,18 +219,35 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (!data.isVatInclusive()) {
                     shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mVatInclusiveValue.setText(String.format(mContext.getString(R.string.iap_vat_inclusive_text), mContext.getString(R.string.iap_vat)));
-                } else
+                    shoppingCartFooter.mVatValueUK.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mVatValueUK.setText(data.getVatValue());
+                    shoppingCartFooter.mVatValue.setVisibility(View.GONE);
+                    shoppingCartFooter.mVAT.setVisibility(View.GONE);
+                } else {
+                    shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mVAT.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
+                    shoppingCartFooter.mVatValueUK.setVisibility(View.GONE);
+                }
                 shoppingCartFooter.mTotalCost.setText(data.getTotalPriceWithTaxFormatedPrice());
-                if (null != data.getDeliveryCost()) {
-                    String deliveryCost = data.getDeliveryCost().getFormattedValue();
+                if (null != data.getDeliveryMode()) {
+                    String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
+                    String deliveryMethod = data.getDeliveryMode().getName();
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
+                    if(deliveryMethod!=null){
+                        shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
+                    }else{
+                        shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
+                    }
                 } else {
                     mIsFreeDelivery = true;
-                    shoppingCartFooter.mDeliveryPrice.setText("0.0");
+                    //shoppingCartFooter.mDeliveryPrice.setText("0.0");
+                    shoppingCartFooter.mDeliveryVia.setVisibility(View.GONE);
+                    shoppingCartFooter.mDeliveryPrice.setVisibility(View.GONE);
+                    shoppingCartFooter.mDeliveryView.setVisibility(View.GONE);
                 }
             }
         }
@@ -319,6 +336,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mVatInclusiveValue;
         TextView mTotalItems;
         TextView mTotalCost;
+        View mDeliveryView;
+        TextView mDeliveryVia;
+        TextView mVatValueUK;
+        TextView mVAT;
 
         public FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -327,6 +348,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mVatInclusiveValue = (TextView) itemView.findViewById(R.id.iap_tv_vat_inclusive);
             mTotalItems = (TextView) itemView.findViewById(R.id.iap_tv_totalItems);
             mTotalCost = (TextView) itemView.findViewById(R.id.iap_tv_totalcost);
+            mDeliveryView = (View) itemView.findViewById(R.id.iap_divider_bottom_delivery);
+            mDeliveryVia = (TextView) itemView.findViewById(R.id.iap_tv_delivery_via_ups);
+            mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_shopping_cart);
+            mVAT = (TextView) itemView.findViewById(R.id.iap_tv_vat);
         }
     }
 

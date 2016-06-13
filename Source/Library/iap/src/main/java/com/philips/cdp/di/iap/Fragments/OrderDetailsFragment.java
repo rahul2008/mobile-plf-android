@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,25 +33,26 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
     public static final String TAG = OrderDetailsFragment.class.getName();
     private Context mContext;
-    TextView mTvProductName;
-    NetworkImageView mNetworkImage;
-    TextView mTvQuantity;
-    TextView mTvtotalPrice;
-    TextView mTime;
-    TextView mOrderNumber;
-    TextView mOrderState;
-    TextView mDeliveryName;
-    TextView mDeliveryAddress;
-    TextView mBillingName;
-    TextView mBillingAddress;
-    ScrollView mParentView;
-    FontIconTextView mOrderDetailArrow;
-    TextView mPaymentCardType;
-    Button mBuyNow;
-    Button mCancelOrder;
+    private TextView mTvProductName;
+    private NetworkImageView mNetworkImage;
+    private TextView mTvQuantity;
+    private TextView mTvtotalPrice;
+    private TextView mTime;
+    private TextView mOrderNumber;
+    private TextView mOrderState;
+    private TextView mDeliveryName;
+    private TextView mDeliveryAddress;
+    private TextView mBillingName;
+    private TextView mBillingAddress;
+    private ScrollView mParentView;
+    private FontIconTextView mOrderDetailArrow;
+    private TextView mPaymentCardType;
+    private Button mBuyNow;
+    private Button mCancelOrder;
+    private RelativeLayout mTrackOrderLayout;
+    private OrderDetail mOrderDetail;
 
-
-    String mOrderId;
+    private String mOrderId;
 
     @Override
     public void onResume() {
@@ -81,10 +83,15 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mBuyNow.setOnClickListener(this);
         mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
+        mTrackOrderLayout = (RelativeLayout) view.findViewById(R.id.track_order_layout);
+        mTrackOrderLayout.setOnClickListener(this);
 
         Bundle bundle = getArguments();
         if (null != bundle && bundle.containsKey(IAPConstant.PURCHASE_ID)) {
             mOrderId = bundle.getString(IAPConstant.PURCHASE_ID);
+            if (!(bundle.getString(IAPConstant.ORDER_STATUS).equalsIgnoreCase("completed"))) {
+                mTrackOrderLayout.setVisibility(View.GONE);
+            }
             updateOrderDetailOnResume(mOrderId);
         }
         return view;
@@ -128,8 +135,8 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
                 if (msg.obj instanceof OrderDetail) {
-                    OrderDetail detail = (OrderDetail) msg.obj;
-                    updateUIwithDetails(detail);
+                    mOrderDetail = (OrderDetail) msg.obj;
+                    updateUIwithDetails(mOrderDetail);
                 }
             }
         }
@@ -140,6 +147,20 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     public void onClick(View v) {
         if (v.getId() == R.id.btn_cancel || v.getId() == R.id.btn_paynow)
             Toast.makeText(getContext(), "Yet to implement", Toast.LENGTH_SHORT).show();
+        else if (v.getId() == R.id.track_order_layout) {
+            Bundle bundle = new Bundle();
+            if (mOrderDetail != null) {
+                bundle.putString(IAPConstant.PURCHASE_ID, mOrderDetail.getCode());
+                if (mOrderDetail.getConsignments() != null && mOrderDetail.getConsignments().size() > 0 && mOrderDetail.getConsignments().get(0).getTrackingID() != null) {
+                    bundle.putString(IAPConstant.TRACKING_ID, mOrderDetail.getConsignments().get(0).getTrackingID());
+                }
+                if (mOrderDetail.getDeliveryAddress() != null) {
+                    bundle.putString(IAPConstant.DELIVERY_NAME, mOrderDetail.getDeliveryAddress().getFirstName() + " " + mOrderDetail.getDeliveryAddress().getLastName());
+                    bundle.putString(IAPConstant.ADD_DELIVERY_ADDRESS, Utility.createAddress(mOrderDetail.getDeliveryAddress()));
+                }
+                addFragment(TrackOrderFragment.createInstance(bundle, AnimationType.NONE), null);
+            }
+        }
 
     }
 
@@ -147,10 +168,19 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mTime.setText(Utility.getFormattedDate(detail.getCreated()));
         mOrderState.setText(detail.getStatusDisplay());
         mOrderNumber.setText(detail.getCode());
-        mDeliveryName.setText(detail.getDeliveryAddress().getFirstName() + " " + detail.getDeliveryAddress().getLastName());
-        mDeliveryAddress.setText(Utility.createAddress(detail.getDeliveryAddress()));
-        mBillingName.setText(detail.getPaymentInfo().getBillingAddress().getFirstName() + " " + detail.getPaymentInfo().getBillingAddress().getLastName());
-        mBillingAddress.setText(Utility.createAddress(detail.getPaymentInfo().getBillingAddress()));
-        mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode() + " " + detail.getPaymentInfo().getCardNumber());
+        if (detail.getDeliveryAddress() != null) {
+            mDeliveryName.setText(detail.getDeliveryAddress().getFirstName() + " " + detail.getDeliveryAddress().getLastName());
+            mDeliveryAddress.setText(Utility.createAddress(detail.getDeliveryAddress()));
+        }
+        if (detail.getPaymentInfo() != null) {
+            if (detail.getPaymentInfo().getBillingAddress() != null) {
+                mBillingName.setText(detail.getPaymentInfo().getBillingAddress().getFirstName() + " " + detail.getPaymentInfo().getBillingAddress().getLastName());
+                mBillingAddress.setText(Utility.createAddress(detail.getPaymentInfo().getBillingAddress()));
+            }
+            if (detail.getPaymentInfo().getCardType() != null)
+                mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode() + " " + detail.getPaymentInfo().getCardNumber());
+
+        }
+
     }
 }

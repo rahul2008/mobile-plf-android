@@ -66,7 +66,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof FooterOrderSummaryViewHolder) {
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
             footerHolder.mTitleBillingAddress.setText(R.string.iap_billing_address);
-            footerHolder.mTitleDelivery.setText(R.string.iap_deliver_via_parcel);
+            footerHolder.mTitleDeliveryAddress.setText(R.string.iap_shipping_address);
             footerHolder.mTitleVat.setText(R.string.iap_vat);
             footerHolder.mTitleTotalPrice.setText(R.string.iap_total_val);
             AddressFields shippingAddress = CartModelContainer.getInstance().getShippingAddressFields();
@@ -90,10 +90,20 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         + "\n" + (mContext.getResources().getString(R.string.iap_valid_until)) + " "
                         + mPaymentMethod.getExpiryMonth() + "/" + mPaymentMethod.getExpiryYear());
             }
-            if (getLastValidItem().getDeliveryCost() != null) {
-                footerHolder.mDeliveryPrice.setText(getLastValidItem().getDeliveryCost().getFormattedValue());
+            if (getLastValidItem().getDeliveryMode() != null) {
+                String deliveryCost = getLastValidItem().getDeliveryMode().getDeliveryCost().getFormattedValue();
+                String deliveryMethod = getLastValidItem().getDeliveryMode().getName();
+                footerHolder.mDeliveryPrice.setText(deliveryCost);
+                if(deliveryMethod!=null){
+                    footerHolder.mTitleDelivery.setText(deliveryMethod);
+                }else{
+                    footerHolder.mTitleDelivery.setText(R.string.iap_delivery_via);
+                }
             } else {
-                footerHolder.mDeliveryPrice.setText("0.0");
+                //footerHolder.mDeliveryPrice.setText("0.0");
+                footerHolder.mTitleDelivery.setVisibility(View.GONE);
+                footerHolder.mDeliveryPrice.setVisibility(View.GONE);
+                footerHolder.mDeliveryView.setVisibility(View.GONE);
             }
             footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
             footerHolder.mTotalPrice.setText(getLastValidItem().getTotalPriceWithTaxFormatedPrice());
@@ -101,8 +111,15 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (!getLastValidItem().isVatInclusive()) {
                 footerHolder.mVatInclusive.setVisibility(View.VISIBLE);
                 footerHolder.mVatInclusive.setText(String.format(mContext.getString(R.string.iap_vat_inclusive_text), mContext.getString(R.string.iap_vat)));
+                footerHolder.mVatValueUK.setVisibility(View.VISIBLE);
+                footerHolder.mVatValueUK.setText(getLastValidItem().getVatValue());
+                footerHolder.mVatValue.setVisibility(View.GONE);
+                footerHolder.mTitleVat.setVisibility(View.GONE);
             } else {
+                footerHolder.mVatValue.setVisibility(View.VISIBLE);
+                footerHolder.mTitleVat.setVisibility(View.VISIBLE);
                 footerHolder.mVatInclusive.setVisibility(View.GONE);
+                footerHolder.mVatValueUK.setVisibility(View.GONE);
             }
         } else {
             OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
@@ -193,6 +210,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mVatValue;
         TextView mTitleTotalPrice;
         TextView mVatInclusive;
+        View mDeliveryView;
+        TextView mVatValueUK;
 
         public FooterOrderSummaryViewHolder(View itemView) {
             super(itemView);
@@ -213,6 +232,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mVatValue = (TextView) itemView.findViewById(R.id.tv_vat_price);
             mTitleTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_lable);
             mVatInclusive = (TextView) itemView.findViewById(R.id.tv_vat_inclusive);
+            mDeliveryView = (View) itemView.findViewById(R.id.delivery_view);
+            mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_order_summary);
         }
     }
 }

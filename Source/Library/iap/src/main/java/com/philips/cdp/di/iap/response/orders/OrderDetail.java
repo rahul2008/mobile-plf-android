@@ -37,7 +37,9 @@ public class OrderDetail {
 
     private User user;
     private String created;
+    private String deliveryStatus;
     private boolean guestCustomer;
+    private String ordertrackUrl;
     private String status;
     private String statusDisplay;
 
@@ -47,7 +49,7 @@ public class OrderDetail {
 
     private List<Entries> entries;
 
-    private List<Entries> unconsignedEntries;
+    private List<Consignment> consignments;
 
     public String getType() {
         return type;
@@ -141,8 +143,16 @@ public class OrderDetail {
         return created;
     }
 
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
     public boolean isGuestCustomer() {
         return guestCustomer;
+    }
+
+    public String getOrdertrackUrl() {
+        return ordertrackUrl;
     }
 
     public String getStatus() {
@@ -164,8 +174,8 @@ public class OrderDetail {
         return entries;
     }
 
-    public List<Entries> getUnconsignedEntries() {
-        return unconsignedEntries;
+    public List<Consignment> getConsignments() {
+        return consignments;
     }
 
 }
