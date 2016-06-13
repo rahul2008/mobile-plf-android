@@ -24,12 +24,12 @@ private final String componentNameAndVersion;
     }
 
     // Create a DateFormat to format the logger ;.
-    private static final DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS", Locale.ENGLISH);
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS", Locale.ENGLISH);
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
         builder.append("[");
         Date aiCurrentDate= new Date(record.getMillis());
-        builder.append(df.format(aiCurrentDate)).append("]");
+        builder.append(DATE_FORMAT.format(aiCurrentDate)).append("]");
         String componentName = "NA"; // Default component name
         /*if(null!=record.getLoggerName()){
             componentName=record.getLoggerName();

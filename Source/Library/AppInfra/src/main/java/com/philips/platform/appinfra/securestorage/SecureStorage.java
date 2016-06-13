@@ -38,7 +38,7 @@ public class SecureStorage implements SecureStorageInterface{
     private static final String ENCRYPTION_ALGORITHM =  "RSA/ECB/PKCS1Padding";
     private static final String FILE_NAME = "AppInfra.SecureStorage.file.name";
     //public static final String DEVICE_FILE = "AppInfra Device file";
-    private   Context mContext;
+    private final  Context mContext;
     private static KeyStore keyStore = null;
 
 
