@@ -21,7 +21,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/uikit_modal_alert_button_left_margin"
             android:layout_marginTop="10dp"
-            android:text="@string/uikit_modal_alert_label"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/uikit_modal_alert_label_text_size"/>
 
@@ -34,7 +33,6 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="@dimen/uikit_modal_alert_button_left_margin"
             android:layout_marginRight="@dimen/uikit_modal_alert_text_right_margin"
-            android:text="@string/uikit_modal_alert_message"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/uikit_modal_alert_message_text_size"/>
 

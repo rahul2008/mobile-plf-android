@@ -110,7 +110,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.1"
+        versionName "1.0.2.rc1"
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         testApplicationId "com.philips.cdp.test"

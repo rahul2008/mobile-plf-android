@@ -202,22 +202,24 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     @Override
     protected void showAlert(final String title, final String description) {
         final ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
-        modalAlertDemoFragment.setDialogOkButtonListener(new DialogOkButtonListener() {
-            @Override
-            public void onOkButtonPressed() {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    getActivity().onBackPressed();
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            modalAlertDemoFragment.setDialogOkButtonListener(new DialogOkButtonListener() {
+                @Override
+                public void onOkButtonPressed() {
+                    if (getActivity() != null && !getActivity().isFinishing()) {
+                        getActivity().onBackPressed();
+                    }
                 }
-            }
-        });
-        modalAlertDemoFragment.show(getActivity().getSupportFragmentManager(), "dialog");
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                modalAlertDemoFragment.setTitle(title);
-                modalAlertDemoFragment.setDescription(description);
-            }
-        }, 200);
+            });
+            modalAlertDemoFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    modalAlertDemoFragment.setTitle(title);
+                    modalAlertDemoFragment.setDescription(description);
+                }
+            }, 200);
+        }
     }
 }

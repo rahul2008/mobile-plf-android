@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -19,60 +18,75 @@
         android:layout_height="150dp"
         android:layout_below="@+id/product_title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"/>
+        android:layout_marginTop="45dp"/>
 
-    <RelativeLayout
-        android:id="@+id/date_edit_text_layout"
+    <com.philips.cdp.uikit.customviews.InlineForms
+        android:id="@+id/InlineForms_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/serial_edit_text_layout"
+        android:layout_above="@+id/InlineForms_serial_number"
         android:layout_marginBottom="20dp"
         android:visibility="invisible">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/date_edit_text_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@+id/date_edit_text"
-            android:text="Purchase Date:"/>
+            android:orientation="horizontal">
 
-        <com.philips.cdp.uikit.customviews.PuiEditText
-            android:id="@+id/date_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            app:errorText="Invalid date"
-            app:errorTextColor="@color/uikit_philips_bright_orange"
-            />
-    </RelativeLayout>
+            <TextView
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:layout_weight="0.5"
+                android:text="Purchase Date:"/>
 
-    <RelativeLayout
-        android:id="@+id/serial_edit_text_layout"
+            <EditText
+                android:id="@+id/date_edit_text"
+                style="@style/PhilipsTextInputLayoutStyleEnabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                />
+        </LinearLayout>
+    </com.philips.cdp.uikit.customviews.InlineForms>
+
+    <com.philips.cdp.uikit.customviews.InlineForms
+        android:id="@+id/InlineForms_serial_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_register"
         android:layout_marginBottom="20dp"
         android:visibility="invisible">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/serial_edit_text_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@+id/serial_edit_text"
-            android:text="Serial number:"/>
+            android:orientation="horizontal">
 
-        <com.philips.cdp.uikit.customviews.PuiEditText
-            android:id="@+id/serial_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            app:errorText="Invalid serial number"
-            app:errorTextColor="@color/uikit_philips_bright_orange"
-            />
+            <TextView
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:layout_weight="0.5"
+                android:text="Serial number:"/>
 
-    </RelativeLayout>
+
+            <EditText
+                android:id="@+id/serial_edit_text"
+                style="@style/PhilipsTextInputLayoutStyleEnabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                />
+
+        </LinearLayout>
+    </com.philips.cdp.uikit.customviews.InlineForms>
 
     <Button
         android:id="@+id/btn_register"
