@@ -115,6 +115,7 @@ android {
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+		multiDexEnabled true
     }
 
     testOptions {
