@@ -49,16 +49,17 @@
     <TextView
         android:id="@+id/appversion"
         android:layout_width="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_height="wrap_content"/>
+        android:gravity="center_horizontal" />
+
     <LinearLayout
         android:id="@+id/select_country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="0dp"
@@ -107,5 +108,12 @@
         android:enabled="false"
         android:text="@string/shop_now"
         android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_fragment_launch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_shop_now"
+        android:text="@string/activity" />
 
 </RelativeLayout>

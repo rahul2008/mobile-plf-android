@@ -83,7 +83,7 @@ android {
         abortOnError false
     }
     defaultConfig {
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0.0"
@@ -139,7 +139,7 @@ dependencies {
 
     //Coco
     compile 'com.philips.cdp:prx:2.0.1'
-    compile 'com.philips.cdp:uikitLib:3.1.0'
+    compile 'com.philips.cdp:uikitLib:3.2.0'
     compile 'com.philips.cdp:Tagging:2.0.0'
     compile('com.philips.cdp:registrationApi:6.0.2') {
         exclude group: 'com.android.support'

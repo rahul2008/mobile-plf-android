@@ -8,7 +8,6 @@ Project           : InAppPurchase
 
 package com.philips.cdp.di.iap.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,20 +16,37 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.tagging.Tagging;
 
+import java.util.List;
+
 public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
-    private IAPFragmentListener mActivityListener;
+    private IAPFragmentActionLayout mFragmentLayout;
+    private Context mContext;
+
+    private View.OnClickListener mCartIconListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            if (NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
+                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                        BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+            } else {
+                NetworkUtility.getInstance().showErrorDialog(getActivity(), getActivity()
+                                .getSupportFragmentManager(), getString(R.string.iap_ok),
+                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            }
+        }
+    };
 
     protected boolean isNetworkNotConnected() {
-        if (!getIAPActivity().getNetworkUtility().isNetworkAvailable(getContext())) {
-            getIAPActivity().getNetworkUtility().showErrorDialog(getContext(), getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        if (!NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
+            NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
             return true;
         }
         return false;
@@ -39,7 +55,10 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
-        mActivityListener = (IAPFragmentListener) context;
+        mContext = context;
+        if (mFragmentLayout == null) {
+            mFragmentLayout = new IAPFragmentActionLayout(getContext(), getActivity().getSupportFragmentManager());
+        }
     }
 
     public enum AnimationType {
@@ -54,6 +73,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         super.onResume();
         setBackButtonVisibility(View.VISIBLE);
         setCartIconVisibility(View.GONE);
+        mFragmentLayout.getCartContainer().setOnClickListener(mCartIconListener);
     }
 
     public void addFragment(BaseAnimationSupportFragment newFragment,
@@ -61,7 +81,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+            transaction.replace(getId(), newFragment, newFragmentTag);
             transaction.addToBackStack(newFragmentTag);
             transaction.commitAllowingStateLoss();
 
@@ -74,7 +94,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             Fragment currentFragment = getActivity().getSupportFragmentManager()
-                    .findFragmentById(R.id.fl_mainFragmentContainer);
+                    .findFragmentById(getId());
             if (currentFragment != null) {
                 transaction.remove(currentFragment);
             }
@@ -86,7 +106,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentManager manager = getActivity().getSupportFragmentManager();
             clearFragmentStack();
-            manager.beginTransaction().replace(R.id.fl_mainFragmentContainer,
+            manager.beginTransaction().replace(getId(),
                     ProductCatalogFragment.createInstance(new Bundle(), AnimationType.NONE),
                     ProductCatalogFragment.TAG).addToBackStack(ProductCatalogFragment.TAG)
                     .commitAllowingStateLoss();
@@ -106,22 +126,25 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentManager manager = getActivity().getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
+            transaction.replace(getId(), new ShoppingCartFragment());
             transaction.addToBackStack(ShoppingCartFragment.TAG);
             transaction.commitAllowingStateLoss();
         }
     }
 
     protected void setTitle(int resourceId) {
-        mActivityListener.setHeaderTitle(resourceId);
+        mFragmentLayout.setHeaderTitle(resourceId);
+//        mActivityListener.setHeaderTitle(resourceId);
     }
 
     protected void setTitle(String title) {
-        mActivityListener.setHeaderTitle(title);
+        mFragmentLayout.setHeaderTitle(title);
+        //mActivityListener.setHeaderTitle(title);
     }
 
     protected void setBackButtonVisibility(final int isVisible) {
-        mActivityListener.setBackButtonVisibility(isVisible);
+        mFragmentLayout.setBackButtonVisibility(isVisible);
+//        mActivityListener.setBackButtonVisibility(isVisible);
     }
 
     protected void finishActivity() {
@@ -149,28 +172,31 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
     public void clearFragmentStack() {
         if (getActivity() != null && !getActivity().isFinishing()) {
-            getActivity().getSupportFragmentManager().popBackStackImmediate(null, 0);
+            FragmentManager fragManager = getActivity().getSupportFragmentManager();
+            int count = fragManager.getBackStackEntryCount();
+            for (; count >= 0; count--) {
+                List<Fragment> fragmentList = fragManager.getFragments();
+                if (fragmentList != null && fragmentList.size() > 0) {
+                    if (fragmentList.get(fragmentList.size() - 1) instanceof IAPFragmentListener) {
+                        fragManager.popBackStackImmediate();
+                    }
+                }
+            }
         }
-
     }
 
     public void updateCount(final int count) {
-        mActivityListener.updateCount(count);
+        mFragmentLayout.updateCount(count);
+        //mActivityListener.updateCount(count);
     }
 
     public void setCartIconVisibility(final int visibility) {
         if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
-            mActivityListener.setCartIconVisibility(View.GONE);
+            mFragmentLayout.setCartIconVisibility(View.GONE);
+            //mActivityListener.setCartIconVisibility(View.GONE);
         } else {
-            mActivityListener.setCartIconVisibility(visibility);
+            mFragmentLayout.setCartIconVisibility(visibility);
+//            mActivityListener.setCartIconVisibility(visibility);
         }
-    }
-
-    public IAPActivity getIAPActivity() {
-        Activity activity = getActivity();
-        if (activity != null && (activity instanceof IAPActivity)) {
-            return (IAPActivity) activity;
-        }
-        return null;
     }
 }

@@ -4,10 +4,17 @@
  */
 package com.philips.cdp.di.iap.session;
 
+import android.support.v4.app.FragmentManager;
+
 public class IAPSettings {
     private int mThemeIndex;
     private String mLanguage;
     private String mCountry;
+
+    //Add fragment launch support
+    private boolean mLaunchAsFragment;
+    private int mContainerID;
+    private android.support.v4.app.FragmentManager mFragmentManager;
 
     private boolean mUseLocalData;
 
@@ -35,5 +42,26 @@ public class IAPSettings {
 
     public String getCountry() {
         return mCountry;
+    }
+
+    public void setFragProperties(FragmentManager manager, int containerID) {
+        mFragmentManager = manager;
+        mContainerID = containerID;
+    }
+
+    public boolean isLaunchAsFragment() {
+        return mLaunchAsFragment;
+    }
+
+    public void setLaunchAsFragment(boolean launchAsFragment) {
+        mLaunchAsFragment = launchAsFragment;
+    }
+
+    public FragmentManager getFragmentManager() {
+        return mFragmentManager;
+    }
+
+    public int getContainerID() {
+        return mContainerID;
     }
 }

@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -55,6 +56,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     //We require this to track for hiding the cart icon in demo app
     IAPSettings mIAPSettings;
+    private Button mFragmentLaunch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         Button mRegister = (Button) findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
+
+        mFragmentLaunch = (Button) findViewById(R.id.btn_fragment_launch);
+        mFragmentLaunch.setOnClickListener(this);
+        mFragmentLaunch.setVisibility(View.GONE);
 
         mShopNow = (Button) findViewById(R.id.btn_shop_now);
         mShopNow.setOnClickListener(this);
@@ -133,10 +139,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.shopping_cart_icon:
-                if(isNetworkAvailable(DemoAppActivity.this)) {
+                if (isNetworkAvailable(DemoAppActivity.this)) {
                     mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, null, mBuyProductListener);
-                }else{
-                    Toast.makeText(DemoAppActivity.this,"Network unavailable",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btn_register:
@@ -144,18 +150,22 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
             case R.id.btn_shop_now:
-                if(isNetworkAvailable(DemoAppActivity.this)) {
+                if (isNetworkAvailable(DemoAppActivity.this)) {
                     mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
-                }else {
-                    Toast.makeText(DemoAppActivity.this,"Network unavailable",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btn_purchase_history:
-                if(isNetworkAvailable(DemoAppActivity.this)) {
+                if (isNetworkAvailable(DemoAppActivity.this)) {
                     mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, null, null);
-                }else {
-                    Toast.makeText(DemoAppActivity.this,"Network unavailable",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id.btn_fragment_launch:
+                Intent intent = new Intent(this, LauncherFragmentActivity.class);
+                this.startActivity(intent);
                 break;
             default:
                 break;
@@ -273,9 +283,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             mShoppingCart.setVisibility(View.GONE);
             mShopNow.setVisibility(View.GONE);
             mPurchaseHistory.setVisibility(View.GONE);
+            mFragmentLaunch.setVisibility(View.GONE);
             return;
         }
 
+        mFragmentLaunch.setVisibility(View.VISIBLE);
         mShoppingCart.setVisibility(View.VISIBLE);
         mShopNow.setVisibility(View.VISIBLE);
         mPurchaseHistory.setVisibility(View.VISIBLE);
@@ -337,6 +349,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mCountryPreference.clearCountryPreference();
         mSpinner.setSelection(0);
         mCountText.setVisibility(View.GONE);
+        mFragmentLaunch.setVisibility(View.GONE);
     }
 
     private void showAppVersion() {
@@ -348,7 +361,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         }
         TextView versionView = (TextView) findViewById(R.id.appversion);
         versionView.setText(String.valueOf(code));
-
     }
 
     public boolean isNetworkAvailable(Context pContext) {

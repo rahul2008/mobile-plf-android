@@ -24,6 +24,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.shamanland.fonticon.FontIconTextView;
 
@@ -130,7 +131,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         Utility.dismissProgressDialog();
         mParentView.setVisibility(View.VISIBLE);
         if (msg.obj instanceof IAPNetworkError) {
-            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
                 if (msg.obj instanceof OrderDetail) {
