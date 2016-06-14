@@ -15,6 +15,7 @@ import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.fragment.LaunchFragment;
 import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class MainActivity extends UiKitActivity {
 
@@ -57,7 +58,7 @@ public class MainActivity extends UiKitActivity {
 
         ImageView arrowImage = (ImageView) mCustomView
                 .findViewById(R.id.arrow);
-        arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_actionbar_back_arrow_white));
+        arrowImage.setImageDrawable(VectorDrawable.create(this, R.drawable.prodreg_left_arrow));
 
         mActionBar.setCustomView(mCustomView, params);
         setTitle(getString(R.string.app_name));

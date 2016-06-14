@@ -186,3 +186,11 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
 	
 	1. PRA-227 - Application is getting crash while user login itself 
 	2. PRA-228 - Purchase date to be not cached if it is invalid and missing
+	
+	Version - 1.0.2.rc1                        Date: 13-06-2016
+-------------------------------------------------------------
+
+	Following features has fixed :
+	
+	1. PRA-187 - As a user I shall be able to register single Product as per UI designed for semi automatic in portrait mode
+	2. PRA-197 - UI flow finalization

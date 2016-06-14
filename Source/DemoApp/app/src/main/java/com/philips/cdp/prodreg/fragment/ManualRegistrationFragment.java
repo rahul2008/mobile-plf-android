@@ -18,16 +18,13 @@ import android.widget.ToggleButton;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.R;
-import com.philips.cdp.prodreg.Util;
 import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -149,12 +146,6 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
     }
 
     private void makeRegistrationRequest(final boolean isActivity, final String type) {
-        final User mUser = new User(fragmentActivity);
-        if (!(mUser.isUserSignIn() && mUser.getEmailVerificationStatus())) {
-            Log.d(TAG, "On Click : User Registration");
-            RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(fragmentActivity);
-            Util.navigateFromUserRegistration();
-        }
         if (mCtn.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(fragmentActivity, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
         } else {
@@ -198,6 +189,8 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                 fragmentActivity, R.id.parent_layout, new ActionbarUpdateListener() {
             @Override
             public void updateActionbar(final String var1) {
+                if (getActivity().getActionBar() != null)
+                    getActivity().getActionBar().setTitle(var1);
             }
         });
         Bundle bundle = new Bundle();
