@@ -88,7 +88,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         if(locamManager.getCountry() == null){
             URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage();
         }else{
-            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&tags="+tags+"&country="+ locamManager.getCountry();
+            URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&tags="+tags+"&country="+ locamManager.getCountry();
         }
 
         return URL;
@@ -249,6 +249,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
        if(mServiceUrlWithLanguagePreference){
             try {
                 mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds)));
+                mServiceUrlWithLanguagePreference = false;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -256,20 +257,25 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         }else if(mServiceUrlWithCountryPreference){
             try {
                 mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds)));
+                mServiceUrlWithCountryPreference = false;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
         }else if(mServiceLocaleWithLanguagePreference){
            mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
+           mServiceLocaleWithLanguagePreference = false;
 
         }else if(mServiceLocaleWithCountryPreference){
            mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
+           mServiceLocaleWithCountryPreference = false;
         }else if(mServicesWithLanguagePreferenceMultiple){
             mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds));
+           mServicesWithLanguagePreferenceMultiple = false;
 
         }else if(mmServiceUrlWithCountryPreferenceMultiple){
             mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds));
+           mmServiceUrlWithCountryPreferenceMultiple = false;
         }
 
 

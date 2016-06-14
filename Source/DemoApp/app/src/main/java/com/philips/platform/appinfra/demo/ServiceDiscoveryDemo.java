@@ -30,7 +30,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         appInfra = AppInfraApplication.gAppInfra;
         mServiceDiscoveryInterface = appInfra.getServiceDiscoveryInterface();
 //        mServiceDiscoveryInterface.getservice();
-        mServiceDiscoveryInterface.getServicesWithCountryPreference("ugrow.privacy",this );
+//        mServiceDiscoveryInterface.getServicesWithCountryPreference("ugrow.privacy",this );
         mOnGetServicesListener=this;
         mOnGetServiceLocaleListener=this;
         mOnGetServiceUrlListener=this;
@@ -43,6 +43,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
             @Override
             public void onSuccess() {
+                Log.i("refresh", "refresh");
                 mServiceDiscoveryInterface.getServicesWithCountryPreference("ugrow.privacy",mOnGetServicesListener );
                 mServiceDiscoveryInterface.getServicesWithLanguagePreference("ugrow.terms",mOnGetServicesListener );
                 mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference("ugrow.privacy",mOnGetServiceLocaleListener );
@@ -60,7 +61,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
     @Override
     public void onError(ERRORVALUES error, String message) {
-
+        Log.i("onError", ""+message);
     }
 
     @Override

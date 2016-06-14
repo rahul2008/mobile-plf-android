@@ -115,6 +115,7 @@ android {
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+		
     }
 
     testOptions {
@@ -167,7 +168,6 @@ dependencies {
 
     compile(group: 'com.philips.cdp', name: 'prx', version: '2.0.0', ext: 'aar'){
         exclude group: 'com.android.support'
-        transitive=true
     }
     compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.0.0', ext: 'aar'){
         exclude group: 'com.android.support'

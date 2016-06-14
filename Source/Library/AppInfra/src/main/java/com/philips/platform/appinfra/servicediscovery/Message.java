@@ -13,7 +13,7 @@ import java.util.List;
 public class Message {
 
     String micrositeId;
-    List urls;
+    List<Object> urls;
     UrlsModel urlModel;
 
     Message(String micrositeId, UrlsModel urlModel){

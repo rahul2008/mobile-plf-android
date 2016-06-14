@@ -5,14 +5,8 @@
  */
 package com.philips.platform.appinfra.servicediscovery;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -48,23 +42,23 @@ public class LocalManager implements LocalInterface {
     }
     @Override
     public String  getCountry() {
-        SharedPreferences pref = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
         if(mCountry == null){
-            mCountry = pref.getString("COUNTRY_NAME", null);
-            Log.i("Retried Country", " "+mCountry);
+            mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
+            Log.i("Country", " "+mCountry);
             if(mCountry!= null)
                 return mCountry;
 
         }
         if(mCountry== null){
-            SharedPreferences.Editor editor = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE).edit();
             try {
                 final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 final String simCountry = tm.getSimCountryIso();
                 if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
                     mCountry = simCountry.toLowerCase(Locale.US);
 
-                    editor.putString("COUNTRY_NAME", mCountry);
+                    editor.putString(RequestManager.COUNTRY_NAME, mCountry);
                     editor.commit();
                     if(mCountry!= null)
                     return mCountry;
@@ -72,7 +66,7 @@ public class LocalManager implements LocalInterface {
                     String networkCountry = tm.getNetworkCountryIso();
                     if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
                         mCountry= networkCountry.toLowerCase(Locale.US);
-                        editor.putString("COUNTRY_NAME", mCountry);
+                        editor.putString(RequestManager.COUNTRY_NAME, mCountry);
                         editor.commit();
                         if(mCountry!= null)
                         return mCountry;
@@ -91,13 +85,12 @@ public class LocalManager implements LocalInterface {
                 }
                 @Override
                 public void onSuccess() {
-                    SharedPreferences pref = context.getSharedPreferences("PrefNAme", context.MODE_PRIVATE);
-                    mCountry = pref.getString("COUNTRY_NAME", null);
-                    Log.i("Retried Country", " "+mCountry);
+                    SharedPreferences pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
+                    mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
+                    Log.i("Retrieved Country", " "+mCountry);
 
                 }
             }));
-        //new RequestManager(context).execute("https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en");
             return mCountry;
         }
         return mCountry;

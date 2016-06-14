@@ -1,7 +1,7 @@
 {
     "micrositeId" : "12345",
     "sector"  : "B2C",
-    "AppState"  : "Debug"
+    "AppState"  : "DEVELOPMENT"
 
 
 }

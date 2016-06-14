@@ -1,8 +1,6 @@
 package com.philips.platform.appinfra.servicediscovery;
 
-import android.os.Handler;
 import android.util.JsonReader;
-import android.util.JsonToken;
 import android.util.Log;
 
 import java.io.IOException;
@@ -17,7 +15,7 @@ import java.util.List;
 public class ServiceResponseManager {
 
     public List readJsonStream(InputStream in) throws IOException {
-        List list = null;
+        List<Object> list = null;
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
         try {
             return readMessagesArray(reader);
