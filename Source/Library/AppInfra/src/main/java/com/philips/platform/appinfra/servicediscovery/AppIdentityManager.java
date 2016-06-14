@@ -139,12 +139,12 @@ public class AppIdentityManager implements AppIdentityInterface {
                     }
 
 
-                    Log.i("Obj tag1", ""+micrositeId);
-                    Log.i("Obj tag2", ""+sector);
-                    Log.i("Obj tag1", ""+mAppState);
-                    Log.i("Obj tag2", ""+mAppName);
-                    Log.i("Obj tag1", ""+mAppVersion);
-                    Log.i("Obj tag1", ""+mAppLocalizedNAme);
+                    Log.i("micrositeId", ""+micrositeId);
+                    Log.i("sector", ""+sector);
+                    Log.i("mAppState", ""+mAppState);
+                    Log.i("mAppName", ""+mAppName);
+                    Log.i("mAppVersion", ""+mAppVersion);
+                    Log.i("mAppLocalizedNAme", ""+mAppLocalizedNAme);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
