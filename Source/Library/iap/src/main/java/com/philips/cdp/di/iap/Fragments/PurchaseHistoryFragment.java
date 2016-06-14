@@ -25,6 +25,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     public void onGetOrderList(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), mContext);
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             if (msg.what == RequestCode.GET_ORDERS) {
                 if (msg.obj instanceof OrdersData) {

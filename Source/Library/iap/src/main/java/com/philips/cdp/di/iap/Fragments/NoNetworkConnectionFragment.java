@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 
 /**
  * Created by 310164421 on 5/5/2016.
@@ -23,7 +24,7 @@ public class NoNetworkConnectionFragment extends BaseAnimationSupportFragment {
         iap_btnTryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getIAPActivity().getNetworkUtility().isNetworkAvailable(getActivity())) {
+                if (NetworkUtility.getInstance().isNetworkAvailable(getActivity())) {
                     getFragmentManager().popBackStackImmediate();
                 }
             }

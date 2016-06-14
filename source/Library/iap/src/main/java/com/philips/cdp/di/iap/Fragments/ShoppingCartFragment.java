@@ -3,7 +3,6 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +13,7 @@ import android.widget.Button;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -28,10 +28,13 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
+
+import static com.android.volley.Request.Method.HEAD;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
@@ -111,7 +114,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         super.onStop();
         if (mAdapter != null)
             mAdapter.onStop();
-        getIAPActivity().getNetworkUtility().dismissErrorDialog();
+        NetworkUtility.getInstance().dismissErrorDialog();
     }
 
     private void updateCartDetails(ShoppingCartAPI presenter) {
@@ -156,8 +159,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment == null) {
+        if (getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
         }
         return false;
@@ -194,7 +196,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
         } else {
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(
@@ -258,9 +260,13 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onLoadListenerError(IAPNetworkError error) {
-        if (Utility.isProgressDialogShowing()) Utility.dismissProgressDialog();
-        if (isNetworkNotConnected()) return;
-        getIAPActivity().getNetworkUtility().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok), error.getMessage(), error.getMessage());
+        if (Utility.isProgressDialogShowing()) {
+            Utility.dismissProgressDialog();
+        }
+        if (isNetworkNotConnected()) {
+            return;
+        }
+        NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok), error.getMessage(), error.getMessage());
     }
 
     @Override

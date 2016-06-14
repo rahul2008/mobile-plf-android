@@ -16,8 +16,18 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.tagging.Tagging;
 
 public class NetworkUtility {
-
+    private static NetworkUtility mNetworkUtility;
     private ErrorDialogFragment mModalAlertDemoFragment;
+    private boolean isOnline;
+
+    public static NetworkUtility getInstance() {
+        synchronized (NetworkUtility.class) {
+            if (mNetworkUtility == null) {
+                mNetworkUtility = new NetworkUtility();
+            }
+        }
+        return mNetworkUtility;
+    }
 
     public void dismissErrorDialog() {
         if (null != mModalAlertDemoFragment && mModalAlertDemoFragment.isAdded()) {

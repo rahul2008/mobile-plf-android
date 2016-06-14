@@ -1,6 +1,9 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +16,13 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
 
+import java.util.List;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ErrorDialogFragment extends BlurDialogFragment {
+public class ErrorDialogFragment extends DialogFragment {
     public interface ErrorDialogListener {
         void OnOkClickFromSomethingWentWrong();
     }
@@ -25,6 +30,12 @@ public class ErrorDialogFragment extends BlurDialogFragment {
     private Button mOkBtn, mTryAgain;
     private ErrorDialogListener mClickListener;
     Bundle bundle;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,7 +80,7 @@ public class ErrorDialogFragment extends BlurDialogFragment {
 
         if (getActivity() != null && !getActivity().isFinishing()) {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+            transaction.replace(getPreviousFragmentID(), newFragment, newFragmentTag);
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
 
@@ -78,4 +89,13 @@ public class ErrorDialogFragment extends BlurDialogFragment {
         }
     }
 
+    // TODO: 08-06-2016  This must be avoided and code using this function must be moved to
+    // basefragment. It can have side effects if this is the first fragment. It will replace the
+    // vertical fragment. Please check for code duplication as well.
+    private int getPreviousFragmentID() {
+        FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
+        List<Fragment> fragments = supportFragmentManager.getFragments();
+        int size = fragments.size();
+        return fragments.get(fragments.size() -1).getId();
+    }
 }

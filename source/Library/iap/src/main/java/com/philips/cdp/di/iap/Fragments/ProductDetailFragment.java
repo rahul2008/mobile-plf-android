@@ -27,6 +27,7 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
@@ -72,12 +73,12 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
-                    getIAPActivity().getNetworkUtility().showErrorDialog(mContext, getFragmentManager(),
+                    NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                             mContext.getString(R.string.iap_ok),
                             mContext.getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
                 }
             } else {
-                getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             }
         }
     };
@@ -109,7 +110,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mAdapter = new ImageAdapter(getContext(),getFragmentManager(), mLaunchedFromProductCatalog, new ArrayList<String>());
+        mAdapter = new ImageAdapter(getContext(), getFragmentManager(), mLaunchedFromProductCatalog, new ArrayList<String>());
         mPager.setAdapter(mAdapter);
 
         CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
@@ -150,14 +151,14 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (mLaunchedFromProductCatalog) {
             setCartIconVisibility(View.VISIBLE);
 
-            if(discountedPrice ==null || discountedPrice ==""){
+            if (discountedPrice == null || discountedPrice == "") {
                 mProductDiscountedPrice.setVisibility(View.GONE);
                 mPrice.setTextColor(Utility.getThemeColor(mContext));
-            }else if(actualPrice!=null && discountedPrice.equalsIgnoreCase(actualPrice)) {
+            } else if (actualPrice != null && discountedPrice.equalsIgnoreCase(actualPrice)) {
                 mPrice.setVisibility(View.GONE);
                 mProductDiscountedPrice.setVisibility(View.VISIBLE);
                 mProductDiscountedPrice.setText(discountedPrice);
-            }else {
+            } else {
                 mProductDiscountedPrice.setVisibility(View.VISIBLE);
                 mProductDiscountedPrice.setText(discountedPrice);
                 mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -198,7 +199,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                     break;
                 }
             }
-            mAdapter = new ImageAdapter(getContext(),getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
+            mAdapter = new ImageAdapter(getContext(), getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
             mPager.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
             if (Utility.isProgressDialogShowing())
@@ -250,7 +251,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
         CartModelContainer.getInstance().addAssetDataToList(mBundle.getString(IAPConstant.PRODUCT_CTN), mAsset);
-        mAdapter = new ImageAdapter(getContext(),getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
+        mAdapter = new ImageAdapter(getContext(), getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
         mPager.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         if (Utility.isProgressDialogShowing())
@@ -263,7 +264,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
         if (isNetworkNotConnected()) return;
-        getIAPActivity().getNetworkUtility().showErrorMessage(msg, getFragmentManager(), getContext());
+        NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
     }
 
     void buyProduct(final String ctnNumber) {
