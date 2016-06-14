@@ -11,13 +11,20 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
 import com.android.volley.Network;
+import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
@@ -198,12 +205,25 @@ public class RequestManager{
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-                        int  statusCode = error.networkResponse.statusCode;
-                        NetworkResponse response = error.networkResponse;
 
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//                            Toast.makeText(mContext,
+//                                    mContext.getString(R.string.error_network_timeout),
+//                                    Toast.LENGTH_LONG).show();
+                            Log.i("TimeoutORNoConnection", ""+"TimeoutORNoConnection");
+
+                        } else if (error instanceof AuthFailureError) {
+                            //TODO
+                        } else if (error instanceof ServerError) {
+                            //TODO
+                        } else if (error instanceof NetworkError) {
+                            //TODO
+                        } else if (error instanceof ParseError) {
+                            //TODO
+                        }
                     }
-                });
+
+                    });
 
         if(url.startsWith("https")) {
             this.isHttpsRequest = true;

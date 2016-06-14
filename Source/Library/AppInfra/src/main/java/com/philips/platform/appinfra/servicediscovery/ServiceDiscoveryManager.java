@@ -62,10 +62,33 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         idntityManager.loadJSONFromAsset();
         LocalManager locamManager= new LocalManager(mAppInfra);
         locamManager.getlanguage();
+        String mState = idntityManager.getmAppState();
+        String tags = null;
+        String environment = null;
+        if(mState.contains("DEVELOPMENT")){
+            tags="apps%2b%2benv%2bdev";
+            environment = "tst";
+        }
+        else if(mState.contains("TEST")){
+            tags="apps%2b%2benv%2btst";
+            environment = "tst";
+        }
+        else if(mState.contains("STAGING")){
+            tags="apps%2b%2benv%2bstag";
+            environment = "acc";
+        }
+        else if(mState.contains("ACCEPTANCE")){
+            tags="apps%2b%2benv%2bacc";
+            environment = "acc";
+        }
+        else if(mState.contains("PRODUCTION")){
+            tags="apps%2b%2benv%2bprd";
+            environment = "www";
+        }
         if(locamManager.getCountry() == null){
-            URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage();
+            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage();
         }else{
-            URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&country="+ locamManager.getCountry();
+            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&tags="+tags+"&country="+ locamManager.getCountry();
         }
 
         return URL;
