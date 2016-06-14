@@ -51,8 +51,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     private Product currentProduct;
     private EditText serial_number_editText, date_EditText;
     private InlineForms serialLayout, purchaseDateLayout;
-    private ProdRegHelper prodRegHelper = ProdRegHelper.getInstance();
-    private ProgressDialog progress;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -103,8 +101,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         date_EditText.setKeyListener(null);
         date_EditText.setOnClickListener(onClickPurchaseDate());
         serial_number_editText.addTextChangedListener(getWatcher());
-        final ProdRegListener listener = getProdRegListener();
-        prodRegHelper.addProductRegistrationListener(listener);
         return view;
     }
 
@@ -133,19 +129,23 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     }
 
     @NonNull
-    private ProdRegListener getProdRegListener() {
+    private ProdRegListener getProdRegListener(final ProgressDialog progress) {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                progress.dismiss();
-                showFragment(new ProdRegSuccessFragment());
+                if (getActivity() != null && !getActivity().isFinishing() && progress != null) {
+                    progress.dismiss();
+                    showFragment(new ProdRegSuccessFragment());
+                }
             }
 
             @Override
             public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                 Log.d(getClass() + "", "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
-                progress.dismiss();
-                showAlert("Failed", registeredProduct.getProdRegError().toString());
+                if (getActivity() != null && !getActivity().isFinishing() && progress != null) {
+                    progress.dismiss();
+                    showAlert("Failed", registeredProduct.getProdRegError().toString());
+                }
             }
         };
     }
@@ -288,11 +288,13 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             @Override
             public void onClick(final View v) {
                 if (validateFields()) {
-                    progress = ProgressDialog.show(getActivity(), "",
+                    ProgressDialog progress = ProgressDialog.show(getActivity(), "",
                             "Registering your product", true);
                     progress.setCancelable(false);
                     currentProduct.setPurchaseDate(date_EditText.getText().toString());
                     currentProduct.setSerialNumber(serial_number_editText.getText().toString());
+                    ProdRegHelper prodRegHelper = new ProdRegHelper();
+                    prodRegHelper.addProductRegistrationListener(getProdRegListener(progress));
                     prodRegHelper.getSignedInUserWithProducts().registerProduct(getMappedRegisteredProduct());
                 }
             }

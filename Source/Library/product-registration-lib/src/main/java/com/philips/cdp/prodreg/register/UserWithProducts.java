@@ -17,6 +17,7 @@ import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
+import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -25,11 +26,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /* Copyright (c) Koninklijke Philips N.V., 2016
@@ -50,10 +46,12 @@ public class UserWithProducts {
     private ErrorHandler errorHandler;
     private String uuid = "";
     private RegisteredProduct currentRegisteredProduct;
+    private ProdRegListener appListener;
 
-    UserWithProducts(final Context context, final User user) {
+    UserWithProducts(final Context context, final User user, final ProdRegListener appListener) {
         this.mContext = context;
         this.user = user;
+        this.appListener = appListener;
         setUuid();
         localRegisteredProducts = new LocalRegisteredProducts(context, this.user);
         errorHandler = new ErrorHandler();
@@ -78,9 +76,9 @@ public class UserWithProducts {
      * @param product - instance of product which should include CTN, Serial, Sector and Catalog of product
      */
     public void registerProduct(final Product product) {
-      /*  if (appListener == null) {
+        if (appListener == null) {
             throw new RuntimeException("Listener not Set");
-        }*/
+        }
         setRequestType(PRODUCT_REGISTRATION);
         currentRegisteredProduct = getUserProduct().createDummyRegisteredProduct(product);
         LocalRegisteredProducts localRegisteredProducts = getLocalRegisteredProductsInstance();
@@ -114,7 +112,7 @@ public class UserWithProducts {
             if (!getUserProduct().isUserSignedIn(mContext)) {
                 getUserProduct().updateLocaleCache(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
                 sendErrorCallBack(registeredProduct);
-            } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !getUserProduct().isValidDate(registeredProduct.getPurchaseDate())) {
+            } else if (registeredProduct.getPurchaseDate() != null && registeredProduct.getPurchaseDate().length() != 0 && !ProdRegUtil.isValidDate(registeredProduct.getPurchaseDate())) {
                 updateWithCallBack(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
             } else {
                 UserWithProducts userWithProducts = getUserProduct();
@@ -125,10 +123,7 @@ public class UserWithProducts {
     }
 
     public void sendErrorCallBack(final RegisteredProduct registeredProduct) {
-        ArrayList<ProdRegListener> prodRegListeners = ProdRegHelper.prodRegListeners;
-        for (ProdRegListener prodRegListener : prodRegListeners) {
-            prodRegListener.onProdRegFailed(registeredProduct, getUserProduct());
-        }
+        appListener.onProdRegFailed(registeredProduct, getUserProduct());
     }
 
     protected boolean isFailedOnInvalidInput(final RegisteredProduct registeredProduct) {
@@ -178,25 +173,6 @@ public class UserWithProducts {
     protected boolean isUserSignedIn(final Context context) {
         User mUser = getUser();
         return mUser.isUserSignIn() && mUser.getEmailVerificationStatus();
-    }
-
-    protected boolean isValidDate(final String date) {
-        String[] dates = date.split("-");
-        return dates.length > 1 && Integer.parseInt(dates[0]) > 1999 && !isFutureDate(date);
-    }
-
-    protected boolean isFutureDate(String date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar = Calendar.getInstance();
-        final String mGetDeviceDate = dateFormat.format(calendar.getTime());
-        try {
-            final Date mDisplayDate = dateFormat.parse(date);
-            final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
-            return mDisplayDate.after(mDeviceDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     @NonNull
@@ -286,15 +262,10 @@ public class UserWithProducts {
 
     protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
         if (data != null && data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
-            if (processSerialNumber(data, registeredProduct))
+            if (ProdRegUtil.isValidSerialNumber(data.getSerialNumberFormat(), registeredProduct.getSerialNumber()))
                 return false;
         }
         return true;
-    }
-
-    private boolean processSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
-        final String serialNumber = registeredProduct.getSerialNumber();
-        return serialNumber == null || serialNumber.length() < 1 || !serialNumber.matches(data.getSerialNumberFormat());
     }
 
     @NonNull
@@ -390,10 +361,7 @@ public class UserWithProducts {
     }
 
     private void sendSuccessFulCallBack(final RegisteredProduct registeredProduct) {
-        ArrayList<ProdRegListener> prodRegListeners = ProdRegHelper.prodRegListeners;
-        for (ProdRegListener prodRegListener : prodRegListeners) {
-            prodRegListener.onProdRegSuccess(registeredProduct, getUserProduct());
-        }
+        appListener.onProdRegSuccess(registeredProduct, getUserProduct());
     }
 
     protected void mapRegistrationResponse(final RegistrationResponse registrationResponse, final RegisteredProduct registeredProduct) {

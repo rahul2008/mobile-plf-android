@@ -57,7 +57,7 @@ public class ProdRegProductsFragment extends ProdRegBaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        ProdRegHelper prodRegHelper = ProdRegHelper.getInstance();
+        ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.init(getActivity());
         prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(new RegisteredProductsListener() {
             @Override

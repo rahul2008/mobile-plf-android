@@ -143,7 +143,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
             if (currentProduct != null) {
-                ProdRegHelper prodRegHelper = ProdRegHelper.getInstance();
+                ProdRegHelper prodRegHelper = new ProdRegHelper();
                 prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
             }
         }

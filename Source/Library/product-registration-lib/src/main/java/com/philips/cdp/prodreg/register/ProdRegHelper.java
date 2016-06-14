@@ -26,9 +26,7 @@ public class ProdRegHelper {
     private static Context context;
     private static UserRegistrationListener userRegistrationListener;
     private static ProdRegHelper prodRegHelper;
-
-    private ProdRegHelper() {
-    }
+    private ProdRegListener prodRegListener;
 
     @NonNull
     private static UserRegistrationListener getUserRegistrationListener() {
@@ -46,7 +44,7 @@ public class ProdRegHelper {
                     }
                 };
                 new ProdRegHelper().addProductRegistrationListener(prodRegListener);
-                new UserWithProducts(context, user).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts());
+                new UserWithProducts(context, user, prodRegListener).registerCachedProducts(new LocalRegisteredProducts(activity, user).getRegisteredProducts());
             }
 
             @Override
@@ -72,12 +70,12 @@ public class ProdRegHelper {
         return userRegistrationListener;
     }
 
-    public static ProdRegHelper getInstance() {
+ /*   public static ProdRegHelper getInstance() {
         if (prodRegHelper == null) {
             prodRegHelper = new ProdRegHelper();
         }
         return prodRegHelper;
-    }
+    }*/
 
     /**
      * API to be called to initialize product registration
@@ -96,6 +94,7 @@ public class ProdRegHelper {
      * @param listener - Pass listener instance to listen for call backs
      */
     public void addProductRegistrationListener(final ProdRegListener listener) {
+        this.prodRegListener = listener;
         prodRegListeners.add(listener);
     }
 
@@ -110,7 +109,7 @@ public class ProdRegHelper {
      * @return - returns instance of UserWithProducts
      */
     public UserWithProducts getSignedInUserWithProducts() {
-        final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context));
+        final UserWithProducts userWithProducts = new UserWithProducts(context, new User(context), prodRegListener);
         return userWithProducts;
     }
 

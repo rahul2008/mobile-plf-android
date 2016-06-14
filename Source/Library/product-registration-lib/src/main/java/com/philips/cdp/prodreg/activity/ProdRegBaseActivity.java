@@ -26,7 +26,6 @@ import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class ProdRegBaseActivity extends UiKitActivity {
     private static String TAG = ProdRegBaseActivity.class.getSimpleName();
@@ -121,7 +120,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
 
         ImageView arrowImage = (ImageView) mCustomView
                 .findViewById(R.id.arrow);
-        arrowImage.setImageDrawable(VectorDrawable.create(this, R.drawable.prodreg_left_arrow));
+        arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
         mActionBar.setCustomView(mCustomView, params);
         setTitle(getString(R.string.app_name));
         mActionBar.setDisplayShowCustomEnabled(true);
