@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,9 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
 
 
-public class TwoButtonDailogFragment extends BlurDialogFragment {
+public class TwoButtonDailogFragment extends DialogFragment {
     public interface TwoButtonDialogListener {
         public void onDialogOkClick();
 
@@ -20,6 +20,12 @@ public class TwoButtonDailogFragment extends BlurDialogFragment {
     }
 
     private TwoButtonDialogListener mDialogClickListener;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
