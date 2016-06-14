@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Angi en gyldig e-postadresse.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">E-postadressen er allerede i bruk</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Denne e-postadressen er allerede i bruk med en Philips-konto eller en konto for sosiale medier.\nGå tilbake til \'Logg på\'-trinnet eller bruk en annen e-postadresse.</string>
-<string name="PrivacyPolicyText">Merknad om personvern</string>
+<string name="PrivacyNoticeText">Merknad om personvern</string>
 <string name="TermsAndConditionsText">Vilkår og betingelser</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Bekreft e-postadressen din med koblingen for aktivering som ble sendt til e-postkontoen din</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Vi har sendt en e-post til %s. Det kan ta litt tid før du mottar e-posten.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">WordPress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Les vår %s og %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Les vår %s og %s.</string>
+<string name="LegalNoticeText">Les vår %s</string>
 <string name="AgeLimitText">Du bekrefter at du er %s år eller eldre når du oppretter en konto eller logger på.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Jeg godtar appens %s</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Godta vilkårene og betingelsene</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Kontoinnstillinger</string>
 <string name="Create_With_lbltxt">Eller opprett en konto</string>
 <string name="myphilips_CC">MyPhilips-konto</string>
+<string name="Generic_Network_Error">Oi! Noe gikk galt. Prøv på nytt senere.</string>
+<string name="Already_Verified_Message">E-posten din er allerede bekreftet. Du kan fortsette.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

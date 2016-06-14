@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Ingresa un correo electrónico válido.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Esta dirección de correo electrónico ya existe</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Esta dirección ya existe para una cuenta de Philips o una cuenta de red social.\nVuelve al paso de \'Inicio de sesión\' o utiliza otra dirección.</string>
-<string name="PrivacyPolicyText">Aviso de privacidad</string>
+<string name="PrivacyNoticeText">Aviso de privacidad</string>
 <string name="TermsAndConditionsText">Cláusulas y condiciones</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Verifica tu dirección de correo con el enlace de activación que te enviamos</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Te enviamos un correo electrónico a: %s. Es posible que tarde un poco en llegar.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">WordPress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Lee nuestros %s y %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Lee nuestros %s y %s.</string>
+<string name="LegalNoticeText">Lee nuestros %s</string>
 <string name="AgeLimitText">Al crear una cuenta o iniciar sesión, confirmas que tienes %s años o más.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Acepto los %s de la aplicación</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Acepta los Términos y condiciones</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Configuración de cuenta</string>
 <string name="Create_With_lbltxt">O crear una cuenta</string>
 <string name="myphilips_CC">Cuenta MyPhilips</string>
+<string name="Generic_Network_Error">Lo sentimos, se produjo un error. Inténtalo de nuevo más tarde.</string>
+<string name="Already_Verified_Message">Tu dirección de correo electrónico ya fue verificada. Ya puedes continuar.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

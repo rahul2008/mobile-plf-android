@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Adjon meg érvényes e-mail címet.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Ez e-mail cím már használatban van</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Ez az e-mail cím már használatban van egy Philips fiókhoz vagy közösségi média fiókhoz.\nKérjük, térjen vissza a \’Bejelentkezés\’ lépéshez, vagy használjon másik e-mail címet.</string>
-<string name="PrivacyPolicyText">Adatvédelmi nyilatkozat</string>
+<string name="PrivacyNoticeText">Adatvédelmi nyilatkozat</string>
 <string name="TermsAndConditionsText">Felhasználási feltételek</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Kérjük, erősítse meg e-mail címét az e-mail fiókjába küldött aktivációs linken keresztül</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Küldtünk levelet a(z) %s e-mail címre. Igénybe vehet egy kis időt, amíg megérkezik.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Kérjük, olvassa el: %s és %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Kérjük, olvassa el: %s és %s.</string>
+<string name="LegalNoticeText">Kérjük, olvassa el: %s</string>
 <string name="AgeLimitText">A fiók létrehozásával, vagy a bejelentkezéssel igazolja, hogy Ön elmúlt %s éves.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Elfogadom: alkalmazás %s</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Kérjük, fogadja el a használati feltételeket</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Fiókbeállítások</string>
 <string name="Create_With_lbltxt">Vagy hozzon létre egy fiókot</string>
 <string name="myphilips_CC">MyPhilips fiók</string>
+<string name="Generic_Network_Error">Hoppá! Valami nem sikerült. Próbálja meg később!</string>
+<string name="Already_Verified_Message">E-mail címe megerősítésre került. Továbbléphet.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

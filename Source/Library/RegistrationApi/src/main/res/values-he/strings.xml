@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">הזן כתובת דוא\"ל חוקית</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">כתובת הדוא\"ל כבר נמצאת בשימוש</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">כתובת דוא\"ל זו כבר נמצאת בשימוש עם חשבון פיליפס או חשבון של רשת חברתית.\nחזור לשלב \'התחבר\', או השתמש בכתובת דוא\"ל אחרת.</string>
-<string name="PrivacyPolicyText">הודעת פרטיות</string>
+<string name="PrivacyNoticeText">הודעת פרטיות</string>
 <string name="TermsAndConditionsText">תנאים והתניות</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">אמת את כתובת הדוא\"ל שלך דרך קישור ההפעלה שנשלח לחשבון הדוא\"ל שלך</string>
 <string name="RegVerifyEmailView_VerificationEmailText">שלחנו הודעת דוא\"ל לכתובת: %s. הגעת ההודעה עשויה לארוך זמן מה.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">קרא את ה%s וה%s שלנו.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">קרא את ה%s וה%s שלנו.</string>
+<string name="LegalNoticeText">וה%s שלנו</string>
 <string name="AgeLimitText">בעצם יצירת החשבון או הכניסה למערכת אתה מאשר כי גילך %s שנים או יותר.\n</string>
 <string name="TermsAndConditionsAcceptanceText">אני מאשר את ה%s של היישום</string>
 <string name="TermsAndConditionsAcceptanceText_Error">אשר את התנאים והתניות</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">הגדרות חשבון</string>
 <string name="Create_With_lbltxt">או צור חשבון</string>
 <string name="myphilips_CC">חשבון MyPhilips</string>
+<string name="Generic_Network_Error">אופס! משהו השתבש. נסה שוב מאוחר יותר</string>
+<string name="Already_Verified_Message">כתובת הדוא\"ל שלך כבר אומתה. אתה רשאי להמשיך.</string>
+<string name="Ok_Btn_Txt">אישור</string>
 </resources>

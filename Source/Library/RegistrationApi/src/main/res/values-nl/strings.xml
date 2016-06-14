@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Voer een geldig e-mailadres in.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">E-mailadres is al in gebruik</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Dit e-mailadres wordt al gebruikt met een Philips- of social media-account.\nGa terug naar de stap \'Aanmelden\' of gebruik een ander e-mailadres.</string>
-<string name="PrivacyPolicyText">Privacyverklaring</string>
+<string name="PrivacyNoticeText">Privacyverklaring</string>
 <string name="TermsAndConditionsText">Algemene voorwaarden</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Controleer uw e-mail adres via de activatielink die naar uw e-mailaccount is verzonden</string>
 <string name="RegVerifyEmailView_VerificationEmailText">We hebben een e-mail gestuurd naar: %s. Het kan enige tijd duren voordat de e-mail aankomt.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Lees onze %s en onze %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Lees onze %s en onze %s.</string>
+<string name="LegalNoticeText">Lees onze %s</string>
 <string name="AgeLimitText">Door een account te maken of u aan te melden, verklaart u dat u %s jaar of ouder bent.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Ik ga akkoord met de %s van de app</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Accepteer de algemene voorwaarden</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Accountinstellingen</string>
 <string name="Create_With_lbltxt">Of maak een account.</string>
 <string name="myphilips_CC">Mijn Philips-account</string>
+<string name="Generic_Network_Error">Oeps, er is iets fout gegaan. Probeer het later opnieuw.</string>
+<string name="Already_Verified_Message">Uw e-mailadres is al geverifieerd. U kunt verdergaan.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

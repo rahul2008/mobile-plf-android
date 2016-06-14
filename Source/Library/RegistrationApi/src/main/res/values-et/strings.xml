@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Palun sisestage kehtiv e-posti aadress.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">E-posti aadress on juba kasutusel</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">See e-posti aadress on juba Philipsi konto või suhtlusvõrgustiku kontoga seotud.\nPalun minge tagasi sammu \'Logi sisse\' või kasutage teist e-posti aadressi.</string>
-<string name="PrivacyPolicyText">Privaatsusavaldus</string>
+<string name="PrivacyNoticeText">Privaatsusavaldus</string>
 <string name="TermsAndConditionsText">Kasutustingimused</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Palun kinnitage oma e-posti aadress sellele saadetud aktiveerimislingi abil</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Saatsime e-kirja aadressile: %s. Selle kohalejõudmine võib veidi aega võtta.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Palun lugege meie jaotisi %s ja %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Palun lugege meie jaotisi %s ja %s.</string>
+<string name="LegalNoticeText">Palun lugege meie jaotisi %s </string>
 <string name="AgeLimitText">Konto loomise või sisselogimisega kinnitate, et olete %s-aastane või vanem.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Nõustun rakenduse jaotisega %s</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Palun kinnitage tingimused</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Konto seaded</string>
 <string name="Create_With_lbltxt">Või looge konto</string>
 <string name="myphilips_CC">MyPhilipsi konto</string>
+<string name="Generic_Network_Error">Oi! Midagi läks valesti. Palun proovige hiljem uuesti.</string>
+<string name="Already_Verified_Message">Teie e-postiaadress on juba kinnitatud. Te võite jätkata.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

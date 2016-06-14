@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">유효한 이메일 주소를 입력하십시오.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">이미 사용 중인 이메일 주소입니다.</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">이 이메일은 이미 필립스 계정이나 소셜 미디어 계정에서 사용 중입니다.\n\'로그인\' 단계로 돌아 가거나 다른 이메일 주소를 사용하십시오.</string>
-<string name="PrivacyPolicyText">개인정보 보호정책</string>
+<string name="PrivacyNoticeText">개인정보 보호정책</string>
 <string name="TermsAndConditionsText">이용 약관</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">이메일 계정으로 전송된 활성화 링크를 통해 이메일 주소를 확인하십시오.</string>
 <string name="RegVerifyEmailView_VerificationEmailText">%s(으)로 이메일을 발송했습니다. 이메일이 도착하기까지 다소 시간이 소요될 수 있습니다.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">%s 및 %s을(를) 읽어주시기 바랍니다.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">%s 및 %s을(를) 읽어주시기 바랍니다.</string>
+<string name="LegalNoticeText">%s을(를) 읽어주시기 바랍니다</string>
 <string name="AgeLimitText">계정을 생성하거나 로그인하여 귀하가 %s세 이상인지 여부를 확인합니다.</string>
 <string name="TermsAndConditionsAcceptanceText">앱의 %s에 동의</string>
 <string name="TermsAndConditionsAcceptanceText_Error">이용 약관에 동의하십시오.</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">계정 설정</string>
 <string name="Create_With_lbltxt">또는 계정 만들기</string>
 <string name="myphilips_CC">MyPhilips 계정</string>
+<string name="Generic_Network_Error">문제가 발생했습니다. 나중에 다시 시도하세요.</string>
+<string name="Already_Verified_Message">이미 확인된 이메일 주소입니다. 계속 진행할 수 있습니다.</string>
+<string name="Ok_Btn_Txt">확인</string>
 </resources>

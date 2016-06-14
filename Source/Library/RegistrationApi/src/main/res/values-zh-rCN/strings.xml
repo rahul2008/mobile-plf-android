@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">请输入有效的电子邮件地址。</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">电子邮件地址已在使用中</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">此电子邮件地址已被飞利浦帐户或社交媒体帐户使用。\n请返回\'登录\'步骤，或使用其他电子邮件地址。</string>
-<string name="PrivacyPolicyText">隐私声明</string>
+<string name="PrivacyNoticeText">隐私声明</string>
 <string name="TermsAndConditionsText">条款与条件</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">请通过发送到您的电子邮件帐户的激活链接验证您的电子邮件地址</string>
 <string name="RegVerifyEmailView_VerificationEmailText">我们已向以下地址发送电子邮件：%s。电子邮件到达可能需要一段时间。</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">请阅读我们的 %s 和 %s。</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">请阅读我们的 %s 和 %s。</string>
+<string name="LegalNoticeText">请阅读我们的 %s</string>
 <string name="AgeLimitText">通过创建帐户或登录，您证明自己已年满 %s。\n</string>
 <string name="TermsAndConditionsAcceptanceText">我接受此应用程序的 %s</string>
 <string name="TermsAndConditionsAcceptanceText_Error">请接受条款和条件</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">帐户设置</string>
 <string name="Create_With_lbltxt">或创建帐户</string>
 <string name="myphilips_CC">MyPhilips 帐户</string>
+<string name="Generic_Network_Error">啊呀！出错了。请稍后重试</string>
+<string name="Already_Verified_Message">您的电子邮件已经验证。您可以继续。</string>
+<string name="Ok_Btn_Txt">确定</string>
 </resources>

@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Unesite važeću adresu e-pošte.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Adresa e-pošte se već koristi</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Ta adresa e-pošte se već koristi s Philips računom ili računom za društvene medije.\nVratite se na korak \'Prijavljivanje\' ili koristite drugu adresu e-pošte.</string>
-<string name="PrivacyPolicyText">Obavještenje o privatnosti</string>
+<string name="PrivacyNoticeText">Obavještenje o privatnosti</string>
 <string name="TermsAndConditionsText">Odredbe i uvjeti</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Provjerite adresu e-pošte preko veze za aktivaciju koju smo poslali na vaš račun e-pošte</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Poslali smo poruku e-pošte na: %s. Može proteći malo vremena da poruka e-pošte stigne.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Pročitajte naše dokumente %s i %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Pročitajte naše dokumente %s i %s.</string>
+<string name="LegalNoticeText">Pročitajte naše dokumente %s</string>
 <string name="AgeLimitText">Kreiranjem računa ili prijavljivanjem potvrđujete da imate %s godina ili više.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Prihvatam %s za aplikaciju</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Prihvatite odredbe i uvjete</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Postavke računa</string>
 <string name="Create_With_lbltxt">Možete i kreirati račun</string>
 <string name="myphilips_CC">MyPhilips račun</string>
+<string name="Generic_Network_Error">Pojavila se neka greška. Pokušajte ponovo kasnije</string>
+<string name="Already_Verified_Message">Vaša adresa e-pošte je već potvrđena. Možete nastaviti.</string>
+<string name="Ok_Btn_Txt">U redu</string>
 </resources>

@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Jep një adresë të vlefshme emaili.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Adresa e emailit është në përdorim</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Kjo adresë emaili është në përdorim me një llogari \"Philips\" ose llogari medie sociale.\nKthehu në hapin \"Identifikohu\" ose përdor një adresë tjetër emaili.</string>
-<string name="PrivacyPolicyText">Njoftimi i fshehtësisë</string>
+<string name="PrivacyNoticeText">Njoftimi i fshehtësisë</string>
 <string name="TermsAndConditionsText">Kushtet</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Verifiko adresën e emailit nëpërmjet lidhjes së aktivizimit që kemi dërguar në llogarinë tënde të emailit</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Të kemi dërguar një email në: %s. Mund të duhet pak kohë derisa të mbërrijë emaili.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Lexo %s dhe %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Lexo %s dhe %s.</string>
+<string name="LegalNoticeText">Lexo %s</string>
 <string name="AgeLimitText">Me krijimin e një llogarie ose identifikimin vërteton se je %s vjeç e lart.\n</string>
 <string name="TermsAndConditionsAcceptanceText">I pranoj %s e aplikacionit</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Prano kushtet</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Cilësimet e llogarisë</string>
 <string name="Create_With_lbltxt">Ose krijo një llogari</string>
 <string name="myphilips_CC">Llogaria ime \"Philips\"</string>
+<string name="Generic_Network_Error">Mos! Doli një problem. Provoni sërish më vonë</string>
+<string name="Already_Verified_Message">Emaili juaj është i verifikuar. Mund të vazhdoni.</string>
+<string name="Ok_Btn_Txt">OK</string>
 </resources>

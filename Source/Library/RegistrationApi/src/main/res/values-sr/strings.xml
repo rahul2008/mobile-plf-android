@@ -24,7 +24,7 @@
 <string name="kemailFieldErrorText">Unesite važeću e-adresu.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">E-adresa je već u upotrebi</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Ova e-adresa već se koristi za Philips nalog ili nalog na društvenoj mreži.\nVratite se na korak \'Prijavljivanje\' ili upotrebite drugu e-adresu.</string>
-<string name="PrivacyPolicyText">Obaveštenje o privatnosti</string>
+<string name="PrivacyNoticeText">Obaveštenje o privatnosti</string>
 <string name="TermsAndConditionsText">Uslovi i odredbe</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Potvrdite e-adresu pomoću veze za aktivaciju koju smo vam poslali e-poštom</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Poslali smo e-poruku na: %s. Možda će biti potrebno određeno vreme da e-poruka stigne.</string>
@@ -98,7 +98,8 @@
 <string name="vk">VK</string>
 <string name="wordpress">Wordpress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Pročitajte sledeće dokumente: %s i %s.</string>
+<string name="LegalNoticeText_With_Terms_And_Conditions" formatted="false">Pročitajte sledeće dokumente: %s i %s.</string>
+<string name="LegalNoticeText">Pročitajte sledeće dokumente: %s</string>
 <string name="AgeLimitText">Kreiranjem naloga ili prijavljivanjem potvrđujete da imate bar %s godina.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Prihvatam %s za aplikaciju</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Prihvatite uslove i odredbe</string>
@@ -127,4 +128,7 @@
 <string name="Account_Setting_Titletxt">Postavke naloga</string>
 <string name="Create_With_lbltxt">Ili kreirajte nalog</string>
 <string name="myphilips_CC">MyPhilips nalog</string>
+<string name="Generic_Network_Error">Ups! Nešto nije u redu. Pokušajte ponovo kasnije</string>
+<string name="Already_Verified_Message">Vaša e-adresa je već verifikovana. Možete da nastavite.</string>
+<string name="Ok_Btn_Txt">U redu</string>
 </resources>

@@ -330,7 +330,6 @@ public class User {
             signedIn = signedIn && capturedRecord.getAccessToken() != null;
         }
 
-
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
             boolean isTermAccepted = RegPreferenceUtility.getStoredState(mContext,getEmail());
             if(!isTermAccepted){
