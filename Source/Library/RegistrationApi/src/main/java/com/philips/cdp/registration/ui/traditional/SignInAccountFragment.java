@@ -225,8 +225,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void hideValidations() {
-        mEtEmail.hideErrPopUp();
-        mEtEmail.hideEmailInvalidAlert();
+        //mEtEmail.hideErrPopUp();
+        //mEtEmail.hideEmailInvalidAlert();
         mRegError.hideError();
     }
 

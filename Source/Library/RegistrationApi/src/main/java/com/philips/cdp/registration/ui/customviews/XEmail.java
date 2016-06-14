@@ -114,13 +114,13 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
     }
 
-    public void showEmailInvalidAlert() {
+   /* public void showEmailInvalidAlert() {
         mIvEmailErrAlert.setVisibility(VISIBLE);
     }
 
     public void hideEmailInvalidAlert() {
         mIvEmailErrAlert.setVisibility(GONE);
-    }
+    }*/
 
     private void showEmailIsInvalidAlert() {
         mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
