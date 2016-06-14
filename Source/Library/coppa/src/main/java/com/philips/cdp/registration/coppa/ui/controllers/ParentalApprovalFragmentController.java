@@ -207,23 +207,23 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
     @Override
     public void onClick(View v) {
         int id = v.getId();
-
+        ConsentHandler consentHandler = new ConsentHandler(mCoppaExtension, mParentalApprovalFragment.getContext());
+        ConfirmationHandler confirmationHandler = new ConfirmationHandler(mCoppaExtension, mParentalApprovalFragment.getContext());
         if (id == R.id.reg_btn_agree) {
-            ConsentHandler consentHandler = new ConsentHandler(mCoppaExtension, mParentalApprovalFragment.getContext());
             if(isCoppaConsent) {
                 consentHandler.agreeConsent(AppTagingConstants.SEND_DATA, AppCoppaTaggingConstants.FIRST_LEVEL_CONSENT, mParentalApprovalFragment);
 
             }else{
-                consentHandler.agreeConfirmation(AppTagingConstants.SEND_DATA, AppCoppaTaggingConstants.SECOND_LEVEL_CONSENT, mParentalConsentFragment );
+                confirmationHandler.agreeConfirmation(AppTagingConstants.SEND_DATA, AppCoppaTaggingConstants.SECOND_LEVEL_CONSENT, mParentalConsentFragment );
 
             }
         } else if (id == R.id.reg_btn_dis_agree) {
-            ConsentHandler consentHandler = new ConsentHandler(mCoppaExtension, mParentalApprovalFragment.getContext());
+
             if (isCoppaConsent) {
                 consentHandler.disAgreeConsent(mParentalApprovalFragment);
 
             } else {
-                consentHandler.disAgreeConfirmation(mParentalConsentFragment);
+                confirmationHandler.disAgreeConfirmation(mParentalConsentFragment);
             }
 
             if (mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConsentNotGiven || mCoppaExtension.getCoppaEmailConsentStatus() == CoppaStatus.kDICOPPAConfirmationNotGiven) {

@@ -23,13 +23,12 @@ public class ParentalConsentFragmentController {
     }
 
     public void addagreeConfirmation() {
-        ConsentHandler consentHandler = new ConsentHandler(mCoppaExtension, mParentalApprovalFragment.getContext());
-        consentHandler.agreeConfirmation(AppTagingConstants.SEND_DATA, AppCoppaTaggingConstants.SECOND_LEVEL_CONSENT, mParentalApprovalFragment);
+        ConfirmationHandler confirmationHandler = new ConfirmationHandler(mCoppaExtension, mParentalApprovalFragment.getContext());
+        confirmationHandler.agreeConfirmation(AppTagingConstants.SEND_DATA, AppCoppaTaggingConstants.SECOND_LEVEL_CONSENT, mParentalApprovalFragment);
     }
 
     public void disAgreeConfirmation() {
-        ConsentHandler consentHandler = new ConsentHandler(mCoppaExtension, mParentalApprovalFragment.getContext());
-
-        consentHandler.disAgreeConfirmation(mParentalApprovalFragment);
+        ConfirmationHandler confirmationHandler = new ConfirmationHandler(mCoppaExtension, mParentalApprovalFragment.getContext());
+        confirmationHandler.disAgreeConfirmation(mParentalApprovalFragment);
     }
 }
