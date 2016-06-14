@@ -86,7 +86,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "2.1.0"
+        versionName objcdp.getVersionWithHash()
         multiDexEnabled true
         testApplicationId "com.philips.cdp.di.iap.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -176,18 +176,21 @@ artifactory {
     }
 }
 
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
-}
-
-artifactoryPublish {
-    dependsOn sourceJar
-}
-
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
-    archives sourceJar
+    archives zipDoc
 }
+
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS===========
 
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
