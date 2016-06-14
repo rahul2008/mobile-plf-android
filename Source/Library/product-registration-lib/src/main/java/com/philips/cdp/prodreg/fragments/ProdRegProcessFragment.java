@@ -154,14 +154,12 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         return new RegisteredProductsListener() {
             @Override
             public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
-                if (registeredProducts.size() > 0) {
                     if (!isCtnRegistered(registeredProducts, currentProduct) && getActivity() != null && !getActivity().isFinishing()) {
                         currentProduct.getProductMetadata(getActivity(), getMetadataListener());
                     } else {
                         showFragment(new ProdRegConnectionFragment());
                     }
                 }
-            }
         };
     }
 

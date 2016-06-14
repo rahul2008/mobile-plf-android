@@ -18,14 +18,19 @@ public class LocalSharedPreference {
     }
 
     public void storeData(String key, String value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, value);
-        editor.commit();
+        if (context != null) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(key, value);
+            editor.commit();
+        }
     }
 
     public String getData(String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(key, null);
+        if (context != null) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
+            return sharedPreferences.getString(key, null);
+        }
+        return null;
     }
 }
