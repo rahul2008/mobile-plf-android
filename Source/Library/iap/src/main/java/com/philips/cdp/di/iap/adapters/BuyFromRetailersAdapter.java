@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -23,6 +24,7 @@ import com.philips.cdp.tagging.Tagging;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -35,14 +37,19 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     private FragmentManager mFragmentManager;
     private int mThemeBaseColor;
 
-    public BuyFromRetailersAdapter(Context context, ArrayList<StoreEntity> storeEntities, FragmentManager fragmentManager) {
+    private int mContainerID;
+
+    public BuyFromRetailersAdapter(Context context, ArrayList<StoreEntity> storeEntities, FragmentManager fragmentManager, int id) {
         mContext = context;
         mStoreEntities = storeEntities;
         mFragmentManager = fragmentManager;
         mThemeBaseColor = Utility.getThemeColor(context);
         mImageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
+        mContainerID = id;
     }
+
+
 
     @Override
     public RetailerViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
@@ -89,7 +96,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         WebBuyFromRetailers webBuyFromRetailers = new WebBuyFromRetailers();
         webBuyFromRetailers.setArguments(bundle);
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, webBuyFromRetailers, WebBuyFromRetailers.class.getName());
+        transaction.replace(mContainerID, webBuyFromRetailers, WebBuyFromRetailers.class.getName());
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
     }

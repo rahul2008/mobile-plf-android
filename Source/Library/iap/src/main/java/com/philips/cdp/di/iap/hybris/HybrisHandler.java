@@ -30,12 +30,14 @@ public class HybrisHandler implements IAPExposedAPI {
     private Context mContext;
     private String mLanguage;
     private String mCountry;
+    private IAPSettings mIAPSettings;
 
     public HybrisHandler(Context context, IAPSettings settings) {
         mContext = context;
         mThemeIndex = settings.getThemeIndex();
         mLanguage = settings.getLanguage();
         mCountry = settings.getCountry();
+        mIAPSettings = settings;
     }
 
     @Override
@@ -104,7 +106,11 @@ public class HybrisHandler implements IAPExposedAPI {
     }
 
     void launchIAPActivity(int screen) {
-        IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex);
+        if (mIAPSettings.isLaunchAsFragment()) {
+            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, screen);
+        } else {
+            IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex);
+        }
     }
 
     private void getProductCount(final IAPHandlerListener iapHandlerListener) {

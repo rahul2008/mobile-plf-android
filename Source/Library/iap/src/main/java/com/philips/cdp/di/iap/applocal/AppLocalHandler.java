@@ -16,16 +16,22 @@ public class AppLocalHandler implements IAPExposedAPI {
 
     private Context mContext;
     private int mThemeIndex;
+    private IAPSettings mIAPSettings;
 
     public AppLocalHandler(Context context, IAPSettings config) {
         mContext = context;
         mThemeIndex = config.getThemeIndex();
+        mIAPSettings = config;
     }
 
     @Override
     public void launchIAP(final int landingView, final String ctnNumber, final IAPHandlerListener listener) {
-        IAPLaunchHelper.launchIAPActivity(mContext,
-                IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, mThemeIndex );
+        if (mIAPSettings.isLaunchAsFragment()) {
+            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, landingView);
+        } else {
+            IAPLaunchHelper.launchIAPActivity(mContext,
+                    IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, mThemeIndex);
+        }
     }
 
     /**

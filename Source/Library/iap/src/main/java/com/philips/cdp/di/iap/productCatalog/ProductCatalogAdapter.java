@@ -42,12 +42,13 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             .getImageLoader();
 }
 
-
     @Override
     public void onLoadFinished(final ArrayList<ProductCatalogData> data) {
         mData = data;
         notifyDataSetChanged();
         tagProducts();
+        if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
     }
 
     @Override
