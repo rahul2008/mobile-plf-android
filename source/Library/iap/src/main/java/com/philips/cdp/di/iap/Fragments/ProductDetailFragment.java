@@ -14,11 +14,14 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
-import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.core.ControllerFactory;
+import com.philips.cdp.di.iap.core.ShoppingCartAPI;
+import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -31,9 +34,12 @@ import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements
-        PRXProductAssetBuilder.AssetListener {
+        PRXProductAssetBuilder.AssetListener, View.OnClickListener, ShoppingCartPresenter.ShoppingCartLauncher {
+
     public static final String TAG = ProductDetailFragment.class.getName();
 
     private Context mContext;
@@ -47,7 +53,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     ImageAdapter mAdapter;
     ViewPager mPager;
     Bundle mBundle;
-    private ShoppingCartPresenter mShoppingCartPresenter;
+    private ShoppingCartAPI mShoppingCartAPI;
     private boolean mLaunchedFromProductCatalog = false;
     private String mCTNValue;
     private String mProductTitle;
@@ -57,8 +63,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         @Override
         public void onSuccess(final int count) {
             //Added to cart tracking
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
-                    IAPAnalyticsConstant.ADD_TO_CART);
+            tagItemAddedToCart();
         }
 
         @Override
@@ -68,8 +73,9 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                            getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
+                    NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                            mContext.getString(R.string.iap_ok),
+                            mContext.getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
                 }
             } else {
                 NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
@@ -88,20 +94,23 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        mShoppingCartAPI = ControllerFactory.
+                getInstance().getShoppingCartPresenter(mContext, null, getFragmentManager());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mShoppingCartPresenter = new ShoppingCartPresenter(getFragmentManager());
-        View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
-        mBundle = getArguments();
 
+        View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
+
+        mBundle = getArguments();
         mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
         mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
         mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
+
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mAdapter = new ImageAdapter(getFragmentManager(), mLaunchedFromProductCatalog);
+        mAdapter = new ImageAdapter(getContext(), getFragmentManager(), mLaunchedFromProductCatalog, new ArrayList<String>());
         mPager.setAdapter(mAdapter);
 
         CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
@@ -116,87 +125,122 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.tv_discounted_price);
 
         populateViewFromBundle();
-        makeAssetRequest();
         return rootView;
     }
 
     private void tagProduct() {
+        HashMap contextData = new HashMap();
         StringBuilder product = new StringBuilder();
         product = product.append("Tuscany_Campaign").append(";")
                 .append(mProductTitle).append(";").append(";")
                 .append(mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE));
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, product);
+        contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PROD_VIEW);
+        contextData.put(IAPAnalyticsConstant.PRODUCTS, product);
+        Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
 
     private void populateViewFromBundle() {
+        String actualPrice = mBundle.getString(IAPConstant.PRODUCT_PRICE);
+        String discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
+
         mProductDescription.setText(mBundle.getString(IAPConstant.PRODUCT_TITLE));
         mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
-        mPrice.setText(mBundle.getString(IAPConstant.PRODUCT_PRICE));
+        mPrice.setText(actualPrice);
         mProductOverview.setText(mBundle.getString(IAPConstant.PRODUCT_OVERVIEW));
-        String discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
 
         if (mLaunchedFromProductCatalog) {
             setCartIconVisibility(View.VISIBLE);
+
+            if (discountedPrice == null || discountedPrice == "") {
+                mProductDiscountedPrice.setVisibility(View.GONE);
+                mPrice.setTextColor(Utility.getThemeColor(mContext));
+            } else if (actualPrice != null && discountedPrice.equalsIgnoreCase(actualPrice)) {
+                mPrice.setVisibility(View.GONE);
+                mProductDiscountedPrice.setVisibility(View.VISIBLE);
+                mProductDiscountedPrice.setText(discountedPrice);
+            } else {
+                mProductDiscountedPrice.setVisibility(View.VISIBLE);
+                mProductDiscountedPrice.setText(discountedPrice);
+                mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+
+            /*if(actualPrice!=null && discountedPrice!=null && discountedPrice.equalsIgnoreCase(actualPrice)) {
+                mPrice.setVisibility(View.GONE);
+                mProductDiscountedPrice.setVisibility(View.VISIBLE);
+                mProductDiscountedPrice.setText(discountedPrice);
+            }else
             if (discountedPrice != null) {
                 mProductDiscountedPrice.setVisibility(View.VISIBLE);
                 mProductDiscountedPrice.setText(discountedPrice);
                 mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            } else {
+            } else{
                 mProductDiscountedPrice.setVisibility(View.GONE);
                 mPrice.setTextColor(Utility.getThemeColor(mContext));
-            }
+            }*/
         } else {
             mPrice.setVisibility(View.GONE);
-            mProductDiscountedPrice.setText(mBundle.getString(IAPConstant.PRODUCT_PRICE));
+            mProductDiscountedPrice.setText(actualPrice);
         }
     }
 
     private void makeAssetRequest() {
-        //Removing Loading indecator as per Ajit Suggestion
-        /*if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-        }*/
         String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
-        PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn, this);
-        builder.build();
+        if (!CartModelContainer.getInstance().isPRXAssetPresent(ctn)) {
+            if (!Utility.isProgressDialogShowing()) {
+                Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            }
+            PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn, this);
+            builder.build();
+        } else {
+            final HashMap<String, ArrayList<String>> prxAssetObjects = CartModelContainer.getInstance().getPRXAssetObjects();
+            for (Map.Entry<String, ArrayList<String>> entry : prxAssetObjects.entrySet()) {
+                if (entry.getKey().equalsIgnoreCase(ctn)) {
+                    mAsset = entry.getValue();
+                    break;
+                }
+            }
+            mAdapter = new ImageAdapter(getContext(), getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
+            mPager.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+            if (Utility.isProgressDialogShowing())
+                Utility.dismissProgressDialog();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_shopping_cart_item);
+        tagProduct();
         if (mBundle != null && mLaunchedFromProductCatalog) {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PROD_VIEW);
-            mAddToCart.setVisibility(View.VISIBLE);
-            Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
-            mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
+            setAddToCartIcon();
             mBuyFromRetailors.setVisibility(View.VISIBLE);
             setCartIconVisibility(View.VISIBLE);
-            mAddToCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    tagDiscountedItemAddedToCart();
-                    buyProduct(mCTNValue);
-                }
-            });
-            mBuyFromRetailors.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    buyFromRetailers();
-                }
-            });
+            mAddToCart.setOnClickListener(this);
+            mBuyFromRetailors.setOnClickListener(this);
             mProductDiscountedPrice.setVisibility(View.VISIBLE);
             setTitle(mProductTitle);
         } else {
             IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
             setCartIconVisibility(View.GONE);
         }
-        tagProduct();
+        makeAssetRequest();
+    }
+
+    private void setAddToCartIcon() {
+        if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
+            mAddToCart.setVisibility(View.GONE);
+            return;
+        }
+        mAddToCart.setVisibility(View.VISIBLE);
+        Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
+        mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
     }
 
     private void buyFromRetailers() {
+        if (isNetworkNotConnected()) return;
+
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.PRODUCT_CODE, mCTNValue);
         addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE), BuyFromRetailersFragment.TAG);
@@ -206,7 +250,9 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onFetchAssetSuccess(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
-        mAdapter.setAsset(mAsset);
+        CartModelContainer.getInstance().addAssetDataToList(mBundle.getString(IAPConstant.PRODUCT_CTN), mAsset);
+        mAdapter = new ImageAdapter(getContext(), getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
+        mPager.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
@@ -217,18 +263,32 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
-        NetworkUtility.getInstance().
-                showErrorMessage(msg, getFragmentManager(), getContext());
+        if (isNetworkNotConnected()) return;
+        NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
     }
 
     void buyProduct(final String ctnNumber) {
-        Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-        mShoppingCartPresenter.buyProduct(getContext(), ctnNumber, mBuyProductListener);
+        Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        mShoppingCartAPI.buyProduct(mContext, ctnNumber, mBuyProductListener, this);
     }
 
-    private void tagDiscountedItemAddedToCart() {
+    private void tagItemAddedToCart() {
+        HashMap contextData = new HashMap();
+        contextData.put(IAPAnalyticsConstant.ORIGINAL_PRICE, mPrice.getText().toString());
         if (mProductDiscountedPrice.getVisibility() == View.VISIBLE)
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DISCOUNTED_PRICE,
-                    mProductDiscountedPrice.getText().toString());
+            contextData.put(IAPAnalyticsConstant.DISCOUNTED_PRICE, mProductDiscountedPrice.getText().toString());
+        contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
+        Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (isNetworkNotConnected()) return;
+        if (v == mAddToCart) {
+            buyProduct(mCTNValue);
+        }
+        if (v == mBuyFromRetailors) {
+            buyFromRetailers();
+        }
     }
 }

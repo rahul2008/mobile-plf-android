@@ -1,22 +1,9 @@
-/*----------------------------------------------------------------------------
-Copyright(c) Philips Electronics India Ltd
-All rights reserved. Reproduction in whole or in part is prohibited without 
-the written consent of the copyright holder.
-
-Project           : SaecoAvanti
-
-File Name         : NetworkUtility.java
-
-Description       : Network State Utility.
-Revision History: version 1: 
-    Date: Aug 18, 2014
-    Original author: Vinayak Udikeri
-    Description: Initial version    
-----------------------------------------------------------------------------*/
-
 package com.philips.cdp.di.iap.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -29,7 +16,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.tagging.Tagging;
 
 public class NetworkUtility {
-
     private static NetworkUtility mNetworkUtility;
     private ErrorDialogFragment mModalAlertDemoFragment;
     private boolean isOnline;
@@ -50,30 +36,32 @@ public class NetworkUtility {
         }
     }
 
-    public void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
+
+    public void showErrorDialog(Context context, FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
 
         //Track pop up
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
-        if (mModalAlertDemoFragment == null) {
-            mModalAlertDemoFragment = new ErrorDialogFragment();
-            mModalAlertDemoFragment.setShowsDialog(false);
-        }
+        if (!((Activity) context).isFinishing()) {
+            if (mModalAlertDemoFragment == null) {
+                mModalAlertDemoFragment = new ErrorDialogFragment();
+                mModalAlertDemoFragment.setShowsDialog(false);
+            }
 
-        if (mModalAlertDemoFragment.getShowsDialog()) {
-            return;
-        }
-
-        Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
-        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
-        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
-        try {
-            mModalAlertDemoFragment.setArguments(bundle);
-            mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
-            mModalAlertDemoFragment.setShowsDialog(true);
-        } catch (Exception e) {
-            e.printStackTrace();
+            if (mModalAlertDemoFragment.getShowsDialog()) {
+                return;
+            }
+            Bundle bundle = new Bundle();
+            bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT, pButtonText);
+            bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
+            bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
+            try {
+                mModalAlertDemoFragment.setArguments(bundle);
+                mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
+                mModalAlertDemoFragment.setShowsDialog(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -90,12 +78,11 @@ public class NetworkUtility {
          */
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
-
-            showErrorDialog(pFragmentManager, context.getString(R.string.iap_ok),
+            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
                     getErrorTitleMessageFromErrorCode(context, error.getIAPErrorCode()),
                     getErrorDescriptionMessageFromErrorCode(context, error));
         } else {
-            NetworkUtility.getInstance().showErrorDialog(pFragmentManager, context.getString(R.string.iap_ok),
+            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
                     context.getString(R.string.iap_server_error), context.getString(R.string.iap_something_went_wrong));
         }
     }
@@ -129,5 +116,12 @@ public class NetworkUtility {
             errorMessage = context.getString(R.string.iap_something_went_wrong);
         }
         return errorMessage;
+    }
+
+    public boolean isNetworkAvailable(Context pContext) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

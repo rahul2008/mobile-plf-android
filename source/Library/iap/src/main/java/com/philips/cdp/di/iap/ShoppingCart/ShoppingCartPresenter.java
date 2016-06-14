@@ -8,12 +8,10 @@ package com.philips.cdp.di.iap.ShoppingCart;
 import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
-import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
@@ -21,24 +19,23 @@ import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
-import com.philips.cdp.di.iap.model.GetRetailersInfoRequest;
+import com.philips.cdp.di.iap.prx.PRXDataBuilder;
 import com.philips.cdp.di.iap.response.carts.Carts;
+import com.philips.cdp.di.iap.response.carts.CartsEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.error.ServerError;
-import com.philips.cdp.di.iap.response.retailers.StoreEntity;
-import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
@@ -46,46 +43,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShoppingCartPresenter {
-    Context mContext;
-    ArrayList<ShoppingCartData> mProductData;
-    ArrayList<StoreEntity> mStoreEntities;
-    private LoadListener mLoadListener;
-    private LoadListenerForRetailer mLoadListenerForRetailer;
-    private HybrisDelegate mHybrisDelegate;
-    private Store mStore;
-    private FragmentManager mFragmentManager;
+public class ShoppingCartPresenter extends AbstractShoppingCartPresenter implements AbstractModel.DataLoadListener {
 
-    public interface LoadListener {
-        void onLoadFinished(ArrayList<ShoppingCartData> data);
+    public interface ShoppingCartLauncher {
+        void launchShoppingCart();
     }
+
+    Carts mCartData = null;
 
     public ShoppingCartPresenter() {
     }
 
-    public ShoppingCartPresenter(Context context, android.support.v4.app.FragmentManager fragmentManager) {
-        mContext = context;
-        mFragmentManager = fragmentManager;
+    public ShoppingCartPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
+        super(context, listener, fragmentManager);
     }
-
-    public interface LoadListenerForRetailer {
-        void onLoadFinished(ArrayList<StoreEntity> data);
-    }
-
-    public ShoppingCartPresenter(Context context, LoadListener listener, android.support.v4.app.FragmentManager fragmentManager) {
-        mContext = context;
-        mProductData = new ArrayList<>();
-        mLoadListener = listener;
-        mFragmentManager = fragmentManager;
-    }
-
-    public ShoppingCartPresenter(Context context, LoadListenerForRetailer listener, android.support.v4.app.FragmentManager fragmentManager) {
-        mContext = context;
-        mStoreEntities = new ArrayList<>();
-        mLoadListenerForRetailer = listener;
-        mFragmentManager = fragmentManager;
-    }
-
 
     public ShoppingCartPresenter(android.support.v4.app.FragmentManager pFragmentManager) {
         mFragmentManager = pFragmentManager;
@@ -95,130 +66,59 @@ public class ShoppingCartPresenter {
         mHybrisDelegate = delegate;
     }
 
-    public HybrisDelegate getHybrisDelegate() {
-        if (mHybrisDelegate == null) {
-            mHybrisDelegate = HybrisDelegate.getInstance(mContext);
-        }
-        return mHybrisDelegate;
-    }
-
-    private Store getStore() {
-        if (mStore == null) {
-            mStore = getHybrisDelegate().getStore();
-        }
-        return mStore;
-    }
-
-    public void refreshList(ArrayList<ShoppingCartData> data) {
-        if (mLoadListener != null) {
-            mLoadListener.onLoadFinished(data);
-        }
-    }
-
-    public void refreshListForRetailer(ArrayList<StoreEntity> data) {
-        if (mLoadListenerForRetailer != null) {
-            mLoadListenerForRetailer.onLoadFinished(data);
-        }
-    }
-
-    private void sendHybrisRequest(int code, AbstractModel model, RequestListener listener) {
-        getHybrisDelegate().sendRequest(code, model, model);
-    }
-
+    @Override
     public void getCurrentCartDetails() {
-        CartCurrentInfoRequest model = new CartCurrentInfoRequest(getStore(), null,
-                new AbstractModel.DataLoadListener() {
-                    @Override
-                    public void onModelDataLoadFinished(Message msg) {
-
-                        if (msg.obj instanceof Carts) {
-                            Carts cartData = (Carts) msg.obj;
-                            if (cartData.getCarts().get(0).getEntries() == null) {
-                                msg = Message.obtain(msg);
-                            } else {
-                                PRXProductDataBuilder builder = new PRXProductDataBuilder(mContext, cartData,
-                                        this);
-                                builder.build();
-                                return;
-                            }
-                        }
-
-                        if (msg.obj instanceof ArrayList) {
-                            mProductData = (ArrayList<ShoppingCartData>) msg.obj;
-                            if (mProductData == null || mProductData.size() == 0) {
-                                EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                                Utility.dismissProgressDialog();
-                                return;
-                            }
-                            refreshList(mProductData);
-                            CartModelContainer.getInstance().setShoppingCartData(mProductData);
-                        } else {
-                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                            dismissProgressDialog();
-                        }
-                        dismissProgressDialog();
-                    }
-
-                    @Override
-                    public void onModelDataError(final Message msg) {
-                        if (isNoCartError(msg)) {
-                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                            Utility.dismissProgressDialog();
-                        } else {
-                            handleModelDataError(msg);
-                        }
-                    }
-                });
+        CartCurrentInfoRequest model = new CartCurrentInfoRequest(getStore(), null, this);
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
     }
 
-    private void handleModelDataError(final Message msg) {
-        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
-        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-        NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
-        dismissProgressDialog();
-    }
-
-    public void getRetailersInformation(String ctn) {
-
-        Map<String, String> query = new HashMap<>();
-        query.put(ModelConstants.PRODUCT_CODE, String.valueOf(ctn));
-
-        GetRetailersInfoRequest model = new GetRetailersInfoRequest(getStore(), query,
-                new AbstractModel.DataLoadListener() {
-                    @Override
-                    public void onModelDataLoadFinished(Message msg) {
-                        WebResults webResults = null;
-                        if (msg.obj instanceof WebResults) {
-                            webResults = (WebResults) msg.obj;
-                        }
-
-                        if (webResults.getWrbresults().getOnlineStoresForProduct() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
-                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager,mContext.getString(R.string.iap_ok),"No Retailers for this product","No Retailers for this product");
-                            Utility.dismissProgressDialog();
-                            return;
-                        }
-                        mStoreEntities = (ArrayList<StoreEntity>) webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore();
-                        refreshListForRetailer(mStoreEntities);
-
-                        dismissProgressDialog();
-                    }
-
-                    @Override
-                    public void onModelDataError(final Message msg) {
-                        handleModelDataError(msg);
-                    }
-                });
-        model.setContext(mContext);
-        sendHybrisRequest(0, model, model);
-    }
-
-    private void dismissProgressDialog() {
+    private void notifyListChanged(final HashMap<String, SummaryModel> prxModel) {
+        ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
+        refreshList(products);
+        CartModelContainer.getInstance().setShoppingCartData(products);
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
     }
 
+    private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX() {
+        CartsEntity cartsEntity = mCartData.getCarts().get(0);
+        List<EntriesEntity> entries = cartsEntity.getEntries();
+        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
+        ArrayList<ShoppingCartData> products = new ArrayList<>();
+        String ctn;
+        for (EntriesEntity entry : entries) {
+            ctn = entry.getProduct().getCode();
+            ShoppingCartData cartItem = new ShoppingCartData(entry, mCartData.getCarts().get(0).getDeliveryMode());
+            cartItem.setVatInclusive(cartsEntity.isNet());
+            Data data;
+            if (list.containsKey(ctn)) {
+                data = list.get(ctn).getData();
+            } else {
+                continue;
+            }
+            cartItem.setImageUrl(data.getImageURL());
+            cartItem.setProductTitle(data.getProductTitle());
+            cartItem.setCtnNumber(ctn);
+            cartItem.setCartNumber(cartsEntity.getCode());
+            cartItem.setQuantity(entry.getQuantity());
+            cartItem.setFormatedPrice(entry.getBasePrice().getFormattedValue());
+            cartItem.setValuePrice(String.valueOf(entry.getBasePrice().getValue()));
+            cartItem.setTotalPriceWithTaxFormatedPrice(cartsEntity.getTotalPriceWithTax().getFormattedValue());
+            cartItem.setTotalPriceFormatedPrice(entry.getTotalPrice().getFormattedValue());
+            cartItem.setTotalItems(cartsEntity.getTotalItems());
+            cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
+            cartItem.setDeliveryAddressEntity(cartsEntity.getDeliveryAddress());
+            cartItem.setVatValue(cartsEntity.getTotalTax().getFormattedValue());
+            cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
+            //required for Tagging
+            cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
+            products.add(cartItem);
+        }
+        return products;
+    }
+
+    @Override
     public void deleteProduct(final ShoppingCartData summary) {
         Map<String, String> query = new HashMap<>();
         query.put(ModelConstants.ENTRY_CODE, String.valueOf(summary.getEntryNumber()));
@@ -241,6 +141,7 @@ public class ShoppingCartPresenter {
         sendHybrisRequest(0, model, model);
     }
 
+    @Override
     public void updateProductQuantity(final ShoppingCartData data, final int count, final int quantityStatus) {
         HashMap<String, String> query = new HashMap<String, String>();
         query.put(ModelConstants.PRODUCT_CODE, data.getCtnNumber());
@@ -265,21 +166,23 @@ public class ShoppingCartPresenter {
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                NetworkUtility.getInstance().showErrorMessage(msg, mFragmentManager, mContext);
+                mLoadListener.onLoadListenerError((IAPNetworkError) msg.obj);
                 Utility.dismissProgressDialog();
             }
         });
         sendHybrisRequest(0, model, model);
     }
 
-    private void createCart(final Context context, final IAPCartListener iapHandlerListener, final String ctnNumber, final boolean isBuy) {
+    private void createCart(final Context context, final IAPCartListener iapHandlerListener,
+                            final String ctnNumber, final ShoppingCartLauncher mShoppingCartLauncher,
+                            final boolean isBuy) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         CartCreateRequest model = new CartCreateRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.CREATE_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
                 if (isBuy) {
-                    addProductToCart(context, ctnNumber, iapHandlerListener, true);
+                    addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher, true);
                 } else {
                     if (iapHandlerListener != null) {
                         iapHandlerListener.onSuccess(0);
@@ -296,8 +199,9 @@ public class ShoppingCartPresenter {
         });
     }
 
+    @Override
     public void addProductToCart(final Context context, String productCTN, final IAPCartListener
-            iapHandlerListener,
+            iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher,
                                  final boolean isFromBuyNow) {
         if (productCTN == null) return;
         HashMap<String, String> params = new HashMap<>();
@@ -308,7 +212,7 @@ public class ShoppingCartPresenter {
             @Override
             public void onSuccess(final Message msg) {
                 if (isFromBuyNow) {
-                    launchShoppingCart();
+                    mShoppingCartLauncher.launchShoppingCart();
                     if (iapHandlerListener != null) {
                         iapHandlerListener.onSuccess(0);
                     }
@@ -326,8 +230,9 @@ public class ShoppingCartPresenter {
         });
     }
 
+    @Override
     public void getProductCartCount(final Context context, final IAPCartListener
-            iapHandlerListener) {
+            iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
         model.setContext(context);
@@ -336,7 +241,7 @@ public class ShoppingCartPresenter {
             @Override
             public void onSuccess(final Message msg) {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                    createCart(context, iapHandlerListener, null, false);
+                    createCart(context, iapHandlerListener, null, mShoppingCartLauncher, false);
                 } else {
                     Carts getCartData = (Carts) msg.obj;
                     if (null != getCartData) {
@@ -357,20 +262,15 @@ public class ShoppingCartPresenter {
 
             @Override
             public void onError(final Message msg) {
-                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, null, false);
+                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, null, mShoppingCartLauncher,
+                        false);
             }
         });
     }
 
-    private void launchShoppingCart() {
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.replace(R.id.fl_mainFragmentContainer, new ShoppingCartFragment());
-        transaction.addToBackStack(ShoppingCartFragment.TAG);
-        transaction.commitAllowingStateLoss();
-    }
-
+    @Override
     public void buyProduct(final Context context, final String ctnNumber, final IAPCartListener
-            iapHandlerListener) {
+            iapHandlerListener, final ShoppingCartLauncher mShoppingCartLauncher) {
         if (ctnNumber == null) return;
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
@@ -380,7 +280,7 @@ public class ShoppingCartPresenter {
             @Override
             public void onSuccess(final Message msg) {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                    createCart(context, iapHandlerListener, ctnNumber, true);
+                    createCart(context, iapHandlerListener, ctnNumber, mShoppingCartLauncher, true);
                 } else if (msg.obj instanceof Carts) {
                     Carts getCartData = (Carts) msg.obj;
                     if (null != getCartData) {
@@ -391,17 +291,18 @@ public class ShoppingCartPresenter {
                             for (int i = 0; i < entries.size(); i++) {
                                 if (entries.get(i).getProduct().getCode().equalsIgnoreCase(ctnNumber)) {
                                     isProductAvailable = true;
-                                    launchShoppingCart();
+                                    mShoppingCartLauncher.launchShoppingCart();
                                     break;
                                 }
                             }
                             if (!isProductAvailable)
-                                addProductToCart(context, ctnNumber, iapHandlerListener, true);
+                                addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher,
+                                        true);
                             if (iapHandlerListener != null) {
                                 iapHandlerListener.onSuccess(0);
                             }
                         } else {
-                            addProductToCart(context, ctnNumber, iapHandlerListener, true);
+                            addProductToCart(context, ctnNumber, iapHandlerListener, mShoppingCartLauncher, true);
                         }
                     }
                 }
@@ -409,14 +310,19 @@ public class ShoppingCartPresenter {
 
             @Override
             public void onError(final Message msg) {
-                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, ctnNumber, true);
+                handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, ctnNumber, mShoppingCartLauncher,
+                        true);
             }
         });
     }
 
-    private void handleNoCartErrorOrNotifyError(final Message msg, final Context context, final IAPCartListener iapHandlerListener, final String ctnNumber, final boolean isBuy) {
+    private void handleNoCartErrorOrNotifyError(final Message msg, final Context context,
+                                                final IAPCartListener iapHandlerListener,
+                                                final String ctnNumber,
+                                                final ShoppingCartLauncher mShoppingCartLauncher,
+                                                final boolean isBuy) {
         if (isNoCartError(msg)) {
-            createCart(context, iapHandlerListener, ctnNumber, isBuy);
+            createCart(context, iapHandlerListener, ctnNumber, mShoppingCartLauncher, isBuy);
         } else if (iapHandlerListener != null) {
             iapHandlerListener.onFailure(msg);
         }
@@ -436,4 +342,75 @@ public class ShoppingCartPresenter {
         }
         return false;
     }
+
+    @Override
+    public void onModelDataLoadFinished(final Message msg) {
+        if (processResponseFromHybrisForGetCart(msg)) return;
+        if (processResponseFromPRX(msg)) return;
+        dismissProgressDialog();
+    }
+
+    @Override
+    public void onModelDataError(final Message msg) {
+        if (isNoCartError(msg)) {
+            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+            Utility.dismissProgressDialog();
+        } else {
+            handleModelDataError(msg);
+        }
+    }
+
+    private boolean processResponseFromPRX(final Message msg) {
+        if (msg.obj instanceof HashMap) {
+            HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
+            if (prxModel == null || prxModel.size() == 0) {
+                EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+                Utility.dismissProgressDialog();
+                return true;
+            }
+            notifyListChanged(prxModel);
+        } else {
+            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+            dismissProgressDialog();
+        }
+        return false;
+    }
+
+    private boolean processResponseFromHybrisForGetCart(final Message msg) {
+        if (msg.obj instanceof Carts) {
+            mCartData = (Carts) msg.obj;
+            if (mCartData != null && mCartData.getCarts().get(0).getEntries() != null) {
+                makePrxCall(mCartData);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void makePrxCall(final Carts mCarts) {
+        ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
+        List<EntriesEntity> entries = mCarts.getCarts().get(0).getEntries();
+        ArrayList<String> productsToBeShown = new ArrayList<>();
+        String ctn;
+
+        CartModelContainer cartModelContainer = CartModelContainer.getInstance();
+        for (EntriesEntity entry : entries) {
+            ctn = entry.getProduct().getCode();
+            productsToBeShown.add(ctn);
+            if (!cartModelContainer.isPRXDataPresent(ctn)) {
+                ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
+            }
+        }
+        if (ctnsToBeRequestedForPRX.size() > 0) {
+            PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnsToBeRequestedForPRX, this);
+            builder.preparePRXDataRequest();
+        } else {
+            HashMap<String, SummaryModel> prxModel = new HashMap<>();
+            for (String ctnPresent : productsToBeShown) {
+                prxModel.put(ctnPresent, cartModelContainer.getProductData(ctnPresent));
+            }
+            notifyListChanged(prxModel);
+        }
+    }
+
 }

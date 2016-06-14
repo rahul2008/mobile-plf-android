@@ -5,18 +5,18 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
-import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,10 +29,10 @@ import static org.mockito.Mockito.mock;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class PlaceOrderRequestTest {
     @Mock
-    private Store mStore;
+    private StoreSpec mStore;
 
     @Before
     public void setUP() {

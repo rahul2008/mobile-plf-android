@@ -4,16 +4,14 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPJsonRequest;
 import com.philips.cdp.di.iap.session.NetworkController;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.store.HybrisStore;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -68,8 +66,8 @@ public class ProductCatalogPresenterTest {
     @Test
     public void doSomething() {
         mPresenter.getProductCatalog();
-        Store store = Mockito.mock(Store.class);
-        GetProductCatalogRequest model = new GetProductCatalogRequest(store, null,
+        HybrisStore hybrisStore = Mockito.mock(HybrisStore.class);
+        GetProductCatalogRequest model = new GetProductCatalogRequest(hybrisStore, null,
                 new AbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {

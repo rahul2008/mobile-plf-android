@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
-import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import junit.framework.TestCase;
@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 
@@ -26,10 +26,10 @@ import static org.mockito.Mockito.mock;
 /**
  * Created by 310164421 on 5/3/2016.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class GetRetailersInfoRequestTest extends TestCase {
     @Mock
-    private Store mStore;
+    private StoreSpec mStore;
 
     @Before
     public void setUP() {

@@ -209,6 +209,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtState.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                Utility.hideKeypad(mContext);
                 mStateDropDown.show();
                 return false;
             }
@@ -265,14 +266,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onClick(final View v) {
-
+        //TODO Use isNetworkNotConnected() inside Continue only not for back
+        if (isNetworkNotConnected()) return;
         Utility.hideKeypad(mContext);
-
         if (v == mBtnContinue) {
             //Edit and save address
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
                 if (!Utility.isProgressDialogShowing()) {
-                    Utility.showProgressDialog(mContext, getString(R.string.iap_update_address));
+                    Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     HashMap<String, String> addressHashMap = addressPayload();
                     mAddressController.updateAddress(addressHashMap);
                 }
@@ -293,12 +294,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
             }
         } else if (v == mBtnCancel) {
-            /*if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY) ||
-                    (getArguments().containsKey(IAPConstant.IS_SECOND_USER) && getArguments().getBoolean(IAPConstant.IS_SECOND_USER))) {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
-            } else {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            }*/
+
             getFragmentManager().popBackStackImmediate();
         }
     }
@@ -362,11 +358,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
                 mBtnContinue.setEnabled(false);
             } else if (error.getMessage() != null) {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                        getString(R.string.iap_network_error), error.getMessage());
-            } else {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                if (isNetworkNotConnected()) return;
             }
         }
     }
@@ -470,17 +462,19 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
+        setTitle(R.string.iap_address);
         if (!(this instanceof BillingAddressFragment)) {
-            if (getArguments() != null && getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+            if (getArguments() != null &&
+                    getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
             } else {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
             }
+            if (CartModelContainer.getInstance().getRegionIsoCode() != null)
+                mShippingAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
         }
-        setTitle(R.string.iap_address);
-        if (CartModelContainer.getInstance().getRegionIsoCode() != null)
-            mShippingAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
     }
+
 
     public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {
         ShippingAddressFragment fragment = new ShippingAddressFragment();
@@ -679,8 +673,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 showErrorFromServer(error);
             }
         } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            if (isNetworkNotConnected()) return;
         }
     }
 

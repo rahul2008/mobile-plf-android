@@ -5,9 +5,11 @@
 package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.config.AppConfigResponse;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,6 +34,7 @@ class VerticalAppConfig {
             AppConfigResponse configuration = new Gson().fromJson(reader, AppConfigResponse.class);
             mHostPort = configuration.getHostport();
             mPropositionID = configuration.getPropositionid();
+            IAPLog.i(IAPLog.LOG, "HostPort =" + mHostPort + "and PropositionID =" + mPropositionID);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -53,7 +56,8 @@ class VerticalAppConfig {
     }
 
     public InputStream readJSONInputStream(final Context context) throws IOException {
-        return context.getResources().getAssets().open("PhilipsInAppPurchaseConfiguration.json");
+        AssetManager assetManager = context.getAssets();
+        return assetManager.open("PhilipsInAppPurchaseConfiguration.json");
     }
 
     public String getHostPort() {

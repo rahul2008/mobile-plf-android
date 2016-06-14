@@ -19,6 +19,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -50,6 +51,11 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     @Override
+    public void onLoadError(IAPNetworkError error) {
+
+    }
+
+    @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_product_catalog_item, parent, false);
         return new ProductCatalogViewHolder(v);
@@ -60,18 +66,26 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ProductCatalogData productCatalogData = mData.get(position);
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
         String imageURL = productCatalogData.getImageURL();
+        String discountedPrice = productCatalogData.getDiscountedPrice();
+        String formatedPrice = productCatalogData.getFormatedPrice();
+
         productHolder.mProductName.setText(productCatalogData.getProductTitle());
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
-        productHolder.mPrice.setText(productCatalogData.getFormatedPrice());
+        productHolder.mPrice.setText(formatedPrice);
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());
-        if(productCatalogData.getDiscountedPrice()==null || productCatalogData.getDiscountedPrice()==""){
+        if(discountedPrice ==null || discountedPrice ==""){
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
             productHolder.mPrice.setTextColor(Utility.getThemeColor(mContext));
+        }else if(formatedPrice!=null && discountedPrice.equalsIgnoreCase(formatedPrice)) {
+            productHolder.mPrice.setVisibility(View.GONE);
+            productHolder.mDiscountedPrice.setVisibility(View.VISIBLE);
+            productHolder.mDiscountedPrice.setText(discountedPrice);
         }else {
             productHolder.mDiscountedPrice.setVisibility(View.VISIBLE);
-            productHolder.mDiscountedPrice.setText(productCatalogData.getDiscountedPrice());
+            productHolder.mDiscountedPrice.setText(discountedPrice);
             productHolder.mPrice.setPaintFlags(productHolder.mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
+
         getNetworkImage(productHolder, imageURL);
 
         productHolder.mArrow.setOnClickListener(new View.OnClickListener() {

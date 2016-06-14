@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.adapters.PaymentMethodsAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
-import com.philips.cdp.di.iap.controller.PaymentController;
-import com.philips.cdp.di.iap.adapters.PaymentMethodsAdapter;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -108,17 +108,21 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     @Override
     public void onEventReceived(String event) {
         if (event.equalsIgnoreCase(IAPConstant.USE_PAYMENT)) {
-            if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PAYMENT_METHOD,
-                        selectedPaymentMethod().getCardType().getCode());
-                mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
-            }
+            setPaymentDetail();
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
             Bundle bundle = new Bundle();
             bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
             addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE),
                     BillingAddressFragment.TAG);
+        }
+    }
+
+    private void setPaymentDetail() {
+        if (!Utility.isProgressDialogShowing()) {
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PAYMENT_METHOD,
+                    selectedPaymentMethod().getCardType().getCode());
+            mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
         }
     }
 

@@ -5,11 +5,11 @@ import android.os.Message;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
-import com.philips.cdp.di.iap.store.Store;
 
 import junit.framework.TestCase;
 
@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -26,10 +26,10 @@ import static org.mockito.Mockito.verify;
 /**
  * Created by 310164421 on 3/8/2016.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class CartCurrentInfoRequestTest extends TestCase {
     @Mock
-    private Store mStore;
+    private StoreSpec mStore;
 
     @Before
     public void setUP() {

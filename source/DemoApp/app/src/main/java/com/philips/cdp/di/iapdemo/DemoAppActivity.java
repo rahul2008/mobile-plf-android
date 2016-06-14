@@ -1,6 +1,11 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -19,6 +24,7 @@ import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -33,19 +39,24 @@ import java.util.List;
 public class DemoAppActivity extends Activity implements View.OnClickListener,
         UserRegistrationListener, IAPHandlerListener, AdapterView.OnItemSelectedListener {
 
-    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPurple_WhiteBackground;
+    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
 
     private IAPHandler mIapHandler;
-    private TextView mCountText = null;
-    private FrameLayout mShoppingCart;
-    Button mShopNow;
 
     private LinearLayout mSelectCountryLl;
+    private TextView mCountText = null;
+    private FrameLayout mShoppingCart;
+    private Spinner mSpinner;
+    private Button mShopNow;
+    private Button mPurchaseHistory;
 
     private CountryPreferences mCountryPreference;
     private int mSelectedCountryIndex;
     private boolean mProductCountRequested;
-    private Spinner mSpinner;
+
+    //We require this to track for hiding the cart icon in demo app
+    IAPSettings mIAPSettings;
+    private Button mFragmentLaunch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +64,20 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.demo_app_layout);
+        showAppVersion();
 
-        Button register = (Button) findViewById(R.id.btn_register);
-        register.setOnClickListener(this);
+        Button mRegister = (Button) findViewById(R.id.btn_register);
+        mRegister.setOnClickListener(this);
+
+        mFragmentLaunch = (Button) findViewById(R.id.btn_fragment_launch);
+        mFragmentLaunch.setOnClickListener(this);
+        mFragmentLaunch.setVisibility(View.GONE);
 
         mShopNow = (Button) findViewById(R.id.btn_shop_now);
         mShopNow.setOnClickListener(this);
+
+        mPurchaseHistory = (Button) findViewById(R.id.btn_purchase_history);
+        mPurchaseHistory.setOnClickListener(this);
 
         mShoppingCart = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         mShoppingCart.setOnClickListener(this);
@@ -66,7 +85,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mCountText = (TextView) findViewById(R.id.count_txt);
 
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
-        mIapHandler = IAPHandler.init(this, new IAPSettings("US", "en", DEFAULT_THEME));
+
+        mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
+        mIapHandler = IAPHandler.init(this, mIAPSettings);
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -101,8 +122,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         User user = new User(this);
         if (user.isUserSignIn()) {
             displayViews();
-            if (mSelectedCountryIndex >0 && !mProductCountRequested) {
-                Utility.showProgressDialog(this, getString(R.string.loading_cart));
+            if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
+                Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
                 mIapHandler.getProductCartCount(mProductCountListener);
             }
         }
@@ -110,22 +131,41 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     protected void onDestroy() {
+        Utility.dismissProgressDialog();
         super.onDestroy();
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
     }
 
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.shopping_cart_icon:
-                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW,null, mBuyProductListener);
+                if (isNetworkAvailable(DemoAppActivity.this)) {
+                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, null, mBuyProductListener);
+                } else {
+                    Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
             case R.id.btn_shop_now:
-                mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW,null, null);
+                if (isNetworkAvailable(DemoAppActivity.this)) {
+                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+                } else {
+                    Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.btn_purchase_history:
+                if (isNetworkAvailable(DemoAppActivity.this)) {
+                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, null, null);
+                } else {
+                    Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.btn_fragment_launch:
+                Intent intent = new Intent(this, LauncherFragmentActivity.class);
+                this.startActivity(intent);
                 break;
             default:
                 break;
@@ -151,12 +191,12 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     @Override
     public void onUserLogoutSuccess() {
         hideViews();
-        mSelectedCountryIndex = 0;
+        /*mSelectedCountryIndex = 0;
         mCountryPreference.clearCountryPreference();
         mSpinner.setSelection(0);
         mShoppingCart.setVisibility(View.GONE);
         mCountText.setVisibility(View.GONE);
-        mShopNow.setVisibility(View.GONE);
+        mShopNow.setVisibility(View.GONE);*/
     }
 
     @Override
@@ -194,15 +234,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private IAPHandlerListener mBuyProductListener = new IAPHandlerListener() {
         @Override
         public void onSuccess(final int count) {
-        Utility.dismissProgressDialog();
-    }
+            Utility.dismissProgressDialog();
+        }
 
-    @Override
-    public void onFailure(final int errorCode) {
-        Utility.dismissProgressDialog();
-        showToast(errorCode);
-    }
-};
+        @Override
+        public void onFailure(final int errorCode) {
+            Utility.dismissProgressDialog();
+            showToast(errorCode);
+        }
+    };
 
     private void showToast(int errorCode) {
         String errorText = "Unknown error";
@@ -234,6 +274,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         mShopNow.setEnabled(true);
+
         //Don't process Select country
         mSelectedCountryIndex = position;
         mCountryPreference.saveCountryPrefrence(position);
@@ -241,20 +282,42 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         if (position == 0) {
             mShoppingCart.setVisibility(View.GONE);
             mShopNow.setVisibility(View.GONE);
+            mPurchaseHistory.setVisibility(View.GONE);
+            mFragmentLaunch.setVisibility(View.GONE);
             return;
         }
 
+        mFragmentLaunch.setVisibility(View.VISIBLE);
         mShoppingCart.setVisibility(View.VISIBLE);
         mShopNow.setVisibility(View.VISIBLE);
+        mPurchaseHistory.setVisibility(View.VISIBLE);
+        mPurchaseHistory.setEnabled(true);
 
         String selectedCountry = parent.getItemAtPosition(position).toString();
         if (selectedCountry.equals("UK"))
             selectedCountry = "GB";
+
+        setLocale("en", selectedCountry);
+
         if (!mProductCountRequested) {
-            Utility.showProgressDialog(this, getString(R.string.loading_cart));
-            mIapHandler = IAPHandler.init(this, new IAPSettings(selectedCountry,"en", DEFAULT_THEME));
+            Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
+            mIAPSettings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);
+            //setUseLocalData();
+            mIapHandler = IAPHandler.init(this, mIAPSettings);
+            updateCartIcon();
             mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
+        }
+    }
+
+    private void setLocale(String languageCode, String countryCode) {
+        PILLocaleManager localeManager = new PILLocaleManager(DemoAppActivity.this);
+        localeManager.setInputLocale(languageCode, countryCode);
+    }
+
+    private void updateCartIcon() {
+        if (shouldUseLocalData()) {
+            mShoppingCart.setVisibility(View.GONE);
         }
     }
 
@@ -263,15 +326,47 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     }
 
+    public void setUseLocalData() {
+        mIAPSettings.setUseLocalData(true);
+    }
+
+    public boolean shouldUseLocalData() {
+        return mIAPSettings.isUseLocalData();
+    }
+
     private void displayViews() {
-//        mShoppingCart.setVisibility(View.VISIBLE);
         mSelectCountryLl.setVisibility(View.VISIBLE);
-//        mShopNow.setVisibility(View.VISIBLE);
+        mPurchaseHistory.setVisibility(View.VISIBLE);
+        mPurchaseHistory.setEnabled(true);
     }
 
     private void hideViews() {
         mShoppingCart.setVisibility(View.GONE);
         mSelectCountryLl.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
+        mPurchaseHistory.setVisibility(View.GONE);
+        mSelectedCountryIndex = 0;
+        mCountryPreference.clearCountryPreference();
+        mSpinner.setSelection(0);
+        mCountText.setVisibility(View.GONE);
+        mFragmentLaunch.setVisibility(View.GONE);
+    }
+
+    private void showAppVersion() {
+        String code = "";
+        try {
+            code = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        TextView versionView = (TextView) findViewById(R.id.appversion);
+        versionView.setText(String.valueOf(code));
+    }
+
+    public boolean isNetworkAvailable(Context pContext) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

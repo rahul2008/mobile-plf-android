@@ -1,6 +1,10 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,24 +12,35 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
+
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ErrorDialogFragment extends BlurDialogFragment implements EventListener {
+public class ErrorDialogFragment extends DialogFragment {
+    public interface ErrorDialogListener {
+        void OnOkClickFromSomethingWentWrong();
+    }
 
-    private Button mOkBtn;
+    private Button mOkBtn, mTryAgain;
+    private ErrorDialogListener mClickListener;
+    Bundle bundle;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.iap_error_dialog, container, false);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR), this);
-        Bundle bundle = getArguments();
+        bundle = getArguments();
         TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
         dialogTitle.setText(bundle.getString(IAPConstant.MODEL_ALERT_ERROR_TEXT));
 
@@ -34,10 +49,10 @@ public class ErrorDialogFragment extends BlurDialogFragment implements EventList
 
         mOkBtn = (Button) v.findViewById(R.id.btn_dialog_ok);
         mOkBtn.setText(bundle.getString(IAPConstant.MODEL_ALERT_BUTTON_TEXT));
-
         mOkBtn.setOnClickListener(dismissDialog());
         return v;
     }
+
 
     @Override
     public void setShowsDialog(final boolean showsDialog) {
@@ -48,38 +63,39 @@ public class ErrorDialogFragment extends BlurDialogFragment implements EventList
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR);
+                String error = bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION);
+                if (error!=null && error.equals(getString(R.string.iap_time_out_error))) {
+                    IAPLog.i(IAPLog.LOG, "SWITCH_TO_NO_NETWORK_CONNECTION");
+                    addFragment(NoNetworkConnectionFragment.createInstance(bundle, BaseAnimationSupportFragment.AnimationType.NONE),
+                            NoNetworkConnectionFragment.TAG);
+                }
                 setShowsDialog(false);
                 dismiss();
             }
         };
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR), this);
-    }
+    public void addFragment(BaseAnimationSupportFragment newFragment,
+                            String newFragmentTag) {
 
-    @Override
-    public void onEventReceived(final String event) {
-        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR))) {
-            launchProductCatalog();
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(getPreviousFragmentID(), newFragment, newFragmentTag);
+            transaction.addToBackStack(null);
+            transaction.commitAllowingStateLoss();
+
+            IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+                    + newFragmentTag + ")");
         }
     }
 
-
-    private void launchProductCatalog() {
-        android.support.v4.app.Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment == null) {
-            getActivity().getSupportFragmentManager().popBackStackImmediate(null, 0);
-            getFragmentManager().beginTransaction().
-                    replace(R.id.fl_mainFragmentContainer,
-                            ProductCatalogFragment.createInstance(new Bundle(), BaseAnimationSupportFragment.AnimationType.NONE),
-                            ProductCatalogFragment.TAG).addToBackStack(ProductCatalogFragment.TAG)
-                    .commitAllowingStateLoss();
-        } else {
-            getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
-        }
+    // TODO: 08-06-2016  This must be avoided and code using this function must be moved to
+    // basefragment. It can have side effects if this is the first fragment. It will replace the
+    // vertical fragment. Please check for code duplication as well.
+    private int getPreviousFragmentID() {
+        FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
+        List<Fragment> fragments = supportFragmentManager.getFragments();
+        int size = fragments.size();
+        return fragments.get(fragments.size() -1).getId();
     }
 }

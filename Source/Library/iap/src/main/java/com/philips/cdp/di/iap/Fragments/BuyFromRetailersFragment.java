@@ -20,18 +20,25 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.BuyFromRetailersAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.core.ControllerFactory;
+import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 
 
-public class BuyFromRetailersFragment extends BaseAnimationSupportFragment implements ShoppingCartPresenter.LoadListenerForRetailer {
+public class BuyFromRetailersFragment extends BaseAnimationSupportFragment implements
+        ShoppingCartPresenter.LoadListener<StoreEntity> {
 
     public static final String TAG = BuyFromRetailersFragment.class.getName();
+
+
     FrameLayout mCrossContainer;
     RecyclerView mRecyclerView;
     ImageView mCross;
@@ -78,14 +85,15 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_PAGE_NAME);
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitle(R.string.iap_retailer_title);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         getRetailersInformation();
     }
 
     private void getRetailersInformation() {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), this, getFragmentManager());
+        ShoppingCartAPI presenter = ControllerFactory.getInstance().getShoppingCartPresenter(getContext(), this, getFragmentManager());
+
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
             presenter.getRetailersInformation(mCtn);
@@ -100,8 +108,18 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onLoadFinished(final ArrayList<StoreEntity> data) {
-        mAdapter = new BuyFromRetailersAdapter(getContext(), data, getFragmentManager());
+        mAdapter = new BuyFromRetailersAdapter(getContext(), data, getFragmentManager(), getId());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoadListenerError(IAPNetworkError error) {
+        // NOP
+    }
+
+    @Override
+    public void onRetailerError(IAPNetworkError errorMsg) {
+        NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getContext().getString(R.string.iap_ok), errorMsg.getMessage(), errorMsg.getMessage());
     }
 }

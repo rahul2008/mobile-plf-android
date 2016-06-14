@@ -46,13 +46,20 @@
             android:visibility="gone" />
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/appversion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal" />
+
     <LinearLayout
         android:id="@+id/select_country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="0dp"
@@ -85,13 +92,28 @@
         android:text="@string/register" />
 
     <Button
-        android:id="@+id/btn_shop_now"
+        android:id="@+id/btn_purchase_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_register"
         android:enabled="false"
-        android:text="SHOP NOW"
+        android:text="@string/purchase_history"
         android:visibility="gone" />
 
+    <Button
+        android:id="@+id/btn_shop_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_purchase_history"
+        android:enabled="false"
+        android:text="@string/shop_now"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_fragment_launch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_shop_now"
+        android:text="@string/activity" />
 
 </RelativeLayout>

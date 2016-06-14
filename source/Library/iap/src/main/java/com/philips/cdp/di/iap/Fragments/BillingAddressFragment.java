@@ -73,7 +73,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.BILLING_ADDRESS_PAGE_NAME);
-        setTitle(R.string.iap_address);
         if (mSwitchBillingAddress.isChecked()) {
             disableAllFields();
             mBtnContinue.setEnabled(true);
@@ -92,7 +91,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtPostalCode.setText(mBillingAddressFields.getPostalCode());
             mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
             mEtEmail.setText(mBillingAddressFields.getEmail());
-            mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
 
             if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US") &&
                     mBillingAddressFields.getRegionIsoCode() != null) {
@@ -103,6 +101,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             }
         }
         mIgnoreTextChangeListener = false;
+        mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
     }
 
     private void clearAllFields() {
@@ -170,7 +169,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     public void onClick(View v) {
 
         Utility.hideKeypad(mContext);
-
+        if (isNetworkNotConnected()) return;
         if (v == mBtnContinue) {
             mBillingAddressFields = setAddressFields(mBillingAddressFields.clone());
             CartModelContainer.getInstance().setBillingAddress(mBillingAddressFields);
@@ -181,12 +180,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                         OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG);
             }
         } else if (v == mBtnCancel) {
-           /* if (getArguments().containsKey(IAPConstant.FROM_PAYMENT_SELECTION) &&
-                    getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
-            } else {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-            }*/
             moveToPreviousFragment();
         }
     }

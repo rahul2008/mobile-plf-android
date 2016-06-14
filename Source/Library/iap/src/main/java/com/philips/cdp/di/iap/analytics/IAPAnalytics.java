@@ -7,7 +7,7 @@ public class IAPAnalytics {
     private static String sPreviousPage;
 
     public static void trackPage(String currPage) {
-        if(sPreviousPage == null){
+        if (sPreviousPage == null) {
             sPreviousPage = Tagging.getLaunchingPageName();
         }
         Tagging.trackPage(currPage, sPreviousPage);

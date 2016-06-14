@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.ShoppingCart;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
+import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 
 /**
@@ -21,13 +22,33 @@ public class ShoppingCartData {
     private int mEntryNumber;
     private String mCartNumber;
     private int mStockLevel;
-    private DeliveryCostEntity mDeliveryCost;
+    private DeliveryModeEntity mDeliveryModeEntity;
     private DeliveryAddressEntity mDeliveryAddressEntity;
     private String mTotalPriceFormatedPrice;
     private String mTotalPriceWithTaxFormatedPrice;
     private String mFormatedPrice;
     private String mValuePrice;
     private String mVatValue;
+
+    public boolean isVatInclusive() {
+        return mVatInclusive;
+    }
+
+    public void setVatInclusive(boolean mVatInclusive) {
+        this.mVatInclusive = mVatInclusive;
+    }
+
+    private boolean mVatInclusive;
+
+    public String getCategory() {
+        return mCategory;
+    }
+
+    public void setCategory(final String mCategory) {
+        this.mCategory = mCategory;
+    }
+
+    private String mCategory;
 
     public String getValuePrice() {
         return mValuePrice;
@@ -69,14 +90,13 @@ public class ShoppingCartData {
         this.mDeliveryAddressEntity = mDeliveryAddressEntity;
     }
 
-    public ShoppingCartData(EntriesEntity entry, DeliveryCostEntity deliveryCost) {
+    public ShoppingCartData(EntriesEntity entry, DeliveryModeEntity deliveryCost) {
         mEntry = entry;
-        mDeliveryCost = deliveryCost;
-
+        mDeliveryModeEntity = deliveryCost;
     }
 
-    public DeliveryCostEntity getDeliveryCost() {
-        return mDeliveryCost;
+    public DeliveryModeEntity getDeliveryMode() {
+        return mDeliveryModeEntity;
     }
 
     public String getCartNumber() {

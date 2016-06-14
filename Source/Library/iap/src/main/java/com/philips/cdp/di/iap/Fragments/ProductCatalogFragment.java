@@ -16,13 +16,16 @@ import android.view.ViewGroup;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.core.ControllerFactory;
+import com.philips.cdp.di.iap.core.ProductCatalogAPI;
+import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogAdapter;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
-import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -30,12 +33,12 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener {
+public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener, ShoppingCartPresenter.ShoppingCartLauncher {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
     private ProductCatalogAdapter mAdapter;
-    private ShoppingCartPresenter mShoppingCartPresenter;
+    private ShoppingCartAPI mShoppingCartAPI;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -71,15 +74,16 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mShoppingCartPresenter = new ShoppingCartPresenter(getFragmentManager());
+        mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
 
     private void loadProducts() {
-        ProductCatalogPresenter presenter = new ProductCatalogPresenter(getContext(), mAdapter, getFragmentManager());
+        ProductCatalogAPI presenter = ControllerFactory.getInstance()
+                .getProductCatalogPresenter(getContext(), mAdapter, getFragmentManager());
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_get_product_catalog_details));
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
         presenter.getProductCatalog();
     }
@@ -90,7 +94,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
-        mShoppingCartPresenter.getProductCartCount(getContext(), mProductCountListener);
+        mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
         mAdapter.tagProducts();
     }
 
@@ -124,7 +128,9 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     @Override
     public boolean onBackPressed() {
-        finishActivity();
+        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+            finishActivity();
+        }
         return false;
     }
 }

@@ -2,7 +2,7 @@ package com.philips.cdp.di.iap.shoppingcart;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
+import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
 
 import org.junit.Before;

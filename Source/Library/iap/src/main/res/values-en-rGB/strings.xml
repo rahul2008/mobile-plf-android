@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name">InAppPurchase</string>
+
     <string name="iap_please_wait">Please Wait</string>
     <string name="iap_shopping_cart">Shopping Basket</string>
     <string name="iap_shopping_cart_item">Shopping Basket item</string>
@@ -68,7 +70,6 @@
     <!--Order Summary-->
     <string name="iap_order_summary">Order Summary</string>
     <string name="iap_pay_now">Pay now</string>
-    <string name="iap_deliver_via_parcel">Delivery via UPS Parcel</string>
     <string name="iap_voucher">Claim voucher</string>
 
     <!--Payment-->
@@ -77,11 +78,6 @@
     <string name="iap_use_payment_method">Use this payment method</string>
     <string name="iap_add_payment_method">Add a new payment method</string>
     <string name="iap_valid_until">Valid until</string>
-
-    <!-- Model Error -->
-    <string name="iap_ok">OK</string>
-    <string name="iap_network_error">Network Error</string>
-    <string name="iap_check_connection">Please check the connection</string>
 
     <!-- Payment -->
     <string name="iap_confirmation">Confirmation</string>
@@ -100,7 +96,6 @@
     <string name="iap_validity">Validity</string>
     <string name="cancelPaymentMsg">Do you want to cancel the payment? Your basket will be emptied.</string>
     <string name="iap_server_error">Server Error</string>
-    <string name="iap_something_went_wrong">Something went wrong!</string>
 
     <!-- Product Catalog -->
     <string name="iap_product_catalog">Products</string>
@@ -108,7 +103,6 @@
     <!-- Product Details -->
     <string name="iap_buy_from_retailers">Buy from retailer</string>
     <string name="iap_add_to_cart">Add to basket</string>
-    <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
 
     <!-- Retailers-->
     <string name="iap_select_retailer">Select retailer</string>
@@ -119,5 +113,13 @@
     <string name="iap_authentication_failure">Authentication failed</string>
     <string name="iap_payment_failed">Payment failed</string>
     <string name="iap_in_stock">in stock</string>
+    <string name="iap_delivery_via">Delivery via FedEx</string>
+    <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked.
+Please try again, or if the problem persists: contact Philips Consumer Care</string>
+
+    <!-- Model Error -->
+    <string name="iap_ok">OK</string>
+    <string name="iap_network_error">You are offline</string>
+    <string name="iap_check_connection">Your internet connection doesn’t seem to be working. Please check and try again</string>
 
 </resources>

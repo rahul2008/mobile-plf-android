@@ -3,7 +3,6 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,11 +13,14 @@ import android.widget.Button;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
+import com.philips.cdp.di.iap.core.ControllerFactory;
+import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.State.RegionsList;
@@ -32,8 +34,11 @@ import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 
+import static com.android.volley.Request.Method.HEAD;
+
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
-        implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener {
+        implements View.OnClickListener, EventListener, AddressController.AddressListener,
+        ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.LoadListener<ShoppingCartData> {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
     private Button mCheckoutBtn;
@@ -42,7 +47,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private RecyclerView mRecyclerView;
     private AddressController mAddressController;
     private Context mContext;
-    private ShoppingCartPresenter mShoppingCartPresenter;
+    private ShoppingCartAPI mShoppingCartAPI;
+    private ArrayList<ShoppingCartData> mData = new ArrayList<>();
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -71,14 +77,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
-
         mCheckoutBtn = (Button) rootView.findViewById(R.id.checkout_btn);
         mCheckoutBtn.setOnClickListener(this);
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
-
-        mShoppingCartPresenter = new ShoppingCartPresenter(getContext(), this, getFragmentManager());
-
+        mShoppingCartAPI = ControllerFactory.getInstance()
+                .getShoppingCartPresenter(getContext(), this, getFragmentManager());
         mAddressController = new AddressController(getContext(), this);
         return rootView;
     }
@@ -90,15 +94,19 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitle(R.string.iap_shopping_cart);
-        updateCartOnResume();
+        if (!isNetworkNotConnected()) {
+            updateCartOnResume();
+        }
+
+        mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void updateCartOnResume() {
-
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
-        updateCartDetails(mShoppingCartPresenter);
+        updateCartDetails(mShoppingCartAPI);
     }
 
     @Override
@@ -109,7 +117,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         NetworkUtility.getInstance().dismissErrorDialog();
     }
 
-    private void updateCartDetails(ShoppingCartPresenter presenter) {
+    private void updateCartDetails(ShoppingCartAPI presenter) {
         presenter.getCurrentCartDetails();
     }
 
@@ -140,6 +148,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             }
         }
         if (v == mContinuesBtn) {
+            if (isNetworkNotConnected()) return;
+
             //Track continue shopping action
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
                     IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
@@ -147,11 +157,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         }
     }
 
-
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment == null) {
+        if (getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
         }
         return false;
@@ -229,6 +237,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onOutOfStock(boolean isOutOfStockReached) {
+        if (mCheckoutBtn == null) return;
         if (isOutOfStockReached) {
             mCheckoutBtn.setEnabled(false);
         } else {
@@ -239,14 +248,29 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
         if (getActivity() == null) return;
-
+        mData = data;
         onOutOfStock(false);
-        mContinuesBtn.setVisibility(View.VISIBLE);
-        mCheckoutBtn.setVisibility(View.VISIBLE);
-        mAdapter = new ShoppingCartAdapter(getContext(), data, getFragmentManager(), this, mShoppingCartPresenter);
+        mAdapter = new ShoppingCartAdapter(getContext(), mData, getFragmentManager(), this, mShoppingCartAPI);
         if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
             updateCount(data.get(0).getDeliveryItemsQuantity());
         }
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.tagProducts();
+    }
+
+    @Override
+    public void onLoadListenerError(IAPNetworkError error) {
+        if (Utility.isProgressDialogShowing()) {
+            Utility.dismissProgressDialog();
+        }
+        if (isNetworkNotConnected()) {
+            return;
+        }
+        NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok), error.getMessage(), error.getMessage());
+    }
+
+    @Override
+    public void onRetailerError(IAPNetworkError errorMsg) {
+        //NOP
     }
 }

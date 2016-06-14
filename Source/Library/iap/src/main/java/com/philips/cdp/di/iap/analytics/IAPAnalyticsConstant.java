@@ -4,7 +4,8 @@ public class IAPAnalyticsConstant {
 
     public static final String PRODUCT_CATALOG_PAGE_NAME = "ProductCatalogPage";
     public static final String PRODUCT_DETAIL_PAGE_NAME = "ProductDetailPage";
-    public static final String RETAILER_PAGE_NAME = "RetailerPage";
+    public static final String RETAILERS_LIST_PAGE_NAME = "SelectRetailerPage";
+    public static final String RETAILER_WEB_PAGE_NAME = "RetailerWebPage";
     public static final String SHOPPING_CART_PAGE_NAME = "ShoppingCartPage";
     public static final String SHOPPING_CART_ITEM_DETAIL_PAGE_NAME = "ShoppingCartItemDetailPage";
     public static final String SHIPPING_ADDRESS_PAGE_NAME = "ShippingAddressPage";
@@ -14,7 +15,7 @@ public class IAPAnalyticsConstant {
     public static final String PAYMENT_SELECTION_PAGE_NAME = "PaymentSelectionPage";
     public static final String EMPTY_SHOPPING_CART_PAGE_NAME = "EmptyShoppingCartPage";
     public static final String ORDER_SUMMARY_PAGE_NAME = "OrderSummaryPage";
-    public static final String WORLD_PAY_PAGE_NAME = "WorldPayPage";
+    public static final String WORLD_PAY_PAGE_NAME = "CreditCardInputPage";
     public static final String PAYMENT_CONFIRMATION_PAGE_NAME = "PaymentConfirmationPage";
 
     public static final String VERSION_KEY = "app.version";
@@ -23,6 +24,7 @@ public class IAPAnalyticsConstant {
     public static final String SPECIAL_EVENTS = "specialEvents";
 
     public static final String PRODUCTS = "&&products";
+    public static final String ORIGINAL_PRICE = "originalPrice";
     public static final String DISCOUNTED_PRICE = "discountedPrice";
     public static final String RETAILER_SELECTED = "retailerSelected";
     public static final String ADD_TO_CART = "scAdd";
@@ -40,14 +42,16 @@ public class IAPAnalyticsConstant {
     public static final String PURCHASE = "purchase";
     public static final String FREE_DELIVERY = "freeDelivery";
     public static final String BACK_BUTTON_PRESS = "backButtonPress";
+
+    public static final String DELIVERY_METHOD = "deliveryMethod";
+    public static final String DELIVERY_UPS_PARCEL = "UPSParcel";
+
     public static final String SHOPPING_CART_VIEW = "shoppingCartView";
     public static final String PROD_VIEW = "prodView";
 
     public static final String IN_APP_NOTIFICATION_POP_UP = "inAppNotification";
     public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
 
-    public static final String DELIVERY_METHOD = "deliveryMethod";
-    public static final String DELIVERY_UPS_PARCEL = "UPSParcel";
     public static final String DELIVERY_UPS_PARCEL_EXPRESS = "UPSParcelExpress";
     public static final String DELIVERY_UPS_ACCESS_POINTS = "UPSAccessPoint";
     public static final String CANCEL_PAYMENT = "cancelPayment";
@@ -58,6 +62,6 @@ public class IAPAnalyticsConstant {
     public static final String REDEEM_VOUCHER_SELECTED = "redeemVoucherSelected";
 
     public static final String ERROR = "error";
-    public static final String INSUFFICIENT_STOCK_ERROR = "InsufficientStockError";
+//    public static final String INSUFFICIENT_STOCK_ERROR = "InsufficientStockError";
 }
 

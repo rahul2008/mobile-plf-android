@@ -25,7 +25,6 @@ import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
-import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
@@ -35,11 +34,13 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -49,7 +50,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private RecyclerView mAddressListView;
     private AddressController mAddrController;
     AddressSelectionAdapter mAdapter;
-    private List<Addresses> mAddresses;
+    private List<Addresses> mAddresses = new ArrayList<>();
     private Button mCancelButton;
     private Context mContext;
     public static final String TAG = AddressSelectionFragment.class.getName();
@@ -60,10 +61,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
-        mAddrController = new AddressController(getContext(), this);
         mCancelButton = (Button) view.findViewById(R.id.btn_cancel);
         bindCancelListener();
-        sendShippingAddressesRequest();
         mJanRainEmail = HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail();
         registerEvents();
         return view;
@@ -115,6 +114,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitle(R.string.iap_address);
+        if (!isNetworkNotConnected()) {
+            mAddrController = new AddressController(getContext(), this);
+            sendShippingAddressesRequest();
+        }
+        mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
+        mAddressListView.setAdapter(mAdapter);
     }
 
     @Override
@@ -204,6 +209,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 HashMap<String, String> addressHashMap = updateShippingAddress();
                 moveToShippingAddressFragment(addressHashMap);
             } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
+                if (isNetworkNotConnected()) return;
                 deleteShippingAddress();
             }
         }
@@ -228,7 +234,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private void deleteShippingAddress() {
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_delete_address));
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
             int pos = mAdapter.getOptionsClickPosition();
             mAddrController.deleteAddress(mAddresses.get(pos).getId());
         }
@@ -352,6 +358,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
         if (addr.getRegion() != null) {
             fields.setRegionIsoCode(addr.getRegion().getName());
+            CartModelContainer.getInstance().setRegionIsoCode(addr.getRegion().getIsocode());
         }
 
         return fields;

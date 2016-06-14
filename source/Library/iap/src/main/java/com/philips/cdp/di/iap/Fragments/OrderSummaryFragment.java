@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,13 +12,14 @@ import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.OrderProductAdapter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.PaymentController;
+import com.philips.cdp.di.iap.core.ControllerFactory;
+import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
@@ -44,6 +46,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private Button mBtnCancel;
     private PaymentController mPaymentController;
     private String orderID;
+    private Context mContext;
     public static final String TAG = OrderSummaryFragment.class.getName();
     private TwoButtonDailogFragment mDailogFragment;
 
@@ -90,15 +93,22 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         return rootView;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
     private void updateCartOnResume() {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
+        ShoppingCartAPI presenter = ControllerFactory.getInstance()
+                .getShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
             updateCartDetails(presenter);
         }
     }
 
-    private void updateCartDetails(ShoppingCartPresenter presenter) {
+    private void updateCartDetails(ShoppingCartAPI presenter) {
         presenter.getCurrentCartDetails();
     }
 
@@ -128,26 +138,31 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void onClick(final View v) {
+        if (isNetworkNotConnected()) return;
         if (v == mBtnPayNow) {
-
-            if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-                if (!isOrderPlaced() || paymentMethodAvailable()) {
-                    mPaymentController.placeOrder();
-                } else {
-                    mPaymentController.makPayment(orderID);
-                }
-            }
+            placeOrderElseMakePayment();
         } else if (v == mBtnCancel) {
-            moveToProductCatalog();
+            moveToShoppingCart();
         }
     }
 
-    private void moveToProductCatalog() {
+    private void placeOrderElseMakePayment() {
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
+                IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
+        if (!Utility.isProgressDialogShowing()) {
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            if (!isOrderPlaced() || paymentMethodAvailable()) {
+                mPaymentController.placeOrder();
+            } else {
+                mPaymentController.makPayment(orderID);
+            }
+        }
+    }
+
+    private void moveToShoppingCart() {
         setSetOrderPlaceFalse();
         moveToFragment(ShoppingCartFragment.TAG);
     }
-
 
     private boolean paymentMethodAvailable() {
         return mPaymentMethod != null;
@@ -168,6 +183,9 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }
     }
 
@@ -209,7 +227,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         String type = error.getType();
         if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
             String subject = error.getMessage();
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_out_of_stock), subject);
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
@@ -235,7 +253,10 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void onDialogOkClick() {
-        moveToProductCatalog();
+        //Track Payment cancelled action
+        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
+        moveToShoppingCart();
     }
 
     @Override

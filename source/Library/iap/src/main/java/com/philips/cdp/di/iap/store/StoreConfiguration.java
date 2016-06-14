@@ -11,13 +11,13 @@ import com.philips.cdp.di.iap.session.RequestListener;
 public class StoreConfiguration {
     private static final String SUFFIX_INAPPCONFIG = "inAppConfig";
 
-    private Store mStore;
+    private HybrisStore mStore;
     private String hostport;
     private String site;
     private VerticalAppConfig mVerticalAppConfig;
     private WebStoreConfig mWebStoreConfig;
 
-    public StoreConfiguration(Context context, Store store) {
+    public StoreConfiguration(Context context, HybrisStore store) {
         mStore = store;
         mVerticalAppConfig = getVerticalAppConfig(context);
         mWebStoreConfig = getWebStoreConfig(context);
@@ -48,12 +48,12 @@ public class StoreConfiguration {
     }
 
     public String getRawConfigUrl() {
-        StringBuilder builder = new StringBuilder(Store.HTTPS);
-        builder.append(getHostPort()).append(Store.SEPERATOR);
-        builder.append(Store.WEB_ROOT).append(Store.SEPERATOR);
-        builder.append(Store.V2).append(Store.SEPERATOR);
-        builder.append(SUFFIX_INAPPCONFIG).append(Store.SEPERATOR);
-        builder.append(mWebStoreConfig.getLocale()).append(Store.SEPERATOR);
+        StringBuilder builder = new StringBuilder(HybrisStore.HTTPS);
+        builder.append(getHostPort()).append(HybrisStore.SEPERATOR);
+        builder.append(HybrisStore.WEB_ROOT).append(HybrisStore.SEPERATOR);
+        builder.append(HybrisStore.V2).append(HybrisStore.SEPERATOR);
+        builder.append(SUFFIX_INAPPCONFIG).append(HybrisStore.SEPERATOR);
+        builder.append(mWebStoreConfig.getLocale()).append(HybrisStore.SEPERATOR);
         builder.append(getPropositionID());
 
         return builder.toString();

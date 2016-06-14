@@ -19,11 +19,11 @@
 
 
         <TextView
+            android:id="@+id/tv_title_delivery_address"
             style="@style/tvHeaderTitle"
             android:layout_marginBottom="0dp"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:text="@string/iap_shipping_address" />
+            android:layout_marginTop="0dp" />
 
         <TextView
             android:id="@+id/tv_shipping_first_name"
@@ -56,11 +56,11 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_title_billing_address"
             style="@style/tvHeaderTitle"
             android:layout_marginBottom="0dp"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/iap_billing_address" />
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:id="@+id/tv_billing_first_name"
@@ -69,7 +69,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-
             android:textColor="?attr/uikit_baseColor" />
 
         <TextView
@@ -170,23 +169,26 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_delivery"
-                style="@style/tvBoldTitle"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="0dp"
-                android:layout_marginStart="0dp"
-                android:text="@string/iap_deliver_via_parcel" />
-
-            <TextView
                 android:id="@+id/tv_delivery_price"
                 style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="0dp"
                 android:layout_marginStart="0dp" />
+
+            <TextView
+                android:id="@+id/tv_delivery"
+                style="@style/tvBoldTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_toLeftOf="@id/tv_delivery_price"
+                />
+
         </RelativeLayout>
     </LinearLayout>
 
     <View
+        android:id="@+id/delivery_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
         android:background="?attr/uikit_listDividerColor" />
@@ -200,7 +202,6 @@
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginStart="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -214,8 +215,7 @@
                 android:id="@+id/tv_vat"
                 style="@style/tvTitle"
                 android:layout_alignParentStart="true"
-                android:includeFontPadding="false"
-                android:text="@string/iap_vat" />
+                android:includeFontPadding="false" />
 
             <TextView
                 android:id="@+id/tv_vat_price"
@@ -235,13 +235,29 @@
                 android:id="@+id/tv_total_lable"
                 style="@style/tvBoldTitle"
                 android:layout_alignParentStart="true"
-                android:includeFontPadding="false"
-                android:text="@string/iap_total_val" />
+                android:includeFontPadding="false" />
+
+            <TextView
+                android:id="@+id/tv_vat_inclusive"
+                style="@style/tvTitleInclusiveVat"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_total_lable"
+                android:includeFontPadding="false" />
+
+            <TextView
+                android:id="@+id/iap_tv_vat_value_uk_order_summary"
+                style="@style/tvVatValueUK"
+                android:layout_alignBaseline="@id/tv_vat_inclusive"
+                android:visibility="gone"
+                />
 
             <TextView
                 android:id="@+id/tv_total_price"
                 style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true" />
+
+
+
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

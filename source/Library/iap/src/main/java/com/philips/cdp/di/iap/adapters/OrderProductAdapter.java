@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -27,7 +28,8 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ShoppingCartPresenter.LoadListener {
+public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
+        ShoppingCartPresenter.LoadListener<ShoppingCartData> {
     private final static String TAG = OrderProductAdapter.class.getSimpleName();
 
     private List<ShoppingCartData> mShoppingCartDataList;
@@ -63,6 +65,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (mShoppingCartDataList.size() == 0) return;
         if (holder instanceof FooterOrderSummaryViewHolder) {
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
+            footerHolder.mTitleBillingAddress.setText(R.string.iap_billing_address);
+            footerHolder.mTitleDeliveryAddress.setText(R.string.iap_shipping_address);
+            footerHolder.mTitleVat.setText(R.string.iap_vat);
+            footerHolder.mTitleTotalPrice.setText(R.string.iap_total_val);
             AddressFields shippingAddress = CartModelContainer.getInstance().getShippingAddressFields();
             String shippingName = shippingAddress.getFirstName() + " " + shippingAddress.getLastName();
             footerHolder.mShippingFirstName.setText(shippingName);
@@ -84,14 +90,37 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         + "\n" + (mContext.getResources().getString(R.string.iap_valid_until)) + " "
                         + mPaymentMethod.getExpiryMonth() + "/" + mPaymentMethod.getExpiryYear());
             }
-            if (getLastValidItem().getDeliveryCost() != null) {
-                footerHolder.mDeliveryPrice.setText(getLastValidItem().getDeliveryCost().getFormattedValue());
+            if (getLastValidItem().getDeliveryMode() != null) {
+                String deliveryCost = getLastValidItem().getDeliveryMode().getDeliveryCost().getFormattedValue();
+                String deliveryMethod = getLastValidItem().getDeliveryMode().getName();
+                footerHolder.mDeliveryPrice.setText(deliveryCost);
+                if(deliveryMethod!=null){
+                    footerHolder.mTitleDelivery.setText(deliveryMethod);
+                }else{
+                    footerHolder.mTitleDelivery.setText(R.string.iap_delivery_via);
+                }
             } else {
-                footerHolder.mDeliveryPrice.setText("0.0");
+                //footerHolder.mDeliveryPrice.setText("0.0");
+                footerHolder.mTitleDelivery.setVisibility(View.GONE);
+                footerHolder.mDeliveryPrice.setVisibility(View.GONE);
+                footerHolder.mDeliveryView.setVisibility(View.GONE);
             }
             footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
             footerHolder.mTotalPrice.setText(getLastValidItem().getTotalPriceWithTaxFormatedPrice());
             footerHolder.mVatValue.setText(getLastValidItem().getVatValue());
+            if (!getLastValidItem().isVatInclusive()) {
+                footerHolder.mVatInclusive.setVisibility(View.VISIBLE);
+                footerHolder.mVatInclusive.setText(String.format(mContext.getString(R.string.iap_vat_inclusive_text), mContext.getString(R.string.iap_vat)));
+                footerHolder.mVatValueUK.setVisibility(View.VISIBLE);
+                footerHolder.mVatValueUK.setText(getLastValidItem().getVatValue());
+                footerHolder.mVatValue.setVisibility(View.GONE);
+                footerHolder.mTitleVat.setVisibility(View.GONE);
+            } else {
+                footerHolder.mVatValue.setVisibility(View.VISIBLE);
+                footerHolder.mTitleVat.setVisibility(View.VISIBLE);
+                footerHolder.mVatInclusive.setVisibility(View.GONE);
+                footerHolder.mVatValueUK.setVisibility(View.GONE);
+            }
         } else {
             OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
             IAPLog.d(TAG, "Size of ShoppingCarData is " + String.valueOf(mShoppingCartDataList.size()));
@@ -136,6 +165,17 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyDataSetChanged();
     }
 
+    @Override
+    public void onLoadListenerError(IAPNetworkError error) {
+        //NOP
+    }
+
+    @Override
+    public void onRetailerError(IAPNetworkError errorMsg) {
+        //NOP
+    }
+
+
     public class OrderProductHolder extends RecyclerView.ViewHolder {
         TextView mTvProductName;
         NetworkImageView mNetworkImage;
@@ -152,6 +192,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class FooterOrderSummaryViewHolder extends RecyclerView.ViewHolder {
+
+        TextView mTitleDeliveryAddress;
+        TextView mTitleBillingAddress;
         TextView mShippingFirstName;
         TextView mShippingAddress;
         TextView mBillingFirstName;
@@ -159,13 +202,21 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         LinearLayout mLLPaymentMode;
         TextView mPaymentCardName;
         TextView mPaymentCardHolderName;
+        TextView mTitleDelivery;
         TextView mDeliveryPrice;
         TextView mTotalPriceLable;
         TextView mTotalPrice;
+        TextView mTitleVat;
         TextView mVatValue;
+        TextView mTitleTotalPrice;
+        TextView mVatInclusive;
+        View mDeliveryView;
+        TextView mVatValueUK;
 
         public FooterOrderSummaryViewHolder(View itemView) {
             super(itemView);
+            mTitleDeliveryAddress = (TextView) itemView.findViewById(R.id.tv_title_delivery_address);
+            mTitleBillingAddress = (TextView) itemView.findViewById(R.id.tv_title_billing_address);
             mShippingFirstName = (TextView) itemView.findViewById(R.id.tv_shipping_first_name);
             mShippingAddress = (TextView) itemView.findViewById(R.id.tv_shipping_address);
             mBillingFirstName = (TextView) itemView.findViewById(R.id.tv_billing_first_name);
@@ -173,10 +224,16 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mLLPaymentMode = (LinearLayout) itemView.findViewById(R.id.ll_payment_mode);
             mPaymentCardName = (TextView) itemView.findViewById(R.id.tv_card_type);
             mPaymentCardHolderName = (TextView) itemView.findViewById(R.id.tv_card_holder_name);
+            mTitleDelivery = (TextView) itemView.findViewById(R.id.tv_delivery);
             mDeliveryPrice = (TextView) itemView.findViewById(R.id.tv_delivery_price);
             mTotalPriceLable = (TextView) itemView.findViewById(R.id.tv_total_lable);
             mTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_price);
+            mTitleVat = (TextView) itemView.findViewById(R.id.tv_vat);
             mVatValue = (TextView) itemView.findViewById(R.id.tv_vat_price);
+            mTitleTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_lable);
+            mVatInclusive = (TextView) itemView.findViewById(R.id.tv_vat_inclusive);
+            mDeliveryView = (View) itemView.findViewById(R.id.delivery_view);
+            mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_order_summary);
         }
     }
 }

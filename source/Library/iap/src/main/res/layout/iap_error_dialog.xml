@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:id="@+id/parent_id"
-        android:layout_width="@dimen/uikit_modal_alert_dialog_width"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/uikit_modal_alert"
@@ -31,7 +31,7 @@
             android:layout_marginEnd="@dimen/uikit_modal_alert_text_right_margin"
             android:layout_marginStart="@dimen/uikit_modal_alert_button_left_margin"
             android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
-            android:text="@string/uikit_modal_alert_message"
+            android:text="@string/uikit_about_screen_actionbar_title"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/uikit_modal_alert_message_text_size" />
 
@@ -39,17 +39,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/uikit_modal_alert_bottom_layout_margin"
-            android:layout_marginTop="@dimen/uikit_modal_alert_button_top_margin"
-            android:gravity="center"
+            android:layout_marginStart="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:layout_marginTop="@dimen/uikit_modal_alert_bottom_margin"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_dialog_ok"
-                style="@style/iapCentralesansBookFont"
-                android:layout_width="fill_parent"
+                style="?attr/uikit_outlinedButtonStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/uikit_modal_alert_button_width"
-                android:text="@string/uikit_modal_alert_negative_button_text"
                 android:textSize="@dimen/uikit_modal_alert_message_text_size" />
 
         </LinearLayout>

@@ -6,16 +6,16 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
 import com.philips.cdp.di.iap.session.OAuthHandler;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.store.Store;
 
 import java.util.Map;
 
 public class NewOAuthRequest extends AbstractModel implements OAuthHandler {
     OAuthResponse mOAuthResponse;
-    public NewOAuthRequest(final Store store, final Map<String, String> query) {
+    public NewOAuthRequest(final StoreSpec store, final Map<String, String> query) {
         super(store, query);
     }
 

@@ -21,13 +21,13 @@ public class IAPUser implements UserRegistrationListener {
 
     Semaphore mSemaphore = new Semaphore(0);
     private User mJanRainUser;
-    private Store mStore;
+    private HybrisStore mStore;
     private boolean mTokenRefreshSuccessful;
 
     //Track the locking. It should not lock if the call back was received earlier than locking
     private volatile boolean mLockReleaseRequested;
 
-    public IAPUser(final Context context, final Store store) {
+    public IAPUser(final Context context, final HybrisStore store) {
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mStore = store;
         mJanRainUser = new User(context);

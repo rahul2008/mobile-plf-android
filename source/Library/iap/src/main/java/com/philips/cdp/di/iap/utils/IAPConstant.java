@@ -28,6 +28,7 @@ public class IAPConstant {
     public static final String MODEL_ALERT_BUTTON_TEXT = "MODEL_ALERT_BUTTON_TEXT";
     public static final String MODEL_ALERT_ERROR_TEXT = "MODEL_ALERT_ERROR_TEXT";
     public static final String MODEL_ALERT_ERROR_DESCRIPTION = "MODEL_ALERT_ERROR_DESCRIPTION";
+    public static final String MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE = "MODEL_ALERT_TRYAGAIN_BUTTON_VISIBLE";
     public static final String IS_SECOND_USER = "IS_SECOND_USER";
     public static final String PAYMENT_METHOD_LIST = "PAYMENT_METHOD_LIST";
     public static final String ADD_DELIVERY_ADDRESS = "ADD_DELIVERY_ADDRESS";
@@ -49,10 +50,17 @@ public class IAPConstant {
     public static final String IAP_BUY_URL = "IAP_BUY_URL";
     public static final String IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART = "IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART";
     public static final java.lang.String MODEL_ALERT_CONFIRM_DESCRIPTION = "MODEL_ALERT_CONFIRM_DESCRIPTION";
+    public static final String SWITCH_TO_NO_NETWORK_CONNECTION = "SWITCH_TO_NO_NETWORK_CONNECTION";
+    public static final String PURCHASE_HISTORY_DETAIL = "PURCHASE_HISTORY_DETAIL";
+    public static final String PURCHASE_ID = "PURCHASE_ID";
+    public static final String ORDER_STATUS = "ORDER_STATUS";
+    public static final String TRACKING_ID = "TRACKING_ID";
+    public static final String DELIVERY_NAME="DELIVERY_NAME";
 
     public interface IAPLandingViews {
         int IAP_PRODUCT_CATALOG_VIEW = 0;
         int IAP_SHOPPING_CART_VIEW = 1;
+        int IAP_PURCHASE_HISTORY_VIEW = 2;
     }
 
     public static final String IAP_STORE_NAME = "IAP_STORE_NAME";

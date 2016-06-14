@@ -70,7 +70,6 @@
     <!--Order Summary-->
     <string name="iap_order_summary">Order Summary</string>
     <string name="iap_pay_now">Pay now</string>
-    <string name="iap_deliver_via_parcel">Delivery via UPS Parcel</string>
     <string name="iap_voucher">Claim voucher</string>
 
     <!--Payment-->
@@ -79,11 +78,6 @@
     <string name="iap_use_payment_method">Use this payment method</string>
     <string name="iap_add_payment_method">Add a new payment method</string>
     <string name="iap_valid_until">Valid until</string>
-
-    <!-- Model Error -->
-    <string name="iap_ok">OK</string>
-    <string name="iap_network_error">Network Error</string>
-    <string name="iap_check_connection">Please check the connection</string>
 
     <!-- Payment -->
     <string name="iap_confirmation">Confirmation</string>
@@ -95,13 +89,13 @@
     <string name="iap_redeem_voucher">Redeem voucher</string>
     <string name="iap_delivery_description">Delivery is FREE when you spend $100 or more</string>
     <string name="iap_vat">VAT</string>
+    <string name="iap_vat_inclusive_text">Including VAT</string>
     <string name="Settings">Settings</string>
     <string name="mastercard">Master card</string>
     <string name="iap_total_val">Total(0 Items)</string>
     <string name="iap_validity">Validity</string>
     <string name="cancelPaymentMsg">Do you want to cancel the payment? Your cart will be empty.</string>
     <string name="iap_server_error">Server Error</string>
-    <string name="iap_something_went_wrong">Something went wrong!</string>
 
     <!-- Product Catalog -->
     <string name="iap_product_catalog">Products</string>
@@ -109,11 +103,17 @@
     <!-- Product Details -->
     <string name="iap_buy_from_retailers">Buy from retailer</string>
     <string name="iap_add_to_cart">Add to cart</string>
-    <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
 
     <!-- Retailers-->
     <string name="iap_select_retailer">Select retailer</string>
     <string name="iap_retailer_title">Retailer</string>
+
+    <!-- Purchase History -->
+    <string name="iap_order_history">Order history</string>
+    <string name="iap_no_items">No items here yet&#8230;</string>
+    <string name="iap_empty_purchase_history">If you placed an order using this app, Please check your mail for the confirmation e-mail</string>
+    <string name="iap_other_channel">If you ordered using another sales channel your purchase might not show up here</string>
+    <string name="iap_contact_consumer_care">Contact Consumer Care</string>
 
     <!--Not Localized-->
     <string name="iap_get_product_catalog_details">Getting Product Details</string>
@@ -121,5 +121,25 @@
     <string name="iap_payment_failed">Payment failed</string>
     <string name="iap_in_stock">in stock</string>
     <string name="iap_continue_shopping_description">Do you want to continue shopping?</string>
+    <string name="iap_delivery_via">Delivery via FedEx</string>
+    <string name="iap_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked.
+Please try again, or if the problem persists: contact Philips Consumer Care</string>
+    <string name="iap_try_again">Try Again</string>
+    <string name="iap_order_number">Order number # </string>
+    <string name="iap_payment_by">Paid by</string>
+    <string name="iap_track_order">Track my order</string>
+    <string name="iap_order_details">Order details</string>
+    <string name="iap_cancel_order">Cancel my order</string>
+    <string name="iap_buy">Buy</string>
+    <string name="view_invoice">View invoice</string>
+    <string name="iap_track_order_title">Track order</string>
+    <string name="iap_track_my_shipment">Track my shipment</string>
+    <string name="iap_shipping_to">Shipping to</string>
+    <string name="iap_track_package_text">You can track your package anytime with tracking number</string>
+
+    <!-- Model Error -->
+    <string name="iap_ok">OK</string>
+    <string name="iap_network_error">You are offline</string>
+    <string name="iap_check_connection">Your internet connection doesn’t seem to be working. Please check and try again</string>
 
 </resources>

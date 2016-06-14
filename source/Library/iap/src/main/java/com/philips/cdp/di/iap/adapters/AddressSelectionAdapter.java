@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
@@ -22,7 +25,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.List;
 
-public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionHolder> {
+public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionAdapter.AddressSelectionHolder> {
     private Context mContext;
     private List<Addresses> mAddresses;
 
@@ -31,6 +34,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     private Drawable mOptionsDrawable;
 
     private int mOptionsClickPosition = -1;
+
 
     public AddressSelectionAdapter(final Context context, final List<Addresses> addresses) {
         mContext = context;
@@ -167,5 +171,37 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
 
     public void setAddresses(final List<Addresses> data) {
         mAddresses = data;
+    }
+
+    public class AddressSelectionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView name;
+        TextView address;
+        UIKitRadioButton toggle;
+        ImageView options;
+        Button deliver;
+        Button newAddress;
+        ViewGroup paymentOptions;
+        ViewGroup optionLayout;
+        RelativeLayout addressItem;
+
+        public AddressSelectionHolder(final View view) {
+            super(view);
+            name = (TextView) view.findViewById(R.id.tv_name);
+            address = (TextView) view.findViewById(R.id.tv_address);
+            toggle = (UIKitRadioButton) view.findViewById(R.id.rbtn_toggle);
+            options = (ImageView) view.findViewById(R.id.img_options);
+            paymentOptions = (ViewGroup) view.findViewById(R.id.payment_options);
+            deliver = (Button) view.findViewById(R.id.btn_deliver);
+            newAddress = (Button) view.findViewById(R.id.btn_new_address);
+            optionLayout = (ViewGroup) view.findViewById(R.id.options_layout);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mSelectedIndex = getAdapterPosition();
+            setToggleStatus(toggle, getAdapterPosition());
+            notifyDataSetChanged();
+        }
     }
 }
