@@ -26,7 +26,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'com.shamanland:fonticon:0.1.+'
         classpath 'com.mcxiaoke.volley:library:1.0.+'
@@ -37,7 +37,7 @@ buildscript {
     }
 }
 
-apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 
