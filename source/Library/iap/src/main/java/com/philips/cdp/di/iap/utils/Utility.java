@@ -1,13 +1,13 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.utils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -128,7 +128,7 @@ public class Utility {
             if (country != null) {
                 sb.append(country);
             }
-        }else if (addressObj instanceof Address) {
+        } else if (addressObj instanceof Address) {
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine2());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getTown());
@@ -141,7 +141,7 @@ public class Utility {
         return sb.toString();
     }
 
-    public static int getThemeColor(Context context){
+    public static int getThemeColor(Context context) {
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
         int mThemeBaseColor = a.getColor(0, ContextCompat.getColor(context, R.color.uikit_philips_blue));
         a.recycle();
