@@ -9,15 +9,15 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
-        android:paddingLeft="15dp"
         android:clickable="true"
+        android:paddingLeft="15dp"
         android:paddingRight="15dp">
 
         <ImageView
             android:id="@+id/iap_iv_header_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical" />
     </FrameLayout>
 
 
@@ -37,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -57,13 +58,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|left"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:paddingRight="@dimen/network_margin_left_right"
+            android:layout_marginBottom="15dp"
             android:visibility="gone" />
     </FrameLayout>
+
     <View
         android:layout_width="1dp"
         android:layout_height="1dp"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

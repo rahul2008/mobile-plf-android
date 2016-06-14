@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,7 +22,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ErrorDialogFragment extends BlurDialogFragment {
+public class ErrorDialogFragment extends DialogFragment {
     public interface ErrorDialogListener {
         void OnOkClickFromSomethingWentWrong();
     }
@@ -29,6 +30,12 @@ public class ErrorDialogFragment extends BlurDialogFragment {
     private Button mOkBtn, mTryAgain;
     private ErrorDialogListener mClickListener;
     Bundle bundle;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
