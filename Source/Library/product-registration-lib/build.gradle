@@ -110,18 +110,20 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.1"
+        versionName "1.0.2.rc1"
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
         testApplicationId "com.philips.cdp.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             debuggable true
-            minifyEnabled true
+            minifyEnabled false
             testCoverageEnabled true
         }
     }
@@ -163,7 +165,7 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.1.0', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.0', ext: 'aar') {
         transitive = true
     }
 

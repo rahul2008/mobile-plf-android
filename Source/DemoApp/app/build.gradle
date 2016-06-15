@@ -22,12 +22,13 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules.pro'
         }
         debug {
             debuggable true
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources true
+            proguardFiles 'proguard-rules.pro'
             testCoverageEnabled true
         }
     }
@@ -78,7 +79,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
-    compile 'com.android.support:cardview-v7:23.3.0'
     compile project(':product-registration-lib')
 
     //    compile 'com.philips.cdp:product-registration-lib:0.0.1'
