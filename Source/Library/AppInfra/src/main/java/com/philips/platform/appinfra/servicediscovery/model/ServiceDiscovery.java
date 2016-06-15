@@ -18,6 +18,8 @@ public class ServiceDiscovery {
     MatchByLanguage matchByLanguage;
 
 
+    Error error=null;
+
 
     public boolean isSuccess() {
         return success;
@@ -59,4 +61,11 @@ public class ServiceDiscovery {
         this.country = country;
     }
 
+    public Error getError() {
+        return error;
+    }
+
+    public void setError(Error error) {
+        this.error = error;
+    }
 }

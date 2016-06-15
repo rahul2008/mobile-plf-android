@@ -11,7 +11,6 @@ import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -24,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.network.SSLCertificateManager;
 import com.philips.platform.appinfra.servicediscovery.model.Config;
+import com.philips.platform.appinfra.servicediscovery.model.Error;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountry;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
@@ -58,7 +58,7 @@ public class RequestManager{
         this.mVolleyRequest = volleyQueue.getRequestQueue(this.mContext);
     }
 
-    public void execute(String url){
+    public void execute(String url, final ServiceDiscoveryInterface.OnRefreshListener listener){
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -66,7 +66,8 @@ public class RequestManager{
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            if (null == mServiceDiscovery) {
+                            listener.onSuccess();
+                            if (null == mServiceDiscovery || null!=mServiceDiscovery.getError()) {
                                 mServiceDiscovery = new ServiceDiscovery();
                             SharedPreferences pref = mContext.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
                             mcountry = pref.getString(RequestManager.COUNTRY_NAME, null);
@@ -85,6 +86,9 @@ public class RequestManager{
                                     // START setting match by country
                                     JSONObject payloadJSONObject = response.getJSONObject("payload");
                                     mServiceDiscovery.setSuccess(response.optBoolean("success"));
+                                    if(mServiceDiscovery.isSuccess()){
+                                        mServiceDiscovery.setError(null); // set (if any) previous error to null
+                                    }
                                     JSONObject matchByCountryJSONObject = payloadJSONObject.getJSONObject("matchByCountry");
                                     MatchByCountry
                                             matchByCountry = new MatchByCountry();
@@ -184,18 +188,26 @@ public class RequestManager{
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        mServiceDiscovery = new ServiceDiscovery();
+                        Error volleyError = new Error();
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            volleyError.setMessage("TimeoutORNoConnection");
                             Log.i("TimeoutORNoConnection", ""+"TimeoutORNoConnection");
                         } else if (error instanceof AuthFailureError) {
+                            volleyError.setMessage("AuthFailureError");
                             Log.i("AuthFailureError", ""+"AuthFailureError");
                         } else if (error instanceof ServerError) {
+                            volleyError.setMessage("ServerError");
                             Log.i("ServerError", ""+"ServerError");
                         } else if (error instanceof NetworkError) {
+                            volleyError.setMessage("NetworkError");
                             Log.i("NetworkError", ""+"NetworkError");
                         } else if (error instanceof ParseError) {
+                            volleyError.setMessage("ParseError");
                             Log.i("ParseError", ""+"ParseError");
                         }
+                        mServiceDiscovery.setError(volleyError);
                     }
                     });
 

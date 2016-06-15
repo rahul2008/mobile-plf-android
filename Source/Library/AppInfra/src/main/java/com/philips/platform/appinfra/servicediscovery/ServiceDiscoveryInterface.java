@@ -6,14 +6,13 @@
 package com.philips.platform.appinfra.servicediscovery;
 
 import java.net.URL;
-import java.util.Map;
 
 /**
  * Created by 310238655 on 6/7/2016.
  */
 public interface ServiceDiscoveryInterface {
 
-    public void getservice();
+    public String getservice(OnRefreshListener listener);
 
     public class ServiceUrlandLocale {
         public final URL    serviceUrl;

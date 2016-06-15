@@ -6,7 +6,7 @@
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
-import android.os.AsyncTask;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 
@@ -25,7 +25,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     Context localContext;
     boolean isDataAvailable = false;
     String countryCode;
-    String URL = "https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en&country=IN";
+    String URL = null;
     boolean mHomeCountry = false;
     boolean mServiceUrlWithLanguagePreference = false;
     boolean mServiceUrlWithCountryPreference= false;
@@ -46,16 +46,16 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     @Override
-    public void getservice() {
+    public String getservice(OnRefreshListener listener) {
         String urlBuild;
 
 
             urlBuild= buildUrl();
 
         if(urlBuild!= null){
-            new RequestManager(context).execute(urlBuild);
+            new RequestManager(context).execute(urlBuild, listener);
             }
-
+    return urlBuild;
     }
     private String  buildUrl(){
         AppIdentityManager idntityManager = new AppIdentityManager(mAppInfra);
@@ -229,7 +229,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             refresh((new OnRefreshListener() {
                 @Override
                 public void onError(ERRORVALUES error, String message) {
-
+                    Log.i("onError", ""+"refresh  Error");
                 }
 
                 @Override
@@ -306,33 +306,35 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public void refresh(final OnRefreshListener listener) {
-        new AsyncTask<String, String, String>(){
 
-            @Override
-            protected String doInBackground(String... params) {
-                if(isDataAvailable){
-                    listener.onSuccess();
-                }else{
-                    getservice();
-                }
-
-                return null;
-            }
-            protected void onProgressUpdate(String... progress) {
-            }
-            protected void onPostExecute(String result) {
-                if(RequestManager.mServiceDiscovery != null){
-                    if(RequestManager.mServiceDiscovery.isSuccess()){
-                        isDataAvailable = true;
-                        listener.onSuccess();
-                    }else{
-//                    if(RequestManager.mServiceDiscovery.getHttpStatus())
-//                    listener.onError();
-                    }
-                }
-
-
-            }
-                }.execute(URL,"","");
+        getservice(listener);
+//        new AsyncTask<String, String, String>(){
+//
+//            @Override
+//            protected String doInBackground(String... params) {
+//                if(isDataAvailable){
+//                    listener.onSuccess();
+//                }else{
+//                    getservice();
+//                }
+//
+//                return null;
+//            }
+//            protected void onProgressUpdate(String... progress) {
+//            }
+//            protected void onPostExecute(String result) {
+//                if(RequestManager.mServiceDiscovery != null){
+//                    if(RequestManager.mServiceDiscovery.isSuccess()){
+//                        isDataAvailable = true;
+//                        listener.onSuccess();
+//                    }else{
+////                    if(RequestManager.mServiceDiscovery.getHttpStatus())
+////                    listener.onError();
+//                    }
+//                }
+//
+//
+//            }
+//                }.execute(URL,"","");
     }
 }
