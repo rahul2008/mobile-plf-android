@@ -144,7 +144,7 @@ public class AppIdentityManager implements AppIdentityInterface {
                     Log.i("mAppState", ""+mAppState);
                     Log.i("mAppName", ""+mAppName);
                     Log.i("mAppVersion", ""+mAppVersion);
-                    Log.i("mAppLocalizedNAme", ""+mAppLocalizedNAme);
+                    Log.i("mAppLocalizedNAme", ""+getmAppLocalizedNAme());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

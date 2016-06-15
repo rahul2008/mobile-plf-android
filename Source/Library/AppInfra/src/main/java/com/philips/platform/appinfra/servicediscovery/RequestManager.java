@@ -66,8 +66,7 @@ public class RequestManager{
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            listener.onSuccess();
-                            if (null == mServiceDiscovery || null!=mServiceDiscovery.getError()) {
+                            if (null == mServiceDiscovery) {
                                 mServiceDiscovery = new ServiceDiscovery();
                             SharedPreferences pref = mContext.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
                             mcountry = pref.getString(RequestManager.COUNTRY_NAME, null);
@@ -177,6 +176,8 @@ public class RequestManager{
 
                                     matchByLanguage.setConfigs(matchByLanguageConfigs);
                                     mServiceDiscovery.setMatchByLanguage(matchByLanguage);
+
+                                listener.onSuccess();
                                     // END setting match by language
                                 }
                             }
@@ -190,24 +191,34 @@ public class RequestManager{
                     public void onErrorResponse(VolleyError error) {
                         mServiceDiscovery = new ServiceDiscovery();
                         Error volleyError = new Error();
-
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                        ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorValue = null;
+                        if (error instanceof TimeoutError) {
                             volleyError.setMessage("TimeoutORNoConnection");
+                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT;
                             Log.i("TimeoutORNoConnection", ""+"TimeoutORNoConnection");
-                        } else if (error instanceof AuthFailureError) {
+                        } else if (error instanceof NoConnectionError) {
                             volleyError.setMessage("AuthFailureError");
                             Log.i("AuthFailureError", ""+"AuthFailureError");
+                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK;
+                        }else if (error instanceof AuthFailureError) {
+                            volleyError.setMessage("AuthFailureError");
+                            Log.i("AuthFailureError", ""+"AuthFailureError");
+                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
                         } else if (error instanceof ServerError) {
                             volleyError.setMessage("ServerError");
                             Log.i("ServerError", ""+"ServerError");
+                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR;
                         } else if (error instanceof NetworkError) {
                             volleyError.setMessage("NetworkError");
                             Log.i("NetworkError", ""+"NetworkError");
+                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE;
                         } else if (error instanceof ParseError) {
                             volleyError.setMessage("ParseError");
                             Log.i("ParseError", ""+"ParseError");
+                            errorValue = ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE;
                         }
                         mServiceDiscovery.setError(volleyError);
+                        listener.onError(errorValue, "Error");
                     }
                     });
 

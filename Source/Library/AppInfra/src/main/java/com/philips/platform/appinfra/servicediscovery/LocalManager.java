@@ -76,23 +76,23 @@ public class LocalManager implements LocalInterface {
             }
         }
 
-        if(mCountry == null){
-
-            new ServiceDiscoveryManager(mAppInfra).refresh((new ServiceDiscoveryInterface.OnRefreshListener() {
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-
-                }
-                @Override
-                public void onSuccess() {
-                    SharedPreferences pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
-                    mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
-                    Log.i("Retrieved Country", " "+mCountry);
-
-                }
-            }));
-            return mCountry;
-        }
+//        if(mCountry == null){
+//
+//            new ServiceDiscoveryManager(mAppInfra).refresh((new ServiceDiscoveryInterface.OnRefreshListener() {
+//                @Override
+//                public void onError(ERRORVALUES error, String message) {
+//
+//                }
+//                @Override
+//                public void onSuccess() {
+//                    SharedPreferences pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
+//                    mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
+//                    Log.i("Retrieved Country", " "+mCountry);
+//
+//                }
+//            }));
+//            return mCountry;
+//        }
         return mCountry;
     }
 

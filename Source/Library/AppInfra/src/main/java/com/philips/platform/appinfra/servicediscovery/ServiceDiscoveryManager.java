@@ -86,9 +86,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             environment = "www";
         }
         if(locamManager.getCountry() == null){
-            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage();
+            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale"+ locamManager.getlanguage();
         }else{
-            URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&tags="+tags+"&country="+ locamManager.getCountry();
+            URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale"+ locamManager.getlanguage()+"&tags="+tags+"&country="+ locamManager.getCountry();
         }
 
         return URL;
@@ -307,7 +307,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     @Override
     public void refresh(final OnRefreshListener listener) {
 
-        getservice(listener);
+        if(RequestManager.mServiceDiscovery != null){
+                    if(RequestManager.mServiceDiscovery.isSuccess()){
+                        isDataAvailable = true;
+                    }
+                }else{
+            getservice(listener);
+        }
+
 //        new AsyncTask<String, String, String>(){
 //
 //            @Override

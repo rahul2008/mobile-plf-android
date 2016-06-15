@@ -38,6 +38,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
             @Override
             public void onError(ERRORVALUES error, String message) {
+                Log.i("ERRORVALUES", ""+error);
 
             }
 
