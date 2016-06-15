@@ -14,7 +14,6 @@ import android.content.Context;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
-import com.philips.cdp.registration.datamigration.DataMigration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.NetworkStateHelper;
@@ -117,7 +116,7 @@ public class RegistrationHelper {
     private void generateKeyAndMigrateData() {
         SecureStorage.init(mContext);
         SecureStorage.generateSecretKey();
-        new DataMigration(mContext).checkFileEncryptionStatus();
+        //new DataMigration(mContext).checkFileEncryptionStatus();
     }
 
     private void refreshNTPOffset() {

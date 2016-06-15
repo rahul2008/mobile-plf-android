@@ -51,15 +51,12 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.security.SecureStorage;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class User {
 
@@ -721,34 +718,15 @@ public class User {
 
 
     private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
-        try {
             diUserProfile.setPassword(null);
-            FileOutputStream fos = mContext.openFileOutput(RegConstants.DI_PROFILE_FILE, 0);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            String objectPlainString = SecureStorage.objectToString(diUserProfile);
-            byte[] ectext = SecureStorage.encrypt(objectPlainString);
-            oos.writeObject(ectext);
-            oos.close();
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
+            secureStorageInterface.storeValueForKey(RegConstants.DI_PROFILE_FILE,SecureStorage.objectToString(diUserProfile));
     }
 
 
     private DIUserProfile getDIUserProfileFromDisk() {
-        DIUserProfile diUserProfile = null;
-        try {
-            FileInputStream fis = mContext.openFileInput(RegConstants.DI_PROFILE_FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            byte[] enctText = (byte[]) ois.readObject();
-            byte[] decrtext = SecureStorage.decrypt(enctText);
-            diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(decrtext));
-            fis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
+        DIUserProfile diUserProfile = (DIUserProfile) SecureStorage.stringToObject(secureStorageInterface.fetchValueForKey(RegConstants.DI_PROFILE_FILE));
         return diUserProfile;
     }
 
@@ -756,7 +734,8 @@ public class User {
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
-        mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
+        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
+        secureStorageInterface.removeValueForKey(RegConstants.DI_PROFILE_FILE);
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }

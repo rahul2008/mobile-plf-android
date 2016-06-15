@@ -103,7 +103,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 19
         targetSdkVersion 23
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.cdp.registration.test"
