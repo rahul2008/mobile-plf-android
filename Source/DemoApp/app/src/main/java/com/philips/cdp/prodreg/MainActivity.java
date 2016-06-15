@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -51,7 +50,7 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
         spinner = (Spinner) findViewById(R.id.spinner);
         txt_title = (TextView) findViewById(R.id.txt_title);
         configurationTextView = (TextView) findViewById(R.id.configuration);
-        final ArrayAdapter<String> configType = new ArrayAdapter<>(this,
+        final ArrayAdapter<String> configType = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_spinner_item, configurationType);
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(configType);
@@ -72,7 +71,7 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
                 if (count > 0) {
                     User user = new User(MainActivity.this);
                     user.logout(null);
-                    Log.d(TAG, "Before Configuration" + configuration);
+                   /* Log.d(TAG, "Before Configuration" + configuration);
                     if (configuration.equalsIgnoreCase("Development")) {
                         initialiseUserRegistration("Development");
                     } else if (configuration.equalsIgnoreCase("Testing")) {
@@ -85,7 +84,7 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
                         initialiseUserRegistration("Production");
                     }
                     Log.d(TAG, "After Configuration" + configuration);
-                    configurationTextView.setText(configuration);
+                    configurationTextView.setText(configuration);*/
                 }
                 count++;
             }
@@ -152,11 +151,11 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
 
-        PILLocaleManager localeManager = new PILLocaleManager(this);
+        PILLocaleManager localeManager = new PILLocaleManager(MainActivity.this);
         localeManager.setInputLocale(languageCode, countryCode);
 
-        RegistrationHelper.getInstance().initializeUserRegistration(this);
-        Tagging.init(this, "Product Registration");
+        RegistrationHelper.getInstance().initializeUserRegistration(MainActivity.this);
+        Tagging.init(MainActivity.this, "Product Registration");
     }
 
     @Override
@@ -166,18 +165,18 @@ public class MainActivity extends UiKitActivity implements View.OnClickListener 
 
         switch (v.getId()) {
             case R.id.btn_user_registration:
-                initialiseUserRegistration(env);
-                RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
+//                initialiseUserRegistration(env);
+                RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(MainActivity.this);
                 Util.navigateFromUserRegistration();
                 break;
             case R.id.btn_product_registration:
-                initialiseUserRegistration(env);
-                intent = new Intent(this, ProductActivity.class);
+//                initialiseUserRegistration(env);
+                intent = new Intent(MainActivity.this, ProductActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btn_register_list:
-                initialiseUserRegistration(env);
-                intent = new Intent(this, RegisteredProductsList.class);
+//                initialiseUserRegistration(env);
+                intent = new Intent(MainActivity.this, RegisteredProductsList.class);
                 startActivity(intent);
                 break;
             default:

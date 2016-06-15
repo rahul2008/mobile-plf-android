@@ -16,7 +16,6 @@
 -dontwarn org.apache.**
 -dontwarn com.philips.cdp.prxclient.**
 
--renamesourcefileattribute SourceFile
 -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
 
 -keep public class * extends android.view.View {
@@ -50,12 +49,26 @@ public static ** valueOf(java.lang.String);
 public static <fields>;
 }
 
-#Product Registration
--keep class com.philips.cdp.prodreg** {*;}
-#-keep interface com.philips.cdp.prodreg** {*;}
-#-keep class com.philips.cdp.model** {*;}
-#-keep interface com.philips.cdp.listener** {*;}
-#-keep class com.philips.cdp.prxrequest** {*;}
+#Product Registration library
+-keep class com.philips.cdp.prodreg.** {*;}
+-keep interface com.philips.cdp.prodreg.** {*;}
+-keep enum com.philips.cdp.prodreg.** {*;}
+#-keep class com.philips.cdp.model.** { *; }
+#-keep interface com.philips.cdp.listener.** { *; }
+#-keep class com.philips.cdp.prxrequest.** { *; }
+#-keep class com.philips.cdp.register.** { *; }
+#-keep enum com.philips.cdp.error.** { *; }
+#-keep enum com.philips.cdp.RegistrationState
+#
+## Product Registration demo app
+-keep class com.philips.cdp.prodreg.MainActivity
+-keep class com.philips.cdp.prodreg.ListRowHolder
+-keep class com.philips.cdp.prodreg.ProductActivity
+-keep class com.philips.cdp.prodreg.ProductAdapter
+-keep class com.philips.cdp.prodreg.ProductRegistrationApplication
+-keep class com.philips.cdp.prodreg.RegisteredProductsList
+-keep class com.philips.cdp.prodreg.Util
+
 
 #Android support library
 -keep class android.support.v4.** { *; }
@@ -73,43 +86,88 @@ public static <fields>;
 
 #Gson
 -keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.stream.** { *; }
+-keep class com.google.gson.**{*;}
+#-keep class com.google.gson.stream.** { *; }
 
 #Prx
--keep class com.philips.cdp.prxclient.** {*;}
+-keep class com.philips.cdp.prxclient.** { *; }
 -keep interface com.philips.cdp.prxclient.** { *; }
+-keep enum com.philips.cdp.prxclient.** { *; }
+-keep public enum com.philips.cdp.prxclient.error.PrxError.PrxErrorType** {
+    **[] $VALUES;
+    public *;
+}
 
-#LocaleMatch
--keep class com.philips.cdp.localematch.** {*;}
--keep interface com.philips.cdp.localematch.** {*;}
+#-keep class com.philips.cdp.registration.** {
+#  public protected private *;
+#}
 
-#Registration
--keep class com.philips.cdp.registration.** {*;}
-
+##Registration API specific
+##General and network
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
+-dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
-
-#GMS (Registration)
--keep  class com.google.android.gms.* { public *; }
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+-keepattributes InnerClasses,Exceptions
+#Hockey app and enabling excpetion catching
+-keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
+#Tagging lib and jar
+-keep public class com.adobe.mobile.** {*;}
+-keep public class com.philips.cdp.tagging.** {*;}
+#Janrain lib
+-keep public class com.janrain.android.** {*;}
+-keep class com.janrain.android.Jump$* {*;}
+-keep class com.philips.cdp.registration.User$*{*;}
+-keep class com.janrain.android.capture.Capture$* {*;}
+-keep public class com.philips.cdp.security.SecureStorage {
+public static void init(android.content.Context);
+}
+-keep public class com.philips.cdp.security.SecureStorage {
+public static java.lang.String objectToString(java.io.Serializable);
+}
+-keep public class com.philips.cdp.security.SecureStorage {
+public static java.lang.Object stringToObject(java.lang.String);
+}
+-keep public class com.philips.cdp.security.SecureStorage {
+public static void migrateUserData(java.lang.String);
+}
+-keep public class com.philips.cdp.security.SecureStorage {
+public static byte[] encrypt(java.lang.String);
+}
+-keep public class com.philips.cdp.security.SecureStorage {
+public static byte[] decrypt(byte[]);
+}
+-keep public class com.philips.cdp.security.SecureStorage {
+public static void generateSecretKey();
+}
+-keepclasseswithmembernames public class com.janrain.android.** {*;}
+-keepclasseswithmembernames public class com.janrain.android.Jump {*;}
+-keepclasseswithmembernames public class com.janrain.android.JumpConfig{*;}
+-keepclasseswithmembernames public class com.janrain.android.TradSignInUi{*;}
+#Locale match
+-keep public class com.philips.cdp.localematch.** {*;}
+-keep interface com.philips.cdp.localematch.** {*;}
+#Registration API
+-keep class com.philips.cdp.registration.** {*;}
+-dontwarn com.philips.cdp.registration.**
+#HSDP Lib
+-keep class com.philips.dhpclient.** {*;}
+-keep class com.fasterxml.jackson.annotation.** {*;}
+-keep class com.fasterxml.jackson.core.** {*;}
+-keep class com.fasterxml.jackson.databind.** {*;}
+#GSM
+-keep class com.google.android.gms.* { public *; }
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
-
-#Webkit (Registration)
--keep  class android.net.http.SslError
--keep  class android.webkit.WebViewClient
-
+#webkit
+-keep class android.net.http.SslError
+-keep class android.webkit.WebViewClient
 -dontwarn android.webkit.WebView
 -dontwarn android.net.http.SslError
 -dontwarn android.webkit.WebViewClient
-
-#notification (Registration)
+#notification
 -dontwarn android.app.Notification
-
-#Janrain (Registration)
--keep public class com.janrain.android.** {*;}
--keep  class com.janrain.android.Jump$* {*;}
--keep class com.philips.cdp.registration.User$*{*;}
--keep  class com.janrain.android.capture.Capture$* {*;}
