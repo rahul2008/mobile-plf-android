@@ -74,7 +74,7 @@ public class SecureStorage implements SecureStorageInterface{
             RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
             int rsaKeyLength=  publicKey.getModulus().bitLength();
             int blockSize = (rsaKeyLength / 8)-11; // 11 bytes for padding 2048/8=11= 245 key size can be 512, 768, 1024, 2048, 3072, 4096
-            Cipher input = Cipher.getInstance(ENCRYPTION_ALGORITHM, "AndroidOpenSSL");
+            Cipher input = Cipher.getInstance(ENCRYPTION_ALGORITHM);
             input.init(Cipher.ENCRYPT_MODE, publicKey);
 
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(valueToBeEncrypted.getBytes("ISO-8859-1"));
@@ -100,7 +100,6 @@ public class SecureStorage implements SecureStorageInterface{
         } catch (Exception e) {
             Log.e("SecureStorage", Log.getStackTraceString(e));
         }finally{
-            System.out.println("ENCR" +encryptedString);
             return returnResult;
         }
     }
@@ -130,7 +129,7 @@ public class SecureStorage implements SecureStorageInterface{
             int rsaKeyLength=  publicKey.getModulus().bitLength();
             int blockSize = (rsaKeyLength / 8); // 2048/8= 256 key length can be 512, 768, 1024, 2048, 3072, 4096
 
-            Cipher output = Cipher.getInstance(ENCRYPTION_ALGORITHM, "AndroidOpenSSL");
+            Cipher output = Cipher.getInstance(ENCRYPTION_ALGORITHM);
             output.init(Cipher.DECRYPT_MODE, privateKeyEntry.getPrivateKey()); // private key for decrypting
 
             DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(encryptedString.getBytes("ISO-8859-1")));
@@ -187,8 +186,7 @@ public class SecureStorage implements SecureStorageInterface{
                 generator.initialize(spec);
                 KeyPair keyPair = generator.generateKeyPair();
 
-               /* System.out.println("key private" +keyPair.getPrivate().getEncoded().toString());
-                System.out.println("key public" +keyPair.getPublic().getEncoded().toString());*/
+              
             }
         } catch (Exception e) {
             e.printStackTrace();
