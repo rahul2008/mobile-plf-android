@@ -53,22 +53,6 @@ public static <fields>;
 -keep class com.philips.cdp.prodreg.** {*;}
 -keep interface com.philips.cdp.prodreg.** {*;}
 -keep enum com.philips.cdp.prodreg.** {*;}
-#-keep class com.philips.cdp.model.** { *; }
-#-keep interface com.philips.cdp.listener.** { *; }
-#-keep class com.philips.cdp.prxrequest.** { *; }
-#-keep class com.philips.cdp.register.** { *; }
-#-keep enum com.philips.cdp.error.** { *; }
-#-keep enum com.philips.cdp.RegistrationState
-#
-## Product Registration demo app
--keep class com.philips.cdp.prodreg.MainActivity
--keep class com.philips.cdp.prodreg.ListRowHolder
--keep class com.philips.cdp.prodreg.ProductActivity
--keep class com.philips.cdp.prodreg.ProductAdapter
--keep class com.philips.cdp.prodreg.ProductRegistrationApplication
--keep class com.philips.cdp.prodreg.RegisteredProductsList
--keep class com.philips.cdp.prodreg.Util
-
 
 #Android support library
 -keep class android.support.v4.** { *; }
@@ -93,14 +77,7 @@ public static <fields>;
 -keep class com.philips.cdp.prxclient.** { *; }
 -keep interface com.philips.cdp.prxclient.** { *; }
 -keep enum com.philips.cdp.prxclient.** { *; }
--keep public enum com.philips.cdp.prxclient.error.PrxError.PrxErrorType** {
-    **[] $VALUES;
-    public *;
-}
 
-#-keep class com.philips.cdp.registration.** {
-#  public protected private *;
-#}
 
 ##Registration API specific
 ##General and network
