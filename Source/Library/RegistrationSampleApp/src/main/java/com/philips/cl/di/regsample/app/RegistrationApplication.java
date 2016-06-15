@@ -104,7 +104,6 @@ public class RegistrationApplication extends Application {
 		hsdpInfo.setSecreteId("c623685e-f02c-11e5-9ce9-5e5517507c66");
 		hsdpInfo.setBaseURL("https://user-registration-assembly-testing.us-east.philips-healthsuite.com");
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);
-
 		String languageCode = Locale.getDefault().getLanguage();
 		String countryCode = Locale.getDefault().getCountry();
 

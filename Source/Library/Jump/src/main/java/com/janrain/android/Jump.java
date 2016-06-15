@@ -55,7 +55,8 @@ import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
-import com.philips.cdp.security.SecureStorage;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
 
@@ -838,35 +839,8 @@ public class Jump {
     }
 
     private static void loadRefreshSecretFromDiskInternal(Context context) {
-        FileInputStream fis = null;
-        ObjectInputStream ois = null;
-        try {
-            fis = state.context.openFileInput(Capture.JR_REFRESH_SECRET);
-            ois = new ObjectInputStream(fis);
-            byte[] encryptedText = (byte[])ois.readObject();
-            byte[] decrtext = SecureStorage.decrypt(encryptedText);
-            //  state.refreshSecret = (String) ois.readObject();
-            state.refreshSecret = new String(decrtext);
-        } catch (ClassCastException e) {
-            throwDebugException(e);
-        } catch (FileNotFoundException ignore) {
-        } catch (StreamCorruptedException e) {
-            throwDebugException(new RuntimeException(e));
-        } catch (IOException e) {
-            throwDebugException(new RuntimeException(e));
-        } catch (ClassNotFoundException e) {
-            throwDebugException(new RuntimeException(e));
-        } finally {
-            try {
-                if (fis != null) fis.close();
-            } catch (IOException ignore) {
-            }
-
-            try {
-                if (ois != null) ois.close();
-            } catch (IOException ignore) {
-            }
-        }
+        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(state.context).getSecureStorage();
+        state.refreshSecret = secureStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET);
     }
 
     private static void loadFlow() {
@@ -955,28 +929,8 @@ public class Jump {
     private static void saveToken(final String token, final String tokenType) {
         ThreadUtils.executeInBg(new Runnable() {
             public void run() {
-                FileOutputStream fos = null;
-                ObjectOutputStream oos = null;
-
-                try {
-                    fos = state.context.openFileOutput(tokenType, Context.MODE_PRIVATE);
-                    oos = new ObjectOutputStream(fos);
-                    oos.writeObject(SecureStorage.encrypt(token));
-                } catch (FileNotFoundException e) {
-                    throwDebugException(new RuntimeException(e));
-                } catch (IOException e) {
-                    throwDebugException(new RuntimeException(e));
-                } finally {
-                    try {
-                        if (oos != null) oos.close();
-                    } catch (IOException ignore) {
-                    }
-
-                    try {
-                        if (fos != null) fos.close();
-                    } catch (IOException ignore) {
-                    }
-                }
+                SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(state.context).getSecureStorage();
+                secureStorageInterface.storeValueForKey(tokenType,token);
             }
         });
     }

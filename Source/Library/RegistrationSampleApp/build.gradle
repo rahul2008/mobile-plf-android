@@ -46,7 +46,7 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.registration"
-        minSdkVersion 11
+        minSdkVersion 19
         targetSdkVersion 23
 
         testApplicationId "com.philips.cdp.registration.test"

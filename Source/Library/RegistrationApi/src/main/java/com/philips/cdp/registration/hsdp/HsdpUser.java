@@ -28,11 +28,9 @@ import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Map;
 
 /**
@@ -260,37 +258,27 @@ public class HsdpUser {
     }
 
     private void saveToDisk(UserFileWriteListener userFileWriteListener) {
-        try {
-            FileOutputStream fos = mContext.openFileOutput(HSDP_RECORD_FILE, 0);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            String objectPlainString = SecureStorage.objectToString(mHsdpUserRecord);
-            byte[] ectext = SecureStorage.encrypt(objectPlainString);
-            oos.writeObject(ectext);
-            oos.close();
-            fos.close();
-            userFileWriteListener.onFileWriteSuccess();
-        } catch (Exception e) {
-            userFileWriteListener.onFileWriteFailure();
-        }
+            SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
+            boolean isWrittenToFile = secureStorageInterface.storeValueForKey(HSDP_RECORD_FILE,SecureStorage.objectToString(mHsdpUserRecord));
+            if (isWrittenToFile){
+                userFileWriteListener.onFileWriteSuccess();
+            }else{
+                userFileWriteListener.onFileWriteFailure();
+            }
     }
 
     public HsdpUserRecord getHsdpUserRecord() {
         if(mHsdpUserRecord!=null){
             return mHsdpUserRecord;
         }
-        try {
-            FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-           byte[] enctText = (byte[]) ois.readObject();
-           byte[] decrtext = SecureStorage.decrypt(enctText);
-           mHsdpUserRecord = (HsdpUserRecord) SecureStorage.stringToObject(new String(decrtext));
-        } catch (Exception e) {
-        }
+        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
+        mHsdpUserRecord = (HsdpUserRecord) SecureStorage.stringToObject(secureStorageInterface.fetchValueForKey(HSDP_RECORD_FILE));
         return mHsdpUserRecord;
     }
 
     public void deleteFromDisk() {
-        mContext.deleteFile(HSDP_RECORD_FILE);
+        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
+        secureStorageInterface.removeValueForKey(HSDP_RECORD_FILE);
         mHsdpUserRecord = null;
     }
 
