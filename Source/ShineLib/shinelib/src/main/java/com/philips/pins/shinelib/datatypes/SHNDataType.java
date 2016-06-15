@@ -70,5 +70,6 @@ public enum SHNDataType {
     ActiveMinutes,
     BloodOxygenLevel,
     CM3RestingHeartRateDataMoonshine,
-    EnergyIntakeMoonshine
+    EnergyIntakeMoonshine,
+    ExtendedWeight
 }
