@@ -5,5 +5,5 @@ package com.philips.cdp.di.iap.core;
  * All rights reserved.
  */
 public interface ProductCatalogAPI {
-    void getProductCatalog();
+    boolean getProductCatalog();
 }

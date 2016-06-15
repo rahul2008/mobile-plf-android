@@ -71,10 +71,11 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
 
     @Override
-    public void getProductCatalog() {
+    public boolean getProductCatalog() {
         GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), null, this);
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
+        return true;
     }
 
     @Override

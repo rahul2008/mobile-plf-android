@@ -41,15 +41,19 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     }
 
     @Override
-    public void getProductCatalog() {
-        loadFromLocal();
+    public boolean getProductCatalog() {
+        return loadFromLocal();
     }
 
-    private void loadFromLocal() {
+    private boolean loadFromLocal() {
         String locale = HybrisDelegate.getInstance().getStore().getLocale();
         String fileName = locale + ".json";
         mProductCatalog = loadFromAsset(mContext, fileName);
-        mProductCatalogHelper.makePrxCall(mProductCatalog);
+        if (mProductCatalog != null) {
+            mProductCatalogHelper.makePrxCall(mProductCatalog);
+            return true;
+        }
+        return false;
     }
 
     public Products loadFromAsset(Context context, String fileName) {

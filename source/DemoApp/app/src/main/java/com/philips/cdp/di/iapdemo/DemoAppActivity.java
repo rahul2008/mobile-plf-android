@@ -300,13 +300,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         setLocale("en", selectedCountry);
 
         if (!mProductCountRequested) {
-            Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
             mIAPSettings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);
             setUseLocalData();
             mIapHandler = IAPHandler.init(this, mIAPSettings);
             updateCartIcon();
-            mProductCountRequested = true;
-            mIapHandler.getProductCartCount(mProductCountListener);
+            if (!shouldUseLocalData()) {
+                Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
+                mProductCountRequested = true;
+                mIapHandler.getProductCartCount(mProductCountListener);
+            }
         }
     }
 
