@@ -6,7 +6,7 @@ import java.util.List;
  * Created by 310240027 on 6/14/2016.
  */
 public abstract class StateBase {
-    UIState uiState;
+    @UIState.NavigationMode UIState uiState;
     List<TriggerBase> triggerBaseList;
 
     abstract void handleState();
