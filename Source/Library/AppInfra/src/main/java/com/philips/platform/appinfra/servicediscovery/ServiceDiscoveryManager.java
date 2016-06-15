@@ -47,14 +47,22 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public String getservice(OnRefreshListener listener) {
-        String urlBuild;
-
-
+        String urlBuild = null;
+        LocalManager locamManager= new LocalManager(mAppInfra);
+        String country= locamManager.getCountry();
+        if(null!=country){
             urlBuild= buildUrl();
-
-        if(urlBuild!= null){
-            new RequestManager(context).execute(urlBuild, listener);
+            if(urlBuild!= null){
+                new RequestManager(context).execute(urlBuild, listener);
             }
+        }else{
+            urlBuild= buildUrl();
+            if(urlBuild!= null)
+            new RequestManager(context).execute(urlBuild= buildUrl(), listener);
+        }
+
+
+
     return urlBuild;
     }
     private String  buildUrl(){
@@ -85,10 +93,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             tags="apps%2b%2benv%2bprd";
             environment = "www";
         }
-        if(locamManager.getCountry() == null){
-            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale"+ locamManager.getlanguage();
-        }else{
-            URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale"+ locamManager.getlanguage()+"&tags="+tags+"&country="+ locamManager.getCountry();
+       if(locamManager.getCountry() == null){
+            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage();
+        }
+        if(locamManager.getCountry() != null){
+            URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&tags="+tags+"&country="+ locamManager.getCountry();
         }
 
         return URL;
@@ -310,38 +319,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         if(RequestManager.mServiceDiscovery != null){
                     if(RequestManager.mServiceDiscovery.isSuccess()){
                         isDataAvailable = true;
+                        listener.onSuccess();
                     }
                 }else{
             getservice(listener);
         }
 
-//        new AsyncTask<String, String, String>(){
-//
-//            @Override
-//            protected String doInBackground(String... params) {
-//                if(isDataAvailable){
-//                    listener.onSuccess();
-//                }else{
-//                    getservice();
-//                }
-//
-//                return null;
-//            }
-//            protected void onProgressUpdate(String... progress) {
-//            }
-//            protected void onPostExecute(String result) {
-//                if(RequestManager.mServiceDiscovery != null){
-//                    if(RequestManager.mServiceDiscovery.isSuccess()){
-//                        isDataAvailable = true;
-//                        listener.onSuccess();
-//                    }else{
-////                    if(RequestManager.mServiceDiscovery.getHttpStatus())
-////                    listener.onError();
-//                    }
-//                }
-//
-//
-//            }
-//                }.execute(URL,"","");
+
     }
 }

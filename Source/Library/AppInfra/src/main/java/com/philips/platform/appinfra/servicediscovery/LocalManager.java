@@ -7,6 +7,7 @@ package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -23,10 +24,12 @@ public class LocalManager implements LocalInterface {
     Context context;
     String mCountry;
     private static final String COUNTRY_URL = "";
+    SharedPreferences pref;
 
     public LocalManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
+//        monCountryResponse = this;
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
 
@@ -42,7 +45,7 @@ public class LocalManager implements LocalInterface {
     }
     @Override
     public String  getCountry() {
-        SharedPreferences pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
+        pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
         if(mCountry == null){
             mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
             Log.i("Country", " "+mCountry);
@@ -76,25 +79,7 @@ public class LocalManager implements LocalInterface {
             }
         }
 
-//        if(mCountry == null){
-//
-//            new ServiceDiscoveryManager(mAppInfra).refresh((new ServiceDiscoveryInterface.OnRefreshListener() {
-//                @Override
-//                public void onError(ERRORVALUES error, String message) {
-//
-//                }
-//                @Override
-//                public void onSuccess() {
-//                    SharedPreferences pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
-//                    mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
-//                    Log.i("Retrieved Country", " "+mCountry);
-//
-//                }
-//            }));
-//            return mCountry;
-//        }
         return mCountry;
     }
-
 
 }

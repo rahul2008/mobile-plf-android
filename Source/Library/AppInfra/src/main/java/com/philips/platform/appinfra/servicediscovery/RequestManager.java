@@ -58,7 +58,7 @@ public class RequestManager{
         this.mVolleyRequest = volleyQueue.getRequestQueue(this.mContext);
     }
 
-    public void execute(String url, final ServiceDiscoveryInterface.OnRefreshListener listener){
+    public void execute(final String url, final ServiceDiscoveryInterface.OnRefreshListener listener){
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -72,7 +72,7 @@ public class RequestManager{
                             mcountry = pref.getString(RequestManager.COUNTRY_NAME, null);
                             if(mcountry == null){
                                 mcountry = response.getJSONObject("payload").getString("country");
-                                if(mcountry!= null && mcountry.contains("")){
+                                if(mcountry!= null){
                                     SharedPreferences.Editor editor = mContext.getSharedPreferences(COUNTRY_PRREFERENCE, Context.MODE_PRIVATE).edit();
                                     editor.putString(COUNTRY_NAME, mcountry);
                                     editor.commit();
@@ -179,6 +179,11 @@ public class RequestManager{
 
                                 listener.onSuccess();
                                     // END setting match by language
+                                }
+                                if(!url.contains("country")) {
+                                    String newURL= url+"&tags="+""+"&country="+ mcountry;
+                                    execute("https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en&country=IN", listener);
+                                    mServiceDiscovery = null;
                                 }
                             }
                             ////////////////end of parse///////////
