@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
@@ -71,11 +72,11 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
 
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment != null) {
-            getFragmentManager().popBackStack();
-        } else {
+        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
+        } else {
+            getFragmentManager().popBackStack();
         }
         return false;
     }
