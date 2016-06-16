@@ -135,6 +135,7 @@ public class SHNDeviceAssociationTest {
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
         doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition(anyString(), any(SHNDeviceDefinitionInfo.class));
+        doNothing().when(mockedSHNCentral).removeDeviceFromDeviceCache(isA(SHNDevice.class));
         SHNDeviceFoundInfo.setSHNCentral(mockedSHNCentral);
 
         // mockedSHNDeviceScanner
@@ -695,5 +696,16 @@ public class SHNDeviceAssociationTest {
         shnDeviceAssociation.injectAssociatedDevice(DEVICE_MAC_ADDRESS, DEVICE_TYPE_NAME, mockedSHNResultListener);
 
         verifyNoAssociationAddedWithErrorResult(1, SHNResult.SHNErrorOperationFailed);
+    }
+
+    @Test
+    public void whenRemoveDeviceIsCalled_ThenDeviceIsRemovedFromCacheInSHNCentral() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = createMockedDisconnectedSHNDevice();
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        shnDeviceAssociation.removeAssociatedDevice(shnDevice);
+
+        verify(mockedSHNCentral).removeDeviceFromDeviceCache(shnDevice);
     }
 }

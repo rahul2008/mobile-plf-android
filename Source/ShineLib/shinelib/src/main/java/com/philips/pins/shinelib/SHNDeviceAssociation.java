@@ -351,6 +351,7 @@ public class SHNDeviceAssociation {
         boolean removed = removeAssociatedDeviceFromList(shnDeviceToRemove);
         if (removed) {
             persistAssociatedDeviceList();
+            shnCentral.removeDeviceFromDeviceCache(shnDeviceToRemove);
             SHNDevice.State state = shnDeviceToRemove.getState();
             if (state.equals(SHNDevice.State.Disconnected) || state.equals(SHNDevice.State.Disconnecting)) {
                 persistentStorageFactory.getPersistentStorageCleaner().clearDeviceData(shnDeviceToRemove);
