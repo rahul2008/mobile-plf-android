@@ -142,4 +142,7 @@ Please try again, or if the problem persists: contact Philips Consumer Care</str
     <string name="iap_network_error">You are offline</string>
     <string name="iap_check_connection">Your internet connection doesn’t seem to be working. Please check and try again</string>
 
+    <string name="iap_retailer_title_for_no_retailers">No Retailers!</string>
+    <string name="iap_no_retailer_message">There are no online retailers currently available for this product.</string>
+
 </resources>

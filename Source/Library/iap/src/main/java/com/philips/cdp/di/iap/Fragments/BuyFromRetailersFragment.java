@@ -120,6 +120,6 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onRetailerError(IAPNetworkError errorMsg) {
-        NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getContext().getString(R.string.iap_ok), errorMsg.getMessage(), errorMsg.getMessage());
+        NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getContext().getString(R.string.iap_ok), getContext().getString(R.string.iap_retailer_title_for_no_retailers), errorMsg.getMessage());
     }
 }
