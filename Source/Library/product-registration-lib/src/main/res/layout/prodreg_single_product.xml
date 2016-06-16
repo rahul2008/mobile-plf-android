@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/pr_e_value_sm"
-        android:layout_marginRight="@dimen/pr_e_value_sm"/>
+        android:layout_marginRight="@dimen/pr_e_value_sm"
+        android:textColor="?attr/uikit_baseColor"
+        android:textSize="34sp"/>
 
     <TextView
         android:id="@+id/series_title"
@@ -22,6 +24,8 @@
         android:layout_marginLeft="@dimen/pr_e_value_sm"
         android:layout_marginRight="@dimen/pr_e_value_sm"
         android:layout_marginTop="@dimen/pr_c_value_sm"
+        android:textColor="?attr/uikit_baseColor"
+        android:textSize="28sp"
         android:visibility="gone"/>
 
     <TextView
@@ -33,6 +37,8 @@
         android:layout_marginLeft="@dimen/pr_e_value_sm"
         android:layout_marginRight="@dimen/pr_e_value_sm"
         android:layout_marginTop="@dimen/pr_c_value_sm"
+        android:textColor="@color/uikit_enricher4"
+        android:textSize="24sp"
         android:visibility="gone"/>
 
     <TextView
@@ -77,19 +83,21 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/PhilipsTextInputLayoutTextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_weight="0.5"
-                android:text="@string/date_of_purchase"/>
+                android:text="@string/date_of_purchase"
+                android:textColor="?attr/uikit_baseColor"
+                android:textSize="28sp"/>
 
             <EditText
                 android:id="@+id/date_edit_text"
-                style="@style/PhilipsTextInputLayoutStyleEnabled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"/>
+                android:layout_weight="0.5"
+                android:textColor="?attr/uikit_brightColor"
+                android:textSize="28sp"/>
         </LinearLayout>
     </com.philips.cdp.uikit.customviews.InlineForms>
 
@@ -111,20 +119,22 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/PhilipsTextInputLayoutTextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_weight="0.5"
-                android:text="Serial number:"/>
+                android:text="Serial number:"
+                android:textColor="?attr/uikit_baseColor"
+                android:textSize="28sp"/>
 
 
             <EditText
                 android:id="@+id/serial_edit_text"
-                style="@style/PhilipsTextInputLayoutStyleEnabled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"/>
+                android:layout_weight="0.5"
+                android:textColor="?attr/uikit_brightColor"
+                android:textSize="28sp"/>
 
         </LinearLayout>
     </com.philips.cdp.uikit.customviews.InlineForms>
