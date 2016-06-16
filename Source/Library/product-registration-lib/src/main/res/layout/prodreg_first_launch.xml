@@ -35,6 +35,7 @@
 
     <Button
         android:id="@+id/no_thanks_button"
+        style="?attr/uikit_outlinedButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
