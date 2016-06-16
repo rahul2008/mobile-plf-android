@@ -7,7 +7,7 @@
  * /
  */
 
-package com.philips.cdp.registration.ui.traditional;
+package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -44,6 +44,10 @@ import com.philips.cdp.registration.ui.customviews.XPhoneNumber;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.XUserName;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
+import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
+import com.philips.cdp.registration.ui.traditional.CreateAccountFragment;
+import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
