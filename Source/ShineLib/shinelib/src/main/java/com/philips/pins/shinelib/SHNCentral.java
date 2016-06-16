@@ -578,6 +578,11 @@ public class SHNCentral {
         return shnDevice;
     }
 
+    /* package */ void removeDeviceFromDeviceCache(SHNDevice shnDeviceToRemove) {
+        String key = shnDeviceToRemove.getAddress() + shnDeviceToRemove.getDeviceTypeName();
+        createdDevices.remove(key);
+    }
+
     /**
      * The {@code SHNCentral.Builder} is used to build a {@code SHNCentral} object.
      */
