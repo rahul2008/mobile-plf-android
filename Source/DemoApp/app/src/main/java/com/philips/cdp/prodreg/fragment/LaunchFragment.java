@@ -21,9 +21,6 @@ import android.widget.TextView;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.Util;
-import com.philips.cdp.prodreg.launcher.FragmentLauncher;
-import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
-import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Flow;
 import com.philips.cdp.registration.configuration.JanRainConfiguration;
@@ -239,17 +236,5 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
                 TAG);
         fragmentTransaction.addToBackStack(TAG);
         fragmentTransaction.commit();
-    }
-
-    private void invokeProdRegFragment() {
-        FragmentLauncher fragLauncher = new FragmentLauncher(
-                getActivity(), R.id.parent_layout, new ActionbarUpdateListener() {
-            @Override
-            public void updateActionbar(final String var1) {
-            }
-        });
-        fragLauncher.setAnimation(0, 0);
-        fragLauncher.setArguments(getActivity().getIntent().getExtras());
-        ProdRegConfigManager.getInstance().invokeProductRegistration(fragLauncher);
     }
 }

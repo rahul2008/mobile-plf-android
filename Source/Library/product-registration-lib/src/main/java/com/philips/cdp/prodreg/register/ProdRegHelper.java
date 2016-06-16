@@ -14,6 +14,7 @@ import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,9 @@ public class ProdRegHelper {
         userRegistrationListener = new UserRegistrationListener() {
             @Override
             public void onUserRegistrationComplete(final Activity activity) {
+                if (activity != null && activity instanceof RegistrationActivity) {
+                    activity.finish();
+                }
                 final User user = new User(context);
                 final ProdRegListener prodRegListener = new ProdRegListener() {
                     @Override

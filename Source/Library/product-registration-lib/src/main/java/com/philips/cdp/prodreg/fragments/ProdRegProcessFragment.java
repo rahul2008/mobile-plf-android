@@ -41,7 +41,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     public static final String TAG = ProdRegProcessFragment.class.getName();
     private Product currentProduct;
     private Bundle dependencyBundle;
-
+    private int count = 0;
     @Override
     public String getActionbarTitle() {
         return getActivity().getString(R.string.prodreg_actionbar_title);
@@ -55,20 +55,21 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onStart() {
+        super.onStart();
         final FragmentActivity activity = getActivity();
         final Bundle arguments = getArguments();
 
         if (activity != null && !activity.isFinishing() && arguments != null) {
             currentProduct = (Product) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
-            final boolean isActivity = arguments.getBoolean(ProdRegConstants.PROD_REG_IS_ACTIVITY);
             User user = new User(activity);
             if (!user.isUserSignIn()) {
-                if (isActivity)
+                count = count + 1;
+                if (count < 2) {
                     RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(getActivity());
-                else
-                    launchRegistrationFragment();
+                } else {
+                    clearFragmentStack();
+                }
             } else {
                 getRegisteredProducts();
             }
@@ -192,12 +193,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     }
 
     @Override
-    public boolean onBackPressed() {
-        clearFragmentStack();
-        return false;
-    }
-
-    @Override
     protected void showAlert(final String title, final String description) {
         final ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
         if (getActivity() != null && !getActivity().isFinishing()) {
@@ -205,7 +200,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
                 @Override
                 public void onOkButtonPressed() {
                     if (getActivity() != null && !getActivity().isFinishing()) {
-                        getActivity().onBackPressed();
+                        clearFragmentStack();
                     }
                 }
             });

@@ -14,14 +14,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.alert.ModalAlertDemoFragment;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
+import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -82,7 +81,11 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
                             mExitAnimation, mEnterAnimation, mExitAnimation);
                 }
                 fragmentTransaction.replace(containerId, fragment, fragment.getClass().getSimpleName());
-                fragmentTransaction.addToBackStack(fragment.getTag());
+                Fragment currentFrag = fragmentActivity.getSupportFragmentManager()
+                        .findFragmentById(getId());
+
+                if (!(currentFrag instanceof ProdRegBaseFragment))
+                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_PRODUCT_TESTING);
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 Log.e(TAG, e.getMessage());
@@ -101,7 +104,13 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
                             mExitAnimation, mEnterAnimation, mExitAnimation);
                 }
                 fragmentTransaction.replace(getId(), fragment, fragment.getClass().getSimpleName());
-                fragmentTransaction.addToBackStack(fragment.getTag());
+                Fragment currentFrag = fragmentActivity.getSupportFragmentManager()
+                        .findFragmentById(getId());
+                if (!(currentFrag instanceof ProdRegBaseFragment))
+                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_PRODUCT_TESTING);
+                else {
+                    fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
+                }
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException e) {
@@ -154,27 +163,14 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
 
     public boolean clearFragmentStack() {
         if (getActivity() != null && !getActivity().isFinishing()) {
-            FragmentManager fragManager = getActivity().getSupportFragmentManager();
-            List<Fragment> fragmentList = fragManager.getFragments();
-            ArrayList<String> tags = getTags(fragmentList);
-            boolean popStacked = false;
-            for (int i = 0; i < tags.size(); i++) {
-                popStacked = fragManager.popBackStackImmediate(tags.get(i), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            }
-            return !popStacked;
-        }
-        return true;
-    }
-
-    private ArrayList<String> getTags(final List<Fragment> fragmentList) {
-        ArrayList<String> tags = new ArrayList<>();
-        for (int i = 0; i < fragmentList.size(); i++) {
-            final Fragment fragment = fragmentList.get(i);
-            if (fragment instanceof ProdRegBaseFragment) {
-                tags.add(fragment.getTag());
+            if (getActivity() instanceof ProdRegBaseActivity) {
+                getActivity().finish();
+            } else {
+                FragmentManager fragManager = getActivity().getSupportFragmentManager();
+                return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_PRODUCT_TESTING, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
-        return tags;
+        return false;
     }
 
     @Override
@@ -184,7 +180,7 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
 
     @Override
     public boolean onBackPressed() {
-        return true;
+        return false;
     }
 }
 

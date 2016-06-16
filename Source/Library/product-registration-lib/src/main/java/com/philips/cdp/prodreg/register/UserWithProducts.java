@@ -242,9 +242,6 @@ public class UserWithProducts {
     private void updateWithCallBack(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {
         getUserProduct().updateLocaleCache(registeredProduct, prodRegError, registrationState);
         sendErrorCallBack(registeredProduct);
-        if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct)) {
-            registerCachedProducts(getLocalRegisteredProductsInstance().getRegisteredProducts());
-        }
     }
 
     protected boolean isValidPurchaseDate(String purchaseDate) {
@@ -349,7 +346,7 @@ public class UserWithProducts {
             public void onResponseError(PrxError prxError) {
                 try {
                     getErrorHandler().handleError(getUserProduct(), registeredProduct, prxError.getStatusCode());
-                    if (currentRegisteredProduct.equals(registeredProduct)) {
+                    if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct)) {
                         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
                         getUserProduct().registerCachedProducts(registeredProducts);
                     }

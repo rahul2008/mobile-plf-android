@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
 
 /**
@@ -27,7 +28,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
         extendWarranty = (Button) view.findViewById(R.id.yes_register_button);
         registerLater = (Button) view.findViewById(R.id.no_thanks_button);
-        extendWarranty.setOnClickListener(onClickExtendWarranty());
+        extendWarranty.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());
         return view;
     }
@@ -43,12 +44,16 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     }
 
     @NonNull
-    private View.OnClickListener onClickExtendWarranty() {
+    private View.OnClickListener onClickRegister() {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 final ProdRegProcessFragment processFragment = new ProdRegProcessFragment();
-                processFragment.setArguments(getArguments());
+                Bundle bundle = getArguments();
+                if (bundle != null) {
+                    bundle.putBoolean(ProdRegConstants.PROD_REG_ON_FIRST_LAUNCH, true);
+                    processFragment.setArguments(bundle);
+                }
                 showFragment(processFragment);
             }
         };

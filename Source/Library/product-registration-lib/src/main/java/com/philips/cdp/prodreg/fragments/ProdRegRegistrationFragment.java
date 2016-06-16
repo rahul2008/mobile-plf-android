@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
@@ -144,7 +145,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                 Log.d(getClass() + "", "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
                 if (getActivity() != null && !getActivity().isFinishing() && progress != null) {
                     progress.dismiss();
-                    showAlert("Failed", registeredProduct.getProdRegError().toString());
+                    showAlert("Failed", registeredProduct.getProdRegError().getDescription());
                 }
             }
         };
@@ -214,7 +215,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     }
 
     private void showErrorMessageSerialNumber(final EditText editTextView) {
-        serialLayout.setErrorMessage("Invalid_serial_number");
+        serialLayout.setErrorMessage(ProdRegError.INVALID_SERIALNUMBER.getDescription());
         serialLayout.showError(editTextView);
     }
 
@@ -234,7 +235,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     }
 
     private void showErrorMessageDate(final EditText editTextView) {
-        purchaseDateLayout.setErrorMessage("Invalid_date");
+        purchaseDateLayout.setErrorMessage(ProdRegError.INVALID_DATE.getDescription());
         purchaseDateLayout.showError(editTextView);
     }
 
@@ -312,8 +313,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     @Override
     public boolean onBackPressed() {
         if (getActivity() != null && !getActivity().isFinishing()) {
-            clearFragmentStack();
-            return false;
+            return clearFragmentStack();
         }
         return true;
     }

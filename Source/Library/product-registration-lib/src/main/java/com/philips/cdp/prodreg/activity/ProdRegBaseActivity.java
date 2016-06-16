@@ -130,7 +130,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
     public void onBackPressed() {
         if (fragmentManager.getBackStackEntryCount() == 1) {
             finish();
-        } else if (ProdRegConfigManager.getInstance().onBackPressed(this)) {
+        } else if (!ProdRegConfigManager.getInstance().onBackPressed(this)) {
             super.onBackPressed();
         }
     }

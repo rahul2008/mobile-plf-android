@@ -32,6 +32,7 @@ public class ProdRegConfigManager {
 
     private static int mContainerId;
     private static ProdRegConfigManager prodRegConfigManager;
+    private static boolean isFirstLaunch;
     private UiLauncher mUiLauncher;
 
     /*
@@ -63,6 +64,7 @@ public class ProdRegConfigManager {
     private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher) {
         mContainerId = fragmentLauncher.getParentContainerResourceID();
         final Bundle arguments = fragmentLauncher.getArguments();
+        setIsFirstLaunch(mUiLauncher.isFirstLaunch());
         if (fragmentLauncher.isFirstLaunch()) {
             ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
             prodRegFirstLaunchFragment.setArguments(arguments);
@@ -101,6 +103,7 @@ public class ProdRegConfigManager {
      */
     private void invokeProductRegistrationAsActivity(Context context, int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
         final Bundle arguments = getUiLauncher().getArguments();
+        setIsFirstLaunch(mUiLauncher.isFirstLaunch());
         if (arguments != null) {
             Intent intent = new Intent(context, ProdRegBaseActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -120,12 +123,18 @@ public class ProdRegConfigManager {
         if (fragmentManager != null && !fragmentActivity.isFinishing()) {
             Fragment currentFrag = fragmentManager
                     .findFragmentById(mContainerId);
-            if (currentFrag != null && currentFrag instanceof ProdRegBackListener && fragmentActivity instanceof ProdRegBaseActivity) {
-                ((ProdRegBackListener) currentFrag).onBackPressed();
-            } else if (currentFrag != null && currentFrag instanceof ProdRegBackListener) {
+            if (currentFrag != null && currentFrag instanceof ProdRegBackListener) {
                 return ((ProdRegBackListener) currentFrag).onBackPressed();
             }
         }
-        return true;
+        return false;
+    }
+
+    public boolean getIsFirstLaunch() {
+        return isFirstLaunch;
+    }
+
+    public void setIsFirstLaunch(final boolean firstLaunch) {
+        isFirstLaunch = firstLaunch;
     }
 }

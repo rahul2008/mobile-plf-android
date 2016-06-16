@@ -1,130 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:fadeScrollbars="true"
+    android:fillViewport="true"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:id="@+id/edt_reg_channel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:editable="false"
+            android:hint="Registration Channel"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/edt_purchase_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:focusable="false"
+            android:hint="Purchase date"/>
+
+        <EditText
+            android:id="@+id/edt_serial_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:hint="Serial number"
+            android:singleLine="true"/>
+
+        <EditText
+            android:id="@+id/edt_ctn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:hint="Ctn"
+            android:singleLine="true"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:orientation="vertical">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
-
-            <EditText
-                android:id="@+id/edt_reg_channel"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/fab_margin"
-                android:editable="false"
-                android:hint="Registration Channel"
-                android:visibility="gone"/>
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:text="Email Configuration"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"/>
 
-            <EditText
-                android:id="@+id/edt_purchase_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/fab_margin"
-                android:focusable="false"
-                android:hint="Purchase date"/>
-
-            <EditText
-                android:id="@+id/edt_serial_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/fab_margin"
-                android:hint="Serial number"
-                android:singleLine="true"/>
-
-            <EditText
-                android:id="@+id/edt_ctn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/fab_margin"
-                android:hint="Ctn"
-                android:singleLine="true"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/fab_margin"
-                    android:text="Email Configuration"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black"/>
-
-                <ToggleButton
-                    android:id="@+id/toggbutton"
-                    android:layout_width="70dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="@dimen/fab_margin"
-                    android:background="@drawable/bgtoggle"
-                    android:button="@null"
-                    android:textOff=""
-                    android:textOn=""
-                    />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/pr_activity_a"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="15dp"
-                android:text="PR as activity start A"
-                android:textAllCaps="false"/>
-
-            <Button
-                android:id="@+id/pr_activity_b"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="10dp"
-                android:text="PR as activity start B"
-                android:textAllCaps="false"/>
-
-            <Button
-                android:id="@+id/pr_fragment_a"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="10dp"
-                android:text="PR as fragment start A"
-                android:textAllCaps="false"/>
-
-            <Button
-                android:id="@+id/pr_fragment_b"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="10dp"
-                android:text="PR as fragment start B"
-                android:textAllCaps="false"/>
-
+            <ToggleButton
+                android:id="@+id/toggbutton"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:background="@drawable/bgtoggle"
+                android:button="@null"
+                android:textOff=""
+                android:textOn=""
+                />
         </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+
+        <Button
+            android:id="@+id/pr_activity_a"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="15dp"
+            android:text="PR as activity start A"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/pr_activity_b"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="PR as activity start B"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/pr_fragment_a"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="PR as fragment start A"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/pr_fragment_b"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="PR as fragment start B"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+</ScrollView>

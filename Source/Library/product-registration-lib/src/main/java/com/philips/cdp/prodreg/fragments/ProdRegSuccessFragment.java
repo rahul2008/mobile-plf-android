@@ -28,7 +28,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                getActivity().onBackPressed();
+                onBackPressed();
             }
         });
         return view;
@@ -37,8 +37,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     @Override
     public boolean onBackPressed() {
         if (getActivity() != null && !getActivity().isFinishing()) {
-            clearFragmentStack();
-            return false;
+            return clearFragmentStack();
         }
         return true;
     }
