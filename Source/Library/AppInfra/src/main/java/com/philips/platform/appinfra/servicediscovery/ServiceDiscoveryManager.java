@@ -34,7 +34,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     boolean mServicesWithLanguagePreferenceMultiple= false;
     boolean mmServiceUrlWithCountryPreferenceMultiple= false;
 
-
     OnGetServicesListener mOnGetServicesListener;
 
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
@@ -73,6 +72,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         String mState = idntityManager.getmAppState();
         String tags = null;
         String environment = null;
+
         if(mState.contains("DEVELOPMENT")){
             tags="apps%2b%2benv%2bdev";
             environment = "tst";
@@ -94,7 +94,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             environment = "www";
         }
        if(locamManager.getCountry() == null){
-            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage();
+            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&tags="+tags;
         }
         if(locamManager.getCountry() != null){
             URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&tags="+tags+"&country="+ locamManager.getCountry();

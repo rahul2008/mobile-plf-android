@@ -181,8 +181,8 @@ public class RequestManager{
                                     // END setting match by language
                                 }
                                 if(!url.contains("country")) {
-                                    String newURL= url+"&tags="+""+"&country="+ mcountry;
-                                    execute("https://tst.philips.com/api/v1/discovery/b2c/12345?locale=en&country=IN", listener);
+                                    String newURL= url+"&country="+ mcountry;
+                                    execute(newURL, listener);
                                     mServiceDiscovery = null;
                                 }
                             }
