@@ -137,4 +137,9 @@
     <string name="Activation_explain_value_to_user"></string>
     <string name="Welcome_needAccountto_lbltxt"></string>
     <string name="LegalNoticeForPrivacy">Please read our %s</string>
+
+    <!--China flow-->
+    <string name="Enter_Phone_Number">Enter your phone number</string>
+    <string name="Register_using_Email">Register using email</string>
+
 </resources>
