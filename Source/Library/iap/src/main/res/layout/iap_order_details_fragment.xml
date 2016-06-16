@@ -186,17 +186,19 @@
             android:layout_marginBottom="@dimen/iap_shipping_address_continue_margin_bottom"
             android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
             android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
-            android:text="@string/iap_buy" />
+            android:text="@string/iap_buy"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btn_cancel"
             style="?attr/uikit_outlinedButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/iap_shipping_address_cancel_button_height"
+            android:layout_marginBottom="@dimen/network_margin_left_right"
             android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
             android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
-            android:layout_marginBottom="@dimen/network_margin_left_right"
-            android:text="@string/iap_cancel_order" />
+            android:text="@string/iap_cancel_order"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </ScrollView>

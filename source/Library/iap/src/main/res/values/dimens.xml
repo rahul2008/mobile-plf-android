@@ -89,4 +89,8 @@
     <dimen name="iap_retailers_store_name_top_margin">20dp</dimen>
     <dimen name="iap_retailers_store_name_size">16sp</dimen>
     <dimen name="iap_retailers_image_top">20dp</dimen>
+
+    <!-- Purchase history -->
+    <dimen name="iap_date_margin_top">12dp</dimen>
+    <dimen name="iap_order_detail_margin_bottom">20dp</dimen>
 </resources>

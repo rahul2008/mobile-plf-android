@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     private Button mCancelOrder;
     private RelativeLayout mTrackOrderLayout;
     private OrderDetail mOrderDetail;
+    private LinearLayout mPaymentModeLayout;
 
     private String mOrderId;
 
@@ -78,6 +80,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mBillingAddress = (TextView) view.findViewById(R.id.tv_billing_address);
         mOrderDetailArrow = (FontIconTextView) view.findViewById(R.id.arrow);
         mOrderDetailArrow.setVisibility(View.GONE);
+        mPaymentModeLayout = (LinearLayout) view.findViewById(R.id.ll_payment_mode);
         mPaymentCardType = (TextView) view.findViewById(R.id.tv_card_type);
         mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
         mBuyNow.setOnClickListener(this);
@@ -113,10 +116,10 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     }
 
     private void updateOrderDetailOnResume(String purchaseId) {
-        OrderController controller = new OrderController(getContext(), this);
+        OrderController controller = new OrderController(mContext, this);
         if (!Utility.isProgressDialogShowing()) {
             mParentView.setVisibility(View.GONE);
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
             controller.getOrderDetails(purchaseId);
         }
     }
@@ -131,7 +134,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         Utility.dismissProgressDialog();
         mParentView.setVisibility(View.VISIBLE);
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
                 if (msg.obj instanceof OrderDetail) {
@@ -146,7 +149,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_cancel || v.getId() == R.id.btn_paynow)
-            Toast.makeText(getContext(), "Yet to implement", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Yet to implement", Toast.LENGTH_SHORT).show();
         else if (v.getId() == R.id.track_order_layout) {
             Bundle bundle = new Bundle();
             if (mOrderDetail != null) {
@@ -183,6 +186,8 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
             }
             if (detail.getPaymentInfo().getCardType() != null)
                 mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode() + " " + detail.getPaymentInfo().getCardNumber());
+            else
+                mPaymentModeLayout.setVisibility(View.GONE);
 
         }
 
