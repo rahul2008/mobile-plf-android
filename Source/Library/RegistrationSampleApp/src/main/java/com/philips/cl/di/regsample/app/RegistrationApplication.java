@@ -13,14 +13,21 @@ import android.app.Application;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.Flow;
 import com.philips.cdp.registration.configuration.HSDPInfo;
+import com.philips.cdp.registration.configuration.JanRainConfiguration;
+import com.philips.cdp.registration.configuration.PILConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationClientId;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
+import com.philips.cdp.registration.configuration.SigninProviders;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.tagging.Tagging;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class RegistrationApplication extends Application {
@@ -114,5 +121,63 @@ public class RegistrationApplication extends Application {
 		Tagging.init( this, "Philips Registration");
 
 	}
+
+
+
+
+
+
+
+	private void setDynamicConfiguiration(final Configuration developmentEnvironment) {
+
+		final JanRainConfiguration janRainConfiguration = new JanRainConfiguration();
+		final RegistrationClientId registrationClientId = new RegistrationClientId();
+		registrationClientId.setDevelopmentId("yjcktbvtvp5wtbtanu3398ymhc5t4mdg");
+		registrationClientId.setEvaluationId("fc39pbyxwc6255yma54e547yhvzb76vr");
+		registrationClientId.setProductionId("tpqhkn3zd4yxqegyyhd7xyysq4gmh6ee");
+		registrationClientId.setTestingId("auy6rtk5zbwwxnzsq52vr9p7dgtyzhc5");
+		janRainConfiguration.setClientIds(registrationClientId);
+		RegistrationDynamicConfiguration.getInstance().setJanRainConfiguration(janRainConfiguration);
+
+		PILConfiguration pilConfiguration = new PILConfiguration();
+		pilConfiguration.setMicrositeId("81448");
+		pilConfiguration.setRegistrationEnvironment(developmentEnvironment);
+		RegistrationDynamicConfiguration.getInstance().setPilConfiguration(pilConfiguration);
+
+		Flow flow = new Flow();
+		flow.setEmailVerificationRequired(true);
+		flow.setTermsAndConditionsAcceptanceRequired(true);
+		RegistrationDynamicConfiguration.getInstance().setFlow(flow);
+
+		SigninProviders signinProviders = new SigninProviders();
+		HashMap<String, ArrayList<String>> providers = new HashMap<>();
+		ArrayList<String> defaultSignInProviders = new ArrayList<>();
+		defaultSignInProviders.add("facebook");
+		defaultSignInProviders.add("googleplus");
+		providers.put("default", defaultSignInProviders);
+
+		signinProviders.setProviders(providers);
+		RegistrationDynamicConfiguration.getInstance().setSignInProviders(signinProviders);
+
+
+		//For HSDP
+
+		HSDPInfo hsdpInfo = new HSDPInfo();
+		hsdpInfo.setApplicationName("uGrow");
+		hsdpInfo.setSharedId("******");
+		hsdpInfo.setSecreteId("*****");
+		hsdpInfo.setBaseURL("*******");
+		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);
+
+
+
+
+	}
+
+
+
 }
+
+
+
 

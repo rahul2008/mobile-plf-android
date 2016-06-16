@@ -22,7 +22,7 @@ import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.security.SecureStorage;
+import com.philips.cdp.security.SecurityHelper;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -139,7 +139,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
     private DIUserProfile getDIUserProfileFromDisk() {
         DIUserProfile diUserProfile = null;
         SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-        diUserProfile = (DIUserProfile) SecureStorage.stringToObject(secureStorageInterface.fetchValueForKey(RegConstants.DI_PROFILE_FILE));
+        diUserProfile = (DIUserProfile) SecurityHelper.stringToObject(secureStorageInterface.fetchValueForKey(RegConstants.DI_PROFILE_FILE));
         return diUserProfile;
     }
 
