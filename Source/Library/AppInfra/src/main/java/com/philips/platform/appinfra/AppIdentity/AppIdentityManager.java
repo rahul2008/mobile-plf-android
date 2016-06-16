@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-package com.philips.platform.appinfra.servicediscovery;
+package com.philips.platform.appinfra.AppIdentity;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -34,53 +34,29 @@ public class AppIdentityManager implements AppIdentityInterface {
     public String micrositeId;
     public String sector;
 
-
-    public String getmAppName() {
+    @Override
+    public String getAppName() {
         return mAppName;
     }
-
-    public void setmAppName(String mAppName) {
-        this.mAppName = mAppName;
-    }
-
-    public String getmAppVersion() {
+    @Override
+    public String getAppVersion() {
         return mAppVersion;
     }
-
-    public void setmAppVersion(String mAppVersion) {
-        this.mAppVersion = mAppVersion;
-    }
-
-    public String getmAppState() {
+    @Override
+    public String getAppState() {
         return mAppState;
     }
-
-    public void setmAppState(String mAppState) {
-        this.mAppState = mAppState;
-    }
-
-    public String getmAppLocalizedNAme() {
+    @Override
+    public String getAppLocalizedNAme() {
         return mAppLocalizedNAme;
     }
-
-    public void setmAppLocalizedNAme(String mAppLocalizedNAme) {
-        this.mAppLocalizedNAme = mAppLocalizedNAme;
-    }
-
+    @Override
     public String getMicrositeId() {
         return micrositeId;
     }
-
-    public void setMicrositeId(String micrositeId) {
-        this.micrositeId = micrositeId;
-    }
-
+    @Override
     public String getSector() {
         return sector;
-    }
-
-    public void setSector(String sector) {
-        this.sector = sector;
     }
 
     public AppIdentityManager(AppInfra aAppInfra) {
@@ -88,7 +64,6 @@ public class AppIdentityManager implements AppIdentityInterface {
         context = mAppInfra.getAppInfraContext();
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
-//        loadJSONFromAsset();
     }
 
        public String loadJSONFromAsset() {
@@ -112,27 +87,18 @@ public class AppIdentityManager implements AppIdentityInterface {
                      micrositeId= obj.getString("micrositeId");
                      sector = obj.getString("sector");
                      mAppState= obj.getString("AppState");
-                    if(micrositeId!=null)
-                        setMicrositeId(micrositeId);
-                    if(sector!=null)
-                        setSector(sector);
-                    if(mAppState!=null)
-                        setmAppState(mAppState);
-                    PackageInfo pInfo = null;
+
                     try {
+                        PackageInfo pInfo = null;
                         pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
                          mAppName = pInfo.versionName;
-                        if(mAppName!=null)
-                            setmAppName(mAppName);
 
                         /* Vertical App should have this string defined for all supported language files
                         *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
                         * */
-                        setmAppLocalizedNAme(context.getResources().getString(R.string.localized_commercial_app_name));
+                            mAppLocalizedNAme = context.getResources().getString(R.string.localized_commercial_app_name);
 
                         mAppVersion = String.valueOf(pInfo.versionCode);
-                        if(mAppVersion!=null)
-                            setmAppVersion(mAppVersion);
 
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
@@ -144,7 +110,7 @@ public class AppIdentityManager implements AppIdentityInterface {
                     Log.i("mAppState", ""+mAppState);
                     Log.i("mAppName", ""+mAppName);
                     Log.i("mAppVersion", ""+mAppVersion);
-                    Log.i("mAppLocalizedNAme", ""+getmAppLocalizedNAme());
+                    Log.i("mAppLocalizedNAme", ""+mAppLocalizedNAme);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -18,12 +18,6 @@ import android.content.Context;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-
-import android.content.Context;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.philips.cdp.prxclient.network.VolleyQueue;
-
 public class Volleyrequester {
     private static Volleyrequester mVolleyQueue = null;
     private RequestQueue mRequestQueue = null;

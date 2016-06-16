@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.servicediscovery.AppIdentityInterface;
 import com.philips.platform.appinfra.servicediscovery.LocalInterface;
 
 /**

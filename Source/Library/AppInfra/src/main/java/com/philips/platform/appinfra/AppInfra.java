@@ -11,8 +11,6 @@ import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.servicediscovery.AppIdentityInterface;
-import com.philips.platform.appinfra.servicediscovery.AppIdentityManager;
 import com.philips.platform.appinfra.servicediscovery.LocalInterface;
 import com.philips.platform.appinfra.servicediscovery.LocalManager;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;

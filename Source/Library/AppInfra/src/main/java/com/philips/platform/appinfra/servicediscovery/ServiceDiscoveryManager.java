@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.servicediscovery;
 import android.content.Context;
 import android.util.Log;
 
+import com.philips.platform.appinfra.AppIdentity.AppIdentityManager;
 import com.philips.platform.appinfra.AppInfra;
 
 import java.net.MalformedURLException;
@@ -69,7 +70,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         idntityManager.loadJSONFromAsset();
         LocalManager locamManager= new LocalManager(mAppInfra);
         locamManager.getlanguage();
-        String mState = idntityManager.getmAppState();
+        String mState = idntityManager.getAppState();
         String tags = null;
         String environment = null;
 
