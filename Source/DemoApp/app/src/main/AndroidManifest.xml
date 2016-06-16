@@ -18,7 +18,7 @@
 
             <activity
             android:name="com.philips.platform.appinfra.demo.AppInfraMainActivity"
-            android:label="@string/title_activity_app_infra_main"
+            android:label="@string/localized_commercial_app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
