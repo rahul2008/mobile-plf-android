@@ -19,4 +19,12 @@ public class UIState {
     public static final int UI_WELCOME_STATE_THREE = 1004;
     public static final int UI_HOME_STATE_ONE = 1005;
     public static final int UI_REGISTRATION_STATE_ONE = 1006;
+
+    @IntDef({UI_ONCLICK_ACTION, UI_ONSWIPE_ACTION,UI_ON_PRESS_ACTION})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ActivityAction {}
+
+    public static final int UI_ONCLICK_ACTION = 2001;
+    public static final int UI_ONSWIPE_ACTION = 2002;
+    public static final int UI_ON_PRESS_ACTION = 2003;
 }

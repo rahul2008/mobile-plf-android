@@ -18,13 +18,16 @@ import android.widget.TextView;
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HomeActivity;
-import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
+import com.philips.cdp.appframework.statemachine.TriggerBase;
+import com.philips.cdp.appframework.statemachine.UIFlowManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.shamanland.fonticon.FontIconView;
+
+import java.util.List;
 
 /**
  * <b></b>Introduction screen are the screen that acts as the Welcome screens. It may be used to make the user learn about the functionality of the app</b>
@@ -99,6 +102,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
+    List<TriggerBase> triggerBaseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,7 +239,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
         User user = new User(this);
 
         switch (v.getId()) {
-            case R.id.start_registration_button:
+            /*case R.id.start_registration_button:
                 setIntroScreenDonePressed();
                 if (user.isUserSignIn()) {
                     startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
@@ -249,7 +253,10 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
                 } else {
                     startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
                 }
-                break;
+                break;*/
+
+            case R.id.start_registration_button:
+                triggerBaseList =  UIFlowManager.getCurrentState().getTriggerBaseList();
         }
     }
 }

@@ -7,7 +7,21 @@ import java.util.List;
  */
 public class UIFlowManager {
     List<StateBase> stateBaseList;
-    public void addState(StateBase state){
+
+    public static StateBase getCurrentState() {
+        return currentState;
+    }
+
+    public static void setCurrentState(StateBase currentState) {
+        UIFlowManager.currentState = currentState;
+    }
+
+    static StateBase currentState;
+
+    public void addTrigger(TriggerBase base){
+
+    }
+    /*public void addState(StateBase state){
 
         stateBaseList.add(state);
 
@@ -20,5 +34,8 @@ public class UIFlowManager {
             }
         }
         return null;
-    }
+    }*/
+
+
+
 }

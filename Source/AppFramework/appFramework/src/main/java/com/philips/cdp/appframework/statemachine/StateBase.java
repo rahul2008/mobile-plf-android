@@ -14,6 +14,8 @@ public abstract class StateBase {
     abstract void setTrigger();
     abstract void getAction();
 
+    abstract void addTriggerList(TriggerBase triggerBase);
+    public abstract List<TriggerBase> getTriggerBaseList();
 
 
 }
