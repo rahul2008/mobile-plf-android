@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetRetailersInfoRequest;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
@@ -81,7 +82,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                         if (webResults.getWrbresults().getOnlineStoresForProduct() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null || webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
                             dismissProgressDialog();
                             if (mLoadListener != null) {
-                                mLoadListener.onRetailerError(createIAPErrorMessage("No Retailers for this product"));
+                                mLoadListener.onRetailerError(createIAPErrorMessage(mContext.getString(R.string.iap_no_retailer_message)));
                             }
                             return;
                         }

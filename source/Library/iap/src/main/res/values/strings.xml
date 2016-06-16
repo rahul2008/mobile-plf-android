@@ -107,6 +107,8 @@
     <!-- Retailers-->
     <string name="iap_select_retailer">Select retailer</string>
     <string name="iap_retailer_title">Retailer</string>
+    <string name="iap_retailer_title_for_no_retailers">No Retailers!</string>
+    <string name="iap_no_retailer_message">There are no online retailers currently available for this product.</string>
 
     <!-- Purchase History -->
     <string name="iap_order_history">Order history</string>
