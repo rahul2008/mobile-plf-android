@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -71,13 +70,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getActivity().getSupportFragmentManager().
-                findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment != null) {
-            getFragmentManager().popBackStack();
-        } else {
-            finishActivity();
-        }
+        finishActivity();
         return false;
     }
 
