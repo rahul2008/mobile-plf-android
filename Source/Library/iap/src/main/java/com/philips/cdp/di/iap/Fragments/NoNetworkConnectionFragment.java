@@ -11,7 +11,8 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
 /**
- * Created by 310164421 on 5/5/2016.
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
 public class NoNetworkConnectionFragment extends BaseAnimationSupportFragment {
     public static final String TAG = NoNetworkConnectionFragment.class.getSimpleName();

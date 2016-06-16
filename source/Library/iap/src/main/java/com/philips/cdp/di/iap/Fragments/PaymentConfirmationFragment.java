@@ -26,6 +26,7 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PaymentConfirmationFragment extends BaseAnimationSupportFragment implements TwoButtonDailogFragment.TwoButtonDialogListener {
     private TextView mConfirmationText;
@@ -109,7 +110,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
                 mOrderNumber.setText(arguments.getString(ModelConstants.ORDER_NUMBER));
 
                 //Track confirmation on successful order action
-                HashMap contextData = new HashMap();
+                Map contextData = new HashMap<>();
                 contextData.put(IAPAnalyticsConstant.PURCHASE_ID, mOrderNumber.getText().toString());
                 contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PURCHASE);
                 contextData.put(IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.SUCCESS);

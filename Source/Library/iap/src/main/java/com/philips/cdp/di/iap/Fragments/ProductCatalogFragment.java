@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
@@ -39,6 +40,9 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     private ProductCatalogAdapter mAdapter;
     private ShoppingCartAPI mShoppingCartAPI;
+    private RecyclerView mRecyclerView;
+    private TextView mEmptyCatalogText;
+    private boolean dataAvailable;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -71,11 +75,19 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         super.onCreateView(inflater, container, savedInstanceState);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_CATALOG), this);
         View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
-        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
-        mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
+        mEmptyCatalogText = (TextView) rootView.findViewById(R.id.empty_product_catalog_txt);
+        if (dataAvailable) {
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            mRecyclerView.setLayoutManager(layoutManager);
+            mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyCatalogText.setVisibility(View.VISIBLE);
+            if (Utility.isProgressDialogShowing())
+                Utility.dismissProgressDialog();
+        }
         return rootView;
     }
 
@@ -85,7 +97,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
-        presenter.getProductCatalog();
+        dataAvailable = presenter.getProductCatalog();
     }
 
     @Override
@@ -94,8 +106,10 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
-        mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
-        mAdapter.tagProducts();
+        if (dataAvailable) {
+            mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
+            mAdapter.tagProducts();
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,8 +34,6 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
-
-import static com.android.volley.Request.Method.HEAD;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
@@ -159,7 +158,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public boolean onBackPressed() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
         }
         return false;

@@ -26,12 +26,12 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'com.shamanland:fonticon:0.1.+'
         classpath 'com.mcxiaoke.volley:library:1.0.+'
         classpath 'com.google.code.gson:gson:2.2.+'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2"
         classpath 'com.philips.cdp:cdpSCM:0.1.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     }
@@ -86,7 +86,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "2.1.0"
+        versionName objcdp.getVersionWithHash()
         multiDexEnabled true
         testApplicationId "com.philips.cdp.di.iap.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -176,18 +176,21 @@ artifactory {
     }
 }
 
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
-}
-
-artifactoryPublish {
-    dependsOn sourceJar
-}
-
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
-    archives sourceJar
+    archives zipDoc
 }
+
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS===========
 
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {

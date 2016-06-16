@@ -294,11 +294,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
             }
         } else if (v == mBtnCancel) {
-
             getFragmentManager().popBackStackImmediate();
         }
     }
-
 
     @Override
     public void onGetAddress(Message msg) {
@@ -356,6 +354,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     mInlineFormsParent.setErrorMessage(errorMessage);
                     mInlineFormsParent.showError(mEtAddressLineOne);
                 }
+                NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(),
+                        getString(R.string.iap_ok), getString(R.string.iap_server_error),
+                        error.getMessage());
                 mBtnContinue.setEnabled(false);
             } else if (error.getMessage() != null) {
                 if (isNetworkNotConnected()) return;
