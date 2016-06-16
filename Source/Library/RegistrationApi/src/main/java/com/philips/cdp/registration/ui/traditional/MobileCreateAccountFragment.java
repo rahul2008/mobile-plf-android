@@ -63,6 +63,8 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
 
     private Button mBtnCreateAccount;
 
+    private Button mBtnRegisterUsingEmail;
+
     private XCheckBox mCbTerms;
 
     private XCheckBox mCbAcceptTerms;
@@ -215,6 +217,9 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
             } else {
                 register();
             }
+        }else if (v.getId() == R.id.btn_reg_register_using_email) {
+            RLog.d(RLog.ONCLICK, "CreateAccountFragment using email : Register Account");
+            launchCreateAccountFragmentUsingEmail();
         }
     }
 
@@ -233,6 +238,9 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
         mRlCreateActtBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_singin_options);
         mFrRegisterViaEmailContainer = (FrameLayout) view.findViewById(R.id.fl_reg_register_using_email);
         mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_register);
+        mBtnCreateAccount.setOnClickListener(this);
+        mBtnRegisterUsingEmail = (Button) view.findViewById(R.id.btn_reg_register_using_email);
+        mBtnRegisterUsingEmail.setOnClickListener(this);
         mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_register_terms);
         mCbTerms.setOnClickListener(this);
         mCbAcceptTerms = (XCheckBox) view.findViewById(R.id.cb_reg_accept_terms);
@@ -245,7 +253,6 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
 
         mCbAcceptTerms.setOnCheckedChangeListener(this);
-        mBtnCreateAccount.setOnClickListener(this);
         mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);
         mEtName.setOnUpdateListener(this);
         mPhoneNumber = (XPhoneNumber) view.findViewById(R.id.rl_reg_phone_number_field);
@@ -380,6 +387,11 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
     private void launchWelcomeFragment() {
         getRegistrationFragment().replaceWelcomeFragmentOnLogin(new WelcomeFragment());
         trackPage(AppTaggingPages.WELCOME);
+    }
+
+    private void launchCreateAccountFragmentUsingEmail() {
+        getRegistrationFragment().addFragment(new CreateAccountFragment());
+        trackPage(AppTaggingPages.CREATE_ACCOUNT);
     }
 
     @Override
