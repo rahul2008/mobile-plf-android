@@ -35,6 +35,7 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileSignInAccountFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
@@ -188,6 +189,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         } else if (fragment instanceof SignInAccountFragment) {
             return AppTaggingPages.CREATE_ACCOUNT;
 
+        }  else if (fragment instanceof MobileSignInAccountFragment) {
+            return AppTaggingPages.CREATE_ACCOUNT;
         } else if (fragment instanceof AccountActivationFragment) {
             return AppTaggingPages.ACCOUNT_ACTIVATION;
 

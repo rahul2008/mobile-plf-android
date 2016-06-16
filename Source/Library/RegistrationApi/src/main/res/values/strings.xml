@@ -141,5 +141,7 @@
     <!--China flow-->
     <string name="Enter_Phone_Number">Enter your phone number</string>
     <string name="Register_using_Email">Register using email</string>
+    <string name="PhoneAddPlaceHolder_txtField">Enter phone number</string>
+    <string name="Login_using_email_btntxt">Log in using email</string>
 
 </resources>

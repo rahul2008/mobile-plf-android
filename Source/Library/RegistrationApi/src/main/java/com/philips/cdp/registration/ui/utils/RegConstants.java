@@ -150,4 +150,6 @@ public class RegConstants {
 
     public static final String COPPA_STATUS = "CoppaStatus";
 
+    public static final boolean IS_MOBILE_NUMBER_LOG_IN = true;
+
 }

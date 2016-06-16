@@ -145,6 +145,22 @@ public class XPhoneNumber extends RelativeLayout implements TextWatcher, OnFocus
 		mRlEtPhoneNumber.setBackgroundResource(R.drawable.reg_et_focus_disable);
 	}
 
+	public void showInvalidAlert() {
+		mEtPhoneNumber.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+		mRlEtPhoneNumber.setBackgroundResource(R.drawable.reg_et_focus_error);
+		mFlInvaliFielddAlert.setVisibility(VISIBLE);
+	}
+
+	public void showErrPopUp() {
+		mTvErrDescriptionView.setVisibility(View.VISIBLE);
+	}
+
+	public void setClickableTrue(boolean isClickable) {
+		if (mEtPhoneNumber != null) {
+			mEtPhoneNumber.setClickable(isClickable);
+			mEtPhoneNumber.setEnabled(isClickable);
+		}
+	}
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
 		mEtPhoneNumber.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
