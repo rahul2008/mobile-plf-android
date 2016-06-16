@@ -3,7 +3,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="@dimen/pr_e_value_sm">
+                android:paddingLeft="@dimen/pr_first_launch_padding_left"
+                android:paddingRight="@dimen/pr_first_launch_padding_right"
+                android:paddingTop="@dimen/pr_first_launch_padding_top">
 
     <TextView
         android:id="@+id/pr_success_title_textview"
@@ -20,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pr_success_title_textview"
-        android:layout_marginTop="@dimen/pr_e_value_sm"
+        android:layout_marginTop="@dimen/pr_c_value_tablet"
         android:text="Your warranty has been extended"
         android:textSize="@dimen/pr_subtitle_textsize"/>
 
@@ -29,8 +31,8 @@
         android:id="@+id/reg_more_btn_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/pr_d_value_sm"
+        android:layout_below="@+id/pr_success_more_textview"
+        android:layout_marginTop="@dimen/pr_d_value_tablet"
         android:orientation="vertical">
 
         <Button
@@ -45,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:layout_marginTop="@dimen/pr_c_value_tablet"
             android:text="@string/register_next"
             android:textAllCaps="false"/>
 
@@ -54,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:layout_marginTop="@dimen/pr_c_value_tablet"
             android:text="@string/back_to_list"
             android:textAllCaps="false"/>
     </LinearLayout>

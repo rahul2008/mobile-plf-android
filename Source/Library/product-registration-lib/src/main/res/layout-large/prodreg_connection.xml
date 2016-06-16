@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/pr_first_launch_padding_left"
+                android:paddingRight="@dimen/pr_first_launch_padding_right"
+                android:paddingTop="@dimen/pr_first_launch_padding_top">
+
+
+    <TextView
+        android:id="@+id/pr_all_success_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/all_pr_success_message"
+        android:textSize="22sp"/>
+
+    <TextView
+        android:id="@+id/reg_another_prod_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pr_all_success_textview"
+        android:layout_marginTop="@dimen/pr_d_value_tablet"
+        android:text="@string/do_you_want_to_reg_msg"
+        android:textSize="18sp"/>
+
+
+    <Button
+        android:id="@+id/back_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reg_another_prod_textview"
+        android:layout_marginTop="@dimen/pr_d_value_tablet"
+        android:text="Back"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/connect_product_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/back_btn"
+        android:layout_gravity="bottom|center"
+        android:layout_marginTop="@dimen/pr_c_value_tablet"
+        android:text="@string/connect_to_product"
+        android:textAllCaps="false"
+        android:visibility="gone"/>
+
+</RelativeLayout>

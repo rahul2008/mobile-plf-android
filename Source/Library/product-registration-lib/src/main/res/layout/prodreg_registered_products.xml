@@ -17,7 +17,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/fab_margin"
-        android:visibility="gone"
-        />
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -3,7 +3,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="@dimen/pr_e_value_sm">
+                android:paddingLeft="@dimen/pr_first_launch_padding_left"
+                android:paddingRight="@dimen/pr_first_launch_padding_right"
+                android:paddingTop="@dimen/pr_first_launch_padding_top">
 
     <TextView
         android:id="@+id/conf_action_textview"
@@ -21,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/conf_action_textview"
         android:layout_below="@+id/conf_action_textview"
-        android:layout_marginTop="@dimen/pr_e_value_sm"
+        android:layout_marginTop="@dimen/pr_c_value_tablet"
         android:text="@string/pr_first_launch_subtext_first"
         android:textSize="@dimen/pr_subtitle_textsize"/>
 
@@ -29,7 +31,8 @@
         android:id="@+id/yes_register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/no_thanks_button"
+        android:layout_below="@+id/conf_subtext_textview"
+        android:layout_marginTop="@dimen/pr_d_value_tablet"
         android:text="@string/register_text"
         android:textAllCaps="false"/>
 
@@ -37,10 +40,10 @@
         android:id="@+id/no_thanks_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/yes_register_button"
         android:layout_centerHorizontal="true"
         android:layout_gravity="bottom|center"
-        android:layout_marginTop="@dimen/pr_c_value_sm"
+        android:layout_marginTop="@dimen/pr_c_value_tablet"
         android:text="@string/no_thanks_text"
         android:textAllCaps="false"/>
 
