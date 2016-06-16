@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -27,6 +26,7 @@ public class TrackOrderFragment extends BaseAnimationSupportFragment
     private TextView mBillingName;
     private TextView mBillingAddress;
     private Button mTrackOrderBtn;
+    private String mOrderTrackUrl;
 
     public static TrackOrderFragment createInstance
             (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
@@ -55,6 +55,8 @@ public class TrackOrderFragment extends BaseAnimationSupportFragment
                 mBillingName.setText(bundle.getString(IAPConstant.DELIVERY_NAME));
             if (bundle.containsKey(IAPConstant.ADD_DELIVERY_ADDRESS))
                 mBillingAddress.setText(bundle.getString(IAPConstant.ADD_DELIVERY_ADDRESS));
+            if (bundle.containsKey(IAPConstant.ORDER_TRACK_URL))
+                mOrderTrackUrl = bundle.getString(IAPConstant.ORDER_TRACK_URL);
         }
 
         mTrackOrderBtn.setOnClickListener(this);
@@ -73,12 +75,22 @@ public class TrackOrderFragment extends BaseAnimationSupportFragment
         setTitle(R.string.iap_track_order_title);
     }
 
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_track) {
-            Toast.makeText(getContext(), "Yet to implement", Toast.LENGTH_SHORT).show();
+            if (mOrderTrackUrl != null) {
+                launchFedex();
+            }
         }
+    }
 
+    private void launchFedex() {
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.ORDER_TRACK_URL, mOrderTrackUrl);
+
+        WebTrackUrl webTrackUrl = new WebTrackUrl();
+        webTrackUrl.setArguments(bundle);
+
+        addFragment(WebTrackUrl.createInstance(bundle, AnimationType.NONE), WebTrackUrl.TAG);
     }
 }

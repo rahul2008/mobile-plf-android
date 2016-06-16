@@ -158,6 +158,10 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
                     bundle.putString(IAPConstant.DELIVERY_NAME, mOrderDetail.getDeliveryAddress().getFirstName() + " " + mOrderDetail.getDeliveryAddress().getLastName());
                     bundle.putString(IAPConstant.ADD_DELIVERY_ADDRESS, Utility.createAddress(mOrderDetail.getDeliveryAddress()));
                 }
+
+                if(mOrderDetail.getOrdertrackUrl() != null){
+                    bundle.putString(IAPConstant.ORDER_TRACK_URL, mOrderDetail.getOrdertrackUrl());
+                }
                 addFragment(TrackOrderFragment.createInstance(bundle, AnimationType.NONE), null);
             }
         }

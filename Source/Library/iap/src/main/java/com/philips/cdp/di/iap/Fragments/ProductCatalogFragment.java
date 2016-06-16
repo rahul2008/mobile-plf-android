@@ -2,7 +2,6 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
