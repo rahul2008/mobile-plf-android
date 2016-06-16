@@ -50,7 +50,12 @@ public class XPasswordHintRow extends RelativeLayout {
         mTvIconText.setText(R.string.ic_reg_check);
     }
 
-    public void showInCorrectIcon() {
+    public void showWrongRedIcon() {
+        mTvIconText.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+        mTvIconText.setText(R.string.ic_reg_close);
+    }
+
+    public void showWrongGrayIcon() {
         mTvIconText.setTextColor(mContext.getResources().getColor(R.color.reg_password_hint_incorrect_ic_color));
         mTvIconText.setText(R.string.ic_reg_close);
     }

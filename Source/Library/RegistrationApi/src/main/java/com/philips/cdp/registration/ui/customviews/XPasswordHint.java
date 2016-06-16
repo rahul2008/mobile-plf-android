@@ -57,25 +57,32 @@ public class XPasswordHint extends LinearLayout {
         if (FieldsValidator.isAlphabetPresent(passwordString)) {
             mUpperCase.showCorrectIcon();
         }else{
-            mUpperCase.showInCorrectIcon();
+            mUpperCase.showWrongGrayIcon();
         }
 
         if (FieldsValidator.isNumberPresent(passwordString)) {
             mNumbers.showCorrectIcon();
         }else{
-            mNumbers.showInCorrectIcon();
+            mNumbers.showWrongGrayIcon();
         }
 
-        if (FieldsValidator.isSymbolsPresent(passwordString)) {
-            mSpecialChar.showCorrectIcon();
-        }else{
-            mSpecialChar.showInCorrectIcon();
+        switch (FieldsValidator.isSymbolsPresent(passwordString)){
+
+            case none:
+                mSpecialChar.showWrongGrayIcon();
+                break;
+            case right:
+                mSpecialChar.showCorrectIcon();
+                break;
+            case wrong:
+                mSpecialChar.showWrongRedIcon();
+                break;
         }
 
         if (FieldsValidator.isPasswordLengthMeets(passwordString)) {
             mCharLength.showCorrectIcon();
         }else{
-            mCharLength.showInCorrectIcon();
+            mCharLength.showWrongGrayIcon();
         }
     }
 }
