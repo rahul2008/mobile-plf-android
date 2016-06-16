@@ -34,26 +34,61 @@ public class AppIdentityManager implements AppIdentityInterface {
     public String micrositeId;
     public String sector;
 
+    /**
+     * Gets app name.
+     *
+     * @return the app name
+     */
     @Override
     public String getAppName() {
         return mAppName;
     }
+
+    /**
+     * Gets app version.
+     *
+     * @return the app version
+     */
     @Override
     public String getAppVersion() {
         return mAppVersion;
     }
+
+    /**
+     * Gets app state.
+     *
+     * @return the app state
+     */
     @Override
     public String getAppState() {
         return mAppState;
     }
+
+    /**
+     * Gets app localized name.
+     *
+     * @return the app localized name
+     */
     @Override
     public String getAppLocalizedNAme() {
         return mAppLocalizedNAme;
     }
+
+    /**
+     * Gets microsite id.
+     *
+     * @return the microsite id
+     */
     @Override
     public String getMicrositeId() {
         return micrositeId;
     }
+
+    /**
+     * Gets sector.
+     *
+     * @return the sector
+     */
     @Override
     public String getSector() {
         return sector;
@@ -66,7 +101,8 @@ public class AppIdentityManager implements AppIdentityInterface {
         // At any call after the constructor, appInfra can be presumed to be complete.
     }
 
-       public String loadJSONFromAsset() {
+
+       private String loadJSONFromAsset() {
         String json = null;
         try {
 
@@ -105,12 +141,12 @@ public class AppIdentityManager implements AppIdentityInterface {
                     }
 
 
-                    Log.i("micrositeId", ""+micrositeId);
-                    Log.i("sector", ""+sector);
-                    Log.i("mAppState", ""+mAppState);
-                    Log.i("mAppName", ""+mAppName);
-                    Log.i("mAppVersion", ""+mAppVersion);
-                    Log.i("mAppLocalizedNAme", ""+mAppLocalizedNAme);
+                    Log.i("micrositeId", ""+getMicrositeId());
+                    Log.i("sector", ""+getSector());
+                    Log.i("mAppState", ""+getAppState());
+                    Log.i("mAppName", ""+getAppName());
+                    Log.i("mAppVersion", ""+getAppVersion());
+                    Log.i("mAppLocalizedNAme", ""+getAppLocalizedNAme());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -127,8 +163,4 @@ public class AppIdentityManager implements AppIdentityInterface {
 
     }
 
-    @Override
-    public void configureAppIdentity(String configFilePath) {
-
-    }
 }

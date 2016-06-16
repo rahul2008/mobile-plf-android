@@ -49,10 +49,7 @@ public class AppInfraLogging implements  LoggingInterface {
     private InputStream mInputStream = null;
 
 
-    /**
-     * Instantiates a new App infra .
-     * @param aAppInfra the a app infra
-     */
+
     public AppInfraLogging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         // Class shall not presume appInfra to be completely initialized at this point.
@@ -60,14 +57,26 @@ public class AppInfraLogging implements  LoggingInterface {
 
     }
 
-    // This method to be used by all component to get their respective logger
+    /**
+     * Create instance for component logging interface.
+     * This method to be used by all component to get their respective logger
+     * @param componentId      the component id
+     * @param componentVersion the component version
+     * @return the logging interface
+     */
     @Override
     public LoggingInterface createInstanceForComponent(String componentId, String componentVersion) {
        return new LoggingWrapper(mAppInfra, componentId, componentVersion);
     }
 
 
-
+    /**
+     * Log.
+     *
+     * @param level   Log level
+     * @param eventId the log event id
+     * @param message the log message
+     */
     @Override
     public void log(LogLevel level, String eventId, String message) {
         // native Java logger mapping of LOG levels
@@ -91,15 +100,9 @@ public class AppInfraLogging implements  LoggingInterface {
 
     }
 
-    /*protected void log(LogLevel level, String componentId, String componentVersion, String eventId, String message) {
-        // TODO: do something smart
-    }*/
 
 
-    /**
-     * Create logger.
-     * @param pComponentId the  component id
-     */
+
     protected void createLogger(String pComponentId){
         readLogConfigFile();
         javaLogger = Logger.getLogger(pComponentId); // returns new or existing log
@@ -148,6 +151,11 @@ public class AppInfraLogging implements  LoggingInterface {
     }
 
 
+    /**
+     * Enable console logging.
+     *
+     * @param enable the enable
+     */
     @Override
     public void enableConsoleLog(boolean isEnabled ) {
         boolean isDebuggable =  ( 0 != ( mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
@@ -179,7 +187,11 @@ public class AppInfraLogging implements  LoggingInterface {
     }
 
 
-
+    /**
+     * Enable or Disable file logging.
+     *
+     * @param enable the enable
+     */
     @Override
     public void enableFileLog(boolean pFileLogEnabled) {
         if(pFileLogEnabled) {

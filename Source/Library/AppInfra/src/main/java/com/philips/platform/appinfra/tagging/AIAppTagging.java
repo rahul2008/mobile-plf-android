@@ -205,16 +205,33 @@ public class AIAppTagging implements AIAppTaggingInterface {
         Config.pauseCollectingLifecycleData();
     }
 
+    /**
+     * Create instance for component tagging interface.
+     * This method to be used by all component to get their respective tagging
+     * @param componentId      the component id
+     * @param componentVersion the component version
+     * @return the appinfra app tagging interface
+     */
     @Override
     public AIAppTaggingInterface createInstanceForComponent(String componentId, String componentVersion) {
         return new AIAppTaggingWrapper(mAppInfra, componentId, componentVersion);
     }
 
+    /**
+     * Configure analytics with file path.
+     *
+     * @param configFilePath the config file path
+     */
     @Override
     public void configureAnalyticsWithFilePath(String configFilePath) {
 
     }
 
+    /**
+     * Sets privacy consent.
+     *
+     * @param privacyStatus the privacy status
+     */
     @Override
     public void setPrivacyConsent(PrivacyStatus privacyStatus) {
         switch (privacyStatus) {
@@ -234,11 +251,23 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
     }
 
+    /**
+     * Gets privacy consent.
+     *
+     * @return the privacy consent
+     */
     @Override
     public PrivacyStatus getPrivacyConsent() {
         return null;
     }
 
+    /**
+     * Track page with info with single key value.
+     *
+     * @param pageName the page name
+     * @param key      the key
+     * @param value    the value
+     */
     @Override
     public void trackPageWithInfo(String pageName, String key, String value) {
 //        validateAppTaggingInitialization();
@@ -295,6 +324,12 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
     }
 
+    /**
+     * Track page with info with multiple key value.
+     *
+     * @param pageName  the page name
+     * @param paramDict the param dict
+     */
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
 //        validateAppTaggingInitialization();
@@ -307,6 +342,13 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
     }
 
+    /**
+     * Track action with info with single key value.
+     *
+     * @param pageName the page name
+     * @param key      the key
+     * @param value    the value
+     */
     @Override
     public void trackActionWithInfo(String pageName, String key, String value) {
 //        validateAppTaggingInitialization();
@@ -321,6 +363,12 @@ public class AIAppTagging implements AIAppTaggingInterface {
         Analytics.trackAction(pageName, contextData);
     }
 
+    /**
+     * Track action with info with multiple key value.
+     *
+     * @param pageName  the page name
+     * @param paramDict the param dict
+     */
     @Override
     public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
 //        validateAppTaggingInitialization();
@@ -342,6 +390,9 @@ public class AIAppTagging implements AIAppTaggingInterface {
         }
     }
 
+    /**
+     * Collect lifecycle data.
+     */
     public void collectLifecycleData(){
         Config.collectLifecycleData();
     }

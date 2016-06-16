@@ -37,7 +37,6 @@ public class SecureStorage implements SecureStorageInterface{
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
     private static final String ENCRYPTION_ALGORITHM =  "RSA/ECB/PKCS1Padding";
     private static final String FILE_NAME = "AppInfra.SecureStorage.file.name";
-    //public static final String DEVICE_FILE = "AppInfra Device file";
     private final  Context mContext;
     private static KeyStore keyStore = null;
 
@@ -47,17 +46,19 @@ public class SecureStorage implements SecureStorageInterface{
     public static  String encryptedTextTemp= null;
 
 
-    /**
-     * Instantiates a new Secure storage.
-     *
-     * @param pContext the p context
-     */
+
     public  SecureStorage(Context pContext){
         mContext = pContext;
     }
 
 
-
+    /**
+     * Store value for key boolean.
+     *
+     * @param userKey            the user key
+     * @param valueToBeEncrypted the value to be encrypted
+     * @return the boolean, denote store operation success or failure
+     */
     @Override
     public synchronized boolean storeValueForKey(String userKey,String valueToBeEncrypted) {
         // TODO: RayKlo: define max size limit recommendation
@@ -104,6 +105,12 @@ public class SecureStorage implements SecureStorageInterface{
         }
     }
 
+    /**
+     * Fetch value for key string.
+     *
+     * @param userKey the user key
+     * @return the string, decrypted value
+     */
     @Override
     public synchronized String fetchValueForKey(String userKey) {
         String decryptedString=null;
@@ -155,6 +162,12 @@ public class SecureStorage implements SecureStorageInterface{
     }
 
 
+    /**
+     * Remove value for key boolean.
+     *
+     * @param userKey the user key
+     * @return the boolean, denote delete operation success or failure
+     */
     @Override
     public synchronized boolean removeValueForKey(String userKey) {
         boolean deleteResult =false;
@@ -186,7 +199,7 @@ public class SecureStorage implements SecureStorageInterface{
                 generator.initialize(spec);
                 KeyPair keyPair = generator.generateKeyPair();
 
-              
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -195,13 +208,7 @@ public class SecureStorage implements SecureStorageInterface{
     }
 
 
-    /**
-     * Store encrypted data in shared preferences.
-     *
-     * @param key           the key
-     * @param encryptedData the encrypted data
-     * @return the boolean
-     */
+
     protected boolean storeEncryptedData(String key, String encryptedData){
         boolean storeEncryptedDataResult= true;
         try {
@@ -217,12 +224,7 @@ public class SecureStorage implements SecureStorageInterface{
     }
 
 
-    /**
-     * Fetch encrypted data string.
-     *
-     * @param key the key
-     * @return the string
-     */
+
     protected String  fetchEncryptedData(String key){
         String result =null;
             // encrypted data will be fetched from device  SharedPreferences
@@ -231,21 +233,12 @@ public class SecureStorage implements SecureStorageInterface{
         return result;
         }
 
-    /**
-     * Gets shared preferences.
-     *
-     * @return the shared preferences
-     */
+
     protected SharedPreferences getSharedPreferences() {
         return mContext.getSharedPreferences(FILE_NAME, mContext.MODE_PRIVATE);
     }
 
-    /**
-     * Delete encrypted data boolean.
-     *
-     * @param key the key
-     * @return the boolean
-     */
+
     protected boolean deleteEncryptedData(String key){
         boolean deleteResult= false;
         try {

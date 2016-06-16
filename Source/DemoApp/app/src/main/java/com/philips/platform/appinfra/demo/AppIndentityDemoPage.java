@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.philips.platform.appinfra.AppIdentity.AppIdentityManager;
 import com.philips.platform.appinfra.AppInfra;
 
 /**
@@ -10,14 +11,14 @@ import com.philips.platform.appinfra.AppInfra;
  */
 public class AppIndentityDemoPage extends AppCompatActivity{
 
-    AppIdentityInterface mappIdentityinterface = null;
+    AppIdentityManager mAppIdentityManager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppInfra appInfra = AppInfraApplication.gAppInfra;
-        mappIdentityinterface = appInfra.getAppIdentity();
-        mappIdentityinterface.loadJSONFromAsset();
+        mAppIdentityManager = (AppIdentityManager)appInfra.getAppIdentity();
+        mAppIdentityManager.loadJSONFromAsset();
 
     }
 }

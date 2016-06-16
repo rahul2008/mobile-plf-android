@@ -12,7 +12,6 @@ import java.net.URL;
  */
 public interface ServiceDiscoveryInterface {
 
-    public String getservice(OnRefreshListener listener);
 
     public class ServiceUrlandLocale {
         public final URL    serviceUrl;

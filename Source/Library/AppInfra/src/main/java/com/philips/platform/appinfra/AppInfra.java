@@ -7,6 +7,8 @@ package com.philips.platform.appinfra;
 
 import android.content.Context;
 
+import com.philips.platform.appinfra.AppIdentity.AppIdentityInterface;
+import com.philips.platform.appinfra.AppIdentity.AppIdentityManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
