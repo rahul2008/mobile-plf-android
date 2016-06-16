@@ -110,7 +110,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 23
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.platform.appinfra.test"
@@ -163,7 +163,7 @@ dependencies {
     androidTestCompile "org.mockito:mockito-core:1.9.5"
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:appcompat-v7:23.4.0'
     compile(group:'adobeMobileLibrary', name:'adobeMobileLibrary', version:'4.8.3')
 
     compile(group: 'com.philips.cdp', name: 'prx', version: '2.0.0', ext: 'aar'){
