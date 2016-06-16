@@ -10,13 +10,17 @@ import com.philips.securekey.SKey;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.io.StreamCorruptedException;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -29,12 +33,13 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Random;
 
+import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class SecureStorage {
+public class SecurityHelper {
 
     private static Context mContext;
 
@@ -44,7 +49,7 @@ public class SecureStorage {
 
     private static byte[] SECRET_KEY;
 
-    /*public static byte[] encrypt(String text) {
+    public static byte[] encrypt(String text) {
       //  storeSecretKey();
         SECRET_KEY = SKey.generateSecretKey();
         try {
@@ -59,12 +64,12 @@ public class SecureStorage {
         }
 
         return null;
-    }*/
+    }
 
     //migrates data encrypted with an old key to new key
     public static void migrateDataFromOldToNewKey(final String pFileName){
         //get Data with old key from the file
-      /*  FileInputStream fis = null;
+        FileInputStream fis = null;
         Serializable serializableObject = null;
         Object object;
         boolean isSerialized = false;
@@ -127,67 +132,15 @@ public class SecureStorage {
             e.printStackTrace();
         }
 
-*/
-    }
-
-
-
-
-    //meant to migrate unencrypted data to encrypted one
-    public static void migrateUserData(final String pFileName){
-
-       /* try {
-            //Read from file
-            FileInputStream fis = mContext.openFileInput(pFileName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            Object object = ois.readObject();
-            String plainTextString = null;
-            byte[] plainBytes = null;
-           *//* if(object instanceof String) {
-
-                plainTextString = (String) object;
-            }*//*
-
-            if(object instanceof byte[]){
-                plainBytes = (byte[])object;
-            }
-
-
-            mContext.deleteFile(pFileName);
-            fis.close();
-            ois.close();
-
-            //Encrypt the contents of file
-            FileOutputStream fos = mContext.openFileOutput(pFileName, 0);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            byte[] ectext = null;
-            if(plainTextString != null) {
-                ectext = SecureStorage.encrypt(plainTextString);
-            }
-            if(plainBytes != null){
-                ectext = SecureStorage.encrypt(new String(plainBytes));
-                byte[] decr = SecureStorage.decrypt(ectext);
-            }
-
-            oos.writeObject(ectext);
-            oos.close();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (OptionalDataException e) {
-            e.printStackTrace();
-        } catch (StreamCorruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-*/
-
-
 
     }
+
+
+
+
+
+
+
 
 
 
@@ -233,7 +186,7 @@ public class SecureStorage {
     }
 
 
-   /* public static byte[] decrypt(byte[] encByte) {
+    public static byte[] decrypt(byte[] encByte) {
         //storeSecretKey();
         SECRET_KEY = SKey.generateSecretKey();
         try {
@@ -247,7 +200,7 @@ public class SecureStorage {
             ex.printStackTrace();
         }
         return null;
-    }*/
+    }
 
     public static void generateSecretKey() {
         if (SECRET_KEY == null) {

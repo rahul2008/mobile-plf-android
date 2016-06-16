@@ -18,7 +18,7 @@ import com.philips.cdp.registration.configuration.RegistrationDynamicConfigurati
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity;
-import com.philips.cdp.security.SecureStorage;
+import com.philips.cdp.security.SecurityHelper;
 
 import org.json.JSONObject;
 
@@ -524,7 +524,7 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
 
                         ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-                        oos.writeObject(SecureStorage.encrypt(data));
+                        oos.writeObject(SecurityHelper.encrypt(data));
                         oos.close();
                         fos.close();
                 } catch (FileNotFoundException e1) {
@@ -546,7 +546,7 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
                 //deleteFromDisk();
 
                 saveToDisk(COPPA_CONFIRMED_SIGNED_USER);
-                SecureStorage.init(context);
+                SecurityHelper.init(context);
                 Jump.loadUserFromDiskInternal(context);
                 CoppaExtension coppaExtension = new CoppaExtension(context);
                 coppaExtension.buildConfiguration();
@@ -566,7 +566,7 @@ public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<Reg
                 //deleteFromDisk();
                 Jump.signOutCaptureUser(context);
                saveToDisk(COPPA_CONSENT_SIGNED_USER);
-                SecureStorage.init(context);
+                SecurityHelper.init(context);
                 Jump.loadUserFromDiskInternal(context);
                 CoppaExtension coppaExtension = new CoppaExtension(context);
                 coppaExtension.resetConfiguration();

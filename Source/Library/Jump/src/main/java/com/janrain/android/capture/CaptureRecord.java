@@ -71,7 +71,7 @@ import static com.janrain.android.utils.JsonUtils.copyJsonVal;
 import static com.janrain.android.utils.JsonUtils.unsafeJsonObjectToString;
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 
-//import com.philips.cdp.security.SecureStorage;
+//import com.philips.cdp.security.SecurityHelper;
 
 public class CaptureRecord extends JSONObject {
     private static final SimpleDateFormat CAPTURE_API_SIGNATURE_DATE_FORMAT;

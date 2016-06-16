@@ -16,14 +16,13 @@ import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.PILConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
-import com.philips.cdp.security.SecureStorage;
+import com.philips.cdp.security.SecurityHelper;
 
 import org.json.JSONObject;
 
@@ -535,7 +534,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 
                         ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-                        oos.writeObject(SecureStorage.encrypt(data));
+                        oos.writeObject(SecurityHelper.encrypt(data));
                         oos.close();
                         fos.close();
                 } catch (FileNotFoundException e1) {

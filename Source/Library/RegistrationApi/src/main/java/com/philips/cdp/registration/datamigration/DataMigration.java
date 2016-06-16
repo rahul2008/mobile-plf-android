@@ -4,24 +4,23 @@
  *  * in whole or in part is prohibited without the prior written
  *  * consent of the copyright holder.
  * /
- *//*
+ */
 
 
 package com.philips.cdp.registration.datamigration;
 
 import android.content.Context;
 
-import com.janrain.android.capture.Capture;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
-import com.philips.cdp.security.SecureStorage;
+import com.philips.cdp.security.SecurityHelper;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
 
@@ -38,22 +37,9 @@ public class DataMigration {
         mContext = context;
     }
 
-    private void migrateFileData(final String fileName) {
-        try {
-            String plainText = readDataAndDeleteFile(fileName);
-            writeDataToFile(fileName, plainText);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (OptionalDataException e) {
-            e.printStackTrace();
-        } catch (StreamCorruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
+
+
 
     private String readDataAndDeleteFile(String fileName) throws IOException, ClassNotFoundException {
         FileInputStream fis = mContext.openFileInput(fileName);
@@ -64,11 +50,11 @@ public class DataMigration {
         DIUserProfile diUserProfile = null;
         if (object instanceof HsdpUserRecord) {
             hsdpUserRecord = (HsdpUserRecord) object;
-            plainText = SecureStorage.objectToString(hsdpUserRecord);
+            plainText = SecurityHelper.objectToString(hsdpUserRecord);
         }
         if (object instanceof DIUserProfile) {
             diUserProfile = (DIUserProfile) object;
-            plainText = SecureStorage.objectToString(diUserProfile);
+            plainText = SecurityHelper.objectToString(diUserProfile);
         }
         if(object instanceof String){
             plainText = (String)object;
@@ -80,34 +66,45 @@ public class DataMigration {
         return plainText;
     }
 
-    private void writeDataToFile(String fileName, String plainTextString) throws IOException {
-        FileOutputStream fos = mContext.openFileOutput(fileName, 0);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        byte[] ectext = null;
-
-        if (plainTextString != null) {
-            ectext = SecureStorage.encrypt(plainTextString);
-        }
-        oos.writeObject(ectext);
-        oos.close();
-        fos.close();
+    private String readEncryptedDataAndDeleteFile(String fileName) throws IOException, ClassNotFoundException {
+        FileInputStream fis = mContext.openFileInput(fileName);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Object object = ois.readObject();
+        byte[] plainText = null;
+        plainText = (byte[])object;
+        String data = new String(SecurityHelper.decrypt(plainText));
+        mContext.deleteFile(fileName);
+        fis.close();
+        ois.close();
+        return data;
     }
+
+
+
 
 
     public void checkFileEncryptionStatus() {
         if (!isFileEncryptionDone(JR_CAPTURE_SIGNED_IN_USER)) {
-            SecureStorage.migrateUserData(JR_CAPTURE_SIGNED_IN_USER);
+            migratePlainText(JR_CAPTURE_SIGNED_IN_USER);
+        }else{
+            migrateEncryptedText(JR_CAPTURE_SIGNED_IN_USER);
         }
 
         if (!isFileEncryptionDone(HSDP_RECORD)) {
-            migrateFileData(HSDP_RECORD);
+            migratePlainObject(HSDP_RECORD);
+        }else{
+            migrateEncryptedObject(HSDP_RECORD);
         }
 
         if (!isFileEncryptionDone(DI_PROFILE)) {
-            migrateFileData(DI_PROFILE);
+            migratePlainObject(DI_PROFILE);
+        }else{
+            migrateEncryptedObject(DI_PROFILE);
         }
         if(!isFileEncryptionDone(JUMP_REFRESH_SECRET)){
-            migrateFileData(JUMP_REFRESH_SECRET);
+            migratePlainObject(JUMP_REFRESH_SECRET);
+        }else{
+            migrateEncryptedObject(JUMP_REFRESH_SECRET);
         }
 
     }
@@ -153,5 +150,123 @@ public class DataMigration {
 
         return isEncryptionDone;
     }
+
+
+    //meant to migrate unencrypted data to encrypted one
+    private  void migratePlainText(final String pFileName){
+
+        try {
+            //Read from file
+            FileInputStream fis = mContext.openFileInput(pFileName);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Object object = ois.readObject();
+            String plainTextString = null;
+            byte[] plainBytes = null;
+            if(object instanceof String) {
+                plainTextString = (String) object;
+            }
+
+            if(object instanceof byte[]){
+                plainBytes = (byte[])object;
+            }
+            mContext.deleteFile(pFileName);
+            fis.close();
+            ois.close();
+
+            SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
+            if(plainTextString != null) {
+                secureStorageInterface.storeValueForKey(pFileName,plainTextString);
+            }
+            if(plainBytes != null){
+                secureStorageInterface.storeValueForKey(pFileName,new String(plainBytes));
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (OptionalDataException e) {
+            e.printStackTrace();
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    //meant to migrate unencrypted data to encrypted one
+    private  void migrateEncryptedText(final String pFileName){
+
+        try {
+            //Read from file
+            FileInputStream fis = mContext.openFileInput(pFileName);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Object object = ois.readObject();
+            byte[] plainBytes = null;
+            if(object instanceof byte[]){
+                plainBytes = (byte[])object;
+            }
+            mContext.deleteFile(pFileName);
+            fis.close();
+            ois.close();
+
+            SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
+            if(plainBytes != null){
+                secureStorageInterface.storeValueForKey(pFileName,new String(SecurityHelper.decrypt(plainBytes)));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (OptionalDataException e) {
+            e.printStackTrace();
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void migratePlainObject(final String fileName) {
+        try {
+            String plainText = readDataAndDeleteFile(fileName);
+            if (plainText != null) {
+                SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
+                secureStorageInterface.storeValueForKey(fileName,plainText);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (OptionalDataException e) {
+            e.printStackTrace();
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void migrateEncryptedObject(final String fileName) {
+        try {
+            String plainText = readEncryptedDataAndDeleteFile(fileName);
+            if (plainText != null) {
+                SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
+                secureStorageInterface.storeValueForKey(fileName,plainText);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (OptionalDataException e) {
+            e.printStackTrace();
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
-*/
