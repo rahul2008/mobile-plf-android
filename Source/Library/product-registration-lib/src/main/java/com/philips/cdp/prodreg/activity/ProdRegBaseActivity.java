@@ -28,7 +28,6 @@ import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.UiKitActivity;
 
 public class ProdRegBaseActivity extends UiKitActivity {
-    private static String TAG = ProdRegBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private TextView mTitleTextView;
 
@@ -58,7 +57,6 @@ public class ProdRegBaseActivity extends UiKitActivity {
             }
             Bundle bundle = new Bundle();
             bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, product);
-            bundle.putBoolean(ProdRegConstants.PROD_REG_IS_ACTIVITY, true);
             FragmentLauncher fragLauncher = new FragmentLauncher(
                     this, R.id.mainContainer, new ActionbarUpdateListener() {
                 @Override

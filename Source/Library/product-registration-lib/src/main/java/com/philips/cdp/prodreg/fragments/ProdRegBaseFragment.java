@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.alert.ModalAlertDemoFragment;
@@ -20,7 +19,6 @@ import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
-import com.philips.cdp.product_registration_lib.R;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -85,7 +83,7 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
                         .findFragmentById(getId());
 
                 if (!(currentFrag instanceof ProdRegBaseFragment))
-                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_PRODUCT_TESTING);
+                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_TAG);
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 Log.e(TAG, e.getMessage());
@@ -107,7 +105,7 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
                 Fragment currentFrag = fragmentActivity.getSupportFragmentManager()
                         .findFragmentById(getId());
                 if (!(currentFrag instanceof ProdRegBaseFragment))
-                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_PRODUCT_TESTING);
+                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_TAG);
                 else {
                     fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
                 }
@@ -134,12 +132,7 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
      * seletion/creation.
      */
     private void setActionbarTitle() {
-        if (getId() == 0) {
-            ((TextView) getActivity().findViewById(
-                    R.id.action_bar_title)).setText(getActionbarTitle());
-        } else {
-            updateActionbar();
-        }
+        updateActionbar();
     }
 
     private void updateActionbar() {
@@ -147,9 +140,10 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
     }
 
     protected void showAlert(final String title, final String description) {
-        if (getActivity() != null && !getActivity().isFinishing()) {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
             final ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
-            modalAlertDemoFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+            modalAlertDemoFragment.show(activity.getSupportFragmentManager(), "dialog");
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -162,12 +156,13 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
     }
 
     public boolean clearFragmentStack() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            if (getActivity() instanceof ProdRegBaseActivity) {
-                getActivity().finish();
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            if (activity instanceof ProdRegBaseActivity) {
+                activity.finish();
             } else {
-                FragmentManager fragManager = getActivity().getSupportFragmentManager();
-                return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_PRODUCT_TESTING, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                FragmentManager fragManager = activity.getSupportFragmentManager();
+                return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
         return false;

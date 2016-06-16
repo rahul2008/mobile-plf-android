@@ -14,9 +14,8 @@ public class ProdRegConstants {
     public static final String STOP_ANIMATION_ID = "stopAnimation";
     public static final String SCREEN_ORIENTATION = "orientation";
     public static final String PROD_REG_ON_FIRST_LAUNCH = "user_registration_success";
-    public static final String PROD_REG_IS_ACTIVITY = "prod_reg_is_activity";
     public static final String PROD_REG_PRODUCT = "product";
     public static final String PROD_REG_PRODUCT_SUMMARY = "product_summary";
     public static final String PROD_REG_PRODUCT_METADATA = "product_metadata";
-    public static final String PROD_REG_PRODUCT_TESTING = "product_testing";
+    public static final String PROD_REG_TAG = "product_registration";
 }

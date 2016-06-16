@@ -95,7 +95,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
         serialLayout = (InlineForms) view.findViewById(R.id.InlineForms_serial_number);
         purchaseDateLayout = (InlineForms) view.findViewById(R.id.InlineForms_date);
-        imageLoader = ImageRequestHandler.getInstance(getActivity()).getImageLoader();
+        imageLoader = new ImageRequestHandler(getActivity()).getImageLoader();
         register = (Button) view.findViewById(R.id.btn_register);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
         register.setOnClickListener(onClickRegister());

@@ -208,4 +208,10 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         else
             ProdRegConfigManager.getInstance().invokeProductRegistration(activityLauncher);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().setTitle(getString(R.string.app_name));
+    }
 }

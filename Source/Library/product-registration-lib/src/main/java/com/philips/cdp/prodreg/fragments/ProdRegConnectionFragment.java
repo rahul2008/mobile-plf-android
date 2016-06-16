@@ -25,12 +25,13 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_connection, container, false);
+        getActivity().setTitle(getActionbarTitle());
         Button backButton = (Button) view.findViewById(R.id.back_btn);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 if (getActivity() != null && !getActivity().isFinishing()) {
-                    getActivity().onBackPressed();
+                    clearFragmentStack();
                 }
             }
         });
@@ -40,8 +41,8 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
     @Override
     public boolean onBackPressed() {
         if (getActivity() != null && !getActivity().isFinishing()) {
-            clearFragmentStack();
-            return false;
+            return clearFragmentStack();
+
         }
         return true;
     }
