@@ -114,11 +114,11 @@
 
             <TextView
                 style="@style/PhilipsTextInputLayoutTextViewStyle"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_weight="0.5"
-                android:gravity="right"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="Serial number:"
                 android:textColor="?attr/uikit_baseColor"
                 android:textSize="16sp"/>
@@ -127,10 +127,10 @@
             <EditText
                 android:id="@+id/serial_edit_text"
                 style="@style/PhilipsTextInputLayoutStyleEnabled"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="left"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:textColor="?attr/uikit_brightColor"
                 android:textSize="16sp"/>
 
