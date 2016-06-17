@@ -10,8 +10,6 @@ package com.philips.platform.appinfra.AppIdentity;
  */
 public interface AppIdentityInterface {
 
-    public void configureAppIdentity(String configFilePath);
-    public String loadJSONFromAsset();
     public String getAppName();
     public String getAppVersion();
     public String getAppState();

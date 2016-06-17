@@ -102,7 +102,7 @@ public class AppIdentityManager implements AppIdentityInterface {
     }
 
 
-       private String loadJSONFromAsset() {
+       public String loadJSONFromAsset() {
         String json = null;
         try {
 
