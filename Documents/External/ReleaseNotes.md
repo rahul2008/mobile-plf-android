@@ -2,11 +2,11 @@
 ================================================================================
 Release notes for User Registration Android 
 ================================================================================
-Version 6.0.0     Date : 13-05-2016
+Version 6.0.4     Date : 17-06-2016
 --------------------------------------------------------------------------------
 Components and versions in this release
 
-regidtartionApi : 6.0.0
+regidtartionApi : 6.0.4
 localeMatch : 1.1.1
 tagging :2.0.0
 hsdp :1.0.3
@@ -23,10 +23,7 @@ adobeMobileLibrary :4.5.1
 
 --------------------------------------------------------------------------------
 ### New Features 
-¬	New COPPA component completed on top of User registration.
-¬	HSDP Social support enable for Facebook and Google+
-¬	HSDP refresh secrete for traditional HSDP sign on.
-¬	Code quality improvements with TICS score 83%
+¬	HSDP password guidline chnaged.
 ¬	Bug fixes
 
 
