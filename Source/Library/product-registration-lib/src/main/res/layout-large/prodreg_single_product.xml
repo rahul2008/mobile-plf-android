@@ -6,7 +6,7 @@
                 android:paddingTop="@dimen/pr_e_value_tablet">
 
     <TextView
-        android:id="@+id/product_title"
+        android:id="@+id/friendly_name"
         style="@style/ProductRegsitraionProductHeaderTitleTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,24 +14,24 @@
         android:layout_marginRight="@dimen/pr_first_launch_padding_right"/>
 
     <TextView
-        android:id="@+id/series_title"
+        android:id="@+id/product_title"
         style="@style/ProductRegsitraionProductSubTitleTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/product_title"
-        android:layout_below="@+id/product_title"
+        android:layout_alignLeft="@+id/friendly_name"
+        android:layout_below="@+id/friendly_name"
         android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
         android:layout_marginRight="@dimen/pr_first_launch_padding_right"
         android:layout_marginTop="@dimen/pr_c_value_tablet"
         android:visibility="gone"/>
 
     <TextView
-        android:id="@+id/ctn_number_tv"
+        android:id="@+id/product_ctn"
         style="@style/ProductRegsitraionCtnTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/product_title"
-        android:layout_below="@+id/series_title"
+        android:layout_alignLeft="@+id/friendly_name"
+        android:layout_below="@+id/product_title"
         android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
         android:layout_marginRight="@dimen/pr_first_launch_padding_right"
         android:layout_marginTop="@dimen/pr_c_value_tablet"
@@ -41,8 +41,8 @@
         android:id="@+id/serial_number_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/product_title"
-        android:layout_below="@+id/ctn_number_tv"
+        android:layout_alignLeft="@+id/friendly_name"
+        android:layout_below="@+id/product_ctn"
         android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
         android:layout_marginRight="@dimen/pr_first_launch_padding_right"
         android:layout_marginTop="@dimen/pr_c_value_tablet"

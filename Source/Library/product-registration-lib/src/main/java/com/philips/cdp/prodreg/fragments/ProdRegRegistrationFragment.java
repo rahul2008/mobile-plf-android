@@ -47,7 +47,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
-    private TextView productTitleTextView;
+    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView;
     private Button register;
     private ImageView productImageView;
     private ProductMetadataResponseData productMetadataResponseData;
@@ -93,7 +93,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_single_product, container, false);
+        productFriendlyNameTextView = (TextView) view.findViewById(R.id.friendly_name);
         productTitleTextView = (TextView) view.findViewById(R.id.product_title);
+        productCtnTextView = (TextView) view.findViewById(R.id.product_ctn);
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
         serialLayout = (InlineForms) view.findViewById(R.id.InlineForms_serial_number);
@@ -169,8 +171,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
 
     private void updateUi(final Data summaryData) {
         if (summaryData != null) {
+            final String familyName = summaryData.getFamilyName();
             final String productTitle = summaryData.getProductTitle();
+            final String productCtn = summaryData.getCtn();
+            productFriendlyNameTextView.setText(familyName != null ? familyName : "");
             productTitleTextView.setText(productTitle != null ? productTitle : "");
+            productCtnTextView.setText(productCtn != null ? productCtn : "");
             imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.ic_launcher, R.drawable.ic_launcher));
         }
         if (currentProduct != null) {
