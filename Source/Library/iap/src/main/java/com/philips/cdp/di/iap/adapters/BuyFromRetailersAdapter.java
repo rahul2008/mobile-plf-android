@@ -1,11 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -46,6 +43,8 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         mContainerID = id;
     }
 
+
+
     @Override
     public RetailerViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View v = View.inflate(parent.getContext(), R.layout.iap_retailer_item, null);
@@ -60,19 +59,24 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         String availability = storeEntity.getAvailability();
         if (availability.equalsIgnoreCase("yes")) {
-            holder.mAvailability.setText(mContext.getString(R.string.iap_in_stock));
-            holder.mAvailability.setTextColor(mThemeBaseColor);
+            holder.mAvailibility.setText(mContext.getString(R.string.iap_in_stock));
+            holder.mAvailibility.setTextColor(mThemeBaseColor);
         } else {
-            holder.mAvailability.setText(mContext.getString(R.string.iap_out_of_stock));
-            holder.mAvailability.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
+            holder.mAvailibility.setText(mContext.getString(R.string.iap_out_of_stock));
+            holder.mAvailibility.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
         }
 
         final String buyURL = storeEntity.getBuyURL();
         holder.mArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                tagOnSelectRetailer(storeEntity);
-                addWebBuyFromRetailers(buyURL, storeEntity.getName());
+                if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
+                    NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
+                    return;
+                } else {
+                    tagOnSelectRetailer(storeEntity);
+                    addWebBuyFromRetailers(buyURL, storeEntity.getName());
+                }
             }
         });
 
@@ -111,24 +115,29 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     public class RetailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         NetworkImageView mLogo;
         TextView mStoreName;
-        TextView mAvailability;
+        TextView mAvailibility;
         FontIconTextView mArrow;
 
         public RetailerViewHolder(View itemView) {
             super(itemView);
             mLogo = (NetworkImageView) itemView.findViewById(R.id.iap_retailer_image);
             mStoreName = (TextView) itemView.findViewById(R.id.iap_online_store_name);
-            mAvailability = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
+            mAvailibility = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.retailer_arrow);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(final View v) {
-            final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.RETAILER_SELECTED, mStoreEntities.get(getAdapterPosition()).getName());
-            addWebBuyFromRetailers(buyURL, mStoreEntities.get(getAdapterPosition()).getName());
+            if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
+                NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
+                return;
+            } else {
+                final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
+                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                        IAPAnalyticsConstant.RETAILER_SELECTED, mStoreEntities.get(getAdapterPosition()).getName());
+                addWebBuyFromRetailers(buyURL, mStoreEntities.get(getAdapterPosition()).getName());
+            }
         }
     }
 }
