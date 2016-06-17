@@ -7,23 +7,34 @@
 
     <TextView
         android:id="@+id/conf_action_textview"
+        style="@style/ProductRegsitraionHeaderTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="@string/prod_reg_register_product_message"
-        android:textSize="@dimen/pr_action_title_textsize"/>
+        />
 
     <TextView
         android:id="@+id/conf_subtext_textview"
+        style="@style/ProductRegsitraionSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/conf_action_textview"
         android:layout_below="@+id/conf_action_textview"
         android:layout_marginTop="@dimen/pr_e_value_sm"
-        android:text="@string/pr_first_launch_subtext_first"
-        android:textSize="@dimen/pr_subtitle_textsize"/>
+        android:text="@string/pr_first_launch_subtext_first"/>
+
+    <TextView
+        android:id="@+id/conf_subtext_two_textview"
+        style="@style/ProductRegsitraionSubTitleTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/conf_action_textview"
+        android:layout_below="@+id/conf_subtext_textview"
+        android:text="@string/pr_first_launch_subtext_second"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/yes_register_button"

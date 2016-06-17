@@ -8,8 +8,8 @@
     <dimen name="pr_e_value_sm">33dp</dimen>
     <dimen name="negative_pr_e_value_sm">-33dp</dimen>
     <dimen name="pr_c_value_sm">12dp</dimen>
-    <dimen name="pr_action_title_textsize">26sp</dimen>
-    <dimen name="pr_subtitle_textsize">17dp</dimen>
+    <dimen name="pr_action_title_textsize">21sp</dimen>
+    <dimen name="pr_subtitle_textsize">14dp</dimen>
     <dimen name="pr_e_value_tablet">72dp</dimen>
     <dimen name="pr_c_value_tablet">28dp</dimen>
     <dimen name="pr_g_value_sm">85dp</dimen>
@@ -25,4 +25,6 @@
     <dimen name="pr_first_launch_padding_left">188dp</dimen>
     <dimen name="pr_first_launch_padding_right">188dp</dimen>
     <dimen name="pr_first_launch_padding_top">72dp</dimen>
+    <dimen name="pr_connect_title_textsize">16sp</dimen>
+    <dimen name="pr_connect_more_text_size">14sp</dimen>
 </resources>

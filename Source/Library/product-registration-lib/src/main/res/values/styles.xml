@@ -14,4 +14,57 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="ProductRegsitraionHeaderTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">22sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="ProductRegsitraionSubTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="ProductRegsitraionConnectHeaderTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="ProductRegsitraionConnectSubTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="ProductRegsitraionProductHeaderTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+    </style>
+
+    <style name="ProductRegsitraionProductSubTitleTheme">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="ProductRegsitraionCtnTheme">
+        <item name="android:textColor">@color/uikit_enricher4</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="DateOfPurchaseStyle">
+        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="DatePickerStyle">
+        <item name="android:textColor">#0066a1</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
 </resources>

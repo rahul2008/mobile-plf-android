@@ -7,22 +7,23 @@
 
     <TextView
         android:id="@+id/pr_success_title_textview"
+        style="@style/ProductRegsitraionHeaderTitleTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/successfully_registered"
-        android:textSize="@dimen/pr_action_title_textsize"/>
+        android:text="@string/successfully_registered"/>
 
 
     <TextView
         android:id="@+id/pr_success_more_textview"
+        style="@style/ProductRegsitraionSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pr_success_title_textview"
         android:layout_marginTop="@dimen/pr_e_value_sm"
-        android:text="Your warranty has been extended"
-        android:textSize="@dimen/pr_subtitle_textsize"/>
+        android:text="@string/pr_rg_success_subtext"
+        />
 
 
     <LinearLayout
@@ -47,7 +48,8 @@
             android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/pr_c_value_sm"
             android:text="@string/register_next"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/back_to_list_button"
@@ -56,6 +58,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/pr_c_value_sm"
             android:text="@string/back_to_list"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            android:visibility="gone"/>
     </LinearLayout>
 </RelativeLayout>

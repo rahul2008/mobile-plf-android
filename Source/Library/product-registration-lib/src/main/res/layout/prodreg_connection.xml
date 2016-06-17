@@ -3,31 +3,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="@dimen/pr_e_value_sm">
+    >
 
 
     <TextView
         android:id="@+id/pr_all_success_textview"
+        style="@style/ProductRegsitraionConnectHeaderTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/pr_d_value_sm"
-        android:text="@string/all_pr_success_message"
-        android:textSize="22sp"/>
+        android:layout_marginLeft="@dimen/pr_e_value_sm"
+        android:layout_marginRight="@dimen/pr_e_value_sm"
+        android:layout_marginTop="@dimen/pr_e_value_sm"
+        android:text="@string/all_pr_success_message"/>
 
     <TextView
+        style="@style/ProductRegsitraionConnectSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pr_all_success_textview"
-        android:layout_marginTop="@dimen/pr_d_value_sm"
-        android:text="@string/do_you_want_to_reg_msg"
-        android:textSize="18sp"/>
+        android:background="?attr/uikit_veryLightColor"
+        android:paddingBottom="@dimen/pr_d_value_sm"
+        android:paddingLeft="@dimen/pr_e_value_sm"
+        android:paddingRight="@dimen/pr_e_value_sm"
+        android:paddingTop="@dimen/pr_d_value_sm"
+        android:text="@string/do_you_want_to_reg_msg"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/pr_e_value_sm"
+        android:layout_marginLeft="@dimen/pr_e_value_sm"
+        android:layout_marginRight="@dimen/pr_e_value_sm"
         android:orientation="vertical">
 
 
@@ -35,11 +45,12 @@
             android:id="@+id/back_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Back"
+            android:text="@string/back"
             android:textAllCaps="false"/>
 
         <Button
             android:id="@+id/connect_product_btn"
+            style="?attr/uikit_outlinedButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"

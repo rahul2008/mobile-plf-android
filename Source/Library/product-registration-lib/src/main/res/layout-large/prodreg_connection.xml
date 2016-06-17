@@ -10,20 +10,20 @@
 
     <TextView
         android:id="@+id/pr_all_success_textview"
+        style="@style/ProductRegsitraionConnectHeaderTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="@string/all_pr_success_message"
-        android:textSize="22sp"/>
+        android:text="@string/all_pr_success_message"/>
 
     <TextView
         android:id="@+id/reg_another_prod_textview"
+        style="@style/ProductRegsitraionConnectSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pr_all_success_textview"
         android:layout_marginTop="@dimen/pr_d_value_tablet"
-        android:text="@string/do_you_want_to_reg_msg"
-        android:textSize="18sp"/>
+        android:text="@string/do_you_want_to_reg_msg"/>
 
 
     <Button
