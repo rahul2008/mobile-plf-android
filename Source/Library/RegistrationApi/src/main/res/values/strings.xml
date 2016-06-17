@@ -7,22 +7,22 @@
     <string name="InValid_PwdErrorMsg">The password does not follow the password guidelines below.</string>
     <string name="InvalidEmailAdddress_ErrorMsg">Invalid email address</string>
     <string name="InValidFirstName_ErrorMsg">Invalid first name</string>
-    <string name="MaxiumCharacters_ErrorMsg">Field should not exceed 256 characters</string>
+    <string name="MaxiumCharacters_ErrorMsg">Field Should not exceed 256 Characters</string>
     <string name="NoNetworkConnection">Registration is not available because you are offline</string>
-    <string name="SocialAccountMerger_ErrorMsg" formatted="false">You have already registered with another %s account. Please log in to %s account.</string>
+    <string name="SocialAccountMerger_ErrorMsg" formatted="false">You have already registered with another %s account, please log in to %s account.</string>
     <string name="Janrain_Error_Need_Email_Verification">Please verify your email address through the activation link sent to your email account</string>
-    <string name="JanRain_Invalid_Input">Invalid input. Please check and enter correct details.</string>
+    <string name="JanRain_Invalid_Input">Invalid input ,Please check and enter correct details.</string>
     <string name="JanRain_Invalid_Credentials">The email address or password you entered is incorrect.</string>
-    <string name="JanRain_Error_Check_Internet">Network connection problem.</string>
-    <string name="JanRain_LogIn_Failed">Failed to log in. Please try again later.</string>
-    <string name="JanRain_Server_Connection_Failed">LegalNoticeText_With_Terms_And_Conditions</string>
+    <string name="JanRain_Error_Check_Internet">Problem in network connection.</string>
+    <string name="JanRain_LogIn_Failed">Failed to login, Please try again after some time.</string>
+    <string name="JanRain_Server_Connection_Failed">Failed to connect to the server, Please try again after some time.</string>
     <string name="SigIn_TitleTxt">Log In</string>
     <string name="RegBaseViewNav_TitleTxt">Account</string>
     <string name="RegCreateAccount_NavTitle">Create Account</string>
     <string name="NameField_ErrorText">Please enter first name.</string>
-    <string name="kemailFieldErrorText">Please enter a valid email address.</string>
+    <string name="kemailFieldErrorText">Please enter valid email address.</string>
     <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Email address is already in use</string>
-    <string name="EmailAlreadyUsedErrorMsg_LabelTxt">This email address is already in use with a Philips account or a social media account.\nPlease go back to the \'Log in\' step, or use another email address.</string>
+    <string name="EmailAlreadyUsedErrorMsg_LabelTxt">This email address is already in use with a Philips account or a social media account.\nPlease go back to the \'Log in\' step, or use an other email address.</string>
     <string name="PrivacyNoticeText">Privacy Notice</string>
     <string name="TermsAndConditionsText">Terms and Conditions</string>
     <string name="RegEmailNotVerified_AlertPopupErrorText">Please verify your email address through the activation link sent to your email account</string>
@@ -32,11 +32,11 @@
     <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Log in with Philips account</string>
     <string name="EmailAddPlaceHolder_txtField">Enter email address</string>
     <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">Enter password</string>
-    <string name="TraditionalSignIn_Resend_lbltxt">Press the \"Resend\" button if you have not received an email.</string>
-    <string name="TraditionalSignIn_ForgotPwd_btntxt">Forgotten Password</string>
+    <string name="TraditionalSignIn_Resend_lbltxt">Press “Resend” button if you have not received an email.</string>
+    <string name="TraditionalSignIn_ForgotPwd_btntxt">Forgot Password</string>
     <string name="Resend_btntxt">Resend</string>
     <string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">No worries! You do not need a Philips password. You have logged in with a social provider previously.</string>
-    <string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Sorry to make you click twice. You have previously logged in with a social provider. Please go back to the log in step, and log in with your social provider.</string>
+    <string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Sorry to make you click twice. You have previously logged in with a social provider. Please go back to the Log in-step’, and log in with your social provider.</string>
     <string name="SignInSuccess_Welcome_lbltxt">Welcome</string>
     <string name="SignOut_btntxt">Log Out</string>
     <string name="SignInSuccess_ResendConsent_btntxt">Resend Consent</string>
@@ -46,16 +46,16 @@
     <string name="Create_Account_CreateMyPhilips_btntxt">Create Philips account</string>
     <string name="Create_Account_FirstName__Placeholder_txtFiled">Enter first name</string>
     <string name="Create_Account_Hint_Password_lbltxt">Protect your privacy by choosing a strong password.</string>
-    <string name="ReciveMarketing_PeridicOffers_lbltxt">I would like to receive periodic offers and updates from Philips</string>
+    <string name="ReciveMarketing_PeridicOffers_lbltxt">I would like to receive periodic offers and updates from philips</string>
     <string name="SignIn_with_provider_lbltxt">Log in with %s</string>
-    <string name="Account_Merge_UsedEmail_Error_lbltxt">You have used %s before to create a Philips account.</string>
+    <string name="Account_Merge_UsedEmail_Error_lbltxt">You have used %s before for creating a Philips account.</string>
     <string name="Account_Merge_EnterPassword_Placeholder_txtFiled">Enter Philips password</string>
     <string name="Account_Merge_Merge_btntxt">Merge</string>
     <string name="Social_SignIn_Email_PlaceHolder_txtFiled">Please enter your email address</string>
     <string name="Social_SignIn_AlmostDone_lbltxt">Almost done!</string>
     <string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">Previously, you logged in with %s, using %s on a Philips app or website. We will connect %s to your account.</string>
     <string name="Social_Merge_Accounts_lbltxt">To make sure it is really you, please log in with %s once more.</string>
-    <string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">If you would not like to connect %s to your account, press \"cancel\" and log in with %s.</string>
+    <string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">If you would not like to connect %s to your account, press \”cancel\” and log in with %s.</string>
     <string name="Social_Merge_Cancel_btntxt">Cancel</string>
     <string name="Account_Merge_lbltxt">Merge your accounts</string>
     <string name="Social_Merge_btntxt">Connect</string>
@@ -101,21 +101,21 @@
     <string name="LegalNoticeText">Please read our %s</string>
     <string name="AgeLimitText">By creating an account or signing in you certify that you are %s years or older.\n</string>
     <string name="TermsAndConditionsAcceptanceText">I accept the app\'s %s</string>
-    <string name="TermsAndConditionsAcceptanceText_Error">Please accept the Terms and Conditions</string>
+    <string name="TermsAndConditionsAcceptanceText_Error">Please accept the Terms &amp; Conditions</string>
     <string name="Verification_email_Title">Verification email sent</string>
     <string name="Verification_email_Message">We have sent you an email to verify your email address. It may take some time for the email to arrive.</string>
-    <string name="Forgot_Password_Title">Forgotten password?</string>
+    <string name="Forgot_Password_Title">Forgot password?</string>
     <string name="Forgot_Password_description">We will send you an email to reset your password.</string>
     <string name="Merge_Account_Title">Merge your accounts</string>
     <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 characters</string>
-    <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Upper- or lowercase letters</string>
+    <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Upper or lower case letters</string>
     <string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Symbols (_.@$)</string>
     <string name="Create_Account_PasswordHint_Numbers_lbltxt">Numbers</string>
-    <string name="Philips_News_Description_Normal_lbltxt">As a result of your consent, Philips group companies may contact you with promotional communications based on your preferences and behaviour, about Philips products, services, events and promotions. \nWe may contact you via email, SMS and other digital channels, such as mobile apps and social media. In order to be able to tailor the communications for you and provide you with the best, most personalised experience, we may analyse and combine your personal data. \n\nThis data may include:\n</string>
+    <string name="Philips_News_Description_Normal_lbltxt">As a result of your consent, Philips group companies may contact you with promotional communications - based on your preferences and behaviour - about Philips products, services, events and promotions. \nWe may contact you via email, SMS and other digital channels, such as mobile apps and social media. To be able to tailor the communications to your preferences and behavior and provide you with the best, personalized experience, we may analyze and combine your personal data. \n\nThis data may include:\n</string>
     <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Data you gave us:\n</string>
     <string name="Philips_News_Description_First_Bulleted_Description_lbltxt">Data that you want to actively share with us such as: your name, date of birth or age, email address, physical address, country, gender, phone number, social media profile.\n\n</string>
     <string name="Philips_News_Description_Second_Bulleted_Title_lbltxt">Data we get from your interactions with Philips:\n</string>
-    <string name="Philips_News_Description_Second_Bulleted_Description_lbltxt">Data about your interactions and usage of the Philips digital channels, such as social media, websites, email, apps and connected products. This data may include: IP address, cookies, device information, communications that you click on, location details and websites that you visit</string>
+    <string name="Philips_News_Description_Second_Bulleted_Description_lbltxt">Data about your interactions and usage of the Philips digital channels, such as social media, websites, email, apps and connected products. This data may include: IP address. cookies, device information, communications you click on, location details, and websites you visit</string>
     <string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt">Philips will give you the opportunity to withdraw your consent at any time.</string>
     <string name="Signin_Success_Hello_lbltxt">Hello</string>
     <string name="Access_More_Account_Setting_lbltxt">Do you want to access more account settings?\nVisit %s via your browser.</string>
@@ -127,9 +127,29 @@
     <string name="Account_Setting_Titletxt">Account settings</string>
     <string name="Create_With_lbltxt">Or create an account</string>
     <string name="myphilips_CC">MyPhilips account</string>
-    <string name="Generic_Network_Error">Oops! Something went wrong. Please try again later</string>
-    <string name="Already_Verified_Message">Your email address is already verified. You may continue.</string>
+    <string name="Coppa_Give_Approval_txt">In order to make the most out of the App Philips requires your consent to collect and use information about your child’s usage of Philips Sonicare and the App.\n\nThis information will include brushing time, period and frequency collected from the brush handle and the App.\n\nThis information allows you to monitor and encourage your child’s brushing habits and to receive personalized brushing information and notifications when it is time to replace your brush head.\n\nWe will not collect or use any personal information from the child if you do not provide such consent.\n\n</string>
+    <string name="Coppa_Give_Approval_US_txt">If you agree, you will receive a confirmatory consent request when you enter the parental section again after a minimum period of 24 hours from now.\n\n</string>
+    <string name="Coppa_Give_Approval_PrivacyNotes_txt">Read the %s for more information.</string>
+    <string name="Coppa_Confirm_Approval_Title_txt">Confirm Approval</string>
+    <string name="Coppa_Confirm_Approval_Content_txt">Thank you for consenting to the storage of your child’s information.This is a second consent to confirm your approval.\n\nIn order to make the most out of the app please confirm your parental consent to allow Philips to collect and use information about your child’s usage of the Philips Sonicare and the App. This information will include brushing time, period and frequency collected from the brush handle and the App.\n\nThis information allows you to monitor and encourage your child’s brushing habits and to receive personalized brushing information and notifications when it is time to replace your brush head.\n\nWe will not collect or use any personal information from the child if you do not provide such consent.\n\n</string>
+    <string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. and its subsidiaries (\"Philips\") believe strongly in protecting the privacy of the data you share with us. We also believe it is important to inform you about how we will use your data, and to give you choices about how those data will be used. Therefore, we encourage you to read this Privacy Notice carefully, before you make your choices and give us the right to use your information. This is a notice about Philips’ privacy practices, not a contact or agreement.</string>
+    <string name="Coppa_Privacy_Notice_Content_Title_txt">App Privacy Notice</string>
+    <string name="Coppa_Privacy_Notice_Screen_Title_txt">Privacy Notice</string>
+    <string name="Coppa_Consent_Approval_Screen_Title_txt">Approval</string>
+    <string name="Coppa_Age_Verification_Screen_Title_txt">Parental Access</string>
+    <string name="Coppa_Age_Verification_UnderAge_Txt">I am under %d</string>
+    <string name="Coppa_Age_Verification_OverAge_Txt">I am over %d</string>
+    <string name="Coppa_Age_Verification_UnderAge_Alert_Txt">This is intended for people above %d. Please ask your parent to do it for you.</string>
     <string name="Ok_Btn_Txt">OK</string>
+    <string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Year of birth</string>
+    <string name="Coppa_Age_Verification_How_Old_Txt">How old are you?</string>
+    <string name="Coppa_Age_Verification_Alert_Title">Age and birth year mismatch</string>
+    <string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">The provided age does not match with year of birth. Please make sure your age and year of birth are correct.</string>
+    <string name="Coppa_Parent_Access_Attempt_Txt">You are trying to access a section intended for parents.</string>
+    <string name="Coppa_Parent_Access_Agree_Button_Txt">I agree</string>
+    <string name="Coppa_Parent_Access_Disagree_Button_Txt">Disagree</string>
+    <string name="Generic_Network_Error">Opps! Something went wrong. Please try again later</string>
+    <string name="Already_Verified_Message">Your email is already verified. You may continue.</string>
 
     <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>
