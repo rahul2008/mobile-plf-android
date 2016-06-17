@@ -66,7 +66,9 @@ public class MainActivity extends UiKitActivity {
 
     @Override
     public void onBackPressed() {
-        if (!ProdRegConfigManager.getInstance().onBackPressed(this)) {
+        if (fragmentManager.getBackStackEntryCount() == 1) {
+            finish();
+        } else if (!ProdRegConfigManager.getInstance().onBackPressed(this)) {
             super.onBackPressed();
         }
     }

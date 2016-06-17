@@ -21,8 +21,6 @@
     <string name="register_next">Register next</string>
     <string name="back_to_list">Back to list</string>
     <string name="date_of_purchase">Date of purchase</string>
-    <string name="pr_first_launch_subtext_first">-Recieve important updates about your products</string>
-    <string name="pr_first_launch_subtext_second">-Extend your warrenty with xx months</string>
-    <string name="pr_rg_success_subtext">Your warrenty period has been extended untill xx-xx-xxxx\n \nAn email with your extended warranty contract has been sent to your email address.</string>
-    <string name="back">Back</string>
+    <string name="pr_first_launch_subtext_first">-Recieve important updates about your products \n-Extend your warrenty with xx months</string>
+    <string name="prod_reg_registering_product">Registering your product</string>
 </resources>

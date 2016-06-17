@@ -15,7 +15,7 @@ import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ModalAlertDemoFragment extends BlurDialogFragment {
+public class ProdRegErrorAlertFragment extends BlurDialogFragment {
 
     private TextView titleTextView, descriptionTextView;
     private DialogOkButtonListener dialogOkButtonListener;

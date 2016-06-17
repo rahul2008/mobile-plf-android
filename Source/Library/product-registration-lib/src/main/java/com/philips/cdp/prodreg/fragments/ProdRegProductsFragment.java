@@ -42,7 +42,6 @@ public class ProdRegProductsFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_registered_products, container, false);
-        getActivity().setTitle(getActionbarTitle());
         init(view);
         return view;
     }

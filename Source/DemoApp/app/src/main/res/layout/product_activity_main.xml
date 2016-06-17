@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="15dp"
-            android:text="PR as activity start A"
+            android:text="App set up flow as activity"
             android:textAllCaps="false"/>
 
         <Button
@@ -90,7 +90,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="PR as activity start B"
+            android:text="User initiation flow as activity"
             android:textAllCaps="false"/>
 
         <Button
@@ -98,7 +98,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="PR as fragment start A"
+            android:text="App set up flow as fragment"
             android:textAllCaps="false"/>
 
         <Button
@@ -106,7 +106,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="PR as fragment start B"
+            android:text="User initiation flow as fragment"
             android:textAllCaps="false"/>
 
     </LinearLayout>

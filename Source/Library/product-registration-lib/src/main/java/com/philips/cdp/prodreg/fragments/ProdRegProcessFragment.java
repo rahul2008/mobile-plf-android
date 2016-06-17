@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.prodreg.RegistrationState;
-import com.philips.cdp.prodreg.alert.ModalAlertDemoFragment;
+import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.MetadataListener;
@@ -42,6 +42,8 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     private Product currentProduct;
     private Bundle dependencyBundle;
     private int count = 0;
+    private ProdRegLoadingFragment prodRegLoadingFragment;
+
     @Override
     public String getActionbarTitle() {
         return getActivity().getString(R.string.prodreg_actionbar_title);
@@ -51,8 +53,23 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_process, container, false);
-        getActivity().setTitle(getActionbarTitle());
+        showProgressAlertDialog("Looking for your products");
         return view;
+    }
+
+    private void showProgressAlertDialog(final String description) {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            prodRegLoadingFragment = new ProdRegLoadingFragment();
+            prodRegLoadingFragment.show(activity.getSupportFragmentManager(), "dialog");
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    prodRegLoadingFragment.setDescription(description);
+                }
+            }, 200);
+        }
     }
 
     @Override
@@ -115,7 +132,8 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     }
 
     private void makeSummaryRequest() {
-        if (currentProduct != null) {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing() && currentProduct != null) {
             dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
             currentProduct.getProductSummary(getActivity(), currentProduct, getSummaryListener());
         }
@@ -130,13 +148,15 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
                     dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY, productSummaryResponse.getData());
                     final ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
                     prodRegRegistrationFragment.setArguments(dependencyBundle);
+                    if (prodRegLoadingFragment != null) prodRegLoadingFragment.dismiss();
                     showFragment(prodRegRegistrationFragment);
                 }
             }
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                showAlert("Summary Failed", new ErrorHandler().getError(responseCode).getDescription());
+                if (prodRegLoadingFragment != null) prodRegLoadingFragment.dismiss();
+                showAlertOnError("Summary Failed", new ErrorHandler().getError(responseCode).getDescription());
             }
         };
     }
@@ -159,6 +179,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
                     if (!isCtnRegistered(registeredProducts, currentProduct) && getActivity() != null && !getActivity().isFinishing()) {
                         currentProduct.getProductMetadata(getActivity(), getMetadataListener());
                     } else {
+                        if (prodRegLoadingFragment != null) prodRegLoadingFragment.dismiss();
                         showFragment(new ProdRegConnectionFragment());
                     }
                 }
@@ -188,32 +209,21 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                showAlert("Metadata Failed", new ErrorHandler().getError(responseCode).getDescription());
+                if (prodRegLoadingFragment != null) prodRegLoadingFragment.dismiss();
+                showAlertOnError("Metadata Failed", new ErrorHandler().getError(responseCode).getDescription());
             }
         };
     }
 
     @Override
-    protected void showAlert(final String title, final String description) {
-        final ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            modalAlertDemoFragment.setDialogOkButtonListener(new DialogOkButtonListener() {
-                @Override
-                public void onOkButtonPressed() {
-                    if (getActivity() != null && !getActivity().isFinishing()) {
-                        clearFragmentStack();
-                    }
+    public DialogOkButtonListener getDialogOkButtonListener() {
+        return new DialogOkButtonListener() {
+            @Override
+            public void onOkButtonPressed() {
+                if (getActivity() != null && !getActivity().isFinishing()) {
+                    clearFragmentStack();
                 }
-            });
-            modalAlertDemoFragment.show(getActivity().getSupportFragmentManager(), "dialog");
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    modalAlertDemoFragment.setTitle(title);
-                    modalAlertDemoFragment.setDescription(description);
-                }
-            }, 200);
-        }
+            }
+        };
     }
 }

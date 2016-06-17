@@ -26,7 +26,6 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
-        getActivity().setTitle(getActionbarTitle());
         registerButton = (Button) view.findViewById(R.id.yes_register_button);
         registerLater = (Button) view.findViewById(R.id.no_thanks_button);
         registerButton.setOnClickListener(onClickRegister());

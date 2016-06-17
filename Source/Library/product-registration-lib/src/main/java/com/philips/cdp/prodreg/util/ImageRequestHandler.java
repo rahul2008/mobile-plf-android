@@ -2,6 +2,7 @@ package com.philips.cdp.prodreg.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.DisplayMetrics;
 import android.util.LruCache;
 
 import com.android.volley.RequestQueue;
@@ -13,16 +14,19 @@ import com.android.volley.toolbox.Volley;
  * All rights reserved.
  */
 public class ImageRequestHandler {
-    private final ImageLoader mImageLoader;
+    private static ImageRequestHandler mInstance;
+    private static Context mCtx;
     private RequestQueue mRequestQueue;
+    private ImageLoader mImageLoader;
 
-    public ImageRequestHandler(Context context) {
-        mRequestQueue = getRequestQueue(context);
+    private ImageRequestHandler(final Context context) {
+        mCtx = context;
+        mRequestQueue = getRequestQueue();
 
         mImageLoader = new ImageLoader(mRequestQueue,
                 new ImageLoader.ImageCache() {
                     private final LruCache<String, Bitmap>
-                            cache = new LruCache<>(20);
+                            cache = new LruCache<>(getCacheSize(context));
 
                     @Override
                     public Bitmap getBitmap(String url) {
@@ -36,14 +40,32 @@ public class ImageRequestHandler {
                 });
     }
 
-    public RequestQueue getRequestQueue(final Context context) {
+    public static synchronized ImageRequestHandler getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new ImageRequestHandler(context);
+        }
+        return mInstance;
+    }
+
+    public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
+            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;
     }
 
     public ImageLoader getImageLoader() {
         return mImageLoader;
+    }
+
+    public int getCacheSize(Context ctx) {
+        final DisplayMetrics displayMetrics = ctx.getResources().
+                getDisplayMetrics();
+        final int screenWidth = displayMetrics.widthPixels;
+        final int screenHeight = displayMetrics.heightPixels;
+        // 4 bytes per pixel
+        final int screenBytes = screenWidth * screenHeight * 4;
+
+        return screenBytes * 3;
     }
 }

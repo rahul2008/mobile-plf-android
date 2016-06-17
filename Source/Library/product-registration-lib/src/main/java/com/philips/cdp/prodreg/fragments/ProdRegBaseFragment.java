@@ -14,9 +14,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
-import com.philips.cdp.prodreg.alert.ModalAlertDemoFragment;
+import com.philips.cdp.prodreg.alert.ProdRegErrorAlertFragment;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
+import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
 
@@ -24,12 +25,13 @@ import com.philips.cdp.prodreg.util.ProdRegConstants;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListener {
+abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListener {
 
     private static String TAG = ProdRegBaseFragment.class.getSimpleName();
     private static ActionbarUpdateListener mActionbarUpdateListener;
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
+    private DialogOkButtonListener dialogOkButtonListener;
 
     public abstract String getActionbarTitle();
 
@@ -49,6 +51,17 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
     public void onDestroyView() {
         super.onDestroyView();
         hideKeyboard();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().setTitle(getActionbarTitle());
+    }
+
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
     }
 
     public void showFragment(Fragment fragment, FragmentLauncher fragmentLauncher,
@@ -139,17 +152,18 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
         mActionbarUpdateListener.updateActionbar(getActionbarTitle());
     }
 
-    protected void showAlert(final String title, final String description) {
+    protected void showAlertOnError(final String title, final String description) {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
-            final ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
-            modalAlertDemoFragment.show(activity.getSupportFragmentManager(), "dialog");
+            final ProdRegErrorAlertFragment prodRegErrorAlertFragment = new ProdRegErrorAlertFragment();
+            prodRegErrorAlertFragment.setDialogOkButtonListener(getDialogOkButtonListener());
+            prodRegErrorAlertFragment.show(activity.getSupportFragmentManager(), "dialog");
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    modalAlertDemoFragment.setTitle(title);
-                    modalAlertDemoFragment.setDescription(description);
+                    prodRegErrorAlertFragment.setTitle(title);
+                    prodRegErrorAlertFragment.setDescription(description);
                 }
             }, 200);
         }
@@ -169,13 +183,12 @@ public abstract class ProdRegBaseFragment extends Fragment implements ProdRegBac
     }
 
     @Override
-    public void onAttach(final Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
     public boolean onBackPressed() {
         return false;
+    }
+
+    public DialogOkButtonListener getDialogOkButtonListener() {
+        return dialogOkButtonListener;
     }
 }
 
