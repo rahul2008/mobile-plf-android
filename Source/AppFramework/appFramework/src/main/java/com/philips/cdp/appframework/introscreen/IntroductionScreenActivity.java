@@ -18,16 +18,13 @@ import android.widget.TextView;
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HomeActivity;
-import com.philips.cdp.appframework.statemachine.TriggerBase;
-import com.philips.cdp.appframework.statemachine.UIFlowManager;
+import com.philips.cdp.appframework.modularui.UIWelcomeScreenNavigation;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.shamanland.fonticon.FontIconView;
-
-import java.util.List;
 
 /**
  * <b></b>Introduction screen are the screen that acts as the Welcome screens. It may be used to make the user learn about the functionality of the app</b>
@@ -102,11 +99,12 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
-    List<TriggerBase> triggerBaseList;
+    private UIWelcomeScreenNavigation navigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        navigator = new UIWelcomeScreenNavigation();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.app_framework_introduction_activity);
@@ -256,7 +254,8 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
                 break;*/
 
             case R.id.start_registration_button:
-                triggerBaseList =  UIFlowManager.getCurrentState().getTriggerBaseList();
+                navigator.onClick(R.id.start_registration_button,IntroductionScreenActivity.this);
+                //triggerBaseList =  UIFlowManager.getCurrentState().getTriggerBaseList();
         }
     }
 }

@@ -4,6 +4,7 @@ import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,4 +26,14 @@ public class UIFlowManager {
     @UIStateDef int startState;
     @UIStateDef int currentState;
 
+   public void populateStateBaseList(){
+        stateBaseList = new ArrayList<UIStateBase>();
+        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_SPLASH_STATE_ONE));
+        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_WELCOME_STATE_ONE));
+        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_WELCOME_STATE_TWO));
+        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_WELCOME_STATE_THREE));
+        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_HOME_STATE_ONE));
+        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_REGISTRATION_STATE_ONE));
+
+    }
 }

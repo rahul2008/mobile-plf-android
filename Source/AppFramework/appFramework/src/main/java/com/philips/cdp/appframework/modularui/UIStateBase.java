@@ -9,4 +9,7 @@ import java.util.Map;
  */
 public abstract class UIStateBase {
     Map<Integer, Activity> activityMap;
+    UIBaseNavigation navigator;
+    @UIFlowManager.UIStateDef int stateID;
+    UIBaseLogic logic;
 }

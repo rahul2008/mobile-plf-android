@@ -8,6 +8,7 @@ package com.philips.cdp.appframework;
 import android.app.Application;
 import android.support.multidex.MultiDex;
 
+import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -25,6 +26,7 @@ public class AppFrameworkApplication extends Application {
         MultiDex.install(this);
         super.onCreate();
         initializeUserRegistrationLibrary();
+        new UIFlowManager().populateStateBaseList();
     }
 
     private void initializeUserRegistrationLibrary() {
