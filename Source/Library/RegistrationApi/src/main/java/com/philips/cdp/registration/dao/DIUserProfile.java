@@ -12,6 +12,7 @@ package com.philips.cdp.registration.dao;
 import java.io.Serializable;
 
 public class DIUserProfile implements Serializable {
+    //Warning : Don't alter this file which cause the security migration issues
 
     private String email;
 
