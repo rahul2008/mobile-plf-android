@@ -143,5 +143,7 @@
     <string name="Register_using_Email">Register using email</string>
     <string name="PhoneAddPlaceHolder_txtField">Enter phone number</string>
     <string name="Login_using_email_btntxt">Log in using email</string>
+    <string name="Receive_china_Philips_News_lbltxt">Receive Philips promotional communications based on my preferences and online behavior\n%s</string>
+    <string name="InitialSignedIn_china_SigninNumberText">You have logged in with number: %s</string>
 
 </resources>

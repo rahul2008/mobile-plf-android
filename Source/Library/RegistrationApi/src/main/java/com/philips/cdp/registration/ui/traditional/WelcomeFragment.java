@@ -33,6 +33,7 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class WelcomeFragment extends RegistrationBaseFragment implements OnClickListener, NetworStateListener, LogoutHandler {
 
@@ -55,6 +56,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     private XRegError mRegError;
 
     private ProgressDialog mProgressDialog;
+
+    private String mUserDetails;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -165,13 +168,18 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mProgressDialog.setCancelable(false);
 
         mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
+        if(RegConstants.IS_MOBILE_NUMBER_LOG_IN) {
+            mUserDetails = getString(R.string.InitialSignedIn_china_SigninNumberText);
+            mUserDetails = String.format(mUserDetails, "1339 9999 9999");
+        }else{
+            mUserDetails = getString(R.string.InitialSignedIn_SigninEmailText);
+            mUserDetails = String.format(mUserDetails, mUser.getEmail());
+        }
 
-        String email = getString(R.string.InitialSignedIn_SigninEmailText);
-        email = String.format(email, mUser.getEmail());
         String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
         RLog.d(RLog.ONCLICK, "WelcomeFragment : accesstoken " + accesstoken);
-        mTvSignInEmail.setText(email);
+        mTvSignInEmail.setText(mUserDetails);
     }
 
     @Override

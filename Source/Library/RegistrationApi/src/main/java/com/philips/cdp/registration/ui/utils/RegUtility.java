@@ -95,6 +95,27 @@ public class RegUtility {
 
     }
 
+    public static void linkifyMobilePhilipsNews(TextView receivePhilipsNewsView, final Activity activity, ClickableSpan receivePhilipsNewsClickListener) {
+
+        String receivePhilipsNews = activity.getString(R.string.Receive_china_Philips_News_lbltxt);
+        String doesThisMeanStr = activity.getString(R.string.Receive_Philips_News_Meaning_lbltxt);
+        receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
+        receivePhilipsNewsView.setText(receivePhilipsNews);
+        String link = activity.getString(R.string.Receive_Philips_News_Meaning_lbltxt);
+        SpannableString spanableString = new SpannableString(receivePhilipsNews);
+
+        int termStartIndex = receivePhilipsNews.toLowerCase().indexOf(
+                link.toLowerCase());
+        spanableString.setSpan(receivePhilipsNewsClickListener, termStartIndex, termStartIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        removeUnderlineFromLink(spanableString);
+
+        receivePhilipsNewsView.setText(spanableString);
+        receivePhilipsNewsView.setMovementMethod(LinkMovementMethod.getInstance());
+        receivePhilipsNewsView.setLinkTextColor(activity.getResources().getColor(
+                R.color.reg_hyperlink_highlight_color));
+        receivePhilipsNewsView.setHighlightColor(activity.getResources().getColor(android.R.color.transparent));
+
+    }
     public static void linkifyAccountSettingPhilips(TextView accountSettingPhilipsNews, final Activity activity, ClickableSpan accountSettingsPhilipsClickListener) {
 
         String moreAccountSettings = activity.getString(R.string.Access_More_Account_Setting_lbltxt);

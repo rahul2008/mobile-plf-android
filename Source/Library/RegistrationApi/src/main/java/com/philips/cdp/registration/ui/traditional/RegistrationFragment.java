@@ -35,6 +35,7 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileLogoutFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileSignInAccountFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -348,10 +349,19 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private void replaceWithLogoutFragment() {
         try {
-            LogoutFragment logoutFragment = new LogoutFragment();
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, logoutFragment);
-            fragmentTransaction.commitAllowingStateLoss();
+            if(RegConstants.IS_MOBILE_NUMBER_LOG_IN){
+                MobileLogoutFragment mobileLogoutFragment = new MobileLogoutFragment();
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, mobileLogoutFragment);
+                fragmentTransaction.commitAllowingStateLoss();
+            }else {
+                LogoutFragment logoutFragment = new LogoutFragment();
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, logoutFragment);
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+
+
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
                     "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
