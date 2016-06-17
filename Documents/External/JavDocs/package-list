@@ -1,0 +1,5 @@
+com.philips.platform.appinfra
+com.philips.platform.appinfra.logging
+com.philips.platform.appinfra.securestorage
+com.philips.platform.appinfra.servicediscovery
+com.philips.platform.appinfra.tagging
