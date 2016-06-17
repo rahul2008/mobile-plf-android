@@ -50,20 +50,24 @@ public class IAPActivity extends UiKitActivity {
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_activity);
-        addActionBar();
-        setLocale();
-        int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, -1);
 
-        if (landingScreen == IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW) {
-            addFragment(ProductCatalogFragment.createInstance(new Bundle(),
-                    BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
-        } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW) {
-            addFragment(ShoppingCartFragment.createInstance(new Bundle(),
-                    BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
-        } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW) {
-            addFragment(PurchaseHistoryFragment.createInstance(new Bundle(),
-                    BaseAnimationSupportFragment.AnimationType.NONE), PurchaseHistoryFragment.TAG);
+        if (savedInstanceState == null) {
+            addActionBar();
+            setLocale();
+            int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, -1);
+
+            if (landingScreen == IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW) {
+                addFragment(ProductCatalogFragment.createInstance(new Bundle(),
+                        BaseAnimationSupportFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
+            } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW) {
+                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                        BaseAnimationSupportFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
+            } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW) {
+                addFragment(PurchaseHistoryFragment.createInstance(new Bundle(),
+                        BaseAnimationSupportFragment.AnimationType.NONE), PurchaseHistoryFragment.TAG);
+            }
         }
+
     }
 
     private void initTheme() {
@@ -87,6 +91,11 @@ public class IAPActivity extends UiKitActivity {
             getResources().updateConfiguration(config,
                     getResources().getDisplayMetrics());
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
     }
 
     @Override

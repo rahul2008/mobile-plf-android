@@ -49,7 +49,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         EventListener, PaymentController.PaymentListener {
     private RecyclerView mAddressListView;
     private AddressController mAddrController;
-    AddressSelectionAdapter mAdapter;
+    private AddressSelectionAdapter mAdapter;
     private List<Addresses> mAddresses = new ArrayList<>();
     private Button mCancelButton;
     private Context mContext;

@@ -1,8 +1,11 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -24,20 +27,14 @@ import com.philips.cdp.tagging.Tagging;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetailersAdapter.RetailerViewHolder> {
-    Context mContext;
-    ArrayList<StoreEntity> mStoreEntities;
-    private final ImageLoader mImageLoader;
+    private Context mContext;
+    private ArrayList<StoreEntity> mStoreEntities;
     private FragmentManager mFragmentManager;
     private int mThemeBaseColor;
-
     private int mContainerID;
+    private final ImageLoader mImageLoader;
 
     public BuyFromRetailersAdapter(Context context, ArrayList<StoreEntity> storeEntities, FragmentManager fragmentManager, int id) {
         mContext = context;
@@ -48,8 +45,6 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 .getImageLoader();
         mContainerID = id;
     }
-
-
 
     @Override
     public RetailerViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
@@ -65,11 +60,11 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         String availability = storeEntity.getAvailability();
         if (availability.equalsIgnoreCase("yes")) {
-            holder.mAvailibility.setText(mContext.getString(R.string.iap_in_stock));
-            holder.mAvailibility.setTextColor(mThemeBaseColor);
+            holder.mAvailability.setText(mContext.getString(R.string.iap_in_stock));
+            holder.mAvailability.setTextColor(mThemeBaseColor);
         } else {
-            holder.mAvailibility.setText(mContext.getString(R.string.iap_out_of_stock));
-            holder.mAvailibility.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
+            holder.mAvailability.setText(mContext.getString(R.string.iap_out_of_stock));
+            holder.mAvailability.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
         }
 
         final String buyURL = storeEntity.getBuyURL();
@@ -77,7 +72,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
             @Override
             public void onClick(final View v) {
                 tagOnSelectRetailer(storeEntity);
-                addWebBuyFromRetailers(buyURL,storeEntity.getName());
+                addWebBuyFromRetailers(buyURL, storeEntity.getName());
             }
         });
 
@@ -108,7 +103,6 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         retailerHolder.mLogo.setImageUrl(imageURL, mImageLoader);
     }
 
-
     @Override
     public int getItemCount() {
         return mStoreEntities.size();
@@ -117,14 +111,14 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     public class RetailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         NetworkImageView mLogo;
         TextView mStoreName;
-        TextView mAvailibility;
+        TextView mAvailability;
         FontIconTextView mArrow;
 
         public RetailerViewHolder(View itemView) {
             super(itemView);
             mLogo = (NetworkImageView) itemView.findViewById(R.id.iap_retailer_image);
             mStoreName = (TextView) itemView.findViewById(R.id.iap_online_store_name);
-            mAvailibility = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
+            mAvailability = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.retailer_arrow);
             itemView.setOnClickListener(this);
         }
@@ -134,7 +128,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
             final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
             Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.RETAILER_SELECTED, mStoreEntities.get(getAdapterPosition()).getName());
-            addWebBuyFromRetailers(buyURL,mStoreEntities.get(getAdapterPosition()).getName());
+            addWebBuyFromRetailers(buyURL, mStoreEntities.get(getAdapterPosition()).getName());
         }
     }
 }
