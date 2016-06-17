@@ -6,25 +6,39 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
+import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.prx.PRXDataBuilder;
+import com.philips.cdp.di.iap.response.orders.Entries;
+import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.Orders;
+import com.philips.cdp.di.iap.response.orders.ProductData;
+import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -32,11 +46,13 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final String TAG = OrderHistoryAdapter.class.getName();
     private Context mContext;
     private List<Orders> mOrders;
+    private List<ProductData> mProductDetails;
     private int mSelectedIndex;
 
-    public OrderHistoryAdapter(final Context context, final List<Orders> orders) {
+    public OrderHistoryAdapter(final Context context, final List<Orders> orders, final List<ProductData> product) {
         mContext = context;
         mOrders = orders;
+        mProductDetails = product;
         mSelectedIndex = 0;
     }
 
@@ -54,6 +70,38 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         orderHistoryHolder.mOrderState.setText(order.getStatusDisplay());
         orderHistoryHolder.mOrderNumber.setText(order.getCode());
 
+        int totalQuantity = 0;
+        for(ProductData data : mProductDetails)
+        {
+            if(data.getOrderCode() != null && data.getOrderCode().equals(order.getCode()))
+            {
+                //Inflate the Dynamic Layout Information View
+                View hiddenInfo = View.inflate(mContext, R.layout.iap_order_history_product_details, null);
+                orderHistoryHolder.mProductDetailsLayout.addView(hiddenInfo);
+                ((TextView)hiddenInfo.findViewById(R.id.tv_productName)).setText(data.getProductTitle());
+                ((TextView)hiddenInfo.findViewById(R.id.tv_product_number)).setText(data.getCtnNumber());
+                getNetworkImage(((NetworkImageView)hiddenInfo.findViewById(R.id.iv_product_image)), data.getImageURL());
+                totalQuantity += data.getQuantity();
+            }
+        }
+        if(totalQuantity > 1)
+            orderHistoryHolder.mTvQuantity.setText("(" + totalQuantity + " items)");
+        else
+            orderHistoryHolder.mTvQuantity.setText("(" + totalQuantity + " item)");
+        orderHistoryHolder.mTvtotalPrice.setText(order.getTotal().getFormattedValue());
+
+    }
+
+    private void getNetworkImage(final NetworkImageView imageView, final String imageURL) {
+        ImageLoader mImageLoader;
+        // Instantiate the RequestQueue.
+        mImageLoader = NetworkImageLoader.getInstance(mContext)
+                .getImageLoader();
+
+        mImageLoader.get(imageURL, ImageLoader.getImageListener(imageView,
+                R.drawable.no_icon, android.R.drawable
+                        .ic_dialog_alert));
+        imageView.setImageUrl(imageURL, mImageLoader);
     }
 
     @Override
@@ -76,6 +124,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mOrderNumber;
         TextView mOrderState;
         RelativeLayout mOrderSummaryLayout;
+        LinearLayout mProductDetailsLayout;
 
         public OrderHistoryHolder(final View itemView) {
             super(itemView);
@@ -88,6 +137,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mOrderState = (TextView) itemView.findViewById(R.id.tv_order_state);
             mOrderSummaryLayout = (RelativeLayout) itemView.findViewById(R.id.order_summary);
             mOrderSummaryLayout.setOnClickListener(this);
+            mProductDetailsLayout = (LinearLayout) itemView.findViewById(R.id.product_detail);
         }
 
 

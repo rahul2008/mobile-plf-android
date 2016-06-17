@@ -16,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/iap_date_margin_top"
             android:layout_marginStart="@dimen/iap_shopping_cart_image_margin_top" />
     </RelativeLayout>
 
@@ -63,60 +64,19 @@
         android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
         android:background="?attr/uikit_listDividerColor" />
 
-    <RelativeLayout
-        android:id="@+id/rl_list_item"
+    <LinearLayout
+        android:id="@+id/product_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:visibility="gone">
+        android:orientation="vertical"></LinearLayout>
 
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/iv_product_image"
-            style="@style/networkImage"
-            android:layout_alignParentStart="true" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
-            android:layout_toEndOf="@id/iv_product_image"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/tv_productName"
-                style="@style/tvBoldTitle"
-                android:layout_alignParentStart="true"
-                android:scrollHorizontally="false" />
-
-            <TextView
-                android:id="@+id/tv_product_number"
-                style="@style/tvBoldTitle"
-                android:layout_below="@+id/tv_productName"
-                android:layout_marginStart="@dimen/iap_quantity_price_start_margin"
-                android:layout_marginTop="3dp"
-                android:text="hrdfd" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/iap_divider_height"
-        android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
-        android:background="?attr/uikit_listDividerColor"
-        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/quantity_count_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginTop="5dp"
-        android:visibility="gone">
+        android:layout_marginTop="5dp">
 
         <TextView
             android:id="@+id/total_item_text"
@@ -137,7 +97,9 @@
             android:id="@+id/tv_total_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/tvTitle"
             android:layout_alignParentEnd="true"
+            android:textColor="?attr/uikit_baseColor"
             android:layout_marginEnd="@dimen/iap_shipping_address_margin_left" />
     </RelativeLayout>
 

@@ -8,15 +8,112 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="@dimen/iap_order_detail_margin_bottom"
         android:orientation="vertical">
 
-        <include layout="@layout/iap_order_history_shopping_item" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+            android:background="@color/uikit_enricher7">
+
+            <TextView
+                android:id="@+id/tv_time"
+                style="@style/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/iap_shopping_cart_image_margin_top" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/order_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top">
+
+            <TextView
+                android:id="@+id/order_number_text"
+                style="@style/tvBoldTitle"
+                android:layout_marginEnd="3dp"
+                android:text="@string/iap_order_number" />
+
+            <TextView
+                android:id="@+id/tv_order_number"
+                style="@style/tvBoldTitle"
+                android:layout_alignBaseline="@id/order_number_text"
+                android:layout_toEndOf="@id/order_number_text" />
+
+            <TextView
+                android:id="@+id/tv_order_state"
+                style="@style/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/order_number_text"
+                android:layout_below="@+id/order_number_text"
+                android:layout_marginTop="15dp"
+                android:text="Order state" />
+
+            <com.shamanland.fonticon.FontIconTextView
+                android:id="@+id/arrow"
+                style="@style/iap_right_arrow"
+                android:layout_alignBaseline="@id/order_number_text"
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/iap_divider_height"
+            android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
+            android:background="?attr/uikit_listDividerColor" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/product_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <RelativeLayout
+            android:id="@+id/quantity_count_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginTop="5dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/total_item_text"
+                style="@style/tvTitle"
+                android:layout_marginEnd="3dp"
+                android:text="@string/iap_total" />
+
+            <TextView
+                android:id="@+id/tv_total_item"
+                style="@style/tvTitle"
+                android:layout_alignBaseline="@id/total_item_text"
+                android:layout_toEndOf="@id/total_item_text"
+                android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
+                android:textColor="?attr/uikit_baseColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/iap_shipping_address_margin_left" />
+        </RelativeLayout>
+
+      <!--  <include layout="@layout/iap_order_history_shopping_item" /> -->
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/iap_divider_height"
             android:background="?attr/uikit_listDividerColor"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/shipping_status"
@@ -25,13 +122,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textColor="?attr/uikit_baseColor"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/iap_divider_height"
             android:background="?attr/uikit_listDividerColor"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/track_order_layout"
@@ -51,7 +148,7 @@
             <com.shamanland.fonticon.FontIconTextView
                 android:id="@+id/track_order_arrow"
                 style="@style/iap_right_arrow_product_catalog"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp" />
 
 
         </RelativeLayout>
@@ -159,23 +256,23 @@
             android:background="?attr/uikit_listDividerColor" />
 
         <RelativeLayout
+            android:id="@+id/invoice_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
             android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
             android:layout_marginTop="10dp"
-            android:id="@+id/invoice_layout"
             android:visibility="gone">
-            
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/view_invoice"/>
+                android:text="@string/view_invoice" />
 
             <com.shamanland.fonticon.FontIconTextView
                 android:id="@+id/invoice_arrow"
                 style="@style/iap_right_arrow_product_catalog"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp" />
         </RelativeLayout>
 
         <Button
