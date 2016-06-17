@@ -106,24 +106,29 @@ task zipDocuments(type: Zip) {
 //=======To zip and upload "Documents/External" ==ENDS===========
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'AppInfra'
+            keyPassword 'AppInfra'
+            storeFile file('C:/Users/310238655/Desktop/AppInfraKeystore.jks')
+            storePassword 'AppInfra'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 23
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-		
-    }
 
+    }
     testOptions {
 
         unitTests.returnDefaultValues = true
 
     }
-
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -136,19 +141,15 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
-
-
     lintOptions {
-          abortOnError false
-      }
-
-
+        abortOnError false
+    }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles  'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
-
         debug {
             minifyEnabled false
             debuggable true
@@ -156,22 +157,42 @@ android {
             proguardFile 'proguard-rules.pro'
         }
     }
+    /*
+    This defined for signing the apk -- start
+     */
+//    def Properties props = new Properties()
+//    def propFile = new File('signing.properties')
+//    if (propFile.canRead()) {
+//        props.load(new FileInputStream(propFile))
+//
+//        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+//            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+//            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+//            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+//            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+//        } else {
+//            println 'signing.properties found but some entries are missing'
+//            android.buildTypes.release.signingConfig = null
+//        }
+//    } else {
+//        println 'signing.properties not found'
+//        android.buildTypes.release.signingConfig = null
+//    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile "org.mockito:mockito-core:1.9.5"
+    androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     compile 'com.android.support:appcompat-v7:23.4.0'
-    compile(group:'adobeMobileLibrary', name:'adobeMobileLibrary', version:'4.8.3')
-
-    compile(group: 'com.philips.cdp', name: 'prx', version: '2.0.0', ext: 'aar'){
+    compile 'adobeMobileLibrary:adobeMobileLibrary:4.8.3'
+    compile('com.philips.cdp:prx:2.0.0@aar') {
         exclude group: 'com.android.support'
     }
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.0.0', ext: 'aar'){
+    compile('com.philips.cdp:localeMatch:2.0.0@aar') {
         exclude group: 'com.android.support'
-        transitive=true
+        transitive = true
     }
     compile 'com.android.volley:volley:1.0.0'
 }
