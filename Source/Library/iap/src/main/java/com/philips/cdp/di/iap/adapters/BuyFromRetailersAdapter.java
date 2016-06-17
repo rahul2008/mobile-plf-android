@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -19,6 +18,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 import com.shamanland.fonticon.FontIconTextView;
@@ -42,7 +42,6 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 .getImageLoader();
         mContainerID = id;
     }
-
 
 
     @Override
