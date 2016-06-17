@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class SubcategoryModel {
+public class SubCategoryModel {
 
     @SerializedName("data")
     @Expose

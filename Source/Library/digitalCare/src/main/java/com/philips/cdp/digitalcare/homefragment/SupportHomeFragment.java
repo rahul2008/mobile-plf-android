@@ -31,6 +31,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.ResponseCallback;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
@@ -56,11 +57,12 @@ import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import java.util.List;
 
 
-public class SupportHomeFragment extends DigitalCareBaseFragment implements prxSummaryCallback {
+public class SupportHomeFragment extends DigitalCareBaseFragment implements prxSummaryCallback, ResponseCallback {
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
+    private static final String CDLS_URL_PORT = "https://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
     private static boolean isFirstTimeProductComponentlaunch = true;
     //  private boolean isfragmentFirstTimeVisited;
     private static boolean isPRXComponentChecked;
@@ -174,7 +176,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         String ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
         return !(ctn != null && ctn != "");
     }
-
 
     private void enableSupportButtonClickable() {
         if (mProductViewProductButton != null && !mProductViewProductButton.isClickable())
@@ -506,7 +507,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         }
     }
 
-
     private void launchFaqScreen() {
         mPrxWrapper = new PrxWrapper(getActivity(), new PrxFaqCallback() {
             @Override
@@ -682,7 +682,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         editor.apply();
     }
 
-
     @Override
     public String getActionbarTitle() {
         return getResources().getString(R.string.actionbar_title_support);
@@ -761,6 +760,24 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         [Coffee]After switching menu from consumer care to other menu from leftoffcanvas, our application getting close
          */
 //        getActivity().finish();
+    }
+
+    /**
+     * This method receives the Subcategory Response
+     *
+     * @param response
+     */
+    @Override
+    public void onResponseReceived(String response) {
+        DigiCareLogger.d(TAG, "SubcateCategory response received");
+    }
+    //http://www.philips.com/prx/category/B2C/en_IN/CONSUMER/JUICE_EXTRACTORS_SU2.json
+
+    /**
+     *
+     */
+    protected void sendSubcategoryRequest() {
+
     }
 
     private Drawable getDrawable(int resId) {
