@@ -53,7 +53,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_process, container, false);
-        showProgressAlertDialog("Looking for your products");
+        showProgressAlertDialog(getActivity().getString(R.string.prodreg_looking_products));
         return view;
     }
 
@@ -61,6 +61,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
             prodRegLoadingFragment = new ProdRegLoadingFragment();
+            prodRegLoadingFragment.setCancelable(false);
             prodRegLoadingFragment.show(activity.getSupportFragmentManager(), "dialog");
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {

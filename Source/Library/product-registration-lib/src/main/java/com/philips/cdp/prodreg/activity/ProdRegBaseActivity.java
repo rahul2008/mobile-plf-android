@@ -28,7 +28,6 @@ import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.UiKitActivity;
 
 public class ProdRegBaseActivity extends UiKitActivity {
-    private FragmentManager fragmentManager = null;
     private TextView mTitleTextView;
 
     @Override
@@ -36,7 +35,6 @@ public class ProdRegBaseActivity extends UiKitActivity {
         super.onCreate(savedInstanceState);
         initCustomActionBar();
         setContentView(R.layout.prodreg_activity);
-        fragmentManager = getSupportFragmentManager();
         animateThisScreen();
         showFragment();
     }
@@ -126,7 +124,11 @@ public class ProdRegBaseActivity extends UiKitActivity {
 
     @Override
     public void onBackPressed() {
-        if (!ProdRegConfigManager.getInstance().onBackPressed(this)) {
+
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() == 1) {
+            finish();
+        } else if (!ProdRegConfigManager.getInstance().onBackPressed(this)) {
             super.onBackPressed();
         }
     }
