@@ -60,7 +60,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class SupportHomeFragment extends DigitalCareBaseFragment implements prxSummaryCallback, ResponseCallback {
+public class SupportHomeFragment extends DigitalCareBaseFragment implements prxSummaryCallback {
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
@@ -732,16 +732,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         return String.format(SUBCATEGORY_URL_PORT, sector, locale.toString(), catalog, subcategoryKey);
     }
 
-    /**
-     * This method receives the Subcategory Response
-     *
-     * @param response
-     */
-    @Override
-    public void onResponseReceived(String response) {
-        DigiCareLogger.d(TAG, "SubcateCategory response received");
-    }
-
 
     @Override
     public String getActionbarTitle() {
@@ -806,6 +796,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                     mProductViewProductButton.setVisibility(View.VISIBLE);
 
                 setDataToModels(productSummaryModel);
+                executeSubcategoryRequest();
             } finally {
                 DigiCareLogger.v(TAG, "Menu is creating in NonNull Summary");
                 createMainMenu();
