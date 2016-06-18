@@ -109,7 +109,7 @@ android {
         minSdkVersion 19
         versionName objcdp.getVersionWithHash()
         targetSdkVersion 23
-        renderscriptTargetApi 23
+        renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
         generatedDensities = []
         multiDexEnabled true
