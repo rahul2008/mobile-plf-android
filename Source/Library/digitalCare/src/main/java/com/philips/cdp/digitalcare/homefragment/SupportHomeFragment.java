@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
+import com.google.gson.Gson;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -42,6 +43,7 @@ import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.prx.PrxWrapper;
+import com.philips.cdp.digitalcare.prx.subcategorymodel.SubcategoryModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
@@ -91,12 +93,24 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private ProgressDialog mProgressDialog = null;
-    ResponseCallback subCategoryResponseCallback = new ResponseCallback() {
+    protected ResponseCallback subCategoryResponseCallback = new ResponseCallback() {
         @Override
         public void onResponseReceived(String response) {
+            SubcategoryModel subcategoryModel = new Gson().fromJson(response,
+                    SubcategoryModel.class);
+            if (subcategoryModel != null && subcategoryModel.getSuccess()) {
+                com.philips.cdp.digitalcare.prx.subcategorymodel.Data data =
+                        subcategoryModel.getData();
+                if ((data != null) && (data.getParentCode() != null)) {
+                    DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
+                    ConsumerProductInfo consumerProductInfo = digitalCareConfigManager.getConsumerProductInfo();
+                    consumerProductInfo.setSubCategory(data.getParentCode());
+                    digitalCareConfigManager.setConsumerProductInfo(consumerProductInfo);
+                }
+            }
 
-
-            if (mProgressDialog != null && mProgressDialog.isShowing() && !getActivity().isFinishing()) {
+            if (mProgressDialog != null && mProgressDialog.isShowing() &&
+                    !getActivity().isFinishing()) {
                 try {
                     mProgressDialog.cancel();
                     mProgressDialog = null;
