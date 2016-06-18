@@ -8,12 +8,10 @@
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -116,7 +114,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
                 .getInstance().getConsumerProductInfo();
 
         return String.format(EMAIL_URL, LocaleMatchHandler.getPRXUrl(language + "_" + country), consumerProductInfo.getSector(),
-                language, country, consumerProductInfo.getCategory());
+                language, country, consumerProductInfo.getSubCategory());
     }
 
     @Override
