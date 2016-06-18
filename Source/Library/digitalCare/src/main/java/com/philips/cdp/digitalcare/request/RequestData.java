@@ -4,7 +4,7 @@
  * <p> Common class to receive the response from the remote network URL. </p>
  */
 
-package com.philips.cdp.digitalcare;
+package com.philips.cdp.digitalcare.request;
 
 
 

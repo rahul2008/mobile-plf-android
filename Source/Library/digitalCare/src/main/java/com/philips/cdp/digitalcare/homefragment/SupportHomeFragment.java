@@ -10,6 +10,7 @@
 
 package com.philips.cdp.digitalcare.homefragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -31,7 +32,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.ResponseCallback;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
@@ -43,6 +43,8 @@ import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.prx.PrxWrapper;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
+import com.philips.cdp.digitalcare.request.RequestData;
+import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
@@ -55,6 +57,7 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 
 import java.util.List;
+import java.util.Locale;
 
 
 public class SupportHomeFragment extends DigitalCareBaseFragment implements prxSummaryCallback, ResponseCallback {
@@ -62,7 +65,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
-    private static final String CDLS_URL_PORT = "https://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
+    private static final String SUBCATEGORY_URL_PORT = "https://www.philips.com/prx/category/%s/%s/%s/%s.json";
     private static boolean isFirstTimeProductComponentlaunch = true;
     //  private boolean isfragmentFirstTimeVisited;
     private static boolean isPRXComponentChecked;
@@ -87,6 +90,22 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private String mCtnFromPreference;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
+    private ProgressDialog mProgressDialog = null;
+    ResponseCallback subCategoryResponseCallback = new ResponseCallback() {
+        @Override
+        public void onResponseReceived(String response) {
+
+
+            if (mProgressDialog != null && mProgressDialog.isShowing() && !getActivity().isFinishing()) {
+                try {
+                    mProgressDialog.cancel();
+                    mProgressDialog = null;
+                } catch (IllegalArgumentException e) {
+                    DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+                }
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -643,6 +662,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 mPrxWrapper.executePrxAssetRequestWithSummaryData(productSummaryModel);
 */
                 setDataToModels(productSummaryModel);
+                executeSubcategoryRequest();
             }
         }
     }
@@ -652,10 +672,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         List<String> filterKeys = summaryData.getFilterKeys();
         String productGroup = null;
         String productCategory = null;
-        String productSubCategory = null;
+        String productSubCategoryKey = null;
         for (String filterData : filterKeys) {
-            if (filterData != null && filterData.endsWith("SU"))
-                productSubCategory = filterData;
 
             if (filterData != null && filterData.endsWith("GR"))
                 productGroup = filterData;
@@ -663,9 +681,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             if (filterData != null && filterData.endsWith("CA"))
                 productCategory = filterData;
         }
+        if (summaryData.getSubcategory() != null)
+            productSubCategoryKey = summaryData.getSubcategory();
 
+        DigiCareLogger.d(TAG, "************ Subcategory Key : " + productSubCategoryKey);
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryData.getCtn());
-        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategoryKey(productSubCategory);
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategoryKey(productSubCategoryKey);
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCategory(productCategory);
@@ -681,6 +702,46 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());
         editor.apply();
     }
+
+    protected void executeSubcategoryRequest() {
+        String subCategoryUrl = getSubCategoryURL();
+        DigiCareLogger.d(TAG, "******** Sub Category URL : " + subCategoryUrl);
+
+        RequestData subCategoryRequest = new RequestData(subCategoryUrl,
+                subCategoryResponseCallback);
+        if (mProgressDialog == null) mProgressDialog = new ProgressDialog
+                (getActivity(), R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
+        if (!(getActivity().isFinishing())) {
+            mProgressDialog.show();
+        }
+        subCategoryRequest.execute();
+    }
+
+
+    protected String getSubCategoryURL() {
+        DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
+        ConsumerProductInfo consumerProductInfo = digitalCareConfigManager.getConsumerProductInfo();
+
+        String sector = consumerProductInfo.getSector();
+        String catalog = consumerProductInfo.getCatalog();
+        String subcategoryKey = consumerProductInfo.getSubCategoryKey();
+        Locale locale = digitalCareConfigManager.getLocaleMatchResponseWithCountryFallBack();
+
+        return String.format(SUBCATEGORY_URL_PORT, sector, locale.toString(), catalog, subcategoryKey);
+    }
+
+    /**
+     * This method receives the Subcategory Response
+     *
+     * @param response
+     */
+    @Override
+    public void onResponseReceived(String response) {
+        DigiCareLogger.d(TAG, "SubcateCategory response received");
+    }
+
 
     @Override
     public String getActionbarTitle() {
@@ -762,23 +823,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 //        getActivity().finish();
     }
 
-    /**
-     * This method receives the Subcategory Response
-     *
-     * @param response
-     */
-    @Override
-    public void onResponseReceived(String response) {
-        DigiCareLogger.d(TAG, "SubcateCategory response received");
-    }
-    //http://www.philips.com/prx/category/B2C/en_IN/CONSUMER/JUICE_EXTRACTORS_SU2.json
-
-    /**
-     *
-     */
-    protected void sendSubcategoryRequest() {
-
-    }
 
     private Drawable getDrawable(int resId) {
         return getResources().getDrawable(resId);

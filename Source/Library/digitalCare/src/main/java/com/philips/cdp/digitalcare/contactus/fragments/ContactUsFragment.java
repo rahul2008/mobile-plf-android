@@ -38,8 +38,6 @@ import android.widget.TextView;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.RequestData;
-import com.philips.cdp.digitalcare.ResponseCallback;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
@@ -49,6 +47,8 @@ import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
+import com.philips.cdp.digitalcare.request.RequestData;
+import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -113,11 +113,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 First hit CDLS server wit SubCategory, if that fails then hit
                 CDLS again with Category.
                  */
-                if(isFirstTimeCdlsCall){
+                if (isFirstTimeCdlsCall) {
                     isFirstTimeCdlsCall = false;
                     requestCdlsData();
-                }
-                else {
+                } else {
                     fadeoutButtons();
                 }
             }
@@ -270,7 +269,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         return getCdlsUrl(consumerProductInfo.getSector(),
                 localeCoutryFallback.toString(),
                 consumerProductInfo.getCatalog(),
-                isFirstTimeCdlsCall ? consumerProductInfo.getSubCategory()+"fake"
+                isFirstTimeCdlsCall ? consumerProductInfo.getSubCategory()
                         : consumerProductInfo.getCategory());
     }
 /*
@@ -300,7 +299,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         DigiCareLogger.d(TAG, "CDLS Request Thread is started");
         startProgressDialog();
         if (isCdlsUrlNull()) {
-            new RequestData(getCdlsUrl(), this).execute();
+            String url = getCdlsUrl();
+            DigiCareLogger.d(TAG, "CDLS Request URL : " + url);
+            new RequestData(url, this).execute();
         }
     }
 
@@ -321,11 +322,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 First hit CDLS server wit SubCategory, if that fails then hit
                 CDLS again with Category.
                  */
-                if(isFirstTimeCdlsCall){
+                if (isFirstTimeCdlsCall) {
                     isFirstTimeCdlsCall = false;
                     requestCdlsData();
-                }
-                else {
+                } else {
                     fadeoutButtons();
                 }
             }

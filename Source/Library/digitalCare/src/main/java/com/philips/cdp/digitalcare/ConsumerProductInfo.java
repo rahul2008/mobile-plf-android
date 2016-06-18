@@ -18,6 +18,17 @@ public class ConsumerProductInfo {
     private String mCtn = null;
     private String mProductTitle = null;
 
+    private String mSubCategory = null;
+
+    public String getSubCategory() {
+        return mSubCategory;
+    }
+
+    public void setSubCategory(String mSubCategory) {
+        this.mSubCategory = mSubCategory;
+    }
+
+
 
     public String getGroup() {
         return mGroup;
