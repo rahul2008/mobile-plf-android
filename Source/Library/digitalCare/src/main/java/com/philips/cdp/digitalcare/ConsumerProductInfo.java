@@ -14,7 +14,7 @@ public class ConsumerProductInfo {
     private String mSector = null;
     private String mCatalog = null;
     private String mCategory = null;
-    private String mSubCategory = null;
+    private String mSubCategoryKeyFromSummary = null;
     private String mCtn = null;
     private String mProductTitle = null;
 
@@ -51,12 +51,12 @@ public class ConsumerProductInfo {
         mCategory = category;
     }
 
-    public String getSubCategory() {
-        return mSubCategory;
+    public String getSubCategoryKey() {
+        return mSubCategoryKeyFromSummary;
     }
 
-    public void setSubCategory(String subCategory) {
-        mSubCategory = subCategory;
+    public void setSubCategoryKey(String subCategory) {
+        mSubCategoryKeyFromSummary = subCategory;
     }
 
     public String getCtn() {

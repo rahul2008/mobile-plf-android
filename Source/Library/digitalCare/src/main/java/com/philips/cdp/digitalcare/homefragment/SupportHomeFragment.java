@@ -665,7 +665,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         }
 
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryData.getCtn());
-        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategory(productSubCategory);
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategoryKey(productSubCategory);
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCategory(productCategory);
