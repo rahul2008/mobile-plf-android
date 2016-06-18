@@ -230,6 +230,19 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         config = getResources().getConfiguration();
     }
 
+
+    protected boolean isEmailButtonEnabled() {
+        ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager.getInstance().getConsumerProductInfo();
+        if (consumerProductInfo.getCategory() == null) {
+            mEmail.setVisibility(View.GONE);
+
+        } else {
+            mEmail.setVisibility(View.VISIBLE);
+        }
+
+        return (mEmail.getVisibility() == View.VISIBLE) ? true : false;
+    }
+
     private void createSocialProviderMenu() {
         TypedArray titles = getResources().obtainTypedArray
                 (R.array.social_service_provider_menu_title);
@@ -311,6 +324,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onResponseReceived(String response) {
+        isEmailButtonEnabled();
         if (isAdded()) {
             closeProgressDialog();
             DigiCareLogger.i(TAG, "onResponseReceived : " + response);
