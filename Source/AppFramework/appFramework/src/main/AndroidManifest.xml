@@ -16,16 +16,19 @@
        android:theme="@style/Theme.Philips.DarkBlue">
 
         <activity android:name="com.philips.cdp.appframework.splash.SplashActivity"
-            >
+            android:configChanges="orientation|screenSize|locale|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".introscreen.IntroductionScreenActivity" />
-        <activity android:name=".userregistrationscreen.UserRegistrationActivity" />
-        <activity android:name=".homescreen.HomeActivity"/>
+        <activity android:name=".introscreen.IntroductionScreenActivity"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"/>
+        <activity android:name=".userregistrationscreen.UserRegistrationActivity"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"/>
+        <activity android:name=".homescreen.HomeActivity"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <receiver
             android:name="com.philips.cdp.appframework.utility.NetworkReceiver"
             android:exported="false">
