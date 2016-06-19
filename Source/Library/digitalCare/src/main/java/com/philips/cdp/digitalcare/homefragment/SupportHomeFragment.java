@@ -86,6 +86,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private View mProductFAQButton = null;
     private View mProductTellUsWhatYouThinkButton = null;
     private View mProductContactUsButton = null;
+    private View mPhilipsAccountButton = null;
     private ProductModelSelectionHelper mProductSelectionHelper = null;
     private PrxWrapper mPrxWrapper = null;
     private ConsumerProductInfo mProductInfo = null;
@@ -380,6 +381,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 mProductFAQButton.setVisibility(View.VISIBLE);
         }
 
+        if (buttonTitle.equals(getStringKey(R.string.myphilips_CC))) {
+            mPhilipsAccountButton = relativeLayout;
+        }
+
         if (buttonTitle.equals(getStringKey(R.string.find_philips_near_you))) {
             mProductLocatePhilipsButton = relativeLayout;
 
@@ -400,8 +405,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         return relativeLayout;
     }
 
-    private void setRelativeLayoutParams(RelativeLayout relativeLayout,
-                                         float density, String buttonTitle) {
+    protected void setRelativeLayoutParams(RelativeLayout relativeLayout,
+                                           float density, String buttonTitle) {
 
         LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
                 .getLayoutParams();
@@ -413,6 +418,28 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         }
         relativeLayout.setLayoutParams(param);
 
+    }
+
+    protected void setConfigurableButton() {
+        if ((mProductChangeButton == null) || (mProductChangeButton.getVisibility() == View.GONE)) {
+            if (mPhilipsAccountButton != null) {
+                LinearLayout.LayoutParams layoutParam = (LinearLayout.LayoutParams)
+                        mPhilipsAccountButton.getLayoutParams();
+                layoutParam.topMargin = RegisterButtonMarginTop;
+                mPhilipsAccountButton.setLayoutParams(layoutParam);
+                mPhilipsAccountButton
+                        .setBackgroundResource(R.drawable.consumercare_selector_option_prod_reg_button_bg);
+            }
+
+        } else {
+            if (mPhilipsAccountButton != null) {
+                LinearLayout.LayoutParams layoutParam = (LinearLayout.LayoutParams)
+                        mPhilipsAccountButton.getLayoutParams();
+                layoutParam.topMargin = ButtonMarginTop;
+                mPhilipsAccountButton.setLayoutParams(layoutParam);
+                mPhilipsAccountButton.setBackgroundResource(R.drawable.consumercare_selector_option_button_bg);
+            }
+        }
     }
 
     private void setImageParams(ImageView imageView, float density) {
@@ -618,11 +645,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                         mProductChangeButton.setClickable(true);
                         enableSupportButtonClickable();
                         updateSummaryData(summaryModel);
+                        setConfigurableButton();
                     }
                 } else {
                     if (!getActivity().isFinishing()) showAlert(getString(R.string.NO_PRODUCT_KEY));
                     disablePrxDependentButtons();
                     enableSupportButtonClickable();
+                    setConfigurableButton();
                 }
             }
         });
@@ -769,6 +798,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             }
         } catch (IllegalStateException ie) {
             DigiCareLogger.e(TAG, "Exception while generating SupportScreenButton : " + ie);
+        } finally {
+            setConfigurableButton();
         }
     }
 
