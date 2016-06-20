@@ -320,7 +320,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 mShopNow.setVisibility(View.VISIBLE);
                 mPurchaseHistory.setVisibility(View.VISIBLE);
                 mPurchaseHistory.setEnabled(true);
-                mSelectEnvironment.setVisibility(View.VISIBLE);
+                if (!RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment().equalsIgnoreCase("Production"))
+                    mSelectEnvironment.setVisibility(View.VISIBLE);
 
                 String selectedCountry = parent.getItemAtPosition(position).toString();
                 if (selectedCountry.equals("UK"))
