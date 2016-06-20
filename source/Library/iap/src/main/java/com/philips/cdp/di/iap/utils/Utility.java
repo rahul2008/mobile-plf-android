@@ -16,7 +16,7 @@ import android.widget.EditText;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
-import com.philips.cdp.di.iap.response.carts.CountryEntity;
+import com.philips.cdp.di.iap.response.addresses.Country;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.orders.Address;
 import com.philips.cdp.di.iap.response.payment.BillingAddress;
@@ -95,7 +95,7 @@ public class Utility {
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getLine2());
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getPostalCode());
-            CountryEntity countryEntity = ((DeliveryAddressEntity) addressObj).getCountry();
+            Country countryEntity = ((DeliveryAddressEntity) addressObj).getCountry();
             String country = getCountryName(countryEntity.getIsocode());
             if (country != null) {
                 sb.append(country);
