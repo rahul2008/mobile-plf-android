@@ -191,10 +191,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     }
 
     private void initializeDigitalCareLibrary() {
-
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
-      //  localeManager.setInputLocale("ar", "SA");
+        //  localeManager.setInputLocale("ar", "SA");
 
         // Initializing DigitalCare Component.
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
@@ -251,6 +248,9 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
       Also if tagging is not enabled , consumer care is not tagging any events*/
 
         DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
+
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
         /*
          * Take values from GUI editText.
