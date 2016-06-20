@@ -81,7 +81,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
         setContentView(R.layout.uikit_splash_screen_logo_center_tb);
 
         ViewGroup group = (ViewGroup) findViewById(R.id.splash_layout);
-        group.setBackgroundResource(R.drawable.introduction_start_page_bg);
+       // group.setBackground(uikit_splashGradient));
 
         ImageView logo = (ImageView) findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_philips_logo));
