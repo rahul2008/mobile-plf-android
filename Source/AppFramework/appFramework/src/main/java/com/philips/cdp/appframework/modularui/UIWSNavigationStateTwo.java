@@ -13,12 +13,12 @@ public class UIWSNavigationStateTwo implements UIBaseNavigation {
         @UIFlowManager.UIStateDef int destinationScreen = 0;
         switch (componentID){
             case R.id.start_registration_button:
-                destinationScreen = UIFlowManager.UI_WELCOME_STATE_ONE;
-                UIFlowManager.currentState = UIFlowManager.UI_WELCOME_STATE_ONE;
+                destinationScreen = UIFlowManager.UI_WELCOME_STATE_TWO;
+                UIFlowManager.currentState = UIFlowManager.UI_WELCOME_STATE_TWO;
                 break;
             case R.id.appframework_skip_button:
-                destinationScreen = UIFlowManager.UI_WELCOME_STATE_ONE;
-                UIFlowManager.currentState = UIFlowManager.UI_WELCOME_STATE_ONE;
+                destinationScreen = UIFlowManager.UI_WELCOME_STATE_TWO;
+                UIFlowManager.currentState = UIFlowManager.UI_WELCOME_STATE_TWO;
                 break;
 
         }

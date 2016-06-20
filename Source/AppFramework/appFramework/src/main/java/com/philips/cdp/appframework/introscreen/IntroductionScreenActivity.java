@@ -239,27 +239,10 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onClick(View v) {
 
 
-        switch (v.getId()) {
-            /*case R.id.start_registration_button:
-                setIntroScreenDonePressed();
-                if (user.isUserSignIn()) {
-                    startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
-                } else {
-                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
-                }
-                break;
-            case R.id.appframework_skip_button:
-                if (user.isUserSignIn()) {
-                    startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
-                } else {
-                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
-                }
-                break;*/
-
-            case R.id.start_registration_button:
                 setIntroScreenDonePressed();
 
                 @UIFlowManager.UIStateDef int currentState = navigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
+
                 switch (currentState){
                     case UIFlowManager.UI_WELCOME_STATE_ONE : if(UIFlowManager.activityMap.get(UIFlowManager.UI_WELCOME_STATE_ONE).equalsIgnoreCase("HomeActivity")){
                         startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
@@ -270,14 +253,12 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
                     }
                         break;
                 }
-                break;
 
-        }
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         User user = new User(this);
         if (user.isUserSignIn()) {
             navigator = new UIWSNavigationStateOne();
