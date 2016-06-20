@@ -41,9 +41,9 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
     public static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
 
     public static final String PAIRING_REFERENCEPROVIDER = "cpp";
-    public static final String PAIRING_DI_COMM_RELATIONSHIP = "DI-COMM";
-    public static final String PAIRING_NOTIFY_RELATIONSHIP = "NOTIFY";
-    public static final String PAIRING_DATA_ACCESS_RELATIONSHIP = "DATAACCESS";
+    public static final String PAIRING_DI_COMM_RELATIONSHIP = "di-comm";
+    public static final String PAIRING_NOTIFY_RELATIONSHIP = "notify";
+    public static final String PAIRING_DATA_ACCESS_RELATIONSHIP = "dataaccess";
 
     public static final int MAX_RETRY = 3;
 
@@ -440,7 +440,7 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            removeRelationship(null, getDICommApplianceEntity(), currentRelationshipType);
+                            removeRelationship(getDICommApplianceEntity(), null, currentRelationshipType);
                         }
                     }).start();
                 }
