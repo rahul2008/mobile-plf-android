@@ -50,18 +50,17 @@
 
                 <TextView
                     android:id="@+id/from"
-                    style="@style/tvTitle"
+                    style="@style/tvBoldTitle"
                     android:layout_marginEnd="3dp"
-                    android:text="@string/iap_product_item_quantity" />
+                    android:text="@string/iap_product_item_quantity"
+                    android:textSize="@dimen/quantity"/>
 
                 <TextView
                     android:id="@+id/tv_quantity"
-                    style="@style/tvTitle"
+                    style="@style/tvBoldTitle"
                     android:layout_alignBaseline="@id/from"
                     android:layout_toEndOf="@id/from"
-                    android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
-                    android:textColor="?attr/uikit_baseColor"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/quantity" />
 
             </RelativeLayout>
 
@@ -71,7 +70,7 @@
                 android:id="@+id/ctn_no"
                 android:layout_below="@+id/quantity_count_layout"
                 android:textColor="?attr/uikit_baseColor"
-                android:textSize="14sp"
+                android:textSize="@dimen/quantity"
                 android:layout_marginTop="5dp"
                 />
 

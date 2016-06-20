@@ -83,6 +83,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
+    @Override
+    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        ((OrderHistoryHolder) holder).mProductDetailsLayout.removeAllViews();
+    }
+
     private void getNetworkImage(final NetworkImageView imageView, final String imageURL) {
         ImageLoader mImageLoader;
         // Instantiate the RequestQueue.
