@@ -265,7 +265,7 @@ public class HybrisStore extends AbstractStoreSpec {
     @Override
     public String getAddressDetailsUrl() {
         if (getCountry().equalsIgnoreCase("GB")){
-            return mAddressDetailsUrl.concat(LANG_GB);
+            return mAddressDetailsUrl.concat(LANG);
         } else if (getCountry().equalsIgnoreCase("US")) {
             return mAddressDetailsUrl.concat(LANG);
         }

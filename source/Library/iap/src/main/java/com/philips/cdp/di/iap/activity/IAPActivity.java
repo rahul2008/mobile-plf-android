@@ -50,9 +50,9 @@ public class IAPActivity extends UiKitActivity {
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_activity);
+        addActionBar();
 
         if (savedInstanceState == null) {
-            addActionBar();
             setLocale();
             int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_IS_SHOPPING_CART_VIEW_SELECTED, -1);
 

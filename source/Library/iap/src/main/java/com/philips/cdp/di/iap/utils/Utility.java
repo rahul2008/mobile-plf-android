@@ -113,7 +113,8 @@ public class Utility {
         } else if (addressObj instanceof Addresses) {
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getRegion().getName());
+            if ((((Addresses) addressObj).getRegion()) != null && (((Addresses) addressObj).getRegion().getName()) != null)
+                appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getRegion().getName());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getPostalCode());
             sb.append(((Addresses) addressObj).getCountry().getName());
@@ -129,7 +130,7 @@ public class Utility {
         } else if (addressObj instanceof Address) {
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine2());
-            if((((Address) addressObj).getRegion()) != null)
+            if ((((Address) addressObj).getRegion()) != null && (((Address) addressObj).getRegion().getName()) != null)
                 appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getRegion().getName());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getPostalCode());
