@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -19,25 +18,20 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetailersAdapter.RetailerViewHolder> {
-    Context mContext;
-    ArrayList<StoreEntity> mStoreEntities;
-    private final ImageLoader mImageLoader;
+    private Context mContext;
+    private ArrayList<StoreEntity> mStoreEntities;
     private FragmentManager mFragmentManager;
     private int mThemeBaseColor;
-
     private int mContainerID;
+    private final ImageLoader mImageLoader;
 
     public BuyFromRetailersAdapter(Context context, ArrayList<StoreEntity> storeEntities, FragmentManager fragmentManager, int id) {
         mContext = context;
@@ -48,7 +42,6 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 .getImageLoader();
         mContainerID = id;
     }
-
 
 
     @Override
@@ -76,8 +69,13 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         holder.mArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                tagOnSelectRetailer(storeEntity);
-                addWebBuyFromRetailers(buyURL,storeEntity.getName());
+                if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
+                    NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
+                    return;
+                } else {
+                    tagOnSelectRetailer(storeEntity);
+                    addWebBuyFromRetailers(buyURL, storeEntity.getName());
+                }
             }
         });
 
@@ -108,7 +106,6 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         retailerHolder.mLogo.setImageUrl(imageURL, mImageLoader);
     }
 
-
     @Override
     public int getItemCount() {
         return mStoreEntities.size();
@@ -131,10 +128,15 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
         @Override
         public void onClick(final View v) {
-            final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.RETAILER_SELECTED, mStoreEntities.get(getAdapterPosition()).getName());
-            addWebBuyFromRetailers(buyURL,mStoreEntities.get(getAdapterPosition()).getName());
+            if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
+                NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
+                return;
+            } else {
+                final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
+                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                        IAPAnalyticsConstant.RETAILER_SELECTED, mStoreEntities.get(getAdapterPosition()).getName());
+                addWebBuyFromRetailers(buyURL, mStoreEntities.get(getAdapterPosition()).getName());
+            }
         }
     }
 }

@@ -4,9 +4,7 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,7 +26,6 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 
@@ -56,21 +53,21 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.iap_retailers_view, container, false);
-        mCrossContainer = (FrameLayout) rootView.findViewById(R.id.iap_retailer_cross_container);
-        mCross = (ImageView) rootView.findViewById(R.id.iap_retailer_cross);
-        Drawable crossDrawable = VectorDrawable.create(getContext(), R.drawable.iap_retailer_cross);
-        mCross.setImageDrawable(crossDrawable);
+//        mCrossContainer = (FrameLayout) rootView.findViewById(R.id.iap_retailer_cross_container);
+//        mCross = (ImageView) rootView.findViewById(R.id.iap_retailer_cross);
+//        Drawable crossDrawable = VectorDrawable.create(getContext(), R.drawable.iap_retailer_cross);
+//        mCross.setImageDrawable(crossDrawable);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.iap_retailer_list);
 
         mCtn = getArguments().getString(ModelConstants.PRODUCT_CODE);
 
-        mCrossContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                getFragmentManager().popBackStackImmediate();
-            }
-        });
+//        mCrossContainer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//                getFragmentManager().popBackStackImmediate();
+//            }
+//        });
 
         return rootView;
     }
@@ -87,7 +84,7 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitle(R.string.iap_retailer_title);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        // ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         getRetailersInformation();
     }
 
@@ -103,7 +100,7 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        //  ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 
     @Override

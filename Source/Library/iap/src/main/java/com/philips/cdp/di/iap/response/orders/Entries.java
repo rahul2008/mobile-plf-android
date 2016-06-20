@@ -6,7 +6,7 @@ public class Entries {
     private Product product;
     private int quantity;
 
-    private TotalPrice totalPrice;
+    private Cost totalPrice;
 
     public int getEntryNumber() {
         return entryNumber;
@@ -20,7 +20,7 @@ public class Entries {
         return quantity;
     }
 
-    public TotalPrice getTotalPrice() {
+    public Cost getTotalPrice() {
         return totalPrice;
     }
 

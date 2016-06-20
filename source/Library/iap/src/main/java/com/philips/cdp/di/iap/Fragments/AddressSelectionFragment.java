@@ -49,7 +49,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         EventListener, PaymentController.PaymentListener {
     private RecyclerView mAddressListView;
     private AddressController mAddrController;
-    AddressSelectionAdapter mAdapter;
+    private AddressSelectionAdapter mAdapter;
     private List<Addresses> mAddresses = new ArrayList<>();
     private Button mCancelButton;
     private Context mContext;
@@ -120,6 +120,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         }
         mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
         mAddressListView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.onStop();
     }
 
     @Override

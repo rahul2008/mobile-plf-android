@@ -87,7 +87,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                             return;
                         }
                         mStoreEntities = (ArrayList<StoreEntity>) webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore();
-                        filterOutPhilipsStore();
+                       // filterOutPhilipsStore();
                         refreshList(mStoreEntities);
 
                         dismissProgressDialog();
