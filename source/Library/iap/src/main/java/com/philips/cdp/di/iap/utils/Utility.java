@@ -129,7 +129,8 @@ public class Utility {
         } else if (addressObj instanceof Address) {
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getRegion().getName());
+            if((((Address) addressObj).getRegion()) != null)
+                appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getRegion().getName());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getPostalCode());
             sb.append(((Address) addressObj).getCountry().getName());
