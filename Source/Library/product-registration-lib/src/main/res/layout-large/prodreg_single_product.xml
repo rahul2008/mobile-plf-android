@@ -20,10 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/friendly_name"
         android:layout_below="@+id/friendly_name"
-        android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
-        android:layout_marginRight="@dimen/pr_first_launch_padding_right"
-        android:layout_marginTop="@dimen/pr_c_value_tablet"
-        android:visibility="gone"/>
+        android:layout_marginTop="@dimen/pr_c_value_tablet"/>
 
     <TextView
         android:id="@+id/product_ctn"
@@ -32,10 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/friendly_name"
         android:layout_below="@+id/product_title"
-        android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
-        android:layout_marginRight="@dimen/pr_first_launch_padding_right"
-        android:layout_marginTop="@dimen/pr_c_value_tablet"
-        android:visibility="gone"/>
+        android:layout_marginTop="@dimen/pr_c_value_tablet"/>
 
     <TextView
         android:id="@+id/serial_number_tv"
@@ -43,8 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/friendly_name"
         android:layout_below="@+id/product_ctn"
-        android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
-        android:layout_marginRight="@dimen/pr_first_launch_padding_right"
         android:layout_marginTop="@dimen/pr_c_value_tablet"
         android:visibility="gone"/>
 

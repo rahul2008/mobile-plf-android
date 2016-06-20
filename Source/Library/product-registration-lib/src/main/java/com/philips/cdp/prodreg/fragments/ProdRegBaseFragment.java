@@ -31,8 +31,6 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
     private static ActionbarUpdateListener mActionbarUpdateListener;
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
-    private DialogOkButtonListener dialogOkButtonListener;
-
     public abstract String getActionbarTitle();
 
     @Override
@@ -70,68 +68,55 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
         final FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
         mActionbarUpdateListener = fragmentLauncher.getActionbarUpdateListener();
         int containerId = fragmentLauncher.getParentContainerResourceID();
-        String startAnim;
-        String endAnim;
         if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
-            if ((startAnimation != 0) && (endAnimation != 0)) {
-                startAnim = fragmentActivity.getResources().getResourceName(startAnimation);
-                endAnim = fragmentActivity.getResources().getResourceName(endAnimation);
+            initAnimation(startAnimation, endAnimation, fragmentActivity);
+            addFragment(fragment, fragmentActivity, containerId);
+        }
+    }
 
-                String packageName = fragmentActivity.getPackageName();
-                mEnterAnimation = fragmentActivity.getResources().getIdentifier(startAnim,
-                        "anim", packageName);
-                mExitAnimation = fragmentActivity.getResources().getIdentifier(endAnim, "anim",
-                        packageName);
+    private void addFragment(final Fragment fragment, final FragmentActivity fragmentActivity, final int containerId) {
+        try {
+            FragmentTransaction fragmentTransaction = fragmentActivity
+                    .getSupportFragmentManager().beginTransaction();
+            if (mEnterAnimation != 0 && mExitAnimation != 0) {
+                fragmentTransaction.setCustomAnimations(mEnterAnimation,
+                        mExitAnimation, mEnterAnimation, mExitAnimation);
             }
+            final String simpleName = fragment.getClass().getSimpleName();
+            fragmentTransaction.replace(containerId, fragment, simpleName);
+            Fragment currentFrag = fragmentActivity.getSupportFragmentManager()
+                    .findFragmentById(getId());
 
-            try {
-                FragmentTransaction fragmentTransaction = fragmentActivity
-                        .getSupportFragmentManager().beginTransaction();
-                if (mEnterAnimation != 0 && mExitAnimation != 0) {
-                    fragmentTransaction.setCustomAnimations(mEnterAnimation,
-                            mExitAnimation, mEnterAnimation, mExitAnimation);
-                }
-                final String simpleName = fragment.getClass().getSimpleName();
-                fragmentTransaction.replace(containerId, fragment, simpleName);
-                Fragment currentFrag = fragmentActivity.getSupportFragmentManager()
-                        .findFragmentById(getId());
+            if (!(currentFrag instanceof ProdRegBaseFragment))
+                fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_VERTICAL_TAG);
+            else
+                fragmentTransaction.addToBackStack(simpleName);
 
-                if (!(currentFrag instanceof ProdRegBaseFragment))
-                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_VERTICAL_TAG);
-                else
-                    fragmentTransaction.addToBackStack(simpleName);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
 
-                fragmentTransaction.commitAllowingStateLoss();
-            } catch (IllegalStateException e) {
-                Log.e(TAG, e.getMessage());
-            }
+    private void initAnimation(final int startAnimation, final int endAnimation, final FragmentActivity fragmentActivity) {
+        final String startAnim;
+        final String endAnim;
+        if ((startAnimation != 0) && (endAnimation != 0)) {
+            startAnim = fragmentActivity.getResources().getResourceName(startAnimation);
+            endAnim = fragmentActivity.getResources().getResourceName(endAnimation);
+
+            String packageName = fragmentActivity.getPackageName();
+            mEnterAnimation = fragmentActivity.getResources().getIdentifier(startAnim,
+                    "anim", packageName);
+            mExitAnimation = fragmentActivity.getResources().getIdentifier(endAnim, "anim",
+                    packageName);
         }
     }
 
     protected void showFragment(Fragment fragment) {
-        try {
-            final FragmentActivity fragmentActivity = getActivity();
-            if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
-                FragmentTransaction fragmentTransaction = fragmentActivity
-                        .getSupportFragmentManager().beginTransaction();
-                if (mEnterAnimation != 0 && mExitAnimation != 0) {
-                    fragmentTransaction.setCustomAnimations(mEnterAnimation,
-                            mExitAnimation, mEnterAnimation, mExitAnimation);
-                }
-                final String simpleName = fragment.getClass().getSimpleName();
-                fragmentTransaction.replace(getId(), fragment, simpleName);
-                Fragment currentFrag = fragmentActivity.getSupportFragmentManager()
-                        .findFragmentById(getId());
-                if (!(currentFrag instanceof ProdRegBaseFragment))
-                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_VERTICAL_TAG);
-                else
-                    fragmentTransaction.addToBackStack(simpleName);
-
-                fragmentTransaction.commitAllowingStateLoss();
-            }
-        } catch (IllegalStateException e) {
-            Log.e(TAG, "IllegalStateException" + e.getMessage());
-            e.printStackTrace();
+        final FragmentActivity fragmentActivity = getActivity();
+        if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
+            addFragment(fragment, fragmentActivity, getId());
         }
     }
 
@@ -193,7 +178,7 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
     }
 
     public DialogOkButtonListener getDialogOkButtonListener() {
-        return dialogOkButtonListener;
+        return null;
     }
 }
 
