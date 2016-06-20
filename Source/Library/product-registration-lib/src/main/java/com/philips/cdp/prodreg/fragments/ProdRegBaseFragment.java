@@ -91,12 +91,16 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
                     fragmentTransaction.setCustomAnimations(mEnterAnimation,
                             mExitAnimation, mEnterAnimation, mExitAnimation);
                 }
-                fragmentTransaction.replace(containerId, fragment, fragment.getClass().getSimpleName());
+                final String simpleName = fragment.getClass().getSimpleName();
+                fragmentTransaction.replace(containerId, fragment, simpleName);
                 Fragment currentFrag = fragmentActivity.getSupportFragmentManager()
                         .findFragmentById(getId());
 
                 if (!(currentFrag instanceof ProdRegBaseFragment))
                     fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_VERTICAL_TAG);
+                else
+                    fragmentTransaction.addToBackStack(simpleName);
+
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 Log.e(TAG, e.getMessage());
@@ -120,9 +124,9 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
                         .findFragmentById(getId());
                 if (!(currentFrag instanceof ProdRegBaseFragment))
                     fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_VERTICAL_TAG);
-                else {
+                else
                     fragmentTransaction.addToBackStack(simpleName);
-                }
+
                 fragmentTransaction.commitAllowingStateLoss();
             }
         } catch (IllegalStateException e) {

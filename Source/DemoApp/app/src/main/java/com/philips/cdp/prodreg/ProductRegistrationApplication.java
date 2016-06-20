@@ -6,8 +6,6 @@ import com.philips.cdp.prodreg.register.ProdRegHelper;
 
 public class ProductRegistrationApplication extends Application {
 
-    private String TAG = getClass().toString();
-
     @Override
     public void onCreate() {
         super.onCreate();
