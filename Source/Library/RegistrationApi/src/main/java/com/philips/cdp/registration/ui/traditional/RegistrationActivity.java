@@ -31,7 +31,7 @@ import com.philips.cdp.tagging.Tagging;
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
 
-    private  boolean isAccountSettings = true;
+    private boolean isAccountSettings = true;
     private TextView ivBack;
     private Handler mSiteCatalistHandler = new Handler();
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
@@ -56,8 +56,8 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS,true);
-            int orientation = bundle.getInt(RegConstants.ORIENTAION,-1);
+            isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+            int orientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -78,6 +78,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         setContentView(R.layout.reg_activity_registration);
         ivBack = (TextView) findViewById(R.id.iv_reg_back);
         ivBack.setOnClickListener(this);
+
         if (alwaysFinishActivity == 0) {
             initUI();
         }
@@ -92,6 +93,13 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+       super.onRestoreInstanceState(savedInstanceState);
+        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
+      }
 
     @Override
     protected void onStart() {
@@ -145,7 +153,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             FragmentManager mFragmentManager = getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
             Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS,isAccountSettings);
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(this);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
