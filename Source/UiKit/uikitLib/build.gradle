@@ -14,7 +14,7 @@ buildscript {
     dependencies {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1'
-        classpath 'com.android.tools.build:gradle:2.1.0-alpha3'
+        classpath 'com.android.tools.build:gradle:2.1.2'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
     }
 }
@@ -45,6 +45,27 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+
+    //Exclude jniLibs as it will be coming from vertical
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'LICENSE.txt'
+        exclude 'lib/arm64-v8a/librsjni.so'
+        exclude 'lib/arm64-v8a/libRSSupport.so'
+        exclude 'lib/armeabi-v7a/libblasV8.so'
+        exclude 'lib/armeabi-v7a/librsjni.so'
+        exclude 'lib/armeabi-v7a/libRSSupport.so'
+        exclude 'lib/mips/libblasV8.so'
+        exclude 'lib/mips/librsjni.so'
+        exclude 'lib/mips/libRSSupport.so'
+        exclude 'lib/x86/libblasV8.so'
+        exclude 'lib/x86/librsjni.so'
+        exclude 'lib/x86/libRSSupport.so'
     }
 }
 
