@@ -54,6 +54,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     private Product currentProduct;
     private EditText serial_number_editText, date_EditText;
     private InlineForms serialLayout, purchaseDateLayout;
+    private ProdRegLoadingFragment prodRegLoadingFragment;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -83,7 +84,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             }
         }
     };
-    private ProdRegLoadingFragment prodRegLoadingFragment;
 
     @Override
     public String getActionbarTitle() {
@@ -170,7 +170,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     }
 
     private void updateUi(final Data summaryData) {
-        if (summaryData != null) {
+        if (summaryData != null && currentProduct != null) {
             final String familyName = summaryData.getFamilyName();
             final String productTitle = summaryData.getProductTitle();
             final String productCtn = summaryData.getCtn();
@@ -178,8 +178,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             productTitleTextView.setText(productTitle != null ? productTitle : "");
             productCtnTextView.setText(productCtn != null ? productCtn : "");
             imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.ic_launcher, R.drawable.ic_launcher));
-        }
-        if (currentProduct != null) {
             date_EditText.setText(currentProduct.getPurchaseDate());
             serial_number_editText.setText(currentProduct.getSerialNumber());
             handleDateEditTextOnError();

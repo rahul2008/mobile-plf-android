@@ -50,7 +50,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
             Product product = null;
             final Bundle extras = getIntent().getExtras();
             if (extras != null) {
-                isFirstLaunch = extras.getBoolean(ProdRegConstants.PROD_REG_ON_FIRST_LAUNCH);
+                isFirstLaunch = extras.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
                 product = (Product) extras.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
             }
             Bundle bundle = new Bundle();

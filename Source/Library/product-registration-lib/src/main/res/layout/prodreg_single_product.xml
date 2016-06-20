@@ -113,6 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/InlineForms_date"
+                android:layout_marginTop="@dimen/pr_c_value_sm"
                 android:paddingBottom="@dimen/pr_d_value_sm"
                 android:paddingTop="@dimen/pr_d_value_sm"
                 android:visibility="invisible">
@@ -127,7 +128,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_gravity="right"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="Serial number:"
@@ -140,7 +140,6 @@
                         style="@style/PhilipsTextInputLayoutStyleEnabled"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="?attr/uikit_brightColor"

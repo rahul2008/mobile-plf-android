@@ -66,7 +66,7 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
 
     public void showFragment(Fragment fragment, FragmentLauncher fragmentLauncher,
                              int startAnimation, int endAnimation) {
-        Log.i("testing", "Product Registration Base Fragment -- Fragment Invoke");
+        Log.i(TAG, "Product Registration Base Fragment -- Fragment Invoke");
         final FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
         mActionbarUpdateListener = fragmentLauncher.getActionbarUpdateListener();
         int containerId = fragmentLauncher.getParentContainerResourceID();
@@ -96,7 +96,7 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
                         .findFragmentById(getId());
 
                 if (!(currentFrag instanceof ProdRegBaseFragment))
-                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_TAG);
+                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_VERTICAL_TAG);
                 fragmentTransaction.commitAllowingStateLoss();
             } catch (IllegalStateException e) {
                 Log.e(TAG, e.getMessage());
@@ -114,13 +114,14 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
                     fragmentTransaction.setCustomAnimations(mEnterAnimation,
                             mExitAnimation, mEnterAnimation, mExitAnimation);
                 }
-                fragmentTransaction.replace(getId(), fragment, fragment.getClass().getSimpleName());
+                final String simpleName = fragment.getClass().getSimpleName();
+                fragmentTransaction.replace(getId(), fragment, simpleName);
                 Fragment currentFrag = fragmentActivity.getSupportFragmentManager()
                         .findFragmentById(getId());
                 if (!(currentFrag instanceof ProdRegBaseFragment))
-                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_TAG);
+                    fragmentTransaction.addToBackStack(ProdRegConstants.PROD_REG_VERTICAL_TAG);
                 else {
-                    fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
+                    fragmentTransaction.addToBackStack(simpleName);
                 }
                 fragmentTransaction.commitAllowingStateLoss();
             }
@@ -176,7 +177,7 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
                 activity.finish();
             } else {
                 FragmentManager fragManager = activity.getSupportFragmentManager();
-                return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_VERTICAL_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
         return false;

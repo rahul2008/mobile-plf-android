@@ -107,7 +107,7 @@ public class ProdRegConfigManager {
             intent.putExtra(ProdRegConstants.PROD_REG_PRODUCT, arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT));
             intent.putExtra(ProdRegConstants.START_ANIMATION_ID, startAnimation);
             intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, endAnimation);
-            intent.putExtra(ProdRegConstants.PROD_REG_ON_FIRST_LAUNCH, mUiLauncher.isFirstLaunch());
+            intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, mUiLauncher.isFirstLaunch());
             intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, orientation.getOrientationValue());
             context.startActivity(intent);
         } else {

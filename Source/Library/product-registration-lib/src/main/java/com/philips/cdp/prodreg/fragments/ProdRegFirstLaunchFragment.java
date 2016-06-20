@@ -38,7 +38,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                getActivity().onBackPressed();
+                clearFragmentStack();
             }
         };
     }
@@ -51,7 +51,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 final ProdRegProcessFragment processFragment = new ProdRegProcessFragment();
                 Bundle bundle = getArguments();
                 if (bundle != null) {
-                    bundle.putBoolean(ProdRegConstants.PROD_REG_ON_FIRST_LAUNCH, true);
+                    bundle.putBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, true);
                     processFragment.setArguments(bundle);
                 }
                 showFragment(processFragment);
