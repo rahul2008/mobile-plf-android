@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -33,6 +34,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     private FragmentManager mFragmentManager;
     Products mProductData = null;
     ProductCatalogHelper mProductCatalogHelper;
+    boolean isPlanA;
+
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ProductCatalogData> data);
@@ -40,11 +43,12 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         void onLoadError(IAPNetworkError error);
     }
 
-    public ProductCatalogPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
+    public ProductCatalogPresenter(Context context, LoadListener listener, FragmentManager fragmentManager, boolean isPlanA) {
         mContext = context;
         mLoadListener = listener;
         mFragmentManager = fragmentManager;
         mProductCatalogHelper = new ProductCatalogHelper(mContext, mLoadListener, this);
+        this.isPlanA = isPlanA;
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
@@ -83,9 +87,12 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         if (processHybrisRequestForGetProductCatalogData(msg))
             return;
 
-        if (mProductCatalogHelper.processPRXResponse(msg, mProductData))
+        if (mProductCatalogHelper.processPRXResponse(msg, IAPHandler.mProductCTNs, mProductData))
             return;
-
+//        if (IAPHandler.mProductCTNs == null && mProductCatalogHelper.processPRXResponse(msg, mProductData))
+//            return;
+//        if (IAPHandler.mProductCTNs != null && mProductCatalogHelper.processPRXResponse(msg, IAPHandler.mProductCTNs))
+//            return;
         /*if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();*/
 
@@ -95,7 +102,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         if (msg.obj instanceof Products) {
             mProductData = (Products) msg.obj;
             if (mProductData != null) {
-                mProductCatalogHelper.makePrxCall(mProductData);
+                mProductCatalogHelper.makePrxCall(IAPHandler.mProductCTNs, mProductData, false);
                 return true;
             }
         }

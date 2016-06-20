@@ -29,23 +29,23 @@ public class ProductCatalogHelper {
     ProductCatalogPresenter.LoadListener mLoadListener;
     AbstractModel.DataLoadListener mGetProductCatalogListener;
 
-    public ProductCatalogHelper(Context context, ProductCatalogPresenter.LoadListener listener, AbstractModel.DataLoadListener productlistener){
+    public ProductCatalogHelper(Context context, ProductCatalogPresenter.LoadListener listener, AbstractModel.DataLoadListener productlistener) {
         mContext = context;
         mLoadListener = listener;
         mGetProductCatalogListener = productlistener;
     }
 
-    public boolean processPRXResponse(final Message msg,Products productData) {
+    public boolean processPRXResponse(final Message msg, ArrayList<String> planBProductCTNs, Products productData) {
         if (msg.obj instanceof HashMap) {
-            HashMap<String,SummaryModel> prxModel = (HashMap<String,SummaryModel>)msg.obj;
+            HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
 
             if (checkForEmptyCart(prxModel))
                 return true;
 
-            ArrayList<ProductCatalogData> products = mergeResponsesFromHybrisAndPRX(productData, prxModel);
+            ArrayList<ProductCatalogData> products = mergeResponsesFromHybrisAndPRX(planBProductCTNs, productData, prxModel);
             refreshList(products);
 
-        }else {
+        } else {
             notifyEmptyCartFragment();
         }
         return false;
@@ -65,29 +65,44 @@ public class ProductCatalogHelper {
         return false;
     }
 
-    public void makePrxCall(Products productData) {
+    public void makePrxCall(ArrayList<String> planBProductList, Products productData, boolean isPlanB) {
         ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
-        final List<ProductsEntity> products = productData.getProducts();
         ArrayList<String> productsToBeShown = new ArrayList<>();
         String ctn;
-
-        for(ProductsEntity entry:products){
-            ctn = entry.getCode();
-            productsToBeShown.add(ctn);
-            if (!CartModelContainer.getInstance().isPRXDataPresent(ctn)) {
-                ctnsToBeRequestedForPRX.add(entry.getCode());
+        if (isPlanB) {
+            for (String product : planBProductList) {
+                ctn = product;
+                productsToBeShown.add(ctn);
+                if (!CartModelContainer.getInstance().isPRXDataPresent(ctn)) {
+                    ctnsToBeRequestedForPRX.add(ctn);
+                }
+            }
+        } else {
+            if (productData != null) {
+                final List<ProductsEntity> productsEntities = productData.getProducts();
+                for (ProductsEntity entry : productsEntities) {
+                    ctn = entry.getCode();
+                    productsToBeShown.add(ctn);
+                    if (!CartModelContainer.getInstance().isPRXDataPresent(ctn)) {
+                        ctnsToBeRequestedForPRX.add(entry.getCode());
+                    }
+                }
             }
         }
-        if(ctnsToBeRequestedForPRX.size()>0) {
+        prxRequest(planBProductList, productData, ctnsToBeRequestedForPRX, productsToBeShown);
+    }
+
+    private void prxRequest(ArrayList<String> planBProductList, Products productData, ArrayList<String> ctnsToBeRequestedForPRX, ArrayList<String> productsToBeShown) {
+        if (ctnsToBeRequestedForPRX.size() > 0) {
             PRXDataBuilder builder = new PRXDataBuilder(mContext, productsToBeShown,
                     mGetProductCatalogListener);
             builder.preparePRXDataRequest();
-        }else {
+        } else {
             HashMap<String, SummaryModel> prxModel = new HashMap<>();
-            for(String ctnPresent: productsToBeShown){
+            for (String ctnPresent : productsToBeShown) {
                 prxModel.put(ctnPresent, CartModelContainer.getInstance().getProductData(ctnPresent));
             }
-            ArrayList<ProductCatalogData> productCatalogDatas = mergeResponsesFromHybrisAndPRX(productData,prxModel);
+            ArrayList<ProductCatalogData> productCatalogDatas = mergeResponsesFromHybrisAndPRX(planBProductList, productData, prxModel);
             refreshList(productCatalogDatas);
         }
     }
@@ -100,20 +115,54 @@ public class ProductCatalogHelper {
             Utility.dismissProgressDialog();*/
     }
 
-    private ArrayList<ProductCatalogData> mergeResponsesFromHybrisAndPRX(final Products productData, final HashMap<String, SummaryModel> prxModel) {
+    private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanB(ArrayList<String> planBProductList, HashMap<String, SummaryModel> prxModel) {
+        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
+        ArrayList<ProductCatalogData> products = new ArrayList<>();
+        String ctn;
+        for (String planBProduct : planBProductList) {
+            ctn = planBProduct;
+            ProductCatalogData productItem = new ProductCatalogData();
+            Data data = null;
+            if (prxModel.containsKey(ctn)) {
+                data = prxModel.get(ctn).getData();
+            } else if (list.containsKey(ctn)) {
+                data = list.get(ctn).getData();
+            } else {
+                continue;
+            }
+            productItem.setImageUrl(data.getImageURL());
+            productItem.setProductTitle(data.getProductTitle());
+            productItem.setCtnNumber(ctn);
+            productItem.setMarketingTextHeader(data.getMarketingTextHeader());
+            products.add(productItem);
+        }
+        return products;
+    }
+
+    private ArrayList<ProductCatalogData> mergeResponsesFromHybrisAndPRX(ArrayList<String> planBProductList, final Products productData, final HashMap<String, SummaryModel> prxModel) {
+        if (planBProductList != null) {
+            ArrayList<ProductCatalogData> products = mergeHybrisAndPRXPlanB(planBProductList, prxModel);
+            return products;
+        } else {
+            ArrayList<ProductCatalogData> products = mergeHybrisAndPRXPlanA(productData, prxModel);
+            return products;
+        }
+    }
+
+    private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanA(Products productData, HashMap<String, SummaryModel> prxModel) {
         List<ProductsEntity> entries = productData.getProducts();
         HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
         ArrayList<ProductCatalogData> products = new ArrayList<>();
         String ctn;
-        for(ProductsEntity entry: entries){
+        for (ProductsEntity entry : entries) {
             ctn = entry.getCode();
             ProductCatalogData productItem = new ProductCatalogData();
             Data data = null;
-            if(prxModel.containsKey(ctn)) {
+            if (prxModel.containsKey(ctn)) {
                 data = prxModel.get(ctn).getData();
-            }else if(list.containsKey(ctn)){
+            } else if (list.containsKey(ctn)) {
                 data = list.get(ctn).getData();
-            }else {
+            } else {
                 continue;
             }
             productItem.setImageUrl(data.getImageURL());
@@ -127,7 +176,7 @@ public class ProductCatalogHelper {
     }
 
     private void fillEntryBaseData(final ProductsEntity entry, final ProductCatalogData productItem, final Data data) {
-        if(entry.getPrice() == null || entry.getDiscountPrice() == null)
+        if (entry.getPrice() == null || entry.getDiscountPrice() == null)
             return;
         productItem.setFormatedPrice(entry.getPrice().getFormattedValue());
         productItem.setPriceValue(String.valueOf(entry.getPrice().getValue()));

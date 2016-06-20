@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DemoAppActivity extends Activity implements View.OnClickListener,
-        UserRegistrationListener, IAPHandlerListener, AdapterView.OnItemSelectedListener {
+        UserRegistrationListener, AdapterView.OnItemSelectedListener {
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
 
@@ -69,6 +69,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     //We require this to track for hiding the cart icon in demo app
     IAPSettings mIAPSettings;
     private Button mFragmentLaunch;
+
+    private ArrayList<String> mProductList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
         mIapHandler = IAPHandler.init(this, mIAPSettings);
+
+        mProductList = new ArrayList<>();
+        mProductList.add("HX9042/64");
+        mProductList.add("HX9042/64");
+        mProductList.add("HX9042/64");
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -196,6 +203,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 }
                 break;
             case R.id.btn_fragment_launch:
+                mIapHandler.launchCategorizedCatalog(mProductList);
                 Intent intent = new Intent(this, LauncherFragmentActivity.class);
                 this.startActivity(intent);
                 break;
@@ -268,6 +276,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             Utility.dismissProgressDialog();
             showToast(errorCode);
         }
+
     };
 
     private void showToast(int errorCode) {
@@ -287,15 +296,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         toast.show();
     }
 
-    @Override
-    public void onSuccess(int count) {
-
-    }
-
-    @Override
-    public void onFailure(int errorCode) {
-
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -345,7 +345,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 mSelectedEnvironmentIndex = position;
                 if (position == 0)
                     return;
-                boolean isSelectionChanged = (mEnvironmentPreference.getSelectedEnvironmentIndex()!=position)?true:false;
+                boolean isSelectionChanged = (mEnvironmentPreference.getSelectedEnvironmentIndex() != position) ? true : false;
                 mEnvironmentPreference.saveEnvironmentPrefrence(position);
                 String selectedEnvironment = parent.getItemAtPosition(position).toString();
                 setHostPort(selectedEnvironment);
