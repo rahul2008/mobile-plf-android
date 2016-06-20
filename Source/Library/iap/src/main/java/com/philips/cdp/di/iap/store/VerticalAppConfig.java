@@ -17,11 +17,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-class VerticalAppConfig {
+public class VerticalAppConfig {
     String mHostPort;
     String mPropositionID;
 
-    VerticalAppConfig(final Context context) {
+    public VerticalAppConfig(final Context context) {
         loadConfigurationFromAsset(context);
     }
 
