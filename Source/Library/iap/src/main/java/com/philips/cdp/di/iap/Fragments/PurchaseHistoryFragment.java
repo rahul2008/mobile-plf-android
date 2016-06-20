@@ -104,13 +104,15 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
             if (msg.what == RequestCode.GET_ORDERS) {
                 if (msg.obj instanceof OrdersData) {
                     OrdersData mOrderData = (OrdersData) msg.obj;
-                    for(Orders order : mOrderData.getOrders())
-                        mOrders.add(order);
-                    if (mOrders == null || mOrders.size() == 0) {
+                    if (mOrderData.getOrders() == null || mOrderData.getOrders().size() == 0) {
+                        if (Utility.isProgressDialogShowing())
+                            Utility.dismissProgressDialog();
                         removeFragment();
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
                                 BaseAnimationSupportFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
                     } else {
+                        for(Orders order : mOrderData.getOrders())
+                            mOrders.add(order);
                         for(int i=0; i < mOrders.size(); i++)
                         {
                             if(mController == null)
