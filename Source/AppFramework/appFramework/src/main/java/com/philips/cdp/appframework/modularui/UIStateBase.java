@@ -5,6 +5,6 @@ package com.philips.cdp.appframework.modularui;
  */
 public abstract class UIStateBase {
     UIBaseNavigation navigator;
-    @UIFlowManager.UIStateDef int stateID;
+    @UIStateDefintions.UIStateDef int stateID;
     UIBaseLogic logic;
 }

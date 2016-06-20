@@ -20,6 +20,7 @@ import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HomeActivity;
 import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
+import com.philips.cdp.appframework.modularui.UIStateDefintions;
 import com.philips.cdp.appframework.modularui.UIWSNavigationStateOne;
 import com.philips.cdp.appframework.modularui.UIWSNavigationStateTwo;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
@@ -241,14 +242,14 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
                 setIntroScreenDonePressed();
 
-                @UIFlowManager.UIStateDef int currentState = navigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
+                @UIStateDefintions.UIStateDef int currentState = navigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
 
                 switch (currentState){
-                    case UIFlowManager.UI_WELCOME_STATE_ONE : if(UIFlowManager.activityMap.get(UIFlowManager.UI_WELCOME_STATE_ONE).equalsIgnoreCase("HomeActivity")){
+                    case UIStateDefintions.UI_WELCOME_STATE_ONE : if(UIFlowManager.activityMap.get(UIStateDefintions.UI_WELCOME_STATE_ONE).equalsIgnoreCase("HomeActivity")){
                         startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
                     }
                         break;
-                    case UIFlowManager.UI_WELCOME_STATE_TWO : if(UIFlowManager.activityMap.get(UIFlowManager.UI_WELCOME_STATE_TWO).equalsIgnoreCase("UserRegistration")){
+                    case UIStateDefintions.UI_WELCOME_STATE_TWO : if(UIFlowManager.activityMap.get(UIStateDefintions.UI_WELCOME_STATE_TWO).equalsIgnoreCase("UserRegistration")){
                         startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
                     }
                         break;
