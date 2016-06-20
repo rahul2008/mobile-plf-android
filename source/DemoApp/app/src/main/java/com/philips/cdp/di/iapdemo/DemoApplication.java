@@ -12,6 +12,8 @@ import com.philips.cdp.tagging.Tagging;
 import java.util.Locale;
 
 public class DemoApplication extends Application {
+    //Required in case Production has to be added to dynamic configuration
+   // EnvironmentPreferences mAppEnvironmentPreference;
 
     @Override
     public void onCreate() {
@@ -32,6 +34,8 @@ public class DemoApplication extends Application {
     }
 
     private void initializeUserRegistration() {
+        //Required in case Production has to be added to dynamic configuration
+        //mAppEnvironmentPreference = new EnvironmentPreferences(getApplicationContext());
         Tagging.enableAppTagging(true);
         Tagging.setTrackingIdentifier("integratingApplicationAppsId");
         Tagging.setLaunchingPageName("demoapp:home");
@@ -44,5 +48,10 @@ public class DemoApplication extends Application {
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext());
         Tagging.init(getApplicationContext(), "Philips Registartion Sample demo");
+        //Required in case Production has to be added to dynamic configuration
+        /*if(mAppEnvironmentPreference.getSelectedEnvironmentIndex()== 3) {
+            RegistrationDynamicConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(Configuration.PRODUCTION);
+        }
+        Log.i("sendhy","Registration Environment :" + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment());*/
     }
 }
