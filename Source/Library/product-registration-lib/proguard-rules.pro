@@ -1,39 +1,17 @@
-#-dontusemixedcaseclassnames
-#-dontskipnonpubliclibraryclasses
-#-dontskipnonpubliclibraryclassmembers
-#-dontpreverify
-#-dontwarn com.google.gson.**
+# Add project specific ProGuard rules here.
+# By default, the flags in this file are appended to flags specified
+# in D:\sdk/tools/proguard/proguard-android.txt
+# You can edit the include path and order by changing the proguardFiles
+# directive in build.gradle.
 #
-#-dontwarn com.android.volley.**
-#-dontwarn com.squareup.okhttp.**
-#-dontwarn java.nio.file.**
-#-dontwarn okio.**
-#
-#-dontwarn android.support.**
-#-dontwarn android.support.v8.**
-#-dontwarn com.philips.cdp.registration.**
-#-dontwarn org.apache.**
-#-dontwarn com.philips.cdp.digitalcare.**
-#-dontwarn com.philips.cdp.prxclient.**
-##Volley
-#-keep class com.android.volley.** { *; }
-#-keep interface com.android.volley.** { *; }
-#-keep class org.apache.commons.logging.**
-#-keep class com.squareup.okhttp.** { *; }
-#-keep class okio.** { *; }
-#
-##Gson
-#-keep class sun.misc.Unsafe { *; }
-#-keep class com.google.gson.stream.** { *; }
-#
-#-keep public class org.apache.http.**
-#-keepclassmembers public class org.apache.http.** { *;}
-#
-##Product Registration
-##-keep class com.philips.cdp.store** {*;}
-##-keep interface com.philips.cdp.store** {*;}
-#-keep class com.philips.cdp.prodreg** {*;}
-#-keep class com.philips.cdp.model** {*;}
-#-keep interface com.philips.cdp.listener** {*;}
-#-keep class com.philips.cdp.prxrequest** {*;}
-#
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
+
+# Add any project specific keep options here:
+
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
