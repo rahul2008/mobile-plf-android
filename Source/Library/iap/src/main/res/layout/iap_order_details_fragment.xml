@@ -23,6 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/iap_order_margin_top"
                 android:layout_marginStart="@dimen/iap_shopping_cart_image_margin_top" />
         </RelativeLayout>
 
@@ -30,21 +31,20 @@
             android:id="@+id/order_summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
-            android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top">
+            android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top">
 
             <TextView
                 android:id="@+id/order_number_text"
                 style="@style/tvBoldTitle"
-                android:layout_marginEnd="3dp"
-                android:text="@string/iap_order_number" />
+                android:text="@string/iap_order_number"
+                android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"/>
 
             <TextView
                 android:id="@+id/tv_order_number"
                 style="@style/tvBoldTitle"
                 android:layout_alignBaseline="@id/order_number_text"
-                android:layout_toEndOf="@id/order_number_text" />
+                android:layout_toEndOf="@id/order_number_text"
+                android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"/>
 
             <TextView
                 android:id="@+id/tv_order_state"
@@ -53,13 +53,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/order_number_text"
                 android:layout_below="@+id/order_number_text"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/iap_order_margin_top"
                 android:text="Order state" />
 
             <com.shamanland.fonticon.FontIconTextView
                 android:id="@+id/arrow"
                 style="@style/iap_right_arrow"
                 android:layout_alignBaseline="@id/order_number_text"
+                android:layout_marginLeft="@dimen/iap_order_icon_margin_left"
+                android:layout_marginRight="@dimen/iap_order_margin_top"
                 android:layout_centerVertical="true" />
 
         </RelativeLayout>
@@ -81,29 +83,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom"
             android:visibility="gone">
 
             <TextView
                 android:id="@+id/total_item_text"
-                style="@style/tvTitle"
-                android:layout_marginEnd="3dp"
+                style="@style/iap_order_total_items"
                 android:text="@string/iap_total" />
 
             <TextView
                 android:id="@+id/tv_total_item"
-                style="@style/tvTitle"
+                style="@style/iap_order_total_items"
                 android:layout_alignBaseline="@id/total_item_text"
-                android:layout_toEndOf="@id/total_item_text"
-                android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
-                android:textColor="?attr/uikit_baseColor"
-                android:textSize="14sp" />
+                android:layout_toEndOf="@id/total_item_text" />
 
             <TextView
                 android:id="@+id/tv_total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/tvBoldTitle"
                 android:layout_alignParentEnd="true"
+                android:textColor="?attr/uikit_baseColor"
+                android:textSize="@dimen/iap_shopping_cart_footer_total_size"
                 android:layout_marginEnd="@dimen/iap_shipping_address_margin_left" />
         </RelativeLayout>
 
@@ -120,8 +122,10 @@
             style="@style/iapCentralesansBoldFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/iap_order_detail_margin_bottom"
+            android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom"
             android:textColor="?attr/uikit_baseColor"
+            android:background="@color/uikit_enricher7"
             android:visibility="gone" />
 
         <View
@@ -256,7 +260,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
             android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/iap_order_detail_margin_bottom"
+            android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom"
             android:visibility="gone">
 
             <TextView
@@ -266,8 +271,10 @@
 
             <com.shamanland.fonticon.FontIconTextView
                 android:id="@+id/invoice_arrow"
-                style="@style/iap_right_arrow_product_catalog"
-                android:layout_marginEnd="10dp" />
+                style="@style/iap_right_arrow"
+                android:layout_marginLeft="@dimen/iap_order_icon_margin_left"
+                android:layout_marginRight="@dimen/iap_order_margin_top"
+                android:layout_centerVertical="true" />
         </RelativeLayout>
 
         <Button

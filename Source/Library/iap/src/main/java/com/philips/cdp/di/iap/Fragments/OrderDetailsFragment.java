@@ -101,6 +101,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mProductListView = (RecyclerView) view.findViewById(R.id.product_detail);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mProductListView.setLayoutManager(layoutManager);
+        mProductListView.setNestedScrollingEnabled(false);
 
         mAdapter = new OrderDetailAdapter(mContext, mProducts);
         mProductListView.setAdapter(mAdapter);
