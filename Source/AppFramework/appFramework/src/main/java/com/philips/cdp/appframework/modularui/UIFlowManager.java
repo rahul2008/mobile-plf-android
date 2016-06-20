@@ -12,16 +12,28 @@ public class UIFlowManager {
 
 
     public static List<UIStateBase> stateBaseList;
-    public @UIStateDefintions.UIStateDef
-    static int startState;
-    public @UIStateDefintions.UIStateDef
-    static int currentState;
+    public static UIStateBase startState;
+    public static UIStateBase currentState;
     public static Map<Integer, String> activityMap;
 
    public static void populateStateBaseList(){
         stateBaseList = new ArrayList<UIStateBase>();
         stateBaseList.add(new UIState(new UIWSNavigationStateOne(),UIStateDefintions.UI_SPLASH_STATE_ONE));
 
+    }
+
+    public static void addToStateList(UIStateBase uiStateBase){
+        if(null != stateBaseList) {
+            stateBaseList.add(uiStateBase);
+        }
+    }
+
+    public static UIStateBase getFromStateList(int position){
+        if(null != stateBaseList){
+            return stateBaseList.get(position);
+        }else {
+            return null;
+        }
     }
 
     public static Map<Integer, String> getActivityMap() {

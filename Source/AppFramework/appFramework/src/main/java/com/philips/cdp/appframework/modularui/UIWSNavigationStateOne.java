@@ -11,18 +11,21 @@ public class UIWSNavigationStateOne implements UIBaseNavigation {
     @Override
     public  @UIStateDefintions.UIStateDef int onClick(int componentID,Context context) {
         @UIStateDefintions.UIStateDef int destinationScreen = 0;
+        UIState wsNavStateOne = new UIState(this,destinationScreen);
+        wsNavStateOne.setStateID(UIStateDefintions.UI_WELCOME_STATE_ONE);
+        wsNavStateOne.setNavigator(this);
+
         switch (componentID){
             case R.id.start_registration_button:
-                destinationScreen = UIStateDefintions.UI_WELCOME_STATE_ONE;
-
+                destinationScreen = wsNavStateOne.getStateID() ;
                 break;
             case R.id.appframework_skip_button:
-                destinationScreen = UIStateDefintions.UI_WELCOME_STATE_ONE;
-
+                destinationScreen = wsNavStateOne.getStateID();
                 break;
 
         }
-        UIFlowManager.currentState = destinationScreen;
+
+        UIFlowManager.addToStateList(wsNavStateOne);
         return destinationScreen;
     }
 
