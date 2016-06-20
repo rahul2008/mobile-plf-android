@@ -19,6 +19,8 @@ public abstract class PrxRequest {
     private Sector mSector;
     private Catalog mCatalog;
     private String mLocaleMatchResult;
+    private int maxRetries = 1;
+    private int requestTimeOut = 5000;
 
     public String getServerInfo() {
         return mServerInfo;
@@ -57,5 +59,27 @@ public abstract class PrxRequest {
 
     public void setLocaleMatchResult(String mLocaleMatchResult) {
         this.mLocaleMatchResult = mLocaleMatchResult;
+    }
+
+    public int getMaxRetries() {
+        return maxRetries;
+    }
+
+    /**
+     * @param maxRetries - Set maximum number of retries when request failed
+     */
+    public void setMaxRetries(final int maxRetries) {
+        this.maxRetries = maxRetries;
+    }
+
+    public int getRequestTimeOut() {
+        return requestTimeOut;
+    }
+
+    /**
+     * @param requestTimeOut - Set request time out in milli seconds
+     */
+    public void setRequestTimeOut(final int requestTimeOut) {
+        this.requestTimeOut = requestTimeOut;
     }
 }
