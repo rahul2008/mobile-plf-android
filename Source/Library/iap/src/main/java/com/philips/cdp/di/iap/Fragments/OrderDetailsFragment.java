@@ -64,6 +64,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     private OrderDetailAdapter mAdapter;
     private LinearLayout mPaymentModeLayout;
     private OrderController mController;
+    private View mPaymentDivider;
 
     private String mOrderId;
 
@@ -103,6 +104,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
         mAdapter = new OrderDetailAdapter(mContext, mProducts);
         mProductListView.setAdapter(mAdapter);
+        mPaymentDivider = (View) view.findViewById(R.id.payment_divider);
 
         Bundle bundle = getArguments();
         if (null != bundle && bundle.containsKey(IAPConstant.PURCHASE_ID)) {
@@ -167,7 +169,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         detailList.add(mOrderDetail);
         if(mController == null)
             mController = new OrderController(mContext, this);
-        ArrayList<ProductData> productList=  mController.mergeResponsesFromHybrisAndPRX(detailList);
+        ArrayList<ProductData> productList=  mController.getProductData(detailList);
         for(ProductData product : productList)
             mProducts.add(product);
         mAdapter.notifyDataSetChanged();
@@ -226,8 +228,10 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
             }
             if (detail.getPaymentInfo().getCardType() != null)
                 mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode() + " " + detail.getPaymentInfo().getCardNumber());
-            else
+            else {
                 mPaymentModeLayout.setVisibility(View.GONE);
+                mPaymentDivider.setVisibility(View.GONE);
+            }
 
 
         }

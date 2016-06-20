@@ -15,6 +15,7 @@ android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top">
     android:layout_centerVertical="true"
     android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
     android:layout_toEndOf="@id/iv_product_image"
+    android:layout_marginLeft="@dimen/iap_order_icon_margin_left"
     android:gravity="center_vertical">
 
     <TextView
@@ -27,8 +28,7 @@ android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top">
         android:id="@+id/tv_product_number"
         style="@style/tvTitle"
         android:layout_below="@+id/tv_productName"
-        android:layout_marginStart="@dimen/iap_quantity_price_start_margin"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="@dimen/iap_order_icon_margin_left"
         android:text="hrdfd" />
 
 </RelativeLayout>

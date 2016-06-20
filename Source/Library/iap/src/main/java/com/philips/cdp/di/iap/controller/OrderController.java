@@ -113,7 +113,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
         }
     }
 
-    public ArrayList<ProductData> mergeResponsesFromHybrisAndPRX(List<OrderDetail> orderDetail) {
+    public ArrayList<ProductData> getProductData(List<OrderDetail> orderDetail) {
 
         HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
         ArrayList<ProductData> products = new ArrayList<>();

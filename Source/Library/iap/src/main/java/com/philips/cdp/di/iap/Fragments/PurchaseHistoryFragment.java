@@ -146,7 +146,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     public void updateUiOnProductList() {
         if(mController == null)
             mController = new OrderController(mContext, this);
-        ArrayList<ProductData> productList=  mController.mergeResponsesFromHybrisAndPRX(mOrderDetails);
+        ArrayList<ProductData> productList=  mController.getProductData(mOrderDetails);
         for(ProductData product : productList)
                 mProducts.add(product);
         mAdapter.notifyDataSetChanged();
