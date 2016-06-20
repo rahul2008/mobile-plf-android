@@ -27,6 +27,9 @@ import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.UiLauncher;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
+import com.philips.cdp.prodreg.register.Product;
+
+import java.util.ArrayList;
 
 public class ProdRegConfigManager {
 
@@ -62,7 +65,8 @@ public class ProdRegConfigManager {
      */
     private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher) {
         mContainerId = fragmentLauncher.getParentContainerResourceID();
-        final Bundle arguments = fragmentLauncher.getArguments();
+        final Bundle arguments = new Bundle();
+        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, fragmentLauncher.getRegProdList());
         if (fragmentLauncher.isFirstLaunch()) {
             ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
             prodRegFirstLaunchFragment.setArguments(arguments);
@@ -97,22 +101,18 @@ public class ProdRegConfigManager {
      *
      * @param startAnimation Animation resource ID.
      * @param endAnimation   Animation Resource ID.
-     * @param orientation Orientation
+     * @param orientation    Orientation
      */
     private void invokeProductRegistrationAsActivity(Context context, int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
-        final Bundle arguments = getUiLauncher().getArguments();
-        if (arguments != null) {
-            Intent intent = new Intent(context, ProdRegBaseActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(ProdRegConstants.PROD_REG_PRODUCT, arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT));
-            intent.putExtra(ProdRegConstants.START_ANIMATION_ID, startAnimation);
-            intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, endAnimation);
-            intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, mUiLauncher.isFirstLaunch());
-            intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, orientation.getOrientationValue());
-            context.startActivity(intent);
-        } else {
-            throw new RuntimeException("Product not added");
-        }
+        final ArrayList<Product> regProdList = getUiLauncher().getRegProdList();
+        Intent intent = new Intent(context, ProdRegBaseActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, regProdList);
+        intent.putExtra(ProdRegConstants.START_ANIMATION_ID, startAnimation);
+        intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, endAnimation);
+        intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, mUiLauncher.isFirstLaunch());
+        intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, orientation.getOrientationValue());
+        context.startActivity(intent);
     }
 
     public boolean onBackPressed(FragmentActivity fragmentActivity) {

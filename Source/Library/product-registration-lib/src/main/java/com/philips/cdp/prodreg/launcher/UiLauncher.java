@@ -2,6 +2,10 @@ package com.philips.cdp.prodreg.launcher;
 
 import android.os.Bundle;
 
+import com.philips.cdp.prodreg.register.Product;
+
+import java.util.ArrayList;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -11,9 +15,18 @@ public class UiLauncher {
     protected int mEnterAnimation;
     protected int mExitAnimation;
     private boolean isFirstLaunch;
+    private ArrayList<Product> regProdList;
     private Bundle arguments;
 
     public UiLauncher() {
+    }
+
+    public ArrayList<Product> getRegProdList() {
+        return regProdList;
+    }
+
+    public void setRegProdList(final ArrayList<Product> regProdList) {
+        this.regProdList = regProdList;
     }
 
     public int getEnterAnimation() {

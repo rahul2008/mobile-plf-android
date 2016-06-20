@@ -5,36 +5,48 @@
                 android:orientation="vertical"
                 android:padding="@dimen/pr_e_value_sm">
 
-    <TextView
-        android:id="@+id/conf_action_textview"
-        style="@style/ProductRegsitraionHeaderTitleTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="@string/prod_reg_register_product_message"
-        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/yes_register_button"
+        android:layout_marginBottom="@dimen/scroll_view_bottom_padding"
+        >
 
-    <TextView
-        android:id="@+id/conf_subtext_textview"
-        style="@style/ProductRegsitraionSubTitleTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/conf_action_textview"
-        android:layout_below="@+id/conf_action_textview"
-        android:layout_marginTop="@dimen/pr_e_value_sm"
-        android:text="@string/pr_first_launch_subtext_first"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/conf_subtext_two_textview"
-        style="@style/ProductRegsitraionSubTitleTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/conf_action_textview"
-        android:layout_below="@+id/conf_subtext_textview"
-        android:text="@string/pr_first_launch_subtext_second"
-        android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/conf_action_textview"
+                style="@style/ProductRegsitraionHeaderTitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="@string/prod_reg_register_product_message"
+                />
+
+            <TextView
+                android:id="@+id/conf_subtext_textview"
+                style="@style/ProductRegsitraionSubTitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/conf_action_textview"
+                android:layout_below="@+id/conf_action_textview"
+                android:layout_marginTop="@dimen/pr_e_value_sm"
+                android:text="@string/pr_first_launch_subtext_first"/>
+
+            <TextView
+                android:id="@+id/conf_subtext_two_textview"
+                style="@style/ProductRegsitraionSubTitleTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/conf_action_textview"
+                android:layout_below="@+id/conf_subtext_textview"
+                android:text="@string/prod_reg_benefits_conf_message"
+                android:visibility="visible"/>
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/yes_register_button"

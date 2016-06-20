@@ -26,6 +26,7 @@ import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,9 +75,9 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         super.onStart();
         final FragmentActivity activity = getActivity();
         final Bundle arguments = getArguments();
-
         if (activity != null && !activity.isFinishing() && arguments != null) {
-            currentProduct = (Product) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+            ArrayList<Product> regProdList = (ArrayList<Product>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
+            currentProduct = regProdList.get(0);
             User user = new User(activity);
             if (!user.isUserSignIn()) {
                 count = count + 1;

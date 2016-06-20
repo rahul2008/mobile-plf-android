@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/pr_success_title_textview"
         android:layout_marginTop="@dimen/pr_c_value_tablet"
-        android:text="@string/pr_rg_success_subtext"/>
+        android:text="@string/prod_reg_success_conf_message"/>
 
 
     <LinearLayout

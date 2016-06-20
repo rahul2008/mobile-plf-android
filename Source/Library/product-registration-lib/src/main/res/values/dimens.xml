@@ -27,4 +27,5 @@
     <dimen name="pr_first_launch_padding_top">72dp</dimen>
     <dimen name="pr_connect_title_textsize">16sp</dimen>
     <dimen name="pr_connect_more_text_size">14sp</dimen>
+    <dimen name="scroll_view_bottom_padding">10dp</dimen>
 </resources>

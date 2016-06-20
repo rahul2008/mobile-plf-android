@@ -10,6 +10,7 @@ package com.philips.cdp.prodreg.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.view.Gravity;
@@ -27,6 +28,8 @@ import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.UiKitActivity;
 
+import java.util.ArrayList;
+
 public class ProdRegBaseActivity extends UiKitActivity {
     private TextView mTitleTextView;
 
@@ -36,7 +39,9 @@ public class ProdRegBaseActivity extends UiKitActivity {
         initCustomActionBar();
         setContentView(R.layout.prodreg_activity);
         animateThisScreen();
-        showFragment();
+        if (savedInstanceState == null) {
+            showFragment();
+        }
     }
 
     @Override
@@ -47,14 +52,12 @@ public class ProdRegBaseActivity extends UiKitActivity {
     protected void showFragment() {
         try {
             boolean isFirstLaunch = false;
-            Product product = null;
+            ArrayList<Product> regProdList = null;
             final Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 isFirstLaunch = extras.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
-                product = (Product) extras.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+                regProdList = (ArrayList<Product>) extras.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             }
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, product);
             FragmentLauncher fragLauncher = new FragmentLauncher(
                     this, R.id.mainContainer, new ActionbarUpdateListener() {
                 @Override
@@ -63,7 +66,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
                 }
             });
             fragLauncher.setAnimation(0, 0);
-            fragLauncher.setArguments(bundle);
+            fragLauncher.setRegProdList(regProdList);
             fragLauncher.setFirstLaunch(isFirstLaunch);
             ProdRegConfigManager.getInstance().invokeProductRegistration(fragLauncher);
         } catch (IllegalStateException e) {
@@ -131,6 +134,12 @@ public class ProdRegBaseActivity extends UiKitActivity {
         } else if (!ProdRegConfigManager.getInstance().onBackPressed(this)) {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState, final PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putBoolean("test", true);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.philips.cdp.prodreg.activity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -26,12 +27,13 @@ public class MainActivity extends UiKitActivity {
         super.onCreate(savedInstanceState);
         initCustomActionBar();
         setContentView(R.layout.activity_test_ur);
-
         fragmentManager = getSupportFragmentManager();
-        LaunchFragment launchFragment = new LaunchFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.parent_layout, launchFragment);
-        fragmentTransaction.commit();
+        if (savedInstanceState == null) {
+            LaunchFragment launchFragment = new LaunchFragment();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.parent_layout, launchFragment);
+            fragmentTransaction.commit();
+        }
     }
 
     private void initCustomActionBar() {
@@ -74,10 +76,14 @@ public class MainActivity extends UiKitActivity {
     }
 
     @Override
+    public void onSaveInstanceState(final Bundle outState, final PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putBoolean("test", true);
+    }
+
+    @Override
     public void setTitle(final CharSequence title) {
         super.setTitle(title);
         mTitleTextView.setText(title);
     }
-
-
 }

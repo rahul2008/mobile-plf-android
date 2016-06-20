@@ -23,11 +23,11 @@ import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.util.ProdRegConfigManager;
-import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -185,28 +185,31 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
     }
 
     private void invokeProdRegFragment(Product product, final boolean isActivity, final String type) {
-        FragmentLauncher fragLauncher = new FragmentLauncher(
-                fragmentActivity, R.id.parent_layout, new ActionbarUpdateListener() {
-            @Override
-            public void updateActionbar(final String var1) {
-                if (getActivity().getActionBar() != null)
-                    getActivity().getActionBar().setTitle(var1);
+        ArrayList<Product> regProdList = new ArrayList<Product>();
+        regProdList.add(product);
+        if (!isActivity) {
+            FragmentLauncher fragLauncher = new FragmentLauncher(
+                    fragmentActivity, R.id.parent_layout, new ActionbarUpdateListener() {
+                @Override
+                public void updateActionbar(final String var1) {
+                    if (getActivity() != null && getActivity().getActionBar() != null)
+                        getActivity().getActionBar().setTitle(var1);
+                }
+            });
+            fragLauncher.setRegProdList(regProdList);
+            fragLauncher.setAnimation(0, 0);
+            if (type.equalsIgnoreCase("a")) {
+                fragLauncher.setFirstLaunch(true);
             }
-        });
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, product);
-        ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, -1);
-        if (type.equalsIgnoreCase("a")) {
-            activityLauncher.setFirstLaunch(true);
-            fragLauncher.setFirstLaunch(true);
-        }
-        fragLauncher.setArguments(bundle);
-        activityLauncher.setArguments(bundle);
-        fragLauncher.setAnimation(0, 0);
-        if (!isActivity)
             ProdRegConfigManager.getInstance().invokeProductRegistration(fragLauncher);
-        else
+        } else {
+            ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, -1);
+            if (type.equalsIgnoreCase("a")) {
+                activityLauncher.setFirstLaunch(true);
+            }
+            activityLauncher.setRegProdList(regProdList);
             ProdRegConfigManager.getInstance().invokeProductRegistration(activityLauncher);
+        }
     }
 
     @Override
