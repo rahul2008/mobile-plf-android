@@ -113,12 +113,10 @@ public class Utility {
         } else if (addressObj instanceof Addresses) {
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine2());
+            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getRegion().getName());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getPostalCode());
-            String country = getCountryName(((Addresses) addressObj).getCountry().getIsocode());
-            if (country != null) {
-                sb.append(country);
-            }
+            sb.append(((Addresses) addressObj).getCountry().getName());
         } else if (addressObj instanceof BillingAddress) {
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine2());
@@ -131,12 +129,10 @@ public class Utility {
         } else if (addressObj instanceof Address) {
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine2());
+            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getRegion().getName());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getPostalCode());
-            String country = getCountryName(((Address) addressObj).getCountry().getIsocode());
-            if (country != null) {
-                sb.append(country);
-            }
+            sb.append(((Address) addressObj).getCountry().getName());
         }
         return sb.toString();
     }
