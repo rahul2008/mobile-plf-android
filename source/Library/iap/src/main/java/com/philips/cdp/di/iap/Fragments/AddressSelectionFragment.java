@@ -123,6 +123,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.onStop();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         unregisterEvents();

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -65,9 +64,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         holder.address.setText(Utility.createAddress(address));
         holder.options.setImageDrawable(mOptionsDrawable);
 
-        //Handle the last item delete scenario
-        handleLastItemDeletion(position);
-
         //Update payment options buttons
         updatePaymentButtonsVisiblity(holder.paymentOptions, position);
 
@@ -83,16 +79,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
 
         //bind add new address
         bindNewAddress(holder.newAddress);
-    }
-
-    private void handleLastItemDeletion(int position) {
-        if (mSelectedIndex > mAddresses.size() - 1 && isLastItem(position)) {
-            mSelectedIndex = mAddresses.size() - 1;
-        }
-    }
-
-    private boolean isLastItem(int position) {
-        return position == (mAddresses.size() - 1);
     }
 
     private void bindNewAddress(final Button newAddress) {
@@ -170,6 +156,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     }
 
     public void setAddresses(final List<Addresses> data) {
+        mSelectedIndex = 0;
         mAddresses = data;
     }
 
@@ -182,7 +169,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         Button newAddress;
         ViewGroup paymentOptions;
         ViewGroup optionLayout;
-        RelativeLayout addressItem;
 
         public AddressSelectionHolder(final View view) {
             super(view);
