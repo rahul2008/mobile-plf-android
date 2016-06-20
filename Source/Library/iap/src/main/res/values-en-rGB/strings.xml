@@ -101,7 +101,7 @@
     <string name="iap_product_catalog">Products</string>
 
     <!-- Product Details -->
-    <string name="iap_buy_from_retailers">Buy from retailer</string>
+    <string name="iap_buy_from_retailers">Buy Now</string>
     <string name="iap_add_to_cart">Add to basket</string>
 
     <!-- Retailers-->
