@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +24,6 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.util.List;
@@ -95,44 +91,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         }
     }
 
-    private void launchRegistrationFragment() {
-        try {
-            final FragmentActivity activity = getActivity();
-            if (activity != null && !activity.isFinishing()) {
-
-                RegistrationFragment registrationFragment = new
-                        RegistrationFragment();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, true);
-                registrationFragment.setArguments(bundle);
-                registrationFragment.setOnUpdateTitleListener(new RegistrationTitleBarListener() {
-                    @Override
-                    public void updateRegistrationTitle(final int i) {
-
-                    }
-
-                    @Override
-                    public void updateRegistrationTitleWithBack(final int i) {
-
-                    }
-
-                    @Override
-                    public void updateRegistrationTitleWithOutBack(final int i) {
-
-                    }
-                });
-                FragmentTransaction fragmentTransaction =
-                        activity.getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(getId(), registrationFragment,
-                        RegConstants.REGISTRATION_FRAGMENT_TAG);
-                fragmentTransaction.commitAllowingStateLoss();
-            }
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void makeSummaryRequest() {
+    private void doSummaryRequest() {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing() && currentProduct != null) {
             dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
@@ -204,7 +163,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
                 if (productMetadataResponse != null) {
                     dependencyBundle = new Bundle();
                     dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA, productMetadataResponse.getData());
-                    makeSummaryRequest();
+                    doSummaryRequest();
                 }
             }
 
@@ -221,7 +180,8 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         return new DialogOkButtonListener() {
             @Override
             public void onOkButtonPressed() {
-                if (getActivity() != null && !getActivity().isFinishing()) {
+                final FragmentActivity activity = getActivity();
+                if (activity != null && !activity.isFinishing()) {
                     clearFragmentStack();
                 }
             }

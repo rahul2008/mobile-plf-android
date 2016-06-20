@@ -16,7 +16,6 @@ import com.philips.cdp.product_registration_lib.R;
  */
 public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     public static final String TAG = ProdRegFirstLaunchFragment.class.getName();
-    private Button registerButton, registerLater;
 
     @Override
     public String getActionbarTitle() {
@@ -26,8 +25,8 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
-        registerButton = (Button) view.findViewById(R.id.yes_register_button);
-        registerLater = (Button) view.findViewById(R.id.no_thanks_button);
+        final Button registerButton = (Button) view.findViewById(R.id.yes_register_button);
+        final Button registerLater = (Button) view.findViewById(R.id.no_thanks_button);
         registerButton.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());
         return view;

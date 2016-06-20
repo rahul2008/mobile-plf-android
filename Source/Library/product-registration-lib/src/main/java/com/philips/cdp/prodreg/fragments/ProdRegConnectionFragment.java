@@ -1,6 +1,7 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,8 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
 
     @Override
     public boolean onBackPressed() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
             return clearFragmentStack();
 
         }

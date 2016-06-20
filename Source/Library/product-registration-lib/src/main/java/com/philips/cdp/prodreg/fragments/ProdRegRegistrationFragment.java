@@ -139,7 +139,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                if (getActivity() != null && !getActivity().isFinishing() && prodRegLoadingFragment != null) {
+                final FragmentActivity activity = getActivity();
+                if (activity != null && !activity.isFinishing() && prodRegLoadingFragment != null) {
                     prodRegLoadingFragment.dismiss();
                     showFragment(new ProdRegSuccessFragment());
                 }
@@ -148,7 +149,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             @Override
             public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                 Log.d(getClass() + "", "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
-                if (getActivity() != null && !getActivity().isFinishing() && prodRegLoadingFragment != null) {
+                final FragmentActivity activity = getActivity();
+                if (activity != null && !activity.isFinishing() && prodRegLoadingFragment != null) {
                     prodRegLoadingFragment.dismiss();
                     showAlertOnError("Failed", registeredProduct.getProdRegError().getDescription());
                 }
@@ -160,13 +162,14 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
-        Data summaryData = null;
         if (bundle != null) {
             currentProduct = (Product) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
             productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
-            summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
+            final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
+            updateUi(summaryData);
+        } else {
+            clearFragmentStack();
         }
-        updateUi(summaryData);
     }
 
     private void updateUi(final Data summaryData) {
@@ -317,7 +320,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
 
     @Override
     public boolean onBackPressed() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
             return clearFragmentStack();
         }
         return true;
