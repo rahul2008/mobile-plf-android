@@ -105,7 +105,8 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
-
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
         // Digital care initialization
         initializeDigitalCareLibrary();
@@ -191,7 +192,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     }
 
     private void initializeDigitalCareLibrary() {
-        //  localeManager.setInputLocale("ar", "SA");
+//  localeManager.setInputLocale("ar", "SA");
 
         // Initializing DigitalCare Component.
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
@@ -249,12 +250,12 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
         DigitalCareConfigManager.getInstance().setAppTaggingInputs(true, "App_ID_101", "AppName", "CurrentPageName");
 
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
-
         /*
          * Take values from GUI editText.
          */
+
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
         switch (view.getId()) {
 
