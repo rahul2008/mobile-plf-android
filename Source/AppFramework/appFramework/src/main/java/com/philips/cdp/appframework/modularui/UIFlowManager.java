@@ -5,7 +5,9 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 310240027 on 6/16/2016.
@@ -22,18 +24,29 @@ public class UIFlowManager {
     public static final int UI_HOME_STATE_ONE = 1005;
     public static final int UI_REGISTRATION_STATE_ONE = 1006;
 
-    List<UIStateBase> stateBaseList;
-    @UIStateDef int startState;
-    @UIStateDef int currentState;
+    public static List<UIStateBase> stateBaseList;
+    public @UIStateDef static int startState;
+    public @UIStateDef static int currentState;
+    public static Map<Integer, String> activityMap;
 
-   public void populateStateBaseList(){
+   public static void populateStateBaseList(){
         stateBaseList = new ArrayList<UIStateBase>();
-        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_SPLASH_STATE_ONE));
-        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_WELCOME_STATE_ONE));
-        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_WELCOME_STATE_TWO));
-        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_WELCOME_STATE_THREE));
-        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_HOME_STATE_ONE));
-        stateBaseList.add(new UIState(new UIWelcomeScreenNavigation(),UI_REGISTRATION_STATE_ONE));
+        stateBaseList.add(new UIState(new UIWSNavigationStateOne(),UI_SPLASH_STATE_ONE));
 
+    }
+
+    public static Map<Integer, String> getActivityMap() {
+        return activityMap;
+    }
+
+    public static void setActivityMap(Map<Integer, String> activityMap) {
+        UIFlowManager.activityMap = activityMap;
+    }
+
+    public static void populateActivityMap(){
+        activityMap = new HashMap<Integer, String>();
+        activityMap.put(UI_SPLASH_STATE_ONE, "SplashActivity");
+        activityMap.put(UI_WELCOME_STATE_ONE, "HomeActivity");
+        activityMap.put(UI_WELCOME_STATE_TWO, "UserRegistration");
     }
 }

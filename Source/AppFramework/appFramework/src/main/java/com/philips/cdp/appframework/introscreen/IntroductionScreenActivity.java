@@ -18,7 +18,11 @@ import android.widget.TextView;
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HomeActivity;
-import com.philips.cdp.appframework.modularui.UIWelcomeScreenNavigation;
+import com.philips.cdp.appframework.modularui.UIBaseNavigation;
+import com.philips.cdp.appframework.modularui.UIFlowManager;
+import com.philips.cdp.appframework.modularui.UIWSNavigationStateOne;
+import com.philips.cdp.appframework.modularui.UIWSNavigationStateTwo;
+import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -29,69 +33,69 @@ import com.shamanland.fonticon.FontIconView;
 /**
  * <b></b>Introduction screen are the screen that acts as the Welcome screens. It may be used to make the user learn about the functionality of the app</b>
  * <br>
- * <p/>
+ * <p>
  * <b>To use the Introduction screen flow, start the activity with IntroudctionScreenActivity as the Intent</b><br>
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  * method in the ViewPager's addOnPageChangeListener.To add a new screen, add another case statement in the onPageSelected method in the Viewpager's
  * addOnPageChangeListener.
  *
  * /&gt;</pre><br>
- * <p/>
+ *
  * <b>Sample Code:</b>
  * <pre>
  *            @Override
-        public void onPageSelected(int position) {
-        switch (position) {
-        case 0:
-        appframework_leftarrow.setVisibility(FontIconView.GONE);
-        appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
-        startRegistrationScreenButton.setVisibility(TextView.GONE);
-        appframeworkSkipButton.setVisibility(TextView.VISIBLE);
-        break;
-        case 1:
-        appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
-        appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
-        startRegistrationScreenButton.setVisibility(TextView.GONE);
-        appframeworkSkipButton.setVisibility(TextView.VISIBLE);
-        break;
-        case 2:
-        appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
-        appframework_rightarrow.setVisibility(FontIconView.GONE);
-        startRegistrationScreenButton.setVisibility(TextView.VISIBLE);
-        appframeworkSkipButton.setVisibility(TextView.GONE);
-        break;
-        default:
-        }
-        }
+ * public void onPageSelected(int position) {
+ * switch (position) {
+ * case 0:
+ * appframework_leftarrow.setVisibility(FontIconView.GONE);
+ * appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
+ * startRegistrationScreenButton.setVisibility(TextView.GONE);
+ * appframeworkSkipButton.setVisibility(TextView.VISIBLE);
+ * break;
+ * case 1:
+ * appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
+ * appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
+ * startRegistrationScreenButton.setVisibility(TextView.GONE);
+ * appframeworkSkipButton.setVisibility(TextView.VISIBLE);
+ * break;
+ * case 2:
+ * appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
+ * appframework_rightarrow.setVisibility(FontIconView.GONE);
+ * startRegistrationScreenButton.setVisibility(TextView.VISIBLE);
+ * appframeworkSkipButton.setVisibility(TextView.GONE);
+ * break;
+ * default:
+ * }
+ * }
  *        </pre>
- *
- *        <p/>
+ * <p>
+ * <p>
  * <b>To change text in each Welcome Screen/Fragment please use the strings file:</b>
  * <br>
- *     <b>To modify a screen/fragment use the Fragments onCreateView method's switch statement, choose the screen to be modified and
- *     make the necessary changes. Sample code below:
- *     </b>
+ * <b>To modify a screen/fragment use the Fragments onCreateView method's switch statement, choose the screen to be modified and
+ * make the necessary changes. Sample code below:
+ * </b>
  * <pre>
  *         switch (page) {
-        case PAGE_ONE:
-        view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
-        break;
-        case PAGE_TWO:
-        view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_center_page_bg));
-        smallText.setText(getResources().getString(R.string.introduction_screen_two_bottom_text));
-        break;
-        case PAGE_THREE:
-        view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_end_page_bg));
-        smallText.setText(getResources().getString(R.string.introduction_screen_three_bottom_text));
-        break;
-        default:
-        view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
-        smallText.setText(getResources().getString(R.string.introduction_screen_one_bottom_text));
-        }
+ * case PAGE_ONE:
+ * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+ * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
+ * break;
+ * case PAGE_TWO:
+ * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+ * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_center_page_bg));
+ * smallText.setText(getResources().getString(R.string.introduction_screen_two_bottom_text));
+ * break;
+ * case PAGE_THREE:
+ * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+ * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_end_page_bg));
+ * smallText.setText(getResources().getString(R.string.introduction_screen_three_bottom_text));
+ * break;
+ * default:
+ * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+ * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
+ * smallText.setText(getResources().getString(R.string.introduction_screen_one_bottom_text));
+ * }
  *        </pre>
  */
 
@@ -99,12 +103,11 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
-    private UIWelcomeScreenNavigation navigator;
+    private UIBaseNavigation navigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        navigator = new UIWelcomeScreenNavigation();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.app_framework_introduction_activity);
@@ -234,7 +237,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
     @Override
     public void onClick(View v) {
-        User user = new User(this);
+
 
         switch (v.getId()) {
             /*case R.id.start_registration_button:
@@ -254,8 +257,33 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
                 break;*/
 
             case R.id.start_registration_button:
-                navigator.onClick(R.id.start_registration_button,IntroductionScreenActivity.this);
-                //triggerBaseList =  UIFlowManager.getCurrentState().getTriggerBaseList();
+                setIntroScreenDonePressed();
+
+                @UIFlowManager.UIStateDef int currentState = navigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
+                switch (currentState){
+                    case UIFlowManager.UI_WELCOME_STATE_ONE : if(UIFlowManager.activityMap.get(UIFlowManager.UI_WELCOME_STATE_ONE).equalsIgnoreCase("HomeActivity")){
+                        startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+                    }
+                        break;
+                    case UIFlowManager.UI_WELCOME_STATE_TWO : if(UIFlowManager.activityMap.get(UIFlowManager.UI_WELCOME_STATE_TWO).equalsIgnoreCase("UserRegistration")){
+                        startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
+                    }
+                        break;
+                }
+                break;
+
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        User user = new User(this);
+        if (user.isUserSignIn()) {
+            navigator = new UIWSNavigationStateOne();
+
+        } else {
+            navigator = new UIWSNavigationStateTwo();
         }
     }
 }

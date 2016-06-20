@@ -26,7 +26,8 @@ public class AppFrameworkApplication extends Application {
         MultiDex.install(this);
         super.onCreate();
         initializeUserRegistrationLibrary();
-        new UIFlowManager().populateStateBaseList();
+        UIFlowManager.populateStateBaseList();
+        UIFlowManager.populateActivityMap();
     }
 
     private void initializeUserRegistrationLibrary() {
