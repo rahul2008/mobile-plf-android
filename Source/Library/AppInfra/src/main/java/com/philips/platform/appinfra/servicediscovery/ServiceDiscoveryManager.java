@@ -67,9 +67,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
     private String  buildUrl(){
         AppIdentityManager idntityManager = new AppIdentityManager(mAppInfra);
-        idntityManager.loadJSONFromAsset();
-        LocalManager locamManager= new LocalManager(mAppInfra);
-        locamManager.getlanguage();
+//        idntityManager.loadJSONFromAsset();
+        LocalManager localmanager= new LocalManager(mAppInfra);
+        localmanager.getlocal();
         String mState = idntityManager.getAppState();
         String tags = null;
         String environment = null;
@@ -94,11 +94,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             tags="apps%2b%2benv%2bprd";
             environment = "www";
         }
-       if(locamManager.getCountry() == null){
-            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&tags="+tags;
+       if(localmanager.getCountry() == null && idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getlocal() != null && tags!=null && environment!=null){
+            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getlocal()+"&tags="+tags;
         }
-        if(locamManager.getCountry() != null){
-            URL = "https://tst.philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ locamManager.getlanguage()+"&tags="+tags+"&country="+ locamManager.getCountry();
+        if(localmanager.getCountry() != null && idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getlocal() != null && tags!=null && environment!=null ){
+            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getlocal()+"&tags="+tags+"&country="+ localmanager.getCountry();
         }
 
         return URL;

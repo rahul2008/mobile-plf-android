@@ -35,6 +35,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
     private static String mAppsIdkey;
     private static String mLocalTimestamp;
     private static String mUTCTimestamp;
+    private static String prevPage;
 
 
     private AppInfra mAppInfra;
@@ -72,7 +73,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
     public static void init(Locale locale, Context context,String appName){
         mlocale = locale;
         mcontext = context;
-        mAppName = appName;
+        prevPage = appName;
         Config.setContext(context);
 //        contextData = addAnalyticsDataObject();
 
@@ -317,10 +318,12 @@ public class AIAppTagging implements AIAppTaggingInterface {
             setNewValue(value);
             contextData = addAnalyticsDataObject();
         }
-//        if (null != prevPage) {
-//            contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
-//        }
+        if (null != prevPage) {
+            contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
+        }
         Analytics.trackState(pageName, contextData);
+
+        prevPage = pageName;
 
     }
 
@@ -338,7 +341,12 @@ public class AIAppTagging implements AIAppTaggingInterface {
 //        }
         Map<String, Object> contextData = addAnalyticsDataObject();
         contextData.putAll(paramMap);
+        if (null != prevPage) {
+            contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
+        }
         Analytics.trackState(pageName, contextData);
+
+        prevPage = pageName;
 
     }
 
@@ -360,7 +368,12 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
             contextData.put(key, value);
         }
+        if (null != prevPage) {
+            contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
+        }
         Analytics.trackAction(pageName, contextData);
+
+        prevPage = pageName;
     }
 
     /**
@@ -383,21 +396,16 @@ public class AIAppTagging implements AIAppTaggingInterface {
                 tmp.keySet().removeAll(contextData.keySet());
 //        target.putAll(tmp);
                 contextData.putAll(paramMap);
+
+                if (null != prevPage) {
+                    contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
+                }
                 Analytics.trackAction(pageName, contextData);
+                prevPage = pageName;
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
 
-    /**
-     * Collect lifecycle data.
-     */
-    public void collectLifecycleData(){
-        Config.collectLifecycleData();
-    }
-//    public static void collectLifecycleData(Activity activity){
-//        contextData = addAnalyticsDataObject(false);
-//        Config.collectLifecycleData(activity,contextData);
-//    }
 }

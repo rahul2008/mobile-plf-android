@@ -36,9 +36,9 @@ public class LocalManager implements LocalInterface {
     }
 
 
-    public String getlanguage(){
-        if(Locale.getDefault().getLanguage() != null){
-            return Locale.getDefault().getLanguage();
+    public String getlocal(){
+        if(Locale.getDefault() != null){
+            return Locale.getDefault().toString();
         }else{
             return null;
         }

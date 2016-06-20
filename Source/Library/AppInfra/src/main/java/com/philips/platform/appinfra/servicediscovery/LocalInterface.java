@@ -13,6 +13,6 @@ import java.net.URL;
 public interface LocalInterface {
 
     public String getCountry();
-    public String getlanguage();
+    public String getlocal();
 
 }

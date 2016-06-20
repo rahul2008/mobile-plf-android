@@ -25,7 +25,6 @@ public interface AIAppTaggingInterface {
     public void trackActionWithInfo(String pageName, String key, String value);
     public void trackActionWithInfo(String pageName, Map<String, String> paramDict);
 
-    public void collectLifecycleData();
     public void pauseCollectingLifecycleData();
 }
 

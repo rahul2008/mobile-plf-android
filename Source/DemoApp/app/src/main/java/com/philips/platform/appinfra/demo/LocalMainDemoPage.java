@@ -21,6 +21,6 @@ public class LocalMainDemoPage extends AppCompatActivity {
         AppInfra appInfra = AppInfraApplication.gAppInfra;
         mappIdentityinterface = appInfra.getLocal();
         Log.i("TAG-Local-Country", ""+mappIdentityinterface.getCountry());
-        Log.i("TAG-Local-language", ""+mappIdentityinterface.getlanguage());
+        Log.i("TAG-Local-language", ""+mappIdentityinterface.getlocal());
     }
 }

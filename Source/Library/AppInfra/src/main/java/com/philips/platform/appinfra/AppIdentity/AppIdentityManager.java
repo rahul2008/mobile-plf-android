@@ -99,10 +99,13 @@ public class AppIdentityManager implements AppIdentityInterface {
         context = mAppInfra.getAppInfraContext();
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
+
+        // Method Loads the json data and can be access through getters
+        loadJSONFromAsset();
     }
 
 
-       public String loadJSONFromAsset() {
+       private String loadJSONFromAsset() {
         String json = null;
         try {
 
