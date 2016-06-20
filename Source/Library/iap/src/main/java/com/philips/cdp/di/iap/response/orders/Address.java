@@ -1,5 +1,7 @@
 package com.philips.cdp.di.iap.response.orders;
 
+import com.philips.cdp.di.iap.response.addresses.Country;
+
 public class Address {
 
     private Country country;
