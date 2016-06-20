@@ -94,7 +94,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private ProgressDialog mProgressDialog = null;
-    protected ResponseCallback subCategoryResponseCallback = new ResponseCallback() {
+    protected ResponseCallback cateGoryResponseCallbak = new ResponseCallback() {
         @Override
         public void onResponseReceived(String response) {
             SubcategoryModel subcategoryModel = new Gson().fromJson(response,
@@ -103,9 +103,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 com.philips.cdp.digitalcare.prx.subcategorymodel.Data data =
                         subcategoryModel.getData();
                 if ((data != null) && (data.getParentCode() != null)) {
-                    DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
-                    ConsumerProductInfo consumerProductInfo = digitalCareConfigManager.getConsumerProductInfo();
-                    consumerProductInfo.setSubCategory(data.getParentCode());
+                    DigitalCareConfigManager digitalCareConfigManager =
+                            DigitalCareConfigManager.getInstance();
+                    ConsumerProductInfo consumerProductInfo = digitalCareConfigManager.
+                            getConsumerProductInfo();
+                    consumerProductInfo.setCategory(data.getParentCode());
                     digitalCareConfigManager.setConsumerProductInfo(consumerProductInfo);
                 }
             }
@@ -729,10 +731,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
         DigiCareLogger.d(TAG, "************ Subcategory Key : " + productSubCategoryKey);
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryData.getCtn());
-        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategoryKey(productSubCategoryKey);
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategory(productSubCategoryKey);
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
         DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
-        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCategory(productCategory);
 
         ViewProductDetailsModel productDetailsModel = new ViewProductDetailsModel();
         productDetailsModel.setProductName(summaryData.getProductTitle());
@@ -751,7 +752,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         DigiCareLogger.d(TAG, "******** Sub Category URL : " + subCategoryUrl);
 
         RequestData subCategoryRequest = new RequestData(subCategoryUrl,
-                subCategoryResponseCallback);
+                cateGoryResponseCallbak);
         if (mProgressDialog == null) mProgressDialog = new ProgressDialog
                 (getActivity(), R.style.loaderTheme);
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
@@ -769,10 +770,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
         String sector = consumerProductInfo.getSector();
         String catalog = consumerProductInfo.getCatalog();
-        String subcategoryKey = consumerProductInfo.getSubCategoryKey();
+        String subCategory = consumerProductInfo.getSubCategory();
         Locale locale = digitalCareConfigManager.getLocaleMatchResponseWithCountryFallBack();
 
-        return String.format(SUBCATEGORY_URL_PORT, sector, locale.toString(), catalog, subcategoryKey);
+        return String.format(SUBCATEGORY_URL_PORT, sector, locale.toString(), catalog, subCategory);
     }
 
 

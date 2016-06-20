@@ -114,7 +114,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
                 .getInstance().getConsumerProductInfo();
 
         return String.format(EMAIL_URL, LocaleMatchHandler.getPRXUrl(language + "_" + country), consumerProductInfo.getSector(),
-                language, country, consumerProductInfo.getSubCategory());
+                language, country, consumerProductInfo.getCategory());
     }
 
     @Override

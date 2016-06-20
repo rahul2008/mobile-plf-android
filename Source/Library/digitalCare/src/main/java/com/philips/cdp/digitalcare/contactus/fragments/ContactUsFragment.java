@@ -233,7 +233,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     protected boolean isEmailButtonEnabled() {
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager.getInstance().getConsumerProductInfo();
-        if (consumerProductInfo.getSubCategory() == null) {
+        if (consumerProductInfo.getCategory() == null) {
             mEmail.setVisibility(View.GONE);
 
         } else {
