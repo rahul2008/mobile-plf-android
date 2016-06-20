@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -53,6 +54,11 @@ public class ErrorDialogFragment extends DialogFragment {
         return v;
     }
 
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        super.onDismiss(dialog);
+        onClickOfOK();
+    }
 
     @Override
     public void setShowsDialog(final boolean showsDialog) {
@@ -63,16 +69,20 @@ public class ErrorDialogFragment extends DialogFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String error = bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION);
-                if (error!=null && error.equals(getString(R.string.iap_time_out_error))) {
-                    IAPLog.i(IAPLog.LOG, "SWITCH_TO_NO_NETWORK_CONNECTION");
-                    addFragment(NoNetworkConnectionFragment.createInstance(bundle, BaseAnimationSupportFragment.AnimationType.NONE),
-                            NoNetworkConnectionFragment.TAG);
-                }
-                setShowsDialog(false);
-                dismiss();
+                onClickOfOK();
             }
         };
+    }
+
+    private void onClickOfOK() {
+        String error = bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION);
+        if (error!=null && error.equals(getString(R.string.iap_time_out_error))) {
+            IAPLog.i(IAPLog.LOG, "SWITCH_TO_NO_NETWORK_CONNECTION");
+            addFragment(NoNetworkConnectionFragment.createInstance(bundle, BaseAnimationSupportFragment.AnimationType.NONE),
+                    NoNetworkConnectionFragment.TAG);
+        }
+        setShowsDialog(false);
+        dismiss();
     }
 
     public void addFragment(BaseAnimationSupportFragment newFragment,
