@@ -6,8 +6,6 @@
 package com.philips.cdp.appframework.homescreen;
 
 
-import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -24,7 +22,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
-import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
+import com.philips.cdp.appframework.settingscreen.SettingsFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -42,7 +40,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     private ListView drawerListView;
     private NavigationView navigationView;
     private Toolbar toolbar;
-    private TextView actionBarTitle;
+    protected TextView actionBarTitle;
     private ImageView footerView;
     private HamburgerAdapter adapter;
     private TextView actionBarCount;
@@ -157,23 +155,32 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
     private void displayView(int position) {
 
-        if (hamburgerMenuTitles[position].equalsIgnoreCase("Log Out")) {
-            startActivity(new Intent(HomeActivity.this, UserRegistrationActivity.class));
-        } else {
-            final HomeScreenFragment fragment = new HomeScreenFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            // Bundle bundle = getBundle(hamburgerMenuTitles[position], hamburgerMenuIcons.getResourceId(position, -1));
-            //   fragment.setArguments(bundle);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
+        if (hamburgerMenuTitles[position].equalsIgnoreCase("Settings")) {
+            showSettingsFragment();
         }
-        setTitle(hamburgerMenuTitles[position]);
+        else {
+            final HomeScreenFragment fragment = new HomeScreenFragment();
+            String homeTag = HomeScreenFragment.class.getSimpleName();
+            showFragment(fragment, homeTag);
+//            FragmentManager fragmentManager = getFragmentManager();
+//            // Bundle bundle = getBundle(hamburgerMenuTitles[position], hamburgerMenuIcons.getResourceId(position, -1));
+//            //   fragment.setArguments(bundle);
+//            fragmentManager.beginTransaction()
+//                    .replace(R.id.frame_container, fragment).commit();
+        }
+//        setTitle(hamburgerMenuTitles[position]);
         philipsDrawerLayout.closeDrawer(navigationView);
+    }
+
+    private void showSettingsFragment() {
+        SettingsFragment settingsFragment = new SettingsFragment();
+        String settingsTag = settingsFragment.getClass().getSimpleName();
+        showFragment(settingsFragment, settingsTag);
     }
 
     @Override
     public void onBackPressed() {
-        if(philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+        if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
         }
     }

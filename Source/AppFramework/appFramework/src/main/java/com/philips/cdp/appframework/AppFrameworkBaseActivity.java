@@ -17,9 +17,14 @@ import android.view.Window;
 import com.philips.cdp.appframework.utility.Constants;
 import com.philips.cdp.appframework.utility.Logger;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 
+/**
+ * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
+ *
+ * @author: ritesh.jha@philips.com
+ * @since: June 17, 2016
+ */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     public static final String SHARED_PREFERENCES = "SharedPref";
     public static final String DONE_PRESSED = "donePressed";
@@ -33,43 +38,25 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         super.onCreate(savedInstanceState);
         ProductSelectionLogger.i(Constants.ACTIVITY, "onCreate");
         fragmentManager = getSupportFragmentManager();
-
-        // initActionBar();
     }
 
-/*
-    private void initActionBar() {
-        ActionBar mActionBar = getSupportActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
+    protected void showFragment(Fragment fragment, String fragmentTag) {
+        int containerId = R.id.frame_container;
 
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.actionbar_productselection, null); // layout which contains your button.
-
-        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
-
-        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.productselection_UpButton);
-        frameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                backstackFragment();
-            }
-        });
-
-        ImageView arrowImage = (ImageView) mCustomView
-                .findViewById(R.id.productselection_arrow);
-        arrowImage.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
-        arrowImage.bringToFront();
-        mActionBar.setCustomView(mCustomView, params);
-        mActionBar.setDisplayShowCustomEnabled(true);
-
-        Toolbar parent = (Toolbar) mCustomView.getParent();
-        parent.setContentInsetsAbsolute(0, 0);
+        try {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            if (mEnterAnimation != 0 && mExitAnimation != 0) {
+//                fragmentTransaction.setCustomAnimations(mEnterAnimation,
+//                        mExitAnimation, mEnterAnimation, mExitAnimation);
+//            }
+            fragmentTransaction.replace(containerId, fragment, fragmentTag);
+            fragmentTransaction.addToBackStack(fragment.getTag());
+            fragmentTransaction.commit();
+        } catch (IllegalStateException e) {
+            Logger.e(TAG, "IllegalStateException" + e.getMessage());
+            e.printStackTrace();
+        }
     }
-*/
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -81,25 +68,13 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     protected void onResume() {
         super.onResume();
         Logger.i(Constants.ACTIVITY, " onResume ");
-        Tagging.collectLifecycleData();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Logger.i(Constants.ACTIVITY, " onPause ");
-        Tagging.pauseCollectingLifecycleData();
     }
-
-  /*  @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return backstackFragment();
-        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }*/
 
     @Override
     protected void onDestroy() {
@@ -144,23 +119,4 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         }
         return mSharedPreference.getBoolean(DONE_PRESSED, false);
     }
-
-/*    protected void showFragment(Fragment fragment) {
-        try {
-            FragmentTransaction fragmentTransaction = fragmentManager
-                    .beginTransaction();
-
-            fragmentTransaction.replace(R.id.mainContainer, fragment, "tagname");
-            fragmentTransaction.addToBackStack(fragment.getTag());
-            fragmentTransaction.commit();
-        } catch (IllegalStateException e) {
-            ProductSelectionLogger.e(TAG, e.getMessage());
-        }
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (getWindow() != null && getWindow().getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-                    .getWindowToken(), 0);
-        }
-    }*/
 }
