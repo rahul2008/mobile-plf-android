@@ -3,6 +3,7 @@ package com.philips.cdp.prxclient.network;
 import android.content.Context;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
@@ -44,11 +45,12 @@ public class NetworkWrapper {
         final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
         String url = prxRequest.getRequestUrl();
         PrxCustomJsonRequest request = new PrxCustomJsonRequest(prxRequest.getRequestType(), url, prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                prxRequest.getRequestTimeOut(),
+                prxRequest.getMaxRetries(),
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         request.setShouldCache(true);
-        if (url.startsWith("https"))
-            isHttpsRequest = true;
-        else
-            isHttpsRequest = false;
+        isHttpsRequest = url.startsWith("https");
         setSSLSocketFactory();
         mVolleyRequest.add(request);
     }
