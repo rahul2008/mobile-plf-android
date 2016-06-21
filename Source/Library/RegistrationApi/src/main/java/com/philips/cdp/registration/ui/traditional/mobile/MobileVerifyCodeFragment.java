@@ -32,6 +32,7 @@ import com.philips.cdp.registration.ui.customviews.XVerifyNumber;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
 
@@ -175,7 +176,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
     }
 
     private void updateUiStatus() {
-        if (mEtCodeNUmber.getNumber().length() >= 4) {
+        if (mEtCodeNUmber.getNumber().length() >= RegConstants.VERIFY_CODE_ENTER) {
             mBtnVerify.setEnabled(true);
         } else {
             mBtnVerify.setEnabled(false);

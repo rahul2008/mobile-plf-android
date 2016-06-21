@@ -152,4 +152,7 @@ public class RegConstants {
 
     public static final boolean IS_MOBILE_NUMBER_LOG_IN = true;
 
+    public static final int VERIFY_CODE_ENTER = 7;
+
+
 }
