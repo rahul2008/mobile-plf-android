@@ -202,10 +202,6 @@ public class AIAppTagging implements AIAppTaggingInterface {
         AIAppTagging.componentVersionVersionValue = componentVersionVersionValue;
     }
 
-    public void pauseCollectingLifecycleData(){
-        Config.pauseCollectingLifecycleData();
-    }
-
     /**
      * Create instance for component tagging interface.
      * This method to be used by all component to get their respective tagging
@@ -218,17 +214,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
         return new AIAppTaggingWrapper(mAppInfra, componentId, componentVersion);
     }
 
-    /**
-     * Configure analytics with file path.
-     *
-     * @param configFilePath the config file path
-     */
-    @Override
-    public void configureAnalyticsWithFilePath(String configFilePath) {
-
-    }
-
-    /**
+     /**
      * Sets privacy consent.
      *
      * @param privacyStatus the privacy status
@@ -271,35 +257,12 @@ public class AIAppTagging implements AIAppTaggingInterface {
      */
     @Override
     public void trackPageWithInfo(String pageName, String key, String value) {
-//        validateAppTaggingInitialization();
-//        if (!isTaggingEnabled()) {
-//            return;
-//        }
         contextData = addAnalyticsDataObject();
 
         if(Arrays.asList(defaultValues).contains(key)){
 
             switch (key){
-//                case AIAppTaggingConstants.LANGUAGE_KEY:
-//                    contextData = addAnalyticsDataObject();
-//                    contextData.put(AIAppTaggingConstants.LANGUAGE_KEY, value);
-//                    setLanguageOverridden(value);
-//                    break;
-//                case AIAppTaggingConstants.APPSID_KEY:
-//                    contextData = addAnalyticsDataObject();
-//                    contextData.put(AIAppTaggingConstants.APPSID_KEY, value);
-//                    setAppsIdkeyOverridden(value);
-//                    break;
-//                case AIAppTaggingConstants.LOCAL_TIMESTAMP_KEY:
-//                    contextData = addAnalyticsDataObject();
-//                    contextData.put(AIAppTaggingConstants.LOCAL_TIMESTAMP_KEY, value);
-//                    setLocalTimeStampOverridden(value);
-//                    break;
-//                case AIAppTaggingConstants.UTC_TIMESTAMP_KEY:
-//                    contextData = addAnalyticsDataObject();
-//                    contextData.put(AIAppTaggingConstants.UTC_TIMESTAMP_KEY, value);
-//                    setUTCTimeStampOverridden(value);
-//                    break;
+
                 case AIAppTaggingConstants.COMPONENT_ID:
 
                     contextData.put(AIAppTaggingConstants.COMPONENT_ID, value);
@@ -335,10 +298,6 @@ public class AIAppTagging implements AIAppTaggingInterface {
      */
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
-//        validateAppTaggingInitialization();
-//        if (!isTaggingEnabled()) {
-//            return;
-//        }
         Map<String, Object> contextData = addAnalyticsDataObject();
         contextData.putAll(paramMap);
         if (null != prevPage) {
@@ -359,10 +318,6 @@ public class AIAppTagging implements AIAppTaggingInterface {
      */
     @Override
     public void trackActionWithInfo(String pageName, String key, String value) {
-//        validateAppTaggingInitialization();
-//        if (!isTaggingEnabled()) {
-//            return;
-//        }
         Map<String, Object> contextData = addAnalyticsDataObject();
         if (null != key) {
 
@@ -384,17 +339,12 @@ public class AIAppTagging implements AIAppTaggingInterface {
      */
     @Override
     public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
-//        validateAppTaggingInitialization();
-//        if (!isTaggingEnabled()) {
-//            return;
-//        }
         Map<String, Object> contextData = addAnalyticsDataObject();
 
         if(null!=paramMap) {
             try {
                 Map<String, Object> tmp = new HashMap<String, Object>(paramMap);
                 tmp.keySet().removeAll(contextData.keySet());
-//        target.putAll(tmp);
                 contextData.putAll(paramMap);
 
                 if (null != prevPage) {

@@ -17,7 +17,6 @@ public interface AIAppTaggingInterface {
 
     public AIAppTaggingInterface createInstanceForComponent(String componentId, String componentVersion);
 
-    public void configureAnalyticsWithFilePath(String configFilePath);
     public void setPrivacyConsent(PrivacyStatus privacyStatus);
     public PrivacyStatus getPrivacyConsent();
     public void trackPageWithInfo(String pageName, String key, String value);
@@ -25,7 +24,6 @@ public interface AIAppTaggingInterface {
     public void trackActionWithInfo(String pageName, String key, String value);
     public void trackActionWithInfo(String pageName, Map<String, String> paramDict);
 
-    public void pauseCollectingLifecycleData();
 }
 
 
