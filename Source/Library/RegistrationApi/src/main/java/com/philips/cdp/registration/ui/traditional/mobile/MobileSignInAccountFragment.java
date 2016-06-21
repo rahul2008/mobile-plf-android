@@ -53,9 +53,8 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 
 
-public class MobileSignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener, EventListener, ResendVerificationEmailHandler,
-        NetworStateListener {
+public class MobileSignInAccountFragment extends RegistrationBaseFragment
+         {
 
     private LinearLayout mLlCreateAccountFields;
 
@@ -101,6 +100,8 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
 
     private ScrollView mSvRootLayout;
 
+    private MobileSignInAccountFragmentController mMobileSignInAccountFragmentController;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onAttach");
@@ -111,15 +112,16 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreate");
         super.onCreate(savedInstanceState);
+        mMobileSignInAccountFragmentController = new MobileSignInAccountFragmentController(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreateView");
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
-        RegistrationHelper.getInstance().registerNetworkStateListener(this);
+        RegistrationHelper.getInstance().registerNetworkStateListener(mMobileSignInAccountFragmentController);
         EventHelper.getInstance()
-                .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+                .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, mMobileSignInAccountFragmentController);
         View view = inflater.inflate(R.layout.reg_mobile_fragment_sign_in_account, null);
         RLog.i(RLog.EVENT_LISTENERS,
                 "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
@@ -168,9 +170,9 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDestroy");
-        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+        RegistrationHelper.getInstance().unRegisterNetworkListener(mMobileSignInAccountFragmentController);
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-                this);
+                mMobileSignInAccountFragmentController);
         RLog.i(RLog.EVENT_LISTENERS,
                 "SignInAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
@@ -203,37 +205,8 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         handleOrientationOnView(view);
     }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.btn_reg_sign_in) {
-            RLog.d(RLog.ONCLICK, "SignInAccountFragment : SignIn");
-            hideValidations();
-            signIn();
-        } else if (id == R.id.btn_reg_forgot_password) {
-            RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
-            hideValidations();
-            mPhoneNumber.clearFocus();
-            mEtPassword.clearFocus();
-            if (mPhoneNumber.getPhoneNumber().length() == 0) {
-                launchResetPasswordFragment();
-            } else {
-                resetPassword();
-            }
-        } else if (id == R.id.btn_reg_resend) {
-            RLog.d(RLog.ONCLICK, "SignInAccountFragment : Resend");
-            mPhoneNumber.clearFocus();
-            mEtPassword.clearFocus();
-            RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
-            handleResend();
-        } else if(id == R.id.btn_reg_login_using_mail){
-            trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
-            getRegistrationFragment().addFragment(new SignInAccountFragment());
 
-        }
-    }
-
-    private void hideValidations() {
+    public void hideValidations() {
         //mPhoneNumber.hideErrPopUp();
         //mPhoneNumber.hideEmailInvalidAlert();
         mRegError.hideError();
@@ -253,24 +226,24 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         consumeTouch(view);
         mBtnSignInAccount = (Button) view.findViewById(R.id.btn_reg_sign_in);
         mViewHavingProblem = (XHavingProblems) view.findViewById(R.id.view_having_problem);
-        mBtnSignInAccount.setOnClickListener(this);
+        mBtnSignInAccount.setOnClickListener(mMobileSignInAccountFragmentController);
         mBtnForgot = (Button) view.findViewById(R.id.btn_reg_forgot_password);
-        mBtnForgot.setOnClickListener(this);
+        mBtnForgot.setOnClickListener(mMobileSignInAccountFragmentController);
         mBtnResend = (Button) view.findViewById(R.id.btn_reg_resend);
-        mBtnResend.setOnClickListener(this);
+        mBtnResend.setOnClickListener(mMobileSignInAccountFragmentController);
         mBtnLoginUsingEmail = (Button) view.findViewById(R.id.btn_reg_login_using_mail);
-        mBtnLoginUsingEmail.setOnClickListener(this);
+        mBtnLoginUsingEmail.setOnClickListener(mMobileSignInAccountFragmentController);
         mLlCreateAccountFields = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_fields);
         mRlSignInBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_welcome_container);
 
         mPhoneNumber = (XPhoneNumber) view.findViewById(R.id.rl_reg_mobile_field);
-        mPhoneNumber.setOnClickListener(this);
-        mPhoneNumber.setOnUpdateListener(this);
+        mPhoneNumber.setOnClickListener(mMobileSignInAccountFragmentController);
+        mPhoneNumber.setOnUpdateListener(mMobileSignInAccountFragmentController);
         mPhoneNumber.setFocusable(true);
         mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
-        mEtPassword.setOnClickListener(this);
-        mEtPassword.setOnUpdateListener(this);
+        mEtPassword.setOnClickListener(mMobileSignInAccountFragmentController);
+        mEtPassword.setOnUpdateListener(mMobileSignInAccountFragmentController);
         mEtPassword.isValidatePassword(false);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mLlattentionBox = (LinearLayout) view.findViewById(R.id.ll_reg_attention_box);
@@ -289,7 +262,7 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         return R.string.SigIn_TitleTxt;
     }
 
-    private void signIn() {
+    public void signIn() {
         ((RegistrationFragment) getParentFragment()).hideKeyBoard();
         mPhoneNumber.clearFocus();
         mEtPassword.clearFocus();
@@ -300,12 +273,12 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         }
         mEmail = mPhoneNumber.getPhoneNumber().toString();
         mUser.loginUsingTraditional(mEmail, mEtPassword.getPassword()
-                .toString(), this);
+                .toString(), mMobileSignInAccountFragmentController);
     }
 
     private String mEmail;
 
-    private void handleUiState() {
+    public void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             mRegError.hideError();
         } else {
@@ -315,8 +288,8 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         }
     }
 
-    @Override
-    public void onLoginSuccess() {
+
+    public void onLoginSuccessUI() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -330,8 +303,8 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         trackPage(AppTaggingPages.WELCOME);
     }
 
-    @Override
-    public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+    public void onLoginFailedWithErrorUI(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -340,8 +313,9 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         });
     }
 
-    private void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
+
         mBtnForgot.setEnabled(true);
         mBtnResend.setEnabled(true);
         hideSignInSpinner();
@@ -367,85 +341,85 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
     }
 
 
-    @Override
-    public void onSendForgotPasswordSuccess() {
+//    @Override
+//    public void onSendForgotPasswordSuccess() {
+//
+//        handleOnUIThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                handleSendForgotSuccess();
+//            }
+//        });
+//
+//    }
 
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleSendForgotSuccess();
-            }
-        });
+//    private void handleSendForgotSuccess() {
+//        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
+//        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
+//                AppTagingConstants.RESET_PASSWORD_SUCCESS);
+//        hideForgotPasswordSpinner();
+//        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg_Title),
+//                mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+//        hideForgotPasswordSpinner();
+//        mBtnResend.setEnabled(true);
+//        mRegError.hideError();
+//    }
 
-    }
+//    @Override
+//    public void onSendForgotPasswordFailedWithError(final
+//                                                    UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//
+//        handleOnUIThread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                handleSendForgetPasswordSuccess(userRegistrationFailureInfo);
+//            }
+//        });
+//
+//
+//    }
 
-    private void handleSendForgotSuccess() {
-        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
-        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
-                AppTagingConstants.RESET_PASSWORD_SUCCESS);
-        hideForgotPasswordSpinner();
-        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg_Title),
-                mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
-        hideForgotPasswordSpinner();
-        mBtnResend.setEnabled(true);
-        mRegError.hideError();
-    }
-
-    @Override
-    public void onSendForgotPasswordFailedWithError(final
-                                                    UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-
-                handleSendForgetPasswordSuccess(userRegistrationFailureInfo);
-            }
-        });
-
-
-    }
-
-    private void handleSendForgetPasswordSuccess(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError ERROR CODE :" + userRegistrationFailureInfo.getErrorCode());
-        mBtnResend.setEnabled(true);
-        hideForgotPasswordSpinner();
-
-        if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
-            mLlattentionBox.setVisibility(View.VISIBLE);
-            mPhoneNumber.showInvalidAlert();
-            mTvResendDetails.setVisibility(View.VISIBLE);
-            mViewHavingProblem.setVisibility(View.GONE);
-            mTvResendDetails.setText(getString(R.string.TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt));
-            mPhoneNumber.setErrDescription(getString(R.string.TraditionalSignIn_ForgotPwdSocialError_lbltxt));
-            mPhoneNumber.showErrPopUp();
-            trackActionStatus(AppTagingConstants.SEND_DATA,
-                    AppTagingConstants.USER_ERROR, AppTagingConstants.ALREADY_SIGN_IN_SOCIAL);
-            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
-            mBtnForgot.setEnabled(false);
-            return;
-        } else {
-            mLlattentionBox.setVisibility(View.GONE);
-            if(userRegistrationFailureInfo.getErrorCode() == -1) {
-                mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
-            }
-        }
-
-        if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
-            mPhoneNumber.showErrPopUp();
-            mPhoneNumber.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
-            mPhoneNumber.showInvalidAlert();
-            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
-            return;
-        }
-
-        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-            mPhoneNumber.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-            mPhoneNumber.showInvalidAlert();
-            mPhoneNumber.showErrPopUp();
-        }
-        trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
-    }
+//    private void handleSendForgetPasswordSuccess(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError ERROR CODE :" + userRegistrationFailureInfo.getErrorCode());
+//        mBtnResend.setEnabled(true);
+//        hideForgotPasswordSpinner();
+//
+//        if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
+//            mLlattentionBox.setVisibility(View.VISIBLE);
+//            mPhoneNumber.showInvalidAlert();
+//            mTvResendDetails.setVisibility(View.VISIBLE);
+//            mViewHavingProblem.setVisibility(View.GONE);
+//            mTvResendDetails.setText(getString(R.string.TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt));
+//            mPhoneNumber.setErrDescription(getString(R.string.TraditionalSignIn_ForgotPwdSocialError_lbltxt));
+//            mPhoneNumber.showErrPopUp();
+//            trackActionStatus(AppTagingConstants.SEND_DATA,
+//                    AppTagingConstants.USER_ERROR, AppTagingConstants.ALREADY_SIGN_IN_SOCIAL);
+//            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
+//            mBtnForgot.setEnabled(false);
+//            return;
+//        } else {
+//            mLlattentionBox.setVisibility(View.GONE);
+//            if(userRegistrationFailureInfo.getErrorCode() == -1) {
+//                mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+//            }
+//        }
+//
+//        if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
+//            mPhoneNumber.showErrPopUp();
+//            mPhoneNumber.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
+//            mPhoneNumber.showInvalidAlert();
+//            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
+//            return;
+//        }
+//
+//        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+//            mPhoneNumber.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+//            mPhoneNumber.showInvalidAlert();
+//            mPhoneNumber.showErrPopUp();
+//        }
+//        trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
+//    }
 
     private void showSignInSpinner() {
         mBtnSignInAccount.setEnabled(false);
@@ -464,39 +438,39 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         mEtPassword.showEtPasswordFocusEnable();
         mEtPassword.enableMaskPassword();
     }
+//
+//    private void showForgotPasswordSpinner() {
+//        mPbForgotPasswdSpinner.setVisibility(View.VISIBLE);
+//        mBtnForgot.setEnabled(false);
+//    }
+//
+//    private void hideForgotPasswordSpinner() {
+//        mPbForgotPasswdSpinner.setVisibility(View.INVISIBLE);
+//        mBtnForgot.setEnabled(true);
+//    }
 
-    private void showForgotPasswordSpinner() {
-        mPbForgotPasswdSpinner.setVisibility(View.VISIBLE);
-        mBtnForgot.setEnabled(false);
-    }
+//    private void resetPassword() {
+//        boolean validatorResult = FieldsValidator.isValidEmail(mPhoneNumber.getPhoneNumber().toString());
+//        if (!validatorResult) {
+//            mPhoneNumber.showInvalidAlert();
+//        } else {
+//            if (NetworkUtility.isNetworkAvailable(mContext)) {
+//                if (mUser != null) {
+//                    showForgotPasswordSpinner();
+//                    mPhoneNumber.clearFocus();
+//                    mEtPassword.clearFocus();
+//                    mBtnSignInAccount.setEnabled(false);
+//                    mBtnResend.setEnabled(false);
+//                    mUser.forgotPassword(mPhoneNumber.getPhoneNumber(), this);
+//                }
+//
+//            } else {
+//                mRegError.setError(getString(R.string.NoNetworkConnection));
+//            }
+//        }
+//    }
 
-    private void hideForgotPasswordSpinner() {
-        mPbForgotPasswdSpinner.setVisibility(View.INVISIBLE);
-        mBtnForgot.setEnabled(true);
-    }
-
-    private void resetPassword() {
-        boolean validatorResult = FieldsValidator.isValidEmail(mPhoneNumber.getPhoneNumber().toString());
-        if (!validatorResult) {
-            mPhoneNumber.showInvalidAlert();
-        } else {
-            if (NetworkUtility.isNetworkAvailable(mContext)) {
-                if (mUser != null) {
-                    showForgotPasswordSpinner();
-                    mPhoneNumber.clearFocus();
-                    mEtPassword.clearFocus();
-                    mBtnSignInAccount.setEnabled(false);
-                    mBtnResend.setEnabled(false);
-                    mUser.forgotPassword(mPhoneNumber.getPhoneNumber(), this);
-                }
-
-            } else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
-            }
-        }
-    }
-
-    private void updateUiStatus() {
+    public void updateUiStatus() {
         if (mPhoneNumber.isValidPhoneNumber() && mEtPassword.isValidPassword()
                 && NetworkUtility.isNetworkAvailable(mContext)) {
             mLlattentionBox.setVisibility(View.GONE);
@@ -519,8 +493,8 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         }
     }
 
-    @Override
-    public void onUpadte() {
+
+    public void onUIUpadte() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
@@ -529,70 +503,58 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         });
     }
 
-    @Override
-    public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "SignInAccountFragment :onEventReceived is : " + event);
-        if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            updateUiStatus();
-        }
-    }
-
-    @Override
-    public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "SignInAccountFragment : onNetWorkStateReceived state :"
-                + isOnline);
-        handleUiState();
-        updateUiStatus();
-    }
-
-    @Override
-    public void onResendVerificationEmailSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleResendVerificationEmailSuccess();
-            }
-        });
-
-    }
-
-    private void handleResendVerificationEmailSuccess() {
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
-        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.Verification_email_Title),
-                mContext.getResources().getString(R.string.Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
-        updateResendUIState();
-    }
-
-    @Override
-    public void onResendVerificationEmailFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleResendVerificationEmailFailed(userRegistrationFailureInfo);
-            }
-        });
 
 
-    }
 
-    private void handleResendVerificationEmailFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK,
-                "SignInAccountFragment : onResendVerificationEmailFailedWithError");
-        updateResendUIState();
-        trackActionResendVerificationFailure(userRegistrationFailureInfo.getErrorCode());
-        mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
-                + userRegistrationFailureInfo.getEmailErrorMessage());
-        mBtnResend.setEnabled(true);
-    }
 
-    private void updateResendUIState() {
-        mBtnSignInAccount.setEnabled(true);
-        mBtnResend.setEnabled(true);
-        mBtnForgot.setEnabled(true);
-        hideResendSpinner();
-    }
+//    @Override
+//    public void onResendVerificationEmailSuccess() {
+//        handleOnUIThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                handleResendVerificationEmailSuccess();
+//            }
+//        });
+//
+//    }
+//
+//    private void handleResendVerificationEmailSuccess() {
+//        trackActionStatus(AppTagingConstants.SEND_DATA,
+//                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+//        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.Verification_email_Title),
+//                mContext.getResources().getString(R.string.Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+//        updateResendUIState();
+//    }
+
+//    @Override
+//    public void onResendVerificationEmailFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//
+//        handleOnUIThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                handleResendVerificationEmailFailed(userRegistrationFailureInfo);
+//            }
+//        });
+//
+//
+//    }
+
+//    private void handleResendVerificationEmailFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+//        RLog.i(RLog.CALLBACK,
+//                "SignInAccountFragment : onResendVerificationEmailFailedWithError");
+//        updateResendUIState();
+//        trackActionResendVerificationFailure(userRegistrationFailureInfo.getErrorCode());
+//        mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
+//                + userRegistrationFailureInfo.getEmailErrorMessage());
+//        mBtnResend.setEnabled(true);
+//    }
+//
+//    private void updateResendUIState() {
+//        mBtnSignInAccount.setEnabled(true);
+//        mBtnResend.setEnabled(true);
+//        mBtnForgot.setEnabled(true);
+//        hideResendSpinner();
+//    }
 
     private void handleLoginSuccess() {
         hideSignInSpinner();
@@ -645,13 +607,13 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         }
     };
 
-    private void hideResendSpinner() {
-        mPbResendSpinner.setVisibility(View.GONE);
-    }
-
-    private void showResendSpinner() {
-        mPbResendSpinner.setVisibility(View.VISIBLE);
-    }
+//    private void hideResendSpinner() {
+//        mPbResendSpinner.setVisibility(View.GONE);
+//    }
+//
+//    private void showResendSpinner() {
+//        mPbResendSpinner.setVisibility(View.VISIBLE);
+//    }
 
     private void updateActivationUIState() {
         lauchAccountActivationFragment();
@@ -662,11 +624,11 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment implem
         trackPage(AppTaggingPages.ALMOST_DONE);
     }
 
-    private void handleResend() {
-        showResendSpinner();
-        mBtnResend.setEnabled(false);
-        mBtnSignInAccount.setEnabled(false);
-        mBtnForgot.setEnabled(false);
-        mUser.resendVerificationMail(mPhoneNumber.getPhoneNumber(), this);
-    }
+//    private void handleResend() {
+//        showResendSpinner();
+//        mBtnResend.setEnabled(false);
+//        mBtnSignInAccount.setEnabled(false);
+//        mBtnForgot.setEnabled(false);
+//        mUser.resendVerificationMail(mPhoneNumber.getPhoneNumber(), mMobileSignInAccountFragmentController);
+//    }
 }
