@@ -48,7 +48,6 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
             public void onSuccess(Message msg) {
                 if (iapListener != null) {
                     ArrayList<String> productCTNs = getProductCTNs(msg);
-                    Products products = (Products) msg.obj;
                     IAPLog.d(IAPLog.LOG, "getCompleteProductList -- ProductCatelogPresenter " + productCTNs.toString());
                     iapListener.onFetchOfProductList(productCTNs);
                     iapListener.onSuccess(productCTNs.size());
