@@ -56,13 +56,14 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dip"
                     android:text="Change Configuration :"
-                    android:textColor="#000"/>
+                    android:textColor="#000"
+                    android:visibility="gone"/>
 
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/spinner_title"/>
+                <!-- <Spinner
+                     android:id="@+id/spinner"
+                     android:layout_width="fill_parent"
+                     android:layout_height="wrap_content"
+                     android:prompt="@string/spinner_title"/>-->
             </LinearLayout>
 
             <LinearLayout
@@ -83,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text=""
+                    android:text="Evaluation"
                     android:textColor="@android:color/black"
                     android:textSize="18dp"/>
             </LinearLayout>

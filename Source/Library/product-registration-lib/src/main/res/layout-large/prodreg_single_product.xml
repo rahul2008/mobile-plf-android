@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/friendly_name"
-        style="@style/ProductRegsitraionProductHeaderTitleTheme"
+        style="@style/ProductRegistrationProductHeaderTitleTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
@@ -15,7 +15,7 @@
 
     <TextView
         android:id="@+id/product_title"
-        style="@style/ProductRegsitraionProductSubTitleTheme"
+        style="@style/ProductRegistrationProductSubTitleTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/friendly_name"
@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/product_ctn"
-        style="@style/ProductRegsitraionCtnTheme"
+        style="@style/ProductRegistrationCtnTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/friendly_name"
@@ -48,7 +48,8 @@
         android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
         android:layout_marginRight="@dimen/pr_first_launch_padding_right"
         android:layout_marginTop="@dimen/pr_c_value_tablet"
-        android:scaleType="fitCenter"/>
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher"/>
 
     <com.philips.cdp.uikit.customviews.InlineForms
         android:id="@+id/InlineForms_date"

@@ -29,4 +29,5 @@
 </string>
     <string name="back">Back</string>
     <string name="prodreg_looking_products">Looking for your products</string>
+    <string name="serial_number">Serial number:</string>
 </resources>

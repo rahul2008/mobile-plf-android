@@ -116,8 +116,10 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
+                final ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
+                prodRegRegistrationFragment.setArguments(dependencyBundle);
                 if (prodRegLoadingFragment != null) prodRegLoadingFragment.dismiss();
-                showAlertOnError("Summary Failed", new ErrorHandler().getError(responseCode).getDescription());
+                showFragment(prodRegRegistrationFragment);
             }
         };
     }

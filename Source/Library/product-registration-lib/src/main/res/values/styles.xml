@@ -38,19 +38,19 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
-    <style name="ProductRegsitraionProductHeaderTitleTheme">
+    <style name="ProductRegistrationProductHeaderTitleTheme">
         <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">18sp</item>
         <item name="fontPath">fonts/centralesansbold.ttf</item>
     </style>
 
-    <style name="ProductRegsitraionProductSubTitleTheme">
+    <style name="ProductRegistrationProductSubTitleTheme">
         <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">15sp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
-    <style name="ProductRegsitraionCtnTheme">
+    <style name="ProductRegistrationCtnTheme">
         <item name="android:textColor">@color/uikit_enricher4</item>
         <item name="android:textSize">15sp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>

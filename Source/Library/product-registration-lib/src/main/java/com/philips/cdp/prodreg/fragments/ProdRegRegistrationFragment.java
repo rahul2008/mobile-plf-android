@@ -166,23 +166,29 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             currentProduct = (Product) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
             productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
             final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
-            updateUi(summaryData);
+            updateSummaryView(summaryData);
+            updateProductView();
         } else {
             clearFragmentStack();
         }
     }
 
-    private void updateUi(final Data summaryData) {
-        if (summaryData != null && currentProduct != null) {
+    private void updateSummaryView(final Data summaryData) {
+        if (summaryData != null) {
             final String familyName = summaryData.getFamilyName();
             final String productTitle = summaryData.getProductTitle();
-            final String productCtn = summaryData.getCtn();
             productFriendlyNameTextView.setText(familyName != null ? familyName : "");
             productTitleTextView.setText(productTitle != null ? productTitle : "");
-            productCtnTextView.setText(productCtn != null ? productCtn : "");
             imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.ic_launcher, R.drawable.ic_launcher));
+        }
+    }
+
+    private void updateProductView() {
+        if (currentProduct != null) {
             date_EditText.setText(currentProduct.getPurchaseDate());
             serial_number_editText.setText(currentProduct.getSerialNumber());
+            final String productCtn = currentProduct.getCtn();
+            productCtnTextView.setText(productCtn != null ? productCtn : "");
             handleDateEditTextOnError();
             handleSerialNumberEditTextOnError();
             validateFields();
