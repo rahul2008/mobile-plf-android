@@ -49,5 +49,6 @@ public class UIFlowManager {
         activityMap.put(UIStateDefintions.UI_SPLASH_STATE_ONE, "SplashActivity");
         activityMap.put(UIStateDefintions.UI_WELCOME_STATE_ONE, "HomeActivity");
         activityMap.put(UIStateDefintions.UI_WELCOME_STATE_TWO, "UserRegistration");
+        activityMap.put(UIStateDefintions.UI_REGISTRATION_STATE_ONE, "HomeActivity");
     }
 }

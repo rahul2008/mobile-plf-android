@@ -21,6 +21,7 @@ import com.philips.cdp.appframework.homescreen.HomeActivity;
 import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.appframework.modularui.UIStateDefintions;
+import com.philips.cdp.appframework.modularui.UIUserRegNavigationStateOne;
 import com.philips.cdp.appframework.modularui.UIWSNavigationStateOne;
 import com.philips.cdp.appframework.modularui.UIWSNavigationStateTwo;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
@@ -104,7 +105,8 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
-    private UIBaseNavigation navigator;
+    private UIBaseNavigation wsNavigator,userRegNavigator;
+    public static final int userRegistrationClickID = 7001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,8 +187,16 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
+
         if (null != activity) {
-            startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+           @UIStateDefintions.UIStateDef int userRegState = userRegNavigator.onClick(userRegistrationClickID,IntroductionScreenActivity.this);
+
+            switch (userRegState){
+                case UIStateDefintions.UI_REGISTRATION_STATE_ONE : if(UIFlowManager.activityMap.get(UIStateDefintions.UI_REGISTRATION_STATE_ONE).equalsIgnoreCase("HomeActivity")){
+                    startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+                }
+                    break;
+            }
         }
     }
 
@@ -239,10 +249,8 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     public void onClick(View v) {
 
-
                 setIntroScreenDonePressed();
-
-                @UIStateDefintions.UIStateDef int currentState = navigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
+                @UIStateDefintions.UIStateDef int currentState = wsNavigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
 
                 switch (currentState){
                     case UIStateDefintions.UI_WELCOME_STATE_ONE : if(UIFlowManager.activityMap.get(UIStateDefintions.UI_WELCOME_STATE_ONE).equalsIgnoreCase("HomeActivity")){
@@ -260,12 +268,15 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     protected void onResume() {
         super.onResume();
+
         User user = new User(this);
         if (user.isUserSignIn()) {
-            navigator = new UIWSNavigationStateOne();
+            wsNavigator = new UIWSNavigationStateOne();
 
         } else {
-            navigator = new UIWSNavigationStateTwo();
+            wsNavigator = new UIWSNavigationStateTwo();
         }
+
+        userRegNavigator = new UIUserRegNavigationStateOne();
     }
 }
