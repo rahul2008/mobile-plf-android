@@ -38,4 +38,6 @@ public class ModelConstants {
     public static final String CART_ID = "cartId";
     public static final String PAYMENT_SUCCESS_STATUS = "payment_success_status";
     public static final String REFRESH_TOKEN = "refresh_token";
+
+    public static final String CURRENT_PAGE = "currentPage";
 }
