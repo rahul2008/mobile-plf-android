@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">AppFramework</string>
+    <string name="app_home_title">Mobile App Home</string>
     <string name="left_arrow">&lt;</string>
     <string name="right_arrow">&gt;</string>
 
@@ -13,15 +14,34 @@
     <string name="introduction_screen_three_bottom_text">Third benefit text is bottom aligned</string>
     <string name="splash_screen_title">Mobile &lt;b>Apps&lt;/b></string>
 
+
+    <!--Settings Screen starts-->
+    <string name="settings_screen_title">Account settings</string>
+    <string name="settings_list_item_main">&lt;b>Settings&lt;/b></string>
+    <string name="settings_list_item_one">Vertical app setting A</string>
+    <string name="settings_list_item_two">Vertical app setting B</string>
+    <string name="settings_list_item_three">Vertical app setting C</string>
+    <string name="settings_list_item_four">Receive Philips\'</string>
+    <string name="settings_list_item_four_desc">promotional communications based on my preferences and online behavior</string>
+    <string name="settings_list_item_four_term_cond">what does this mean?</string>
+
+    <string name="settings_list_item_purchases">&lt;b>Purchases&lt;/b></string>
+    <string name="settings_list_item_order_history">Order history</string>
+
+    <string name="settings_list_item_my_acc">&lt;b>My Account&lt;/b></string>
+    <string name="settings_list_item_log_out">Log out</string>
+
+    <!--Settings Screen ends-->
+
     <string-array name="hamburger_drawer_items">
             
-        <item>Mobile App Home </item>
+        <item>@string/app_home_title </item>
             
         <item>Support</item>
             
         <item>Settings</item>
-
-        <item>Log Out</item>
+<!--
+        <item>Log Out</item>-->
 
     </string-array>
 </resources>

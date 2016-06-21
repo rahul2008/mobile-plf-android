@@ -6,7 +6,6 @@
 
 package com.philips.cdp.appframework.homescreen;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +13,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.appframework.AppFrameworkBaseFragment;
 import com.philips.cdp.appframework.R;
 
 
-public class HomeScreenFragment extends Fragment {
+public class HomeScreenFragment extends AppFrameworkBaseFragment {
     private TextView textView;
     private ImageView imageView;
 
     public HomeScreenFragment() {
+    }
+
+    @Override
+    public String getActionbarTitle() {
+        return getResources().getString(R.string.app_home_title);
     }
 
     @Override
@@ -33,6 +38,7 @@ public class HomeScreenFragment extends Fragment {
         //  imageView = (ImageView) rootView.findViewById(R.id.frag_icon);
 
         setDateToView();
+
 
         return rootView;
     }
