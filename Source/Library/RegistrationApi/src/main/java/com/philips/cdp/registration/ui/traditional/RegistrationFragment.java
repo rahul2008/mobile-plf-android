@@ -230,20 +230,24 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
         if (isAccountSettings) {
-            if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                Tagging.setLaunchingPageName("demoapp:home");
-                AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
+            if (RegConstants.IS_MOBILE_NUMBER_LOG_IN) {
                 replaceWithLogoutFragment();
-                return;
-            }
+            } else {
+                if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
+                    Tagging.setLaunchingPageName("demoapp:home");
+                    AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
+                    replaceWithLogoutFragment();
+                    return;
+                }
 
-            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
-                AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
-                replaceWithLogoutFragment();
-                return;
+                if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+                    AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
+                    replaceWithLogoutFragment();
+                    return;
+                }
+                AppTagging.trackFirstPage(AppTaggingPages.HOME);
+                replaceWithHomeFragment();
             }
-            AppTagging.trackFirstPage(AppTaggingPages.HOME);
-            replaceWithHomeFragment();
         } else {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
                 Tagging.setLaunchingPageName("demoapp:home");

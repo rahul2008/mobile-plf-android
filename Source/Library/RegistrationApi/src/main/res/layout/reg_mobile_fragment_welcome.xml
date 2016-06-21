@@ -35,17 +35,8 @@
                 android:text="@string/InitialSignedIn_SigninEmailText"
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 
-            <com.philips.cdp.registration.ui.customviews.XTextView
-                android:id="@+id/tv_reg_email_details_container"
-                style="@style/reg_textStyle"
-                android:layout_marginBottom="@dimen/reg_margin_bottom"
-                android:paddingLeft="@dimen/reg_layout_margin"
-                android:paddingRight="@dimen/reg_layout_margin"
-                android:text="@string/InitialSignUp_EmailVerification_EmailInfo_lbltxt"
-                android:visibility="gone"
-                reglib:fontAssetName="CentraleSans-Book.OTF" />
-
-            <View style="@style/reg_line" />
+            <View style="@style/reg_line"
+                  android:layout_marginTop="0dip"/>
 
             <LinearLayout
                 android:id="@+id/rl_reg_continue_id"

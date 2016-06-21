@@ -39,8 +39,6 @@ public class MobileWelcomeFragment extends RegistrationBaseFragment {
 
     private Context mContext;
 
-    private TextView mTvEmailDetails;
-
     private Button mBtnSignOut;
 
     private Button mBtnContinue;
@@ -131,7 +129,6 @@ public class MobileWelcomeFragment extends RegistrationBaseFragment {
     @Override
     public void setViewParams(Configuration config, int width) {
         applyParams(config, mTvWelcome, width);
-        applyParams(config, mTvEmailDetails, width);
         applyParams(config, mLlContinueBtnContainer, width);
         applyParams(config, mRegError, width);
         applyParams(config, mTvSignInEmail, width);
@@ -147,7 +144,6 @@ public class MobileWelcomeFragment extends RegistrationBaseFragment {
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
         mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_continue_id);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        mTvEmailDetails = (TextView) view.findViewById(R.id.tv_reg_email_details_container);
         mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
         mBtnSignOut = (Button) view.findViewById(R.id.btn_reg_sign_out);
         mBtnSignOut.setOnClickListener(mWelcomeController);
@@ -177,6 +173,11 @@ public class MobileWelcomeFragment extends RegistrationBaseFragment {
                 getRegistrationFragment().replaceWithHomeFragment();
             }
         });
+    }
+
+    public void getContinue() {
+        RegistrationHelper.getInstance().getUserRegistrationListener()
+                .notifyonUserRegistrationCompleteEventOccurred(getRegistrationFragment().getParentActivity());
     }
     public void networkUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
