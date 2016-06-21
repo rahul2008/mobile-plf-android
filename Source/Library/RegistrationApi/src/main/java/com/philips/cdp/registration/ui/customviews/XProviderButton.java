@@ -44,7 +44,7 @@ public class XProviderButton extends RelativeLayout {
     public XProviderButton(Context context) {
         super(context);
         mContext = context;
-        initUi(R.layout.x_provider_btn);
+        initUi(R.layout.reg_provider_btn);
     }
 
     public XProviderButton(Context context, AttributeSet attrs) {
@@ -58,7 +58,7 @@ public class XProviderButton extends RelativeLayout {
                 "providerBackground", 0);
         mProviderTextColorID = attrs.getAttributeResourceValue(XProviderButton.XMLNS,
                 "providerTextColor", 0);
-        initUi(R.layout.x_provider_btn);
+        initUi(R.layout.reg_provider_btn);
     }
 
     private void initUi(int resourceId) {

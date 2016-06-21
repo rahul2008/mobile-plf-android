@@ -33,8 +33,6 @@ import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 
-import org.w3c.dom.Text;
-
 public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment implements NetworStateListener {
 
     private LinearLayout mLlConfirmApprovalParent;
@@ -69,9 +67,9 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ParentalApprovalFragment : onCreateView");
         View view;
         if (getResources().getBoolean(R.bool.isTablet)) {
-            view = inflater.inflate(R.layout.fragment_reg_coppa_parental_approval_tablet, null);
+            view = inflater.inflate(R.layout.reg_fragment_coppa_parental_approval_tablet, null);
         } else {
-            view = inflater.inflate(R.layout.fragment_reg_coppa_parental_approval_phone, null);
+            view = inflater.inflate(R.layout.reg_fragment_coppa_parental_approval_phone, null);
         }
 
 
@@ -209,19 +207,19 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     }
 
     private String getUsText() {
-        return mContext.getString(R.string.Coppa_Give_Approval_txt) +
-                "\n" + mContext.getString(R.string.Coppa_Give_Approval_US_txt) +
-                String.format(mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.PrivacyNoticeText));
+        return mContext.getString(R.string.reg_Coppa_Give_Approval_txt) +
+                "\n" + mContext.getString(R.string.reg_Coppa_Give_Approval_US_txt) +
+                String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
     }
 
     private String getNonUsText() {
-        return mContext.getString(R.string.Coppa_Give_Approval_txt)
-                + String.format(mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.PrivacyNoticeText));
+        return mContext.getString(R.string.reg_Coppa_Give_Approval_txt)
+                + String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
     }
 
     public void setIsUSRegionCode() {
         mTvRegConfirmApproval.setVisibility(View.VISIBLE);
-        mTvConfirmApprovalDesc.setText(String.format(mContext.getString(R.string.Coppa_Confirm_Approval_Content_txt) + mContext.getString(R.string.Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.Coppa_Privacy_Notice_Screen_Title_txt)));
+        mTvConfirmApprovalDesc.setText(String.format(mContext.getString(R.string.reg_Coppa_Confirm_Approval_Content_txt) + mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_Coppa_Privacy_Notice_Screen_Title_txt)));
         RegCoppaUtility.linkifyTermAndPolicy(mTvConfirmApprovalDesc, getActivity(), privacyLinkClick);
         mTvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
@@ -232,7 +230,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Coppa_Consent_Approval_Screen_Title_txt;
+        return R.string.reg_Coppa_Consent_Approval_Screen_Title_txt;
     }
 
     public void showRefreshProgress() {
@@ -274,7 +272,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
                         mBtnDisAgree.setEnabled(true);
                 } else {
                     if (mRegError != null)
-                        mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+                        mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
                     if (mRegError != null && mSvRootLayout != null)
                         scrollViewAutomatically(mRegError, mSvRootLayout);
                     if (mBtnAgree != null)

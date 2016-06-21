@@ -47,13 +47,13 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
     public XEmail(Context context) {
         super(context);
         this.mContext = context;
-        initUi(R.layout.x_email);
+        initUi(R.layout.reg_email);
     }
 
     public XEmail(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
-        initUi(R.layout.x_email);
+        initUi(R.layout.reg_email);
     }
 
     public final void initUi(int resourceId) {
@@ -183,9 +183,9 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
             showValidEmailAlert();
         } else {
             if (mEtEmail.getText().toString().trim().length() == 0) {
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                setErrDescription(getResources().getString(R.string.InvalidEmailAdddress_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
             }
         }
     }
@@ -198,10 +198,10 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         } else {
             if (mEtEmail.getText().toString().trim().length() == 0) {
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ALERT, AppTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_EMAIL);
-                setErrDescription(getResources().getString(R.string.InvalidEmailAdddress_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
             }
             showEmailIsInvalidAlert();
         }

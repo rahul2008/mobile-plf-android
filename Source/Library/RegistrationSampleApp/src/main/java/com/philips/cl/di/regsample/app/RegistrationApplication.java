@@ -105,12 +105,16 @@ public class RegistrationApplication extends Application {
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);
 */
 
+
+
+
 		HSDPInfo hsdpInfo = new HSDPInfo();
 		hsdpInfo.setApplicationName("uGrow");
-		hsdpInfo.setSharedId("c62362a0-f02c-11e5-9ce9-5e5517507c66");
-		hsdpInfo.setSecreteId("c623685e-f02c-11e5-9ce9-5e5517507c66");
-		hsdpInfo.setBaseURL("https://user-registration-assembly-testing.us-east.philips-healthsuite.com");
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);
+		hsdpInfo.setSharedId("41a47ab2-1234-11e5-8994-feff819cdc9f");
+		hsdpInfo.setSecreteId("41a47ec2-1234-7890-2314-feff129cdc9f");
+		hsdpInfo.setBaseURL("https://ugrow-ds-staging.eu-west.philips-healthsuite.com");
+		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.EVALUATION,hsdpInfo);
+
 		String languageCode = Locale.getDefault().getLanguage();
 		String countryCode = Locale.getDefault().getCountry();
 

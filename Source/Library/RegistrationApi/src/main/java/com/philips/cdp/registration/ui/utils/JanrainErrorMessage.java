@@ -38,17 +38,17 @@ public class JanrainErrorMessage {
 	public String getError(int error) {
 		if (error == JANRAIN_SIGN_IN_INVALID_INPUT
 		        || error == JANRAIN_FORGOT_PASSWORD_INVALID_INPUT) {
-			errorMessage = getErrorMessage(R.string.JanRain_Invalid_Input); // "Invalid parameters";
+			errorMessage = getErrorMessage(R.string.reg_JanRain_Invalid_Input); // "Invalid parameters";
 		} else if (error == INVALID_PASSWORD) {
-			errorMessage = getErrorMessage(R.string.JanRain_LogIn_Failed); // "Invalid Password";
+			errorMessage = getErrorMessage(R.string.reg_JanRain_LogIn_Failed); // "Invalid Password";
 		} else if (error == INVALID_USERNAME_PASSWORD) {
-			errorMessage = getErrorMessage(R.string.JanRain_Invalid_Credentials); // "Invalid username or password";
+			errorMessage = getErrorMessage(R.string.reg_JanRain_Invalid_Credentials); // "Invalid username or password";
 		} else if (error == EMAIL_ALREADY_IN_USE) {
 			errorMessage = "Email address already in use"; // "Email address already in use";
 		} else if (error == INTERNET_NOT_AVAILABLE) {
-			errorMessage = getErrorMessage(R.string.JanRain_Error_Check_Internet); // "Engage error";
+			errorMessage = getErrorMessage(R.string.reg_JanRain_Error_Check_Internet); // "Engage error";
 		} else {
-			errorMessage = getErrorMessage(R.string.JanRain_LogIn_Failed);
+			errorMessage = getErrorMessage(R.string.reg_JanRain_LogIn_Failed);
 		}
 		return errorMessage;
 	}

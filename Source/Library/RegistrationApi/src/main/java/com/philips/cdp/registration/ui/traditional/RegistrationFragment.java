@@ -80,7 +80,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = getActivity();
-        View view = inflater.inflate(R.layout.fragment_registration, container, false);
+        View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment  Register: NetworStateListener");

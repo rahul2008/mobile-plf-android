@@ -72,7 +72,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
             }
         }
 
-        setContentView(R.layout.activity_reg_coppa_registration);
+        setContentView(R.layout.reg_activity_coppa_registration);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity  Register: NetworStateListener");
         initUI();
     }

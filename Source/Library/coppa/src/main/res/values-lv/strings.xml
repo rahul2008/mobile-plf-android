@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">Lai pilnvērtīgi izmantotu lietotni, Philips pieprasa jūsu piekrišanu, lai savāktu un izmantotu informāciju par to, kā jūsu bērns izmanto Philips Sonicare un lietotni.\n\nŠajā informācijā iekļauts tīrīšanas laiks, periods un biežums, ko apkopo birstes rokturis un lietotne.\n\nŠī informācija sniedz iespēju uzraudzīt un veicināt bērna zobu tīrīšanas ieradumus un saņemt personalizētu informāciju par zobu tīrīšanu un paziņojumus, kad pienācis laiks nomainīt birstes uzgali.\n\nMēs neievāksim un neizmantosim nekādu personisku informāciju par jūsu bērnu, ja nebūsiet sniedzis piekrišanu.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">Ja piekrītat, saņemsiet piekrišanas apstiprinājuma pieprasījumu, kad vēlreiz atvērsiet vecāku sadaļu vismaz pēc 24 stundām no šī brīža.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">Lasiet %s, lai iegūtu papildinformāciju.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">Apstiprināt piekrišanu</string>
-<string name="Coppa_Confirm_Approval_Content_txt">Paldies, ka piekritāt saglabāt informāciju par savu bērnu. Šī ir otrā piekrišana, lai apstiprinātu jūsu piekrišanu.\n\nLai pilnvērtīgi izmantotu lietotni, lūdzu, apstipriniet savu vecāka piekrišanu, kas atļauj Philips savākt un izmantot informāciju par to, kā jūsu bērns izmanto Philips Sonicare un lietotni. Šajā informācijā būs iekļauts tīrīšanas laiks, periods un biežums, ko apkopo birstes rokturis un lietotne.\n\nŠī informācija sniedz iespēju uzraudzīt un veicināt bērna zobu tīrīšanas ieradumus un saņemt personalizētu informāciju par zobu tīrīšanu un paziņojumus, kad pienācis laiks nomainīt birstes uzgali.\n\nMēs neievāksim un neizmantosim nekādu personisku informāciju par jūsu bērnu, ja nebūsiet sniedzis piekrišanu.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. un tā meitasuzņēmumi (\"Philips\") stingri iestājas par jūsu koplietoto datu aizsardzību. Mēs arī uzskatām, ka ir svarīgi jūs informēt par to, kā mēs izmantosim jūsu datus, un sniegt jums izvēles iespējas. Tāpēc mēs aicinām jūs rūpīgi izlasīt šo paziņojumu par konfidencialitāti, pirms izdarīt izvēli un piešķirt mums tiesības izmantot informāciju. Šis ir paziņojums par Philips konfidencialitātes nodrošināšanas metodēm, nevis vienošanās vai līgums.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">Lietotnes paziņojums par konfidencialitāti</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">Paziņojums par konfidencialitāti</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">Piekrišana</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">Vecāku piekļuve</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">Esmu jaunāks par %d</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">Esmu vecāks par %d</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Šī informācija ir paredzēta lietotājiem, kas večaki par %d. Lūdziet saviem vecākiem sniegt piekrišanu savā vietā.</string>
-<string name="Ok_Btn_Txt">Labi</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Dzimšanas gads</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">Kāds ir jūsu vecums?</string>
-<string name="Coppa_Age_Verification_Alert_Title">Vecums un dzimšanas gads neatbilst</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">Norādītais vecums neatbilst dzimšanas gadam. Lūdzu, pārbaudiet, vai vecums un dzimšanas gads ir pareizs.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">Jūs mēģināt piekļūt vecākiem paredzētajai sadaļai.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">Es piekrītu</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">Nepiekrītu</string>
+<string name="reg_Coppa_Give_Approval_txt">Lai pilnvērtīgi izmantotu lietotni, Philips pieprasa jūsu piekrišanu, lai savāktu un izmantotu informāciju par to, kā jūsu bērns izmanto Philips Sonicare un lietotni.\n\nŠajā informācijā iekļauts tīrīšanas laiks, periods un biežums, ko apkopo birstes rokturis un lietotne.\n\nŠī informācija sniedz iespēju uzraudzīt un veicināt bērna zobu tīrīšanas ieradumus un saņemt personalizētu informāciju par zobu tīrīšanu un paziņojumus, kad pienācis laiks nomainīt birstes uzgali.\n\nMēs neievāksim un neizmantosim nekādu personisku informāciju par jūsu bērnu, ja nebūsiet sniedzis piekrišanu.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">Ja piekrītat, saņemsiet piekrišanas apstiprinājuma pieprasījumu, kad vēlreiz atvērsiet vecāku sadaļu vismaz pēc 24 stundām no šī brīža.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">Lasiet %s, lai iegūtu papildinformāciju.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Apstiprināt piekrišanu</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Paldies, ka piekritāt saglabāt informāciju par savu bērnu. Šī ir otrā piekrišana, lai apstiprinātu jūsu piekrišanu.\n\nLai pilnvērtīgi izmantotu lietotni, lūdzu, apstipriniet savu vecāka piekrišanu, kas atļauj Philips savākt un izmantot informāciju par to, kā jūsu bērns izmanto Philips Sonicare un lietotni. Šajā informācijā būs iekļauts tīrīšanas laiks, periods un biežums, ko apkopo birstes rokturis un lietotne.\n\nŠī informācija sniedz iespēju uzraudzīt un veicināt bērna zobu tīrīšanas ieradumus un saņemt personalizētu informāciju par zobu tīrīšanu un paziņojumus, kad pienācis laiks nomainīt birstes uzgali.\n\nMēs neievāksim un neizmantosim nekādu personisku informāciju par jūsu bērnu, ja nebūsiet sniedzis piekrišanu.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. un tā meitasuzņēmumi (\"Philips\") stingri iestājas par jūsu koplietoto datu aizsardzību. Mēs arī uzskatām, ka ir svarīgi jūs informēt par to, kā mēs izmantosim jūsu datus, un sniegt jums izvēles iespējas. Tāpēc mēs aicinām jūs rūpīgi izlasīt šo paziņojumu par konfidencialitāti, pirms izdarīt izvēli un piešķirt mums tiesības izmantot informāciju. Šis ir paziņojums par Philips konfidencialitātes nodrošināšanas metodēm, nevis vienošanās vai līgums.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">Lietotnes paziņojums par konfidencialitāti</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Paziņojums par konfidencialitāti</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Piekrišana</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Vecāku piekļuve</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">Esmu jaunāks par %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">Esmu vecāks par %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">Šī informācija ir paredzēta lietotājiem, kas večaki par %d. Lūdziet saviem vecākiem sniegt piekrišanu savā vietā.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">Dzimšanas gads</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">Kāds ir jūsu vecums?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">Vecums un dzimšanas gads neatbilst</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">Norādītais vecums neatbilst dzimšanas gadam. Lūdzu, pārbaudiet, vai vecums un dzimšanas gads ir pareizs.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">Jūs mēģināt piekļūt vecākiem paredzētajai sadaļai.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Es piekrītu</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Nepiekrītu</string>
 </resources>

@@ -77,7 +77,7 @@ public class ConsentHandler implements RefreshUserHandler {
                         AppTagging.trackAction(mTaggingState, mTaggingKey, "No");
                         mParentalApprovalFragment.hideRefreshProgress();
                         if (errorCode == -1) {
-                            Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
+                            Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
                                     , Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -116,7 +116,7 @@ public class ConsentHandler implements RefreshUserHandler {
                     public void onFailure(int errorCode) {
                         mParentalApprovalFragment.hideRefreshProgress();
                         if (errorCode == -1) {
-                            Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
+                            Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
                                     , Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -166,7 +166,7 @@ public class ConsentHandler implements RefreshUserHandler {
     private void handleFailure() {
         mParentalApprovalFragment.hideRefreshProgress();
 
-        Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed)
+        Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
                 , Toast.LENGTH_SHORT).show();
     }
 

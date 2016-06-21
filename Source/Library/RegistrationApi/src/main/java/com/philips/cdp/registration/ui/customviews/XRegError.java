@@ -25,13 +25,13 @@ public class XRegError extends RelativeLayout {
 	public XRegError(Context context) {
 		super(context);
 		mContext = context;
-		initUi(R.layout.error_mapping);
+		initUi(R.layout.reg_error_mapping);
 	}
 
 	public XRegError(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
-		initUi(R.layout.error_mapping);
+		initUi(R.layout.reg_error_mapping);
 	}
 
 	private void initUi(int resourceId) {

@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">为了充分利用该应用程序，飞利浦需要您同意收集和使用有关儿童使用飞利浦 Sonicare 及应用程序的信息。\n\n该信息包括从刷柄和应用程序收集而来的刷牙时间、时长和频率。\n\n您可以通过该信息监控和鼓励儿童的刷牙习惯、接收个性化刷牙信息并在需要更换刷头时收到通知。\n\n如果未征得您同意，我们不会收集或使用儿童的任何个人信息。\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">如果您同意，则当您自现在起至少 24 小时后再次进入“家长”部分时，您将收到确认同意请求。\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">请阅读 %s 以了解更多信息。</string>
-<string name="Coppa_Confirm_Approval_Title_txt">确认批准</string>
-<string name="Coppa_Confirm_Approval_Content_txt">感谢您同意我们存储您孩子的信息。这是用于确认您批准的第二份同意书。\n\n为了充分利用该应用程序，请确认家长同意飞利浦收集和使用有关儿童使用飞利浦 Sonicare 和应用程序的信息。该信息包括从刷柄和应用程序收集而来的刷牙时间、时长和频率。\n\n您可以通过该信息监控和鼓励儿童的刷牙习惯、接收个性化刷牙信息并在需要更换刷头时收到通知。\n\n如果未征得您同意，我们不会收集或使用儿童的任何个人信息。\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. 及其子公司（简称“飞利浦”）非常重视保护您与我们共享的资料的隐私。我们还会告知您我们将如何使用您的资料，并就如何使用这些资料为您提供选择，这一点我们同样重视。因此，我们鼓励您在做出选择和授权我们使用您的信息之前，仔细阅读本隐私声明。这是一份关于飞利浦隐私实践的声明，而不是合同或协议。</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">应用程序隐私声明</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">隐私声明</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">批准</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">家长访问</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">我的年龄在 %d 岁以下</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">我的年龄在 %d 岁以上</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">这面向年龄在 %d 岁以上的人士提供。请让家长执行操作。</string>
-<string name="Ok_Btn_Txt">确定</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">出生年份</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">您的年龄是？</string>
-<string name="Coppa_Age_Verification_Alert_Title">年龄与出生年份不匹配</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">所提供的年龄与出生年份不匹配。请确保您的年龄和出生年份正确无误。</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">您正在尝试访问面向家长提供的部分。</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">我同意</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">反对</string>
+<string name="reg_Coppa_Give_Approval_txt">为了充分利用该应用程序，飞利浦需要您同意收集和使用有关儿童使用飞利浦 Sonicare 及应用程序的信息。\n\n该信息包括从刷柄和应用程序收集而来的刷牙时间、时长和频率。\n\n您可以通过该信息监控和鼓励儿童的刷牙习惯、接收个性化刷牙信息并在需要更换刷头时收到通知。\n\n如果未征得您同意，我们不会收集或使用儿童的任何个人信息。\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">如果您同意，则当您自现在起至少 24 小时后再次进入“家长”部分时，您将收到确认同意请求。\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">请阅读 %s 以了解更多信息。</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">确认批准</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">感谢您同意我们存储您孩子的信息。这是用于确认您批准的第二份同意书。\n\n为了充分利用该应用程序，请确认家长同意飞利浦收集和使用有关儿童使用飞利浦 Sonicare 和应用程序的信息。该信息包括从刷柄和应用程序收集而来的刷牙时间、时长和频率。\n\n您可以通过该信息监控和鼓励儿童的刷牙习惯、接收个性化刷牙信息并在需要更换刷头时收到通知。\n\n如果未征得您同意，我们不会收集或使用儿童的任何个人信息。\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. 及其子公司（简称“飞利浦”）非常重视保护您与我们共享的资料的隐私。我们还会告知您我们将如何使用您的资料，并就如何使用这些资料为您提供选择，这一点我们同样重视。因此，我们鼓励您在做出选择和授权我们使用您的信息之前，仔细阅读本隐私声明。这是一份关于飞利浦隐私实践的声明，而不是合同或协议。</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">应用程序隐私声明</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">隐私声明</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">批准</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">家长访问</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">我的年龄在 %d 岁以下</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">我的年龄在 %d 岁以上</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">这面向年龄在 %d 岁以上的人士提供。请让家长执行操作。</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">出生年份</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">您的年龄是？</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">年龄与出生年份不匹配</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">所提供的年龄与出生年份不匹配。请确保您的年龄和出生年份正确无误。</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">您正在尝试访问面向家长提供的部分。</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">我同意</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">反对</string>
 </resources>

@@ -95,7 +95,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
-        View view = inflater.inflate(R.layout.fragment_social_to_social_merge_account, container, false);
+        View view = inflater.inflate(R.layout.reg_fragment_social_to_social_merge_account, container, false);
         RLog.i(RLog.EVENT_LISTENERS,
                 "MergeSocialToSocialAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         mUser = new User(mContext);
@@ -203,18 +203,18 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
                 getRegistrationFragment().getParentActivity().getPackageName());
 
         TextView currentProviderView = (TextView) view.findViewById(R.id.tv_reg_conflict_provider);
-        String currentProvider = getString(R.string.Social_Merge_Accounts_lbltxt);
+        String currentProvider = getString(R.string.reg_Social_Merge_Accounts_lbltxt);
         currentProvider = String.format(currentProvider, mContext.getResources().getString(conflictSocialProviderId));
         currentProviderView.setText(currentProvider);
         mConflictProvider = conflictingProvider;
 
-        String previousSocialProviderDetails = getString(R.string.Social_Merge_Used_EmailError_lbltxt);
+        String previousSocialProviderDetails = getString(R.string.reg_Social_Merge_Used_EmailError_lbltxt);
         previousSocialProviderDetails = String.format(previousSocialProviderDetails, mContext.getResources().getString(conflictSocialProviderId)
                 ,mEmailId,mContext.getResources().getString(currentSocialProviderId));
         mTvCurrentProviderDetails.setText(previousSocialProviderDetails);
 
         TextView mergeAccountBoxView = (TextView) view.findViewById(R.id.tv_reg_merge_account_box);
-        String signInWith = getString(R.string.Social_Merge_Cancel_And_Restart_Registration_lbltxt);
+        String signInWith = getString(R.string.reg_Social_Merge_Cancel_And_Restart_Registration_lbltxt);
         signInWith = String.format(signInWith,mContext.getResources().getString(currentSocialProviderId) , mContext.getResources().getString(conflictSocialProviderId));
         mergeAccountBoxView.setText(signInWith);
     }
@@ -241,7 +241,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
             mUser.loginUserUsingSocialProvider(getActivity(), mConflictProvider, this, mMergeToken);
             showMergeSpinner();
         } else {
-            mRegError.setError(getString(R.string.JanRain_Error_Check_Internet));
+            mRegError.setError(getString(R.string.reg_JanRain_Error_Check_Internet));
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
@@ -265,11 +265,11 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
+                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             }
         } else {
             scrollViewAutomatically(mRegError, mSvRootLayout);
-            mRegError.setError(getString(R.string.NoNetworkConnection));
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
@@ -319,7 +319,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        return R.string.reg_SigIn_TitleTxt;
     }
 
     private void launchWelcomeFragment() {

@@ -87,7 +87,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
 
-        View view = inflater.inflate(R.layout.fragment_logout, null);
+        View view = inflater.inflate(R.layout.reg_fragment_logout, null);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
@@ -199,9 +199,9 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsLinkClick);
         RegUtility.linkifyAccountSettingPhilips(mAccessAccountSettingsLink, getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
 
-        mTvWelcome.setText(getString(R.string.Signin_Success_Hello_lbltxt) + " " + mUser.getGivenName());
+        mTvWelcome.setText(getString(R.string.reg_Signin_Success_Hello_lbltxt) + " " + mUser.getGivenName());
 
-        String email = getString(R.string.InitialSignedIn_SigninEmailText);
+        String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
         email = String.format(email, mUser.getEmail());
         mTvSignInEmail.setText(email);
     }
@@ -231,7 +231,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             mCbTerms.setOnCheckedChangeListener(null);
             mCbTerms.setChecked(!mCbTerms.isChecked());
             mCbTerms.setOnCheckedChangeListener(this);
-            mRegError.setError(getString(R.string.NoNetworkConnection));
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             scrollViewAutomatically(mRegError, mSvRootLayout);
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
@@ -290,7 +290,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             return;
         }
         if (error == -1 || error == BAD_RESPONSE_ERROR_CODE) {
-            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             return;
         }
         mCbTerms.setOnCheckedChangeListener(null);
@@ -305,7 +305,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Account_Setting_Titletxt;
+        return R.string.reg_Account_Setting_Titletxt;
     }
 
     @Override
@@ -360,7 +360,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
                 mRegError.hideError();
             }
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }

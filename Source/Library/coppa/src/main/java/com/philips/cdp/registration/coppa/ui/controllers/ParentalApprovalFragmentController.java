@@ -99,7 +99,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
     }
 
     public void showServerErrorALert() {
-        RegCoppaAlertDialog.showCoppaDialogMsg("", mParentalApprovalFragment.getContext().getResources().getString(R.string.JanRain_Server_Connection_Failed), mParentalApprovalFragment.getActivity(), mOkBtnClick);
+        RegCoppaAlertDialog.showCoppaDialogMsg("", mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed), mParentalApprovalFragment.getActivity(), mOkBtnClick);
     }
 
 

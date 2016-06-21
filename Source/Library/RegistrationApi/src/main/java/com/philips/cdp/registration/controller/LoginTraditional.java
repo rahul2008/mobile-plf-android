@@ -170,13 +170,13 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
                 JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
                 if (jsonObject != null) {
                     if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
-                        userRegistrationFailureInfo.setEmailErrorMessage(mContext.getResources().getString(R.string.JanRain_Invalid_Credentials));
+                        userRegistrationFailureInfo.setEmailErrorMessage(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
                         /*userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
                                 .getJSONArray(RegConstants.USER_INFORMATION_FORM)));*/
                     }
 
                     if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
-                        userRegistrationFailureInfo.setPasswordErrorMessage(mContext.getResources().getString(R.string.JanRain_Invalid_Credentials));
+                        userRegistrationFailureInfo.setPasswordErrorMessage(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
                         /*userRegistrationFailureInfo
                                 .setPasswordErrorMessage(getErrorMessage(jsonObject
                                         .getJSONArray(RegConstants.USER_INFORMATION_FORM)));*/
@@ -207,7 +207,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     public void onFlowDownloadFailure() {
         if (mTraditionalLoginHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             userRegistrationFailureInfo.setErrorCode(RegConstants.MERGE_TRADITIONAL_FAILED_SERVER_ERROR);
             mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
         }

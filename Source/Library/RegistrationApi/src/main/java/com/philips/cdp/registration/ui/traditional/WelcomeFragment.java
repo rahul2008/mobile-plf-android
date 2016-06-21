@@ -67,7 +67,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
 
-        View view = inflater.inflate(R.layout.fragment_welcome, null);
+        View view = inflater.inflate(R.layout.reg_fragment_welcome, null);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
         init(view);
@@ -164,9 +164,9 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mProgressDialog.setCancelable(false);
 
-        mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
+        mTvWelcome.setText(getString(R.string.reg_SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
 
-        String email = getString(R.string.InitialSignedIn_SigninEmailText);
+        String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
         email = String.format(email, mUser.getEmail());
         String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
@@ -202,7 +202,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        return R.string.reg_SigIn_TitleTxt;
     }
 
     @Override
@@ -238,7 +238,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
                 mRegError.hideError();
             }
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }

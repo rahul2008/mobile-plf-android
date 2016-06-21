@@ -55,13 +55,13 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     public XPassword(Context context) {
         super(context);
         this.mContext = context;
-        initUi(R.layout.x_password);
+        initUi(R.layout.reg_password);
     }
 
     public XPassword(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
-        initUi(R.layout.x_password);
+        initUi(R.layout.reg_password);
     }
 
     public final void initUi(int resourceId) {
@@ -202,9 +202,9 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         if (validatePassword()) {
         } else {
             if (mEtPassword.getText().toString().trim().length() == 0) {
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_InValid_PwdErrorMsg));
             }
         }
     }
@@ -213,7 +213,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         if (validatePasswordWithoutPattern()) {
         } else {
             if (mEtPassword.getText().toString().trim().length() == 0) {
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             }
         }
     }
@@ -225,10 +225,10 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         } else {
             if (mEtPassword.getText().toString().trim().length() == 0) {
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_PASSWORD);
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.WRONG_PASSWORD);
-                setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_InValid_PwdErrorMsg));
             }
             showInvalidPasswordAlert();
         }
@@ -240,7 +240,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         } else {
             if (mEtPassword.getText().toString().trim().length() == 0) {
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_PASSWORD);
-                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+                setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             }
             showInvalidPasswordAlert();
         }

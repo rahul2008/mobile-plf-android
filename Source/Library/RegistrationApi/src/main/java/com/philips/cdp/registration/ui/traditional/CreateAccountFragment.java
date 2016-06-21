@@ -109,7 +109,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-        View view = inflater.inflate(R.layout.fragment_create_account, container, false);
+        View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
 
         initUI(view);
@@ -205,7 +205,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 if (mCbAcceptTerms.isChecked()) {
                     register();
                 } else {
-                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
                 }
             } else {
                 register();
@@ -253,7 +253,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mViewLine = view.findViewById(R.id.reg_accept_terms_line);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
-        mEtPassword.setHint(mContext.getResources().getString(R.string.Create_Account_ChoosePwd_PlaceHolder_txtField));
+        mEtPassword.setHint(mContext.getResources().getString(R.string.reg_Create_Account_ChoosePwd_PlaceHolder_txtField));
         handleUiAcceptTerms();
         handleUiState();
         mUser = new User(mContext);
@@ -318,7 +318,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mRegError.hideError();
 
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
@@ -393,7 +393,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
 
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);
@@ -405,7 +405,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
         if(userRegistrationFailureInfo.getErrorCode() == -1 ){
-            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
         }
         trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
         mPbSpinner.setVisibility(View.INVISIBLE);
@@ -414,7 +414,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public int getTitleResourceId() {
-        return R.string.RegCreateAccount_NavTitle;
+        return R.string.reg_RegCreateAccount_NavTitle;
     }
 
     @Override
@@ -466,7 +466,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             if (isChecked) {
                 mRegAccptTermsError.setVisibility(View.GONE);
             } else {
-                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         }
     }

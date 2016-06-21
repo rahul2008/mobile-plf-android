@@ -40,7 +40,7 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment imple
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessFragment : onCreateView");
 
-        View view = inflater.inflate(R.layout.fragment_parental_consent, null);
+        View view = inflater.inflate(R.layout.reg_fragment_parental_consent, null);
         initUi(view);
         handleOrientation(view);
         mBtnConsentConfirm.setOnClickListener(this);
@@ -155,6 +155,6 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment imple
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Coppa_Parental_Consent_Screen_Title_txt;
+        return R.string.reg_Coppa_Parental_Consent_Screen_Title_txt;
     }
 }

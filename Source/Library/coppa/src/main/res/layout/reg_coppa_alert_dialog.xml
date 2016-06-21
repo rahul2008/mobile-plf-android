@@ -27,7 +27,7 @@
                 android:gravity="left"
                 android:paddingLeft="0dip"
                 android:paddingRight="0dip"
-                android:text="@string/ForgotPwdEmailResendMsg_Title"
+                android:text="@string/reg_ForgotPwdEmailResendMsg_Title"
                 reglib:fontAssetName="CentraleSans-Light.otf" />
 
             <com.philips.cdp.registration.ui.customviews.XTextView
@@ -35,7 +35,7 @@
                 style="@style/reg_textStyle"
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
                 android:layout_marginTop="0dip"
-                android:text="@string/ForgotPwdEmailResendMsg"
+                android:text="@string/reg_ForgotPwdEmailResendMsg"
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <com.philips.cdp.registration.ui.customviews.XButton
@@ -43,7 +43,7 @@
                 style="@style/reg_style_btn"
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
                 android:enabled="true"
-                android:text="@string/Ok_Btn_Txt"
+                android:text="@string/reg_Ok_Btn_Txt"
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <View

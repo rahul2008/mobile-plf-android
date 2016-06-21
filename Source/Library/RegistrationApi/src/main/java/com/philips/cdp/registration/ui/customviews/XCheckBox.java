@@ -45,7 +45,7 @@ public class XCheckBox extends LinearLayout {
         super(context, attrs);
         final Resources resources = getResources();
         parentView = LayoutInflater.from(context).inflate(
-                R.layout.x_checkbox, null);
+                R.layout.reg_checkbox, null);
         this.removeAllViews();
         this.addView(parentView);
         initView(getContext(), resources, attrs);

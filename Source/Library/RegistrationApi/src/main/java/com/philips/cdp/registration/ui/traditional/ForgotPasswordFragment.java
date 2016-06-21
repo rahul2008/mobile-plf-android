@@ -87,7 +87,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         RLog.i(RLog.EVENT_LISTENERS,
                 "ResetPasswordFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
-        View view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
+        View view = inflater.inflate(R.layout.reg_fragment_forgot_password, container, false);
         mUser = new User(mContext);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
@@ -110,7 +110,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         mLlEmailField = (LinearLayout) view.findViewById(R.id.ll_reg_email_field_container);
         mRlContinueBtnContainer = (RelativeLayout) view
                 .findViewById(R.id.rl_reg_btn_continue_container);
-        mEtEmail.setHint(mContext.getResources().getString(R.string.Social_SignIn_Email_PlaceHolder_txtFiled));
+        mEtEmail.setHint(mContext.getResources().getString(R.string.reg_Social_SignIn_Email_PlaceHolder_txtFiled));
     }
 
     @Override
@@ -185,7 +185,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             mRegError.hideError();
         } else {
-            mRegError.setError(getString(R.string.NoNetworkConnection));
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
@@ -237,7 +237,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
                 }
 
             } else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
+                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             }
         }
     }
@@ -277,8 +277,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         hideForgotPasswordSpinner();
-        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg_Title),
-                mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg),getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg_Title),
+                mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg),getRegistrationFragment().getParentActivity(), mContinueBtnClick);
         hideForgotPasswordSpinner();
         mRegError.hideError();
         getFragmentManager().popBackStack();
@@ -300,13 +300,13 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
         hideForgotPasswordSpinner();
         if(userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE){
-            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
-            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             return;
         }else{
             if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
                 mEtEmail.showInvalidAlert();
-                mEtEmail.setErrDescription(getString(R.string.TraditionalSignIn_ForgotPwdSocialError_lbltxt));
+                mEtEmail.setErrDescription(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
                 mEtEmail.showErrPopUp();
             } else {
                 mEtEmail.showErrPopUp();
@@ -347,7 +347,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        return R.string.reg_SigIn_TitleTxt;
     }
 
 }

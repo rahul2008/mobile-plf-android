@@ -27,7 +27,7 @@ public class RegAlertDialog {
 		alertDialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		alertDialogBuilder.setCancelable(false);
 		LayoutInflater layoutInflater = activity.getLayoutInflater();
-		View view = layoutInflater.inflate(R.layout.dialog_reset_password, null);
+		View view = layoutInflater.inflate(R.layout.reg_dialog_reset_password, null);
 		Button continueBtn = (Button) view.findViewById(R.id.btn_reg_continue);
 		TextView titleView = (TextView)view.findViewById(R.id.tv_reg_header_dialog_title);
 		TextView contentView = (TextView)view.findViewById(R.id.tv_reg_dialog_content);

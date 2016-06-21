@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">Annak érdekében, hogy a legtöbbet hozhassa ki a Philips alkalmazásból, a Philipsnek szüksége van az Ön hozzájárulására arra vonatkozóan, hogy információkat gyűjthessen és használhasson fel a Sonicare készülék és az Alkalmazás használatával kapcsolatban.\n\nEzek az információk tartalmazzák a fogkefenyél és az Alkalmazás által összegyűjtött információkat, úgy mint fogmosási idő, időtartam és gyakoriság.\n\nEzek az információk lehetővé teszik gyermeke fogmosási szokásainak felügyeletét és ösztönzését, illetve azt, hogy személyre szabott fogmosási információkat és értesítéseket kapjon arról, hogy mikor van szükség a kefefej cseréjére.\n\nAmennyiben nem adja beleegyezését, a gyermekétől semmilyen személyes adatot nem gyűjtünk.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">Amennyiben ezt elfogadja, a hozzájárulására vonatkozóan megerősítő kérelmet kap, ha ezt követően legalább 24 órán belül ismét belép a szülői részbe.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">További információkért, olvassa el a következőt: %s.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">Jóváhagyás megerősítése</string>
-<string name="Coppa_Confirm_Approval_Content_txt">Köszönjük, hogy hozzájárul a gyermekével kapcsolatos információk tárolásához. Ez hozzájárulásának a második megerősítése.\n\nAnnak érdekében, hogy a legtöbbet hozhassa ki az alkalmazásból, kérjük, erősítse meg szülői beleegyezését arra vonatkozóan, hogy a Philips információkat gyűjthessen és használhasson fel gyermeke Sonicare készülékkel és az Alkalmazással kapcsolatos használati szokásairól. Ezek az információk tartalmazzák a fogkefenyél és az Alkalmazás által összegyűjtött információkat, úgy mint fogmosási idő, időtartam és gyakoriság.\n\nEzek az információk lehetővé teszik gyermeke fogmosási szokásainak felügyeletét és ösztönzését, illetve azt, hogy személyre szabott fogmosási információkat és értesítéseket kapjon arról, hogy mikor van szükség a kefefej cseréjére.\n\nAmennyiben nem adja beleegyezését, a gyermekétől semmilyen személyes adatot nem gyűjtünk.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">A Koninklijke Philips N.V. és leányvállalatai („Philips”) elkötelezett hívei az Ön által megosztott személyes adatok védelmének. Emellett fontosnak tartjuk azt is, hogy megfelelően tájékoztassuk Önt az adatfelhasználás módjáról, illetve hogy választási lehetőséget biztosítsunk Önnek erre vonatkozóan. Azt ajánljuk, figyelmesen olvassa át Adatvédelmi szabályzatunkat a hozzájárulással kapcsolatos döntés meghozása előtt. Jelen információk a Philips adatvédelmi gyakorlatát ismertetik, nem minősülnek szerződésnek vagy megállapodásnak.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">Az Alkalmazás Adatvédelmi szabályzata</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">Adatvédelmi szabályzat</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">Jóváhagyás</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">Szülői hozzáférés</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">Még nem múltam el %d éves</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">Már elmúltam %d éves</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Ez a tartalom %d éven felülieknek szól. Kérj szülői segítséget!</string>
-<string name="Ok_Btn_Txt">OK</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Születési év</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">Hány éves (vagy)?</string>
-<string name="Coppa_Age_Verification_Alert_Title">Az életkor és a születési év nincs összhangban</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">A megadott életkor nincs összhangban a születési évvel. Ellenőrizze, hogy az életkora és a születési éve helyes-e.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">Szülőknek szóló részhez szeretnél hozzáférni.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">Egyetértek</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">Nem értek egyet</string>
+<string name="reg_Coppa_Give_Approval_txt">Annak érdekében, hogy a legtöbbet hozhassa ki a Philips alkalmazásból, a Philipsnek szüksége van az Ön hozzájárulására arra vonatkozóan, hogy információkat gyűjthessen és használhasson fel a Sonicare készülék és az Alkalmazás használatával kapcsolatban.\n\nEzek az információk tartalmazzák a fogkefenyél és az Alkalmazás által összegyűjtött információkat, úgy mint fogmosási idő, időtartam és gyakoriság.\n\nEzek az információk lehetővé teszik gyermeke fogmosási szokásainak felügyeletét és ösztönzését, illetve azt, hogy személyre szabott fogmosási információkat és értesítéseket kapjon arról, hogy mikor van szükség a kefefej cseréjére.\n\nAmennyiben nem adja beleegyezését, a gyermekétől semmilyen személyes adatot nem gyűjtünk.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">Amennyiben ezt elfogadja, a hozzájárulására vonatkozóan megerősítő kérelmet kap, ha ezt követően legalább 24 órán belül ismét belép a szülői részbe.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">További információkért, olvassa el a következőt: %s.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Jóváhagyás megerősítése</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Köszönjük, hogy hozzájárul a gyermekével kapcsolatos információk tárolásához. Ez hozzájárulásának a második megerősítése.\n\nAnnak érdekében, hogy a legtöbbet hozhassa ki az alkalmazásból, kérjük, erősítse meg szülői beleegyezését arra vonatkozóan, hogy a Philips információkat gyűjthessen és használhasson fel gyermeke Sonicare készülékkel és az Alkalmazással kapcsolatos használati szokásairól. Ezek az információk tartalmazzák a fogkefenyél és az Alkalmazás által összegyűjtött információkat, úgy mint fogmosási idő, időtartam és gyakoriság.\n\nEzek az információk lehetővé teszik gyermeke fogmosási szokásainak felügyeletét és ösztönzését, illetve azt, hogy személyre szabott fogmosási információkat és értesítéseket kapjon arról, hogy mikor van szükség a kefefej cseréjére.\n\nAmennyiben nem adja beleegyezését, a gyermekétől semmilyen személyes adatot nem gyűjtünk.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">A Koninklijke Philips N.V. és leányvállalatai („Philips”) elkötelezett hívei az Ön által megosztott személyes adatok védelmének. Emellett fontosnak tartjuk azt is, hogy megfelelően tájékoztassuk Önt az adatfelhasználás módjáról, illetve hogy választási lehetőséget biztosítsunk Önnek erre vonatkozóan. Azt ajánljuk, figyelmesen olvassa át Adatvédelmi szabályzatunkat a hozzájárulással kapcsolatos döntés meghozása előtt. Jelen információk a Philips adatvédelmi gyakorlatát ismertetik, nem minősülnek szerződésnek vagy megállapodásnak.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">Az Alkalmazás Adatvédelmi szabályzata</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Adatvédelmi szabályzat</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Jóváhagyás</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Szülői hozzáférés</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">Még nem múltam el %d éves</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">Már elmúltam %d éves</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">Ez a tartalom %d éven felülieknek szól. Kérj szülői segítséget!</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">Születési év</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">Hány éves (vagy)?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">Az életkor és a születési év nincs összhangban</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">A megadott életkor nincs összhangban a születési évvel. Ellenőrizze, hogy az életkora és a születési éve helyes-e.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">Szülőknek szóló részhez szeretnél hozzáférni.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Egyetértek</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Nem értek egyet</string>
 </resources>

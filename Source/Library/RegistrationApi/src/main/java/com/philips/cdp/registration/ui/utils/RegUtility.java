@@ -54,11 +54,11 @@ public class RegUtility {
 
     public static void linkifyTermsandCondition(TextView termsAndConditionsAcceptance, final Activity activity, ClickableSpan termsAndConditionClickListener) {
 
-        String termsAndCondition = activity.getString(R.string.TermsAndConditionsAcceptanceText);
-        String acceptTermsAndCondition = activity.getString(R.string.TermsAndConditionsText);
+        String termsAndCondition = activity.getString(R.string.reg_TermsAndConditionsAcceptanceText);
+        String acceptTermsAndCondition = activity.getString(R.string.reg_TermsAndConditionsText);
         termsAndCondition = String.format(termsAndCondition, acceptTermsAndCondition);
         termsAndConditionsAcceptance.setText(termsAndCondition);
-        String terms = activity.getString(R.string.TermsAndConditionsText);
+        String terms = activity.getString(R.string.reg_TermsAndConditionsText);
         SpannableString spanableString = new SpannableString(termsAndCondition);
 
         int termStartIndex = termsAndCondition.toLowerCase().indexOf(
@@ -75,11 +75,11 @@ public class RegUtility {
 
     public static void linkifyPhilipsNews(TextView receivePhilipsNewsView, final Activity activity, ClickableSpan receivePhilipsNewsClickListener) {
 
-        String receivePhilipsNews = activity.getString(R.string.Receive_Philips_News_lbltxt);
-        String doesThisMeanStr = activity.getString(R.string.Receive_Philips_News_Meaning_lbltxt);
+        String receivePhilipsNews = activity.getString(R.string.reg_Receive_Philips_News_lbltxt);
+        String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
         receivePhilipsNewsView.setText(receivePhilipsNews);
-        String link = activity.getString(R.string.Receive_Philips_News_Meaning_lbltxt);
+        String link = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         SpannableString spanableString = new SpannableString(receivePhilipsNews);
 
         int termStartIndex = receivePhilipsNews.toLowerCase().indexOf(
@@ -97,12 +97,12 @@ public class RegUtility {
 
     public static void linkifyAccountSettingPhilips(TextView accountSettingPhilipsNews, final Activity activity, ClickableSpan accountSettingsPhilipsClickListener) {
 
-        String moreAccountSettings = activity.getString(R.string.Access_More_Account_Setting_lbltxt);
-        String doesThisMeanStr = activity.getString(R.string.Philips_URL_txt);
+        String moreAccountSettings = activity.getString(R.string.reg_Access_More_Account_Setting_lbltxt);
+        String doesThisMeanStr = activity.getString(R.string.reg_Philips_URL_txt);
 
         moreAccountSettings = String.format(moreAccountSettings, doesThisMeanStr);
         accountSettingPhilipsNews.setText(moreAccountSettings);
-        String link = activity.getString(R.string.Philips_URL_txt);
+        String link = activity.getString(R.string.reg_Philips_URL_txt);
         SpannableString spanableString = new SpannableString(moreAccountSettings);
 
         int termStartIndex = moreAccountSettings.toLowerCase().indexOf(

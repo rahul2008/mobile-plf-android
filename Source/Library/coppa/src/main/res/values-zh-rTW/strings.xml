@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">為充分發揮本應用程式的優勢，飛利浦需要您的同意，以便我們收集並使用貴子女使用飛利浦 Sonicare 及應用程式的資訊。\n\n該資訊包含從牙刷握把及應用程式收集的刷牙時間、刷牙週期和頻率。\n\n該資訊可讓您監督與鼓勵貴子女的刷牙習慣，以及接收個人化的刷牙資訊，並在牙刷刷頭需要更換時收到相關通知。\n\n如未取得您的同意，我們將不會收集或使用任何關於貴子女的個人資訊。\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">若您同意，自現在起算至少 24 小時之後，當您再次進入家長區段，即會收到確認同意請求。\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">如需更多資訊，請參閱 %s。</string>
-<string name="Coppa_Confirm_Approval_Title_txt">確認核准</string>
-<string name="Coppa_Confirm_Approval_Content_txt">感謝您同意我們儲存貴子女的資訊。這是再次確認您確實同意的核准請求。\n\n為充分發揮本應用程式的優勢，我們要請身為家長的您確認同意，允許飛利浦收集並使用貴子女使用飛利浦 Sonicare 及應用程式的資訊。該資訊包含從牙刷握把及應用程式收集的刷牙時間、刷牙週期和頻率。\n\n該資訊可讓您監督與鼓勵貴子女的刷牙習慣，以及接收個人化的刷牙資訊，並在牙刷刷頭需要更換時收到相關通知。\n\n如未取得您的同意，我們將不會收集或使用任何關於貴子女的個人資訊。\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. 和其子公司 (「飛利浦」) 深信，您與我們分享之資料的隱私權需受到保護。我們也認為必須向您告知我們會如何使用您的資料，以及您對於這些資料的使用方式有哪些選擇。因此，在決定授權我們使用您的資訊前，我們建議您仔細閱讀本隱私權聲明。這是有關飛利浦隱私權實務的聲明，而非一份合約或協議。</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">應用程式隱私權聲明</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">隱私權聲明</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">核准</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">家長權限</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">我不到 %d</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">我已滿 %d</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">僅限年滿 %d 的使用者。請詢問您的家長代為執行。</string>
-<string name="Ok_Btn_Txt">確定</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">出生年份</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">您幾歲？</string>
-<string name="Coppa_Age_Verification_Alert_Title">年齡與出生年份不相符</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">所提供之年齡與出生年份不相符。請確認您的年齡與出生年份正確無誤。</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">您正嘗試存取僅限家長的區段。</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">我同意</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">不同意</string>
+<string name="reg_Coppa_Give_Approval_txt">為充分發揮本應用程式的優勢，飛利浦需要您的同意，以便我們收集並使用貴子女使用飛利浦 Sonicare 及應用程式的資訊。\n\n該資訊包含從牙刷握把及應用程式收集的刷牙時間、刷牙週期和頻率。\n\n該資訊可讓您監督與鼓勵貴子女的刷牙習慣，以及接收個人化的刷牙資訊，並在牙刷刷頭需要更換時收到相關通知。\n\n如未取得您的同意，我們將不會收集或使用任何關於貴子女的個人資訊。\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">若您同意，自現在起算至少 24 小時之後，當您再次進入家長區段，即會收到確認同意請求。\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">如需更多資訊，請參閱 %s。</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">確認核准</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">感謝您同意我們儲存貴子女的資訊。這是再次確認您確實同意的核准請求。\n\n為充分發揮本應用程式的優勢，我們要請身為家長的您確認同意，允許飛利浦收集並使用貴子女使用飛利浦 Sonicare 及應用程式的資訊。該資訊包含從牙刷握把及應用程式收集的刷牙時間、刷牙週期和頻率。\n\n該資訊可讓您監督與鼓勵貴子女的刷牙習慣，以及接收個人化的刷牙資訊，並在牙刷刷頭需要更換時收到相關通知。\n\n如未取得您的同意，我們將不會收集或使用任何關於貴子女的個人資訊。\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt"><html>Koninklijke Philips N.V. 和其子公司 (「飛利浦」) 深信，您與我們分享之資料的隱私權需受到保護。我們也認為必須向您告知我們會如何使用您的資料，以及您對於這些資料的使用方式有哪些選擇。因此，在決定授權我們使用您的資訊前，我們建議您仔細閱讀本隱私權聲明。<i>這是有關飛利浦隱私權實務的聲明，而非一份合約或協議。</i></html></string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">應用程式隱私權聲明</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">隱私權聲明</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">核准</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">家長權限</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">我不到 %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">我已滿 %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">僅限年滿 %d 的使用者。請詢問您的家長代為執行。</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">出生年份</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">您幾歲？</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">年齡與出生年份不相符</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">所提供之年齡與出生年份不相符。請確認您的年齡與出生年份正確無誤。</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">您正嘗試存取僅限家長的區段。</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">我同意</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">不同意</string>
 </resources>

@@ -1,0 +1,106 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:reglib="http://reg.lib/schema"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/reg_layout_bg"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <ScrollView
+        android:id="@+id/sv_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent">
+
+        <LinearLayout
+            android:id="@+id/ll_reg_root_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_reg_confirm_root_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_header_margin_top"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin">
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_confirm_approval_title"
+                    style="@style/reg_titleTextStyle"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
+                    android:layout_marginTop="0dip"
+                    android:paddingLeft="0dip"
+                    android:text="@string/reg_Request_Parental_consent_Title"
+                    android:visibility="visible"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_confirm_approval"
+                    style="@style/reg_titleTextStyle"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
+                    android:layout_marginTop="0dip"
+                    android:paddingLeft="0dip"
+                    android:text="@string/reg_Coppa_Confirm_Approval_Title_txt"
+                    android:textColor="@color/reg_coppa_confirm_title_color"
+                    android:visibility="gone"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_confirm_approval_details"
+                    style="@style/reg_textStyle"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
+                    android:layout_marginTop="0dip"
+                    android:visibility="gone"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_agree_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/reg_margin_bottom"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin">
+
+
+                <com.philips.cdp.registration.ui.customviews.XButton
+                    android:id="@+id/reg_btn_agree"
+                    style="@style/reg_style_btn"
+                    android:layout_marginTop="@dimen/reg_margin_bottom"
+                    android:enabled="true"
+                    android:text="@string/reg_Coppa_Parent_Access_Agree_Button_Txt"
+                    android:visibility="gone"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                <com.philips.cdp.registration.ui.customviews.XButton
+                    android:id="@+id/reg_btn_dis_agree"
+                    style="@style/reg_forgot_password"
+                    android:layout_marginTop="@dimen/reg_margin_bottom"
+                    android:background="@drawable/reg_btn_forgot_selector"
+                    android:enabled="true"
+                    android:text="@string/reg_Coppa_Parent_Access_Disagree_Button_Txt"
+                    android:visibility="gone"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+            </LinearLayout>
+
+            <com.philips.cdp.registration.ui.customviews.XRegError
+                android:id="@+id/reg_error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin" />
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/reg_scroll_margin" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

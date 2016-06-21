@@ -51,13 +51,13 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	public XUserName(Context context) {
 		super(context);
 		this.mContext = context;
-		initUi(R.layout.x_user_name);
+		initUi(R.layout.reg_user_name);
 	}
 
 	public XUserName(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.mContext = context;
-		initUi(R.layout.x_user_name);
+		initUi(R.layout.reg_user_name);
 	}
 
 	public final void initUi(int resourceId) {
@@ -167,7 +167,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 			showValidUserNameAlert();
 		} else {
 			if (mEtUserName.getText().toString().trim().length() == 0) {
-				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+				setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
 			}
 		}
 	}
@@ -178,7 +178,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		} else {
 			if (mEtUserName.getText().toString().trim().length() == 0) {
 				AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_NAME);
-				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+				setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
 				showInvalidUserNameAlert();
 			}
 

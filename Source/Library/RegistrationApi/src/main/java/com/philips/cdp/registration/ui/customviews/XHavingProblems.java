@@ -37,15 +37,15 @@ public class XHavingProblems extends LinearLayout {
 
     private final void initUi() {
 
-        String baseString = mContext.getString(R.string.VerifyEmail_ResendErrorMsg_lbltxt);
+        String baseString = mContext.getString(R.string.reg_VerifyEmail_ResendErrorMsg_lbltxt);
         String[] splitString = baseString.split("\n");
 
         LayoutInflater li = LayoutInflater.from(mContext);
-        TextView tvFirstString = (TextView) li.inflate(R.layout.x_plain_text, null, false);
+        TextView tvFirstString = (TextView) li.inflate(R.layout.reg_plain_text, null, false);
         tvFirstString.setText(splitString[0]);
         addView(tvFirstString);
         for (int i = 1; i < splitString.length; i++) {
-            View view = li.inflate(R.layout.x_bullet_text_row, null, false);
+            View view = li.inflate(R.layout.reg_bullet_text_row, null, false);
             TextView tvBulletTextIcon = (TextView) view.findViewById(R.id.tv_bullet_ic_text);
             tvBulletTextIcon.setText("- ");
             TextView tvBulletText = (TextView) view.findViewById(R.id.tv_bullet_text);

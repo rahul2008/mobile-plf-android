@@ -105,7 +105,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             isSocialProvider = bundle.getBoolean(RegConstants.IS_SOCIAL_PROVIDER);
         }
         mUser = new User(mContext);
-        View view = inflater.inflate(R.layout.fragment_account_activation, null);
+        View view = inflater.inflate(R.layout.reg_fragment_account_activation, null);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleOrientation(view);
@@ -218,7 +218,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
         mEmailId = mUser.getEmail();
 
-        String email = getString(R.string.VerifyEmail_EmailSentto_lbltxt);
+        String email = getString(R.string.reg_VerifyEmail_EmailSentto_lbltxt);
         email = String.format(email, mEmailId);
         tvEmail.setText(email);
 
@@ -236,10 +236,10 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             } else {
                 mBtnActivate.setEnabled(false);
                 mBtnResend.setEnabled(false);
-                mRegError.setError(getString(R.string.NoNetworkConnection));
+                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             }
         } else {
-            mRegError.setError(getString(R.string.NoNetworkConnection));
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             mBtnActivate.setEnabled(false);
             mBtnResend.setEnabled(false);
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
@@ -277,7 +277,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         } else {
             mEMailVerifiedError.setVisibility(View.VISIBLE);
             mEMailVerifiedError.setError(mContext.getResources().getString(
-                    R.string.RegEmailNotVerified_AlertPopupErrorText));
+                    R.string.reg_RegEmailNotVerified_AlertPopupErrorText));
             trackActionLoginError(AppTagingConstants.EMAIL_NOT_VERIFIED);
             scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);
         }
@@ -310,9 +310,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public int getTitleResourceId() {
         if(isSocialProvider){
-            return R.string.SigIn_TitleTxt;
+            return R.string.reg_SigIn_TitleTxt;
         }else{
-            return R.string.RegCreateAccount_NavTitle;
+            return R.string.reg_RegCreateAccount_NavTitle;
         }
     }
 
@@ -340,7 +340,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleRefreshUserFailed(int error) {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
         if (error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED) {
-            mEMailVerifiedError.setError(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+            mEMailVerifiedError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             hideActivateSpinner();
             mBtnActivate.setEnabled(true);
         } else {
@@ -365,8 +365,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         map.put(AppTagingConstants.STATUS_NOTIFICATION, AppTagingConstants.RESEND_VERIFICATION_MAIL_LINK_SENT);
         trackMultipleActionsMap(AppTagingConstants.SEND_DATA,map);
         updateResendUIState();
-        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.Verification_email_Title),
-                mContext.getResources().getString(R.string.Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Verification_email_Title),
+                mContext.getResources().getString(R.string.reg_Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
         mBtnResend.postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">Chun go mbainfeá an leas is fearr as an bhFeidhmchlár, tá do thoiliú ag teastáil ó Philips chun faisnéis faoin úsáid a bhaineann do leanbh as Philips Sonicare agus an Feidhmchlár a bhailiú agus a úsáid.\n\nÁireofar leis an bhfaisnéis sin a bhaileofar ó hanla na scuaibe agus ón bhFeidhmchlár an t-am a chaitear ag scuabadh, an tréimhse agus an mhinicíocht.\n\nLigeann an fhaisnéis seo duit monatóireacht a dhéanamh ar ghnásanna scuabtha do leanbh agus iad a spreagadh, agus chun faisnéis scuabtha pearsantaithe a fháil, agus fógraí nuair atá sé in am cloigeann do scuaibe a athsholáthar.\n\nNí bhaileoimid agus ní úsáidfimid aon fhaisnéis phearsantaithe ón leanbh mura bhfuil a leithéid de thoiliú tugtha agat.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">Má ghlacann tú, gheobhaidh tú iarratas deimhnithe ar thoilú nuair a théann tú isteach i rannóg na dtuismitheoirí arís nuair atá íostréimhse 24 uair an chloig caite.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">Léigh an %s le haghaidh tuilleadh eolais.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">Deimhnigh Faomhadh</string>
-<string name="Coppa_Confirm_Approval_Content_txt">Go raibh maith agat as toiliú go stórálfaí faisnéis do linbh. Is é seo an dara toiliú chun d\'fhaomhadh a dheimhniú.\n\nChun go mbainfeá an leas is fearr as an bhFeidhmchlár, deimhnigh do thoiliú tuismitheora le do thoil chun cead a thabhairt do Philips faisnéis faoin úsáid a bhaineann do leanbh as Philips Sonicare agus an Feidhmchlár a bhailiú agus a úsáid. Áireofar leis an bhfaisnéis sin a bhaileofar ó hanla na scuaibe agus ón bhFeidhmchlár an t-am a chaitear ag scuabadh, an tréimhse agus an mhinicíocht.\n\nLigeann an fhaisnéis seo duit monatóireacht a dhéanamh ar ghnásanna scuabtha do leanbh agus iad a spreagadh, agus chun faisnéis scuabtha pearsantaithe a fháil, agus fógraí nuair atá sé in am cloigeann do scuaibe a athsholáthar.\n\nNí bhaileoimid agus ní úsáidfimid aon fhaisnéis phearsantaithe ón leanbh mura bhfuil a leithéid de thoiliú tugtha agat.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Creideann Koninklijke Philips N.V. agus a fhochuideachtaí (\"Philips\") go láidir gur cheart na sonraí a roinneann tú linn a chosaint. Creidimid freisin gur cheart tú a chur an eolas faoin gcaoi a mbainimid úsáid as do chuid sonraí, agus roghanna a thabhairt duit faoin gcaoi a mbainfear úsáid as na sonraí sin. Molaimid duit, mar sin, an Fógra Príobháideachta seo a léamh go cúramach sula ndéanfaidh tú do roghanna agus an ceart a thabhairt dúinn d\'fhaisnéis a úsáid. Is fógra é seo faoi chleachtais phríobháideachta Philips, agus ní conradh ná comhaontú é.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">Fógra Príobháideachta an Fheidhmchláir</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">Fógra Príobháideachta</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">Faomhadh</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">Rochtain Tuismitheora</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">Tá mé faoi bhun %d bliain d\'aois</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">Tá mé os cionn %d bliain d\'aois</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Is dóibh siúd atá níos sine ná %d bliain d\'aois é seo. Iarr ar do thuismitheoir é a dhéanamh duit le do thoil.</string>
-<string name="Ok_Btn_Txt">OK</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">An bhliain ar saolaíodh tú</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">Cén aois tú?</string>
-<string name="Coppa_Age_Verification_Alert_Title">Ní mheaitseálann d\'aois agus bliain do bhreithe</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">Níl an aois a thug tú ag meaitseáil an bhliain breithe. Cinntigh go bhfuil d\'aois agus bliain do bhreithe ceart.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">Tá tú ag iarraidh rochtain a fháil ar rannóg atá beartaithe do thuismitheoirí.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">Aontaím</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">Ní aontaím</string>
+<string name="reg_Coppa_Give_Approval_txt">Chun go mbainfeá an leas is fearr as an bhFeidhmchlár, tá do thoiliú ag teastáil ó Philips chun faisnéis faoin úsáid a bhaineann do leanbh as Philips Sonicare agus an Feidhmchlár a bhailiú agus a úsáid.\n\nÁireofar leis an bhfaisnéis sin a bhaileofar ó hanla na scuaibe agus ón bhFeidhmchlár an t-am a chaitear ag scuabadh, an tréimhse agus an mhinicíocht.\n\nLigeann an fhaisnéis seo duit monatóireacht a dhéanamh ar ghnásanna scuabtha do leanbh agus iad a spreagadh, agus chun faisnéis scuabtha pearsantaithe a fháil, agus fógraí nuair atá sé in am cloigeann do scuaibe a athsholáthar.\n\nNí bhaileoimid agus ní úsáidfimid aon fhaisnéis phearsantaithe ón leanbh mura bhfuil a leithéid de thoiliú tugtha agat.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">Má ghlacann tú, gheobhaidh tú iarratas deimhnithe ar thoilú nuair a théann tú isteach i rannóg na dtuismitheoirí arís nuair atá íostréimhse 24 uair an chloig caite.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">Léigh an %s le haghaidh tuilleadh eolais.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Deimhnigh Faomhadh</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Go raibh maith agat as toiliú go stórálfaí faisnéis do linbh. Is é seo an dara toiliú chun d\'fhaomhadh a dheimhniú.\n\nChun go mbainfeá an leas is fearr as an bhFeidhmchlár, deimhnigh do thoiliú tuismitheora le do thoil chun cead a thabhairt do Philips faisnéis faoin úsáid a bhaineann do leanbh as Philips Sonicare agus an Feidhmchlár a bhailiú agus a úsáid. Áireofar leis an bhfaisnéis sin a bhaileofar ó hanla na scuaibe agus ón bhFeidhmchlár an t-am a chaitear ag scuabadh, an tréimhse agus an mhinicíocht.\n\nLigeann an fhaisnéis seo duit monatóireacht a dhéanamh ar ghnásanna scuabtha do leanbh agus iad a spreagadh, agus chun faisnéis scuabtha pearsantaithe a fháil, agus fógraí nuair atá sé in am cloigeann do scuaibe a athsholáthar.\n\nNí bhaileoimid agus ní úsáidfimid aon fhaisnéis phearsantaithe ón leanbh mura bhfuil a leithéid de thoiliú tugtha agat.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Creideann Koninklijke Philips N.V. agus a fhochuideachtaí (\"Philips\") go láidir gur cheart na sonraí a roinneann tú linn a chosaint. Creidimid freisin gur cheart tú a chur an eolas faoin gcaoi a mbainimid úsáid as do chuid sonraí, agus roghanna a thabhairt duit faoin gcaoi a mbainfear úsáid as na sonraí sin. Molaimid duit, mar sin, an Fógra Príobháideachta seo a léamh go cúramach sula ndéanfaidh tú do roghanna agus an ceart a thabhairt dúinn d\'fhaisnéis a úsáid. Is fógra é seo faoi chleachtais phríobháideachta Philips, agus ní conradh ná comhaontú é.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">Fógra Príobháideachta an Fheidhmchláir</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Fógra Príobháideachta</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Faomhadh</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Rochtain Tuismitheora</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">Tá mé faoi bhun %d bliain d\'aois</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">Tá mé os cionn %d bliain d\'aois</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">Is dóibh siúd atá níos sine ná %d bliain d\'aois é seo. Iarr ar do thuismitheoir é a dhéanamh duit le do thoil.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">An bhliain ar saolaíodh tú</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">Cén aois tú?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">Ní mheaitseálann d\'aois agus bliain do bhreithe</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">Níl an aois a thug tú ag meaitseáil an bhliain breithe. Cinntigh go bhfuil d\'aois agus bliain do bhreithe ceart.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">Tá tú ag iarraidh rochtain a fháil ar rannóg atá beartaithe do thuismitheoirí.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Aontaím</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Ní aontaím</string>
 </resources>

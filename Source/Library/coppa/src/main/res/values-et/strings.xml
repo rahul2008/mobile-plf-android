@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">Selleks, et rakenduse pakutavaid võimalusi maksimaalselt kasutada, vajab Philips teie nõusolekut, et koguda ja kasutada teavet selle kohta, kuidas teie laps Philipsi Sonicare\'i ja rakendust kasutab.\n\nSee teave hõlmab hammaste pesemise kestust, aega ja sagedust, mis salvestatakse hambaharja käepidemesse ja rakendusse.\n\nSee teave võimaldab teil kontrollida ja toetada oma lapse hambapesuharjumusi ja saada personaalset teavet hammaste pesemise kohta, samuti saate teateid selle kohta, millal on aeg harjapea välja vahetada.\n\nMe ei kogu lapselt mingit isiklikku teavet ega kasuta seda juhul, kui te selleks vastavat nõusolekut ei anna.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">Kui te nõustute ja kui sisenete lapsevanematele mõeldud osasse käesolevast hetkest vähemalt 24 tunni pärast, saadetakse teile kinnituskiri heakskiidu andmise kohta.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">Lisateabe saamiseks tutvuge %s.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">Kinnitage oma heakskiit</string>
-<string name="Coppa_Confirm_Approval_Content_txt">Aitäh, et nõustusite oma lapse teabe salvestamisega.Tegemist on teise nõusolekuga, mis kinnitab teie heakskiidu.\n\nSelleks, et rakenduse pakutavaid võimalusi maksimaalselt kasutada, kinnitage palun oma vanemlikku nõusolekut, et lubada Philipsil koguda ja kasutada teavet selle kohta, kuidas teie laps Philipsi Sonicare\'i ja rakendust kasutab. See teave hõlmab hammaste pesemise kestust, aega ja sagedust, mis salvestatakse hambaharja käepidemesse ja rakendusse.\n\nSee teave võimaldab teil kontrollida ja toetada oma lapse hambapesuharjumusi ja saada personaalset teavet hammaste pesemise kohta, samuti saate teateid selle kohta, millal on aeg harjapea välja vahetada.\n\nMe ei kogu lapselt mingit isiklikku teavet ega kasuta seda juhul, kui te selleks vastavat nõusolekut ei anna.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Ettevõtte Koninklijke Philips N.V. ja selle tütarettevõtete (edaspidi \"Philips\") jaoks on väga oluline kaitsta andmeid, mida meiega jagate. Samuti on meie jaoks oluline teavitada teid sellest, kuidas me teie andmeid kasutame, ja pakkuda teile valikuvõimalusi, kuidas neid andmeid kasutada. Seetõttu soovitame teil käesolev privaatsusavaldus hoolikalt läbi lugeda enne, kui teete oma valikud ja annate meile õiguse oma teavet kasutada. Tegemist on teatega Philipsi privaatsustavade kohta, mitte lepingu ega kokkuleppega.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">Rakenduse privaatsusavaldus</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">Privaatsusavaldus</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">Heakskiit</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">Lapsevanema juurdepääs</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">Ma olen alla %d</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">Ma olen üle %d</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">See osa on mõeldud inimestele, kes on vanemad kui %d. Palun paluge oma vanemal see osa täita.</string>
-<string name="Ok_Btn_Txt">OK</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Sünniaasta</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">Kui vana te olete?</string>
-<string name="Coppa_Age_Verification_Alert_Title">Vanus ja sünniaasta ei klapi</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">Märgitud vanus ei vasta sünniaastale. Palun kontrollige, et teie vanus ja sünniaasta oleksid õiged.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">Proovite siseneda lapsevanematele mõeldud osasse.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">Nõustun</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">Ei nõustu</string>
+<string name="reg_Coppa_Give_Approval_txt">Selleks, et rakenduse pakutavaid võimalusi maksimaalselt kasutada, vajab Philips teie nõusolekut, et koguda ja kasutada teavet selle kohta, kuidas teie laps Philipsi Sonicare\'i ja rakendust kasutab.\n\nSee teave hõlmab hammaste pesemise kestust, aega ja sagedust, mis salvestatakse hambaharja käepidemesse ja rakendusse.\n\nSee teave võimaldab teil kontrollida ja toetada oma lapse hambapesuharjumusi ja saada personaalset teavet hammaste pesemise kohta, samuti saate teateid selle kohta, millal on aeg harjapea välja vahetada.\n\nMe ei kogu lapselt mingit isiklikku teavet ega kasuta seda juhul, kui te selleks vastavat nõusolekut ei anna.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">Kui te nõustute ja kui sisenete lapsevanematele mõeldud osasse käesolevast hetkest vähemalt 24 tunni pärast, saadetakse teile kinnituskiri heakskiidu andmise kohta.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">Lisateabe saamiseks tutvuge %s.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Kinnitage oma heakskiit</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Aitäh, et nõustusite oma lapse teabe salvestamisega.Tegemist on teise nõusolekuga, mis kinnitab teie heakskiidu.\n\nSelleks, et rakenduse pakutavaid võimalusi maksimaalselt kasutada, kinnitage palun oma vanemlikku nõusolekut, et lubada Philipsil koguda ja kasutada teavet selle kohta, kuidas teie laps Philipsi Sonicare\'i ja rakendust kasutab. See teave hõlmab hammaste pesemise kestust, aega ja sagedust, mis salvestatakse hambaharja käepidemesse ja rakendusse.\n\nSee teave võimaldab teil kontrollida ja toetada oma lapse hambapesuharjumusi ja saada personaalset teavet hammaste pesemise kohta, samuti saate teateid selle kohta, millal on aeg harjapea välja vahetada.\n\nMe ei kogu lapselt mingit isiklikku teavet ega kasuta seda juhul, kui te selleks vastavat nõusolekut ei anna.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Ettevõtte Koninklijke Philips N.V. ja selle tütarettevõtete (edaspidi \"Philips\") jaoks on väga oluline kaitsta andmeid, mida meiega jagate. Samuti on meie jaoks oluline teavitada teid sellest, kuidas me teie andmeid kasutame, ja pakkuda teile valikuvõimalusi, kuidas neid andmeid kasutada. Seetõttu soovitame teil käesolev privaatsusavaldus hoolikalt läbi lugeda enne, kui teete oma valikud ja annate meile õiguse oma teavet kasutada. Tegemist on teatega Philipsi privaatsustavade kohta, mitte lepingu ega kokkuleppega.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">Rakenduse privaatsusavaldus</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Privaatsusavaldus</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Heakskiit</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Lapsevanema juurdepääs</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">Ma olen alla %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">Ma olen üle %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">See osa on mõeldud inimestele, kes on vanemad kui %d. Palun paluge oma vanemal see osa täita.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">Sünniaasta</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">Kui vana te olete?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">Vanus ja sünniaasta ei klapi</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">Märgitud vanus ei vasta sünniaastale. Palun kontrollige, et teie vanus ja sünniaasta oleksid õiged.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">Proovite siseneda lapsevanematele mõeldud osasse.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Nõustun</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Ei nõustu</string>
 </resources>

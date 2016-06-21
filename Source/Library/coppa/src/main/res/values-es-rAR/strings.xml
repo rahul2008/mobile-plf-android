@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">Para aprovechar al máximo la aplicación, Philips necesita su consentimiento para recopilar y utilizar información sobre el uso que le da su hijo al cepillo Philips Sonicare y a la aplicación.\n\nEsta información incluirá el tiempo de cepillado, el período y la frecuencia recopilados del mango del cepillo y la aplicación.\n\nEsta información le permite supervisar y fomentar los hábitos de cepillado de su hijo, así como recibir información y notificaciones personalizadas del cepillado cuando sea el momento de sustituir el cabezal del cepillo.\n\nNo recopilaremos ni usaremos información personal alguna sobre su hijo si no proporciona tal consentimiento.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">Si está de acuerdo, recibirá una solicitud de confirmación de consentimiento cuando ingrese nuevamente en la sección para padres luego de un período mínimo de 24 horas a partir de ahora.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">Lea el %s para obtener más información.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">Confirme la aprobación</string>
-<string name="Coppa_Confirm_Approval_Content_txt">Gracias por dar su consentimiento para el almacenamiento de la información de su hijo. Este es un segundo consentimiento para confirmar su aprobación.\n\nPara aprovechar al máximo la aplicación, confirme el consentimiento parental para permitirle a Philips recopilar y utilizar la información sobre el uso que le da su hijo al cepillo Philips Sonicare y a la aplicación. Esta información incluirá el tiempo de cepillado, el período y la frecuencia recopilados del mango del cepillo y la aplicación.\n\nEsta información le permite supervisar y fomentar los hábitos de cepillado de su hijo, así como recibir información y notificaciones personalizadas del cepillado cuando sea el momento de sustituir el cabezal del cepillo.\n\nNo recopilaremos ni usaremos información personal alguna sobre su hijo si no proporciona tal consentimiento.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">En Koninklijke Philips N.V. y sus subsidiarias (”Philips”) creemos firmemente en la protección de la privacidad de los datos que comparte con nosotros. También creemos que es importante informarle sobre cómo empleamos sus datos y darle opciones sobre cómo se utilizarán los datos. Por lo tanto, lo animamos a que lea este Aviso de privacidad con atención antes de decidirse por una opción o darnos derecho a utilizar su información. Este es un aviso sobre las prácticas de privacidad de Philips, no un contrato ni un acuerdo.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">Aviso de privacidad de la aplicación</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">Aviso de privacidad</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">Aprobación</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">Acceso de los padres</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">Soy menor de %d</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">Soy mayor de %d</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Esta opción está pensada para personas mayores de %d. Pedile a tus padres que lo hagan por ti.</string>
-<string name="Ok_Btn_Txt">Aceptar</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Año de nacimiento</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">¿Cuántos años tienes?</string>
-<string name="Coppa_Age_Verification_Alert_Title">La edad y el año de nacimiento no coinciden</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">La edad proporcionada no coincide con el año de nacimiento. Asegurate de que tu edad y año de nacimiento son correctos.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">Estás intentando acceder a una sección destinada a los padres.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">Acepto</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">No acepto</string>
+<string name="reg_Coppa_Give_Approval_txt">Para aprovechar al máximo la aplicación, Philips necesita su consentimiento para recopilar y utilizar información sobre el uso que le da su hijo al cepillo Philips Sonicare y a la aplicación.\n\nEsta información incluirá el tiempo de cepillado, el período y la frecuencia recopilados del mango del cepillo y la aplicación.\n\nEsta información le permite supervisar y fomentar los hábitos de cepillado de su hijo, así como recibir información y notificaciones personalizadas del cepillado cuando sea el momento de sustituir el cabezal del cepillo.\n\nNo recopilaremos ni usaremos información personal alguna sobre su hijo si no proporciona tal consentimiento.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">Si está de acuerdo, recibirá una solicitud de confirmación de consentimiento cuando ingrese nuevamente en la sección para padres luego de un período mínimo de 24 horas a partir de ahora.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">Lea el %s para obtener más información.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Confirme la aprobación</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Gracias por dar su consentimiento para el almacenamiento de la información de su hijo. Este es un segundo consentimiento para confirmar su aprobación.\n\nPara aprovechar al máximo la aplicación, confirme el consentimiento parental para permitirle a Philips recopilar y utilizar la información sobre el uso que le da su hijo al cepillo Philips Sonicare y a la aplicación. Esta información incluirá el tiempo de cepillado, el período y la frecuencia recopilados del mango del cepillo y la aplicación.\n\nEsta información le permite supervisar y fomentar los hábitos de cepillado de su hijo, así como recibir información y notificaciones personalizadas del cepillado cuando sea el momento de sustituir el cabezal del cepillo.\n\nNo recopilaremos ni usaremos información personal alguna sobre su hijo si no proporciona tal consentimiento.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">En Koninklijke Philips N.V. y sus subsidiarias (”Philips”) creemos firmemente en la protección de la privacidad de los datos que comparte con nosotros. También creemos que es importante informarle sobre cómo empleamos sus datos y darle opciones sobre cómo se utilizarán los datos. Por lo tanto, lo animamos a que lea este Aviso de privacidad con atención antes de decidirse por una opción o darnos derecho a utilizar su información. Este es un aviso sobre las prácticas de privacidad de Philips, no un contrato ni un acuerdo.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">Aviso de privacidad de la aplicación</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Aviso de privacidad</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Aprobación</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Acceso de los padres</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">Soy menor de %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">Soy mayor de %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">Esta opción está pensada para personas mayores de %d. Pedile a tus padres que lo hagan por ti.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">Año de nacimiento</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">¿Cuántos años tienes?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">La edad y el año de nacimiento no coinciden</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">La edad proporcionada no coincide con el año de nacimiento. Asegurate de que tu edad y año de nacimiento son correctos.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">Estás intentando acceder a una sección destinada a los padres.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Acepto</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">No acepto</string>
 </resources>

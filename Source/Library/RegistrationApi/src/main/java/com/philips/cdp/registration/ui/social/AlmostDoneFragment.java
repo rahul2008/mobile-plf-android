@@ -124,7 +124,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         parseRegistrationInfo();
         RLog.i(RLog.EVENT_LISTENERS,
                 "AlmostDoneFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
-        View view = inflater.inflate(R.layout.fragment_social_almost_done, container, false);
+        View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         updateUiStatus();
@@ -360,7 +360,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
             } else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
+                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -373,7 +373,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
             }else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
+                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
                 trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
                 mBtnContinue.setEnabled(false);
                 scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -420,7 +420,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                         storeEmailInPreference();
                         launchWelcomeFragment();
                     } else {
-                        mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                        mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
                     }
                 } else {
                     launchWelcomeFragment();
@@ -431,7 +431,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 if (mCbAcceptTerms.isChecked()) {
                     register();
                 } else {
-                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
                 }
             } else {
                 register();
@@ -486,7 +486,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        return R.string.reg_SigIn_TitleTxt;
     }
 
     @Override
@@ -654,7 +654,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             if (isChecked) {
                 mRegAccptTermsError.setVisibility(View.GONE);
             } else {
-                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
         }
     }

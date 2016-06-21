@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">이 앱의 모든 기능을 활용하기 위해서는 필립스에서 자녀의 필립스 Sonicare 및 앱 사용에 관한 정보를 수집 및 사용할 수 있도록 하는 보호자의 동의가 필요합니다. \n\n브러시 핸들과 앱에서 수집되는 정보에는 양치 시간, 기간, 빈도 등이 포함됩니다.\n\n이 정보를 통해 자녀의 양치 습관을 모니터링하고 독려할 수 있으며 개인에게 맞는 양치 관련 정보와 칫솔모 교체 시기 알림도 받을 수 있습니다.\n\n동의하지 않은 경우 필립스는 자녀의 개인 정보를 수집하거나 사용하지 않습니다.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">이에 동의하는 경우, 지금부터 최소 24시간 후 보호자 섹션에 들어가시면 동의 확인 요청을 받게 될 것입니다.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">자세한 내용은 %s을(를) 참고하세요.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">승인 확인</string>
-<string name="Coppa_Confirm_Approval_Content_txt">자녀의 정보를 저장하는 데 동의해 주셔서 감사합니다. 이는 귀하의 승인을 확인하기 위한 두 번째 동의 요청입니다.\n\n이 앱의 모든 기능을 활용하시려면 필립스에서 자녀의 필립스 Sonicare 및 앱 사용에 관한 정보를 수집 및 사용할 수 있도록 보호자 동의를 확인해 주십시오. 브러시 핸들과 앱에서 수집되는 정보에는 양치 시간, 기간, 빈도 등이 포함됩니다.\n\n이 정보를 통해 자녀의 양치 습관을 모니터링하고 독려할 수 있으며 개인에게 맞는 양치 관련 정보와 칫솔모 교체 시기 알림도 받을 수 있습니다.\n\n동의하지 않은 경우 필립스는 자녀의 개인 정보를 수집하거나 사용하지 않습니다.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.v. 및 자회사(이하 \" 필립스\")는 귀하가 제공한 정보를 보호하기 위해 최선을 다하고 있습니다. 또한 정보의 사용 목적에 대한 고지 뿐 아니라 이러한 정보가 사용되는 방식에 대한 선택권을 제공하는 것이 중요하다는 사실을 인지하고 있습니다. 따라서 귀하의 정보 사용에 대한 권한을 당사에 제공하기 전에 본 개인정보 보호정책을 신중하게 읽는 것이 좋습니다. 이는 필립스의 개인정보 정책에 대한 공지이며 계약이나 동의서가 아닙니다.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">앱 개인정보 보호정책</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">개인정보 보호정책</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">승인</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">보호자 액세스</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">%d세 미만입니다.</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">%d세 이상입니다.</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">%d세 이상을 대상으로 합니다. 부모님께 부탁하세요..</string>
-<string name="Ok_Btn_Txt">확인</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">태어난 해</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">몇 살이신가요?</string>
-<string name="Coppa_Age_Verification_Alert_Title">나이와 태어난 해 불일치</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">나이가 태어난 해와 일치하지 않습니다. 나이와 태어난 해가 올바른지 확인하세요.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">보호자를 위한 섹션에 액세스를 시도하고 있습니다.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">동의</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">동의하지 않음</string>
+<string name="reg_Coppa_Give_Approval_txt">이 앱의 모든 기능을 활용하기 위해서는 필립스에서 자녀의 필립스 Sonicare 및 앱 사용에 관한 정보를 수집 및 사용할 수 있도록 하는 보호자의 동의가 필요합니다. \n\n브러시 핸들과 앱에서 수집되는 정보에는 양치 시간, 기간, 빈도 등이 포함됩니다.\n\n이 정보를 통해 자녀의 양치 습관을 모니터링하고 독려할 수 있으며 개인에게 맞는 양치 관련 정보와 칫솔모 교체 시기 알림도 받을 수 있습니다.\n\n동의하지 않은 경우 필립스는 자녀의 개인 정보를 수집하거나 사용하지 않습니다.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">이에 동의하는 경우, 지금부터 최소 24시간 후 보호자 섹션에 들어가시면 동의 확인 요청을 받게 될 것입니다.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">자세한 내용은 %s을(를) 참고하세요.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">승인 확인</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">자녀의 정보를 저장하는 데 동의해 주셔서 감사합니다. 이는 귀하의 승인을 확인하기 위한 두 번째 동의 요청입니다.\n\n이 앱의 모든 기능을 활용하시려면 필립스에서 자녀의 필립스 Sonicare 및 앱 사용에 관한 정보를 수집 및 사용할 수 있도록 보호자 동의를 확인해 주십시오. 브러시 핸들과 앱에서 수집되는 정보에는 양치 시간, 기간, 빈도 등이 포함됩니다.\n\n이 정보를 통해 자녀의 양치 습관을 모니터링하고 독려할 수 있으며 개인에게 맞는 양치 관련 정보와 칫솔모 교체 시기 알림도 받을 수 있습니다.\n\n동의하지 않은 경우 필립스는 자녀의 개인 정보를 수집하거나 사용하지 않습니다.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.v. 및 자회사(이하 \" 필립스\")는 귀하가 제공한 정보를 보호하기 위해 최선을 다하고 있습니다. 또한 정보의 사용 목적에 대한 고지 뿐 아니라 이러한 정보가 사용되는 방식에 대한 선택권을 제공하는 것이 중요하다는 사실을 인지하고 있습니다. 따라서 귀하의 정보 사용에 대한 권한을 당사에 제공하기 전에 본 개인정보 보호정책을 신중하게 읽는 것이 좋습니다. 이는 필립스의 개인정보 정책에 대한 공지이며 계약이나 동의서가 아닙니다.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">앱 개인정보 보호정책</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">개인정보 보호정책</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">승인</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">보호자 액세스</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">%d세 미만입니다.</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">%d세 이상입니다.</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">%d세 이상을 대상으로 합니다. 부모님께 부탁하세요..</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">태어난 해</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">몇 살이신가요?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">나이와 태어난 해 불일치</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">나이가 태어난 해와 일치하지 않습니다. 나이와 태어난 해가 올바른지 확인하세요.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">보호자를 위한 섹션에 액세스를 시도하고 있습니다.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">동의</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">동의하지 않음</string>
 </resources>

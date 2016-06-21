@@ -195,7 +195,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     public void onPrivacyPolicyClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + getResources().getString(
-                com.philips.cdp.registration.R.string.Philips_URL_txt)));
+                com.philips.cdp.registration.R.string.reg_Philips_URL_txt)));
         activity.startActivity(browserIntent);
     }
 
@@ -203,7 +203,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     public void onTermsAndConditionClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onTermsAndConditionClick");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + getResources().getString(
-                com.philips.cdp.registration.R.string.Philips_URL_txt)));
+                com.philips.cdp.registration.R.string.reg_Philips_URL_txt)));
         activity.startActivity(browserIntent);
     }
 

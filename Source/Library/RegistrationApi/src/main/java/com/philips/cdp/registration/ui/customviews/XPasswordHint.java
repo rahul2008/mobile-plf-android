@@ -33,13 +33,13 @@ public class XPasswordHint extends LinearLayout {
     public XPasswordHint(Context context) {
         super(context);
         this.mContext = context;
-        initUi(R.layout.x_password_hint);
+        initUi(R.layout.reg_password_hint);
     }
 
     public XPasswordHint(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
-        initUi(R.layout.x_password_hint);
+        initUi(R.layout.reg_password_hint);
     }
 
     private final void initUi(int resourceId) {
@@ -47,16 +47,16 @@ public class XPasswordHint extends LinearLayout {
         li.inflate(resourceId, this, true);
 
         mCharLength = (XPasswordHintRow) findViewById(R.id.x_reg_length);
-        mCharLength.setTextDesc(R.string.Create_Account_PasswordHint_Length_lbltxt);
+        mCharLength.setTextDesc(R.string.reg_Create_Account_PasswordHint_Length_lbltxt);
 
         mUpperCase = (XPasswordHintRow) findViewById(R.id.x_reg_uppper_case);
-        mUpperCase.setTextDesc(R.string.Create_Account_PasswordHint_Aplhabets_lbltxt);
+        mUpperCase.setTextDesc(R.string.reg_Create_Account_PasswordHint_Aplhabets_lbltxt);
 
         mSpecialChar = (XPasswordHintRow) findViewById(R.id.x_reg_special_length);
-        mSpecialChar.setTextDesc(R.string.Create_Account_PasswordHint_SpecialCharacters_lbltxt);
+        mSpecialChar.setTextDesc(R.string.reg_Create_Account_PasswordHint_SpecialCharacters_lbltxt);
 
         mNumbers = (XPasswordHintRow) findViewById(R.id.x_reg_numbers);
-        mNumbers.setTextDesc(R.string.Create_Account_PasswordHint_Numbers_lbltxt);
+        mNumbers.setTextDesc(R.string.reg_Create_Account_PasswordHint_Numbers_lbltxt);
 
     }
 

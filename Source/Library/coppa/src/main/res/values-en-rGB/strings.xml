@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">For you to make the most of the App Philips requires your consent to collect and use information about your child\'s use of Philips Sonicare and the App.\n\nThis information will include brushing time, period and frequency collected from the brush handle and the App.\n\nThis information allows you to monitor and encourage your child\'s brushing habits and to receive personalised brushing information and notifications when it is time to replace your brush head.\n\nWe will not collect or use any personal information from the child if you do not provide such consent.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">If you agree, you will receive a confirmatory consent request when you enter the parental section again after a minimum period of 24 hours from now.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">Read the %s for more information.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">Confirm Approval</string>
-<string name="Coppa_Confirm_Approval_Content_txt">Thank you for consenting to the storage of your child\'s information.This is a second consent to confirm your approval.\n\nIn order to make the most of the app, please confirm your parental consent to allow Philips to collect and use information about your child\'s use of the Philips Sonicare and the App. This information will include brushing time, period and frequency collected from the brush handle and the App.\n\nThis information allows you to monitor and encourage your child\'s brushing habits and to receive personalised brushing information and notifications when it is time to replace your brush head.\n\nWe will not collect or use any personal information from the child if you do not provide such consent.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. and its subsidiaries (\"Philips\") believe strongly in protecting the privacy of the data you share with us. We also believe it is important to inform you about how we will use your data, and to give you choices about how those data will be used. Therefore, we encourage you to read this Privacy Notice carefully, before you make your choices and give us the right to use your information. This is a notice about Philips\' privacy practices, not a contract or agreement.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">App Privacy Notice</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">Privacy Notice</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">Approval</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">Parental Access</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">I am under %d</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">I am over %d</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">This is intended for people over %d. Please ask your parent to do it for you.</string>
-<string name="Ok_Btn_Txt">OK</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Year of birth</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">How old are you?</string>
-<string name="Coppa_Age_Verification_Alert_Title">Age and birth year mismatch</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">The provided age does not match the year of birth. Please make sure your age and year of birth are correct.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">You are trying to access a section intended for parents.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">I agree</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">Disagree</string>
+<string name="reg_Coppa_Give_Approval_txt">For you to make the most of the App Philips requires your consent to collect and use information about your child\'s use of Philips Sonicare and the App.\n\nThis information will include brushing time, period and frequency collected from the brush handle and the App.\n\nThis information allows you to monitor and encourage your child\'s brushing habits and to receive personalised brushing information and notifications when it is time to replace your brush head.\n\nWe will not collect or use any personal information from the child if you do not provide such consent.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">If you agree, you will receive a confirmatory consent request when you enter the parental section again after a minimum period of 24 hours from now.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">Read the %s for more information.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Confirm Approval</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Thank you for consenting to the storage of your child\'s information.This is a second consent to confirm your approval.\n\nIn order to make the most of the app, please confirm your parental consent to allow Philips to collect and use information about your child\'s use of the Philips Sonicare and the App. This information will include brushing time, period and frequency collected from the brush handle and the App.\n\nThis information allows you to monitor and encourage your child\'s brushing habits and to receive personalised brushing information and notifications when it is time to replace your brush head.\n\nWe will not collect or use any personal information from the child if you do not provide such consent.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. and its subsidiaries (\"Philips\") believe strongly in protecting the privacy of the data you share with us. We also believe it is important to inform you about how we will use your data, and to give you choices about how those data will be used. Therefore, we encourage you to read this Privacy Notice carefully, before you make your choices and give us the right to use your information. This is a notice about Philips\' privacy practices, not a contract or agreement.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">App Privacy Notice</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Privacy Notice</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Approval</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Parental Access</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">I am under %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">I am over %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">This is intended for people over %d. Please ask your parent to do it for you.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">Year of birth</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">How old are you?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">Age and birth year mismatch</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">The provided age does not match the year of birth. Please make sure your age and year of birth are correct.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">You are trying to access a section intended for parents.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">I agree</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Disagree</string>
 </resources>

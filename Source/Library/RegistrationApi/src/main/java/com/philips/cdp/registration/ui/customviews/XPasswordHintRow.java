@@ -31,13 +31,13 @@ public class XPasswordHintRow extends RelativeLayout {
     public XPasswordHintRow(Context context) {
         super(context);
         this.mContext = context;
-        initUi(R.layout.x_password_hint_row);
+        initUi(R.layout.reg_password_hint_row);
     }
 
     public XPasswordHintRow(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
-        initUi(R.layout.x_password_hint_row);
+        initUi(R.layout.reg_password_hint_row);
     }
 
     private final void initUi(int resourceId) {

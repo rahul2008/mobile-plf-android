@@ -115,9 +115,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 "HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
         View view;
         if (RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
-            view = inflater.inflate(R.layout.fragment_home_create_top, container, false);
+            view = inflater.inflate(R.layout.reg_fragment_home_create_top, container, false);
         } else {
-            view = inflater.inflate(R.layout.fragment_home_login_top, container, false);
+            view = inflater.inflate(R.layout.reg_fragment_home_login_top, container, false);
         }
 
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
@@ -207,7 +207,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void inflateEachProviderBtn(String provider) {
         try {
-            String providerName = provider;
+            String providerName = "reg_"+provider;
             String providerDrawable = "reg_" + provider + "_ic";
 
             int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
@@ -248,7 +248,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 }else{
                     scrollViewAutomatically(mRegError,mSvRootLayout);
                     enableControls(false);
-                    mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+                    mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
                 }
             }
         });
@@ -268,7 +268,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mTvTermsAndConditionDesc = (TextView) view.findViewById(R.id.tv_reg_legal_notice);
         int minAgeLimit = RegistrationConfiguration.getInstance().getFlow().
                 getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
-        String termsAndCondition = getString(R.string.AgeLimitText);
+        String termsAndCondition = getString(R.string.reg_AgeLimitText);
         termsAndCondition = String.format(termsAndCondition, minAgeLimit);
 
         mTvTermsAndConditionDesc.setText(termsAndCondition);
@@ -389,7 +389,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        return R.string.reg_SigIn_TitleTxt;
     }
 
     private Handler mHandler = new Handler();
@@ -424,7 +424,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 mRegError.hideError();
                 enableControls(true);
         } else {
-            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             enableControls(false);
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -458,10 +458,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
 
         String privacyPolicyText = getString(R.string.LegalNoticeForPrivacy);
-        privacyPolicyText = String.format(privacyPolicyText, getString(R.string.PrivacyNoticeText));
+        privacyPolicyText = String.format(privacyPolicyText, getString(R.string.reg_PrivacyNoticeText));
         mTvWelcomeDesc.setText(privacyPolicyText);
 
-        String privacy = mContext.getResources().getString(R.string.PrivacyNoticeText);
+        String privacy = mContext.getResources().getString(R.string.reg_PrivacyNoticeText);
         SpannableString spanableString = new SpannableString(privacyPolicyText);
 
         int privacyStartIndex = privacyPolicyText.toLowerCase().indexOf(

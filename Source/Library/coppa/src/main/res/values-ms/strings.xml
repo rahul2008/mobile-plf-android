@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="Coppa_Give_Approval_txt">Untuk memanfaatkan Aplikasi ini sepenuhnya, Philips memerlukan keizinan anda untuk mengumpulkan dan menggunakan maklumat tentang cara anak anda menggunakan Philips Sonicare dan Aplikasi.\n\nMaklumat ini termasuk masa memberus, tempoh dan kekerapan yang dikumpulkan daripada pemegang berus dan Aplikasi.\n\nMaklumat ini membenarkan anda memantau dan menggalakkan tabiat pemberusan anak anda dan menerima maklumat pemberusan yang diperibadikan serta pemberitahuan apabila kepala berus perlu diganti.\n\nKami tidak akan mengumpulkan maklumat daripada anak anda jika anda tidak memberikan keizinan.\n\n</string>
-<string name="Coppa_Give_Approval_US_txt">Jika anda bersetuju, anda akan menerima permintaan pengesahan keizinan apabila anda pergi ke bahagian ibu bapa sekali lagi selepas minimum 24 jam dari sekarang.\n\n</string>
-<string name="Coppa_Give_Approval_PrivacyNotes_txt">Baca %s untuk maklumat lanjut.</string>
-<string name="Coppa_Confirm_Approval_Title_txt">Sahkan Kelulusan</string>
-<string name="Coppa_Confirm_Approval_Content_txt">Terima kasih kerana mengizinkan kami menyimpan maklumat tentang anak anda. Ini keizinan kedua untuk mengesahkan kelulusan anda.\n\nUntuk memanfaatkan aplikasi ini sepenuhnya, sila sahkan keizinan ibu bapa untuk membenarkan Philips mengumpulkan dan menggunakan maklumat tentang cara anak anda menggunakan Philips Sonicare dan Aplikasi. Maklumat ini termasuk masa memberus, tempoh dan kekerapan yang dikumpulkan daripada pemegang berus dan Aplikasi.\n\nMaklumat ini membenarkan anda memantau dan menggalakkan tabiat pemberusan anak anda dan menerima maklumat pemberusan yang diperibadikan serta pemberitahuan apabila kepala berus perlu diganti.\n\nKami tidak akan mengumpulkan maklumat daripada anak anda jika anda tidak memberikan keizinan.\n\n</string>
-<string name="Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. dan subsidiarinya (\"Philips\") sangat mementingkan perlindungan privasi data anda yang anda kongsi dengan kami. Kami turut percaya betapa pentingnya bagi kami untuk memaklumi anda tentang cara kami menggunakan data anda dan untuk memberi anda pilihan tentang cara data tersebut digunakan. Justeru, kami menggalakkan anda membaca Notis Privasi ini dengan teliti sebelum membuat pilihan dan memberi kami hak untuk menggunakan maklumat anda. Notis ini sekadar menerangkan amalan privasi Philips dan bukan kontrak atau perjanjian.</string>
-<string name="Coppa_Privacy_Notice_Content_Title_txt">Notis Privasi Aplikasi</string>
-<string name="Coppa_Privacy_Notice_Screen_Title_txt">Notis Privasi</string>
-<string name="Coppa_Consent_Approval_Screen_Title_txt">Kelulusan</string>
-<string name="Coppa_Age_Verification_Screen_Title_txt">Akses Ibu Bapa</string>
-<string name="Coppa_Age_Verification_UnderAge_Txt">Umur saya di bawah %d</string>
-<string name="Coppa_Age_Verification_OverAge_Txt">Umur saya melebihi %d</string>
-<string name="Coppa_Age_Verification_UnderAge_Alert_Txt">Ini dimaksudkan untuk pengguna berumur %d ke atas. Sila minta ibu bapa anda melakukannya untuk anda.</string>
-<string name="Ok_Btn_Txt">OK</string>
-<string name="Coppa_Age_Verification_Year_Of_Birth_Txt">Tahun kelahiran</string>
-<string name="Coppa_Age_Verification_How_Old_Txt">Berapakah umur anda?</string>
-<string name="Coppa_Age_Verification_Alert_Title">Umur dan tahun kelahiran tidak sepadan</string>
-<string name="Coppa_Age_Verification_Age_Mismatch_Alert_Message">Umur yang diberikan tidak sepadan dengan tahun kelahiran anda. Sila pastikan umur dan tahun kelahiran anda betul.</string>
-<string name="Coppa_Parent_Access_Attempt_Txt">Anda sedang mencuba untuk mengakses bahagian yang dimaksudkan untuk ibu bapa.</string>
-<string name="Coppa_Parent_Access_Agree_Button_Txt">Saya bersetuju</string>
-<string name="Coppa_Parent_Access_Disagree_Button_Txt">Saya tidak bersetuju</string>
+<string name="reg_Coppa_Give_Approval_txt">Untuk memanfaatkan Aplikasi ini sepenuhnya, Philips memerlukan keizinan anda untuk mengumpulkan dan menggunakan maklumat tentang cara anak anda menggunakan Philips Sonicare dan Aplikasi.\n\nMaklumat ini termasuk masa memberus, tempoh dan kekerapan yang dikumpulkan daripada pemegang berus dan Aplikasi.\n\nMaklumat ini membenarkan anda memantau dan menggalakkan tabiat pemberusan anak anda dan menerima maklumat pemberusan yang diperibadikan serta pemberitahuan apabila kepala berus perlu diganti.\n\nKami tidak akan mengumpulkan maklumat daripada anak anda jika anda tidak memberikan keizinan.\n\n</string>
+<string name="reg_Coppa_Give_Approval_US_txt">Jika anda bersetuju, anda akan menerima permintaan pengesahan keizinan apabila anda pergi ke bahagian ibu bapa sekali lagi selepas minimum 24 jam dari sekarang.\n\n</string>
+<string name="reg_Coppa_Give_Approval_PrivacyNotes_txt">Baca %s untuk maklumat lanjut.</string>
+<string name="reg_Coppa_Confirm_Approval_Title_txt">Sahkan Kelulusan</string>
+<string name="reg_Coppa_Confirm_Approval_Content_txt">Terima kasih kerana mengizinkan kami menyimpan maklumat tentang anak anda. Ini keizinan kedua untuk mengesahkan kelulusan anda.\n\nUntuk memanfaatkan aplikasi ini sepenuhnya, sila sahkan keizinan ibu bapa untuk membenarkan Philips mengumpulkan dan menggunakan maklumat tentang cara anak anda menggunakan Philips Sonicare dan Aplikasi. Maklumat ini termasuk masa memberus, tempoh dan kekerapan yang dikumpulkan daripada pemegang berus dan Aplikasi.\n\nMaklumat ini membenarkan anda memantau dan menggalakkan tabiat pemberusan anak anda dan menerima maklumat pemberusan yang diperibadikan serta pemberitahuan apabila kepala berus perlu diganti.\n\nKami tidak akan mengumpulkan maklumat daripada anak anda jika anda tidak memberikan keizinan.\n\n</string>
+<string name="reg_Coppa_Privacy_Notice_Content_txt">Koninklijke Philips N.V. dan subsidiarinya (\"Philips\") sangat mementingkan perlindungan privasi data anda yang anda kongsi dengan kami. Kami turut percaya betapa pentingnya bagi kami untuk memaklumi anda tentang cara kami menggunakan data anda dan untuk memberi anda pilihan tentang cara data tersebut digunakan. Justeru, kami menggalakkan anda membaca Notis Privasi ini dengan teliti sebelum membuat pilihan dan memberi kami hak untuk menggunakan maklumat anda. Notis ini sekadar menerangkan amalan privasi Philips dan bukan kontrak atau perjanjian.</string>
+<string name="reg_Coppa_Privacy_Notice_Content_Title_txt">Notis Privasi Aplikasi</string>
+<string name="reg_Coppa_Privacy_Notice_Screen_Title_txt">Notis Privasi</string>
+<string name="reg_Coppa_Consent_Approval_Screen_Title_txt">Kelulusan</string>
+<string name="reg_Coppa_Age_Verification_Screen_Title_txt">Akses Ibu Bapa</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Txt">Umur saya di bawah %d</string>
+<string name="reg_Coppa_Age_Verification_OverAge_Txt">Umur saya melebihi %d</string>
+<string name="reg_Coppa_Age_Verification_UnderAge_Alert_Txt">Ini dimaksudkan untuk pengguna berumur %d ke atas. Sila minta ibu bapa anda melakukannya untuk anda.</string>
+<string name="reg_Coppa_Age_Verification_Year_Of_Birth_Txt">Tahun kelahiran</string>
+<string name="reg_Coppa_Age_Verification_How_Old_Txt">Berapakah umur anda?</string>
+<string name="reg_Coppa_Age_Verification_Alert_Title">Umur dan tahun kelahiran tidak sepadan</string>
+<string name="reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message">Umur yang diberikan tidak sepadan dengan tahun kelahiran anda. Sila pastikan umur dan tahun kelahiran anda betul.</string>
+<string name="reg_Coppa_Parent_Access_Attempt_Txt">Anda sedang mencuba untuk mengakses bahagian yang dimaksudkan untuk ibu bapa.</string>
+<string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Saya bersetuju</string>
+<string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Saya tidak bersetuju</string>
 </resources>

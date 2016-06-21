@@ -64,7 +64,7 @@ public class HsdpUser {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                handleServerConnectionFailed(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.JanRain_Server_Connection_Failed));
+                                handleServerConnectionFailed(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
                             }
                         });
                         return;
@@ -89,7 +89,7 @@ public class HsdpUser {
 
                             @Override
                             public void onFileWriteFailure() {
-                                handleHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.NoNetworkConnection));
+                                handleHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_NoNetworkConnection));
                             }
                         });
 
@@ -106,7 +106,7 @@ public class HsdpUser {
                 }
             }).start();
         } else {
-            handleHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.NoNetworkConnection));
+            handleHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_NoNetworkConnection));
         }
     }
 
@@ -139,7 +139,7 @@ public class HsdpUser {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                logoutHandler.onLogoutFailure(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.JanRain_Server_Connection_Failed));
+                                logoutHandler.onLogoutFailure(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
                             }
                         });
                     } else if (dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
@@ -168,7 +168,7 @@ public class HsdpUser {
                 }
             }).start();
         } else {
-            logoutHandler.onLogoutFailure(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.NoNetworkConnection));
+            logoutHandler.onLogoutFailure(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_NoNetworkConnection));
         }
     }
 
@@ -294,7 +294,7 @@ public class HsdpUser {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                handleSocialConnectionFailed(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.JanRain_Server_Connection_Failed));
+                                handleSocialConnectionFailed(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
                             }
                         });
                         return;
@@ -321,7 +321,7 @@ public class HsdpUser {
 
                             @Override
                             public void onFileWriteFailure() {
-                                handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.NoNetworkConnection));
+                                handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_NoNetworkConnection));
                             }
                         });
 
@@ -338,7 +338,7 @@ public class HsdpUser {
                 }
             }).start();
         } else {
-            handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.NoNetworkConnection));
+            handleSocialHsdpFailure(loginHandler, NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.reg_NoNetworkConnection));
         }
     }
 

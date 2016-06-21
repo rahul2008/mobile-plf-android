@@ -18,10 +18,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -71,7 +69,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             }
         }
 
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.reg_activity_registration);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity  Register: NetworStateListener");
         initUI();
     }

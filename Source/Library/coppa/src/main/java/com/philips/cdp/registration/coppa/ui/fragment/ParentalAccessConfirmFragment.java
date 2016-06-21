@@ -62,7 +62,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessConfirmFragment : onCreateView");
-        View view = inflater.inflate(R.layout.fragment_reg_coppa_parental_access_confirm, null);
+        View view = inflater.inflate(R.layout.reg_fragment_coppa_parental_access_confirm, null);
         initUi(view);
         handleOrientation(view);
         return view;
@@ -206,17 +206,17 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
             mBtnContinue.setEnabled(true);
             return;
         }
-        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getString(R.string.Coppa_Age_Verification_Alert_Title),
-                getActivity().getString(R.string.Coppa_Age_Verification_Age_Mismatch_Alert_Message), getActivity(), mOkBtnClick);
+        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getString(R.string.reg_Coppa_Age_Verification_Alert_Title),
+                getActivity().getString(R.string.reg_Coppa_Age_Verification_Age_Mismatch_Alert_Message), getActivity(), mOkBtnClick);
 
     }
 
     private void showParentalAccessDailog(int minAge) {
-        String minAgeLimitTest = getActivity().getString(R.string.Coppa_Age_Verification_UnderAge_Alert_Txt);
+        String minAgeLimitTest = getActivity().getString(R.string.reg_Coppa_Age_Verification_UnderAge_Alert_Txt);
         minAgeLimitTest = String.format(minAgeLimitTest, minAge);
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppCoppaTaggingConstants.MIN_AGE_LIMIT_WARNING);
-        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getResources().getString(R.string.Coppa_Age_Verification_Screen_Title_txt), minAgeLimitTest, getActivity(), mOkBtnClick);
+        RegCoppaAlertDialog.showCoppaDialogMsg(getActivity().getResources().getString(R.string.reg_Coppa_Age_Verification_Screen_Title_txt), minAgeLimitTest, getActivity(), mOkBtnClick);
     }
 
 
@@ -230,7 +230,7 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Coppa_Age_Verification_Screen_Title_txt;
+        return R.string.reg_Coppa_Age_Verification_Screen_Title_txt;
     }
 
     private View.OnClickListener mOkBtnClick = new View.OnClickListener() {
