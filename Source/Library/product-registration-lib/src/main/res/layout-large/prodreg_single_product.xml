@@ -74,7 +74,7 @@
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/date_of_purchase"
+                android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
                 android:textColor="?attr/uikit_baseColor"
                 android:textSize="16sp"/>
 
@@ -124,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:singleLine="true"
                 android:textColor="?attr/uikit_brightColor"
                 android:textSize="16sp"/>
 

@@ -1,8 +1,11 @@
 package com.philips.cdp.prodreg.error;
 
+import android.content.Context;
+
 import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.cdp.product_registration_lib.R;
 
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
@@ -48,29 +51,29 @@ public class ErrorHandler {
         }
     }
 
-    public ProdRegError getError(int statusCode) {
+    public ProdRegErrorMap getError(Context context, int statusCode) {
         if (statusCode == ProdRegError.INVALID_CTN.getCode()) {
-            return ProdRegError.INVALID_CTN;
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Product_Not_Found_Title), context.getString(R.string.PPR_Product_Not_Found_ErrMsg));
+        } else if (statusCode == ProdRegError.PRODUCT_ALREADY_REGISTERED.getCode()) {
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Already_Registered_title), context.getString(R.string.PPR_Already_Registered_ErrMsg));
         } else if (statusCode == ProdRegError.ACCESS_TOKEN_INVALID.getCode()) {
-            return ProdRegError.ACCESS_TOKEN_INVALID;
-        } else if (statusCode == ProdRegError.INVALID_VALIDATION.getCode()) {
-            return ProdRegError.INVALID_VALIDATION;
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Authentication_Fail_Title), context.getString(R.string.PPR_Authentication_ErrMsg));
         } else if (statusCode == ProdRegError.INVALID_SERIALNUMBER.getCode()) {
-            return ProdRegError.INVALID_SERIALNUMBER;
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Invalid_SerialNum_Title), context.getString(R.string.PPR_Invalid_SerialNum_ErrMsg));
+        } else if (statusCode == ProdRegError.INVALID_DATE.getCode()) {
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Invalid_SerialNum_Title), context.getString(R.string.PPR_Invalid_SerialNum_ErrMsg));
         } else if (statusCode == ProdRegError.NO_INTERNET_AVAILABLE.getCode()) {
-            return ProdRegError.NO_INTERNET_AVAILABLE;
+            return new ProdRegErrorMap(context.getString(R.string.PPR_No_Internet_Title), context.getString(R.string.PPR_No_Internet_ErrMsg));
         } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()) {
-            return ProdRegError.INTERNAL_SERVER_ERROR;
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Communication_Err_Title), context.getString(R.string.PPR_Unable_Connect_Server_ErrMsg));
         } else if (statusCode == ProdRegError.TIME_OUT.getCode()) {
-            return ProdRegError.TIME_OUT;
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Communication_Err_Title), context.getString(R.string.PPR_Unable_Connect_Server_ErrMsg));
         } else if (statusCode == ProdRegError.NETWORK_ERROR.getCode()) {
-            return ProdRegError.NETWORK_ERROR;
-        } else if (statusCode == ProdRegError.PARSE_ERROR.getCode()) {
-            return ProdRegError.PARSE_ERROR;
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Network_Err_Title), context.getString(R.string.PPR_Network_ErrMsg));
         } else if (statusCode == ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE.getCode()) {
-            return ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE;
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Invalid_Date_And_serial_title), context.getString(R.string.PPR_Invalid_Date_And_serial_ErrMsg));
         } else {
-            return ProdRegError.UNKNOWN;
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Unknown_title), context.getString(R.string.PPR_Unknown_ErrMsg));
         }
     }
 }

@@ -152,7 +152,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                 final FragmentActivity activity = getActivity();
                 if (activity != null && !activity.isFinishing() && prodRegLoadingFragment != null) {
                     prodRegLoadingFragment.dismiss();
-                    showAlertOnError("Failed", registeredProduct.getProdRegError().getDescription());
+                    showAlertOnError(registeredProduct.getProdRegError().getCode());
                 }
             }
         };

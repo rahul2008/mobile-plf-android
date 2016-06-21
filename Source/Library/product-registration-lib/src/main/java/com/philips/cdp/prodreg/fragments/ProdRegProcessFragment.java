@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
-import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
@@ -173,7 +172,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
                 if (prodRegLoadingFragment != null) prodRegLoadingFragment.dismiss();
-                showAlertOnError("Metadata Failed", new ErrorHandler().getError(responseCode).getDescription());
+                showAlertOnError(responseCode);
             }
         };
     }

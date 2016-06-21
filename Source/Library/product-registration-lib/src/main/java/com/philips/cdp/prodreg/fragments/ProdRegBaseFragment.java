@@ -15,6 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.alert.ProdRegErrorAlertFragment;
+import com.philips.cdp.prodreg.error.ErrorHandler;
+import com.philips.cdp.prodreg.error.ProdRegErrorMap;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
@@ -142,18 +144,19 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
         mActionbarUpdateListener.updateActionbar(getActionbarTitle());
     }
 
-    protected void showAlertOnError(final String title, final String description) {
+    protected void showAlertOnError(final int statusCode) {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
             final ProdRegErrorAlertFragment prodRegErrorAlertFragment = new ProdRegErrorAlertFragment();
             prodRegErrorAlertFragment.setDialogOkButtonListener(getDialogOkButtonListener());
             prodRegErrorAlertFragment.show(activity.getSupportFragmentManager(), "dialog");
+            final ProdRegErrorMap prodRegErrorMap = new ErrorHandler().getError(activity, statusCode);
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    prodRegErrorAlertFragment.setTitle(title);
-                    prodRegErrorAlertFragment.setDescription(description);
+                    prodRegErrorAlertFragment.setTitle(prodRegErrorMap.getTitle());
+                    prodRegErrorAlertFragment.setDescription(prodRegErrorMap.getDescription());
                 }
             }, 200);
         }

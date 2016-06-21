@@ -19,7 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="@dimen/uikit_modal_alert_button_left_margin"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/uikit_modal_alert_label_text_size"/>
