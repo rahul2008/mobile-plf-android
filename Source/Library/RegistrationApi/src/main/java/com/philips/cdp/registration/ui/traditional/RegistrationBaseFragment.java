@@ -30,6 +30,7 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileWelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
@@ -174,6 +175,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
         }
         if (fragment.getFragmentCount() > 1) {
             if (this instanceof WelcomeFragment) {
+                fragment.getUpdateTitleListener().updateRegistrationTitleWithOutBack(getTitleResourceId());
+
+            }
+            else if (this instanceof MobileWelcomeFragment) {
                 fragment.getUpdateTitleListener().updateRegistrationTitleWithOutBack(getTitleResourceId());
             }
             else if (this instanceof HomeFragment) {

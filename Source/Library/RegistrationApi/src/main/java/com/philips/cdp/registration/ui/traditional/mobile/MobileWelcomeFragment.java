@@ -7,7 +7,7 @@
  * /
  */
 
-package com.philips.cdp.registration.ui.traditional;
+package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,34 +15,27 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
-import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 
-public class WelcomeFragment extends RegistrationBaseFragment implements OnClickListener, NetworStateListener, LogoutHandler {
+public class MobileWelcomeFragment extends RegistrationBaseFragment {
 
     private TextView mTvWelcome;
 
     private TextView mTvSignInEmail;
 
     private LinearLayout mLlContinueBtnContainer;
-
-    private User mUser;
 
     private Context mContext;
 
@@ -58,22 +51,23 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     private String mUserDetails;
 
+    private WelcomeFragmentController mWelcomeController;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onCreate");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileWelcomeFragment : onCreate");
         super.onCreate(savedInstanceState);
+        mWelcomeController = new WelcomeFragmentController(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
-        RegistrationHelper.getInstance().registerNetworkStateListener(this);
+        View view = inflater.inflate(R.layout.reg_mobile_fragment_welcome, null);
+        RegistrationHelper.getInstance().registerNetworkStateListener(mWelcomeController);
 
-        View view = inflater.inflate(R.layout.fragment_welcome, null);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
-        mUser = new User(mContext);
         init(view);
-        handleUiState();
         handleOrientation(view);
         return view;
     }
@@ -81,57 +75,55 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onActivityCreated");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileWelcomeFragment : onActivityCreated");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onStart");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileWelcomeFragment : onStart");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onResume");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileWelcomeFragment : onResume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onPause");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileWelcomeFragment : onPause");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onStop");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileWelcomeFragment : onStop");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroyView");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileWelcomeFragment : onDestroyView");
     }
 
     @Override
     public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroy");
-        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        hideLogoutSpinner();
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileWelcomeFragment : onDestroy");
         super.onDestroy();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDetach");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileWelcomeFragment : onDetach");
     }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onConfigurationChanged");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileWelcomeFragment : onConfigurationChanged");
         setCustomParams(config);
     }
 
@@ -157,50 +149,19 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mTvEmailDetails = (TextView) view.findViewById(R.id.tv_reg_email_details_container);
         mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
         mBtnSignOut = (Button) view.findViewById(R.id.btn_reg_sign_out);
-        mBtnSignOut.setOnClickListener(this);
+        mBtnSignOut.setOnClickListener(mWelcomeController);
         mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
-        mBtnContinue.setOnClickListener(this);
+        mBtnContinue.setOnClickListener(mWelcomeController);
 
         if (mProgressDialog == null)
             mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mProgressDialog.setCancelable(false);
 
-        mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
-        mUserDetails = getString(R.string.InitialSignedIn_SigninEmailText);
-        mUserDetails = String.format(mUserDetails, mUser.getEmail());
-
-
-        String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
-                .getAccessToken() : null;
-        RLog.d(RLog.ONCLICK, "WelcomeFragment : accesstoken " + accesstoken);
+        mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + /*mUser.getGivenName()*/"Kiran");
+        mUserDetails = getString(R.string.InitialSignedIn_china_SigninNumberText);
+        mUserDetails = String.format(mUserDetails, "1339 9999 9999");
         mTvSignInEmail.setText(mUserDetails);
-    }
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.btn_reg_sign_out) {
-            RLog.d(RLog.ONCLICK, "WelcomeFragment : Sign Out");
-            showLogoutSpinner();
-            handleLogout();
-        } else if (id == R.id.btn_reg_continue) {
-            RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
-            RegistrationHelper.getInstance().getUserRegistrationListener()
-                    .notifyonUserRegistrationCompleteEventOccurred(getRegistrationFragment().getParentActivity());
-        }
-    }
-
-    private void handleLogout() {
-        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SIGN_OUT);
-        mUser.logout(this);
-    }
-
-
-    @Override
-    public void onNetWorkStateReceived(boolean isOnline) {
-        handleUiState();
     }
 
     @Override
@@ -208,55 +169,28 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         return R.string.SigIn_TitleTxt;
     }
 
-    @Override
-    public void onLogoutSuccess() {
+    public void getLogout() {
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
-                trackPage(AppTaggingPages.HOME);
-                hideLogoutSpinner();
-                if (null != getRegistrationFragment()) {
-                    getRegistrationFragment().replaceWithHomeFragment();
-                }
+                getRegistrationFragment().replaceWithHomeFragment();
             }
         });
     }
-
-    @Override
-    public void onLogoutFailure(int responseCode, final String message) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                mRegError.setError(message);
-                hideLogoutSpinner();
-            }
-        });
-    }
-
-    private void handleUiState() {
+    public void networkUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
                 mRegError.hideError();
             }
+            mBtnSignOut.setEnabled(true);
+            mBtnContinue.setEnabled(true);
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
+            mBtnSignOut.setEnabled(false);
+            mBtnContinue.setEnabled(false);
         }
     }
-
-    private void showLogoutSpinner() {
-        if (!(getActivity().isFinishing()) && (mProgressDialog != null)) mProgressDialog.show();
-        mBtnSignOut.setEnabled(false);
-    }
-
-    private void hideLogoutSpinner() {
-
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
-        }
-        mBtnSignOut.setEnabled(true);
-    }
-
 }

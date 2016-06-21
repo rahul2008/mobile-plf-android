@@ -185,5 +185,14 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">12sp</item>
     </style>
-
+    <!-- Small Button Style -->
+    <style name="reg_mobile_verfiy_style_btn">
+        <item name="android:layout_width">100dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/reg_btn_selector</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:layout_margin">@dimen/reg_coppa_layout_margin</item>
+        <item name="android:textColor">@drawable/reg_btn_text_selector</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+    </style>
 </resources>

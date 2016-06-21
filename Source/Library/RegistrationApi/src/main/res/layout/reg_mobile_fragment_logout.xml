@@ -17,7 +17,7 @@
             android:orientation="vertical">
 
             <com.philips.cdp.registration.ui.customviews.XTextView
-                android:id="@+id/tv_reg_mobile_welcome"
+                android:id="@+id/tv_reg_welcome"
                 style="@style/reg_titleTextStyle"
                 android:layout_marginTop="@dimen/reg_header_margin_top"
                 android:paddingLeft="@dimen/reg_layout_margin"
@@ -28,7 +28,7 @@
             <View style="@style/reg_line" />
 
             <com.philips.cdp.registration.ui.customviews.XTextView
-                android:id="@+id/tv_reg_mobile_sign_in_using"
+                android:id="@+id/tv_reg_sign_in_using"
                 style="@style/reg_textStyle"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
@@ -36,9 +36,7 @@
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 
 
-
-            <View style="@style/reg_line"
-                android:layout_marginTop="0dip"/>
+            <View style="@style/reg_line" />
 
             <FrameLayout
                 android:id="@+id/fl_reg_receive_philips_news"
@@ -54,7 +52,7 @@
                     android:paddingRight="@dimen/reg_layout_margin" android:visibility="visible">
 
                     <com.philips.cdp.registration.ui.customviews.XCheckBox
-                        android:id="@+id/cb_reg_mobile_receive_philips_news"
+                        android:id="@+id/cb_reg_receive_philips_news"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -65,7 +63,7 @@
                     </com.philips.cdp.registration.ui.customviews.XCheckBox>
 
                     <com.philips.cdp.registration.ui.customviews.XTextView
-                        android:id="@+id/tv_reg_mobile_philips_news"
+                        android:id="@+id/tv_reg_philips_news"
                         style="@style/reg_textStyle"
                         android:layout_marginBottom="0dip"
 
@@ -75,13 +73,12 @@
                 </LinearLayout>
 
                 <ProgressBar
-                    android:id="@+id/pb_reg_mobile_welcome_spinner"
+                    android:id="@+id/pb_reg_welcome_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/reg_btn_height"
                     android:layout_gravity="center"
                     android:padding="@dimen/reg_pb_padding"
-                    android:visibility="invisible"
-                    android:indeterminate="false"/>
+                    android:visibility="invisible" />
 
             </FrameLayout>
 
@@ -91,7 +88,7 @@
                 android:layout_marginTop="0dip">
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
-                    android:id="@+id/tv_reg_mobile_more_account_Setting"
+                    android:id="@+id/tv_reg_more_account_Setting"
                     style="@style/reg_text_description"
                     android:text="@string/Access_More_Account_Setting_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
@@ -116,7 +113,7 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom">
 
                     <com.philips.cdp.registration.ui.customviews.XButton
-                        android:id="@+id/btn_reg_mobile_sign_out"
+                        android:id="@+id/btn_reg_sign_out"
                         style="@style/reg_style_btn"
                         android:layout_height="@dimen/reg_btn_height"
                         android:enabled="true"

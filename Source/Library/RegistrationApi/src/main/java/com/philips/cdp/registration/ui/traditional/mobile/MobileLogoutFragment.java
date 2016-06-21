@@ -28,11 +28,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
-import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
@@ -43,58 +39,58 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
+public class MobileLogoutFragment extends RegistrationBaseFragment {
 
+    private TextView mTvWelcome;
 
-public class MobileLogoutFragment extends RegistrationBaseFragment implements View.OnClickListener,
-        UpdateReceiveMarketingEmailHandler, NetworStateListener, LogoutHandler, XCheckBox.OnCheckedChangeListener {
+    private TextView mTvSignInEmail;
 
-    private TextView mTvMobileWelcome;
+    private XCheckBox mCbTerms;
 
-    private TextView mTvSignInMobile;
-
-    private XCheckBox mCbMobileTerms;
-
-    private LinearLayout mLlMobileContinueBtnContainer;
-
-    private Context mContext;
-
-    private Button mBtnMobileLogOut;
-
-    private XRegError mRegMobileError;
-
-    private ProgressBar mPbMobileWelcomeCheck;
-
-    private ScrollView mSvMobileRootLayout;
-
-    private TextView mMobileAccessAccountSettingsLink;
-
-    private FrameLayout mFlMobileReceivePhilipsNewsContainer;
-
-    private ProgressDialog mMobileProgressDialog;
-
-    public static final int BAD_RESPONSE_ERROR_CODE = 7008;
+    private LinearLayout mLlContinueBtnContainer;
 
     private User mUser;
 
-   @Override
+    private Context mContext;
+
+    private Button mBtnLogOut;
+
+    private XRegError mRegError;
+
+    private ProgressBar mPbWelcomeCheck;
+
+    private ScrollView mSvRootLayout;
+
+    private TextView mAccessAccountSettingsLink;
+
+    private FrameLayout mFlReceivePhilipsNewsContainer;
+
+    private ProgressDialog mProgressDialog;
+
+    private LogoutFragmentController mlogoutController;
+
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileLogoutFragment : onCreate");
         super.onCreate(savedInstanceState);
-         }
+        mlogoutController = new LogoutFragmentController(this);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RegistrationHelper.getInstance().registerNetworkStateListener(this);
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileLogoutFragment : onCreateView");
+        RegistrationHelper.getInstance().registerNetworkStateListener(mlogoutController);
+
         View view = inflater.inflate(R.layout.reg_mobile_fragment_logout, null);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
-        mSvMobileRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
+        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         init(view);
-        handleUiState();
         handleOrientation(view);
         return view;
     }
-
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -129,14 +125,12 @@ public class MobileLogoutFragment extends RegistrationBaseFragment implements Vi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        hideLogoutSpinner();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileLogoutFragment : onDestroyView");
     }
 
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " MobileLogoutFragment : onDestroy");
-        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         super.onDestroy();
     }
 
@@ -149,222 +143,69 @@ public class MobileLogoutFragment extends RegistrationBaseFragment implements Vi
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onConfigurationChanged");
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileLogoutFragment : onConfigurationChanged");
         setCustomParams(config);
     }
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mTvMobileWelcome, width);
-        applyParams(config, mLlMobileContinueBtnContainer, width);
-        applyParams(config, mFlMobileReceivePhilipsNewsContainer, width);
-        applyParams(config, mRegMobileError, width);
-        applyParams(config, mTvSignInMobile, width);
-        applyParams(config, mMobileAccessAccountSettingsLink, width);
+        applyParams(config, mTvWelcome, width);
+        applyParams(config, mLlContinueBtnContainer, width);
+        applyParams(config, mFlReceivePhilipsNewsContainer, width);
+        applyParams(config, mRegError, width);
+        applyParams(config, mTvSignInEmail, width);
+        applyParams(config, mAccessAccountSettingsLink, width);
     }
-
 
     @Override
     protected void handleOrientation(View view) {
         handleOrientationOnView(view);
     }
 
-    private void init(final View view) {
+    private void init(View view) {
         consumeTouch(view);
-        mTvMobileWelcome = (TextView) view.findViewById(R.id.tv_reg_mobile_welcome);
-        mLlMobileContinueBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_continue_id);
-        mCbMobileTerms = (XCheckBox) view.findViewById(R.id.cb_reg_mobile_receive_philips_news);
-        mCbMobileTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbMobileTerms.getPaddingTop(), mCbMobileTerms.getPaddingRight(), mCbMobileTerms.getPaddingBottom());
-        mCbMobileTerms.setVisibility(view.VISIBLE);
-        mCbMobileTerms.setChecked(mUser.getReceiveMarketingEmail());
-        mRegMobileError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        mPbMobileWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_mobile_welcome_spinner);
+        mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
+        mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_continue_id);
+        mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
+        mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
+        mCbTerms.setVisibility(view.VISIBLE);
+        mCbTerms.setChecked(mUser.getReceiveMarketingEmail());
+        mCbTerms.setOnCheckedChangeListener(mlogoutController);
+        mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
+        mPbWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_welcome_spinner);
 
-        if (mMobileProgressDialog == null)
-            mMobileProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-        mMobileProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-        mMobileProgressDialog.setCancelable(false);
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
 
-        mTvSignInMobile = (TextView) view.findViewById(R.id.tv_reg_mobile_sign_in_using);
-        mBtnMobileLogOut = (Button) view.findViewById(R.id.btn_reg_mobile_sign_out);
-        mBtnMobileLogOut.setOnClickListener(this);
-        TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_mobile_philips_news);
-        mMobileAccessAccountSettingsLink = (TextView) view.findViewById(R.id.tv_reg_mobile_more_account_Setting);
+        mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
+        mBtnLogOut = (Button) view.findViewById(R.id.btn_reg_sign_out);
+        mBtnLogOut.setOnClickListener(mlogoutController);
+         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
+        mAccessAccountSettingsLink = (TextView) view.findViewById(R.id.tv_reg_more_account_Setting);
 
-        mFlMobileReceivePhilipsNewsContainer = (FrameLayout) view.findViewById(R.id.fl_reg_receive_philips_news);
+        mFlReceivePhilipsNewsContainer = (FrameLayout) view.findViewById(R.id.fl_reg_receive_philips_news);
         RegUtility.linkifyMobilePhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsLinkClick);
-        RegUtility.linkifyAccountSettingPhilips(mMobileAccessAccountSettingsLink, getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
+        RegUtility.linkifyAccountSettingPhilips(mAccessAccountSettingsLink, getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
 
-        mTvMobileWelcome.setText(getString(R.string.Signin_Success_Hello_lbltxt) + " " + mUser.getGivenName());
+        mTvWelcome.setText(getString(R.string.Signin_Success_Hello_lbltxt) + " " +/* mUser.getGivenName()*/"Kiran");
 
-        String email = getString(R.string.InitialSignedIn_china_SigninNumberText);
-        email = String.format(email, "1339 9999 9999");
-        mTvSignInMobile.setText(email);
+        String email = getString(R.string.InitialSignedIn_SigninEmailText);
+        email = String.format(email, /*mUser.getEmail()*/"Kiran");
+        mTvSignInEmail.setText(email);
     }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.btn_reg_mobile_sign_out) {
-            RLog.d(RLog.ONCLICK, "WelcomeFragment : Sign Out");
-            showLogoutSpinner();
-            handleLogout();
-        }
-    }
-
-    private void handleLogout() {
-        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SIGN_OUT);
-        mUser.logout(this);
-    }
-
-    private void handleUpdate() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-            mRegMobileError.hideError();
-            showProgressBar();
-            updateUser();
-        } else {
-            mCbMobileTerms.setOnCheckedChangeListener(null);
-            mCbMobileTerms.setChecked(!mCbMobileTerms.isChecked());
-            mCbMobileTerms.setOnCheckedChangeListener(this);
-            mRegMobileError.setError(getString(R.string.NoNetworkConnection));
-            scrollViewAutomatically(mRegMobileError, mSvMobileRootLayout);
-            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
-        }
-    }
-
-    private void showProgressBar() {
-        mPbMobileWelcomeCheck.setVisibility(View.VISIBLE);
-        mCbMobileTerms.setEnabled(false);
-        mBtnMobileLogOut.setEnabled(false);
-
-    }
-
-    private void updateUser() {
-        mUser.updateReceiveMarketingEmail(this, mCbMobileTerms.isChecked());
-    }
-
-    @Override
-    public void onUpdateReceiveMarketingEmailSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                hideProgressBar();
-                if (mCbMobileTerms.isChecked()) {
-                    trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
-                } else {
-                    trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
-                }
-            }
-        });
-    }
-
-    private void hideProgressBar() {
-        mPbMobileWelcomeCheck.setVisibility(View.INVISIBLE);
-        mCbMobileTerms.setEnabled(true);
-        mBtnMobileLogOut.setEnabled(true);
-    }
-
-    @Override
-    public void onUpdateReceiveMarketingEmailFailedWithError(final int error) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleUpdateReceiveMarket(error);
-            }
-        });
-
-    }
-
-    private void handleUpdateReceiveMarket(int error) {
-        hideProgressBar();
-        if (error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
-            if (getRegistrationFragment() != null) {
-                getRegistrationFragment().replaceWithHomeFragment();
-            }
-            return;
-        }
-        if (error == -1 || error == BAD_RESPONSE_ERROR_CODE) {
-            mRegMobileError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
-            return;
-        }
-        mCbMobileTerms.setOnCheckedChangeListener(null);
-        mCbMobileTerms.setChecked(!mCbMobileTerms.isChecked());
-        mCbMobileTerms.setOnCheckedChangeListener(MobileLogoutFragment.this);
-    }
-
-    @Override
-    public void onNetWorkStateReceived(boolean isOnline) {
-        handleUiState();
-    }
 
     @Override
     public int getTitleResourceId() {
         return R.string.Account_Setting_Titletxt;
     }
 
-    @Override
-    public void onLogoutSuccess() {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                trackPage(AppTaggingPages.HOME);
-                hideLogoutSpinner();
-                getRegistrationFragment().replaceWithHomeFragment();
-            }
-        });
-
-    }
-
-    @Override
-    public void onLogoutFailure(int responseCode, final String message) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mBtnMobileLogOut.getVisibility() == View.VISIBLE) {
-                    mBtnMobileLogOut.setEnabled(true);
-                    mBtnMobileLogOut.setClickable(true);
-                }
-                hideLogoutSpinner();
-                mRegMobileError.setError(message);
-            }
-        });
-    }
-
-    private void showLogoutSpinner() {
-        if (!(getActivity().isFinishing()) && (mMobileProgressDialog != null)) mMobileProgressDialog.show();
-        mBtnMobileLogOut.setEnabled(false);
-        mCbMobileTerms.setEnabled(false);
-    }
-
-    private void hideLogoutSpinner() {
-        if (mMobileProgressDialog != null && mMobileProgressDialog.isShowing()) {
-            mMobileProgressDialog.cancel();
-        }
-        mBtnMobileLogOut.setEnabled(true);
-        mCbMobileTerms.setEnabled(true);
-    }
-
-    private void handleUiState() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                mRegMobileError.hideError();
-            } else {
-                mRegMobileError.hideError();
-            }
-        } else {
-            mRegMobileError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
-            trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
-        }
-    }
-
     private ClickableSpan mPhilipsSettingLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onTermsAndConditionClick");
+            RLog.d(RLog.EVENT_LISTENERS, "MobileLogoutFragment : onTermsAndConditionClick");
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(RegConstants.PHILIPS_LOGIN_URL));
             startActivity(browserIntent);
         }
@@ -373,13 +214,30 @@ public class MobileLogoutFragment extends RegistrationBaseFragment implements Vi
     private ClickableSpan mPhilipsNewsLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            getRegistrationFragment().addPhilipsNewsFragment();
-            trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
+            RLog.d(RLog.EVENT_LISTENERS, "MobileLogoutFragment : onTermsAndConditionClick");
         }
     };
 
-    @Override
-    public void onCheckedChanged(View view, boolean checked) {
-        handleUpdate();
+    public void getLogout() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                getRegistrationFragment().replaceWithHomeFragment();
+            }
+        });
+    }
+    public void networkUiState() {
+        if (NetworkUtility.isNetworkAvailable(mContext)) {
+            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+                mRegError.hideError();
+            } else {
+                mRegError.hideError();
+            }
+            mBtnLogOut.setEnabled(true);
+        } else {
+            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
+            mBtnLogOut.setEnabled(false);
+        }
     }
 }
