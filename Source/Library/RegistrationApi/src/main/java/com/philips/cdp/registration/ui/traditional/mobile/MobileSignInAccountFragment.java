@@ -332,7 +332,7 @@ public class MobileSignInAccountFragment extends RegistrationBaseFragment
         }
     }
  public void setMobileLogout(){
-     getRegistrationFragment().addFragment(new MobileWelcomeFragment());
+     getRegistrationFragment().addFragment(new MobileLogoutFragment());
  }
 
 //    @Override

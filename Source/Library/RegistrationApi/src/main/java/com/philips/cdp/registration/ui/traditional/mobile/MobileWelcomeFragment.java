@@ -63,8 +63,9 @@ public class MobileWelcomeFragment extends RegistrationBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
-        View view = inflater.inflate(R.layout.reg_mobile_fragment_welcome, null);
         RegistrationHelper.getInstance().registerNetworkStateListener(mWelcomeController);
+        View view = inflater.inflate(R.layout.reg_mobile_fragment_welcome, null);
+
 
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         init(view);

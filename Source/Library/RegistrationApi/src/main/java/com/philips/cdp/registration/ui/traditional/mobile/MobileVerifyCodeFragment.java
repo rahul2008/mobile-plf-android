@@ -184,7 +184,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
     }
 
     public void addCodeVerificationSuccess() {
-        getRegistrationFragment().addFragment(new MobileLogoutFragment());
+        getRegistrationFragment().addFragment(new MobileWelcomeFragment());
     }
 
     public void handleUI() {

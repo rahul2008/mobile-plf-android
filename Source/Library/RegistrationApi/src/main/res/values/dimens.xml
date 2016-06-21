@@ -150,5 +150,5 @@
     <integer name="reg_et_phone_number_max_length">10</integer>
 
 
-    <integer name="reg_et_enter_code_max_length">4</integer>
+    <integer name="reg_et_enter_code_max_length">7</integer>
 </resources>
