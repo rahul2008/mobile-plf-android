@@ -227,7 +227,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
 
         public void onTick(long millisUntilFinished) {
             RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : "+millisUntilFinished / 1000);
-            mEtCodeNUmber.setCountertimer(String.format("%02d", +millisUntilFinished / 1000));
+            mEtCodeNUmber.setCountertimer(String.format("%02d", +millisUntilFinished / 1000)+"s");
         }
     }
 }

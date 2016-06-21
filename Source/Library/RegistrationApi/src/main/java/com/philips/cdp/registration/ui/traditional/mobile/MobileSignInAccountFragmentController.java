@@ -3,7 +3,6 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 import android.view.View;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
@@ -59,8 +58,12 @@ public class MobileSignInAccountFragmentController implements NetworStateListene
         int id = v.getId();
         if (id == R.id.btn_reg_sign_in) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : SignIn");
-            mMobileSignInAccountFragment.hideValidations();
-            mMobileSignInAccountFragment.signIn();
+            if(RegConstants.IS_MOBILE_NUMBER_LOG_IN) {
+               mMobileSignInAccountFragment.setMobileLogout();
+            }else{
+                mMobileSignInAccountFragment.hideValidations();
+                mMobileSignInAccountFragment.signIn();
+            }
         } else if (id == R.id.btn_reg_forgot_password) {
 //            RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
 //            hideValidations();

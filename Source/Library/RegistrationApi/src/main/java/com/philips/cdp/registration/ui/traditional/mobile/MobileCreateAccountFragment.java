@@ -37,7 +37,6 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
-import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XPasswordHint;
 import com.philips.cdp.registration.ui.customviews.XPhoneNumber;
@@ -47,7 +46,6 @@ import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.CreateAccountFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -212,14 +210,18 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
     public void onClick(View v) {
         if (v.getId() == R.id.btn_reg_register) {
             RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
-            if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
-                if (mCbAcceptTerms.isChecked()) {
-                    register();
+            if(RegConstants.IS_MOBILE_NUMBER_LOG_IN) {
+                getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+            }else{
+                if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+                    if (mCbAcceptTerms.isChecked()) {
+                        register();
+                    } else {
+                        mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                    }
                 } else {
-                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                    register();
                 }
-            } else {
-                register();
             }
         }else if (v.getId() == R.id.btn_reg_register_using_email) {
             RLog.d(RLog.ONCLICK, "CreateAccountFragment using email : Register Account");
@@ -389,7 +391,11 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
     }
 
     private void launchWelcomeFragment() {
-        getRegistrationFragment().replaceWelcomeFragmentOnLogin(new WelcomeFragment());
+        if(RegConstants.IS_MOBILE_NUMBER_LOG_IN) {
+            getRegistrationFragment().replaceWelcomeFragmentOnLogin(new MobileWelcomeFragment());
+        }else {
+            getRegistrationFragment().replaceWelcomeFragmentOnLogin(new com.philips.cdp.registration.ui.traditional.WelcomeFragment());
+        }
         trackPage(AppTaggingPages.WELCOME);
     }
 
