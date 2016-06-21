@@ -11,5 +11,5 @@ public interface IAPExposedAPI {
 
     void getProductCartCount(IAPHandlerListener iapHandlerListener);
 
-    //void getCompleteProductList(IAPHandlerListener iapHandlerListener);
+    void getCompleteProductList(IAPHandlerListener iapHandlerListener);
 }

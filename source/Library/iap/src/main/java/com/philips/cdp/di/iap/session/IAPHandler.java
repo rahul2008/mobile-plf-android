@@ -47,6 +47,11 @@ public class IAPHandler implements IAPExposedAPI {
         mImplementationHandler.getProductCartCount(iapHandlerListener);
     }
 
+    @Override
+    public void getCompleteProductList(IAPHandlerListener iapHandlerListener) {
+        mImplementationHandler.getCompleteProductList(iapHandlerListener);
+    }
+
     private void setLangAndCountry(final String language, final String country) {
         HybrisDelegate.getInstance().getStore().setLangAndCountry(language, country);
     }

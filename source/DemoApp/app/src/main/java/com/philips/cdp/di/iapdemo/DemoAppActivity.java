@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -69,7 +71,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     //We require this to track for hiding the cart icon in demo app
     IAPSettings mIAPSettings;
     private Button mFragmentLaunch;
-
+    private Handler handler;
     private ArrayList<String> mProductList;
 
     @Override
@@ -140,7 +142,17 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mEnvironmentPreference = new EnvironmentPreferences(this);
         mSpinnerEnv.setSelection(mEnvironmentPreference.getSelectedEnvironmentIndex());
+
+        handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mIapHandler.getCompleteProductList(mGetCompleteProductListener);
+            }
+        }, 1000);
+
     }
+
 
     @Override
     protected void onResume() {
@@ -161,12 +173,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mUser = new User(this);
         if (mUser.isUserSignIn()) {
             displayViews();
-            if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
-                Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
-                mIapHandler.getProductCartCount(mProductCountListener);
-            }
+//            if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
+//                Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
+//                mIapHandler.getProductCartCount(mProductCountListener);
+//
+//            }
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -203,7 +217,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 }
                 break;
             case R.id.btn_fragment_launch:
-                mIapHandler.launchCategorizedCatalog(mProductList);
+                //  mIapHandler.launchCategorizedCatalog(mProductList);
                 Intent intent = new Intent(this, LauncherFragmentActivity.class);
                 this.startActivity(intent);
                 break;
@@ -243,6 +257,26 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     }
 
+    private IAPHandlerListener mGetCompleteProductListener = new IAPHandlerListener() {
+
+        @Override
+        public void onSuccess(int count) {
+            Utility.dismissProgressDialog();
+            IAPLog.d(IAPLog.LOG, "Product List count=" + count);
+        }
+
+        @Override
+        public void onFailure(int errorCode) {
+            Utility.dismissProgressDialog();
+        }
+
+        @Override
+        public void onFetchOfProductList(ArrayList<String> productList) {
+            Utility.dismissProgressDialog();
+            IAPLog.d(IAPLog.LOG, "Product List =" + productList.toString());
+        }
+    };
+
     private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
         @Override
         public void onSuccess(final int count) {
@@ -263,6 +297,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             showToast(errorCode);
             mProductCountRequested = false;
         }
+
+        @Override
+        public void onFetchOfProductList(ArrayList<String> productList) {
+
+        }
     };
 
     private IAPHandlerListener mBuyProductListener = new IAPHandlerListener() {
@@ -275,6 +314,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         public void onFailure(final int errorCode) {
             Utility.dismissProgressDialog();
             showToast(errorCode);
+        }
+
+        @Override
+        public void onFetchOfProductList(ArrayList<String> productList) {
+
         }
 
     };
@@ -334,11 +378,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 //            setUseLocalData();
                     mIapHandler = IAPHandler.init(this, mIAPSettings);
                     updateCartIcon();
-                    if (!shouldUseLocalData()) {
-                        Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
-                        mProductCountRequested = true;
-                        mIapHandler.getProductCartCount(mProductCountListener);
-                    }
+//                    if (!shouldUseLocalData()) {
+//                        Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
+//                        mProductCountRequested = true;
+//                        mIapHandler.getProductCartCount(mProductCountListener);
+//                    }
                 }
                 break;
             case R.id.spinner_env:
