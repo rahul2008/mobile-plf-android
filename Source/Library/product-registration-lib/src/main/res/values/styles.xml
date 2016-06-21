@@ -32,7 +32,7 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
-    <style name="ProductRegsitraionConnectSubTitleTheme">
+    <style name="ProductRegistrationConnectSubTitleTheme">
         <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">12sp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>

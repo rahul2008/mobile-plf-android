@@ -198,3 +198,11 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
 	Version - 1.0.2.rc2                        Date: 19-06-2016
 -------------------------------------------------------------
 	1. PRA-240 - As a user I shall be able to register single Product as per UI designed for semi automatic in portrait and landscape mode for phones
+	
+	Version - 1.0.2.rc3                        Date: 21-06-2016
+-------------------------------------------------------------
+	1.PRA-200 - As a user I shall be able to register single Product as per UI designed for semi automatic in landscape register screen 
+	2.PRA-205 - post registration message screen - Portrait and Land scape
+	3.PRA-245 - Product reg sample should run in release mode after applying Proguard 
+	4.PRA-249 - App should run as usual on enabling developer mode option	
+	5.PRA-250 - Make configurable time out and retry count on Prx component

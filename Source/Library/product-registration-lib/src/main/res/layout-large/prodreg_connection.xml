@@ -18,12 +18,12 @@
 
     <TextView
         android:id="@+id/reg_another_prod_textview"
-        style="@style/ProductRegsitraionConnectSubTitleTheme"
+        style="@style/ProductRegistrationConnectSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pr_all_success_textview"
         android:layout_marginTop="@dimen/pr_d_value_tablet"
-        android:text="@string/do_you_want_to_reg_msg"/>
+        android:text="@string/PPR_Do_You_Want_To_Reg_Lbltxt"/>
 
 
     <Button
@@ -42,7 +42,7 @@
         android:layout_below="@+id/back_btn"
         android:layout_gravity="bottom|center"
         android:layout_marginTop="@dimen/pr_c_value_tablet"
-        android:text="@string/connect_to_product"
+        android:text="@string/PPR_Connect_Product_Btntxt"
         android:textAllCaps="false"
         android:visibility="gone"/>
 

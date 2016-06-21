@@ -20,7 +20,7 @@
         android:text="@string/PPR_AllProducts_Registered_Lbltxt"/>
 
     <TextView
-        style="@style/ProductRegsitraionConnectSubTitleTheme"
+        style="@style/ProductRegistrationConnectSubTitleTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pr_all_success_textview"
@@ -29,7 +29,7 @@
         android:paddingLeft="@dimen/pr_e_value_sm"
         android:paddingRight="@dimen/pr_e_value_sm"
         android:paddingTop="@dimen/pr_d_value_sm"
-        android:text="@string/do_you_want_to_reg_msg"/>
+        android:text="@string/PPR_Do_You_Want_To_Reg_Lbltxt"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:id="@+id/back_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/back"
+            android:text="@string/PPR_Back_Btntxt"
             android:textAllCaps="false"/>
 
         <Button
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:text="@string/connect_to_product"
+            android:text="@string/PPR_Connect_Product_Btntxt"
             android:textAllCaps="false"
             android:visibility="gone"/>
     </LinearLayout>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="prod_reg_benefits_conf_message">@string/prod_reg_benefits_conf_text</string>
-    <string name="prod_reg_success_conf_message">@string/prod_reg_success_conf_text</string>
+    <string name="prod_reg_success_conf_message">@string/PPR_Extende_Warranty_Lbltxt</string>
 </resources>

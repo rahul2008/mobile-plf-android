@@ -11,24 +11,25 @@
     <string name="PPR_RegYourProduct_Lbltxt">Register your products and:</string>
     <string name="zero">0</string>
     <string name="date_formate">yyyy-MM-dd</string>
-    <string name="register_text">Register</string>
+    <string name="PPR_Register_Btntxt">Register</string>
     <string name="PPR_Yes_Btntxt">Yes</string>
     <string name="PPR_RegLater_Btntxt">No thanks, register later</string>
     <string name="PPR_AllProducts_Registered_Lbltxt">All the products that are currently connected to this app have been registered successfully!</string>
-    <string name="do_you_want_to_reg_msg">Do you want to register another product?\n-If it is a connected Philips product, make sure you have connected the produc to this app.\n-Or register your product in web version at www.philips.com</string>
-    <string name="connect_to_product">Connect a product</string>
-    <string name="successfully_registered">Successfully registered!</string>
+    <string name="PPR_Do_You_Want_To_Reg_Lbltxt">Do you want to register another product?\n\n-If it is a connected Philips product, make sure you have connected the product to this app.\n-Or register your product in web version at www.philips.com</string>
+    <string name="PPR_Connect_Product_Btntxt">Connect a product</string>
+    <string name="PPR_RegSuccess_Lbltxt">Successfully registered!</string>
     <string name="contibue_text">Continue</string>
     <string name="register_next">Register next</string>
     <string name="back_to_list">Back to list</string>
     <string name="date_of_purchase">Date of purchase</string>
+    <string name="PPR_No_Internet_Title">No internet connection!</string>
     <string name="pr_first_launch_subtext_first">-Receive important updates about your \n products</string>
     <string name="prod_reg_registering_product">Registering your product</string>
-    <string name="prod_reg_benefits_conf_text">-Extend your warrenty for 24 months.\n-Receive 10% discount in the Philips.\n-Receive free product accessories.
+    <string name="prod_reg_benefits_conf_text">-Extend your warranty for 24 months.\n-Receive 10% discount in the Philips.\n-Receive free product accessories.
 </string>
-    <string name="prod_reg_success_conf_text">Your warranty period has been extended until next year.\n\nAn email with extended warranty contract has been sent out to your email address.
+    <string name="PPR_Extende_Warranty_Lbltxt">Your warranty period has been extended until next year.\n\nAn email with extended warranty contract has been sent out to your email address.
 </string>
-    <string name="back">Back</string>
+    <string name="PPR_Back_Btntxt">Back</string>
     <string name="PPR_Looking_For_Products_Lbltxt">Looking for your products</string>
     <string name="serial_number">Serial number:</string>
 </resources>
