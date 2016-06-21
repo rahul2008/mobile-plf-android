@@ -138,6 +138,6 @@
         android:layout_marginBottom="@dimen/pr_e_value_sm"
         android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
         android:layout_marginRight="@dimen/pr_first_launch_padding_right"
-        android:text="@string/register_text"
+        android:text="@string/PPR_Yes_Btntxt"
         android:textAllCaps="false"/>
 </RelativeLayout>

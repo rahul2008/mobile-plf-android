@@ -10,11 +10,11 @@
 
     <TextView
         android:id="@+id/pr_all_success_textview"
-        style="@style/ProductRegsitraionConnectHeaderTitleTheme"
+        style="@style/ProductRegistrationConnectHeaderTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="@string/all_pr_success_message"/>
+        android:text="@string/PPR_AllProducts_Registered_Lbltxt"/>
 
     <TextView
         android:id="@+id/reg_another_prod_textview"

@@ -9,16 +9,16 @@
 
     <TextView
         android:id="@+id/conf_action_textview"
-        style="@style/ProductRegsitraionHeaderTitleTheme"
+        style="@style/ProductRegistrationHeaderTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_gravity="center"
-        android:text="@string/prod_reg_register_product_message"/>
+        android:text="@string/PPR_RegYourProduct_Lbltxt"/>
 
     <TextView
         android:id="@+id/conf_subtext_textview"
-        style="@style/ProductRegsitraionSubTitleTheme"
+        style="@style/ProductRegistrationSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/conf_action_textview"
@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/conf_subtext_two_textview"
-        style="@style/ProductRegsitraionSubTitleTheme"
+        style="@style/ProductRegistrationSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/conf_action_textview"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/conf_subtext_textview"
         android:layout_marginTop="@dimen/pr_d_value_tablet"
-        android:text="@string/register_text"
+        android:text="@string/PPR_Yes_Btntxt"
         android:textAllCaps="false"/>
 
     <Button
@@ -54,7 +54,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="bottom|center"
         android:layout_marginTop="@dimen/pr_c_value_tablet"
-        android:text="@string/no_thanks_text"
+        android:text="@string/PPR_RegLater_Btntxt"
         android:textAllCaps="false"/>
 
 </RelativeLayout>

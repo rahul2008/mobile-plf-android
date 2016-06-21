@@ -87,7 +87,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return getActivity().getString(R.string.prodreg_actionbar_title);
+        return getActivity().getString(R.string.PPR_NavBar_Title);
     }
 
     @Override

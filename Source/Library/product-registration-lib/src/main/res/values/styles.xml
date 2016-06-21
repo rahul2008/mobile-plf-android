@@ -14,19 +14,19 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="ProductRegsitraionHeaderTitleTheme">
+    <style name="ProductRegistrationHeaderTitleTheme">
         <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">22sp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
-    <style name="ProductRegsitraionSubTitleTheme">
+    <style name="ProductRegistrationSubTitleTheme">
         <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">15sp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
-    <style name="ProductRegsitraionConnectHeaderTitleTheme">
+    <style name="ProductRegistrationConnectHeaderTitleTheme">
         <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">15sp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>

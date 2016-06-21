@@ -43,14 +43,14 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return getActivity().getString(R.string.prodreg_actionbar_title);
+        return getActivity().getString(R.string.PPR_NavBar_Title);
     }
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_process, container, false);
-        showProgressAlertDialog(getActivity().getString(R.string.prodreg_looking_products));
+        showProgressAlertDialog(getActivity().getString(R.string.PPR_Looking_For_Products_Lbltxt));
         return view;
     }
 

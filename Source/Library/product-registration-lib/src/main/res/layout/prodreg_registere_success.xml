@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/pr_success_title_textview"
-                style="@style/ProductRegsitraionHeaderTitleTheme"
+                style="@style/ProductRegistrationHeaderTitleTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/pr_success_more_textview"
-                style="@style/ProductRegsitraionSubTitleTheme"
+                style="@style/ProductRegistrationSubTitleTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pr_success_title_textview"
