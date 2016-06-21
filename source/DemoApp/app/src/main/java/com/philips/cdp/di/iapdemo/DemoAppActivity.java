@@ -173,11 +173,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mUser = new User(this);
         if (mUser.isUserSignIn()) {
             displayViews();
-//            if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
-//                Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
-//                mIapHandler.getProductCartCount(mProductCountListener);
-//
-//            }
+            if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
+                Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
+                mIapHandler.getProductCartCount(mProductCountListener);
+
+            }
         }
     }
 
@@ -378,11 +378,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 //            setUseLocalData();
                     mIapHandler = IAPHandler.init(this, mIAPSettings);
                     updateCartIcon();
-//                    if (!shouldUseLocalData()) {
-//                        Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
-//                        mProductCountRequested = true;
-//                        mIapHandler.getProductCartCount(mProductCountListener);
-//                    }
+                    if (!shouldUseLocalData()) {
+                        Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
+                        mProductCountRequested = true;
+                        mIapHandler.getProductCartCount(mProductCountListener);
+                    }
                 }
                 break;
             case R.id.spinner_env:
