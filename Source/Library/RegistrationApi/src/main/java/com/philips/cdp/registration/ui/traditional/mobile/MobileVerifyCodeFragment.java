@@ -26,8 +26,8 @@ import android.widget.ScrollView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.XVerifyHint;
 import com.philips.cdp.registration.ui.customviews.XVerifyNumber;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -49,7 +49,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
 
     private ScrollView mSvRootLayout;
 
-    private XVerifyHint mPasswordHintView;
+    private XMobileHavingProblems mVeifyHintView;
 
     private VerifyCodeFragmentController mobileActivationController;
 
@@ -141,7 +141,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
     public void setViewParams(Configuration config, int width) {
         applyParams(config, mLlCreateAccountFields, width);
         applyParams(config, mRlCreateActtBtnContainer, width);
-        applyParams(config, mPasswordHintView, width);
+        applyParams(config, mVeifyHintView, width);
         applyParams(config, mRegError, width);
     }
 
@@ -153,7 +153,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
     private void initUI(View view) {
         consumeTouch(view);
 
-        mPasswordHintView = (XVerifyHint) view.findViewById(R.id.view_reg_password_hint);
+        mVeifyHintView = (XMobileHavingProblems) view.findViewById(R.id.view_reg_verify_hint);
 
         mLlCreateAccountFields = (LinearLayout) view.findViewById(R.id.ll_reg_create_account_fields);
         mRlCreateActtBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_singin_options);

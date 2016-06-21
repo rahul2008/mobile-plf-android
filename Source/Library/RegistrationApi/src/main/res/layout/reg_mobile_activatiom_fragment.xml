@@ -44,18 +44,21 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_reg_create_account_container"
                 style="@style/reg_text_background"
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
                 android:layout_marginTop="0dip">
 
-                <com.philips.cdp.registration.ui.customviews.XVerifyHint
-                    android:id="@+id/view_reg_password_hint"
+                <com.philips.cdp.registration.ui.customviews.XMobileHavingProblems
+                    android:id="@+id/view_reg_verify_hint"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:layout_marginTop="@dimen/reg_margin_bottom"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/reg_margin_bottom"
                     android:paddingLeft="@dimen/reg_layout_margin"
-                    android:paddingRight="@dimen/reg_layout_margin"/>
+                    android:paddingRight="@dimen/reg_layout_margin"
+                    android:paddingTop="@dimen/reg_margin_bottom"/>
+
 
 
             </LinearLayout>

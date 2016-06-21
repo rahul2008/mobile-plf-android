@@ -147,10 +147,10 @@
     <string name="InitialSignedIn_china_SigninNumberText">You have logged in with number: %s</string>
     <string name="mobileActivation_meassage">We have sent an SMS with a code to your phone, please enter this code to log in.</string>
     <string name="Verify_btntxt">Verify account</string>
-    <string name="Verfiy_Hint_lbltxt">Having problems ?</string>
-    <string name="Verfiy_SMS_Hint_lbltxt">It may take some time for the SMS with the code to arrive </string>
-    <string name="Verfiy_countdown_Hint_lbltxt">if you did not recive an SMS when the countdown clock ends, press the Resend button</string>
     <string name="Enter_Code_Placeholder_txtFiled">Enter Code</string>
     <string name="Mobile_Resend_btntxt">resend</string>
+    <string name="Verfiy_Hint_lbltxt">Having problems?\n-  It may take some time for the SMS with the code to arrive \n-  if you did not recive an SMS when the countdown clock ends, press the Resend button</string>
+
+
 
 </resources>
