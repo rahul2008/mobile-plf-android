@@ -23,6 +23,7 @@ import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -41,12 +42,21 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
     ImageView mCross;
     BuyFromRetailersAdapter mAdapter;
     String mCtn;
+    private boolean isDataAvailable = false;
+    private ArrayList<StoreEntity> mStoreEntity;// = new ArrayList<>();
 
     public static BuyFromRetailersFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
         BuyFromRetailersFragment fragment = new BuyFromRetailersFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -59,7 +69,6 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
 //        mCross.setImageDrawable(crossDrawable);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.iap_retailer_list);
-
         mCtn = getArguments().getString(ModelConstants.PRODUCT_CODE);
 
 //        mCrossContainer.setOnClickListener(new View.OnClickListener() {
@@ -73,19 +82,17 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
-    public void onActivityCreated(final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitle(R.string.iap_retailer_title);
         // ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        getRetailersInformation();
+        if (!isNetworkNotConnected() && !isDataAvailable) {
+            getRetailersInformation();
+        } else {
+            mAdapter = new BuyFromRetailersAdapter(getContext(), mStoreEntity, getFragmentManager(), getId());
+            mRecyclerView.setAdapter(mAdapter);
+        }
     }
 
     private void getRetailersInformation() {
@@ -105,14 +112,18 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onLoadFinished(final ArrayList<StoreEntity> data) {
-        mAdapter = new BuyFromRetailersAdapter(getContext(), data, getFragmentManager(), getId());
+        mStoreEntity = data;
+        mAdapter = new BuyFromRetailersAdapter(getContext(), mStoreEntity, getFragmentManager(), getId());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
+        isDataAvailable = true;
     }
 
     @Override
     public void onLoadListenerError(IAPNetworkError error) {
         // NOP
+        isDataAvailable = false;
+        IAPLog.d(IAPLog.LOG, "IAPNetworkError " + error);
     }
 
     @Override
