@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.OrderHistoryAdapter;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.controller.OrderController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
@@ -49,6 +51,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_HISTORY_PAGE_NAME);
         setTitle(R.string.iap_order_history);
     }
 
