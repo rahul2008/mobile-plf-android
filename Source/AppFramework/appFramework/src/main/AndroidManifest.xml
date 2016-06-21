@@ -29,13 +29,13 @@
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <activity android:name=".homescreen.HomeActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
-        <receiver
-            android:name="com.philips.cdp.appframework.utility.NetworkReceiver"
-            android:exported="false">
-            <intent-filter android:priority="999">
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver-->
+            <!--android:name="com.philips.cdp.appframework.utility.NetworkReceiver"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter android:priority="999">-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
     </application>
 

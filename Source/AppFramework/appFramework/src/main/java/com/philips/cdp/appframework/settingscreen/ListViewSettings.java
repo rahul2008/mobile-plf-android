@@ -4,10 +4,11 @@
  */
 package com.philips.cdp.appframework.settingscreen;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
+import com.philips.cdp.appframework.utility.Logger;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.shamanland.fonticon.FontIconTextView;
@@ -29,22 +31,29 @@ import com.shamanland.fonticon.FontIconTextView;
  * @since: June 17, 2016
  */
 public class ListViewSettings extends BaseAdapter {
-    public Activity activity;
+    public Context mActivity;
     Bundle saveBundle = new Bundle();
     private LayoutInflater inflater = null;
+    private User mUser = null;
+    private String[] mSettingsItemList = null;
+//    private static int mPosition = 0;
 
-    public ListViewSettings(Activity activity) {
-        this.activity = activity;
-        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public ListViewSettings(Context context) {
+        mActivity = context;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mUser = new User(context);
+        mSettingsItemList = context.getResources().getStringArray(R.array.settingsScreen_list);
     }
 
     @Override
     public int getCount() {
-        return 9;
+//        Logger.i("testing","mSettingsItemList.length -- " + mSettingsItemList.length);
+        return 9/*mSettingsItemList.length*/;
     }
 
     @Override
     public Object getItem(final int position) {
+//        Logger.i("testing",".position -- " + position);
         return position;
     }
 
@@ -112,7 +121,6 @@ public class ListViewSettings extends BaseAdapter {
             arrow.setVisibility(View.VISIBLE);
         }
 
-
         if (position == 4) {
             name.setVisibility(View.VISIBLE);
             name.setText(getString(R.string.settings_list_item_four));
@@ -133,32 +141,41 @@ public class ListViewSettings extends BaseAdapter {
             description.setText(descText);
             //  mBadge.setVisibility(View.VISIBLE);
             arrow.setVisibility(View.GONE);
+
+//            if(!mUser.isUserSignIn()){
+//                vi.setVisibility(View.GONE);
+//            }
         }
 
-        if (position == 5) {
-            titleText = Html.fromHtml(getString(R.string.settings_list_item_purchases));
-            //name.setVisibility(View.VISIBLE);
-            name.setText(titleText);
+//        if (mUser.isUserSignIn()) {
+//            if(!mUser.isUserSignIn()){
+//                vi.setVisibility(View.GONE);
+//            }
+            if (position == 5) {
+                titleText = Html.fromHtml(getString(R.string.settings_list_item_purchases));
+                //name.setVisibility(View.VISIBLE);
+                name.setText(titleText);
 
-            value.setVisibility(View.GONE);
-            description.setVisibility(View.GONE);
-            number.setVisibility(View.GONE);
-            on_off.setVisibility(View.GONE);
-            arrow.setVisibility(View.INVISIBLE);
-        }
+                value.setVisibility(View.GONE);
+                description.setVisibility(View.GONE);
+                number.setVisibility(View.GONE);
+                on_off.setVisibility(View.GONE);
+                arrow.setVisibility(View.INVISIBLE);
+            }
 
-        if (position == 6) {
-            name.setText(getString(R.string.settings_list_item_order_history));
+            if (position == 6) {
+                name.setText(getString(R.string.settings_list_item_order_history));
 
-            value.setVisibility(View.GONE);
-            description.setVisibility(View.GONE);
-            on_off.setVisibility(View.GONE);
-            arrow.setVisibility(View.VISIBLE);
-        }
+                value.setVisibility(View.GONE);
+                description.setVisibility(View.GONE);
+                on_off.setVisibility(View.GONE);
+                arrow.setVisibility(View.VISIBLE);
+            }
+//        }
 
         if (position == 7) {
             //name.setVisibility(View.VISIBLE);
-            titleText = Html.fromHtml(getString(R.string.settings_list_item_purchases));
+            titleText = Html.fromHtml(getString(R.string.settings_list_item_my_acc));
             name.setText(titleText);
 
             value.setVisibility(View.GONE);
@@ -169,29 +186,48 @@ public class ListViewSettings extends BaseAdapter {
         }
 
         if (position == 8) {
-            name.setText(getString(R.string.settings_list_item_log_out));
+            if (mUser.isUserSignIn()) {
+                name.setText(getString(R.string.settings_list_item_log_out));
+                logoutAlert();
+            } else {
+                name.setText(getString(R.string.settings_list_item_login));
+                loginUserRegistration(vi);
+            }
 
             value.setVisibility(View.GONE);
             description.setVisibility(View.GONE);
             on_off.setVisibility(View.GONE);
             arrow.setVisibility(View.VISIBLE);
-
-            vi.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    if () {
-                        activity.startActivity(new Intent(activity, UserRegistrationActivity.class));
-//                    }
-//                    else
-                }
-            });
         }
-
-        //image.setColorFilter(Color.GREEN);
-        // name.setText("DiamondClean");
-        //  value.setText("€209,99*");
-        //  from.setText("from");
         return vi;
+    }
+
+    private void loginUserRegistration(View view) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
+            }
+        });
+    }
+
+    private void logoutAlert() {
+        new AlertDialog.Builder(mActivity)
+                .setTitle(getString(R.string.settings_list_item_log_out))
+                .setMessage("Are you sure want to log out?")
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(getString(R.string.settings_list_item_log_out),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
+                            }
+                        })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     public Bundle getSavedBundle() {
@@ -209,6 +245,6 @@ public class ListViewSettings extends BaseAdapter {
     }
 
     private String getString(int id) {
-        return activity.getResources().getString(id);
+        return mActivity.getResources().getString(id);
     }
 }
