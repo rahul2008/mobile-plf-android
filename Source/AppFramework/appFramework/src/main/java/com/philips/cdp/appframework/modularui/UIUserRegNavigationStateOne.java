@@ -22,7 +22,6 @@ public class UIUserRegNavigationStateOne implements UIBaseNavigation {
 
         }
 
-        UIFlowManager.addToStateList(wsNavStateOne);
         return destinationScreen;
     }
 

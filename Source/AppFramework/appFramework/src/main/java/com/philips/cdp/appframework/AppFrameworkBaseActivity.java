@@ -5,7 +5,6 @@
 */
 package com.philips.cdp.appframework;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import android.view.Window;
 
 import com.philips.cdp.appframework.utility.Constants;
 import com.philips.cdp.appframework.utility.Logger;
+import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
 
@@ -104,19 +104,11 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         transaction.commit();
     }
 
-    protected void setIntroScreenDonePressed() {
-        if (mSharedPreference == null) {
-            mSharedPreference = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        }
-        SharedPreferences.Editor editor = mSharedPreference.edit();
-        editor.putBoolean(DONE_PRESSED, true);
-        editor.commit();
+    public static void setIntroScreenDonePressed() {
+        SharedPreferenceUtility.getInstance().writePreferenceBoolean(DONE_PRESSED,true);
     }
 
-    protected Boolean getIntroScreenDonePressed() {
-        if (mSharedPreference == null) {
-            mSharedPreference = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        }
-        return mSharedPreference.getBoolean(DONE_PRESSED, false);
+    public static Boolean getIntroScreenDonePressed() {
+        return SharedPreferenceUtility.getInstance().getPreferenceBoolean(DONE_PRESSED);
     }
 }

@@ -9,6 +9,7 @@ import android.app.Application;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.appframework.modularui.UIFlowManager;
+import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -25,7 +26,9 @@ public class AppFrameworkApplication extends Application {
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
+        SharedPreferenceUtility.getInstance().Initialize(getApplicationContext());
         initializeUserRegistrationLibrary();
+        UIFlowManager.checkUserSignInAndDonePressed(getApplicationContext());
         UIFlowManager.populateStateBaseList();
         UIFlowManager.populateActivityMap();
     }

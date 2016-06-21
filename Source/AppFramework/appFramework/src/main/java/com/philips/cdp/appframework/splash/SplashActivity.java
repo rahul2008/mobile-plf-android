@@ -21,8 +21,12 @@ import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HomeActivity;
 import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
+import com.philips.cdp.appframework.modularui.UIFlowManager;
+import com.philips.cdp.appframework.modularui.UIState;
+import com.philips.cdp.appframework.modularui.UIStateDefintions;
+import com.philips.cdp.appframework.modularui.UIWSNavigationStateOne;
+import com.philips.cdp.appframework.modularui.UIWSNavigationStateTwo;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
@@ -109,7 +113,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                User user = new User(SplashActivity.this);
+               /* User user = new User(SplashActivity.this);
                 if (getIntroScreenDonePressed()) {
                     if (user.isUserSignIn()) {
                         startActivity(new Intent(SplashActivity.this, HomeActivity.class));
@@ -119,7 +123,24 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 } else {
                     Intent i = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
                     startActivity(i);
-                }
+                }*/
+
+                @UIStateDefintions.UIStateDef int stateID =  UIFlowManager.currentState.getNavigator().onClick(0, SplashActivity.this);
+                switch(stateID){
+                    case UIStateDefintions.UI_SPLASH_STATE_ONE:
+                        UIFlowManager.currentState = new UIState(new UIWSNavigationStateOne(),UIStateDefintions.UI_HOME_STATE_ONE);
+                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                        break;
+                    case UIStateDefintions.UI_SPLASH_STATE_TWO:
+                        UIFlowManager.currentState = new UIState(new UIWSNavigationStateOne(),UIStateDefintions.UI_REGISTRATION_STATE_ONE);
+                        startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
+                        break;
+                    case UIStateDefintions.UI_SPLASH_STATE_THREE:
+                        UIFlowManager.currentState = new UIState(new UIWSNavigationStateTwo(),UIStateDefintions.UI_WELCOME_STATE_TWO);
+                        startActivity(new Intent(SplashActivity.this, IntroductionScreenActivity.class));
+                        break;
+
+                    }
 
                 finish();
             }

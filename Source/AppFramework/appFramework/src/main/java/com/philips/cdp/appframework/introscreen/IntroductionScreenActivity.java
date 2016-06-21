@@ -22,10 +22,7 @@ import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.appframework.modularui.UIStateDefintions;
 import com.philips.cdp.appframework.modularui.UIUserRegNavigationStateOne;
-import com.philips.cdp.appframework.modularui.UIWSNavigationStateOne;
-import com.philips.cdp.appframework.modularui.UIWSNavigationStateTwo;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -252,6 +249,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
                 setIntroScreenDonePressed();
                 @UIStateDefintions.UIStateDef int currentState = wsNavigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
 
+
                 switch (currentState){
                     case UIStateDefintions.UI_WELCOME_STATE_ONE : if(UIFlowManager.activityMap.get(UIStateDefintions.UI_WELCOME_STATE_ONE).equalsIgnoreCase("HomeActivity")){
                         startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
@@ -269,13 +267,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     protected void onResume() {
         super.onResume();
 
-        User user = new User(this);
-        if (user.isUserSignIn()) {
-            wsNavigator = new UIWSNavigationStateOne();
-
-        } else {
-            wsNavigator = new UIWSNavigationStateTwo();
-        }
+        wsNavigator = UIFlowManager.currentState.getNavigator();
 
         userRegNavigator = new UIUserRegNavigationStateOne();
     }

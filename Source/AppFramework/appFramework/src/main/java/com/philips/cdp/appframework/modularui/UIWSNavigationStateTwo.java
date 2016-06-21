@@ -11,9 +11,7 @@ public class UIWSNavigationStateTwo implements UIBaseNavigation {
     @Override
     public @UIStateDefintions.UIStateDef int onClick(int componentID, Context context) {
         @UIStateDefintions.UIStateDef int destinationScreen = 0;
-        UIState wsNavStateOne = new UIState(this,destinationScreen);
-        wsNavStateOne.setStateID(UIStateDefintions.UI_WELCOME_STATE_TWO);
-        wsNavStateOne.setNavigator(this);
+        UIState wsNavStateOne = (UIState) UIFlowManager.getFromStateList(UIStateDefintions.UI_WELCOME_STATE_TWO);
 
         switch (componentID){
             case R.id.start_registration_button:
@@ -22,9 +20,9 @@ public class UIWSNavigationStateTwo implements UIBaseNavigation {
             case R.id.appframework_skip_button:
                 destinationScreen = wsNavStateOne.getStateID();
                 break;
+
         }
 
-        UIFlowManager.addToStateList(wsNavStateOne);
         return destinationScreen;
     }
 
