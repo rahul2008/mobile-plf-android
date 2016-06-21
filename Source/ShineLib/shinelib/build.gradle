@@ -75,11 +75,6 @@ artifactory {
     }
 }
 
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
-}
-
 def javaDocClassesForPublicApi = ['SHNCentral',
                                   'SHNBluetoothHardwareUnavailableException',
                                   'SHNDeviceDefinitionInfo', // for plugin registration via SHNCentral
@@ -158,6 +153,12 @@ generateJavadoc.dependsOn {
     tasks.findAll { task -> task.name.startsWith('generateJavadoc') && task.name != "generateJavadoc" }
 }
 
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
     archives zipDoc
@@ -173,3 +174,4 @@ task zipDocuments(type: Zip) {
 }
 
 zipDocuments {}.dependsOn generateJavadoc
+//=======To zip and upload "Documents/External" ==ENDS=============
