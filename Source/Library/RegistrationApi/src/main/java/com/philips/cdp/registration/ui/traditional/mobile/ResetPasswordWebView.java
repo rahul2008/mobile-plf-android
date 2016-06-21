@@ -69,7 +69,6 @@ public class ResetPasswordWebView extends Fragment {
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
                 super.onReceivedSslError(view, handler, error);
-                // this will ignore the Ssl error and will go forward to your site
                 handler.proceed();
                 error.getCertificate();
             }

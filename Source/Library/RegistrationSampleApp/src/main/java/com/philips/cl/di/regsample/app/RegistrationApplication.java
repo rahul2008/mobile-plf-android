@@ -105,12 +105,13 @@ public class RegistrationApplication extends Application {
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);
 */
 
-		HSDPInfo hsdpInfo = new HSDPInfo();
+		/*HSDPInfo hsdpInfo = new HSDPInfo();
 		hsdpInfo.setApplicationName("uGrow");
 		hsdpInfo.setSharedId("c62362a0-f02c-11e5-9ce9-5e5517507c66");
 		hsdpInfo.setSecreteId("c623685e-f02c-11e5-9ce9-5e5517507c66");
 		hsdpInfo.setBaseURL("https://user-registration-assembly-testing.us-east.philips-healthsuite.com");
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);
+		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);*/
+
 		String languageCode = Locale.getDefault().getLanguage();
 		String countryCode = Locale.getDefault().getCountry();
 
@@ -121,11 +122,6 @@ public class RegistrationApplication extends Application {
 		Tagging.init( this, "Philips Registration");
 
 	}
-
-
-
-
-
 
 
 	private void setDynamicConfiguiration(final Configuration developmentEnvironment) {
@@ -168,9 +164,6 @@ public class RegistrationApplication extends Application {
 		hsdpInfo.setSecreteId("*****");
 		hsdpInfo.setBaseURL("*******");
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.DEVELOPMENT,hsdpInfo);
-
-
-
 
 	}
 
