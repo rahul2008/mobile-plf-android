@@ -56,14 +56,6 @@
                 android:layout_marginTop="@dimen/iap_order_margin_top"
                 android:text="Order state" />
 
-            <com.shamanland.fonticon.FontIconTextView
-                android:id="@+id/arrow"
-                style="@style/iap_right_arrow"
-                android:layout_alignBaseline="@id/order_number_text"
-                android:layout_marginLeft="@dimen/iap_order_icon_margin_left"
-                android:layout_marginRight="@dimen/iap_order_margin_top"
-                android:layout_centerVertical="true" />
-
         </RelativeLayout>
 
         <View
@@ -84,8 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
             android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
-            android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom"
-            android:visibility="gone">
+            android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom">
 
             <TextView
                 android:id="@+id/total_item_text"
@@ -93,7 +84,7 @@
                 android:text="@string/iap_total" />
 
             <TextView
-                android:id="@+id/tv_total_item"
+                android:id="@+id/tv_quantity"
                 style="@style/iap_order_total_items"
                 android:layout_alignBaseline="@id/total_item_text"
                 android:layout_toEndOf="@id/total_item_text" />
@@ -119,14 +110,15 @@
 
         <TextView
             android:id="@+id/shipping_status"
-            style="@style/iapCentralesansBoldFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/iap_order_detail_margin_bottom"
             android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom"
+            android:layout_marginEnd="@dimen/iap_order_detail_margin_bottom"
+            android:layout_marginStart="@dimen/iap_order_detail_margin_bottom"
             android:textColor="?attr/uikit_baseColor"
-            android:background="@color/uikit_enricher7"
-            android:visibility="gone" />
+            android:textSize="@dimen/quantity"
+            android:text="@string/iap_order_processing_text" />
 
         <View
             android:layout_width="match_parent"
@@ -139,7 +131,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
-            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top">
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+            android:gravity="center_vertical">
 
             <TextView
                 style="@style/tvTitle"

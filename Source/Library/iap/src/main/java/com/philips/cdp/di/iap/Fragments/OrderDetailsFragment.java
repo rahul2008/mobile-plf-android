@@ -65,6 +65,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     private LinearLayout mPaymentModeLayout;
     private OrderController mController;
     private View mPaymentDivider;
+    private TextView mShippingStatus;
 
     private String mOrderId;
 
@@ -79,7 +80,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         View view = inflater.inflate(R.layout.iap_order_details_fragment, container, false);
 
         mParentView = (ScrollView) view.findViewById(R.id.scrollView);
-        mTvQuantity = (TextView) view.findViewById(R.id.tv_total_item);
+        mTvQuantity = (TextView) view.findViewById(R.id.tv_quantity);
         mTvtotalPrice = (TextView) view.findViewById(R.id.tv_total_price);
         mTime = (TextView) view.findViewById(R.id.tv_time);
         mOrderNumber = (TextView) view.findViewById(R.id.tv_order_number);
@@ -88,8 +89,6 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mDeliveryAddress = (TextView) view.findViewById(R.id.tv_shipping_address);
         mBillingName = (TextView) view.findViewById(R.id.tv_billing_first_name);
         mBillingAddress = (TextView) view.findViewById(R.id.tv_billing_address);
-        mOrderDetailArrow = (FontIconTextView) view.findViewById(R.id.arrow);
-        mOrderDetailArrow.setVisibility(View.GONE);
         mPaymentModeLayout = (LinearLayout) view.findViewById(R.id.ll_payment_mode);
         mPaymentCardType = (TextView) view.findViewById(R.id.tv_card_type);
         mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
@@ -102,6 +101,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mProductListView.setLayoutManager(layoutManager);
         mProductListView.setNestedScrollingEnabled(false);
+        mShippingStatus = (TextView) view.findViewById(R.id.shipping_status);
 
         mAdapter = new OrderDetailAdapter(mContext, mProducts);
         mProductListView.setAdapter(mAdapter);
@@ -110,7 +110,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         Bundle bundle = getArguments();
         if (null != bundle && bundle.containsKey(IAPConstant.PURCHASE_ID)) {
             mOrderId = bundle.getString(IAPConstant.PURCHASE_ID);
-            if (!(bundle.getString(IAPConstant.ORDER_STATUS).equalsIgnoreCase("completed"))) {
+            if (!(bundle.getString(IAPConstant.ORDER_STATUS).equalsIgnoreCase(IAPConstant.ORDER_COMPLETED))) {
                 mTrackOrderLayout.setVisibility(View.GONE);
             }
             updateOrderDetailOnResume(mOrderId);
@@ -217,6 +217,10 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         detailList.add(detail);
         mController.makePrxCall(detailList, this);
 
+        if(detail.getTotalPriceWithTax() != null)
+            mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
+        if(detail.getTotalItems() != 0)
+            mTvQuantity.setText(" (" + detail.getTotalItems() + " items)");
 
         if (detail.getDeliveryAddress() != null) {
             mDeliveryName.setText(detail.getDeliveryAddress().getFirstName() + " " + detail.getDeliveryAddress().getLastName());
@@ -237,6 +241,10 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
         }
 
+        if(detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED))
+        {
+            mShippingStatus.setText(getString(R.string.iap_order_completed_text, detail.getConsignments().get(0).getTrackingID()));
+        }
     }
 
 

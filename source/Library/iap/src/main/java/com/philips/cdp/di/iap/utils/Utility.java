@@ -134,7 +134,7 @@ public class Utility {
                 appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getRegion().getName());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getPostalCode());
-            sb.append(((Address) addressObj).getCountry().getName());
+            appendAddressWithNewLineIfNotNull(sb, (((Address) addressObj).getCountry().getName()));
         }
         return sb.toString();
     }
