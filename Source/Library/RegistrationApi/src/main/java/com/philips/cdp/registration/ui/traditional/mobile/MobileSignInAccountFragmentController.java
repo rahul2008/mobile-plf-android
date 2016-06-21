@@ -65,6 +65,8 @@ public class MobileSignInAccountFragmentController implements NetworStateListene
                 mMobileSignInAccountFragment.signIn();
             }
         } else if (id == R.id.btn_reg_forgot_password) {
+            mMobileSignInAccountFragment.getRegistrationFragment().addFragment(new ResetPasswordWebView());
+
 //            RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
 //            hideValidations();
 //            mPhoneNumber.clearFocus();
