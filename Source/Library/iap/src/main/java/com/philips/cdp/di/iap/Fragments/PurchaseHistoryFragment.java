@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.OrderHistoryAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -90,7 +91,9 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
     @Override
     public boolean onBackPressed() {
-        finishActivity();
+        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+            finishActivity();
+        }
         return false;
     }
 
@@ -119,13 +122,13 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
                     if (mOrderData.getOrders() == null || mOrderData.getOrders().size() == 0) {
                         if (Utility.isProgressDialogShowing())
                             Utility.dismissProgressDialog();
-                        removeFragment();
+//                        removeFragment();
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
                                 BaseAnimationSupportFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
                     } else {
                         for (Orders order : mOrderData.getOrders())
                             mOrders.add(order);
-                        if(mTotalOrders == 0)
+                        if (mTotalOrders == 0)
                             mRemainingOrders = mOrderData.getPagination().getTotalResults();
                         mTotalOrders = mOrderData.getPagination().getTotalResults();
                         mPageSize = mOrderData.getPagination().getPageSize();
@@ -180,7 +183,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         if (order != null) {
             bundle.putString(IAPConstant.PURCHASE_ID, order.getCode());
             bundle.putString(IAPConstant.ORDER_STATUS, order.getStatusDisplay());
-            addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), OrderDetailsFragment.TAG);
         }
     }
 
@@ -220,8 +223,8 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     @Override
     public void onModelDataLoadFinished(Message msg) {
         if (processResponseFromPRX(msg)) return;
-           if (Utility.isProgressDialogShowing())
-              Utility.dismissProgressDialog();
+        if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
     }
 
     @Override

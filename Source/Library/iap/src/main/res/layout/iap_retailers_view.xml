@@ -20,7 +20,7 @@
             android:paddingRight="@dimen/iap_select_retailer_right_margin"
             android:paddingTop="@dimen/iap_select_retailer_right_margin" />
 
-    </FrameLayout>-->
+    </FrameLayout>
 
     <TextView
         android:id="@+id/select_retailer"
@@ -33,12 +33,11 @@
         android:text="@string/iap_select_retailer"
         android:textColor="?attr/uikit_baseColor"
         android:textSize="@dimen/iap_select_retailer_text_size" />
-
+-->
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/select_retailer"
         android:background="?attr/uikit_listDividerColor" />
 
     <android.support.v7.widget.RecyclerView

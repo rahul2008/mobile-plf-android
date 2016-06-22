@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener, ShoppingCartPresenter.ShoppingCartLauncher {
 
@@ -100,6 +102,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
         dataAvailable = presenter.getProductCatalog();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -143,6 +146,11 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     @Override
     public boolean onBackPressed() {
         if (getActivity() != null && getActivity() instanceof IAPActivity) {
+            int count = getFragmentManager().getBackStackEntryCount();
+            IAPLog.d(IAPLog.LOG, "Count in Backstack =" + count);
+            for (int i = 0; i < count; i++) {
+                getFragmentManager().popBackStack();
+            }
             finishActivity();
         }
         return false;
