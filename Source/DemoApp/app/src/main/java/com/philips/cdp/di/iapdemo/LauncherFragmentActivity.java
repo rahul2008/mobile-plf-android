@@ -49,7 +49,7 @@ public class LauncherFragmentActivity extends AppCompatActivity {
         mIAPSettings.setFragProperties(getSupportFragmentManager(), R.id.vertical_Container);
 
         mIapHandler = IAPHandler.init(this, mIAPSettings);
-        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, "HX9043/64", null);
+        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
     }
 
     @Override
