@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
-import com.philips.cdp.appframework.settingscreen.LaunchFragment;
+import com.philips.cdp.appframework.settingscreen.DebugTestFragment;
 import com.philips.cdp.appframework.settingscreen.SettingsFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
@@ -159,7 +159,9 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         if (hamburgerMenuTitles[position].equalsIgnoreCase("Settings")) {
             showSettingsFragment();
         }
-        else {
+        if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
+            showDebugTestFragment();
+        } else {
             final HomeScreenFragment fragment = new HomeScreenFragment();
             String homeTag = HomeScreenFragment.class.getSimpleName();
             showFragment(fragment, homeTag);
@@ -174,9 +176,15 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     }
 
     private void showSettingsFragment() {
-        LaunchFragment settingsFragment = new LaunchFragment();
-      //  String settingsTag = LaunchFragment.getClass().getSimpleName();
-        showFragment(settingsFragment, "Lsaunch");
+        SettingsFragment settingsFragment = new SettingsFragment();
+      String settingsTag = SettingsFragment.getClass().getSimpleName();
+        showFragment(settingsFragment, "Settings");
+    }
+
+    private void showDebugTestFragment() {
+        DebugTestFragment debugTestFragment = new DebugTestFragment();
+
+        showFragment(debugTestFragment, "DebugTest");
     }
 
     @Override

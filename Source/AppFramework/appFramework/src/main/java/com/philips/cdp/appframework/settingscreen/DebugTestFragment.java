@@ -5,15 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,7 +27,6 @@ import com.philips.cdp.registration.configuration.RegistrationDynamicConfigurati
 import com.philips.cdp.registration.configuration.SigninProviders;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
@@ -41,7 +37,7 @@ import java.util.Locale;
 /**
  * Created by 310213373 on 6/21/2016.
  */
-public class LaunchFragment extends Fragment {
+public class DebugTestFragment extends Fragment {
 
     String configurationType[] = {"Evaluation", "Testing", "Development", "Staging", "Production"};
     int count = 0;
@@ -55,7 +51,7 @@ public class LaunchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_main, container, false);
+        View view = inflater.inflate(R.layout.version_screen, container, false);
         setUp(view);
         return view;
     }
