@@ -104,7 +104,7 @@ public class UserWithProducts {
         }
     }
 
-    protected void initRegistration(final RegisteredProduct registeredProduct) {
+    private void initRegistration(final RegisteredProduct registeredProduct) {
         final RegistrationState registrationState = registeredProduct.getRegistrationState();
         final boolean failedOnInvalidInput = isFailedOnInvalidInput(registeredProduct);
         if (!failedOnInvalidInput && (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) && getUuid().equals(registeredProduct.getUserUUid())) {

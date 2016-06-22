@@ -62,7 +62,7 @@ public class RemoteRegisteredProductsTest extends MockitoTestCase {
         responseListener.onResponseError(new PrxError("test", 10));
         verify(registeredProductsListener, Mockito.atLeastOnce()).getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
         responseListener.onResponseError(new PrxError("test", ProdRegError.ACCESS_TOKEN_INVALID.getCode()));
-        verify(userWithProductsMock).onAccessTokenExpire(null, null);
+        verify(userWithProductsMock).onAccessTokenExpire(null);
     }
 
     public void testRegisterMethod() {
