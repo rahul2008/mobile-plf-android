@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.IAPCartListener;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.adapters.BuyFromRetailersAdapter;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -22,6 +23,7 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
+import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -38,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements
-        PRXProductAssetBuilder.AssetListener, View.OnClickListener, ShoppingCartPresenter.ShoppingCartLauncher {
+        PRXProductAssetBuilder.AssetListener, View.OnClickListener, ShoppingCartPresenter.ShoppingCartLauncher, ShoppingCartPresenter.LoadListener<StoreEntity>  {
 
     public static final String TAG = ProductDetailFragment.class.getName();
 
@@ -183,6 +185,15 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         }
     }
 
+    private void getRetailersInformation() {
+        ShoppingCartAPI presenter = ControllerFactory.getInstance().getShoppingCartPresenter(getContext(), this, getFragmentManager());
+
+        if (!Utility.isProgressDialogShowing()) {
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            presenter.getRetailersInformation(mCTNValue);
+        }
+    }
+
     private void makeAssetRequest() {
         String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
         if (!CartModelContainer.getInstance().isPRXAssetPresent(ctn)) {
@@ -238,11 +249,11 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
     }
 
-    private void buyFromRetailers() {
+    private void buyFromRetailers(ArrayList<StoreEntity> storeEntities) {
         if (isNetworkNotConnected()) return;
 
         Bundle bundle = new Bundle();
-        bundle.putString(ModelConstants.PRODUCT_CODE, mCTNValue);
+        bundle.putSerializable(IAPConstant.IAP_RETAILER_INFO, storeEntities);
         addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE), BuyFromRetailersFragment.TAG);
     }
 
@@ -288,7 +299,30 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             buyProduct(mCTNValue);
         }
         if (v == mBuyFromRetailors) {
-            buyFromRetailers();
+            getRetailersInformation();
         }
+    }
+
+
+    @Override
+    public void onLoadFinished(final ArrayList<StoreEntity> data) {
+        buyFromRetailers(data);
+        /*mStoreEntity = data;
+        mAdapter = new BuyFromRetailersAdapter(getContext(), mStoreEntity, getFragmentManager(), getId());
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+        isDataAvailable = true;*/
+    }
+
+    @Override
+    public void onLoadListenerError(IAPNetworkError error) {
+        // NOP
+        /*isDataAvailable = false;
+        IAPLog.d(IAPLog.LOG, "IAPNetworkError " + error);*/
+    }
+
+    @Override
+    public void onRetailerError(IAPNetworkError errorMsg) {
+        NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getContext().getString(R.string.iap_ok), getContext().getString(R.string.iap_retailer_title_for_no_retailers), errorMsg.getMessage());
     }
 }
