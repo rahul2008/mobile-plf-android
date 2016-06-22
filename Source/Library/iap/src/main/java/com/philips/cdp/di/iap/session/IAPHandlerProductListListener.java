@@ -4,15 +4,16 @@
  */
 package com.philips.cdp.di.iap.session;
 
-public interface IAPHandlerListener {
+import java.util.ArrayList;
+
+public interface IAPHandlerProductListListener {
 
     /**
-     * If called with addProductToCart, returns the cart items count
-     * Otherwise always returns 0
+     * Product list from Hybris request
      *
-     * @param count Items in cart
+     * @param productList
      */
-    void onSuccess(int count);
+    void onSuccess(final ArrayList<String> productList);
 
     /**
      * Error occurred during the request
@@ -20,4 +21,5 @@ public interface IAPHandlerListener {
      * @param errorCode
      */
     void onFailure(final int errorCode);
+
 }

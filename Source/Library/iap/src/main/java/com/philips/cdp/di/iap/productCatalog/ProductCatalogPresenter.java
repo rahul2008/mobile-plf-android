@@ -18,7 +18,7 @@ import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandler;
-import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -38,7 +38,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     ProductCatalogHelper mProductCatalogHelper;
     boolean isPlanA;
 
-    public void getCompleteProductList(Context mContext, final IAPHandlerListener iapListener) {
+    public void getCompleteProductList(Context mContext, final IAPHandlerProductListListener iapListener) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), null, this);
         model.setContext(mContext);
@@ -49,8 +49,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
                 if (iapListener != null) {
                     ArrayList<String> productCTNs = getProductCTNs(msg);
                     IAPLog.d(IAPLog.LOG, "getCompleteProductList -- ProductCatelogPresenter " + productCTNs.toString());
-                    iapListener.onFetchOfProductList(productCTNs);
-                    iapListener.onSuccess(productCTNs.size());
+                    iapListener.onSuccess(productCTNs);
                 }
             }
 

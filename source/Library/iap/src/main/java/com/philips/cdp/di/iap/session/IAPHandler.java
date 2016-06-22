@@ -48,7 +48,7 @@ public class IAPHandler implements IAPExposedAPI {
     }
 
     @Override
-    public void getCompleteProductList(IAPHandlerListener iapHandlerListener) {
+    public void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener) {
         mImplementationHandler.getCompleteProductList(iapHandlerListener);
     }
 
