@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
+import com.philips.cdp.appframework.settingscreen.LaunchFragment;
 import com.philips.cdp.appframework.settingscreen.SettingsFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
@@ -173,9 +174,9 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     }
 
     private void showSettingsFragment() {
-        SettingsFragment settingsFragment = new SettingsFragment();
-        String settingsTag = settingsFragment.getClass().getSimpleName();
-        showFragment(settingsFragment, settingsTag);
+        LaunchFragment settingsFragment = new LaunchFragment();
+      //  String settingsTag = LaunchFragment.getClass().getSimpleName();
+        showFragment(settingsFragment, "Lsaunch");
     }
 
     @Override
