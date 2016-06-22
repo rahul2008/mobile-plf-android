@@ -58,7 +58,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     private TextView mPaymentCardType;
     private Button mBuyNow;
     private Button mCancelOrder;
-    private RelativeLayout mTrackOrderLayout;
+    private LinearLayout mTrackOrderLayout;
     private OrderDetail mOrderDetail;
     private RecyclerView mProductListView;
     private OrderDetailAdapter mAdapter;
@@ -95,7 +95,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mBuyNow.setOnClickListener(this);
         mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
-        mTrackOrderLayout = (RelativeLayout) view.findViewById(R.id.track_order_layout);
+        mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
         mTrackOrderLayout.setOnClickListener(this);
         mProductListView = (RecyclerView) view.findViewById(R.id.product_detail);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());

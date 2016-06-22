@@ -76,7 +76,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
         if(totalQuantity > 1)
-            orderHistoryHolder.mTvQuantity.setText("(" + totalQuantity + " items)");
+            orderHistoryHolder.mTvQuantity.setText(" (" + totalQuantity + " items)");
         else
             orderHistoryHolder.mTvQuantity.setText(" (" + totalQuantity + " item)");
         orderHistoryHolder.mTvtotalPrice.setText(order.getTotal().getFormattedValue());
