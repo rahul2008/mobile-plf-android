@@ -25,217 +25,235 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnFocusChangeListener,
-        OnClickListener {
+public class XVerifyNumber extends RelativeLayout implements TextWatcher, OnClickListener,
+        OnFocusChangeListener {
 
+    private Context mContext;
 
-	private Button  mbtuResend;
+    private EditText mEtVerify;
 
-	private Context mContext;
+    private Button mBtResend;
 
-	private EditText mEtEnterCode;
+    private TextView mTvErrDescriptionView;
 
-	private boolean mValidPhoneNumber;
+    private onUpdateListener mUpdateStatusListener;
 
-	private onUpdateListener mUpdateStatusListener;
+    private RelativeLayout mRlEtEmail;
 
-	private RelativeLayout mRlEtName;
+    private ProgressBar mProgressBar;
 
-	private TextView mTvErrDescriptionView;
+    private FrameLayout mFlInvalidFieldAlert;
 
-	private FrameLayout mFlInvaliFielddAlert;
+    public XVerifyNumber(Context context) {
+        super(context);
+        this.mContext = context;
+        initUi(R.layout.x_verify_mobile);
+    }
 
-	private TextView mTvCloseIcon;
+    public XVerifyNumber(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.mContext = context;
+        initUi(R.layout.x_verify_mobile);
+    }
 
+    public final void initUi(int resourceId) {
+        LayoutInflater li = LayoutInflater.from(mContext);
+        li.inflate(resourceId, this, true);
+        mRlEtEmail = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
+        mEtVerify = (EditText) findViewById(R.id.et_reg_verify);
+        mBtResend = (Button) findViewById(R.id.btn_reg_resend);
+        mProgressBar = (ProgressBar) findViewById(R.id.pb_reg_verify_spinner);
 
-	private ProgressBar mProgressBar;
+        mBtResend.setOnClickListener(this);
+        mEtVerify.setOnClickListener(this);
+        mEtVerify.setOnFocusChangeListener(this);
+        mEtVerify.addTextChangedListener(this);
+        mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_verify_err);
+        mFlInvalidFieldAlert = (FrameLayout) findViewById(R.id.fl_reg_verify_field_err);
+    }
 
-	public XVerifyNumber(Context context) {
-		super(context);
-		this.mContext = context;
-		initUi(R.layout.x_verify_mobile);
-	}
+    public void setCountertimer(String mTimer) {
+        mBtResend.setText(mTimer);
+        mBtResend.setEnabled(false);
+    }
 
-	public XVerifyNumber(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		this.mContext = context;
-		initUi(R.layout.x_verify_mobile);
-	}
+    public void setCounterFinish() {
+        mBtResend.setText(mContext.getString(R.string.Mobile_Resend_btntxt));
+        mBtResend.setEnabled(true);
+    }
 
-	public final void initUi(int resourceId) {
+    private void showResendCodeSpinner() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mBtResend.setEnabled(false);
+    }
 
-		/** inflate amount layout */
-		LayoutInflater li = LayoutInflater.from(mContext);
-		li.inflate(resourceId, this, true);
+    private void hideResendcodeSpinner() {
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mBtResend.setEnabled(true);
+    }
 
-		mbtuResend= (Button) findViewById(R.id.btn_reg_resend);
-		mbtuResend.setOnClickListener(this);
-		mEtEnterCode = (EditText) findViewById(R.id.et_reg_enter_code);
-		mEtEnterCode.setOnFocusChangeListener(this);
-		mEtEnterCode.addTextChangedListener(this);
-		mProgressBar= (ProgressBar) findViewById(R.id.pb_reg_verify_spinner);
-		mRlEtName = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
+    public String getNumber() {
+        return mEtVerify.getText().toString().trim();
+    }
 
-		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_email_err);
-		mFlInvaliFielddAlert = (FrameLayout)findViewById(R.id.fl_reg_invalid_alert);
-		mTvCloseIcon = (TextView) findViewById(R.id.iv_reg_close);
-		FontLoader.getInstance().setTypeface(mTvCloseIcon, RegConstants.PUIICON_TTF);
+    private boolean validateEmail() {
+        if (mEtVerify != null) {
+            if (mEtVerify.getText().toString().length() >= RegConstants.VERIFY_CODE_ENTER) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 
-	}
+    public void setErrDescription(String mErrDescription) {
+        mTvErrDescriptionView.setText(mErrDescription);
+    }
 
-	public void setCountertimer (String mTimer){
-		mbtuResend.setText(mTimer);
-		mbtuResend.setEnabled(false);
-	}
-	public void setCounterFinish (){
-		mbtuResend.setText(mContext.getString(R.string.Mobile_Resend_btntxt));
-		mbtuResend.setEnabled(true);
-	}
+    private void handleEmail(boolean hasFocus) {
+        if (!hasFocus) {
+            showEtEmailFocusDisable();
+            mEtVerify.setFocusable(true);
+        } else {
+            showEtEmailFocusEnable();
+        }
+    }
 
-	private void showResendCodeSpinner() {
-		mProgressBar.setVisibility(View.VISIBLE);
-		mbtuResend.setEnabled(false);
-	}
+    public void showEtEmailFocusEnable() {
+        mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_enable);
+    }
 
-	private void hideResendcodeSpinner() {
-		mProgressBar.setVisibility(View.INVISIBLE);
-		mbtuResend.setEnabled(true);
-	}
+    public void showEtEmailFocusDisable() {
+        mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
+    }
 
+   /* public void showEmailInvalidAlert() {
+        mIvEmailErrAlert.setVisibility(VISIBLE);
+    }
 
-	@Override
-	public void onClick(View v) {
-		showResendCodeSpinner();
-	}
+    public void hideEmailInvalidAlert() {
+        mIvEmailErrAlert.setVisibility(GONE);
+    }*/
 
-	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
-		mUpdateStatusListener = updateStatusListener;
-	}
+    private void showEmailIsInvalidAlert() {
+        mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
+        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+        mFlInvalidFieldAlert.setVisibility(VISIBLE);
+        mTvErrDescriptionView.setVisibility(VISIBLE);
+    }
 
-	private void raiseUpdateUIEvent() {
-		if (null != mUpdateStatusListener) {
-			mUpdateStatusListener.onUpadte();
-		}
-	}
+    private void showValidEmailAlert() {
+        mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
+        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        mFlInvalidFieldAlert.setVisibility(GONE);
+        mTvErrDescriptionView.setVisibility(GONE);
+    }
 
-	private void showInvalidPhoneNumberAlert() {
-		mEtEnterCode.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
-		mRlEtName.setBackgroundResource(R.drawable.reg_et_focus_error);
-		mFlInvaliFielddAlert.setVisibility(View.VISIBLE);
-		mTvErrDescriptionView.setVisibility(VISIBLE);
-	}
+    public void showInvalidAlert() {
+        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
+        mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_error);
+        mFlInvalidFieldAlert.setVisibility(VISIBLE);
+    }
 
-	private void showValidPhoneNumberAlert() {
-		mFlInvaliFielddAlert.setVisibility(GONE);
-		mTvErrDescriptionView.setVisibility(GONE);
-	}
+    public void setOnUpdateListener(onUpdateListener updateStatusListener) {
+        mUpdateStatusListener = updateStatusListener;
+    }
 
-	private boolean validatePhoneNumber() {
-		if (!FieldsValidator.isValidName(mEtEnterCode.getText().toString().trim())) {
-			setValidPhoneNumber(false);
-			return false;
-		}
-		setValidPhoneNumber(true);
-		return true;
-	}
+    private void raiseUpdateUIEvent() {
+        if (null != mUpdateStatusListener) {
+            mUpdateStatusListener.onUpadte();
+        }
+    }
 
-	public String getNumber() {
-		return mEtEnterCode.getText().toString().trim();
-	}
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        mEtVerify.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
+        if (v.getId() == R.id.et_reg_verify) {
+            handleEmail(hasFocus);
+            raiseUpdateUIEvent();
+            if (!hasFocus) {
+                handleOnFocusChanges();
+            }
+        }
+    }
 
-	public void setValidPhoneNumber(boolean mValidPhoneNumber) {
-		this.mValidPhoneNumber = mValidPhoneNumber;
-	}
+    @Override
+    public void onClick(View v) {
+        showResendCodeSpinner();
+    }
 
-	private void handlePhoneNumber(boolean hasFocus) {
-		if (!hasFocus) {
-			showPhoneNumberEtFocusDisable();
-			mEtEnterCode.setFocusable(true);
-		} else {
-			showEtPhoneNumberFocusEnable();
-		}
-	}
+    public void showErrPopUp() {
+        mTvErrDescriptionView.setVisibility(View.VISIBLE);
+    }
 
-	public void setErrDescription(String mErrDescription) {
-		mTvErrDescriptionView.setText(mErrDescription);
-	}
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-	public void showEtPhoneNumberFocusEnable() {
-		mRlEtName.setBackgroundResource(R.drawable.reg_et_focus_enable);
-	}
+    }
 
-	public void showPhoneNumberEtFocusDisable() {
-		mRlEtName.setBackgroundResource(R.drawable.reg_et_focus_disable);
-	}
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (validateEmail()) {
+            showValidEmailAlert();
+        } else {
+            if (mEtVerify.getText().toString().trim().length() == 0) {
+                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+            } else {
+                setErrDescription(getResources().getString(R.string.InvalidVerify_ErrorMsg));
+            }
+        }
+    }
 
-	public void showInvalidAlert() {
-		mEtEnterCode.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
-		mRlEtName.setBackgroundResource(R.drawable.reg_et_focus_error);
-		mFlInvaliFielddAlert.setVisibility(VISIBLE);
-	}
+    private void handleOnFocusChanges() {
 
-	public void showErrPopUp() {
-		mTvErrDescriptionView.setVisibility(View.VISIBLE);
-	}
+        if (validateEmail()) {
+            showValidEmailAlert();
+        } else {
+            if (mEtVerify.getText().toString().trim().length() == 0) {
+                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+            } else {
+                setErrDescription(getResources().getString(R.string.InvalidVerify_ErrorMsg));
+            }
+            showEmailIsInvalidAlert();
+        }
+    }
 
-	public void setClickableTrue(boolean isClickable) {
-		if (mEtEnterCode != null) {
-			mEtEnterCode.setClickable(isClickable);
-			mEtEnterCode.setEnabled(isClickable);
-		}
-	}
-	@Override
-	public void onFocusChange(View v, boolean hasFocus) {
-		mEtEnterCode.setTextColor(mContext.getResources().getColor(R.color.reg_edt_text_feild_color));
-		if (v.getId() == R.id.et_reg_phone_number) {
-			handlePhoneNumber(hasFocus);
-			raiseUpdateUIEvent();
-			if(!hasFocus){
-				handleOnFocusChanges();}
-		}
-	}
+    @Override
+    public void afterTextChanged(Editable s) {
+        raiseUpdateUIEvent();
+        if (validateEmail()) {
+            if (mTvErrDescriptionView != null && mFlInvalidFieldAlert != null) {
+                mTvErrDescriptionView.setVisibility(GONE);
+                mFlInvalidFieldAlert.setVisibility(GONE);
+            }
+        }
+    }
 
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public void setHint(String hintText) {
+        if (mEtVerify != null) {
+            mEtVerify.setHint(hintText);
+        }
+    }
 
-	}
+    public void setClickableTrue(boolean isClickable) {
+        if (mEtVerify != null) {
+            mEtVerify.setClickable(isClickable);
+            mEtVerify.setEnabled(isClickable);
+        }
+    }
 
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		if (validatePhoneNumber()) {
-			showValidPhoneNumberAlert();
-		} else {
-			if (mEtEnterCode.getText().toString().trim().length() == 0) {
-				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
-			}
-		}
-	}
+    public boolean isShown() {
+        if (mEtVerify != null && mEtVerify.isShown()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	private void handleOnFocusChanges() {
-		if (validatePhoneNumber()) {
-			showValidPhoneNumberAlert();
-		} else {
-			if (mEtEnterCode.getText().toString().trim().length() == 0) {
-				AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_NAME);
-				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
-				showInvalidPhoneNumberAlert();
-			}
-
-		}
-	}
-
-	@Override
-	public void afterTextChanged(Editable s) {
-		if (validatePhoneNumber()) {
-			mTvErrDescriptionView.setVisibility(View.GONE);
-			mFlInvaliFielddAlert.setVisibility(GONE);
-		}
-		raiseUpdateUIEvent();
-	}
+    public void setImeOptions(int option) {
+        mEtVerify.setImeOptions(option);
+    }
 }

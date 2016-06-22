@@ -57,7 +57,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment {
     private FragmentManager mFragmentManager;
 
     private XRegError mRegError;
-    private final long startTime = 30 * 1000;
+    private final long startTime = 60 * 1000;
     private final long interval = 1 * 1000;
     private CountDownTimer countDownTimer;
 

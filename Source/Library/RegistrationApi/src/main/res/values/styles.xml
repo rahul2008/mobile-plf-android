@@ -187,7 +187,7 @@
     </style>
     <!-- Small Button Style -->
     <style name="reg_mobile_verfiy_style_btn">
-        <item name="android:layout_width">100dip</item>
+        <item name="android:layout_width">70dip</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/reg_btn_selector</item>
         <item name="android:minWidth">0dp</item>

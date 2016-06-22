@@ -25,7 +25,7 @@
         </FrameLayout>
 
         <com.philips.cdp.registration.ui.customviews.XEditText
-            android:id="@+id/et_reg_enter_code"
+            android:id="@+id/et_reg_verify"
             style="@style/reg_style_tab_hint"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/fl_reg_invalid_alert"
@@ -44,7 +44,7 @@
             reglib:fontAssetName="CentraleSans-Book.OTF"
             android:layout_below="@+id/fl_reg_invalid_alert"
             android:layout_alignParentEnd="true"/>
-   <ProgressBar
+        <ProgressBar
             android:id="@+id/pb_reg_verify_spinner"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -52,15 +52,16 @@
             android:padding="@dimen/reg_pb_padding"
             android:visibility="gone" />
 
+
     </RelativeLayout>
 
     <FrameLayout
-        android:id="@+id/fl_reg_name_field_err"
+        android:id="@+id/fl_reg_verify_field_err"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_reg_parent_verified_field"
-        android:paddingLeft="@dimen/reg_edit_text_field_padding"
         android:visibility="gone"
+        android:paddingLeft="@dimen/reg_edit_text_field_padding"
         android:orientation="horizontal">
 
         <com.philips.cdp.registration.ui.customviews.XIconTextView
@@ -74,7 +75,7 @@
             android:textColor="@color/reg_error_box_color"/>
 
         <com.philips.cdp.registration.ui.customviews.XTextView
-            android:id="@+id/tv_reg_email_err"
+            android:id="@+id/tv_reg_verify_err"
             style="@style/reg_error_textStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

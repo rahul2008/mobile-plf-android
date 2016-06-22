@@ -210,9 +210,13 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
     public void onClick(View v) {
         if (v.getId() == R.id.btn_reg_register) {
             RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
-            if(RegConstants.IS_MOBILE_NUMBER_LOG_IN) {
-                getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
-            }else{
+            if (RegConstants.IS_MOBILE_NUMBER_LOG_IN) {
+                if (mCbAcceptTerms.isChecked()) {
+                    getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+                } else {
+                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                }
+            } else {
                 if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
                     if (mCbAcceptTerms.isChecked()) {
                         register();
@@ -223,7 +227,7 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
                     register();
                 }
             }
-        }else if (v.getId() == R.id.btn_reg_register_using_email) {
+        } else if (v.getId() == R.id.btn_reg_register_using_email) {
             RLog.d(RLog.ONCLICK, "CreateAccountFragment using email : Register Account");
             launchCreateAccountFragmentUsingEmail();
         }
@@ -311,9 +315,9 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
-            if(mCbAcceptTerms.isChecked()){
+            if (mCbAcceptTerms.isChecked()) {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
-            }else{
+            } else {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_OUT);
             }
         }
@@ -333,7 +337,6 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
         if (NetworkUtility.isNetworkAvailable(mContext)) {
 
             mRegError.hideError();
-
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
@@ -376,13 +379,13 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
             launchWelcomeFragment();
         }
 
-        if(mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0){
-            mTrackCreateAccountTime =  (System.currentTimeMillis() - RegUtility.getCreateAccountStartTime())/1000;
-        }else{
-            mTrackCreateAccountTime =  (System.currentTimeMillis() - mTrackCreateAccountTime)/1000;
+        if (mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0) {
+            mTrackCreateAccountTime = (System.currentTimeMillis() - RegUtility.getCreateAccountStartTime()) / 1000;
+        } else {
+            mTrackCreateAccountTime = (System.currentTimeMillis() - mTrackCreateAccountTime) / 1000;
         }
-        trackActionStatus(AppTagingConstants.SEND_DATA,AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT,String.valueOf(mTrackCreateAccountTime));
-        mTrackCreateAccountTime =0;
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT, String.valueOf(mTrackCreateAccountTime));
+        mTrackCreateAccountTime = 0;
     }
 
     private void launchAccountActivateFragment() {
@@ -391,9 +394,9 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
     }
 
     private void launchWelcomeFragment() {
-        if(RegConstants.IS_MOBILE_NUMBER_LOG_IN) {
+        if (RegConstants.IS_MOBILE_NUMBER_LOG_IN) {
             getRegistrationFragment().replaceWelcomeFragmentOnLogin(new MobileWelcomeFragment());
-        }else {
+        } else {
             getRegistrationFragment().replaceWelcomeFragmentOnLogin(new com.philips.cdp.registration.ui.traditional.WelcomeFragment());
         }
         trackPage(AppTaggingPages.WELCOME);
@@ -428,7 +431,7 @@ public class MobileCreateAccountFragment extends RegistrationBaseFragment implem
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
-        if(userRegistrationFailureInfo.getErrorCode() == -1 ){
+        if (userRegistrationFailureInfo.getErrorCode() == -1) {
             mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
         }
         trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());

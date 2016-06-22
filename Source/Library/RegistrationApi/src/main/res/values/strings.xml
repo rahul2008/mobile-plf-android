@@ -150,6 +150,8 @@
     <string name="Enter_Code_Placeholder_txtFiled">Enter Code</string>
     <string name="Mobile_Resend_btntxt">resend</string>
     <string name="Verfiy_Hint_lbltxt">Having problems?\n-  It may take some time for the SMS with the code to arrive \n-  if you did not recive an SMS when the countdown clock ends, press the Resend button</string>
+    <string name="InvalidVerify_ErrorMsg">The code is incorrect, click to resend </string>
+    <string name="Invalid_PhonenumberMsg">Invalid phone number</string>
 
 
 
