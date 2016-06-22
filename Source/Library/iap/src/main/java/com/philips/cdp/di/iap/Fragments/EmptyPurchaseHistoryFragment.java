@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 
 public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
@@ -56,7 +57,9 @@ public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
 
     @Override
     public boolean onBackPressed() {
-        finishActivity();
+        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+            finishActivity();
+        }
         return false;
     }
 

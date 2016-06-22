@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,21 +20,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
-import com.philips.cdp.di.iap.store.HybrisStore;
-import com.philips.cdp.di.iap.store.StoreConfiguration;
-import com.philips.cdp.di.iap.store.VerticalAppConfig;
-import com.philips.cdp.di.iap.store.WebStoreConfig;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
@@ -40,35 +36,32 @@ import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DemoAppActivity extends Activity implements View.OnClickListener,
-        UserRegistrationListener, IAPHandlerListener, AdapterView.OnItemSelectedListener {
+        UserRegistrationListener, AdapterView.OnItemSelectedListener {
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
 
     private IAPHandler mIapHandler;
     private User mUser;
     private LinearLayout mSelectCountryLl;
-    private LinearLayout mSelectEnvironment;
     private TextView mCountText = null;
     private FrameLayout mShoppingCart;
     private Spinner mSpinner;
-    private Spinner mSpinnerEnv;
     private Button mShopNow;
     private Button mPurchaseHistory;
-
+    String mSelectedCountry;
     private CountryPreferences mCountryPreference;
-    private EnvironmentPreferences mEnvironmentPreference;
     private int mSelectedCountryIndex;
-    private int mSelectedEnvironmentIndex;
     private boolean mProductCountRequested;
 
     //We require this to track for hiding the cart icon in demo app
     IAPSettings mIAPSettings;
     private Button mFragmentLaunch;
+    private Handler handler;
+    private ArrayList<String> mProductList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +73,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         Button mRegister = (Button) findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
-
-        mSelectEnvironment = (LinearLayout) findViewById(R.id.select_environment);
         mFragmentLaunch = (Button) findViewById(R.id.btn_fragment_launch);
         mFragmentLaunch.setOnClickListener(this);
         mFragmentLaunch.setVisibility(View.GONE);
@@ -102,37 +93,34 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
         mIapHandler = IAPHandler.init(this, mIAPSettings);
 
+        mProductList = new ArrayList<>();
+        mProductList.add("HX9042/64");
+        mProductList.add("HX9042/64");
+        mProductList.add("HX9042/64");
+
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         mSpinner = (Spinner) findViewById(R.id.spinner);
         mSpinner.setOnItemSelectedListener(this);
-
-        mSpinnerEnv = (Spinner) findViewById(R.id.spinner_env);
-        mSpinnerEnv.setOnItemSelectedListener(this);
 
         List<String> countries = new ArrayList<>();
         countries.add("Select Country");
         countries.add("US");
         countries.add("UK");
 
-        List<String> environments = new ArrayList<>();
-        environments.add("Select Environment");
-        environments.add("tst.pl.shop.philips.com");
-        environments.add("acc.occ.shop.philips.com");
-        //environments.add("www.occ.shop.philips.com");
-
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(dataAdapter);
 
-        ArrayAdapter<String> dataAdapterEnv = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, environments);
-        dataAdapterEnv.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinnerEnv.setAdapter(dataAdapterEnv);
-
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
 
-        mEnvironmentPreference = new EnvironmentPreferences(this);
-        mSpinnerEnv.setSelection(mEnvironmentPreference.getSelectedEnvironmentIndex());
+        handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mIapHandler.getCompleteProductList(mGetCompleteProductListener);
+            }
+        }, 1000);
     }
 
     @Override
@@ -196,6 +184,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 }
                 break;
             case R.id.btn_fragment_launch:
+                //  mIapHandler.launchCategorizedCatalog(mProductList);
                 Intent intent = new Intent(this, LauncherFragmentActivity.class);
                 this.startActivity(intent);
                 break;
@@ -235,6 +224,22 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     }
 
+    private IAPHandlerProductListListener mGetCompleteProductListener = new IAPHandlerProductListListener() {
+
+        @Override
+        public void onFailure(int errorCode) {
+            Utility.dismissProgressDialog();
+            IAPLog.d(IAPLog.LOG, "Server error" + errorCode);
+        }
+
+        @Override
+        public void onSuccess(ArrayList<String> productList) {
+            Utility.dismissProgressDialog();
+            IAPLog.d(IAPLog.LOG, "Product List =" + productList.toString());
+            Toast.makeText(getApplicationContext(), "Product List = " + productList.toString(), Toast.LENGTH_LONG).show();
+        }
+    };
+
     private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
         @Override
         public void onSuccess(final int count) {
@@ -255,6 +260,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             showToast(errorCode);
             mProductCountRequested = false;
         }
+
+
     };
 
     private IAPHandlerListener mBuyProductListener = new IAPHandlerListener() {
@@ -288,18 +295,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     }
 
     @Override
-    public void onSuccess(int count) {
-
-    }
-
-    @Override
-    public void onFailure(int errorCode) {
-
-    }
-
-    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
         switch (parent.getId()) {
             case R.id.spinner:
                 mShopNow.setEnabled(true);
@@ -320,17 +316,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 mShopNow.setVisibility(View.VISIBLE);
                 mPurchaseHistory.setVisibility(View.VISIBLE);
                 mPurchaseHistory.setEnabled(true);
-                if (!RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment().equalsIgnoreCase("Production"))
-                    mSelectEnvironment.setVisibility(View.VISIBLE);
 
-                String selectedCountry = parent.getItemAtPosition(position).toString();
-                if (selectedCountry.equals("UK"))
-                    selectedCountry = "GB";
+                mSelectedCountry = parent.getItemAtPosition(position).toString();
+                if (mSelectedCountry.equals("UK"))
+                    mSelectedCountry = "GB";
 
-                setLocale("en", selectedCountry);
+                setLocale("en", mSelectedCountry);
 
                 if (!mProductCountRequested) {
-                    mIAPSettings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);
+                    mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
 //            setUseLocalData();
                     mIapHandler = IAPHandler.init(this, mIAPSettings);
                     updateCartIcon();
@@ -341,85 +335,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                     }
                 }
                 break;
-            case R.id.spinner_env:
-                mSelectedEnvironmentIndex = position;
-                if (position == 0)
-                    return;
-                boolean isSelectionChanged = (mEnvironmentPreference.getSelectedEnvironmentIndex()!=position)?true:false;
-                mEnvironmentPreference.saveEnvironmentPrefrence(position);
-                String selectedEnvironment = parent.getItemAtPosition(position).toString();
-                setHostPort(selectedEnvironment);
-                // Use the Below Code in case Production Environment also has to be given
-                /*if (isSelectionChanged) {
-                    mUser.logout(new LogoutHandler() {
-                        @Override
-                        public void onLogoutSuccess() {
-                            onUserLogoutSuccess();
-                        }
-
-                        @Override
-                        public void onLogoutFailure(final int i, final String s) {
-                            onUserLogoutFailure();
-                        }
-                    });
-                    quit();
-                }*/
-
-                /*
-                    Put the below lines in case production Not required
-                 */
-                if (isSelectionChanged) {
-                    updateCartIcon();
-                    if (!shouldUseLocalData()) {
-                        if (!Utility.isProgressDialogShowing())
-                            Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
-                        mProductCountRequested = true;
-                        mIapHandler.getProductCartCount(mProductCountListener);
-                    }
-                }
-                break;
         }
-    }
-
-    private void setHostPort(String env) {
-        StoreSpec spec = HybrisDelegate.getInstance().getStore();
-        if (spec instanceof HybrisStore) {
-            Class<?> hybrisStore = spec.getClass();
-            try {
-                Field storeConfiguration = hybrisStore.getDeclaredField("mStoreConfig");
-                storeConfiguration.setAccessible(true);
-
-                //Set VerticalConfig
-                storeConfiguration.set(spec, getVerticalConfig(env, (HybrisStore) spec));
-                spec.setNewUser(DemoAppActivity.this);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private StoreConfiguration getVerticalConfig(String env, HybrisStore spec) throws Exception {
-        StoreConfiguration storeConfig = new StoreConfiguration(this, spec);
-        Field verticalAppConfig = storeConfig.getClass().getDeclaredField("mVerticalAppConfig");
-        verticalAppConfig.setAccessible(true);
-
-        VerticalAppConfig newVerticalConfig = new VerticalAppConfig(this);
-        Field hostPort = newVerticalConfig.getClass().getDeclaredField("mHostPort");
-        hostPort.setAccessible(true);
-        hostPort.set(newVerticalConfig, env);
-
-        verticalAppConfig.set(storeConfig, newVerticalConfig);
-
-        Field webStoreConfig = storeConfig.getClass().getDeclaredField("mWebStoreConfig");
-        webStoreConfig.setAccessible(true);
-        WebStoreConfig newWebStoreConfig = new WebStoreConfig(DemoAppActivity.this, storeConfig);
-        Field siteID = newWebStoreConfig.getClass().getDeclaredField("mSiteID");
-        siteID.setAccessible(true);
-
-        siteID.set(newWebStoreConfig, "US_Tuscany");
-
-        webStoreConfig.set(storeConfig, newWebStoreConfig);
-        return storeConfig;
     }
 
     private void setLocale(String languageCode, String countryCode) {
@@ -462,7 +378,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mSpinner.setSelection(0);
         mCountText.setVisibility(View.GONE);
         mFragmentLaunch.setVisibility(View.GONE);
-        mSelectEnvironment.setVisibility(View.GONE);
     }
 
     private void showAppVersion() {
@@ -482,11 +397,4 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-    //Use this in case Production Environment has to be Used
-    /*public void quit() {
-        int pid = android.os.Process.myPid();
-        android.os.Process.killProcess(pid);
-        System.exit(0);
-    }*/
 }

@@ -14,9 +14,12 @@ import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.NetworkEssentialsFactory;
 import com.philips.cdp.di.iap.hybris.HybrisHandler;
 
+import java.util.ArrayList;
+
 public class IAPHandler implements IAPExposedAPI {
 
     private IAPExposedAPI mImplementationHandler;
+    public static ArrayList<String> mProductCTNs;
 
     private IAPHandler() {
     }
@@ -30,6 +33,10 @@ public class IAPHandler implements IAPExposedAPI {
         return handler;
     }
 
+    public void launchCategorizedCatalog(ArrayList<String> pProductCTNs) {
+        mProductCTNs = pProductCTNs;
+    }
+
     @Override
     public void launchIAP(int landingView, String ctnNumber, IAPHandlerListener listener) {
         mImplementationHandler.launchIAP(landingView, ctnNumber, listener);
@@ -38,6 +45,11 @@ public class IAPHandler implements IAPExposedAPI {
     @Override
     public void getProductCartCount(final IAPHandlerListener iapHandlerListener) {
         mImplementationHandler.getProductCartCount(iapHandlerListener);
+    }
+
+    @Override
+    public void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener) {
+        mImplementationHandler.getCompleteProductList(iapHandlerListener);
     }
 
     private void setLangAndCountry(final String language, final String country) {

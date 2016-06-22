@@ -93,8 +93,8 @@ public class Utility {
         if (addressObj instanceof DeliveryAddressEntity) {
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getPostalCode());
+            appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getTown());
             Country countryEntity = ((DeliveryAddressEntity) addressObj).getCountry();
             String country = getCountryName(countryEntity.getIsocode());
             if (country != null) {
@@ -104,8 +104,8 @@ public class Utility {
         } else if (addressObj instanceof AddressFields) {
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getPostalCode());
+            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getTown());
             String country = getCountryName(((AddressFields) addressObj).getCountryIsocode());
             if (country != null) {
                 sb.append(country);
@@ -113,16 +113,17 @@ public class Utility {
         } else if (addressObj instanceof Addresses) {
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine2());
-            if ((((Addresses) addressObj).getRegion()) != null && (((Addresses) addressObj).getRegion().getName()) != null)
-                appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getRegion().getName());
-            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getPostalCode());
+            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getTown());
+            if ((((Addresses) addressObj).getRegion()) != null && (((Addresses) addressObj).getRegion().getName()) != null) {
+                appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getRegion().getName());
+            }
             sb.append(((Addresses) addressObj).getCountry().getName());
         } else if (addressObj instanceof BillingAddress) {
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getPostalCode());
+            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getTown());
             String country = getCountryName(((BillingAddress) addressObj).getCountry().getIsocode());
             if (country != null) {
                 sb.append(country);
@@ -130,11 +131,12 @@ public class Utility {
         } else if (addressObj instanceof Address) {
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine2());
-            if ((((Address) addressObj).getRegion()) != null && (((Address) addressObj).getRegion().getName()) != null)
-                appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getRegion().getName());
-            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getPostalCode());
-            sb.append(((Address) addressObj).getCountry().getName());
+            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getTown());
+            if ((((Address) addressObj).getRegion()) != null && (((Address) addressObj).getRegion().getName()) != null) {
+                appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getRegion().getName());
+            }
+            appendAddressWithNewLineIfNotNull(sb, (((Address) addressObj).getCountry().getName()));
         }
         return sb.toString();
     }

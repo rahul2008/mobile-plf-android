@@ -13,12 +13,16 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.IAPLaunchHelper;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
+import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+
+import java.util.ArrayList;
 
 /**
  * We go via Hybris interface.
@@ -67,6 +71,42 @@ public class HybrisHandler implements IAPExposedAPI {
                         }
                     });
         }
+    }
+
+    @Override
+    public void getCompleteProductList(final IAPHandlerProductListListener iapHandlerListener) {
+        if (isStoreInitialized()) {
+            getArrayListOfProductes(iapHandlerListener);
+        } else {
+            HybrisDelegate.getInstance(mContext).getStore().
+                    initStoreConfig(mLanguage, mCountry, new RequestListener() {
+                        @Override
+                        public void onSuccess(final Message msg) {
+                            getArrayListOfProductes(iapHandlerListener);
+                        }
+
+                        @Override
+                        public void onError(final Message msg) {
+                            iapHandlerListener.onFailure(getIAPErrorCode(msg));
+                        }
+                    });
+        }
+    }
+
+    private void getArrayListOfProductes(final IAPHandlerProductListListener iapHandlerListener) {
+        ProductCatalogPresenter presenter = new ProductCatalogPresenter();
+        presenter.getCompleteProductList(mContext, new IAPHandlerProductListListener() {
+
+            @Override
+            public void onFailure(int errorCode) {
+                iapHandlerListener.onFailure(errorCode);
+            }
+
+            @Override
+            public void onSuccess(ArrayList<String> productList) {
+                updateSuccessListener(productList, iapHandlerListener);
+            }
+        });
     }
 
     private boolean isStoreInitialized() {
@@ -152,6 +192,12 @@ public class HybrisHandler implements IAPExposedAPI {
     private void updateSuccessListener(final int count, final IAPHandlerListener iapHandlerListener) {
         if (iapHandlerListener != null) {
             iapHandlerListener.onSuccess(count);
+        }
+    }
+
+    private void updateSuccessListener(final ArrayList<String> list, final IAPHandlerProductListListener iapHandlerListener) {
+        if (iapHandlerListener != null) {
+            iapHandlerListener.onSuccess(list);
         }
     }
 

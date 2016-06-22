@@ -14,7 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.OrderHistoryAdapter;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.controller.OrderController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
@@ -27,6 +30,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -42,13 +46,21 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     private Context mContext;
     private RecyclerView mOrderHistoryView;
     private List<Orders> mOrders = new ArrayList<>();
-    private  OrderController mController;
+    private OrderController mController;
+    private int mTotalOrders = 0;
+    private int mPageSize = 0;
+    private int mPageNo = 0;
+    private int mRemainingOrders = 0;
+    private boolean mIsLoading = false;
+
     ArrayList<OrderDetail> mOrderDetails = new ArrayList<>();
     ArrayList<ProductData> mProducts = new ArrayList<>();
+
 
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_HISTORY_PAGE_NAME);
         setTitle(R.string.iap_order_history);
     }
 
@@ -64,6 +76,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
         mAdapter = new OrderHistoryAdapter(mContext, mOrders, mProducts);
         mOrderHistoryView.setAdapter(mAdapter);
+        mOrderHistoryView.addOnScrollListener(mRecyclerViewOnScrollListener);
         if (mOrders.size() == 0)
             updateHistoryListOnResume();
 
@@ -78,7 +91,9 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
     @Override
     public boolean onBackPressed() {
-        finishActivity();
+        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+            finishActivity();
+        }
         return false;
     }
 
@@ -91,8 +106,8 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     private void updateHistoryListOnResume() {
         mController = new OrderController(mContext, this);
         if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-            mController.getOrderList();
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+            mController.getOrderList(mPageNo);
         }
     }
 
@@ -107,15 +122,20 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
                     if (mOrderData.getOrders() == null || mOrderData.getOrders().size() == 0) {
                         if (Utility.isProgressDialogShowing())
                             Utility.dismissProgressDialog();
-                        removeFragment();
+//                        removeFragment();
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
                                 BaseAnimationSupportFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG);
                     } else {
-                        for(Orders order : mOrderData.getOrders())
+                        for (Orders order : mOrderData.getOrders())
                             mOrders.add(order);
-                        for(int i=0; i < mOrders.size(); i++)
-                        {
-                            if(mController == null)
+                        if (mTotalOrders == 0)
+                            mRemainingOrders = mOrderData.getPagination().getTotalResults();
+                        mTotalOrders = mOrderData.getPagination().getTotalResults();
+                        mPageSize = mOrderData.getPagination().getPageSize();
+                        mPageNo = mOrderData.getPagination().getCurrentPage();
+                        mIsLoading = false;
+                        for (int i = mPageNo * mPageSize; i < mOrders.size(); i++) {
+                            if (mController == null)
                                 mController = new OrderController(mContext, this);
                             mController.getOrderDetails(mOrders.get(i).getCode());
                         }
@@ -134,8 +154,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
                 if (msg.obj instanceof OrderDetail) {
                     OrderDetail orderDetail = (OrderDetail) msg.obj;
                     mOrderDetails.add(orderDetail);
-                    if(mOrderDetails.size() == mOrders.size())
-                    {
+                    if (mOrderDetails.size() == mOrders.size()) {
                         updateProductDetails(mOrderDetails);
                     }
                 }
@@ -146,11 +165,11 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
     @Override
     public void updateUiOnProductList() {
-        if(mController == null)
+        if (mController == null)
             mController = new OrderController(mContext, this);
-        ArrayList<ProductData> productList=  mController.getProductData(mOrderDetails);
-        for(ProductData product : productList)
-                mProducts.add(product);
+        ArrayList<ProductData> productList = mController.getProductData(mOrderDetails);
+        for (ProductData product : productList)
+            mProducts.add(product);
         mAdapter.notifyDataSetChanged();
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
@@ -164,7 +183,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         if (order != null) {
             bundle.putString(IAPConstant.PURCHASE_ID, order.getCode());
             bundle.putString(IAPConstant.ORDER_STATUS, order.getStatusDisplay());
-            addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), null);
+            addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), OrderDetailsFragment.TAG);
         }
     }
 
@@ -182,9 +201,9 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
             startOrderDetailFragment();
         }
     }
-    private void updateProductDetails(List<OrderDetail> orderDetails)
-    {
-        if(mController == null)
+
+    private void updateProductDetails(List<OrderDetail> orderDetails) {
+        if (mController == null)
             mController = new OrderController(mContext, this);
         mController.makePrxCall(orderDetails, this);
     }
@@ -204,12 +223,49 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
     @Override
     public void onModelDataLoadFinished(Message msg) {
         if (processResponseFromPRX(msg)) return;
-     //   if (Utility.isProgressDialogShowing())
-      //      Utility.dismissProgressDialog();
+        if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
     }
 
     @Override
     public void onModelDataError(Message msg) {
 
+    }
+
+    private RecyclerView.OnScrollListener
+            mRecyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView,
+                                         int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            LinearLayoutManager mLayoutManager = (LinearLayoutManager) mOrderHistoryView
+                    .getLayoutManager();
+
+            int visibleItemCount = mLayoutManager.getChildCount();
+            int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+            if (!mIsLoading) {
+                //if scrolled beyond page size and we have more items to load
+                if ((visibleItemCount + firstVisibleItemPosition) >= mLayoutManager.getItemCount()
+                        && firstVisibleItemPosition >= 0
+                        && mRemainingOrders >= mPageSize) {
+                    mIsLoading = true;
+                    IAPLog.d(TAG, "visibleItem " + visibleItemCount + ", firstvisibleItemPistion " + firstVisibleItemPosition + "itemCount " + mLayoutManager.getItemCount());
+                    loadMoreItems();
+                }
+            }
+        }
+    };
+
+    private void loadMoreItems() {
+        if (!Utility.isProgressDialogShowing())
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        mRemainingOrders = mRemainingOrders - mPageSize;
+        mController.getOrderList(++mPageNo);
     }
 }

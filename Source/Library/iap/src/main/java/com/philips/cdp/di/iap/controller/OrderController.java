@@ -44,8 +44,10 @@ public class OrderController implements AbstractModel.DataLoadListener {
         mOrderListener = listener;
     }
 
-    public void getOrderList() {
-        OrderHistoryRequest model = new OrderHistoryRequest(getStore(), null, this);
+    public void getOrderList(int pageNo) {
+        HashMap<String, String> query = new HashMap<>();
+        query.put(ModelConstants.CURRENT_PAGE, String.valueOf(pageNo));
+        OrderHistoryRequest model = new OrderHistoryRequest(getStore(), query, this);
         model.setContext(mContext);
         getHybrisDelegate().sendRequest(RequestCode.GET_ORDERS, model, model);
     }

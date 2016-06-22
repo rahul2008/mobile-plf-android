@@ -9,6 +9,7 @@ import android.content.Context;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.IAPLaunchHelper;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
@@ -45,4 +46,10 @@ public class AppLocalHandler implements IAPExposedAPI {
             iapHandlerListener.onSuccess(0);
         }
     }
+
+    @Override
+    public void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener) {
+        //NOP
+    }
+
 }
