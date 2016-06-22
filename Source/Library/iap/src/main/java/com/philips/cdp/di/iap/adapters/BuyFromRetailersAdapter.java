@@ -70,7 +70,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
             @Override
             public void onClick(final View v) {
                 if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
-                    NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
+                    NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
                     return;
                 } else {
                     tagOnSelectRetailer(storeEntity);
@@ -129,7 +129,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         @Override
         public void onClick(final View v) {
             if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
-                NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
+                NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
                 return;
             } else {
                 final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
