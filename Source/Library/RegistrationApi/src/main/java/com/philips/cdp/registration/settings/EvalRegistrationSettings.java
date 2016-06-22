@@ -14,6 +14,10 @@ import android.util.Log;
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
 
+/**
+ * {@code EvalRegistrationSettings} class represents Evaluation environment related configuration.
+ *
+ */
 public class EvalRegistrationSettings extends RegistrationSettings {
 
     private String LOG_TAG = "RegistrationAPI";
@@ -43,7 +47,10 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 
     private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://acc.philips.com/ps/reset-password?cl=mob";
 
-
+    /**
+     * {@code initialiseConfigParameters} method builds configuration for information in {@code EvalRegistrationSettings}
+     * @param locale used to add the requested locale to the configuration
+     */
     @Override
     public void initialiseConfigParameters(String locale) {
 

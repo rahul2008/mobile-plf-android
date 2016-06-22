@@ -14,6 +14,10 @@ import android.util.Log;
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
 
+/**
+ * {@code ProdRegistrationSettings} class represents Production environment related configuration.
+ *
+ */
 public class ProdRegistrationSettings extends RegistrationSettings {
 
     private String PROD_ENGAGE_APP_ID = "ddjbpmgpeifijdlibdio";
@@ -40,6 +44,10 @@ public class ProdRegistrationSettings extends RegistrationSettings {
     private static String PROD_PRODUCT_REGISTER_LIST_URL = "https://www.philips.co.uk/prx/registration.registeredProducts/";
 
 
+    /**
+     * {@code initialiseConfigParameters} method builds configuration for information in {@code ProdRegistrationSettings}
+     * @param locale used to add the requested locale to the configuration
+     */
     @Override
     public void initialiseConfigParameters(String locale) {
 

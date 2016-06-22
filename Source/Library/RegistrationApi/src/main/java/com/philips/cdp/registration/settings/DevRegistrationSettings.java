@@ -14,6 +14,10 @@ import android.util.Log;
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
 
+/**
+ * {@code DevRegistrationSettings} class represents development environment related configuration.
+ *
+ */
 public class DevRegistrationSettings extends RegistrationSettings {
 
     private String DEV_ENGAGE_APP_ID = "bdbppnbjfcibijknnfkk";
@@ -38,7 +42,10 @@ public class DevRegistrationSettings extends RegistrationSettings {
 
     private static String DEV_EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
-
+    /**
+     * {@code initialiseConfigParameters} method builds configuration for information in {@code DevRegistrationSettings}
+     * @param locale used to add the requested locale to the configuration
+     */
     @Override
     public void initialiseConfigParameters(String locale) {
 

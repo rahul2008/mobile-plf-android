@@ -14,6 +14,10 @@ import android.util.Log;
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
 
+/**
+ * {@code StaginglRegistrationSettings} class represents Staging environment related configuration.
+ *
+ */
 public class StaginglRegistrationSettings extends RegistrationSettings {
 
     private String LOG_TAG = "RegistrationAPI";
@@ -39,7 +43,10 @@ public class StaginglRegistrationSettings extends RegistrationSettings {
 
     private String STAGE_REGISTER_FORGOT_MAIL_URL = "https://dev.philips.com/ps/reset-password?cl=mob";
 
-
+    /**
+     * {@code initialiseConfigParameters} method builds configuration for information in {@code StaginglRegistrationSettings}
+     * @param locale used to add the requested locale to the configuration
+     */
     @Override
     public void initialiseConfigParameters(String locale) {
 

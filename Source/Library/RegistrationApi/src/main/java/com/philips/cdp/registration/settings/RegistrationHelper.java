@@ -29,6 +29,10 @@ import com.philips.cdp.tagging.Tagging;
 
 import java.util.Locale;
 
+/**
+ * {@code RegistrationHelper} class represents the entry point for User Registration component.
+ * It exposes APIs to be used when User Registration is intended to be integrated by any application.
+ */
 public class RegistrationHelper {
 
     private Context mContext;
@@ -44,7 +48,10 @@ public class RegistrationHelper {
     private RegistrationHelper() {
     }
 
-
+    /**
+     *
+     * @return instance of this class
+     */
     public synchronized static RegistrationHelper getInstance() {
         if (mRegistrationHelper == null) {
             synchronized (RegistrationHelper.class) {
@@ -59,12 +66,14 @@ public class RegistrationHelper {
 
     /*
      * Initialize Janrain
-     * @param isInitialized true for initialize and false for reinitialize
-     * Janrain
+     * {code @initializeUserRegistration} method represents endpoint for integrating applications. It must be called
+      * to initialize User Registration component and use its features.
+     *
      */
     public synchronized void initializeUserRegistration(final Context context) {
 
         PILLocaleManager localeManager = new PILLocaleManager(context);
+        RLog.init(context);
 
         if (localeManager.getLanguageCode() != null && localeManager.getCountryCode() != null) {
             mLocale = new Locale(localeManager.getLanguageCode(), localeManager.getCountryCode());
@@ -130,11 +139,22 @@ public class RegistrationHelper {
         return countryCode;
     }
 
-
+    /**
+     * {@code registerUserRegistrationListener} method registers a listener in order to listen
+     * the callbacks returned by User Registration component. It must be called by integrating applications
+     * to be able to listen to User Registration events.
+     * @param userRegistrationListener
+     */
     public synchronized void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
         UserRegistrationHelper.getInstance().registerEventNotification(userRegistrationListener);
     }
 
+    /**
+     * {@code unRegisterUserRegistrationListener} method unregisters the listener registered via
+     * {@code registerUserRegistrationListener} method. This will make integrating applications to stop
+     * listening to User Registration events.
+     * @param userRegistrationListener
+     */
     public synchronized void unRegisterUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
         UserRegistrationHelper.getInstance().unregisterEventNotification(userRegistrationListener);
     }
