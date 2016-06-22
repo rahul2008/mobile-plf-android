@@ -13,6 +13,7 @@ import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.NetworkEssentialsFactory;
 import com.philips.cdp.di.iap.hybris.HybrisHandler;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,10 @@ public class IAPHandler implements IAPExposedAPI {
 
     @Override
     public void launchIAP(int landingView, String ctnNumber, IAPHandlerListener listener) {
+        if(landingView == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW &&
+                (ctnNumber == null || ctnNumber.trim().equalsIgnoreCase("")) ){
+            throw new RuntimeException("Product Ctn passed is null");
+        }
         mImplementationHandler.launchIAP(landingView, ctnNumber, listener);
     }
 
