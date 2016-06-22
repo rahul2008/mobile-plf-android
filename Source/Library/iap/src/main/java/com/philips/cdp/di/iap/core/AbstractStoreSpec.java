@@ -180,4 +180,7 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     public String getOrderDetailUrl(String orderID) {
         return null;
     }
+
+    @Override
+    public String getSearchProductUrl(String ctnNumber) { return null; }
 }

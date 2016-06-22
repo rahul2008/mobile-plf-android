@@ -56,6 +56,8 @@ public class HybrisStore extends AbstractStoreSpec {
 
     private static final String SUFFIX_ORDER_DETAIL_URL = "/orders/%s";
 
+    private static final String SUFFIX_SEARCH_PRODUCT_URL = "/products/%s";
+
     private StoreConfiguration mStoreConfig;
     public IAPUser mIAPUser;
 
@@ -82,6 +84,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private boolean mUserLoggedout;
     private String mRetailersAlter;
     private String mOrderDetailUrl;
+    private String mSearchProductUrl;
 
     public HybrisStore(Context context) {
         mIAPUser = initIAPUser(context);
@@ -190,6 +193,7 @@ public class HybrisStore extends AbstractStoreSpec {
         mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
                 .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
         mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDER_DETAIL_URL);
+        mSearchProductUrl = mBaseURlForProductCatalog.concat(SUFFIX_SEARCH_PRODUCT_URL);
     }
 
     @Override
@@ -330,5 +334,11 @@ public class HybrisStore extends AbstractStoreSpec {
     @Override
     public String getOrderDetailUrl(String orderId) {
         return String.format(mOrderDetailUrl, orderId);
+    }
+
+    @Override
+    public String getSearchProductUrl(String ctnNumber)
+    {
+        return String.format(mSearchProductUrl, ctnNumber);
     }
 }

@@ -73,4 +73,6 @@ public interface StoreSpec {
     boolean isStoreInitialized();
 
     String getOrderDetailUrl(String orderID);
+
+    String getSearchProductUrl(String ctnNumber);
 }
