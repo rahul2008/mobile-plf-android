@@ -260,4 +260,8 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
         }
         mActionBarTitle.setText(titleText);
     }
+
+    protected String getStringText(int id) {
+        return getActivity().getResources().getString(id);
+    }
 }

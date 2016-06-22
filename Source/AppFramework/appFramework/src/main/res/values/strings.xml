@@ -21,7 +21,7 @@
     <string name="settings_list_item_one">Vertical app setting A</string>
     <string name="settings_list_item_two">Vertical app setting B</string>
     <string name="settings_list_item_three">Vertical app setting C</string>
-    <string name="settings_list_item_four">Receive Philips\'</string>
+    <string name="settings_list_item_notify">Receive Philips\'</string>
     <string name="settings_list_item_four_desc">promotional communications based on my preferences and online behavior</string>
     <string name="settings_list_item_four_term_cond">what does this mean?</string>
 
@@ -52,7 +52,7 @@
         <item>@string/settings_list_item_one</item>
         <item>@string/settings_list_item_two</item>
         <item>@string/settings_list_item_three</item>
-        <item>@string/settings_list_item_four</item>
+        <item>@string/settings_list_item_notify</item>
         <item>@string/settings_list_item_purchases</item>
         <item>@string/settings_list_item_order_history</item>
         <item>@string/settings_list_item_my_acc</item>

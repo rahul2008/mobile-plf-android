@@ -15,6 +15,10 @@ import android.widget.Toast;
 
 import com.philips.cdp.appframework.AppFrameworkBaseFragment;
 import com.philips.cdp.appframework.R;
+import com.philips.cdp.registration.User;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * SettingsFragment is the Base Class of all existing fragments.
@@ -39,7 +43,20 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
 
         mList = (ListView) view.findViewById(R.id.listwithouticon);
 
-        mAdapter = new ListViewSettings(getActivity());
+        String[] settingsItemArray = getActivity().getResources().getStringArray(R.array.settingsScreen_list);
+
+        /*
+        * Use asList method of Arrays class to convert Java String array to ArrayList
+        */
+        ArrayList<String> settingsItemList = new ArrayList<String>(Arrays.asList(settingsItemArray));
+
+//        User userRegistration = new User(getActivity());
+//
+//        if(!userRegistration.isUserSignIn()){
+//            settingsItemList = filterListForRegistration(settingsItemList);
+//        }
+
+        mAdapter = new ListViewSettings(getActivity(), settingsItemList);
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("ListViewWithoutIcons")) {
                 mAdapter.setSavedBundle(savedInstanceState.getBundle("ListViewWithoutIcons"));
@@ -57,6 +74,18 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
 
         return view;
     }
+
+    private ArrayList<String> filterListForRegistration(ArrayList<String> settingsItemList) {
+        ArrayList<String> userRegistrationDependentList = new ArrayList<String>();
+        userRegistrationDependentList.add(getStringText(R.string.settings_list_item_notify));
+        userRegistrationDependentList.add(getStringText(R.string.settings_list_item_purchases));
+        userRegistrationDependentList.add(getStringText(R.string.settings_list_item_order_history));
+
+        settingsItemList.removeAll(userRegistrationDependentList);
+
+        return settingsItemList;
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
