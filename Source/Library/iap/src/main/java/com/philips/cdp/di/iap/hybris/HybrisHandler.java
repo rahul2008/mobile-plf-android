@@ -80,7 +80,10 @@ public class HybrisHandler implements IAPExposedAPI {
             launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW);
         } else if (screen == IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW) {
             launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW);
-        } else {
+        }else if( screen == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW){
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW);
+        }
+        else {
             buyProduct(ctnNumber, listener);
         }
     }
@@ -107,9 +110,9 @@ public class HybrisHandler implements IAPExposedAPI {
 
     void launchIAPActivity(int screen) {
         if (mIAPSettings.isLaunchAsFragment()) {
-            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, screen);
+            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, screen, null);
         } else {
-            IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex);
+            IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex, null);
         }
     }
 

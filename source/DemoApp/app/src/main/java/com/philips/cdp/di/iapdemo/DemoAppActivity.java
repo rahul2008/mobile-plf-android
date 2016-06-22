@@ -197,7 +197,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 break;
             case R.id.btn_purchase_history:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
-                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, null, null);
+                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, "HX8071/10", null);
                 } else {
                     Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
                 }
@@ -331,7 +331,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
                 if (!mProductCountRequested) {
                     mIAPSettings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);
-//            setUseLocalData();
+                   /* mIAPSettings.setLaunchAsFragment(true);
+                    mIAPSettings.setFragProperties(getSupportFragmentManager(), );*/
+                    setUseLocalData();
                     mIapHandler = IAPHandler.init(this, mIAPSettings);
                     updateCartIcon();
                     if (!shouldUseLocalData()) {
