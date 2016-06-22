@@ -21,7 +21,7 @@
     <string name="settings_list_item_one">Vertical app setting A</string>
     <string name="settings_list_item_two">Vertical app setting B</string>
     <string name="settings_list_item_three">Vertical app setting C</string>
-    <string name="settings_list_item_four">Receive Philips\'</string>
+    <string name="settings_list_item_notify">Receive Philips\'</string>
     <string name="settings_list_item_four_desc">promotional communications based on my preferences and online behavior</string>
     <string name="settings_list_item_four_term_cond">what does this mean?</string>
 
@@ -29,6 +29,7 @@
     <string name="settings_list_item_order_history">Order history</string>
 
     <string name="settings_list_item_my_acc">&lt;b>My Account&lt;/b></string>
+    <string name="settings_list_item_login">Login</string>
     <string name="settings_list_item_log_out">Log out</string>
 
     <!--Settings Screen ends-->
@@ -45,4 +46,19 @@
         <item>Log Out</item>-->
 
     </string-array>
+
+
+    <string-array name="settingsScreen_list">
+        <item>@string/settings_list_item_main</item>
+        <item>@string/settings_list_item_one</item>
+        <item>@string/settings_list_item_two</item>
+        <item>@string/settings_list_item_three</item>
+        <item>@string/settings_list_item_notify</item>
+        <item>@string/settings_list_item_purchases</item>
+        <item>@string/settings_list_item_order_history</item>
+        <item>@string/settings_list_item_my_acc</item>
+        <item>@string/settings_list_item_login</item>
+    </string-array>
+
+
 </resources>

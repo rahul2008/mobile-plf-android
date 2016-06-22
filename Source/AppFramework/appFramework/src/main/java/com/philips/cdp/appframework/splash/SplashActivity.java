@@ -28,7 +28,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 /**
  * <H1>Dev Guide</H1>
  * <p>
- * UIKit provides 3 basic templates that can be filled via target activity.<br>
+ * UIKit provides 3 basic templates that can be filled via target mActivity.<br>
  * By default themed gradient background is applied.<br>
  * To change default background following code can be used
  * <pre>
@@ -108,7 +108,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
             @Override
             public void run() {
                 // This method will be executed once the timer is over
-                // Start your app main activity
+                // Start your app main mActivity
                 User user = new User(SplashActivity.this);
                 if (getIntroScreenDonePressed()) {
                     if (user.isUserSignIn()) {
