@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.servicediscovery;
 import android.content.Context;
 import android.util.Log;
 
-import com.philips.platform.appinfra.AppIdentity.AppIdentityManager;
+import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.AppInfra;
 
 import java.net.MalformedURLException;

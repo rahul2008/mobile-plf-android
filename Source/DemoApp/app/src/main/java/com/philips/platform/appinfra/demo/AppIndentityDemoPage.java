@@ -4,8 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.philips.platform.appinfra.AppIdentity.AppIdentityInterface;
-import com.philips.platform.appinfra.AppIdentity.AppIdentityManager;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.AppInfra;
 
 /**
