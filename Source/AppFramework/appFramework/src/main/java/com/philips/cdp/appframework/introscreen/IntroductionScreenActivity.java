@@ -21,7 +21,6 @@ import com.philips.cdp.appframework.homescreen.HomeActivity;
 import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.appframework.modularui.UIStateDefintions;
-import com.philips.cdp.appframework.modularui.UIUserRegNavigationStateOne;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -184,9 +183,9 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-
+        wsNavigator = UIFlowManager.currentState.getNavigator();
         if (null != activity) {
-           @UIStateDefintions.UIStateDef int userRegState = userRegNavigator.onClick(userRegistrationClickID,IntroductionScreenActivity.this);
+           @UIStateDefintions.UIStateDef int userRegState = wsNavigator.onClick(userRegistrationClickID,IntroductionScreenActivity.this);
 
             switch (userRegState){
                 case UIStateDefintions.UI_REGISTRATION_STATE_ONE : if(UIFlowManager.activityMap.get(UIStateDefintions.UI_REGISTRATION_STATE_ONE).equalsIgnoreCase("HomeActivity")){
@@ -252,10 +251,13 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
                 switch (currentState){
                     case UIStateDefintions.UI_WELCOME_STATE_ONE : if(UIFlowManager.activityMap.get(UIStateDefintions.UI_WELCOME_STATE_ONE).equalsIgnoreCase("HomeActivity")){
+                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIStateDefintions.UI_WELCOME_STATE_TWO);
                         startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+
                     }
                         break;
                     case UIStateDefintions.UI_WELCOME_STATE_TWO : if(UIFlowManager.activityMap.get(UIStateDefintions.UI_WELCOME_STATE_TWO).equalsIgnoreCase("UserRegistration")){
+                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIStateDefintions.UI_REGISTRATION_STATE_ONE);
                         startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
                     }
                         break;
@@ -266,9 +268,6 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     protected void onResume() {
         super.onResume();
-
         wsNavigator = UIFlowManager.currentState.getNavigator();
-
-        userRegNavigator = new UIUserRegNavigationStateOne();
     }
 }

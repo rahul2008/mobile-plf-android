@@ -113,17 +113,6 @@ public class SplashActivity extends AppFrameworkBaseActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-               /* User user = new User(SplashActivity.this);
-                if (getIntroScreenDonePressed()) {
-                    if (user.isUserSignIn()) {
-                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                    } else {
-                        startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
-                    }
-                } else {
-                    Intent i = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
-                    startActivity(i);
-                }*/
 
                 @UIStateDefintions.UIStateDef int stateID =  UIFlowManager.currentState.getNavigator().onClick(0, SplashActivity.this);
                 switch(stateID){
@@ -139,7 +128,6 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                         UIFlowManager.currentState = new UIState(new UIWSNavigationStateTwo(),UIStateDefintions.UI_WELCOME_STATE_TWO);
                         startActivity(new Intent(SplashActivity.this, IntroductionScreenActivity.class));
                         break;
-
                     }
 
                 finish();
