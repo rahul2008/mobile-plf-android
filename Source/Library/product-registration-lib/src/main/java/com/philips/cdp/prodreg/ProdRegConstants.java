@@ -7,7 +7,7 @@
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
-package com.philips.cdp.prodreg.util;
+package com.philips.cdp.prodreg;
 
 public class ProdRegConstants {
     public static final String START_ANIMATION_ID = "startAnimation";

@@ -21,8 +21,8 @@ import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
+import com.philips.cdp.prodreg.register.ProdRegUiHelper;
 import com.philips.cdp.prodreg.register.Product;
-import com.philips.cdp.prodreg.util.ProdRegConfigManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import java.text.ParseException;
@@ -201,14 +201,14 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             if (type.equalsIgnoreCase("a")) {
                 fragLauncher.setFirstLaunch(true);
             }
-            ProdRegConfigManager.getInstance().invokeProductRegistration(fragLauncher);
+            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher);
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, -1);
             if (type.equalsIgnoreCase("a")) {
                 activityLauncher.setFirstLaunch(true);
             }
             activityLauncher.setRegProdList(regProdList);
-            ProdRegConfigManager.getInstance().invokeProductRegistration(activityLauncher);
+            ProdRegUiHelper.getInstance().invokeProductRegistration(activityLauncher);
         }
     }
 

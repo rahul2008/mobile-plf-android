@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.util;
+package com.philips.cdp.prodreg.imagehandler;
 
 import android.content.Context;
 import android.graphics.Bitmap;

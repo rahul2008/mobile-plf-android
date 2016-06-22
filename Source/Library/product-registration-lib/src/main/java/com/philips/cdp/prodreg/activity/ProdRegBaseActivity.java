@@ -20,11 +20,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
+import com.philips.cdp.prodreg.register.ProdRegUiHelper;
 import com.philips.cdp.prodreg.register.Product;
-import com.philips.cdp.prodreg.util.ProdRegConfigManager;
-import com.philips.cdp.prodreg.util.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.UiKitActivity;
 
@@ -68,7 +68,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
             fragLauncher.setAnimation(0, 0);
             fragLauncher.setRegProdList(regProdList);
             fragLauncher.setFirstLaunch(isFirstLaunch);
-            ProdRegConfigManager.getInstance().invokeProductRegistration(fragLauncher);
+            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher);
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
@@ -131,7 +131,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() == 1) {
             finish();
-        } else if (!ProdRegConfigManager.getInstance().onBackPressed(this)) {
+        } else if (!ProdRegUiHelper.getInstance().onBackPressed(this)) {
             super.onBackPressed();
         }
     }

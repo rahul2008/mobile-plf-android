@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.fragment.LaunchFragment;
-import com.philips.cdp.prodreg.util.ProdRegConfigManager;
+import com.philips.cdp.prodreg.register.ProdRegUiHelper;
 import com.philips.cdp.uikit.UiKitActivity;
 
 public class MainActivity extends UiKitActivity {
@@ -70,7 +70,7 @@ public class MainActivity extends UiKitActivity {
     public void onBackPressed() {
         if (fragmentManager.getBackStackEntryCount() == 1) {
             finish();
-        } else if (!ProdRegConfigManager.getInstance().onBackPressed(this)) {
+        } else if (!ProdRegUiHelper.getInstance().onBackPressed(this)) {
             super.onBackPressed();
         }
     }

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
+import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.alert.ProdRegErrorAlertFragment;
 import com.philips.cdp.prodreg.error.ErrorHandler;
@@ -21,7 +22,6 @@ import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
-import com.philips.cdp.prodreg.util.ProdRegConstants;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

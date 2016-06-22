@@ -11,7 +11,7 @@
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
-package com.philips.cdp.prodreg.util;
+package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
@@ -27,14 +28,13 @@ import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.UiLauncher;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
-import com.philips.cdp.prodreg.register.Product;
 
 import java.util.ArrayList;
 
-public class ProdRegConfigManager {
+public class ProdRegUiHelper {
 
     private static int mContainerId;
-    private static ProdRegConfigManager prodRegConfigManager;
+    private static ProdRegUiHelper prodRegUiHelper;
     private UiLauncher mUiLauncher;
 
     /*
@@ -42,17 +42,17 @@ public class ProdRegConfigManager {
          * Hosting app, which will integrate this Product Registration, has to pass app
          * context.
          */
-    private ProdRegConfigManager() {
+    private ProdRegUiHelper() {
     }
 
     /*
      * Singleton pattern.
      */
-    public static ProdRegConfigManager getInstance() {
-        if (prodRegConfigManager == null) {
-            prodRegConfigManager = new ProdRegConfigManager();
+    public static ProdRegUiHelper getInstance() {
+        if (prodRegUiHelper == null) {
+            prodRegUiHelper = new ProdRegUiHelper();
         }
-        return prodRegConfigManager;
+        return prodRegUiHelper;
     }
 
     /**
