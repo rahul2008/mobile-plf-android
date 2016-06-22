@@ -10,7 +10,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
@@ -18,7 +18,6 @@ import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.servertime.ServerTime;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,10 +80,10 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         final User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
-            HsdpUser login = new HsdpUser(mContext);
-            String refreshSecret = generateRefreshSecret();
-            ServerTime.init(mContext);
-            login.login(mEmail, mPassword, refreshSecret,new TraditionalLoginHandler() {
+
+            HsdpUser hsdpUser = new HsdpUser(mContext);
+            hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
+
                 @Override
                 public void onLoginSuccess() {
                     mTraditionalLoginHandler.onLoginSuccess();
@@ -92,22 +91,11 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
                 @Override
                 public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                    user.logout(new LogoutHandler() {
-                        @Override
-                        public void onLogoutSuccess() {
-
-                        }
-
-                        @Override
-                        public void onLogoutFailure(int responseCode, String message) {
-
-                        }
-                    });
                     mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
                 }
             });
 
-
+          
         } else {
             mTraditionalLoginHandler.onLoginSuccess();
         }
