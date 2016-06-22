@@ -19,7 +19,7 @@ public abstract class PrxRequest {
     private Sector mSector;
     private Catalog mCatalog;
     private String mLocaleMatchResult;
-    private int maxRetries = 1;
+    private int maxRetries = 0;
     private int requestTimeOut = 5000;
 
     public String getServerInfo() {
