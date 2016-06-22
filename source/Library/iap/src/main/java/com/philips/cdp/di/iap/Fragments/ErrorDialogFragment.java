@@ -3,9 +3,6 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +11,13 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
-
-import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class ErrorDialogFragment extends DialogFragment {
-    public interface ErrorDialogListener {
-        void OnOkClickFromSomethingWentWrong();
-    }
-
-    private Button mOkBtn, mTryAgain;
-    private ErrorDialogListener mClickListener;
+    private Button mOkBtn;
     Bundle bundle;
 
     @Override
@@ -75,37 +63,7 @@ public class ErrorDialogFragment extends DialogFragment {
     }
 
     private void onClickOfOK() {
-        String error = bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION);
-        if (error!=null && error.equals(getString(R.string.iap_time_out_error))) {
-            IAPLog.i(IAPLog.LOG, "SWITCH_TO_NO_NETWORK_CONNECTION");
-            addFragment(NoNetworkConnectionFragment.createInstance(bundle, BaseAnimationSupportFragment.AnimationType.NONE),
-                    NoNetworkConnectionFragment.TAG);
-        }
         setShowsDialog(false);
         dismiss();
-    }
-
-    public void addFragment(BaseAnimationSupportFragment newFragment,
-                            String newFragmentTag) {
-
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(getPreviousFragmentID(), newFragment, newFragmentTag);
-            transaction.addToBackStack(null);
-            transaction.commitAllowingStateLoss();
-
-            IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
-                    + newFragmentTag + ")");
-        }
-    }
-
-    // TODO: 08-06-2016  This must be avoided and code using this function must be moved to
-    // basefragment. It can have side effects if this is the first fragment. It will replace the
-    // vertical fragment. Please check for code duplication as well.
-    private int getPreviousFragmentID() {
-        FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
-        List<Fragment> fragments = supportFragmentManager.getFragments();
-        int size = fragments.size();
-        return fragments.get(fragments.size() -1).getId();
     }
 }
