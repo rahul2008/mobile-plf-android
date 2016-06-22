@@ -126,7 +126,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
                 if (!isNetworkNotConnected()) {
-                    fetchProductDetail(mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
+                    mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER);
+                    fetchProductDetail(mCTNValue);
                 }
             } else {
                 mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
@@ -259,9 +260,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             if (mBundle != null && mLaunchedFromProductCatalog) {
                 IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
                 setAddToCartIcon();
-                mBuyFromRetailors.setVisibility(View.VISIBLE);
                 setCartIconVisibility(View.VISIBLE);
-                mAddToCart.setOnClickListener(this);
+                mBuyFromRetailors.setVisibility(View.VISIBLE);
                 mBuyFromRetailors.setOnClickListener(this);
                 mProductDiscountedPrice.setVisibility(View.VISIBLE);
                 setTitle(mProductTitle);
@@ -284,6 +284,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             return;
         }
         mAddToCart.setVisibility(View.VISIBLE);
+        mAddToCart.setOnClickListener(this);
         Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
         mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
     }
@@ -343,14 +344,14 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void populateData() {
-        mProductDescription.setText(mValue.getData().getProductTitle());
-        mCTN.setText(mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
-        mPrice.setVisibility(View.GONE);
-        mProductDiscountedPrice.setVisibility(View.GONE);
-        mProductOverview.setText(mValue.getData().getMarketingTextHeader());
-
-        if (mLaunchedFromProductCatalog) {
-            setCartIconVisibility(View.VISIBLE);
+        if (mValue != null) {
+            mProductTitle = mValue.getData().getProductTitle();
+            mProductDescription.setText(mProductTitle);
+            setTitle(mProductTitle);
+            mCTN.setText(mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
+            mPrice.setVisibility(View.GONE);
+            mProductDiscountedPrice.setVisibility(View.GONE);
+            mProductOverview.setText(mValue.getData().getMarketingTextHeader());
         }
     }
 
