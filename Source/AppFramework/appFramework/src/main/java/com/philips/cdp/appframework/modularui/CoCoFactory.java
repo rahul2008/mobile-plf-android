@@ -6,7 +6,7 @@ package com.philips.cdp.appframework.modularui;
 public class CoCoFactory {
 
     public UICoCoInterface getCoCo(@UIConstants.UICoCoConstants int coCo) {
-        
+
         switch (coCo) {
             case UIConstants.UI_COCO_PRODUCT_REGISTRATION:
                 return new UICoCoProdRegImpl();

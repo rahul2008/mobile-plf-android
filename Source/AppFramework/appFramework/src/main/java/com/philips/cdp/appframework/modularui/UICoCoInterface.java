@@ -5,7 +5,9 @@ package com.philips.cdp.appframework.modularui;
  */
 public interface UICoCoInterface {
     void loadPlugIn();
+
     void runCoCo();
+
     void unloadCoCo();
-    
+
 }

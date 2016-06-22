@@ -5,7 +5,8 @@ package com.philips.cdp.appframework.modularui;
  */
 public abstract class UIStateBase {
     UIBaseNavigation navigator;
-    @UIConstants.UIStateDef int stateID;
+    @UIConstants.UIStateDef
+    int stateID;
     UIBaseLogic logic;
 
     public UIBaseNavigation getNavigator() {
@@ -16,11 +17,13 @@ public abstract class UIStateBase {
         this.navigator = navigator;
     }
 
-    @UIConstants.UIStateDef public int getStateID() {
+    @UIConstants.UIStateDef
+    public int getStateID() {
         return stateID;
     }
 
-    @UIConstants.UIStateDef public void setStateID(int stateID) {
+    @UIConstants.UIStateDef
+    public void setStateID(int stateID) {
         this.stateID = stateID;
     }
 }
