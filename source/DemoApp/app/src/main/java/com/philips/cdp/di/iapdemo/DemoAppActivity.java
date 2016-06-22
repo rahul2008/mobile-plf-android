@@ -52,18 +52,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private IAPHandler mIapHandler;
     private User mUser;
     private LinearLayout mSelectCountryLl;
-    private LinearLayout mSelectEnvironment;
     private TextView mCountText = null;
     private FrameLayout mShoppingCart;
     private Spinner mSpinner;
-    private Spinner mSpinnerEnv;
     private Button mShopNow;
     private Button mPurchaseHistory;
-
+    String mSelectedCountry;
     private CountryPreferences mCountryPreference;
-    private EnvironmentPreferences mEnvironmentPreference;
     private int mSelectedCountryIndex;
-    private int mSelectedEnvironmentIndex;
     private boolean mProductCountRequested;
 
     //We require this to track for hiding the cart icon in demo app
@@ -80,8 +76,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         Button mRegister = (Button) findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
-
-        mSelectEnvironment = (LinearLayout) findViewById(R.id.select_environment);
         mFragmentLaunch = (Button) findViewById(R.id.btn_fragment_launch);
         mFragmentLaunch.setOnClickListener(this);
         mFragmentLaunch.setVisibility(View.GONE);
@@ -106,33 +100,17 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mSpinner = (Spinner) findViewById(R.id.spinner);
         mSpinner.setOnItemSelectedListener(this);
 
-        mSpinnerEnv = (Spinner) findViewById(R.id.spinner_env);
-        mSpinnerEnv.setOnItemSelectedListener(this);
-
         List<String> countries = new ArrayList<>();
         countries.add("Select Country");
         countries.add("US");
         countries.add("UK");
 
-        List<String> environments = new ArrayList<>();
-        environments.add("Select Environment");
-        environments.add("tst.pl.shop.philips.com");
-        environments.add("acc.occ.shop.philips.com");
-        //environments.add("www.occ.shop.philips.com");
-
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(dataAdapter);
 
-        ArrayAdapter<String> dataAdapterEnv = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, environments);
-        dataAdapterEnv.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinnerEnv.setAdapter(dataAdapterEnv);
-
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
-
-        mEnvironmentPreference = new EnvironmentPreferences(this);
-        mSpinnerEnv.setSelection(mEnvironmentPreference.getSelectedEnvironmentIndex());
     }
 
     @Override
@@ -299,7 +277,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
         switch (parent.getId()) {
             case R.id.spinner:
                 mShopNow.setEnabled(true);
@@ -320,17 +297,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 mShopNow.setVisibility(View.VISIBLE);
                 mPurchaseHistory.setVisibility(View.VISIBLE);
                 mPurchaseHistory.setEnabled(true);
-                if (!RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment().equalsIgnoreCase("Production"))
-                    mSelectEnvironment.setVisibility(View.VISIBLE);
 
-                String selectedCountry = parent.getItemAtPosition(position).toString();
-                if (selectedCountry.equals("UK"))
-                    selectedCountry = "GB";
+                mSelectedCountry = parent.getItemAtPosition(position).toString();
+                if (mSelectedCountry.equals("UK"))
+                    mSelectedCountry = "GB";
 
-                setLocale("en", selectedCountry);
+                setLocale("en", mSelectedCountry);
 
                 if (!mProductCountRequested) {
-                    mIAPSettings = new IAPSettings(selectedCountry, "en", DEFAULT_THEME);
+                    mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
 //            setUseLocalData();
                     mIapHandler = IAPHandler.init(this, mIAPSettings);
                     updateCartIcon();
@@ -341,85 +316,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                     }
                 }
                 break;
-            case R.id.spinner_env:
-                mSelectedEnvironmentIndex = position;
-                if (position == 0)
-                    return;
-                boolean isSelectionChanged = (mEnvironmentPreference.getSelectedEnvironmentIndex()!=position)?true:false;
-                mEnvironmentPreference.saveEnvironmentPrefrence(position);
-                String selectedEnvironment = parent.getItemAtPosition(position).toString();
-                setHostPort(selectedEnvironment);
-                // Use the Below Code in case Production Environment also has to be given
-                /*if (isSelectionChanged) {
-                    mUser.logout(new LogoutHandler() {
-                        @Override
-                        public void onLogoutSuccess() {
-                            onUserLogoutSuccess();
-                        }
-
-                        @Override
-                        public void onLogoutFailure(final int i, final String s) {
-                            onUserLogoutFailure();
-                        }
-                    });
-                    quit();
-                }*/
-
-                /*
-                    Put the below lines in case production Not required
-                 */
-                if (isSelectionChanged) {
-                    updateCartIcon();
-                    if (!shouldUseLocalData()) {
-                        if (!Utility.isProgressDialogShowing())
-                            Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
-                        mProductCountRequested = true;
-                        mIapHandler.getProductCartCount(mProductCountListener);
-                    }
-                }
-                break;
         }
-    }
-
-    private void setHostPort(String env) {
-        StoreSpec spec = HybrisDelegate.getInstance().getStore();
-        if (spec instanceof HybrisStore) {
-            Class<?> hybrisStore = spec.getClass();
-            try {
-                Field storeConfiguration = hybrisStore.getDeclaredField("mStoreConfig");
-                storeConfiguration.setAccessible(true);
-
-                //Set VerticalConfig
-                storeConfiguration.set(spec, getVerticalConfig(env, (HybrisStore) spec));
-                spec.setNewUser(DemoAppActivity.this);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private StoreConfiguration getVerticalConfig(String env, HybrisStore spec) throws Exception {
-        StoreConfiguration storeConfig = new StoreConfiguration(this, spec);
-        Field verticalAppConfig = storeConfig.getClass().getDeclaredField("mVerticalAppConfig");
-        verticalAppConfig.setAccessible(true);
-
-        VerticalAppConfig newVerticalConfig = new VerticalAppConfig(this);
-        Field hostPort = newVerticalConfig.getClass().getDeclaredField("mHostPort");
-        hostPort.setAccessible(true);
-        hostPort.set(newVerticalConfig, env);
-
-        verticalAppConfig.set(storeConfig, newVerticalConfig);
-
-        Field webStoreConfig = storeConfig.getClass().getDeclaredField("mWebStoreConfig");
-        webStoreConfig.setAccessible(true);
-        WebStoreConfig newWebStoreConfig = new WebStoreConfig(DemoAppActivity.this, storeConfig);
-        Field siteID = newWebStoreConfig.getClass().getDeclaredField("mSiteID");
-        siteID.setAccessible(true);
-
-        siteID.set(newWebStoreConfig, "US_Tuscany");
-
-        webStoreConfig.set(storeConfig, newWebStoreConfig);
-        return storeConfig;
     }
 
     private void setLocale(String languageCode, String countryCode) {
@@ -462,7 +359,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mSpinner.setSelection(0);
         mCountText.setVisibility(View.GONE);
         mFragmentLaunch.setVisibility(View.GONE);
-        mSelectEnvironment.setVisibility(View.GONE);
     }
 
     private void showAppVersion() {
@@ -482,11 +378,4 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-    //Use this in case Production Environment has to be Used
-    /*public void quit() {
-        int pid = android.os.Process.myPid();
-        android.os.Process.killProcess(pid);
-        System.exit(0);
-    }*/
 }

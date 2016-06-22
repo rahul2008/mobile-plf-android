@@ -76,32 +76,6 @@
             android:layout_weight="0.5" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/select_environment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/select_country"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"
-        >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="@string/select_env"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/spinner_env"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5" />
-    </LinearLayout>
-
-
     <ListView
         android:id="@+id/product_list"
         android:layout_width="wrap_content"
