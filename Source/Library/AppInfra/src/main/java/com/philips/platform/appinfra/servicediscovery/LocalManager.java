@@ -38,6 +38,7 @@ public class LocalManager implements LocalInterface {
 
     public String getlocal(){
         if(Locale.getDefault() != null){
+            mAppInfra.getTagging().trackActionWithInfo("LocalPage", "KeyLocal", "ValueLocal");
             return Locale.getDefault().toString();
         }else{
             return null;
@@ -49,8 +50,11 @@ public class LocalManager implements LocalInterface {
         if(mCountry == null){
             mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
             Log.i("Country", " "+mCountry);
-            if(mCountry!= null)
+            if(mCountry!= null){
+                mAppInfra.getTagging().trackActionWithInfo("LocalPage", "KeyCountry", "ValueCountry");
                 return mCountry;
+
+            }
 
         }
         if(mCountry== null){
