@@ -1,7 +1,11 @@
 package com.philips.cdp.appframework.settingscreen;
 
 /**
- * Created by apple on 6/22/16.
+ * SettingScreenItemType will describe the type of the items in the list.
+ *
+ * @author: ritesh.jha@philips.com
+ * @since: June 22, 2016
  */
-public class SettingScreenItemType {
+public enum SettingScreenItemType {
+    HEADER, CONTENT, NOTIFICATION
 }

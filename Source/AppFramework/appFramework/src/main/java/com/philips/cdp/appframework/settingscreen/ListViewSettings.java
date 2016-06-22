@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
-import com.philips.cdp.appframework.utility.Logger;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.shamanland.fonticon.FontIconTextView;
@@ -34,14 +33,13 @@ import java.util.ArrayList;
  * @since: June 17, 2016
  */
 public class ListViewSettings extends BaseAdapter {
-    public Context mActivity;
-    Bundle saveBundle = new Bundle();
+    private Context mActivity;
+    private Bundle saveBundle = new Bundle();
     private LayoutInflater inflater = null;
     private User mUser = null;
-    private ArrayList<String> mSettingsItemList = null;
-//    private static int mPosition = 0;
+    private ArrayList<SettingScreenItem> mSettingsItemList = null;
 
-    public ListViewSettings(Context context, ArrayList<String> settingsItemList) {
+    public ListViewSettings(Context context, ArrayList<SettingScreenItem> settingsItemList) {
         mActivity = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mUser = new User(context);
@@ -50,13 +48,11 @@ public class ListViewSettings extends BaseAdapter {
 
     @Override
     public int getCount() {
-//        Logger.i("testing","mSettingsItemList.length -- " + mSettingsItemList.length);
         return mSettingsItemList.size();
     }
 
     @Override
     public Object getItem(final int position) {
-//        Logger.i("testing",".position -- " + position);
         return position;
     }
 
@@ -85,126 +81,71 @@ public class ListViewSettings extends BaseAdapter {
         FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
         TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
 
-        CharSequence titleText = null;
+//        CharSequence titleText = null;
 
-        switch (position) {
-            case 0:
-            case 5:
-            case 7: headerSection(position, name, value, number, on_off, arrow, description);
+        SettingScreenItemType type = mSettingsItemList.get(position).type;
+
+        switch (type) {
+            case HEADER:
+                headerSection(position, name, value, number, on_off, arrow, description);
+                vi.setClickable(false);
+                vi.setEnabled(false);
+                vi.setActivated(false);
                 break;
-
-            case 1:
-            case 2:
-            case 3:
-            case 6:
-            case 8:
+            case CONTENT:
                 subSection(position, name, value, on_off, arrow, description);
-                break;
 
-            case 4:
-                name.setVisibility(View.VISIBLE);
-                name.setText(mSettingsItemList.get(position));
-                value.setVisibility(View.VISIBLE);
-                setSwitchState(value, "s1");
-
-                value.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        saveBundle.putBoolean("s1", ((PuiSwitch) v).isChecked());
+                if (mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_login)))
+                        || mSettingsItemList.get(position).title.equals(Html.fromHtml(getString(R.string.settings_list_item_log_out)))) {
+                    if (mUser.isUserSignIn()) {
+                        name.setText(getString(R.string.settings_list_item_log_out));
+                    } else {
+                        name.setText(getString(R.string.settings_list_item_login));
                     }
-                });
 
-                String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
-                        getString(R.string.settings_list_item_four_term_cond);
+                    vi.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mUser.isUserSignIn()) {
+                                logoutAlert();
+                            } else {
+                                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
+                            }
+                        }
+                    });
+                }
 
-                description.setVisibility(View.VISIBLE);
-                description.setText(descText);
-                arrow.setVisibility(View.GONE);
+                break;
+            case NOTIFICATION:
+                notificationSection(position, name, value, arrow, description);
                 break;
         }
-//        mPosition++;
-
-
-//            if (position == 0) {
-//                headerSection(position, name, value, number, on_off, arrow, description);
-//
-//            }
-//
-//            if (position == 1) {
-//                subSection(position, name, value, on_off, arrow, description);
-//            }
-//
-//            if (position == 2) {
-//                subSection(position, name, value, on_off, arrow, description);
-//            }
-//
-//            if (position == 3) {
-//                subSection(position, name, value, on_off, arrow, description);
-//            }
-//
-//            if (position == 4) {
-//                name.setVisibility(View.VISIBLE);
-//                name.setText(mSettingsItemList.get(position));
-//                value.setVisibility(View.VISIBLE);
-//                setSwitchState(value, "s1");
-//
-//                value.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(final View v) {
-//                        saveBundle.putBoolean("s1", ((PuiSwitch) v).isChecked());
-//                    }
-//                });
-//
-//                String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
-//                        getString(R.string.settings_list_item_four_term_cond);
-//
-//                description.setVisibility(View.VISIBLE);
-//                description.setText(descText);
-//                //  mBadge.setVisibility(View.VISIBLE);
-//                arrow.setVisibility(View.GONE);
-//
-//    //            if(!mUser.isUserSignIn()){
-//    //                vi.setVisibility(View.GONE);
-//    //            }
-//            }
-//
-//    //        if (mUser.isUserSignIn()) {
-//    //            if(!mUser.isUserSignIn()){
-//    //                vi.setVisibility(View.GONE);
-//    //            }
-//            if (position == 5) {
-//                headerSection(position, name, value, number, on_off, arrow, description);
-//            }
-//
-//            if (position == 6) {
-//                subSection(position, name, value, on_off, arrow, description);
-//            }
-//    //        }
-//
-//            if (position == 7) {
-//                //name.setVisibility(View.VISIBLE);
-//                headerSection(position, name, value, number, on_off, arrow, description);
-//            }
-//
-//            if (position == 8) {
-//                if (mUser.isUserSignIn()) {
-//                    name.setText(getString(R.string.settings_list_item_log_out));
-//                    logoutAlert();
-//                } else {
-//                    name.setText(getString(R.string.settings_list_item_login));
-//                    loginUserRegistration(vi);
-//                }
-//
-//                value.setVisibility(View.GONE);
-//                description.setVisibility(View.GONE);
-//                on_off.setVisibility(View.GONE);
-//                arrow.setVisibility(View.VISIBLE);
-//            }
         return vi;
     }
 
+    private void notificationSection(int position, TextView name, PuiSwitch value, FontIconTextView arrow, TextView description) {
+        name.setVisibility(View.VISIBLE);
+        name.setText(mSettingsItemList.get(position).title);
+        value.setVisibility(View.VISIBLE);
+        setSwitchState(value, "s1");
+
+        value.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                saveBundle.putBoolean("s1", ((PuiSwitch) v).isChecked());
+            }
+        });
+
+        String descText = getString(R.string.settings_list_item_four_desc) + "\n" +
+                getString(R.string.settings_list_item_four_term_cond);
+
+        description.setVisibility(View.VISIBLE);
+        description.setText(descText);
+        arrow.setVisibility(View.GONE);
+    }
+
     private void subSection(int position, TextView name, PuiSwitch value, TextView on_off, FontIconTextView arrow, TextView description) {
-        name.setText(mSettingsItemList.get(position));
+        name.setText(mSettingsItemList.get(position).title);
 
         value.setVisibility(View.GONE);
         description.setVisibility(View.GONE);
@@ -214,8 +155,8 @@ public class ListViewSettings extends BaseAdapter {
     }
 
     private void headerSection(int position, TextView name, PuiSwitch value, TextView number, TextView on_off, FontIconTextView arrow, TextView description) {
-        CharSequence titleText;//name.setVisibility(View.VISIBLE);
-        titleText = Html.fromHtml(mSettingsItemList.get(position));
+        CharSequence titleText = null;//name.setVisibility(View.VISIBLE);
+        titleText = mSettingsItemList.get(position).title;
         name.setText(titleText);
 
         value.setVisibility(View.GONE);
@@ -224,15 +165,6 @@ public class ListViewSettings extends BaseAdapter {
         number.setVisibility(View.GONE);
         on_off.setVisibility(View.GONE);
         arrow.setVisibility(View.INVISIBLE);
-    }
-
-    private void loginUserRegistration(View view) {
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
-            }
-        });
     }
 
     private void logoutAlert() {
