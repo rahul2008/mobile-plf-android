@@ -131,7 +131,6 @@ public class AppIdentityManager implements com.philips.platform.appinfra.appiden
                         PackageInfo pInfo = null;
                         pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 
-                        mAppName = pInfo.versionName;
                         mAppName = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
 
                         /* Vertical App should have this string defined for all supported language files

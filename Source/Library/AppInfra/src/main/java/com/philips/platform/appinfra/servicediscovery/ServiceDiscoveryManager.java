@@ -142,7 +142,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     public void getServiceUrlWithLanguagePreference(final String serviceId, final OnGetServiceUrlListener listener) {
         mServiceUrlWithLanguagePreference = true;
         if(isDataAvailable){
-            filteresDataServicesWithCountryPreference(serviceId, null, listener, null, null);
+            filteredDataForServices(serviceId, null, listener, null, null);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
@@ -152,7 +152,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
                 @Override
                 public void onSuccess() {
-                    filteresDataServicesWithCountryPreference(serviceId, null, listener, null, null);
+                    filteredDataForServices(serviceId, null, listener, null, null);
                 }
             }));
         }
@@ -169,7 +169,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     public void getServiceUrlWithCountryPreference(final String serviceId, final OnGetServiceUrlListener listener) {
         mServiceUrlWithCountryPreference = true;
         if(isDataAvailable){
-            filteresDataServicesWithCountryPreference(serviceId, null, listener, null, null);
+            filteredDataForServices(serviceId, null, listener, null, null);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
@@ -179,7 +179,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
                 @Override
                 public void onSuccess() {
-                    filteresDataServicesWithCountryPreference(serviceId,null,  listener, null, null);
+                    filteredDataForServices(serviceId,null,  listener, null, null);
                 }
             }));
         }
@@ -197,7 +197,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         mServiceLocaleWithLanguagePreference = true;
 
         if(isDataAvailable){
-            filteresDataServicesWithCountryPreference(serviceId,listener, null, null, null);
+            filteredDataForServices(serviceId,listener, null, null, null);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
@@ -207,7 +207,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
                 @Override
                 public void onSuccess() {
-                    filteresDataServicesWithCountryPreference(serviceId, listener,null, null, null);
+                    filteredDataForServices(serviceId, listener,null, null, null);
                 }
             }));
         }
@@ -224,7 +224,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     public void getServiceLocaleWithCountryPreference(final String serviceId, final OnGetServiceLocaleListener listener) {
         mServiceLocaleWithCountryPreference = true;
         if(isDataAvailable){
-            filteresDataServicesWithCountryPreference(serviceId, listener, null, null, null);
+            filteredDataForServices(serviceId, listener, null, null, null);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
@@ -234,7 +234,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
                 @Override
                 public void onSuccess() {
-                    filteresDataServicesWithCountryPreference(serviceId, listener, null, null, null);
+                    filteredDataForServices(serviceId, listener, null, null, null);
                 }
             }));
         }
@@ -253,7 +253,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     public void getServicesWithLanguagePreference(final String serviceIds, final OnGetServicesListener listener) {
         mServicesWithLanguagePreferenceMultiple = true;
         if(isDataAvailable){
-            filteresDataServicesWithCountryPreference(serviceIds,null, null, null, listener);
+            filteredDataForServices(serviceIds,null, null, null, listener);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
@@ -263,7 +263,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
                 @Override
                 public void onSuccess() {
-                    filteresDataServicesWithCountryPreference(serviceIds,null, null, null, listener);
+                    filteredDataForServices(serviceIds,null, null, null, listener);
                 }
             }));
         }
@@ -282,7 +282,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         mmServiceUrlWithCountryPreferenceMultiple = true;
 
         if(isDataAvailable){
-            filteresDataServicesWithCountryPreference(serviceIds,null, null, null, listener);
+            filteredDataForServices(serviceIds,null, null, null, listener);
         }else{
             refresh((new OnRefreshListener() {
                 @Override
@@ -292,48 +292,48 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
                 @Override
                 public void onSuccess() {
-                    filteresDataServicesWithCountryPreference(serviceIds,null, null, null, listener);
+                    filteredDataForServices(serviceIds,null, null, null, listener);
                 }
             }));
         }
 
     }
 
-    private void filteresDataServicesWithCountryPreference(String serviceIds, OnGetServiceLocaleListener mOnGetServiceLocaleListener, OnGetServiceUrlListener mOnGetServiceUrlListener, OnGetHomeCountryListener mOnGetHomeCountryListener, OnGetServicesListener mOnGetServicesListener){
+    private void filteredDataForServices(String serviceIds, OnGetServiceLocaleListener mOnGetServiceLocaleListener, OnGetServiceUrlListener mOnGetServiceUrlListener, OnGetHomeCountryListener mOnGetHomeCountryListener, OnGetServicesListener mOnGetServicesListener){
 
 
         Map<String,ServiceUrlandLocale> responseMap= new HashMap<String,ServiceUrlandLocale>();
 
-       if(mServiceUrlWithLanguagePreference){
+       if(mOnGetServiceUrlListener != null){
             try {
                 mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds)));
-                mServiceUrlWithLanguagePreference = false;
+//                mServiceUrlWithLanguagePreference = false;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
-        }else if(mServiceUrlWithCountryPreference){
+        }else if(mOnGetServiceUrlListener!=null){
             try {
                 mOnGetServiceUrlListener.onSuccess(new URL(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds)));
-                mServiceUrlWithCountryPreference = false;
+//                mServiceUrlWithCountryPreference = false;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
-        }else if(mServiceLocaleWithLanguagePreference){
+        }else if(mOnGetServiceLocaleListener!=null){
            mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getLocale());
-           mServiceLocaleWithLanguagePreference = false;
+//           mServiceLocaleWithLanguagePreference = false;
 
-        }else if(mServiceLocaleWithCountryPreference){
+        }else if(mOnGetServiceLocaleListener!=null){
            mOnGetServiceLocaleListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
-           mServiceLocaleWithCountryPreference = false;
-        }else if(mServicesWithLanguagePreferenceMultiple){
+//           mServiceLocaleWithCountryPreference = false;
+        }else if(mOnGetServicesListener!=null){
             mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceIds));
-           mServicesWithLanguagePreferenceMultiple = false;
+//           mServicesWithLanguagePreferenceMultiple = false;
 
-        }else if(mmServiceUrlWithCountryPreferenceMultiple){
+        }else if(mOnGetServicesListener!=null){
             mOnGetServicesListener.onSuccess(RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceIds));
-           mmServiceUrlWithCountryPreferenceMultiple = false;
+//           mmServiceUrlWithCountryPreferenceMultiple = false;
         }
 
 
