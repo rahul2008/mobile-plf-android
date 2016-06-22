@@ -22,8 +22,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
+import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
-import com.philips.cdp.prodreg.register.ProdRegUiHelper;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.UiKitActivity;

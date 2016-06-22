@@ -20,8 +20,8 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
+import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
-import com.philips.cdp.prodreg.register.ProdRegUiHelper;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 

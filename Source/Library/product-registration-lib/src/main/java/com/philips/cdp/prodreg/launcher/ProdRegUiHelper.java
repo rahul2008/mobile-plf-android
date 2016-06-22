@@ -11,7 +11,7 @@
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
-package com.philips.cdp.prodreg.register;
+package com.philips.cdp.prodreg.launcher;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,10 +24,8 @@ import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
-import com.philips.cdp.prodreg.launcher.ActivityLauncher;
-import com.philips.cdp.prodreg.launcher.FragmentLauncher;
-import com.philips.cdp.prodreg.launcher.UiLauncher;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
+import com.philips.cdp.prodreg.register.Product;
 
 import java.util.ArrayList;
 
