@@ -97,28 +97,32 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     protected ResponseCallback cateGoryResponseCallbak = new ResponseCallback() {
         @Override
         public void onResponseReceived(String response) {
-            SubcategoryModel subcategoryModel = new Gson().fromJson(response,
-                    SubcategoryModel.class);
-            if (subcategoryModel != null && subcategoryModel.getSuccess()) {
-                com.philips.cdp.digitalcare.prx.subcategorymodel.Data data =
-                        subcategoryModel.getData();
-                if ((data != null) && (data.getParentCode() != null)) {
-                    DigitalCareConfigManager digitalCareConfigManager =
-                            DigitalCareConfigManager.getInstance();
-                    ConsumerProductInfo consumerProductInfo = digitalCareConfigManager.
-                            getConsumerProductInfo();
-                    consumerProductInfo.setCategory(data.getParentCode());
-                    digitalCareConfigManager.setConsumerProductInfo(consumerProductInfo);
-                }
-            }
 
-            if (mProgressDialog != null && mProgressDialog.isShowing() &&
-                    !getActivity().isFinishing()) {
-                try {
-                    mProgressDialog.cancel();
-                    mProgressDialog = null;
-                } catch (IllegalArgumentException e) {
-                    DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+            if (getActivity() != null) {
+
+                SubcategoryModel subcategoryModel = new Gson().fromJson(response,
+                        SubcategoryModel.class);
+                if (subcategoryModel != null && subcategoryModel.getSuccess()) {
+                    com.philips.cdp.digitalcare.prx.subcategorymodel.Data data =
+                            subcategoryModel.getData();
+                    if ((data != null) && (data.getParentCode() != null)) {
+                        DigitalCareConfigManager digitalCareConfigManager =
+                                DigitalCareConfigManager.getInstance();
+                        ConsumerProductInfo consumerProductInfo = digitalCareConfigManager.
+                                getConsumerProductInfo();
+                        consumerProductInfo.setCategory(data.getParentCode());
+                        digitalCareConfigManager.setConsumerProductInfo(consumerProductInfo);
+                    }
+                }
+
+                if (mProgressDialog != null && mProgressDialog.isShowing() &&
+                        !getActivity().isFinishing()) {
+                    try {
+                        mProgressDialog.cancel();
+                        mProgressDialog = null;
+                    } catch (IllegalArgumentException e) {
+                        DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+                    }
                 }
             }
         }

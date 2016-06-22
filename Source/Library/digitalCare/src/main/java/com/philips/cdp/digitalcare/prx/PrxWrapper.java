@@ -358,9 +358,10 @@ public class PrxWrapper {
                             final List<String> mVideoList = new ArrayList<String>();
                             for (Asset assetObject : asset) {
                                 String assetDescription = assetObject.getDescription();
+                                String assetType = assetObject.getType();
                                 String assetResource = assetObject.getAsset();
                                 String assetExtension = assetObject.getExtension();
-                                if (assetDescription.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_QSG_PDF))
+                                if (assetType.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_QSG_PDF))
                                     if (assetResource != null) {
                                         qsgManual = assetResource;
                                     }
@@ -379,8 +380,8 @@ public class PrxWrapper {
                                 viewProductDetailsData.setManualLink(usermanual);
                             }
                             viewProductDetailsData.setmVideoLinks(mVideoList);
-                            DigiCareLogger.d(TAG, "Manual PDF : " + qsgManual);
-                            DigiCareLogger.d(TAG, "Manual Link : " + usermanual);
+                            DigiCareLogger.d(TAG, "Manual qsg : " + qsgManual);
+                            DigiCareLogger.d(TAG, "Manual user : " + usermanual);
                             DigiCareLogger.d(TAG, "Manual videoListSize : " + mVideoList.size());
                             mConfigManager.setViewProductDetailsData(viewProductDetailsData);
                             if (mSummaryCallback != null) {

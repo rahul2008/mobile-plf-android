@@ -533,6 +533,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             String country = locale.getCountry();
             String language = locale.getLanguage();
             String mFilePath = mViewProductDetailsModel.getManualLink();
+            DigiCareLogger.d(TAG, "Manual name : "+ mFilePath);
 
             // creating the name of the manual. So that Same manual should not be downloaded again and again.
             String pdfName = mViewProductDetailsModel.getProductName() + language + '_' + country + ".pdf";
