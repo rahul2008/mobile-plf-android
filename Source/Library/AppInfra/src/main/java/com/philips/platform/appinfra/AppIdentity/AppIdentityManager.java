@@ -22,7 +22,7 @@ import java.io.InputStream;
 /**
  * Created by 310238655 on 6/1/2016.
  */
-public class AppIdentityManager implements AppIdentityInterface {
+public class AppIdentityManager implements com.philips.platform.appinfra.appidentity.AppIdentityInterface {
 
     AppInfra mAppInfra;
     Context context;
@@ -130,14 +130,16 @@ public class AppIdentityManager implements AppIdentityInterface {
                     try {
                         PackageInfo pInfo = null;
                         pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-                         mAppName = pInfo.versionName;
+
+                        mAppName = pInfo.versionName;
+                        mAppName = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
 
                         /* Vertical App should have this string defined for all supported language files
                         *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
                         * */
-                            mAppLocalizedNAme = context.getResources().getString(R.string.localized_commercial_app_name);
+                        mAppLocalizedNAme = context.getResources().getString(R.string.localized_commercial_app_name);
 
-                        mAppVersion = String.valueOf(pInfo.versionCode);
+                        mAppVersion = String.valueOf(pInfo.versionName);
 
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();

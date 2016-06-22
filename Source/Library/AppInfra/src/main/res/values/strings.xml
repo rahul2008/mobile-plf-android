@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">AppInfraLib</string>
+    <string name="library_name">AppInfraLib</string>
     <string name="localized_commercial_app_name">AppInfra</string>
 </resources>
