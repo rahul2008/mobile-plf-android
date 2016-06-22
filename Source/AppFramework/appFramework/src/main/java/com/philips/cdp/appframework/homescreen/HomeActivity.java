@@ -159,6 +159,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         if (hamburgerMenuTitles[position].equalsIgnoreCase("Settings")) {
             showSettingsFragment();
         }
+        else
         if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
             showDebugTestFragment();
         } else {
@@ -177,7 +178,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
     private void showSettingsFragment() {
         SettingsFragment settingsFragment = new SettingsFragment();
-      String settingsTag = SettingsFragment.getClass().getSimpleName();
+
         showFragment(settingsFragment, "Settings");
     }
 

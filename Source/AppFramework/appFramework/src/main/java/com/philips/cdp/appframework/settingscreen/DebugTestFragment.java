@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.appframework.settingscreen;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -34,9 +39,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-/**
- * Created by 310213373 on 6/21/2016.
- */
+
 public class DebugTestFragment extends Fragment {
 
     String configurationType[] = {"Evaluation", "Testing", "Development", "Staging", "Production"};
@@ -51,7 +54,7 @@ public class DebugTestFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.version_screen, container, false);
+        View view = inflater.inflate(R.layout.debug_test, container, false);
         setUp(view);
         return view;
     }
