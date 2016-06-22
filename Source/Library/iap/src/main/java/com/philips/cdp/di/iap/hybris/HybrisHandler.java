@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
@@ -73,7 +74,7 @@ public class HybrisHandler implements IAPExposedAPI {
     }
 
     @Override
-    public void getCompleteProductList(final IAPHandlerListener iapHandlerListener) {
+    public void getCompleteProductList(final IAPHandlerProductListListener iapHandlerListener) {
         if (isStoreInitialized()) {
             getArrayListOfProductes(iapHandlerListener);
         } else {
@@ -92,13 +93,9 @@ public class HybrisHandler implements IAPExposedAPI {
         }
     }
 
-    private void getArrayListOfProductes(final IAPHandlerListener iapHandlerListener) {
+    private void getArrayListOfProductes(final IAPHandlerProductListListener iapHandlerListener) {
         ProductCatalogPresenter presenter = new ProductCatalogPresenter();
-        presenter.getCompleteProductList(mContext, new IAPHandlerListener() {
-            @Override
-            public void onSuccess(final int count) {
-                updateSuccessListener(count, iapHandlerListener);
-            }
+        presenter.getCompleteProductList(mContext, new IAPHandlerProductListListener() {
 
             @Override
             public void onFailure(int errorCode) {
@@ -106,7 +103,7 @@ public class HybrisHandler implements IAPExposedAPI {
             }
 
             @Override
-            public void onFetchOfProductList(ArrayList<String> productList) {
+            public void onSuccess(ArrayList<String> productList) {
                 updateSuccessListener(productList, iapHandlerListener);
             }
         });
@@ -198,9 +195,9 @@ public class HybrisHandler implements IAPExposedAPI {
         }
     }
 
-    private void updateSuccessListener(final ArrayList<String> list, final IAPHandlerListener iapHandlerListener) {
+    private void updateSuccessListener(final ArrayList<String> list, final IAPHandlerProductListListener iapHandlerListener) {
         if (iapHandlerListener != null) {
-            iapHandlerListener.onFetchOfProductList(list);
+            iapHandlerListener.onSuccess(list);
         }
     }
 

@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -223,23 +224,19 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     }
 
-    private IAPHandlerListener mGetCompleteProductListener = new IAPHandlerListener() {
-
-        @Override
-        public void onSuccess(int count) {
-            Utility.dismissProgressDialog();
-            IAPLog.d(IAPLog.LOG, "Product List count=" + count);
-        }
+    private IAPHandlerProductListListener mGetCompleteProductListener = new IAPHandlerProductListListener() {
 
         @Override
         public void onFailure(int errorCode) {
             Utility.dismissProgressDialog();
+            IAPLog.d(IAPLog.LOG, "Server error" + errorCode);
         }
 
         @Override
-        public void onFetchOfProductList(ArrayList<String> productList) {
+        public void onSuccess(ArrayList<String> productList) {
             Utility.dismissProgressDialog();
             IAPLog.d(IAPLog.LOG, "Product List =" + productList.toString());
+            Toast.makeText(getApplicationContext(), "Product List = " + productList.toString(), Toast.LENGTH_LONG).show();
         }
     };
 
@@ -264,10 +261,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             mProductCountRequested = false;
         }
 
-        @Override
-        public void onFetchOfProductList(ArrayList<String> productList) {
 
-        }
     };
 
     private IAPHandlerListener mBuyProductListener = new IAPHandlerListener() {
@@ -280,11 +274,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         public void onFailure(final int errorCode) {
             Utility.dismissProgressDialog();
             showToast(errorCode);
-        }
-
-        @Override
-        public void onFetchOfProductList(ArrayList<String> productList) {
-
         }
     };
 
