@@ -55,6 +55,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private static final String RETAILERS_ALTER = "online-retailers?product=%s&lang=en";
 
     private static final String SUFFIX_ORDER_DETAIL_URL = "/orders/%s";
+    private static final String SUFFIX_CURRENT_PAGE="?fields=FULL&currentPage=%s";
 
     private StoreConfiguration mStoreConfig;
     public IAPUser mIAPUser;
@@ -81,6 +82,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private String mGetProductCatalogUrl;
     private boolean mUserLoggedout;
     private String mRetailersAlter;
+    private String mOrderHistoryUrl;
     private String mOrderDetailUrl;
 
     public HybrisStore(Context context) {
@@ -189,6 +191,7 @@ public class HybrisStore extends AbstractStoreSpec {
         mRetailersAlter = mGetRetailersUrl.concat(RETAILERS_ALTER);
         mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
                 .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
+        mOrderHistoryUrl = mPlaceOrderUrl.concat(SUFFIX_CURRENT_PAGE);
         mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDER_DETAIL_URL);
     }
 
@@ -330,5 +333,10 @@ public class HybrisStore extends AbstractStoreSpec {
     @Override
     public String getOrderDetailUrl(String orderId) {
         return String.format(mOrderDetailUrl, orderId);
+    }
+
+    @Override
+    public String getOrderHistoryUrl(String pageNumber) {
+        return String.format(mOrderHistoryUrl, pageNumber);
     }
 }

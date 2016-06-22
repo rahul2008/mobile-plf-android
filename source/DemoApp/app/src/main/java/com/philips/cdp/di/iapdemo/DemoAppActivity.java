@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,21 +20,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
-import com.philips.cdp.di.iap.store.HybrisStore;
-import com.philips.cdp.di.iap.store.StoreConfiguration;
-import com.philips.cdp.di.iap.store.VerticalAppConfig;
-import com.philips.cdp.di.iap.store.WebStoreConfig;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
@@ -40,12 +35,11 @@ import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DemoAppActivity extends Activity implements View.OnClickListener,
-        UserRegistrationListener, IAPHandlerListener, AdapterView.OnItemSelectedListener {
+        UserRegistrationListener, AdapterView.OnItemSelectedListener {
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
 
@@ -65,6 +59,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     //We require this to track for hiding the cart icon in demo app
     IAPSettings mIAPSettings;
     private Button mFragmentLaunch;
+    private Handler handler;
+    private ArrayList<String> mProductList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +92,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
         mIapHandler = IAPHandler.init(this, mIAPSettings);
 
+        mProductList = new ArrayList<>();
+        mProductList.add("HX9042/64");
+        mProductList.add("HX9042/64");
+        mProductList.add("HX9042/64");
+
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         mSpinner = (Spinner) findViewById(R.id.spinner);
         mSpinner.setOnItemSelectedListener(this);
@@ -111,6 +112,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
+
+        handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mIapHandler.getCompleteProductList(mGetCompleteProductListener);
+            }
+        }, 1000);
     }
 
     @Override
@@ -174,6 +183,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 }
                 break;
             case R.id.btn_fragment_launch:
+                //  mIapHandler.launchCategorizedCatalog(mProductList);
                 Intent intent = new Intent(this, LauncherFragmentActivity.class);
                 this.startActivity(intent);
                 break;
@@ -213,6 +223,26 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     }
 
+    private IAPHandlerListener mGetCompleteProductListener = new IAPHandlerListener() {
+
+        @Override
+        public void onSuccess(int count) {
+            Utility.dismissProgressDialog();
+            IAPLog.d(IAPLog.LOG, "Product List count=" + count);
+        }
+
+        @Override
+        public void onFailure(int errorCode) {
+            Utility.dismissProgressDialog();
+        }
+
+        @Override
+        public void onFetchOfProductList(ArrayList<String> productList) {
+            Utility.dismissProgressDialog();
+            IAPLog.d(IAPLog.LOG, "Product List =" + productList.toString());
+        }
+    };
+
     private IAPHandlerListener mProductCountListener = new IAPHandlerListener() {
         @Override
         public void onSuccess(final int count) {
@@ -233,6 +263,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             showToast(errorCode);
             mProductCountRequested = false;
         }
+
+        @Override
+        public void onFetchOfProductList(ArrayList<String> productList) {
+
+        }
     };
 
     private IAPHandlerListener mBuyProductListener = new IAPHandlerListener() {
@@ -245,6 +280,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         public void onFailure(final int errorCode) {
             Utility.dismissProgressDialog();
             showToast(errorCode);
+        }
+
+        @Override
+        public void onFetchOfProductList(ArrayList<String> productList) {
+
         }
     };
 
@@ -263,16 +303,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
-    }
-
-    @Override
-    public void onSuccess(int count) {
-
-    }
-
-    @Override
-    public void onFailure(int errorCode) {
-
     }
 
     @Override

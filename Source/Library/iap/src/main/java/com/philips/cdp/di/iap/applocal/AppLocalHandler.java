@@ -45,4 +45,9 @@ public class AppLocalHandler implements IAPExposedAPI {
             iapHandlerListener.onSuccess(0);
         }
     }
+
+    @Override
+    public void getCompleteProductList(IAPHandlerListener iapHandlerListener) {
+        //NOP
+    }
 }

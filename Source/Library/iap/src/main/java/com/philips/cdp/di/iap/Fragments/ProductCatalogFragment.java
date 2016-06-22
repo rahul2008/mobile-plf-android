@@ -52,6 +52,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         @Override
         public void onFailure(final Message msg) {
             IAPLog.i(ProductCatalogFragment.class.getName(), "Get Count Failed ");
+            Utility.dismissProgressDialog();
         }
     };
 
@@ -96,9 +97,9 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
+
         dataAvailable = presenter.getProductCatalog();
     }
-
     @Override
     public void onResume() {
         super.onResume();
