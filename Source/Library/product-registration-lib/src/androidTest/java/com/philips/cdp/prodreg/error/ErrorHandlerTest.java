@@ -1,9 +1,12 @@
 package com.philips.cdp.prodreg.error;
 
+import android.content.Context;
+
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.cdp.product_registration_lib.R;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -17,12 +20,14 @@ public class ErrorHandlerTest extends MockitoTestCase {
 
     ErrorHandler errorHandler;
     private UserWithProducts userWithProductsMock;
+    private Context context;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         userWithProductsMock = mock(UserWithProducts.class);
         errorHandler = new ErrorHandler();
+        context = getInstrumentation().getContext();
     }
 
     public void testErrorHandle() {
@@ -57,5 +62,14 @@ public class ErrorHandlerTest extends MockitoTestCase {
 
         errorHandler.handleError(userWithProductsMock, product, 1);
         verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.PARSE_ERROR, RegistrationState.FAILED);
+
+        errorHandler.handleError(userWithProductsMock, product, 507);
+        verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE, RegistrationState.FAILED);
+    }
+
+    public void testGetError() {
+        ProdRegErrorMap prodRegErrorMap = errorHandler.getError(context, ProdRegError.INVALID_DATE.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Enter_Purchase_Date_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Req_Purchase_Date_Title));
     }
 }

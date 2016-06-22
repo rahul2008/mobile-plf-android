@@ -34,7 +34,7 @@
     <string name="PPR_Invalid_SerialNum_Title">Invalid serial number!</string>
     <string name="PPR_Invalid_SerialNum_ErrMsg">Please enter valid serial number</string>
     <string name="PPR_Req_Purchase_Date_Title">Invalid purchase date!</string>
-    <string name="PPR_Enter_Purchase_Date_ErrMsg">Please enter purchase date</string>
+    <string name="PPR_Enter_Purchase_Date_ErrMsg">Please enter valid purchase date</string>
     <string name="PPR_Invalid_Date_And_serial_title">Invalid input!</string>
     <string name="PPR_Invalid_Date_And_serial_ErrMsg">Purchase date is missing and please enter valid serialnumber also</string>
     <string name="PPR_Authentication_Fail_Title">Authentication failure!</string>

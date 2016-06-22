@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
+import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
@@ -231,7 +232,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     }
 
     private void showErrorMessageSerialNumber(final EditText editTextView) {
-        serialLayout.setErrorMessage(ProdRegError.INVALID_SERIALNUMBER.getDescription());
+        serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription());
         serialLayout.showError(editTextView);
     }
 
@@ -251,7 +252,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     }
 
     private void showErrorMessageDate(final EditText editTextView) {
-        purchaseDateLayout.setErrorMessage(ProdRegError.INVALID_DATE.getDescription());
+        purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_DATE.getCode()).getDescription());
         purchaseDateLayout.showError(editTextView);
     }
 

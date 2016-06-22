@@ -61,7 +61,7 @@ public class ErrorHandler {
         } else if (statusCode == ProdRegError.INVALID_SERIALNUMBER.getCode()) {
             return new ProdRegErrorMap(context.getString(R.string.PPR_Invalid_SerialNum_Title), context.getString(R.string.PPR_Invalid_SerialNum_ErrMsg));
         } else if (statusCode == ProdRegError.INVALID_DATE.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Invalid_SerialNum_Title), context.getString(R.string.PPR_Invalid_SerialNum_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Req_Purchase_Date_Title), context.getString(R.string.PPR_Enter_Purchase_Date_ErrMsg));
         } else if (statusCode == ProdRegError.NO_INTERNET_AVAILABLE.getCode()) {
             return new ProdRegErrorMap(context.getString(R.string.PPR_No_Internet_Title), context.getString(R.string.PPR_No_Internet_ErrMsg));
         } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()) {
