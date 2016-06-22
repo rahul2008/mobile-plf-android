@@ -69,14 +69,22 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     }
 
     protected String getProductInformation() {
+
+        String productname = DigitalCareConfigManager.getInstance()
+                .getViewProductDetailsData().getProductName();
+        productname = (productname == null) ? "" : productname;
+
+        String ctnName = DigitalCareConfigManager.getInstance()
+                .getViewProductDetailsData().getCtnName();
+        ctnName = (ctnName == null) ? "" : ctnName;
+
+
         return "@" + getActivity().getString(R.string.twitter_page) + " " + getActivity().getResources().getString(
                 R.string.support_productinformation)
                 + " "
-                + DigitalCareConfigManager.getInstance()
-                .getViewProductDetailsData().getProductName()
+                + productname
                 + " "
-                + DigitalCareConfigManager.getInstance()
-                .getViewProductDetailsData().getCtnName();
+                + ctnName;
     }
 
 

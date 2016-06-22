@@ -105,10 +105,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
-
-        // Digital care initialization
+                // Digital care initialization
         initializeDigitalCareLibrary();
 
 
@@ -193,6 +190,9 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     private void initializeDigitalCareLibrary() {
 //  localeManager.setInputLocale("ar", "SA");
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+
 
         // Initializing DigitalCare Component.
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
@@ -254,8 +254,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
          * Take values from GUI editText.
          */
 
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
         switch (view.getId()) {
 
