@@ -3,9 +3,10 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.appframework.settingscreen;
+package com.philips.cdp.appframework.debugtest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,9 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.philips.cdp.appframework.AppFrameworkBaseFragment;
+import com.philips.cdp.appframework.BuildConfig;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.localematch.PILLocaleManager;
 
@@ -40,7 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class DebugTestFragment extends Fragment {
+public class DebugTestFragment extends AppFrameworkBaseFragment {
 
     String configurationType[] = {"Evaluation", "Testing", "Development", "Staging", "Production"};
     int count = 0;
@@ -48,8 +53,15 @@ public class DebugTestFragment extends Fragment {
     private String TAG = getClass().toString();
     private TextView txt_title, configurationTextView;
     private Spinner spinner;
+    private ListView listview;
     private SharedPreferences sharedPreferences;
     private Context context;
+    private TextView version;
+
+    @Override
+    public String getActionbarTitle() {
+        return "Bedbug and Test ";
+    }
 
     @Nullable
     @Override
@@ -116,19 +128,26 @@ public class DebugTestFragment extends Fragment {
         final ArrayAdapter<String> configType = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, configurationType);
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        /*listview.setAdapter(configType);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+            }
+        };*/
         spinner.setAdapter(configType);
     }
 
     private void initViews(final View view) {
+        version=(TextView)view.findViewById(R.id.version) ;
+
+        version.setText(" App Version "+BuildConfig.VERSION_NAME);
+       // listview=(ListView)view.findViewById(R.id.listView);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         txt_title = (TextView) view.findViewById(R.id.txt_title);
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
     }
 
-    private void hideSpinnerLayout(final Spinner spinner) {
-        spinner.setVisibility(View.GONE);
-        txt_title.setVisibility(View.GONE);
-    }
+
 
     private void initialiseUserRegistration(final String development) {
         SharedPreferences.Editor editor = sharedPreferences.edit();

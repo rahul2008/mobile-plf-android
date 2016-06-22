@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
-import com.philips.cdp.appframework.settingscreen.DebugTestFragment;
+import com.philips.cdp.appframework.debugtest.DebugTestFragment;
 import com.philips.cdp.appframework.settingscreen.SettingsFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;

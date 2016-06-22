@@ -16,11 +16,19 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="56dp"
             android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/version"
+                android:textColor="#000"
+                android:text="@string/uikit_about_screen_version"
+                android:layout_marginBottom="100dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
 
                 <TextView
                     android:id="@+id/txt_title"
@@ -31,13 +39,15 @@
                     android:text="Change Configuration :"
                     android:textColor="#000"/>
 
-                <!--<Spinner
+
+
+                <Spinner
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:prompt="@string/settings_list_item_order_history"/>-->
+                    android:prompt="@string/settings_list_item_order_history"/>
 
-                <
+
             </LinearLayout>
 
             <LinearLayout
