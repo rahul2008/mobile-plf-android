@@ -23,14 +23,14 @@ public class UIFlowManager {
 
    public static void populateStateBaseList(){
        stateBaseList = new ArrayList<UIStateBase>();
-       stateBaseList.add(new UIState(new UISplashNavigationStateOne(), UIStateDefintions.UI_SPLASH_STATE_ONE));
-       stateBaseList.add(new UIState(new UISplashNavigationStateTwo(), UIStateDefintions.UI_SPLASH_STATE_TWO));
-       stateBaseList.add(new UIState(new UISplashNavigationStateThree(), UIStateDefintions.UI_SPLASH_STATE_THREE));
-       stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIStateDefintions.UI_WELCOME_STATE_ONE));
-       stateBaseList.add(new UIState(new UIWSNavigationStateTwo(), UIStateDefintions.UI_WELCOME_STATE_TWO));
-       stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIStateDefintions.UI_WELCOME_STATE_THREE));
-       stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIStateDefintions.UI_HOME_STATE_ONE));
-       stateBaseList.add(new UIState(new UIUserRegNavigationStateOne(), UIStateDefintions.UI_REGISTRATION_STATE_ONE));
+       stateBaseList.add(new UIState(new UISplashNavigationStateOne(), UIConstants.UI_SPLASH_STATE_ONE));
+       stateBaseList.add(new UIState(new UISplashNavigationStateTwo(), UIConstants.UI_SPLASH_STATE_TWO));
+       stateBaseList.add(new UIState(new UISplashNavigationStateThree(), UIConstants.UI_SPLASH_STATE_THREE));
+       stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIConstants.UI_WELCOME_STATE_ONE));
+       stateBaseList.add(new UIState(new UIWSNavigationStateTwo(), UIConstants.UI_WELCOME_STATE_TWO));
+       stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIConstants.UI_WELCOME_STATE_THREE));
+       stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIConstants.UI_HOME_STATE_ONE));
+       stateBaseList.add(new UIState(new UIUserRegNavigationStateOne(), UIConstants.UI_REGISTRATION_STATE_ONE));
 
     }
 
@@ -38,12 +38,12 @@ public class UIFlowManager {
         User user = new User(mContext);
         if (AppFrameworkBaseActivity.getIntroScreenDonePressed()) {
             if (user.isUserSignIn()) {
-                currentState = new UIState(new UISplashNavigationStateOne() , UIStateDefintions.UI_SPLASH_STATE_ONE);
+                currentState = new UIState(new UISplashNavigationStateOne() , UIConstants.UI_SPLASH_STATE_ONE);
             } else {
-                currentState = new UIState(new UISplashNavigationStateTwo() , UIStateDefintions.UI_SPLASH_STATE_TWO);
+                currentState = new UIState(new UISplashNavigationStateTwo() , UIConstants.UI_SPLASH_STATE_TWO);
             }
         } else {
-            currentState = new UIState(new UISplashNavigationStateThree() , UIStateDefintions.UI_SPLASH_STATE_THREE);
+            currentState = new UIState(new UISplashNavigationStateThree() , UIConstants.UI_SPLASH_STATE_THREE);
         }
 
     }
@@ -53,7 +53,7 @@ public class UIFlowManager {
         }
     }
 
-    public static UIStateBase getFromStateList(@UIStateDefintions.UIStateDef int stateID){
+    public static UIStateBase getFromStateList(@UIConstants.UIStateDef int stateID){
         UIStateBase uiStateBaseItem = null;
         for(UIStateBase uiStateBase:stateBaseList){
             if(uiStateBase.getStateID() == stateID){
@@ -74,11 +74,11 @@ public class UIFlowManager {
 
     public static void populateActivityMap(){
         activityMap = new HashMap<Integer, String>();
-        activityMap.put(UIStateDefintions.UI_SPLASH_STATE_ONE, "HomeActivity");
-        activityMap.put(UIStateDefintions.UI_SPLASH_STATE_TWO, "UserRegistration");
-        activityMap.put(UIStateDefintions.UI_SPLASH_STATE_THREE, "WelcomeActivity");
-        activityMap.put(UIStateDefintions.UI_WELCOME_STATE_ONE, "HomeActivity");
-        activityMap.put(UIStateDefintions.UI_WELCOME_STATE_TWO, "UserRegistration");
-        activityMap.put(UIStateDefintions.UI_REGISTRATION_STATE_ONE, "HomeActivity");
+        activityMap.put(UIConstants.UI_SPLASH_STATE_ONE, "HomeActivity");
+        activityMap.put(UIConstants.UI_SPLASH_STATE_TWO, "UserRegistration");
+        activityMap.put(UIConstants.UI_SPLASH_STATE_THREE, "WelcomeActivity");
+        activityMap.put(UIConstants.UI_WELCOME_STATE_ONE, "HomeActivity");
+        activityMap.put(UIConstants.UI_WELCOME_STATE_TWO, "UserRegistration");
+        activityMap.put(UIConstants.UI_REGISTRATION_STATE_ONE, "HomeActivity");
     }
 }

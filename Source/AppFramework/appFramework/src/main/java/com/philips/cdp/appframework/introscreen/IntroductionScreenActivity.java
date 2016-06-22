@@ -20,7 +20,7 @@ import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HomeActivity;
 import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
-import com.philips.cdp.appframework.modularui.UIStateDefintions;
+import com.philips.cdp.appframework.modularui.UIConstants;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -185,10 +185,10 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onUserRegistrationComplete(Activity activity) {
         wsNavigator = UIFlowManager.currentState.getNavigator();
         if (null != activity) {
-           @UIStateDefintions.UIStateDef int userRegState = wsNavigator.onClick(userRegistrationClickID,IntroductionScreenActivity.this);
+           @UIConstants.UIStateDef int userRegState = wsNavigator.onClick(userRegistrationClickID,IntroductionScreenActivity.this);
 
             switch (userRegState){
-                case UIStateDefintions.UI_REGISTRATION_STATE_ONE : if(UIFlowManager.activityMap.get(UIStateDefintions.UI_REGISTRATION_STATE_ONE).equalsIgnoreCase("HomeActivity")){
+                case UIConstants.UI_REGISTRATION_STATE_ONE : if(UIFlowManager.activityMap.get(UIConstants.UI_REGISTRATION_STATE_ONE).equalsIgnoreCase("HomeActivity")){
                     startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
                 }
                     break;
@@ -246,18 +246,18 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onClick(View v) {
 
                 setIntroScreenDonePressed();
-                @UIStateDefintions.UIStateDef int currentState = wsNavigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
+                @UIConstants.UIStateDef int currentState = wsNavigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
 
 
                 switch (currentState){
-                    case UIStateDefintions.UI_WELCOME_STATE_ONE : if(UIFlowManager.activityMap.get(UIStateDefintions.UI_WELCOME_STATE_ONE).equalsIgnoreCase("HomeActivity")){
-                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIStateDefintions.UI_WELCOME_STATE_TWO);
+                    case UIConstants.UI_WELCOME_STATE_ONE : if(UIFlowManager.activityMap.get(UIConstants.UI_WELCOME_STATE_ONE).equalsIgnoreCase("HomeActivity")){
+                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
                         startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
 
                     }
                         break;
-                    case UIStateDefintions.UI_WELCOME_STATE_TWO : if(UIFlowManager.activityMap.get(UIStateDefintions.UI_WELCOME_STATE_TWO).equalsIgnoreCase("UserRegistration")){
-                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIStateDefintions.UI_REGISTRATION_STATE_ONE);
+                    case UIConstants.UI_WELCOME_STATE_TWO : if(UIFlowManager.activityMap.get(UIConstants.UI_WELCOME_STATE_TWO).equalsIgnoreCase("UserRegistration")){
+                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
                         startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
                     }
                         break;

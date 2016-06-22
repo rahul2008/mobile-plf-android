@@ -10,9 +10,9 @@ import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
 public class UIUserRegNavigationStateOne implements UIBaseNavigation {
     @Override
     public int onClick(int componentID, Context context) {
-        @UIStateDefintions.UIStateDef int destinationScreen = 0;
+        @UIConstants.UIStateDef int destinationScreen = 0;
         UIState wsNavStateOne = new UIState(this,destinationScreen);
-        wsNavStateOne.setStateID(UIStateDefintions.UI_REGISTRATION_STATE_ONE);
+        wsNavStateOne.setStateID(UIConstants.UI_REGISTRATION_STATE_ONE);
         wsNavStateOne.setNavigator(this);
 
         switch (componentID){
@@ -27,11 +27,11 @@ public class UIUserRegNavigationStateOne implements UIBaseNavigation {
 
     @Override
     public int onSwipe(int componentID, Context context) {
-        return UIStateDefintions.UI_SPLASH_STATE_ONE;
+        return UIConstants.UI_SPLASH_STATE_ONE;
     }
 
     @Override
     public int onLongPress(int componentID, Context context) {
-        return UIStateDefintions.UI_SPLASH_STATE_ONE;
+        return UIConstants.UI_SPLASH_STATE_ONE;
     }
 }
