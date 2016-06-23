@@ -249,7 +249,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         public void onSuccess(ArrayList<String> productList) {
             Utility.dismissProgressDialog();
             IAPLog.d(IAPLog.LOG, "Product List =" + productList.toString());
-            Toast.makeText(getApplicationContext(), "Product List = " + productList.toString(), Toast.LENGTH_LONG).show();
+          //  Toast.makeText(getApplicationContext(), "Product List = " + productList.toString(), Toast.LENGTH_LONG).show();
         }
     };
 
@@ -337,16 +337,18 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                     mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
                    /* mIAPSettings.setLaunchAsFragment(true);
                     mIAPSettings.setFragProperties(getSupportFragmentManager(), );*/
-                    setUseLocalData();
+                    //setUseLocalData();
                     mIapHandler = IAPHandler.init(this, mIAPSettings);
                     updateCartIcon();
                     if (!shouldUseLocalData()) {
-                        Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
-                        mProductCountRequested = true;
+                        if(!Utility.isProgressDialogShowing())
+                            Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
                         mIapHandler.getProductCartCount(mProductCountListener);
                         mPurchaseHistory.setVisibility(View.VISIBLE);
-                    }else
+                    }else {
                         mPurchaseHistory.setVisibility(View.GONE);
+                    }
+                    mProductCountRequested = true;
                 }
     }
 
