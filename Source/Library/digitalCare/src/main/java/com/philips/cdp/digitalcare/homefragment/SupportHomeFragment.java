@@ -4,7 +4,7 @@
  *
  * @author : Ritesh.jha@philips.com
  * @creation Date : 5 Dec 2014
- * <p/>
+ * <p>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -752,19 +752,22 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     }
 
     protected void executeSubcategoryRequest() {
-        String subCategoryUrl = getSubCategoryURL();
-        DigiCareLogger.d(TAG, "******** Sub Category URL : " + subCategoryUrl);
 
-        RequestData subCategoryRequest = new RequestData(subCategoryUrl,
-                cateGoryResponseCallbak);
-        if (mProgressDialog == null) mProgressDialog = new ProgressDialog
-                (getActivity(), R.style.loaderTheme);
-        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-        mProgressDialog.setCancelable(false);
-        if (!(getActivity().isFinishing())) {
-            mProgressDialog.show();
+        if (getActivity() != null) {
+            String subCategoryUrl = getSubCategoryURL();
+            DigiCareLogger.d(TAG, "******** Sub Category URL : " + subCategoryUrl);
+
+            RequestData subCategoryRequest = new RequestData(subCategoryUrl,
+                    cateGoryResponseCallbak);
+            if (mProgressDialog == null) mProgressDialog = new ProgressDialog
+                    (getActivity(), R.style.loaderTheme);
+            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+            mProgressDialog.setCancelable(false);
+            if (!(getActivity().isFinishing())) {
+                mProgressDialog.show();
+            }
+            subCategoryRequest.execute();
         }
-        subCategoryRequest.execute();
     }
 
 
