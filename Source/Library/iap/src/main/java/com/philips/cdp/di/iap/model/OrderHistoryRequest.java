@@ -37,7 +37,6 @@ public class OrderHistoryRequest extends AbstractModel {
         if (params == null) {
             throw new RuntimeException("Order number has to be supplied");
         }
-        String abc =  store.getOrderHistoryUrl(params.get(ModelConstants.CURRENT_PAGE));
-        return abc;
+        return  store.getOrderHistoryUrl(params.get(ModelConstants.CURRENT_PAGE));
     }
 }
