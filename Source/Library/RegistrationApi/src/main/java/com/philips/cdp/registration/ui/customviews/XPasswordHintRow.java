@@ -1,4 +1,12 @@
 
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2016
+ *  All rights are reserved. Reproduction or dissemination
+ *  * in whole or in part is prohibited without the prior written
+ *  * consent of the copyright holder.
+ * /
+ */
+
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
@@ -50,12 +58,7 @@ public class XPasswordHintRow extends RelativeLayout {
         mTvIconText.setText(R.string.ic_reg_check);
     }
 
-    public void showWrongRedIcon() {
-        mTvIconText.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
-        mTvIconText.setText(R.string.ic_reg_close);
-    }
-
-    public void showWrongGrayIcon() {
+    public void showInCorrectIcon() {
         mTvIconText.setTextColor(mContext.getResources().getColor(R.color.reg_password_hint_incorrect_ic_color));
         mTvIconText.setText(R.string.ic_reg_close);
     }
