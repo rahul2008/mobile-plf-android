@@ -50,7 +50,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         ProductDetailController.ProductSearchListener, ShoppingCartPresenter.LoadListener<StoreEntity> {
 
 
-        public static final String TAG = ProductDetailFragment.class.getName();
+    public static final String TAG = ProductDetailFragment.class.getName();
 
     private Context mContext;
     SummaryModel mProductSummary;
@@ -172,24 +172,17 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void makeAssetRequest() {
-        String ctn;
-        if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
-            ctn = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER);
-        } else {
-            ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
-        }
-
-        if (!CartModelContainer.getInstance().isPRXAssetPresent(ctn)) {
+        if (!CartModelContainer.getInstance().isPRXAssetPresent(mCTNValue)) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
             }
-            PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn, this);
+            PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, mCTNValue, this);
             builder.build();
         } else {
             final HashMap<String, ArrayList<String>> prxAssetObjects =
                     CartModelContainer.getInstance().getPRXAssetObjects();
             for (Map.Entry<String, ArrayList<String>> entry : prxAssetObjects.entrySet()) {
-                if (entry != null && entry.getKey().equalsIgnoreCase(ctn)) {
+                if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
                     mAsset = entry.getValue();
                     break;
                 }
@@ -229,25 +222,27 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_shopping_cart_item);
-        if (mBundle != null && !mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
-            tagProduct();
-            if (mBundle != null && mLaunchedFromProductCatalog) {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
+        if (mBundle != null) {
+            if (!mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
+                tagProduct();
+                if (mBundle != null && mLaunchedFromProductCatalog) {
+                    IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
+                    setAddToCartIcon();
+                    setCartIconVisibility(View.VISIBLE);
+                    mBuyFromRetailors.setVisibility(View.VISIBLE);
+                    mBuyFromRetailors.setOnClickListener(this);
+                    mProductDiscountedPrice.setVisibility(View.VISIBLE);
+                    setTitle(mProductTitle);
+                } else {
+                    IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
+                    setCartIconVisibility(View.GONE);
+                }
+            } else {
+                setTitle(mProductTitle);
                 setAddToCartIcon();
                 mBuyFromRetailors.setVisibility(View.VISIBLE);
-                setCartIconVisibility(View.VISIBLE);
                 mBuyFromRetailors.setOnClickListener(this);
-                mProductDiscountedPrice.setVisibility(View.VISIBLE);
-                setTitle(mProductTitle);
-            } else {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
-                setCartIconVisibility(View.GONE);
             }
-        } else {
-            setTitle(mProductTitle);
-            setAddToCartIcon();
-            mBuyFromRetailors.setVisibility(View.VISIBLE);
-            mBuyFromRetailors.setOnClickListener(this);
         }
         makeAssetRequest();
     }
@@ -288,7 +283,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public void onFetchAssetSuccess(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
-        CartModelContainer.getInstance().addAssetDataToList(mBundle.getString(IAPConstant.PRODUCT_CTN), mAsset);
+        CartModelContainer.getInstance().addAssetDataToList(mCTNValue, mAsset);
         mAdapter = new ImageAdapter(getContext(), getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
         mPager.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
