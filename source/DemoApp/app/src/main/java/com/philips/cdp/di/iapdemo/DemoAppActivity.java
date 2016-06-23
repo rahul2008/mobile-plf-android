@@ -309,43 +309,45 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mShopNow.setEnabled(true);
-                //Don't process Select country
-                mSelectedCountryIndex = position;
-                mCountryPreference.saveCountryPrefrence(position);
+        mShopNow.setEnabled(true);
+        mLaunchProductDetail.setEnabled(true);
+        //Don't process Select country
+        mSelectedCountryIndex = position;
+        mCountryPreference.saveCountryPrefrence(position);
 
-                if (position == 0) {
-                    mShoppingCart.setVisibility(View.GONE);
-                    mShopNow.setVisibility(View.GONE);
-                    mPurchaseHistory.setVisibility(View.GONE);
-                    mFragmentLaunch.setVisibility(View.GONE);
-                    return;
-                }
+        if (position == 0) {
+            mShoppingCart.setVisibility(View.GONE);
+            mShopNow.setVisibility(View.GONE);
+            mPurchaseHistory.setVisibility(View.GONE);
+            mFragmentLaunch.setVisibility(View.GONE);
+            mLaunchProductDetail.setVisibility(View.GONE);
+            return;
+        }
+        mLaunchProductDetail.setVisibility(View.VISIBLE);
+        mFragmentLaunch.setVisibility(View.VISIBLE);
+        mShoppingCart.setVisibility(View.VISIBLE);
+        mShopNow.setVisibility(View.VISIBLE);
+        mPurchaseHistory.setEnabled(true);
 
-                mFragmentLaunch.setVisibility(View.VISIBLE);
-                mShoppingCart.setVisibility(View.VISIBLE);
-                mShopNow.setVisibility(View.VISIBLE);
-                mPurchaseHistory.setEnabled(true);
+        mSelectedCountry = parent.getItemAtPosition(position).toString();
+        if (mSelectedCountry.equals("UK"))
+            mSelectedCountry = "GB";
 
-                mSelectedCountry = parent.getItemAtPosition(position).toString();
-                if (mSelectedCountry.equals("UK"))
-                    mSelectedCountry = "GB";
+        setLocale("en", mSelectedCountry);
 
-                setLocale("en", mSelectedCountry);
-
-                if (!mProductCountRequested) {
-                    mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-                    setUseLocalData();
-                    mIapHandler = IAPHandler.init(this, mIAPSettings);
-                    updateCartIcon();
-                    if (!shouldUseLocalData()) {
-                        Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
-                        mProductCountRequested = true;
-                        mIapHandler.getProductCartCount(mProductCountListener);
-                        mPurchaseHistory.setVisibility(View.VISIBLE);
-                    }else
-                        mPurchaseHistory.setVisibility(View.GONE);
-                }
+        if (!mProductCountRequested) {
+            mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
+//            setUseLocalData();
+            mIapHandler = IAPHandler.init(this, mIAPSettings);
+            updateCartIcon();
+            if (!shouldUseLocalData()) {
+                Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
+                mProductCountRequested = true;
+                mIapHandler.getProductCartCount(mProductCountListener);
+                mPurchaseHistory.setVisibility(View.VISIBLE);
+            } else
+                mPurchaseHistory.setVisibility(View.GONE);
+        }
     }
 
     private void setLocale(String languageCode, String countryCode) {
@@ -382,6 +384,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mShoppingCart.setVisibility(View.GONE);
         mSelectCountryLl.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
+        mLaunchProductDetail.setVisibility(View.GONE);
         mPurchaseHistory.setVisibility(View.GONE);
         mSelectedCountryIndex = 0;
         mCountryPreference.clearCountryPreference();
