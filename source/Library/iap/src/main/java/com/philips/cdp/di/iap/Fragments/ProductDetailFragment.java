@@ -21,6 +21,8 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
+import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.prx.PRXDataBuilder;
 import com.philips.cdp.di.iap.prx.PRXProductAssetBuilder;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -29,6 +31,7 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -38,7 +41,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment implements
-        PRXProductAssetBuilder.AssetListener, View.OnClickListener, ShoppingCartPresenter.ShoppingCartLauncher {
+        PRXProductAssetBuilder.AssetListener, View.OnClickListener, ShoppingCartPresenter.ShoppingCartLauncher, AbstractModel.DataLoadListener {
 
     public static final String TAG = ProductDetailFragment.class.getName();
 
@@ -50,6 +53,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     Button mAddToCart;
     Button mBuyFromRetailors;
     ArrayList<String> mAsset;
+    SummaryModel mValue;
     ImageAdapter mAdapter;
     ViewPager mPager;
     Bundle mBundle;
@@ -103,19 +107,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         super.onCreateView(inflater, container, savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
-
-        mBundle = getArguments();
-        mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
-        mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
-        mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
-
-        mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mAdapter = new ImageAdapter(getContext(), getFragmentManager(), mLaunchedFromProductCatalog, new ArrayList<String>());
-        mPager.setAdapter(mAdapter);
-
-        CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
-        indicator.setViewPager(mPager);
-
         mProductDescription = (TextView) rootView.findViewById(R.id.product_description);
         mCTN = (TextView) rootView.findViewById(R.id.ctn);
         mPrice = (TextView) rootView.findViewById(R.id.individual_price);
@@ -123,9 +114,36 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mAddToCart = (Button) rootView.findViewById(R.id.add_to_cart);
         mBuyFromRetailors = (Button) rootView.findViewById(R.id.buy_from_retailor);
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.tv_discounted_price);
+        mPager = (ViewPager) rootView.findViewById(R.id.pager);
+        CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
+        mAdapter = new ImageAdapter(getContext(), getFragmentManager(),
+                mLaunchedFromProductCatalog, new ArrayList<String>());
+        mPager.setAdapter(mAdapter);
+        indicator.setViewPager(mPager);
 
-        populateViewFromBundle();
+        mBundle = getArguments();
+
+        if (mBundle != null) {
+            if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
+                if (!isNetworkNotConnected()) {
+                    mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER);
+                    fetchProductDetail(mCTNValue);
+                }
+            } else {
+                mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
+                mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
+                mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
+                populateViewFromBundle();
+            }
+        }
         return rootView;
+    }
+
+    private void fetchProductDetail(String catalogNumber) {
+        if (!Utility.isProgressDialogShowing()) {
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+        }
+        makeSummaryRequest(catalogNumber);
     }
 
     private void tagProduct() {
@@ -184,7 +202,13 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void makeAssetRequest() {
-        String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
+        String ctn;
+        if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
+            ctn = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER);
+        } else {
+            ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
+        }
+
         if (!CartModelContainer.getInstance().isPRXAssetPresent(ctn)) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
@@ -207,23 +231,49 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         }
     }
 
+    private void makeSummaryRequest(String ctnNumber) {
+        ArrayList<String> ctnList = new ArrayList<>();
+        ctnList.add(ctnNumber);
+        if (!CartModelContainer.getInstance().isPRXDataPresent(ctnNumber)) {
+            PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnList, this);
+            builder.preparePRXDataRequest();
+        } else {
+            final HashMap<String, SummaryModel> prxAssetObjects = CartModelContainer.getInstance().getPRXDataObjects();
+            for (Map.Entry<String, SummaryModel> entry : prxAssetObjects.entrySet()) {
+                if (entry.getKey().equalsIgnoreCase(ctnNumber)) {
+                    mValue = entry.getValue();
+                    populateData();
+                    if (Utility.isProgressDialogShowing())
+                        Utility.dismissProgressDialog();
+                    break;
+                }
+            }
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_shopping_cart_item);
-        tagProduct();
-        if (mBundle != null && mLaunchedFromProductCatalog) {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
+        if (mBundle != null && !mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
+            tagProduct();
+            if (mBundle != null && mLaunchedFromProductCatalog) {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
+                setAddToCartIcon();
+                setCartIconVisibility(View.VISIBLE);
+                mBuyFromRetailors.setVisibility(View.VISIBLE);
+                mBuyFromRetailors.setOnClickListener(this);
+                mProductDiscountedPrice.setVisibility(View.VISIBLE);
+                setTitle(mProductTitle);
+            } else {
+                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
+                setCartIconVisibility(View.GONE);
+            }
+        } else {
+            setTitle(mProductTitle);
             setAddToCartIcon();
             mBuyFromRetailors.setVisibility(View.VISIBLE);
-            setCartIconVisibility(View.VISIBLE);
-            mAddToCart.setOnClickListener(this);
             mBuyFromRetailors.setOnClickListener(this);
-            mProductDiscountedPrice.setVisibility(View.VISIBLE);
-            setTitle(mProductTitle);
-        } else {
-            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
-            setCartIconVisibility(View.GONE);
         }
         makeAssetRequest();
     }
@@ -234,6 +284,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             return;
         }
         mAddToCart.setVisibility(View.VISIBLE);
+        mAddToCart.setOnClickListener(this);
         Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
         mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
     }
@@ -289,6 +340,35 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         }
         if (v == mBuyFromRetailors) {
             buyFromRetailers();
+        }
+    }
+
+    private void populateData() {
+        if (mValue != null) {
+            mProductTitle = mValue.getData().getProductTitle();
+            mProductDescription.setText(mProductTitle);
+            setTitle(mProductTitle);
+            mCTN.setText(mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
+            mPrice.setVisibility(View.GONE);
+            mProductDiscountedPrice.setVisibility(View.GONE);
+            mProductOverview.setText(mValue.getData().getMarketingTextHeader());
+        }
+    }
+
+    @Override
+    public void onModelDataLoadFinished(Message msg) {
+        HashMap<String, SummaryModel> msgObj = (HashMap<String, SummaryModel>) msg.obj;
+        mValue = msgObj.get(mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
+        populateData();
+        if (Utility.isProgressDialogShowing()) {
+            Utility.dismissProgressDialog();
+        }
+    }
+
+    @Override
+    public void onModelDataError(Message msg) {
+        if (Utility.isProgressDialogShowing()) {
+            Utility.dismissProgressDialog();
         }
     }
 }

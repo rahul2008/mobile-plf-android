@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.ProductCatalogFragment;
+import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
 import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
@@ -65,6 +66,15 @@ public class IAPActivity extends UiKitActivity {
             } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW) {
                 addFragment(PurchaseHistoryFragment.createInstance(new Bundle(),
                         BaseAnimationSupportFragment.AnimationType.NONE), PurchaseHistoryFragment.TAG);
+            } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW){
+               if(getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
+                   Bundle bundle = new Bundle();
+                   bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
+                           getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
+                   addFragment(ProductDetailFragment.createInstance(bundle,
+                           BaseAnimationSupportFragment.AnimationType.NONE), ProductDetailFragment.TAG);
+               }
+
             }
         }
 
