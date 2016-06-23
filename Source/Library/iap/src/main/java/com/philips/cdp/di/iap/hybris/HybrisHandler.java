@@ -115,13 +115,13 @@ public class HybrisHandler implements IAPExposedAPI {
 
     void checkLaunchOrBuy(int screen, String ctnNumber, IAPHandlerListener listener) {
         if (screen == IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW) {
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW);
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, ctnNumber);
         } else if (screen == IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW && TextUtils.isEmpty(ctnNumber)) {
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW);
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, ctnNumber);
         } else if (screen == IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW) {
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW);
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, ctnNumber);
         }else if( screen == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW){
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW);
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, ctnNumber);
         }
         else {
             buyProduct(ctnNumber, listener);
@@ -148,11 +148,11 @@ public class HybrisHandler implements IAPExposedAPI {
         });
     }
 
-    void launchIAPActivity(int screen) {
+    void launchIAPActivity(int screen, String ctnNumber) {
         if (mIAPSettings.isLaunchAsFragment()) {
-            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, screen, null);
+            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, screen, ctnNumber);
         } else {
-            IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex, null);
+            IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex, ctnNumber);
         }
     }
 
@@ -176,7 +176,7 @@ public class HybrisHandler implements IAPExposedAPI {
         presenter.buyProduct(mContext, ctnNumber, new IAPCartListener() {
             @Override
             public void onSuccess(final int count) {
-                launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW);
+                launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, ctnNumber);
             }
 
             @Override
