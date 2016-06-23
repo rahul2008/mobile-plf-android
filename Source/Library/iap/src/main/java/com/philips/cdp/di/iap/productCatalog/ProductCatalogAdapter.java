@@ -28,7 +28,7 @@ import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 
-public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ProductCatalogPresenter.LoadListener {
+public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final ImageLoader mImageLoader;
     private Context mContext;
@@ -41,20 +41,6 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         mImageLoader = NetworkImageLoader.getInstance(mContext)
             .getImageLoader();
 }
-
-    @Override
-    public void onLoadFinished(final ArrayList<ProductCatalogData> data) {
-        mData = data;
-        notifyDataSetChanged();
-        tagProducts();
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
-    }
-
-    @Override
-    public void onLoadError(IAPNetworkError error) {
-
-    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
