@@ -101,7 +101,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
-    private UIBaseNavigation wsNavigator, userRegNavigator;
+    private UIBaseNavigation wsNavigator;
     public static final int userRegistrationClickID = 7001;
 
     @Override
@@ -278,5 +278,6 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     protected void onResume() {
         super.onResume();
         wsNavigator = UIFlowManager.currentState.getNavigator();
+        wsNavigator.setState();
     }
 }

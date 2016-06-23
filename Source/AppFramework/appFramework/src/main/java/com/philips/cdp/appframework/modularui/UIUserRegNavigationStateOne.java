@@ -34,4 +34,9 @@ public class UIUserRegNavigationStateOne implements UIBaseNavigation {
     public int onLongPress(int componentID, Context context) {
         return UIConstants.UI_SPLASH_STATE_ONE;
     }
+
+    @Override
+    public void setState() {
+        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_ONE);
+    }
 }

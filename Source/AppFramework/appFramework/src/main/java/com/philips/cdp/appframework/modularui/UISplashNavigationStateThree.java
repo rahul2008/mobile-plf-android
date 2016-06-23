@@ -15,11 +15,16 @@ public class UISplashNavigationStateThree implements UIBaseNavigation {
 
     @Override
     public int onSwipe(int componentID, Context context) {
-        return 0;
+        return UIConstants.UI_SPLASH_STATE_ONE;
     }
 
     @Override
     public int onLongPress(int componentID, Context context) {
-        return 0;
+        return UIConstants.UI_SPLASH_STATE_ONE;
+    }
+
+    @Override
+    public void setState() {
+        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_SPLASH_STATE_TWO);
     }
 }

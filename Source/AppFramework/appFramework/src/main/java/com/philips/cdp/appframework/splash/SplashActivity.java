@@ -21,6 +21,7 @@ import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HomeActivity;
 import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
+import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.appframework.modularui.UIState;
 import com.philips.cdp.appframework.modularui.UIConstants;
@@ -63,6 +64,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
  */
 public class SplashActivity extends AppFrameworkBaseActivity {
     private static int SPLASH_TIME_OUT = 3000;
+    private UIBaseNavigation mNavigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,5 +141,11 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 finish();
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mNavigator.setState();
     }
 }
