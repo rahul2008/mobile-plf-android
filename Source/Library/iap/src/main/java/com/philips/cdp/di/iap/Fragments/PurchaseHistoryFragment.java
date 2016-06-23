@@ -253,7 +253,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
                 //if scrolled beyond page size and we have more items to load
                 if ((visibleItemCount + firstVisibleItemPosition) >= mLayoutManager.getItemCount()
                         && firstVisibleItemPosition >= 0
-                        && mRemainingOrders >= mPageSize) {
+                        && mRemainingOrders > mPageSize) {
                     mIsLoading = true;
                     IAPLog.d(TAG, "visibleItem " + visibleItemCount + ", firstvisibleItemPistion " + firstVisibleItemPosition + "itemCount " + mLayoutManager.getItemCount());
                     loadMoreItems();
