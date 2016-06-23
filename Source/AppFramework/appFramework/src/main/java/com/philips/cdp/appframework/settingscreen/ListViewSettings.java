@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.shamanland.fonticon.FontIconTextView;
 
@@ -37,13 +38,16 @@ public class ListViewSettings extends BaseAdapter {
     private Bundle saveBundle = new Bundle();
     private LayoutInflater inflater = null;
     private User mUser = null;
+    private LogoutHandler mLogoutHandler = null;
     private ArrayList<SettingScreenItem> mSettingsItemList = null;
 
-    public ListViewSettings(Context context, ArrayList<SettingScreenItem> settingsItemList) {
+    public ListViewSettings(Context context, ArrayList<SettingScreenItem> settingsItemList,
+                            LogoutHandler logoutHandler) {
         mActivity = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mUser = new User(context);
         mSettingsItemList = settingsItemList;
+        mLogoutHandler = logoutHandler;
     }
 
     @Override
@@ -179,7 +183,8 @@ public class ListViewSettings extends BaseAdapter {
                 .setPositiveButton(getString(R.string.settings_list_item_log_out),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
+//                                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
+                                mUser.logout(mLogoutHandler);
                             }
                         })
                 .setIcon(android.R.drawable.ic_dialog_alert)

@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
         TAG = this.getClass().getSimpleName();
         Logger.i(Constants.FRAGMENT, TAG + " : onCreate ");
         mFragmentActivityContext = getActivity();
+        fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
 //        registerNetWorkReceiver();
     }
 
@@ -242,6 +244,28 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
         } else {
             runnable.run();
         }
+    }
+
+    protected void backstackFragment() {
+//        if (mActivityContext.getSupportFragmentManager().getBackStackEntryCount() == 1) {
+//            finish();
+//        } else {
+        fragmentManager.popBackStack();
+        removeCurrentFragment();
+//        }
+//        return true;
+    }
+
+    private void removeCurrentFragment() {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        Fragment currentFrag = fragmentManager
+                .findFragmentById(R.id.mainContainer);
+
+        if (currentFrag != null) {
+            transaction.remove(currentFrag);
+        }
+        transaction.commit();
     }
 
     /**

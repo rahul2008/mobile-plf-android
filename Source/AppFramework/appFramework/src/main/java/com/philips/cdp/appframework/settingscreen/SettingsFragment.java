@@ -18,6 +18,7 @@ import com.philips.cdp.appframework.AppFrameworkBaseFragment;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.utility.Logger;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,6 +59,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
         View view = inflater.inflate(R.layout.listview_settings, container, false);
 
         mList = (ListView) view.findViewById(R.id.listwithouticon);
+
         ArrayList<SettingScreenItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
 //        formObjectList();
 
@@ -72,7 +74,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
 //            settingsItemList = filterListForRegistration(settingsItemList);
 //        }
 
-        mAdapter = new ListViewSettings(getActivity(), settingScreenItemList);
+        mAdapter = new ListViewSettings(getActivity(), settingScreenItemList, mLogoutHandler);
 
 //        if (savedInstanceState != null) {
 //            if (savedInstanceState.containsKey("ListViewWithoutIcons")) {
@@ -91,6 +93,18 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
 
         return view;
     }
+
+    private LogoutHandler mLogoutHandler = new LogoutHandler() {
+        @Override
+        public void onLogoutSuccess() {
+            backstackFragment();
+        }
+
+        @Override
+        public void onLogoutFailure(int i, String s) {
+
+        }
+    };
 
     private ArrayList<SettingScreenItem> filterSettingScreenItemList(ArrayList<SettingScreenItem> settingScreenItemList) {
         User user = new User(getActivity());
