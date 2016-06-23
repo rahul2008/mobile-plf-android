@@ -58,6 +58,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * {@code User} class represents information related to a logged in user of User Registration component.
+ * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
+ */
 public class User {
 
     private boolean mEmailVerified;
@@ -102,14 +106,22 @@ public class User {
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
-
+    /**
+     *
+     * @param context
+     */
     public User(Context context) {
         mContext = context;
         mUpdateUserRecordHandler = new UpdateUserRecord(mContext);
     }
 
 
-    // For Traditional SignIn
+    /**
+     * {@code loginUsingTraditional} method logs in a user with a traditional account.
+     * @param emailAddress
+     * @param password
+     * @param traditionalLoginHandler
+     */
     public void loginUsingTraditional(final String emailAddress, final String password,
                                       final TraditionalLoginHandler traditionalLoginHandler) {
         if (traditionalLoginHandler == null && emailAddress == null && password == null) {
@@ -139,7 +151,13 @@ public class User {
     }
 
 
-    // For Social SignIn Using Provider
+    /**
+     * {@code loginUserUsingSocialProvider} logs in a user via a social login provider
+     * @param activity
+     * @param providerName
+     * @param socialLoginHandler
+     * @param mergeToken
+     */
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
                                              final SocialProviderLoginHandler socialLoginHandler, final String mergeToken) {
 
@@ -157,8 +175,15 @@ public class User {
 
     }
 
-    // moved app logic to set user info (traditional login) in diuserprofile to
-    // framework.
+    /**
+     * {@code registerUserInfoForTraditional} method creates a user account.
+     * @param mGivenName
+     * @param mUserEmail
+     * @param password
+     * @param olderThanAgeLimit
+     * @param isReceiveMarketingEmail
+     * @param traditionalRegisterHandler
+     */
     public void registerUserInfoForTraditional(String mGivenName, String mUserEmail,
                                                String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
                                                final TraditionalRegistrationHandler traditionalRegisterHandler) {
@@ -171,8 +196,11 @@ public class User {
     }
 
 
-    // For Forgot password
-
+    /**
+     * {@code forgotPassword} method retrieves a lost password.
+     * @param emailAddress
+     * @param forgotPasswordHandler
+     */
     public void forgotPassword(final String emailAddress, final ForgotPasswordHandler forgotPasswordHandler) {
         if (emailAddress != null) {
             ForgotPassword forgotPasswordResultHandler = new ForgotPassword(mContext, forgotPasswordHandler);
@@ -185,14 +213,21 @@ public class User {
         }
     }
 
-    // For Refresh login Session
+    /**
+     * {@code refreshLoginSession} method refreshes the session of an already logged in user.
+     * @param refreshLoginSessionHandler
+     */
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {
         RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
         refreshUserSession.refreshUserSession();
     }
 
 
-    // For Resend verification emails
+    /**
+     * {@code resendVerificationEmail} method sends a verification mail in case an already sent mail is not received.
+     * @param emailAddress
+     * @param resendVerificationEmail
+     */
     public void resendVerificationMail(final String emailAddress,
                                        final ResendVerificationEmailHandler resendVerificationEmail) {
 
@@ -224,7 +259,13 @@ public class User {
 
     }
 
-    // For handling merge scenario
+    /**
+     * {@code mergeToTraditionalAccount} method merges a traditional account to other existing account
+     * @param emailAddress
+     * @param password
+     * @param mergeToken
+     * @param traditionalLoginHandler
+     */
     public void mergeToTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
                                           final TraditionalLoginHandler traditionalLoginHandler) {
         mergeTraditionalAccount(emailAddress, password, mergeToken, traditionalLoginHandler);
@@ -232,8 +273,17 @@ public class User {
 
     }
 
-    // moved app logic to set user info ( social sign in ) in diuserprofile to
-    // framework.
+    /**
+     * {@code registerUserInfoForSocial} methods creates a new account using social provider.
+     * @param givenName
+     * @param displayName
+     * @param familyName
+     * @param userEmail
+     * @param olderThanAgeLimit
+     * @param isReceiveMarketingEmail
+     * @param socialProviderLoginHandler
+     * @param socialRegistrationToken
+     */
     public void registerUserInfoForSocial(final String givenName, final String displayName, final String familyName,
                                           final String userEmail, final boolean olderThanAgeLimit, final boolean isReceiveMarketingEmail,
                                           final SocialProviderLoginHandler socialProviderLoginHandler, final String socialRegistrationToken) {
@@ -302,7 +352,10 @@ public class User {
         return mEmailVerified;
     }
 
-
+    /**
+     * {@code isUserSignIn} method checks if a user is logged in
+     * @return boolean
+     */
     public boolean isUserSignIn() {
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {
@@ -453,7 +506,10 @@ public class User {
 
     }
 
-    // For Log out
+    /**
+     * {@code logout} method logs out a logged in user.
+     * @param logoutHandler
+     */
     public void logout(LogoutHandler logoutHandler) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
@@ -607,7 +663,10 @@ public class User {
         });
     }
 
-
+    /**
+     * {@code getEmail} method returns the email address of a logged in user.
+     * @return String
+     */
     public String getEmail() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -625,7 +684,10 @@ public class User {
         return diUserProfile.getPassword();
     }
 
-
+    /**
+     * {@code getGivenName} method returns the given name of a logged in user.
+     * @return String
+     */
     public String getGivenName() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -643,7 +705,10 @@ public class User {
         return diUserProfile.getOlderThanAgeLimit();
     }
 
-
+    /**
+     * {@code getReceiveMarketingEmail} method checks if the user has subscribed to receive marketing email.
+     * @return boolean
+     */
     public boolean getReceiveMarketingEmail() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -652,7 +717,10 @@ public class User {
         return diUserProfile.getReceiveMarketingEmail();
     }
 
-
+    /**
+     * {@code getGivenName} method returns the display name of a logged in user.
+     * @return String
+     */
     public String getDisplayName() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -661,7 +729,10 @@ public class User {
         return diUserProfile.getDisplayName();
     }
 
-
+    /**
+     * {@code getFamilyName} method returns the family name of a logged in user.
+     * @return String
+     */
     public String getFamilyName() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -670,7 +741,10 @@ public class User {
         return diUserProfile.getFamilyName();
     }
 
-
+    /**
+     * {@code getJanrainUUID} method returns the Janrain UUID of a logged in user.
+     * @return String
+     */
     public String getJanrainUUID() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -679,7 +753,10 @@ public class User {
         return diUserProfile.getJanrainUUID();
     }
 
-
+    /**
+     * {@code getHsdpUUID} method returns the HSDP UUID of a logged in user.
+     * @return String
+     */
     public String getHsdpUUID() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -689,7 +766,10 @@ public class User {
 
     }
 
-
+    /**
+     * {@code getHsdpAccessToken} method returns the access token for a logged in user.
+     * @return String
+     */
     public String getHsdpAccessToken() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -698,7 +778,10 @@ public class User {
         return diUserProfile.getHsdpAccessToken();
     }
 
-
+    /**
+     * {@code getLanguageCode} method returns the language code for a logged in user
+     * @return String
+     */
     public String getLanguageCode() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -707,7 +790,10 @@ public class User {
         return diUserProfile.getLanguageCode();
     }
 
-
+    /**
+     * {@code getCountryCode} method returns country code for a logged in user.
+     * @return String
+     */
     public String getCountryCode() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
