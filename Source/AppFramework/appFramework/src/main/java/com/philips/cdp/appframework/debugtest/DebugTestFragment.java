@@ -7,6 +7,7 @@ package com.philips.cdp.appframework.debugtest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -60,7 +61,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return "Bedbug and Test ";
+        return "Debug and Test ";
     }
 
     @Nullable
@@ -90,7 +91,8 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
             public void onItemSelected(AdapterView<?> adapter, View v,
                                        int position, long id) {
                 final String configuration = adapter.getItemAtPosition(position).toString();
-
+                ((TextView) adapter.getChildAt(0)).setTextColor(Color.WHITE);
+                if(count>0) {
                     User user = new User(context);
                     user.logout(null);
                     Log.d(TAG, "Before Configuration" + configuration);
@@ -107,6 +109,8 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                     }
                     Log.d(TAG, "After Configuration" + configuration);
                     configurationTextView.setText(configuration);
+                }
+                count++;
             }
 
             @Override
@@ -118,9 +122,12 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     private void setSpinnerSelection(final int position) {
         if (position >= 0) {
             spinner.setSelection(position);
+
             configurationTextView.setText(configurationType[position]);
+            configurationTextView.setTextColor(getResources().getColor(R.color.white));
         } else {
             configurationTextView.setText(configurationType[0]);
+            configurationTextView.setTextColor(getResources().getColor(R.color.white));
         }
     }
 
@@ -128,20 +135,14 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         final ArrayAdapter<String> configType = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, configurationType);
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        /*listview.setAdapter(configType);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-            }
-        };*/
-        spinner.setAdapter(configType);
+             spinner.setAdapter(configType);
     }
 
     private void initViews(final View view) {
         version=(TextView)view.findViewById(R.id.version) ;
 
         version.setText(" App Version "+BuildConfig.VERSION_NAME);
-       // listview=(ListView)view.findViewById(R.id.listView);
+
         spinner = (Spinner) view.findViewById(R.id.spinner);
         txt_title = (TextView) view.findViewById(R.id.txt_title);
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
@@ -187,7 +188,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         RegistrationDynamicConfiguration.getInstance().setSignInProviders(signinProviders);
 
         initRegistration();
-//        hideSpinnerLayout(spinner);
+
     }
 
     private void initRegistration() {

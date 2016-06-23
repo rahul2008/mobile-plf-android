@@ -149,7 +149,8 @@ android {
         }
 
         debug {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             debuggable true
             testCoverageEnabled true
             proguardFile 'proguard-rules.pro'
