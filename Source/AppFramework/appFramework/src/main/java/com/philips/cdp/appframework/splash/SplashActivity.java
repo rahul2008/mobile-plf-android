@@ -117,16 +117,22 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 @UIConstants.UIStateDef int stateID =  UIFlowManager.currentState.getNavigator().onClick(0, SplashActivity.this);
                 switch(stateID){
                     case UIConstants.UI_SPLASH_STATE_ONE:
-                        UIFlowManager.currentState = new UIState(new UIWSNavigationStateOne(), UIConstants.UI_HOME_STATE_ONE);
-                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                        if (UIFlowManager.activityMap.get(UIConstants.UI_SPLASH_STATE_ONE) == UIConstants.UI_HOME_SCREEN) {
+                            UIFlowManager.currentState = new UIState(new UIWSNavigationStateOne(), UIConstants.UI_HOME_STATE_ONE);
+                            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                        }
                         break;
                     case UIConstants.UI_SPLASH_STATE_TWO:
-                        UIFlowManager.currentState = new UIState(new UIWSNavigationStateOne(), UIConstants.UI_REGISTRATION_STATE_ONE);
-                        startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
+                        if (UIFlowManager.activityMap.get(UIConstants.UI_SPLASH_STATE_TWO) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
+                            UIFlowManager.currentState = new UIState(new UIWSNavigationStateOne(), UIConstants.UI_REGISTRATION_STATE_ONE);
+                            startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
+                        }
                         break;
                     case UIConstants.UI_SPLASH_STATE_THREE:
-                        UIFlowManager.currentState = new UIState(new UIWSNavigationStateTwo(), UIConstants.UI_WELCOME_STATE_TWO);
-                        startActivity(new Intent(SplashActivity.this, IntroductionScreenActivity.class));
+                        if (UIFlowManager.activityMap.get(UIConstants.UI_SPLASH_STATE_THREE) == UIConstants.UI_WELCOME_SCREEN) {
+                            UIFlowManager.currentState = new UIState(new UIWSNavigationStateTwo(), UIConstants.UI_WELCOME_STATE_TWO);
+                            startActivity(new Intent(SplashActivity.this, IntroductionScreenActivity.class));
+                        }
                         break;
                     }
 

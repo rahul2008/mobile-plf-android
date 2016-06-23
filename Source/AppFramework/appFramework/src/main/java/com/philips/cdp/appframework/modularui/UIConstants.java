@@ -33,4 +33,14 @@ public class UIConstants {
     public static final int UI_COCO_IN_APP_PURCHASE = 2003;
     public static final int UI_COCO_CONSUMER_CARE = 2004;
     public static final int UI_COCO_APP_CHASSIS = 2005;
+
+    @IntDef({UI_SPLASH_SCREEN, UI_WELCOME_SCREEN, UI_HOME_SCREEN, UI_USER_REGISTRATION_SCREEN})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface UIScreenConstants {
+    }
+
+    public static final int UI_SPLASH_SCREEN = 3001;
+    public static final int UI_WELCOME_SCREEN = 3002;
+    public static final int UI_HOME_SCREEN = 3003;
+    public static final int UI_USER_REGISTRATION_SCREEN = 3004;
 }

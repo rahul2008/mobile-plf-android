@@ -19,8 +19,8 @@ import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HomeActivity;
 import com.philips.cdp.appframework.modularui.UIBaseNavigation;
-import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.appframework.modularui.UIConstants;
+import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -31,7 +31,7 @@ import com.shamanland.fonticon.FontIconView;
 /**
  * <b></b>Introduction screen are the screen that acts as the Welcome screens. It may be used to make the user learn about the functionality of the app</b>
  * <br>
- * <p>
+ * <p/>
  * <b>To use the Introduction screen flow, start the activity with IntroudctionScreenActivity as the Intent</b><br>
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  * method in the ViewPager's addOnPageChangeListener.To add a new screen, add another case statement in the onPageSelected method in the Viewpager's
@@ -66,8 +66,8 @@ import com.shamanland.fonticon.FontIconView;
  * }
  * }
  *        </pre>
- * <p>
- * <p>
+ * <p/>
+ * <p/>
  * <b>To change text in each Welcome Screen/Fragment please use the strings file:</b>
  * <br>
  * <b>To modify a screen/fragment use the Fragments onCreateView method's switch statement, choose the screen to be modified and
@@ -101,7 +101,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
-    private UIBaseNavigation wsNavigator,userRegNavigator;
+    private UIBaseNavigation wsNavigator, userRegNavigator;
     public static final int userRegistrationClickID = 7001;
 
     @Override
@@ -185,12 +185,13 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onUserRegistrationComplete(Activity activity) {
         wsNavigator = UIFlowManager.currentState.getNavigator();
         if (null != activity) {
-           @UIConstants.UIStateDef int userRegState = wsNavigator.onClick(userRegistrationClickID,IntroductionScreenActivity.this);
+            @UIConstants.UIStateDef int userRegState = wsNavigator.onClick(userRegistrationClickID, IntroductionScreenActivity.this);
 
-            switch (userRegState){
-                case UIConstants.UI_REGISTRATION_STATE_ONE : if(UIFlowManager.activityMap.get(UIConstants.UI_REGISTRATION_STATE_ONE).equalsIgnoreCase("HomeActivity")){
-                    startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
-                }
+            switch (userRegState) {
+                case UIConstants.UI_REGISTRATION_STATE_ONE:
+                    if (UIFlowManager.activityMap.get(UIConstants.UI_REGISTRATION_STATE_ONE) == UIConstants.UI_HOME_SCREEN) {
+                        startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+                    }
                     break;
             }
         }
@@ -245,23 +246,31 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     public void onClick(View v) {
 
+        @UIConstants.UIStateDef int currentState = wsNavigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
+
+        switch (v.getId()) {
+            case R.id.start_registration_button:
                 setIntroScreenDonePressed();
-                @UIConstants.UIStateDef int currentState = wsNavigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
+                break;
+            case R.id.appframework_skip_button:
+                break;
+        }
 
+        switch (currentState) {
+            case UIConstants.UI_WELCOME_STATE_ONE:
+                if (UIFlowManager.activityMap.get(UIConstants.UI_WELCOME_STATE_ONE) == UIConstants.UI_HOME_SCREEN) {
+                    UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
+                    startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
 
-                switch (currentState){
-                    case UIConstants.UI_WELCOME_STATE_ONE : if(UIFlowManager.activityMap.get(UIConstants.UI_WELCOME_STATE_ONE).equalsIgnoreCase("HomeActivity")){
-                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
-                        startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
-
-                    }
-                        break;
-                    case UIConstants.UI_WELCOME_STATE_TWO : if(UIFlowManager.activityMap.get(UIConstants.UI_WELCOME_STATE_TWO).equalsIgnoreCase("UserRegistration")){
-                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
-                        startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
-                    }
-                        break;
                 }
+                break;
+            case UIConstants.UI_WELCOME_STATE_TWO:
+                if (UIFlowManager.activityMap.get(UIConstants.UI_WELCOME_STATE_TWO) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
+                    UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
+                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
+                }
+                break;
+        }
 
     }
 

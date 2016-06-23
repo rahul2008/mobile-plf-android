@@ -42,6 +42,10 @@ public class SharedPreferenceUtility {
 
     }
 
+    public boolean contains(String key){
+        return mMyPreferences.contains(key);
+    }
+
     public boolean getPreferenceBoolean(String key) {
         return mMyPreferences.getBoolean(key, false);
     }

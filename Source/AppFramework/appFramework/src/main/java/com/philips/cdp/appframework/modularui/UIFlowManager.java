@@ -19,7 +19,7 @@ public class UIFlowManager {
     public static List<UIStateBase> stateBaseList;
     public static UIStateBase startState;
     public static UIStateBase currentState;
-    public static Map<Integer, String> activityMap;
+    public static Map<Integer, Integer> activityMap;
 
     public static void populateStateBaseList() {
         stateBaseList = new ArrayList<UIStateBase>();
@@ -65,21 +65,21 @@ public class UIFlowManager {
         return uiStateBaseItem;
     }
 
-    public static Map<Integer, String> getActivityMap() {
+    public static Map<Integer, Integer> getActivityMap() {
         return activityMap;
     }
 
-    public static void setActivityMap(Map<Integer, String> activityMap) {
+    public static void setActivityMap(Map<Integer, Integer> activityMap) {
         UIFlowManager.activityMap = activityMap;
     }
 
     public static void populateActivityMap() {
-        activityMap = new HashMap<Integer, String>();
-        activityMap.put(UIConstants.UI_SPLASH_STATE_ONE, "HomeActivity");
-        activityMap.put(UIConstants.UI_SPLASH_STATE_TWO, "UserRegistration");
-        activityMap.put(UIConstants.UI_SPLASH_STATE_THREE, "WelcomeActivity");
-        activityMap.put(UIConstants.UI_WELCOME_STATE_ONE, "HomeActivity");
-        activityMap.put(UIConstants.UI_WELCOME_STATE_TWO, "UserRegistration");
-        activityMap.put(UIConstants.UI_REGISTRATION_STATE_ONE, "HomeActivity");
+        activityMap = new HashMap<Integer, Integer>();
+        activityMap.put(UIConstants.UI_SPLASH_STATE_ONE, UIConstants.UI_HOME_SCREEN);
+        activityMap.put(UIConstants.UI_SPLASH_STATE_TWO,  UIConstants.UI_USER_REGISTRATION_SCREEN);
+        activityMap.put(UIConstants.UI_SPLASH_STATE_THREE, UIConstants.UI_WELCOME_SCREEN);
+        activityMap.put(UIConstants.UI_WELCOME_STATE_ONE, UIConstants.UI_HOME_SCREEN);
+        activityMap.put(UIConstants.UI_WELCOME_STATE_TWO, UIConstants.UI_USER_REGISTRATION_SCREEN);
+        activityMap.put(UIConstants.UI_REGISTRATION_STATE_ONE, UIConstants.UI_HOME_SCREEN);
     }
 }
