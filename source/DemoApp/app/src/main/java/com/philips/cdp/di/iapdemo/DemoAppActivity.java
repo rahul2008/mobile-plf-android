@@ -309,8 +309,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()) {
-            case R.id.spinner:
                 mShopNow.setEnabled(true);
                 //Don't process Select country
                 mSelectedCountryIndex = position;
@@ -350,8 +348,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                     }else
                         mPurchaseHistory.setVisibility(View.GONE);
                 }
-                break;
-        }
     }
 
     private void setLocale(String languageCode, String countryCode) {

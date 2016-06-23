@@ -14,25 +14,18 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.BuyFromRetailersAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.core.ControllerFactory;
-import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
 
-public class BuyFromRetailersFragment extends BaseAnimationSupportFragment implements
-        ShoppingCartPresenter.LoadListener<StoreEntity> {
+public class BuyFromRetailersFragment extends BaseAnimationSupportFragment {
 
     public static final String TAG = BuyFromRetailersFragment.class.getName();
 
@@ -42,7 +35,6 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
     ImageView mCross;
     BuyFromRetailersAdapter mAdapter;
     String mCtn;
-    private boolean isDataAvailable = false;
     private ArrayList<StoreEntity> mStoreEntity;// = new ArrayList<>();
 
     public static BuyFromRetailersFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
@@ -69,7 +61,7 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
 //        mCross.setImageDrawable(crossDrawable);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.iap_retailer_list);
-        mCtn = getArguments().getString(ModelConstants.PRODUCT_CODE);
+        mStoreEntity = (ArrayList<StoreEntity>) getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO);
 
 //        mCrossContainer.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -87,47 +79,19 @@ public class BuyFromRetailersFragment extends BaseAnimationSupportFragment imple
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitle(R.string.iap_retailer_title);
         // ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        if (!isNetworkNotConnected() && !isDataAvailable) {
-            getRetailersInformation();
-        } else {
+        if (!isNetworkNotConnected() && mStoreEntity!=null) {
             mAdapter = new BuyFromRetailersAdapter(getContext(), mStoreEntity, getFragmentManager(), getId());
             mRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter = new BuyFromRetailersAdapter(getContext(), new ArrayList<StoreEntity>(), getFragmentManager(), getId());
+            mRecyclerView.setAdapter(mAdapter);
         }
-    }
-
-    private void getRetailersInformation() {
-        ShoppingCartAPI presenter = ControllerFactory.getInstance().getShoppingCartPresenter(getContext(), this, getFragmentManager());
-
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-            presenter.getRetailersInformation(mCtn);
-        }
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         //  ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-    }
-
-    @Override
-    public void onLoadFinished(final ArrayList<StoreEntity> data) {
-        mStoreEntity = data;
-        mAdapter = new BuyFromRetailersAdapter(getContext(), mStoreEntity, getFragmentManager(), getId());
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-        isDataAvailable = true;
-    }
-
-    @Override
-    public void onLoadListenerError(IAPNetworkError error) {
-        // NOP
-        isDataAvailable = false;
-        IAPLog.d(IAPLog.LOG, "IAPNetworkError " + error);
-    }
-
-    @Override
-    public void onRetailerError(IAPNetworkError errorMsg) {
-        NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getContext().getString(R.string.iap_ok), getContext().getString(R.string.iap_retailer_title_for_no_retailers), errorMsg.getMessage());
     }
 }
