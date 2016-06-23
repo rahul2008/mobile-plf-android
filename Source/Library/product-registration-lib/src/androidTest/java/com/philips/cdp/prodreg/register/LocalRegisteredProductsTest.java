@@ -86,6 +86,9 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         when(registeredProductMock.getRegistrationState()).thenReturn(RegistrationState.REGISTERED);
         localRegisteredProducts.syncLocalCache(new RegisteredProduct[]{registeredProductMock});
         assertEquals(registeredProducts.size(), 4);
+        RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
+        localRegisteredProducts.syncLocalCache(new RegisteredProduct[]{registeredProduct});
+        assertEquals(registeredProducts.size(), 4);
     }
 
     public void testGetRegisteredProducts() {

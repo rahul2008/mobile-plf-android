@@ -18,7 +18,7 @@
     <string name="PPR_Do_You_Want_To_Reg_Lbltxt">Do you want to register another product?\n\n-If it is a connected Philips product, make sure you have connected the product to this app.\n-Or register your product in web version at www.philips.com</string>
     <string name="PPR_Connect_Product_Btntxt">Connect a product</string>
     <string name="PPR_RegSuccess_Lbltxt">Successfully registered!</string>
-    <string name="contibue_text">Continue</string>
+    <string name="continue_text">Continue</string>
     <string name="register_next">Register next</string>
     <string name="back_to_list">Back to list</string>
     <string name="PPR_Date_Of_Purchase_Lbltxt">Date of purchase:</string>
@@ -26,7 +26,7 @@
     <string name="prod_reg_registering_product">Registering your product</string>
     <string name="prod_reg_benefits_conf_text">-Extend your warranty for 24 months.\n-Receive 10% discount in the Philips.\n-Receive free product accessories.
 </string>
-    <string name="PPR_Extende_Warranty_Lbltxt">Your warranty period has been extended until next year.\n\nAn email with extended warranty contract has been sent out to your email address.
+    <string name="PPR_Extended_Warranty_Lbltxt">Your warranty period has been extended until next year.\n\nAn email with extended warranty contract has been sent out to your email address.
 </string>
     <string name="PPR_Back_Btntxt">Back</string>
     <string name="PPR_Looking_For_Products_Lbltxt">Looking for your products</string>

@@ -67,7 +67,7 @@
                 android:layout_marginRight="@dimen/pr_e_value_sm"
                 android:layout_marginTop="@dimen/pr_c_value_sm"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_launcher"/>
+                android:src="@drawable/prod_reg_default_placeholder"/>
 
             <com.philips.cdp.uikit.customviews.InlineForms
                 android:id="@+id/InlineForms_date"

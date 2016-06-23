@@ -546,4 +546,8 @@ public class UserWithProductsTest extends MockitoTestCase {
         verify(userWithProductsMock).updateLocaleCache(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
         verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
     }
+
+    public void testGetRegisteredProductsListener() {
+
+    }
 }
