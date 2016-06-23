@@ -44,12 +44,13 @@ public class LauncherFragmentActivity extends AppCompatActivity {
         });
         //Launch via interface
         mIAPSettings = new IAPSettings("US", "en", R.style.Theme_Philips_BrightOrange_Gradient);
-//        mIAPSettings.setUseLocalData(true);
+        mIAPSettings.setUseLocalData(true);
         mIAPSettings.setLaunchAsFragment(true);
         mIAPSettings.setFragProperties(getSupportFragmentManager(), R.id.vertical_Container);
 
         mIapHandler = IAPHandler.init(this, mIAPSettings);
-        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+//        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, "HX8071/10", null);
     }
 
     @Override

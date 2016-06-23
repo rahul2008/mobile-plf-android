@@ -296,8 +296,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()) {
-            case R.id.spinner:
                 mShopNow.setEnabled(true);
                 //Don't process Select country
                 mSelectedCountryIndex = position;
@@ -325,7 +323,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
                 if (!mProductCountRequested) {
                     mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-//            setUseLocalData();
+                   /* mIAPSettings.setLaunchAsFragment(true);
+                    mIAPSettings.setFragProperties(getSupportFragmentManager(), );*/
+//                    setUseLocalData();
                     mIapHandler = IAPHandler.init(this, mIAPSettings);
                     updateCartIcon();
                     if (!shouldUseLocalData()) {
@@ -334,8 +334,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                         mIapHandler.getProductCartCount(mProductCountListener);
                     }
                 }
-                break;
-        }
     }
 
     private void setLocale(String languageCode, String countryCode) {
