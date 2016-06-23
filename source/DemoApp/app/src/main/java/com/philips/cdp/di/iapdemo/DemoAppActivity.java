@@ -98,7 +98,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
         mIapHandler = IAPHandler.init(this, mIAPSettings);
-
         mProductList = new ArrayList<>();
         mProductList.add("HX9042/64");
         mProductList.add("HX9042/64");
@@ -119,6 +118,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
+
+        mIapHandler.launchCategorizedCatalog(mProductList);
 
         handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
@@ -190,7 +191,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 }
                 break;
             case R.id.btn_fragment_launch:
-                //  mIapHandler.launchCategorizedCatalog(mProductList);
+
                 Intent intent = new Intent(this, LauncherFragmentActivity.class);
                 this.startActivity(intent);
                 break;
@@ -337,7 +338,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         if (!mProductCountRequested) {
             mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-//            setUseLocalData();
+            setUseLocalData();
             mIapHandler = IAPHandler.init(this, mIAPSettings);
             updateCartIcon();
             if (!shouldUseLocalData()) {

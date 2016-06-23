@@ -101,8 +101,9 @@
     <string name="iap_product_catalog">Products</string>
 
     <!-- Product Details -->
-    <string name="iap_buy_from_retailers">Buy Now</string>
+    <string name="iap_buy_from_retailers">Buy From Retailer</string>
     <string name="iap_add_to_cart">Add to basket</string>
+    <string name="iap_buy_now">Buy Now</string>
 
     <!-- Retailers-->
     <string name="iap_select_retailer">Select retailer</string>
@@ -161,5 +162,7 @@
 
     <!-- Model Error -->
     <string name="iap_ok">OK</string>
+    <string name="iap_no_product_available">No product found in your Store.</string>
+
 
 </resources>

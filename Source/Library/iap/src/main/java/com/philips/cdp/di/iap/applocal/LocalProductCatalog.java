@@ -8,6 +8,9 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.ProductCatalogHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -106,16 +109,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
 
     @Override
     public void onModelDataLoadFinished(final Message msg) {
-//        if (IAPHandler.mProductCTNs == null && mProductCatalogHelper.processPRXResponse(msg, mProductCatalog))
-//            return;
-//        if (IAPHandler.mProductCTNs != null && mProductCatalogHelper.processPRXResponse(msg, IAPHandler.mProductCTNs))
-//            return;
-
-//        if (isLocalData) {
-//            mProductCatalogHelper.processPRXResponse(msg, IAPHandler.mProductCTNs);
-//        } else {
         mProductCatalogHelper.processPRXResponse(msg, IAPHandler.mProductCTNs, mProductCatalog);
-//        }
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
     }
@@ -124,9 +118,18 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     public void onModelDataError(final Message msg) {
         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-        mListener.onLoadError((IAPNetworkError) msg.obj);
-        if (Utility.isProgressDialogShowing()) {
-            Utility.dismissProgressDialog();
+
+        if (msg.obj instanceof IAPNetworkError)
+            mListener.onLoadError((IAPNetworkError) msg.obj);
+        else {
+            mListener.onLoadError(createIAPErrorMessage(mContext.getString(R.string.iap_no_product_available)));
         }
+    }
+
+    public IAPNetworkError createIAPErrorMessage(String errorMessage) {
+        VolleyError volleyError = new ServerError();
+        IAPNetworkError error = new IAPNetworkError(volleyError, -1, null);
+        error.setCustomErrorMessage(errorMessage);
+        return error;
     }
 }
