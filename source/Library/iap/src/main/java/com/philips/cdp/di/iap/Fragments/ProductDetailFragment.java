@@ -131,6 +131,12 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mPager.setAdapter(mAdapter);
         indicator.setViewPager(mPager);
 
+        if (ControllerFactory.getInstance().loadLocalData()) {
+            mBuyFromRetailors.setText(R.string.iap_buy_now);
+        } else {
+            mBuyFromRetailors.setText(R.string.iap_buy_from_retailers);
+        }
+
         mBundle = getArguments();
 
         if (mBundle != null) {
