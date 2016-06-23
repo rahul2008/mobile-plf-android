@@ -1,8 +1,13 @@
 
-package com.philips.cdp.registration.ui.utils;
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2016
+ *  All rights are reserved. Reproduction or dissemination
+ *  * in whole or in part is prohibited without the prior written
+ *  * consent of the copyright holder.
+ * /
+ */
 
-import com.philips.cdp.registration.configuration.HSDPConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+package com.philips.cdp.registration.ui.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,9 +48,8 @@ public class FieldsValidator {
 
         if (!isPasswordLengthMeets(password)){
             return false;
-        }else if(!FieldsValidator.isValidHSDPPasword(password)){
-            return false;
         }
+
 
         int passwordValidatorCheckCount = 0;
 
@@ -57,7 +61,11 @@ public class FieldsValidator {
             passwordValidatorCheckCount++;
         }
 
-        if (FieldsValidator.isSymbolsPresent(password) == HSDPPasswordValidator.right) {
+        if (passwordValidatorCheckCount == 2) {
+            return true;
+        }
+
+        if (FieldsValidator.isSymbolsPresent(password)) {
             passwordValidatorCheckCount++;
         }
 
@@ -110,36 +118,15 @@ public class FieldsValidator {
         return matcher.find();
     }
 
-    public static HSDPPasswordValidator isSymbolsPresent(String string) {
-        if (string == null)
-            return HSDPPasswordValidator.none;
-
-        if (string.length() == 0)
-            return HSDPPasswordValidator.none;
-
-        if(!isValidHSDPPasword(string)){
-            return HSDPPasswordValidator.wrong;
-        }
-
-        String regExpression = "[`#\\\\<>~&^()@$\\\"=,\\-!+_:;.%?*'|{}\\[\\]\\/]";
-        Pattern pattern = Pattern.compile(regExpression);
-        Matcher matcher = pattern.matcher(string);
-        return matcher.find()?HSDPPasswordValidator.right:HSDPPasswordValidator.none;
-    }
-
-    private static boolean isValidHSDPPasword(String string) {
-        if(!RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()){
-            return true;
-        }
+    public static boolean isSymbolsPresent(String string) {
         if (string == null)
             return false;
 
         if (string.length() == 0)
             return false;
-        String regExpression = "^[a-zA-Z0-9`#\\\\<>~&^()@$\"=,\\-!+_:;.%?*'|{}\\[\\]\\/]*$";
-        Pattern pattern = Pattern.compile(regExpression);
-        Matcher matcher = pattern.matcher(string);
 
+        Pattern pattern = Pattern.compile("[_.@$]");
+        Matcher matcher = pattern.matcher(string);
         return matcher.find();
     }
 
