@@ -1,4 +1,12 @@
 
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2016
+ *  All rights are reserved. Reproduction or dissemination
+ *  * in whole or in part is prohibited without the prior written
+ *  * consent of the copyright holder.
+ * /
+ */
+
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
@@ -57,32 +65,25 @@ public class XPasswordHint extends LinearLayout {
         if (FieldsValidator.isAlphabetPresent(passwordString)) {
             mUpperCase.showCorrectIcon();
         }else{
-            mUpperCase.showWrongGrayIcon();
+            mUpperCase.showInCorrectIcon();
         }
 
         if (FieldsValidator.isNumberPresent(passwordString)) {
             mNumbers.showCorrectIcon();
         }else{
-            mNumbers.showWrongGrayIcon();
+            mNumbers.showInCorrectIcon();
         }
 
-        switch (FieldsValidator.isSymbolsPresent(passwordString)){
-
-            case none:
-                mSpecialChar.showWrongGrayIcon();
-                break;
-            case right:
-                mSpecialChar.showCorrectIcon();
-                break;
-            case wrong:
-                mSpecialChar.showWrongRedIcon();
-                break;
+        if (FieldsValidator.isSymbolsPresent(passwordString)) {
+            mSpecialChar.showCorrectIcon();
+        }else{
+            mSpecialChar.showInCorrectIcon();
         }
 
         if (FieldsValidator.isPasswordLengthMeets(passwordString)) {
             mCharLength.showCorrectIcon();
         }else{
-            mCharLength.showWrongGrayIcon();
+            mCharLength.showInCorrectIcon();
         }
     }
 }
