@@ -44,24 +44,27 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkPink_WhiteBackground;
 
+    //We require this to track for hiding the cart icon in demo app
+    private IAPSettings mIAPSettings;
     private IAPHandler mIapHandler;
+    private CountryPreferences mCountryPreference;
     private User mUser;
+    private Handler handler;
+
     private LinearLayout mSelectCountryLl;
-    private TextView mCountText = null;
     private FrameLayout mShoppingCart;
+    private TextView mCountText = null;
     private Spinner mSpinner;
     private Button mShopNow;
     private Button mPurchaseHistory;
-    String mSelectedCountry;
-    private CountryPreferences mCountryPreference;
+    private Button mFragmentLaunch;
+    private Button mLaunchProductDetail;
+
+    private String mSelectedCountry;
     private int mSelectedCountryIndex;
     private boolean mProductCountRequested;
-
-    //We require this to track for hiding the cart icon in demo app
-    IAPSettings mIAPSettings;
-    private Button mFragmentLaunch;
-    private Handler handler;
     private ArrayList<String> mProductList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mPurchaseHistory = (Button) findViewById(R.id.btn_purchase_history);
         mPurchaseHistory.setOnClickListener(this);
+
+        mLaunchProductDetail = (Button) findViewById(R.id.btn_launch_product_detail);
+        mLaunchProductDetail.setOnClickListener(this);
 
         mShoppingCart = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         mShoppingCart.setOnClickListener(this);
@@ -187,6 +193,13 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 //  mIapHandler.launchCategorizedCatalog(mProductList);
                 Intent intent = new Intent(this, LauncherFragmentActivity.class);
                 this.startActivity(intent);
+                break;
+            case R.id.btn_launch_product_detail:
+                if (isNetworkAvailable(DemoAppActivity.this)) {
+                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, "HX8071/10", null);
+                } else {
+                    Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 break;
@@ -312,7 +325,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 mFragmentLaunch.setVisibility(View.VISIBLE);
                 mShoppingCart.setVisibility(View.VISIBLE);
                 mShopNow.setVisibility(View.VISIBLE);
-                mPurchaseHistory.setVisibility(View.VISIBLE);
                 mPurchaseHistory.setEnabled(true);
 
                 mSelectedCountry = parent.getItemAtPosition(position).toString();
@@ -325,14 +337,16 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                     mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
                    /* mIAPSettings.setLaunchAsFragment(true);
                     mIAPSettings.setFragProperties(getSupportFragmentManager(), );*/
-//                    setUseLocalData();
+                    setUseLocalData();
                     mIapHandler = IAPHandler.init(this, mIAPSettings);
                     updateCartIcon();
                     if (!shouldUseLocalData()) {
                         Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
                         mProductCountRequested = true;
                         mIapHandler.getProductCartCount(mProductCountListener);
-                    }
+                        mPurchaseHistory.setVisibility(View.VISIBLE);
+                    }else
+                        mPurchaseHistory.setVisibility(View.GONE);
                 }
     }
 

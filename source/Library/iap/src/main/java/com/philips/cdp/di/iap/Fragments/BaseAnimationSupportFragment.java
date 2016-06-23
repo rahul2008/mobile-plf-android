@@ -16,16 +16,13 @@ import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
 import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.core.ControllerFactory;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.eventhelper.EventListener;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.List;
 
-public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener, EventListener {
+public abstract class BaseAnimationSupportFragment extends Fragment implements IAPBackButtonListener {
     private IAPFragmentActionLayout mFragmentLayout;
     private Context mContext;
 
@@ -55,7 +52,6 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     public void onAttach(final Context context) {
         super.onAttach(context);
         mContext = context;
-        EventHelper.getInstance().registerEventNotification(IAPConstant.UNKNOWN_HOST, this);
         if (mFragmentLayout == null) {
             mFragmentLayout = new IAPFragmentActionLayout(getContext(), getActivity().getSupportFragmentManager());
         }
@@ -197,20 +193,6 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         } else {
             mFragmentLayout.setCartIconVisibility(visibility);
 //            mActivityListener.setCartIconVisibility(visibility);
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.UNKNOWN_HOST, this);
-    }
-
-    @Override
-    public void onEventReceived(String event) {
-        if (event.equalsIgnoreCase(IAPConstant.UNKNOWN_HOST)) {
-            addFragment(NoNetworkConnectionFragment.createInstance(new Bundle(), BaseAnimationSupportFragment.AnimationType.NONE),
-                    NoNetworkConnectionFragment.TAG);
         }
     }
 }
