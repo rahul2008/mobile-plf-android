@@ -19,8 +19,16 @@ import java.util.logging.LogRecord;
  */
 public class LogFormatter extends Formatter {
 private final String componentNameAndVersion;
+    String mComponentName="NA";
+    String mComponentVersion="NA";
     public LogFormatter(String ComponentName, String componentVersion){
-        componentNameAndVersion=ComponentName+" "+componentVersion;
+        if(null!=ComponentName){
+            mComponentName=ComponentName;
+        }
+        if(null!=componentVersion){
+            mComponentVersion=componentVersion;
+        }
+        componentNameAndVersion=mComponentName+" "+mComponentVersion;
     }
 
     // Create a DateFormat to format the logger ;.
