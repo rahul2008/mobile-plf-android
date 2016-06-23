@@ -39,6 +39,7 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Description :
@@ -149,12 +150,13 @@ public class PrxWrapper {
         if (mRequestManager == null) {
             mRequestManager = new RequestManager();
         }
+        Locale locale = mConfigManager.getLocaleMatchResponseWithCountryFallBack();
         mRequestManager.init(mActivity);
         final DigitalCareConfigManager mConfigManager = DigitalCareConfigManager.getInstance();
         mProductInfo = mConfigManager.getConsumerProductInfo();
         mCtn = mProductInfo.getCtn();
         mSectorCode = mProductInfo.getSector();
-        mLocale = mConfigManager.getLocaleMatchResponseWithCountryFallBack().toString();
+        if (locale != null) mLocale = locale.toString();
         mCatalogCode = mProductInfo.getCatalog();
 
     }
@@ -387,9 +389,8 @@ public class PrxWrapper {
                             if (mSummaryCallback != null) {
                                 mSummaryCallback.onResponseReceived(null);
                             }
-                        }else
-                        {
-                            if (mSummaryCallback != null)    mSummaryCallback.onResponseReceived(null);
+                        } else {
+                            if (mSummaryCallback != null) mSummaryCallback.onResponseReceived(null);
                         }
 
                     }
