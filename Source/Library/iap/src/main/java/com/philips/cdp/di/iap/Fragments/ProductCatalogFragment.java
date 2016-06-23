@@ -27,6 +27,8 @@ import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogAdapter;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
+import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -35,7 +37,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener, ShoppingCartPresenter.ShoppingCartLauncher {
+public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener, ShoppingCartPresenter.ShoppingCartLauncher ,  ProductCatalogPresenter.LoadListener{
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
@@ -95,7 +97,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     private void loadProducts() {
         ProductCatalogAPI presenter = ControllerFactory.getInstance()
-                .getProductCatalogPresenter(getContext(), mAdapter, getFragmentManager());
+                .getProductCatalogPresenter(getContext(), this, getFragmentManager());
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
@@ -154,5 +156,19 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             finishActivity();
         }
         return false;
+    }
+
+    @Override
+    public void onLoadFinished(final ArrayList<ProductCatalogData> data) {
+        mAdapter = new ProductCatalogAdapter(getContext(), data);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.tagProducts();
+        if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
+    }
+
+    @Override
+    public void onLoadError(IAPNetworkError error) {
+
     }
 }
