@@ -174,6 +174,11 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         for(ProductData product : productList)
             mProducts.add(product);
         mAdapter.notifyDataSetChanged();
+        int totalQuantity = 0;
+        for(ProductData data : mProducts){
+            totalQuantity += data.getQuantity();
+        }
+        mTvQuantity.setText(" (" + totalQuantity + " items)");
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
 
@@ -219,8 +224,6 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
         if(detail.getTotalPriceWithTax() != null)
             mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
-        if(detail.getTotalItems() != 0)
-            mTvQuantity.setText(" (" + detail.getTotalItems() + " items)");
 
         if (detail.getDeliveryAddress() != null) {
             mDeliveryName.setText(detail.getDeliveryAddress().getFirstName() + " " + detail.getDeliveryAddress().getLastName());
@@ -243,7 +246,10 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
         if(detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED))
         {
-            mShippingStatus.setText(getString(R.string.iap_order_completed_text, detail.getConsignments().get(0).getTrackingID()));
+            if(detail.getConsignments() != null && detail.getConsignments().size() > 0)
+                mShippingStatus.setText(getString(R.string.iap_order_completed_text, detail.getConsignments().get(0).getTrackingID()));
+            else
+                mShippingStatus.setText(getString(R.string.iap_order_completed_text_without_track_id));
         }
     }
 
