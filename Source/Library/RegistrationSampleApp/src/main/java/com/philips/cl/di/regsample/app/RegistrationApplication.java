@@ -35,6 +35,7 @@ public class RegistrationApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		RLog.init(this);
 		RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
 		RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
 		Tagging.enableAppTagging(true);
