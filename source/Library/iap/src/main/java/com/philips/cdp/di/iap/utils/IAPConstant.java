@@ -70,4 +70,5 @@ public class IAPConstant {
     }
 
     public static final String IAP_STORE_NAME = "IAP_STORE_NAME";
+    public static final String IAP_RETAILER_INFO = "IAP_RETAILER_INFO";
 }
