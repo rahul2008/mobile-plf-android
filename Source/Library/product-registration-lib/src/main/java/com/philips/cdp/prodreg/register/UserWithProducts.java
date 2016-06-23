@@ -47,6 +47,7 @@ public class UserWithProducts {
     private String uuid = "";
     private RegisteredProduct currentRegisteredProduct;
     private ProdRegListener appListener;
+    private int processCacheProductsCount;
 
     UserWithProducts(final Context context, final User user, final ProdRegListener appListener) {
         this.mContext = context;
@@ -334,7 +335,7 @@ public class UserWithProducts {
                 RegistrationResponse registrationResponse = (RegistrationResponse) responseData;
                 getUserProduct().mapRegistrationResponse(registrationResponse, registeredProduct);
                 registeredProduct.setProdRegError(null);
-                sendSuccessFulCallBack(registeredProduct);
+                sendSuccessFullCallBack(registeredProduct);
                 getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                 if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct)) {
                     final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
@@ -346,7 +347,8 @@ public class UserWithProducts {
             public void onResponseError(PrxError prxError) {
                 try {
                     getErrorHandler().handleError(getUserProduct(), registeredProduct, prxError.getStatusCode());
-                    if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct)) {
+                    if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct) && processCacheProductsCount < 1) {
+                        processCacheProductsCount++;
                         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
                         getUserProduct().registerCachedProducts(registeredProducts);
                     }
@@ -357,7 +359,7 @@ public class UserWithProducts {
         };
     }
 
-    private void sendSuccessFulCallBack(final RegisteredProduct registeredProduct) {
+    private void sendSuccessFullCallBack(final RegisteredProduct registeredProduct) {
         appListener.onProdRegSuccess(registeredProduct, getUserProduct());
     }
 

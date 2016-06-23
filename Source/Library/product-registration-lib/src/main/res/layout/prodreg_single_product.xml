@@ -103,7 +103,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textColor="?attr/uikit_brightColor"
+                        android:hint="@string/PPR_Please_Select_Date"
+                        android:textColor="?attr/uikit_LightColor"
+                        android:textColorHint="?attr/uikit_LightColor"
                         android:textSize="16sp"/>
                 </LinearLayout>
 
@@ -144,7 +146,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:singleLine="true"
-                        android:textColor="?attr/uikit_brightColor"
+                        android:textColor="?attr/uikit_LightColor"
                         android:textSize="16sp"/>
 
                 </LinearLayout>
@@ -161,6 +163,7 @@
         android:layout_marginBottom="@dimen/pr_e_value_sm"
         android:layout_marginLeft="@dimen/pr_e_value_sm"
         android:layout_marginRight="@dimen/pr_e_value_sm"
+        android:layout_marginTop="10dp"
         android:text="@string/PPR_Register_Btntxt"
         android:textAllCaps="false"/>
 </RelativeLayout>

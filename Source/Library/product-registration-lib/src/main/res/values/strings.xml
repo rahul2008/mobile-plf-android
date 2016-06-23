@@ -51,4 +51,5 @@
     <string name="PPR_Unknown_ErrMsg">Unknown</string>
     <string name="PPR_Already_Registered_title">Product registered</string>
     <string name="PPR_Already_Registered_ErrMsg">Product already registered</string>
+    <string name="PPR_Please_Select_Date">please select date</string>
 </resources>
