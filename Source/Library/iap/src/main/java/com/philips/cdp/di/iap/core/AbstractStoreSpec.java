@@ -182,5 +182,8 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     }
 
     @Override
+    public String getSearchProductUrl(String ctnNumber) { return null; }
+
+    @Override
     public String getOrderHistoryUrl(String pageNumber) { return null; }
 }

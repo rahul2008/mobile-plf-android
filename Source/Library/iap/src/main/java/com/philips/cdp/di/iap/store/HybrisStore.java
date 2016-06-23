@@ -54,6 +54,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1/";
     private static final String RETAILERS_ALTER = "online-retailers?product=%s&lang=en";
 
+    private static final String SUFFIX_SEARCH_PRODUCT_URL = "/products/%s";
     private static final String SUFFIX_ORDER_DETAIL_URL = "/orders/%s?fields=FULL&lang=en";
     private static final String SUFFIX_CURRENT_PAGE="?fields=FULL&lang=en&currentPage=%s";
 
@@ -84,6 +85,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private String mRetailersAlter;
     private String mOrderHistoryUrl;
     private String mOrderDetailUrl;
+    private String mSearchProductUrl;
 
     public HybrisStore(Context context) {
         mIAPUser = initIAPUser(context);
@@ -193,6 +195,7 @@ public class HybrisStore extends AbstractStoreSpec {
                 .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
         mOrderHistoryUrl = mPlaceOrderUrl.concat(SUFFIX_CURRENT_PAGE);
         mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDER_DETAIL_URL);
+        mSearchProductUrl = mBaseURlForProductCatalog.concat(SUFFIX_SEARCH_PRODUCT_URL);
     }
 
     @Override
@@ -267,7 +270,7 @@ public class HybrisStore extends AbstractStoreSpec {
 
     @Override
     public String getAddressDetailsUrl() {
-        if (getCountry().equalsIgnoreCase("GB")){
+        if (getCountry().equalsIgnoreCase("GB")) {
             return mAddressDetailsUrl.concat(LANG);
         } else if (getCountry().equalsIgnoreCase("US")) {
             return mAddressDetailsUrl.concat(LANG);
@@ -333,6 +336,11 @@ public class HybrisStore extends AbstractStoreSpec {
     @Override
     public String getOrderDetailUrl(String orderId) {
         return String.format(mOrderDetailUrl, orderId);
+    }
+
+    @Override
+    public String getSearchProductUrl(String ctnNumber) {
+        return String.format(mSearchProductUrl, ctnNumber);
     }
 
     @Override
