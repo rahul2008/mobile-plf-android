@@ -48,6 +48,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     public String getservice(OnRefreshListener listener) {
         String urlBuild = null;
+        mAppInfra.getTagging().createInstanceForComponent("key", "value");
         mAppInfra.getTagging().trackActionWithInfo("ServiceDiscoveryPage", "KeyServiceDiscovery", "ValueServiceDiscovery");
         LocalManager locamManager= new LocalManager(mAppInfra);
         String country= locamManager.getCountry();
