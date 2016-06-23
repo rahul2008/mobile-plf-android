@@ -176,5 +176,6 @@
     <string name="iap_order_processing_text">Your order is not yet shipped. It is expected to be handed over to the carrier within 24
     hours after your order was confirmed</string>
     <string name="iap_order_completed_text">Your order will be delivered by \n FedEx(parcel postage) \n Tracking number %s</string>
+    <string name="iap_order_completed_text_without_track_id">Your order will be delivered by \n FedEx(parcel postage)</string>
 
 </resources>
