@@ -219,8 +219,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
                     mProductSummary = entry.getValue();
                     populateData();
-                    /*if (Utility.isProgressDialogShowing())
-                        Utility.dismissProgressDialog();*/
                     break;
                 }
             }
