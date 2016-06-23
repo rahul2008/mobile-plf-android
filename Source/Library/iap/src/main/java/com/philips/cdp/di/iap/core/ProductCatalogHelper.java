@@ -111,8 +111,6 @@ public class ProductCatalogHelper {
         if (mLoadListener != null) {
             mLoadListener.onLoadFinished(data);
         }
-        /*if(Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();*/
     }
 
     private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanB(ArrayList<String> planBProductList, HashMap<String, SummaryModel> prxModel) {

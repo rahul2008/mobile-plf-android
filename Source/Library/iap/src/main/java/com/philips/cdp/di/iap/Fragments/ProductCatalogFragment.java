@@ -43,7 +43,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     private ShoppingCartAPI mShoppingCartAPI;
     private RecyclerView mRecyclerView;
     private TextView mEmptyCatalogText;
-    private boolean dataAvailable;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -79,17 +78,10 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
         mEmptyCatalogText = (TextView) rootView.findViewById(R.id.empty_product_catalog_txt);
-//        if (dataAvailable) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
-//        } else {
-//            mRecyclerView.setVisibility(View.GONE);
-//            mEmptyCatalogText.setVisibility(View.VISIBLE);
-//            if (Utility.isProgressDialogShowing())
-//                Utility.dismissProgressDialog();
-//        }
         return rootView;
     }
 
@@ -99,8 +91,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
-
-        dataAvailable = presenter.getProductCatalog();
+        presenter.getProductCatalog();
     }
 
     @Override
@@ -109,7 +100,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
-//        if (dataAvailable) {
         if (!ControllerFactory.getInstance().loadLocalData()) {
             mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
         }
