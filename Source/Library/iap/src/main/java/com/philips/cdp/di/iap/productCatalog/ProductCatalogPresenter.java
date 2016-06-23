@@ -15,8 +15,10 @@ import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
 import com.philips.cdp.di.iap.response.products.Products;
+import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandler;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -36,11 +38,54 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     ProductCatalogHelper mProductCatalogHelper;
     boolean isPlanA;
 
+    public void getCompleteProductList(Context mContext, final IAPHandlerProductListListener iapListener) {
+        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+        GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), null, this);
+        model.setContext(mContext);
+        delegate.sendRequest(0, model, new RequestListener() {
+
+            @Override
+            public void onSuccess(Message msg) {
+                if (iapListener != null) {
+                    ArrayList<String> productCTNs = getProductCTNs(msg);
+                    IAPLog.d(IAPLog.LOG, "getCompleteProductList -- ProductCatelogPresenter " + productCTNs.toString());
+                    iapListener.onSuccess(productCTNs);
+                }
+            }
+
+            @Override
+            public void onError(Message msg) {
+                if (iapListener != null) {
+                    iapListener.onFailure(getIAPErrorCode(msg));
+                }
+            }
+        });
+    }
+
+    private ArrayList<String> getProductCTNs(Message msg) {
+        Products products = (Products) msg.obj;
+        ArrayList<String> productCTNs = new ArrayList<String>();
+        for (ProductsEntity entry : products.getProducts()) {
+            String ctn = entry.getCode();
+            productCTNs.add(ctn);
+        }
+        return productCTNs;
+    }
+
+    private int getIAPErrorCode(Message msg) {
+        if (msg.obj instanceof IAPNetworkError) {
+            return ((IAPNetworkError) msg.obj).getIAPErrorCode();
+        }
+        return IAPConstant.IAP_ERROR_UNKNOWN;
+    }
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ProductCatalogData> data);
 
         void onLoadError(IAPNetworkError error);
+    }
+
+    public ProductCatalogPresenter() {
     }
 
     public ProductCatalogPresenter(Context context, LoadListener listener, FragmentManager fragmentManager, boolean isPlanA) {

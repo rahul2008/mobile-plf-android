@@ -90,7 +90,7 @@ public class NetworkUtility {
     private String getErrorTitleMessageFromErrorCode(final Context context, int errorCode) {
         String errorMessage = null;
         if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
-            errorMessage = context.getString(R.string.iap_network_error);
+            errorMessage = context.getString(R.string.iap_you_are_offline);
         } else {
             errorMessage = context.getString(R.string.iap_server_error);
         }
@@ -107,7 +107,7 @@ public class NetworkUtility {
         String errorMessage = null;
         int errorCode = error.getIAPErrorCode();
         if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
-            errorMessage = context.getString(R.string.iap_check_connection);
+            errorMessage = context.getString(R.string.iap_no_internet);
         } else if (errorCode == IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT) {
             errorMessage = context.getString(R.string.iap_time_out_error);
         } else if (errorCode == IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE) {

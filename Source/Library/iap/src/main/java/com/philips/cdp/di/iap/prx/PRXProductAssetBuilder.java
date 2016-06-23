@@ -58,6 +58,7 @@ public class PRXProductAssetBuilder {
         PrxLogger.enablePrxLogger(true);
         executeRequest(prepareAssetBuilder(mCTN));
     }
+
     public void executeRequest(final ProductAssetRequest productAssetBuilder) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(mContext);
@@ -69,7 +70,7 @@ public class PRXProductAssetBuilder {
 
             @Override
             public void onResponseError(final PrxError prxError) {
-                notifyError(prxError.getDescription());
+                notifyError(prxError);
             }
         });
     }
@@ -109,30 +110,30 @@ public class PRXProductAssetBuilder {
     }
 
     private int getAssetType(final Asset asset) {
-            switch (asset.getType()) {
-                case "RTP":
-                    return RTP;
-                case "APP":
-                    return APP;
-                case "DPP":
-                    return DPP;
-                case "MI1":
-                    return MI1;
-                case "PID":
-                    return PID;
-                default:
-                    return -1;
-            }
+        switch (asset.getType()) {
+            case "RTP":
+                return RTP;
+            case "APP":
+                return APP;
+            case "DPP":
+                return DPP;
+            case "MI1":
+                return MI1;
+            case "PID":
+                return PID;
+            default:
+                return -1;
+        }
     }
 
-    private void notifyError(final String error) {
+    private void notifyError(final PrxError errorCode) {
         Message result = Message.obtain();
-        if(error!=null && error.contains("NoConnectionError")){
+        if (PrxError.PrxErrorType.NO_INTERNET_CONNECTION.getId() == errorCode.getStatusCode()) {
             result.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
-        }else if(error!=null && error.contains("TimeoutError")){
+        } else if (PrxError.PrxErrorType.TIME_OUT.getId() == errorCode.getStatusCode()) {
             result.obj = new IAPNetworkError(new TimeoutError(), 0, null);
-        }else {
-            result.obj = error;
+        } else {
+            result.obj = errorCode.getStatusCode();
         }
         if (mAssetListener != null) {
             mAssetListener.onFetchAssetFailure(result);

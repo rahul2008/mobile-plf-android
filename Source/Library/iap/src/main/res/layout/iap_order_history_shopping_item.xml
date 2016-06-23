@@ -46,6 +46,7 @@
             android:layout_alignLeft="@+id/order_number_text"
             android:layout_below="@+id/order_number_text"
             android:layout_marginTop="@dimen/iap_order_margin_top"
+            android:inputType="textCapWords"
             android:text="Order state" />
 
         <com.shamanland.fonticon.FontIconTextView

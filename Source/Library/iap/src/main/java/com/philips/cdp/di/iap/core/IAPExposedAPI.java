@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.core;
 
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -11,5 +12,5 @@ public interface IAPExposedAPI {
 
     void getProductCartCount(IAPHandlerListener iapHandlerListener);
 
-    //void getCompleteProductList(IAPHandlerListener iapHandlerListener);
+    void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener);
 }

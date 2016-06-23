@@ -55,6 +55,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private static final String RETAILERS_ALTER = "online-retailers?product=%s&lang=en";
 
     private static final String SUFFIX_ORDER_DETAIL_URL = "/orders/%s";
+    private static final String SUFFIX_CURRENT_PAGE = "?fields=FULL&currentPage=%s";
 
     private static final String SUFFIX_SEARCH_PRODUCT_URL = "/products/%s";
 
@@ -83,6 +84,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private String mGetProductCatalogUrl;
     private boolean mUserLoggedout;
     private String mRetailersAlter;
+    private String mOrderHistoryUrl;
     private String mOrderDetailUrl;
     private String mSearchProductUrl;
 
@@ -192,6 +194,7 @@ public class HybrisStore extends AbstractStoreSpec {
         mRetailersAlter = mGetRetailersUrl.concat(RETAILERS_ALTER);
         mOauthRefreshUrl = HTTPS.concat(mStoreConfig.getHostPort()).concat(SEPERATOR)
                 .concat(WEB_ROOT).concat(SUFFIX_REFRESH_OAUTH);
+        mOrderHistoryUrl = mPlaceOrderUrl.concat(SUFFIX_CURRENT_PAGE);
         mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDER_DETAIL_URL);
         mSearchProductUrl = mBaseURlForProductCatalog.concat(SUFFIX_SEARCH_PRODUCT_URL);
     }
@@ -268,7 +271,7 @@ public class HybrisStore extends AbstractStoreSpec {
 
     @Override
     public String getAddressDetailsUrl() {
-        if (getCountry().equalsIgnoreCase("GB")){
+        if (getCountry().equalsIgnoreCase("GB")) {
             return mAddressDetailsUrl.concat(LANG);
         } else if (getCountry().equalsIgnoreCase("US")) {
             return mAddressDetailsUrl.concat(LANG);
@@ -337,8 +340,12 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     @Override
-    public String getSearchProductUrl(String ctnNumber)
-    {
+    public String getSearchProductUrl(String ctnNumber) {
         return String.format(mSearchProductUrl, ctnNumber);
+    }
+
+    @Override
+    public String getOrderHistoryUrl(String pageNumber) {
+        return String.format(mOrderHistoryUrl, pageNumber);
     }
 }

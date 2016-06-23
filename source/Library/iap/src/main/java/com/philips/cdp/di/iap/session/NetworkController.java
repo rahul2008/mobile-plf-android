@@ -100,7 +100,7 @@ public class NetworkController {
 
                     requestListener.onSuccess(msg);
                     if(model.getUrl() != null)
-                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onSuccess =" + msg + " requestCode=" + requestCode + "in " +
+                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onFetchOfProductList =" + msg + " requestCode=" + requestCode + "in " +
                             requestListener.getClass().getSimpleName() + "env = " + " " +model.getUrl().substring(0, 15));
                 }
             }

@@ -35,14 +35,14 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
             } else {
                 NetworkUtility.getInstance().showErrorDialog(getActivity(), getActivity()
                                 .getSupportFragmentManager(), getString(R.string.iap_ok),
-                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                        getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
             }
         }
     };
 
     protected boolean isNetworkNotConnected() {
         if (!NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
-            NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
             return true;
         }
         return false;
