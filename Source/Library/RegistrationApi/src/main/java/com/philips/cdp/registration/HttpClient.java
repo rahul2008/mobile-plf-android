@@ -35,7 +35,10 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-
+/**
+ * @{code HttpClient} class wraps the GET and POST REST Calls to webservice by exposing simple APIs
+ * like {@code callGet} and {@code callPost}
+ */
 public class HttpClient {
 
 	final int TIME_OUT = 30000;
@@ -52,6 +55,13 @@ public class HttpClient {
 
 	private String LOG_TAG = "HttpClient";
 
+	/**
+	 * {@code callPost} method makes a POST call to a webservice.
+	 * @param urlString
+	 * @param nameValuePairs
+	 * @param accessToken
+	 * @return
+	 */
 	public String callPost(String urlString, List<Pair<String, String>> nameValuePairs, String accessToken){
 		URL url = null;
 		OutputStream outputStream = null;
@@ -146,7 +156,12 @@ public class HttpClient {
 		return postString.toString();
 	}
 
-
+	/**
+	 * {@code callGet} method makes a GET call to a webservice
+	 * @param urlString
+	 * @param accessToken
+	 * @return
+	 */
 	public String callGet(String urlString, String accessToken){
 		URL url = null;
 		BufferedReader bufferedReader = null;
