@@ -9,8 +9,14 @@
 
 package com.philips.cdp.registration.events;
 
+/**
+ * Event listener interface
+ */
 public interface EventListener {
-
+    /**
+     * {@onEventReceived} method to on event received
+     * @param event event
+     */
     void onEventReceived(String event);
 
 }

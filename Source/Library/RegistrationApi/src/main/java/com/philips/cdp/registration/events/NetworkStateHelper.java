@@ -11,16 +11,32 @@ package com.philips.cdp.registration.events;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * class network state helper
+ */
 public class NetworkStateHelper {
 
+	/**
+	 * Network state helper
+	 */
 	private static NetworkStateHelper eventHelper;
 
+	/**
+	 * copy on write array list
+	 */
 	private CopyOnWriteArrayList<NetworStateListener> networStateListeners;
 
+	/**
+	 * Class constructor
+	 */
 	private NetworkStateHelper() {
 		networStateListeners = new CopyOnWriteArrayList<NetworStateListener>();
 	}
 
+	/**
+	 * {@code getInstance} method to get network state helper instance
+	 * @return instance
+     */
 	public static synchronized NetworkStateHelper getInstance() {
 		if (eventHelper == null) {
 			eventHelper = new NetworkStateHelper();
@@ -28,6 +44,10 @@ public class NetworkStateHelper {
 		return eventHelper;
 	}
 
+	/**
+	 * {@code registerEventNotification} method to register event notification
+	 * @param observer network state listener
+     */
 	public synchronized void registerEventNotification(NetworStateListener observer) {
 		synchronized (networStateListeners) {
 			if (networStateListeners != null && observer != null) {
@@ -42,6 +62,10 @@ public class NetworkStateHelper {
 		}
 	}
 
+	/**
+	 * {@code unregisterEventNotification} method to unregister event notification
+	 * @param observer network state listener
+     */
 	public synchronized void unregisterEventNotification(NetworStateListener observer) {
 		synchronized (networStateListeners) {
 			if (networStateListeners != null && observer != null) {
@@ -55,6 +79,10 @@ public class NetworkStateHelper {
 		}
 	}
 
+	/**
+	 * {@code notifyEventOccurred} method to notify event occurred
+	 * @param isOnline
+     */
 	public synchronized void notifyEventOccurred(boolean isOnline) {
 		synchronized (networStateListeners) {
 			if (networStateListeners != null) {

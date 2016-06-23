@@ -35,6 +35,7 @@ import java.util.Map;
 
 /**
  * Created by 310190722 on 9/15/2015.
+ * class hsdp user
  */
 public class HsdpUser {
 
@@ -48,10 +49,21 @@ public class HsdpUser {
 
     private final String HSDP_RECORD_FILE = "hsdpRecord";
 
+    /**
+     * Class constructor
+     * @param context
+     */
     public HsdpUser(Context context) {
         this.mContext = context;
     }
 
+    /**
+     * Login
+     * @param email Email
+     * @param password password
+     * @param refreshSecret refresh secret
+     * @param loginHandler loging handler
+     */
     public void login(final String email, final String password,final String refreshSecret, final TraditionalLoginHandler loginHandler) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             final Handler handler = new Handler();
@@ -110,6 +122,12 @@ public class HsdpUser {
         }
     }
 
+    /**
+     * handle server connection failed
+     * @param loginHandler login handler
+     * @param errorCode error code
+     * @param message message
+     */
     private void handleServerConnectionFailed(TraditionalLoginHandler loginHandler, int errorCode, String message) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         userRegistrationFailureInfo.setErrorCode(errorCode);
@@ -117,6 +135,12 @@ public class HsdpUser {
         loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
     }
 
+    /**
+     * Handle hsdp failure
+     * @param loginHandler login handler
+     * @param errorCode error code
+     * @param message message
+     */
     private void handleHsdpFailure(TraditionalLoginHandler loginHandler, int errorCode, String message) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         userRegistrationFailureInfo.setErrorCode(errorCode);
@@ -124,6 +148,10 @@ public class HsdpUser {
         loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
     }
 
+    /**
+     * Logout
+     * @param logoutHandler logout handler
+     */
     public void logOut(final LogoutHandler logoutHandler) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             final Handler handler = new Handler();
@@ -172,6 +200,10 @@ public class HsdpUser {
         }
     }
 
+    /**
+     * Refresh token
+     * @param refreshHandler refresh handler
+     */
     public void refreshToken(final RefreshLoginSessionHandler refreshHandler) {
         final Handler handler = new Handler();
         if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -244,6 +276,11 @@ public class HsdpUser {
         }
     }
 
+    /**
+     * get dhp api client configuration
+     * @return DhpApiClientConfiguration object
+     * {@link DhpApiClientConfiguration}
+     */
     private DhpApiClientConfiguration getDhpApiClientConfiguration() {
         DhpApiClientConfiguration dhpApiClientConfiguration = null;
         String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
@@ -257,6 +294,10 @@ public class HsdpUser {
         return dhpApiClientConfiguration;
     }
 
+    /**
+     * Save to disk
+     * @param userFileWriteListener user file write listener
+     */
     private void saveToDisk(UserFileWriteListener userFileWriteListener) {
             SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
             boolean isWrittenToFile = secureStorageInterface.storeValueForKey(HSDP_RECORD_FILE, SecurityHelper.objectToString(mHsdpUserRecord));
@@ -267,6 +308,11 @@ public class HsdpUser {
             }
     }
 
+    /**
+     * Get hsdp user record
+     * @return HsdpUserRecord object
+     * {@link HsdpUserRecord}
+     */
     public HsdpUserRecord getHsdpUserRecord() {
         if(mHsdpUserRecord!=null){
             return mHsdpUserRecord;
@@ -276,12 +322,22 @@ public class HsdpUser {
         return mHsdpUserRecord;
     }
 
+    /**
+     * Delete From disk
+     *
+     */
     public void deleteFromDisk() {
         SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
         secureStorageInterface.removeValueForKey(HSDP_RECORD_FILE);
         mHsdpUserRecord = null;
     }
 
+    /**
+     * Social login
+     * @param email email
+     * @param accessToken acess token
+     * @param loginHandler login handler
+     */
     public void socialLogin(final String email, final String accessToken, final SocialLoginHandler loginHandler) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             final Handler handler = new Handler();
@@ -342,6 +398,12 @@ public class HsdpUser {
         }
     }
 
+    /**
+     * handle social connection failed
+     * @param loginHandler login handler
+     * @param errorCode error code
+     * @param string string
+     */
     private void handleSocialConnectionFailed(SocialLoginHandler loginHandler, int errorCode, String string) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         userRegistrationFailureInfo.setErrorCode(errorCode);
@@ -349,6 +411,12 @@ public class HsdpUser {
         loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
     }
 
+    /**
+     * handle social hsdp failure
+     * @param loginHandler login handler
+     * @param errorCode error code
+     * @param string string
+     */
     private void handleSocialHsdpFailure(SocialLoginHandler loginHandler, int errorCode, String string) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         userRegistrationFailureInfo.setErrorCode(errorCode);
@@ -356,11 +424,18 @@ public class HsdpUser {
         loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
     }
 
+    /**
+     * User file write listener interface
+     */
     private interface UserFileWriteListener {
         void onFileWriteSuccess();
         void onFileWriteFailure();
     }
 
+    /**
+     * Hspd user signed in
+     * @return true if hsdp user signed in else false
+     */
     public boolean isHsdpUserSignedIn(){
         HsdpUserRecord hsdpUserRecord = getHsdpUserRecord();
         if(hsdpUserRecord != null && (hsdpUserRecord.getAccessCredential().getRefreshToken()!=null || hsdpUserRecord.getRefreshSecret()!=null) && hsdpUserRecord.getUserUUID()!=null

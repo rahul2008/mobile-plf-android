@@ -14,14 +14,24 @@ import java.util.List;
 
 public class ConsumerArray {
 
+    /* Consumer interest list */
     private List<ConsumerInterest> mConsumerInterestArray;
 
+    /* Consumer array */
     private static ConsumerArray mConsumerArray = null;
 
+    /**
+     *Class Constructor
+     */
     public ConsumerArray() {
         mConsumerInterestArray = new ArrayList<>();
     }
 
+    /**
+     * {@code getInstance} method to get instance of consumer array
+     * @return instance of ConsumerArray
+     * {@link ConsumerArray}
+     */
     public static ConsumerArray getInstance() {
         if (mConsumerArray == null) {
             synchronized (ConsumerArray.class) {
@@ -33,10 +43,22 @@ public class ConsumerArray {
         return mConsumerArray;
     }
 
+    /**
+     * {@code getConsumerArraylist } method to get consumer array list
+     *{@link com.philips.cdp.registration.dao.ConsumerInterest}
+     * @return
+     */
     public List<ConsumerInterest> getConsumerArraylist() {
         return mConsumerInterestArray;
     }
 
+    /**
+     * {@code setConsumerArraylist} method to set consumer array list
+     *{@link com.philips.cdp.registration.dao.ConsumerInterest}
+     * @param listConsumerInterest
+     * @return  the List of ConsumerInterest
+     * @see ArrayList
+     */
     public void setConsumerArraylist(ArrayList<ConsumerInterest> listConsumerInterest) {
         mConsumerInterestArray = listConsumerInterest;
     }

@@ -11,10 +11,20 @@ package com.philips.cdp.registration.handlers;
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
+/**
+ * Forgot password handler interface
+ */
 public interface ForgotPasswordHandler {
 
+    /**
+     * {@code onSendForgotPasswordSuccess} method to validate on send forgot password success
+     */
     void onSendForgotPasswordSuccess();
 
+    /**
+     *{@code onSendForgotPasswordFailedWithError} method to validate on on send forgot password failed with error
+     * @param userRegistrationFailureInfo
+     */
     void onSendForgotPasswordFailedWithError(
             UserRegistrationFailureInfo userRegistrationFailureInfo);
 }

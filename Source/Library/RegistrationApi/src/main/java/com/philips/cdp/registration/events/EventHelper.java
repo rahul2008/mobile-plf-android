@@ -13,16 +13,26 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Event helper
+ */
 public class EventHelper {
 
 	private static EventHelper eventHelper;
 
+	/**
+	 * class constructor
+	 */
 	private EventHelper() {
 		eventMap = new ConcurrentHashMap<String, List<EventListener>>();
 
 	}
 
 
+	/**
+	 * {@code getInstance} method get instance of Event helper
+	 * @return eventHelper instance of event helper
+     */
 	public static synchronized EventHelper getInstance() {
 		if (eventHelper == null) {
 			eventHelper = new EventHelper();
@@ -32,6 +42,11 @@ public class EventHelper {
 
 	private ConcurrentHashMap <String, List<EventListener>> eventMap;
 
+	/**
+	 * {@code registerEventNotification} method to register event notification
+	 * @param list list
+	 * @param observer observer
+     */
 	public void registerEventNotification(List<String> list, EventListener observer) {
 		if (eventMap != null && observer != null) {
 			for (String event : list) {
@@ -41,7 +56,12 @@ public class EventHelper {
 
 	}
 
-	public void registerEventNotification(String evenName, EventListener observer) {
+	/**
+	 * {@code registerEventNotification}method to register event notification
+	 * @param evenName even name
+	 * @param observer observer
+     */
+    public void registerEventNotification(String evenName, EventListener observer) {
 		if (eventMap != null && observer != null) {
 			CopyOnWriteArrayList<EventListener> listnerList = (CopyOnWriteArrayList<EventListener>) eventMap
 			        .get(evenName);
@@ -60,6 +80,11 @@ public class EventHelper {
 		}
 	}
 
+	/**
+	 * {@code unregisterEventNotification} method to unregister event notification
+	 * @param pEventName event name
+	 * @param pObserver observer
+     */
 	public void unregisterEventNotification(String pEventName, EventListener pObserver) {
 		if (eventMap != null && pObserver != null) {
 			List<EventListener> listnerList = eventMap.get(pEventName);
@@ -70,6 +95,10 @@ public class EventHelper {
 		}
 	}
 
+	/**
+	 * {@code notifyEventOccurred} method to notify event occurred
+	 * @param pEventName event name
+     */
 	public void notifyEventOccurred(String pEventName) {
 		if (eventMap != null) {
 			List<EventListener> listnerList = eventMap.get(pEventName);

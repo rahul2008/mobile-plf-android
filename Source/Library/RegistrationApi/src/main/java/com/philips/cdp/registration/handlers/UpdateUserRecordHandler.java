@@ -9,9 +9,18 @@
 
 package com.philips.cdp.registration.handlers;
 
+/**
+ * Update user record handler interface
+ */
 public interface UpdateUserRecordHandler {
 
+	/**
+	 * {@code updateUserRecordLogin}method to update user record login
+	 */
 	public void updateUserRecordLogin();
 
+	/**
+	 * {@code updateUserRecordRegister} method to update user record register
+	 */
 	public void updateUserRecordRegister();
 }
