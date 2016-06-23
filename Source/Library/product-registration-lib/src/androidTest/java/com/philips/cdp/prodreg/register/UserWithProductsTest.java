@@ -548,6 +548,14 @@ public class UserWithProductsTest extends MockitoTestCase {
     }
 
     public void testGetRegisteredProductsListener() {
-
+        RegisteredProduct registeredProductMock = mock(RegisteredProduct.class);
+        when(registeredProductMock.getCtn()).thenReturn("ctn");
+        when(registeredProductMock.getSerialNumber()).thenReturn("serial");
+        when(registeredProductMock.getRegistrationState()).thenReturn(RegistrationState.REGISTERED);
+        RegisteredProductsListener registeredProductsListener = userWithProducts.getRegisteredProductsListener(registeredProductMock);
+        final ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
+        registeredProducts.add(registeredProductMock);
+        registeredProductsListener.getRegisteredProductsSuccess(registeredProducts, 0);
+        verify(prodRegListener).onProdRegFailed(registeredProductMock, userWithProductsMock);
     }
 }
