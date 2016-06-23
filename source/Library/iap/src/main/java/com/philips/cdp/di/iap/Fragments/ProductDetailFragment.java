@@ -49,23 +49,25 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     public static final String TAG = ProductDetailFragment.class.getName();
 
     private Context mContext;
+    SummaryModel mProductSummary;
+    ImageAdapter mAdapter;
+    ViewPager mPager;
+    Bundle mBundle;
+    private ShoppingCartAPI mShoppingCartAPI;
+    private ProductDetailEntity mProductDetail;
+
+    private TextView mProductDiscountedPrice;
     TextView mProductDescription;
     TextView mCTN;
     TextView mPrice;
     TextView mProductOverview;
     Button mAddToCart;
     Button mBuyFromRetailors;
+
     ArrayList<String> mAsset;
-    SummaryModel mValue;
-    ImageAdapter mAdapter;
-    ViewPager mPager;
-    Bundle mBundle;
-    private ShoppingCartAPI mShoppingCartAPI;
     private boolean mLaunchedFromProductCatalog = false;
     private String mCTNValue;
     private String mProductTitle;
-    private TextView mProductDiscountedPrice;
-    private ProductDetailEntity mProductDetail;
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
@@ -129,7 +131,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
         if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
-                mCTNValue= mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER);
+                mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER);
                 if (!isNetworkNotConnected()) {
                     if (!ControllerFactory.getInstance().loadLocalData()) {
                         ProductDetailController controller = new ProductDetailController(mContext, this);
@@ -138,23 +140,20 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                         }
                         controller.getProductDetail(mCTNValue);
                     } else
-                        fetchProductDetail(mCTNValue);
+                        fetchProductDetail();
                 }
             } else {
                 mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
                 mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
                 mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
-                populateViewFromBundle();
+                populateData();
             }
         }
         return rootView;
     }
 
-    private void fetchProductDetail(String catalogNumber) {
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-        }
-        makeSummaryRequest(catalogNumber);
+    private void fetchProductDetail() {
+        makeSummaryRequest();
     }
 
     private void tagProduct() {
@@ -166,50 +165,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PROD_VIEW);
         contextData.put(IAPAnalyticsConstant.PRODUCTS, product);
         Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
-    }
-
-    private void populateViewFromBundle() {
-        String actualPrice = mBundle.getString(IAPConstant.PRODUCT_PRICE);
-        String discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
-
-        mProductDescription.setText(mBundle.getString(IAPConstant.PRODUCT_TITLE));
-        mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
-        mPrice.setText(actualPrice);
-        mProductOverview.setText(mBundle.getString(IAPConstant.PRODUCT_OVERVIEW));
-
-        if (mLaunchedFromProductCatalog) {
-            setCartIconVisibility(View.VISIBLE);
-
-            if (discountedPrice == null || discountedPrice == "") {
-                mProductDiscountedPrice.setVisibility(View.GONE);
-                mPrice.setTextColor(Utility.getThemeColor(mContext));
-            } else if (actualPrice != null && discountedPrice.equalsIgnoreCase(actualPrice)) {
-                mPrice.setVisibility(View.GONE);
-                mProductDiscountedPrice.setVisibility(View.VISIBLE);
-                mProductDiscountedPrice.setText(discountedPrice);
-            } else {
-                mProductDiscountedPrice.setVisibility(View.VISIBLE);
-                mProductDiscountedPrice.setText(discountedPrice);
-                mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
-
-            /*if(actualPrice!=null && discountedPrice!=null && discountedPrice.equalsIgnoreCase(actualPrice)) {
-                mPrice.setVisibility(View.GONE);
-                mProductDiscountedPrice.setVisibility(View.VISIBLE);
-                mProductDiscountedPrice.setText(discountedPrice);
-            }else
-            if (discountedPrice != null) {
-                mProductDiscountedPrice.setVisibility(View.VISIBLE);
-                mProductDiscountedPrice.setText(discountedPrice);
-                mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            } else{
-                mProductDiscountedPrice.setVisibility(View.GONE);
-                mPrice.setTextColor(Utility.getThemeColor(mContext));
-            }*/
-        } else {
-            mPrice.setVisibility(View.GONE);
-            mProductDiscountedPrice.setText(actualPrice);
-        }
     }
 
     private void makeAssetRequest() {
@@ -244,20 +199,24 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         }
     }
 
-    private void makeSummaryRequest(String ctnNumber) {
+    private void makeSummaryRequest() {
         ArrayList<String> ctnList = new ArrayList<>();
-        ctnList.add(ctnNumber);
-        if (!CartModelContainer.getInstance().isPRXDataPresent(ctnNumber)) {
+        ctnList.add(mCTNValue);
+        if (!CartModelContainer.getInstance().isPRXDataPresent(mCTNValue)) {
+            if (!Utility.isProgressDialogShowing()) {
+                Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            }
             PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnList, this);
             builder.preparePRXDataRequest();
         } else {
-            final HashMap<String, SummaryModel> prxAssetObjects = CartModelContainer.getInstance().getPRXDataObjects();
+            final HashMap<String, SummaryModel> prxAssetObjects =
+                    CartModelContainer.getInstance().getPRXDataObjects();
             for (Map.Entry<String, SummaryModel> entry : prxAssetObjects.entrySet()) {
-                if (entry.getKey().equalsIgnoreCase(ctnNumber)) {
-                    mValue = entry.getValue();
+                if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
+                    mProductSummary = entry.getValue();
                     populateData();
-                    if (Utility.isProgressDialogShowing())
-                        Utility.dismissProgressDialog();
+                    /*if (Utility.isProgressDialogShowing())
+                        Utility.dismissProgressDialog();*/
                     break;
                 }
             }
@@ -307,7 +266,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.PRODUCT_CODE, mCTNValue);
-        addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE), BuyFromRetailersFragment.TAG);
+        addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE),
+                BuyFromRetailersFragment.TAG);
     }
 
     @Override
@@ -356,46 +316,11 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         }
     }
 
-    private void populateData() {
-        if(mValue != null) {
-            mProductTitle = mValue.getData().getProductTitle();
-            setTitle(mProductTitle);
-            mProductDescription.setText(mProductTitle);
-            mCTN.setText(mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
-            if (mProductDetail != null) {
-                String actualPrice = mProductDetail.getPrice().getFormattedValue();
-                String discountedPrice = mProductDetail.getDiscountPrice().getFormattedValue();
-
-                mPrice.setText(actualPrice);
-                setCartIconVisibility(View.VISIBLE);
-
-                if (discountedPrice == null || discountedPrice == "") {
-                    mProductDiscountedPrice.setVisibility(View.GONE);
-                    mPrice.setTextColor(Utility.getThemeColor(mContext));
-                } else if (actualPrice != null && discountedPrice.equalsIgnoreCase(actualPrice)) {
-                    mPrice.setVisibility(View.GONE);
-                    mProductDiscountedPrice.setVisibility(View.VISIBLE);
-                    mProductDiscountedPrice.setText(discountedPrice);
-                } else {
-                    mProductDiscountedPrice.setVisibility(View.VISIBLE);
-                    mProductDiscountedPrice.setText(discountedPrice);
-                    mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                }
-            } else {
-                mPrice.setVisibility(View.GONE);
-                mProductDiscountedPrice.setVisibility(View.GONE);
-            }
-            mProductOverview.setText(mValue.getData().getMarketingTextHeader());
-        }
-    }
 
     @Override
     public void onModelDataLoadFinished(Message msg) {
         HashMap<String, SummaryModel> msgObj = (HashMap<String, SummaryModel>) msg.obj;
-        if(mProductDetail == null)
-            mValue = msgObj.get(mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
-        else
-            mValue = msgObj.get(mProductDetail.getCode());
+        mProductSummary = msgObj.get(mCTNValue);
         populateData();
         if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
@@ -412,15 +337,74 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     @Override
     public void onGetProductDetail(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
+            if (Utility.isProgressDialogShowing()) {
+                Utility.dismissProgressDialog();
+            }
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             if (msg.what == RequestCode.SEARCH_PRODUCT) {
                 if (msg.obj instanceof ProductDetailEntity) {
                     mProductDetail = (ProductDetailEntity) msg.obj;
                     mCTNValue = mProductDetail.getCode();
-                    fetchProductDetail(mCTNValue);
+                    fetchProductDetail();
                 }
             }
+        }
+    }
+
+    private void populateData() {
+        String actualPrice;
+        String discountedPrice;
+
+        if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
+            if (mProductSummary != null) {
+                mProductTitle = mProductSummary.getData().getProductTitle();
+                setTitle(mProductTitle);
+
+                mProductDescription.setText(mProductTitle);
+                mCTN.setText(mCTNValue);
+                mProductOverview.setText(mProductSummary.getData().getMarketingTextHeader());
+
+                if (mProductDetail != null) {
+                    actualPrice = mProductDetail.getPrice().getFormattedValue();
+                    discountedPrice = mProductDetail.getDiscountPrice().getFormattedValue();
+                    setPrice(actualPrice, discountedPrice);
+                } else {
+                    mPrice.setVisibility(View.GONE);
+                    mProductDiscountedPrice.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            actualPrice = mBundle.getString(IAPConstant.PRODUCT_PRICE);
+            discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
+
+            mProductDescription.setText(mBundle.getString(IAPConstant.PRODUCT_TITLE));
+            mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
+            mProductOverview.setText(mBundle.getString(IAPConstant.PRODUCT_OVERVIEW));
+
+            if (mLaunchedFromProductCatalog) {
+                setPrice(actualPrice, discountedPrice);
+            } else {
+                mPrice.setVisibility(View.GONE);
+                mProductDiscountedPrice.setText(actualPrice);
+            }
+        }
+    }
+
+    private void setPrice(String actualPrice, String discountedPrice) {
+        setCartIconVisibility(View.VISIBLE);
+        mPrice.setText(actualPrice);
+        if (discountedPrice == null || discountedPrice == "") {
+            mProductDiscountedPrice.setVisibility(View.GONE);
+            mPrice.setTextColor(Utility.getThemeColor(mContext));
+        } else if (actualPrice != null && discountedPrice.equalsIgnoreCase(actualPrice)) {
+            mPrice.setVisibility(View.GONE);
+            mProductDiscountedPrice.setVisibility(View.VISIBLE);
+            mProductDiscountedPrice.setText(discountedPrice);
+        } else {
+            mProductDiscountedPrice.setVisibility(View.VISIBLE);
+            mProductDiscountedPrice.setText(discountedPrice);
+            mPrice.setPaintFlags(mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
     }
 }

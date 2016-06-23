@@ -335,8 +335,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
                 if (!mProductCountRequested) {
                     mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-                   /* mIAPSettings.setLaunchAsFragment(true);
-                    mIAPSettings.setFragProperties(getSupportFragmentManager(), );*/
                     setUseLocalData();
                     mIapHandler = IAPHandler.init(this, mIAPSettings);
                     updateCartIcon();
