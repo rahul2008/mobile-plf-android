@@ -58,7 +58,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private Button mShopNow;
     private Button mPurchaseHistory;
     private Button mFragmentLaunch;
-    private Button mLaunchProductDetail;
+ //   private Button mLaunchProductDetail;
 
     private String mSelectedCountry;
     private int mSelectedCountryIndex;
@@ -86,8 +86,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mPurchaseHistory = (Button) findViewById(R.id.btn_purchase_history);
         mPurchaseHistory.setOnClickListener(this);
 
-        mLaunchProductDetail = (Button) findViewById(R.id.btn_launch_product_detail);
-        mLaunchProductDetail.setOnClickListener(this);
+   //     mLaunchProductDetail = (Button) findViewById(R.id.btn_launch_product_detail);
+  //      mLaunchProductDetail.setOnClickListener(this);
 
         mShoppingCart = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         mShoppingCart.setOnClickListener(this);
@@ -194,13 +194,13 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 Intent intent = new Intent(this, LauncherFragmentActivity.class);
                 this.startActivity(intent);
                 break;
-            case R.id.btn_launch_product_detail:
-                if (isNetworkAvailable(DemoAppActivity.this)) {
-                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, "HX8071/10", null);
-                } else {
-                    Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
-                }
-                break;
+//            case R.id.btn_launch_product_detail:
+//                if (isNetworkAvailable(DemoAppActivity.this)) {
+//                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, "HX8071/10", null);
+//                } else {
+//                    Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
             default:
                 break;
         }
