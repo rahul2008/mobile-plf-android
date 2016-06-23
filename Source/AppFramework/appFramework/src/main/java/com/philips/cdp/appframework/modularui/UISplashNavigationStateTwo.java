@@ -9,7 +9,7 @@ public class UISplashNavigationStateTwo implements UIBaseNavigation {
     @Override
     public int onClick(int componentID, Context context) {
         @UIConstants.UIStateDef int destinationScreen = 0;
-        UIState wsNavStateOne = (UIState) UIFlowManager.getFromStateList(UIConstants.UI_SPLASH_STATE_TWO);
+        UIState wsNavStateOne = (UIState) UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
         return wsNavStateOne.getStateID();
     }
 

@@ -12,7 +12,7 @@ public class UIUserRegNavigationStateOne implements UIBaseNavigation {
     public int onClick(int componentID, Context context) {
         @UIConstants.UIStateDef int destinationScreen = 0;
         UIState wsNavStateOne = new UIState(this, destinationScreen);
-        wsNavStateOne.setStateID(UIConstants.UI_REGISTRATION_STATE_ONE);
+        wsNavStateOne.setStateID(UIConstants.UI_HOME_SCREEN);
         wsNavStateOne.setNavigator(this);
 
         switch (componentID) {

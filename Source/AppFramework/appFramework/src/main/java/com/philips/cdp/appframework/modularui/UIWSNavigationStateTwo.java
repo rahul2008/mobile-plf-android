@@ -13,7 +13,7 @@ public class UIWSNavigationStateTwo implements UIBaseNavigation {
     @UIConstants.UIStateDef
     int onClick(int componentID, Context context) {
         @UIConstants.UIStateDef int destinationScreen = 0;
-        UIState wsNavStateOne = (UIState) UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
+        UIState wsNavStateOne = (UIState) UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
 
         switch (componentID) {
             case R.id.start_registration_button:

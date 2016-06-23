@@ -76,6 +76,7 @@ public class UIFlowManager {
     public static void populateActivityMap() {
         activityMap = new HashMap<Integer, Integer>();
         activityMap.put(UIConstants.UI_SPLASH_STATE_ONE, UIConstants.UI_HOME_SCREEN);
+        activityMap.put(UIConstants.UI_HOME_STATE_ONE, UIConstants.UI_HOME_SCREEN);
         activityMap.put(UIConstants.UI_SPLASH_STATE_TWO,  UIConstants.UI_USER_REGISTRATION_SCREEN);
         activityMap.put(UIConstants.UI_SPLASH_STATE_THREE, UIConstants.UI_WELCOME_SCREEN);
         activityMap.put(UIConstants.UI_WELCOME_STATE_ONE, UIConstants.UI_HOME_SCREEN);
