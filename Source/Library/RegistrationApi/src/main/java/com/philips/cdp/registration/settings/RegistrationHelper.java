@@ -73,7 +73,7 @@ public class RegistrationHelper {
     public synchronized void initializeUserRegistration(final Context context) {
 
         PILLocaleManager localeManager = new PILLocaleManager(context);
-        RLog.init(context);
+
 
         if (localeManager.getLanguageCode() != null && localeManager.getCountryCode() != null) {
             mLocale = new Locale(localeManager.getLanguageCode(), localeManager.getCountryCode());

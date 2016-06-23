@@ -33,7 +33,7 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
                     android:paddingLeft="0dip"
-                    android:text="@string/reg_Request_Parental_consent_Title"
+                    android:text="@string/reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt"
                     android:visibility="visible"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
@@ -53,7 +53,7 @@
                     style="@style/reg_style_btn"
                     android:layout_marginTop="@dimen/reg_marginTopButton"
                     android:enabled="true"
-                    android:text="@string/reg_Coppa_Parental_Consent_Button_Txt"
+                    android:text="@string/reg_Continue_Btntxt"
                     android:visibility="visible"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
             </LinearLayout>

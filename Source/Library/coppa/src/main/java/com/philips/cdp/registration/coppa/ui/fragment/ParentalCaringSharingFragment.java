@@ -11,6 +11,7 @@ package com.philips.cdp.registration.coppa.ui.fragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,11 +22,14 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
+import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
+import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment implements OnClickListener {
+public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment implements OnClickListener,NetworStateListener {
 
     private LinearLayout mLlRootContainer;
     private Button mBtnDashboard;
@@ -33,6 +37,12 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
     private Context mContext;
     private TextView mTextContantTitle;
     private String mCoppaStatus;
+    private ClickableSpan privacyLinkClick = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnPrivacyPolicyClickEventOccurred(getActivity());
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +59,7 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessFragment : onCreateView");
 
         View view = inflater.inflate(R.layout.reg_fragment_coppa_thank_you_parental_consent, null);
+        RegistrationHelper.getInstance().registerNetworkStateListener(this);
         mContext = getParentFragment().getActivity().getApplicationContext();
         initUi(view);
         handleOrientation(view);
@@ -131,11 +142,13 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
         RLog.d(RegConstants.COPPA_STATUS, "Status : " + mCoppaStatus);
         if (mCoppaStatus == CoppaStatus.kDICOPPAConfirmationPending.toString()) {
             mTextDetailsContant.setText(getUsText());
-            mTextContantTitle.setText(getResources().getString(R.string.reg_Coppa_Privacy_Parent_Consent_Txt));
+            mTextContantTitle.setText(getResources().getString(R.string.reg_Coppa_US_Parental_Access_Thank_You_Txt));
         } else if (mCoppaStatus == CoppaStatus.kDICOPPAConfirmationGiven.toString()) {
             mTextDetailsContant.setText(getAlreadyUsText());
-            mTextContantTitle.setText(getResources().getString(R.string.reg_Coppa_Thanks_Parent_Consent_Txt));
+            mTextContantTitle.setText(getResources().getString(R.string.reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt));
         }
+        RegCoppaUtility.linkifyTermAndPolicy(mTextDetailsContant, getActivity(), privacyLinkClick);
+
     }
 
     @Override
@@ -150,17 +163,23 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
     }
 
     private String getUsText() {
-        return mContext.getString(R.string.reg_Coppa_Parental_Thank_Consent_Txt) +
-                "\n\n" + mContext.getString(R.string.reg_Coppa_Parental_Thank_Consent_Privacy_Txt);
+        return mContext.getString(R.string.reg_Coppa_US_Parental_Access_Content_Txt) +
+                "\n\n" + String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
+
     }
 
     private String getAlreadyUsText() {
-        return mContext.getString(R.string.reg_Coppa_Parental_Consent_Txt) +
-                "\n\n" + mContext.getString(R.string.reg_Coppa_Parental_Consent_Privacy_Txt);
+        return mContext.getString(R.string.reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt) +
+                "\n\n" +String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
     }
 
     @Override
     public int getTitleResourceId() {
         return R.string.reg_Coppa_Parental_Consent_Screen_Title_txt;
+    }
+
+    @Override
+    public void onNetWorkStateReceived(final boolean isOnline) {
+
     }
 }

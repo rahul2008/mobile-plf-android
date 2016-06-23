@@ -34,9 +34,10 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
                     android:paddingLeft="0dip"
-                    android:text="@string/reg_Request_Parental_consent_Title"
+                    android:text="@string/reg_Coppa_Give_Deny_Title_Txt"
                     android:textColor="@color/reg_coppa_confirm_title_color"
-                    android:visibility="visible"
+                    android:visibility="gone"
+
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
@@ -99,7 +100,7 @@
             style="@style/reg_style_btn"
             android:layout_marginTop="@dimen/reg_margin_bottom"
             android:enabled="true"
-            android:text="@string/reg_Coppa_Parent_Access_Agree_Button_Txt"
+            android:text="@string/reg_Coppa_Give_Consent_Button_Txt"
             android:visibility="gone"
             reglib:fontAssetName="CentraleSans-Book.OTF" />
 
@@ -109,7 +110,7 @@
             android:layout_marginTop="@dimen/reg_margin_bottom"
             android:background="@drawable/reg_btn_forgot_selector"
             android:enabled="true"
-            android:text="@string/reg_Coppa_Parent_Access_Disagree_Button_Txt"
+            android:text="@string/reg_Coppa_Deny_Consent_Button_Txt"
             android:visibility="gone"
             reglib:fontAssetName="CentraleSans-Book.OTF" />
     </LinearLayout>

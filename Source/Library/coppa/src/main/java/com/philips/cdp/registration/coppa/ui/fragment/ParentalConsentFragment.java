@@ -9,25 +9,39 @@
 package com.philips.cdp.registration.coppa.ui.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.controllers.ParentalConsentFragmentController;
+import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
+import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 
-public class ParentalConsentFragment extends RegistrationCoppaBaseFragment implements OnClickListener {
+public class ParentalConsentFragment extends RegistrationCoppaBaseFragment implements OnClickListener, NetworStateListener {
 
     private Button mBtnConsentConfirm;
     private Button mBtnConsentChange;
     private LinearLayout mLlRootContainer;
+    private TextView mTVRegConfirm;
+    private Context mContext;
     private ParentalConsentFragmentController mParentalConsentFragmentController;
+    private ClickableSpan privacyLinkClick = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnPrivacyPolicyClickEventOccurred(getActivity());
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +55,9 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment imple
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalAccessFragment : onCreateView");
 
         View view = inflater.inflate(R.layout.reg_fragment_parental_consent, null);
+        RegistrationHelper.getInstance().registerNetworkStateListener(this);
+
+        mContext = getParentFragment().getActivity().getApplicationContext();
         initUi(view);
         handleOrientation(view);
         mBtnConsentConfirm.setOnClickListener(this);
@@ -140,6 +157,13 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment imple
         mBtnConsentConfirm = (Button) view.findViewById(R.id.btn_parental_consent_reconfirm_confirm);
         mBtnConsentChange = (Button) view.findViewById(R.id.btn_parental_consent_reconfirm_cancel);
         mLlRootContainer = (LinearLayout) view.findViewById(R.id.ll_reg_create_account_validation_fields);
+        mTVRegConfirm = (TextView) view.findViewById(R.id.tv_reg_confirm);
+        mTVRegConfirm.setText(getReConfirmText());
+        RegCoppaUtility.linkifyTermAndPolicy(mTVRegConfirm, getActivity(), privacyLinkClick);
+    }
+
+    private String getReConfirmText() {
+        return mContext.getString(R.string.reg_Coppa_US_Parental_Access_Reconfirm_Txt) + String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
     }
 
     @Override
@@ -156,5 +180,10 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment imple
     @Override
     public int getTitleResourceId() {
         return R.string.reg_Coppa_Parental_Consent_Screen_Title_txt;
+    }
+
+    @Override
+    public void onNetWorkStateReceived(final boolean isOnline) {
+
     }
 }

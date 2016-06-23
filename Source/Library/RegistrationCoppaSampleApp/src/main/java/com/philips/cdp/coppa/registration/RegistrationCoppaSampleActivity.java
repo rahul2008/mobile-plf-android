@@ -194,7 +194,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationCoppaSampleActivity : onPrivacyPolicyClick");
         showToast("This call back is for vertical");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + getResources().getString(
-                com.philips.cdp.registration.R.string.Philips_URL_txt)));
+                com.philips.cdp.registration.R.string.reg_Philips_URL_txt)));
         activity.startActivity(browserIntent);
     }
 
@@ -202,7 +202,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     public void onTermsAndConditionClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationCoppaSampleActivity : onTermsAndConditionClick");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + getResources().getString(
-                com.philips.cdp.registration.R.string.Philips_URL_txt)));
+                com.philips.cdp.registration.R.string.reg_Philips_URL_txt)));
         activity.startActivity(browserIntent);
     }
 

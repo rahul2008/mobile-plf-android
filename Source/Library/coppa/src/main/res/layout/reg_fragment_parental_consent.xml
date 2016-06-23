@@ -33,25 +33,18 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
                     android:paddingLeft="0dip"
-                    android:text="@string/reg_Parental_consent_reconfirm_title"
+                    android:text="@string/reg_Coppa_Reconfirm_Title_Txt"
                     android:visibility="visible"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_confirm"
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_marginTop="0dip"
                     android:gravity="left"
-                    android:text="@string/reg_Parental_consent_reconfirm_title_desc1"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
-                <com.philips.cdp.registration.ui.customviews.XTextView
-                    style="@style/reg_textStyle"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:layout_marginTop="0dip"
-                    android:gravity="left"
-                    android:text="@string/reg_Parental_consent_reconfirm_title_desc2"
-                    reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/btn_parental_consent_reconfirm_confirm"
@@ -60,7 +53,7 @@
                     android:layout_marginTop="@dimen/reg_marginTopButton"
 
                     android:background="@drawable/reg_btn_enabled_rect"
-                    android:text="@string/reg_Parental_consent_reconfirm_btn_confirm"
+                    android:text="@string/reg_Coppa_Reconfirm_Button_Txt"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
                 <com.philips.cdp.registration.ui.customviews.XButton
@@ -69,7 +62,7 @@
                     android:layout_height="@dimen/reg_btn_height"
                     android:layout_marginTop="@dimen/reg_marginTopButton"
                     android:background="@drawable/reg_btn_forgot_rect"
-                    android:text="@string/reg_Parental_consent_reconfirm_btn_cancel"
+                    android:text="@string/reg_Coppa_Reject_Button_Txt"
                     android:textColor="@color/reg_text_heading_one_color"
                     reglib:fontAssetName="CentraleSans-Book.OTF"/>
             </LinearLayout>

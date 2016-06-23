@@ -202,14 +202,14 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         mTvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
         mBtnDisAgree.setVisibility(View.VISIBLE);
+        mTVRegConfirmApprovalTitle.setVisibility(View.VISIBLE);
         if (mShadowLineView != null)
             mShadowLineView.setVisibility(View.VISIBLE);
     }
 
     private String getUsText() {
         return mContext.getString(R.string.reg_Coppa_Give_Approval_txt) +
-                "\n" + mContext.getString(R.string.reg_Coppa_Give_Approval_US_txt) +
-                String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
+               String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
     }
 
     private String getNonUsText() {
@@ -230,7 +230,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_Coppa_Consent_Approval_Screen_Title_txt;
+        return R.string.reg_Coppa_Parental_Consent_Screen_Title_txt;
     }
 
     public void showRefreshProgress() {
