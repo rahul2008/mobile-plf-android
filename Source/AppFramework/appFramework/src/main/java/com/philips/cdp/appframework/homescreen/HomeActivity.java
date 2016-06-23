@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
+import com.philips.cdp.appframework.debugtest.DebugTestFragment;
 import com.philips.cdp.appframework.settingscreen.SettingsFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
@@ -158,7 +159,10 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         if (hamburgerMenuTitles[position].equalsIgnoreCase("Settings")) {
             showSettingsFragment();
         }
-        else {
+        else
+        if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
+            showDebugTestFragment();
+        } else {
             final HomeScreenFragment fragment = new HomeScreenFragment();
             String homeTag = HomeScreenFragment.class.getSimpleName();
             showFragment(fragment, homeTag);
@@ -174,8 +178,14 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
     private void showSettingsFragment() {
         SettingsFragment settingsFragment = new SettingsFragment();
-        String settingsTag = settingsFragment.getClass().getSimpleName();
-        showFragment(settingsFragment, settingsTag);
+
+        showFragment(settingsFragment, "Settings");
+    }
+
+    private void showDebugTestFragment() {
+        DebugTestFragment debugTestFragment = new DebugTestFragment();
+
+        showFragment(debugTestFragment, "DebugTest");
     }
 
     @Override

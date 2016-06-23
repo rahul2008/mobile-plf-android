@@ -119,7 +119,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 2
-        versionName "0.1.0.1"
+        versionName "0.1.0.3"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
@@ -142,13 +142,15 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            shrinkResources true
+            proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
-		
-		debug {
-            minifyEnabled false
+
+        debug {
+            minifyEnabled true
+            shrinkResources true
             debuggable true
             testCoverageEnabled true
             proguardFile 'proguard-rules.pro'

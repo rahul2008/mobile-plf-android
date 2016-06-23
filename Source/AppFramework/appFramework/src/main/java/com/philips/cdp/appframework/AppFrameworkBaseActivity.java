@@ -82,7 +82,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
         Logger.i(Constants.ACTIVITY, "onDestroy ");
     }
 
-    private boolean backstackFragment() {
+    protected boolean backstackFragment() {
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
         } else {
