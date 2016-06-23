@@ -1,7 +1,6 @@
 package com.philips.cdp.prodreg.adaptor;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -34,10 +33,7 @@ public class ProductAdapter  extends RecyclerView.Adapter<ListRowHolder>  {
     @Override
     public ListRowHolder onCreateViewHolder(ViewGroup viewGroup, final int viewType) {
         View view=null;
-        if (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.product_row, null);
-        }
+        view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.product_row, null);
         ListRowHolder listRowHolder = new ListRowHolder(view);
         return listRowHolder;
     }

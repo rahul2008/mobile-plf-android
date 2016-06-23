@@ -1,6 +1,5 @@
 package com.philips.cdp.prodreg.fragments;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +25,7 @@ import java.util.List;
 public class ProdRegProductsFragment extends ProdRegBaseFragment {
 
     public static final String TAG = ProdRegProductsFragment.class.getName();
+
     public interface OnItemClickListener {
         void onItemClick(RegisteredProduct item);
     }
@@ -49,9 +49,7 @@ public class ProdRegProductsFragment extends ProdRegBaseFragment {
     private void init(final View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
