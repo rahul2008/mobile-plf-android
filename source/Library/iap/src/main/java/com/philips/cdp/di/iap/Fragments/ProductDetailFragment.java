@@ -227,14 +227,16 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn, this);
             builder.build();
         } else {
-            final HashMap<String, ArrayList<String>> prxAssetObjects = CartModelContainer.getInstance().getPRXAssetObjects();
+            final HashMap<String, ArrayList<String>> prxAssetObjects =
+                    CartModelContainer.getInstance().getPRXAssetObjects();
             for (Map.Entry<String, ArrayList<String>> entry : prxAssetObjects.entrySet()) {
-                if (entry.getKey().equalsIgnoreCase(ctn)) {
+                if (entry != null && entry.getKey().equalsIgnoreCase(ctn)) {
                     mAsset = entry.getValue();
                     break;
                 }
             }
-            mAdapter = new ImageAdapter(getContext(), getFragmentManager(), mLaunchedFromProductCatalog, mAsset);
+            mAdapter = new ImageAdapter(getContext(), getFragmentManager(),
+                    mLaunchedFromProductCatalog, mAsset);
             mPager.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
             if (Utility.isProgressDialogShowing())
