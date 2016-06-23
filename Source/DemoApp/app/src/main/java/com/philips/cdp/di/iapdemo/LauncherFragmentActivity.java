@@ -49,8 +49,8 @@ public class LauncherFragmentActivity extends AppCompatActivity {
         mIAPSettings.setFragProperties(getSupportFragmentManager(), R.id.vertical_Container);
 
         mIapHandler = IAPHandler.init(this, mIAPSettings);
-//        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
-        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, "HX8071/10", null);
+        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+//        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, "HX8071/10", null);
     }
 
     @Override

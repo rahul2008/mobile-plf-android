@@ -116,4 +116,11 @@
         android:layout_above="@id/btn_shop_now"
         android:text="@string/activity" />
 
+   <!-- <Button
+        android:id="@+id/btn_launch_product_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_fragment_launch"
+        android:text="@string/launch_product_detail" /> -->
+
 </RelativeLayout>
