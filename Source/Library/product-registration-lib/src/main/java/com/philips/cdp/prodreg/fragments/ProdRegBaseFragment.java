@@ -141,7 +141,8 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
     }
 
     private void updateActionbar() {
-        mActionbarUpdateListener.updateActionbar(getActionbarTitle());
+        if (mActionbarUpdateListener != null)
+            mActionbarUpdateListener.updateActionbar(getActionbarTitle());
     }
 
     protected void showAlertOnError(final int statusCode) {

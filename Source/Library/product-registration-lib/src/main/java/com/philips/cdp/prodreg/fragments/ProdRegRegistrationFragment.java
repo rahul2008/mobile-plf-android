@@ -49,7 +49,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
     private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView;
-    private Button register;
+    private Button registerButton;
     private ImageView productImageView;
     private ProductMetadataResponseData productMetadataResponseData;
     private Product currentProduct;
@@ -75,8 +75,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                 } else {
                     date_EditText.setText(text);
                     if (!ProdRegUtil.isValidDate(text)) {
+                        registerButton.setEnabled(false);
                         showErrorMessageDate(date_EditText);
                     } else {
+                        registerButton.setEnabled(true);
                         purchaseDateLayout.removeError(date_EditText);
                     }
                 }
@@ -102,9 +104,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         serialLayout = (InlineForms) view.findViewById(R.id.InlineForms_serial_number);
         purchaseDateLayout = (InlineForms) view.findViewById(R.id.InlineForms_date);
         imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
-        register = (Button) view.findViewById(R.id.btn_register);
+        registerButton = (Button) view.findViewById(R.id.btn_register);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
-        register.setOnClickListener(onClickRegister());
+        registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnClickListener(onClickPurchaseDate());
         serial_number_editText.addTextChangedListener(getWatcher());
@@ -128,7 +130,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             public void afterTextChanged(final Editable s) {
                 if (isValidSerialNumber(productMetadataResponseData, serial_number_editText.getText().toString())) {
                     serialLayout.removeError(serial_number_editText);
+                    registerButton.setEnabled(true);
                 } else {
+                    registerButton.setEnabled(false);
                     showErrorMessageSerialNumber(serial_number_editText);
                 }
             }
@@ -207,6 +211,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         } else if (!isValidSerialNumber) {
             showErrorMessageSerialNumber(serial_number_editText);
         } else {
+            registerButton.setEnabled(true);
             return true;
         }
         return false;

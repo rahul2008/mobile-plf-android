@@ -142,6 +142,7 @@
         android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
         android:layout_marginRight="@dimen/pr_first_launch_padding_right"
         android:layout_marginTop="10dp"
+        android:enabled="false"
         android:text="@string/PPR_Register_Btntxt"
         android:textAllCaps="false"/>
 </RelativeLayout>
