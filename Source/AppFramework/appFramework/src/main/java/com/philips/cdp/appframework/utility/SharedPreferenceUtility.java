@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.philips.cdp.appframework.modularui.UIConstants;
+
 /**
  * Created by 310240027 on 6/21/2016.
  */
@@ -37,16 +39,25 @@ public class SharedPreferenceUtility {
         e.commit();
     }
 
+    public void writePreferenceInt(String key,@UIConstants.UIStateDef int value){
+        SharedPreferences.Editor e = mMyPreferences.edit();
+        e.putInt(key, value);
+        e.commit();
+    }
+
     public String getPreferenceString(String key){
         return mMyPreferences.getString(key,"");
 
     }
 
-    public boolean contains(String key){
-        return mMyPreferences.contains(key);
-    }
-
     public boolean getPreferenceBoolean(String key) {
         return mMyPreferences.getBoolean(key, false);
+    }
+
+    @UIConstants.UIStateDef public int getPreferenceInt(String key) {
+        return mMyPreferences.getInt(key, UIConstants.UI_SPLASH_STATE_ONE);
+    }
+    public boolean contains(String key){
+        return mMyPreferences.contains(key);
     }
 }

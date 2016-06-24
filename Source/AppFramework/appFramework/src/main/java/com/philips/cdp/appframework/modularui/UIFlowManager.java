@@ -2,8 +2,7 @@ package com.philips.cdp.appframework.modularui;
 
 import android.content.Context;
 
-import com.philips.cdp.appframework.AppFrameworkBaseActivity;
-import com.philips.cdp.registration.User;
+import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,14 +27,13 @@ public class UIFlowManager {
         stateBaseList.add(new UIState(new UISplashNavigationStateThree(), UIConstants.UI_SPLASH_STATE_THREE));
         stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIConstants.UI_WELCOME_STATE_ONE));
         stateBaseList.add(new UIState(new UIWSNavigationStateTwo(), UIConstants.UI_WELCOME_STATE_TWO));
-        stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIConstants.UI_WELCOME_STATE_THREE));
         stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIConstants.UI_HOME_STATE_ONE));
         stateBaseList.add(new UIState(new UIUserRegNavigationStateOne(), UIConstants.UI_REGISTRATION_STATE_ONE));
 
     }
 
     public static void checkUserSignInAndDonePressed(Context mContext) {
-        User user = new User(mContext);
+        /*User user = new User(mContext);
         if (AppFrameworkBaseActivity.getIntroScreenDonePressed()) {
             if (user.isUserSignIn()) {
                 currentState = new UIState(new UISplashNavigationStateOne(), UIConstants.UI_SPLASH_STATE_ONE);
@@ -44,7 +42,12 @@ public class UIFlowManager {
             }
         } else {
             currentState = new UIState(new UISplashNavigationStateThree(), UIConstants.UI_SPLASH_STATE_THREE);
+        }*/
+
+        if(!SharedPreferenceUtility.getInstance().contains(UIConstants.UI_START_STATUS)){
+            SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS,UIConstants.UI_SPLASH_STATE_ONE);
         }
+        currentState = getFromStateList(SharedPreferenceUtility.getInstance().getPreferenceInt(UIConstants.UI_START_STATUS));
 
     }
 
@@ -76,11 +79,11 @@ public class UIFlowManager {
     public static void populateActivityMap() {
         activityMap = new HashMap<Integer, Integer>();
         activityMap.put(UIConstants.UI_SPLASH_STATE_ONE, UIConstants.UI_HOME_SCREEN);
-        activityMap.put(UIConstants.UI_HOME_STATE_ONE, UIConstants.UI_HOME_SCREEN);
         activityMap.put(UIConstants.UI_SPLASH_STATE_TWO,  UIConstants.UI_USER_REGISTRATION_SCREEN);
         activityMap.put(UIConstants.UI_SPLASH_STATE_THREE, UIConstants.UI_WELCOME_SCREEN);
         activityMap.put(UIConstants.UI_WELCOME_STATE_ONE, UIConstants.UI_HOME_SCREEN);
         activityMap.put(UIConstants.UI_WELCOME_STATE_TWO, UIConstants.UI_USER_REGISTRATION_SCREEN);
+        activityMap.put(UIConstants.UI_HOME_STATE_ONE, UIConstants.UI_HOME_SCREEN);
         activityMap.put(UIConstants.UI_REGISTRATION_STATE_ONE, UIConstants.UI_HOME_SCREEN);
     }
 }

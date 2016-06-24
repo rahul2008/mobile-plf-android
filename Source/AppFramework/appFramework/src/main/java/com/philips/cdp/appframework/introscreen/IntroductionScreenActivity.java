@@ -190,6 +190,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
             switch (userRegState) {
                 case UIConstants.UI_HOME_STATE_ONE:
                     if (UIFlowManager.activityMap.get(UIConstants.UI_HOME_STATE_ONE) == UIConstants.UI_HOME_SCREEN) {
+                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HOME_STATE_ONE);
                         startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
                     }
                     break;

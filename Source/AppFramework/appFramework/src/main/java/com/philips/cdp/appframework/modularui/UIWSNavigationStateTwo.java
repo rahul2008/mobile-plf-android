@@ -3,6 +3,7 @@ package com.philips.cdp.appframework.modularui;
 import android.content.Context;
 
 import com.philips.cdp.appframework.R;
+import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 
 /**
  * Created by 310240027 on 6/17/2016.
@@ -15,6 +16,7 @@ public class UIWSNavigationStateTwo implements UIBaseNavigation {
         @UIConstants.UIStateDef int destinationScreen = 0;
         UIState wsNavStateOne = (UIState) UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
 
+        SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS,UIConstants.UI_SPLASH_STATE_TWO);
         switch (componentID) {
             case R.id.start_registration_button:
                 destinationScreen = wsNavStateOne.getStateID();

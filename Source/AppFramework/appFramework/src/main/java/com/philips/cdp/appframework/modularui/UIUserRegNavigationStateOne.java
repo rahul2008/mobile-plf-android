@@ -3,6 +3,7 @@ package com.philips.cdp.appframework.modularui;
 import android.content.Context;
 
 import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
+import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 
 /**
  * Created by 310240027 on 6/20/2016.
@@ -14,7 +15,7 @@ public class UIUserRegNavigationStateOne implements UIBaseNavigation {
         UIState wsNavStateOne = new UIState(this, destinationScreen);
         wsNavStateOne.setStateID(UIConstants.UI_HOME_SCREEN);
         wsNavStateOne.setNavigator(this);
-
+        SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS,UIConstants.UI_SPLASH_STATE_THREE);
         switch (componentID) {
             case IntroductionScreenActivity.userRegistrationClickID:
                 destinationScreen = wsNavStateOne.getStateID();

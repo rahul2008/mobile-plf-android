@@ -43,4 +43,6 @@ public class UIConstants {
     public static final int UI_WELCOME_SCREEN = 3002;
     public static final int UI_HOME_SCREEN = 3003;
     public static final int UI_USER_REGISTRATION_SCREEN = 3004;
+
+    public static final String UI_START_STATUS = "UI_SPLASH_STATE_ONE";
 }
