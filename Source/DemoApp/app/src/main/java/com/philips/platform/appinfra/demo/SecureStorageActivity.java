@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
+import com.philips.platform.appinfra.securestorage.SecureStorageError;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 
@@ -42,8 +43,14 @@ public class SecureStorageActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
 
+                SecureStorageError sseStore = new SecureStorageError(); // to get error code if any
+                mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString(),sseStore);
+                if(null!=sseStore.getErrorCode())
+                {
+                    Toast.makeText(SecureStorageActivity.this,sseStore.getErrorCode().toString(),Toast.LENGTH_SHORT).show();;
+                }else{
 
-                mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString());
+                }
                 if(null==SecureStorage.encryptedTextTemp){
                     Toast.makeText(SecureStorageActivity.this, "Key or Value incorrect", Toast.LENGTH_SHORT).show();;
                 }
@@ -59,12 +66,19 @@ public class SecureStorageActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
 
-                String decryptedData= mSecureStorage.fetchValueForKey(userKey.getText().toString());
-                if(null==decryptedData){
-                    Toast.makeText(SecureStorageActivity.this,"Key not found",Toast.LENGTH_SHORT).show();;
+                SecureStorageError sse = new SecureStorageError(); // to get error code if any
+                String decryptedData= mSecureStorage.fetchValueForKey(userKey.getText().toString(),sse);
+                if(null!=sse.getErrorCode())
+                {
+                    Toast.makeText(SecureStorageActivity.this,sse.getErrorCode().toString(),Toast.LENGTH_SHORT).show();;
+                }else{
+                    decryptedDataTextView.setText(decryptedData);
+                    System.out.println("MySuccess2");
                 }
-                decryptedDataTextView.setText(decryptedData);
-                System.out.println("MySuccess2");
+                /*if(null==decryptedData){
+                    Toast.makeText(SecureStorageActivity.this,"Key not found",Toast.LENGTH_SHORT).show();
+                }*/
+
             }
         });
 

@@ -60,14 +60,14 @@ public class SecureStorage implements SecureStorageInterface{
      * @return the boolean, denote store operation success or failure
      */
     @Override
-    public synchronized boolean storeValueForKey(String userKey,String valueToBeEncrypted) {
+    public synchronized void storeValueForKey(String userKey,String valueToBeEncrypted, SecureStorageError secureStorageError) {
         // TODO: RayKlo: define max size limit recommendation
         boolean returnResult= true;
         String encryptedString=null;
         try {
             if(null==userKey || userKey.isEmpty() || userKey.trim().isEmpty() || null==valueToBeEncrypted ) {
-                returnResult=false;
-                return false;
+                secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
+                return ;
             }
             generateKeyPair();
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
@@ -93,15 +93,18 @@ public class SecureStorage implements SecureStorageInterface{
             dataInputStream.close();
             encryptedString = new String(byteArrayOutputStream.toByteArray(), "ISO-8859-1");
             returnResult = storeEncryptedData(userKey, encryptedString);
+            if(!returnResult){
+                // storing failed in shared preferences
+                secureStorageError.setErrorCode(SecureStorageError.secureStorageError.StoreError);
+            }
             encryptedString = returnResult?encryptedString:null; // if save of encryption data fails return null
             boolean isDebuggable =  ( 0 != ( mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
             if (isDebuggable) {
                 encryptedTextTemp = encryptedString; // to be removed from release build
             }
         } catch (Exception e) {
+            secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
             Log.e("SecureStorage", Log.getStackTraceString(e));
-        }finally{
-            return returnResult;
         }
     }
 
@@ -112,13 +115,14 @@ public class SecureStorage implements SecureStorageInterface{
      * @return the string, decrypted value
      */
     @Override
-    public synchronized String fetchValueForKey(String userKey) {
+    public synchronized String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
         String decryptedString=null;
 
         if(null==userKey ||  userKey.isEmpty() ) {
+            secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
             return null;
         }
-        String encryptedString =fetchEncryptedData(userKey);
+        String encryptedString =fetchEncryptedData(userKey,secureStorageError);
         if(null==encryptedString){
             return null; // if user entered key is not present
         }
@@ -127,6 +131,7 @@ public class SecureStorage implements SecureStorageInterface{
             keyStore.load(null);
             if (!keyStore.containsAlias(SINGLE_UNIVERSAL_KEY)) {
                 // if someone tries to fetch key even before it is created
+                secureStorageError.setErrorCode(SecureStorageError.secureStorageError.AccessKeyFailure); // key chain not accessible
                 return null;
             }
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
@@ -156,6 +161,7 @@ public class SecureStorage implements SecureStorageInterface{
 
         } catch (Exception e) {
             Log.e("SecureStorage", Log.getStackTraceString(e));
+            secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
         } finally{
             return decryptedString;
         }
@@ -225,11 +231,20 @@ public class SecureStorage implements SecureStorageInterface{
 
 
 
-    protected String  fetchEncryptedData(String key){
+    protected String  fetchEncryptedData(String key,SecureStorageError secureStorageError){
         String result =null;
             // encrypted data will be fetched from device  SharedPreferences
             SharedPreferences prefs = getSharedPreferences();
-            result = prefs.getString(key, null);
+            if(prefs.contains(key)){ // if key is present
+                result = prefs.getString(key, null);
+                if(null==result){
+                    // key is present but there is no data for that key
+                    secureStorageError.setErrorCode(SecureStorageError.secureStorageError.NoDataFoundForKey);
+                }
+            }else{
+                // key not found at shared preference
+                secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
+            }
         return result;
         }
 
