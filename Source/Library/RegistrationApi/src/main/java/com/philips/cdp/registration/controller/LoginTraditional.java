@@ -197,14 +197,15 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
 
     public void loginIntoHsdp() {
+        final User user = new User(mContext);
         HsdpUser hsdpUser = new HsdpUser(mContext);
         HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
         if (hsdpUserRecord == null) {
-            hsdpUser.login(mEmail, mPassword, generateRefreshSecret(), new TraditionalLoginHandler() {
+            hsdpUser.socialLogin(mEmail, user.getAccessToken(), new SocialLoginHandler() {
+
                 @Override
                 public void onLoginSuccess() {
                     mTraditionalLoginHandler.onLoginSuccess();
-
                 }
 
                 @Override
