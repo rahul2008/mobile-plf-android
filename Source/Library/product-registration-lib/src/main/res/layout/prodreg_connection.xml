@@ -14,9 +14,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/pr_d_value_sm"
-        android:layout_marginLeft="@dimen/pr_e_value_sm"
-        android:layout_marginRight="@dimen/pr_e_value_sm"
-        android:layout_marginTop="@dimen/pr_e_value_sm"
+        android:layout_marginLeft="@dimen/pr_left_padding_sm"
+        android:layout_marginRight="@dimen/pr_right_padding_sm"
+        android:layout_marginTop="@dimen/pr_top_padding_sm"
         android:text="@string/PPR_AllProducts_Registered_Lbltxt"/>
 
     <TextView
@@ -26,8 +26,8 @@
         android:layout_below="@+id/pr_all_success_textview"
         android:background="?attr/uikit_veryLightColor"
         android:paddingBottom="@dimen/pr_d_value_sm"
-        android:paddingLeft="@dimen/pr_e_value_sm"
-        android:paddingRight="@dimen/pr_e_value_sm"
+        android:paddingLeft="@dimen/pr_left_padding_sm"
+        android:paddingRight="@dimen/pr_bottom_padding_sm"
         android:paddingTop="@dimen/pr_d_value_sm"
         android:text="@string/PPR_Do_You_Want_To_Reg_Lbltxt"/>
 
@@ -35,9 +35,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/pr_e_value_sm"
-        android:layout_marginLeft="@dimen/pr_e_value_sm"
-        android:layout_marginRight="@dimen/pr_e_value_sm"
+        android:layout_marginBottom="@dimen/pr_bottom_padding_sm"
+        android:layout_marginLeft="@dimen/pr_left_padding_sm"
+        android:layout_marginRight="@dimen/pr_right_padding_sm"
         android:orientation="vertical">
 
 

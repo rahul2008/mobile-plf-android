@@ -3,158 +3,170 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/pr_e_value_sm"
-            android:layout_marginTop="@dimen/pr_e_value_sm">
+    >
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/pr_bottom_padding_sm"
+        android:paddingTop="@dimen/pr_top_padding_sm">
+
+        <TextView
+            android:id="@+id/friendly_name"
+            style="@style/ProductRegistrationProductHeaderTitleTheme"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/pr_left_padding_sm"
+            android:layout_marginRight="@dimen/pr_right_padding_sm"/>
 
-            <TextView
-                android:id="@+id/friendly_name"
-                style="@style/ProductRegistrationProductHeaderTitleTheme"
+        <TextView
+            android:id="@+id/product_title"
+            style="@style/ProductRegistrationProductSubTitleTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/friendly_name"
+            android:layout_below="@+id/friendly_name"
+            android:layout_marginRight="@dimen/pr_right_padding_sm"
+            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/product_ctn"
+            style="@style/ProductRegistrationCtnTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/friendly_name"
+            android:layout_below="@+id/product_title"
+            android:layout_marginRight="@dimen/pr_right_padding_sm"
+            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/serial_number_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/friendly_name"
+            android:layout_below="@+id/product_ctn"
+            android:layout_marginRight="@dimen/pr_right_padding_sm"
+            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/product_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/serial_number_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/pr_left_padding_sm"
+            android:layout_marginRight="@dimen/pr_right_padding_sm"
+            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:scaleType="fitCenter"
+            android:src="@drawable/prod_reg_default_placeholder"/>
+
+        <com.philips.cdp.uikit.customviews.InlineForms
+            android:id="@+id/InlineForms_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_image"
+            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:id="@+id/date_edit_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/pr_e_value_sm"
-                android:layout_marginRight="@dimen/pr_e_value_sm"/>
+                android:layout_marginLeft="@dimen/pr_left_padding_sm"
+                android:layout_marginRight="@dimen/pr_right_padding_sm"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/product_title"
-                style="@style/ProductRegistrationProductSubTitleTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/friendly_name"
-                android:layout_below="@+id/friendly_name"
-                android:layout_marginRight="@dimen/pr_e_value_sm"
-                android:layout_marginTop="@dimen/pr_c_value_sm"
-                android:visibility="visible"/>
-
-            <TextView
-                android:id="@+id/product_ctn"
-                style="@style/ProductRegistrationCtnTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/friendly_name"
-                android:layout_below="@+id/product_title"
-                android:layout_marginRight="@dimen/pr_e_value_sm"
-                android:layout_marginTop="@dimen/pr_c_value_sm"
-                android:visibility="visible"/>
-
-            <TextView
-                android:id="@+id/serial_number_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/friendly_name"
-                android:layout_below="@+id/product_ctn"
-                android:layout_marginRight="@dimen/pr_e_value_sm"
-                android:layout_marginTop="@dimen/pr_c_value_sm"
-                android:visibility="gone"/>
-
-            <ImageView
-                android:id="@+id/product_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/serial_number_tv"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="@dimen/pr_e_value_sm"
-                android:layout_marginRight="@dimen/pr_e_value_sm"
-                android:layout_marginTop="@dimen/pr_c_value_sm"
-                android:scaleType="fitCenter"
-                android:src="@drawable/prod_reg_default_placeholder"/>
-
-            <com.philips.cdp.uikit.customviews.InlineForms
-                android:id="@+id/InlineForms_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/product_image"
-                android:layout_marginTop="@dimen/pr_c_value_sm"
-                android:visibility="invisible">
-
-                <LinearLayout
-                    android:id="@+id/date_edit_text_layout"
-                    android:layout_width="match_parent"
+                <TextView
+                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
+                    android:textColor="?attr/uikit_baseColor"
+                    android:textSize="14sp"/>
 
-                    <TextView
-                        style="@style/PhilipsTextInputLayoutTextViewStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
-                        android:textColor="?attr/uikit_baseColor"
-                        android:textSize="16sp"/>
-
-                    <EditText
-                        android:id="@+id/date_edit_text"
-                        style="@style/PhilipsTextInputLayoutStyleEnabled"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:hint="@string/PPR_Please_Select_Date"
-                        android:textColor="?attr/uikit_LightColor"
-                        android:textColorHint="?attr/uikit_LightColor"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-
-            </com.philips.cdp.uikit.customviews.InlineForms>
-
-            <com.philips.cdp.uikit.customviews.InlineForms
-                android:id="@+id/InlineForms_serial_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/InlineForms_date"
-                android:visibility="invisible">
-
-                <LinearLayout
-                    android:id="@+id/serial_edit_text_layout"
-                    android:layout_width="match_parent"
+                <EditText
+                    android:id="@+id/date_edit_text"
+                    style="@style/PhilipsTextInputLayoutStyleEnabled"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="0dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:hint="@string/PPR_Please_Select_Date"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="?attr/uikit_LightColor"
+                    android:textColorHint="?attr/uikit_LightColor"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/serial_number"
-                        android:textColor="?attr/uikit_baseColor"
-                        android:textSize="16sp"/>
+        </com.philips.cdp.uikit.customviews.InlineForms>
 
+        <com.philips.cdp.uikit.customviews.InlineForms
+            android:id="@+id/InlineForms_serial_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/InlineForms_date"
+            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:visibility="invisible">
 
-                    <EditText
-                        android:id="@+id/serial_edit_text"
-                        style="@style/PhilipsTextInputLayoutStyleEnabled"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:hint="@string/PPR_Please_Select_Serial_Number"
-                        android:singleLine="true"
-                        android:textColor="?attr/uikit_LightColor"
-                        android:textColorHint="?attr/uikit_LightColor"
-                        android:textSize="16sp"/>
-
-                </LinearLayout>
-            </com.philips.cdp.uikit.customviews.InlineForms>
-
-            <Button
-                android:id="@+id/btn_register"
+            <LinearLayout
+                android:id="@+id/serial_edit_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@+id/InlineForms_serial_number"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="@dimen/pr_e_value_sm"
-                android:layout_marginRight="@dimen/pr_e_value_sm"
-                android:layout_marginTop="10dp"
-                android:enabled="false"
-                android:text="@string/PPR_Register_Btntxt"
-                android:textAllCaps="false"/>
-        </RelativeLayout>
-    </ScrollView>
+                android:layout_marginLeft="@dimen/pr_left_padding_sm"
+                android:layout_marginRight="@dimen/pr_right_padding_sm"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="@string/serial_number"
+                    android:textColor="?attr/uikit_baseColor"
+                    android:textSize="14sp"/>
+
+
+                <EditText
+                    android:id="@+id/serial_edit_text"
+                    style="@style/PhilipsTextInputLayoutStyleEnabled"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:hint="@string/PPR_Please_Select_Serial_Number"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="?attr/uikit_LightColor"
+                    android:textColorHint="?attr/uikit_LightColor"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+        </com.philips.cdp.uikit.customviews.InlineForms>
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/InlineForms_serial_number"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/pr_left_padding_sm"
+            android:layout_marginRight="@dimen/pr_right_padding_sm"
+            android:layout_marginTop="10dp"
+            android:enabled="false"
+            android:text="@string/PPR_Register_Btntxt"
+            android:textAllCaps="false"/>
+    </RelativeLayout>
+</ScrollView>
 

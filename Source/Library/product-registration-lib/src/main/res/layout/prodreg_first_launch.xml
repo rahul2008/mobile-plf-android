@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout style="@style/Prod_Reg_Generic_Style"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="@dimen/pr_e_value_sm">
+                android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/conf_action_textview"
                 android:layout_below="@+id/conf_action_textview"
-                android:layout_marginTop="@dimen/pr_e_value_sm"
+                android:layout_marginTop="@dimen/pr_top_padding_sm"
                 android:text="@string/pr_first_launch_subtext_first"/>
 
             <TextView

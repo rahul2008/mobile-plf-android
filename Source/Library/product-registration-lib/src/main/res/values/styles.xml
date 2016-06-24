@@ -67,4 +67,12 @@
         <item name="android:textSize">15sp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
+
+    <style name="Prod_Reg_Generic_Style">
+        <item name="android:paddingLeft">@dimen/pr_left_padding_sm</item>
+        <item name="android:paddingRight">@dimen/pr_right_padding_sm</item>
+        <item name="android:paddingTop">@dimen/pr_top_padding_sm</item>
+        <item name="android:paddingBottom">@dimen/pr_bottom_padding_sm</item>
+
+    </style>
 </resources>

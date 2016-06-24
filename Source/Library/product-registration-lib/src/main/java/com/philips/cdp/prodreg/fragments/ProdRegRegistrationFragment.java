@@ -1,5 +1,6 @@
 package com.philips.cdp.prodreg.fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,6 +36,7 @@ import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,6 +58,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     private EditText serial_number_editText, date_EditText;
     private InlineForms serialLayout, purchaseDateLayout;
     private ProdRegLoadingFragment prodRegLoadingFragment;
+    private WeakReference<Activity> mActivityWeakRef;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -86,6 +89,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             }
         }
     };
+
+    @Override
+    public void onStart() {
+        mActivityWeakRef = new WeakReference<Activity>(getActivity());
+        super.onStart();
+    }
 
     @Override
     public String getActionbarTitle() {
@@ -142,20 +151,24 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                final FragmentActivity activity = getActivity();
-                if (activity != null && !activity.isFinishing() && prodRegLoadingFragment != null) {
-                    prodRegLoadingFragment.dismiss();
-                    showFragment(new ProdRegSuccessFragment());
+                if (mActivityWeakRef != null) {
+                    final FragmentActivity activity = getActivity();
+                    if (activity != null && !activity.isFinishing() && prodRegLoadingFragment != null) {
+                        prodRegLoadingFragment.dismiss();
+                        showFragment(new ProdRegSuccessFragment());
+                    }
                 }
             }
 
             @Override
             public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                Log.d(getClass() + "", "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
-                final FragmentActivity activity = getActivity();
-                if (activity != null && !activity.isFinishing() && prodRegLoadingFragment != null) {
-                    prodRegLoadingFragment.dismiss();
-                    showAlertOnError(registeredProduct.getProdRegError().getCode());
+                if (mActivityWeakRef != null) {
+                    Log.d(getClass() + "", "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
+                    final FragmentActivity activity = getActivity();
+                    if (activity != null && !activity.isFinishing() && prodRegLoadingFragment != null) {
+                        prodRegLoadingFragment.dismiss();
+                        showAlertOnError(registeredProduct.getProdRegError().getCode());
+                    }
                 }
             }
         };
@@ -357,5 +370,19 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                 }
             }, 200);
         }
+    }
+
+    @Override
+    public void onStop() {
+        if (prodRegLoadingFragment != null && prodRegLoadingFragment.isVisible()) {
+            prodRegLoadingFragment.dismissAllowingStateLoss();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivityWeakRef = null;
     }
 }

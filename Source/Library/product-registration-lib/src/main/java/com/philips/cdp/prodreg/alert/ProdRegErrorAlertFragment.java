@@ -27,7 +27,7 @@ public class ProdRegErrorAlertFragment extends BlurDialogFragment {
         titleTextView = (TextView) v.findViewById(R.id.dialogTitle);
         descriptionTextView = (TextView) v.findViewById(R.id.dialogDescription);
         always.setOnClickListener(dismissDialog());
-
+        setRetainInstance(true);
         return v;
     }
 

@@ -1,5 +1,6 @@
 package com.philips.cdp.prodreg.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     private Bundle dependencyBundle;
     private int count = 0;
     private ProdRegLoadingFragment prodRegLoadingFragment;
+    private WeakReference<Activity> mActivityWeakRef;
 
     @Override
     public String getActionbarTitle() {
@@ -49,7 +52,9 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_process, container, false);
-        showProgressAlertDialog(getActivity().getString(R.string.PPR_Looking_For_Products_Lbltxt));
+        if (savedInstanceState == null) {
+            showProgressAlertDialog(getActivity().getString(R.string.PPR_Looking_For_Products_Lbltxt));
+        }
         return view;
     }
 
@@ -72,12 +77,12 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        final FragmentActivity activity = getActivity();
+        mActivityWeakRef = new WeakReference<Activity>(getActivity());
         final Bundle arguments = getArguments();
-        if (activity != null && !activity.isFinishing() && arguments != null) {
+        if (mActivityWeakRef != null && arguments != null) {
             ArrayList<Product> regProdList = (ArrayList<Product>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             currentProduct = regProdList.get(0);
-            User user = new User(activity);
+            User user = new User(getActivity());
             if (!user.isUserSignIn()) {
                 count = count + 1;
                 if (count < 2) {
@@ -104,7 +109,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         return new SummaryListener() {
             @Override
             public void onSummaryResponse(final ProductSummaryResponse productSummaryResponse) {
-                if (productSummaryResponse != null) {
+                if (mActivityWeakRef != null && productSummaryResponse != null) {
                     dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY, productSummaryResponse.getData());
                     final ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
                     prodRegRegistrationFragment.setArguments(dependencyBundle);
@@ -115,10 +120,12 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                final ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
-                prodRegRegistrationFragment.setArguments(dependencyBundle);
-                if (prodRegLoadingFragment != null) prodRegLoadingFragment.dismiss();
-                showFragment(prodRegRegistrationFragment);
+                if (mActivityWeakRef != null) {
+                    final ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
+                    prodRegRegistrationFragment.setArguments(dependencyBundle);
+                    if (prodRegLoadingFragment != null) prodRegLoadingFragment.dismiss();
+                    showFragment(prodRegRegistrationFragment);
+                }
             }
         };
     }
@@ -138,6 +145,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         return new RegisteredProductsListener() {
             @Override
             public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
+                if (mActivityWeakRef != null) {
                     if (!isCtnRegistered(registeredProducts, currentProduct) && getActivity() != null && !getActivity().isFinishing()) {
                         currentProduct.getProductMetadata(getActivity(), getMetadataListener());
                     } else {
@@ -145,6 +153,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
                         showFragment(new ProdRegConnectionFragment());
                     }
                 }
+            }
         };
     }
 
@@ -162,7 +171,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         return new MetadataListener() {
             @Override
             public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
-                if (productMetadataResponse != null) {
+                if (mActivityWeakRef != null && productMetadataResponse != null) {
                     dependencyBundle = new Bundle();
                     dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA, productMetadataResponse.getData());
                     doSummaryRequest();
@@ -171,8 +180,11 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                if (prodRegLoadingFragment != null) prodRegLoadingFragment.dismiss();
-                showAlertOnError(responseCode);
+                if (mActivityWeakRef != null && prodRegLoadingFragment != null)
+                    prodRegLoadingFragment.dismiss();
+                if (mActivityWeakRef != null) {
+                    showAlertOnError(responseCode);
+                }
             }
         };
     }
@@ -188,5 +200,24 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
                 }
             }
         };
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onStop() {
+        if (prodRegLoadingFragment != null && prodRegLoadingFragment.isVisible()) {
+            prodRegLoadingFragment.dismissAllowingStateLoss();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivityWeakRef = null;
     }
 }

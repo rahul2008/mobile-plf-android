@@ -7,7 +7,7 @@
         android:label="@string/app_name">
         <activity
             android:name="com.philips.cdp.prodreg.activity.ProdRegBaseActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection"
+            android:configChanges="screenSize|locale|layoutDirection"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SUPPORT_DIGITAL"/>

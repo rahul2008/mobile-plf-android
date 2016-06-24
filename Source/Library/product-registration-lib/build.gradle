@@ -8,14 +8,15 @@ def coverageSourceDirs = [
 ]
 buildscript {
     repositories {
-        maven {url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter'}
-	    maven {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
                 username = "readonly"
-                password = "readonly"}
-			}
-		}
+                password = "readonly"
+            }
+        }
+    }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
@@ -31,11 +32,12 @@ apply plugin: 'maven-publish'
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
 allprojects {
-	repositories {
+    repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
@@ -63,9 +65,9 @@ allprojects {
     }
 }
 
-    
-    group = 'com.philips.cdp'
-	version = objcdp.getVersion()
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
@@ -94,14 +96,14 @@ artifacts {
 
 task zipDocuments(type: Zip) {
     def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
     from files(docfiles) {
         baseName = project.name
         classifier 'docs'
     }
 }
 //=======To zip and upload "Documents/External" ==ENDS=============	
-	
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -158,7 +160,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile(group: 'com.philips.cdp', name: 'prx', version: '2.0.2', ext: 'aar') {
-         transitive = true
+        transitive = true
     }
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '6.0.0', ext: 'aar') {
         exclude group: 'com.android.support'

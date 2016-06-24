@@ -21,6 +21,7 @@ public class ProdRegLoadingFragment extends BlurDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.prodreg_progress_dialog, container, false);
         descriptionTextView = (TextView) v.findViewById(R.id.dialogDescription);
+        setRetainInstance(true);
         return v;
     }
 

@@ -3,12 +3,12 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/pr_e_value_sm"
             android:layout_marginTop="@dimen/pr_e_value_tablet">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/pr_e_value_sm">
 
         <TextView
             android:id="@+id/friendly_name"
@@ -68,6 +68,8 @@
                 android:id="@+id/date_edit_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
+                android:layout_marginRight="@dimen/pr_first_launch_padding_right"
                 android:orientation="horizontal">
 
                 <TextView
@@ -75,8 +77,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
                     android:textColor="?attr/uikit_baseColor"
                     android:textSize="16sp"/>
@@ -86,9 +89,13 @@
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="0dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:ellipsize="end"
+                    android:gravity="right"
                     android:hint="@string/PPR_Please_Select_Date"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:textColor="?attr/uikit_LightColor"
                     android:textColorHint="?attr/uikit_LightColor"
                     android:textSize="16sp"/>
@@ -100,12 +107,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/InlineForms_date"
+            android:layout_marginTop="@dimen/pr_c_value_tablet"
             android:visibility="invisible">
 
             <LinearLayout
                 android:id="@+id/serial_edit_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
+                android:layout_marginRight="@dimen/pr_first_launch_padding_right"
                 android:orientation="horizontal">
 
                 <TextView
@@ -113,8 +123,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="@string/serial_number"
                     android:textColor="?attr/uikit_baseColor"
                     android:textSize="16sp"/>
@@ -125,9 +136,12 @@
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="0dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:ellipsize="end"
+                    android:gravity="right"
                     android:hint="@string/PPR_Please_Select_Serial_Number"
+                    android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="?attr/uikit_LightColor"
                     android:textColorHint="?attr/uikit_LightColor"
