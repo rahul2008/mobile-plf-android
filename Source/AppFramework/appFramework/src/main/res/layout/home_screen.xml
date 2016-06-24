@@ -13,7 +13,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="26dp"
+        android:layout_marginLeft="@dimen/homescreen_left_margin"
         android:layout_marginTop="15dp"
         android:textSize="21sp"
         android:textColor="@color/uikit_white"
@@ -26,7 +26,7 @@
         fontPath="fonts/centralesansbook.ttf"
         android:textColor="@color/uikit_white"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="26dp"
+        android:layout_marginLeft="@dimen/homescreen_left_margin"
         android:textSize="14sp"
         android:layout_marginBottom="18dp"
         android:text="Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit." />
