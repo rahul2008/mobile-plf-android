@@ -82,6 +82,8 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
         mPopUp.setHorizontalOffset(offset);
         mPopUp.setWidth((int) context.getResources().getDimension(R.dimen
                 .iap_count_drop_down_popup_width));
+        mPopUp.setHeight((int) context.getResources().getDimension(R.dimen
+                .iap_count_drop_down_popup_height));
         mPopUp.setModal(true);
         mPopUp.setAdapter(new CountAdapter(context, R.layout.uikit_simple_list_image_text, rowItems));
         mPopUp.setOnItemClickListener(this);
