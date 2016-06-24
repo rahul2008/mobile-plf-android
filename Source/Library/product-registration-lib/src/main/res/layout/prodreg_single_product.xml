@@ -68,8 +68,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/product_image"
                 android:layout_marginTop="@dimen/pr_c_value_sm"
-                android:paddingBottom="@dimen/pr_d_value_sm"
-                android:paddingTop="@dimen/pr_d_value_sm"
                 android:visibility="invisible">
 
                 <LinearLayout
@@ -109,9 +107,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/InlineForms_date"
-                android:layout_marginTop="@dimen/pr_c_value_sm"
-                android:paddingBottom="@dimen/pr_d_value_sm"
-                android:paddingTop="@dimen/pr_d_value_sm"
                 android:visibility="invisible">
 
                 <LinearLayout
@@ -156,6 +151,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/pr_e_value_sm"
                 android:layout_marginRight="@dimen/pr_e_value_sm"
+                android:layout_marginTop="10dp"
                 android:enabled="false"
                 android:text="@string/PPR_Register_Btntxt"
                 android:textAllCaps="false"/>
