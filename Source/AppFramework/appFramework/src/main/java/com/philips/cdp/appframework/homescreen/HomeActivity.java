@@ -113,7 +113,6 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         adapter = new HamburgerAdapter(this,
                 hamburgerItems);
         drawerListView.setAdapter(adapter);
-        //  actionBarCount.setText(String.valueOf(adapter.getCounterValue()));
     }
 
     @Override
@@ -142,8 +141,6 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
     private void loadSlideMenuItems() {
         hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
-        // hamburgerMenuIcons = getResources()
-        //    .obtainTypedArray(R.array.hamburger_drawer_icons);
         hamburgerItems = new ArrayList<>();
     }
 
@@ -166,13 +163,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
             final HomeScreenFragment fragment = new HomeScreenFragment();
             String homeTag = HomeScreenFragment.class.getSimpleName();
             showFragment(fragment, homeTag);
-//            FragmentManager fragmentManager = getFragmentManager();
-//            // Bundle bundle = getBundle(hamburgerMenuTitles[position], hamburgerMenuIcons.getResourceId(position, -1));
-//            //   fragment.setArguments(bundle);
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.frame_container, fragment).commit();
         }
-//        setTitle(hamburgerMenuTitles[position]);
         philipsDrawerLayout.closeDrawer(navigationView);
     }
 

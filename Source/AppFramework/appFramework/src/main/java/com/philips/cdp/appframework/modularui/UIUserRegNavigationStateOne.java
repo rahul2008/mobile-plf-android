@@ -37,6 +37,6 @@ public class UIUserRegNavigationStateOne implements UIBaseNavigation {
 
     @Override
     public void setState() {
-        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_ONE);
+        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
     }
 }
