@@ -80,6 +80,9 @@ public class AppInfraLogging implements  LoggingInterface {
     @Override
     public void log(LogLevel level, String eventId, String message) {
         // native Java logger mapping of LOG levels
+        if(null==javaLogger){
+            createLogger("");
+        }
         switch(level){
             case ERROR:
                 javaLogger.log(Level.SEVERE, eventId, message);
@@ -225,7 +228,7 @@ public class AppInfraLogging implements  LoggingInterface {
         try {
             File directoryCreated = getInternalOrExternalDirectory();
             String logFileName= LogManager.getLogManager().getProperty("java.util.logging.FileHandler.pattern").trim();
-            String filePath = directoryCreated.getAbsolutePath()+"/" + logFileName;
+            String filePath = directoryCreated.getAbsolutePath()+File.separator + logFileName;
             Log.e("App Infra log File Path", filePath);// this path will be dynamic for each device
             int logFileSize = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.limit").trim());
             int maxLogFileCount = Integer.parseInt(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.count").trim());
@@ -242,7 +245,7 @@ public class AppInfraLogging implements  LoggingInterface {
     // creates or return "AppInfra Logs" directory from internal/external phone memory
     private File getInternalOrExternalDirectory(){
         File appInfraLogDirectory = null;
-        boolean isDebuggable =  ( 0 != ( mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
+       /* boolean isDebuggable =  ( 0 != ( mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
         if (isDebuggable) { // debug mode is for development environment where logs and property file will be written to device external memory if available
           File externalStorageRootDirectory =null;
             if (0 == Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED)) {// if device has SD card or external memory
@@ -256,7 +259,8 @@ public class AppInfraLogging implements  LoggingInterface {
             }
         }else { // release mode is for production where logs and property file will be written ONLY to device internal memory
             appInfraLogDirectory = createInternalDirectory(); //Creating an internal dir;
-        }
+        }*/
+        appInfraLogDirectory = createInternalDirectory(); //Creating an internal dir;
         return appInfraLogDirectory;
     }
 
