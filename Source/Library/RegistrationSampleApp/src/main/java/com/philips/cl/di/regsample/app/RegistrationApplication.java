@@ -53,7 +53,7 @@ public class RegistrationApplication extends Application {
 
             String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
             if (restoredHSDPText != null) {
-                initHSDP(RegUtility.getConfiguration(restoredText));
+                initHSDP(RegUtility.getConfiguration(restoredHSDPText));
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
         } else {

@@ -104,7 +104,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
 
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
-        String restoredText = prefs.getString("reg_environment", null);
+        final String restoredText = prefs.getString("reg_environment", null);
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
         if (restoredText != null) {
 
@@ -179,9 +179,11 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 }
 
                 if(mCheckBox.isChecked()){
-                    if(restoredHSDPText!=null){
-                        RegistrationApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredHSDPText));
+                    if (restoredText != null) {
+                        RegistrationApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredText));
                     }
+
+
                 }else{
                     RegistrationDynamicConfiguration.getInstance().setHsdpConfiguration(null);
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
