@@ -187,7 +187,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 }else{
                     RegistrationDynamicConfiguration.getInstance().setHsdpConfiguration(null);
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
-                    prefs.edit().remove("reg_hsdp_environment");
+                    prefs.edit().remove("reg_hsdp_environment").commit();
                 }
 
             }
