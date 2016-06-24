@@ -1,8 +1,9 @@
 package com.philips.cdp.di.iap.response.orders;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderDetail {
+public class OrderDetail implements Serializable{
 
 
     private String type;

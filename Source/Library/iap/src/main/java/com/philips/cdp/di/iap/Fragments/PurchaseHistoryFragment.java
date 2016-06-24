@@ -35,6 +35,7 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,8 +78,9 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         mAdapter = new OrderHistoryAdapter(mContext, mOrders, mProducts);
         mOrderHistoryView.setAdapter(mAdapter);
         mOrderHistoryView.addOnScrollListener(mRecyclerViewOnScrollListener);
-        if (mOrders.size() == 0)
+        if (mOrders.size() == 0) {
             updateHistoryListOnResume();
+        }
 
         return rootView;
     }
@@ -168,6 +170,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         if (mController == null)
             mController = new OrderController(mContext, this);
         ArrayList<ProductData> productList = mController.getProductData(mOrderDetails);
+        mProducts.clear();
         for (ProductData product : productList)
             mProducts.add(product);
         mAdapter.notifyDataSetChanged();
@@ -179,10 +182,18 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         if (isNetworkNotConnected()) return;
         int pos = mAdapter.getSelectedPosition();
         Orders order = mOrders.get(pos);
+      //  OrderDetail orderDetail = mOrderDetails.get(pos);
         Bundle bundle = new Bundle();
         if (order != null) {
             bundle.putString(IAPConstant.PURCHASE_ID, order.getCode());
             bundle.putString(IAPConstant.ORDER_STATUS, order.getStatusDisplay());
+            for(OrderDetail detail : mOrderDetails)
+            {
+                if(detail.getCode().equals(order.getCode())){
+                    bundle.putSerializable(IAPConstant.ORDER_DETAIL, (Serializable) detail);
+                    break;
+                }
+            }
             addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), OrderDetailsFragment.TAG);
         }
     }

@@ -36,6 +36,7 @@ import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class OrderDetailsFragment extends BaseAnimationSupportFragment implements OrderController.OrderListener, View.OnClickListener, AbstractModel.DataLoadListener {
@@ -108,13 +109,20 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mPaymentDivider = (View) view.findViewById(R.id.payment_divider);
 
         Bundle bundle = getArguments();
-        if (null != bundle && bundle.containsKey(IAPConstant.PURCHASE_ID)) {
-            mOrderId = bundle.getString(IAPConstant.PURCHASE_ID);
-            if (!(bundle.getString(IAPConstant.ORDER_STATUS).equalsIgnoreCase(IAPConstant.ORDER_COMPLETED))) {
-                mTrackOrderLayout.setVisibility(View.GONE);
+        if(null != bundle)
+        {
+            if (bundle.containsKey(IAPConstant.PURCHASE_ID))
+                mOrderId = bundle.getString(IAPConstant.PURCHASE_ID);
+            if (bundle.containsKey(IAPConstant.ORDER_STATUS) && !(bundle.getString(IAPConstant.ORDER_STATUS).equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)))
+                    mTrackOrderLayout.setVisibility(View.GONE);
+            if(bundle.containsKey(IAPConstant.ORDER_DETAIL))
+            {
+               // List<OrderDetail> detailList = (ArrayList);
+                mOrderDetail = (OrderDetail)bundle.getSerializable(IAPConstant.ORDER_DETAIL);
+                updateUIwithDetails(mOrderDetail);
             }
-            updateOrderDetailOnResume(mOrderId);
         }
+
         return view;
     }
 
@@ -124,6 +132,10 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mContext = context;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
     public static OrderDetailsFragment createInstance
             (Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
@@ -136,7 +148,6 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     private void updateOrderDetailOnResume(String purchaseId) {
         OrderController controller = new OrderController(mContext, this);
         if (!Utility.isProgressDialogShowing()) {
-            mParentView.setVisibility(View.GONE);
             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
             controller.getOrderDetails(purchaseId);
         }
@@ -171,6 +182,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         if(mController == null)
             mController = new OrderController(mContext, this);
         ArrayList<ProductData> productList=  mController.getProductData(detailList);
+        mProducts.clear();
         for(ProductData product : productList)
             mProducts.add(product);
         mAdapter.notifyDataSetChanged();
@@ -203,7 +215,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
                 if(mOrderDetail.getOrdertrackUrl() != null){
                     bundle.putString(IAPConstant.ORDER_TRACK_URL, mOrderDetail.getOrdertrackUrl());
                 }
-                addFragment(TrackOrderFragment.createInstance(bundle, AnimationType.NONE), null);
+                addFragment(TrackOrderFragment.createInstance(bundle, AnimationType.NONE), TrackOrderFragment.TAG);
             }
         }
 
@@ -213,6 +225,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mTime.setText(Utility.getFormattedDate(detail.getCreated()));
         mOrderState.setText(detail.getStatusDisplay());
         mOrderNumber.setText(detail.getCode());
+        mTvQuantity.setText(" (0" + " item)");
         if(detail.getDeliveryOrderGroups() != null)
         {
             if(mController == null)

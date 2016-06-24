@@ -87,6 +87,7 @@
                 android:id="@+id/tv_quantity"
                 style="@style/iap_order_total_items"
                 android:layout_alignBaseline="@id/total_item_text"
+                android:text="@string/iap_items"
                 android:layout_toEndOf="@id/total_item_text" />
 
             <TextView

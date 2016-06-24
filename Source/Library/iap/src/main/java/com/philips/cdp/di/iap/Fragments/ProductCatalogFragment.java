@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,9 +34,8 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener, ShoppingCartPresenter.ShoppingCartLauncher ,  ProductCatalogPresenter.LoadListener{
+public class ProductCatalogFragment extends BaseAnimationSupportFragment implements EventListener, ShoppingCartPresenter.ShoppingCartLauncher, ProductCatalogPresenter.LoadListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
@@ -45,7 +43,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     private ShoppingCartAPI mShoppingCartAPI;
     private RecyclerView mRecyclerView;
     private TextView mEmptyCatalogText;
-    private boolean dataAvailable;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -81,17 +78,10 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
         mEmptyCatalogText = (TextView) rootView.findViewById(R.id.empty_product_catalog_txt);
-        if (dataAvailable) {
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            mRecyclerView.setLayoutManager(layoutManager);
-            mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
-            mRecyclerView.setAdapter(mAdapter);
-        } else {
-            mRecyclerView.setVisibility(View.GONE);
-            mEmptyCatalogText.setVisibility(View.VISIBLE);
-            if (Utility.isProgressDialogShowing())
-                Utility.dismissProgressDialog();
-        }
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
+        mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
 
@@ -101,8 +91,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
-
-        dataAvailable = presenter.getProductCatalog();
+        presenter.getProductCatalog();
     }
 
     @Override
@@ -111,10 +100,11 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
-        if (dataAvailable) {
+        if (!ControllerFactory.getInstance().loadLocalData()) {
             mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
-            mAdapter.tagProducts();
         }
+        mAdapter.tagProducts();
+//        }
     }
 
     @Override
@@ -169,6 +159,14 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     @Override
     public void onLoadError(IAPNetworkError error) {
-
+        if (error.getMessage().equalsIgnoreCase(getResources().getString(R.string.iap_no_product_available))) {
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyCatalogText.setVisibility(View.VISIBLE);
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mEmptyCatalogText.setVisibility(View.GONE);
+        }
+        if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
     }
 }
