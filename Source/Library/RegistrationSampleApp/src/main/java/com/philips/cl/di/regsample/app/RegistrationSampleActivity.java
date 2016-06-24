@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -65,6 +67,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     private LinearLayout mLlConfiguration;
 
     private RadioGroup mRadioGroup;
+    private CheckBox mCheckBox;
 
 
     @Override
@@ -102,6 +105,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
+        final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
         if (restoredText != null) {
 
             switch (RegUtility.getConfiguration(restoredText)) {
@@ -174,8 +178,15 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                     RegistrationApplication.getInstance().initRegistration(Configuration.STAGING);
                 }
 
-
-
+                if(mCheckBox.isChecked()){
+                    if(restoredHSDPText!=null){
+                        RegistrationApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredHSDPText));
+                    }
+                }else{
+                    RegistrationDynamicConfiguration.getInstance().setHsdpConfiguration(null);
+                    SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+                    prefs.edit().remove("reg_hsdp_environment");
+                }
 
             }
         });
@@ -186,6 +197,12 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 mLlConfiguration.setVisibility(View.GONE);
             }
         });
+
+
+        mCheckBox = (CheckBox)findViewById(R.id.cd_hsdp);
+        if (restoredHSDPText != null) {
+            mCheckBox.setChecked(true);
+        }
 
 
     }
