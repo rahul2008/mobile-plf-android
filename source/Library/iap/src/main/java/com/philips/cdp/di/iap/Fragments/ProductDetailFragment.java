@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -59,7 +60,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     Bundle mBundle;
     private ShoppingCartAPI mShoppingCartAPI;
     private ProductDetailEntity mProductDetail;
-
+    private TextView mEmptyCatalogText;
     private TextView mProductDiscountedPrice;
     TextView mProductDescription;
     TextView mCTN;
@@ -67,6 +68,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     TextView mProductOverview;
     Button mAddToCart;
     Button mBuyFromRetailors;
+    ScrollView mDetailLayout;
 
     ArrayList<String> mAsset;
     private boolean mLaunchedFromProductCatalog = false;
@@ -117,6 +119,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         super.onCreateView(inflater, container, savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
+        mDetailLayout = (ScrollView) rootView.findViewById(R.id.scrollView);
+        mEmptyCatalogText = (TextView) rootView.findViewById(R.id.empty_product_catalog_txt);
         mProductDescription = (TextView) rootView.findViewById(R.id.product_description);
         mCTN = (TextView) rootView.findViewById(R.id.ctn);
         mPrice = (TextView) rootView.findViewById(R.id.individual_price);
@@ -146,7 +150,9 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                     if (!ControllerFactory.getInstance().loadLocalData()) {
                         ProductDetailController controller = new ProductDetailController(mContext, this);
                         if (!Utility.isProgressDialogShowing()) {
+
                             Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+
                         }
                         controller.getProductDetail(mCTNValue);
                     } else
@@ -208,6 +214,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (!CartModelContainer.getInstance().isPRXDataPresent(mCTNValue)) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+                mBuyFromRetailors.setVisibility(View.GONE);
             }
             PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnList, this);
             builder.preparePRXDataRequest();
@@ -227,7 +234,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     @Override
     public void onResume() {
         super.onResume();
-        setTitle(R.string.iap_shopping_cart_item);
         if (mBundle != null) {
             if (!mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
                 tagProduct();
@@ -235,18 +241,16 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
                     setAddToCartIcon();
                     setCartIconVisibility(View.VISIBLE);
-                    mBuyFromRetailors.setVisibility(View.VISIBLE);
                     mBuyFromRetailors.setOnClickListener(this);
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
                     setTitle(mProductTitle);
-                } else {
+                } else {        
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
                     setCartIconVisibility(View.GONE);
                 }
             } else {
                 setTitle(mProductTitle);
                 setAddToCartIcon();
-                mBuyFromRetailors.setVisibility(View.VISIBLE);
                 mBuyFromRetailors.setOnClickListener(this);
             }
         }
@@ -304,6 +308,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             Utility.dismissProgressDialog();
         if (isNetworkNotConnected()) return;
         NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+
     }
 
     void buyProduct(final String ctnNumber) {
@@ -340,13 +345,17 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }
+        mDetailLayout.setVisibility(View.VISIBLE);
+        mEmptyCatalogText.setVisibility(View.GONE);
     }
 
     @Override
     public void onModelDataError(Message msg) {
-        if (Utility.isProgressDialogShowing()) {
+        mDetailLayout.setVisibility(View.GONE);
+        mEmptyCatalogText.setVisibility(View.VISIBLE);
+        setTitle(R.string.iap_product_catalog);
+        if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
-        }
     }
 
     @Override
@@ -370,7 +379,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private void populateData() {
         String actualPrice;
         String discountedPrice;
-
+        mBuyFromRetailors.setVisibility(View.VISIBLE);
         if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();
@@ -430,7 +439,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
 
     @Override
     public void onLoadListenerError(IAPNetworkError error) {
-
+        IAPLog.d(IAPLog.LOG, "onLoadListenerError == ProductDetailFragment " + error);
     }
 
     @Override
