@@ -7,7 +7,7 @@
     <!-- Introduction/Welcome screen strings -->
 
     <string name="skip_introduction_button_text">Skip</string>
-    <string name="start_registration_button_text">Done</string>
+    <string name="start_registration_button_text">Start</string>
     <string name="introduction_screen_top_text">Title bottom aligned</string>
     <string name="introduction_screen_one_bottom_text">First benefit text is bottom aligned</string>
     <string name="introduction_screen_two_bottom_text">Second benefit text is bottom aligned</string>
@@ -21,7 +21,7 @@
     <string name="settings_list_item_one">Vertical app setting A</string>
     <string name="settings_list_item_two">Vertical app setting B</string>
     <string name="settings_list_item_three">Vertical app setting C</string>
-    <string name="settings_list_item_notify">Receive Philips\'</string>
+    <string name="settings_list_item_four">Receive Philips\'</string>
     <string name="settings_list_item_four_desc">promotional communications based on my preferences and online behavior</string>
     <string name="settings_list_item_four_term_cond">what does this mean?</string>
 
@@ -29,7 +29,6 @@
     <string name="settings_list_item_order_history">Order history</string>
 
     <string name="settings_list_item_my_acc">&lt;b>My Account&lt;/b></string>
-    <string name="settings_list_item_login">Login</string>
     <string name="settings_list_item_log_out">Log out</string>
 
     <!--Settings Screen ends-->
@@ -41,24 +40,8 @@
         <item>Support</item>
             
         <item>Settings</item>
-        <item>Debug and Testing</item>
 <!--
         <item>Log Out</item>-->
 
     </string-array>
-
-
-    <string-array name="settingsScreen_list">
-        <item>@string/settings_list_item_main</item>
-        <item>@string/settings_list_item_one</item>
-        <item>@string/settings_list_item_two</item>
-        <item>@string/settings_list_item_three</item>
-        <item>@string/settings_list_item_notify</item>
-        <item>@string/settings_list_item_purchases</item>
-        <item>@string/settings_list_item_order_history</item>
-        <item>@string/settings_list_item_my_acc</item>
-        <item>@string/settings_list_item_login</item>
-    </string-array>
-
-
 </resources>
