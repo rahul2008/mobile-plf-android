@@ -337,7 +337,8 @@ public class UserWithProducts {
                 registeredProduct.setProdRegError(null);
                 sendSuccessFullCallBack(registeredProduct);
                 getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
-                if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct)) {
+                if (currentRegisteredProduct != null && processCacheProductsCount < 1) {
+                    processCacheProductsCount++;
                     final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
                     getUserProduct().registerCachedProducts(registeredProducts);
                 }
@@ -347,9 +348,10 @@ public class UserWithProducts {
             public void onResponseError(PrxError prxError) {
                 try {
                     getErrorHandler().handleError(getUserProduct(), registeredProduct, prxError.getStatusCode());
-                    if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct) && processCacheProductsCount < 1) {
+                    if (currentRegisteredProduct != null && processCacheProductsCount < 1) {
                         processCacheProductsCount++;
                         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
+                        registeredProducts.remove(registeredProduct);
                         getUserProduct().registerCachedProducts(registeredProducts);
                     }
                 } catch (Exception e) {

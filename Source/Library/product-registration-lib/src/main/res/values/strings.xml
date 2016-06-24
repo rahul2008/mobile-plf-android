@@ -30,7 +30,7 @@
 </string>
     <string name="PPR_Back_Btntxt">Back</string>
     <string name="PPR_Looking_For_Products_Lbltxt">Looking for your products</string>
-    <string name="serial_number">Serial number:</string>
+    <string name="PPR_SerialNum_Lbltxt">Serial number:</string>
     <string name="PPR_Invalid_SerialNum_Title">Invalid serial number!</string>
     <string name="PPR_Invalid_SerialNum_ErrMsg">Please enter valid serial number</string>
     <string name="PPR_Req_Purchase_Date_Title">Invalid purchase date!</string>
