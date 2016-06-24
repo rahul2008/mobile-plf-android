@@ -28,9 +28,9 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         SharedPreferenceUtility.getInstance().Initialize(getApplicationContext());
         initializeUserRegistrationLibrary();
-        UIFlowManager.checkUserSignInAndDonePressed(getApplicationContext());
         UIFlowManager.populateStateBaseList();
         UIFlowManager.populateActivityMap();
+        UIFlowManager.checkUserSignInAndDonePressed(getApplicationContext());
     }
 
     private void initializeUserRegistrationLibrary() {

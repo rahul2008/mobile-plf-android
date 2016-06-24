@@ -27,7 +27,7 @@
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <activity android:name=".userregistrationscreen.UserRegistrationActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
-        <activity android:name=".homescreen.HomeActivity"
+        <activity android:name=".homescreen.HamburgerActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <!--<receiver-->
             <!--android:name="com.philips.cdp.appframework.utility.NetworkReceiver"-->

@@ -13,9 +13,9 @@ public class UIUserRegNavigationStateOne implements UIBaseNavigation {
     public int onClick(int componentID, Context context) {
         @UIConstants.UIStateDef int destinationScreen = 0;
         UIState wsNavStateOne = new UIState(this, destinationScreen);
-        wsNavStateOne.setStateID(UIConstants.UI_HOME_SCREEN);
+        wsNavStateOne.setStateID(UIConstants.UI_HAMBURGER_STATE_ONE);
         wsNavStateOne.setNavigator(this);
-        SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS,UIConstants.UI_SPLASH_STATE_THREE);
+        SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS,UIConstants.UI_SPLASH_STATE_ONE);
         switch (componentID) {
             case IntroductionScreenActivity.userRegistrationClickID:
                 destinationScreen = wsNavStateOne.getStateID();

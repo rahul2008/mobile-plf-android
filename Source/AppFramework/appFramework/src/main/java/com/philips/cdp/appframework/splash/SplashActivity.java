@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
-import com.philips.cdp.appframework.homescreen.HomeActivity;
+import com.philips.cdp.appframework.homescreen.HamburgerActivity;
 import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
 import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIConstants;
@@ -115,10 +115,10 @@ public class SplashActivity extends AppFrameworkBaseActivity {
 
                 @UIConstants.UIStateDef int stateID =  UIFlowManager.currentState.getNavigator().onClick(0, SplashActivity.this);
                 switch(stateID){
-                    case UIConstants.UI_HOME_STATE_ONE:
-                        if (UIFlowManager.activityMap.get(UIConstants.UI_SPLASH_STATE_ONE) == UIConstants.UI_HOME_SCREEN) {
-                            UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HOME_STATE_ONE);
-                            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    case UIConstants.UI_HAMBURGER_STATE_ONE:
+                        if (UIFlowManager.activityMap.get(UIConstants.UI_SPLASH_STATE_ONE) == UIConstants.UI_HAMBURGER_SCREEN) {
+                            UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE_ONE);
+                            startActivity(new Intent(SplashActivity.this, HamburgerActivity.class));
                         }
                         break;
                     case UIConstants.UI_REGISTRATION_STATE_ONE:

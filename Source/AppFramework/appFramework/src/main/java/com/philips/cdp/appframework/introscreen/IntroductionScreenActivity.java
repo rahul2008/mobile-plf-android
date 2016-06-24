@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
-import com.philips.cdp.appframework.homescreen.HomeActivity;
+import com.philips.cdp.appframework.homescreen.HamburgerActivity;
 import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIConstants;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
@@ -101,7 +101,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
-    private UIBaseNavigation wsNavigator;
+    private UIBaseNavigation mNavigator;
     public static final int userRegistrationClickID = 7001;
 
     @Override
@@ -183,15 +183,15 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        wsNavigator = UIFlowManager.currentState.getNavigator();
+        mNavigator = UIFlowManager.currentState.getNavigator();
         if (null != activity) {
-            @UIConstants.UIStateDef int userRegState = wsNavigator.onClick(userRegistrationClickID, IntroductionScreenActivity.this);
+            @UIConstants.UIStateDef int userRegState = mNavigator.onClick(userRegistrationClickID, IntroductionScreenActivity.this);
 
             switch (userRegState) {
-                case UIConstants.UI_HOME_STATE_ONE:
-                    if (UIFlowManager.activityMap.get(UIConstants.UI_HOME_STATE_ONE) == UIConstants.UI_HOME_SCREEN) {
-                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HOME_STATE_ONE);
-                        startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+                case UIConstants.UI_HAMBURGER_STATE_ONE:
+                    if (UIFlowManager.activityMap.get(UIConstants.UI_HAMBURGER_STATE_ONE) == UIConstants.UI_HAMBURGER_SCREEN) {
+                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE_ONE);
+                        startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
                     }
                     break;
             }
@@ -247,7 +247,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     public void onClick(View v) {
 
-        @UIConstants.UIStateDef int currentState = wsNavigator.onClick(R.id.start_registration_button, IntroductionScreenActivity.this);
+        @UIConstants.UIStateDef int currentState = mNavigator.onClick(v.getId(), IntroductionScreenActivity.this);
 
         switch (v.getId()) {
             case R.id.start_registration_button:
@@ -259,9 +259,9 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
         switch (currentState) {
             case UIConstants.UI_WELCOME_STATE_TWO:
-                if (UIFlowManager.activityMap.get(UIConstants.UI_WELCOME_STATE_ONE) == UIConstants.UI_HOME_SCREEN) {
+                if (UIFlowManager.activityMap.get(UIConstants.UI_WELCOME_STATE_ONE) == UIConstants.UI_HAMBURGER_SCREEN) {
                     UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
-                    startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+                    startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
 
                 }
                 break;
@@ -278,7 +278,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     protected void onResume() {
         super.onResume();
-        wsNavigator = UIFlowManager.currentState.getNavigator();
-        wsNavigator.setState();
+        mNavigator = UIFlowManager.currentState.getNavigator();
+        mNavigator.setState();
     }
 }

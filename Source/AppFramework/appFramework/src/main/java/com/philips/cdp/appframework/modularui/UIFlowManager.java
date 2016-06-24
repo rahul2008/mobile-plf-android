@@ -27,25 +27,17 @@ public class UIFlowManager {
         stateBaseList.add(new UIState(new UISplashNavigationStateThree(), UIConstants.UI_SPLASH_STATE_THREE));
         stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIConstants.UI_WELCOME_STATE_ONE));
         stateBaseList.add(new UIState(new UIWSNavigationStateTwo(), UIConstants.UI_WELCOME_STATE_TWO));
-        stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIConstants.UI_HOME_STATE_ONE));
         stateBaseList.add(new UIState(new UIUserRegNavigationStateOne(), UIConstants.UI_REGISTRATION_STATE_ONE));
-
+        stateBaseList.add(new UIState(new UIHamburgerNavigationState(), UIConstants.UI_HAMBURGER_STATE_ONE));
+        stateBaseList.add(new UIState(new UIHamHomeNavigationStateOne(), UIConstants.UI_HAMBURGER_HOME_STATE_ONE));
+        stateBaseList.add(new UIState(new UIHamSupportNavigationStateOne(), UIConstants.UI_HAMBURGER_SUPPORT_STATE_ONE));
+        stateBaseList.add(new UIState(new UIHamSettingsNavigationStateOne(), UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE));
+        stateBaseList.add(new UIState(new UIHamDebugNavigationStateOne(), UIConstants.UI_HAMBURGER_DEBUG_STATE_STATE_ONE));
     }
 
     public static void checkUserSignInAndDonePressed(Context mContext) {
-        /*User user = new User(mContext);
-        if (AppFrameworkBaseActivity.getIntroScreenDonePressed()) {
-            if (user.isUserSignIn()) {
-                currentState = new UIState(new UISplashNavigationStateOne(), UIConstants.UI_SPLASH_STATE_ONE);
-            } else {
-                currentState = new UIState(new UISplashNavigationStateTwo(), UIConstants.UI_SPLASH_STATE_TWO);
-            }
-        } else {
-            currentState = new UIState(new UISplashNavigationStateThree(), UIConstants.UI_SPLASH_STATE_THREE);
-        }*/
-
         if(!SharedPreferenceUtility.getInstance().contains(UIConstants.UI_START_STATUS)){
-            SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS,UIConstants.UI_SPLASH_STATE_ONE);
+            SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS,UIConstants.UI_SPLASH_STATE_THREE);
         }
         currentState = getFromStateList(SharedPreferenceUtility.getInstance().getPreferenceInt(UIConstants.UI_START_STATUS));
 
@@ -78,12 +70,16 @@ public class UIFlowManager {
 
     public static void populateActivityMap() {
         activityMap = new HashMap<Integer, Integer>();
-        activityMap.put(UIConstants.UI_SPLASH_STATE_ONE, UIConstants.UI_HOME_SCREEN);
+        activityMap.put(UIConstants.UI_SPLASH_STATE_ONE, UIConstants.UI_HAMBURGER_SCREEN);
         activityMap.put(UIConstants.UI_SPLASH_STATE_TWO,  UIConstants.UI_USER_REGISTRATION_SCREEN);
         activityMap.put(UIConstants.UI_SPLASH_STATE_THREE, UIConstants.UI_WELCOME_SCREEN);
-        activityMap.put(UIConstants.UI_WELCOME_STATE_ONE, UIConstants.UI_HOME_SCREEN);
+        activityMap.put(UIConstants.UI_WELCOME_STATE_ONE, UIConstants.UI_HAMBURGER_SCREEN);
         activityMap.put(UIConstants.UI_WELCOME_STATE_TWO, UIConstants.UI_USER_REGISTRATION_SCREEN);
-        activityMap.put(UIConstants.UI_HOME_STATE_ONE, UIConstants.UI_HOME_SCREEN);
-        activityMap.put(UIConstants.UI_REGISTRATION_STATE_ONE, UIConstants.UI_HOME_SCREEN);
+        activityMap.put(UIConstants.UI_HAMBURGER_STATE_ONE, UIConstants.UI_HAMBURGER_SCREEN);
+        activityMap.put(UIConstants.UI_REGISTRATION_STATE_ONE, UIConstants.UI_HAMBURGER_SCREEN);
+        activityMap.put(UIConstants.UI_HAMBURGER_HOME_STATE_ONE, UIConstants.UI_HOME_SCREEN);
+        activityMap.put(UIConstants.UI_HAMBURGER_SUPPORT_STATE_ONE, UIConstants.UI_SUPPORT_SCREEN);
+        activityMap.put(UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE, UIConstants.UI_SETTINGS_SCREEN);
+        activityMap.put(UIConstants.UI_HAMBURGER_DEBUG_STATE_STATE_ONE, UIConstants.UI_DEBUG_SCREEN);
     }
 }

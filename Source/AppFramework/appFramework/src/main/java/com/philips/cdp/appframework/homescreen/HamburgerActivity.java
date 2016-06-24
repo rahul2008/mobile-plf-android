@@ -23,6 +23,9 @@ import android.widget.TextView;
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.debugtest.DebugTestFragment;
+import com.philips.cdp.appframework.modularui.UIBaseNavigation;
+import com.philips.cdp.appframework.modularui.UIConstants;
+import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.appframework.settingscreen.SettingsFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
@@ -32,7 +35,7 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import java.util.ArrayList;
 
 
-public class HomeActivity extends AppFrameworkBaseActivity {
+public class HamburgerActivity extends AppFrameworkBaseActivity {
     private String[] hamburgerMenuTitles;
     // private TypedArray hamburgerMenuIcons;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -47,6 +50,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     private TextView actionBarCount;
     private HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
+    private UIBaseNavigation mNavigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
          */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.uikit_hamburger_menu);
+        mNavigator = UIFlowManager.currentState.getNavigator();
         initViews();
         initActionBar(getSupportActionBar());
         configureDrawer();
@@ -64,14 +69,14 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         hamburgerUtil = new HamburgerUtil(this, drawerListView);
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
         setDrawerAdaptor();
-        displayView(0);
+        showNavigationDrawerItem(0);
 
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title")) {
                     adapter.setSelectedIndex(position);
-                    displayView(position);
+                    showNavigationDrawerItem(position);
                 }
             }
         });
@@ -151,20 +156,30 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         }
     }
 
-    private void displayView(int position) {
+    private void showNavigationDrawerItem(int position) {
 
-        if (hamburgerMenuTitles[position].equalsIgnoreCase("Settings")) {
-            showSettingsFragment();
-        }
-        else
-        if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
-            showDebugTestFragment();
-        } else {
-            final HomeScreenFragment fragment = new HomeScreenFragment();
-            String homeTag = HomeScreenFragment.class.getSimpleName();
-            showFragment(fragment, homeTag);
-        }
         philipsDrawerLayout.closeDrawer(navigationView);
+        @UIConstants.UIStateDef int currentState = mNavigator.onClick(position,HamburgerActivity.this);
+        @UIConstants.UIScreenConstants int destinationScreen = UIFlowManager.activityMap.get(currentState);
+        switch (destinationScreen){
+            case UIConstants.UI_HOME_SCREEN:
+                UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_HOME_STATE_ONE);
+            showFragment(new HomeScreenFragment(), HomeScreenFragment.class.getSimpleName());
+            break;
+            case UIConstants.UI_SUPPORT_SCREEN:
+                UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_SUPPORT_STATE_ONE);
+            showFragment(new HomeScreenFragment(), HomeScreenFragment.class.getSimpleName());
+            break;
+            case UIConstants.UI_SETTINGS_SCREEN:
+                UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE);
+                showSettingsFragment();
+            break;
+            case UIConstants.UI_DEBUG_SCREEN:
+                UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_DEBUG_STATE_STATE_ONE);
+                showDebugTestFragment();
+            break;
+        }
+
     }
 
     private void showSettingsFragment() {
@@ -181,8 +196,16 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
     @Override
     public void onBackPressed() {
+         mNavigator.setState();
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
         }
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+
     }
 }
