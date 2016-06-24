@@ -106,10 +106,10 @@ public class AppIdentityManager implements com.philips.platform.appinfra.appiden
     }
 
 
-       private String loadJSONFromAsset() {
+       public String loadJSONFromAsset() {
         String json = null;
         try {
-            mAppInfra.getTagging().createInstanceForComponent("key", "value");
+//            mAppInfra.getTagging().createInstanceForComponent("key", "value");
             mAppInfra.getTagging().trackActionWithInfo("AppIndentityPage", "KeyAppIdentity", "ValueAppIdentity");
             InputStream is = context.getAssets().open("AppIdentity.json");
 

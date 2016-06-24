@@ -23,11 +23,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     AppInfra mAppInfra;
     Context context;
-    Context localContext;
     boolean isDataAvailable = false;
     String countryCode;
     String URL = null;
-    boolean mHomeCountry = false;
     boolean mServiceUrlWithLanguagePreference = false;
     boolean mServiceUrlWithCountryPreference= false;
     boolean mServiceLocaleWithLanguagePreference= false;
@@ -35,7 +33,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     boolean mServicesWithLanguagePreferenceMultiple= false;
     boolean mmServiceUrlWithCountryPreferenceMultiple= false;
 
-    OnGetServicesListener mOnGetServicesListener;
 
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -48,7 +45,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     public String getservice(OnRefreshListener listener) {
         String urlBuild = null;
-        mAppInfra.getTagging().createInstanceForComponent("key", "value");
         mAppInfra.getTagging().trackActionWithInfo("ServiceDiscoveryPage", "KeyServiceDiscovery", "ValueServiceDiscovery");
         LocalManager locamManager= new LocalManager(mAppInfra);
         String country= locamManager.getCountry();
@@ -69,7 +65,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
     private String  buildUrl(){
         AppIdentityManager idntityManager = new AppIdentityManager(mAppInfra);
-//        idntityManager.loadJSONFromAsset();
+        idntityManager.loadJSONFromAsset();
         LocalManager localmanager= new LocalManager(mAppInfra);
         localmanager.getlocal();
         String mState = idntityManager.getAppState();
@@ -96,13 +92,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             tags="apps%2b%2benv%2bprd";
             environment = "www";
         }
-       if(localmanager.getCountry() == null && idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getlocal() != null && tags!=null && environment!=null){
-            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getlocal()+"&tags="+tags;
+        if(idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getlocal() != null && tags!=null && environment!=null ){
+            if(localmanager.getCountry() == null){
+                URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getlocal()+"&tags="+tags;
+            }
+            if(localmanager.getCountry() != null ){
+                URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getlocal()+"&tags="+tags+"&country="+ localmanager.getCountry();
+            }
         }
-        if(localmanager.getCountry() != null && idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getlocal() != null && tags!=null && environment!=null ){
-            URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getlocal()+"&tags="+tags+"&country="+ localmanager.getCountry();
-        }
-
         return URL;
     }
 

@@ -96,33 +96,38 @@ public class LoggingActivity extends AppCompatActivity {
         logTestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null==eventText.getText().toString() || eventText.getText().toString().isEmpty() || null==msgText.getText().toString() || msgText.getText().toString().isEmpty() ){
-                    Toast.makeText(LoggingActivity.this,"Event name or message is not valid",
+                if (null == AILoggingInterface) {
+                    Toast.makeText(LoggingActivity.this, "Please initialize Logger for component",
                             Toast.LENGTH_SHORT).show();
-                }else {
-                    if(consoleLogEnabled.isChecked()){
-                        AILoggingInterface.enableConsoleLog(true);
-                    }else{
-                        AILoggingInterface.enableConsoleLog(false);
-                    }
-                    if(fileLogEnabled.isChecked()){
-                        AILoggingInterface.enableFileLog(true);
-                    }else{
-                        AILoggingInterface.enableFileLog(false);
-                    }
-                    int totalLogCount = 1;
+                } else {
+                    if (null == eventText.getText().toString() || eventText.getText().toString().isEmpty() || null == msgText.getText().toString() || msgText.getText().toString().isEmpty()) {
+                        Toast.makeText(LoggingActivity.this, "Event name or message is not valid",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (consoleLogEnabled.isChecked()) {
+                            AILoggingInterface.enableConsoleLog(true);
+                        } else {
+                            AILoggingInterface.enableConsoleLog(false);
+                        }
+                        if (fileLogEnabled.isChecked()) {
+                            AILoggingInterface.enableFileLog(true);
+                        } else {
+                            AILoggingInterface.enableFileLog(false);
+                        }
+                        int totalLogCount = 1;
 
-                    try {
-                        totalLogCount = Integer.parseInt(logCount.getText().toString());
-                    } catch(NumberFormatException nfe) {
-                        System.out.println("Could not parse log count" + nfe);
-                    }
+                        try {
+                            totalLogCount = Integer.parseInt(logCount.getText().toString());
+                        } catch (NumberFormatException nfe) {
+                            System.out.println("Could not parse log count" + nfe);
+                        }
 
-                    for(int logcount=1;logcount<=totalLogCount;logcount++) {
-                        AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString());
+                        for (int logcount = 1; logcount <= totalLogCount; logcount++) {
+                            AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString());
 
-                      // Component1 component1= new Component1(AppInfraApplication.gAppInfra);
-                       // AILoggingInterface.log(currentLogLevel, "back", "back");
+                            // Component1 component1= new Component1(AppInfraApplication.gAppInfra);
+                            // AILoggingInterface.log(currentLogLevel, "back", "back");
+                        }
                     }
                 }
             }

@@ -41,6 +41,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
     private AppInfra mAppInfra;
     protected String mComponentID;
     protected String mComponentVersion;
+    Context context ;
 
     private static String[] defaultValues = {
             AIAppTaggingConstants.LANGUAGE_KEY,
@@ -65,6 +66,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
     public AIAppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
+        init(Locale.getDefault(), mAppInfra.getAppInfraContext(), "TaggingPageInitialized");
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
 

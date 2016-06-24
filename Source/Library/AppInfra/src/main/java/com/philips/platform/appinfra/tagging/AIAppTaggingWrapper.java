@@ -14,16 +14,16 @@ import java.util.Locale;
  */
 public class AIAppTaggingWrapper extends AIAppTagging{
 
-    private static String prevPage;
-
-    public String trackingIdentifier;
-    private String componentVersionVersionValue;
+//    private static String prevPage;
+//
+//    public String trackingIdentifier;
+//    private String componentVersionVersionValue;
 
     public AIAppTaggingWrapper(AppInfra aAppInfra, String componentId, String componentVersion) {
         super(aAppInfra);
         mComponentID = componentId;
         mComponentVersion = componentVersion;
-        AIAppTagging.init(Locale.getDefault(), aAppInfra.getAppInfraContext(), "AppFramework");
+//        AIAppTagging.init(Locale.getDefault(), aAppInfra.getAppInfraContext(), "AppFramework");
     }
 
 

@@ -38,7 +38,7 @@ public class LocalManager implements LocalInterface {
 
     public String getlocal(){
         if(Locale.getDefault() != null){
-            mAppInfra.getTagging().createInstanceForComponent("key", "value");
+//            mAppInfra.getTagging().createInstanceForComponent("key", "value");
             mAppInfra.getTagging().trackActionWithInfo("LocalPage", "KeyLocal", "ValueLocal");
             return Locale.getDefault().toString();
         }else{
