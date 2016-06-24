@@ -1,5 +1,6 @@
 <resources>
     <dimen name="iap_count_drop_down_popup_width">85dp</dimen>
+    <dimen name="iap_count_drop_down_popup_height">300dp</dimen>
     <dimen name="iap_count_drop_down_icon_width">10dp</dimen>
     <dimen name="iap_count_drop_down_icon_height">5dp</dimen>
     <dimen name="iap_count_drop_down_icon_padding">5dp</dimen>
