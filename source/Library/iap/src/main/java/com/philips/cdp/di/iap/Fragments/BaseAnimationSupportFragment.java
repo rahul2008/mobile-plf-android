@@ -41,7 +41,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     };
 
     protected boolean isNetworkNotConnected() {
-        if (!NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
+        if (getContext()!=null && !NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
             NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
             return true;
         }
