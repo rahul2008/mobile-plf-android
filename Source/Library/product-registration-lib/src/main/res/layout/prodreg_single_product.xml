@@ -131,7 +131,7 @@
                     android:layout_centerVertical="true"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:text="@string/serial_number"
+                    android:text="@string/PPR_SerialNum_Lbltxt"
                     android:textColor="?attr/uikit_baseColor"
                     android:textSize="14sp"/>
 
