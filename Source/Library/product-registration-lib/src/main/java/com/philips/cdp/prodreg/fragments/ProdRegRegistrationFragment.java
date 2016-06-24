@@ -75,7 +75,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                 } else {
                     date_EditText.setText(text);
                     if (!ProdRegUtil.isValidDate(text)) {
-                        registerButton.setEnabled(false);
                         showErrorMessageDate(date_EditText);
                     } else {
                         registerButton.setEnabled(true);
@@ -132,7 +131,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                     serialLayout.removeError(serial_number_editText);
                     registerButton.setEnabled(true);
                 } else {
-                    registerButton.setEnabled(false);
                     showErrorMessageSerialNumber(serial_number_editText);
                 }
             }
@@ -230,13 +228,18 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         serialLayout.setValidator(new InlineForms.Validator() {
             @Override
             public void validate(final View editText, final boolean hasFocus) {
-                EditText editTextView = (EditText) editText;
-                showErrorMessageSerialNumber(editTextView);
+                if (isValidSerialNumber(productMetadataResponseData, serial_number_editText.getText().toString())) {
+                    serialLayout.removeError(serial_number_editText);
+                    registerButton.setEnabled(true);
+                } else {
+                    showErrorMessageSerialNumber(serial_number_editText);
+                }
             }
         });
     }
 
     private void showErrorMessageSerialNumber(final EditText editTextView) {
+        registerButton.setEnabled(false);
         serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription());
         serialLayout.showError(editTextView);
     }
@@ -257,6 +260,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     }
 
     private void showErrorMessageDate(final EditText editTextView) {
+        registerButton.setEnabled(false);
         purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_DATE.getCode()).getDescription());
         purchaseDateLayout.showError(editTextView);
     }

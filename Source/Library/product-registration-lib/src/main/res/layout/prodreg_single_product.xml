@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/pr_e_value_sm"
-                android:paddingTop="@dimen/pr_e_value_sm">
-
-    <ScrollView
-        android:id="@+id/pr_single_product_scrollview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/btn_register"
+<ScrollView android:id="@+id/pr_single_product_scrollview"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_register"
+            android:layout_marginTop="@dimen/pr_e_value_sm"
         >
 
         <RelativeLayout
@@ -151,20 +145,20 @@
 
                 </LinearLayout>
             </com.philips.cdp.uikit.customviews.InlineForms>
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/InlineForms_serial_number"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/pr_e_value_sm"
+                android:layout_marginLeft="@dimen/pr_e_value_sm"
+                android:layout_marginRight="@dimen/pr_e_value_sm"
+                android:enabled="false"
+                android:text="@string/PPR_Register_Btntxt"
+                android:textAllCaps="false"/>
         </RelativeLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/pr_e_value_sm"
-        android:layout_marginLeft="@dimen/pr_e_value_sm"
-        android:layout_marginRight="@dimen/pr_e_value_sm"
-        android:layout_marginTop="10dp"
-        android:enabled="false"
-        android:text="@string/PPR_Register_Btntxt"
-        android:textAllCaps="false"/>
-</RelativeLayout>
