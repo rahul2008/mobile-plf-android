@@ -41,8 +41,9 @@
                 android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
                 android:layout_marginStart="@dimen/iap_product_detail_left_padding"
                 android:paddingBottom="@dimen/iap_product_detail_bottom_padding"
-                android:paddingTop="@dimen/iap_product_detail_top_padding"
+                android:paddingTop="@dimen/iap_product_detail_top_padding_top"
                 android:textColor="?attr/uikit_baseColor"
+                android:includeFontPadding="false"
                 android:textSize="@dimen/iap_product_description" />
 
             <TextView
@@ -55,6 +56,7 @@
                 android:layout_marginStart="@dimen/iap_product_detail_left_padding"
                 android:paddingEnd="@dimen/iap_product_detail_right_padding"
                 android:textColor="@color/uikit_enricher4"
+                android:includeFontPadding="false"
                 android:textSize="@dimen/iap_product_ctn" />
 
             <LinearLayout
@@ -74,6 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?attr/uikit_baseColor"
+                    android:includeFontPadding="false"
                     android:textSize="@dimen/iap_product_ctn" />
 
                 <TextView
@@ -82,6 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/uikit_enricher4"
+                    android:includeFontPadding="false"
                     android:textSize="@dimen/iap_product_original_price" />
 
             </LinearLayout>
@@ -97,12 +101,13 @@
                 android:layout_marginStart="@dimen/iap_product_detail_left_padding"
                 android:paddingTop="@dimen/iap_product_detail_top_padding"
                 android:textColor="?attr/uikit_baseColor"
+                android:includeFontPadding="false"
                 android:textSize="@dimen/iap_product_overview" />
 
             <Button
                 android:id="@+id/add_to_cart"
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="44dp"
                 android:layout_below="@id/product_overview"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/network_margin_left_right"
@@ -117,7 +122,7 @@
                 android:id="@+id/buy_from_retailor"
                 style="?attr/uikit_outlinedButtonStyle"
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="44dp"
                 android:layout_below="@id/add_to_cart"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="40dp"
@@ -136,5 +141,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/iap_no_product_available"
+        android:includeFontPadding="false"
         android:visibility="gone" />
 </RelativeLayout>
