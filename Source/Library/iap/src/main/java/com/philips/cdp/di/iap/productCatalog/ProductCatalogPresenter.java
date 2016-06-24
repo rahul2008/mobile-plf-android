@@ -9,6 +9,9 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.core.ProductCatalogAPI;
 import com.philips.cdp.di.iap.core.ProductCatalogHelper;
 import com.philips.cdp.di.iap.core.StoreSpec;
@@ -158,12 +161,25 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     public void onModelDataError(final Message msg) {
         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
+
         if (mLoadListener != null) {
-            mLoadListener.onLoadError((IAPNetworkError) msg.obj);
+            if (msg.obj instanceof IAPNetworkError)
+                mLoadListener.onLoadError((IAPNetworkError) msg.obj);
+            else {
+                mLoadListener.onLoadError(createIAPErrorMessage(mContext.getString(R.string.iap_no_product_available)));
+            }
         }
+
         if (Utility.isProgressDialogShowing()) {
             Utility.dismissProgressDialog();
         }
 
+    }
+
+    public IAPNetworkError createIAPErrorMessage(String errorMessage) {
+        VolleyError volleyError = new ServerError();
+        IAPNetworkError error = new IAPNetworkError(volleyError, -1, null);
+        error.setCustomErrorMessage(errorMessage);
+        return error;
     }
 }
