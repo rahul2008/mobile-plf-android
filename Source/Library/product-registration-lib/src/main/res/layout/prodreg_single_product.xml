@@ -3,9 +3,8 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/btn_register"
-            android:layout_marginTop="@dimen/pr_e_value_sm"
-        >
+            android:layout_marginBottom="@dimen/pr_e_value_sm"
+            android:layout_marginTop="@dimen/pr_e_value_sm">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -139,8 +138,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:hint="@string/PPR_Please_Select_Serial_Number"
                         android:singleLine="true"
                         android:textColor="?attr/uikit_LightColor"
+                        android:textColorHint="?attr/uikit_LightColor"
                         android:textSize="16sp"/>
 
                 </LinearLayout>
@@ -153,7 +154,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_below="@+id/InlineForms_serial_number"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/pr_e_value_sm"
                 android:layout_marginLeft="@dimen/pr_e_value_sm"
                 android:layout_marginRight="@dimen/pr_e_value_sm"
                 android:enabled="false"

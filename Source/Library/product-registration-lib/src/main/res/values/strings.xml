@@ -52,4 +52,5 @@
     <string name="PPR_Already_Registered_title">Product registered</string>
     <string name="PPR_Already_Registered_ErrMsg">Product already registered</string>
     <string name="PPR_Please_Select_Date">please select date</string>
+    <string name="PPR_Please_Select_Serial_Number">enter serial number</string>
 </resources>
