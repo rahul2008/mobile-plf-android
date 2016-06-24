@@ -47,28 +47,28 @@ public class SecureStorageTest extends MockitoTestCase {
 
         SecureStorage secureStorageMock = mock(SecureStorage.class);
 
+        SecureStorageError sse = new SecureStorageError();
 
+        assertFalse(mSecureStorage.storeValueForKey("", "value",sse));
+        assertFalse(mSecureStorage.storeValueForKey("", "",sse));
+        assertFalse(mSecureStorage.storeValueForKey("key", null,sse));
+        assertFalse(mSecureStorage.storeValueForKey(null, "value",sse));
+        assertFalse(mSecureStorage.storeValueForKey(null, null,sse));
+        assertTrue(mSecureStorage.storeValueForKey("key", "",sse)); // value can be empty
+        assertFalse(mSecureStorage.storeValueForKey(" ", "val",sse)); // value can be empty
+        assertFalse(mSecureStorage.storeValueForKey("   ", "val",sse)); // value can be empty
 
-        assertFalse(mSecureStorage.storeValueForKey("", "value"));
-        assertFalse(mSecureStorage.storeValueForKey("", ""));
-        assertFalse(mSecureStorage.storeValueForKey("key", null));
-        assertFalse(mSecureStorage.storeValueForKey(null, "value"));
-        assertFalse(mSecureStorage.storeValueForKey(null, null));
-        assertTrue(mSecureStorage.storeValueForKey("key", "")); // value can be empty
-        assertFalse(mSecureStorage.storeValueForKey(" ", "val")); // value can be empty
-        assertFalse(mSecureStorage.storeValueForKey("   ", "val")); // value can be empty
-
-        assertTrue(mSecureStorage.storeValueForKey("key", "value")); // true condition
+        assertTrue(mSecureStorage.storeValueForKey("key", "value",sse)); // true condition
 
         // value passed by user should not be same as that of its encrypted equivalent
 
         }
 
     public void testFetchValuetForKey() throws Exception {
-
-        assertNull(mSecureStorage.fetchValueForKey(null));
-        assertNull(mSecureStorage.fetchValueForKey(""));
-        assertNull(mSecureStorage.fetchValueForKey("NotSavedKey"));
+        SecureStorageError sse = new SecureStorageError();
+        assertNull(mSecureStorage.fetchValueForKey(null,sse));
+        assertNull(mSecureStorage.fetchValueForKey("",sse));
+        assertNull(mSecureStorage.fetchValueForKey("NotSavedKey",sse));
 
     }
 
@@ -97,18 +97,20 @@ public class SecureStorageTest extends MockitoTestCase {
     public void testHappyPath()throws Exception {
         String valueStored= "value";
         String keyStored= "key";
-        assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored));
+        SecureStorageError sse = new SecureStorageError();
+        assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
 //        assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
         assertTrue(mSecureStorage.removeValueForKey(keyStored));
-        assertNull(mSecureStorage.fetchValueForKey(keyStored));
+        assertNull(mSecureStorage.fetchValueForKey(keyStored,sse));
     }
 
     public void testMultipleCallIndependentMethods()throws Exception {
         String valueStored= "value";
         String keyStored= "key";
+        SecureStorageError sse = new SecureStorageError();
         int iCount;
         for(iCount=0;iCount<10;iCount++){
-            assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored));
+            assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
         }
         for(iCount=0;iCount<10;iCount++) {
 //            assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
@@ -123,9 +125,10 @@ public class SecureStorageTest extends MockitoTestCase {
     public void testMultipleCallSequentialMethods()throws Exception {
         String valueStored= "value";
         String keyStored= "key";
+        SecureStorageError sse = new SecureStorageError();
         int iCount;
         for(iCount=0;iCount<10;iCount++){
-            assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored));
+            assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
 //            assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
         }
 

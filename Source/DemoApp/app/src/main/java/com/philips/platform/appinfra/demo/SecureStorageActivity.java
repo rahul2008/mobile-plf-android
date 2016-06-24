@@ -44,7 +44,7 @@ public class SecureStorageActivity extends AppCompatActivity  {
             public void onClick(View v) {
 
                 SecureStorageError sseStore = new SecureStorageError(); // to get error code if any
-                mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString(),sseStore);
+                boolean isSaved = mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString(),sseStore);
                 if(null!=sseStore.getErrorCode())
                 {
                     Toast.makeText(SecureStorageActivity.this,sseStore.getErrorCode().toString(),Toast.LENGTH_SHORT).show();;

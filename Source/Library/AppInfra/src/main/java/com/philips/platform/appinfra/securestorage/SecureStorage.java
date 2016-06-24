@@ -60,14 +60,15 @@ public class SecureStorage implements SecureStorageInterface{
      * @return the boolean, denote store operation success or failure
      */
     @Override
-    public synchronized void storeValueForKey(String userKey,String valueToBeEncrypted, SecureStorageError secureStorageError) {
+    public synchronized boolean storeValueForKey(String userKey,String valueToBeEncrypted, SecureStorageError secureStorageError) {
         // TODO: RayKlo: define max size limit recommendation
         boolean returnResult= true;
         String encryptedString=null;
         try {
             if(null==userKey || userKey.isEmpty() || userKey.trim().isEmpty() || null==valueToBeEncrypted ) {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
-                return ;
+                returnResult=false;
+                return false;
             }
             generateKeyPair();
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
@@ -104,7 +105,10 @@ public class SecureStorage implements SecureStorageInterface{
             }
         } catch (Exception e) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
+            returnResult=false;
             Log.e("SecureStorage", Log.getStackTraceString(e));
+        }finally{
+            return returnResult;
         }
     }
 

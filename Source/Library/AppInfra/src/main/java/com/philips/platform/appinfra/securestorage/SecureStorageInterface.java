@@ -12,7 +12,7 @@ public  interface SecureStorageInterface {
 
 
 
-    public void storeValueForKey(String userKey, String valueToBeEncrypted,  SecureStorageError secureStorageError);
+    public boolean storeValueForKey(String userKey, String valueToBeEncrypted,  SecureStorageError secureStorageError);
     public String fetchValueForKey(String userKey, SecureStorageError secureStorageError);
     public boolean removeValueForKey(String userKey);
 }
