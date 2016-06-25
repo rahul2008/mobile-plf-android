@@ -150,6 +150,7 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
         if (activity != null && !activity.isFinishing()) {
             final ProdRegErrorAlertFragment prodRegErrorAlertFragment = new ProdRegErrorAlertFragment();
             prodRegErrorAlertFragment.setDialogOkButtonListener(getDialogOkButtonListener());
+            prodRegErrorAlertFragment.setCancelable(false);
             prodRegErrorAlertFragment.show(activity.getSupportFragmentManager(), "dialog");
             final ProdRegErrorMap prodRegErrorMap = new ErrorHandler().getError(activity, statusCode);
             Handler handler = new Handler();
