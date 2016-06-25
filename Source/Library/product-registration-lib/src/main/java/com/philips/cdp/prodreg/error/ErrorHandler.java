@@ -59,7 +59,7 @@ public class ErrorHandler {
         } else if (statusCode == ProdRegError.ACCESS_TOKEN_INVALID.getCode()) {
             return new ProdRegErrorMap(context.getString(R.string.PPR_Authentication_Fail_Title), context.getString(R.string.PPR_Authentication_ErrMsg));
         } else if (statusCode == ProdRegError.INVALID_SERIALNUMBER.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PPR_Invalid_SerialNum_Title), context.getString(R.string.PPR_Invalid_SerialNum_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PPR_Invalid_SerialNum_Title), context.getString(R.string.PPR_SerialNum_Format_ErrMsg));
         } else if (statusCode == ProdRegError.INVALID_DATE.getCode()) {
             return new ProdRegErrorMap(context.getString(R.string.PPR_Req_Purchase_Date_Title), context.getString(R.string.PPR_Enter_Purchase_Date_ErrMsg));
         } else if (statusCode == ProdRegError.NO_INTERNET_AVAILABLE.getCode()) {

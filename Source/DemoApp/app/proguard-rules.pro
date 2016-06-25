@@ -49,6 +49,9 @@ public static ** valueOf(java.lang.String);
 public static <fields>;
 }
 
+#UIKIT
+-keep class com.philips.cdp.uikit.** {*;}
+
 #Product Registration library
 -keep class com.philips.cdp.prodreg.** {*;}
 -keep interface com.philips.cdp.prodreg.** {*;}

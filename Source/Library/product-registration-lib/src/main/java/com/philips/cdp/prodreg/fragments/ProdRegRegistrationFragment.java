@@ -253,7 +253,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
 
     private void showErrorMessageSerialNumber(final EditText editTextView) {
         registerButton.setEnabled(false);
-        serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription());
+        serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + productMetadataResponseData.getSerialNumberFormat());
         serialLayout.showError(editTextView);
     }
 
@@ -370,14 +370,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                 }
             }, 200);
         }
-    }
-
-    @Override
-    public void onDetach() {
-        if (prodRegLoadingFragment != null && prodRegLoadingFragment.isVisible()) {
-            prodRegLoadingFragment.dismissAllowingStateLoss();
-        }
-        super.onDetach();
     }
 
     @Override
