@@ -116,7 +116,7 @@
             android:layout_marginEnd="@dimen/iap_order_detail_margin_bottom"
             android:layout_marginStart="@dimen/iap_order_detail_margin_bottom"
             android:layout_marginTop="@dimen/iap_order_detail_margin_bottom"
-            android:text="@string/iap_order_processing_text"
+            android:text="@string/iap_not_shipped_msg"
             android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/quantity" />
 
