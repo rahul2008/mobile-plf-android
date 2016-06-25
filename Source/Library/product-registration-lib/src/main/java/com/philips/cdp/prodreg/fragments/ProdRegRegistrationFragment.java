@@ -195,7 +195,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             final String productTitle = summaryData.getProductTitle();
             productFriendlyNameTextView.setText(familyName != null ? familyName : "");
             productTitleTextView.setText(productTitle != null ? productTitle : "");
-            imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.ic_launcher, R.drawable.ic_launcher));
+            imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.prod_reg_default_placeholder, R.drawable.prod_reg_default_placeholder));
         }
     }
 
@@ -373,11 +373,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     }
 
     @Override
-    public void onStop() {
+    public void onDetach() {
         if (prodRegLoadingFragment != null && prodRegLoadingFragment.isVisible()) {
             prodRegLoadingFragment.dismissAllowingStateLoss();
         }
-        super.onStop();
+        super.onDetach();
     }
 
     @Override

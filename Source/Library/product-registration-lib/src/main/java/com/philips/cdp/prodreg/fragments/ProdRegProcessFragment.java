@@ -208,11 +208,11 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     }
 
     @Override
-    public void onStop() {
-        if (prodRegLoadingFragment != null && prodRegLoadingFragment.isVisible()) {
+    public void onDetach() {
+        if (mActivityWeakRef != null && prodRegLoadingFragment != null && prodRegLoadingFragment.isVisible()) {
             prodRegLoadingFragment.dismissAllowingStateLoss();
         }
-        super.onStop();
+        super.onDetach();
     }
 
     @Override
