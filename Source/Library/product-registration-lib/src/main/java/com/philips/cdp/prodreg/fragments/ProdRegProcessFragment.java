@@ -51,11 +51,10 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.prodreg_process, container, false);
         if (savedInstanceState == null) {
             showProgressAlertDialog(getActivity().getString(R.string.PPR_Looking_For_Products_Lbltxt));
         }
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private void showProgressAlertDialog(final String description) {
