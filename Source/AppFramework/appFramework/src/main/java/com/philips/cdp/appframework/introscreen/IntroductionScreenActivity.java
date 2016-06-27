@@ -18,11 +18,11 @@ import android.widget.TextView;
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HamburgerActivity;
+import com.philips.cdp.appframework.modularui.ActivityMap;
 import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIConstants;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
-import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -188,7 +188,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
         if (null != activity) {
             @UIConstants.UIStateDef int userRegState = mNavigator.onPageLoad(IntroductionScreenActivity.this);
 
-                    if (UIFlowManager.activityMap.get(userRegState) == UIConstants.UI_HAMBURGER_SCREEN) {
+                    if (ActivityMap.activityMap.get(userRegState) == UIConstants.UI_HAMBURGER_SCREEN) {
                         UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE);
                         startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
                     }
@@ -245,23 +245,11 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onClick(View v) {
 
         @UIConstants.UIStateDef int currentState = mNavigator.onClick(v.getId(), IntroductionScreenActivity.this);
+        if (ActivityMap.activityMap.get(currentState) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
+            UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE);
+            startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
+        }
 
-        switch (v.getId()) {
-            case R.id.start_registration_button:
-                SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS, UIConstants.UI_WELCOME_STATE);
-                setIntroScreenDonePressed();
-                if (UIFlowManager.activityMap.get(currentState) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
-                    UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE);
-                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
-                }
-                break;
-            case R.id.appframework_skip_button:
-                if (UIFlowManager.activityMap.get(currentState) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
-                    UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE);
-                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
-                }
-                break;
-                }
     }
 
     @Override

@@ -8,6 +8,7 @@ package com.philips.cdp.appframework;
 import android.app.Application;
 import android.support.multidex.MultiDex;
 
+import com.philips.cdp.appframework.modularui.ActivityMap;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -29,7 +30,7 @@ public class AppFrameworkApplication extends Application {
         SharedPreferenceUtility.getInstance().Initialize(getApplicationContext());
         initializeUserRegistrationLibrary();
         UIFlowManager.populateStateBaseList();
-        UIFlowManager.populateActivityMap();
+        ActivityMap.populateActivityMap();
         UIFlowManager.checkUserSignInAndDonePressed(getApplicationContext());
     }
 

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.debugtest.DebugTestFragment;
+import com.philips.cdp.appframework.modularui.ActivityMap;
 import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIConstants;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
@@ -157,9 +158,8 @@ public class HamburgerActivity extends AppFrameworkBaseActivity {
     private void showNavigationDrawerItem(int position) {
 
         philipsDrawerLayout.closeDrawer(navigationView);
-        //mNavigator = UIFlowManager.currentState.getNavigator();
         @UIConstants.UIStateDef int currentState = mNavigator.onClick(position,HamburgerActivity.this);
-        @UIConstants.UIScreenConstants int destinationScreen = UIFlowManager.activityMap.get(currentState);
+        @UIConstants.UIScreenConstants int destinationScreen = ActivityMap.activityMap.get(currentState);
         switch (destinationScreen){
             case UIConstants.UI_HOME_SCREEN:
                 UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_HOME_STATE_ONE);

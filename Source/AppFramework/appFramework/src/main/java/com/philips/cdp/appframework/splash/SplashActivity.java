@@ -21,6 +21,7 @@ import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HamburgerActivity;
 import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
+import com.philips.cdp.appframework.modularui.ActivityMap;
 import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIConstants;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
@@ -114,15 +115,15 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 // Start your app main activity
 
                 @UIConstants.UIStateDef int stateID =  UIFlowManager.currentState.getNavigator().onPageLoad(SplashActivity.this);
-                        if (UIFlowManager.activityMap.get(stateID) == UIConstants.UI_HAMBURGER_SCREEN) {
+                        if (ActivityMap.activityMap.get(stateID) == UIConstants.UI_HAMBURGER_SCREEN) {
                             UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE);
                             startActivity(new Intent(SplashActivity.this, HamburgerActivity.class));
                         }
-                        if (UIFlowManager.activityMap.get(stateID) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
+                        if (ActivityMap.activityMap.get(stateID) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
                             UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE);
                             startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
                         }
-                        if (UIFlowManager.activityMap.get(stateID) == UIConstants.UI_WELCOME_SCREEN) {
+                        if (ActivityMap.activityMap.get(stateID) == UIConstants.UI_WELCOME_SCREEN) {
                             UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE);
                             startActivity(new Intent(SplashActivity.this, IntroductionScreenActivity.class));
                         }
