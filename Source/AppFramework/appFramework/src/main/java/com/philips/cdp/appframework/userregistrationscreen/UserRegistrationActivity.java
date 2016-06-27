@@ -9,9 +9,9 @@ package com.philips.cdp.appframework.userregistrationscreen;
 import android.content.Intent;
 
 import com.philips.cdp.appframework.homescreen.HamburgerActivity;
-import com.philips.cdp.appframework.modularui.ActivityMap;
-import com.philips.cdp.appframework.modularui.UIConstants;
-import com.philips.cdp.appframework.modularui.UIFlowManager;
+import com.philips.cdp.modularui.ActivityMap;
+import com.philips.cdp.modularui.UIConstants;
+import com.philips.cdp.modularui.UIFlowManager;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 

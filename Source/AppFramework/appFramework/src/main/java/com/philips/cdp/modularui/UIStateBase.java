@@ -1,4 +1,4 @@
-package com.philips.cdp.appframework.modularui;
+package com.philips.cdp.modularui;
 
 /**
  * Created by 310240027 on 6/16/2016.

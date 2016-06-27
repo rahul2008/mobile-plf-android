@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.philips.cdp.appframework.modularui.UIConstants;
+import com.philips.cdp.modularui.UIConstants;
 
 /**
  * Created by 310240027 on 6/21/2016.

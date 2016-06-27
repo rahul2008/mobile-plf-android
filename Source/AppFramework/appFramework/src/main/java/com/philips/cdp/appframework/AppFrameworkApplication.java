@@ -8,8 +8,8 @@ package com.philips.cdp.appframework;
 import android.app.Application;
 import android.support.multidex.MultiDex;
 
-import com.philips.cdp.appframework.modularui.ActivityMap;
-import com.philips.cdp.appframework.modularui.UIFlowManager;
+import com.philips.cdp.modularui.ActivityMap;
+import com.philips.cdp.modularui.UIFlowManager;
 import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;

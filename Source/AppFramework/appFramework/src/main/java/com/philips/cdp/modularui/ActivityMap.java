@@ -1,4 +1,4 @@
-package com.philips.cdp.appframework.modularui;
+package com.philips.cdp.modularui;
 
 import java.util.HashMap;
 import java.util.Map;

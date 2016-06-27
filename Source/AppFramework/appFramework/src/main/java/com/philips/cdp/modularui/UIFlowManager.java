@@ -1,4 +1,4 @@
-package com.philips.cdp.appframework.modularui;
+package com.philips.cdp.modularui;
 
 import android.content.Context;
 
@@ -6,7 +6,6 @@ import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 310240027 on 6/16/2016.

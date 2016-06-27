@@ -21,10 +21,10 @@ import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HamburgerActivity;
 import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
-import com.philips.cdp.appframework.modularui.ActivityMap;
-import com.philips.cdp.appframework.modularui.UIBaseNavigation;
-import com.philips.cdp.appframework.modularui.UIConstants;
-import com.philips.cdp.appframework.modularui.UIFlowManager;
+import com.philips.cdp.modularui.ActivityMap;
+import com.philips.cdp.modularui.UIBaseNavigation;
+import com.philips.cdp.modularui.UIConstants;
+import com.philips.cdp.modularui.UIFlowManager;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
