@@ -72,19 +72,18 @@
     public static <fields>;
 }
 
-
+-keepclassmembers class *{
+  @android.webkit.JavascriptInterface <methods>;
+}
 
 
 #GooglePLayServices
 
--keep class android.support.v4.view.ViewCompatApi24.** {*;}
--keep class android.support.v13.** { *; }
+-keep class android.support.**
 -keep interface android.support.v13.app.** { *; }
 -keep public class * extends android.support.v13.**
 -keep public class * extends android.app.Fragment
--keep class android.support.v4.app.BaseFragmentActivityApi24.**{*;}
 -keep class com.philips.cdp.uikit.customviews.**
--keep class android.support.v4.graphics.drawable.**{*;}
 
 #-keep class com.google.android.gms.** { *; }
 -dontwarn com.google.android.gms.**
