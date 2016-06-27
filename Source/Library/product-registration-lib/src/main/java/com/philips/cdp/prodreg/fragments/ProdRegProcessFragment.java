@@ -7,9 +7,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.RegistrationState;
@@ -39,20 +36,12 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     public static final String TAG = ProdRegProcessFragment.class.getName();
     private Product currentProduct;
     private Bundle dependencyBundle;
-    private ProdRegLoadingFragment prodRegLoadingFragment;
     private boolean launchedRegistration = false;
-
-    private boolean isApiCallinProgress = false;
+    private boolean isApiCallingProgress = false;
 
     @Override
     public String getActionbarTitle() {
         return getActivity().getString(R.string.PPR_NavBar_Title);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -64,7 +53,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         } else {
             launchedRegistration = savedInstanceState.getBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, false);
         }
-//        showProgressAlertDialog(getActivity().getString(R.string.PPR_Looking_For_Products_Lbltxt));
     }
 
     private void showDialog() {
@@ -100,14 +88,13 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
             User user = new User(getActivity());
             if (user.isUserSignIn()) {
                 //Signed in case
-                if (!isApiCallinProgress) {
+                if (!isApiCallingProgress) {
                     getRegisteredProducts();
                 }
             } else {
                 //Not signed in
                 if (launchedRegistration) {
                     //Registration page has already launched
-//                    if (prodRegLoadingFragment != null) prodRegLoadingFragment.dismiss();
                     dismissDialog();
                     clearFragmentStack();
                 } else {
@@ -118,28 +105,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
             }
         }
     }
-
-    @Override
-    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-//    private void showProgressAlertDialog(final String description) {
-//        final FragmentActivity activity = getActivity();
-//        if (activity != null && !activity.isFinishing()) {
-//            prodRegLoadingFragment = new ProdRegLoadingFragment();
-//            prodRegLoadingFragment.setCancelable(false);
-//            prodRegLoadingFragment.show(activity.getSupportFragmentManager(), "dialog");
-//            prodRegLoadingFragment.setDescription(description);
-////            Handler handler = new Handler();
-////            handler.postDelayed(new Runnable() {
-////                @Override
-////                public void run() {
-////
-////                }
-////            }, 200);
-//        }
-//    }
 
     private void doSummaryRequest() {
         final FragmentActivity activity = getActivity();
@@ -178,7 +143,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         if (activity != null && !activity.isFinishing()) {
             if (currentProduct != null) {
                 ProdRegHelper prodRegHelper = new ProdRegHelper();
-                isApiCallinProgress = true;
+                isApiCallingProgress = true;
                 prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
             }
         }
@@ -192,7 +157,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
                 if (!isCtnRegistered(registeredProducts, currentProduct) && getActivity() != null && !getActivity().isFinishing()) {
                     currentProduct.getProductMetadata(getActivity(), getMetadataListener());
                 } else {
-//                    if (prodRegLoadingFragment != null) prodRegLoadingFragment.dismiss();
                     dismissDialog();
                     showFragment(new ProdRegConnectionFragment());
                 }
@@ -223,8 +187,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-//                if (prodRegLoadingFragment != null)
-//                    prodRegLoadingFragment.dismiss();
                 dismissDialog();
                 showAlertOnError(responseCode);
             }
@@ -247,7 +209,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
 
     @Override
     public void onSaveInstanceState(final Bundle outState) {
-        outState.putBoolean(ProdRegConstants.PROGRESS_STATE, isApiCallinProgress);
+        outState.putBoolean(ProdRegConstants.PROGRESS_STATE, isApiCallingProgress);
         outState.putBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, launchedRegistration);
         super.onSaveInstanceState(outState);
     }

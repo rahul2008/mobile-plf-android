@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.philips.cdp.prodreg.ProdRegConstants;
+import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegError;
@@ -31,12 +32,14 @@ import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
+import com.philips.cdp.prodreg.register.LocalRegisteredProducts;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
 import java.lang.ref.WeakReference;
@@ -61,6 +64,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     private EditText serial_number_editText, date_EditText;
     private InlineForms serialLayout, purchaseDateLayout;
     private WeakReference<Activity> mActivityWeakRef;
+    private RegisteredProduct registeredProduct;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -96,6 +100,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     public void onStart() {
         mActivityWeakRef = new WeakReference<Activity>(getActivity());
         resetErrorDialogListener();
+        final RegisteredProduct registeredProductIfExists = registeredProduct.getRegisteredProductIfExists(new LocalRegisteredProducts(getActivity(), new User(getActivity())));
+        registeredProduct = registeredProductIfExists != null ? registeredProductIfExists : registeredProduct;
+        if (registeredProduct != null && registeredProduct.getRegistrationState() == RegistrationState.REGISTERED) {
+            showFragment(new ProdRegSuccessFragment());
+        }
         super.onStart();
     }
 
@@ -177,7 +186,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                     final FragmentActivity activity = getActivity();
                     if (activity != null && !activity.isFinishing()) {
                         dismissDialog();
-                        showAlertOnError(registeredProduct.getProdRegError().getCode());
+                        if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
+                            showAlertOnError(registeredProduct.getProdRegError().getCode());
+                        } else {
+                            showFragment(new ProdRegSuccessFragment());
+                        }
                     }
                 }
             }
@@ -199,6 +212,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             currentProduct = (Product) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+            mapToRegisteredProduct();
             productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
             final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
             updateSummaryView(summaryData);
@@ -352,17 +366,19 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                     currentProduct.setSerialNumber(serial_number_editText.getText().toString());
                     ProdRegHelper prodRegHelper = new ProdRegHelper();
                     prodRegHelper.addProductRegistrationListener(getProdRegListener());
-                    prodRegHelper.getSignedInUserWithProducts().registerProduct(getMappedRegisteredProduct());
+                    prodRegHelper.getSignedInUserWithProducts().registerProduct(registeredProduct);
                 }
             }
         };
     }
 
-    private RegisteredProduct getMappedRegisteredProduct() {
-        RegisteredProduct registeredProduct = new RegisteredProduct(currentProduct.getCtn(), currentProduct.getSector(), currentProduct.getCatalog());
-        registeredProduct.setSerialNumber(currentProduct.getSerialNumber());
-        registeredProduct.setPurchaseDate(currentProduct.getPurchaseDate());
-        registeredProduct.sendEmail(currentProduct.getEmail());
+    private RegisteredProduct mapToRegisteredProduct() {
+        if (currentProduct != null) {
+            registeredProduct = new RegisteredProduct(currentProduct.getCtn(), currentProduct.getSector(), currentProduct.getCatalog());
+            registeredProduct.setSerialNumber(currentProduct.getSerialNumber());
+            registeredProduct.setPurchaseDate(currentProduct.getPurchaseDate());
+            registeredProduct.sendEmail(currentProduct.getEmail());
+        }
         return registeredProduct;
     }
 
