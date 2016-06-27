@@ -1,0 +1,107 @@
+
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-dontpreverify
+-keepattributes *Annotation*
+-keepattributes Signature
+
+
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.stream.** { *; }
+-keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
+-keep class com.google.gson.examples.android.model.** { *; }
+
+
+
+
+#Tagging
+
+-keep public class com.adobe.mobile.** {*;}
+-keep public class com.philips.cdp.tagging.** {*;}
+
+
+#LocaleMatch
+
+-keep public class com.philips.cdp.localematch.** {*;}
+
+
+#Network
+-keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
+
+
+#ConsumerCare
+
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.content.BroadcastReceiver
+
+    -keepclassmembers enum * {
+        public static **[] values();
+        public static ** valueOf(java.lang.String);
+    }
+
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(...);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keepclassmembers class * extends android.content.Context {
+   public void *(android.view.View);
+   public void *(android.view.MenuItem);
+}
+
+-keepclassmembers class * implements android.os.Parcelable {
+    static android.os.Parcelable$Creator CREATOR;
+}
+
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
+
+
+
+#GooglePLayServices
+
+-keep class android.support.v4.view.ViewCompatApi24.** {*;}
+-keep class android.support.v13.** { *; }
+-keep interface android.support.v13.app.** { *; }
+-keep public class * extends android.support.v13.**
+-keep public class * extends android.app.Fragment
+-keep class android.support.v4.app.BaseFragmentActivityApi24.**{*;}
+-keep class com.philips.cdp.uikit.customviews.**
+-keep class android.support.v4.graphics.drawable.**{*;}
+
+#-keep class com.google.android.gms.** { *; }
+-dontwarn com.google.android.gms.**
+
+-dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
+-dontwarn  com.philips.cdp.productselection.R$id
+-dontwarn  android.support.v4.view.ViewCompatApi24.**
+-dontwarn android.support.v7.media.**
+-dontwarn android.view.**
+-dontwarn android.media.session
+-dontwarn android.app.Notification$MessagingStyle$*
+-dontwarn android.app.Notification$MessagingStyle$*$*
+
+-dontwarn com.philips.cdp.digitalcare.**
+-dontwarn com.philips.cdp.productselection.**
+-dontwarn android.support.v13.**
+-dontwarn android.support.v4.graphics.drawable.**
+-dontwarn org.apache.**
+
+

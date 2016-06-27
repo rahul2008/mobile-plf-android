@@ -1,0 +1,302 @@
+<resources>
+
+    <string name="app_name">DigitalCare</string>
+
+    <!-- Language -->
+    <string-array name="Language">
+        <item>English (en)</item>
+        <item>Arabic (ar)</item>
+        <item>Bulgarian (bg)</item>
+        <item>Bosnian (bs)</item>
+        <item>Czech (cs)</item>
+        <item>Danish (da)</item>
+        <item>German (de)</item>
+        <item>Greek (el)</item>
+        <item>Spanish (es)</item>
+        <item>Estonian (et)</item>
+        <item>Farsi (fa)</item>
+        <item>French - CA (fe)</item>
+        <item>Finish (fi)</item>
+        <item>French (fr)</item>
+        <item>Gaelic (gd)</item>
+        <item>Hebrew (iw)</item>
+        <item>Hebrew (he)</item>
+        <item>Hindi (hi)</item>
+        <item>Croatian (hr)</item>
+        <item>Hungarian (hu)</item>
+        <item>Indonesian (in)</item>
+        <item>Italian (it)</item>
+        <item>Japnese (ja)</item>
+        <item>Kazakh (kk)</item>
+        <item>Korean (ko)</item>
+        <item>Lithuanian (lt)</item>
+        <item>Latvian (lv)</item>
+        <item>Malay (ms)</item>
+        <item>Macedonian (mk)</item>
+        <item>Norwegian (nb)</item>
+        <item>Dutch (nl)</item>
+        <item>Polish (pl)</item>
+        <item>Portuguese (pt)</item>
+        <item>Romanian (ro)</item>
+        <item>Russian (ru)</item>
+        <item>Slovak (sk)</item>
+        <item>Slovenian (sl)</item>
+        <item>Albanian (sq)</item>
+        <item>Serbian (sr)</item>
+        <item>Swedish (sv)</item>
+        <item>Thai (th)</item>
+        <item>Turkish (tr)</item>
+        <item>Ukrainian (uk)</item>
+        <item>Vietnamese (vi)</item>
+        <item>Chinese (zh)</item>
+        <item>Brazil (br)</item>
+    </string-array>
+
+
+    <!-- Language code -->
+    <string-array name="Language_code">
+        <item>en</item>
+        <item>ar</item>
+        <item>bg</item>
+        <item>bs</item>
+        <item>cs</item>
+        <item>da</item>
+        <item>de</item>
+        <item>el</item>
+        <item>es</item>
+        <item>et</item>
+        <item>fa</item>
+        <item>fe</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>gd</item>
+        <item>iw</item>
+        <item>he</item>
+        <item>hi</item>
+        <item>hr</item>
+        <item>hu</item>
+        <item>in</item>
+        <item>it</item>
+        <item>ja</item>
+        <item>kk</item>
+        <item>ko</item>
+        <item>lt</item>
+        <item>lv</item>
+        <item>ms</item>
+        <item>mk</item>
+        <item>nb</item>
+        <item>nl</item>
+        <item>pl</item>
+        <item>pt</item>
+        <item>ro</item>
+        <item>ru</item>
+        <item>sk</item>
+        <item>sl</item>
+        <item>sq</item>
+        <item>sr</item>
+        <item>sv</item>
+        <item>th</item>
+        <item>tr</item>
+        <item>uk</item>
+        <item>vi</item>
+        <item>zh</item>
+        <item>br</item>
+    </string-array>
+
+
+    <!-- Country -->
+    <string-array name="country">
+        <item>United Kingdom (GB)</item>
+        <item>India (IN)</item>
+        <item>United States (US)</item>
+        <item>Saudi Arabia (SA)</item>
+        <item>Bulgaria (BG)</item>
+        <item>Bosnia (BA)</item>
+        <item>Czech Republic (CZ)</item>
+        <item>Denmark (DK)</item>
+        <item>Germanay (DE)</item>
+        <item>Greece (GR)</item>
+        <item>Spanish Argentina (es-AR)</item>
+        <item>Spain (es-ES)</item>
+        <item>Spanish Mexico (es-MX)</item>
+        <item>Estonia (EE)</item>
+        <item>Iran (IR)</item>
+        <item>Afganistan (AF)</item>
+        <item>Canada (CA)</item>
+        <item>Finland (FI)</item>
+        <item>France (FR)</item>
+        <item>Croatia (HR)</item>
+        <item>Hungary (HU)</item>
+        <item>Indonesia (in-ID)</item>
+        <item>Italy (IT)</item>
+        <item>South Korea (KR)</item>
+        <item>Luthunia (LT)</item>
+        <item>Latvia (LV)</item>
+        <item>Madgaskar (MG)</item>
+        <item>Macedonia (MK)</item>
+        <item>Norway (NO)</item>
+        <item>Dutch (NL)</item>
+        <item>Poland (PL)</item>
+        <item>Portugal (PT)</item>
+        <item>Portuguese Brazil (pt-BR)</item>
+        <item>Romania (RO)</item>
+        <item>Russia (RU)</item>
+        <item>Slovakia (SK)</item>
+        <item>Slovanian (SI)</item>
+        <item>Albania (AL)</item>
+        <item>Serbia (RS)</item>
+        <item>Serbian Montengaro(sr-ME)</item>
+        <item>Sweden (SE)</item>
+        <item>Thailand (TH)</item>
+        <item>Turkey (TR)</item>
+        <item>Ukraine (UA)</item>
+        <item>Vietnam (VN)</item>
+        <item>Simplified Chinese (zh-CN)</item>
+        <item>Chinese HongKong (zh-HK)</item>
+        <item>Traditional Chinese (zh-TW)</item>
+        <item>Japan (JP)</item>
+        <item>Estonia (EE)</item>
+        <item>Israel (IL)</item>
+        <item>Ireland (IE)</item>
+        <item>Scotland (GD)</item>
+        <item>Kazakhstan (KZ)</item>
+        <item>Malaysia (MY)</item>
+        <item>Brazil (BR)</item>
+        <item>Malaysia (MY)</item>
+    </string-array>
+
+
+    <!-- country code -->
+    <string-array name="country_code">
+        <item>GB</item>
+        <item>IN</item>
+        <item>US</item>
+        <item>SA</item>
+        <item>BG</item>
+        <item>BA</item>
+        <item>CZ</item>
+        <item>DK</item>
+        <item>DE</item>
+        <item>GR</item>
+        <item>AR</item>
+        <item>ES</item>
+        <item>MX</item>
+        <item>EE</item>
+        <item>IR</item>
+        <item>AF</item>
+        <item>CA</item>
+        <item>FI</item>
+        <item>FR</item>
+        <item>HR</item>
+        <item>HU</item>
+        <item>ID</item>
+        <item>IT</item>
+        <item>KR</item>
+        <item>LT</item>
+        <item>LV</item>
+        <item>MG</item>
+        <item>MK</item>
+        <item>NO</item>
+        <item>NL</item>
+        <item>PL</item>
+        <item>PT</item>
+        <item>BR</item>
+        <item>RO</item>
+        <item>RU</item>
+        <item>SK</item>
+        <item>SI</item>
+        <item>AL</item>
+        <item>RS</item>
+        <item>ME</item>
+        <item>SE</item>
+        <item>TH</item>
+        <item>TR</item>
+        <item>UA</item>
+        <item>VN</item>
+        <item>CN</item>
+        <item>HK</item>
+        <item>TW</item>
+        <item>JP</item>
+        <item>EE</item>
+        <item>IL</item>
+        <item>IE</item>
+        <item>GD</item>
+        <item>KZ</item>
+        <item>MY</item>
+        <item>BR</item>
+        <item>MY</item>
+    </string-array>
+
+
+    <string name="dummytext">Dummy View</string>
+    <string name="dummyTitle">Dummy Actionbar Title</string>
+    <string name="app_description">This is just an sample launcher app for  launching the DigitalCare Component.</string>
+    <string name="launch_button_as_activity">Launch DigitalCare as Activity</string>
+    <string name="launch_button_as_fragment">Launch DigitalCare as Fragment</string>
+    <string name="app_not_description">DigitalCare Library is dependent on &quot;v4 library&quot;.&quot; Additionally you can personalize the &quot;DigitalCare Component&quot; by modifying the &quot;DigitalCare_Config.xml&quot; under res>values.</string>
+    <string name="app_note">Note:</string>
+    <string name="lanuauge">Langauage :</string>
+    <string name="country">Country :</string>
+
+
+    <string-array name="category">
+        <item>HAIRCARE_CA</item>
+        <item>MENS_SHAVING_CA</item>
+    </string-array>
+
+
+    <string-array name="subcategory">
+        <item>HAIR_STYLERS_SU</item>
+        <item>SONICARE_FOR_KIDS_SU</item>
+        <item>HAIR_STYLERS_SU</item>
+        <item>HAIR_DRYERS_SU</item>
+        <item>STRAIGHTENER_SU</item>
+    </string-array>
+
+    <string-array name="productselection_ctnlist">
+        <item>SCD888/26</item>
+        <item>RQ1250/16</item>
+        <item>RQ1250/17</item>
+        <item>HD3197/03</item>
+        <item>HX6321_02</item>
+        <item>SC2009/00</item>
+        <item>PR3743/00</item>
+        <item>PR3840/00</item>
+        <item>S9721/84</item>
+        <item>HP6519/01</item>
+        <item>S9711/31</item>
+        <item>S9511/26</item>
+        <item>S9031/12</item>
+        <item>HD8967_01</item>
+        <item>HD9240/90</item>
+        <item>RQ1150/16</item>
+        <item>SC5994/00</item>
+        <item>SC2008/11</item>
+        <item>HR1871_00</item>
+        <item>SC2009/00</item>
+        <item>HX9192/01</item>
+        <item>HX9192/02</item>
+        <item>HX9192/03</item>
+        <item>HX9192/04</item>
+        <item>HX9191/06</item>
+
+        <!--   <item>7894unre</item>
+          <item>893jfd</item>
+          <item>aljsdfk8s</item>-->
+
+    </string-array>
+
+    <string-array name="product_title">
+        <item>HairStyler</item>
+        <item>Saeco GranBaristo Avanti</item>
+    </string-array>
+
+    <string-array name="product_review">
+        <item>c-p/AT890_16/aquatouch-wet-and-dry-electric-shaver-with-aquatec-wet-dry-and-pop-up-trimmer</item>
+        <item>/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide</item>
+    </string-array>
+
+    <bool name="productreview_required">true</bool>
+
+
+</resources>
