@@ -336,7 +336,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         setLocale("en", mSelectedCountry);
 
-        if (!mProductCountRequested) {
+     //   if (!mProductCountRequested) {
             mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
             setUseLocalData();
             mIapHandler = IAPHandler.init(this, mIAPSettings);
@@ -348,7 +348,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 mPurchaseHistory.setVisibility(View.VISIBLE);
             } else
                 mPurchaseHistory.setVisibility(View.GONE);
-        }
+       // }
     }
 
     private void setLocale(String languageCode, String countryCode) {
