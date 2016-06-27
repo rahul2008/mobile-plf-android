@@ -125,7 +125,9 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onStop() {
         super.onStop();
-        mAdapter.onStop();
+        if(mAdapter!=null) {
+            mAdapter.onStop();
+        }
     }
 
     @Override
