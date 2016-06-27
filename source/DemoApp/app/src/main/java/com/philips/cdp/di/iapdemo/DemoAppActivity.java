@@ -145,7 +145,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         if (mUser.isUserSignIn()) {
             displayViews();
             if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
-                showProgressDialog(getString(R.string.iap_please_wait));
+                showProgressDialog();
                 mIapHandler.getProductCartCount(mProductCountListener);
             }
         }
@@ -327,7 +327,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mIapHandler = IAPHandler.init(this, mIAPSettings);
         updateCartIcon();
         if (!shouldUseLocalData()) {
-            showProgressDialog(getString(R.string.iap_please_wait));
+            showProgressDialog();
             mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
             mPurchaseHistory.setVisibility(View.VISIBLE);
@@ -397,19 +397,21 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void showProgressDialog(String message) {
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setMessage(message + "...");
-
-        if ((!mProgressDialog.isShowing()) && !((Activity) this).isFinishing()) {
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setMessage(getString(R.string.iap_please_wait) + "...");
+        }
+        if ((!mProgressDialog.isShowing()) && !isFinishing()) {
             mProgressDialog.show();
         }
     }
 
     public void dismissProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+        if (mProgressDialog != null && mProgressDialog.isShowing() && !isFinishing()) {
             mProgressDialog.dismiss();
+            mProgressDialog = null;
         }
     }
 }
