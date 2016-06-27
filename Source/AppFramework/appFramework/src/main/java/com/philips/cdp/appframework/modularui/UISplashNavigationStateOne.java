@@ -13,17 +13,17 @@ public class UISplashNavigationStateOne implements UIBaseNavigation {
 
     @Override
     public int onSwipe(int componentID, Context context) {
-        return UIConstants.UI_SPLASH_STATE_ONE;
+        return UIConstants.UI_HAMBURGER_STATE;
     }
 
     @Override
     public int onLongPress(int componentID, Context context) {
-        return UIConstants.UI_SPLASH_STATE_ONE;
+        return UIConstants.UI_HAMBURGER_STATE;
     }
 
     @Override
     public int onPageLoad(Context context) {
-        return 0;
+        return UIConstants.UI_HAMBURGER_STATE;
     }
 
     @Override

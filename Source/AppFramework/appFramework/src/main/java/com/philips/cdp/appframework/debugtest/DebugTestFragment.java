@@ -6,12 +6,10 @@
 package com.philips.cdp.appframework.debugtest;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,13 +19,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.appframework.AppFrameworkBaseFragment;
 import com.philips.cdp.appframework.BuildConfig;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.localematch.PILLocaleManager;
-
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Flow;
 import com.philips.cdp.registration.configuration.JanRainConfiguration;
@@ -91,7 +87,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
             public void onItemSelected(AdapterView<?> adapter, View v,
                                        int position, long id) {
                 final String configuration = adapter.getItemAtPosition(position).toString();
-                ((TextView) adapter.getChildAt(0)).setTextColor(Color.WHITE);
+                ((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
                 if(count>0) {
                     User user = new User(context);
                     user.logout(null);

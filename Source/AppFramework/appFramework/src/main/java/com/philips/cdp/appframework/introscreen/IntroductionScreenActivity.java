@@ -22,6 +22,7 @@ import com.philips.cdp.appframework.modularui.UIBaseNavigation;
 import com.philips.cdp.appframework.modularui.UIConstants;
 import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
+import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -247,16 +248,22 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
         switch (v.getId()) {
             case R.id.start_registration_button:
+                SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS, UIConstants.UI_REGISTRATION_STATE);
                 setIntroScreenDonePressed();
+                if (UIFlowManager.activityMap.get(currentState) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
+                    UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE);
+                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
+                }
                 break;
             case R.id.appframework_skip_button:
+                if (UIFlowManager.activityMap.get(currentState) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
+                    UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE);
+                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
+                }
                 break;
                 }
 
-                if (UIFlowManager.activityMap.get(currentState) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
-                    UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
-                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
-                }
+
 
     }
 

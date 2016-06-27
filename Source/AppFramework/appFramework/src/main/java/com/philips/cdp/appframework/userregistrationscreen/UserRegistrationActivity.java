@@ -9,6 +9,8 @@ package com.philips.cdp.appframework.userregistrationscreen;
 import android.content.Intent;
 
 import com.philips.cdp.appframework.homescreen.HamburgerActivity;
+import com.philips.cdp.appframework.modularui.UIConstants;
+import com.philips.cdp.appframework.modularui.UIFlowManager;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
@@ -21,7 +23,12 @@ public class UserRegistrationActivity extends RegistrationActivity {
     @Override
     public void onBackPressed() {
         if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
-            startActivity(new Intent(UserRegistrationActivity.this, HamburgerActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+            @UIConstants.UIStateDef int userRegState = UIFlowManager.currentState.getNavigator().onPageLoad(this);
+
+            if (UIFlowManager.activityMap.get(userRegState) == UIConstants.UI_HAMBURGER_SCREEN) {
+                UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE);
+                startActivity(new Intent(this, HamburgerActivity.class));
+            }
             super.onBackPressed();
         }
 

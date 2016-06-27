@@ -60,7 +60,6 @@ public class HamburgerActivity extends AppFrameworkBaseActivity {
          */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.uikit_hamburger_menu);
-        mNavigator = UIFlowManager.currentState.getNavigator();
         initViews();
         initActionBar(getSupportActionBar());
         configureDrawer();
@@ -69,7 +68,6 @@ public class HamburgerActivity extends AppFrameworkBaseActivity {
         hamburgerUtil = new HamburgerUtil(this, drawerListView);
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
         setDrawerAdaptor();
-        showNavigationDrawerItem(0);
 
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -159,16 +157,17 @@ public class HamburgerActivity extends AppFrameworkBaseActivity {
     private void showNavigationDrawerItem(int position) {
 
         philipsDrawerLayout.closeDrawer(navigationView);
+        //mNavigator = UIFlowManager.currentState.getNavigator();
         @UIConstants.UIStateDef int currentState = mNavigator.onClick(position,HamburgerActivity.this);
         @UIConstants.UIScreenConstants int destinationScreen = UIFlowManager.activityMap.get(currentState);
         switch (destinationScreen){
             case UIConstants.UI_HOME_SCREEN:
                 UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_HOME_STATE_ONE);
-            showFragment(new HomeScreenFragment(), HomeScreenFragment.class.getSimpleName());
+                showFragment(new HomeScreenFragment(), HomeScreenFragment.class.getSimpleName());
             break;
             case UIConstants.UI_SUPPORT_SCREEN:
                 UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_SUPPORT_STATE_ONE);
-            showFragment(new HomeScreenFragment(), HomeScreenFragment.class.getSimpleName());
+                showFragment(new HomeScreenFragment(), HomeScreenFragment.class.getSimpleName());
             break;
             case UIConstants.UI_SETTINGS_SCREEN:
                 UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE);
@@ -204,8 +203,10 @@ public class HamburgerActivity extends AppFrameworkBaseActivity {
 
     @Override
     protected void onResume() {
-        mNavigator = UIFlowManager.currentState.getNavigator();
         super.onResume();
+        mNavigator = UIFlowManager.currentState.getNavigator();
+        mNavigator.setState();
+        showNavigationDrawerItem(0);
 
     }
 }

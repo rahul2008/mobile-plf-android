@@ -5,10 +5,10 @@ import android.content.Context;
 /**
  * Created by 310240027 on 6/27/2016.
  */
-public class UIWSNavigationState implements UIBaseNavigation {
+public class UIWelcomeScreenState implements UIBaseNavigation {
     @Override
     public int onClick(int componentID, Context context) {
-        return UIConstants.UI_WELCOME_STATE_TWO;
+        return UIConstants.UI_REGISTRATION_STATE;
     }
 
     @Override
