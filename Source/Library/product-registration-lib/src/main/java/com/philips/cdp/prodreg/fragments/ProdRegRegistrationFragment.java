@@ -188,7 +188,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         if (getActivity() != null && !getActivity().isFinishing()) {
             Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("dialog");
             if (prev instanceof DialogFragment) {
-                ((DialogFragment) prev).dismiss();
+                ((DialogFragment) prev).dismissAllowingStateLoss();
             }
         }
     }
