@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,7 +27,6 @@ import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -48,8 +48,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private IAPSettings mIAPSettings;
     private IAPHandler mIapHandler;
     private CountryPreferences mCountryPreference;
-    private User mUser;
-    private Handler handler;
 
     private LinearLayout mSelectCountryLl;
     private FrameLayout mShoppingCart;
@@ -60,11 +58,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private Button mFragmentLaunch;
     private Button mLaunchProductDetail;
 
-    private String mSelectedCountry;
     private int mSelectedCountryIndex;
     private boolean mProductCountRequested;
-    private ArrayList<String> mProductList;
-
+    private ProgressDialog mProgressDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +94,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
         mIapHandler = IAPHandler.init(this, mIAPSettings);
-        mProductList = new ArrayList<>();
+        ArrayList<String> mProductList = new ArrayList<>();
         mProductList.add("HX9042/64");
         mProductList.add("HX9042/64");
         mProductList.add("HX9042/64");
@@ -121,7 +117,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mIapHandler.launchCategorizedCatalog(mProductList);
 
-        handler = new Handler(Looper.getMainLooper());
+        Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -136,7 +132,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         /** Should be commented for debug builds */
         final String HOCKEY_APP_ID = "dc402a11ae984bd18f99c07d9b4fe6a4";
         CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
-
             public boolean shouldAutoUploadCrashes() {
                 return !IAPLog.isLoggingEnabled();
             }
@@ -146,11 +141,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     }
 
     private void init() {
-        mUser = new User(this);
+        User mUser = new User(this);
         if (mUser.isUserSignIn()) {
             displayViews();
             if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
-                Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
+                showProgressDialog();
                 mIapHandler.getProductCartCount(mProductCountListener);
             }
         }
@@ -158,7 +153,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     protected void onDestroy() {
-        Utility.dismissProgressDialog();
+        dismissProgressDialog();
         super.onDestroy();
     }
 
@@ -215,12 +210,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
-
     }
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
-
     }
 
     @Override
@@ -230,27 +223,24 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onUserLogoutFailure() {
-
     }
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-
     }
 
     private IAPHandlerProductListListener mGetCompleteProductListener = new IAPHandlerProductListListener() {
 
         @Override
         public void onFailure(int errorCode) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
             IAPLog.d(IAPLog.LOG, "Server error" + errorCode);
         }
 
         @Override
         public void onSuccess(ArrayList<String> productList) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
             IAPLog.d(IAPLog.LOG, "Product List =" + productList.toString());
-            Toast.makeText(getApplicationContext(), "Product List = " + productList.toString(), Toast.LENGTH_LONG).show();
         }
     };
 
@@ -263,30 +253,27 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
             } else {
                 mCountText.setVisibility(View.GONE);
             }
-            Utility.dismissProgressDialog();
-
+            dismissProgressDialog();
             mProductCountRequested = false;
         }
 
         @Override
         public void onFailure(final int errorCode) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
             showToast(errorCode);
             mProductCountRequested = false;
         }
-
-
     };
 
     private IAPHandlerListener mBuyProductListener = new IAPHandlerListener() {
         @Override
         public void onSuccess(final int count) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
         }
 
         @Override
         public void onFailure(final int errorCode) {
-            Utility.dismissProgressDialog();
+            dismissProgressDialog();
             showToast(errorCode);
         }
     };
@@ -302,7 +289,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
             errorText = "Product out of stock";
         }
-
         Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
@@ -310,9 +296,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mShopNow.setEnabled(true);
-        mLaunchProductDetail.setEnabled(true);
-        //Don't process Select country
         mSelectedCountryIndex = position;
         mCountryPreference.saveCountryPrefrence(position);
 
@@ -328,27 +311,29 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mFragmentLaunch.setVisibility(View.VISIBLE);
         mShoppingCart.setVisibility(View.VISIBLE);
         mShopNow.setVisibility(View.VISIBLE);
+        mShopNow.setEnabled(true);
+        mLaunchProductDetail.setEnabled(true);
         mPurchaseHistory.setEnabled(true);
 
-        mSelectedCountry = parent.getItemAtPosition(position).toString();
+        String mSelectedCountry = parent.getItemAtPosition(position).toString();
         if (mSelectedCountry.equals("UK"))
             mSelectedCountry = "GB";
 
         setLocale("en", mSelectedCountry);
 
-     //   if (!mProductCountRequested) {
-            mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-            setUseLocalData();
-            mIapHandler = IAPHandler.init(this, mIAPSettings);
-            updateCartIcon();
-            if (!shouldUseLocalData()) {
-                Utility.showProgressDialog(this, getString(R.string.iap_please_wait));
-                mProductCountRequested = true;
-                mIapHandler.getProductCartCount(mProductCountListener);
-                mPurchaseHistory.setVisibility(View.VISIBLE);
-            } else
-                mPurchaseHistory.setVisibility(View.GONE);
-       // }
+        //   if (!mProductCountRequested) {
+        mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
+//        setUseLocalData();
+        mIapHandler = IAPHandler.init(this, mIAPSettings);
+        updateCartIcon();
+        if (!shouldUseLocalData()) {
+            showProgressDialog();
+            mProductCountRequested = true;
+            mIapHandler.getProductCartCount(mProductCountListener);
+            mPurchaseHistory.setVisibility(View.VISIBLE);
+        } else
+            mPurchaseHistory.setVisibility(View.GONE);
+        // }
     }
 
     private void setLocale(String languageCode, String countryCode) {
@@ -382,6 +367,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     }
 
     private void hideViews() {
+        mCountText.setVisibility(View.GONE);
+        mFragmentLaunch.setVisibility(View.GONE);
         mShoppingCart.setVisibility(View.GONE);
         mSelectCountryLl.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
@@ -390,8 +377,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mSelectedCountryIndex = 0;
         mCountryPreference.clearCountryPreference();
         mSpinner.setSelection(0);
-        mCountText.setVisibility(View.GONE);
-        mFragmentLaunch.setVisibility(View.GONE);
     }
 
     private void showAppVersion() {
@@ -410,5 +395,23 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setMessage(getString(R.string.iap_please_wait) + "...");
+        }
+        if ((!mProgressDialog.isShowing()) && !isFinishing()) {
+            mProgressDialog.show();
+        }
+    }
+
+    public void dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing() && !isFinishing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
     }
 }

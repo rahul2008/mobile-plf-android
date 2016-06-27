@@ -167,7 +167,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
 
     @Override
     public void onClick(View v) {
-
         Utility.hideKeypad(mContext);
         if (isNetworkNotConnected()) return;
         if (v == mBtnContinue) {

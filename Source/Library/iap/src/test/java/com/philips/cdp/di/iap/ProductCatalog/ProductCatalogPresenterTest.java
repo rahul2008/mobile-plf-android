@@ -57,7 +57,7 @@ public class ProductCatalogPresenterTest {
 
     @Before
     public void setUP() {
-        mPresenter = new ProductCatalogPresenter(context, null, mFragmentManager);
+        mPresenter = new ProductCatalogPresenter(context, null, mFragmentManager, true);
         mPresenter.setHybrisDelegate(mHybrisDelegate);
         when(mHybrisDelegate.getNetworkController(context)).thenReturn(mNetworkController);
         doNothing().when(mNetworkController).addToVolleyQueue(mIAPJsonReq);
