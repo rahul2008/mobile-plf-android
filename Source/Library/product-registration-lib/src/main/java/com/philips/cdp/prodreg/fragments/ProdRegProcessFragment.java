@@ -94,7 +94,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null && savedInstanceState.getBoolean(ProdRegConstants.PROGRESS_STATE)) {
             isSavedInstanceState = true;
-            showProgressAlertDialog(getActivity().getString(R.string.PPR_Looking_For_Products_Lbltxt));
         }
     }
 
