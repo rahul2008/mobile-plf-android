@@ -14,16 +14,14 @@ public class UIWSNavigationStateTwo implements UIBaseNavigation {
     @UIConstants.UIStateDef
     int onClick(int componentID, Context context) {
         @UIConstants.UIStateDef int destinationScreen = 0;
-        UIState wsNavStateOne = (UIState) UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
-
 
         switch (componentID) {
             case R.id.start_registration_button:
                 SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS,UIConstants.UI_SPLASH_STATE_TWO);
-                destinationScreen = wsNavStateOne.getStateID();
+                destinationScreen = UIConstants.UI_REGISTRATION_STATE_ONE;
                 break;
             case R.id.appframework_skip_button:
-                destinationScreen = wsNavStateOne.getStateID();
+                destinationScreen = UIConstants.UI_REGISTRATION_STATE_ONE;
                 break;
 
         }
@@ -43,6 +41,11 @@ public class UIWSNavigationStateTwo implements UIBaseNavigation {
     @UIConstants.UIStateDef
     int onLongPress(int componentID, Context context) {
         return UIConstants.UI_SPLASH_STATE_ONE;
+    }
+
+    @Override
+    public int onPageLoad(Context context) {
+        return 0;
     }
 
     @Override

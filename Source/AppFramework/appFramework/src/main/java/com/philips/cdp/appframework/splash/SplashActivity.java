@@ -114,26 +114,18 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 // Start your app main activity
 
                 @UIConstants.UIStateDef int stateID =  UIFlowManager.currentState.getNavigator().onClick(0, SplashActivity.this);
-                switch(stateID){
-                    case UIConstants.UI_HAMBURGER_STATE_ONE:
-                        if (UIFlowManager.activityMap.get(UIConstants.UI_SPLASH_STATE_ONE) == UIConstants.UI_HAMBURGER_SCREEN) {
+                        if (UIFlowManager.activityMap.get(stateID) == UIConstants.UI_HAMBURGER_SCREEN) {
                             UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE_ONE);
                             startActivity(new Intent(SplashActivity.this, HamburgerActivity.class));
                         }
-                        break;
-                    case UIConstants.UI_REGISTRATION_STATE_ONE:
-                        if (UIFlowManager.activityMap.get(UIConstants.UI_SPLASH_STATE_TWO) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
+                        if (UIFlowManager.activityMap.get(stateID) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
                             UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
                             startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
                         }
-                        break;
-                    case UIConstants.UI_WELCOME_STATE_TWO:
-                        if (UIFlowManager.activityMap.get(UIConstants.UI_SPLASH_STATE_THREE) == UIConstants.UI_WELCOME_SCREEN) {
+                        if (UIFlowManager.activityMap.get(stateID) == UIConstants.UI_WELCOME_SCREEN) {
                             UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
                             startActivity(new Intent(SplashActivity.this, IntroductionScreenActivity.class));
                         }
-                        break;
-                    }
 
                 finish();
             }

@@ -185,17 +185,13 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onUserRegistrationComplete(Activity activity) {
         mNavigator = UIFlowManager.currentState.getNavigator();
         if (null != activity) {
-            @UIConstants.UIStateDef int userRegState = mNavigator.onClick(userRegistrationClickID, IntroductionScreenActivity.this);
+            @UIConstants.UIStateDef int userRegState = mNavigator.onPageLoad(IntroductionScreenActivity.this);
 
-            switch (userRegState) {
-                case UIConstants.UI_HAMBURGER_STATE_ONE:
-                    if (UIFlowManager.activityMap.get(UIConstants.UI_HAMBURGER_STATE_ONE) == UIConstants.UI_HAMBURGER_SCREEN) {
+                    if (UIFlowManager.activityMap.get(userRegState) == UIConstants.UI_HAMBURGER_SCREEN) {
                         UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE_ONE);
                         startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
                     }
-                    break;
             }
-        }
     }
 
     @Override
@@ -255,23 +251,17 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
                 break;
             case R.id.appframework_skip_button:
                 break;
-        }
+                }
 
-        switch (currentState) {
-            case UIConstants.UI_WELCOME_STATE_TWO:
-                if (UIFlowManager.activityMap.get(UIConstants.UI_WELCOME_STATE_ONE) == UIConstants.UI_HAMBURGER_SCREEN) {
+                if (UIFlowManager.activityMap.get(currentState) == UIConstants.UI_HAMBURGER_SCREEN) {
                     UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
                     startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
 
                 }
-                break;
-            case UIConstants.UI_REGISTRATION_STATE_ONE:
-                if (UIFlowManager.activityMap.get(UIConstants.UI_WELCOME_STATE_TWO) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
+                if (UIFlowManager.activityMap.get(currentState) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
                     UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
                     startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
                 }
-                break;
-        }
 
     }
 

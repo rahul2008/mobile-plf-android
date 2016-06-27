@@ -22,6 +22,11 @@ public class UIHamSettingsNavigationStateOne implements UIBaseNavigation{
     }
 
     @Override
+    public int onPageLoad(Context context) {
+        return 0;
+    }
+
+    @Override
     public void setState() {
 
     }

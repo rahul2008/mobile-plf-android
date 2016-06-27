@@ -8,9 +8,7 @@ import android.content.Context;
 public class UISplashNavigationStateThree implements UIBaseNavigation {
     @Override
     public int onClick(int componentID, Context context) {
-        @UIConstants.UIStateDef int destinationScreen = 0;
-        UIState wsNavStateOne = (UIState) UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
-        return wsNavStateOne.getStateID();
+        return UIConstants.UI_WELCOME_STATE_TWO;
     }
 
     @Override
@@ -21,6 +19,11 @@ public class UISplashNavigationStateThree implements UIBaseNavigation {
     @Override
     public int onLongPress(int componentID, Context context) {
         return UIConstants.UI_SPLASH_STATE_ONE;
+    }
+
+    @Override
+    public int onPageLoad(Context context) {
+        return 0;
     }
 
     @Override

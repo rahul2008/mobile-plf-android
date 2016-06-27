@@ -18,6 +18,10 @@ public interface UIBaseNavigation {
     @UIConstants.UIStateDef
     int onLongPress(int componentID, Context context);
 
+    public
+    @UIConstants.UIStateDef
+    int onPageLoad(Context context);
+
     void setState();
 
 }
