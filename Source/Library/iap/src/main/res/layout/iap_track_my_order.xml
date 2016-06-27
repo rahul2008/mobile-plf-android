@@ -87,6 +87,6 @@
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
         android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
         android:enabled="true"
-        android:text="@string/iap_track_my_shipment" />
+        android:text="@string/iap_track_shipment" />
 
 </RelativeLayout>
