@@ -32,7 +32,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/Enter_Code_Placeholder_txtFiled"
             android:imeOptions="actionNext"
-            android:inputType="phone"
+            android:inputType="text"
             android:maxLength="@integer/reg_et_enter_code_max_length"
             reglib:fontAssetName="CentraleSans-Light.otf" />
 
