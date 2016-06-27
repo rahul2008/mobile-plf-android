@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+    <actions/>
+    <description>Android developautomation build from Android Develop Automation sources
+    </description>
+    <displayName>Android Develop Automation</displayName>
+    <logRotator class="hudson.tasks.LogRotator">
+        <daysToKeep>30</daysToKeep>
+        <numToKeep>-1</numToKeep>
+        <artifactDaysToKeep>30</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+    </logRotator>
+    <keepDependencies>false</keepDependencies>
+    <properties/>
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3.5">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+            <hudson.plugins.git.UserRemoteConfig>
+                <url>ssh://git@atlas.natlab.research.philips.com:7999/ehug/ugrow-android.git</url>
+            </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+            <hudson.plugins.git.BranchSpec>
+                <name>*/develop</name>
+            </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+            <hudson.plugins.git.extensions.impl.CleanCheckout/>
+            <hudson.plugins.git.extensions.impl.SubmoduleOption>
+                <disableSubmodules>false</disableSubmodules>
+                <recursiveSubmodules>true</recursiveSubmodules>
+                <trackingSubmodules>false</trackingSubmodules>
+            </hudson.plugins.git.extensions.impl.SubmoduleOption>
+        </extensions>
+    </scm>
+    <assignedNode>(Android &amp;&amp; Acceptance)</assignedNode>
+    <canRoam>false</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers>
+        <hudson.triggers.SCMTrigger>
+            <spec># every 2 minutes
+                H/2 * * * *
+            </spec>
+            <ignorePostCommitHooks>false</ignorePostCommitHooks>
+        </hudson.triggers.SCMTrigger>
+    </triggers>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <hudson.plugins.gradle.Gradle plugin="gradle@1.24">
+            <description>run calabash</description>
+            <switches></switches>
+            <tasks>calabashDebug -Ptag=&quot;@Android&quot;</tasks>
+            <rootBuildScriptDir>Source/uGrow/</rootBuildScriptDir>
+            <buildFile>app/build.gradle</buildFile>
+            <gradleName>(Default)</gradleName>
+            <useWrapper>true</useWrapper>
+            <makeExecutable>false</makeExecutable>
+            <fromRootBuildScriptDir>true</fromRootBuildScriptDir>
+            <useWorkspaceAsHome>false</useWorkspaceAsHome>
+        </hudson.plugins.gradle.Gradle>
+    </builders>
+    <publishers>
+        <hudson.tasks.ArtifactArchiver>
+            <artifacts>**/calabash.json</artifacts>
+            <allowEmptyArchive>false</allowEmptyArchive>
+            <onlyIfSuccessful>false</onlyIfSuccessful>
+            <fingerprint>false</fingerprint>
+            <defaultExcludes>true</defaultExcludes>
+        </hudson.tasks.ArtifactArchiver>
+        <net.masterthought.jenkins.CucumberReportPublisher plugin="cucumber-reports@0.1.0">
+            <jsonReportDirectory></jsonReportDirectory>
+            <pluginUrlPath></pluginUrlPath>
+            <fileIncludePattern></fileIncludePattern>
+            <fileExcludePattern></fileExcludePattern>
+            <skippedFails>false</skippedFails>
+            <pendingFails>false</pendingFails>
+            <undefinedFails>false</undefinedFails>
+            <missingFails>false</missingFails>
+            <noFlashCharts>false</noFlashCharts>
+            <ignoreFailedTests>false</ignoreFailedTests>
+            <parallelTesting>false</parallelTesting>
+        </net.masterthought.jenkins.CucumberReportPublisher>
+        <hudson.plugins.claim.ClaimPublisher plugin="claim@2.7"/>
+        <net.hurstfrost.hudson.sounds.HudsonSoundsNotifier plugin="sounds@0.4.3">
+            <soundEvents>
+                <net.hurstfrost.hudson.sounds.HudsonSoundsNotifier_-SoundEvent>
+                    <soundId></soundId>
+                    <toResult>
+                        <name>ABORTED</name>
+                        <ordinal>4</ordinal>
+                        <color>ABORTED</color>
+                        <completeBuild>false</completeBuild>
+                    </toResult>
+                    <fromResults>
+                        <hudson.model.Result>
+                            <name>SUCCESS</name>
+                            <ordinal>0</ordinal>
+                            <color>BLUE</color>
+                            <completeBuild>true</completeBuild>
+                        </hudson.model.Result>
+                    </fromResults>
+                </net.hurstfrost.hudson.sounds.HudsonSoundsNotifier_-SoundEvent>
+                <net.hurstfrost.hudson.sounds.HudsonSoundsNotifier_-SoundEvent>
+                    <soundId></soundId>
+                    <toResult>
+                        <name>FAILURE</name>
+                        <ordinal>2</ordinal>
+                        <color>RED</color>
+                        <completeBuild>true</completeBuild>
+                    </toResult>
+                    <fromResults>
+                        <hudson.model.Result>
+                            <name>SUCCESS</name>
+                            <ordinal>0</ordinal>
+                            <color>BLUE</color>
+                            <completeBuild>true</completeBuild>
+                        </hudson.model.Result>
+                    </fromResults>
+                </net.hurstfrost.hudson.sounds.HudsonSoundsNotifier_-SoundEvent>
+                <net.hurstfrost.hudson.sounds.HudsonSoundsNotifier_-SoundEvent>
+                    <soundId></soundId>
+                    <toResult>
+                        <name>UNSTABLE</name>
+                        <ordinal>1</ordinal>
+                        <color>YELLOW</color>
+                        <completeBuild>true</completeBuild>
+                    </toResult>
+                    <fromResults>
+                        <hudson.model.Result>
+                            <name>SUCCESS</name>
+                            <ordinal>0</ordinal>
+                            <color>BLUE</color>
+                            <completeBuild>true</completeBuild>
+                        </hudson.model.Result>
+                    </fromResults>
+                </net.hurstfrost.hudson.sounds.HudsonSoundsNotifier_-SoundEvent>
+                <net.hurstfrost.hudson.sounds.HudsonSoundsNotifier_-SoundEvent>
+                    <soundId></soundId>
+                    <toResult>
+                        <name>SUCCESS</name>
+                        <ordinal>0</ordinal>
+                        <color>BLUE</color>
+                        <completeBuild>true</completeBuild>
+                    </toResult>
+                    <fromResults>
+                        <hudson.model.Result>
+                            <name>NOT_BUILT</name>
+                            <ordinal>3</ordinal>
+                            <color>NOTBUILT</color>
+                            <completeBuild>false</completeBuild>
+                        </hudson.model.Result>
+                        <hudson.model.Result>
+                            <name>FAILURE</name>
+                            <ordinal>2</ordinal>
+                            <color>RED</color>
+                            <completeBuild>true</completeBuild>
+                        </hudson.model.Result>
+                        <hudson.model.Result>
+                            <name>UNSTABLE</name>
+                            <ordinal>1</ordinal>
+                            <color>YELLOW</color>
+                            <completeBuild>true</completeBuild>
+                        </hudson.model.Result>
+                        <hudson.model.Result>
+                            <name>ABORTED</name>
+                            <ordinal>4</ordinal>
+                            <color>ABORTED</color>
+                            <completeBuild>false</completeBuild>
+                        </hudson.model.Result>
+                    </fromResults>
+                </net.hurstfrost.hudson.sounds.HudsonSoundsNotifier_-SoundEvent>
+            </soundEvents>
+        </net.hurstfrost.hudson.sounds.HudsonSoundsNotifier>
+        <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.26">
+            <deleteDirs>false</deleteDirs>
+            <skipWhenFailed>false</skipWhenFailed>
+            <cleanWhenSuccess>true</cleanWhenSuccess>
+            <cleanWhenUnstable>true</cleanWhenUnstable>
+            <cleanWhenFailure>true</cleanWhenFailure>
+            <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
+            <cleanWhenAborted>true</cleanWhenAborted>
+            <notFailBuild>false</notFailBuild>
+            <cleanupMatrixParent>false</cleanupMatrixParent>
+            <externalDelete></externalDelete>
+        </hudson.plugins.ws__cleanup.WsCleanup>
+    </publishers>
+    <buildWrappers/>
+</project>
