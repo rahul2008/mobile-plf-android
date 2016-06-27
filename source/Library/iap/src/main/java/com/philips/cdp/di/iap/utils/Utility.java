@@ -160,5 +160,4 @@ public class Utility {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy"); // Set your date format
         return sdf.format(convertedDate);
     }
-
 }

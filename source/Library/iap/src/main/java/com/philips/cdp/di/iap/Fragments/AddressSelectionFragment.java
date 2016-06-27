@@ -125,7 +125,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onStop() {
         super.onStop();
-        if(mAdapter!=null) {
+        if (mAdapter != null) {
             mAdapter.onStop();
         }
     }
@@ -156,7 +156,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             moveToShoppingCart();
         } else {
             if (msg.what == RequestCode.DELETE_ADDRESS) {
-                mAddresses.remove(mAdapter.getOptionsClickPosition());
+                if (mAdapter.getOptionsClickPosition() != -1)
+                    mAddresses.remove(mAdapter.getOptionsClickPosition());
                 mAdapter.setAddresses(mAddresses);
                 mAdapter.notifyDataSetChanged();
             } else if (isVisible()) {
