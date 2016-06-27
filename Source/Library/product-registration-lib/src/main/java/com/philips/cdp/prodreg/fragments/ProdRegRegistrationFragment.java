@@ -3,10 +3,12 @@ package com.philips.cdp.prodreg.fragments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,6 +27,7 @@ import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
+import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
@@ -57,7 +60,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     private Product currentProduct;
     private EditText serial_number_editText, date_EditText;
     private InlineForms serialLayout, purchaseDateLayout;
-    private ProdRegLoadingFragment prodRegLoadingFragment;
     private WeakReference<Activity> mActivityWeakRef;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -93,6 +95,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     @Override
     public void onStart() {
         mActivityWeakRef = new WeakReference<Activity>(getActivity());
+        resetErrorDialogListener();
         super.onStart();
     }
 
@@ -124,6 +127,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dismissDialog();
         setRetainInstance(true);
     }
 
@@ -159,8 +163,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                 if (mActivityWeakRef != null) {
                     final FragmentActivity activity = getActivity();
-                    if (activity != null && !activity.isFinishing() && prodRegLoadingFragment != null) {
-                        prodRegLoadingFragment.dismiss();
+                    if (activity != null && !activity.isFinishing()) {
+                        dismissDialog();
                         showFragment(new ProdRegSuccessFragment());
                     }
                 }
@@ -171,13 +175,22 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                 if (mActivityWeakRef != null) {
                     Log.d(getClass() + "", "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
                     final FragmentActivity activity = getActivity();
-                    if (activity != null && !activity.isFinishing() && prodRegLoadingFragment != null) {
-                        prodRegLoadingFragment.dismiss();
+                    if (activity != null && !activity.isFinishing()) {
+                        dismissDialog();
                         showAlertOnError(registeredProduct.getProdRegError().getCode());
                     }
                 }
             }
         };
+    }
+
+    private void dismissDialog() {
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("dialog");
+            if (prev instanceof DialogFragment) {
+                ((DialogFragment) prev).dismiss();
+            }
+        }
     }
 
     @Override
@@ -192,9 +205,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             updateProductView();
         } else {
             clearFragmentStack();
-        }
-        if (savedInstanceState != null && savedInstanceState.getBoolean(ProdRegConstants.PROGRESS_STATE)) {
-            showProgressAlertDialog(getActivity().getString(R.string.prod_reg_registering_product));
         }
     }
 
@@ -368,16 +378,16 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     private void showProgressAlertDialog(final String description) {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
-            prodRegLoadingFragment = new ProdRegLoadingFragment();
-            prodRegLoadingFragment.setCancelable(false);
-            prodRegLoadingFragment.show(activity.getSupportFragmentManager(), "dialog");
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    prodRegLoadingFragment.setDescription(description);
-                }
-            }, 200);
+            // Create and show the dialog.
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.commit();
+            DialogFragment newFragment = ProdRegLoadingFragment.newInstance(description);
+            newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+            getActivity().getSupportFragmentManager().executePendingTransactions();
         }
     }
 
@@ -389,9 +399,16 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
 
     @Override
     public void onSaveInstanceState(final Bundle outState) {
-        if (prodRegLoadingFragment != null && prodRegLoadingFragment.isVisible()) {
-            outState.putBoolean(ProdRegConstants.PROGRESS_STATE, true);
-        }
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public DialogOkButtonListener getDialogOkButtonListener() {
+        return new DialogOkButtonListener() {
+            @Override
+            public void onOkButtonPressed() {
+                dismissAlertOnError();
+            }
+        };
     }
 }

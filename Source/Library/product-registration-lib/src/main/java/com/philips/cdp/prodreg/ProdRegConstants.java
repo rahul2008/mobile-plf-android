@@ -20,4 +20,6 @@ public class ProdRegConstants {
     public static final String PROD_REG_VERTICAL_TAG = "prod_reg_vertical_tag";
     public static final String MUL_PROD_REG_CONSTANT = "mul_prod_reg";
     public static final String PROGRESS_STATE = "progress_state";
+    public static final String ERROR_STATE = "error_state";
+    public static final String IS_SIGN_IN_CALLED = "sign_incalled";
 }

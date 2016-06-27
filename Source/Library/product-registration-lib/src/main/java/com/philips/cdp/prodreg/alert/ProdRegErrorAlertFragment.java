@@ -1,9 +1,10 @@
 package com.philips.cdp.prodreg.alert;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,15 +21,14 @@ public class ProdRegErrorAlertFragment extends BlurDialogFragment {
     private TextView titleTextView, descriptionTextView;
     private DialogOkButtonListener dialogOkButtonListener;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.prodreg_alert_dialog, container, false);
-        Button always = (Button) v.findViewById(R.id.dialogButtonOK);
-        titleTextView = (TextView) v.findViewById(R.id.dialogTitle);
-        descriptionTextView = (TextView) v.findViewById(R.id.dialogDescription);
-        always.setOnClickListener(dismissDialog());
-        setRetainInstance(true);
-        return v;
+    public static ProdRegErrorAlertFragment newInstance(String title, String description) {
+        ProdRegErrorAlertFragment frag = new ProdRegErrorAlertFragment();
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        args.putString("description", description);
+        frag.setCancelable(false);
+        frag.setArguments(args);
+        return frag;
     }
 
     private View.OnClickListener dismissDialog() {
@@ -37,20 +37,36 @@ public class ProdRegErrorAlertFragment extends BlurDialogFragment {
             public void onClick(View v) {
                 if (dialogOkButtonListener != null)
                     dialogOkButtonListener.onOkButtonPressed();
-                dismiss();
             }
         };
     }
 
-    public void setTitle(String title) {
-        titleTextView.setText(title != null ? title : "");
-    }
-
-    public void setDescription(String description) {
-        descriptionTextView.setText(description != null ? description : "");
-    }
-
     public void setDialogOkButtonListener(final DialogOkButtonListener dialogOkButtonListener) {
         this.dialogOkButtonListener = dialogOkButtonListener;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        String title = getArguments().getString("title");
+        String description = getArguments().getString("description");
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View v = inflater.inflate(R.layout.prodreg_alert_dialog, null);
+        Button always = (Button) v.findViewById(R.id.dialogButtonOK);
+        titleTextView = (TextView) v.findViewById(R.id.dialogTitle);
+        titleTextView.setText(title);
+        descriptionTextView = (TextView) v.findViewById(R.id.dialogDescription);
+        descriptionTextView.setText(description);
+        always.setOnClickListener(dismissDialog());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(v);
+        setRetainInstance(true);
+        return builder.create();
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (getDialog() != null && getRetainInstance())
+            getDialog().setDismissMessage(null);
+        super.onDestroyView();
     }
 }

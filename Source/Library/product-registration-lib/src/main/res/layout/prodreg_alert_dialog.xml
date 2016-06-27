@@ -9,7 +9,6 @@
         android:layout_width="@dimen/uikit_modal_alert_dialog_width"
         android:layout_height="300dp"
         android:layout_gravity="center"
-        android:background="@drawable/uikit_modal_alert"
         android:minHeight="300dp"
         android:orientation="vertical">
 

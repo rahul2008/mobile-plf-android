@@ -2,7 +2,6 @@ package com.philips.cdp.prodreg.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -31,8 +30,10 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
 
     private static String TAG = ProdRegBaseFragment.class.getSimpleName();
     private static ActionbarUpdateListener mActionbarUpdateListener;
+    protected ProdRegErrorAlertFragment prodRegErrorAlertFragment;
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
+
     public abstract String getActionbarTitle();
 
     @Override
@@ -148,19 +149,37 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
     protected void showAlertOnError(final int statusCode) {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
-            final ProdRegErrorAlertFragment prodRegErrorAlertFragment = new ProdRegErrorAlertFragment();
-            prodRegErrorAlertFragment.setDialogOkButtonListener(getDialogOkButtonListener());
-            prodRegErrorAlertFragment.setCancelable(false);
-            prodRegErrorAlertFragment.show(activity.getSupportFragmentManager(), "dialog");
             final ProdRegErrorMap prodRegErrorMap = new ErrorHandler().getError(activity, statusCode);
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    prodRegErrorAlertFragment.setTitle(prodRegErrorMap.getTitle());
-                    prodRegErrorAlertFragment.setDescription(prodRegErrorMap.getDescription());
-                }
-            }, 200);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.commit();
+            // Create and show the dialog.
+            ProdRegErrorAlertFragment newFragment = ProdRegErrorAlertFragment.newInstance(prodRegErrorMap.getTitle(), prodRegErrorMap.getDescription());
+            newFragment.setDialogOkButtonListener(getDialogOkButtonListener());
+            newFragment.show(getActivity().getSupportFragmentManager(), "error_dialog");
+        }
+    }
+
+    /**
+     *
+     */
+    protected void resetErrorDialogListener() {
+        Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
+        if (prev instanceof ProdRegErrorAlertFragment) {
+            ((ProdRegErrorAlertFragment) prev).setDialogOkButtonListener(getDialogOkButtonListener());
+        }
+    }
+
+    protected void dismissAlertOnError() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("error_dialog");
+            if (prev instanceof ProdRegErrorAlertFragment) {
+                ((ProdRegErrorAlertFragment) prev).dismiss();
+            }
         }
     }
 
