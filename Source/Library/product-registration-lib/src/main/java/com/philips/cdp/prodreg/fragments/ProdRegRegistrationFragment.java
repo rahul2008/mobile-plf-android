@@ -121,6 +121,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
     @NonNull
     private TextWatcher getWatcher() {
         return new TextWatcher() {
@@ -186,6 +192,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             updateProductView();
         } else {
             clearFragmentStack();
+        }
+        if (savedInstanceState != null && savedInstanceState.getBoolean(ProdRegConstants.PROGRESS_STATE)) {
+            showProgressAlertDialog(getActivity().getString(R.string.prod_reg_registering_product));
         }
     }
 
@@ -376,5 +385,13 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     public void onDestroy() {
         super.onDestroy();
         mActivityWeakRef = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        if (prodRegLoadingFragment != null && prodRegLoadingFragment.isVisible()) {
+            outState.putBoolean(ProdRegConstants.PROGRESS_STATE, true);
+        }
+        super.onSaveInstanceState(outState);
     }
 }

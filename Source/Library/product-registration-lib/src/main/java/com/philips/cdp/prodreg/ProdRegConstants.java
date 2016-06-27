@@ -19,4 +19,5 @@ public class ProdRegConstants {
     public static final String PROD_REG_PRODUCT_METADATA = "product_metadata";
     public static final String PROD_REG_VERTICAL_TAG = "prod_reg_vertical_tag";
     public static final String MUL_PROD_REG_CONSTANT = "mul_prod_reg";
+    public static final String PROGRESS_STATE = "progress_state";
 }
