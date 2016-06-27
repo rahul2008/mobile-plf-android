@@ -12,18 +12,8 @@ public class UIWelcomeScreenState implements UIBaseNavigation {
     }
 
     @Override
-    public int onSwipe(int componentID, Context context) {
-        return 0;
-    }
-
-    @Override
-    public int onLongPress(int componentID, Context context) {
-        return 0;
-    }
-
-    @Override
     public int onPageLoad(Context context) {
-        return 0;
+        return UIConstants.UI_REGISTRATION_STATE;
     }
 
     @Override

@@ -55,7 +55,7 @@ public class SharedPreferenceUtility {
     }
 
     @UIConstants.UIStateDef public int getPreferenceInt(String key) {
-        return mMyPreferences.getInt(key, UIConstants.UI_SPLASH_STATE_ONE);
+        return mMyPreferences.getInt(key, UIConstants.UI_SPLASH_STATE);
     }
     public boolean contains(String key){
         return mMyPreferences.contains(key);

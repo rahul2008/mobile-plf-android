@@ -22,15 +22,6 @@ public class UIHamburgerNavigationState implements UIBaseNavigation {
         return destinationScreen;
     }
 
-    @Override
-    public int onSwipe(int componentID, Context context) {
-        return UIConstants.UI_HAMBURGER_HOME_STATE_ONE;
-    }
-
-    @Override
-    public int onLongPress(int componentID, Context context) {
-        return UIConstants.UI_HAMBURGER_HOME_STATE_ONE;
-    }
 
     @Override
     public int onPageLoad(Context context) {

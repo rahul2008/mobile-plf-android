@@ -11,15 +11,6 @@ public class UIHamDebugNavigationStateOne implements UIBaseNavigation{
         return 0;
     }
 
-    @Override
-    public int onSwipe(int componentID, Context context) {
-        return 0;
-    }
-
-    @Override
-    public int onLongPress(int componentID, Context context) {
-        return 0;
-    }
 
     @Override
     public int onPageLoad(Context context) {

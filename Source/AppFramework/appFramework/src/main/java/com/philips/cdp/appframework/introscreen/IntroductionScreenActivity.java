@@ -248,7 +248,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
         switch (v.getId()) {
             case R.id.start_registration_button:
-                SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS, UIConstants.UI_REGISTRATION_STATE);
+                SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS, UIConstants.UI_WELCOME_STATE);
                 setIntroScreenDonePressed();
                 if (UIFlowManager.activityMap.get(currentState) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
                     UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE);
@@ -262,9 +262,6 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
                 }
                 break;
                 }
-
-
-
     }
 
     @Override

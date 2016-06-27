@@ -13,16 +13,6 @@ public class UIUserRegNavigationState implements UIBaseNavigation {
     }
 
     @Override
-    public int onSwipe(int componentID, Context context) {
-        return UIConstants.UI_SPLASH_STATE_ONE;
-    }
-
-    @Override
-    public int onLongPress(int componentID, Context context) {
-        return UIConstants.UI_SPLASH_STATE_ONE;
-    }
-
-    @Override
     public int onPageLoad(Context context) {
         return UIConstants.UI_HAMBURGER_STATE;
     }
