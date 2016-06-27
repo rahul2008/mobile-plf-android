@@ -8,7 +8,7 @@ import android.content.Context;
 public class UISplashNavigationStateTwo implements UIBaseNavigation {
     @Override
     public int onClick(int componentID, Context context) {
-        return UIConstants.UI_REGISTRATION_STATE_ONE;
+        return UIConstants.UI_REGISTRATION_STATE;
     }
 
     @Override

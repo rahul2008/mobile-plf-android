@@ -204,7 +204,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity {
 
     @Override
     protected void onResume() {
-
+        mNavigator = UIFlowManager.currentState.getNavigator();
         super.onResume();
 
     }

@@ -28,8 +28,8 @@ public class UIFlowManager {
         stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIConstants.UI_WELCOME_STATE_ONE));
         stateBaseList.add(new UIState(new UIWSNavigationStateTwo(), UIConstants.UI_WELCOME_STATE_TWO));
         stateBaseList.add(new UIState(new UIWSNavigationState(), UIConstants.UI_WELCOME_STATE));
-        stateBaseList.add(new UIState(new UIUserRegNavigationStateOne(), UIConstants.UI_REGISTRATION_STATE_ONE));
-        stateBaseList.add(new UIState(new UIHamburgerNavigationState(), UIConstants.UI_HAMBURGER_STATE_ONE));
+        stateBaseList.add(new UIState(new UIUserRegNavigationState(), UIConstants.UI_REGISTRATION_STATE));
+        stateBaseList.add(new UIState(new UIHamburgerNavigationState(), UIConstants.UI_HAMBURGER_STATE));
         stateBaseList.add(new UIState(new UIHamHomeNavigationStateOne(), UIConstants.UI_HAMBURGER_HOME_STATE_ONE));
         stateBaseList.add(new UIState(new UIHamSupportNavigationStateOne(), UIConstants.UI_HAMBURGER_SUPPORT_STATE_ONE));
         stateBaseList.add(new UIState(new UIHamSettingsNavigationStateOne(), UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE));
@@ -77,8 +77,8 @@ public class UIFlowManager {
         activityMap.put(UIConstants.UI_WELCOME_STATE, UIConstants.UI_WELCOME_SCREEN);
         activityMap.put(UIConstants.UI_WELCOME_STATE_ONE, UIConstants.UI_HAMBURGER_SCREEN);
         activityMap.put(UIConstants.UI_WELCOME_STATE_TWO, UIConstants.UI_USER_REGISTRATION_SCREEN);
-        activityMap.put(UIConstants.UI_HAMBURGER_STATE_ONE, UIConstants.UI_HAMBURGER_SCREEN);
-        activityMap.put(UIConstants.UI_REGISTRATION_STATE_ONE, UIConstants.UI_HAMBURGER_SCREEN);
+        activityMap.put(UIConstants.UI_HAMBURGER_STATE, UIConstants.UI_HAMBURGER_SCREEN);
+        activityMap.put(UIConstants.UI_REGISTRATION_STATE, UIConstants.UI_HAMBURGER_SCREEN);
         activityMap.put(UIConstants.UI_HAMBURGER_HOME_STATE_ONE, UIConstants.UI_HOME_SCREEN);
         activityMap.put(UIConstants.UI_HAMBURGER_SUPPORT_STATE_ONE, UIConstants.UI_SUPPORT_SCREEN);
         activityMap.put(UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE, UIConstants.UI_SETTINGS_SCREEN);

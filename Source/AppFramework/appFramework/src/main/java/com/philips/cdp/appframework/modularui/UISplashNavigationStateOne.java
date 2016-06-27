@@ -8,7 +8,7 @@ import android.content.Context;
 public class UISplashNavigationStateOne implements UIBaseNavigation {
     @Override
     public int onClick(int componentID, Context context) {
-        return UIConstants.UI_HAMBURGER_STATE_ONE;
+        return UIConstants.UI_HAMBURGER_STATE;
     }
 
     @Override

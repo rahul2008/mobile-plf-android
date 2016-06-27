@@ -188,7 +188,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
             @UIConstants.UIStateDef int userRegState = mNavigator.onPageLoad(IntroductionScreenActivity.this);
 
                     if (UIFlowManager.activityMap.get(userRegState) == UIConstants.UI_HAMBURGER_SCREEN) {
-                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE_ONE);
+                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE);
                         startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
                     }
             }

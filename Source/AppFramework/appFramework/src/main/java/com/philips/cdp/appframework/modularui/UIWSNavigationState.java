@@ -28,6 +28,6 @@ public class UIWSNavigationState implements UIBaseNavigation {
 
     @Override
     public void setState() {
-
+        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE);
     }
 }

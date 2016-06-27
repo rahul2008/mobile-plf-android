@@ -115,11 +115,11 @@ public class SplashActivity extends AppFrameworkBaseActivity {
 
                 @UIConstants.UIStateDef int stateID =  UIFlowManager.currentState.getNavigator().onPageLoad(SplashActivity.this);
                         if (UIFlowManager.activityMap.get(stateID) == UIConstants.UI_HAMBURGER_SCREEN) {
-                            UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE_ONE);
+                            UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE);
                             startActivity(new Intent(SplashActivity.this, HamburgerActivity.class));
                         }
                         if (UIFlowManager.activityMap.get(stateID) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
-                            UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
+                            UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE);
                             startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
                         }
                         if (UIFlowManager.activityMap.get(stateID) == UIConstants.UI_WELCOME_SCREEN) {

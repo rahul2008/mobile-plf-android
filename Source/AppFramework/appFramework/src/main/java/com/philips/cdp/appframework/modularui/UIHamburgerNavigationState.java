@@ -39,6 +39,6 @@ public class UIHamburgerNavigationState implements UIBaseNavigation {
 
     @Override
     public void setState() {
-        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE_ONE);
+        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE);
     }
 }

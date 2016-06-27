@@ -2,7 +2,6 @@ package com.philips.cdp.appframework.modularui;
 
 import android.content.Context;
 
-import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 
 /**
@@ -13,20 +12,7 @@ public class UIWSNavigationStateTwo implements UIBaseNavigation {
     public
     @UIConstants.UIStateDef
     int onClick(int componentID, Context context) {
-        @UIConstants.UIStateDef int destinationScreen = 0;
-
-        switch (componentID) {
-            case R.id.start_registration_button:
-                SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS,UIConstants.UI_SPLASH_STATE_TWO);
-                destinationScreen = UIConstants.UI_REGISTRATION_STATE_ONE;
-                break;
-            case R.id.appframework_skip_button:
-                destinationScreen = UIConstants.UI_REGISTRATION_STATE_ONE;
-                break;
-
-        }
-
-        return destinationScreen;
+        return 0;
     }
 
     @Override
@@ -45,7 +31,12 @@ public class UIWSNavigationStateTwo implements UIBaseNavigation {
 
     @Override
     public int onPageLoad(Context context) {
-        return 0;
+
+        @UIConstants.UIStateDef int destinationScreen = 0;
+        SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS, UIConstants.UI_SPLASH_STATE_TWO);
+        destinationScreen = UIConstants.UI_HAMBURGER_STATE;
+
+        return destinationScreen;
     }
 
     @Override

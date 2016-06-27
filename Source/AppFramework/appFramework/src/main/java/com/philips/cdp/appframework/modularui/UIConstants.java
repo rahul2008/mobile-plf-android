@@ -14,7 +14,7 @@ public class UIConstants {
      * Constants for each state
      */
     @IntDef({UI_SPLASH_STATE_ONE, UI_SPLASH_STATE_TWO, UI_SPLASH_STATE_THREE, UI_WELCOME_STATE_ONE,
-            UI_WELCOME_STATE_TWO, UI_WELCOME_STATE, UI_REGISTRATION_STATE_ONE, UI_HAMBURGER_STATE_ONE,
+            UI_WELCOME_STATE_TWO, UI_WELCOME_STATE, UI_REGISTRATION_STATE, UI_HAMBURGER_STATE,
             UI_HAMBURGER_HOME_STATE_ONE, UI_HAMBURGER_SETTINGS_STATE_ONE, UI_HAMBURGER_SUPPORT_STATE_ONE, UI_HAMBURGER_DEBUG_STATE_STATE_ONE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface UIStateDef {
@@ -26,8 +26,8 @@ public class UIConstants {
     public static final int UI_WELCOME_STATE_ONE = 1004;
     public static final int UI_WELCOME_STATE_TWO = 1005;
     public static final int UI_WELCOME_STATE = 1006;
-    public static final int UI_HAMBURGER_STATE_ONE = 1007;
-    public static final int UI_REGISTRATION_STATE_ONE = 1008;
+    public static final int UI_HAMBURGER_STATE = 1007;
+    public static final int UI_REGISTRATION_STATE = 1008;
     public static final int UI_HAMBURGER_HOME_STATE_ONE = 1009;
     public static final int UI_HAMBURGER_SETTINGS_STATE_ONE = 1010;
     public static final int UI_HAMBURGER_SUPPORT_STATE_ONE = 1011;
