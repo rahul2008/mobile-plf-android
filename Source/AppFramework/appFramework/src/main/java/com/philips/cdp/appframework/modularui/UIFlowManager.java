@@ -27,6 +27,7 @@ public class UIFlowManager {
         stateBaseList.add(new UIState(new UISplashNavigationStateThree(), UIConstants.UI_SPLASH_STATE_THREE));
         stateBaseList.add(new UIState(new UIWSNavigationStateOne(), UIConstants.UI_WELCOME_STATE_ONE));
         stateBaseList.add(new UIState(new UIWSNavigationStateTwo(), UIConstants.UI_WELCOME_STATE_TWO));
+        stateBaseList.add(new UIState(new UIWSNavigationState(), UIConstants.UI_WELCOME_STATE));
         stateBaseList.add(new UIState(new UIUserRegNavigationStateOne(), UIConstants.UI_REGISTRATION_STATE_ONE));
         stateBaseList.add(new UIState(new UIHamburgerNavigationState(), UIConstants.UI_HAMBURGER_STATE_ONE));
         stateBaseList.add(new UIState(new UIHamHomeNavigationStateOne(), UIConstants.UI_HAMBURGER_HOME_STATE_ONE));
@@ -73,6 +74,7 @@ public class UIFlowManager {
         activityMap.put(UIConstants.UI_SPLASH_STATE_ONE, UIConstants.UI_HAMBURGER_SCREEN);
         activityMap.put(UIConstants.UI_SPLASH_STATE_TWO,  UIConstants.UI_USER_REGISTRATION_SCREEN);
         activityMap.put(UIConstants.UI_SPLASH_STATE_THREE, UIConstants.UI_WELCOME_SCREEN);
+        activityMap.put(UIConstants.UI_WELCOME_STATE, UIConstants.UI_WELCOME_SCREEN);
         activityMap.put(UIConstants.UI_WELCOME_STATE_ONE, UIConstants.UI_HAMBURGER_SCREEN);
         activityMap.put(UIConstants.UI_WELCOME_STATE_TWO, UIConstants.UI_USER_REGISTRATION_SCREEN);
         activityMap.put(UIConstants.UI_HAMBURGER_STATE_ONE, UIConstants.UI_HAMBURGER_SCREEN);

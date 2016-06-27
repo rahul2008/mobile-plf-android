@@ -253,13 +253,8 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
                 break;
                 }
 
-                if (UIFlowManager.activityMap.get(currentState) == UIConstants.UI_HAMBURGER_SCREEN) {
-                    UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
-                    startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
-
-                }
                 if (UIFlowManager.activityMap.get(currentState) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
-                    UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE_ONE);
+                    UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
                     startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
                 }
 

@@ -113,7 +113,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 // This method will be executed once the timer is over
                 // Start your app main activity
 
-                @UIConstants.UIStateDef int stateID =  UIFlowManager.currentState.getNavigator().onClick(0, SplashActivity.this);
+                @UIConstants.UIStateDef int stateID =  UIFlowManager.currentState.getNavigator().onPageLoad(SplashActivity.this);
                         if (UIFlowManager.activityMap.get(stateID) == UIConstants.UI_HAMBURGER_SCREEN) {
                             UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE_ONE);
                             startActivity(new Intent(SplashActivity.this, HamburgerActivity.class));
@@ -123,7 +123,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                             startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
                         }
                         if (UIFlowManager.activityMap.get(stateID) == UIConstants.UI_WELCOME_SCREEN) {
-                            UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE_TWO);
+                            UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE);
                             startActivity(new Intent(SplashActivity.this, IntroductionScreenActivity.class));
                         }
 
