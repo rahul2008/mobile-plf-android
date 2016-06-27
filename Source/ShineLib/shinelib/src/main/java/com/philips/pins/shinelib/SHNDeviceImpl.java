@@ -45,6 +45,8 @@ import java.util.UUID;
 
 public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener, SHNCentral.SHNCentralListener {
 
+    public static final long MINIMUM_CONNECTION_IDLE_TIME = 1000L;
+
     private enum InternalState {
         Disconnected, Disconnecting, Connecting, ConnectedWaitingUntilBonded, ConnectedDiscoveringServices, ConnectedInitializingServices, ConnectedReady
     }
@@ -83,6 +85,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             btGatt.discoverServices();
         }
     }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
+    private long lastDisconnectedTimeMillis;
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
         this(btDevice, shnCentral, deviceTypeName, false);
@@ -109,6 +112,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
             if (internalState == InternalState.Disconnected) {
                 shnCentral.unregisterSHNCentralStatusListenerForAddress(this, getAddress());
+                lastDisconnectedTimeMillis = System.currentTimeMillis();
             }
         }
     }
@@ -249,7 +253,18 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         connect(true, -1L);
     }
 
-    public void connect(boolean withTimeout, long timeoutInMS) {
+    public void connect(final boolean withTimeout, final long timeoutInMS) {
+        final long timeDiff = System.currentTimeMillis() - lastDisconnectedTimeMillis;
+        if (lastDisconnectedTimeMillis != 0L && timeDiff < MINIMUM_CONNECTION_IDLE_TIME) {
+            SHNLogger.w(TAG, "Postponing connect with " + (MINIMUM_CONNECTION_IDLE_TIME - timeDiff) + "ms to allow the stack to properly disconnect");
+            shnCentral.getInternalHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    connect(withTimeout, timeoutInMS);
+                }
+            }, MINIMUM_CONNECTION_IDLE_TIME - timeDiff);
+            return;
+        }
         if (shnCentral.isBluetoothAdapterEnabled()) {
             if (internalState == InternalState.Disconnected) {
                 SHNLogger.i(TAG, "connect");
