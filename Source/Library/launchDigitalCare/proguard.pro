@@ -80,6 +80,7 @@
 #GooglePLayServices
 
 -keep class android.support.**
+-keep class android.app.**
 -keep interface android.support.v13.app.** { *; }
 -keep public class * extends android.support.v13.**
 -keep public class * extends android.app.Fragment
@@ -94,8 +95,8 @@
 -dontwarn android.support.v7.media.**
 -dontwarn android.view.**
 -dontwarn android.media.session
--dontwarn android.app.Notification$MessagingStyle$*
--dontwarn android.app.Notification$MessagingStyle$*$*
+-dontwarn android.app.**
+-dontwarn android.support.**
 
 -dontwarn com.philips.cdp.digitalcare.**
 -dontwarn com.philips.cdp.productselection.**
