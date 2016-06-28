@@ -115,7 +115,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
 
-        mIapHandler.launchCategorizedCatalog(mProductList);
+      //  mIapHandler.launchCategorizedCatalog(mProductList);
 
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {

@@ -176,6 +176,7 @@
     <string name="iap_order_completed_text">Your order will be delivered by \n FedEx(parcel postage) \n Tracking number %s</string>
     <string name="iap_order_completed_text_without_track_id">Your order will be delivered by \n FedEx(parcel postage)</string>
     <string name="iap_no_product_available">No product found in your Store.</string>
+    <string name="iap_shipped_to">Shipped To:</string>
 
 
 </resources>

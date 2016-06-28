@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -190,7 +191,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
             for(OrderDetail detail : mOrderDetails)
             {
                 if(detail.getCode().equals(order.getCode())){
-                    bundle.putSerializable(IAPConstant.ORDER_DETAIL, (Serializable) detail);
+                    bundle.putParcelable(IAPConstant.ORDER_DETAIL, (Parcelable) detail);
                     break;
                 }
             }
