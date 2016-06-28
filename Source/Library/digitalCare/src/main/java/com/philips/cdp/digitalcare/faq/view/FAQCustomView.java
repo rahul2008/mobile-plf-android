@@ -3,7 +3,7 @@
  *
  * @author naveen@philips.com
  * @Since 05-Apr-16.
- * <p/>
+ * <p>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 package com.philips.cdp.digitalcare.faq.view;
@@ -37,6 +37,7 @@ import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -357,6 +358,9 @@ public class FAQCustomView implements Serializable {
                     DigiCareLogger.v(TAG, "Question Category : " + questionCategory);
                     if (questionCategory != null) {
                         List<Item> questionsList = faq.getItem();
+                        Hashtable<String, List<FaqQuestionModel>> fliterFaqDataWithlanguage =
+                                new Hashtable<String, List<FaqQuestionModel>>();
+
                         for (Item item : questionsList) {
                             FaqQuestionModel faqQuestionModel = new FaqQuestionModel();
                             String question = null;
@@ -366,7 +370,7 @@ public class FAQCustomView implements Serializable {
                             answer = item.getAsset();
                             langCode = item.getLang();
                             faqQuestionModel.setQuestion(question);
-                            faqQuestionModel.setAnsmer(answer);
+                            faqQuestionModel.setAnswer(answer);
                             faqQuestionModel.setLanguageCode(langCode);
                             faqQuestionModelList.add(faqQuestionModel);
                         }
