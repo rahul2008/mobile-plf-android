@@ -59,7 +59,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private Button mLaunchProductDetail;
 
     private int mSelectedCountryIndex;
-    private boolean mProductCountRequested;
+//    private boolean mProductCountRequested;
     private ProgressDialog mProgressDialog = null;
 
     @Override
@@ -144,7 +144,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         User mUser = new User(this);
         if (mUser.isUserSignIn()) {
             displayViews();
-            if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
+            if (mSelectedCountryIndex > 0) {
                 showProgressDialog();
                 mIapHandler.getProductCartCount(mProductCountListener);
             }
@@ -254,14 +254,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 mCountText.setVisibility(View.GONE);
             }
             dismissProgressDialog();
-            mProductCountRequested = false;
+//            mProductCountRequested = false;
         }
 
         @Override
         public void onFailure(final int errorCode) {
             dismissProgressDialog();
             showToast(errorCode);
-            mProductCountRequested = false;
+//            mProductCountRequested = false;
         }
     };
 
@@ -328,7 +328,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         updateCartIcon();
         if (!shouldUseLocalData()) {
             showProgressDialog();
-            mProductCountRequested = true;
+//            mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
             mPurchaseHistory.setVisibility(View.VISIBLE);
         } else
