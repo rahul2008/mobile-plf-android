@@ -7,6 +7,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/iap_order_margin_top"
+        android:paddingBottom="@dimen/iap_order_margin_top"
         android:background="@color/uikit_enricher7">
 
         <TextView
@@ -15,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginTop="@dimen/iap_order_margin_top"
+            android:layout_marginTop="0dp"
             android:layout_marginStart="@dimen/iap_shopping_cart_image_margin_top" />
     </RelativeLayout>
 
@@ -27,16 +29,15 @@
 
         <TextView
             android:id="@+id/order_number_text"
-            style="@style/tvHeaderTitle"
+            style="@style/tvOrderHeaderTitle"
             android:text="@string/iap_order_number"
             android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"/>
 
         <TextView
             android:id="@+id/tv_order_number"
-            style="@style/tvBoldTitle"
+            style="@style/tvOrderHeaderTitle"
             android:layout_alignBaseline="@id/order_number_text"
-            android:layout_toEndOf="@id/order_number_text"
-            android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"/>
+            android:layout_toEndOf="@id/order_number_text"/>
 
         <TextView
             android:id="@+id/tv_order_state"
@@ -46,15 +47,12 @@
             android:layout_alignLeft="@+id/order_number_text"
             android:layout_below="@+id/order_number_text"
             android:layout_marginTop="@dimen/iap_order_margin_top"
-            android:inputType="textCapWords"
+            android:layout_marginBottom="@dimen/iap_selection_address_layout_margin"
             android:text="Order state" />
 
         <com.shamanland.fonticon.FontIconTextView
             android:id="@+id/arrow"
-            style="@style/iap_right_arrow"
-            android:layout_alignBaseline="@id/order_number_text"
-            android:layout_marginLeft="@dimen/iap_order_icon_margin_left"
-            android:layout_marginRight="@dimen/iap_order_margin_top"
+            style="@style/iap_order_right_arrow"
             android:layout_centerVertical="true" />
 
     </RelativeLayout>
@@ -62,7 +60,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
         android:background="?attr/uikit_listDividerColor" />
 
     <LinearLayout
@@ -77,8 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginTop="@dimen/iap_order_margin_top"
-        android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom">
+        android:layout_marginTop="@dimen/iap_order_margin_top">
 
         <TextView
             android:id="@+id/total_item_text"
@@ -95,12 +91,15 @@
             android:id="@+id/tv_total_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/tvBoldTitle"
+            style="@style/tvOrderHeaderTitle"
             android:layout_alignParentEnd="true"
-            android:textColor="?attr/uikit_baseColor"
-            android:textSize="@dimen/iap_shopping_cart_footer_total_size"
-            android:layout_marginEnd="@dimen/iap_shipping_address_margin_left" />
+            android:layout_marginEnd="@dimen/iap_order_price_margin_right" />
     </RelativeLayout>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/iap_divider_height"
+        android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
+        android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom"
+        android:background="?attr/uikit_listDividerColor" />
 </LinearLayout>
