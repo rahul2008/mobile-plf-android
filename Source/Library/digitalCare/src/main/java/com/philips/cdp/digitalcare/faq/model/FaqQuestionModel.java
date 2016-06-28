@@ -36,7 +36,7 @@ public class FaqQuestionModel {
         return mAnsmer;
     }
 
-    public void setAnsmer(String mAnsmer) {
+    public void setAnswer(String mAnsmer) {
         this.mAnsmer = mAnsmer;
     }
 }
