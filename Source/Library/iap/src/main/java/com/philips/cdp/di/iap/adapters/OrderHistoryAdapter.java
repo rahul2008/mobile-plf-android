@@ -58,7 +58,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Orders order = mOrders.get(position);
         OrderHistoryHolder orderHistoryHolder = (OrderHistoryHolder) holder;
         orderHistoryHolder.mTime.setText(getFormattedDate(order.getPlaced()));
-        orderHistoryHolder.mOrderState.setText(order.getStatusDisplay());
+        String orderStatus = order.getStatusDisplay();
+        orderHistoryHolder.mOrderState.setText(orderStatus.substring(0,1).toUpperCase() + orderStatus.substring(1));
         orderHistoryHolder.mOrderNumber.setText(order.getCode());
 
         int totalQuantity = 0;

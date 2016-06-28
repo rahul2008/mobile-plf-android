@@ -141,6 +141,13 @@ public class Utility {
         return sb.toString();
     }
 
+    public static String formatAddress(final String address) {
+        if(address != null)
+        return address.replaceAll(", ", "\n");
+        else
+            return null;
+    }
+
     public static int getThemeColor(Context context) {
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
         int mThemeBaseColor = a.getColor(0, ContextCompat.getColor(context, R.color.uikit_philips_blue));
