@@ -42,8 +42,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 import com.philips.cdp.tagging.Tagging;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -212,8 +210,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
-        SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-        secureStorageInterface.removeValueForKey(RegConstants.DI_PROFILE_FILE);
+        mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }
