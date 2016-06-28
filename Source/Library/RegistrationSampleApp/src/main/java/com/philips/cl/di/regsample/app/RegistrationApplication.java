@@ -53,7 +53,7 @@ public class RegistrationApplication extends Application {
             RLog.i("Last known environment", restoredText);
 
             String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
-            if (restoredHSDPText != null) {
+            if (restoredHSDPText != null && restoredHSDPText.equals(restoredText)) {
                 initHSDP(RegUtility.getConfiguration(restoredHSDPText));
             }
             initRegistration(RegUtility.getConfiguration(restoredText));
@@ -155,6 +155,9 @@ public class RegistrationApplication extends Application {
                 editor.commit();
                 break;
             case PRODUCTION:
+                RegistrationDynamicConfiguration.getInstance().setHsdpConfiguration(null);
+                SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+                prefs.edit().remove("reg_hsdp_environment").commit();
                 break;
             case STAGING:
                 hsdpInfo = new HSDPInfo();
@@ -167,6 +170,9 @@ public class RegistrationApplication extends Application {
                 editor.commit();
                 break;
             case TESTING:
+                RegistrationDynamicConfiguration.getInstance().setHsdpConfiguration(null);
+                prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+                prefs.edit().remove("reg_hsdp_environment").commit();
                 break;
         }
     }

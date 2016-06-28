@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,9 +21,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.janrain.android.Jump;
+import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.base.CoppaResendError;
 import com.philips.cdp.registration.coppa.base.ResendCoppaEmailConsentHandler;
@@ -30,8 +36,11 @@ import com.philips.cdp.registration.coppa.listener.UserRegistrationCoppaListener
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaLaunchHelper;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.tagging.Tagging;
 
 public class RegistrationCoppaSampleActivity extends Activity implements OnClickListener,
@@ -43,6 +52,13 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     private Button mBtnParentalConsent;
     private Context mContext;
     private ProgressDialog mProgressDialog;
+
+    private Button mBtnChangeConfiguaration;
+    private Button mBtnApply;
+    private Button mBtnCancel;
+    private LinearLayout mLlConfiguration;
+
+    private RadioGroup mRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +82,112 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         user = new User(mContext);
         mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
         mBtnRefresh.setOnClickListener(this);
+
+
+        mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
+        mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
+
+
+        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+        final String restoredText = prefs.getString("reg_environment", null);
+        final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
+        if (restoredText != null) {
+
+            switch (RegUtility.getConfiguration(restoredText)) {
+                case EVALUATION:
+                    mRadioGroup.check(R.id.Evalution);
+                    break;
+                case DEVELOPMENT:
+                    mRadioGroup.check(R.id.Development);
+                    break;
+                case PRODUCTION:
+                    mRadioGroup.check(R.id.Production);
+                    break;
+                case STAGING:
+                    mRadioGroup.check(R.id.Stagging);
+                    break;
+                case TESTING:
+                    mRadioGroup.check(R.id.Testing);
+                    break;
+            }
+
+        }
+
+
+
+
+
+        mLlConfiguration.setVisibility(View.GONE);
+        mBtnChangeConfiguaration = (Button) findViewById(R.id.btn_change_configuration);
+        mBtnChangeConfiguaration.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLlConfiguration.setVisibility(View.VISIBLE);
+            }
+        });
+        mBtnApply = (Button) findViewById(R.id.Apply);
+        mBtnApply.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLlConfiguration.setVisibility(View.GONE);
+
+
+                //Resetn
+                UserRegistrationInitializer.getInstance().resetInitializationState();
+                //Logout user
+                clearData();
+
+
+
+                int checkedId = mRadioGroup.getCheckedRadioButtonId();
+                // find which radio button is selected
+                if (checkedId == R.id.Evalution) {
+                    Toast.makeText(getApplicationContext(), "choice: Evalution",
+                            Toast.LENGTH_SHORT).show();
+                    RegistrationCoppaApplication.getInstance().initRegistration(Configuration.EVALUATION);
+                } else if (checkedId == R.id.Testing) {
+                    Toast.makeText(getApplicationContext(), "choice: Testing",
+                            Toast.LENGTH_SHORT).show();
+                    RegistrationCoppaApplication.getInstance().initRegistration(Configuration.TESTING);
+                } else if (checkedId == R.id.Development) {
+                    Toast.makeText(getApplicationContext(), "choice: Development",
+                            Toast.LENGTH_SHORT).show();
+                    RegistrationCoppaApplication.getInstance().initRegistration(Configuration.DEVELOPMENT);
+                } else if (checkedId == R.id.Production) {
+                    Toast.makeText(getApplicationContext(), "choice: Production",
+                            Toast.LENGTH_SHORT).show();
+                    RegistrationCoppaApplication.getInstance().initRegistration(Configuration.PRODUCTION);
+                } else if (checkedId == R.id.Stagging) {
+                    Toast.makeText(getApplicationContext(), "choice: Stagging",
+                            Toast.LENGTH_SHORT).show();
+                    RegistrationCoppaApplication.getInstance().initRegistration(Configuration.STAGING);
+                }
+
+
+            }
+        });
+        mBtnCancel = (Button) findViewById(R.id.Cancel);
+        mBtnCancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLlConfiguration.setVisibility(View.GONE);
+            }
+        });
+
+
+
+
+    }
+
+    private void clearData() {
+        HsdpUser hsdpUser = new HsdpUser(mContext);
+        hsdpUser.deleteFromDisk();
+        mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
+        if (JRSession.getInstance() != null) {
+            JRSession.getInstance().signOutAllAuthenticatedUsers();
+        }
+        Jump.signOutCaptureUser(mContext);
+
     }
 
     @Override
