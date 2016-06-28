@@ -361,10 +361,13 @@ public class FAQCustomView implements Serializable {
                             FaqQuestionModel faqQuestionModel = new FaqQuestionModel();
                             String question = null;
                             String answer = null;
+                            String langCode = null;
                             question = item.getHead();
                             answer = item.getAsset();
+                            langCode = item.getLang();
                             faqQuestionModel.setQuestion(question);
                             faqQuestionModel.setAnsmer(answer);
+                            faqQuestionModel.setLanguageCode(langCode);
                             faqQuestionModelList.add(faqQuestionModel);
                         }
                     }

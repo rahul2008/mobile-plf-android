@@ -54,6 +54,7 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
+import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
@@ -574,6 +575,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     }
 
     private void launchFaqScreen() {
+        PrxLogger.enablePrxLogger(true);
         mPrxWrapper = new PrxWrapper(getActivity(), new PrxFaqCallback() {
             @Override
             public void onResponseReceived(SupportModel supportModel) {
