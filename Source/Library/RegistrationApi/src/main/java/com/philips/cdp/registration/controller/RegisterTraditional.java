@@ -25,7 +25,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.security.SecurityHelper;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -220,7 +220,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
             diUserProfile.setPassword(null);
             SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-            secureStorageInterface.storeValueForKey(RegConstants.DI_PROFILE_FILE, SecurityHelper.objectToString(diUserProfile));
+            secureStorageInterface.storeValueForKey(RegConstants.DI_PROFILE_FILE,SecureStorage.objectToString(diUserProfile));
     }
 
 }

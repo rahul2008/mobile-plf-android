@@ -16,8 +16,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.tagging.Tagging;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 public class RegistrationApplication extends Application {

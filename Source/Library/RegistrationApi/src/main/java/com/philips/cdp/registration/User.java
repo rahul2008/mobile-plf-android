@@ -50,7 +50,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
-import com.philips.cdp.security.SecurityHelper;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -806,13 +806,13 @@ public class User {
     private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
             diUserProfile.setPassword(null);
             SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-            secureStorageInterface.storeValueForKey(RegConstants.DI_PROFILE_FILE, SecurityHelper.objectToString(diUserProfile));
+            secureStorageInterface.storeValueForKey(RegConstants.DI_PROFILE_FILE,SecureStorage.objectToString(diUserProfile));
     }
 
 
     private DIUserProfile getDIUserProfileFromDisk() {
         SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-        DIUserProfile diUserProfile = (DIUserProfile) SecurityHelper.stringToObject(secureStorageInterface.fetchValueForKey(RegConstants.DI_PROFILE_FILE));
+        DIUserProfile diUserProfile = (DIUserProfile) SecureStorage.stringToObject(secureStorageInterface.fetchValueForKey(RegConstants.DI_PROFILE_FILE));
         return diUserProfile;
     }
 

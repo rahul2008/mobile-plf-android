@@ -23,7 +23,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.security.SecurityHelper;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
@@ -300,7 +300,7 @@ public class HsdpUser {
      */
     private void saveToDisk(UserFileWriteListener userFileWriteListener) {
             SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-            boolean isWrittenToFile = secureStorageInterface.storeValueForKey(HSDP_RECORD_FILE, SecurityHelper.objectToString(mHsdpUserRecord));
+            boolean isWrittenToFile = secureStorageInterface.storeValueForKey(HSDP_RECORD_FILE,SecureStorage.objectToString(mHsdpUserRecord));
             if (isWrittenToFile){
                 userFileWriteListener.onFileWriteSuccess();
             }else{
@@ -318,7 +318,7 @@ public class HsdpUser {
             return mHsdpUserRecord;
         }
         SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
-        mHsdpUserRecord = (HsdpUserRecord) SecurityHelper.stringToObject(secureStorageInterface.fetchValueForKey(HSDP_RECORD_FILE));
+        mHsdpUserRecord = (HsdpUserRecord) SecureStorage.stringToObject(secureStorageInterface.fetchValueForKey(HSDP_RECORD_FILE));
         return mHsdpUserRecord;
     }
 

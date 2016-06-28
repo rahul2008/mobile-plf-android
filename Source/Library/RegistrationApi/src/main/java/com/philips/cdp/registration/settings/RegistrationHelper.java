@@ -14,7 +14,6 @@ import android.content.Context;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
-import com.philips.cdp.registration.datamigration.DataMigration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.NetworkStateHelper;
@@ -23,7 +22,7 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.security.SecurityHelper;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.cdp.tagging.Tagging;
 
@@ -122,9 +121,9 @@ public class RegistrationHelper {
 
 
     private void generateKeyAndMigrateData() {
-        SecurityHelper.init(mContext);
-        SecurityHelper.generateSecretKey();
-        new DataMigration(mContext).checkFileEncryptionStatus();
+        SecureStorage.init(mContext);
+        SecureStorage.generateSecretKey();
+        //new DataMigration(mContext).checkFileEncryptionStatus();
     }
 
     private void refreshNTPOffset() {
