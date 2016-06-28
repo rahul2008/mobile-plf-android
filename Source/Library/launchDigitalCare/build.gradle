@@ -38,7 +38,7 @@ android {
             minifyEnabled true
             proguardFile 'proguard.pro'
             //  proguardFile 'proguard.pro'
-            signingConfig signingConfigs.release
+         //   signingConfig signingConfigs.release
         }
         debug {
             //   proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/launchDigitalCare/proguard.pro'
