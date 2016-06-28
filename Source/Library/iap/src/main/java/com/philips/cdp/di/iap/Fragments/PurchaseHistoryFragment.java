@@ -183,7 +183,6 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         if (isNetworkNotConnected()) return;
         int pos = mAdapter.getSelectedPosition();
         Orders order = mOrders.get(pos);
-      //  OrderDetail orderDetail = mOrderDetails.get(pos);
         Bundle bundle = new Bundle();
         if (order != null) {
             bundle.putString(IAPConstant.PURCHASE_ID, order.getCode());
