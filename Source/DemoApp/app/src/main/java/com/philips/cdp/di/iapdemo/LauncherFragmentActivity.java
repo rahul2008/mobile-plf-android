@@ -2,60 +2,28 @@ package com.philips.cdp.di.iapdemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.philips.cdp.di.iap.actionlayout.IAPActionLayout;
-import com.philips.cdp.di.iap.session.IAPHandler;
-import com.philips.cdp.di.iap.session.IAPSettings;
-import com.philips.cdp.di.iap.utils.IAPConstant;
-
+import android.support.v4.app.FragmentTransaction;
 /**
  * Created by 310164421 on 6/8/2016.
  */
 public class LauncherFragmentActivity extends AppCompatActivity {
-    IAPHandler mIapHandler;
-    IAPSettings mIAPSettings;
-    View mCustomView;
-    private IAPActionLayout layout;
-
-    private int getContainerId() {
-        return R.id.vertical_Container;
-    }
+    FragmentLauncher mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_launcher_layout);
+
+        setContentView(R.layout.fragment_on_activity);
         getSupportActionBar().hide();
-        LaunchIAPFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        mFragment= new FragmentLauncher();
+        fragmentTransaction.add(R.id.activity_container, mFragment, mFragment.getClass().getName());
+        fragmentTransaction.commit();
     }
 
-    private void LaunchIAPFragment() {
-        layout = new IAPActionLayout(this, getSupportFragmentManager());
-        mCustomView = layout.getCustomView(this);
-        ((ViewGroup) findViewById(R.id.ll_custom_action)).addView(mCustomView);
-        ViewGroup mUPButtonLayout = (ViewGroup) mCustomView.findViewById(com.philips.cdp.di.iap.R.id.iap_header_back_button);
-        mUPButtonLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                onBackPressed();
-            }
-        });
-        //Launch via interface
-        mIAPSettings = new IAPSettings("US", "en", R.style.Theme_Philips_BrightOrange_Gradient);
-        mIAPSettings.setUseLocalData(true);
-        mIAPSettings.setLaunchAsFragment(true);
-        mIAPSettings.setFragProperties(getSupportFragmentManager(), R.id.vertical_Container);
-
-        mIapHandler = IAPHandler.init(this, mIAPSettings);
-        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
-//        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, "HX8071/10", null);
-    }
 
     @Override
     public void onBackPressed() {
-        if (!layout.onHWBackPressed())
-            super.onBackPressed();
+        super.onBackPressed();
     }
 }
