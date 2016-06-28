@@ -21,11 +21,12 @@ import com.philips.cdp.appframework.homescreen.HamburgerActivity;
 import com.philips.cdp.modularui.ActivityMap;
 import com.philips.cdp.modularui.UIBaseNavigation;
 import com.philips.cdp.modularui.UIConstants;
-import com.philips.cdp.modularui.UIFlowManager;
-import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
+import com.philips.cdp.modularui.UIStateManager;
+import com.philips.cdp.modularui.UIState;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.shamanland.fonticon.FontIconView;
 
@@ -108,6 +109,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.app_framework_introduction_activity);
@@ -184,12 +186,12 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        mNavigator = UIFlowManager.currentState.getNavigator();
+        mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
         if (null != activity) {
-            @UIConstants.UIStateDef int userRegState = mNavigator.onPageLoad(IntroductionScreenActivity.this);
+            UIState returnedState = (UIState) mNavigator.onPageLoad(IntroductionScreenActivity.this);
 
-                    if (ActivityMap.activityMap.get(userRegState) == UIConstants.UI_HAMBURGER_SCREEN) {
-                        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE);
+                    if (ActivityMap.activityMap.get(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
+                        UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_HAMBURGER_STATE));
                         startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
                     }
             }
@@ -244,10 +246,10 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     public void onClick(View v) {
 
-        @UIConstants.UIStateDef int currentState = mNavigator.onClick(v.getId(), IntroductionScreenActivity.this);
-        if (ActivityMap.activityMap.get(currentState) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
-            UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_REGISTRATION_STATE);
-            startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
+        UIState returnedState  = (UIState) mNavigator.onClick(v.getId(), IntroductionScreenActivity.this);
+        if (ActivityMap.activityMap.get(returnedState.getStateID()) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
+            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_REGISTRATION_STATE));
+            startActivity(new Intent(IntroductionScreenActivity.this, RegistrationActivity.class));
         }
 
     }
@@ -255,7 +257,13 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     protected void onResume() {
         super.onResume();
-        mNavigator = UIFlowManager.currentState.getNavigator();
+
         mNavigator.setState();
+    }
+
+    @Override
+    protected void onRestart() {
+
+        super.onRestart();
     }
 }

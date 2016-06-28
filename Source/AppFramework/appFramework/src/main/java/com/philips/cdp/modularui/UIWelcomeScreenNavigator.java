@@ -9,9 +9,9 @@ import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 /**
  * Created by 310240027 on 6/27/2016.
  */
-public class UIWelcomeScreenState implements UIBaseNavigation {
+public class UIWelcomeScreenNavigator implements UIBaseNavigation {
     @Override
-    public int onClick(int componentID, Context context) {
+    public UIStateBase onClick(int componentID, Context context) {
         switch (componentID) {
             case R.id.start_registration_button:
                 SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS, UIConstants.UI_WELCOME_STATE);
@@ -20,16 +20,16 @@ public class UIWelcomeScreenState implements UIBaseNavigation {
             case R.id.appframework_skip_button:
                 break;
         }
-        return UIConstants.UI_REGISTRATION_STATE;
+        return  UIStateFactory.getInstance().createUIState(UIConstants.UI_REGISTRATION_STATE);
     }
 
     @Override
-    public int onPageLoad(Context context) {
-        return UIConstants.UI_REGISTRATION_STATE;
+    public UIStateBase onPageLoad(Context context) {
+        return (UIStateManager.getInstance().getFromStateList(UIConstants.UI_REGISTRATION_STATE));
     }
 
     @Override
     public void setState() {
-        UIFlowManager.currentState = UIFlowManager.getFromStateList(UIConstants.UI_WELCOME_STATE);
+        UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_WELCOME_STATE));
     }
 }
