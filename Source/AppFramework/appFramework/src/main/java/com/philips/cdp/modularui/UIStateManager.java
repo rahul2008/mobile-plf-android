@@ -45,7 +45,7 @@ public class UIStateManager {
 
     public void populateStateBaseList() {
         stateBaseList = new ArrayList<UIStateBase>();
-        /*stateBaseList.add(new UIState(new UISplashNavigator(), UIConstants.UI_SPLASH_STATE));
+        /*stateBaseList.add(new UIState(new UISplashUnRegisteredNavigator(), UIConstants.UI_SPLASH_UNREGISTERED_STATE));
         stateBaseList.add(new UIState(new UIWelcomeScreenNavigator(), UIConstants.UI_WELCOME_STATE));
         stateBaseList.add(new UIState(new UIUserRegNavigator(), UIConstants.UI_REGISTRATION_STATE));
         stateBaseList.add(new UIState(new UIHamburgerNavigator(), UIConstants.UI_HAMBURGER_STATE));
@@ -62,7 +62,7 @@ public class UIStateManager {
 
     public void initAppStartState(Context mContext) {
         if(!SharedPreferenceUtility.getInstance().contains(UIConstants.UI_START_STATUS)){
-            SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS,UIConstants.UI_SPLASH_STATE);
+            SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS,UIConstants.UI_SPLASH_UNREGISTERED_STATE);
         }
         currentState = getFromStateList(SharedPreferenceUtility.getInstance().getPreferenceInt(UIConstants.UI_START_STATUS));
 

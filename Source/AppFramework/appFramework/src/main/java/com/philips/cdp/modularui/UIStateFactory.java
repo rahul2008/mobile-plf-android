@@ -24,9 +24,17 @@ public class UIStateFactory {
         UIState uistate = new UIState();
         if(!UIStateManager.getInstance().uiStateMap.containsKey(uiStateID)){
             switch (uiStateID) {
-                case UIConstants.UI_SPLASH_STATE:
-                    uistate.setStateID(UIConstants.UI_SPLASH_STATE);
-                    uistate.setNavigator(new UISplashNavigator());
+                case UIConstants.UI_SPLASH_UNREGISTERED_STATE:
+                    uistate.setStateID(UIConstants.UI_SPLASH_UNREGISTERED_STATE);
+                    uistate.setNavigator(new UISplashUnRegisteredNavigator());
+                    break;
+                case UIConstants.UI_SPLASH_REGISTERED_STATE:
+                    uistate.setStateID(UIConstants.UI_SPLASH_REGISTERED_STATE);
+                    uistate.setNavigator(new UISplashRegisteredNavigator());
+                    break;
+                case UIConstants.UI_SPLASH_DONE_PRESSED_STATE:
+                    uistate.setStateID(UIConstants.UI_SPLASH_DONE_PRESSED_STATE);
+                    uistate.setNavigator(new UISplashDonePressedNavigator());
                     break;
                 case UIConstants.UI_WELCOME_STATE:
                     uistate.setStateID(UIConstants.UI_WELCOME_STATE);

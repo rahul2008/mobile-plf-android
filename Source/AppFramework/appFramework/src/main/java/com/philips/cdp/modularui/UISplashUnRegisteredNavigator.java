@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * Created by 310240027 on 6/21/2016.
  */
-public class UISplashNavigator implements UIBaseNavigation {
+public class UISplashUnRegisteredNavigator implements UIBaseNavigation {
     @Override
     public UIStateBase onClick(int componentID, Context context) {
         return null;
@@ -18,6 +18,6 @@ public class UISplashNavigator implements UIBaseNavigation {
 
     @Override
     public void setState() {
-        UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_SPLASH_STATE));
+        UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_SPLASH_UNREGISTERED_STATE));
     }
 }

@@ -14,7 +14,7 @@ public class UIWelcomeScreenNavigator implements UIBaseNavigation {
     public UIStateBase onClick(int componentID, Context context) {
         switch (componentID) {
             case R.id.start_registration_button:
-                SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS, UIConstants.UI_WELCOME_STATE);
+                SharedPreferenceUtility.getInstance().writePreferenceInt(UIConstants.UI_START_STATUS, UIConstants.UI_SPLASH_DONE_PRESSED_STATE);
                 AppFrameworkBaseActivity.setIntroScreenDonePressed();
                 break;
             case R.id.appframework_skip_button:
@@ -25,7 +25,7 @@ public class UIWelcomeScreenNavigator implements UIBaseNavigation {
 
     @Override
     public UIStateBase onPageLoad(Context context) {
-        return (UIStateManager.getInstance().getFromStateList(UIConstants.UI_REGISTRATION_STATE));
+        return (UIStateManager.getInstance().getFromStateList(UIConstants.UI_HAMBURGER_STATE));
     }
 
     @Override

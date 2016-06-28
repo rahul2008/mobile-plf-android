@@ -11,7 +11,9 @@ public class ActivityMap {
     public static Map<Integer, Integer> activityMap;
     public static void populateActivityMap() {
         activityMap = new HashMap<Integer, Integer>();
-        activityMap.put(UIConstants.UI_SPLASH_STATE, UIConstants.UI_WELCOME_SCREEN);
+        activityMap.put(UIConstants.UI_SPLASH_UNREGISTERED_STATE, UIConstants.UI_WELCOME_SCREEN);
+        activityMap.put(UIConstants.UI_SPLASH_REGISTERED_STATE, UIConstants.UI_HAMBURGER_SCREEN);
+        activityMap.put(UIConstants.UI_SPLASH_DONE_PRESSED_STATE, UIConstants.UI_USER_REGISTRATION_SCREEN);
         activityMap.put(UIConstants.UI_WELCOME_STATE, UIConstants.UI_WELCOME_SCREEN);
         activityMap.put(UIConstants.UI_HAMBURGER_STATE, UIConstants.UI_HAMBURGER_SCREEN);
         activityMap.put(UIConstants.UI_REGISTRATION_STATE, UIConstants.UI_USER_REGISTRATION_SCREEN);

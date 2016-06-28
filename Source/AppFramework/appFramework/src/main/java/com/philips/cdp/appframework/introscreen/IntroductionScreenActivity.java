@@ -263,7 +263,11 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
     @Override
     protected void onRestart() {
-
+        UIState returnedState = (UIState) mNavigator.onPageLoad(this);
+        if (ActivityMap.activityMap.get(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
+            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_REGISTRATION_STATE));
+            startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
+        }
         super.onRestart();
     }
 }
