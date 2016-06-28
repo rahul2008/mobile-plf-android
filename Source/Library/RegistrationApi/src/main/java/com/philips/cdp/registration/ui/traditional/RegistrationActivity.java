@@ -75,16 +75,9 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         } catch (NullPointerException e) {
         }
 
-        System.out.println("************* ACTIVITY  is  " + alwaysFinishActivity);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.reg_activity_registration);
         ivBack = (TextView) findViewById(R.id.iv_reg_back);
         ivBack.setOnClickListener(this);
-        /*try {
-            initActionBar();
-        } catch (ClassCastException e) {
-            RLog.e("Exception ", "RegistrationActivity : " + e.getMessage());
-        }*/
-
         if (alwaysFinishActivity == 0) {
             initUI();
         }
@@ -95,7 +88,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
-        RLog.i("Exception ", "--> BaseActivity protected onSaveInstanceState");
+        RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
         int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
