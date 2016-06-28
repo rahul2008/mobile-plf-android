@@ -1,7 +1,6 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -9,35 +8,20 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.prodreg.ProdRegConstants;
-import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
-import com.philips.cdp.prodreg.listener.MetadataListener;
-import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
-import com.philips.cdp.prodreg.listener.SummaryListener;
-import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
-import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
-import com.philips.cdp.prodreg.register.ProdRegHelper;
-import com.philips.cdp.prodreg.register.Product;
-import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.register.ProdRegProcessController;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegProcessFragment extends ProdRegBaseFragment {
+public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdRegProcessController.ProcessControllerCallBacks {
 
     public static final String TAG = ProdRegProcessFragment.class.getName();
-    private Product currentProduct;
-    private Bundle dependencyBundle;
-    private boolean launchedRegistration = false;
-    private boolean isApiCallingProgress = false;
+    private ProdRegProcessController prodRegProcessController;
 
     @Override
     public String getActionbarTitle() {
@@ -48,16 +32,31 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        prodRegProcessController = new ProdRegProcessController(this);
         if (savedInstanceState == null) {
-            showDialog();
+            showLoadingDialog();
         } else {
-            launchedRegistration = savedInstanceState.getBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, false);
+            prodRegProcessController.setLaunchedRegistration(savedInstanceState.getBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, false));
         }
     }
 
-    private void showDialog() {
+    @Override
+    public void onStart() {
+        super.onStart();
+        resetErrorDialogIfExists();
+        final Bundle arguments = getArguments();
+        prodRegProcessController.process(getActivity(), arguments, new User(getActivity()));
+    }
 
-        // Create and show the dialog.
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        outState.putBoolean(ProdRegConstants.PROGRESS_STATE, prodRegProcessController.isApiCallingProgress());
+        outState.putBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, prodRegProcessController.isLaunchedRegistration());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void showLoadingDialog() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("dialog");
         if (prev != null) {
@@ -68,129 +67,15 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
         newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
     }
 
-    private void dismissDialog() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("dialog");
+    @Override
+    public void dismissLoadingDialog() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
             if (prev instanceof DialogFragment) {
                 ((DialogFragment) prev).dismissAllowingStateLoss();
             }
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        resetErrorDialogListener();
-        final Bundle arguments = getArguments();
-        if (arguments != null) {
-            ArrayList<Product> regProdList = (ArrayList<Product>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
-            currentProduct = regProdList.get(0);
-            User user = new User(getActivity());
-            if (user.isUserSignIn()) {
-                //Signed in case
-                if (!isApiCallingProgress) {
-                    getRegisteredProducts();
-                }
-            } else {
-                //Not signed in
-                if (launchedRegistration) {
-                    //Registration page has already launched
-                    dismissDialog();
-                    clearFragmentStack();
-                } else {
-                    //Registration is not yet launched.
-                    launchedRegistration = true;
-                    RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(getActivity());
-                }
-            }
-        }
-    }
-
-    private void doSummaryRequest() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing() && currentProduct != null) {
-            dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, currentProduct);
-            currentProduct.getProductSummary(getActivity(), currentProduct, getSummaryListener());
-        }
-    }
-
-    @NonNull
-    private SummaryListener getSummaryListener() {
-        return new SummaryListener() {
-            @Override
-            public void onSummaryResponse(final ProductSummaryResponse productSummaryResponse) {
-                if (productSummaryResponse != null) {
-                    dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY, productSummaryResponse.getData());
-                    final ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
-                    prodRegRegistrationFragment.setArguments(dependencyBundle);
-                    dismissDialog();
-                    showFragment(prodRegRegistrationFragment);
-                }
-            }
-
-            @Override
-            public void onErrorResponse(final String errorMessage, final int responseCode) {
-                final ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
-                prodRegRegistrationFragment.setArguments(dependencyBundle);
-                dismissDialog();
-                showFragment(prodRegRegistrationFragment);
-            }
-        };
-    }
-
-    private void getRegisteredProducts() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            if (currentProduct != null) {
-                ProdRegHelper prodRegHelper = new ProdRegHelper();
-                isApiCallingProgress = true;
-                prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
-            }
-        }
-    }
-
-    @NonNull
-    private RegisteredProductsListener getRegisteredProductsListener() {
-        return new RegisteredProductsListener() {
-            @Override
-            public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
-                if (!isCtnRegistered(registeredProducts, currentProduct) && getActivity() != null && !getActivity().isFinishing()) {
-                    currentProduct.getProductMetadata(getActivity(), getMetadataListener());
-                } else {
-                    dismissDialog();
-                    showFragment(new ProdRegConnectionFragment());
-                }
-            }
-        };
-    }
-
-    protected boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final Product product) {
-        for (RegisteredProduct result : registeredProducts) {
-            if (product.getCtn().equalsIgnoreCase(result.getCtn()) && product.getSerialNumber().equals(result.getSerialNumber()) && result.getRegistrationState() == RegistrationState.REGISTERED) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @NonNull
-    private MetadataListener getMetadataListener() {
-        return new MetadataListener() {
-            @Override
-            public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
-                if (productMetadataResponse != null) {
-                    dependencyBundle = new Bundle();
-                    dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA, productMetadataResponse.getData());
-                    doSummaryRequest();
-                }
-            }
-
-            @Override
-            public void onErrorResponse(final String errorMessage, final int responseCode) {
-                dismissDialog();
-                showAlertOnError(responseCode);
-            }
-        };
     }
 
     @Override
@@ -208,14 +93,17 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment {
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState) {
-        outState.putBoolean(ProdRegConstants.PROGRESS_STATE, isApiCallingProgress);
-        outState.putBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, launchedRegistration);
-        super.onSaveInstanceState(outState);
+    public void exitProductRegistration() {
+        clearFragmentStack();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void showAlertOnError(int responseCode) {
+        super.showAlertOnError(responseCode);
+    }
+
+    @Override
+    public void showFragment(Fragment fragment) {
+        super.showFragment(fragment);
     }
 }

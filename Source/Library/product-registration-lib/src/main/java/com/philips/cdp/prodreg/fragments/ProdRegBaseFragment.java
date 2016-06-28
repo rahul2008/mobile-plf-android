@@ -30,7 +30,6 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
 
     private static String TAG = ProdRegBaseFragment.class.getSimpleName();
     private static ActionbarUpdateListener mActionbarUpdateListener;
-    protected ProdRegErrorAlertFragment prodRegErrorAlertFragment;
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
 
@@ -166,9 +165,9 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
     /**
      *
      */
-    protected void resetErrorDialogListener() {
+    protected void resetErrorDialogIfExists() {
         Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
-        if (prev instanceof ProdRegErrorAlertFragment) {
+        if (prev != null && prev instanceof ProdRegErrorAlertFragment) {
             ((ProdRegErrorAlertFragment) prev).setDialogOkButtonListener(getDialogOkButtonListener());
         }
     }

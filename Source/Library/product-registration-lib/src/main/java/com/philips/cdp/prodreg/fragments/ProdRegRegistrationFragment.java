@@ -1,6 +1,5 @@
 package com.philips.cdp.prodreg.fragments;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,7 +41,6 @@ import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
-import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -63,9 +61,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     private Product currentProduct;
     private EditText serial_number_editText, date_EditText;
     private InlineForms serialLayout, purchaseDateLayout;
-    private WeakReference<Activity> mActivityWeakRef;
     private RegisteredProduct registeredProduct;
-
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -97,20 +93,15 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     };
 
     @Override
-    public void onStart() {
-        mActivityWeakRef = new WeakReference<Activity>(getActivity());
-        resetErrorDialogListener();
-        final RegisteredProduct registeredProductIfExists = registeredProduct.getRegisteredProductIfExists(new LocalRegisteredProducts(getActivity(), new User(getActivity())));
-        registeredProduct = registeredProductIfExists != null ? registeredProductIfExists : registeredProduct;
-        if (registeredProduct != null && registeredProduct.getRegistrationState() == RegistrationState.REGISTERED) {
-            showFragment(new ProdRegSuccessFragment());
-        }
-        super.onStart();
+    public String getActionbarTitle() {
+        return getActivity().getString(R.string.PPR_NavBar_Title);
     }
 
     @Override
-    public String getActionbarTitle() {
-        return getActivity().getString(R.string.PPR_NavBar_Title);
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        dismissDialog();
     }
 
     @Override
@@ -134,10 +125,30 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     }
 
     @Override
-    public void onCreate(@Nullable final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        dismissDialog();
-        setRetainInstance(true);
+    public void onStart() {
+        resetErrorDialogIfExists();
+        final RegisteredProduct registeredProductIfExists = registeredProduct.getRegisteredProductIfExists(new LocalRegisteredProducts(getActivity(), new User(getActivity())));
+        registeredProduct = registeredProductIfExists != null ? registeredProductIfExists : registeredProduct;
+        if (registeredProduct != null && registeredProduct.getRegistrationState() == RegistrationState.REGISTERED) {
+            showFragment(new ProdRegSuccessFragment());
+        }
+        super.onStart();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            currentProduct = (Product) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+            mapToRegisteredProduct();
+            productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
+            final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
+            updateSummaryView(summaryData);
+            updateProductView();
+        } else {
+            clearFragmentStack();
+        }
     }
 
     @NonNull
@@ -145,14 +156,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         return new TextWatcher() {
             @Override
             public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
             }
-
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-
             }
-
             @Override
             public void afterTextChanged(final Editable s) {
                 if (isValidSerialNumber(productMetadataResponseData, serial_number_editText.getText().toString())) {
@@ -170,18 +177,15 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                if (mActivityWeakRef != null) {
                     final FragmentActivity activity = getActivity();
                     if (activity != null && !activity.isFinishing()) {
                         dismissDialog();
                         showFragment(new ProdRegSuccessFragment());
                     }
-                }
             }
 
             @Override
             public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                if (mActivityWeakRef != null) {
                     Log.d(getClass() + "", "Negative Response Data : " + registeredProduct.getProdRegError().getDescription() + " with error code : " + registeredProduct.getProdRegError().getCode());
                     final FragmentActivity activity = getActivity();
                     if (activity != null && !activity.isFinishing()) {
@@ -193,32 +197,16 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                         }
                     }
                 }
-            }
         };
     }
 
     private void dismissDialog() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("dialog");
-            if (prev instanceof DialogFragment) {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
+            if (prev != null && prev instanceof DialogFragment) {
                 ((DialogFragment) prev).dismissAllowingStateLoss();
             }
-        }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            currentProduct = (Product) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
-            mapToRegisteredProduct();
-            productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
-            final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
-            updateSummaryView(summaryData);
-            updateProductView();
-        } else {
-            clearFragmentStack();
         }
     }
 
@@ -405,17 +393,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
             getActivity().getSupportFragmentManager().executePendingTransactions();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mActivityWeakRef = null;
-    }
-
-    @Override
-    public void onSaveInstanceState(final Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 
     @Override
