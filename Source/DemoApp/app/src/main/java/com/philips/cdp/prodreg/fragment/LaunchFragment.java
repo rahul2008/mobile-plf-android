@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.Util;
-import com.philips.cdp.registration.configuration.PILConfiguration;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 /**
@@ -33,8 +32,6 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main, container, false);
         setUp(view);
-        PILConfiguration pilConfiguration = new PILConfiguration();
-        pilConfiguration.getRegistrationEnvironment();
         return view;
     }
 
