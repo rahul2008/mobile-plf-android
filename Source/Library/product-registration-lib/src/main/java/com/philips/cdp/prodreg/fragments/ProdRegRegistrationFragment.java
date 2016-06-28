@@ -75,9 +75,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                 final String text = arg1 + "-" + mMonth + "-" + mDate;
                 final Date mDisplayDate = dateFormat.parse(text);
                 final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
-                if (mDisplayDate.after(mDeviceDate)) {
-                    Log.d(TAG, " Response Data : " + "Error in Date");
-                } else {
+                if (!mDisplayDate.after(mDeviceDate)) {
                     date_EditText.setText(text);
                     if (!ProdRegUtil.isValidDate(text)) {
                         showErrorMessageDate(date_EditText);
@@ -127,9 +125,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     @Override
     public void onStart() {
         resetErrorDialogIfExists();
-        final RegisteredProduct registeredProductIfExists = registeredProduct.getRegisteredProductIfExists(new LocalRegisteredProducts(getActivity(), new User(getActivity())));
-        registeredProduct = registeredProductIfExists != null ? registeredProductIfExists : registeredProduct;
-        if (registeredProduct != null && registeredProduct.getRegistrationState() == RegistrationState.REGISTERED) {
+        final RegisteredProduct productAlreadyRegistered = registeredProduct.isProductAlreadyRegistered(new LocalRegisteredProducts(getActivity(), new User(getActivity())));
+        if (productAlreadyRegistered != null && productAlreadyRegistered.getRegistrationState() != null && productAlreadyRegistered.getRegistrationState() == RegistrationState.REGISTERED) {
             showFragment(new ProdRegSuccessFragment());
         }
         super.onStart();
@@ -350,8 +347,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             public void onClick(final View v) {
                 if (validateFields()) {
                     showProgressAlertDialog(getActivity().getString(R.string.prod_reg_registering_product));
-                    currentProduct.setPurchaseDate(date_EditText.getText().toString());
-                    currentProduct.setSerialNumber(serial_number_editText.getText().toString());
+                    registeredProduct.setPurchaseDate(date_EditText.getText().toString());
+                    registeredProduct.setSerialNumber(serial_number_editText.getText().toString());
                     ProdRegHelper prodRegHelper = new ProdRegHelper();
                     prodRegHelper.addProductRegistrationListener(getProdRegListener());
                     prodRegHelper.getSignedInUserWithProducts().registerProduct(registeredProduct);

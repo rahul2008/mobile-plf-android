@@ -28,16 +28,11 @@ public class ProdRegProcessController {
 
     public interface ProcessControllerCallBacks {
         void dismissLoadingDialog();
-
         void exitProductRegistration();
-
         void showLoadingDialog();
-
         void showFragment(Fragment fragment);
-
         void showAlertOnError(int responseCode);
     }
-
     private Product currentProduct;
     private ProcessControllerCallBacks processControllerCallBacks;
     private Bundle dependencyBundle;
@@ -79,12 +74,10 @@ public class ProdRegProcessController {
     }
 
     private void getRegisteredProducts() {
-        if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
-            if (currentProduct != null) {
-                ProdRegHelper prodRegHelper = new ProdRegHelper();
-                isApiCallingProgress = true;
-                prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
-            }
+        if (fragmentActivity != null && !fragmentActivity.isFinishing() && currentProduct != null) {
+            ProdRegHelper prodRegHelper = new ProdRegHelper();
+            isApiCallingProgress = true;
+            prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
         }
     }
 

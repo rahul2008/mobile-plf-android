@@ -150,6 +150,15 @@ public class RegisteredProduct extends Product {
         return null;
     }
 
+    public RegisteredProduct isProductAlreadyRegistered(final LocalRegisteredProducts localRegisteredProducts) {
+        final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
+        final int index = registeredProducts.indexOf(this);
+        if (index != -1) {
+            return registeredProducts.get(index);
+        }
+        return null;
+    }
+
     private void updateFields(final RegisteredProduct product) {
         product.setUserUUid(getUserUUid());
         product.sendEmail(getEmail());
