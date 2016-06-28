@@ -93,10 +93,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
         mIapHandler = IAPHandler.init(this, mIAPSettings);
-        ArrayList<String> mProductList = new ArrayList<>();
+
+        /*ArrayList<String> mProductList = new ArrayList<>();
         mProductList.add("HX9042/64");
         mProductList.add("HX9042/64");
-        mProductList.add("HX9042/64");
+        mProductList.add("HX9042/64");*/
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -114,7 +115,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
 
-        mIapHandler.launchCategorizedCatalog(mProductList);
+//        mIapHandler.launchCategorizedCatalog(mProductList);
 
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
