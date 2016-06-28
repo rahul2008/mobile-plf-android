@@ -2,11 +2,11 @@
 ================================================================================
 Release notes for User Registration Android 
 ================================================================================
-Version 6.0.4     Date : 17-06-2016
+Version 6.0.4     Date : 28-06-2016
 --------------------------------------------------------------------------------
 Components and versions in this release
 
-regidtartionApi : 6.0.4
+regidtartionApi : 6.0.5
 localeMatch : 1.1.1
 tagging :2.0.0
 hsdp :1.0.3
@@ -23,8 +23,8 @@ adobeMobileLibrary :4.5.1
 
 --------------------------------------------------------------------------------
 ### New Features 
-¬	HSDP password guidline chnaged.
-¬	Bug fixes
+¬	HSDP login mechanism is changed 
+¬	Reverted the HSDP Hot fix.
 
 
 
