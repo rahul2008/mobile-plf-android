@@ -20,7 +20,6 @@ public class DemoApplication extends Application {
         super.onCreate();
         initializeUserRegistration();
         initializeTagging();
-     //   LeakCanary.install(this);
     }
 
     private void initializeTagging() {
