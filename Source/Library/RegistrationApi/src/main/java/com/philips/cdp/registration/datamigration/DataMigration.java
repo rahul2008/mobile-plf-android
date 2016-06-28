@@ -38,6 +38,9 @@ public class DataMigration {
     }
 
 
+
+
+
     private String readDataAndDeleteFile(String fileName) throws IOException, ClassNotFoundException {
         FileInputStream fis = mContext.openFileInput(fileName);
         ObjectInputStream ois = new ObjectInputStream(fis);
@@ -81,30 +84,29 @@ public class DataMigration {
 
 
     public void checkFileEncryptionStatus() {
-        if (!isFileEncryptionForJumpDone(JR_CAPTURE_SIGNED_IN_USER)) {
-            deleteAllFiles();
+        if (!isFileEncryptionDone(JR_CAPTURE_SIGNED_IN_USER)) {
+            migratePlainText(JR_CAPTURE_SIGNED_IN_USER);
         }else{
             migrateEncryptedText(JR_CAPTURE_SIGNED_IN_USER);
         }
 
-        if (isFileEncryptionDone(HSDP_RECORD)) {
+        if (!isFileEncryptionDone(HSDP_RECORD)) {
+            migratePlainObject(HSDP_RECORD);
+        }else{
             migrateEncryptedObject(HSDP_RECORD);
         }
 
-        if (isFileEncryptionDone(DI_PROFILE)) {
+        if (!isFileEncryptionDone(DI_PROFILE)) {
+            migratePlainObject(DI_PROFILE);
+        }else{
             migrateEncryptedObject(DI_PROFILE);
         }
-        if(isFileEncryptionDone(JUMP_REFRESH_SECRET)){
+        if(!isFileEncryptionDone(JUMP_REFRESH_SECRET)){
+            migratePlainObject(JUMP_REFRESH_SECRET);
+        }else{
             migrateEncryptedObject(JUMP_REFRESH_SECRET);
         }
 
-    }
-
-    private void deleteAllFiles() {
-        mContext.deleteFile(JR_CAPTURE_SIGNED_IN_USER);
-        mContext.deleteFile(HSDP_RECORD);
-        mContext.deleteFile(DI_PROFILE);
-        mContext.deleteFile(JUMP_REFRESH_SECRET);
     }
 
 
@@ -149,37 +151,48 @@ public class DataMigration {
         return isEncryptionDone;
     }
 
-    private boolean isFileEncryptionForJumpDone(final String pFileName) {
-        FileInputStream fis = null;
-        boolean isEncryptionDone = true;
+
+    //meant to migrate unencrypted data to encrypted one
+    private  void migratePlainText(final String pFileName){
+
         try {
-            fis = mContext.openFileInput(pFileName);
-            byte fileContent[] = new byte[(int) fis.getChannel().size()];
-            fis.read(fileContent);
-
-            if (JR_CAPTURE_SIGNED_IN_USER.equals(pFileName)) {
-                String s = new String(fileContent);
-                if (s.contains("access")) {
-                    isEncryptionDone = false;
-                }
-
+            //Read from file
+            FileInputStream fis = mContext.openFileInput(pFileName);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Object object = ois.readObject();
+            String plainTextString = null;
+            byte[] plainBytes = null;
+            if(object instanceof String) {
+                plainTextString = (String) object;
             }
 
+            if(object instanceof byte[]){
+                plainBytes = (byte[])object;
+            }
+            mContext.deleteFile(pFileName);
+            fis.close();
+            ois.close();
+
+            SecureStorageInterface secureStorageInterface = new AppInfra.Builder().build(mContext).getSecureStorage();
+            if(plainTextString != null) {
+                secureStorageInterface.storeValueForKey(pFileName,plainTextString);
+            }
+            if(plainBytes != null){
+                secureStorageInterface.storeValueForKey(pFileName,new String(plainBytes));
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }  catch (OptionalDataException e) {
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (OptionalDataException e) {
             e.printStackTrace();
         } catch (StreamCorruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return isEncryptionDone;
     }
-
-
 
 
 
