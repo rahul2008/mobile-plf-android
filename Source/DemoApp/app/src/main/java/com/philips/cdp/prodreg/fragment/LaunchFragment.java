@@ -1,7 +1,6 @@
 package com.philips.cdp.prodreg.fragment;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,10 +15,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.Util;
+import com.philips.cdp.registration.configuration.PILConfiguration;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -27,12 +24,7 @@ import java.util.List;
  */
 public class LaunchFragment extends Fragment implements View.OnClickListener {
 
-    String configurationType[] = {"Evaluation", "Testing", "Development", "Staging", "Production"};
-    int count = 0;
-    List<String> list = Arrays.asList(configurationType);
-    private String TAG = getClass().toString();
     private TextView txt_title, configurationTextView;
-    private SharedPreferences sharedPreferences;
     private Button user_registration_button, pr_button, reg_list_button;
     private Context context;
 
@@ -41,16 +33,15 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main, container, false);
         setUp(view);
+        PILConfiguration pilConfiguration = new PILConfiguration();
+        pilConfiguration.getRegistrationEnvironment();
         return view;
     }
 
     private void setUp(final View view) {
         context = getActivity();
-        final String PRODUCT_REGISTRATION = "prod_demo";
-        sharedPreferences = context.getSharedPreferences(PRODUCT_REGISTRATION, Context.MODE_PRIVATE);
         initViews(view);
         setOnClickListeners();
-        final int position = list.indexOf(sharedPreferences.getString("reg_env", "Evaluation"));
     }
 
     @NonNull
@@ -70,8 +61,6 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        final String env = sharedPreferences.getString("reg_env", "Evaluation");
-
         switch (v.getId()) {
             case R.id.btn_user_registration:
                 RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(context);
