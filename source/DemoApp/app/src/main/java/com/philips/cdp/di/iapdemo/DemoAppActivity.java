@@ -59,7 +59,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private Button mLaunchProductDetail;
 
     private int mSelectedCountryIndex;
-//    private boolean mProductCountRequested;
     private ProgressDialog mProgressDialog = null;
 
     @Override
@@ -254,14 +253,12 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 mCountText.setVisibility(View.GONE);
             }
             dismissProgressDialog();
-//            mProductCountRequested = false;
         }
 
         @Override
         public void onFailure(final int errorCode) {
             dismissProgressDialog();
             showToast(errorCode);
-//            mProductCountRequested = false;
         }
     };
 
@@ -318,22 +315,19 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         String mSelectedCountry = parent.getItemAtPosition(position).toString();
         if (mSelectedCountry.equals("UK"))
             mSelectedCountry = "GB";
-
         setLocale("en", mSelectedCountry);
 
-        //   if (!mProductCountRequested) {
         mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-//        setUseLocalData();
+        //setUseLocalData(); //Uncomment to support PlanB
+
         mIapHandler = IAPHandler.init(this, mIAPSettings);
         updateCartIcon();
         if (!shouldUseLocalData()) {
             showProgressDialog();
-//            mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
             mPurchaseHistory.setVisibility(View.VISIBLE);
         } else
             mPurchaseHistory.setVisibility(View.GONE);
-        // }
     }
 
     private void setLocale(String languageCode, String countryCode) {
