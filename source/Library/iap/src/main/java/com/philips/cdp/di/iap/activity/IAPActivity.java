@@ -39,12 +39,6 @@ import java.util.Locale;
 
 public class IAPActivity extends UiKitActivity {
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
-    private TextView mTitleTextView;
-    private ImageView mBackButton;
-    private FrameLayout frameLayout;
-    private TextView mCartCount;
-    private ImageView mCartIcon;
-    private FrameLayout mCartContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
