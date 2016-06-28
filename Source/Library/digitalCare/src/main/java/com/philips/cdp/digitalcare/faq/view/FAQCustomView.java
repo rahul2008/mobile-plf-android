@@ -355,7 +355,6 @@ public class FAQCustomView implements Serializable {
                 if (supportType.equalsIgnoreCase("FAQ")) {
                     Chapter chapter = faq.getChapter();
                     questionCategory = chapter.getName();
-                    DigiCareLogger.v(TAG, "Question Category : " + questionCategory);
                     if (questionCategory != null) {
                         List<Item> questionsList = faq.getItem();
                         Hashtable<String, List<FaqQuestionModel>> fliterFaqDataWithlanguage =
