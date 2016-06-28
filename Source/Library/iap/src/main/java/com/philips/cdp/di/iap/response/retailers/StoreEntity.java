@@ -1,10 +1,12 @@
 package com.philips.cdp.di.iap.response.retailers;
 
+import java.io.Serializable;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class StoreEntity {
+public class StoreEntity implements Serializable{
     private String name;
     private String availability;
     private String isPhilipsStore;
