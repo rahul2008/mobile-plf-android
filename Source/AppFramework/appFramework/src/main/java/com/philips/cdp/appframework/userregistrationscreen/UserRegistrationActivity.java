@@ -20,7 +20,7 @@ public class UserRegistrationActivity extends RegistrationActivity {
             UIState returnedState =  (UIState) UIStateManager.currentState.getNavigator().onPageLoad(this);
 
             if (ActivityMap.activityMap.get(userRegState) == UIConstants.UI_HAMBURGER_SCREEN) {
-                UIStateManager.currentState = UIStateManager.getFromStateList(UIConstants.UI_HAMBURGER_STATE);
+                UIStateManager.currentState = UIStateManager.getStateMap(UIConstants.UI_HAMBURGER_STATE);
                 startActivity(new Intent(this, HamburgerActivity.class));
             }
             super.onBackPressed();

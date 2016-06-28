@@ -25,11 +25,11 @@ public class UIWelcomeScreenNavigator implements UIBaseNavigation {
 
     @Override
     public UIStateBase onPageLoad(Context context) {
-        return (UIStateManager.getInstance().getFromStateList(UIConstants.UI_HAMBURGER_STATE));
+        return UIStateFactory.getInstance().createUIState(UIConstants.UI_HAMBURGER_STATE);
     }
 
     @Override
     public void setState() {
-        UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_WELCOME_STATE));
+        UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_WELCOME_STATE));
     }
 }

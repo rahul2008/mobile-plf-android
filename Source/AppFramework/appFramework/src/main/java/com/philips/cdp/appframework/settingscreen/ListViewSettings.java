@@ -19,9 +19,9 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.philips.cdp.appframework.R;
-import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.shamanland.fonticon.FontIconTextView;
 
@@ -113,7 +113,7 @@ public class ListViewSettings extends BaseAdapter {
                             if (mUser.isUserSignIn()) {
                                 logoutAlert();
                             } else {
-                                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
+                                mActivity.startActivity(new Intent(mActivity, RegistrationActivity.class));
                             }
                         }
                     });

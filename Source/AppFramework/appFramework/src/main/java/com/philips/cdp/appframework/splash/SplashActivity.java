@@ -21,12 +21,12 @@ import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.homescreen.HamburgerActivity;
 import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
-import com.philips.cdp.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.modularui.ActivityMap;
 import com.philips.cdp.modularui.UIBaseNavigation;
 import com.philips.cdp.modularui.UIConstants;
-import com.philips.cdp.modularui.UIStateManager;
 import com.philips.cdp.modularui.UIState;
+import com.philips.cdp.modularui.UIStateManager;
+import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
@@ -72,7 +72,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
-
+        mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
         initView();
         startTimer();
     }
@@ -116,16 +116,16 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 // Start your app main activity
 
                 UIState returnedState =  (UIState) mNavigator.onPageLoad(SplashActivity.this);
-                        if (ActivityMap.activityMap.get(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
-                            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_HAMBURGER_STATE));
+                        if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
+                            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_STATE));
                             startActivity(new Intent(SplashActivity.this, HamburgerActivity.class));
                         }
-                        if (ActivityMap.activityMap.get(returnedState.getStateID()) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
-                            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_REGISTRATION_STATE));
-                            startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
+                        if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
+                            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_REGISTRATION_STATE));
+                            startActivity(new Intent(SplashActivity.this, RegistrationActivity.class));
                         }
-                        if (ActivityMap.activityMap.get(returnedState.getStateID()) == UIConstants.UI_WELCOME_SCREEN) {
-                            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_WELCOME_STATE));
+                        if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_WELCOME_SCREEN) {
+                            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_WELCOME_STATE));
                             startActivity(new Intent(SplashActivity.this, IntroductionScreenActivity.class));
                         }
 
@@ -137,7 +137,5 @@ public class SplashActivity extends AppFrameworkBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
-        mNavigator.setState();
     }
 }

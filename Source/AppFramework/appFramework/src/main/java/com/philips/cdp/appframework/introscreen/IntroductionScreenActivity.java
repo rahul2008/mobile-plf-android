@@ -190,8 +190,8 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
         if (null != activity) {
             UIState returnedState = (UIState) mNavigator.onPageLoad(IntroductionScreenActivity.this);
 
-                    if (ActivityMap.activityMap.get(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
-                        UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_HAMBURGER_STATE));
+                    if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
+                        UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_STATE));
                         startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
                     }
             }
@@ -247,8 +247,8 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onClick(View v) {
 
         UIState returnedState  = (UIState) mNavigator.onClick(v.getId(), IntroductionScreenActivity.this);
-        if (ActivityMap.activityMap.get(returnedState.getStateID()) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
-            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_REGISTRATION_STATE));
+        if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
+            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_REGISTRATION_STATE));
             startActivity(new Intent(IntroductionScreenActivity.this, RegistrationActivity.class));
         }
 
@@ -264,8 +264,8 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     protected void onRestart() {
         UIState returnedState = (UIState) mNavigator.onPageLoad(this);
-        if (ActivityMap.activityMap.get(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
-            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getFromStateList(UIConstants.UI_REGISTRATION_STATE));
+        if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
+            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_STATE));
             startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
         }
         super.onRestart();

@@ -8,10 +8,10 @@ package com.philips.cdp.appframework;
 import android.app.Application;
 import android.support.multidex.MultiDex;
 
-import com.philips.cdp.modularui.ActivityMap;
-import com.philips.cdp.modularui.UIStateManager;
 import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.modularui.ActivityMap;
+import com.philips.cdp.modularui.UIStateManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -29,9 +29,8 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
         SharedPreferenceUtility.getInstance().Initialize(getApplicationContext());
         initializeUserRegistrationLibrary();
-        UIStateManager.populateStateBaseList();
-        ActivityMap.populateActivityMap();
-        UIStateManager.initAppStartState(getApplicationContext());
+        UIStateManager.getInstance().initAppStartState(getApplicationContext());
+        ActivityMap.getInstance().populateActivityMap();
     }
 
     private void initializeUserRegistrationLibrary() {

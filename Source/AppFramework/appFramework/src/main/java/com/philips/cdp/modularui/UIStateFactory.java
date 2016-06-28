@@ -22,7 +22,7 @@ public class UIStateFactory {
     public UIStateBase createUIState(@UIConstants.UIStateDef int uiStateID){
 
         UIState uistate = new UIState();
-        if(!UIStateManager.getInstance().uiStateMap.containsKey(uiStateID)){
+        if(!UIStateManager.getInstance().getUiStateMap().containsKey(uiStateID)){
             switch (uiStateID) {
                 case UIConstants.UI_SPLASH_UNREGISTERED_STATE:
                     uistate.setStateID(UIConstants.UI_SPLASH_UNREGISTERED_STATE);
