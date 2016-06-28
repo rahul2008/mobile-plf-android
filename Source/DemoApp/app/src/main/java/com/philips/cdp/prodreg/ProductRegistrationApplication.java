@@ -9,15 +9,23 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.util.Locale;
 
 public class ProductRegistrationApplication extends Application {
 
+    public static AIAppTaggingInterface mAIAppTaggingInterface;
+    public static AppInfra gAppInfra;
+
     @Override
     public void onCreate() {
         super.onCreate();
         MultiDex.install(this);
+
+        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
         new ProdRegHelper().init(getApplicationContext());
         initRegistration();
     }
