@@ -20,6 +20,7 @@
         android:text="@string/PPR_AllProducts_Registered_Lbltxt"/>
 
     <TextView
+        android:id="@+id/link_tv"
         style="@style/ProductRegistrationConnectSubTitleTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

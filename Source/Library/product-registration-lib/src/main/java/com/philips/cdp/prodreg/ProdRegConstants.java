@@ -22,4 +22,5 @@ public class ProdRegConstants {
     public static final String PROGRESS_STATE = "progress_state";
     public static final String ERROR_STATE = "error_state";
     public static final String IS_SIGN_IN_CALLED = "sign_incalled";
+    public static final String WEB_URL = "web_url";
 }
