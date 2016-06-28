@@ -56,6 +56,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 /**
  * {@code User} class represents information related to a logged in user of User Registration component.
  * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
