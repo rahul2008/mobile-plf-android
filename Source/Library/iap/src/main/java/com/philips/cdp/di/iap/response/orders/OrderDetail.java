@@ -1,9 +1,12 @@
 package com.philips.cdp.di.iap.response.orders;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.List;
 
-public class OrderDetail implements Serializable{
+public class OrderDetail implements Parcelable{
 
 
     private String type;
@@ -51,6 +54,62 @@ public class OrderDetail implements Serializable{
     private List<Entries> entries;
 
     private List<Consignment> consignments;
+
+    protected OrderDetail(Parcel in) {
+        type = in.readString();
+        calculated = in.readByte() != 0;
+        code = in.readString();
+        deliveryItemsQuantity = in.readInt();
+        guid = in.readString();
+        net = in.readByte() != 0;
+        pickupItemsQuantity = in.readInt();
+        site = in.readString();
+        store = in.readString();
+        totalItems = in.readInt();
+        created = in.readString();
+        deliveryStatus = in.readString();
+        guestCustomer = in.readByte() != 0;
+        ordertrackUrl = in.readString();
+        status = in.readString();
+        statusDisplay = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(type);
+        dest.writeByte((byte) (calculated ? 1 : 0));
+        dest.writeString(code);
+        dest.writeInt(deliveryItemsQuantity);
+        dest.writeString(guid);
+        dest.writeByte((byte) (net ? 1 : 0));
+        dest.writeInt(pickupItemsQuantity);
+        dest.writeString(site);
+        dest.writeString(store);
+        dest.writeInt(totalItems);
+        dest.writeString(created);
+        dest.writeString(deliveryStatus);
+        dest.writeByte((byte) (guestCustomer ? 1 : 0));
+        dest.writeString(ordertrackUrl);
+        dest.writeString(status);
+        dest.writeString(statusDisplay);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<OrderDetail> CREATOR = new Creator<OrderDetail>() {
+        @Override
+        public OrderDetail createFromParcel(Parcel in) {
+            return new OrderDetail(in);
+        }
+
+        @Override
+        public OrderDetail[] newArray(int size) {
+            return new OrderDetail[size];
+        }
+    };
 
     public String getType() {
         return type;

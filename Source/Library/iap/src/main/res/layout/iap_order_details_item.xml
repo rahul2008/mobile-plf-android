@@ -12,16 +12,17 @@
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/iv_product_image"
             style="@style/networkImage"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
             android:layout_alignParentStart="true" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
-            android:layout_toEndOf="@id/iv_product_image"
-            android:gravity="center_vertical"
-            android:layout_marginTop="20dp">
+            android:layout_marginLeft="@dimen/iap_order_margin_top"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+            android:layout_toEndOf="@id/iv_product_image">
 
             <TextView
                 android:id="@+id/tv_productName"
@@ -50,16 +51,18 @@
 
                 <TextView
                     android:id="@+id/from"
-                    style="@style/tvBoldTitle"
+                    style="@style/tvTitle"
                     android:layout_marginEnd="3dp"
                     android:text="@string/iap_product_item_quantity"
+                    android:layout_marginTop="0dp"
                     android:textSize="@dimen/quantity"/>
 
                 <TextView
                     android:id="@+id/tv_quantity"
-                    style="@style/tvBoldTitle"
+                    style="@style/tvTitle"
                     android:layout_alignBaseline="@id/from"
                     android:layout_toEndOf="@id/from"
+                    android:layout_marginTop="0dp"
                     android:textSize="@dimen/quantity" />
 
             </RelativeLayout>
@@ -71,7 +74,7 @@
                 android:layout_below="@+id/quantity_count_layout"
                 android:textColor="?attr/uikit_baseColor"
                 android:textSize="@dimen/quantity"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/iap_order_margin_top"
                 />
 
         </RelativeLayout>

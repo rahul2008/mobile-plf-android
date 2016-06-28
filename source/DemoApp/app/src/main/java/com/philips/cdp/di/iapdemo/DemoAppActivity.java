@@ -59,7 +59,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private Button mLaunchProductDetail;
 
     private int mSelectedCountryIndex;
-    private boolean mProductCountRequested;
+//    private boolean mProductCountRequested;
     private ProgressDialog mProgressDialog = null;
 
     @Override
@@ -144,8 +144,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         User mUser = new User(this);
         if (mUser.isUserSignIn()) {
             displayViews();
-            if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
-                showProgressDialog(getString(R.string.iap_please_wait));
+            if (mSelectedCountryIndex > 0) {
+                showProgressDialog();
                 mIapHandler.getProductCartCount(mProductCountListener);
             }
         }
@@ -254,14 +254,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 mCountText.setVisibility(View.GONE);
             }
             dismissProgressDialog();
-            mProductCountRequested = false;
+//            mProductCountRequested = false;
         }
 
         @Override
         public void onFailure(final int errorCode) {
             dismissProgressDialog();
             showToast(errorCode);
-            mProductCountRequested = false;
+//            mProductCountRequested = false;
         }
     };
 
@@ -327,8 +327,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mIapHandler = IAPHandler.init(this, mIAPSettings);
         updateCartIcon();
         if (!shouldUseLocalData()) {
-            showProgressDialog(getString(R.string.iap_please_wait));
-            mProductCountRequested = true;
+            showProgressDialog();
+//            mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
             mPurchaseHistory.setVisibility(View.VISIBLE);
         } else
@@ -397,19 +397,21 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void showProgressDialog(String message) {
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setMessage(message + "...");
-
-        if ((!mProgressDialog.isShowing()) && !((Activity) this).isFinishing()) {
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setMessage(getString(R.string.iap_please_wait) + "...");
+        }
+        if ((!mProgressDialog.isShowing()) && !isFinishing()) {
             mProgressDialog.show();
         }
     }
 
     public void dismissProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+        if (mProgressDialog != null && mProgressDialog.isShowing() && !isFinishing()) {
             mProgressDialog.dismiss();
+            mProgressDialog = null;
         }
     }
 }

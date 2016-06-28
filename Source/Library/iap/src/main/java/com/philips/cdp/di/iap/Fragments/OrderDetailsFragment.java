@@ -33,6 +33,7 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.shamanland.fonticon.FontIconTextView;
+import com.squareup.okhttp.internal.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -118,7 +119,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
             if(bundle.containsKey(IAPConstant.ORDER_DETAIL))
             {
                // List<OrderDetail> detailList = (ArrayList);
-                mOrderDetail = (OrderDetail)bundle.getSerializable(IAPConstant.ORDER_DETAIL);
+                mOrderDetail = (OrderDetail)bundle.getParcelable(IAPConstant.ORDER_DETAIL);
                 updateUIwithDetails(mOrderDetail);
             }
         }
@@ -209,7 +210,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
                 }
                 if (mOrderDetail.getDeliveryAddress() != null) {
                     bundle.putString(IAPConstant.DELIVERY_NAME, mOrderDetail.getDeliveryAddress().getFirstName() + " " + mOrderDetail.getDeliveryAddress().getLastName());
-                    bundle.putString(IAPConstant.ADD_DELIVERY_ADDRESS, Utility.createAddress(mOrderDetail.getDeliveryAddress()));
+                    bundle.putString(IAPConstant.ADD_DELIVERY_ADDRESS, Utility.formatAddress(mOrderDetail.getDeliveryAddress().getFormattedAddress()));
                 }
 
                 if(mOrderDetail.getOrdertrackUrl() != null){
@@ -223,7 +224,8 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
     public void updateUIwithDetails(OrderDetail detail) {
         mTime.setText(Utility.getFormattedDate(detail.getCreated()));
-        mOrderState.setText(detail.getStatusDisplay());
+        String orderStatus = detail.getStatusDisplay();
+        mOrderState.setText(orderStatus.substring(0,1).toUpperCase() + orderStatus.substring(1));
         mOrderNumber.setText(detail.getCode());
         mTvQuantity.setText(" (0" + " item)");
         if(detail.getDeliveryOrderGroups() != null)
@@ -240,12 +242,12 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
         if (detail.getDeliveryAddress() != null) {
             mDeliveryName.setText(detail.getDeliveryAddress().getFirstName() + " " + detail.getDeliveryAddress().getLastName());
-            mDeliveryAddress.setText(Utility.createAddress(detail.getDeliveryAddress()));
+            mDeliveryAddress.setText(Utility.formatAddress(detail.getDeliveryAddress().getFormattedAddress()));
         }
         if (detail.getPaymentInfo() != null) {
             if (detail.getPaymentInfo().getBillingAddress() != null) {
                 mBillingName.setText(detail.getPaymentInfo().getBillingAddress().getFirstName() + " " + detail.getPaymentInfo().getBillingAddress().getLastName());
-                mBillingAddress.setText(Utility.createAddress(detail.getPaymentInfo().getBillingAddress()));
+                mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()));
             }
             if (detail.getPaymentInfo().getCardType() != null)
                 mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode() + " " + detail.getPaymentInfo().getCardNumber());
