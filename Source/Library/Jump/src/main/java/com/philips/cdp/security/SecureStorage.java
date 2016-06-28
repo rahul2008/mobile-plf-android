@@ -10,13 +10,17 @@ import com.philips.securekey.SKey;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.io.StreamCorruptedException;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -29,6 +33,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Random;
 
+import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -44,7 +49,7 @@ public class SecureStorage {
 
     private static byte[] SECRET_KEY;
 
-    /*public static byte[] encrypt(String text) {
+    public static byte[] encrypt(String text) {
       //  storeSecretKey();
         SECRET_KEY = SKey.generateSecretKey();
         try {
@@ -59,12 +64,12 @@ public class SecureStorage {
         }
 
         return null;
-    }*/
+    }
 
     //migrates data encrypted with an old key to new key
     public static void migrateDataFromOldToNewKey(final String pFileName){
         //get Data with old key from the file
-      /*  FileInputStream fis = null;
+        FileInputStream fis = null;
         Serializable serializableObject = null;
         Object object;
         boolean isSerialized = false;
@@ -127,7 +132,7 @@ public class SecureStorage {
             e.printStackTrace();
         }
 
-*/
+
     }
 
 
@@ -136,17 +141,17 @@ public class SecureStorage {
     //meant to migrate unencrypted data to encrypted one
     public static void migrateUserData(final String pFileName){
 
-       /* try {
+        try {
             //Read from file
             FileInputStream fis = mContext.openFileInput(pFileName);
             ObjectInputStream ois = new ObjectInputStream(fis);
             Object object = ois.readObject();
             String plainTextString = null;
             byte[] plainBytes = null;
-           *//* if(object instanceof String) {
+           /* if(object instanceof String) {
 
                 plainTextString = (String) object;
-            }*//*
+            }*/
 
             if(object instanceof byte[]){
                 plainBytes = (byte[])object;
@@ -183,7 +188,7 @@ public class SecureStorage {
         } catch (IOException e) {
             e.printStackTrace();
         }
-*/
+
 
 
 
@@ -233,7 +238,7 @@ public class SecureStorage {
     }
 
 
-   /* public static byte[] decrypt(byte[] encByte) {
+    public static byte[] decrypt(byte[] encByte) {
         //storeSecretKey();
         SECRET_KEY = SKey.generateSecretKey();
         try {
@@ -247,7 +252,7 @@ public class SecureStorage {
             ex.printStackTrace();
         }
         return null;
-    }*/
+    }
 
     public static void generateSecretKey() {
         if (SECRET_KEY == null) {

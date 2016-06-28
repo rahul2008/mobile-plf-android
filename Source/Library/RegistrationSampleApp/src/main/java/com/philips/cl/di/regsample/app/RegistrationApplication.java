@@ -20,6 +20,7 @@ import java.util.Locale;
 
 public class RegistrationApplication extends Application {
 
+<<<<<<< HEAD
     private static volatile RegistrationApplication mRegistrationHelper = null;
 
 
