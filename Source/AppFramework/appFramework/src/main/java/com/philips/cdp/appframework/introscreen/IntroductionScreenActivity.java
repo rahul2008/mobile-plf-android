@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
-import com.philips.cdp.modularui.LaunchScreen;
-import com.philips.cdp.modularui.UIBaseNavigation;
-import com.philips.cdp.modularui.UIState;
-import com.philips.cdp.modularui.UIStateManager;
+import com.philips.cdp.modularui.util.LaunchScreen;
+import com.philips.cdp.modularui.statecontroller.UIBaseNavigation;
+import com.philips.cdp.modularui.statecontroller.UIState;
+import com.philips.cdp.modularui.statecontroller.UIStateManager;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;

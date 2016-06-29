@@ -1,4 +1,19 @@
-package com.philips.cdp.modularui;
+package com.philips.cdp.modularui.factorymanager;
+
+import com.philips.cdp.modularui.navigatorsplash.UISplashDonePressedNavigator;
+import com.philips.cdp.modularui.navigatorsplash.UISplashRegisteredNavigator;
+import com.philips.cdp.modularui.navigatorsplash.UISplashUnRegisteredNavigator;
+import com.philips.cdp.modularui.statecontroller.UIStateManager;
+import com.philips.cdp.modularui.navigatoruserreg.UIUserRegNavigator;
+import com.philips.cdp.modularui.navigatorwelcome.UIWelcomeScreenNavigator;
+import com.philips.cdp.modularui.navigatorhamburger.UIHamDebugNavigator;
+import com.philips.cdp.modularui.navigatorhamburger.UIHamHomeNavigator;
+import com.philips.cdp.modularui.navigatorhamburger.UIHamSettingsNavigator;
+import com.philips.cdp.modularui.navigatorhamburger.UIHamSupportNavigator;
+import com.philips.cdp.modularui.navigatorhamburger.UIHamburgerNavigator;
+import com.philips.cdp.modularui.statecontroller.UIState;
+import com.philips.cdp.modularui.statecontroller.UIStateBase;
+import com.philips.cdp.modularui.util.UIConstants;
 
 /**
  * Created by 310240027 on 6/28/2016.

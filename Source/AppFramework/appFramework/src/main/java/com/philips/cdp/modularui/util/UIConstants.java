@@ -1,4 +1,4 @@
-package com.philips.cdp.modularui;
+package com.philips.cdp.modularui.util;
 
 import android.support.annotation.IntDef;
 

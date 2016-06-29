@@ -1,4 +1,6 @@
-package com.philips.cdp.modularui;
+package com.philips.cdp.modularui.statecontroller;
+
+import com.philips.cdp.modularui.util.UIConstants;
 
 /**
  * Created by 310240027 on 6/16/2016.

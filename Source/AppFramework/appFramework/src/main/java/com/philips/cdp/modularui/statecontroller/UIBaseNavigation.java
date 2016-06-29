@@ -1,6 +1,8 @@
-package com.philips.cdp.modularui;
+package com.philips.cdp.modularui.statecontroller;
 
 import android.content.Context;
+
+import com.philips.cdp.modularui.statecontroller.UIStateBase;
 
 /**
  * Created by 310240027 on 6/16/2016.

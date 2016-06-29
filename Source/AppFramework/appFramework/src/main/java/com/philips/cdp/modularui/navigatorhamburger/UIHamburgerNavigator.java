@@ -1,6 +1,12 @@
-package com.philips.cdp.modularui;
+package com.philips.cdp.modularui.navigatorhamburger;
 
 import android.content.Context;
+
+import com.philips.cdp.modularui.statecontroller.UIBaseNavigation;
+import com.philips.cdp.modularui.util.UIConstants;
+import com.philips.cdp.modularui.statecontroller.UIStateBase;
+import com.philips.cdp.modularui.factorymanager.UIStateFactory;
+import com.philips.cdp.modularui.statecontroller.UIStateManager;
 
 /**
  * Created by 310240027 on 6/24/2016.

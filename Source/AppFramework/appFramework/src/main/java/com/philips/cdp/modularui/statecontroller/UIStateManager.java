@@ -1,8 +1,10 @@
-package com.philips.cdp.modularui;
+package com.philips.cdp.modularui.statecontroller;
 
 import android.content.Context;
 
 import com.philips.cdp.appframework.utility.SharedPreferenceUtility;
+import com.philips.cdp.modularui.factorymanager.UIStateFactory;
+import com.philips.cdp.modularui.util.UIConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +14,7 @@ import java.util.Map;
  */
 public class UIStateManager {
 
-    public static UIStateManager instance = new UIStateManager();
+    private static UIStateManager instance = new UIStateManager();
 
     private UIStateManager() {
 
