@@ -66,7 +66,10 @@ public class UIStateFactory {
                     break;
             }
             UIStateManager.getInstance().addToStateList(uistate);
+            return uistate;
+        }else {
+           return UIStateManager.getInstance().getStateMap(uiStateID);
         }
-        return uistate;
+
     }
 }

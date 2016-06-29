@@ -192,6 +192,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
                     if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
                         UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_STATE));
+                        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
                         startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
                     }
             }
@@ -258,7 +259,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     protected void onResume() {
         super.onResume();
 
-        mNavigator.setState();
+        //mNavigator.setState();
     }
 
     @Override
@@ -266,6 +267,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
         UIState returnedState = (UIState) mNavigator.onPageLoad(this);
         if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
             UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_STATE));
+            RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
             startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
         }
         super.onRestart();

@@ -18,6 +18,7 @@ public class UIHamburgerNavigator implements UIBaseNavigation {
                 break;
             case 3: destinationScreen =  UIStateFactory.getInstance().createUIState(UIConstants.UI_HAMBURGER_DEBUG_STATE_STATE_ONE);
                 break;
+            default:destinationScreen =  UIStateFactory.getInstance().createUIState(UIConstants.UI_HAMBURGER_HOME_STATE_ONE);
         }
         return destinationScreen;
     }

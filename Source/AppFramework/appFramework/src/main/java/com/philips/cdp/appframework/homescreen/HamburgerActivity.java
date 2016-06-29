@@ -6,6 +6,7 @@
 package com.philips.cdp.appframework.homescreen;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -23,12 +24,15 @@ import android.widget.TextView;
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
 import com.philips.cdp.appframework.debugtest.DebugTestFragment;
+import com.philips.cdp.appframework.settingscreen.SettingsFragment;
 import com.philips.cdp.modularui.ActivityMap;
 import com.philips.cdp.modularui.UIBaseNavigation;
 import com.philips.cdp.modularui.UIConstants;
-import com.philips.cdp.modularui.UIStateManager;
-import com.philips.cdp.appframework.settingscreen.SettingsFragment;
 import com.philips.cdp.modularui.UIState;
+import com.philips.cdp.modularui.UIStateManager;
+import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -37,7 +41,7 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import java.util.ArrayList;
 
 
-public class HamburgerActivity extends AppFrameworkBaseActivity {
+public class HamburgerActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener {
     private String[] hamburgerMenuTitles;
     // private TypedArray hamburgerMenuIcons;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -61,6 +65,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity {
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
+        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
@@ -210,4 +215,58 @@ public class HamburgerActivity extends AppFrameworkBaseActivity {
         showNavigationDrawerItem(0);
 
     }
+
+    @Override
+    protected void onDestroy() {
+        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
+        super.onDestroy();
+    }
+
+    @Override
+    public void updateRegistrationTitle(int i) {
+
+    }
+
+    @Override
+    public void updateRegistrationTitleWithBack(int i) {
+
+    }
+
+    @Override
+    public void updateRegistrationTitleWithOutBack(int i) {
+
+    }
+
+    @Override
+    public void onUserRegistrationComplete(Activity activity) {
+        UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE));
+        showSettingsFragment();
+    }
+
+    @Override
+    public void onPrivacyPolicyClick(Activity activity) {
+
+    }
+
+    @Override
+    public void onTermsAndConditionClick(Activity activity) {
+
+    }
+
+    @Override
+    public void onUserLogoutSuccess() {
+
+    }
+
+    @Override
+    public void onUserLogoutFailure() {
+
+    }
+
+    @Override
+    public void onUserLogoutSuccessWithInvalidAccessToken() {
+
+    }
+
+
 }
