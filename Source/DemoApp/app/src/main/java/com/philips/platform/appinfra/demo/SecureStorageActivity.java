@@ -26,7 +26,6 @@ public class SecureStorageActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secure_storage);
-      //  mSecureStorage = new SecureStorage(getApplicationContext());
         AppInfra appInfra = AppInfraApplication.gAppInfra;
         mSecureStorage = appInfra.getSecureStorage();
 
@@ -44,6 +43,9 @@ public class SecureStorageActivity extends AppCompatActivity  {
             public void onClick(View v) {
 
                 SecureStorageError sseStore = new SecureStorageError(); // to get error code if any
+                SecureStorage.encryptedTextTemp=null;
+                decryptedDataTextView.setText(null);
+                encryptedDataTextView.setText(null);
                 boolean isSaved = mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString(),sseStore);
                 if(null!=sseStore.getErrorCode())
                 {
@@ -70,10 +72,10 @@ public class SecureStorageActivity extends AppCompatActivity  {
                 String decryptedData= mSecureStorage.fetchValueForKey(userKey.getText().toString(),sse);
                 if(null!=sse.getErrorCode())
                 {
-                    Toast.makeText(SecureStorageActivity.this,sse.getErrorCode().toString(),Toast.LENGTH_SHORT).show();;
+                    Toast.makeText(SecureStorageActivity.this,sse.getErrorCode().toString(),Toast.LENGTH_SHORT).show();
                 }else{
                     decryptedDataTextView.setText(decryptedData);
-                    System.out.println("MySuccess2");
+
                 }
                 /*if(null==decryptedData){
                     Toast.makeText(SecureStorageActivity.this,"Key not found",Toast.LENGTH_SHORT).show();
@@ -89,10 +91,15 @@ public class SecureStorageActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
 
-                mSecureStorage.removeValueForKey(userKey.getText().toString());
-                data.setText(null);
-                encryptedDataTextView.setText(null);
-                decryptedDataTextView.setText(null);
+               boolean result =  mSecureStorage.removeValueForKey(userKey.getText().toString());
+                if(result) {
+                    data.setText(null);
+                    userKey.setText(null);
+                    encryptedDataTextView.setText(null);
+                    decryptedDataTextView.setText(null);
+                }else{
+                    Toast.makeText(SecureStorageActivity.this,"Deletion failed",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
