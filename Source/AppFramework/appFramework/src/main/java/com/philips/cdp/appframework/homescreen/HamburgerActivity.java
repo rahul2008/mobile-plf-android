@@ -23,12 +23,10 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
-import com.philips.cdp.appframework.debugtest.DebugTestFragment;
-import com.philips.cdp.appframework.settingscreen.SettingsFragment;
-import com.philips.cdp.modularui.util.ActivityMap;
 import com.philips.cdp.modularui.statecontroller.UIBaseNavigation;
 import com.philips.cdp.modularui.statecontroller.UIState;
 import com.philips.cdp.modularui.statecontroller.UIStateManager;
+import com.philips.cdp.modularui.util.ActivityMap;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -165,40 +163,9 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements UserR
 
         philipsDrawerLayout.closeDrawer(navigationView);
         UIState returnedState =  (UIState)mNavigator.onClick(position,HamburgerActivity.this);
-        //@UIConstants.UIScreenConstants int destinationScreen = ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID());
         UIStateManager.getInstance().setCurrentState(returnedState);
         showFragment(ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()),ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()).getClass().getSimpleName());
-       /* switch (destinationScreen){
-            case UIConstants.UI_HOME_SCREEN:
 
-                showFragment(new HomeScreenFragment(), HomeScreenFragment.class.getSimpleName());
-            break;
-            case UIConstants.UI_SUPPORT_SCREEN:
-                UIStateManager.getInstance().setCurrentState(returnedState);
-                showFragment(new HomeScreenFragment(), HomeScreenFragment.class.getSimpleName());
-            break;
-            case UIConstants.UI_SETTINGS_SCREEN:
-                UIStateManager.getInstance().setCurrentState(returnedState);
-                showSettingsFragment();
-            break;
-            case UIConstants.UI_DEBUG_SCREEN:
-                UIStateManager.getInstance().setCurrentState(returnedState);
-                showDebugTestFragment();
-            break;
-        }*/
-
-    }
-
-    private void showSettingsFragment() {
-        SettingsFragment settingsFragment = new SettingsFragment();
-
-        showFragment(settingsFragment, "Settings");
-    }
-
-    private void showDebugTestFragment() {
-        DebugTestFragment debugTestFragment = new DebugTestFragment();
-
-        showFragment(debugTestFragment, "DebugTest");
     }
 
     @Override
