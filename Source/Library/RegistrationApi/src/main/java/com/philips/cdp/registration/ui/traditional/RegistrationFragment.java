@@ -12,6 +12,7 @@ package com.philips.cdp.registration.ui.traditional;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -128,6 +129,16 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         super.onDestroy();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+    }
 
     private void setPrevTiltle() {
         if (mPreviousResourceId != -99)
