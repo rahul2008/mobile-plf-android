@@ -44,7 +44,7 @@ import java.util.Locale;
 public class DebugTestFragment extends AppFrameworkBaseFragment {
 
     String configurationType[] = {"Evaluation", "Testing", "Development", "Staging", "Production"};
-    int count = 0;
+    int count;
     List<String> list = Arrays.asList(configurationType);
     private String TAG = getClass().toString();
     private TextView txt_title, configurationTextView;
@@ -63,6 +63,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.debug_test, container, false);
+        count=0;
         setUp(view);
         return view;
     }
