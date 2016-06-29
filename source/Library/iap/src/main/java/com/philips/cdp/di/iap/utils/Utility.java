@@ -20,6 +20,8 @@ import com.philips.cdp.di.iap.response.addresses.Country;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.orders.Address;
 import com.philips.cdp.di.iap.response.payment.BillingAddress;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,6 +32,9 @@ public class Utility {
     public static final String TAG = Utility.class.getName();
 
     private static ProgressDialog mProgressDialog = null;
+
+    public static AIAppTaggingInterface mAIAppTaggingInterface;
+    public static AppInfra mAppInfra;
 
     /**
      * Displays the loading progress dialog
@@ -142,8 +147,8 @@ public class Utility {
     }
 
     public static String formatAddress(final String address) {
-        if(address != null)
-        return address.replaceAll(", ", "\n");
+        if (address != null)
+            return address.replaceAll(", ", "\n");
         else
             return null;
     }
@@ -167,4 +172,13 @@ public class Utility {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy"); // Set your date format
         return sdf.format(convertedDate);
     }
+
+    public static AIAppTaggingInterface getAppInfraTagging(Context pContext) {
+        if (mAIAppTaggingInterface == null) {
+            mAppInfra = new AppInfra.Builder().build(pContext);
+            mAIAppTaggingInterface = mAppInfra.getTagging();
+        }
+        return mAIAppTaggingInterface;
+    }
+
 }
