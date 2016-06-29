@@ -12,7 +12,6 @@ import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.register.ProdRegProcessController;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.registration.User;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -32,7 +31,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        prodRegProcessController = new ProdRegProcessController(this);
+        prodRegProcessController = new ProdRegProcessController(this, getActivity());
         if (savedInstanceState == null) {
             showLoadingDialog();
         } else {
@@ -45,7 +44,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         super.onStart();
         resetErrorDialogIfExists();
         final Bundle arguments = getArguments();
-        prodRegProcessController.process(getActivity(), arguments, new User(getActivity()));
+        prodRegProcessController.process(arguments);
     }
 
     @Override

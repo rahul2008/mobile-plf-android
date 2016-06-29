@@ -39,14 +39,16 @@ public class ProdRegProcessController {
     private boolean launchedRegistration = false;
     private boolean isApiCallingProgress = false;
     private FragmentActivity fragmentActivity;
+    private User user;
 
-    public ProdRegProcessController(final ProcessControllerCallBacks processControllerCallBacks) {
+    public ProdRegProcessController(final ProcessControllerCallBacks processControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.processControllerCallBacks = processControllerCallBacks;
+        this.fragmentActivity = fragmentActivity;
+        this.user = new User(fragmentActivity);
     }
 
-    public void process(final FragmentActivity fragmentActivity, final Bundle arguments, final User user) {
+    public void process(final Bundle arguments) {
         if (arguments != null) {
-            this.fragmentActivity = fragmentActivity;
             ArrayList<Product> regProdList = (ArrayList<Product>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             if (regProdList != null) {
                 currentProduct = regProdList.get(0);
