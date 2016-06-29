@@ -45,12 +45,12 @@
     <!--
         &lt;!&ndash; List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions &ndash;&gt; -->
     <array name="main_menu_title">
-        <!--<item>@string/view_product_details</item>-->
+        <item>@string/view_product_details</item>
         <item>@string/view_faq</item>
         <item>@string/contact_us</item>
-       <!-- <item>@string/find_philips_near_you</item>
+        <item>@string/find_philips_near_you</item>
         <item>@string/feedback</item>
-        <item>@string/myphilips_CC</item>-->
+        <item>@string/myphilips_CC</item>
         <item>@string/Change_Selected_Product</item>
     </array>
 
@@ -58,12 +58,12 @@
         &lt;!&ndash; List of main menu image names, please follow naming conventions &ndash;&gt;
     -->
     <array name="main_menu_resources">
-   <!--     <item>@drawable/consumercare_view_product_details</item>-->
+        <item>@drawable/consumercare_view_product_details</item>
         <item>@drawable/consumercare_view_faq</item>
         <item>@drawable/consumercare_contact_us</item>
-       <!-- <item>@drawable/consumercare_find_philips_near_you</item>
+        <item>@drawable/consumercare_find_philips_near_you</item>
         <item>@drawable/consumercare_feedback</item>
-        <item>@drawable/consumercare_philips_logo</item>-->
+        <item>@drawable/consumercare_philips_logo</item>
         <item>@drawable/consumercare_product_selection</item>
     </array>
 
@@ -76,8 +76,8 @@
 
     <!-- List of social service providers localised resource keys, please follow naming conventions -->
     <string-array name="social_service_provider_menu_title" translatable="false">
-      <!--  <item>@string/twitter</item>
-        <item>@string/facebook</item>-->
+        <item>@string/twitter</item>
+        <item>@string/facebook</item>
     </string-array>
 
     <!-- List of social service providers image names, please follow naming conventions -->
@@ -94,7 +94,7 @@
     <string name="twitter_page" translatable="false">PhilipsCare</string>
 
     <!-- Do you want Live Chat Option -->
-    <bool name="live_chat_required">false</bool>
+    <bool name="live_chat_required">true</bool>
 
     <string name="live_chat_url">https://ph-india.livecom.net/5g/ch/?___________________________________________________________=&amp;aid=WuF95jlNIAA%3D&amp;gid=3&amp;skill=undefined&amp;tag=PHILIPS_GEN_GR&amp;cat=&amp;chan=LWC;LVC;LVI&amp;fields=&amp;customattr=Group%3APHILIPS_GEN_GR%3B%20Category%3A%3B%20Sub-category%3A%3B%20CTN%3A%3B%20Country%3AIN%3B%20Language%3AEN&amp;sID=1mOYTHel%2BAI%3D&amp;cID=uENOfpmJKAA%3D&amp;lcId=SMS_IN_EN&amp;url=http%3A%2F%2Fwww.support.philips.com%2Fsupport%2Fcontact%2Ffragments%2Fchat_now_fragment.jsp%3FparentId%3DPB_IN_1%26userCountry%3Din%26userLanguage%3Den&amp;ref=http%3A%2F%2Fwww.support.philips.com%2Fsupport%2Fcontact%2Fcontact_page.jsp%3FuserLanguage%3Den%26userCountry%3Din</string>
 
