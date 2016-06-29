@@ -217,7 +217,7 @@ public class SecureStorage implements SecureStorageInterface{
 
 
 
-    protected boolean storeEncryptedData(String key, String encryptedData,String filename){
+    private boolean storeEncryptedData(String key, String encryptedData,String filename){
         boolean storeEncryptedDataResult= true;
         try {
                 // encrypted data will be saved in device  SharedPreferences
@@ -233,7 +233,7 @@ public class SecureStorage implements SecureStorageInterface{
 
 
 
-    protected String  fetchEncryptedData(String key,SecureStorageError secureStorageError,String fileName){
+    private String  fetchEncryptedData(String key,SecureStorageError secureStorageError,String fileName){
         String result =null;
             // encrypted data will be fetched from device  SharedPreferences
             SharedPreferences prefs = getSharedPreferences(fileName);
@@ -251,12 +251,12 @@ public class SecureStorage implements SecureStorageInterface{
         }
 
 
-    protected SharedPreferences getSharedPreferences(String filename) {
+    private SharedPreferences getSharedPreferences(String filename) {
         return mContext.getSharedPreferences(filename, mContext.MODE_PRIVATE);
     }
 
 
-    protected boolean deleteEncryptedData(String key, String fileName){
+    private boolean deleteEncryptedData(String key, String fileName){
         boolean deleteResult= false;
         try {
                 SharedPreferences prefs = getSharedPreferences(fileName);

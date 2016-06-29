@@ -8,7 +8,6 @@ package com.philips.platform.appinfra.logging;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.os.Environment;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;

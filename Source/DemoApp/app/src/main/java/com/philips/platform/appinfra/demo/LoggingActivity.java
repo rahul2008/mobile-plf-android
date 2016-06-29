@@ -97,8 +97,10 @@ public class LoggingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (null == AILoggingInterface) {
-                    Toast.makeText(LoggingActivity.this, "Please initialize Logger for component",
-                            Toast.LENGTH_SHORT).show();
+
+                    AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString());
+                  /*  Toast.makeText(LoggingActivity.this, "Please initialize Logger for component",
+                            Toast.LENGTH_SHORT).show();*/
                 } else {
                     if (null == eventText.getText().toString() || eventText.getText().toString().isEmpty() || null == msgText.getText().toString() || msgText.getText().toString().isEmpty()) {
                         Toast.makeText(LoggingActivity.this, "Event name or message is not valid",
