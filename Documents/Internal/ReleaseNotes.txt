@@ -221,4 +221,19 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
 	7. PRA-256 - Date of Purchase filed is hidden beyond the register button(Landscape)
 	8. PRA-254 - Cursor point is not pointing properly in Serial number parameter in Semi-automatic PR page
 	
-	open issues - PRA-255 - No hyperlinks for *www.philips.com *
+	Version - 1.0.2.rc5                        Date: 28-06-2016
+-------------------------------------------------------------
+
+	Following issues are fixed
+	
+	1. PRA-265 - Keep on getting Internal server error pop up while try to register the product (Device Specific issue Samsung tablet)
+	2. PRA-263 - Already registered product are not listing in different app/device(Device specific issue Samsung Tab)
+	3. PRA-261 - Unable to register the product while user sign-in(Developer Mode)
+	4. PRA-259 - Date of purchase entry filed is not visible to the user, if user try to select the date in Semi-Automatic page
+	5. PRA-258 - In-line text field is allowing entry for next line in serial number parameter filed
+	6. PRA-257 - Register, Yes button bar its looking too long in landscape mode
+	7. PRA-256 - Date of Purchase filed is hidden beyond the register button(Landscape)
+	8. PRA-254 - Cursor point is not pointing properly in Serial number parameter in Semi-automatic PR page
+	9. PRA- 255  - No hyperlinks for *www.philips.com *
+	
+	open issues - PRA - 262 - Option is not available for user to modify the product name as per the his/her wish(Need clarifications)

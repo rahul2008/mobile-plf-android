@@ -20,24 +20,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.philips.cdp.prodreg.ProdRegConstants;
-import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
-import com.philips.cdp.prodreg.listener.ProdRegListener;
-import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
-import com.philips.cdp.prodreg.register.LocalRegisteredProducts;
-import com.philips.cdp.prodreg.register.ProdRegHelper;
-import com.philips.cdp.prodreg.register.Product;
+import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
-import com.philips.cdp.prodreg.register.UserWithProducts;
-import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
 import java.text.ParseException;
@@ -49,18 +40,16 @@ import java.util.Date;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
+public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements ProdRegRegistrationController.RegisterControllerCallBacks {
 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
     private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView;
     private Button registerButton;
     private ImageView productImageView;
-    private ProductMetadataResponseData productMetadataResponseData;
-    private Product currentProduct;
     private EditText serial_number_editText, date_EditText;
     private InlineForms serialLayout, purchaseDateLayout;
-    private RegisteredProduct registeredProduct;
+    private ProdRegRegistrationController prodRegRegistrationController;
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -76,12 +65,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                 final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
                 if (!mDisplayDate.after(mDeviceDate)) {
                     date_EditText.setText(text);
-                    if (!ProdRegUtil.isValidDate(text)) {
-                        showErrorMessageDate(date_EditText);
-                    } else {
-                        registerButton.setEnabled(true);
-                        purchaseDateLayout.removeError(date_EditText);
-                    }
+                    prodRegRegistrationController.isValidDate(text);
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -98,7 +82,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        dismissDialog();
+        prodRegRegistrationController = new ProdRegRegistrationController(this, getActivity());
+        dismissLoadingDialog();
     }
 
     @Override
@@ -124,10 +109,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     @Override
     public void onStart() {
         resetErrorDialogIfExists();
-        final RegisteredProduct productAlreadyRegistered = registeredProduct.isProductAlreadyRegistered(new LocalRegisteredProducts(getActivity(), new User(getActivity())));
-        if (productAlreadyRegistered != null && productAlreadyRegistered.getRegistrationState() != null && productAlreadyRegistered.getRegistrationState() == RegistrationState.REGISTERED) {
-            showFragment(new ProdRegSuccessFragment());
-        }
         super.onStart();
     }
 
@@ -135,16 +116,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
-        if (bundle != null) {
-            currentProduct = (Product) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
-            mapToRegisteredProduct();
-            productMetadataResponseData = (ProductMetadataResponseData) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA);
-            final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
-            updateSummaryView(summaryData);
-            updateProductView();
-        } else {
-            clearFragmentStack();
-        }
+        prodRegRegistrationController.init(bundle);
+        prodRegRegistrationController.handleState();
     }
 
     @NonNull
@@ -153,123 +126,30 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
             @Override
             public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
             }
+
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
             }
+
             @Override
             public void afterTextChanged(final Editable s) {
-                if (isValidSerialNumber(productMetadataResponseData, serial_number_editText.getText().toString())) {
-                    serialLayout.removeError(serial_number_editText);
-                    registerButton.setEnabled(true);
-                } else {
-                    showErrorMessageSerialNumber(serial_number_editText);
-                }
+                prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
             }
         };
-    }
-
-    @NonNull
-    private ProdRegListener getProdRegListener() {
-        return new ProdRegListener() {
-            @Override
-            public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                    final FragmentActivity activity = getActivity();
-                    if (activity != null && !activity.isFinishing()) {
-                        dismissDialog();
-                        showFragment(new ProdRegSuccessFragment());
-                    }
-            }
-
-            @Override
-            public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
-                    final FragmentActivity activity = getActivity();
-                    if (activity != null && !activity.isFinishing()) {
-                        dismissDialog();
-                        if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
-                            showAlertOnError(registeredProduct.getProdRegError().getCode());
-                        } else {
-                            showFragment(new ProdRegSuccessFragment());
-                        }
-                    }
-                }
-        };
-    }
-
-    private void dismissDialog() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
-            if (prev != null && prev instanceof DialogFragment) {
-                ((DialogFragment) prev).dismissAllowingStateLoss();
-            }
-        }
-    }
-
-    private void updateSummaryView(final Data summaryData) {
-        if (summaryData != null) {
-            final String familyName = summaryData.getFamilyName();
-            final String productTitle = summaryData.getProductTitle();
-            productFriendlyNameTextView.setText(familyName != null ? familyName : "");
-            productTitleTextView.setText(productTitle != null ? productTitle : "");
-            imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.prod_reg_default_placeholder, R.drawable.prod_reg_default_placeholder));
-        }
-    }
-
-    private void updateProductView() {
-        if (currentProduct != null) {
-            date_EditText.setText(currentProduct.getPurchaseDate());
-            serial_number_editText.setText(currentProduct.getSerialNumber());
-            final String productCtn = currentProduct.getCtn();
-            productCtnTextView.setText(productCtn != null ? productCtn : "");
-            handleDateEditTextOnError();
-            handleSerialNumberEditTextOnError();
-            validateFields();
-        }
-    }
-
-    private boolean validateFields() {
-        final boolean isValidSerialNumber = isValidSerialNumber(productMetadataResponseData, serial_number_editText.getText().toString());
-        final boolean isValidDate = isValidDate(productMetadataResponseData, date_EditText.getText().toString());
-        if (!isValidDate && !isValidSerialNumber) {
-            showErrorMessageDate(date_EditText);
-            showErrorMessageSerialNumber(serial_number_editText);
-        } else if (!isValidDate) {
-            showErrorMessageDate(date_EditText);
-        } else if (!isValidSerialNumber) {
-            showErrorMessageSerialNumber(serial_number_editText);
-        } else {
-            registerButton.setEnabled(true);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isValidDate(final ProductMetadataResponseData productMetadataResponseData, final String purchaseDate) {
-        boolean isValidDate = true;
-        if (productMetadataResponseData != null && productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
-            isValidDate = ProdRegUtil.isValidDate(purchaseDate);
-            purchaseDateLayout.setVisibility(View.VISIBLE);
-        }
-        return isValidDate;
     }
 
     private void handleSerialNumberEditTextOnError() {
         serialLayout.setValidator(new InlineForms.Validator() {
             @Override
             public void validate(final View editText, final boolean hasFocus) {
-                if (isValidSerialNumber(productMetadataResponseData, serial_number_editText.getText().toString())) {
-                    serialLayout.removeError(serial_number_editText);
-                    registerButton.setEnabled(true);
-                } else {
-                    showErrorMessageSerialNumber(serial_number_editText);
-                }
+                prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
             }
         });
     }
 
-    private void showErrorMessageSerialNumber(final EditText editTextView) {
+    private void showErrorMessageSerialNumber(final EditText editTextView, final String format) {
         registerButton.setEnabled(false);
-        serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + productMetadataResponseData.getSerialNumberFormat());
+        serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format);
         serialLayout.showError(editTextView);
     }
 
@@ -277,13 +157,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         purchaseDateLayout.setValidator(new InlineForms.Validator() {
             @Override
             public void validate(final View editText, final boolean hasFocus) {
-                EditText editTextView = (EditText) editText;
-                final String date = editTextView.getText().toString();
-                if (!ProdRegUtil.isValidDate(date)) {
-                    showErrorMessageDate(editTextView);
-                } else {
-                    purchaseDateLayout.removeError(date_EditText);
-                }
+                prodRegRegistrationController.isValidDate(date_EditText.getText().toString());
             }
         });
     }
@@ -292,15 +166,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         registerButton.setEnabled(false);
         purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_DATE.getCode()).getDescription());
         purchaseDateLayout.showError(editTextView);
-    }
-
-    protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final String serialNumber) {
-        if (data != null && data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
-            serialLayout.setVisibility(View.VISIBLE);
-            if ((ProdRegUtil.isValidSerialNumber(data.getSerialNumberFormat(), serialNumber)))
-                return false;
-        }
-        return true;
     }
 
     private String getValidatedString(final int value) {
@@ -343,26 +208,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (validateFields()) {
-                    showProgressAlertDialog(getActivity().getString(R.string.prod_reg_registering_product));
-                    registeredProduct.setPurchaseDate(date_EditText.getText().toString());
-                    registeredProduct.setSerialNumber(serial_number_editText.getText().toString());
-                    ProdRegHelper prodRegHelper = new ProdRegHelper();
-                    prodRegHelper.addProductRegistrationListener(getProdRegListener());
-                    prodRegHelper.getSignedInUserWithProducts().registerProduct(registeredProduct);
-                }
+                prodRegRegistrationController.registerProduct(date_EditText.getText().toString(), serial_number_editText.getText().toString());
             }
         };
-    }
-
-    private RegisteredProduct mapToRegisteredProduct() {
-        if (currentProduct != null) {
-            registeredProduct = new RegisteredProduct(currentProduct.getCtn(), currentProduct.getSector(), currentProduct.getCatalog());
-            registeredProduct.setSerialNumber(currentProduct.getSerialNumber());
-            registeredProduct.setPurchaseDate(currentProduct.getPurchaseDate());
-            registeredProduct.sendEmail(currentProduct.getEmail());
-        }
-        return registeredProduct;
     }
 
     @Override
@@ -374,22 +222,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
         return true;
     }
 
-    private void showProgressAlertDialog(final String description) {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            // Create and show the dialog.
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-            if (prev != null) {
-                ft.remove(prev);
-            }
-            ft.commit();
-            DialogFragment newFragment = ProdRegLoadingFragment.newInstance(description);
-            newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
-            getActivity().getSupportFragmentManager().executePendingTransactions();
-        }
-    }
-
     @Override
     public DialogOkButtonListener getDialogOkButtonListener() {
         return new DialogOkButtonListener() {
@@ -398,5 +230,92 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment {
                 dismissAlertOnError();
             }
         };
+    }
+
+    @Override
+    public void dismissLoadingDialog() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
+            if (prev != null && prev instanceof DialogFragment) {
+                ((DialogFragment) prev).dismissAllowingStateLoss();
+            }
+        }
+    }
+
+    @Override
+    public void exitProductRegistration() {
+        clearFragmentStack();
+    }
+
+    @Override
+    public void showLoadingDialog() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.commit();
+            DialogFragment newFragment = ProdRegLoadingFragment.newInstance(activity.getString(R.string.prod_reg_registering_product));
+            newFragment.show(activity.getSupportFragmentManager(), "dialog");
+            activity.getSupportFragmentManager().executePendingTransactions();
+        }
+    }
+
+    @Override
+    public void showAlertOnError(int responseCode) {
+        super.showAlertOnError(responseCode);
+    }
+
+    @Override
+    public void showFragment(Fragment fragment) {
+        super.showFragment(fragment);
+    }
+
+    @Override
+    public void isValidDate(boolean validDate) {
+        if (validDate) {
+            registerButton.setEnabled(true);
+            purchaseDateLayout.removeError(date_EditText);
+        } else
+            showErrorMessageDate(date_EditText);
+    }
+
+    @Override
+    public void isValidSerialNumber(boolean validSerialNumber, String format) {
+        if (validSerialNumber) {
+            serialLayout.removeError(serial_number_editText);
+            registerButton.setEnabled(true);
+        } else
+            showErrorMessageSerialNumber(serial_number_editText, format);
+    }
+
+    @Override
+    public void setSummaryView(final Data summaryData) {
+        final String familyName = summaryData.getFamilyName();
+        final String productTitle = summaryData.getProductTitle();
+        productFriendlyNameTextView.setText(familyName != null ? familyName : "");
+        productTitleTextView.setText(productTitle != null ? productTitle : "");
+        imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.prod_reg_default_placeholder, R.drawable.prod_reg_default_placeholder));
+    }
+
+    @Override
+    public void setProductView(final RegisteredProduct registeredProduct) {
+        date_EditText.setText(registeredProduct.getPurchaseDate());
+        serial_number_editText.setText(registeredProduct.getSerialNumber());
+        final String productCtn = registeredProduct.getCtn();
+        productCtnTextView.setText(productCtn != null ? productCtn : "");
+        handleDateEditTextOnError();
+        handleSerialNumberEditTextOnError();
+    }
+
+    @Override
+    public void requireFields(final boolean requireDate, final boolean requireSerialNumber) {
+        if (requireDate)
+            purchaseDateLayout.setVisibility(View.VISIBLE);
+        if (requireSerialNumber)
+            serialLayout.setVisibility(View.VISIBLE);
     }
 }

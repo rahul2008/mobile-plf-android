@@ -1,7 +1,5 @@
 package com.philips.cdp.prodreg.launcher;
 
-import android.os.Bundle;
-
 import com.philips.cdp.prodreg.register.Product;
 
 import java.util.ArrayList;
@@ -16,7 +14,6 @@ public class UiLauncher {
     protected int mExitAnimation;
     private boolean isFirstLaunch;
     private ArrayList<Product> regProdList;
-    private Bundle arguments;
 
     public UiLauncher() {
     }
@@ -50,11 +47,4 @@ public class UiLauncher {
         this.isFirstLaunch = firstLaunch;
     }
 
-    public Bundle getArguments() {
-        return arguments;
-    }
-
-    public void setArguments(final Bundle arguments) {
-        this.arguments = arguments;
-    }
 }

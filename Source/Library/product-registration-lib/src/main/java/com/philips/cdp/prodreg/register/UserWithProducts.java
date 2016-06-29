@@ -260,7 +260,7 @@ public class UserWithProducts {
 
     protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
         if (data != null && data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
-            if (ProdRegUtil.isValidSerialNumber(data.getSerialNumberFormat(), registeredProduct.getSerialNumber()))
+            if (ProdRegUtil.isInValidSerialNumber(data.getSerialNumberFormat(), registeredProduct.getSerialNumber()))
                 return false;
         }
         return true;

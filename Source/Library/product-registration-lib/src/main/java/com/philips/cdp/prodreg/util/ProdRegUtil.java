@@ -32,7 +32,7 @@ public class ProdRegUtil {
         return false;
     }
 
-    public static boolean isValidSerialNumber(final String regularExpression, final String serialNumber) {
+    public static boolean isInValidSerialNumber(final String regularExpression, final String serialNumber) {
         return serialNumber == null || serialNumber.length() < 1 || !serialNumber.matches(regularExpression);
     }
 }
