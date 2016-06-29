@@ -290,7 +290,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         if (!getActivity().isFinishing())
             startProgressDialog();
         DigiCareLogger.d(TAG, "ATOS URL : " + formAtosURL());
-        new RequestData(formAtosURL(), this).execute();
+        RequestData requestData = new RequestData();
+        requestData.setRequestUrl(formAtosURL());
+        requestData.setResponseCallback(this);
+        requestData.execute();
     }
 
     protected void startProgressDialog() {
