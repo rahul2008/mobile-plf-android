@@ -173,9 +173,10 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
             for (; count >= 0; count--) {
                 List<Fragment> fragmentList = fragManager.getFragments();
                 if (fragmentList != null && fragmentList.size() > 0) {
-                    if (fragmentList.get(fragmentList.size() - 1) instanceof IAPFragmentListener) {
-                        fragManager.popBackStackImmediate();
-                    }
+                    fragManager.popBackStack();
+//                    if (fragmentList.get(fragmentList.size() - 1) instanceof IAPFragmentListener) {
+//                        fragManager.popBackStackImmediate();
+//                    }
                 }
             }
         }
