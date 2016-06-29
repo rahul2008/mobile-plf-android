@@ -27,7 +27,6 @@ import com.philips.cdp.appframework.debugtest.DebugTestFragment;
 import com.philips.cdp.appframework.settingscreen.SettingsFragment;
 import com.philips.cdp.modularui.ActivityMap;
 import com.philips.cdp.modularui.UIBaseNavigation;
-import com.philips.cdp.modularui.UIConstants;
 import com.philips.cdp.modularui.UIState;
 import com.philips.cdp.modularui.UIStateManager;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
@@ -166,10 +165,12 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements UserR
 
         philipsDrawerLayout.closeDrawer(navigationView);
         UIState returnedState =  (UIState)mNavigator.onClick(position,HamburgerActivity.this);
-        @UIConstants.UIScreenConstants int destinationScreen = ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID());
-        switch (destinationScreen){
+        //@UIConstants.UIScreenConstants int destinationScreen = ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID());
+        UIStateManager.getInstance().setCurrentState(returnedState);
+        showFragment(ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()),ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()).getClass().getSimpleName());
+       /* switch (destinationScreen){
             case UIConstants.UI_HOME_SCREEN:
-                UIStateManager.getInstance().setCurrentState(returnedState);
+
                 showFragment(new HomeScreenFragment(), HomeScreenFragment.class.getSimpleName());
             break;
             case UIConstants.UI_SUPPORT_SCREEN:
@@ -184,7 +185,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements UserR
                 UIStateManager.getInstance().setCurrentState(returnedState);
                 showDebugTestFragment();
             break;
-        }
+        }*/
 
     }
 

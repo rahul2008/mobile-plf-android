@@ -31,6 +31,7 @@ public class AppFrameworkApplication extends Application {
         initializeUserRegistrationLibrary();
         UIStateManager.getInstance().initAppStartState(getApplicationContext());
         ActivityMap.getInstance().populateActivityMap();
+        ActivityMap.getInstance().populateFragmentMap();
     }
 
     private void initializeUserRegistrationLibrary() {

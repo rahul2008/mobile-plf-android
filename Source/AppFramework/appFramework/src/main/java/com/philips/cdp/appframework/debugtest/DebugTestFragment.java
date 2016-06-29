@@ -6,7 +6,6 @@
 package com.philips.cdp.appframework.debugtest;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -87,7 +86,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
             public void onItemSelected(AdapterView<?> adapter, View v,
                                        int position, long id) {
                 final String configuration = adapter.getItemAtPosition(position).toString();
-                ((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
+               // ((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
                 if(count>0) {
                     User user = new User(context);
                     user.logout(null);

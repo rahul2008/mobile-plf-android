@@ -45,10 +45,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
 
         try {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            if (mEnterAnimation != 0 && mExitAnimation != 0) {
-//                fragmentTransaction.setCustomAnimations(mEnterAnimation,
-//                        mExitAnimation, mEnterAnimation, mExitAnimation);
-//            }
             fragmentTransaction.replace(containerId, fragment, fragmentTag);
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();

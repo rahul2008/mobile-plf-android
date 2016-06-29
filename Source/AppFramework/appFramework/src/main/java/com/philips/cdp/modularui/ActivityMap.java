@@ -1,5 +1,11 @@
 package com.philips.cdp.modularui;
 
+import android.support.v4.app.Fragment;
+
+import com.philips.cdp.appframework.debugtest.DebugTestFragment;
+import com.philips.cdp.appframework.homescreen.HomeScreenFragment;
+import com.philips.cdp.appframework.settingscreen.SettingsFragment;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,5 +45,19 @@ public class ActivityMap {
 
     @UIConstants.UIScreenConstants public int getFromActivityMap(int stateID){
         return activityMap.get(stateID);
+    }
+
+    public Map<Integer,Fragment> fragmentMap;
+
+    public void populateFragmentMap(){
+        fragmentMap = new HashMap<Integer,Fragment>();
+        fragmentMap.put(UIConstants.UI_HAMBURGER_HOME_STATE_ONE, new HomeScreenFragment());
+        fragmentMap.put(UIConstants.UI_HAMBURGER_SUPPORT_STATE_ONE, new HomeScreenFragment());
+        fragmentMap.put(UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE ,new SettingsFragment());
+        fragmentMap.put(UIConstants.UI_HAMBURGER_DEBUG_STATE_STATE_ONE, new DebugTestFragment());
+
+    }
+    public Fragment getFragmentFromMap(int stateID){
+        return fragmentMap.get(stateID);
     }
 }
