@@ -59,7 +59,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private Button mLaunchProductDetail;
 
     private int mSelectedCountryIndex;
-//    private boolean mProductCountRequested;
     private ProgressDialog mProgressDialog = null;
 
     @Override
@@ -94,10 +93,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
         mIapHandler = IAPHandler.init(this, mIAPSettings);
-        ArrayList<String> mProductList = new ArrayList<>();
+
+        /*ArrayList<String> mProductList = new ArrayList<>();
         mProductList.add("HX9042/64");
         mProductList.add("HX9042/64");
-        mProductList.add("HX9042/64");
+        mProductList.add("HX9042/64");*/
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -115,7 +115,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
 
-        mIapHandler.launchCategorizedCatalog(mProductList);
+//        mIapHandler.launchCategorizedCatalog(mProductList);
 
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
@@ -254,14 +254,12 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 mCountText.setVisibility(View.GONE);
             }
             dismissProgressDialog();
-//            mProductCountRequested = false;
         }
 
         @Override
         public void onFailure(final int errorCode) {
             dismissProgressDialog();
             showToast(errorCode);
-//            mProductCountRequested = false;
         }
     };
 
@@ -318,22 +316,19 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         String mSelectedCountry = parent.getItemAtPosition(position).toString();
         if (mSelectedCountry.equals("UK"))
             mSelectedCountry = "GB";
-
         setLocale("en", mSelectedCountry);
 
-        //   if (!mProductCountRequested) {
         mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-//        setUseLocalData();
+        //setUseLocalData(); //Uncomment to support PlanB
+
         mIapHandler = IAPHandler.init(this, mIAPSettings);
         updateCartIcon();
         if (!shouldUseLocalData()) {
             showProgressDialog();
-//            mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
             mPurchaseHistory.setVisibility(View.VISIBLE);
         } else
             mPurchaseHistory.setVisibility(View.GONE);
-        // }
     }
 
     private void setLocale(String languageCode, String countryCode) {

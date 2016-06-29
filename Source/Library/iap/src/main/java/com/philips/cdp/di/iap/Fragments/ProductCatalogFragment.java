@@ -68,7 +68,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>());
-//        loadProducts();
+        loadProducts();
     }
 
     @Override
@@ -82,7 +82,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mRecyclerView.setLayoutManager(layoutManager);
         mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
-        loadProducts();
         return rootView;
     }
 
@@ -101,6 +100,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
+
         if (!ControllerFactory.getInstance().loadLocalData()) {
             mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
         }
