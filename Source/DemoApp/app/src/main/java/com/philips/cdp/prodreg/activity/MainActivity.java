@@ -32,7 +32,7 @@ public class MainActivity extends UiKitActivity {
             LaunchFragment launchFragment = new LaunchFragment();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parent_layout, launchFragment);
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         }
     }
 

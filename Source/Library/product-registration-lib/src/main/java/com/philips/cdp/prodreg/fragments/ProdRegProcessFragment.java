@@ -61,7 +61,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         if (prev != null) {
             ft.remove(prev);
         }
-        ft.commit();
+        ft.commitAllowingStateLoss();
         DialogFragment newFragment = ProdRegLoadingFragment.newInstance(getString(R.string.PPR_Looking_For_Products_Lbltxt));
         newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
     }

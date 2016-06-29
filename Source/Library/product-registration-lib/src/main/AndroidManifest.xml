@@ -9,7 +9,7 @@
             android:name="com.philips.cdp.prodreg.activity.ProdRegBaseActivity"
             android:configChanges="screenSize|locale|layoutDirection"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.SUPPORT_DIGITAL"/>
 

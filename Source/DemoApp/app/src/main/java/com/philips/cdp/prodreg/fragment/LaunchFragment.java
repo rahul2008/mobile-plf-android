@@ -80,6 +80,6 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         fragmentTransaction.replace(R.id.parent_layout, fragment,
                 TAG);
         fragmentTransaction.addToBackStack(TAG);
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 }
