@@ -679,7 +679,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         boolean isChatEnabled = mChat.getVisibility() == View.VISIBLE ? true : false;
         boolean isCallEnabled = mCallPhilips.getVisibility() == View.VISIBLE ? true : false;
 
-        if (!(isSocialButtonsEnabled && isEmailEnabled && isChatEnabled && isCallEnabled)) {
+       /* if (!(isSocialButtonsEnabled && isEmailEnabled && isChatEnabled && isCallEnabled)) {
+            showAlert(getResources().getString(R.string.NO_SUPPORT_KEY));
+        }*/
+
+        if(!isSocialButtonsEnabled && !isEmailEnabled)
+        {
             showAlert(getResources().getString(R.string.NO_SUPPORT_KEY));
         }
 
