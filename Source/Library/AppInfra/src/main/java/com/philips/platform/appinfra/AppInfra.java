@@ -30,7 +30,7 @@ public class AppInfra {
     private LoggingInterface logger;
     private AIAppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
-    private final static String APP_INFRA_VERSION = "1.0.1";
+    private final static String APP_INFRA_VERSION = "1.1.0-rc3";
     private AppIdentityInterface appIdentity;
     private LocalInterface local;
     private ServiceDiscoveryInterface mServiceDiscoveryInterface;
@@ -110,7 +110,7 @@ public class AppInfra {
 
             AppInfra ai = new AppInfra(pContext);
             //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
-            ai.setSecureStorage(secStor == null ? new SecureStorage(ai.getAppInfraContext()) : secStor);
+            ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
             // ai.setLogging(new AppInfraLogging(ai));
 
@@ -167,31 +167,31 @@ public class AppInfra {
         appInfraContext = pContext;
     }
 
-    private void setSecureStorage(SecureStorageInterface sec) {
+    public void setSecureStorage(SecureStorageInterface sec) {
         secureStorage = sec;
     }
 
-    private void setLogging(LoggingInterface log) {
+    public void setLogging(LoggingInterface log) {
         logger = log;
         appInfraLogger = logger.createInstanceForComponent(this.getClass().getPackage().toString(), APP_INFRA_VERSION);
     }
 
-    private void setTagging(AIAppTaggingInterface tagg) {
+    public void setTagging(AIAppTaggingInterface tagg) {
         tagging = tagg;
 
     }
 
-    private void setAppIdentity(AppIdentityInterface identity) {
+    public void setAppIdentity(AppIdentityInterface identity) {
         appIdentity = identity;
 
     }
 
-    private void setLocal(LocalInterface locale) {
+    public void setLocal(LocalInterface locale) {
         local = locale;
 
     }
 
-    private void setServiceDiscoveryInterface(ServiceDiscoveryInterface mServiceDiscoveryInterfac) {
+    public void setServiceDiscoveryInterface(ServiceDiscoveryInterface mServiceDiscoveryInterfac) {
         mServiceDiscoveryInterface = mServiceDiscoveryInterfac;
 
     }

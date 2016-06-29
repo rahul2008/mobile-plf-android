@@ -12,6 +12,8 @@ import android.security.KeyPairGeneratorSpec;
 import android.util.Base64;
 import android.util.Log;
 
+import com.philips.platform.appinfra.AppInfra;
+
 import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyPair;
@@ -50,8 +52,8 @@ public class SecureStorage implements SecureStorageInterface{
 
 
 
-    public  SecureStorage(Context pContext){
-        mContext = pContext;
+    public  SecureStorage(AppInfra bAppInfra){
+        mContext = bAppInfra.getAppInfraContext();
     }
 
 
