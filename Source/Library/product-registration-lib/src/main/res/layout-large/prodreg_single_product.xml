@@ -3,7 +3,8 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/pr_e_value_tablet">
+            android:layout_marginTop="@dimen/pr_e_value_tablet"
+            android:fillViewport="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -159,7 +160,6 @@
             android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
             android:layout_marginRight="@dimen/pr_first_launch_padding_right"
             android:layout_marginTop="33dp"
-            android:enabled="false"
             android:text="@string/PPR_Register_Btntxt"
             android:textAllCaps="false"/>
     </RelativeLayout>
