@@ -8,12 +8,17 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.util.Locale;
 
 public class DemoApplication extends Application {
     //Required in case Production has to be added to dynamic configuration
-   // EnvironmentPreferences mAppEnvironmentPreference;
+    // EnvironmentPreferences mAppEnvironmentPreference;
+
+    public static AIAppTaggingInterface mAIAppTaggingInterface;
+    public static AppInfra mAppInfra;
 
     @Override
     public void onCreate() {
@@ -23,13 +28,17 @@ public class DemoApplication extends Application {
     }
 
     private void initializeTagging() {
-        Tagging.enableAppTagging(true);
+        /*Tagging.enableAppTagging(true);
         Tagging.setTrackingIdentifier("IAPDemoAppsID");
         Tagging.setLaunchingPageName("IapDemoApp");
         Tagging.setDebuggable(true);
         Tagging.setComponentVersionKey(IAPAnalyticsConstant.VERSION_KEY);
         Tagging.setComponentVersionVersionValue(BuildConfig.VERSION_NAME);
-        Tagging.init(getApplicationContext(), "Philips IAP demo");
+        Tagging.init(getApplicationContext(), "Philips IAP demo");*/
+
+        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        mAIAppTaggingInterface = mAppInfra.getTagging().
+                createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
     }
 
     private void initializeUserRegistration() {
