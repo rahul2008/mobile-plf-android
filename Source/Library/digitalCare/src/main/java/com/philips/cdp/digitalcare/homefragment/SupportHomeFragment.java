@@ -759,8 +759,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             String subCategoryUrl = getSubCategoryURL();
             DigiCareLogger.d(TAG, "******** Sub Category URL : " + subCategoryUrl);
 
-            RequestData subCategoryRequest = new RequestData(subCategoryUrl,
-                    cateGoryResponseCallbak);
+            RequestData subCategoryRequest = new RequestData();
+
+            subCategoryRequest.setRequestUrl(subCategoryUrl);
+            subCategoryRequest.setResponseCallback(cateGoryResponseCallbak);
+
             if (mProgressDialog == null) mProgressDialog = new ProgressDialog
                     (getActivity(), R.style.loaderTheme);
             mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);

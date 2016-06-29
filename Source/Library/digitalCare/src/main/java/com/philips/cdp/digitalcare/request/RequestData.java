@@ -37,9 +37,14 @@ public class RequestData {
     private Handler mResponseHandler = null;
 
 
-    public RequestData(String url, final ResponseCallback responseCallback) {
+    public void setRequestUrl(final String url)
+    {
         DigiCareLogger.i(TAG, "url : " + url);
         mRequestUrl = url;
+    }
+
+    public void setResponseCallback(final ResponseCallback responseCallback)
+    {
         mResponseCallback = responseCallback;
         mResponseHandler = new Handler(Looper.getMainLooper());
     }

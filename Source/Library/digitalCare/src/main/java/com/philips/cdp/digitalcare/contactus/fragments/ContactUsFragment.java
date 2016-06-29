@@ -314,7 +314,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         if (isCdlsUrlNull()) {
             String url = getCdlsUrl();
             DigiCareLogger.d(TAG, "CDLS Request URL : " + url);
-            new RequestData(url, this).execute();
+            RequestData requestData = new RequestData();
+            requestData.setRequestUrl(url);
+            requestData.setResponseCallback(this);
+            requestData.execute();
         }
     }
 
