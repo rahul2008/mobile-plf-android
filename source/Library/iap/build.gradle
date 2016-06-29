@@ -151,7 +151,6 @@ dependencies {
 
     //Coco
     compile 'com.philips.cdp:uikitLib:3.2.1'
-    compile 'com.philips.cdp:prx:2.0.1'
     compile 'com.philips.cdp:AppInfra:1.0.0'
 
     compile('com.philips.cdp:registrationApi:6.0.2') {
