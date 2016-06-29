@@ -177,6 +177,7 @@ dependencies {
     // compile 'com.google.android.gms:play-services:8.4.0'
 
     compile 'com.google.android.gms:play-services-maps:7.5.0'
+
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
