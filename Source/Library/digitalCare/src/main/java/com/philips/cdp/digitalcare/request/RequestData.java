@@ -1,7 +1,9 @@
 /**
- * @author naveen@philips.com
- * <p/>
- * <p> Common class to receive the response from the remote network URL. </p>
+ * RequestData will help to perform network operations in UI.
+ *
+ * @author : naveen@philips.com
+ * @since : 16 Jan 2015
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 
 package com.philips.cdp.digitalcare.request;
@@ -14,15 +16,20 @@ import android.os.Looper;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * RequestData class respnsobile for performing the metwork operation in UI Thread.
+ * Once it performed the remote response will trigger through the respective listeners.
+ */
 public class RequestData {
 
-    private final String TAG = RequestData.class.getSimpleName();
+    private static final String TAG = RequestData.class.getSimpleName();
 
     private ResponseCallback mResponseCallback = null;
     private String mResponse = null;
@@ -30,7 +37,7 @@ public class RequestData {
     private Handler mResponseHandler = null;
 
 
-    public RequestData(String url, ResponseCallback responseCallback) {
+    public RequestData(String url, final ResponseCallback responseCallback) {
         DigiCareLogger.i(TAG, "url : " + url);
         mRequestUrl = url;
         mResponseCallback = responseCallback;
@@ -38,7 +45,7 @@ public class RequestData {
     }
 
     public void execute() {
-        NetworkThread mNetworkThread = new NetworkThread();
+        final NetworkThread mNetworkThread = new NetworkThread();
         mNetworkThread.setPriority(Thread.MAX_PRIORITY);
         mNetworkThread.start();
     }
@@ -56,19 +63,22 @@ public class RequestData {
         }
     }
 
+    /**
+     * NetworkThread class is an high priority thhread to perform the UI operations.
+     */
     class NetworkThread extends Thread {
 
         @Override
         public void run() {
             try {
-                URL obj = new URL(mRequestUrl);
-                HttpURLConnection mHttpURLConnection = (HttpURLConnection) obj
+                final URL obj = new URL(mRequestUrl);
+                final HttpURLConnection mHttpUrlConnection = (HttpURLConnection) obj
                         .openConnection();
-                mHttpURLConnection.setRequestMethod("GET");
-                InputStream mInputStream = mHttpURLConnection.getInputStream();
+                mHttpUrlConnection.setRequestMethod("GET");
+                InputStream mInputStream = mHttpUrlConnection.getInputStream();
                 Reader mReader = new InputStreamReader(mInputStream, "UTF-8");
-                BufferedReader in = new BufferedReader(mReader);
-                String inputLine;
+                final BufferedReader in = new BufferedReader(mReader);
+                String inputLine = null;
                 StringBuffer response = new StringBuffer();
 
                 while ((inputLine = in.readLine()) != null) {
@@ -76,7 +86,7 @@ public class RequestData {
                 }
                 in.close();
                 mResponse = response.toString();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 DigiCareLogger.e(
                         TAG,
                         "Failed to fetch Response Data : "
