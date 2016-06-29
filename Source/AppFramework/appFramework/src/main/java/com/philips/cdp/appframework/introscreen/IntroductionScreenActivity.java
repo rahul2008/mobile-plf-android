@@ -7,7 +7,6 @@
 package com.philips.cdp.appframework.introscreen;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -17,16 +16,13 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
-import com.philips.cdp.appframework.homescreen.HamburgerActivity;
-import com.philips.cdp.modularui.ActivityMap;
+import com.philips.cdp.modularui.LaunchScreen;
 import com.philips.cdp.modularui.UIBaseNavigation;
-import com.philips.cdp.modularui.UIConstants;
-import com.philips.cdp.modularui.UIStateManager;
 import com.philips.cdp.modularui.UIState;
+import com.philips.cdp.modularui.UIStateManager;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.shamanland.fonticon.FontIconView;
 
@@ -189,12 +185,9 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
         mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
         if (null != activity) {
             UIState returnedState = (UIState) mNavigator.onPageLoad(IntroductionScreenActivity.this);
-
-                    if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
-                        UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_STATE));
-                        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
-                        startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
-                    }
+            RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
+            UIStateManager.getInstance().setCurrentState(returnedState);
+            LaunchScreen.getInstance().launchScreen(IntroductionScreenActivity.this,returnedState.getStateID());
             }
     }
 
@@ -248,10 +241,8 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onClick(View v) {
 
         UIState returnedState  = (UIState) mNavigator.onClick(v.getId(), IntroductionScreenActivity.this);
-        if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
-            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_REGISTRATION_STATE));
-            startActivity(new Intent(IntroductionScreenActivity.this, RegistrationActivity.class));
-        }
+        UIStateManager.getInstance().setCurrentState(returnedState);
+        LaunchScreen.getInstance().launchScreen(IntroductionScreenActivity.this,returnedState.getStateID());
 
     }
 
@@ -265,11 +256,9 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     protected void onRestart() {
         UIState returnedState = (UIState) mNavigator.onPageLoad(this);
-        if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
-            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_STATE));
-            RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
-            startActivity(new Intent(IntroductionScreenActivity.this, HamburgerActivity.class));
-        }
+        UIStateManager.getInstance().setCurrentState(returnedState);
+        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
+        LaunchScreen.getInstance().launchScreen(IntroductionScreenActivity.this,returnedState.getStateID());
         super.onRestart();
     }
 }

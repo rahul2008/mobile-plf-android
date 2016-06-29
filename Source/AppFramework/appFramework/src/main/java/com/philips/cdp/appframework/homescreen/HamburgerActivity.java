@@ -169,19 +169,19 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements UserR
         @UIConstants.UIScreenConstants int destinationScreen = ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID());
         switch (destinationScreen){
             case UIConstants.UI_HOME_SCREEN:
-                UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_HOME_STATE_ONE));
+                UIStateManager.getInstance().setCurrentState(returnedState);
                 showFragment(new HomeScreenFragment(), HomeScreenFragment.class.getSimpleName());
             break;
             case UIConstants.UI_SUPPORT_SCREEN:
-                UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_SUPPORT_STATE_ONE));
+                UIStateManager.getInstance().setCurrentState(returnedState);
                 showFragment(new HomeScreenFragment(), HomeScreenFragment.class.getSimpleName());
             break;
             case UIConstants.UI_SETTINGS_SCREEN:
-                UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE));
+                UIStateManager.getInstance().setCurrentState(returnedState);
                 showSettingsFragment();
             break;
             case UIConstants.UI_DEBUG_SCREEN:
-                UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_DEBUG_STATE_STATE_ONE));
+                UIStateManager.getInstance().setCurrentState(returnedState);
                 showDebugTestFragment();
             break;
         }
@@ -239,8 +239,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements UserR
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE));
-        showSettingsFragment();
+        activity.finish();
     }
 
     @Override

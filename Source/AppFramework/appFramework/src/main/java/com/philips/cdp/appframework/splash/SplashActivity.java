@@ -7,7 +7,6 @@
 
 package com.philips.cdp.appframework.splash;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -19,14 +18,10 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
-import com.philips.cdp.appframework.homescreen.HamburgerActivity;
-import com.philips.cdp.appframework.introscreen.IntroductionScreenActivity;
-import com.philips.cdp.modularui.ActivityMap;
+import com.philips.cdp.modularui.LaunchScreen;
 import com.philips.cdp.modularui.UIBaseNavigation;
-import com.philips.cdp.modularui.UIConstants;
 import com.philips.cdp.modularui.UIState;
 import com.philips.cdp.modularui.UIStateManager;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
@@ -114,21 +109,9 @@ public class SplashActivity extends AppFrameworkBaseActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-
                 UIState returnedState =  (UIState) mNavigator.onPageLoad(SplashActivity.this);
-                        if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_HAMBURGER_SCREEN) {
-                            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_HAMBURGER_STATE));
-                            startActivity(new Intent(SplashActivity.this, HamburgerActivity.class));
-                        }
-                        if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_USER_REGISTRATION_SCREEN) {
-                            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_REGISTRATION_STATE));
-                            startActivity(new Intent(SplashActivity.this, RegistrationActivity.class));
-                        }
-                        if (ActivityMap.getInstance().getFromActivityMap(returnedState.getStateID()) == UIConstants.UI_WELCOME_SCREEN) {
-                            UIStateManager.getInstance().setCurrentState(UIStateManager.getInstance().getStateMap(UIConstants.UI_WELCOME_STATE));
-                            startActivity(new Intent(SplashActivity.this, IntroductionScreenActivity.class));
-                        }
-
+                UIStateManager.getInstance().setCurrentState(returnedState);
+                LaunchScreen.getInstance().launchScreen(SplashActivity.this,returnedState.getStateID());
                 finish();
             }
         }, SPLASH_TIME_OUT);
