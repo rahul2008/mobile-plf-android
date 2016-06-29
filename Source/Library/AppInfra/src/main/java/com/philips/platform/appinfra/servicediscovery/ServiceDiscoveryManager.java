@@ -45,7 +45,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     public String getservice(OnRefreshListener listener) {
         String urlBuild = null;
-        mAppInfra.getTagging().trackActionWithInfo("ServiceDiscoveryPage", "KeyServiceDiscovery", "ValueServiceDiscovery");
+//        if(mAppInfra.getTagging()!=null){
+//            mAppInfra.getTagging().trackActionWithInfo("ServiceDiscoveryPage", "KeyServiceDiscovery", "ValueServiceDiscovery");
+//        }
+
         LocalManager locamManager= new LocalManager(mAppInfra);
         String country= locamManager.getCountry();
         if(null!=country){
@@ -95,9 +98,11 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         if(idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getlocal() != null && tags!=null && environment!=null ){
             if(localmanager.getCountry() == null){
                 URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getlocal()+"&tags="+tags;
+//                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev";
             }
             if(localmanager.getCountry() != null ){
                 URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getlocal()+"&tags="+tags+"&country="+ localmanager.getCountry();
+//                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev&country=US";
             }
         }
         return URL;

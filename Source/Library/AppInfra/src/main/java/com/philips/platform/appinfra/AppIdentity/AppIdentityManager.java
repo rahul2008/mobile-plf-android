@@ -51,6 +51,9 @@ public class AppIdentityManager implements com.philips.platform.appinfra.appiden
      */
     @Override
     public String getAppVersion() {
+        if(mAppInfra.getTagging()!=null){
+            mAppInfra.getTagging().trackActionWithInfo("AppIndentityPage", "KeyAppIdentity", "ValueAppIdentity");
+        }
         return mAppVersion;
     }
 
@@ -109,8 +112,6 @@ public class AppIdentityManager implements com.philips.platform.appinfra.appiden
        public String loadJSONFromAsset() {
         String json = null;
         try {
-//            mAppInfra.getTagging().createInstanceForComponent("key", "value");
-            mAppInfra.getTagging().trackActionWithInfo("AppIndentityPage", "KeyAppIdentity", "ValueAppIdentity");
             InputStream is = context.getAssets().open("AppIdentity.json");
 
             int size = is.available();

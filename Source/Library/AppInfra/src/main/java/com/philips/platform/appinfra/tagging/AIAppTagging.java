@@ -11,6 +11,7 @@ import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.GlobalStore;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -55,9 +56,8 @@ public class AIAppTagging implements AIAppTaggingInterface {
     };
 
 
-//    private static String mCurruncy;
-
     private static Locale mlocale;
+    private static GlobalStore mGlobalStore;
 
     private static Context mcontext;
 
@@ -66,7 +66,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
     public AIAppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
-        init(Locale.getDefault(), mAppInfra.getAppInfraContext(), "TaggingPageInitialized");
+        init(Locale.getDefault(), mAppInfra.getAppInfraContext(), "TaggingPageInitialization");
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
 
@@ -77,8 +77,10 @@ public class AIAppTagging implements AIAppTaggingInterface {
         mcontext = context;
         prevPage = appName;
         Config.setContext(context);
-//        contextData = addAnalyticsDataObject();
-
+        mGlobalStore = GlobalStore.getInstance();
+        if(mGlobalStore.getValue()!=null){
+            prevPage= mGlobalStore.getValue();
+        }
         if(appName == null){
             throw new RuntimeException("Please set app name for tagging library");
         }
@@ -149,10 +151,6 @@ public class AIAppTagging implements AIAppTaggingInterface {
         }
         return mLanguage;
 
-    }
-
-    private static void setAppsIdkeyOverridden(String appsIdkey) {
-        AIAppTagging.mAppsIdkey = appsIdkey;
     }
 
     private static String getUTCTimestamp() {
@@ -240,6 +238,12 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
     }
 
+    @Override
+    public void setPreviousPage(String previousPage) {
+        prevPage = previousPage;
+        mGlobalStore.setValue(prevPage);
+    }
+
     /**
      * Gets privacy consent.
      *
@@ -289,7 +293,6 @@ public class AIAppTagging implements AIAppTaggingInterface {
         Analytics.trackState(pageName, contextData);
 
         prevPage = pageName;
-
     }
 
     /**

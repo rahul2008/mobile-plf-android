@@ -54,10 +54,10 @@ public class AIATDemoPage extends AppCompatActivity {
                         for(int keyCount=0;keyCount<keyArray.length;keyCount++){
                             keyValuePair.put(keyArray[keyCount].trim(),valueArray[keyCount].trim());
                         }
-                        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("DemoPage", keyValuePair);
+                        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
                     }
                 }else { // if single key present
-                    AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("DemoPage", key.getText().toString(), value.getText().toString());
+                    AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());
                 }
 //                AIAppTaggingWrapper.setTrackingIdentifier(""+value.getText().toString());
 //                AIAppTaggingWrapper.setLaunchingPageName("demoapp:AIAppTagging");
@@ -73,7 +73,7 @@ public class AIATDemoPage extends AppCompatActivity {
         TaggActionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("DemoPage",key.getText().toString(), value.getText().toString());
+                AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage",key.getText().toString(), value.getText().toString());
 //               AIAppTaggingWrapper.trackAction("ButtonClick","Key", null );
 
             }

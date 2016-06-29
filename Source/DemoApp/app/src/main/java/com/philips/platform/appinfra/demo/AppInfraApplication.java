@@ -23,7 +23,7 @@ public class AppInfraApplication extends Application {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
 
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name","Component ID");
-
+        mAIAppTaggingInterface.setPreviousPage("SomeXpreviousPage");
 
     }
 

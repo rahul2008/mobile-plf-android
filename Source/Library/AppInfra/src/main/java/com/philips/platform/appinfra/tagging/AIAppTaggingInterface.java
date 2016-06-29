@@ -18,6 +18,7 @@ public interface AIAppTaggingInterface {
     public AIAppTaggingInterface createInstanceForComponent(String componentId, String componentVersion);
 
     public void setPrivacyConsent(PrivacyStatus privacyStatus);
+    public void setPreviousPage(String previousPage);
     public PrivacyStatus getPrivacyConsent();
     public void trackPageWithInfo(String pageName, String key, String value);
     public void trackPageWithInfo(String pageName, Map<String, String> paramDict);
