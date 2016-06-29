@@ -3,7 +3,7 @@
  *
  * @author naveen@philips.com
  * @Since 05-Apr-16.
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 package com.philips.cdp.digitalcare.faq.view;
@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
 import com.philips.cdp.digitalcare.faq.listeners.FaqCallback;
@@ -41,6 +42,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -350,7 +352,9 @@ public class FAQCustomView implements Serializable {
 
             for (RichText faq : richText) {
                 String questionCategory = null;
-                List<FaqQuestionModel> faqQuestionModelList = new ArrayList<FaqQuestionModel>();
+                List<FaqQuestionModel> engFaqQuestionModelList = new ArrayList<FaqQuestionModel>();
+                List<FaqQuestionModel> nonEngfaqQuestionModelList = new ArrayList<FaqQuestionModel>();
+
                 String supportType = faq.getType();
                 if (supportType.equalsIgnoreCase("FAQ")) {
                     Chapter chapter = faq.getChapter();
@@ -371,10 +375,27 @@ public class FAQCustomView implements Serializable {
                             faqQuestionModel.setQuestion(question);
                             faqQuestionModel.setAnswer(answer);
                             faqQuestionModel.setLanguageCode(langCode);
-                            faqQuestionModelList.add(faqQuestionModel);
+                            if (langCode.equalsIgnoreCase("AEN") || langCode.equalsIgnoreCase("ENG"))
+                                engFaqQuestionModelList.add(faqQuestionModel);
+                            else
+                                nonEngfaqQuestionModelList.add(faqQuestionModel);
                         }
                     }
-                    map.put(questionCategory, faqQuestionModelList);
+
+                    Locale locale = DigitalCareConfigManager.getInstance().
+                            getLocaleMatchResponseWithCountryFallBack();
+                    String languageCode = locale.getLanguage();
+
+                    if (languageCode.equalsIgnoreCase("en")) {
+                        map.put(questionCategory, engFaqQuestionModelList);
+                    } else {
+
+                        if (nonEngfaqQuestionModelList.size() != 0) {
+                            map.put(questionCategory, nonEngfaqQuestionModelList);
+                        } else {
+                            map.put(questionCategory, engFaqQuestionModelList);
+                        }
+                    }
                 }
             }
             return map;
