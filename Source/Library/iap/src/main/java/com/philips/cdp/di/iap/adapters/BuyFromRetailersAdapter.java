@@ -14,13 +14,13 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.Fragments.WebBuyFromRetailers;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.tagging.Tagging;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     }
 
     private void tagOnSelectRetailer(StoreEntity storeEntity) {
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED,
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED,
                 storeEntity.getName());
     }
 
@@ -133,8 +133,9 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 return;
             } else {
                 final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
-                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                        IAPAnalyticsConstant.RETAILER_SELECTED, mStoreEntities.get(getAdapterPosition()).getName());
+                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                        IAPAnalyticsConstant.RETAILER_SELECTED,
+                        mStoreEntities.get(getAdapterPosition()).getName());
                 addWebBuyFromRetailers(buyURL, mStoreEntities.get(getAdapterPosition()).getName());
             }
         }

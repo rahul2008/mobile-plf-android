@@ -31,7 +31,6 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 
@@ -90,7 +89,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitle(R.string.iap_shopping_cart);
         if (!isNetworkNotConnected()) {
@@ -137,12 +136,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                 mAddressController.getRegions();
             }
             //Track checkout action
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
 
             if (mAdapter.isFreeDelivery()) {
                 //Action to track free delivery
-                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                         IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
             }
         }
@@ -150,7 +149,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             if (isNetworkNotConnected()) return;
 
             //Track continue shopping action
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
                     IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG);
         }

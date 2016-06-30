@@ -36,7 +36,6 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -180,7 +179,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 .append(mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE));
         contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PROD_VIEW);
         contextData.put(IAPAnalyticsConstant.PRODUCTS, product);
-        Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
+        IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
 
     private void makeAssetRequest() {
@@ -322,7 +321,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (mProductDiscountedPrice.getVisibility() == View.VISIBLE)
             contextData.put(IAPAnalyticsConstant.DISCOUNTED_PRICE, mProductDiscountedPrice.getText().toString());
         contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
-        Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
+        IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
 
     @Override

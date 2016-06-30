@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.List;
@@ -71,7 +71,7 @@ public class IAPActionLayout implements ActionLayoutCallBack {
     @Override
     public boolean onHWBackPressed() {
         IAPLog.i(IAPLog.LOG, "OnBackpressed Called");
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
         return dispatchBackToFragments();
     }
