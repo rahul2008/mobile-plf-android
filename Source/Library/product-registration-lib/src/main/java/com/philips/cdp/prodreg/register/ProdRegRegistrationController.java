@@ -57,8 +57,6 @@ public class ProdRegRegistrationController {
             final Data summaryData = (Data) bundle.getSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY);
             updateSummaryView(summaryData);
             updateProductView();
-            isValidDate(registeredProduct.getPurchaseDate());
-            isValidSerialNumber(registeredProduct.getSerialNumber());
         } else {
             registerControllerCallBacks.exitProductRegistration();
         }
@@ -93,23 +91,30 @@ public class ProdRegRegistrationController {
         }
     }
 
-    public void isValidSerialNumber(final String serialNumber) {
+    public boolean isValidSerialNumber(final String serialNumber) {
         final String serialNumberFormat = productMetadataResponseData.getSerialNumberFormat();
-        if (serialNumberFormat != null)
-            registerControllerCallBacks.isValidSerialNumber(!ProdRegUtil.isInValidSerialNumber(serialNumberFormat, serialNumber), serialNumberFormat);
+        final boolean isValidSerialNumber = !ProdRegUtil.isInValidSerialNumber(serialNumberFormat, serialNumber);
+        registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber, serialNumberFormat);
+        return isValidSerialNumber;
     }
 
-    public void isValidDate(final String text) {
-        registerControllerCallBacks.isValidDate(ProdRegUtil.isValidDate(text));
+    public boolean isValidDate(final String text) {
+        final boolean validDate = ProdRegUtil.isValidDate(text);
+        registerControllerCallBacks.isValidDate(validDate);
+        return validDate;
     }
 
     public void registerProduct(final String date, final String serialNumber) {
-        registerControllerCallBacks.showLoadingDialog();
-        registeredProduct.setPurchaseDate(date);
-        registeredProduct.setSerialNumber(serialNumber);
-        ProdRegHelper prodRegHelper = new ProdRegHelper();
-        prodRegHelper.addProductRegistrationListener(getProdRegListener());
-        prodRegHelper.getSignedInUserWithProducts().registerProduct(registeredProduct);
+        final boolean validDate = isValidDate(date);
+        final boolean validSerialNumber = isValidSerialNumber(serialNumber);
+        if (validDate && validSerialNumber) {
+            registerControllerCallBacks.showLoadingDialog();
+            registeredProduct.setPurchaseDate(date);
+            registeredProduct.setSerialNumber(serialNumber);
+            ProdRegHelper prodRegHelper = new ProdRegHelper();
+            prodRegHelper.addProductRegistrationListener(getProdRegListener());
+            prodRegHelper.getSignedInUserWithProducts().registerProduct(registeredProduct);
+        }
     }
 
     @NonNull
