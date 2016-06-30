@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.appframework.AppFrameworkBaseActivity;
 import com.philips.cdp.appframework.R;
+import com.philips.cdp.appframework.consumercare.ConsumerCareLauncher;
 import com.philips.cdp.appframework.debugtest.DebugTestFragment;
 import com.philips.cdp.appframework.settingscreen.SettingsFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -158,9 +159,9 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
         if (hamburgerMenuTitles[position].equalsIgnoreCase("Settings")) {
             showSettingsFragment();
-        }
-        else
-        if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
+        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Support")) {
+            showSupportFragment();
+        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
             showDebugTestFragment();
         } else {
             final HomeScreenFragment fragment = new HomeScreenFragment();
@@ -180,6 +181,12 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         SettingsFragment settingsFragment = new SettingsFragment();
 
         showFragment(settingsFragment, "Settings");
+    }
+
+    private void showSupportFragment() {
+        ConsumerCareLauncher consumerCareFragment = new ConsumerCareLauncher();
+        consumerCareFragment.initCC(this);
+//        showFragment(new ConsumerCareLauncher(), ConsumerCareLauncher.class.getSimpleName());
     }
 
     private void showDebugTestFragment() {

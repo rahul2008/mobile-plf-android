@@ -232,7 +232,7 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '5.0.0', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '5.2.1', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive=true
     }

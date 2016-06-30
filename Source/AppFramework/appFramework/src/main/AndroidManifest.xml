@@ -8,6 +8,7 @@
     <application
         android:name="com.philips.cdp.appframework.AppFrameworkApplication"
         android:allowBackup="true"
+        android:largeHeap="true"
         tools:replace="android:theme"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/app_icon"
