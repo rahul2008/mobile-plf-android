@@ -26,6 +26,7 @@ import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.register.Product;
+import com.philips.cdp.prodreg.tagging.TaggingSupport;
 
 import java.util.ArrayList;
 
@@ -65,6 +66,9 @@ public class ProdRegUiHelper {
         mContainerId = fragmentLauncher.getParentContainerResourceID();
         final Bundle arguments = new Bundle();
         arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, fragmentLauncher.getRegProdList());
+
+        TaggingSupport.getInstance(fragmentLauncher.getFragmentActivity()).trackPageWithCommonGoals("Product Registration as Activity", "Lifecycle", "onCreate");
+
         if (fragmentLauncher.isFirstLaunch()) {
             ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
             prodRegFirstLaunchFragment.setArguments(arguments);
@@ -102,6 +106,7 @@ public class ProdRegUiHelper {
      * @param orientation    Orientation
      */
     private void invokeProductRegistrationAsActivity(Context context, int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
+        TaggingSupport.getInstance(context).trackPageWithCommonGoals("Product Registration as Activity", "Lifecycle", "onCreate");
         final ArrayList<Product> regProdList = getUiLauncher().getRegProdList();
         Intent intent = new Intent(context, ProdRegBaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
