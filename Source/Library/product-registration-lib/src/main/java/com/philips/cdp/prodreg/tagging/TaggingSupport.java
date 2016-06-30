@@ -35,6 +35,7 @@ public class TaggingSupport {
             TaggingSupport.context = context;
             taggingSupport = new TaggingSupport();
             aiAppTaggingInterface = new AppInfra.Builder().build(context).getTagging();
+            aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
         }
         return taggingSupport;
     }

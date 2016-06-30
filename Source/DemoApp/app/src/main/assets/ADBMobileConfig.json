@@ -9,7 +9,7 @@
     "server": "philips.112.2o7.net",
     "charset": "UTF-8",
     "ssl": true,
-    "offlineEnabled": false,
+    "offlineEnabled": true,
     "lifecycleTimeout": 30,
     "batchLimit": 0,
     "privacyDefault": "optunknown",
