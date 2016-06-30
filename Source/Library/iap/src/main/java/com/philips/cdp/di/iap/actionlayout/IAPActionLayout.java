@@ -80,19 +80,20 @@ public class IAPActionLayout implements ActionLayoutCallBack {
         List<Fragment> fragments = v4FragManager.getFragments();
         IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called = " + fragments);
         boolean isBackHandled = false;
-        for (Fragment fragment : fragments) {
-            if (fragment != null && fragment.isVisible() && (fragment instanceof IAPBackButtonListener)) {
-
-                isBackHandled = ((IAPBackButtonListener) fragment).onBackPressed();
-                IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called");
+        if (fragments != null) {
+            for (Fragment fragment : fragments) {
+                if (fragment != null && fragment.isVisible() && (fragment instanceof IAPBackButtonListener)) {
+                    isBackHandled = ((IAPBackButtonListener) fragment).onBackPressed();
+                    IAPLog.i(IAPLog.LOG, "OnBackpressed dispatchBackToFragments Called");
+                }
             }
         }
         return isBackHandled;
     }
 
     private Drawable getActionBarBackground(Context context) {
-        final TypedArray styledAttributes =context.getTheme().obtainStyledAttributes(
-                new int[] { R.attr.uikit_actionBarBackground});
+        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
+                new int[]{R.attr.uikit_actionBarBackground});
         Drawable drawable = styledAttributes.getDrawable(0);
         styledAttributes.recycle();
         return drawable;
@@ -100,7 +101,7 @@ public class IAPActionLayout implements ActionLayoutCallBack {
 
     private int getActionBarHeight(Context context) {
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
-                new int[] { android.R.attr.actionBarSize });
+                new int[]{android.R.attr.actionBarSize});
         int actionBarSize = (int) styledAttributes.getDimension(0, 0);
         styledAttributes.recycle();
         return actionBarSize;
