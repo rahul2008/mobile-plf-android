@@ -75,37 +75,37 @@ public class ErrorDialogFragment extends DialogFragment {
     }
 
     private void onClickOfOK() {
-        String error = bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION);
-        if (error!=null && error.equals(getString(R.string.iap_time_out_error))) {
-            IAPLog.i(IAPLog.LOG, "SWITCH_TO_NO_NETWORK_CONNECTION");
-            addFragment(NoNetworkConnectionFragment.createInstance(bundle, BaseAnimationSupportFragment.AnimationType.NONE),
-                    NoNetworkConnectionFragment.TAG);
-        }
+//        String error = bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION);
+//        if (error != null && error.equals(getString(R.string.iap_time_out_error))) {
+//            IAPLog.i(IAPLog.LOG, "SWITCH_TO_NO_NETWORK_CONNECTION");
+//            addFragment(NoNetworkConnectionFragment.createInstance(bundle, BaseAnimationSupportFragment.AnimationType.NONE),
+//                    NoNetworkConnectionFragment.TAG);
+//        }
         setShowsDialog(false);
         dismiss();
     }
 
-    public void addFragment(BaseAnimationSupportFragment newFragment,
-                            String newFragmentTag) {
-
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(getPreviousFragmentID(), newFragment, newFragmentTag);
-            transaction.addToBackStack(null);
-            transaction.commitAllowingStateLoss();
-
-            IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
-                    + newFragmentTag + ")");
-        }
-    }
+//    public void addFragment(BaseAnimationSupportFragment newFragment,
+//                            String newFragmentTag) {
+//
+//        if (getActivity() != null && !getActivity().isFinishing()) {
+//            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//            transaction.replace(getId(), newFragment, newFragmentTag);
+//            transaction.addToBackStack(null);
+//            transaction.commitAllowingStateLoss();
+//
+//            IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+//                    + newFragmentTag + ")");
+//        }
+//    }
 
     // TODO: 08-06-2016  This must be avoided and code using this function must be moved to
     // basefragment. It can have side effects if this is the first fragment. It will replace the
     // vertical fragment. Please check for code duplication as well.
-    private int getPreviousFragmentID() {
-        FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
-        List<Fragment> fragments = supportFragmentManager.getFragments();
-        int size = fragments.size();
-        return fragments.get(fragments.size() -1).getId();
-    }
+//    private int getPreviousFragmentID() {
+//        FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
+//        List<Fragment> fragments = supportFragmentManager.getFragments();
+//        int size = fragments.size();
+//        return fragments.get(fragments.size() -1).getId();
+//    }
 }
