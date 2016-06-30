@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.philips.cdp.appframework">
+    package="com.philips.platform.appframework">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.philips.cdp.appframework.AppFrameworkApplication"
+        android:name="com.philips.platform.appframework.AppFrameworkApplication"
         android:allowBackup="true"
         tools:replace="android:theme"
         android:hardwareAccelerated="true"
@@ -15,7 +15,7 @@
         android:supportsRtl="true"
        android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground">
 
-        <activity android:name="com.philips.cdp.appframework.splash.SplashActivity"
+        <activity android:name="com.philips.platform.appframework.splash.SplashActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,14 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".introscreen.IntroductionScreenActivity"
+        <activity android:name="com.philips.platform.appframework.introscreen.IntroductionScreenActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
-        <activity android:name=".userregistrationscreen.UserRegistrationActivity"
+        <activity android:name="com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
-        <activity android:name=".homescreen.HomeActivity"
+        <activity android:name="com.philips.platform.appframework.homescreen.HomeActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <!--<receiver-->
-            <!--android:name="com.philips.cdp.appframework.utility.NetworkReceiver"-->
+            <!--android:name="NetworkReceiver"-->
             <!--android:exported="false">-->
             <!--<intent-filter android:priority="999">-->
                 <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->

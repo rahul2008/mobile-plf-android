@@ -115,7 +115,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.philips.cdp.appframework"
+        applicationId "com.philips.platform.appframework"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 2
