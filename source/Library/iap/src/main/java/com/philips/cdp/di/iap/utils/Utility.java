@@ -20,8 +20,6 @@ import com.philips.cdp.di.iap.response.addresses.Country;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.orders.Address;
 import com.philips.cdp.di.iap.response.payment.BillingAddress;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,17 +28,8 @@ import java.util.Locale;
 
 public class Utility {
     public static final String TAG = Utility.class.getName();
-
     private static ProgressDialog mProgressDialog = null;
 
-    public static AIAppTaggingInterface mAIAppTaggingInterface;
-    public static AppInfra mAppInfra;
-
-    /**
-     * Displays the loading progress dialog
-     *
-     * @param context Current context
-     */
     public static void showProgressDialog(Context context, String message) {
         mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setCancelable(false);
