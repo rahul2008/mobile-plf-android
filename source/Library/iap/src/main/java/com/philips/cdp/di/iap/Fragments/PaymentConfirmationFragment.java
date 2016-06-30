@@ -23,7 +23,6 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.tagging.Tagging;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -96,7 +95,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
 
     private void updatePaymentFailureUI() {
         //Track Payment failed action
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.FAILED);
         setConfirmationTitle(R.string.iap_payment_failed);
         mOrderText.setVisibility(View.INVISIBLE);
@@ -114,7 +113,7 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment im
                 contextData.put(IAPAnalyticsConstant.PURCHASE_ID, mOrderNumber.getText().toString());
                 contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PURCHASE);
                 contextData.put(IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.SUCCESS);
-                Tagging.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
+                IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
             }
             String email = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
             if (arguments.containsKey(ModelConstants.EMAIL_ADDRESS)) {

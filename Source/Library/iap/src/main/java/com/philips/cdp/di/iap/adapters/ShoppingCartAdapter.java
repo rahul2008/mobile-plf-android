@@ -18,6 +18,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
@@ -25,7 +26,6 @@ import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
@@ -237,9 +237,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         mIsFreeDelivery = true;
                     }
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
-                    if(deliveryMethod!=null){
+                    if (deliveryMethod != null) {
                         shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
-                    }else{
+                    } else {
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                     }
                 } else {
@@ -367,7 +367,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .append(mData.get(i).getProductTitle()).append(";").append(String.valueOf(mData.get(i).getQuantity()))
                     .append(";").append(mData.get(i).getValuePrice());
         }
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, products);
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.PRODUCTS, products.toString());
     }
 
 }

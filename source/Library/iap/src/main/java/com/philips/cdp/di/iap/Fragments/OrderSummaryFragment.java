@@ -29,7 +29,6 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 
@@ -147,7 +146,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     }
 
     private void placeOrderElseMakePayment() {
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
                 IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
@@ -174,7 +173,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         if (msg.obj instanceof MakePaymentData) {
 
             //Track new billing address added action
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
                     IAPAnalyticsConstant.NEW_BILLING_ADDRESS_ADDED);
 
             MakePaymentData mMakePaymentData = (MakePaymentData) msg.obj;
@@ -254,7 +253,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     @Override
     public void onDialogOkClick() {
         //Track Payment cancelled action
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
         moveToShoppingCart();
     }
