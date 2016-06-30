@@ -28,6 +28,7 @@ import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
@@ -198,6 +199,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 }
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), myDateListener, mYear, mMonthInt, mDay);
                 datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                datePickerDialog.getDatePicker().setMinDate(ProdRegUtil.getMinDate());
                 datePickerDialog.show();
             }
         };

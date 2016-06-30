@@ -23,6 +23,7 @@ import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.register.Product;
+import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import java.text.ParseException;
@@ -173,6 +174,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         }
         DatePickerDialog datePickerDialog = new DatePickerDialog(fragmentActivity, myDateListener, mYear, mMonthInt, mDay);
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.getDatePicker().setMinDate(ProdRegUtil.getMinDate());
         datePickerDialog.show();
     }
 
