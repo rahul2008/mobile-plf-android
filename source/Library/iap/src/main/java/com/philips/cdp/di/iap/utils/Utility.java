@@ -172,13 +172,4 @@ public class Utility {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy"); // Set your date format
         return sdf.format(convertedDate);
     }
-
-    public static AIAppTaggingInterface getAppInfraTagging(Context pContext) {
-        if (mAIAppTaggingInterface == null) {
-            mAppInfra = new AppInfra.Builder().build(pContext);
-            mAIAppTaggingInterface = mAppInfra.getTagging();
-        }
-        return mAIAppTaggingInterface;
-    }
-
 }
