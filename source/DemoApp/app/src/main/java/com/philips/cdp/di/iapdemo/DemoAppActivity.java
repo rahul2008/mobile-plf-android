@@ -58,7 +58,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private Button mPurchaseHistory;
     private Button mFragmentLaunch;
     private Button mLaunchProductDetail;
-    private Button mAddCtn;
     private Button mShopNowCategorized;
     private EditText mEtCTN;
     private ArrayList<String> mProductList = new ArrayList<>();
@@ -92,7 +91,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mShoppingCart = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         mShoppingCart.setOnClickListener(this);
 
-        mAddCtn = (Button) findViewById(R.id.btn_add_ctn);
+        Button mAddCtn = (Button) findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
 
         mEtCTN = (EditText) findViewById(R.id.et_add_ctn);
@@ -204,7 +203,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 if (isNetworkAvailable(DemoAppActivity.this)) {
                     try {
                         if (!mProductList.isEmpty()) {
-                            String ctn = mProductList.get(0).toString();
+                            String ctn = mProductList.get(0);
                             IAPLog.d(IAPLog.LOG, "Product CTN : " + ctn);
                             mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, ctn, null);
                         }else{

@@ -172,13 +172,13 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void tagProduct() {
-        HashMap contextData = new HashMap();
+        HashMap<String, String> contextData = new HashMap<>();
         StringBuilder product = new StringBuilder();
         product = product.append("Tuscany_Campaign").append(";")
                 .append(mProductTitle).append(";").append(";")
                 .append(mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE));
         contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PROD_VIEW);
-        contextData.put(IAPAnalyticsConstant.PRODUCTS, product);
+        contextData.put(IAPAnalyticsConstant.PRODUCTS, product.toString());
         IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
 
@@ -243,7 +243,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                     mBuyFromRetailors.setOnClickListener(this);
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
                     setTitle(mProductTitle);
-                } else {        
+                } else {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
                     setCartIconVisibility(View.GONE);
                 }
@@ -316,7 +316,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     }
 
     private void tagItemAddedToCart() {
-        HashMap contextData = new HashMap();
+        HashMap<String, String> contextData = new HashMap<>();
         contextData.put(IAPAnalyticsConstant.ORIGINAL_PRICE, mPrice.getText().toString());
         if (mProductDiscountedPrice.getVisibility() == View.VISIBLE)
             contextData.put(IAPAnalyticsConstant.DISCOUNTED_PRICE, mProductDiscountedPrice.getText().toString());
@@ -417,7 +417,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private void setPrice(String actualPrice, String discountedPrice) {
         setCartIconVisibility(View.VISIBLE);
         mPrice.setText(actualPrice);
-        if (discountedPrice == null || discountedPrice == "") {
+        if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
             mProductDiscountedPrice.setVisibility(View.GONE);
             mPrice.setTextColor(Utility.getThemeColor(mContext));
         } else if (actualPrice != null && discountedPrice.equalsIgnoreCase(actualPrice)) {
