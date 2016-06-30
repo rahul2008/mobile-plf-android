@@ -61,7 +61,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     public void onBindViewHolder(final AddressSelectionHolder holder, final int position) {
         Addresses address = mAddresses.get(position);
         holder.name.setText(address.getFirstName() + " " + address.getLastName());
-        holder.address.setText(Utility.createAddress(address));
+        holder.address.setText(Utility.formatAddress(address.getFormattedAddress()));
         holder.options.setImageDrawable(mOptionsDrawable);
 
         //Update payment options buttons
