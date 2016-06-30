@@ -6,10 +6,10 @@
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.appidentity.AppIdentityManager;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -291,7 +291,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             refresh((new OnRefreshListener() {
                 @Override
                 public void onError(ERRORVALUES error, String message) {
-                    Log.i("onError", ""+"refresh  Error");
+                    //Log.i("onError", ""+"refresh  Error");
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,"Service Discovery onError","refresh  Error");
                 }
 
                 @Override

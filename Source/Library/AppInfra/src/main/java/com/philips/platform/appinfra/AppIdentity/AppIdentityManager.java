@@ -8,10 +8,10 @@ package com.philips.platform.appinfra.appidentity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -148,12 +148,18 @@ public class AppIdentityManager implements com.philips.platform.appinfra.appiden
                     }
 
 
-                    Log.i("micrositeId", ""+getMicrositeId());
+                   /* Log.i("micrositeId", ""+getMicrositeId());
                     Log.i("sector", ""+getSector());
                     Log.i("mAppState", ""+getAppState());
                     Log.i("mAppName", ""+getAppName());
                     Log.i("mAppVersion", ""+getAppVersion());
-                    Log.i("mAppLocalizedNAme", ""+getAppLocalizedNAme());
+                    Log.i("mAppLocalizedNAme", ""+getAppLocalizedNAme());*/
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"micrositeId",""+getMicrositeId());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"sector",""+getSector());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"mAppState",""+getAppState());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"mAppName",""+getAppName());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"mAppVersion",""+getAppVersion());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"mAppLocalizedNAme",""+getAppLocalizedNAme());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

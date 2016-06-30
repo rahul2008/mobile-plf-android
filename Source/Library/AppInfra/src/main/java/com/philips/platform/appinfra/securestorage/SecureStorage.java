@@ -10,9 +10,9 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.security.KeyPairGeneratorSpec;
 import android.util.Base64;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.math.BigInteger;
 import java.security.Key;
@@ -44,7 +44,7 @@ public class SecureStorage implements SecureStorageInterface{
     private static final String KEY_FILE_NAME = "AppInfra.Storage.kfile";
     private final  Context mContext;
     private static KeyStore keyStore = null;
-
+    AppInfra mAppInfra;
 
     //this variable(encryptedTextTemp) must only  be used  for Demo App
     // to see encrypted text and must be removed from release build
@@ -53,7 +53,8 @@ public class SecureStorage implements SecureStorageInterface{
 
 
     public  SecureStorage(AppInfra bAppInfra){
-        mContext = bAppInfra.getAppInfraContext();
+        mAppInfra=bAppInfra;
+        mContext = mAppInfra.getAppInfraContext();
     }
 
 
@@ -102,6 +103,7 @@ public class SecureStorage implements SecureStorageInterface{
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.StoreError);
             }
             encryptedString = returnResult?encryptedString:null; // if save of encryption data fails return null
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.WARNING,"SecureStorage encrypted",encryptedString);
             boolean isDebuggable =  ( 0 != ( mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
             if (isDebuggable) {
                 encryptedTextTemp = encryptedString; // to be removed from release build
@@ -109,7 +111,8 @@ public class SecureStorage implements SecureStorageInterface{
         } catch (Exception e) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
             returnResult=false;
-            Log.e("SecureStorage", Log.getStackTraceString(e));
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,"SecureStorage",e.getMessage());
+            //Log.e("SecureStorage", Log.getStackTraceString(e));
         }finally{
             return returnResult;
         }
@@ -159,7 +162,8 @@ public class SecureStorage implements SecureStorageInterface{
             byte[] decText = cipher2.doFinal(encryptedValueBytes); // decrypt string value using AES key
              decryptedString = new String(decText);
         } catch (Exception e) {
-            Log.e("SecureStorage", Log.getStackTraceString(e));
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,"SecureStorage",e.getMessage());
+            //Log.e("SecureStorage", Log.getStackTraceString(e));
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
             if(null!=decryptedString){  // if exception is thrown at:  decryptedString = new String(decText);
                 decryptedString=null;

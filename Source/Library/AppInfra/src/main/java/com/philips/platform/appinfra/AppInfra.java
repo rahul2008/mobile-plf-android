@@ -173,7 +173,7 @@ public class AppInfra {
 
     public void setLogging(LoggingInterface log) {
         logger = log;
-        appInfraLogger = logger.createInstanceForComponent(this.getClass().getPackage().toString(), APP_INFRA_VERSION);
+        appInfraLogger = logger.createInstanceForComponent(this.getClass().getPackage().toString().substring(8), APP_INFRA_VERSION);
     }
 
     public void setTagging(AIAppTaggingInterface tagg) {

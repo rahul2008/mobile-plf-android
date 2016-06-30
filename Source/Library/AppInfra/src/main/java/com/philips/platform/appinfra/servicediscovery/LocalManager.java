@@ -7,11 +7,10 @@ package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.Locale;
 
@@ -53,7 +52,8 @@ public class LocalManager implements LocalInterface {
         pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
         if(mCountry == null){
             mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
-            Log.i("Country", " "+mCountry);
+           // Log.i("Country", " "+mCountry);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"Country",mCountry);
             if(mCountry!= null){
                 if(mAppInfra.getTagging()!=null){
                     mAppInfra.getTagging().trackActionWithInfo("LocalPage", "KeyCountry", "ValueCountry");
