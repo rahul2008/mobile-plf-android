@@ -1,5 +1,7 @@
 package com.philips.cdp.prodreg.util;
 
+import com.philips.cdp.prodreg.ProdRegConstants;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,6 +35,21 @@ public class ProdRegUtil {
     }
 
     public static boolean isInValidSerialNumber(final String regularExpression, final String serialNumber) {
-        return serialNumber == null || serialNumber.length() < 1 || !serialNumber.matches(regularExpression);
+        return serialNumber == null || serialNumber.length() < 1 || regularExpression == null || !serialNumber.matches(regularExpression);
+    }
+
+    /**
+     * Return min date for date picker
+     *
+     * @return
+     */
+    public static long getMinDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(ProdRegConstants.START_DATE_YEAR, ProdRegConstants.START_DATE_MONTH, ProdRegConstants.START_DATE_DAY);
+        cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
+        cal.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
+        cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
+        return cal.getTimeInMillis();
     }
 }

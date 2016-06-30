@@ -34,7 +34,7 @@
         android:layout_alignLeft="@+id/conf_action_textview"
         android:layout_below="@+id/conf_subtext_textview"
         android:text="@string/prod_reg_benefits_conf_message"
-        android:visibility="invisible"/>
+        />
 
     <Button
         android:id="@+id/yes_register_button"

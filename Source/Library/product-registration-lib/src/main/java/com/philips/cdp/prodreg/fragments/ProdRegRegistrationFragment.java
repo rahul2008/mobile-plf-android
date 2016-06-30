@@ -28,6 +28,7 @@ import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
@@ -50,6 +51,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private EditText serial_number_editText, date_EditText;
     private InlineForms serialLayout, purchaseDateLayout;
     private ProdRegRegistrationController prodRegRegistrationController;
+    private boolean textWatcherCalled = false;
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -102,7 +104,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnClickListener(onClickPurchaseDate());
-        serial_number_editText.addTextChangedListener(getWatcher());
         return view;
     }
 
@@ -133,7 +134,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
             @Override
             public void afterTextChanged(final Editable s) {
-                prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
+                if (textWatcherCalled)
+                    prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
+                textWatcherCalled = true;
             }
         };
     }
@@ -148,7 +151,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageSerialNumber(final EditText editTextView, final String format) {
-        registerButton.setEnabled(false);
         serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format);
         serialLayout.showError(editTextView);
     }
@@ -163,7 +165,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageDate(final EditText editTextView) {
-        registerButton.setEnabled(false);
         purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_DATE.getCode()).getDescription());
         purchaseDateLayout.showError(editTextView);
     }
@@ -198,6 +199,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 }
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), myDateListener, mYear, mMonthInt, mDay);
                 datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                datePickerDialog.getDatePicker().setMinDate(ProdRegUtil.getMinDate());
                 datePickerDialog.show();
             }
         };
@@ -299,6 +301,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         productFriendlyNameTextView.setText(familyName != null ? familyName : "");
         productTitleTextView.setText(productTitle != null ? productTitle : "");
         imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.prod_reg_default_placeholder, R.drawable.prod_reg_default_placeholder));
+        serial_number_editText.addTextChangedListener(getWatcher());
     }
 
     @Override

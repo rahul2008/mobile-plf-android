@@ -23,4 +23,7 @@ public class ProdRegConstants {
     public static final String ERROR_STATE = "error_state";
     public static final String IS_SIGN_IN_CALLED = "sign_incalled";
     public static final String WEB_URL = "web_url";
+    public static final int START_DATE_YEAR = 2000;
+    public static final int START_DATE_MONTH = 0;
+    public static final int START_DATE_DAY = 01;
 }
