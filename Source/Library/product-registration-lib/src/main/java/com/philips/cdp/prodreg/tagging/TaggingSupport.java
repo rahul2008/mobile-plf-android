@@ -118,4 +118,26 @@ public class TaggingSupport {
         hashMap.put(key, value);
         getAiAppTaggingInterface().trackPageWithInfo(pageName, hashMap);
     }
+
+    public void trackActionWithCommonGoals(String event, Map<String, String> trackInfo) {
+        final Map<String, String> commonGoalsMap = getCommonGoalsMap();
+        commonGoalsMap.putAll(trackInfo);
+        getAiAppTaggingInterface().trackActionWithInfo(event, commonGoalsMap);
+    }
+
+    public void trackActionWithCommonGoals(String event, String key, String value) {
+        final Map<String, String> commonGoalsMap = getCommonGoalsMap();
+        commonGoalsMap.put(key, value);
+        getAiAppTaggingInterface().trackActionWithInfo(event, commonGoalsMap);
+    }
+
+    public void trackOnlyAction(String event, Map<String, String> trackInfo) {
+        getAiAppTaggingInterface().trackActionWithInfo(event, trackInfo);
+    }
+
+    public void trackOnlyAction(String event, String key, String value) {
+        final Map<String, String> hashMap = new HashMap<>();
+        hashMap.put(key, value);
+        getAiAppTaggingInterface().trackActionWithInfo(event, hashMap);
+    }
 }
