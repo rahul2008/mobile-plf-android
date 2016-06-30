@@ -227,7 +227,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         String orderStatus = detail.getStatusDisplay();
         mOrderState.setText(orderStatus.substring(0,1).toUpperCase() + orderStatus.substring(1));
         mOrderNumber.setText(detail.getCode());
-        mTvQuantity.setText(" (0" + " item)");
+        mTvQuantity.setText(" (" + mOrderDetail.getDeliveryItemsQuantity() + " item)");
         if(detail.getDeliveryOrderGroups() != null)
         {
             if(mController == null)

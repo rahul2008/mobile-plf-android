@@ -76,7 +76,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderHistoryView.setLayoutManager(layoutManager);
 
-        mAdapter = new OrderHistoryAdapter(mContext, mOrders, mProducts);
+        mAdapter = new OrderHistoryAdapter(mContext, mOrders, mProducts, mOrderDetails);
         mOrderHistoryView.setAdapter(mAdapter);
         mOrderHistoryView.addOnScrollListener(mRecyclerViewOnScrollListener);
         if (mOrders.size() == 0) {

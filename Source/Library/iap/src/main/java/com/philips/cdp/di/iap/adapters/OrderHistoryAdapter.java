@@ -19,6 +19,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
+import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.Orders;
 import com.philips.cdp.di.iap.response.orders.ProductData;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
@@ -38,12 +39,14 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context mContext;
     private List<Orders> mOrders;
     private List<ProductData> mProductDetails;
+    private List<OrderDetail> mOrderDetails;
     private int mSelectedIndex;
 
-    public OrderHistoryAdapter(final Context context, final List<Orders> orders, final List<ProductData> product) {
+    public OrderHistoryAdapter(final Context context, final List<Orders> orders, final List<ProductData> product, final List<OrderDetail> orderDetails) {
         mContext = context;
         mOrders = orders;
         mProductDetails = product;
+        mOrderDetails = orderDetails;
         mSelectedIndex = 0;
     }
 
@@ -76,6 +79,19 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 totalQuantity += data.getQuantity();
             }
         }
+
+        if(totalQuantity == 0)
+        {
+            for(OrderDetail detail : mOrderDetails)
+            {
+                if(detail.getCode() != null && detail.getCode().equals(order.getCode()))
+                {
+                    totalQuantity = detail.getDeliveryItemsQuantity();
+                    break;
+                }
+            }
+        }
+
         if(totalQuantity > 1)
             orderHistoryHolder.mTvQuantity.setText(" (" + totalQuantity + " items)");
         else
