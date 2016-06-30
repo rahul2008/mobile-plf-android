@@ -196,6 +196,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 }
                 break;
             case R.id.btn_fragment_launch:
+                mIAPSettings.setUseLocalData(false);
                 Intent intent = new Intent(this, LauncherFragmentActivity.class);
                 this.startActivity(intent);
                 break;
