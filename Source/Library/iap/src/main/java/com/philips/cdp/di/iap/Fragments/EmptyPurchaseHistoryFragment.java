@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 
 public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
@@ -53,6 +55,7 @@ public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_order_history);
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_HISTORY_PAGE_NAME);
     }
 
     @Override

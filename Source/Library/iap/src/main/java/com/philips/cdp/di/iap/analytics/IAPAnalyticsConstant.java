@@ -15,7 +15,6 @@ public class IAPAnalyticsConstant {
     public static final String SHIPPING_ADDRESS_EDIT_PAGE_NAME = "ShippingAddressEditPage";
     public static final String BILLING_ADDRESS_PAGE_NAME = "BillingAddressPage";
     public static final String PAYMENT_SELECTION_PAGE_NAME = "PaymentSelectionPage";
-    public static final String EMPTY_SHOPPING_CART_PAGE_NAME = "EmptyShoppingCartPage";
     public static final String ORDER_SUMMARY_PAGE_NAME = "OrderSummaryPage";
     public static final String WORLD_PAY_PAGE_NAME = "CreditCardInputPage";
     public static final String PAYMENT_CONFIRMATION_PAGE_NAME = "PaymentConfirmationPage";
@@ -53,6 +52,8 @@ public class IAPAnalyticsConstant {
 
     public static final String SHOPPING_CART_VIEW = "shoppingCartView";
     public static final String PROD_VIEW = "prodView";
+
+    public static final String TRACK_SHIPMENT_SELECTED = "trackShipmentSelected";
 
     public static final String IN_APP_NOTIFICATION_POP_UP = "inAppNotification";
     public static final String IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";

@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
@@ -73,11 +75,14 @@ public class TrackOrderFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_track_order_title);
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.TRACK_ORDER_PAGE_NAME);
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_track) {
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.TRACK_SHIPMENT_SELECTED);
             if (mOrderTrackUrl != null) {
                 launchFedex();
             }
