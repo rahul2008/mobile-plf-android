@@ -20,4 +20,5 @@
     <string name="iap_connection_timeout">Connection Timeout</string>
     <string name="iap_auth_failure">Authentication Failure</string>
     <string name="iap_prod_out_of_stock">Products out of stock</string>
+    <string name="categorized_shop_now">Shop Now(Categorized)</string>
 </resources>
