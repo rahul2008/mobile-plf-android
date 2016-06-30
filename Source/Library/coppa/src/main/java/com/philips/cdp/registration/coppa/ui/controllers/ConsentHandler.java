@@ -62,14 +62,8 @@ public class ConsentHandler implements RefreshUserHandler {
                 mCoppaExtension.updateCoppaConsentStatus(true, new CoppaConsentUpdateCallback() {
                     @Override
                     public void onSuccess() {
-                        //First consent
-
-                        mUser.refreshUser(ConsentHandler.this);
                         AppTagging.trackAction(mTaggingState, mTaggingKey, "Yes");
-                        mParentalApprovalFragment.hideRefreshProgress();
-                       /* if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                            RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
-                        }*/
+                        mUser.refreshUser(ConsentHandler.this);
                     }
 
                     @Override
@@ -105,11 +99,23 @@ public class ConsentHandler implements RefreshUserHandler {
                 mCoppaExtension.updateCoppaConsentStatus(false, new CoppaConsentUpdateCallback() {
                     @Override
                     public void onSuccess() {
-                        mParentalApprovalFragment.hideRefreshProgress();
-                        mCoppaExtension.buildConfiguration();
-                        if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                            RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
-                        }
+                        mUser.refreshUser(new RefreshUserHandler() {
+                            @Override
+                            public void onRefreshUserSuccess() {
+                                mParentalApprovalFragment.hideRefreshProgress();
+                                mCoppaExtension.buildConfiguration();
+                                if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                                    RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+                                }
+                            }
+
+                            @Override
+                            public void onRefreshUserFailed(final int error) {
+                                mParentalApprovalFragment.hideRefreshProgress();
+                                Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
+                                        , Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
 
                     @Override
@@ -139,15 +145,24 @@ public class ConsentHandler implements RefreshUserHandler {
     public void onRefreshUserSuccess() {
         mCoppaExtension.buildConfiguration();
         RLog.i("ConsentStatus", "Status :  " + mCoppaExtension.getCoppaEmailConsentStatus());
-
+        mParentalApprovalFragment.hideRefreshProgress();
         updateUIBasedOnConsentStatus(mCoppaExtension.getCoppaEmailConsentStatus());
     }
 
     private void updateUIBasedOnConsentStatus(final CoppaStatus coppaStatus) {
         if (coppaStatus == CoppaStatus.kDICOPPAConfirmationPending) {
-            //show thank you and 24 hour screen
-            addParentalConsentFragment(coppaStatus);
+            completeConsentActions(coppaStatus);
         } else if (coppaStatus == CoppaStatus.kDICOPPAConfirmationGiven) {
+            completeConsentActions(coppaStatus);
+        } else {
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+            }
+        }
+    }
+
+    private void completeConsentActions(final CoppaStatus coppaStatus) {
+        if (mCoppaExtension.getConsent().getLocale().equalsIgnoreCase("en_US")) {
             //show thank you and 24 hour screen
             addParentalConsentFragment(coppaStatus);
         } else {
@@ -165,7 +180,6 @@ public class ConsentHandler implements RefreshUserHandler {
 
     private void handleFailure() {
         mParentalApprovalFragment.hideRefreshProgress();
-
         Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
                 , Toast.LENGTH_SHORT).show();
     }

@@ -87,7 +87,9 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
         @Override
         public void onClick(View v) {
             RegCoppaAlertDialog.dismissDialog();
-            navigateToWelcome();
+            if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+            }
         }
     };
 

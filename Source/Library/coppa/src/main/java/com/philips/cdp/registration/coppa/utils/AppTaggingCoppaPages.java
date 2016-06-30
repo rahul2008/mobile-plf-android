@@ -20,4 +20,8 @@ public interface AppTaggingCoppaPages {
     String COPPA_FIRST_CONSENT = "coppa:parentalconsent";
 
     String COPPA_SECOND_CONSENT = "coppa:parentalconsentconfirm";
+
+    String COPPA_THANK_AFTER_FIRST_CONSENT = "coppa:thankyouafterfirstconsent";
+
+    String COPPA_CONSENT_PROCESS_COMPLETED = "coppa:thankyouafterconsentprocesscompleted";
 }
