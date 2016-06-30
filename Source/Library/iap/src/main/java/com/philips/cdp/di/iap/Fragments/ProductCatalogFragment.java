@@ -68,7 +68,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>());
-        loadProducts();
+
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mRecyclerView.setLayoutManager(layoutManager);
         mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
-        //loadProducts();
+        loadProducts();
         return rootView;
     }
 
@@ -106,7 +106,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
         }
         mAdapter.tagProducts();
-//        }
     }
 
     @Override
