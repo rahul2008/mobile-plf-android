@@ -2,8 +2,8 @@
  * FaceBook Feature in the INAPP Webpage as a configurable data.
  *
  * @author naveen@philips.com
- *
- *  Copyright (c) 2016 Philips. All rights reserved.
+ * <p/>
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 
 package com.philips.cdp.digitalcare.social.facebook;
@@ -107,5 +107,22 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
     public void onResume() {
         super.onResume();
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
+        initView();
+        loadInAppFacebook();
+    }
+
+
+    @Override
+    public void onPause() {
+        mFacebookWebView.loadUrl("about:blank");
+        clearWebViewData();
+        super.onPause();
+    }
+
+    private void clearWebViewData() {
+        mFacebookWebView.stopLoading();
+        mFacebookWebView.clearCache(true);
+        mFacebookWebView.clearHistory();
+        mFacebookWebView.clearFormData();
     }
 }
