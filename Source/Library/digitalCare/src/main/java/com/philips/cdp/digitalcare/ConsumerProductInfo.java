@@ -3,8 +3,8 @@
  * with respect to the locale.
  *
  * @author naveen@philips.com
- *
- *  Copyright (c) 2016 Philips. All rights reserved.
+ * <p/>
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 
 package com.philips.cdp.digitalcare;
@@ -14,9 +14,18 @@ public class ConsumerProductInfo {
     private String mSector = null;
     private String mCatalog = null;
     private String mCategory = null;
-    private String mSubCategory = null;
     private String mCtn = null;
     private String mProductTitle = null;
+
+    private String mSubCategory = null;
+
+    public String getSubCategory() {
+        return mSubCategory;
+    }
+
+    public void setSubCategory(String mSubCategory) {
+        this.mSubCategory = mSubCategory;
+    }
 
 
     public String getGroup() {
@@ -49,14 +58,6 @@ public class ConsumerProductInfo {
 
     public void setCategory(String category) {
         mCategory = category;
-    }
-
-    public String getSubCategory() {
-        return mSubCategory;
-    }
-
-    public void setSubCategory(String subCategory) {
-        mSubCategory = subCategory;
     }
 
     public String getCtn() {

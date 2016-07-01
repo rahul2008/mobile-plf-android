@@ -39,6 +39,7 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Description :
@@ -149,12 +150,13 @@ public class PrxWrapper {
         if (mRequestManager == null) {
             mRequestManager = new RequestManager();
         }
+        Locale locale = mConfigManager.getLocaleMatchResponseWithCountryFallBack();
         mRequestManager.init(mActivity);
         final DigitalCareConfigManager mConfigManager = DigitalCareConfigManager.getInstance();
         mProductInfo = mConfigManager.getConsumerProductInfo();
         mCtn = mProductInfo.getCtn();
         mSectorCode = mProductInfo.getSector();
-        mLocale = mConfigManager.getLocaleMatchResponseWithCountryFallBack().toString();
+        if (locale != null) mLocale = locale.toString();
         mCatalogCode = mProductInfo.getCatalog();
 
     }
@@ -262,9 +264,7 @@ public class PrxWrapper {
                             mSupportCallback.onResponseReceived(null);
                         }
                     }
-                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                        mProgressDialog.cancel();
-                    }
+                    closeProgressDialog();
                 }
             }
 
@@ -273,11 +273,20 @@ public class PrxWrapper {
                 if (mSupportCallback != null) {
                     mSupportCallback.onResponseReceived(null);
                 }
-                if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                    mProgressDialog.cancel();
-                }
+                closeProgressDialog();
             }
         });
+    }
+
+    private void closeProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing()) {
+            try {
+                mProgressDialog.cancel();
+                mProgressDialog = null;
+            } catch (IllegalArgumentException e) {
+                DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+            }
+        }
     }
 
 
@@ -313,9 +322,7 @@ public class PrxWrapper {
                             mSummaryCallback.onResponseReceived(null);
                         }
                     }
-                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                        mProgressDialog.cancel();
-                    }
+                    closeProgressDialog();
                 }
             }
 
@@ -326,9 +333,7 @@ public class PrxWrapper {
                 if (mSummaryCallback != null) {
                     mSummaryCallback.onResponseReceived(null);
                 }
-                if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                    mProgressDialog.cancel();
-                }
+                closeProgressDialog();
             }
         });
     }
@@ -355,9 +360,10 @@ public class PrxWrapper {
                             final List<String> mVideoList = new ArrayList<String>();
                             for (Asset assetObject : asset) {
                                 String assetDescription = assetObject.getDescription();
+                                String assetType = assetObject.getType();
                                 String assetResource = assetObject.getAsset();
                                 String assetExtension = assetObject.getExtension();
-                                if (assetDescription.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_QSG_PDF))
+                                if (assetType.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_QSG_PDF))
                                     if (assetResource != null) {
                                         qsgManual = assetResource;
                                     }
@@ -376,16 +382,15 @@ public class PrxWrapper {
                                 viewProductDetailsData.setManualLink(usermanual);
                             }
                             viewProductDetailsData.setmVideoLinks(mVideoList);
-                            DigiCareLogger.d(TAG, "Manual PDF : " + qsgManual);
-                            DigiCareLogger.d(TAG, "Manual Link : " + usermanual);
+                            DigiCareLogger.d(TAG, "Manual qsg : " + qsgManual);
+                            DigiCareLogger.d(TAG, "Manual user : " + usermanual);
                             DigiCareLogger.d(TAG, "Manual videoListSize : " + mVideoList.size());
                             mConfigManager.setViewProductDetailsData(viewProductDetailsData);
                             if (mSummaryCallback != null) {
                                 mSummaryCallback.onResponseReceived(null);
                             }
-                        }else
-                        {
-                            if (mSummaryCallback != null)    mSummaryCallback.onResponseReceived(null);
+                        } else {
+                            if (mSummaryCallback != null) mSummaryCallback.onResponseReceived(null);
                         }
 
                     }
@@ -449,9 +454,7 @@ public class PrxWrapper {
                         mProductDetailsObject.setmVideoLinks(mVideoList);
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
-                        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                            mProgressDialog.cancel();
-                        }
+                        closeProgressDialog();
 
                     }
                 }
@@ -461,8 +464,7 @@ public class PrxWrapper {
             public void onResponseError(PrxError error) {
                 DigiCareLogger.e(TAG, "Asset Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                if (mProgressDialog != null && mProgressDialog.isShowing())
-                    mProgressDialog.cancel();
+                closeProgressDialog();
             }
         });
     }

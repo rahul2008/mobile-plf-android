@@ -2,18 +2,16 @@
  * EMail WebView Fragment
  *
  * @author : pawan.kumar.deshpande@philips.com
- *         Since  17 july 2015.
- *         Copyright (c) 2016 Philips. All rights reserved.
+ * Since  17 july 2015.
+ * Copyright (c) 2016 Philips. All rights reserved.
  */
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -78,23 +76,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
         } else {
             String url = getEmailUrl() + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
             DigiCareLogger.d(TAG, url);
-            mProgressBar.setVisibility(View.VISIBLE);
-            mWebView.getSettings().setJavaScriptEnabled(true);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-                mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
-                mWebView.getSettings().setDomStorageEnabled(true);
-            }
-            mWebView.setWebChromeClient(new WebChromeClient() {
-                @Override
-                public void onProgressChanged(WebView view, int newProgress) {
-                    super.onProgressChanged(view, newProgress);
-                    if (newProgress > 80) {
-                        mProgressBar.setVisibility(View.GONE);
-                    }
-                }
-            });
-            mWebView.loadUrl(url);
+            setWebSettingForWebview(url, mWebView, mProgressBar);
            /* mWebView.setWebViewClient(new WebViewClient() {
 
                 @Override

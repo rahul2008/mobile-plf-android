@@ -38,8 +38,6 @@ import android.widget.TextView;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.RequestData;
-import com.philips.cdp.digitalcare.ResponseCallback;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
@@ -48,6 +46,9 @@ import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
+import com.philips.cdp.digitalcare.request.RequestData;
+import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -112,11 +113,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 First hit CDLS server wit SubCategory, if that fails then hit
                 CDLS again with Category.
                  */
-                if(isFirstTimeCdlsCall){
+                if (isFirstTimeCdlsCall) {
                     isFirstTimeCdlsCall = false;
                     requestCdlsData();
-                }
-                else {
+                } else {
                     fadeoutButtons();
                 }
             }
@@ -152,7 +152,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         if (isConnectionAvailable() && isCdlsUrlNull()) {
             requestCdlsData();
         } else {
-            DigitalCareConfigManager.getInstance().getObserver().addObserver(this);
+            LocaleMatchHandlerObserver observer = DigitalCareConfigManager.getInstance().getObserver();
+            if (observer != null) {
+                observer.addObserver(this);
+            }
         }
 
         if (mView != null) {
@@ -227,6 +230,19 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         config = getResources().getConfiguration();
     }
 
+
+    protected boolean isEmailButtonEnabled() {
+        ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager.getInstance().getConsumerProductInfo();
+        if (consumerProductInfo.getCategory() == null) {
+            mEmail.setVisibility(View.GONE);
+
+        } else {
+            mEmail.setVisibility(View.VISIBLE);
+        }
+
+        return (mEmail.getVisibility() == View.VISIBLE) ? true : false;
+    }
+
     private void createSocialProviderMenu() {
         TypedArray titles = getResources().obtainTypedArray
                 (R.array.social_service_provider_menu_title);
@@ -266,7 +282,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         return getCdlsUrl(consumerProductInfo.getSector(),
                 localeCoutryFallback.toString(),
                 consumerProductInfo.getCatalog(),
-                isFirstTimeCdlsCall ? consumerProductInfo.getSubCategory()+"fake"
+                isFirstTimeCdlsCall ? consumerProductInfo.getSubCategory()
                         : consumerProductInfo.getCategory());
     }
 /*
@@ -296,7 +312,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         DigiCareLogger.d(TAG, "CDLS Request Thread is started");
         startProgressDialog();
         if (isCdlsUrlNull()) {
-            new RequestData(getCdlsUrl(), this).execute();
+            String url = getCdlsUrl();
+            DigiCareLogger.d(TAG, "CDLS Request URL : " + url);
+            RequestData requestData = new RequestData();
+            requestData.setRequestUrl(url);
+            requestData.setResponseCallback(this);
+            requestData.execute();
         }
     }
 
@@ -306,6 +327,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onResponseReceived(String response) {
+        isEmailButtonEnabled();
         if (isAdded()) {
             closeProgressDialog();
             DigiCareLogger.i(TAG, "onResponseReceived : " + response);
@@ -317,11 +339,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 First hit CDLS server wit SubCategory, if that fails then hit
                 CDLS again with Category.
                  */
-                if(isFirstTimeCdlsCall){
+                if (isFirstTimeCdlsCall) {
                     isFirstTimeCdlsCall = false;
                     requestCdlsData();
-                }
-                else {
+                } else {
                     fadeoutButtons();
                 }
             }
@@ -650,6 +671,23 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 //                    .setBackgroundResource(R.drawable.consumercare_selector_option_button_faded_bg);
 //            mCallPhilips.setEnabled(false);
         }
+
+        TypedArray titles = getResources().obtainTypedArray
+                (R.array.social_service_provider_menu_title);
+        boolean isSocialButtonsEnabled = titles.length() > 0 ? true : false;
+        boolean isEmailEnabled = mEmail.getVisibility() == View.VISIBLE ? true : false;
+        boolean isChatEnabled = mChat.getVisibility() == View.VISIBLE ? true : false;
+        boolean isCallEnabled = mCallPhilips.getVisibility() == View.VISIBLE ? true : false;
+
+       /* if (!(isSocialButtonsEnabled && isEmailEnabled && isChatEnabled && isCallEnabled)) {
+            showAlert(getResources().getString(R.string.NO_SUPPORT_KEY));
+        }*/
+
+        if(!isSocialButtonsEnabled && !isEmailEnabled)
+        {
+            showAlert(getResources().getString(R.string.NO_SUPPORT_KEY));
+        }
+
       /*if (mChat != null) {
             mChat.setVisibility(View.GONE);
         }*/

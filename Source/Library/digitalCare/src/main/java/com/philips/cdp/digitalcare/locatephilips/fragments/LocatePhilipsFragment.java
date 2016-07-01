@@ -22,6 +22,7 @@ import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -59,8 +60,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.RequestData;
-import com.philips.cdp.digitalcare.ResponseCallback;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
@@ -78,6 +77,8 @@ import com.philips.cdp.digitalcare.locatephilips.models.AtosResponseModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
 import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
 import com.philips.cdp.digitalcare.locatephilips.parser.AtosResponseParser;
+import com.philips.cdp.digitalcare.request.RequestData;
+import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
@@ -94,7 +95,7 @@ import java.util.Map;
  *
  * @author : Ritesh.jha@philips.com
  * @since : 8 May 2015
- *
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 @SuppressLint({"SetJavaScriptEnabled", "DefaultLocale"})
@@ -185,6 +186,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 case LocationProvider.AVAILABLE:
                     DigiCareLogger.v(TAG, "Status Changed: Available");
                     break;
+
+                default:
+                    DigiCareLogger.i(TAG, "Default in onStatusChanged");
+                    break;
             }
         }
     };
@@ -195,6 +200,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             showFragment(new ContactUsFragment());
         }
     };
+    private boolean isDialogShown;
     private AtosParsingCallback mParsingCompletedCallback = new AtosParsingCallback() {
         @Override
         public void onAtosParsingComplete(final AtosResponseModel response) {
@@ -284,7 +290,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         if (!getActivity().isFinishing())
             startProgressDialog();
         DigiCareLogger.d(TAG, "ATOS URL : " + formAtosURL());
-        new RequestData(formAtosURL(), this).execute();
+        RequestData requestData = new RequestData();
+        requestData.setRequestUrl(formAtosURL());
+        requestData.setResponseCallback(this);
+        requestData.execute();
     }
 
     protected void startProgressDialog() {
@@ -293,15 +302,23 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mDialog.setMessage(getResources().getString(R.string.loading));
         mDialog.setCancelable(true);
         if (!(getActivity().isFinishing())) {
-            mDialog.show();
+            try {
+                mDialog.show();
+            } catch (Exception e) {
+                DigiCareLogger.e(TAG, "Window Leakage handled : " + e);
+            }
         }
     }
 
     protected void closeProgressDialog() {
         if (mDialog != null && mDialog.isShowing()) {
-            mDialog.dismiss();
-            mDialog.cancel();
-            mDialog = null;
+            try {
+                mDialog.dismiss();
+                mDialog.cancel();
+                mDialog = null;
+            } catch (RuntimeException ex) {
+                DigiCareLogger.e(TAG, "Dialog Window Leak is handled");
+            }
         }
     }
 
@@ -354,7 +371,23 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private void showCustomAlert() {
         LocateNearCustomDialog locateNearCustomDialog = new LocateNearCustomDialog(getActivity(),
                 getActivity().getSupportFragmentManager(), mGoToContactUsListener);
-        locateNearCustomDialog.show();
+        if (!isDialogShown) {
+            locateNearCustomDialog.show();
+            isDialogShown = true;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("dialog_key", isDialogShown);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null)
+            isDialogShown = savedInstanceState.getBoolean("dialog_key");
     }
 
     @Override
@@ -680,6 +713,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
             case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
                 break;
+
+            default:
+                DigiCareLogger.d(TAG, "default method on onGPSStatusChanged");
+                break;
         }
     }
 
@@ -866,7 +903,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                             AnalyticsConstants.ACTION_SEND_DATA,
                             AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                             AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION);
-            if (mPhoneNumber != null && !mAtosResponse.getSuccess()) {
+            if (mAtosResponse != null && mPhoneNumber != null && !mAtosResponse.getSuccess()) {
                 DigiCareLogger.i(TAG, mAtosResponse.getCdlsErrorModel()
                         .getErrorMessage());
             } else if (mUtils.isSimAvailable(getActivity())) {
@@ -898,9 +935,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     private void showServiceCentreDetails(AtosResultsModel resultModel) {
 
-        /*
-            While tagging its recommended to remove commama"'" and remove pipe"|" which comes at last.
-         */
         String addressForTag = resultModel.getAddressModel().getAddress1();
         if (addressForTag.isEmpty() || addressForTag == null) {
             addressForTag = resultModel.getAddressModel().getAddress2();
@@ -969,6 +1003,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         if ((mSearchBox != null) && (mArabicSearchIcon != null) && (mSearchBox != null)) {
 
+
             if (getActivity().getResources().getConfiguration().locale.getLanguage().toString().contains("ar")) {
                 mSearchIcon.setVisibility(View.GONE);
                 mArabicSearchIcon.setVisibility(View.VISIBLE);
@@ -978,6 +1013,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 mArabicSearchIcon.setVisibility(View.GONE);
                 mSearchBox.setGravity(Gravity.LEFT);
             }
+
+            hideKeyboard();
         }
     }
 

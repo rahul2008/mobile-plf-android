@@ -13,13 +13,17 @@ import android.content.res.Configuration;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -51,6 +55,10 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        if (getActivity() != null) getActivity().getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+
         if (mView == null) {
             mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         }
@@ -76,12 +84,31 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        outState.putString("url", FAQ_PAGE_URL);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        initView();
+        if (savedInstanceState != null) {
+            FAQ_PAGE_URL = savedInstanceState.getString("url");
+        }
+        loadFaq();
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
+        initView();
+        loadFaq();
     }
 
     @Override
@@ -92,10 +119,6 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
         loadFaq();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        if (mView != null) ((WebView) mView.findViewById(R.id.webView)).saveState(outState);
-    }
 
     @Override
     public void onPause() {
@@ -107,6 +130,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     private void loadFaq() {
         if (FAQ_PAGE_URL == null) {
             mProgressBar.setVisibility(View.GONE);
+            mWebView.setVisibility(View.VISIBLE);
         } else {
             //DigiCareLogger.d("URLTest", getPhilipsProductPageUrl());
             DigiCareLogger.d(TAG, FAQ_PAGE_URL);
@@ -132,22 +156,27 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                 @Override
                 public void onProgressChanged(WebView view, int newProgress) {
                     super.onProgressChanged(view, newProgress);
-                    if (newProgress > 80) {
+                    if (newProgress > 95) {
                         mProgressBar.setVisibility(View.GONE);
+                        enableWebView();
                     }
                 }
             });
             mWebView.setWebViewClient(new WebViewClient() {
 
-                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                    DigiCareLogger.e("browser", description);
+                @Override
+                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                    super.onReceivedError(view, request, error);
+                    DigiCareLogger.e(TAG, "WebClient Response error : " + error);
                     mProgressBar.setVisibility(View.GONE);
+                    enableWebView();
                 }
 
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     DigiCareLogger.d(TAG, "OnPage Finished invoked with URL " + url);
                     mProgressBar.setVisibility(View.GONE);
+                    enableWebView();
 
                   /*  mWebView.getSettings().setDefaultFontSize((int) getActivity().getResources().
                             getDimension(R.dimen.title_text_size_small));*/
@@ -176,6 +205,11 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
         }
     }
 
+    private void enableWebView() {
+        if (mWebView != null)
+            if (mWebView.getVisibility() == View.INVISIBLE) mWebView.setVisibility(View.VISIBLE);
+    }
+
     private void setPaddingForWebdata() {
         if (mWebView == null) initView();
         // mWebView.loadUrl("javascript:document.body.style.setProperty(\"color\", \"#003478\");");
@@ -194,6 +228,7 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
 
     private void initView() {
         mWebView = (WebView) mView.findViewById(R.id.webView);
+        mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         mProgressBar = (ProgressBar) mView
                 .findViewById(R.id.common_webview_progress);
         mProgressBar.setVisibility(View.GONE);
@@ -246,12 +281,14 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
     private class myJavaScriptInterface {
         @JavascriptInterface
         public void setVisible() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mWebView.setVisibility(View.VISIBLE);
-                }
-            });
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mWebView != null) mWebView.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
         }
     }
 }

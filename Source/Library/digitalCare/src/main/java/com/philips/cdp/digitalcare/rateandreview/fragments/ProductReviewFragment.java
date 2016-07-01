@@ -9,14 +9,12 @@
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -27,13 +25,14 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.Utils;
 
 
 public class ProductReviewFragment extends DigitalCareBaseFragment {
 
     private static final String PRODUCT_REVIEW_URL = "https://%s%s/%s";
-    private View mView = null;
-    private WebView mWebView = null;
+    private View mProductReviewView = null;
+    private WebView mProductReviewWebView = null;
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
@@ -43,10 +42,10 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
+        if (mProductReviewView == null) {
+            mProductReviewView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         }
-        return mView;
+        return mProductReviewView;
     }
 
     @Override
@@ -76,37 +75,15 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             DigiCareLogger.d(TAG, getProductPageUri().toString());
-            mWebView.loadUrl(getProductPageUri().toString());
-            mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.getSettings().setDomStorageEnabled(true);
-            mWebView.getSettings().setBuiltInZoomControls(true);
-            mWebView.setWebViewClient(new WebViewClient() {
-
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    view.loadUrl(url);
-                    return true;
-                }
-
-                @Override
-                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                    super.onPageStarted(view, url, favicon);
-                    mProgressBar.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    super.onPageFinished(view, url);
-                    mProgressBar.setVisibility(View.GONE);
-                }
-
-            });
+            mProductReviewWebView.getSettings().setDomStorageEnabled(true);
+            mProductReviewWebView.getSettings().setBuiltInZoomControls(true);
+            Utils.loadWebPageContent(getProductPageUri().toString(), mProductReviewWebView, mProgressBar);
         }
     }
 
     private void initView() {
-        mWebView = (WebView) mView.findViewById(R.id.webView);
-        mProgressBar = (ProgressBar) mView
+        mProductReviewWebView = (WebView) mProductReviewView.findViewById(R.id.webView);
+        mProgressBar = (ProgressBar) mProductReviewView
                 .findViewById(R.id.common_webview_progress);
         mProgressBar.setVisibility(View.GONE);
     }
@@ -153,8 +130,8 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
     public void onDestroy() {
         super.onDestroy();
 
-        if (mWebView != null) {
-            mWebView = null;
+        if (mProductReviewWebView != null) {
+            mProductReviewWebView = null;
         }
     }
 

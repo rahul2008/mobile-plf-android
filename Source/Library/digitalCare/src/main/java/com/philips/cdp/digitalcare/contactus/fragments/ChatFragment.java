@@ -12,21 +12,11 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.InflateException;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.*;
 
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.analytics.*;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 

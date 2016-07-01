@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,7 +27,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
@@ -70,6 +74,26 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
+    }
+
+    protected void setWebSettingForWebview(String url, WebView webView, final ProgressBar progressBar) {
+        progressBar.setVisibility(View.VISIBLE);
+        webView.getSettings().setJavaScriptEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+            webView.getSettings().setAllowFileAccessFromFileURLs(true);
+            webView.getSettings().setDomStorageEnabled(true);
+        }
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                if (newProgress > 80) {
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
+        webView.loadUrl(url);
     }
 
     public abstract void setViewParams(Configuration config);
@@ -210,10 +234,18 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     protected void enableActionBarLeftArrow(ImageView hambergermenu, ImageView backarrow) {
-        DigiCareLogger.d(TAG, "BackArrow Enabled");
+        DigiCareLogger.d(TAG, "BackArrow icon Enabled");
         if (hambergermenu != null && backarrow != null) {
             backarrow.setVisibility(View.VISIBLE);
             backarrow.bringToFront();
+        }
+    }
+
+    protected void enableActionBarHamburgerIcon(ImageView hambergermenu, ImageView backarrow) {
+        DigiCareLogger.d(TAG, "Hamburger icon Enabled");
+        if (hambergermenu != null && backarrow != null) {
+            hambergermenu.setVisibility(View.VISIBLE);
+            hambergermenu.bringToFront();
         }
     }
 
@@ -287,9 +319,11 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                 .findViewById(R.id.back_to_home_img);
         mHomeIcon = (ImageView) mFragmentActivityContext
                 .findViewById(R.id.home_icon);
-        mHomeIcon.setVisibility(View.GONE);
-        mBackToHome.setVisibility(View.VISIBLE);
-        mBackToHome.bringToFront();
+        if (mHomeIcon != null) mHomeIcon.setVisibility(View.GONE);
+        if (mBackToHome != null) {
+            mBackToHome.setVisibility(View.VISIBLE);
+            mBackToHome.bringToFront();
+        }
     }
 
     /*
@@ -298,8 +332,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     protected String getAppName() {
         String appName = getActivity().getString(R.string.app_name);
         try {
-            ApplicationInfo appInfo = getActivity().getPackageManager().getApplicationInfo(getActivity().getPackageName(),
-                    getActivity().getPackageManager().GET_META_DATA);
+            int metaData = getActivity().getPackageManager().GET_META_DATA;
+            ApplicationInfo appInfo = getActivity().getPackageManager().getApplicationInfo
+                    (getActivity().getPackageName(),
+                            metaData);
             appName = appInfo.loadLabel(getActivity().getPackageManager()).toString();
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -457,8 +493,11 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
      */
     private void setActionbarTitle() {
         if (mContainerId == 0) {
-            ((DigitalCareFontTextView) getActivity().findViewById(
-                    R.id.action_bar_title)).setText(getActionbarTitle());
+            DigitalCareFontTextView actionBarTitle =
+
+                    ((DigitalCareFontTextView) getActivity().findViewById(
+                            R.id.action_bar_title));
+            actionBarTitle.setText(getActionbarTitle());
         } else {
             updateActionbar();
         }

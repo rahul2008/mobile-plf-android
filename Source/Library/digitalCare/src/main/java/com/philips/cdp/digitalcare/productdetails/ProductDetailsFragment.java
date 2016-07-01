@@ -24,7 +24,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -249,7 +248,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     public void onResponse(Bitmap bitmap) {
                         imageView.setImageBitmap(bitmap);
                     }
-                }, 0, 0, null,
+                }, 0, 0, null, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
                         imageView.setImageBitmap(addBlankThumbnail());
@@ -260,17 +259,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         imageRequestQueue.add(request);
     }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        DigiCareLogger.d(TAG, "onViewState Restored");
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        DigiCareLogger.d(TAG, "onViewStateSaved");
-    }
 
     private Bitmap addBlankThumbnail() {
         int height = 0;
@@ -433,6 +421,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
+
     /**
      * Create RelativeLayout at runTime. RelativeLayout will have button and
      * image together.
@@ -504,7 +493,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 //        button.setGravity(Gravity.START | Gravity.CENTER);
         button.setPadding((int) (20 * density), 0, 0, 0);
-        button.setTextAppearance(mActivity, R.style.fontButton);
+        if (Build.VERSION.SDK_INT < 23) {
+            button.setTextAppearance(getActivity(), R.style.fontButton);
+        } else {
+            button.setTextAppearance(R.style.fontButton);
+        }
         Typeface buttonTypeface = Typeface.createFromAsset(mActivity.getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         button.setTypeface(buttonTypeface);
         button.setGravity(Gravity.CENTER);
@@ -540,6 +533,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             String country = locale.getCountry();
             String language = locale.getLanguage();
             String mFilePath = mViewProductDetailsModel.getManualLink();
+            DigiCareLogger.d(TAG, "Manual name : "+ mFilePath);
 
             // creating the name of the manual. So that Same manual should not be downloaded again and again.
             String pdfName = mViewProductDetailsModel.getProductName() + language + '_' + country + ".pdf";
@@ -591,7 +585,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                                 mProductImage.setImageBitmap(bitmap);
                             }
                         }
-                    }, 0, 0, null,
+                    }, 0, 0, null, null,
                     new Response.ErrorListener() {
                         public void onErrorResponse(VolleyError error) {
                             // mProductImage.setImageResource(R.drawable.image_load_error);

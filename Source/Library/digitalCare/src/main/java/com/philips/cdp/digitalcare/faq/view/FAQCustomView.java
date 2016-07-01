@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.faq.fragments.FaqFragment;
 import com.philips.cdp.digitalcare.faq.listeners.FaqCallback;
@@ -35,15 +36,18 @@ import com.philips.cdp.prxclient.datamodels.support.RichText;
 import com.philips.cdp.prxclient.datamodels.support.RichTexts;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 
-public class FAQCustomView {
+public class FAQCustomView implements Serializable {
 
     private static final String TAG = FAQCustomView.class.getSimpleName();
     private final int COLLAPSE_ALL = 0;
@@ -348,26 +352,50 @@ public class FAQCustomView {
 
             for (RichText faq : richText) {
                 String questionCategory = null;
-                List<FaqQuestionModel> faqQuestionModelList = new ArrayList<FaqQuestionModel>();
+                List<FaqQuestionModel> engFaqQuestionModelList = new ArrayList<FaqQuestionModel>();
+                List<FaqQuestionModel> nonEngfaqQuestionModelList = new ArrayList<FaqQuestionModel>();
+
                 String supportType = faq.getType();
                 if (supportType.equalsIgnoreCase("FAQ")) {
                     Chapter chapter = faq.getChapter();
                     questionCategory = chapter.getName();
-                    DigiCareLogger.v(TAG, "Question Category : " + questionCategory);
                     if (questionCategory != null) {
                         List<Item> questionsList = faq.getItem();
+                        Hashtable<String, List<FaqQuestionModel>> fliterFaqDataWithlanguage =
+                                new Hashtable<String, List<FaqQuestionModel>>();
+
                         for (Item item : questionsList) {
                             FaqQuestionModel faqQuestionModel = new FaqQuestionModel();
                             String question = null;
                             String answer = null;
+                            String langCode = null;
                             question = item.getHead();
                             answer = item.getAsset();
+                            langCode = item.getLang();
                             faqQuestionModel.setQuestion(question);
-                            faqQuestionModel.setAnsmer(answer);
-                            faqQuestionModelList.add(faqQuestionModel);
+                            faqQuestionModel.setAnswer(answer);
+                            faqQuestionModel.setLanguageCode(langCode);
+                            if (langCode.equalsIgnoreCase("AEN") || langCode.equalsIgnoreCase("ENG"))
+                                engFaqQuestionModelList.add(faqQuestionModel);
+                            else
+                                nonEngfaqQuestionModelList.add(faqQuestionModel);
                         }
                     }
-                    map.put(questionCategory, faqQuestionModelList);
+
+                    Locale locale = DigitalCareConfigManager.getInstance().
+                            getLocaleMatchResponseWithCountryFallBack();
+                    String languageCode = locale.getLanguage();
+
+                    if (languageCode.equalsIgnoreCase("en")) {
+                        map.put(questionCategory, engFaqQuestionModelList);
+                    } else {
+
+                        if (nonEngfaqQuestionModelList.size() != 0) {
+                            map.put(questionCategory, nonEngfaqQuestionModelList);
+                        } else {
+                            map.put(questionCategory, engFaqQuestionModelList);
+                        }
+                    }
                 }
             }
             return map;

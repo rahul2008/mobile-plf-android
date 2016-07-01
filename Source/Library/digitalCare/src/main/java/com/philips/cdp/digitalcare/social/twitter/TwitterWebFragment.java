@@ -1,14 +1,12 @@
 package com.philips.cdp.digitalcare.social.twitter;
 
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -17,12 +15,13 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.util.Utils;
 
 public class TwitterWebFragment extends DigitalCareBaseFragment {
 
     private final String TAG = TwitterWebFragment.class.getSimpleName();
-    private View mView = null;
-    private WebView mWebView = null;
+    private View mTwitterScreenView = null;
+    private WebView mTwitterWebView = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     // private ProgressDialog mProgressDialog = null;
@@ -34,10 +33,10 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
                              Bundle savedInstanceState) {
 
         try {
-            mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
+            mTwitterScreenView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         } catch (InflateException e) {
         }
-        return mView;
+        return mTwitterScreenView;
     }
 
     @Override
@@ -45,40 +44,18 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         initView();
-        loadInAppFacebook();
+        loadInAppTwitter();
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
                 getPreviousName());
     }
 
-    private void loadInAppFacebook() {
-        mWebView.loadUrl(getTWITTTERURL());
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                mProgressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                mProgressBar.setVisibility(View.GONE);
-            }
-
-        });
+    private void loadInAppTwitter() {
+        Utils.loadWebPageContent(getTwitterUrl(), mTwitterWebView, mProgressBar);
     }
 
     private void initView() {
-        mWebView = (WebView) mView.findViewById(R.id.webView);
-        mProgressBar = (ProgressBar) mView
+        mTwitterWebView = (WebView) mTwitterScreenView.findViewById(R.id.webView);
+        mProgressBar = (ProgressBar) mTwitterScreenView
                 .findViewById(R.id.common_webview_progress);
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
@@ -86,20 +63,28 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
         mProgressBar.setVisibility(View.GONE);
     }
 
-    private String getTWITTTERURL() {
+    private String getTwitterUrl() {
         return TWITTTERURL
                 + getProductInformation();
     }
 
     protected String getProductInformation() {
+
+        String productname = DigitalCareConfigManager.getInstance()
+                .getViewProductDetailsData().getProductName();
+        productname = (productname == null) ? "" : productname;
+
+        String ctnName = DigitalCareConfigManager.getInstance()
+                .getViewProductDetailsData().getCtnName();
+        ctnName = (ctnName == null) ? "" : ctnName;
+
+
         return "@" + getActivity().getString(R.string.twitter_page) + " " + getActivity().getResources().getString(
                 R.string.support_productinformation)
                 + " "
-                + DigitalCareConfigManager.getInstance()
-                .getConsumerProductInfo().getProductTitle()
+                + productname
                 + " "
-                + DigitalCareConfigManager.getInstance()
-                .getConsumerProductInfo().getCtn();
+                + ctnName;
     }
 
 
@@ -123,18 +108,35 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
 
 
     @Override
-    public void onResume() {
-        super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
 
-        if (mWebView != null) {
-            mWebView = null;
+        if (mTwitterWebView != null) {
+            mTwitterWebView = null;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
+        initView();
+        loadInAppTwitter();
+    }
+
+
+    @Override
+    public void onPause() {
+        mTwitterWebView.loadUrl("about:blank");
+        clearWebViewData();
+        super.onPause();
+    }
+
+    private void clearWebViewData() {
+        mTwitterWebView.stopLoading();
+        mTwitterWebView.clearCache(true);
+        mTwitterWebView.clearHistory();
+        mTwitterWebView.clearFormData();
     }
 
 }

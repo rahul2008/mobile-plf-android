@@ -9,7 +9,7 @@
  *  Copyright (c) 2016 Philips. All rights reserved.
  */
 
-package com.philips.cdp.digitalcare;
+package com.philips.cdp.digitalcare.request;
 
 
 

@@ -4,12 +4,13 @@
  *
  * @author : Ritesh.jha@philips.com
  * @creation Date : 5 Dec 2014
- * <p/>
+ * <p>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
 package com.philips.cdp.digitalcare.homefragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -28,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
+import com.google.gson.Gson;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -41,7 +43,10 @@ import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.prx.PrxWrapper;
+import com.philips.cdp.digitalcare.prx.subcategorymodel.SubcategoryModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
+import com.philips.cdp.digitalcare.request.RequestData;
+import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
@@ -49,11 +54,13 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
+import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 
 import java.util.List;
+import java.util.Locale;
 
 
 public class SupportHomeFragment extends DigitalCareBaseFragment implements prxSummaryCallback {
@@ -61,6 +68,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
+    private static final String SUBCATEGORY_URL_PORT = "https://www.philips.com/prx/category/%s/%s/%s/%s.json";
     private static boolean isFirstTimeProductComponentlaunch = true;
     //  private boolean isfragmentFirstTimeVisited;
     private static boolean isPRXComponentChecked;
@@ -79,10 +87,47 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private View mProductFAQButton = null;
     private View mProductTellUsWhatYouThinkButton = null;
     private View mProductContactUsButton = null;
+    private View mPhilipsAccountButton = null;
     private ProductModelSelectionHelper mProductSelectionHelper = null;
     private PrxWrapper mPrxWrapper = null;
     private ConsumerProductInfo mProductInfo = null;
     private String mCtnFromPreference;
+    private ImageView mActionBarMenuIcon = null;
+    private ImageView mActionBarArrow = null;
+    private ProgressDialog mProgressDialog = null;
+    protected ResponseCallback cateGoryResponseCallbak = new ResponseCallback() {
+        @Override
+        public void onResponseReceived(String response) {
+
+            if (getActivity() != null) {
+
+                SubcategoryModel subcategoryModel = new Gson().fromJson(response,
+                        SubcategoryModel.class);
+                if (subcategoryModel != null && subcategoryModel.getSuccess()) {
+                    com.philips.cdp.digitalcare.prx.subcategorymodel.Data data =
+                            subcategoryModel.getData();
+                    if ((data != null) && (data.getParentCode() != null)) {
+                        DigitalCareConfigManager digitalCareConfigManager =
+                                DigitalCareConfigManager.getInstance();
+                        ConsumerProductInfo consumerProductInfo = digitalCareConfigManager.
+                                getConsumerProductInfo();
+                        consumerProductInfo.setCategory(data.getParentCode());
+                        digitalCareConfigManager.setConsumerProductInfo(consumerProductInfo);
+                    }
+                }
+
+                if (mProgressDialog != null && mProgressDialog.isShowing() &&
+                        !getActivity().isFinishing()) {
+                    try {
+                        mProgressDialog.cancel();
+                        mProgressDialog = null;
+                    } catch (IllegalArgumentException e) {
+                        DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+                    }
+                }
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -173,7 +218,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         return !(ctn != null && ctn != "");
     }
 
-
     private void enableSupportButtonClickable() {
         if (mProductViewProductButton != null && !mProductViewProductButton.isClickable())
             mProductViewProductButton.setClickable(true);
@@ -211,6 +255,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         mOptionParent = (LinearLayout) getActivity().findViewById(
                 R.id.optionParent);
         mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
+
+        if (getActivity() != null) {
+            mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+            mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        }
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
         ButtonMarginTop = (int) getActivity().getResources().getDimension(R.dimen.marginTopButtonLayout);
@@ -338,6 +388,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 mProductFAQButton.setVisibility(View.VISIBLE);
         }
 
+        if (buttonTitle.equals(getStringKey(R.string.myphilips_CC))) {
+            mPhilipsAccountButton = relativeLayout;
+        }
+
         if (buttonTitle.equals(getStringKey(R.string.find_philips_near_you))) {
             mProductLocatePhilipsButton = relativeLayout;
 
@@ -358,8 +412,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         return relativeLayout;
     }
 
-    private void setRelativeLayoutParams(RelativeLayout relativeLayout,
-                                         float density, String buttonTitle) {
+    protected void setRelativeLayoutParams(RelativeLayout relativeLayout,
+                                           float density, String buttonTitle) {
 
         LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
                 .getLayoutParams();
@@ -371,6 +425,28 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         }
         relativeLayout.setLayoutParams(param);
 
+    }
+
+    protected void setConfigurableButton() {
+        if ((mProductChangeButton == null) || (mProductChangeButton.getVisibility() == View.GONE)) {
+            if (mPhilipsAccountButton != null) {
+                LinearLayout.LayoutParams layoutParam = (LinearLayout.LayoutParams)
+                        mPhilipsAccountButton.getLayoutParams();
+                layoutParam.topMargin = RegisterButtonMarginTop;
+                mPhilipsAccountButton.setLayoutParams(layoutParam);
+                mPhilipsAccountButton
+                        .setBackgroundResource(R.drawable.consumercare_selector_option_prod_reg_button_bg);
+            }
+
+        } else {
+            if (mPhilipsAccountButton != null) {
+                LinearLayout.LayoutParams layoutParam = (LinearLayout.LayoutParams)
+                        mPhilipsAccountButton.getLayoutParams();
+                layoutParam.topMargin = ButtonMarginTop;
+                mPhilipsAccountButton.setLayoutParams(layoutParam);
+                mPhilipsAccountButton.setBackgroundResource(R.drawable.consumercare_selector_option_button_bg);
+            }
+        }
     }
 
     private void setImageParams(ImageView imageView, float density) {
@@ -498,13 +574,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         }
     }
 
-
     private void launchFaqScreen() {
+        PrxLogger.enablePrxLogger(true);
         mPrxWrapper = new PrxWrapper(getActivity(), new PrxFaqCallback() {
             @Override
             public void onResponseReceived(SupportModel supportModel) {
-                if (supportModel == null) showAlert(getString(R.string.NO_SUPPORT_KEY));
-                else {
+                if (supportModel == null && getActivity() != null) {
+                    showAlert(getString(R.string.NO_SUPPORT_KEY));
+                } else {
                     FaqFragment faqFragment = new FaqFragment();
                     faqFragment.setSupportModel(supportModel);
                     showFragment(faqFragment);
@@ -535,7 +612,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             public void onProductModelSelected(SummaryModel summaryModel) {
                 isSupportScreenLaunched = false;
                 if (summaryModel != null) {
-                    mProductChangeButton.setClickable(true);
+                    if (mProductChangeButton != null) mProductChangeButton.setClickable(true);
                     enableSupportButtonClickable();
                     updateSummaryData(summaryModel);
                 } else {
@@ -576,11 +653,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                         mProductChangeButton.setClickable(true);
                         enableSupportButtonClickable();
                         updateSummaryData(summaryModel);
+                        setConfigurableButton();
                     }
                 } else {
                     if (!getActivity().isFinishing()) showAlert(getString(R.string.NO_PRODUCT_KEY));
                     disablePrxDependentButtons();
                     enableSupportButtonClickable();
+                    setConfigurableButton();
                 }
             }
         });
@@ -602,8 +681,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             mProductViewProductButton.setVisibility(View.GONE);
 
         if (mProductChangeButton != null) {
-            mProductChangeButton.setVisibility(View.VISIBLE);
-            mProductChangeButton.setClickable(true);
+
+            if (!(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length < 2)) {
+                if (mProductChangeButton != null) {
+                    mProductChangeButton.setVisibility(View.VISIBLE);
+                    mProductChangeButton.setClickable(true);
+                }
+            }
         }
     }
 
@@ -628,40 +712,80 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
                 mPrxWrapper.executePrxAssetRequestWithSummaryData(productSummaryModel);
 */
-                Data summaryData = productSummaryModel.getData();
-                List<String> filterKeys = summaryData.getFilterKeys();
-                String productGroup = null;
-                String productCategory = null;
-                String productSubCategory = null;
-                for (String filterData : filterKeys) {
-                    if (filterData != null && filterData.endsWith("SU"))
-                        productSubCategory = filterData;
-
-                    if (filterData != null && filterData.endsWith("GR"))
-                        productGroup = filterData;
-
-                    if (filterData != null && filterData.endsWith("CA"))
-                        productCategory = filterData;
-                }
-
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryData.getCtn());
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategory(productSubCategory);
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCategory(productCategory);
-
-                ViewProductDetailsModel productDetailsModel = new ViewProductDetailsModel();
-                productDetailsModel.setProductName(summaryData.getProductTitle());
-                productDetailsModel.setCtnName(summaryData.getCtn());
-                productDetailsModel.setProductImage(summaryData.getImageURL());
-                productDetailsModel.setProductInfoLink(summaryData.getProductURL());
-                DigitalCareConfigManager.getInstance().setViewProductDetailsData(productDetailsModel);
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());
-                editor.apply();
+                setDataToModels(productSummaryModel);
+                executeSubcategoryRequest();
             }
         }
+    }
+
+    private void setDataToModels(SummaryModel productSummaryModel) {
+        Data summaryData = productSummaryModel.getData();
+        List<String> filterKeys = summaryData.getFilterKeys();
+        String productGroup = null;
+        String productCategory = null;
+        String productSubCategoryKey = null;
+        for (String filterData : filterKeys) {
+
+            if (filterData != null && filterData.endsWith("GR"))
+                productGroup = filterData;
+
+            if (filterData != null && filterData.endsWith("CA"))
+                productCategory = filterData;
+        }
+        if (summaryData.getSubcategory() != null)
+            productSubCategoryKey = summaryData.getSubcategory();
+
+        DigiCareLogger.d(TAG, "************ Subcategory Key : " + productSubCategoryKey);
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryData.getCtn());
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategory(productSubCategoryKey);
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
+        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
+
+        ViewProductDetailsModel productDetailsModel = new ViewProductDetailsModel();
+        productDetailsModel.setProductName(summaryData.getProductTitle());
+        productDetailsModel.setCtnName(summaryData.getCtn());
+        productDetailsModel.setProductImage(summaryData.getImageURL());
+        productDetailsModel.setProductInfoLink(summaryData.getProductURL());
+        DigitalCareConfigManager.getInstance().setViewProductDetailsData(productDetailsModel);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());
+        editor.apply();
+    }
+
+    protected void executeSubcategoryRequest() {
+
+        if (getActivity() != null) {
+            String subCategoryUrl = getSubCategoryURL();
+            DigiCareLogger.d(TAG, "******** Sub Category URL : " + subCategoryUrl);
+
+            RequestData subCategoryRequest = new RequestData();
+
+            subCategoryRequest.setRequestUrl(subCategoryUrl);
+            subCategoryRequest.setResponseCallback(cateGoryResponseCallbak);
+
+            if (mProgressDialog == null) mProgressDialog = new ProgressDialog
+                    (getActivity(), R.style.loaderTheme);
+            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+            mProgressDialog.setCancelable(false);
+            if (!(getActivity().isFinishing())) {
+                mProgressDialog.show();
+            }
+            subCategoryRequest.execute();
+        }
+    }
+
+
+    protected String getSubCategoryURL() {
+        DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
+        ConsumerProductInfo consumerProductInfo = digitalCareConfigManager.getConsumerProductInfo();
+
+        String sector = consumerProductInfo.getSector();
+        String catalog = consumerProductInfo.getCatalog();
+        String subCategory = consumerProductInfo.getSubCategory();
+        Locale locale = digitalCareConfigManager.getLocaleMatchResponseWithCountryFallBack();
+
+        return String.format(SUBCATEGORY_URL_PORT, sector, locale.toString(), catalog, subCategory);
     }
 
 
@@ -687,12 +811,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             }
         } catch (IllegalStateException ie) {
             DigiCareLogger.e(TAG, "Exception while generating SupportScreenButton : " + ie);
+        } finally {
+            setConfigurableButton();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        enableActionBarHamburgerIcon(mActionBarMenuIcon, mActionBarArrow);
         enableSupportButtonClickable();
         if (mProductViewProductButton != null) {
             if (!mProductChangeButton.isClickable())
@@ -726,39 +853,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 if (mProductViewProductButton != null)
                     mProductViewProductButton.setVisibility(View.VISIBLE);
 
-
-                Data summaryData = productSummaryModel.getData();
-                List<String> filterKeys = summaryData.getFilterKeys();
-                String productGroup = null;
-                String productCategory = null;
-                String productSubCategory = null;
-                for (String filterData : filterKeys) {
-                    if (filterData != null && filterData.endsWith("SU"))
-                        productSubCategory = filterData;
-
-                    if (filterData != null && filterData.endsWith("GR"))
-                        productGroup = filterData;
-
-                    if (filterData != null && filterData.endsWith("CA"))
-                        productCategory = filterData;
-                }
-
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryData.getCtn());
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategory(productSubCategory);
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCategory(productCategory);
-
-                ViewProductDetailsModel productDetailsModel = new ViewProductDetailsModel();
-                productDetailsModel.setProductName(summaryData.getProductTitle());
-                productDetailsModel.setCtnName(summaryData.getCtn());
-                productDetailsModel.setProductImage(summaryData.getImageURL());
-                productDetailsModel.setProductInfoLink(summaryData.getProductURL());
-                DigitalCareConfigManager.getInstance().setViewProductDetailsData(productDetailsModel);
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());
-                editor.apply();
+                setDataToModels(productSummaryModel);
+                executeSubcategoryRequest();
             } finally {
                 DigiCareLogger.v(TAG, "Menu is creating in NonNull Summary");
                 createMainMenu();
@@ -775,6 +871,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
          */
 //        getActivity().finish();
     }
+
 
     private Drawable getDrawable(int resId) {
         return getResources().getDrawable(resId);
