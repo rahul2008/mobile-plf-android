@@ -98,7 +98,6 @@ task zipDocuments(type: Zip) {
 dependencies {
     compile(group:'adobeMobileLibrary', name:'adobeMobileLibrary', version:'4.5.1')
     compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.0.0', ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.0.0-rc.4', ext: 'aar')
 }
 
 android {
