@@ -149,7 +149,7 @@ android {
         }
 
         debug {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             debuggable true
             testCoverageEnabled true
