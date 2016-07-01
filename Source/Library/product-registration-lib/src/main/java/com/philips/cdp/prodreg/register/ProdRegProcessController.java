@@ -29,7 +29,8 @@ public class ProdRegProcessController {
     public interface ProcessControllerCallBacks {
         void dismissLoadingDialog();
         void exitProductRegistration();
-        void showLoadingDialog();
+
+        void showLoadingDialog(String message);
         void showFragment(Fragment fragment);
         void showAlertOnError(int responseCode);
     }

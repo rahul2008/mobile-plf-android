@@ -12,6 +12,7 @@ import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
+import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
 
 /**
@@ -106,9 +107,12 @@ public class ProdRegRegistrationController {
 
     public void registerProduct(final String date, final String serialNumber) {
         final boolean validDate = isValidDate(date);
-        final boolean validSerialNumber = isValidSerialNumber(serialNumber);
+        boolean validSerialNumber = true;
+        if (productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true")) {
+            validSerialNumber = isValidSerialNumber(serialNumber);
+        }
         if (validDate && validSerialNumber) {
-            registerControllerCallBacks.showLoadingDialog();
+            registerControllerCallBacks.showLoadingDialog(fragmentActivity.getString(R.string.prod_reg_registering_product));
             registeredProduct.setPurchaseDate(date);
             registeredProduct.setSerialNumber(serialNumber);
             ProdRegHelper prodRegHelper = new ProdRegHelper();

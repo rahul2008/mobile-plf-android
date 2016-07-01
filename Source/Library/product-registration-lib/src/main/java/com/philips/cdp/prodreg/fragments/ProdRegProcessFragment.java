@@ -2,13 +2,10 @@ package com.philips.cdp.prodreg.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.prodreg.ProdRegConstants;
-import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.register.ProdRegProcessController;
 import com.philips.cdp.product_registration_lib.R;
@@ -33,7 +30,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         setRetainInstance(true);
         prodRegProcessController = new ProdRegProcessController(this, getActivity());
         if (savedInstanceState == null) {
-            showLoadingDialog();
+            showLoadingDialog(getString(R.string.PPR_Looking_For_Products_Lbltxt));
         } else {
             prodRegProcessController.setLaunchedRegistration(savedInstanceState.getBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, false));
         }
@@ -52,29 +49,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         outState.putBoolean(ProdRegConstants.PROGRESS_STATE, prodRegProcessController.isApiCallingProgress());
         outState.putBoolean(ProdRegConstants.IS_SIGN_IN_CALLED, prodRegProcessController.isLaunchedRegistration());
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void showLoadingDialog() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.commitAllowingStateLoss();
-        DialogFragment newFragment = ProdRegLoadingFragment.newInstance(getString(R.string.PPR_Looking_For_Products_Lbltxt));
-        newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
-    }
-
-    @Override
-    public void dismissLoadingDialog() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
-            if (prev instanceof DialogFragment) {
-                ((DialogFragment) prev).dismissAllowingStateLoss();
-            }
-        }
     }
 
     @Override

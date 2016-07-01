@@ -2,6 +2,7 @@ package com.philips.cdp.prodreg.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.alert.ProdRegErrorAlertFragment;
+import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegErrorMap;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
@@ -194,6 +196,28 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
         }
         return false;
     }
+
+    public void showLoadingDialog(String message) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.commitAllowingStateLoss();
+        DialogFragment newFragment = ProdRegLoadingFragment.newInstance(message);
+        newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+    }
+
+    public void dismissLoadingDialog() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
+            if (prev instanceof DialogFragment) {
+                ((DialogFragment) prev).dismissAllowingStateLoss();
+            }
+        }
+    }
+
 
     @Override
     public boolean onBackPressed() {
