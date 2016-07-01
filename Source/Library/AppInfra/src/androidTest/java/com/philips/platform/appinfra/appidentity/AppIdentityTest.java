@@ -4,27 +4,26 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
-import com.philips.platform.appinfra.securestorage.SecureStorage;
-import com.philips.platform.appinfra.securestorage.SecureStorageError;
 
 /**
  * Created by 310238114 on 6/22/2016.
  */
 public class AppIdentityTest extends MockitoTestCase {
 
-    AppIdentityManager mAppIdentityManager=null;
+    AppIdentityInterface mAppIdentityManager=null;
     // Context context = Mockito.mock(Context.class);
 
     private Context context;
+    AppInfra mAppInfra;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         context = getInstrumentation().getContext();
         assertNotNull(context);
-        AppInfra mAppInfra = new AppInfra(context);
+        mAppInfra =  new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
-        mAppIdentityManager = new AppIdentityManager(mAppInfra);
+        mAppIdentityManager = mAppInfra.getAppIdentity();
         assertNotNull(mAppIdentityManager);
     }
     public void testHappyPath()throws Exception {

@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
  */
 
 public class SecureStorageTest extends MockitoTestCase {
-    SecureStorage mSecureStorage=null;
+    SecureStorageInterface mSecureStorage=null;
    // Context context = Mockito.mock(Context.class);
 
     private Context context;
@@ -34,8 +34,8 @@ public class SecureStorageTest extends MockitoTestCase {
 //        MockitoAnnotations.initMocks(this);
         context = getInstrumentation().getContext();
         assertNotNull(context);
-        mAppInfra = new AppInfra(context);
-        mSecureStorage = new SecureStorage(mAppInfra);
+        mAppInfra =  new AppInfra.Builder().build(context);
+        mSecureStorage = mAppInfra.getSecureStorage();
         assertNotNull(mSecureStorage);
 
 

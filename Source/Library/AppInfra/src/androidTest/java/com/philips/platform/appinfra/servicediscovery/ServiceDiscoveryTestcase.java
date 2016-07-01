@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
-import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 
 import java.net.URL;
 
@@ -13,7 +12,8 @@ import java.net.URL;
  */
 public class ServiceDiscoveryTestcase extends MockitoTestCase{
 
-    ServiceDiscoveryManager mServiceDiscoveryManager=null;
+    ServiceDiscoveryInterface mServiceDiscoveryManager=null;
+    AppInfra mAppInfra;
     // Context context = Mockito.mock(Context.class);
 
     private Context context;
@@ -23,9 +23,9 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase{
         super.setUp();
         context = getInstrumentation().getContext();
         assertNotNull(context);
-        AppInfra mAppInfra = new AppInfra(context);
+        mAppInfra =  new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
-        mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
+        mServiceDiscoveryManager = mAppInfra.getServiceDiscoveryInterface();
         assertNotNull(mServiceDiscoveryManager);
     }
     public void testgetServiceUrlWithLanguagePreference()throws Exception{
