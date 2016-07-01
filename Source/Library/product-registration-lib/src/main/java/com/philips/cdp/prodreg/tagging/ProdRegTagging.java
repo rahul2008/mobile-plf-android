@@ -21,23 +21,23 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TaggingSupport {
+public class ProdRegTagging {
 
-    private static TaggingSupport taggingSupport;
+    private static ProdRegTagging prodRegTagging;
     private static AIAppTaggingInterface aiAppTaggingInterface;
     private static Context context;
 
-    private TaggingSupport() {
+    private ProdRegTagging() {
     }
 
-    public static TaggingSupport getInstance(Context context) {
-        if (taggingSupport == null) {
-            TaggingSupport.context = context;
-            taggingSupport = new TaggingSupport();
+    public static ProdRegTagging getInstance(Context context) {
+        if (prodRegTagging == null) {
+            ProdRegTagging.context = context;
+            prodRegTagging = new ProdRegTagging();
             aiAppTaggingInterface = new AppInfra.Builder().build(context).getTagging();
             aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
         }
-        return taggingSupport;
+        return prodRegTagging;
     }
 
     private static String getCurrency() {

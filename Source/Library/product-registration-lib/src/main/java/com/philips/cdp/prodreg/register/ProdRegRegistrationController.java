@@ -11,6 +11,7 @@ import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
+import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.registration.User;
 
@@ -108,6 +109,7 @@ public class ProdRegRegistrationController {
         final boolean validDate = isValidDate(date);
         final boolean validSerialNumber = isValidSerialNumber(serialNumber);
         if (validDate && validSerialNumber) {
+            ProdRegTagging.getInstance(fragmentActivity).trackActionWithCommonGoals("sendData", "specialEvents", "extendWarrantyOptin");
             registerControllerCallBacks.showLoadingDialog();
             registeredProduct.setPurchaseDate(date);
             registeredProduct.setSerialNumber(serialNumber);
@@ -124,7 +126,11 @@ public class ProdRegRegistrationController {
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     registerControllerCallBacks.dismissLoadingDialog();
-                    registerControllerCallBacks.showFragment(new ProdRegSuccessFragment());
+                    final ProdRegSuccessFragment fragment = new ProdRegSuccessFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
+                    fragment.setArguments(bundle);
+                    registerControllerCallBacks.showFragment(fragment);
                 }
             }
 

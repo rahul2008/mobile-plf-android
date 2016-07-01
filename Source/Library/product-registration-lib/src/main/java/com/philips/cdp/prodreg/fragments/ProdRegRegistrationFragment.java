@@ -28,6 +28,7 @@ import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.customviews.InlineForms;
@@ -166,6 +167,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     private void showErrorMessageDate(final EditText editTextView) {
         purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_DATE.getCode()).getDescription());
+        ProdRegTagging.getInstance(getActivity()).trackActionWithCommonGoals("sendData", "specialEvents", "purchaseDateRequired");
         purchaseDateLayout.showError(editTextView);
     }
 

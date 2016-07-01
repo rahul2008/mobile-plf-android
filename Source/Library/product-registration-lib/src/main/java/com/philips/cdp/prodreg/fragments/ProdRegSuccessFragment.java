@@ -1,12 +1,16 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.philips.cdp.prodreg.ProdRegConstants;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
 
 /**
@@ -25,6 +29,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_registere_success, container, false);
+        ProdRegTagging.getInstance(getActivity()).trackActionWithCommonGoals("sendData", "specialEvents", "successProductRegistration");
         Button button = (Button) view.findViewById(R.id.continueButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,6 +38,17 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        final Bundle arguments = getArguments();
+        if (arguments != null) {
+            RegisteredProduct registeredProduct = (RegisteredProduct) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
+            if (registeredProduct != null)
+                ProdRegTagging.getInstance(getActivity()).trackPageWithCommonGoals("ProdRegSuccessScreen", "productModel", registeredProduct.getCtn());
+        }
     }
 
     @Override
