@@ -56,13 +56,14 @@ public class GetAddressRequestTest {
 
     @Test
     public void parseResponseShouldBeOfGetShippingAddress() {
-        String validAddress = TestUtils.readFile(GetAddressRequestTest.class, "one_Addresses.txt");
+        String validAddress = TestUtils.readFile(GetAddressRequestTest.class,
+                "Addresses.txt");
         Object response = mModel.parseResponse(validAddress);
         assertEquals(response.getClass(), GetShippingAddressData.class);
     }
 
     @Test
-    public void matchAddressDetailURL() {
+    public void isValidUrl() {
         assertEquals(NetworkURLConstants.ADDRESS_DETAILS_URL, mModel.getUrl());
     }
 }
