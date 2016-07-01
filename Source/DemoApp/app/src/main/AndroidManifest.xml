@@ -87,10 +87,12 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-
-
-
-
+        <activity
+            android:name="com.philips.platform.appinfra.demo.TimeSyncDemo"
+            android:label="LocalMainDemo"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
     </application>
 

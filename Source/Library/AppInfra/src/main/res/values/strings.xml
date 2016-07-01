@@ -1,4 +1,12 @@
 <resources>
     <string name="library_name">AppInfraLib</string>
     <string name="localized_commercial_app_name">AppInfra</string>
+
+    <string-array name="server_pool">
+        <item>0.pool.ntp.org</item>
+        <item>1.pool.ntp.org</item>
+        <item>2.pool.ntp.org</item>
+        <item>3.pool.ntp.org</item>
+    </string-array>
+
 </resources>

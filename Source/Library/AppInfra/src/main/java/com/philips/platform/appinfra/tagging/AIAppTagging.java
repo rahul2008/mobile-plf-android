@@ -72,7 +72,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
     }
 
-    public static void init(Locale locale, Context context,String appName){
+    public void init(Locale locale, Context context,String appName){
         mlocale = locale;
         mcontext = context;
         prevPage = appName;
@@ -88,18 +88,18 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
 
 
-    public static void setDebuggable(final boolean enable){
+    public void setDebuggable(final boolean enable){
         Config.setDebugLogging(enable);
     }
 
 
-    public static void getPrivacyStatus(){
+    public void getPrivacyStatus(){
         Config.getPrivacyStatus();
     }
 
 
 
-    private static Map<String, Object> addAnalyticsDataObject() {
+    private Map<String, Object> addAnalyticsDataObject() {
         Map<String, Object> contextData = new HashMap<String, Object>();
 
         contextData.put(AIAppTaggingConstants.LANGUAGE_KEY, getLanguage());
@@ -123,7 +123,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
         return contextData;
     }
-    private static String getAppsId(){
+    private String getAppsId(){
         if(mAppsIdkey == null){
             mAppsIdkey= Analytics.getTrackingIdentifier();
         }
@@ -131,21 +131,21 @@ public class AIAppTagging implements AIAppTaggingInterface {
         return mAppsIdkey;
     }
 
-    private static void setNewKey(String newFieldkey) {
+    private void setNewKey(String newFieldkey) {
         AIAppTagging.newFieldKey = newFieldkey;
 
     }
-    private static void setNewValue(String newFieldvalue) {
+    private void setNewValue(String newFieldvalue) {
         AIAppTagging.newFieldValue = newFieldvalue;
     }
-    private static String getNewKey(){
+    private String getNewKey(){
         return newFieldKey;
     }
-    private static String getNewValue(){
+    private String getNewValue(){
         return newFieldValue;
     }
 
-    private static String getLanguage(){
+    private String getLanguage(){
         if(mLanguage == null){
             mLanguage = mlocale.getLanguage();
         }
@@ -153,12 +153,18 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
     }
 
-    private static String getUTCTimestamp() {
+    private String getUTCTimestamp() {
 
         if(mLocalTimestamp == null){
             DateFormat df = DateFormat.getTimeInstance();
             df.setTimeZone(TimeZone.getTimeZone("gmt"));
             String utcTime = df.format(new Date());
+            String UTCtime = null;
+//        if(mAppInfra != null){
+//            UTCtime = new AppInfra.Builder().build(mcontext).getTimeSync().getUTCTime();
+//
+//        }
+
             mLocalTimestamp = utcTime;
         }
 
@@ -299,7 +305,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
      * Track page with info with multiple key value.
      *
      * @param pageName  the page name
-     * @param paramDict the param dict
+     * @param paramMap the param dict
      */
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
@@ -340,7 +346,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
      * Track action with info with multiple key value.
      *
      * @param pageName  the page name
-     * @param paramDict the param dict
+     * @param paramMap the param dict
      */
     @Override
     public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {

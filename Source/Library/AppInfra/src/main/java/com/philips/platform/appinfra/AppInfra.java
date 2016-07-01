@@ -19,6 +19,8 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 import com.philips.platform.appinfra.tagging.AIAppTagging;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+import com.philips.platform.appinfra.timesync.TimeSyncInterface;
+import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 /**
  * Created by 310238114 on 5/5/2016.
@@ -34,6 +36,7 @@ public class AppInfra {
     private AppIdentityInterface appIdentity;
     private LocalInterface local;
     private ServiceDiscoveryInterface mServiceDiscoveryInterface;
+    private TimeSyncInterface mTimeSyncInterface;
 
 
     /**
@@ -53,6 +56,7 @@ public class AppInfra {
         private AppIdentityInterface appIdentity;
         private LocalInterface local;
         private ServiceDiscoveryInterface mServiceDiscoveryInterface;
+        private TimeSyncInterface mTimeSyncInterface;
 
         /**
          * Instantiates a new Builder.
@@ -65,6 +69,7 @@ public class AppInfra {
             appIdentity = null;
             local = null;
             mServiceDiscoveryInterface = null;
+            mTimeSyncInterface = null;
         }
 
 
@@ -117,11 +122,18 @@ public class AppInfra {
             ai.setTagging(tagging == null ? new AIAppTagging(ai) : tagging);
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
             ai.setLocal(local == null ? new LocalManager(ai) : local);
+            ai.setTimeSync(mTimeSyncInterface == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterface);
             ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
             return ai;
         }
     }
+    public TimeSyncInterface getTimeSync() {
+        return mTimeSyncInterface;
+    }
 
+    public void setTimeSync(TimeSyncInterface mTimeSyncInterface) {
+        this.mTimeSyncInterface = mTimeSyncInterface;
+    }
 
     /**
      * Gets app infra context.

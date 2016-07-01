@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
@@ -43,6 +44,7 @@ public class AIATDemoPage extends AppCompatActivity {
             public void onClick(View v)
             {  if(null==key.getText().toString() || key.getText().toString().isEmpty() || null==value.getText().toString() || value.getText().toString().isEmpty()){
                 // invalid key value
+                Toast.makeText(AIATDemoPage.this,"Please enter any Key value pair", Toast.LENGTH_SHORT).show();
 
             }else {
                 if (key.getText().toString().contains(",")) { // if multiple keys passed
@@ -56,16 +58,9 @@ public class AIATDemoPage extends AppCompatActivity {
                         }
                         AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
                     }
-                }else { // if single key present
+                }else {
                     AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());
                 }
-//                AIAppTaggingWrapper.setTrackingIdentifier(""+value.getText().toString());
-//                AIAppTaggingWrapper.setLaunchingPageName("demoapp:AIAppTagging");
-//                AIAppTaggingWrapper.setComponentVersionKey(""+key.getText().toString());
-//                AIAppTaggingWrapper.setComponentVersionVersionValue("FrameworkTaggingValue");
-
-//                AIAppTaggingWrapper.trackPage("DemoTaggingPAge", ""+key.getText().toString(), ""+value.getText().toString());
-//                AIAppTaggingWrapper.trackAction("ButtonClick","Key", null );
             }
 
             }
@@ -74,7 +69,6 @@ public class AIATDemoPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage",key.getText().toString(), value.getText().toString());
-//               AIAppTaggingWrapper.trackAction("ButtonClick","Key", null );
 
             }
         });
@@ -82,25 +76,18 @@ public class AIATDemoPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AppInfraApplication.mAIAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
-
-//                AIAppTaggingWrapper.setPrivacyStatus(AIAppTaggingWrapper.AIATMobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN);
-
             }
         });
         TaggOptOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AppInfraApplication.mAIAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTOUT);
-
-//                AIAppTaggingWrapper.setPrivacyStatus(AIAppTaggingWrapper.AIATMobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT);
             }
         });
         TaggUnknownBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AppInfraApplication.mAIAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.UNKNOWN);
-
-//                AIAppTaggingWrapper.setPrivacyStatus(AIAppTaggingWrapper.AIATMobilePrivacyStatus.MOBILE_PRIVACY_STATUS_UNKNOWN);
             }
         });
 
@@ -109,12 +96,10 @@ public class AIATDemoPage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        AIAppTaggingWrapper.collectLifecycleData();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        AIAppTaggingWrapper.pauseCollectingLifecycleData();
     }
 }
