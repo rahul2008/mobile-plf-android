@@ -16,7 +16,7 @@
         android:supportsRtl="true"
        android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground">
 
-        <activity android:name="com.philips.platform.appframework.splash.SplashActivity"
+        <activity android:name=".splash.SplashActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,11 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.philips.platform.appframework.introscreen.IntroductionScreenActivity"
+        <activity android:name=".introscreen.IntroductionScreenActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
-        <activity android:name="com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity"
+        <activity android:name=".userregistrationscreen.UserRegistrationActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
-        <activity android:name="com.philips.platform.appframework.homescreen.HomeActivity"
+        <activity android:name=".homescreen.HomeActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <!--<receiver-->
             <!--android:name="NetworkReceiver"-->

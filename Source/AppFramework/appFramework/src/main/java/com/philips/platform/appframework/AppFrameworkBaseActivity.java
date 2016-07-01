@@ -14,12 +14,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
 
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.Logger;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.cdp.appframework.R;
+import com.philips.platform.appframework.R;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
@@ -89,7 +88,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
             finish();
         } else {
             fragmentManager.popBackStack();
-            removeCurrentFragment();
+            //removeCurrentFragment();
         }
         return true;
     }

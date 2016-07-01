@@ -76,7 +76,7 @@ public class ConsumerCareLauncher implements MainMenuListener,
             initializeDigitalCareLibrary();
 
             FragmentLauncher fragLauncher = new FragmentLauncher(
-                    mContext, Constants.MAIN_ACTIVITY_CONTAINER, actionBarClickListener);
+                    mContext, R.id.frame_container, actionBarClickListener);
             fragLauncher.setAnimation(0, 0);
             DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
         }
