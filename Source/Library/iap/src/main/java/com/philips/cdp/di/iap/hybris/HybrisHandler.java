@@ -35,6 +35,8 @@ public class HybrisHandler implements IAPExposedAPI {
     private String mLanguage;
     private String mCountry;
     private IAPSettings mIAPSettings;
+    private final int CURRENT_PAGE = 0;
+    private final int PAGE_SIZE = 1;
 
     public HybrisHandler(Context context, IAPSettings settings) {
         mContext = context;
@@ -106,7 +108,7 @@ public class HybrisHandler implements IAPExposedAPI {
             public void onSuccess(ArrayList<String> productList) {
                 updateSuccessListener(productList, iapHandlerListener);
             }
-        });
+        },CURRENT_PAGE,PAGE_SIZE);
     }
 
     private boolean isStoreInitialized() {

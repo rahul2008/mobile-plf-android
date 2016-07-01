@@ -42,7 +42,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     }
 
     @Override
-    public boolean getProductCatalog() {
+    public boolean getProductCatalog(int currentPage,int pageSize) {
         //return loadFromLocal();
         if (IAPHandler.mProductCTNs != null) {
             mProductCatalogHelper.makePrxCall(IAPHandler.mProductCTNs, null, isLocalData);

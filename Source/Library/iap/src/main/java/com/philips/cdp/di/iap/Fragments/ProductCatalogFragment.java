@@ -27,6 +27,7 @@ import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogAdapter;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
+import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -43,6 +44,14 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     private ShoppingCartAPI mShoppingCartAPI;
     private RecyclerView mRecyclerView;
     private TextView mEmptyCatalogText;
+    private int mTotalResults = 0;
+    private int mPageSize = 5;
+    private int mCurrentPage = 0;
+    private int mRemainingProducts = 0;
+    private boolean mIsLoading = false;
+    private int mTotalPages = -1;
+    ProductCatalogAPI mPresenter;
+    ArrayList<ProductCatalogData> mProductCatalog;
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -67,8 +76,10 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = ControllerFactory.getInstance()
+                .getProductCatalogPresenter(getContext(), this, getFragmentManager());
         mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>());
-        loadProducts();
+        loadProductCatalog();
     }
 
     @Override
@@ -82,16 +93,8 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mRecyclerView.setLayoutManager(layoutManager);
         mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(mRecyclerViewOnScrollListener);
         return rootView;
-    }
-
-    private void loadProducts() {
-        ProductCatalogAPI presenter = ControllerFactory.getInstance()
-                .getProductCatalogPresenter(getContext(), this, getFragmentManager());
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-        }
-        presenter.getProductCatalog();
     }
 
     @Override
@@ -104,7 +107,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
         }
         mAdapter.tagProducts();
-//        }
     }
 
     @Override
@@ -148,13 +150,92 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         return false;
     }
 
+    private RecyclerView.OnScrollListener
+            mRecyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView,
+                                         int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            LinearLayoutManager lay = (LinearLayoutManager) mRecyclerView
+                    .getLayoutManager();
+
+            int visibleItemCount = lay.getChildCount();
+            int firstVisibleItemPosition = lay.findFirstVisibleItemPosition();
+
+            if (!mIsLoading) {
+                //if scrolled beyond page size and we have more items to load
+                if ((visibleItemCount + firstVisibleItemPosition) >= lay.getItemCount()
+                        && firstVisibleItemPosition >= 0
+                        && mRemainingProducts > mPageSize) {
+                    mIsLoading = true;
+                    IAPLog.d(TAG, "visibleItem " + visibleItemCount + ", firstvisibleItemPistion " + firstVisibleItemPosition + "itemCount " + lay.getItemCount());
+                    loadMoreItems();
+                }
+            }
+        }
+    };
+
+    private void loadProductCatalog() {
+        if (!Utility.isProgressDialogShowing()) {
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+        }
+        mPresenter.getProductCatalog(mCurrentPage++, mPageSize);
+    }
+
+    private void loadMoreItems() {
+        if (mCurrentPage == mTotalPages) {
+            if (Utility.isProgressDialogShowing())
+                Utility.dismissProgressDialog();
+            return;
+        }
+
+        if (!Utility.isProgressDialogShowing()) {
+            IAPLog.i(TAG, "Loading Page = " + mCurrentPage + "Total Results = " + mTotalResults + "Size of Array = " + mProductCatalog.size());
+            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+        }
+
+        if (mPresenter == null)
+            mPresenter = ControllerFactory.getInstance().getProductCatalogPresenter(getContext(), this, getFragmentManager());
+        mPresenter.getProductCatalog(++mCurrentPage, mPageSize);
+    }
+
     @Override
-    public void onLoadFinished(final ArrayList<ProductCatalogData> data) {
-        mAdapter = new ProductCatalogAdapter(getContext(), data);
+    public void onLoadFinished(final ArrayList<ProductCatalogData> dataFetched, PaginationEntity paginationEntity) {
+        updateProductCatalogList(dataFetched);
+
+        mAdapter = new ProductCatalogAdapter(getContext(), mProductCatalog);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.tagProducts();
+
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
+
+        if(paginationEntity == null)
+            return;
+
+        if (mTotalResults == 0)
+            mRemainingProducts = paginationEntity.getTotalResults();
+
+        mTotalResults = paginationEntity.getTotalResults();
+        mPageSize = paginationEntity.getPageSize();
+        mCurrentPage = paginationEntity.getCurrentPage();
+        mTotalPages = paginationEntity.getTotalPages();
+        mIsLoading = false;
+    }
+
+    private void updateProductCatalogList(final ArrayList<ProductCatalogData> dataFetched) {
+        if(mProductCatalog==null){
+            mProductCatalog = new ArrayList<>();
+        }
+        for (ProductCatalogData data : dataFetched) {
+            if (!mProductCatalog.contains(data))
+                mProductCatalog.add(data);
+        }
     }
 
     @Override

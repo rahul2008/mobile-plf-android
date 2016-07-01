@@ -48,7 +48,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private static final String SUFFIX_DELIVERY_ADDRESS = "/addresses/delivery";
 
     private static final String SUFFIX_PLACE_ORDER = "/orders";
-    private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + "&lang=en";
+    private static final String SUFFIX_PPRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign" + "&lang=en"+"&currentPage=%s&pageSize=%s";
     private static final String SUFFIX_REFRESH_OAUTH = "/oauth/token";
 
     private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1/";
@@ -244,8 +244,8 @@ public class HybrisStore extends AbstractStoreSpec {
     }
 
     @Override
-    public String getProductCatalogUrl() {
-        return mGetProductCatalogUrl;
+    public String getProductCatalogUrl(int currentPage, int pageSize) {
+        return String.format(mGetProductCatalogUrl, currentPage, pageSize);
     }
 
     @Override

@@ -40,4 +40,5 @@ public class ModelConstants {
     public static final String REFRESH_TOKEN = "refresh_token";
 
     public static final String CURRENT_PAGE = "currentPage";
+    public static final String PAGE_SIZE = "PAGE_SIZE";
 }

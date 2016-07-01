@@ -36,7 +36,7 @@ public interface StoreSpec {
     //Request Urls
     String getCurrentCartDetailsUrl();
 
-    String getProductCatalogUrl();
+    String getProductCatalogUrl(int currentPage, int pageSize);
 
     String getCreateCartUrl();
 
