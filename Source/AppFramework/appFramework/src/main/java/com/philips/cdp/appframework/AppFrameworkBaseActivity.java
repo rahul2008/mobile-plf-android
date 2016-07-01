@@ -18,6 +18,7 @@ import com.philips.cdp.appframework.utility.Constants;
 import com.philips.cdp.appframework.utility.Logger;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.cdp.appframework.R;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
@@ -41,7 +42,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     }
 
     protected void showFragment(Fragment fragment, String fragmentTag) {
-        int containerId = Constants.MAIN_ACTIVITY_CONTAINER;
+        int containerId = R.id.frame_container;
 
         try {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

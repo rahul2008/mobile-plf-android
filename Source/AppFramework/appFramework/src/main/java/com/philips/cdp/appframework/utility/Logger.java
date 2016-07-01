@@ -14,7 +14,7 @@ import android.util.Log;
 
 public class Logger {
 
-    private static boolean isLoggingEnabled = false;
+    private static boolean isLoggingEnabled = true;
 
     public static void enableLogging() {
         isLoggingEnabled = true;
