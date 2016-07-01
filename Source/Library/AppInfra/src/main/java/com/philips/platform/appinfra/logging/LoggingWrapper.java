@@ -14,13 +14,7 @@ import com.philips.platform.appinfra.AppInfra;
 public class LoggingWrapper extends AppInfraLogging {
 
 
-    /**
-     * Instantiates a new Logging wrapper.
-     *
-     * @param appInfra         the app infra
-     * @param componentId      the component id
-     * @param componentVersion the component version
-     */
+
     public LoggingWrapper(AppInfra appInfra, String componentId, String componentVersion) {
         super(appInfra);
         mComponentID = componentId;

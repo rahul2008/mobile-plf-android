@@ -14,9 +14,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.Locale;
 
-/**
- * Created by 310238655 on 6/1/2016.
- */
+
 public class LocalManager implements LocalInterface {
 
     AppInfra mAppInfra;

@@ -19,10 +19,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by 310238655 on 6/1/2016.
- */
-public class AppIdentityManager implements com.philips.platform.appinfra.appidentity.AppIdentityInterface {
+
+public class AppIdentityManager implements AppIdentityInterface {
 
     AppInfra mAppInfra;
     Context context;
@@ -34,21 +32,12 @@ public class AppIdentityManager implements com.philips.platform.appinfra.appiden
     public String micrositeId;
     public String sector;
 
-    /**
-     * Gets app name.
-     *
-     * @return the app name
-     */
     @Override
     public String getAppName() {
         return mAppName;
     }
 
-    /**
-     * Gets app version.
-     *
-     * @return the app version
-     */
+
     @Override
     public String getAppVersion() {
         if(mAppInfra.getTagging()!=null){
@@ -57,41 +46,24 @@ public class AppIdentityManager implements com.philips.platform.appinfra.appiden
         return mAppVersion;
     }
 
-    /**
-     * Gets app state.
-     *
-     * @return the app state
-     */
     @Override
     public String getAppState() {
         return mAppState;
     }
 
-    /**
-     * Gets app localized name.
-     *
-     * @return the app localized name
-     */
+
     @Override
     public String getAppLocalizedNAme() {
         return mAppLocalizedNAme;
     }
 
-    /**
-     * Gets microsite id.
-     *
-     * @return the microsite id
-     */
+
     @Override
     public String getMicrositeId() {
         return micrositeId;
     }
 
-    /**
-     * Gets sector.
-     *
-     * @return the sector
-     */
+
     @Override
     public String getSector() {
         return sector;

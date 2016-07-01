@@ -33,7 +33,6 @@ import javax.security.auth.x500.X500Principal;
 
 
 /**
- * Created by 310238114 on 4/5/2016.
  * Current Implementation changed to MAIL-161.
  */
 public class SecureStorage implements SecureStorageInterface{
@@ -58,13 +57,7 @@ public class SecureStorage implements SecureStorageInterface{
     }
 
 
-    /**
-     * Store value for key boolean.
-     *
-     * @param userKey            the user key
-     * @param valueToBeEncrypted the value to be encrypted
-     * @return the boolean, denote store operation success or failure
-     */
+
     @Override
     public synchronized boolean storeValueForKey(String userKey,String valueToBeEncrypted, SecureStorageError secureStorageError) {
         // TODO: RayKlo: define max size limit recommendation
@@ -103,7 +96,6 @@ public class SecureStorage implements SecureStorageInterface{
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.StoreError);
             }
             encryptedString = returnResult?encryptedString:null; // if save of encryption data fails return null
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.WARNING,"SecureStorage encrypted",encryptedString);
             boolean isDebuggable =  ( 0 != ( mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
             if (isDebuggable) {
                 encryptedTextTemp = encryptedString; // to be removed from release build
@@ -119,12 +111,7 @@ public class SecureStorage implements SecureStorageInterface{
     }
 
 
-    /**
-     * Fetch value for key string.
-     *
-     * @param userKey the user key
-     * @return the string, decrypted value
-     */
+
     @Override
     public synchronized String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
         String decryptedString=null;
@@ -174,12 +161,7 @@ public class SecureStorage implements SecureStorageInterface{
     }
 
 
-    /**
-     * Remove value for key boolean.
-     *
-     * @param userKey the user key
-     * @return the boolean, denote delete operation success or failure
-     */
+
     @Override
     public synchronized boolean removeValueForKey(String userKey) {
         boolean deleteResultValue =false;

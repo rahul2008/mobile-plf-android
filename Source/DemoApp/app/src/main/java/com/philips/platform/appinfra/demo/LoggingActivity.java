@@ -98,6 +98,7 @@ public class LoggingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (null == AILoggingInterface) {
 
+                    AILoggingInterface = AppInfraApplication.gAppInfra.getLogging();
                     AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString());
                   /*  Toast.makeText(LoggingActivity.this, "Please initialize Logger for component",
                             Toast.LENGTH_SHORT).show();*/

@@ -6,15 +6,40 @@
 
 package com.philips.platform.appinfra.logging;
 
-/**
- * Created by 310209604 on 2016-05-04.
- */
+
 public interface LoggingInterface {
+    /**
+     * The enum Log level.
+     */
     public  enum  LogLevel {VERBOSE, DEBUG, INFO, WARNING, ERROR};
 
+    /**
+     * Create instance for component logging interface.
+     * This method to be used by all component to get their respective logging
+     * @param componentId      the base package name of component
+     * @param componentVersion the component version
+     * @return the logging interface
+     */
     public LoggingInterface createInstanceForComponent(String componentId, String componentVersion);
+
+    /**
+     * Log.
+     * @param level   the level {VERBOSE, DEBUG, INFO, WARNING, ERROR}
+     * @param eventId the Event name or Tag
+     * @param message the message
+     */
     public void log(LogLevel level, String eventId, String message);
+
+    /**
+     * Enable file log.
+     * @param enable File
+     */
     public void enableFileLog(boolean enable);
+
+    /**
+     * Enable console log.
+     * @param enable Console
+     */
     public void enableConsoleLog(boolean enable );
 
 }

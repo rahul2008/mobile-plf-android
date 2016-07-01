@@ -5,16 +5,49 @@
  */
 package com.philips.platform.appinfra.appidentity;
 
-/**
- * Created by 310238655 on 6/1/2016.
- */
+
 public interface AppIdentityInterface {
 
+    /**
+     * Gets app name.
+     *
+     * @return the app name
+     */
     public String getAppName();
+
+    /**
+     * Gets app version.
+     *
+     * @return the app version
+     */
     public String getAppVersion();
+
+    /**
+     * Gets app state.
+     *
+     * @return the app state
+     */
     public String getAppState();
+
+    /**
+     * Gets app localized n ame.
+     *
+     * @return the app localized n ame
+     */
     public String getAppLocalizedNAme();
+
+    /**
+     * Gets microsite id.
+     *
+     * @return the microsite id
+     */
     public String getMicrositeId();
+
+    /**
+     * Gets sector.
+     *
+     * @return the sector
+     */
     public String getSector();
 
 }

@@ -6,13 +6,35 @@
 package com.philips.platform.appinfra.securestorage;
 
 /**
- * Created by 310238114 on 4/11/2016.
+ * The interface Secure storage interface.
  */
 public  interface SecureStorageInterface {
 
 
-
+    /**
+     * Store value for key boolean.
+     *
+     * @param userKey            the user key
+     * @param valueToBeEncrypted the value to be encrypted
+     * @param secureStorageError the secure storage error
+     * @return the boolean, denote store operation success or failure
+     */
     public boolean storeValueForKey(String userKey, String valueToBeEncrypted,  SecureStorageError secureStorageError);
+
+    /**
+     * Fetch value for key string.
+     *
+     * @param userKey            the user key
+     * @param secureStorageError the secure storage error code if any
+     * @return the string, decrypted value
+     */
     public String fetchValueForKey(String userKey, SecureStorageError secureStorageError);
+
+    /**
+     * Remove value for given key .
+     *
+     * @param userKey the user key
+     * @return the boolean, denote delete operation success or failure
+     */
     public boolean removeValueForKey(String userKey);
 }

@@ -16,9 +16,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by 310238655 on 6/1/2016.
- */
+
 public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     AppInfra mAppInfra;
@@ -126,22 +124,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     }
 
-    /**
-     * Persistently store Home country, overwrites any existing country value.
-     * Changing the country automatically clears the cached service list and triggers a refresh.
-     * @param countryCode country code to persistently store, code must be according to ISO 3166-1
-     */
+
     @Override
     public void setHomeCountry(String countryCode) {
         this.countryCode =countryCode;
     }
 
-    /**
-     * Returns the URL for a specific service with a preference for the current language.
-     * @param serviceId name of the service for which the URL is to be retrieved
-     * @param listener asynchronously returns using onSuccess the URL of the requested service;
-     *                 or returns onError the error code when retrieval failed.
-     */
+
     @Override
     public void getServiceUrlWithLanguagePreference(final String serviceId, final OnGetServiceUrlListener listener) {
         mServiceUrlWithLanguagePreference = true;
@@ -163,12 +152,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     }
 
-    /**
-     * Returns the URL for a specific service with a preference for the current home country.
-     * @param serviceId name of the service for which the URL is to be retrieved
-     * @param listener asynchronously returns using onSuccess the URL of the requested service;
-     *                 or returns onError the error code when retrieval failed.
-     */
+
     @Override
     public void getServiceUrlWithCountryPreference(final String serviceId, final OnGetServiceUrlListener listener) {
         mServiceUrlWithCountryPreference = true;
@@ -190,12 +174,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     }
 
-    /**
-     * Returns the locale to be used for a specific service with a preference for the current language.
-     * @param serviceId name of the service for which the URL is to be retrieved
-     * @param listener asynchronously returns using onSuccess the recommended locale for the requested service;
-     *                 or returns onError the error code when retrieval failed.
-     */
+
     @Override
     public void getServiceLocaleWithLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener) {
         mServiceLocaleWithLanguagePreference = true;
@@ -218,12 +197,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     }
 
-    /**
-     * Returns the locale to be used for a specific service with a preference for the current home country.
-     * @param serviceId name of the service for which the URL is to be retrieved
-     * @param listener asynchronously returns using onSuccess the recommended locale for the requested service;
-     *                 or returns onError the error code when retrieval failed.
-     */
+
     @Override
     public void getServiceLocaleWithCountryPreference(final String serviceId, final OnGetServiceLocaleListener listener) {
         mServiceLocaleWithCountryPreference = true;
@@ -246,13 +220,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
 
-    /**
-     * Returns the URLs + locales for a set of services with a preference for the current language.
-     * @param serviceIds list of service names for which the URL + locale are to be retrieved
-     * @param listener asynchronously returns using onSuccess a map containing the requested service names (key)
-     *                 and their URL + locale (value), the value will be null if the service is unknown;
-     *                 or returns onError the error code when retrieval failed.
-     */
+
     @Override
     public void getServicesWithLanguagePreference(final String serviceIds, final OnGetServicesListener listener) {
         mServicesWithLanguagePreferenceMultiple = true;
@@ -274,13 +242,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     }
 
-    /**
-     * Returns the URLs + locales for a set of services with a preference for the current home country.
-     * @param serviceIds list of service names for which the URL + locale are to be retrieved
-     * @param listener asynchronously returns using onSuccess a map containing the requested service names (key)
-     *                 and their URL + locale (value), the value will be null if the service is unknown;
-     *                 or returns onError the error code when retrieval failed.
-     */
+
     @Override
     public void getServicesWithCountryPreference(final String serviceIds, final OnGetServicesListener listener) {
         mmServiceUrlWithCountryPreferenceMultiple = true;
@@ -366,14 +328,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     }
 
-    /**
-     * Start negotiation with cloud service for the list of service for this application. List is based on sector, microsite, home country, and language.
-     * The retrieved list is cached internally (not persistently).
-     * The cached list is automatically refreshed every 24hours.
-     * A refresh is only required, to ensure the very first service request after app start can be processed from the cache quickly, or when a previous sync failed.
-     * @param listener asynchronously returns using onSuccess when retrieval was successful;
-     *                 or returns onError the error code when retrieval failed.
-     */
+
     @Override
     public void refresh(final OnRefreshListener listener) {
 
