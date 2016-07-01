@@ -42,7 +42,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     }
 
     protected void showFragment(Fragment fragment, String fragmentTag) {
-        int containerId = R.id.frame_container;
+        int containerId = Constants.MAIN_ACTIVITY_CONTAINER;
 
         try {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

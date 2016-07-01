@@ -119,7 +119,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 2
-        versionName "0.1.0-rc2"
+        versionName "0.1.0.5"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
@@ -142,14 +142,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
 
         debug {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             debuggable true
             testCoverageEnabled true
@@ -232,7 +232,7 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '5.0.0', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '5.2.1', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive=true
     }

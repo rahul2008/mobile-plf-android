@@ -20,14 +20,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.debugtest.DebugTestFragment;
-import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.utils.HamburgerUtil;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
+import com.philips.platform.appframework.debugtest.DebugTestFragment;
+import com.philips.platform.appframework.settingscreen.SettingsFragment;
 
 import java.util.ArrayList;
 
@@ -47,6 +48,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     private TextView actionBarCount;
     private HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
+    private ConsumerCareLauncher mConsumerCareFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,9 +160,9 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
         if (hamburgerMenuTitles[position].equalsIgnoreCase("Settings")) {
             showSettingsFragment();
-        }
-        else
-        if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
+        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Support")) {
+            showSupportFragment();
+        } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
             showDebugTestFragment();
         } else {
             final HomeScreenFragment fragment = new HomeScreenFragment();
@@ -182,6 +184,12 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         showFragment(settingsFragment, "Settings");
     }
 
+    private void showSupportFragment() {
+        mConsumerCareFragment = new ConsumerCareLauncher();
+        mConsumerCareFragment.initCC(this);
+//        showFragment(new ConsumerCareLauncher(), ConsumerCareLauncher.class.getSimpleName());
+    }
+
     private void showDebugTestFragment() {
         DebugTestFragment debugTestFragment = new DebugTestFragment();
 
@@ -193,5 +201,11 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mConsumerCareFragment.releaseConsumerCare();
     }
 }
