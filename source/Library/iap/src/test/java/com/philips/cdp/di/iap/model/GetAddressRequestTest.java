@@ -55,7 +55,7 @@ public class GetAddressRequestTest {
     }
 
     @Test
-    public void parseResponseShouldBeOfGetShippingAddress() {
+    public void isValidResponse() {
         String validAddress = TestUtils.readFile(GetAddressRequestTest.class,
                 "Addresses.txt");
         Object response = mModel.parseResponse(validAddress);

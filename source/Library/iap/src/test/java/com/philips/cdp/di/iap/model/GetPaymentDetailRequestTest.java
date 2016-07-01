@@ -60,7 +60,7 @@ public class GetPaymentDetailRequestTest {
     }
 
     @Test
-    public void parseResponseShouldBeOfGetShippingAddressDataType() {
+    public void isValidResponse() {
         String validResponse = TestUtils.readFile(GetPaymentDetailRequestTest.class,
                 "Payment.txt");
         Object response = mModel.parseResponse(validResponse);

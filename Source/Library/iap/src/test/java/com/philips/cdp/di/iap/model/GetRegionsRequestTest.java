@@ -60,7 +60,7 @@ public class GetRegionsRequestTest {
     }
 
     @Test
-    public void parseResponseShouldBeOfGetShippingAddressDataType() {
+    public void isValidResponse() {
         String validResponse = TestUtils.readFile(GetRegionsRequestTest.class, "Region.txt");
         Object response = mModel.parseResponse(validResponse);
         assertEquals(response.getClass(), RegionsList.class);
