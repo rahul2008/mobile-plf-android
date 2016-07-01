@@ -48,6 +48,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     private TextView actionBarCount;
     private HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
+    private ConsumerCareLauncher mConsumerCareFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,8 +185,8 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     }
 
     private void showSupportFragment() {
-        ConsumerCareLauncher consumerCareFragment = new ConsumerCareLauncher();
-        consumerCareFragment.initCC(this);
+        mConsumerCareFragment = new ConsumerCareLauncher();
+        mConsumerCareFragment.initCC(this);
 //        showFragment(new ConsumerCareLauncher(), ConsumerCareLauncher.class.getSimpleName());
     }
 
@@ -200,5 +201,11 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mConsumerCareFragment.releaseConsumerCare();
     }
 }

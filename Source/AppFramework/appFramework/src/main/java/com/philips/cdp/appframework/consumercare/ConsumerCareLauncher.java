@@ -79,19 +79,7 @@ public class ConsumerCareLauncher implements MainMenuListener,
                     mContext, Constants.MAIN_ACTIVITY_CONTAINER, actionBarClickListener);
             fragLauncher.setAnimation(0, 0);
             DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
-
-//            try {
-//                initActionBar();
-//            } catch (ClassCastException e) {
-//                DigiCareLogger.e(TAG, "SampleActivity Actionbar: " + e.getMessage());
-//            }
-//            enableActionBarHome();
-
-//            DigitalCareConfigManager.getInstance();
-//            fragmentManager = getSupportFragmentManager();
         }
-
-//        return view;
     }
 
 
@@ -111,19 +99,6 @@ public class ConsumerCareLauncher implements MainMenuListener,
 
     @Override
     public boolean onMainMenuItemClicked(String mainMenuItem) {
-         /*
-        if (mainMenuItem.equals(getStringKey(R.string.sign_into_my_philips))) {
-            Intent intent = new Intent(LaunchDigitalCare.this,
-                    DummyScreen.class);
-            startActivity(intent);
-            return true;
-        }
-       if (mainMenuItem.equals(getStringKey(R.string.consumercare_view_product_details))) {
-            Intent intent = new Intent(LaunchDigitalCare.this,
-                    DummyScreen.class);
-            startActivity(intent);
-            return true;
-        }*/
         return false;
     }
 
@@ -138,19 +113,9 @@ public class ConsumerCareLauncher implements MainMenuListener,
     }
 
 
-//        @Override
-//        public void onDestroy() {
-//            super.onDestroy();
-//            DigitalCareConfigManager.getInstance().unregisterMainMenuListener(this);
-//            DigitalCareConfigManager.getInstance().unregisterProductMenuListener(this);
-//            DigitalCareConfigManager.getInstance().unregisterSocialProviderListener(this);
-//        }
-
-    //    @Override
-//    public void onD() {
-//        DigitalCareConfigManager.getInstance().unregisterMainMenuListener(this);
-//        DigitalCareConfigManager.getInstance().unregisterProductMenuListener(this);
-//        DigitalCareConfigManager.getInstance().unregisterSocialProviderListener(this);
-//        super.onDestroy();
-//    }
+    public void releaseConsumerCare() {
+        DigitalCareConfigManager.getInstance().unregisterMainMenuListener(this);
+        DigitalCareConfigManager.getInstance().unregisterProductMenuListener(this);
+        DigitalCareConfigManager.getInstance().unregisterSocialProviderListener(this);
+    }
 }
