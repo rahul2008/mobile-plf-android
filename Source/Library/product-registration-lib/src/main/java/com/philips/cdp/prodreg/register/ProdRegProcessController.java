@@ -30,7 +30,7 @@ public class ProdRegProcessController {
         void dismissLoadingDialog();
         void exitProductRegistration();
 
-        void showLoadingDialog(String message);
+        void showLoadingDialog();
         void showFragment(Fragment fragment);
         void showAlertOnError(int responseCode);
     }
