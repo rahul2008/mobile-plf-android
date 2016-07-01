@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.analytics;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
@@ -35,8 +34,8 @@ public class AnalyticsHelper {
     }
 
     public synchronized void initializeIAPTagging(final Context context) {
-        Tagging.setDebuggable(true);
-        Tagging.enableAppTagging(true);
+//        Tagging.setDebuggable(true);
+//        Tagging.enableAppTagging(true);
         AppInfra appInfra = new AppInfra.Builder().build(context);
         mAIAppTaggingInterface = appInfra.getTagging().
                 createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
