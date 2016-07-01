@@ -44,12 +44,12 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         initView();
-        loadInAppFacebook();
+        loadInAppTwitter();
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
                 getPreviousName());
     }
 
-    private void loadInAppFacebook() {
+    private void loadInAppTwitter() {
         Utils.loadWebPageContent(getTwitterUrl(), mTwitterWebView, mProgressBar);
     }
 
@@ -108,18 +108,35 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
 
 
     @Override
-    public void onResume() {
-        super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
 
         if (mTwitterWebView != null) {
             mTwitterWebView = null;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
+        initView();
+        loadInAppTwitter();
+    }
+
+
+    @Override
+    public void onPause() {
+        mTwitterWebView.loadUrl("about:blank");
+        clearWebViewData();
+        super.onPause();
+    }
+
+    private void clearWebViewData() {
+        mTwitterWebView.stopLoading();
+        mTwitterWebView.clearCache(true);
+        mTwitterWebView.clearHistory();
+        mTwitterWebView.clearFormData();
     }
 
 }
