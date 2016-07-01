@@ -19,7 +19,6 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.utility.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +34,7 @@ public class ConsumerCareLauncher implements MainMenuListener,
     private static String TAG = ConsumerCareLauncher.class.getSimpleName();
     private ArrayList<String> mCtnList = null;
     private FragmentActivity mContext = null;
+    private ActionbarUpdateListener mActionBarClickListener = null;
 
     private void initializeDigitalCareLibrary() {
         PILLocaleManager localeManager = new PILLocaleManager(mContext);
@@ -55,8 +55,9 @@ public class ConsumerCareLauncher implements MainMenuListener,
         DigiCareLogger.enableLogging();
     }
 
-    public void initCC(FragmentActivity context) {
+    public void initCC(FragmentActivity context, ActionbarUpdateListener actionBarClickListener) {
         mContext = context;
+        mActionBarClickListener = actionBarClickListener;
 
         if (mCtnList == null) {
             mCtnList = new ArrayList<String>(Arrays.asList(mContext.getResources().getStringArray(R.array.productselection_ctnlist)));
@@ -81,21 +82,6 @@ public class ConsumerCareLauncher implements MainMenuListener,
             DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
         }
     }
-
-
-    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
-
-        @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-//            mActionBarTitle.setText(titleActionbar);
-            if (hamburgerIconAvailable) {
-//                enableActionBarHome();
-            } else {
-//                enableActionBarLeftArrow();
-            }
-        }
-    };
-
 
     @Override
     public boolean onMainMenuItemClicked(String mainMenuItem) {

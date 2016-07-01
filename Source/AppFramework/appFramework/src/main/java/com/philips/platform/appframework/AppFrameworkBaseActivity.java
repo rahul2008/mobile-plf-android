@@ -84,12 +84,12 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     }
 
     protected boolean backstackFragment() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            finish();
-        } else {
+//        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+//            finish();
+//        } else {
             fragmentManager.popBackStack();
             //removeCurrentFragment();
-        }
+//        }
         return true;
     }
 

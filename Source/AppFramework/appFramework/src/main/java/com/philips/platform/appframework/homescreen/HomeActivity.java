@@ -8,6 +8,7 @@ package com.philips.platform.appframework.homescreen;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -29,6 +31,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
+import com.philips.platform.appframework.utility.Logger;
 
 import java.util.ArrayList;
 
@@ -48,6 +51,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     private TextView actionBarCount;
     private HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
+    private LinearLayout hamburgerClick = null;
     private ConsumerCareLauncher mConsumerCareFragment = null;
 
     @Override
@@ -79,6 +83,34 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         });
     }
 
+    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
+
+        @Override
+        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
+            Logger.i("testing","titleActionbar : " + titleActionbar + " -- hamburgerIconAvailable : " +hamburgerIconAvailable);
+            if (hamburgerIconAvailable) {
+                hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+                hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        philipsDrawerLayout.openDrawer(navigationView);
+                    }
+                });
+            } else {
+//                hamburgerIcon.setImageDrawable(R.drawable.consumercare_actionbar_back_arrow_white);
+                hamburgerIcon.setImageDrawable(ContextCompat.getDrawable(HomeActivity.this,
+                        R.drawable.consumercare_actionbar_back_arrow_white));
+                hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        backstackFragment();
+                    }
+                });
+            }
+            setTitle(titleActionbar);
+        }
+    };
+
     private void initActionBar(ActionBar actionBar) {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(com.philips.cdp.uikit.R.layout.uikit_action_bar_title);
@@ -90,7 +122,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         actionBarCount.setVisibility(View.GONE);
         hamburgerIcon = (ImageView) findViewById(R.id.hamburger_icon);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
-        LinearLayout hamburgerClick = (LinearLayout) findViewById(R.id.hamburger_click);
+        hamburgerClick = (LinearLayout) findViewById(R.id.hamburger_click);
 
         hamburgerClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,7 +218,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
     private void showSupportFragment() {
         mConsumerCareFragment = new ConsumerCareLauncher();
-        mConsumerCareFragment.initCC(this);
+        mConsumerCareFragment.initCC(this, actionBarClickListener);
 //        showFragment(new ConsumerCareLauncher(), ConsumerCareLauncher.class.getSimpleName());
     }
 
