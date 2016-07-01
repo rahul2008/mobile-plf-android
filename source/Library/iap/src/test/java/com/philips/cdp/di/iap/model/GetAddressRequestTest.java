@@ -21,44 +21,48 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetAddressRequestTest {
     @Mock
-    private StoreSpec mStore;
+    Context mContext;
+    @Mock
+    IAPUser mUser;
+    private AbstractModel mModel;
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
-        mStore.initStoreConfig("en", "us", null);
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        mStore.initStoreConfig("en", "US", null);
+        mModel = new GetAddressRequest(mStore, null, null);
     }
 
     @Test
     public void testRequestMethodIsGET() {
-        GetAddressRequest request = new GetAddressRequest(mStore, null, null);
-        assertEquals(Request.Method.GET, request.getMethod());
+        assertEquals(Request.Method.GET, mModel.getMethod());
     }
 
     @Test
-    public void testQueryParamsIsNull() {
-        GetAddressRequest request = new GetAddressRequest(mStore, null, null);
-        assertNull(request.requestBody());
+    public void testBodyParamsIsNull() {
+        assertNull(mModel.requestBody());
     }
 
+    @Test
+    public void testStoreIsNotNull() {
+        assertNotNull(mModel.getStore());
+    }
 
     @Test
-    public void parseResponseShouldBeOfGetShippingAddressDataType() {
-        GetAddressRequest request = new GetAddressRequest(mStore, null, null);
-        String oneAddress = TestUtils.readFile(GetAddressRequestTest.class, "one_Addresses.txt");
-        Object response = request.parseResponse(oneAddress);
+    public void parseResponseShouldBeOfGetShippingAddress() {
+        String validAddress = TestUtils.readFile(GetAddressRequestTest.class, "one_Addresses.txt");
+        Object response = mModel.parseResponse(validAddress);
         assertEquals(response.getClass(), GetShippingAddressData.class);
     }
 
     @Test
     public void matchAddressDetailURL() {
-        GetAddressRequest request = new GetAddressRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.ADDRESS_DETAILS_URL, request.getUrl());
+        assertEquals(NetworkURLConstants.ADDRESS_DETAILS_URL, mModel.getUrl());
     }
 }
