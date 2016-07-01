@@ -28,14 +28,8 @@ import java.util.Locale;
 
 public class Utility {
     public static final String TAG = Utility.class.getName();
-
     private static ProgressDialog mProgressDialog = null;
 
-    /**
-     * Displays the loading progress dialog
-     *
-     * @param context Current context
-     */
     public static void showProgressDialog(Context context, String message) {
         mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setCancelable(false);
@@ -142,8 +136,8 @@ public class Utility {
     }
 
     public static String formatAddress(final String address) {
-        if(address != null)
-        return address.replaceAll(", ", "\n");
+        if (address != null)
+            return address.replaceAll(", ", "\n");
         else
             return null;
     }

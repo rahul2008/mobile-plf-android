@@ -112,8 +112,8 @@
     <!-- Purchase History -->
     <string name="iap_order_history">Order history</string>
     <string name="iap_no_items">No items here yet&#8230;</string>
-    <string name="iap_empty_purchase_history">If you placed an order using this app, Please check your mail for the confirmation e-mail</string>
-    <string name="iap_other_channel">If you ordered using another sales channel your purchase might not show up here</string>
+    <string name="iap_empty_purchase_history">If you placed an order using this app, Please check your mail for the confirmation e-mail.</string>
+    <string name="iap_other_channel">If you ordered using another sales channel your purchase might not show up here.</string>
     <string name="iap_contact_consumer_care">Contact Consumer Care</string>
     <string name="iap_shipped">Shipped</string>
     <string name="iap_not_yet_shipped">Not yet shipped</string>
@@ -173,8 +173,8 @@
 
     <string name="iap_retailer_title_for_no_retailers">No Retailers!</string>
     <string name="iap_no_retailer_message">There are no online retailers currently available for this product.</string>
-    <string name="iap_order_completed_text">Your order will be delivered by \n FedEx(parcel postage) \n Tracking number %s</string>
-    <string name="iap_order_completed_text_without_track_id">Your order will be delivered by \n FedEx(parcel postage)</string>
+    <string name="iap_order_completed_text">Your order will be delivered by \nFedEx(parcel postage) \nTracking number %s</string>
+    <string name="iap_order_completed_text_without_track_id">Your order will be delivered by \nFedEx(parcel postage)</string>
     <string name="iap_no_product_available">No product found in your Store.</string>
     <string name="iap_shipped_to">Shipped To:</string>
 

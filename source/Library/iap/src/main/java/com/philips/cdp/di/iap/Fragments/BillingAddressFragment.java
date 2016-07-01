@@ -132,8 +132,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
 
     private void disableAllFields() {
         removeErrorInAllFields();
-        disableFocus();
         setFieldsEnabled(false);
+        disableFocus();
     }
 
     private void enableFocus() {
@@ -230,5 +230,12 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             }
             mEtPhoneNumber.setFocusableInTouchMode(true);
         }
+
+        mEtCountry.setFocusable(false);
+        mEtCountry.setFocusableInTouchMode(false);
+        mEtEmail.setFocusableInTouchMode(false);
+        mEtEmail.setFocusable(false);
+        mEtEmail.setEnabled(false);
+        mEtCountry.setEnabled(false);
     }
 }

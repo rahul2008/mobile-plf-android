@@ -24,6 +24,7 @@ import com.philips.cdp.di.iap.Fragments.ProductDetailFragment;
 import com.philips.cdp.di.iap.Fragments.PurchaseHistoryFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -31,7 +32,6 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 
 import java.util.List;
@@ -39,12 +39,6 @@ import java.util.Locale;
 
 public class IAPActivity extends UiKitActivity {
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
-    private TextView mTitleTextView;
-    private ImageView mBackButton;
-    private FrameLayout frameLayout;
-    private TextView mCartCount;
-    private ImageView mCartIcon;
-    private FrameLayout mCartContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +60,14 @@ public class IAPActivity extends UiKitActivity {
             } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW) {
                 addFragment(PurchaseHistoryFragment.createInstance(new Bundle(),
                         BaseAnimationSupportFragment.AnimationType.NONE), PurchaseHistoryFragment.TAG);
-            } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW){
-               if(getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
-                   Bundle bundle = new Bundle();
-                   bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
-                           getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
-                   addFragment(ProductDetailFragment.createInstance(bundle,
-                           BaseAnimationSupportFragment.AnimationType.NONE), ProductDetailFragment.TAG);
-               }
+            } else if (landingScreen == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW) {
+                if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER,
+                            getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER));
+                    addFragment(ProductDetailFragment.createInstance(bundle,
+                            BaseAnimationSupportFragment.AnimationType.NONE), ProductDetailFragment.TAG);
+                }
 
             }
         }
@@ -157,7 +151,7 @@ public class IAPActivity extends UiKitActivity {
     public void onBackPressed() {
         IAPLog.i(IAPLog.LOG, "OnBackpressed Called");
         Utility.hideKeypad(this);
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.BACK_BUTTON_PRESS);
         boolean dispatchBackHandled = dispatchBackToFragments();
         if (!dispatchBackHandled)
@@ -186,13 +180,13 @@ public class IAPActivity extends UiKitActivity {
 
     @Override
     protected void onPause() {
-        Tagging.pauseCollectingLifecycleData();
+        IAPAnalytics.pauseCollectingLifecycleData();
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        Tagging.collectLifecycleData();
+        IAPAnalytics.collectLifecycleData();
         super.onResume();
     }
 

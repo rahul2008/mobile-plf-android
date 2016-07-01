@@ -1,0 +1,32 @@
+"orders": [
+    {
+      "code": "14000107341",
+      "guid": "06b02f3f-ccd6-4d07-ac11-76be73e2a833",
+      "placed": "2016-06-20T07:18:05+0000",
+      "status": "PAYMENT_PROGRESS",
+      "statusDisplay": "processing",
+      "total": {
+        "currencyIso": "USD",
+        "formattedValue": "$35.32",
+        "priceType": "BUY",
+        "value": 35.32
+      }
+    }
+  ],
+  "pagination": {
+    "currentPage": 0,
+    "pageSize": 20,
+    "sort": "byDate",
+    "totalPages": 1,
+    "totalResults": 11
+  },
+  "sorts": [
+    {
+      "code": "byDate",
+      "selected": true
+    },
+    {
+      "code": "byOrderNumber",
+      "selected": false
+    }
+  ]

@@ -15,4 +15,10 @@
     <string name="shop_now">Shop Now</string>
     <string name="purchase_history">Purchase History</string>
     <string name="launch_product_detail">Launch Product Detail</string>
+    <string name="iap_unknown_error">Unknown Error</string>
+    <string name="iap_no_connection">No Connection, Connect to network and try again.</string>
+    <string name="iap_connection_timeout">Connection Timeout</string>
+    <string name="iap_auth_failure">Authentication Failure</string>
+    <string name="iap_prod_out_of_stock">Products out of stock</string>
+    <string name="categorized_shop_now">Shop Now(Categorized)</string>
 </resources>

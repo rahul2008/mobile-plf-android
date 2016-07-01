@@ -76,7 +76,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderHistoryView.setLayoutManager(layoutManager);
 
-        mAdapter = new OrderHistoryAdapter(mContext, mOrders, mProducts);
+        mAdapter = new OrderHistoryAdapter(mContext, mOrders, mProducts, mOrderDetails);
         mOrderHistoryView.setAdapter(mAdapter);
         mOrderHistoryView.addOnScrollListener(mRecyclerViewOnScrollListener);
         if (mOrders.size() == 0) {
@@ -183,7 +183,6 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         if (isNetworkNotConnected()) return;
         int pos = mAdapter.getSelectedPosition();
         Orders order = mOrders.get(pos);
-      //  OrderDetail orderDetail = mOrderDetails.get(pos);
         Bundle bundle = new Bundle();
         if (order != null) {
             bundle.putString(IAPConstant.PURCHASE_ID, order.getCode());

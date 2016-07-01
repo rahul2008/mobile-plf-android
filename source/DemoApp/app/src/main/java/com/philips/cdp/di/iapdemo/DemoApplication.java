@@ -2,7 +2,7 @@ package com.philips.cdp.di.iapdemo;
 
 import android.app.Application;
 
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.analytics.AnalyticsHelper;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -13,24 +13,13 @@ import java.util.Locale;
 
 public class DemoApplication extends Application {
     //Required in case Production has to be added to dynamic configuration
-   // EnvironmentPreferences mAppEnvironmentPreference;
+    // EnvironmentPreferences mAppEnvironmentPreference;
 
     @Override
     public void onCreate() {
         super.onCreate();
         initializeUserRegistration();
-        initializeTagging();
-     //   LeakCanary.install(this);
-    }
-
-    private void initializeTagging() {
-        Tagging.enableAppTagging(true);
-        Tagging.setTrackingIdentifier("IAPDemoAppsID");
-        Tagging.setLaunchingPageName("IapDemoApp");
-        Tagging.setDebuggable(true);
-        Tagging.setComponentVersionKey(IAPAnalyticsConstant.VERSION_KEY);
-        Tagging.setComponentVersionVersionValue(BuildConfig.VERSION_NAME);
-        Tagging.init(getApplicationContext(), "Philips IAP demo");
+        AnalyticsHelper.getInstance().initializeIAPTagging(this);
     }
 
     private void initializeUserRegistration() {

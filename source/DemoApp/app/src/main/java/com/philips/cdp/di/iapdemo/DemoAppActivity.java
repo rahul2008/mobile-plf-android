@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -49,7 +50,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private IAPHandler mIapHandler;
     private CountryPreferences mCountryPreference;
 
-    private LinearLayout mSelectCountryLl;
+    private LinearLayout mSelectCountryLl, mAddCTNLl;
     private FrameLayout mShoppingCart;
     private TextView mCountText = null;
     private Spinner mSpinner;
@@ -57,9 +58,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private Button mPurchaseHistory;
     private Button mFragmentLaunch;
     private Button mLaunchProductDetail;
+    private Button mShopNowCategorized;
+    private EditText mEtCTN;
+    private ArrayList<String> mProductList = new ArrayList<>();
 
     private int mSelectedCountryIndex;
-    private boolean mProductCountRequested;
     private ProgressDialog mProgressDialog = null;
 
     @Override
@@ -88,16 +91,22 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mShoppingCart = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         mShoppingCart.setOnClickListener(this);
 
+        Button mAddCtn = (Button) findViewById(R.id.btn_add_ctn);
+        mAddCtn.setOnClickListener(this);
+
+        mEtCTN = (EditText) findViewById(R.id.et_add_ctn);
+
+        mShopNowCategorized = (Button) findViewById(R.id.btn_categorized_shop_now);
+        mShopNowCategorized.setOnClickListener(this);
+
+        mAddCTNLl = (LinearLayout) findViewById(R.id.ll_ctn);
+
         mCountText = (TextView) findViewById(R.id.count_txt);
 
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
 
         mIAPSettings = new IAPSettings("US", "en", DEFAULT_THEME);
         mIapHandler = IAPHandler.init(this, mIAPSettings);
-        ArrayList<String> mProductList = new ArrayList<>();
-        mProductList.add("HX9042/64");
-        mProductList.add("HX9042/64");
-        mProductList.add("HX9042/64");
 
         mSelectCountryLl = (LinearLayout) findViewById(R.id.select_country);
         mSpinner = (Spinner) findViewById(R.id.spinner);
@@ -115,15 +124,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
 
-      //  mIapHandler.launchCategorizedCatalog(mProductList);
-
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mIapHandler.getCompleteProductList(mGetCompleteProductListener);
-            }
-        }, 1000);
+        if (!mIAPSettings.isUseLocalData()) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mIapHandler.getCompleteProductList(mGetCompleteProductListener);
+                }
+            }, 1000);
+        }
     }
 
     @Override
@@ -144,7 +153,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         User mUser = new User(this);
         if (mUser.isUserSignIn()) {
             displayViews();
-            if (mSelectedCountryIndex > 0 && !mProductCountRequested) {
+            if (mSelectedCountryIndex > 0) {
                 showProgressDialog();
                 mIapHandler.getProductCartCount(mProductCountListener);
             }
@@ -186,15 +195,49 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 }
                 break;
             case R.id.btn_fragment_launch:
-
+                mIAPSettings.setUseLocalData(false);
                 Intent intent = new Intent(this, LauncherFragmentActivity.class);
                 this.startActivity(intent);
                 break;
             case R.id.btn_launch_product_detail:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
-                    mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, "HX8071/10", null);
+                    try {
+                        if (!mProductList.isEmpty()) {
+                            String ctn = mProductList.get(0);
+                            IAPLog.d(IAPLog.LOG, "Product CTN : " + ctn);
+                            mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, ctn, null);
+                        }else{
+                            Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (RuntimeException e) {
+                        Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.btn_categorized_shop_now:
+                if (isNetworkAvailable(DemoAppActivity.this)) {
+//                    setUseLocalData();
+                    if (mProductList != null && !mProductList.isEmpty()) {
+                        IAPLog.d(IAPLog.LOG, "Product List : " + mProductList);
+                        mIapHandler.launchCategorizedCatalog(mProductList);
+                        mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, null, null);
+                    } else {
+                        Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.btn_add_ctn:
+                String str = mEtCTN.getText().toString().toUpperCase();
+                mEtCTN.setText("");
+                if (!mProductList.contains(str)) {
+                    mProductList.add(str);
+                    Toast.makeText(DemoAppActivity.this, "Product Added Successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DemoAppActivity.this, "Product is duplicate", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -240,6 +283,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         @Override
         public void onSuccess(ArrayList<String> productList) {
             dismissProgressDialog();
+            mProductList = productList;
             IAPLog.d(IAPLog.LOG, "Product List =" + productList.toString());
         }
     };
@@ -254,14 +298,12 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 mCountText.setVisibility(View.GONE);
             }
             dismissProgressDialog();
-            mProductCountRequested = false;
         }
 
         @Override
         public void onFailure(final int errorCode) {
             dismissProgressDialog();
             showToast(errorCode);
-            mProductCountRequested = false;
         }
     };
 
@@ -300,10 +342,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mCountryPreference.saveCountryPrefrence(position);
 
         if (position == 0) {
-            mShoppingCart.setVisibility(View.GONE);
+            mShoppingCart.setVisibility(View.INVISIBLE);
             mShopNow.setVisibility(View.GONE);
             mPurchaseHistory.setVisibility(View.GONE);
             mFragmentLaunch.setVisibility(View.GONE);
+            mShopNowCategorized.setVisibility(View.GONE);
             mLaunchProductDetail.setVisibility(View.GONE);
             return;
         }
@@ -311,6 +354,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         mFragmentLaunch.setVisibility(View.VISIBLE);
         mShoppingCart.setVisibility(View.VISIBLE);
         mShopNow.setVisibility(View.VISIBLE);
+        mShopNowCategorized.setVisibility(View.VISIBLE);
         mShopNow.setEnabled(true);
         mLaunchProductDetail.setEnabled(true);
         mPurchaseHistory.setEnabled(true);
@@ -318,22 +362,19 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
         String mSelectedCountry = parent.getItemAtPosition(position).toString();
         if (mSelectedCountry.equals("UK"))
             mSelectedCountry = "GB";
-
         setLocale("en", mSelectedCountry);
 
-        //   if (!mProductCountRequested) {
         mIAPSettings = new IAPSettings(mSelectedCountry, "en", DEFAULT_THEME);
-//        setUseLocalData();
+//        setUseLocalData(); //Uncomment to support PlanB
+
         mIapHandler = IAPHandler.init(this, mIAPSettings);
         updateCartIcon();
         if (!shouldUseLocalData()) {
             showProgressDialog();
-            mProductCountRequested = true;
             mIapHandler.getProductCartCount(mProductCountListener);
             mPurchaseHistory.setVisibility(View.VISIBLE);
         } else
             mPurchaseHistory.setVisibility(View.GONE);
-        // }
     }
 
     private void setLocale(String languageCode, String countryCode) {
@@ -343,7 +384,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
     private void updateCartIcon() {
         if (shouldUseLocalData()) {
-            mShoppingCart.setVisibility(View.GONE);
+            mShoppingCart.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -361,6 +402,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     }
 
     private void displayViews() {
+        mAddCTNLl.setVisibility(View.VISIBLE);
         mSelectCountryLl.setVisibility(View.VISIBLE);
         mPurchaseHistory.setVisibility(View.VISIBLE);
         mPurchaseHistory.setEnabled(true);
@@ -369,11 +411,13 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
     private void hideViews() {
         mCountText.setVisibility(View.GONE);
         mFragmentLaunch.setVisibility(View.GONE);
-        mShoppingCart.setVisibility(View.GONE);
+        mShoppingCart.setVisibility(View.INVISIBLE);
         mSelectCountryLl.setVisibility(View.GONE);
+        mAddCTNLl.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
         mLaunchProductDetail.setVisibility(View.GONE);
         mPurchaseHistory.setVisibility(View.GONE);
+        mShopNowCategorized.setVisibility(View.GONE);
         mSelectedCountryIndex = 0;
         mCountryPreference.clearCountryPreference();
         mSpinner.setSelection(0);

@@ -79,7 +79,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mPresenter = ControllerFactory.getInstance()
                 .getProductCatalogPresenter(getContext(), this, getFragmentManager());
         mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>());
-        loadProductCatalog();
     }
 
     @Override
@@ -94,6 +93,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mRecyclerViewOnScrollListener);
+        loadProductCatalog();
         return rootView;
     }
 
@@ -103,6 +103,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
         setCartIconVisibility(View.VISIBLE);
         setTitle(R.string.iap_product_catalog);
+
         if (!ControllerFactory.getInstance().loadLocalData()) {
             mShoppingCartAPI.getProductCartCount(getContext(), mProductCountListener, this);
         }
