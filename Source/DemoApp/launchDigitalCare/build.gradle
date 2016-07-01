@@ -99,10 +99,10 @@ dependencies {
     compile 'com.android.support:multidex:+'
     compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
 
-  /*  compile(group: 'com.philips.cdp', name: 'digitalCare', version: '5.2.1', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '5.2.2', ext: 'aar')
             {
                 transitive = true
-            }*/
+            }
 
 }
 
