@@ -33,6 +33,8 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
@@ -486,7 +488,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onSetDeliveryAddress(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            mAddressController.setDeliveryMode();
+            mAddressController.getDeliveryMode();
         } else {
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
@@ -510,7 +512,19 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onGetDeliveryModes(Message msg) {
-
+        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            Utility.dismissProgressDialog();
+        } else if ((msg.obj instanceof IAPNetworkError)) {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            Utility.dismissProgressDialog();
+        } else if ((msg.obj instanceof GetDeliveryModes)) {
+            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+            if (deliveryModeList.size() > 0) {
+                CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
+                mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+            }
+        }
     }
 
     @Override
