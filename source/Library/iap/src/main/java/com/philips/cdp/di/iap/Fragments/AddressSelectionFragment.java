@@ -26,6 +26,8 @@ import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
@@ -182,7 +184,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             Addresses selectedAddress = retrieveSelectedAddress();
             mIsAddressUpdateAfterDelivery = true;
             mAddrController.setDefaultAddress(selectedAddress);
-            mAddrController.setDeliveryMode();
+            mAddrController.getDeliveryMode();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
             Utility.dismissProgressDialog();
@@ -206,7 +208,19 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onGetDeliveryModes(Message msg) {
-
+        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            Utility.dismissProgressDialog();
+        } else if ((msg.obj instanceof IAPNetworkError)) {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            Utility.dismissProgressDialog();
+        } else if ((msg.obj instanceof GetDeliveryModes)) {
+            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+            if (deliveryModeList.size() > 0) {
+                CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
+                mAddrController.setDeliveryMode(deliveryModeList.get(0).getCode());
+            }
+        }
     }
 
     public static AddressSelectionFragment createInstance(final Bundle args, final AnimationType animType) {

@@ -7,10 +7,12 @@ package com.philips.cdp.di.iap.container;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.State.RegionsList;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CartModelContainer {
     private static CartModelContainer container;
@@ -25,6 +27,7 @@ public class CartModelContainer {
     private RegionsList mRegionList;
     private HashMap<String, SummaryModel> mPRXDataObjects;
     private HashMap<String, ArrayList<String>> mPRXAssetObjects;
+    private List<DeliveryModes> mDeliveryModes;
 
     private boolean switchToBillingAddress;
 
@@ -72,6 +75,14 @@ public class CartModelContainer {
 
     public void setShoppingCartData(final ArrayList<ShoppingCartData> mShoppingCartData) {
         this.mShoppingCartData = mShoppingCartData;
+    }
+
+    public List<DeliveryModes> getDeliveryModes() {
+        return mDeliveryModes;
+    }
+
+    public void setDeliveryModes(List<DeliveryModes> mDeliveryModes) {
+        this.mDeliveryModes = mDeliveryModes;
     }
 
     public AddressFields getShippingAddressFields() {

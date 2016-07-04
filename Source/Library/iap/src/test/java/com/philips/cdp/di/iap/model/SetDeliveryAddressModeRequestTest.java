@@ -54,7 +54,7 @@ public class SetDeliveryAddressModeRequestTest {
         mStore.initStoreConfig("en", "us", null);
         SetDeliveryAddressModeRequest request = new SetDeliveryAddressModeRequest(mStore, null, null);
         HashMap<String, String> query = new HashMap<String, String>();
-        query.put(ModelConstants.DEVLVERY_MODE_ID, "standard-net");
+        query.put(ModelConstants.DELIVERY_MODE_ID, "standard-net");
         assertEquals(request.requestBody(), query);
     }
 
@@ -65,7 +65,7 @@ public class SetDeliveryAddressModeRequestTest {
         when(mStore.getCountry()).thenReturn(mStore.getCountry());
         SetDeliveryAddressModeRequest request = Mockito.mock(SetDeliveryAddressModeRequest.class);//new SetDeliveryAddressModeRequest(mStore, null, null);
         HashMap<String, String> query = new HashMap<String, String>();
-        query.put(ModelConstants.DEVLVERY_MODE_ID, "standard-gross");
+        query.put(ModelConstants.DELIVERY_MODE_ID, "standard-gross");
         when(request.requestBody()).thenReturn(query);
         assertEquals(request.requestBody(), query);
     }
