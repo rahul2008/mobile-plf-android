@@ -193,8 +193,8 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
 
-        String socialProvider = bundle.getString(RegConstants.SOCIAL_PROVIDER);
-        String conflictingProvider = bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
+        String socialProvider = "reg_"+bundle.getString(RegConstants.SOCIAL_PROVIDER);
+        String conflictingProvider = "reg_"+bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
 
         int currentSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(socialProvider, "string",
                 getRegistrationFragment().getParentActivity().getPackageName());
