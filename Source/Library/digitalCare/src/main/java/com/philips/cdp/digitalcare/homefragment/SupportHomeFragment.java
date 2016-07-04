@@ -872,6 +872,20 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 //        getActivity().finish();
     }
 
+    @Override
+    public void onDestroyView() {
+        if (mProgressDialog != null && mProgressDialog.isShowing() &&
+                !getActivity().isFinishing()) {
+            try {
+                mProgressDialog.dismiss();
+                mProgressDialog.cancel();
+                mProgressDialog = null;
+            } catch (IllegalArgumentException e) {
+                DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+            }
+        }
+        super.onDestroyView();
+    }
 
     private Drawable getDrawable(int resId) {
         return getResources().getDrawable(resId);
