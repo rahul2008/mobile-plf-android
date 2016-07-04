@@ -9,6 +9,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.prx.PRXDataBuilder;
+import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -43,7 +44,10 @@ public class ProductCatalogHelper {
                 return true;
 
             ArrayList<ProductCatalogData> products = mergeResponsesFromHybrisAndPRX(planBProductCTNs, productData, prxModel);
-            refreshList(products);
+            PaginationEntity pagination = null;
+            if (productData != null)
+                pagination = productData.getPagination();
+            refreshList(products, pagination);
 
         } else {
             notifyEmptyCartFragment();
@@ -80,6 +84,7 @@ public class ProductCatalogHelper {
         } else {
             if (productData != null) {
                 final List<ProductsEntity> productsEntities = productData.getProducts();
+                if(productsEntities!=null)
                 for (ProductsEntity entry : productsEntities) {
                     ctn = entry.getCode();
                     productsToBeShown.add(ctn);
@@ -103,13 +108,16 @@ public class ProductCatalogHelper {
                 prxModel.put(ctnPresent, CartModelContainer.getInstance().getProductData(ctnPresent));
             }
             ArrayList<ProductCatalogData> productCatalogDatas = mergeResponsesFromHybrisAndPRX(planBProductList, productData, prxModel);
-            refreshList(productCatalogDatas);
+            PaginationEntity pagination = null;
+            if (productData != null)
+                pagination = productData.getPagination();
+            refreshList(productCatalogDatas, pagination);
         }
     }
 
-    public void refreshList(ArrayList<ProductCatalogData> data) {
+    public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity) {
         if (mLoadListener != null) {
-            mLoadListener.onLoadFinished(data);
+            mLoadListener.onLoadFinished(data,paginationEntity);
         }
     }
 
@@ -147,11 +155,16 @@ public class ProductCatalogHelper {
         }
     }
 
+    private PaginationEntity getPaginationInfo(Products productCatalog){
+        return productCatalog.getPagination();
+    }
+
     private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanA(Products productData, HashMap<String, SummaryModel> prxModel) {
         List<ProductsEntity> entries = productData.getProducts();
         HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXDataObjects();
         ArrayList<ProductCatalogData> products = new ArrayList<>();
         String ctn;
+        if(entries!=null)
         for (ProductsEntity entry : entries) {
             ctn = entry.getCode();
             ProductCatalogData productItem = new ProductCatalogData();

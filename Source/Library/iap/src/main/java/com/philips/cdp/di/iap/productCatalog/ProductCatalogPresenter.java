@@ -17,18 +17,23 @@ import com.philips.cdp.di.iap.core.ProductCatalogHelper;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
+import com.philips.cdp.di.iap.model.OrderHistoryRequest;
+import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel.DataLoadListener {
 
@@ -36,23 +41,62 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     private LoadListener mLoadListener;
     private HybrisDelegate mHybrisDelegate;
     private StoreSpec mStore;
+
     private FragmentManager mFragmentManager;
     Products mProductData = null;
     ProductCatalogHelper mProductCatalogHelper;
     boolean isPlanA;
 
-    public void getCompleteProductList(Context mContext, final IAPHandlerProductListListener iapListener) {
+    public void getCompleteProductList(final Context mContext, final IAPHandlerProductListListener iapListener, final int currentPage, final int pageSize) {
+        final AbstractModel.DataLoadListener listener = this;
+        HashMap<String, String> query = new HashMap<>();
+        query.put(ModelConstants.CURRENT_PAGE, String.valueOf(currentPage));
+        query.put(ModelConstants.PAGE_SIZE, String.valueOf(pageSize));
+
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), null, this);
+        GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), query, listener);
         model.setContext(mContext);
         delegate.sendRequest(0, model, new RequestListener() {
 
             @Override
             public void onSuccess(Message msg) {
                 if (iapListener != null) {
-                    ArrayList<String> productCTNs = getProductCTNs(msg);
-                    IAPLog.d(IAPLog.LOG, "getCompleteProductList -- ProductCatelogPresenter " + productCTNs.toString());
-                    iapListener.onSuccess(productCTNs);
+                 //   IAPLog.d(IAPLog.LOG, "getCompleteProductList -- ProductCatelogPresenter " + productCTNs.toString());
+                    Products products = (Products) msg.obj;
+                    int mTotalResults = products.getPagination().getTotalResults();
+                    int mTotalPages = products.getPagination().getTotalPages();
+
+                    if(mTotalPages>1){
+                        HashMap<String, String> query = new HashMap<>();
+                        query.put(ModelConstants.CURRENT_PAGE, String.valueOf(0));
+                        query.put(ModelConstants.PAGE_SIZE, String.valueOf(mTotalResults));
+
+                        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+                        GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), query, listener);
+                        model.setContext(mContext);
+                        delegate.sendRequest(0, model, new RequestListener() {
+
+                            @Override
+                            public void onSuccess(final Message msg) {
+                                ArrayList<String> productCTNs = getProductCTNs(msg);
+                                if (iapListener != null) {
+                                    iapListener.onSuccess(productCTNs);
+                                }
+                            }
+
+                            @Override
+                            public void onError(final Message msg) {
+                                if (iapListener != null) {
+                                    iapListener.onFailure(getIAPErrorCode(msg));
+                                }
+                            }
+                        });
+                    }else{
+                        if (iapListener != null) {
+                            ArrayList<String> productCTNs = getProductCTNs(msg);
+                            iapListener.onSuccess(productCTNs);
+                        }
+                    }
                 }
             }
 
@@ -83,7 +127,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     public interface LoadListener {
-        void onLoadFinished(ArrayList<ProductCatalogData> data);
+        void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity);
 
         void onLoadError(IAPNetworkError error);
     }
@@ -123,8 +167,11 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
 
     @Override
-    public boolean getProductCatalog() {
-        GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), null, this);
+    public boolean getProductCatalog(int currentPage, int pageSize) {
+        HashMap<String, String> query = new HashMap<>();
+        query.put(ModelConstants.CURRENT_PAGE, String.valueOf(currentPage));
+        query.put(ModelConstants.PAGE_SIZE, String.valueOf(pageSize));
+        GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), query, this);
         model.setContext(mContext);
         sendHybrisRequest(0, model, model);
         return true;

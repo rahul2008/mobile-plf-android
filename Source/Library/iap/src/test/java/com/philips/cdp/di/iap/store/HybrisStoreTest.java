@@ -114,7 +114,7 @@ public class HybrisStoreTest {
 
     @Test
     public void confirmProductCatalogURL() {
-        assertEquals(NetworkURLConstants.PRODUCT_CATALOG_URL, mStore.getProductCatalogUrl());
+        assertEquals(NetworkURLConstants.PRODUCT_CATALOG_URL, mStore.getProductCatalogUrl(0,1));
     }
 
     @Test

@@ -65,7 +65,7 @@ public class ProductCatalogPresenterTest {
 
     @Test
     public void doSomething() {
-        mPresenter.getProductCatalog();
+        mPresenter.getProductCatalog(0);
         HybrisStore hybrisStore = Mockito.mock(HybrisStore.class);
         GetProductCatalogRequest model = new GetProductCatalogRequest(hybrisStore, null,
                 new AbstractModel.DataLoadListener() {
