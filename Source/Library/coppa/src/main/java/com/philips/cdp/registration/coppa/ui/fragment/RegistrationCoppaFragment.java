@@ -430,6 +430,32 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
+    private static void addParentalApprovalFragmentonLaunch() {
+        //update coppa with prev as registration and adding on top
+
+        if (mFragmentManager != null) {
+            try {
+                ParentalApprovalFragment parentalAccessFragment = new ParentalApprovalFragment();
+                int count = mFragmentManager.getBackStackEntryCount();
+                RegistrationFragment registrationFragment = null;
+                if (count != 0 && registrationFragment instanceof RegistrationFragment) {
+                    registrationFragment = (RegistrationFragment) mFragmentManager.getFragments().get(count);
+                }
+                if (registrationFragment != null) {
+                    parentalAccessFragment.setPrevTitleResourceId(lastKnownResourceId);
+                }
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, parentalAccessFragment, "Parental Access");
+                //fragmentTransaction.addToBackStack(parentalAccessFragment.getTag());
+                fragmentTransaction.commitAllowingStateLoss();
+            } catch (IllegalStateException e) {
+                RLog.e(RLog.EXCEPTION,
+                        "RegistrationCoppaFragment :FragmentTransaction Exception occured in addFragment  :"
+                                + e.getMessage());
+            }
+        }
+    }
+
     private static UserRegistrationListener mUserRegistrationListener = new UserRegistrationListener() {
         @Override
         public void onUserRegistrationComplete(Activity activity) {
@@ -482,7 +508,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
 
     private static  void handleConsentState() {
-System.out.println("Handle Consent State");
+      RLog.i("Coppa Consent","Handle Consent State");
         CoppaExtension mCoppaExtension;
         mCoppaExtension = new CoppaExtension(getParentActivity().getApplicationContext());
         mCoppaExtension.buildConfiguration();
@@ -492,10 +518,10 @@ System.out.println("Handle Consent State");
                     RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(getParentActivity());
                 }
             } else {
-                addParentalApprovalFragment();
+                addParentalApprovalFragmentonLaunch();
             }
         }else{
-            addParentalApprovalFragment();
+            addParentalApprovalFragmentonLaunch();
             isParentConsentRequested = false;
         }
     }

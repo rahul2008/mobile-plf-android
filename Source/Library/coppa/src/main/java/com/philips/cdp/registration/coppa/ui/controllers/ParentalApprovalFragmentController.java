@@ -166,9 +166,20 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
 
 
                 } else {
-                    if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
-                        RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+
+                    //Need to check and act on it on what bases it arraived here
+                    //If comes from the general way then need not be load 24 hours screen else load
+                    boolean isDone  = true ;
+
+                    if(isDone){
+                        if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
+                            RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
+                        }
+                    }else{
+                        // Need to load the fragment of 24
+                        addParentalConsentFragment(coppaStatus);
                     }
+
                 }
             } else {
                 if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
