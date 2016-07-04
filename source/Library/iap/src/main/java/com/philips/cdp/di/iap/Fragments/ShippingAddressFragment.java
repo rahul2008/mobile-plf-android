@@ -488,7 +488,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onSetDeliveryAddress(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            mAddressController.getDeliveryMode();
+            mAddressController.getDeliveryModes();
         } else {
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
@@ -496,7 +496,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onSetDeliveryModes(final Message msg) {
+    public void onSetDeliveryMode(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             mPaymentController.getPaymentDetails();
         } else {
