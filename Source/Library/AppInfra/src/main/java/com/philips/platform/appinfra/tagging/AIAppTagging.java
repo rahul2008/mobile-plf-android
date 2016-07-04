@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.tagging;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
@@ -155,56 +156,61 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
     private String getUTCTimestamp() {
 
-        if(mLocalTimestamp == null){
+        if(mUTCTimestamp == null){
             DateFormat df = DateFormat.getTimeInstance();
             df.setTimeZone(TimeZone.getTimeZone("gmt"));
             String utcTime = df.format(new Date());
             String UTCtime = null;
-//        if(mAppInfra != null){
-//            UTCtime = new AppInfra.Builder().build(mcontext).getTimeSync().getUTCTime();
-//
-//        }
-
-            mLocalTimestamp = utcTime;
+        if(mAppInfra.getTimeSync() != null){
+            UTCtime=mAppInfra.getTimeSync().getUTCTime();
+            mUTCTimestamp = UTCtime;
+            Log.i("mUTCTimestamp", ""+mUTCTimestamp);
+        }else{
+            mUTCTimestamp = utcTime;
         }
 
 
-        return mLocalTimestamp;
+        }
+
+        if(mUTCTimestamp!=null){
+            return mUTCTimestamp;
+        }
+        return mUTCTimestamp;
     }
 
-    private static String getLocalTimestamp() {
+    private String getLocalTimestamp() {
 
 
-        if(mUTCTimestamp == null){
+        if(mLocalTimestamp == null){
             Calendar c = Calendar.getInstance();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String formattedDate = df.format(c.getTime());
-            mUTCTimestamp = formattedDate;
+            mLocalTimestamp = formattedDate;
         }
 
 
         return mUTCTimestamp;
     }
 
-    public static String getComponentId() {
+    public String getComponentId() {
         if(componentVersionKey == null){
             componentVersionKey = "DefaultText";
         }
         return componentVersionKey;
     }
 
-    public static void setComponentID(String componentID) {
+    public void setComponentID(String componentID) {
         AIAppTagging.componentVersionKey = componentID;
     }
 
-    public static String getComponentVersionVersionValue() {
+    public String getComponentVersionVersionValue() {
         if(componentVersionVersionValue == null){
             componentVersionVersionValue = "DefalutValue";
         }
         return componentVersionVersionValue;
     }
 
-    public static void setComponentVersionVersionValue(String componentVersionVersionValue) {
+    public void setComponentVersionVersionValue(String componentVersionVersionValue) {
         AIAppTagging.componentVersionVersionValue = componentVersionVersionValue;
     }
 

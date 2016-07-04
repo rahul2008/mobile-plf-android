@@ -114,6 +114,7 @@ public class AppInfra {
         public AppInfra build(Context pContext ) {
 
             AppInfra ai = new AppInfra(pContext);
+            ai.setTimeSync(mTimeSyncInterface == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterface);
             //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
@@ -122,7 +123,7 @@ public class AppInfra {
             ai.setTagging(tagging == null ? new AIAppTagging(ai) : tagging);
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
             ai.setLocal(local == null ? new LocalManager(ai) : local);
-            ai.setTimeSync(mTimeSyncInterface == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterface);
+
             ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
             return ai;
         }

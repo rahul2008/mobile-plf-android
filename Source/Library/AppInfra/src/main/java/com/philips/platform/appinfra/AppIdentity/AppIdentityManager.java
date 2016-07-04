@@ -40,9 +40,9 @@ public class AppIdentityManager implements AppIdentityInterface {
 
     @Override
     public String getAppVersion() {
-        if(mAppInfra.getTagging()!=null){
-            mAppInfra.getTagging().trackActionWithInfo("AppIndentityPage", "KeyAppIdentity", "ValueAppIdentity");
-        }
+//        if(mAppInfra.getTagging()!=null){
+//            mAppInfra.getTagging().trackActionWithInfo("AppIndentityPage", "KeyAppIdentity", "ValueAppIdentity");
+//        }
         return mAppVersion;
     }
 

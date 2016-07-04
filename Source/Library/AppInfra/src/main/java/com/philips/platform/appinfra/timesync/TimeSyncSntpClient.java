@@ -2,6 +2,7 @@ package com.philips.platform.appinfra.timesync;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +27,7 @@ import java.util.TimeZone;
 /**
  * Created by 310243577 on 6/27/2016.
  */
-public class TimeSyncSntpClient implements TimeSyncInterface{
+public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInterface{
 
 
     private static final String TAG = "TimeSyncSntpClient";
@@ -363,14 +364,14 @@ public class TimeSyncSntpClient implements TimeSyncInterface{
         String mNtpDate = null;
         try{
             if(mNtpTime == 0L){
-                DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS", Locale.ENGLISH);
+                DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS", Locale.ROOT);
                 Date UTCdate = new Date(mNtpTime);
                 DATE_FORMAT.format(UTCdate);
                 Log.i("DATE_FORMAT", ""+DATE_FORMAT.format(UTCdate));
                 refreshTime();
-                mNtpDate = getCurrentUTCTimeWithFormat("dd/MM/yyyy hh:mm:ss.SSS");
+                mNtpDate = getCurrentTime();
             }else{
-                mNtpDate = getCurrentUTCTimeWithFormat("dd/MM/yyyy hh:mm:ss.SSS");
+                mNtpDate = getCurrentTime();
             }
 
         }catch (Exception e){
@@ -390,5 +391,11 @@ public class TimeSyncSntpClient implements TimeSyncInterface{
                 }
             }
         }).start();
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        mNtpTime = 0L;
+        refreshTime();
     }
 }
