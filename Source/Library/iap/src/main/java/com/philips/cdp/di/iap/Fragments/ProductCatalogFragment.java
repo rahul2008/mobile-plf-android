@@ -233,9 +233,18 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             mProductCatalog = new ArrayList<>();
         }
         for (ProductCatalogData data : dataFetched) {
-            if (!mProductCatalog.contains(data))
+            if (!checkIfEntryExists(data))
                 mProductCatalog.add(data);
         }
+    }
+
+    private boolean checkIfEntryExists(final ProductCatalogData data) {
+        for(ProductCatalogData entry : mProductCatalog) {
+            if(entry.getCtnNumber().equalsIgnoreCase(data.getCtnNumber())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
