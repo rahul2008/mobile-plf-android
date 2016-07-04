@@ -103,6 +103,15 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     }
 
+    @Override
+    public void onDestroyView() {
+        if (!(getActivity().isFinishing()) && mSummaryDialog.isShowing()) {
+            mSummaryDialog.dismiss();
+            mSummaryDialog.cancel();
+        }
+        super.onDestroyView();
+    }
+
     private void getSummaryDataFromPRX() {
 
         if (mSummaryDialog == null)

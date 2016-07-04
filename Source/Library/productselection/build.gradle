@@ -41,11 +41,8 @@ android {
     buildToolsVersion '23.0.2'
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 23
-        renderscriptTargetApi 23
-        renderscriptSupportModeEnabled true
-        generatedDensities = []
         versionCode 3
         versionName objcdp.getVersionWithHash()
         multiDexEnabled true
@@ -81,7 +78,7 @@ dependencies {
     }
 //    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.0.0', ext: 'aar')
     compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.1.0', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.1', ext: 'aar'){
         transitive = true
     }
 }
@@ -168,12 +165,6 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
     }
 }
 
-android {
-    packagingOptions {
-        pickFirst 'lib/arm64-v8a/librsjni.so'
-        pickFirst 'lib/arm64-v8a/libRSSupport.so'
-    }
-}
 
 
 
