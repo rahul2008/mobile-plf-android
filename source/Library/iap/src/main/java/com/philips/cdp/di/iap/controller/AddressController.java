@@ -85,8 +85,11 @@ public class AddressController implements AbstractModel.DataLoadListener {
         }
     }
 
-    public void setDeliveryMode() {
-        SetDeliveryAddressModeRequest model = new SetDeliveryAddressModeRequest(getStore(), null, this);
+    public void setDeliveryMode(String deliveryMode) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(ModelConstants.DELIVERY_MODE_ID, deliveryMode);
+
+        SetDeliveryAddressModeRequest model = new SetDeliveryAddressModeRequest(getStore(), params, this);
         getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_MODE, model, model);
     }
 
@@ -131,8 +134,10 @@ public class AddressController implements AbstractModel.DataLoadListener {
                 break;
             case RequestCode.GET_REGIONS:
                 mAddressListener.onGetRegions(msg);
+                break;
             case RequestCode.GET_DELIVERY_MODE:
                 mAddressListener.onGetDeliveryModes(msg);
+                break;
         }
     }
 

@@ -30,7 +30,7 @@ public class ModelConstants {
     public static final String DEFAULT_ADDRESS = "defaultAddress";
     public static final String EMAIL_ADDRESS = "email_address";
 
-    public static final String DEVLVERY_MODE_ID = "deliveryModeId";
+    public static final String DELIVERY_MODE_ID = "deliveryModeId";
 
     public static final String PAYMENT_DETAILS_ID = "paymentDetailsId";
     public static final String WEBPAY_URL = "webpay_url";
