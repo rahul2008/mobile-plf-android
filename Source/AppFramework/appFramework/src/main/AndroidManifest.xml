@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.philips.cdp.appframework">
+    package="com.philips.platform.appframework">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission
+        android:name="com.philips.platform.appframework.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
     <application
-        android:name="com.philips.cdp.appframework.AppFrameworkApplication"
+        android:name="com.philips.platform.appframework.AppFrameworkApplication"
         android:allowBackup="true"
+        android:largeHeap="true"
         tools:replace="android:theme"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/app_icon"
@@ -15,7 +20,7 @@
         android:supportsRtl="true"
        android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground">
 
-        <activity android:name="com.philips.cdp.appframework.splash.SplashActivity"
+        <activity android:name=".splash.SplashActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,12 +35,22 @@
         <activity android:name=".homescreen.HamburgerActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <!--<receiver-->
-            <!--android:name="com.philips.cdp.appframework.utility.NetworkReceiver"-->
+            <!--android:name="NetworkReceiver"-->
             <!--android:exported="false">-->
             <!--<intent-filter android:priority="999">-->
                 <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
             <!--</intent-filter>-->
         <!--</receiver>-->
+
+        <!--Credentials For LocatePhilips Near you feature(Google Map)-->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- AIzaSyCMHfSC_TqL_PNqJX7pbaIyl154VnFrhec-->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyABLxPKwgjrCBnnLvP55yAYnhpAHZmhLvY" />
 
     </application>
 
