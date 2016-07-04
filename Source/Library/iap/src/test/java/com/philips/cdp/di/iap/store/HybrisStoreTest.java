@@ -165,4 +165,14 @@ public class HybrisStoreTest {
     public void getRegionsUrlIsNotNull() {
         assertNotNull(mStore.getRegionsUrl());
     }
+
+    @Test
+    public void getOrderHistorylURLValid() {
+        assertEquals(NetworkURLConstants.ORDER_HISTORY_URL, mStore.getOrderHistoryUrl(NetworkURLConstants.DUMMY_PAGE_NUMBER));
+    }
+
+    @Test
+    public void getOrderDetailURLValid() {
+        assertEquals(NetworkURLConstants.ORDER_DETAIL_URL, mStore.getOrderDetailUrl(NetworkURLConstants.DUMMY_ORDER_ID));
+    }
 }

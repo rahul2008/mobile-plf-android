@@ -145,11 +145,19 @@ public class OrderController implements AbstractModel.DataLoadListener {
         return products;
     }
 
+    public void setHybrisDelegate(HybrisDelegate delegate) {
+        mDelegate = delegate;
+    }
+
     HybrisDelegate getHybrisDelegate() {
         if (mDelegate == null) {
             mDelegate = HybrisDelegate.getInstance(mContext);
         }
         return mDelegate;
+    }
+
+    public void setStore(StoreSpec store) {
+        mStore = store;
     }
 
     StoreSpec getStore() {
