@@ -5,6 +5,8 @@
  */
 package com.philips.platform.appinfra.logging;
 
+import com.philips.platform.appinfra.AppInfra;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +23,9 @@ public class LogFormatter extends Formatter {
 private final String componentNameAndVersion;
     String mComponentName="NA";
     String mComponentVersion="NA";
-    public LogFormatter(String ComponentName, String componentVersion){
+    AppInfra mappInfra;
+    public LogFormatter(String ComponentName, String componentVersion, AppInfra mAppinfra){
+        mappInfra= mAppinfra;
         if(null!=ComponentName){
             mComponentName=ComponentName;
         }
@@ -36,8 +40,10 @@ private final String componentNameAndVersion;
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
         builder.append("[");
-        Date aiCurrentDate= new Date(record.getMillis());
-        builder.append(DATE_FORMAT.format(aiCurrentDate)).append("]");
+        if(mappInfra != null && mappInfra.getTimeSync()!=null){
+            builder.append(mappInfra.getTimeSync().getUTCTime()).append("]");
+        }
+
         String componentName = "NA"; // Default component name
         /*if(null!=record.getLoggerName()){
             componentName=record.getLoggerName();

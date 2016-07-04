@@ -149,7 +149,7 @@ public class AppInfraLogging implements  LoggingInterface {
             if (isEnabled) {
                 if (null == consoleHandler) {
                     consoleHandler = new ConsoleHandler();
-                    consoleHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion));
+                    consoleHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
                     // consoleHandler.setFilter(new LogFilter(null,"ev1"));
                     javaLogger.addHandler(consoleHandler);
                 } else {
@@ -177,7 +177,7 @@ public class AppInfraLogging implements  LoggingInterface {
         if(pFileLogEnabled) {
             if(null==fileHandler) {// add file log
                 fileHandler = getFileHandler();
-                fileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion));
+                fileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
                 javaLogger.addHandler(fileHandler);
 
             }else{
