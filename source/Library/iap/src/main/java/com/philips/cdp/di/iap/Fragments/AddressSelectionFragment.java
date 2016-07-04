@@ -204,6 +204,11 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     }
 
+    @Override
+    public void onGetDeliveryModes(Message msg) {
+
+    }
+
     public static AddressSelectionFragment createInstance(final Bundle args, final AnimationType animType) {
         AddressSelectionFragment fragment = new AddressSelectionFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());

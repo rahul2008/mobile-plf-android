@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.orderHistory;
 
 import android.os.Message;
 
-import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.OrderController;
 
 /**
