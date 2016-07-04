@@ -96,7 +96,6 @@ public class ProductModelSelectionHelper {
     }
 
     public void initializeTagging(Boolean taggingEnabled, String appName, String appId, String launchingPage) {
-        ProductSelectionLogger.i("testing", "Tagging init");
         Tagging.enableAppTagging(taggingEnabled);
         Tagging.setTrackingIdentifier(appId);
         Tagging.setComponentVersionKey(Constants.ATTRIBUTE_KEY_PRODUCT_SELECTION);
@@ -236,7 +235,7 @@ public class ProductModelSelectionHelper {
 
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
-            ProductSelectionLogger.d(TAG, "Setting Locale :  : " + mLocale.toString());
+            ProductSelectionLogger.i(TAG, "The Locale ProductSelection Component uses is : " + mLocale.toString());
         }
     }
 

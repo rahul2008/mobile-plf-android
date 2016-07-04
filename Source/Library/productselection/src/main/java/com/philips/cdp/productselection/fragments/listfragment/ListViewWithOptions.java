@@ -86,7 +86,7 @@ public class ListViewWithOptions extends BaseAdapter {
                 "&hei=" + imageWidth +
                 "&fit=fit,1";
 
-        ProductSelectionLogger.v(TAG, "Image : " + imagepath);
+        ProductSelectionLogger.i(TAG, "Image URL's of the listed Products : " + imagepath);
 
         final  ImageRequest request = new ImageRequest(imagepath,
                 new Response.Listener<Bitmap>() {

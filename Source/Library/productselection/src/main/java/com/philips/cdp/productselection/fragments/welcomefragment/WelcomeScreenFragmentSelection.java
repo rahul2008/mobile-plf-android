@@ -14,6 +14,7 @@ import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.utils.Constants;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.tagging.Tagging;
 
 /**
