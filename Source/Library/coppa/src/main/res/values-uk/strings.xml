@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Ви намагаєтеся перейти до розділу для батьків.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Погоджуюся</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Не погоджуюся</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Дякуємо Вам за батьківську згоду </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Ви отримаєте запит щодо підтвердження згоди в разі повторного переходу до розділу для батьків через щонайменше 24 години відтепер.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Дякуємо Вам за турботу та надання інформації!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Ви надали свою згоду Philips на збір інформації про час, період та частоту чищення, отриманої з ручки щітки й додатка. \n \n Компанія Philips дуже серйозно ставиться до Вашої конфіденційності та особистих даних. Ми ніколи не використовуватимемо ці дані для жодних інших цілей, аніж покращення функціональності Sonicare for Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Ви вже надали свою батьківську згоду Philips на збір та використання певної інформації з додатка Philips Sonicare Kids.\n\nКомпанія Philips дуже відповідально ставиться до захисту Вашої конфіденційності. Для певності, що це були Ви, просимо повторного підтвердження.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Так, я підтверджую</string>
+<string name="reg_Coppa_Reject_Button_Txt">Ні, я заперечую</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Так, я даю згоду</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Ні, я не даю згоди</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Повторне підтвердження батьківської згоди</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Батьківська згода</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Ви даєте свою батьківську згоду?</string>
 </resources>

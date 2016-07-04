@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">보호자를 위한 섹션에 액세스를 시도하고 있습니다.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">동의</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">동의하지 않음</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">보호자 동의를 해 주셔서 감사합니다. </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">지금부터 최소 24시간 후 보호자 섹션에 들어가시면 동의 확인 요청을 받게 될 것입니다.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">관심과 성원에 감사드립니다.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">고객님께서는 필립스에서 칫솔 핸들과 앱을 통해 양치질 시간, 기간 및 주기에 대한 정보를 수집하는 것에 동의하셨습니다. \n \n 필립스는 고객의 개인 정보를 매우 중요하게 여기며 수집된 고객 데이터는 소닉케어 키즈 사용 경험 개선 목적이 아닌 다른 용도로는 절대 사용되지 않습니다.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">필립스 소닉케어 키즈 앱을 통해 특정 정보를 수집 및 사용하는 것에 대한 고객님의 보호자 동의가 이미 필립스에 제공되었습니다.\n\n필립스는 고객님의 개인 정보를 보호하기 위해 세심한 주의를 기울이고 있습니다. 재확인을 위해 다시 한 번 보호자 동의를 확인해 주실 것을 요청드립니다.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">예, 다시 확인합니다.</string>
+<string name="reg_Coppa_Reject_Button_Txt">아니요, 거부합니다.</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">예, 동의합니다.</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">아니요, 동의하지 않습니다.</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">보호자 동의 다시 확인</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">보호자 동의</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">보호자 동의를 하시겠습니까?</string>
 </resources>

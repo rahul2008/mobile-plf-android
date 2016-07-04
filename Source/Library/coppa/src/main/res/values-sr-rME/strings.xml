@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Pokušavate da pristupite odjeljku koji je namijenjen roditeljima.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Prihvatam</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Ne prihvatam</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Hvala vam na Vašoj roditeljskoj saglasnosti </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Primićete zahtjev za potvrdu saglasnosti, kada ponovo uđete u odjeljak za roditelje nakon minimalnog perioda od 24 sata u odnosu na sada.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Hvala vam na brizi i dijeljenju!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Dali ste Vašu saglasnost kompaniji Philips da prikuplja informacije o vremenu provedenom u pranju zuba, informacije o vremenu i učestalosti pranja zuba koje prikupljamo preko drške četkice i aplikacije. \n \n Kompanija Philips se veoma ozbiljno odnosi prema Vašoj privatnosti i ličnim podacima. Nikada nećemo koristiti ove podatke za bilo koje druge svrhe osim za poboljšanje iskustva koje djeca imaju sa četkicama za zube Sonicare.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Vaša roditeljska saglasnost za prikupljanje i korišćenje određenih informacija preko aplikacije Sonicare kompanije Philips je već data.\n\nKompanija Philips preduzima sve mjere kako bi zaštiti vašu privatnost. Kako bi se uvjerili da ste to zaista Vi, molimo Vas da nam ponovo potvrdite Vašu saglasnost.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Da, ponovo potvrđujem</string>
+<string name="reg_Coppa_Reject_Button_Txt">Ne, odbijam</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Da, dajem saglasnost</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Ne, ne dajem saglasnost</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Ponovo potvrdite Vašu roditeljsku saglasnost</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Saglasnost roditelja</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Da li dajete Vašu roditeljsku saglasnost?</string>
 </resources>

@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Опитваш се да отвориш раздел, който е предназначен за родители.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Съгласен съм</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Не приемам</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Благодарим ви за вашето разрешение от родител </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Ако се съгласите, ще получите заявка за потвърждение на съгласието, когато влезете отново в родителския раздел, след не по-малко от 24 часа.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Благодарим ви за заинтересоваността и споделянето!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Вие сте дали вашето съгласие на Philips да събира информация за времето на миене на зъбите, периода и честотата, събирана от дръжката на четката и приложението. \n \n Philips взима много насериозно вашата поверителност и лични данни. Ние никога няма да използваме тези данни за други цели, освен да подобрим изживяването на Sonicare For Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Вашето разрешение от родител вече е дадено на Philips за събиране и използване на определена информация от приложението Philips Sonicare Kids.\n\nPhilips поема най-голяма грижа да защити вашата поверителност. За да се уверим, че наистина сте вие, потвърдете отново.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Да, потвърждавам отново</string>
+<string name="reg_Coppa_Reject_Button_Txt">Не, отказвам</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Да, давам съгласие</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Не, не се съгласявам</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Потвърдете повторно вашето разрешение от родител</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Разрешение от родител</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Давате ли вашето разрешение от родител?</string>
 </resources>

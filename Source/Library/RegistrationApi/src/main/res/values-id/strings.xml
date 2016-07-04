@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Halo</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">Apakah Anda ingin mengakses pengaturan akun lainnya?\nKunjungi %s lewat browser Anda.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Terima pengumuman Philips\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Menerima komunikasi promosi Philips berdasarkan Preferensi Saya dan perilaku online\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">Apa artinya?</string>
 <string name="reg_Philips_News_Title">Pengumuman Philips</string>
 <string name="reg_Philips_News_Back_btntxt">Belakang</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">OK</string>
 <string name="reg_Generic_Network_Error">Opps! Terjadi kesalahan. Silakan coba lagi nanti</string>
 <string name="reg_Already_Verified_Message">Email Anda sudah diverifikasi. Anda dapat melanjutkan.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">Masukkan nomor telepon Anda</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">Nomor telepon tidak valid</string>
+<string name="reg_Account_ActivationCode_Verify_Account">Memverifikasi akun</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">Mengalami masalah?\n-  Mungkin perlu waktu hingga Anda menerima pesan SMS berisi kode\n-  Jika Anda tidak menerima SMS saat jam penghitung mundur berakhir, tekan tombol \'Kirim Ulang\'</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">Kami telah mengirim SMS berisi kode ke ponsel Anda, harap masukkan kode ini untuk login.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">Masukkan kode</string>
+<string name="reg_Account_ActivationCode_resendtxt">kirim ulang</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">Daftar menggunakan email</string>
+<string name="reg_VerificationCode_ErrorText">Kode verifikasi tidak valid </string>
+<string name="reg_Login_using_email_address">Login menggunakan email</string>
+<string name="reg_SignOut_Alert_Message_Txt">Anda yakin ingin logout? Anda akan memiliki akses terbatas ke aplikasi setelah logout.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">Anda telah login dengan nomor: %s</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">Kode salah, klik untuk mengirim ulang.</string>
+<string name="reg_Login_using_phonenumber_errortxt">Nomor telepon belum terdaftar.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">Nomor telepon atau kata sandi salah.</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">Kami telah mengirim SMS berisi kode ke ponsel Anda, harap masukkan kode ini untuk mereset kata sandi Anda.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">Harap pilih kata sandi baru untuk mereset kata sandi Anda.</string>
+<string name="reg_Resetted_password_message_txt">Anda telah mereset kata sandi Anda dan login dengan nomor: %s</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">Nomor telepon ini sudah digunakan.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">Nomor telepon ini sudah digunakan dengan akun Philips atau media sosial.\nSilakan kembali ke langkah ‘Login’, atau gunakan nomor telepon lainnya.</string>
 </resources>

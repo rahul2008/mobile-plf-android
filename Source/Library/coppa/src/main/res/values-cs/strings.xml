@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Zkoušíte otevřít sekci určenou pro rodiče.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Souhlasím</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Nesouhlasím</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Děkujeme za váš rodičovský souhlas </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Když znovu otevřete sekci pro rodiče nejméně po uplynutí 24 hodin, obdržíte žádost o potvrzení souhlasu.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Děkujeme za váš zájem a sdílení!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Dáváte společnosti Philips souhlas ke sběru informací o době a frekvenci čištění získané z těla kartáčku a aplikace. \n \n Společnost Philips bere vaše soukromí a osobní údaje opravdu vážně. Nikdy tato data nepoužijeme k jinému účelu, než vylepšení aplikace Sonicare for Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Váš rodičovský souhlas se sběrem a použitím určitých informací z aplikace Philips Sonicare Kids již byl udělen.\n\nSpolečnost Philips bere ten největší ohled na ochranu vašeho soukromí. Pro potvrzení, že jste to byli opravdu vy, prosím znovu potvrďte.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Ano, potvrzuji</string>
+<string name="reg_Coppa_Reject_Button_Txt">Ne, nepotvrzuji</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Ano, dávám souhlas</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Ne, nedávám souhlas</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Znovu potvrdit svůj rodičovský souhlas</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Rodičovský souhlas</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Dáváte svůj rodičovský souhlas?</string>
 </resources>

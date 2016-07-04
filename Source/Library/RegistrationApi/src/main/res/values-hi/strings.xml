@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">नमस्ते</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">क्या आप और खाता सेटिंग्स पर पहुँच प्राप्त करना चाहते हैं?\nअपने ब्राउज़र के माध्यम से %s पर जाएँ.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Philips घोषणाएँ प्राप्त करें\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">मेरी प्राथमिकताओं और ऑनलाइन व्यवहार पर आधारित Philips के प्रचारात्मक संचार प्राप्त करें\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">इसका क्या अर्थ है?</string>
 <string name="reg_Philips_News_Title">Philips घोषणाएँ</string>
 <string name="reg_Philips_News_Back_btntxt">पीछे</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">OK</string>
 <string name="reg_Generic_Network_Error">ओह! कुछ गलत हुआ. कृपया बाद में फिर से प्रयास करें</string>
 <string name="reg_Already_Verified_Message">आपका ईमेल पहले से सत्यापित किया गया है. आप जारी रख सकते हैं.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">अपना फ़ोन नंबर दर्ज करें</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">अमान्य फ़ोन नंबर</string>
+<string name="reg_Account_ActivationCode_Verify_Account">खाता सत्यापित करें</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">समस्याएँ हो रही हैं?\n-  कोड वाला SMS आने में कुछ समय लग सकता है\n-  गणना घड़ी समाप्त होने पर यदि आपको कोई SMS प्राप्त नहीं हुआ था, तो \'पुनः भेजें\' बटन दबाएँ</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">हमने आपके फ़ोन पर कोड वाला एक SMS भेजा है, लॉग इन करने के लिए कृपया यह कोड दर्ज करें.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">कोड दर्ज करें</string>
+<string name="reg_Account_ActivationCode_resendtxt">पुनः भेजें</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">ईमेल से पंजीकृत करें</string>
+<string name="reg_VerificationCode_ErrorText">अमान्य सत्यापन कोड </string>
+<string name="reg_Login_using_email_address">ईमेल का उपयोग करके लॉग इन करें</string>
+<string name="reg_SignOut_Alert_Message_Txt">क्या आप वाकई लॉग आउट करना चाहते हैं? लॉग आउट रहने के दौरान आपके पास अनुप्रयोग पर सीमित पहुँच होगी.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">आपने इस नंबर के साथ लॉगिन किया है: %s</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">कोड गलत है, पुनः भेजने के लिए क्लिक करें.</string>
+<string name="reg_Login_using_phonenumber_errortxt">फ़ोन नंबर अभी तक पंजीकृत नहीं किया गया है.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">फ़ोन नंबर या पासवर्ड गलत है.</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">हमने आपके फ़ोन पर कोड वाला एक SMS भेजा है, अपना पासवर्ड रीसेट करने के लिए कृपया यह कोड दर्ज करें.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">अपना पासवर्ड रीसेट करने के लिए कृपया एक नया पासवर्ड चुनें.</string>
+<string name="reg_Resetted_password_message_txt">आपने अपना पासवर्ड रीसेट कर लिया है और इस नंबर के साथ लॉगिन किया है: %s</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">यह फ़ोन पहले से उपयोग में है.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">यह फोन नंबर किसी Philips या सामाजिक मीडिया खाते के साथ पहले से उपयोग में है.\nकृपया\'लॉग इन\' चरण पर वापस जाएँ या अन्य फ़ोन नंबर का उपयोग करें.</string>
 </resources>

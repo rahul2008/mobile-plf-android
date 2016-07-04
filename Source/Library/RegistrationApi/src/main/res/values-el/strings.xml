@@ -50,7 +50,7 @@
 <string name="reg_ReciveMarketing_PeridicOffers_lbltxt">Θα ήθελα να λαμβάνω περιοδικές προσφορές και ενημερώσεις από τη Philips</string>
 <string name="reg_SignIn_with_provider_lbltxt">Σύνδεση μέσω %s</string>
 <string name="reg_Account_Merge_UsedEmail_Error_lbltxt">Έχετε χρησιμοποιήσει ξανά τη διεύθυνση %s για τη δημιουργία λογαριασμού Philips.</string>
-<string name="reg_Account_Merge_EnterPassword_Placeholder_txtFiled">Γράψτε τον κωδικό πρόσβασης Philips</string>
+<string name="reg_Account_Merge_EnterPassword_Placeholder_txtFiled">Γράψτε τον κωδικό Philips</string>
 <string name="reg_Account_Merge_Merge_btntxt">Συγχώνευση</string>
 <string name="reg_Social_SignIn_Email_PlaceHolder_txtFiled">Εισαγάγετε τη διεύθυνση email σας</string>
 <string name="reg_Social_SignIn_AlmostDone_lbltxt">Σχεδόν τελειώσατε!</string>
@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Γεια!</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">Θέλετε να έχετε πρόσβαση σε περισσότερες ρυθμίσεις λογαριασμού;\nΕπισκεφθείτε την τοποθεσία %s μέσω του προγράμματος περιήγησης που χρησιμοποιείτε.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Λήψη ανακοινώσεων της Philips\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Λήψη προωθητικών επικοινωνιών από την Philips, βασισμένες στις προτιμήσεις και την ηλεκτρονική συμπεριφορά μου\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">Τι σημαίνει αυτό;</string>
 <string name="reg_Philips_News_Title">Ανακοινώσεις της Philips</string>
 <string name="reg_Philips_News_Back_btntxt">Πίσω</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">ΟΚ</string>
 <string name="reg_Generic_Network_Error">Δυστυχώς, προέκυψε κάποιο σφάλμα. Δοκιμάστε ξανά αργότερα.</string>
 <string name="reg_Already_Verified_Message">Η διεύθυνση email έχει επαληθευτεί. Μπορείτε να συνεχίσετε.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">Συμπληρώστε τον αριθμό.</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">Μη έγκυρος αριθμός τηλεφώνου</string>
+<string name="reg_Account_ActivationCode_Verify_Account">Επαλήθευση λογαριασμού</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">Αντιμετωπίζετε πρόβλημα;\n- Ίσως χρειαστεί λίγη ώρα μέχρι να λάβετε το SMS με τον κωδικό.\n- Αν δεν λάβετε κάποιο SMS μέχρι να λήξει η αντίστροφη μέτρηση, πατήστε το κουμπί \"Νέα αποστολή\".</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">Έχουμε στείλει ένα SMS με τον κωδικό στο τηλέφωνό σας. Χρησιμοποιήστε αυτόν τον κωδικό για να συνδεθείτε.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">Εισαγωγή κωδικού</string>
+<string name="reg_Account_ActivationCode_resendtxt">νέα αποστολή</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">Δήλωση μέσω email</string>
+<string name="reg_VerificationCode_ErrorText">Μη έγκυρος κωδικός επαλήθευσης </string>
+<string name="reg_Login_using_email_address">Σύνδεση μέσω email</string>
+<string name="reg_SignOut_Alert_Message_Txt">Είστε βέβαιοι ότι θέλετε να αποσυνδεθείτε; Θα έχετε περιορισμένη πρόσβαση στην εφαρμογή όσο είστε αποσυνδεδεμένοι.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">Έχετε συνδεθεί με τον αριθμό: %s</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">Ο κωδικός είναι εσφαλμένος. Κάντε κλικ για νέα αποστολή.</string>
+<string name="reg_Login_using_phonenumber_errortxt">Ο αριθμός τηλεφώνου δεν έχει δηλωθεί ακόμη.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">Ο αριθμός τηλεφώνου ή ο κωδικός πρόσβασης δεν είναι σωστός.</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">Έχουμε στείλει ένα SMS με τον κωδικό στο τηλέφωνό σας. Χρησιμοποιήστε αυτόν τον κωδικό για επαναφορά του κωδικού πρόσβασης.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">Επιλέξτε νέο κωδικό πρόσβασης για επαναφορά του κωδικού σας.</string>
+<string name="reg_Resetted_password_message_txt">Έγινε επαναφορά του κωδικού πρόσβασης και συνδεθήκατε με τον αριθμό: %s</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">Αυτό το τηλέφωνο χρησιμοποιείται ήδη.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">Αυτός ο αριθμός τηλεφώνου χρησιμοποιείται ήδη με ένα λογαριασμό Philips ή μέσων κοινωνικής δικτύωσης.\nΕπιστρέψτε στο βήμα \"Σύνδεση\" ή χρησιμοποιήστε κάποιον άλλο αριθμό τηλεφώνου.</string>
 </resources>

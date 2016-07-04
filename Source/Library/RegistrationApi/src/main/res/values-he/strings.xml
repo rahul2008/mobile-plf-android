@@ -99,7 +99,7 @@
 <string name="reg_wordpress">Wordpress</string>
 <string name="reg_xing">XING</string>
 <string name="reg_LegalNoticeText_With_Terms_And_Conditions" formatted="false">קרא את ה%s וה%s שלנו.</string>
-<string name="reg_LegalNoticeText">וה%s שלנו</string>
+<string name="reg_LegalNoticeText"> וה%s שלנו</string>
 <string name="reg_AgeLimitText">בעצם יצירת החשבון או הכניסה למערכת אתה מאשר כי גילך %s שנים או יותר.\n</string>
 <string name="reg_TermsAndConditionsAcceptanceText">אני מאשר את ה%s של היישום</string>
 <string name="reg_TermsAndConditionsAcceptanceText_Error">אשר את התנאים והתניות</string>
@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">שלום</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">האם ברצונך לגשת להגדרות חשבון נוספות?\nבקר ב-%s בדפדפן.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">קבל הודעות מפיליפס\%sn</string>
+<string name="reg_Receive_Philips_News_lbltxt">קבל חומרים פרסומיים של פיליפס על בסיס ההעדפות שלך והתנהגותך המקוונת\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">מה זה אומר?</string>
 <string name="reg_Philips_News_Title">הודעות של פיליפס</string>
 <string name="reg_Philips_News_Back_btntxt">חזרה</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">אישור</string>
 <string name="reg_Generic_Network_Error">אופס! משהו השתבש. נסה שוב מאוחר יותר</string>
 <string name="reg_Already_Verified_Message">כתובת הדוא\"ל שלך כבר אומתה. אתה רשאי להמשיך.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">הזן את מספר הטלפון שלך</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">מספר טלפון לא חוקי</string>
+<string name="reg_Account_ActivationCode_Verify_Account">אמת את החשבון</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">יש בעיות?\n- הודעת ה-SMS ובה הקוד עשויה להתעכב זמן מה\n- אם לא קיבלת הודעת SMS עד סיום הספירה לאחור בשעון, לחץ על הלחצן \'שלח מחדש\'</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">שלחנו הודעת SMS עם קוד לטלפון שלך; הזן קוד זה כדי להתחבר.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">הזן קוד</string>
+<string name="reg_Account_ActivationCode_resendtxt">שלח מחדש</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">הירשם באמצעות דוא\"ל</string>
+<string name="reg_VerificationCode_ErrorText">קוד אימות לא חוקי </string>
+<string name="reg_Login_using_email_address">התחבר באמצעות דוא\"ל</string>
+<string name="reg_SignOut_Alert_Message_Txt">האם אתה בטוח שברצונך להתנתק? לאחר שתתנתק, יכולת הגישה שלך לאפליקציה תהיה מוגבלת.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">התחברת באמצעות המספר: %s</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">הקוד אינו נכון, הקש כדי לשלוח מחדש.</string>
+<string name="reg_Login_using_phonenumber_errortxt">מספר הטלפון עדיין אינו רשום.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">מספר הטלפון או הסיסמה אינם נכונים.</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">שלחנו הודעת SMS עם קוד לטלפון שלך; הזן קוד זה כדי לאפס את סיסמתך.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">בחר סיסמה חדשה כדי לאפס את סיסמתך.</string>
+<string name="reg_Resetted_password_message_txt">איפסת את סיסמתך והתחברת באמצעות המספר: %s</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">מספר טלפון זה כבר נמצא בשימוש.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">מספר טלפון זה כבר נמצא בשימוש עם חשבון פיליפס או חשבון של רשת חברתית.\nחזור לשלב \'התחבר\' או השתמש במספר טלפון אחר.</string>
 </resources>

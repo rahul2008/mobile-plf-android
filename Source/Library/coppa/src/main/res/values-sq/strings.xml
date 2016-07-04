@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Po përpiqeni të hyni në një seksion të destinuar për prindërit.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Pranoj</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Refuzoj</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Faleminderit për miratimin prindëror </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Do të marrësh një kërkesë për konfirmimin e miratimit kur të rihysh në seksionin për prindërit pas një periudhe prej së paku 24 orësh nga ky çast.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Faleminderit për interesin dhe ndarjen!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">I ke dhënë miratimin \"Philips\" të mbledhë informacione rreth kohës, periudhës dhe shpeshtësisë së larjes me furçë të cilat mblidhen nga doreza e furçës dhe nga aplikacioni. \n \n \"Philips\" i merr seriozisht çështjet e privatësisë dhe të të dhënave tuaja personale. Ne nuk i përdorim kurrë këto të dhëna për qëllime të tjera veç përmirësimit të cilësisë së \"Sonicare for Kids\".</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Miratimi yt prindëror i është dhënë \"Philips\" për mbledhjen dhe përdorimin e informacioneve të caktuara nga aplikacioni \"Philips Sonicare Kids\".\n\n\"Philips\" kujdeset maksimalisht për mbrojtjen e privatësisë suaj. Për t\'i siguruar që je vërtet ti, je i lutur ta rikonfirmosh.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Po, e rikonfirmoj</string>
+<string name="reg_Coppa_Reject_Button_Txt">Jo, e refuzoj</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Po, jap miratimin</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Jo, refuzoj miratimin</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Rikonfirmo miratimin prindëror</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Miratimi prindëror</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">A e jep miratimin tënd prindëror?</string>
 </resources>

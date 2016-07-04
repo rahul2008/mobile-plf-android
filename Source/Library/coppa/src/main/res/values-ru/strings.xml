@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Этот раздел предназначен для родителей.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Согласен</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Не согласен(-на)</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Благодарим за согласие </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">При следующем входе в родительский раздел не ранее чем через 24 часа вам придет запрос на подтверждение согласия.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Благодарим вас за ответ и проявленный интерес!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Вы дали Philips согласие на сбор информации, поступающей с зубной щетки и из приложения, о времени, периодичности и частоте чистки зубов. \n \n Philips всерьез воспринимает задачу обеспечения конфиденциальности персональных данных. Мы будем использовать эти данные исключительно для повышения качества работы продукции Sonicare For Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Вы уже дали Philips согласие на сбор и использование определенной информации из приложения Philips Sonicare For Kids.\n\nPhilips уделяет особое внимание защите конфиденциальности, поэтому просим вас подтвердить свое согласие.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Да, подтвердить</string>
+<string name="reg_Coppa_Reject_Button_Txt">Нет, отменить</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Да, я даю согласие</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Нет, я не даю согласие</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Подтвердите согласие</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Согласие родителей</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Вы даете свое согласие?</string>
 </resources>

@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Próbujesz przejść do sekcji przeznaczonej dla rodziców.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Zgadzam się</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Nie zgadzam się</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Dziękujemy za wyrażenie zgody rodzicielskiej </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">W przypadku ponownego odwiedzenia sekcji dla rodzica po upływie co najmniej 24 godzin od tej chwili otrzymasz prośbę o potwierdzenie zgody.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Dziękujemy za troskę i udostępnienie!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Firma Philips otrzymała Twoją zgodę na gromadzenie informacji obejmujących czas, okres i częstotliwość szczotkowania pobieranych ze szczoteczki i z aplikacji. \n \n W firmie Philips bardzo poważnie traktujemy kwestie związane z prywatnością i danymi osobowymi. Nigdy nie wykorzystamy tych danych do celów innych niż poprawa działania Sonicare for Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Firma Philips otrzymała już Twoją zgodę rodzicielską na gromadzenie i wykorzystywanie określonych informacji z aplikacji Philips Sonicare Kids.\n\nFirma Philips chroni prywatność użytkowników z najwyższą starannością. Aby zweryfikować Twoją tożsamość, prosimy o ponowne potwierdzenie.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Tak, potwierdzam ponownie</string>
+<string name="reg_Coppa_Reject_Button_Txt">Nie, odrzucam</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Tak, wyrażam zgodę</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Nie, odmawiam zgody</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Potwierdź ponownie zgodę rodzicielską</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Zgoda rodzicielska</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Czy wyrażasz zgodę rodzicielską?</string>
 </resources>

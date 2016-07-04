@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Dobrý den,</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">přejete si přejít na další nastavení účtu?\nNavštivte ve svém prohlížeči adresu %s.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Dostávat oznámení Philips\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Dostávat reklamní zprávy společnosti Philips na základě svých preferencí a chování online\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">Co to znamená?</string>
 <string name="reg_Philips_News_Title">Oznámení Philips</string>
 <string name="reg_Philips_News_Back_btntxt">Zpět</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">OK</string>
 <string name="reg_Generic_Network_Error">Jéje! Něco se pokazilo. Zkuste to znovu později.</string>
 <string name="reg_Already_Verified_Message">Váš e-mail byl již ověřen. Můžete pokračovat.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">Vložte telefonní číslo</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">Telefonní číslo je neplatné</string>
+<string name="reg_Account_ActivationCode_Verify_Account">Ověřit účet</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">Narazili jste na problémy?\n-  Může chvíli trvat, než zprávu SMS obdržíte\n-  Pokud zprávu do konce odpočítávání neobdržíte, stiskněte tlačítko \‚Poslat znovu\‘</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">Na váš telefon jsme zaslali zprávu SMS s kódem. Pro přihlášení tento kód zadejte.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">Zadejte kód</string>
+<string name="reg_Account_ActivationCode_resendtxt">poslat znovu</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">Registrovat pomocí e-mailu</string>
+<string name="reg_VerificationCode_ErrorText">Neplatný ověřovací kód </string>
+<string name="reg_Login_using_email_address">Přihlásit se pomocí e-mailu</string>
+<string name="reg_SignOut_Alert_Message_Txt">Opravdu se chcete odhlásit? Po odhlášení budete mít k aplikaci omezený přístup.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">Přihlásili jste se číslem: %s</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">Nesprávný kód, klikněte pro opětovné zaslání.</string>
+<string name="reg_Login_using_phonenumber_errortxt">Telefonní číslo ještě nebylo registrováno.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">Telefonní číslo nebo heslo je nesprávné.</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">Na váš telefon jsme zaslali zprávu SMS s kódem. Zadejte prosím tento kód pro obnovení hesla.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">Pro obnovení hesla prosím zvolte nové heslo.</string>
+<string name="reg_Resetted_password_message_txt">Obnovili jste heslo a přihlásili jste se číslem: %s</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">Tento telefon je již přihlášen.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">Tento telefon je již přihlášen k účtu Philips nebo sociálním médiím.\nVraťte se prosím ke kroku ‚Přihlášení‘ nebo použijte jiné telefonní číslo.</string>
 </resources>

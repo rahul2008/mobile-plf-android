@@ -50,7 +50,7 @@
 <string name="reg_ReciveMarketing_PeridicOffers_lbltxt">Desidero ricevere offerte periodiche e aggiornamenti da Philips</string>
 <string name="reg_SignIn_with_provider_lbltxt">Accedi con %s</string>
 <string name="reg_Account_Merge_UsedEmail_Error_lbltxt">Hai già utilizzato in precedenza %s per creare un account Philips.</string>
-<string name="reg_Account_Merge_EnterPassword_Placeholder_txtFiled">Inserisci la password Philips</string>
+<string name="reg_Account_Merge_EnterPassword_Placeholder_txtFiled">Inserisci pass. Philips</string>
 <string name="reg_Account_Merge_Merge_btntxt">Sincronizza</string>
 <string name="reg_Social_SignIn_Email_PlaceHolder_txtFiled">Inserisci il tuo indirizzo e-mail</string>
 <string name="reg_Social_SignIn_AlmostDone_lbltxt">Ci siamo quasi!</string>
@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Ciao</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">Vuoi accedere ad altre impostazioni dell\'account?\nVisita %s con il tuo browser.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Ricevi gli annunci Philips\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Ricevi comunicazioni promozionali Philips in base alle tue preferenze e al tuo comportamento online\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">Che cosa significa?</string>
 <string name="reg_Philips_News_Title">Annunci Philips</string>
 <string name="reg_Philips_News_Back_btntxt">Indietro</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">OK</string>
 <string name="reg_Generic_Network_Error">Si è verificato un errore. Riprova più tardi</string>
 <string name="reg_Already_Verified_Message">Il suo indirizzo di posta elettronica è già stato verificato. Può continuare.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">Inserisci il num. di tel.</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">Numero di telefono non valido</string>
+<string name="reg_Account_ActivationCode_Verify_Account">Verifica account</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">Problemi?\n-  La ricezione dell\'SMS con il codice potrebbe richiedere un po\' di tempo\n-  Se non hai ricevuto un SMS al termine del conto alla rovescia, premi il pulsante \"Invia di nuovo\"</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">Abbiamo inviato un SMS con un codice al tuo numero di telefono. Immetti questo codice per effettuare l\'accesso.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">Immetti il codice</string>
+<string name="reg_Account_ActivationCode_resendtxt">invia di nuovo</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">Registrati tramite e-mail</string>
+<string name="reg_VerificationCode_ErrorText">Codice di verifica non valido </string>
+<string name="reg_Login_using_email_address">Accedi tramite e-mail</string>
+<string name="reg_SignOut_Alert_Message_Txt">Sei sicuro di voler effettuare la disconnessione? Avrai accesso limitato all\'app mentre sei disconnesso.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">Hai effettuato l\'accesso con il numero: %s</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">Il codice è errato. Fai clic per inviarlo nuovamente.</string>
+<string name="reg_Login_using_phonenumber_errortxt">Il numero di telefono non è stato ancora registrato.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">Il numero di telefono o la password non sono corretti.</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">Abbiamo inviato un SMS con un codice al tuo numero di telefono. Immetti questo codice per reimpostare la password.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">Per reimpostare la password, scegline una nuova.</string>
+<string name="reg_Resetted_password_message_txt">Hai già reimpostato la password ed effettuato l\'accesso con il numero: %s</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">Questo numero di telefono è già in uso.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">Questo numero di telefono è già utilizzato da un account Philips o di social media.\nTorna alla fase di \"Accesso\", oppure utilizza un altro numero di telefono.</string>
 </resources>

@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">سعی دارید به بخشی دسترسی پیدا کنید که مختص والدین شما است.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">موافقم</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">مخالفم</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">از شما به خاطر رضایت والدین سپاسگزاریم </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">چنانچه از هم اکنون، حداقل تا 24 ساعت دیگر وارد قسمت والدین شوید، یک درخواست رضایت تأییدی دریافت خواهید کرد.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">از توجه شما و تبادل اطلاعات متشکریم!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">شما به Philips اجازه داده‌اید که اطلاعات مربوط به زمان، طول مدت و تعداد دفعات مسواک زدن را از برنامه و دسته مسواک جمع‌آوری نماید. \n \n Philips به طور جدی به حریم خصوصی و اطلاعات شخصی شما اهمیت می‌دهد. ما هرگز از این اطلاعات برای هدفی به جز بهبود تجربه کودکان در استفاده از عملکرد Sonicare استفاده نخواهیم کرد. </string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">رضایت والدین شما قبلاً برای Philips ارسال شده است تا بتواند اطلاعات خاصی را از برنامه Philips Sonicare Kids App جمع‌آوری کرده و از این اطلاعات استفاده کند.\n\nPhilips نهایت دقت را برای حفاظت از حریم خصوصی شما به کار می‌گیرد. برای اطمینان از این که رضایت توسط شخص شما صورت گرفته است، لطفا دوباره این مورد را تأیید کنید.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">بله دوباره تأیید می‌کنم</string>
+<string name="reg_Coppa_Reject_Button_Txt">خیر رد می‌کنم</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">بله رضایت دارم</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">خیر رضایت ندارم</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">تأیید مجدد رضایت والدین</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">رضایت والدین</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">آیا رضایت والدین را ارائه کرده‌اید؟</string>
 </resources>

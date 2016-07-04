@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Ата-аналарға арналған бөлімге өтейін деп тұрсыз.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Келісемін</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Келіспеймін</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Ата-аналық келісіміңіз үшін рақмет </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Осы сәттен бастап кемінде 24 сағат ішінде ата-аналық бөлімге қайтадан кірсеңіз, растауға келісім сұрауын аласыз.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Қызығушылық танытып, бөліскеніңіз үшін рақмет!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Сіз Philips компаниясының щетканың сабы мен қолданбадан тазалау уақыты, аралығы және жиілігі туралы ақпаратты жинауына келісім бердіңіз. \n \n Philips компаниясы сіздің құпия және жеке ақпаратыңызға жауапкершілікпен қарайды. Біз бұл ақпаратты тек Sonicare for Kids тіс щеткасын жақсарту үшін пайдаланамыз.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Сіз Philips компаниясының Philips Sonicare Kids қолданбасынан нақты ақпаратты жинау және пайдалануына ата-аналық рұқсатыңызды бердіңіз.\n\nPhilips сіздің құпиялығыңызды сақтау үшін барлық мүмкіндіктерді қолға алады. Бұл шынымен сіз екендігіне көз жеткізу үшін тағы да растаңыз.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Иә, қайта растаймын</string>
+<string name="reg_Coppa_Reject_Button_Txt">Жоқ, бас тартамын</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Иә, рұқсат беремін</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Жоқ, рұқсат бермеймін</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Ата-аналық келісіміңізді қайта растаңыз</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Ата-аналық келісім</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Ата-аналық келісіміңізді бересіз бе?</string>
 </resources>

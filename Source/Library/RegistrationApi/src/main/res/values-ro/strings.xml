@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Buna ziua</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">Doreşti să accesezi mai multe setări de cont?\nVizitează %s prin browser-ul tău.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Primeşte anunţuri Philips\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Primeşte comunicări promoţionale de la Philips în funcţie de preferinţe şi de comportamentul tău online\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">Ce înseamnă aceasta?</string>
 <string name="reg_Philips_News_Title">Anunţuri Philips</string>
 <string name="reg_Philips_News_Back_btntxt">Înapoi</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">OK</string>
 <string name="reg_Generic_Network_Error">Hmm! S-a întâmplat ceva. Încearcă din nou mai târziu</string>
 <string name="reg_Already_Verified_Message">Adresa ta de e-mail este deja verificată. Poţi continua.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">Introdu-ţi numărul de telefon</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">Număr de telefon nevalid</string>
+<string name="reg_Account_ActivationCode_Verify_Account">Confirmă-ţi contul</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">Ai probleme?\n- Poate să dureze un timp pentru ca mesajul SMS cu codul să fie primit\n- Dacă nu ai primit un mesaj SMS atunci când cronometrul s-a oprit, apasă pe butonul \'Retrimite\'</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">Am trimis un mesaj SMS cu un cod către telefonul tău. Introdu codul pentru a te conecta.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">Introducere cod</string>
+<string name="reg_Account_ActivationCode_resendtxt">retrimite</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">Înregistrează-te prin e-mail</string>
+<string name="reg_VerificationCode_ErrorText">Cod de confirmare nevalid </string>
+<string name="reg_Login_using_email_address">Conectează-te prin e-mail</string>
+<string name="reg_SignOut_Alert_Message_Txt">Sigur vrei să te deconectezi? Vei avea acces limita la aplicaţie.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">Te-ai conectat cu numărul: %s</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">Codul este greşit, dă clic pe Retrimite.</string>
+<string name="reg_Login_using_phonenumber_errortxt">Numărul de telefon încă nu este înregistrat.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">Parola sau numărul de telefon este greşit(ă).</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">Am trimis un mesaj SMS cu un cod către telefonul tău. Introdu codul pentru a-ţi reseta parola.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">Alege o parolă nouă pentru a-ţi reseta parola.</string>
+<string name="reg_Resetted_password_message_txt">Ţi-ai resetat parola şi te-ai conectat cu numărul: %s</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">Telefonul este deja în uz.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">Acest număr de telefon este deja folosit cu un cont Philips sau de reţea socială.\nRevino la pasul „Conectează-te” sau foloseşte alt număr de telefon.</string>
 </resources>

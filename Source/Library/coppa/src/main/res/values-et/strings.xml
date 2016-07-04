@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Proovite siseneda lapsevanematele mõeldud osasse.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Nõustun</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Ei nõustu</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Täname teid vanemliku nõusoleku eest </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Kui te sisenete lapsevanematele mõeldud osasse käesolevast hetkest vähemalt 24 tunni pärast, saadetakse teile kinnituskiri heakskiidu andmise kohta.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Täname hoolimast ja jagamast!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Andsite Philipsile loa koguda teavet harjamisaja, -kestuse ja -sageduse kohta, mida kogub hambaharja vars koostöös Rakendusega. \n \n Philips suhtub teie privaatsusse ja isikuandmetesse väga tõsiselt. Me ei kasuta neid andmeid kunagi ühelgi teisel eesmärgil peale Sonicare For Kids\' kasutuskogemuse parandamise.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Andsite Philipsile oma vanemliku loa koguda ja kasutada kindlaid andmeid rakendusest Philips Sonicare Kids App.\n\nPhilips on ülimalt hoolikas teie privaatsuse kaitsmisel. Veendumaks, et see olite tõesti teie, kinnitage palun veel kord.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Jah, kinnitan</string>
+<string name="reg_Coppa_Reject_Button_Txt">Ei, keeldun</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Jah, annan nõusoleku</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Ei, keeldun nõusolekust</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Kinnitage oma vanemlik nõusolek</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Vanemlik nõusolek</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Kas annate oma vanemliku nõusoleku?</string>
 </resources>

@@ -230,7 +230,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_Coppa_Parental_Consent_Screen_Title_txt;
+        return R.string.reg_Coppa_Age_Confirmation_Screen_Title_txt;
     }
 
     public void showRefreshProgress() {

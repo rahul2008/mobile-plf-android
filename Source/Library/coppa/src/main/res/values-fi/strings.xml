@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Yrität käyttää vanhemmille tarkoitettua aluetta.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Hyväksyn</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">En hyväksy</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Kiitos huoltajan suostumuksestasi </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Pyydämme sinua vahvistamaan suostumuksesi, kun käytät vanhempien aluetta seuraavan kerran vähintään 24 tunnin kuluttua.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Kiitos, että autat meitä parantamaan tuotteitamme!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Olet antanut Philipsille luvan kerätä hampaiden harjausaikaa, -ajanjaksoa ja -tiheyttä koskevaa tietoa hammasharjasta ja sovelluksesta. \n \n Philips suhtautuu yksityisyytesi ja henkilökohtaisten tietojesi suojelemiseen erittäin vakavasti. Käytämme kerättyjä tietoja ainoastaan Sonicare for Kids -tuotteiden käyttökokemuksen parantamiseen.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Olet jo antanut Philipsille luvan kerätä ja käyttää tiettyjä tietoja Philips Sonicare For Kids -sovelluksesta.\n\nPhilips suhtautuu yksityisyytesi suojelemiseen erittäin vakavasti. Varmista suostumuksesi vahvistamalla lupa uudelleen.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Vahvistan suostumuksen</string>
+<string name="reg_Coppa_Reject_Button_Txt">En vahvista suostumusta</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Annan suostumuksen</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">En anna suostumusta</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Vahvista huoltajan suostumuksesi</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Huoltajan suostumus</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Annatko huoltajan suostumuksen?</string>
 </resources>

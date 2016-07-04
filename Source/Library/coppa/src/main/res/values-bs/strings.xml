@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Pokušavate pristupiti odjeljku koji je namijenjen za roditelje.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Pristajem</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Ne pristajem</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Hvala što ste dali roditeljsku saglasnost </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Primit ćete zahtjev za potvrdu saglasnosti kada opet uđete u odjeljak za roditelje nakon isteka minimalnog perioda od 24 sata od sada.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Hvala vam što brinete i sarađujete!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Dali ste saglasnost da kompanija Philips prikuplja informacije o vremenu, periodu i učestalosti pranja zuba preko ručice četkice i Aplikacije. \n \n Philips se veoma ozbiljno odnosi prema vašoj privatnosti i ličnim podacima. Podatke ćemo uvijek koristiti isključivo u svrhu unapređivanja korištenja uređaja Sonicare for Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Već ste dali roditeljsku saglasnost da Philips prkuplja i koristi određene informacije i aplikacije Philips Sonicare Kids.\n\nPhilips se maksimalno trudi da zaštiti vašu privatnost. Potvrdite ponovo da bismo bilo sigurni u vaš identitet.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Da, potvrđujem ponovo</string>
+<string name="reg_Coppa_Reject_Button_Txt">Ne, odbijam</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Da, dajem saglasnost</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Ne, ne dajem saglasnost</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Potvrdite ponovo roditeljsku saglasnost</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Roditeljska saglasnost</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Dajete li roditeljsku saglasnost?</string>
 </resources>

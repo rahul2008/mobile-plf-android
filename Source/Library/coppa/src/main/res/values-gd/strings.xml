@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Tá tú ag iarraidh rochtain a fháil ar rannóg atá beartaithe do thuismitheoirí.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Aontaím</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Ní aontaím</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Go raibh maith agat as do chead tuismitheora a thabhairt </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Gheobhaidh tú iarratas deimhnithe ar thoilú nuair a théann tú isteach i rannóg na dtuismitheoirí arís nuair atá íostréimhse 24 uair an chloig caite.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Go raibh maith agat as tacú linn!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Tá do chead tugtha agat do Philips eolas faoin méid ama a chaitear i mbun scuabtha, an t-am agus an mhinicíocht a bhailiú ó hanla na scuaibe agus ón bhFeidhmchlár. \n \n Caitheann Philips go freagrach le do phríobháideacht agus do shonraí pearsanta. Ní bhainimid úsáid go deo as na sonraí seo chun críche ar bith eile ach chun an t-eispéireas Sonicare for Kids a fheabsú.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Tugadh do chead tuismitheora do Philips cheana féin chun faisnéis áirithe a bhailiú ón Philips Sonicare Kids App agus í a úsáid.\n\nDéanann Philips a dhícheall do phríobháideacht a chosaint. Deimhnigh arís le do thoil chun cruthú gur tú atá ann.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Deimhním arís</string>
+<string name="reg_Coppa_Reject_Button_Txt">Diúltaím</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Tugaim cead</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Ní thugaim cead</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Athdheimhnigh do chead tuismitheora</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Cead tuismitheora</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">An dtugann tú do chead tuismitheora?</string>
 </resources>

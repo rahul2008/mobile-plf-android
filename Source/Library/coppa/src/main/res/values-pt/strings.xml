@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Estás a tentar aceder a uma secção destinada aos pais.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Concordo</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Não concordo</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Agradecemos o seu consentimento parental </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Receberá um pedido de consentimento de confirmação quando aceder novamente à secção parental após um período mínimo de 24 horas a partir deste momento.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Agradecemos o seu cuidado e partilha!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Deu consentimento para que a Philips obtenha informações da pega da escova e da aplicação sobre o tempo, o período e a frequência de escovagem. \n \n A Philips considera a sua privacidade e os seus dados pessoais muito importantes. Nunca utilizaremos estes dados para outros fins além da melhoria da experiência Sonicare for Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Já deu o seu consentimento parental à Philips para a recolha e utilização de determinadas informações da aplicação Philips Sonicare Kids.\n\nA Philips exerce o máximo cuidado na protecção da sua privacidade. Para confirmar a sua identidade, confirme novamente.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Sim, confirmo</string>
+<string name="reg_Coppa_Reject_Button_Txt">Não, rejeito</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Sim, dou consentimento</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Não, não dou consentimento</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Volte a confirmar o seu consentimento parental</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Consentimento parental</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Dá o seu consentimento parental?</string>
 </resources>

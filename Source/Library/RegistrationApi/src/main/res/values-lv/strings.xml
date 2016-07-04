@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Esiet sveicināts</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">Vai vēlaties piekļūt citiem konta iestatījumiem?\nApmeklējiet %s, izmantojot savu pārlūkprogrammu.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Saņemt Philips paziņojumus\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Saņemt Philips piedāvājumus, pamatojoties uz manām izvēlēm un darbībām tiešsaistē\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">Ko tas nozīmē?</string>
 <string name="reg_Philips_News_Title">Philips paziņojumi</string>
 <string name="reg_Philips_News_Back_btntxt">Atpakaļ</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">Labi</string>
 <string name="reg_Generic_Network_Error">Radās nezināma kļūda. Lūdzu, vēlāk mēģiniet vēlreiz</string>
 <string name="reg_Already_Verified_Message">Jūsu e-pasts jau ir apstiprināts. Varat turpināt.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">Ievadiet tālruņa numuru</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">Nederīgs tālruņa numurs</string>
+<string name="reg_Account_ActivationCode_Verify_Account">Apstipriniet kontu</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">Vai radušās problēmas?\n-  Iespējams, SMS ar kodu tiks atsūtīta tikai pēc kāda laika\n-  Ja nesaņēmāt SMS līdz laika atskaites beigām, nospiediet pogu \'Pārsūtīt\'</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">Mēs nosūtījām SMS ar kodu uz jūsu tālruni. Lūdzu, ievadiet šo kodu, lai pieteiktos.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">Ievadiet kodu</string>
+<string name="reg_Account_ActivationCode_resendtxt">pārsūtīt</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">Reģistrēties ar e-pastu</string>
+<string name="reg_VerificationCode_ErrorText">Nederīgs apstiprinājuma kods </string>
+<string name="reg_Login_using_email_address">Piesakieties, izmantojot e-pastu</string>
+<string name="reg_SignOut_Alert_Message_Txt">Vai tiešām vēlaties atteikties? Pēc atteikšanās piekļuve lietotnei būs ierobežota.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">Esat pieteicies ar numuru: %s</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">Kods ir nepareizs, noklikšķiniet, lai pārsūtītu.</string>
+<string name="reg_Login_using_phonenumber_errortxt">Tālruņa numurs vēl nav reģistrēts.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">Tālruņa numurs vaI parole nav pareiza.</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">Mēs nosūtījām SMS ar kodu uz jūsu tālruni. Lūdzu, ievadiet šo kodu, lai atiestatītu paroli.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">Lūdzu, izvēlieties jaunu paroli, lai atiestatītu paroli.</string>
+<string name="reg_Resetted_password_message_txt">Esat atiestatījis paroli un pieteicies ar numuru: %s</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">Šis tālrunis jau tiek izmantots.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">Šis tālruņa numurs jau tiek izmantots ar Philips vai sociālā tīkla kontu.\nLūdzu, pārejiet atpakaļ uz pieteikšanās soli vai izmantojiet citu tālruņa numuru.</string>
 </resources>

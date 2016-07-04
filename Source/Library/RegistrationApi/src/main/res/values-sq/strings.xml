@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Përshëndetje</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">Dëshiron të hapësh cilësime të mëtejshme të llogarisë?\nVizito %s nëpërmjet shfletuesit.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Merr njoftime nga \"Philips\"\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Merr komunikimet promocionale të \"Philips\" sipas preferencave dhe sjelljes sime në internet\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">Çfarë do të thotë kjo?</string>
 <string name="reg_Philips_News_Title">Njoftime nga \"Philips\"</string>
 <string name="reg_Philips_News_Back_btntxt">Kthehu</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">OK</string>
 <string name="reg_Generic_Network_Error">Mos! Doli një problem. Provoni sërish më vonë</string>
 <string name="reg_Already_Verified_Message">Emaili juaj është i verifikuar. Mund të vazhdoni.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">Jep numrin e telefonit</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">Numër i pavlefshëm telefoni</string>
+<string name="reg_Account_ActivationCode_Verify_Account">Verifiko llogarinë</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">Ke probleme?\n-  Mund të duhet pak kohë për mbërritjen e \"SMS\" me kod\n-  Nëse nuk e merr \"SMS\" deri sa të mbarojë kronometrimi mbrapsht, shtyp butonin \"Ridërgo\"</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">I kemi dërguar një \"SMS\" me kod telefonit, jepe kodin për t\'u identifikuar.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">Jep kodin</string>
+<string name="reg_Account_ActivationCode_resendtxt">ridërgo</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">Regjistrohu me email</string>
+<string name="reg_VerificationCode_ErrorText">Kod i pavlefshëm verifikimi </string>
+<string name="reg_Login_using_email_address">Identifikohu me email</string>
+<string name="reg_SignOut_Alert_Message_Txt">Je i sigurt për daljen? Do të kesh akses të kufizuar në aplikacion pasi të dalësh.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">Je identifikuar me numrin: %s</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">Kodi është i pasaktë, shtyp për ta ridërguar.</string>
+<string name="reg_Login_using_phonenumber_errortxt">Numri i telefonit nuk është regjistruar ende.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">Numri i telefonit ose fjalëkalimi është i gabuar.</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">I kemi dërguar një \"SMS\" me kod telefonit, jepe kodin për të rivendosur fjalëkalimin.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">Zgjidh një fjalëkalim të ri për të rivendosur fjalëkalimin.</string>
+<string name="reg_Resetted_password_message_txt">E rivendose fjalëkalimin dhe je identifikuar me numrin: %s</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">Ky telefon është tashmë në përdorim.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">Ky numër telefoni është tashmë në përdorim me një llogari \"Philips\" ose të mediave sociale.\nKthehu pas te hapi \"Identifikohu\", ose përdor një numër tjetër telefoni.</string>
 </resources>

@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Bok!</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">Želite li pristupiti dodatnim postavkama računa?\nPosjetite %s koristeći web-preglednik.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Primanje najava tvrtke Philips\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Primajte promotivne materijale tvrtke Philips na temelju svojih preferenci i ponašanja na mreži\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">Što to znači?</string>
 <string name="reg_Philips_News_Title">Najave tvrtke Philips</string>
 <string name="reg_Philips_News_Back_btntxt">Natrag</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">OK</string>
 <string name="reg_Generic_Network_Error">Ups! Došlo je do pogreške. Pokušajte ponovo poslije</string>
 <string name="reg_Already_Verified_Message">Vaša adresa e-pošte već je potvrđena. Možete nastaviti.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">Unesite telefonski broj</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">Telefonski broj nije valjan</string>
+<string name="reg_Account_ActivationCode_Verify_Account">Potvrda računa</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">Imate probleme?\n- Možda će trebati neko vrijeme da vam stigne SMS s kodom\n- Ako niste dobili SMS kada odbrojavanje završi, pritisnite gumb \'Ponovo pošalji\'</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">Poslali smo SMS s kodom na telefon, unesite taj kod kako biste se prijavili.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">Unesite kod</string>
+<string name="reg_Account_ActivationCode_resendtxt">ponovo pošalji</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">Registracija e-poštom</string>
+<string name="reg_VerificationCode_ErrorText">Kod za potvrdu nije valjan </string>
+<string name="reg_Login_using_email_address">Prijava putem e-pošte</string>
+<string name="reg_SignOut_Alert_Message_Txt">Jeste li sigurni da se želite odjaviti? Imat ćete ograničen pristup aplikaciji dok ste odjavljeni.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">Prijavili ste se s brojem: %s</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">Kod nije točan, pritisnite za ponovno slanje.</string>
+<string name="reg_Login_using_phonenumber_errortxt">Telefonski broj još nije registriran.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">Telefonski broj ili lozinka nije točna.</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">Poslali smo SMS s kodom na telefon, unesite taj kod kako biste ponovo postavili lozinku.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">Unesite novu lozinku kako biste ponovo postavili lozinku.</string>
+<string name="reg_Resetted_password_message_txt">Ponovo ste postavili lozinku i prijavili se s brojem: %s</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">Ovaj telefon već se koristi.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">Ovaj telefonski broj već se koristi u kombinaciji s Philips računom ili računom društvene mreže.\nVratite se na korak \"Prijava\" ili odaberite drugi telefonski broj.</string>
 </resources>

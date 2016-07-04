@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">أنت تحاول الوصول إلى قسم مخصص للأهالي.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">أوافق</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">لا أوافق</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">شكرًا لمنح الموافقة الأبوية </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">ستتلقى طلبًا للتأكيد على الموافقة عند الدخول إلى القسم المخصص للأهالي من جديد بعد فترة لا تقل عن 24 ساعة من الآن.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">شكرًا لاهتمامك وللمشاركة!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">لقد منحت الموافقة الأبوية لشركة Philips لتتمكّن من جمع المعلومات حول وقت تنظيف الأسنان بواسطة الفرشاة والمدة والوتيرة من مقبض الفرشاة والتطبيق. \n \n تأخذ شركة Philips خصوصيتك وبياناتك الشخصية على محمل الجد. ولن نستخدم هذه البيانات لأي أغراض أخرى باستثناء تحسين تجربة استخدام Sonicare for Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">سبق أن تم منح الموافقة الأبوية لشركة Philips لتتمكّن من جمع بعض المعلومات من تطبيق Philips Sonicare Kids واستخدامها.\n\n تتوخى شركة Philips الحذر الشديد لحماية خصوصيتك. وبهدف التأكد من هويتك، يرجى إعادة التأكيد.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">نعم، أنا أؤكد من جديد</string>
+<string name="reg_Coppa_Reject_Button_Txt">لا، أنا أرفض</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">نعم، أمنح موافقتي</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">لا، لا أمنح موافقتي</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">إعادة تأكيد الموافقة الأبوية</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">الموافقة الأبوية</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">هل تمنح موافقتك الأبوية؟</string>
 </resources>

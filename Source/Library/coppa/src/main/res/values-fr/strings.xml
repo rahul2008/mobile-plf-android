@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Vous tentez d\'accéder à une section réservée aux parents.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">J\'accepte</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Pas d\'accord</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Merci d\'avoir donné votre accord parental </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Vous recevrez une demande de confirmation d\'accord en accédant à la section parentale au moins 24 heures après.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Merci de votre intérêt !</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Vous avez autorisé Philips à recueillir des informations sur la durée, la période et la fréquence de brossage via le manche de la brosse et l\'application. \n \n Philips prend très au sérieux votre confidentialité et la protection de vos données personnelles. Nous n\'utiliserons jamais ces données à d\'autres fins que celles d\'améliorer l\'expérience Sonicare For Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Votre accord parental a déjà été donné à Philips afin de recueillir et d\'utiliser des données à partir de l\'application Philips Sonicare Kids.\n\nPhilips met tout en œuvre pour protéger votre confidentialité. Pour confirmer qu\'il s\'agissait bien de vous, veuillez confirmer à nouveau.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Oui, je reconfirme</string>
+<string name="reg_Coppa_Reject_Button_Txt">Non, je refuse</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Oui, je donne mon accord</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Non, je ne donne pas mon accord</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Reconfirmer l\'accord parental</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Accord parental</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Donnez-vous votre accord parental ?</string>
 </resources>

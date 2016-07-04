@@ -50,7 +50,7 @@
 <string name="reg_ReciveMarketing_PeridicOffers_lbltxt">Philips компаниясынан мерзімді түрде ұсыныстар мен жаңартулар алғым келеді</string>
 <string name="reg_SignIn_with_provider_lbltxt">Жүйеге %s тіркелгісімен кіру</string>
 <string name="reg_Account_Merge_UsedEmail_Error_lbltxt">%s бұрын Philips тіркелгісін жасау үшін пайдаланылған.</string>
-<string name="reg_Account_Merge_EnterPassword_Placeholder_txtFiled">Philips құпия сөзін енгізіңіз</string>
+<string name="reg_Account_Merge_EnterPassword_Placeholder_txtFiled">Philips құпия сөзін енг-з</string>
 <string name="reg_Account_Merge_Merge_btntxt">Біріктіру</string>
 <string name="reg_Social_SignIn_Email_PlaceHolder_txtFiled">Электрондық пошта мекенжайын енгізіңіз</string>
 <string name="reg_Social_SignIn_AlmostDone_lbltxt">Дайын болып қалды!</string>
@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Сәлем!</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">Көбірек тіркелгі параметрлеріне қол жеткізгіңіз келеді ме?\nШолғышыңыз арқылы %s торабына кіріңіз.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Philips хабарландыруларын алу\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Менің қалауларым мен «online» режиміндегі әрекеттерімнің негізінде Philips жарнамалық хат-хабарлар алыңыз\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">Бұл нені білдіреді?</string>
 <string name="reg_Philips_News_Title">Philips хабарландырулары</string>
 <string name="reg_Philips_News_Back_btntxt">Артқа</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">OK</string>
 <string name="reg_Generic_Network_Error">Қап! Бір қате кетті. Кейінірек қайтадан көріңіз</string>
 <string name="reg_Already_Verified_Message">Электрондық поштаңыз расталды. Жалғастыруыңызға болады.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">Телефон нөмірін енгізіңіз</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">Телефон нөмірі қате</string>
+<string name="reg_Account_ActivationCode_Verify_Account">Тіркелгіні растаңыз</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">Мәселелер туды ма?\n-  Біраз уақыттан соң коды бар SMS келеді\n- Кері есептейтін сағат есебі аяқталғанда SMS келмесе, \'Resend\' (Қайта жіберу) түймесін басыңыз</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">Телефоныңызға коды бар SMS жібердік, тіркелу үшін осы кодты енгізіңіз.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">Кодты енгізіңіз</string>
+<string name="reg_Account_ActivationCode_resendtxt">қайта жіберу</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">Эл. поштамен тіркелу</string>
+<string name="reg_VerificationCode_ErrorText">Растау коды қате </string>
+<string name="reg_Login_using_email_address">Электрондық поштамен кіру</string>
+<string name="reg_SignOut_Alert_Message_Txt">Жүйеден шыққыңыз келе ме? Шыққан жағдайда қолданбаны пайдалану мүмкіндігіңіз шектеулі болады.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">%s нөмірімен жүйеге кірдіңіз.</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">Код қате, қайта жіберу үшін басыңыз.</string>
+<string name="reg_Login_using_phonenumber_errortxt">Телефон нөмірі әлі тіркелмеген.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">Телефон нөмірі немесе құпия сөз қате.</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">Телефоныңызға коды бар SMS жібердік, құпия сөзді қайта орнату үшін үшін осы кодты енгізіңіз.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">Жаңа құпия сөз таңдаңыз немесе құпия сөзіңізді қайта орнатыңыз.</string>
+<string name="reg_Resetted_password_message_txt">Құпия сөзіңізді қайта орнаттыңыз немесе %s нөмірімен жүйеге кірдіңіз.</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">Телефон қолданыста.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">Бұл телефон нөмірін Philips немесе әлеуметтік медиа тіркелгісі қолданады.\n\"Жүйеге кіру\" қадамына қайтыңыз немесе басқа телефон нөмірін қолданыңыз.</string>
 </resources>

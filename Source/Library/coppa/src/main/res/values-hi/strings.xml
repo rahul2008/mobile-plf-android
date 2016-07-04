@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">आप अभिभावकों के लिए लक्षित किसी अनुभाग पर पहुँचने का प्रयास कर रहे हैं.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">मैं सहमत हूँ</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">असहमत हूँ</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">आपकी अभिभावकीय सहमति के लिए धन्यवाद </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">अभी से 24 घंटे की न्यूनतम अवधि के बाद अभिभावकीय अनुभाग में फिर से प्रवेश करने पर आपको एक पुष्टिकरण सहमति अनुरोध प्राप्त होगा.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">ध्यान देने और साझा करने के लिए धन्यवाद!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">आपने Philips को ब्रश के हैंडल और App से ब्रश करने के समय, अवधि और आवृत्ति के बारे में जानकारी एकत्रित करने की सहमति दी है. \n \n Philips आपकी गोपनीयता और व्यक्तिगत डेटा को गंभीरता से लेता है. हम बच्चों के लिए Sonicare के अनुभव को बेहतर बनाने के अलावा किसी भी अन्य उद्देश्य के लिए आपके डेटा का उपयोग कभी नहीं करेंगे.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Philips Sonicare Kids App से कुछ जानकारी एकत्रित करने और उसका उपयोग करने हेतु आपकी अभिभावकीय सहमति Philips को पहले ही दी गई थी.\n\nPhilips आपकी गोपनीयता की रक्षा हेतु अधिकतम प्रयास करता है. यह सुनिश्चित करने हेतु, कि यह आप ही थे, कृपया पुष्टि करें.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">हाँ, मैं पुष्टि करता हूँ</string>
+<string name="reg_Coppa_Reject_Button_Txt">मैं अस्वीकार करता हूँ</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">हाँ, मैं सहमति देता हूँ</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">मैं सहमति नहीं देता हूँ</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">अपनी अभिभावकीय सहमति की पुनः पुष्टि करें</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">अभिभावकीय सहमति</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">क्या आप अपनी अभिभावकीय सहमति देते हैं?</string>
 </resources>

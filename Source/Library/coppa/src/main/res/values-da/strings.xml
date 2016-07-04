@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Du forsøger at komme ind i den del, der er beregnet til forældre.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Jeg accepterer</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Jeg accepterer ikke</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Tak for dit forældresamtykke </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Du modtager en bekræftelse på din samtykkeanmodning, når du går ind i forældredelen igen om mindst 24 timer fra nu.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Tak for din forståelse og deling!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Du har givet Philips tilladelse til at indsamle oplysninger om tandbørstning, varighed og hyppighed, hvilket sker via børstehåndtaget og appen. \n \n Philips tager dit privatliv og dine personlige oplysninger meget alvorligt. Vi vil aldrig bruge disse oplysninger til andre formål end forbedring af oplevelsen med Sonicare for Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Du har allerede givet Philips dit forældresamtykke til at indsamle og bruge visse oplysninger fra Philips Sonicare Kids-appen.\n\nPhilips beskytter dit privatliv med den største omhu. Du bedes bekræfte for at sikre, at det virkelig var dig.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Jeg bekræfter</string>
+<string name="reg_Coppa_Reject_Button_Txt">Jeg afviser</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Jeg giver samtykke</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Jeg giver ikke samtykke</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Bekræft dit forældresamtykke igen</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Forældresamtykke</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Vil du give dit forældresamtykke?</string>
 </resources>

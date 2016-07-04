@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Ebeveynlere özel olan bir bölüme erişmeye çalışıyorsunuz.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Kabul ediyorum</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Katılmıyorum</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Ebeveyn onayı verdiğiniz için teşekkür ederiz </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Şu andan itibaren minimum 24 saatlik sürenin ardından ebeveyn bölümüne yeniden giriş yaptığınızda doğrulama amaçlı bir onay talebi alacaksınız.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Değer verdiğiniz ve paylaştığınız için teşekkür ederiz!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Philips\'in fırça sapından ve uygulamadan diş fırçalama süresi, aralığı ve sıklığı hakkında bilgi toplamasına onay verdiniz. \n \n Philips, gizliliğinizi ve kişisel verilerinizi ciddiye alır. Bu verileri, Sonicare for Kids deneyimini geliştirmek dışında başka amaçlarla asla kullanmayacağız.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Philips\'in Philips Sonicare Kids uygulamasından belirli bilgiler toplaması ve bu bilgileri kullanması için zaten ebeveyn onayı verdiniz.\n\nPhilips, gizliliğinizi korumaya azami dikkat gösterir. Gerçekten sizin onayladığınızdan emin olmamız için lütfen yeniden onaylayın.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Evet, yeniden onaylıyorum</string>
+<string name="reg_Coppa_Reject_Button_Txt">Hayır, reddediyorum</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Evet, onay veriyorum</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Hayır, onay vermiyorum</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Ebeveyn onayınızı yeniden onaylayın</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Ebeveyn onayı</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Ebeveyn onayı veriyor musunuz?</string>
 </resources>

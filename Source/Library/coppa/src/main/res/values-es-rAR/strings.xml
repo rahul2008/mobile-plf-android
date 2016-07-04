@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Estás intentando acceder a una sección destinada a los padres.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Acepto</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">No acepto</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Gracias por otorgar su consentimiento parental </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Recibirá una solicitud de confirmación de consentimiento cuando vuelva a ingresar a la sección para padres después de un periodo mínimo de 24 horas a partir de ahora.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Gracias por su preocupación.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Otorgó su consentimiento a Philips para recopilar información acerca del tiempo de cepillado, el período y frecuencia del mango del cepillo y la aplicación. \n \n Philips se toma muy en serio su privacidad y datos personales. Nunca utilizaremos estos datos para ningún otro propósito que no sea mejorar la experiencia de Sonicare For Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Ya otorgó su consentimiento parental a Philips para recopilar y utilizar cierta información desde la aplicación Philips Sonicare Kids. \n\nPhilips toma máxima precaución para proteger su privacidad. Para asegurarnos de su identidad, vuelva a confirmar.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Sí, vuelvo a confirmar</string>
+<string name="reg_Coppa_Reject_Button_Txt">No, la rechazo</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Sí, doy mi consentimiento</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">No, niego mi consentimiento</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Vuelva a confirmar su consentimiento parental</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Consentimiento parental</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">¿Otorga su consentimiento parental?</string>
 </resources>

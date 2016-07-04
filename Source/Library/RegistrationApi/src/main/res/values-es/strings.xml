@@ -121,7 +121,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Hola</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">¿Deseas acceder a más ajustes de la cuenta?\nVisita %s con tu explorador web.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Recibe información sobre Philips\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Recibirás comunicaciones promocionales de Philips en función de tus preferencias y tu comportamiento en Internet\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">¿Qué significa?</string>
 <string name="reg_Philips_News_Title">Información sobre Philips</string>
 <string name="reg_Philips_News_Back_btntxt">Atrás</string>
@@ -131,4 +131,25 @@
 <string name="reg_Ok_Btn_Txt">OK</string>
 <string name="reg_Generic_Network_Error">¡Vaya! Se ha producido un error. Inténtalo de nuevo más tarde</string>
 <string name="reg_Already_Verified_Message">Tu dirección de correo electrónico ya se ha verificado. Puedes continuar.</string>
+<string name="reg_PhoneNumberPlaceHolder_txtField">Introduce tu teléfono</string>
+<string name="reg_InvalidPhoneNumber_ErrorMsg">Número de teléfono no válido</string>
+<string name="reg_Account_ActivationCode_Verify_Account">Verificar cuenta</string>
+<string name="reg_Account_ActivationCode_Instruction_lbltxt">¿Tienes problemas?\n-  Es posible que el SMS con el código tarde en llegar\n-  Si no lo recibes cuando caduque el tiempo pertinente, pulsa el botón \"Reenviar\"</string>
+<string name="reg_Account_ActivationCode_Title_lbltxt">Hemos enviado un SMS con un código a tu teléfono, introdúcelo para iniciar sesión.</string>
+<string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">Introduzce el código</string>
+<string name="reg_Account_ActivationCode_resendtxt">reenviar</string>
+<string name="reg_Account_ActivationCode_seconds">%ds</string>
+<string name="reg_Register_Using_Email_btnTxt">Registrarse con correo</string>
+<string name="reg_VerificationCode_ErrorText">Código de verificación no válido </string>
+<string name="reg_Login_using_email_address">Iniciar sesión mediante correo electrónico</string>
+<string name="reg_SignOut_Alert_Message_Txt">¿Seguro que quieres cerrar sesión? Si lo haces, tendrás acceso limitado a la app.</string>
+<string name="reg_InitialSignedIn_SigninMobileNumberText">Has iniciado sesión con el número: %s</string>
+<string name="reg_Account_ActivationCode_ErrorTxt">El código es incorrecto, haz clic para que se reenvíe.</string>
+<string name="reg_Login_using_phonenumber_errortxt">El número de teléfono aún no está registrado.</string>
+<string name="reg_Login_using_phonenumber_mismatch_errortxt">El número de teléfono o la contraseña son incorrectos.</string>
+<string name="reg_Account_ActivationCode_ResetPassword_lbltxt">Hemos enviado un SMS con un código a tu teléfono, introdúcelo para restablecer la contraseña.</string>
+<string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">Introduce una contraseña nueva para el restablecimiento.</string>
+<string name="reg_Resetted_password_message_txt">Has restablecido tu contraseña e iniciado sesión con el número: %s</string>
+<string name="reg_CreateAccount_Using_Phone_Alreadytxt">Este teléfono ya está en uso.</string>
+<string name="reg_CreateAccount_Using_Phone_Messagetxt">Este número de teléfono ya está en uso con una cuenta de Philips o red social.\nRegresa al paso de inicio de sesión o usa otro teléfono.</string>
 </resources>

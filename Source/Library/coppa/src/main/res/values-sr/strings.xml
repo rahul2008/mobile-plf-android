@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Pokušavate da pristupite odeljku namenjenom roditeljima.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Slažem se</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Ne slažem se</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Hvala vam što dajete roditeljski pristanak </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Kada ponovo pristupite odeljku za roditelje, nakon najmanje 24 sata dobićete zahtev za potvrdu pristanka.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Hvala vam na brizi i spremnosti da delite informacije!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Dali ste pristanak kompaniji Philips da prikuplja informacije o trajanju, periodu i učestalosti pranja zuba, preuzete sa četkice ili iz aplikacije. \n \n Kompanija Philips veoma ozbiljno pristupa privatnosti i vašim ličnim podacima. Nikada nećemo upotrebiti te podatke ni u koje druge svrhe osim za potrebe unapređenja doživljaja korišćenja četkice Sonicare For Kids.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Već ste dali roditeljski pristanak kako bi kompanija Philips mogla da prikuplja i koristi informacije dobijene putem aplikacije Philips Sonicare Kids.\n\nKompanija Philips maksimalno vodi računa o tome da zaštiti vašu privatnost. Da bismo bili sigurni u vaš identitet, potvrdite ponovo.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Da, potvrđujem ponovo</string>
+<string name="reg_Coppa_Reject_Button_Txt">Ne, odbijam</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Da, dajem pristanak</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Ne, ne dajem pristanak</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Ponovna potvrda roditeljskog pristanka</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Roditeljski pristanak</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Da li dajete roditeljski pristanak?</string>
 </resources>

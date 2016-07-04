@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Bạn đang cố gắng truy cập vào một mục dành riêng cho cha mẹ.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Tôi đồng ý</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Không đồng ý</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Cảm ơn sự chấp thuận của cha mẹ </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">Bạn sẽ nhận được một yêu cầu xác nhận chấp thuận khi bạn truy cập vào mục dành cho cha mẹ lần nữa sau khoảng thời gian ít nhất là 24 giờ tính từ lúc này.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Cảm ơn sự quan tâm và chia sẻ của bạn!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">Bạn vừa chấp thuận cho phép Philips thu thập thông tin về thời điểm đánh răng, tần suất và thời gian đánh bao lâu được lấy từ tay cầm bàn chải và Ứng dụng. \n \n Philips rất coi trọng quyền riêng tư và dữ liệu của bạn. Chúng tôi sẽ không bao giờ sử dụng dữ liệu này cho bất kỳ mục đích nào khác ngoài việc cải thiện trải nghiệm Sonicare dành cho trẻ em.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Bạn vừa gửi sự chấp thuận của cha mẹ đến Philips cho phép thu thập và sử dụng thông tin nhất định từ Ứng dụng Philips Sonicare Kids.\n\nPhilips rất quan tâm đến việc bảo vệ quyền riêng tư của bạn. Để đảm bảo đây chính là bạn, vui lòng xác nhận lại.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Đúng, tôi xác nhận lại</string>
+<string name="reg_Coppa_Reject_Button_Txt">Không, tôi từ chối</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Có, tôi chấp thuận</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Không, tôi từ chối</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Xác nhận lại sự chấp thuận của cha mẹ</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Sự chấp thuận của cha mẹ</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Bạn có cung cấp sự chấp thuận của cha mẹ không?</string>
 </resources>

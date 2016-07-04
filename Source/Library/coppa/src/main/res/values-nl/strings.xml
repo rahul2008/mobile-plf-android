@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">Je probeert toegang te krijgen tot een gedeelte bestemd voor je ouders.</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">Akkoord</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">Niet akkoord</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">Dank u voor uw ouderlijke toestemming </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">U ontvangt een verzoek om uw toestemming te bevestigen wanneer u na een periode van ten minste 24 uur opnieuw het gedeelte voor ouders bezoekt.</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">Bedankt voor de zorg en het delen!</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">U hebt uw toestemming aan Philips gegeven om informatie te verzamelen over het poetstijdstip, de poetsduur en de poetsfrequentie, verkregen via het borstelhandvat en de app. \n \n Philips neemt uw privacy en persoonlijke gegevens zeer serieus. Wij zullen deze gegevens nooit gebruiken voor enig ander doel dan het verbeteren van de Sonicare for Kids-ervaring.</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">Uw ouderlijke toestemming was al aan Philips gegeven om bepaalde informatie van de Philips Sonicare For Kids-app te verzamelen en gebruiken.\n\nPhilips besteedt de uiterste zorg aan de bescherming van uw privacy. Om er zeker van te zijn dat het echt u was, verzoeken wij u om opnieuw te bevestigen.\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">Ja, ik bevestig nogmaals</string>
+<string name="reg_Coppa_Reject_Button_Txt">Nee, ik weiger</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">Ja, ik geef toestemming</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">Nee, ik geef geen toestemming</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">Bevestig nogmaals uw ouderlijke toestemming</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">Ouderlijke toestemming</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">Geeft u uw ouderlijke toestemming?</string>
 </resources>

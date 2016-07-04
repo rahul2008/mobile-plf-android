@@ -21,4 +21,16 @@
 <string name="reg_Coppa_Parent_Access_Attempt_Txt">您正嘗試存取僅限家長的區段。</string>
 <string name="reg_Coppa_Parent_Access_Agree_Button_Txt">我同意</string>
 <string name="reg_Coppa_Parent_Access_Disagree_Button_Txt">不同意</string>
+<string name="reg_Coppa_US_Parental_Access_Thank_You_Txt">感謝您提供家長同意 </string>
+<string name="reg_Coppa_US_Parental_Access_Content_Txt">自現在起算至少 24 小時之後，當您再次進入家長區段，即會收到確認同意請求。</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Thank_You_Txt">謝謝您的關心與分享！</string>
+<string name="reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt">您已同意飛利浦從牙刷握把及應用程式收集刷牙時間、刷牙週期和頻率等資訊。\n \n 飛利浦非常重視您的隱私權和個人資料。我們僅會將此類資料用於改善飛利浦 Sonicare 兒童音波震動牙刷的使用體驗。</string>
+<string name="reg_Coppa_US_Parental_Access_Reconfirm_Txt">飛利浦已獲得您的家長同意，得收集和使用飛利浦 Sonicare 兒童音波震動牙刷應用程式的特定資訊。\n\n飛利浦竭盡所能保護您的隱私權。為了確保是您本人，請再次進行確認。\n\n</string>
+<string name="reg_Coppa_Reconfirm_Button_Txt">是，我再次確認</string>
+<string name="reg_Coppa_Reject_Button_Txt">否，我拒絕</string>
+<string name="reg_Coppa_Give_Consent_Button_Txt">是，我同意</string>
+<string name="reg_Coppa_Deny_Consent_Button_Txt">否，我拒絕同意</string>
+<string name="reg_Coppa_Reconfirm_Title_Txt">再次確認家長同意</string>
+<string name="reg_Coppa_Age_Confirmation_Screen_Title_txt">家長同意</string>
+<string name="reg_Coppa_Give_Deny_Title_Txt">是否提供家長同意？</string>
 </resources>
