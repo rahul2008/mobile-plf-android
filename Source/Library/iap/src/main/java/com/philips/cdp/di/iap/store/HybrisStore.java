@@ -45,6 +45,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private static final String SUFFIX_ADDRESSES_ALTER = "/addresses/%s";
 
     private static final String SUFFIX_DELIVERY_MODE = "/deliverymode";
+    private static final String SUFFIX_GET_DELIVERY_MODE = "deliverymodes" + LANG;
     private static final String SUFFIX_DELIVERY_ADDRESS = "/addresses/delivery";
 
     private static final String SUFFIX_PLACE_ORDER = "/orders";
@@ -67,6 +68,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private String mRegionsUrl;
     private String mAddressAlterUrl;
     private String mDeliveryModeUrl;
+    private String mGetDeliveryModeUrl;
     private String mDeliveryAddressUrl;
     private String mSetPaymentDetails;
     private String mSetPaymentUrl;
@@ -188,6 +190,7 @@ public class HybrisStore extends AbstractStoreSpec {
         mGetProductCatalogUrl = mBaseURlForProductCatalog.concat(SUFFIX_PPRODUCT_CATALOG);
         mModifyProductUrl = mCurrentCartUrl.concat(SUFFIX_PRODUCT_MODIFY);
         mDeliveryModeUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_MODE);
+        mGetDeliveryModeUrl = mCurrentCartUrl.concat(SUFFIX_GET_DELIVERY_MODE);
         mDeliveryAddressUrl = mCurrentCartUrl.concat(SUFFIX_DELIVERY_ADDRESS);
         mSetPaymentDetails = mCurrentCartUrl.concat(SUFFIX_SET_PAYMENT_DETAILS);
         mRetailersAlter = mGetRetailersUrl.concat(RETAILERS_ALTER);
@@ -346,5 +349,10 @@ public class HybrisStore extends AbstractStoreSpec {
     @Override
     public String getOrderHistoryUrl(String pageNumber) {
         return String.format(mOrderHistoryUrl, pageNumber);
+    }
+
+    @Override
+    public String getDeliveryModesUrl() {
+        return mGetDeliveryModeUrl;
     }
 }
