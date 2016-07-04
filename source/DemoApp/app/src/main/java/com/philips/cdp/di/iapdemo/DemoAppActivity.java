@@ -206,7 +206,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                             String ctn = mProductList.get(0);
                             IAPLog.d(IAPLog.LOG, "Product CTN : " + ctn);
                             mIapHandler.launchIAP(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, ctn, null);
-                        }else{
+                        } else {
                             Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
                         }
                     } catch (RuntimeException e) {
@@ -230,7 +230,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 }
                 break;
             case R.id.btn_add_ctn:
-                String str = mEtCTN.getText().toString().toUpperCase();
+                String str = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
                 mEtCTN.setText("");
                 if (!mProductList.contains(str)) {
                     mProductList.add(str);

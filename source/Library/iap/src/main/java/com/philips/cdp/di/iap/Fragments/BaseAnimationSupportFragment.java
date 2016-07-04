@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.List;
@@ -130,17 +131,14 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
     protected void setTitle(int resourceId) {
         mFragmentLayout.setHeaderTitle(resourceId);
-//        mActivityListener.setHeaderTitle(resourceId);
     }
 
     protected void setTitle(String title) {
         mFragmentLayout.setHeaderTitle(title);
-        //mActivityListener.setHeaderTitle(title);
     }
 
     protected void setBackButtonVisibility(final int isVisible) {
         mFragmentLayout.setBackButtonVisibility(isVisible);
-//        mActivityListener.setBackButtonVisibility(isVisible);
     }
 
     protected void finishActivity() {
@@ -174,9 +172,6 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
                 List<Fragment> fragmentList = fragManager.getFragments();
                 if (fragmentList != null && fragmentList.size() > 0) {
                     fragManager.popBackStack();
-//                    if (fragmentList.get(fragmentList.size() - 1) instanceof IAPFragmentListener) {
-//                        fragManager.popBackStackImmediate();
-//                    }
                 }
             }
         }
@@ -184,16 +179,13 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
     public void updateCount(final int count) {
         mFragmentLayout.updateCount(count);
-        //mActivityListener.updateCount(count);
     }
 
     public void setCartIconVisibility(final int visibility) {
         if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
             mFragmentLayout.setCartIconVisibility(View.GONE);
-            //mActivityListener.setCartIconVisibility(View.GONE);
         } else {
             mFragmentLayout.setCartIconVisibility(visibility);
-//            mActivityListener.setCartIconVisibility(visibility);
         }
     }
 }
