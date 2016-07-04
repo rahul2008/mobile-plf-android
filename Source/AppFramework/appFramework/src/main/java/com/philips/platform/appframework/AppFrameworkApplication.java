@@ -10,8 +10,8 @@ import android.support.multidex.MultiDex;
 
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.platform.appframework.modularui.util.ActivityMap;
-import com.philips.platform.appframework.modularui.statecontroller.UIStateManager;
+import com.philips.platform.modularui.util.ActivityMap;
+import com.philips.platform.modularui.statecontroller.UIStateManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;

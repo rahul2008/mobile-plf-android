@@ -16,10 +16,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.modularui.statecontroller.UIBaseNavigation;
-import com.philips.platform.appframework.modularui.statecontroller.UIState;
-import com.philips.platform.appframework.modularui.statecontroller.UIStateManager;
-import com.philips.platform.appframework.modularui.util.LaunchScreen;
+import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
+import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIStateManager;
+import com.philips.platform.modularui.util.LaunchScreen;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;

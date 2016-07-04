@@ -33,10 +33,10 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
-import com.philips.platform.appframework.modularui.statecontroller.UIBaseNavigation;
-import com.philips.platform.appframework.modularui.statecontroller.UIState;
-import com.philips.platform.appframework.modularui.statecontroller.UIStateManager;
-import com.philips.platform.appframework.modularui.util.ActivityMap;
+import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
+import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIStateManager;
+import com.philips.platform.modularui.util.ActivityMap;
 import com.philips.platform.appframework.utility.Logger;
 
 import java.util.ArrayList;
