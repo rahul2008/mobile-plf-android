@@ -214,7 +214,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             if (!Utility.isProgressDialogShowing()) {
                 if(mContext == null) return;
                 Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-                mBuyFromRetailors.setVisibility(View.GONE);
             }
             PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnList, this);
             builder.preparePRXDataRequest();
@@ -239,7 +238,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 tagProduct();
                 if (mBundle != null && mLaunchedFromProductCatalog) {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
-                    setAddToCartIcon();
+                    setButtonState();
                     setCartIconVisibility(View.VISIBLE);
                     mBuyFromRetailors.setOnClickListener(this);
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
@@ -250,18 +249,20 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 }
             } else {
                 setTitle(mProductTitle);
-                setAddToCartIcon();
+                setButtonState();
                 mBuyFromRetailors.setOnClickListener(this);
             }
         }
         makeAssetRequest();
     }
 
-    private void setAddToCartIcon() {
+    private void setButtonState() {
         if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
             mAddToCart.setVisibility(View.GONE);
+            mBuyFromRetailors.setVisibility(View.GONE);
             return;
         }
+        mBuyFromRetailors.setVisibility(View.VISIBLE);
         mAddToCart.setVisibility(View.VISIBLE);
         mAddToCart.setOnClickListener(this);
         Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
@@ -379,7 +380,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private void populateData() {
         String actualPrice;
         String discountedPrice;
-        mBuyFromRetailors.setVisibility(View.VISIBLE);
         if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER)) {
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();

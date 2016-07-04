@@ -45,7 +45,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     private RecyclerView mRecyclerView;
     private TextView mEmptyCatalogText;
     private int mTotalResults = 0;
-    private int mPageSize = 5;
+    private final int PAGE_SIZE = 5;
     private int mCurrentPage = 0;
     private int mRemainingProducts = 0;
     private boolean mIsLoading = false;
@@ -79,6 +79,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mPresenter = ControllerFactory.getInstance()
                 .getProductCatalogPresenter(getContext(), this, getFragmentManager());
         mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>());
+        loadProductCatalog();
     }
 
     @Override
@@ -93,7 +94,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mRecyclerViewOnScrollListener);
-        loadProductCatalog();
         return rootView;
     }
 
@@ -172,7 +172,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
                 //if scrolled beyond page size and we have more items to load
                 if ((visibleItemCount + firstVisibleItemPosition) >= lay.getItemCount()
                         && firstVisibleItemPosition >= 0
-                        && mRemainingProducts > mPageSize) {
+                        && mRemainingProducts > PAGE_SIZE) {
                     mIsLoading = true;
                     IAPLog.d(TAG, "visibleItem " + visibleItemCount + ", firstvisibleItemPistion " + firstVisibleItemPosition + "itemCount " + lay.getItemCount());
                     loadMoreItems();
@@ -185,7 +185,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         if (!Utility.isProgressDialogShowing()) {
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
         }
-        mPresenter.getProductCatalog(mCurrentPage++, mPageSize);
+        mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE);
     }
 
     private void loadMoreItems() {
@@ -202,7 +202,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
         if (mPresenter == null)
             mPresenter = ControllerFactory.getInstance().getProductCatalogPresenter(getContext(), this, getFragmentManager());
-        mPresenter.getProductCatalog(++mCurrentPage, mPageSize);
+        mPresenter.getProductCatalog(++mCurrentPage, PAGE_SIZE);
     }
 
     @Override
@@ -223,7 +223,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             mRemainingProducts = paginationEntity.getTotalResults();
 
         mTotalResults = paginationEntity.getTotalResults();
-        mPageSize = paginationEntity.getPageSize();
         mCurrentPage = paginationEntity.getCurrentPage();
         mTotalPages = paginationEntity.getTotalPages();
         mIsLoading = false;
@@ -234,9 +233,18 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
             mProductCatalog = new ArrayList<>();
         }
         for (ProductCatalogData data : dataFetched) {
-            if (!mProductCatalog.contains(data))
+            if (!checkIfEntryExists(data))
                 mProductCatalog.add(data);
         }
+    }
+
+    private boolean checkIfEntryExists(final ProductCatalogData data) {
+        for(ProductCatalogData entry : mProductCatalog) {
+            if(entry.getCtnNumber().equalsIgnoreCase(data.getCtnNumber())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
