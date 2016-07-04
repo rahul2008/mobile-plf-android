@@ -150,4 +150,6 @@ public class RegConstants {
 
     public static final String COPPA_STATUS = "CoppaStatus";
 
+    public static final String IS_FROM_PARENTAL_CONSENT = "ParentalConsent";
+
 }

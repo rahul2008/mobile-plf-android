@@ -41,6 +41,7 @@ import java.util.TimeZone;
 
 
 public class ParentalApprovalFragmentController implements RefreshUserHandler, View.OnClickListener {
+    private boolean isParentalConsent=false;
     private ParentalApprovalFragment mParentalApprovalFragment;
     private CoppaExtension mCoppaExtension;
     private boolean isCoppaConsent;
@@ -51,6 +52,10 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
     public ParentalApprovalFragmentController(ParentalApprovalFragment fragment) {
         mParentalApprovalFragment = fragment;
         mCoppaExtension = new CoppaExtension(mParentalApprovalFragment.getRegistrationFragment().getParentActivity().getApplicationContext());
+        Bundle bunble = mParentalApprovalFragment.getArguments();
+        if (bunble != null) {
+            isParentalConsent = bunble.getBoolean(RegConstants.IS_FROM_PARENTAL_CONSENT, false);
+        }
     }
 
 
@@ -169,9 +174,7 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
 
                     //Need to check and act on it on what bases it arraived here
                     //If comes from the general way then need not be load 24 hours screen else load
-                    boolean isDone  = true ;
-
-                    if(isDone){
+                   if(isParentalConsent){
                         if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                             RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
                         }

@@ -56,6 +56,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private boolean isAccountSettings = true;
 
+    private static boolean isParentalConsent = true;
 
     private static  boolean isParentConsentRequested;
 
@@ -436,6 +437,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         if (mFragmentManager != null) {
             try {
                 ParentalApprovalFragment parentalAccessFragment = new ParentalApprovalFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(RegConstants.IS_FROM_PARENTAL_CONSENT, isParentalConsent);
+                parentalAccessFragment.setArguments(bundle);
                 int count = mFragmentManager.getBackStackEntryCount();
                 RegistrationFragment registrationFragment = null;
                 if (count != 0 && registrationFragment instanceof RegistrationFragment) {
