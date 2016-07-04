@@ -64,8 +64,6 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
                  //   IAPLog.d(IAPLog.LOG, "getCompleteProductList -- ProductCatelogPresenter " + productCTNs.toString());
                     Products products = (Products) msg.obj;
                     int mTotalResults = products.getPagination().getTotalResults();
-                    int mPageSize = products.getPagination().getPageSize();
-                    int mCurrentPage = products.getPagination().getCurrentPage();
                     int mTotalPages = products.getPagination().getTotalPages();
 
                     if(mTotalPages>1){
@@ -81,7 +79,9 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
                             @Override
                             public void onSuccess(final Message msg) {
                                 ArrayList<String> productCTNs = getProductCTNs(msg);
-                                iapListener.onSuccess(productCTNs);
+                                if (iapListener != null) {
+                                    iapListener.onSuccess(productCTNs);
+                                }
                             }
 
                             @Override
@@ -91,6 +91,11 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
                                 }
                             }
                         });
+                    }else{
+                        if (iapListener != null) {
+                            ArrayList<String> productCTNs = getProductCTNs(msg);
+                            iapListener.onSuccess(productCTNs);
+                        }
                     }
                 }
             }

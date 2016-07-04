@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.model;
 
 import android.content.Context;
@@ -17,46 +21,49 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static org.mockito.Mockito.mock;
 
-/**
- * Created by 310164421 on 3/8/2016.
- */
 @RunWith(RobolectricTestRunner.class)
 public class GetPaymentDetailRequestTest {
     @Mock
-    private StoreSpec mStore;
+    Context mContext;
+    @Mock
+    IAPUser mUser;
+    private AbstractModel mModel;
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
-        mStore.initStoreConfig("en", "us", null);
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        mStore.initStoreConfig("en", "US", null);
+        mModel = new GetPaymentDetailRequest(mStore, null, null);
     }
 
     @Test
     public void testRequestMethodIsGET() {
-        GetPaymentDetailRequest request = new GetPaymentDetailRequest(mStore, null, null);
-        assertEquals(Request.Method.GET, request.getMethod());
+        assertEquals(Request.Method.GET, mModel.getMethod());
     }
 
     @Test
-    public void testQueryParamsIsNull() {
-        GetPaymentDetailRequest request = new GetPaymentDetailRequest(mStore, null, null);
-        assertNull(request.requestBody());
+    public void testBodyParamsIsNull() {
+        assertNull(mModel.requestBody());
     }
 
     @Test
-    public void matchAddressDetailURL() {
-        GetPaymentDetailRequest request = new GetPaymentDetailRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.CART_PAYMENT_DETAILS_URL, request.getUrl());
+    public void testStoreIsNotNull() {
+        assertNotNull(mModel.getStore());
     }
 
     @Test
-    public void parseResponseShouldBeOfGetShippingAddressDataType() {
-        GetPaymentDetailRequest request = new GetPaymentDetailRequest(mStore, null, null);
-        String paymentResponse = TestUtils.readFile(GetPaymentDetailRequestTest.class, "get_payment_detail.txt");
-        Object response = request.parseResponse(paymentResponse);
+    public void isValidUrl() {
+        assertEquals(NetworkURLConstants.CART_PAYMENT_DETAILS_URL, mModel.getUrl());
+    }
+
+    @Test
+    public void isValidResponse() {
+        String validResponse = TestUtils.readFile(GetPaymentDetailRequestTest.class,
+                "Payment.txt");
+        Object response = mModel.parseResponse(validResponse);
         assertEquals(response.getClass(), PaymentMethods.class);
     }
 }

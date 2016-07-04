@@ -77,4 +77,6 @@ public interface StoreSpec {
     String getSearchProductUrl(String ctnNumber);
 
     String getOrderHistoryUrl(String pageNumber);
+
+    String getDeliveryModesUrl();
 }

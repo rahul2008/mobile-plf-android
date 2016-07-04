@@ -36,7 +36,8 @@ public class HybrisHandler implements IAPExposedAPI {
     private String mCountry;
     private IAPSettings mIAPSettings;
     private final int CURRENT_PAGE = 0;
-    private final int PAGE_SIZE = 1;
+    //Hybris default page size is 20. We are using the same
+    private final int PAGE_SIZE = 20;
 
     public HybrisHandler(Context context, IAPSettings settings) {
         mContext = context;

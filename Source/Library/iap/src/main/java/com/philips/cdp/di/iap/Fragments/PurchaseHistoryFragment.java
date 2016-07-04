@@ -240,7 +240,8 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
 
     @Override
     public void onModelDataError(Message msg) {
-
+        if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
     }
 
     private RecyclerView.OnScrollListener
