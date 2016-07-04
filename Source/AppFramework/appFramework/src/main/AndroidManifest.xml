@@ -30,8 +30,6 @@
         </activity>
         <activity android:name=".introscreen.IntroductionScreenActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
-        <activity android:name=".userregistrationscreen.UserRegistrationActivity"
-            android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <activity android:name=".homescreen.HamburgerActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <!--<receiver-->

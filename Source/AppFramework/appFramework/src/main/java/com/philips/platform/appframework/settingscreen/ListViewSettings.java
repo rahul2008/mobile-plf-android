@@ -19,7 +19,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
