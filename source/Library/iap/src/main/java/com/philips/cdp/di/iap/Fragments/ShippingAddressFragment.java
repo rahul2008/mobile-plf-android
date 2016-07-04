@@ -509,6 +509,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
+    public void onGetDeliveryModes(Message msg) {
+
+    }
+
+    @Override
     public void onSalutationSelect(String salutation) {
         mEtSalutation.setText(salutation);
     }

@@ -123,7 +123,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
-
+        setUseLocalData();
         if (!mIAPSettings.isUseLocalData()) {
             Handler handler = new Handler(Looper.getMainLooper());
             handler.postDelayed(new Runnable() {
@@ -218,7 +218,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
                 break;
             case R.id.btn_categorized_shop_now:
                 if (isNetworkAvailable(DemoAppActivity.this)) {
-//                    setUseLocalData();
                     if (mProductList != null && !mProductList.isEmpty()) {
                         IAPLog.d(IAPLog.LOG, "Product List : " + mProductList);
                         mIapHandler.launchCategorizedCatalog(mProductList);
