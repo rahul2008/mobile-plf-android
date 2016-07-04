@@ -212,7 +212,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         ctnList.add(mCTNValue);
         if (!CartModelContainer.getInstance().isPRXDataPresent(mCTNValue)) {
             if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+                if(mContext == null) return;
+                Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                 mBuyFromRetailors.setVisibility(View.GONE);
             }
             PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnList, this);
