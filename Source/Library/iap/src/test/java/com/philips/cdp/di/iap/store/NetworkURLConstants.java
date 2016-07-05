@@ -9,6 +9,7 @@ public class NetworkURLConstants {
     public static final String DUMMY_PRODUCT_ID = "H1212";
     public static final String DUMMY_ORDER_ID = "H1212";
     public static final String DUMMY_PAGE_NUMBER = "0";
+    public static final String DUMMY_QUANTITY = "2";
     public static final String DUMMY_PRODUCT_NUBMBER = "1212";
     public static final String HOST_PORT = "acc.occ.shop.philips.com";
     public static final String SITE = "US_TUSCANY";

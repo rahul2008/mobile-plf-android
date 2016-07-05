@@ -21,9 +21,11 @@ import org.mockito.Mockito;
 import java.util.HashMap;
 import java.util.Map;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
-public class CartUpdateProductQuantityRequestTest extends TestCase {
+public class CartUpdateProductQuantityRequestTest{
     @Mock
     private StoreSpec mStore;
 
@@ -77,9 +79,14 @@ public class CartUpdateProductQuantityRequestTest extends TestCase {
         assertEquals(response.getClass(), UpdateCartData.class);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testGetURLWhenParamsEqualToNull() {
-        CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, null, null);
+        HashMap<String, String> query = new HashMap<String, String>();
+        query.put(ModelConstants.PRODUCT_CODE, "H1212");
+        query.put(ModelConstants.PRODUCT_QUANTITY, "2");
+        query.put(ModelConstants.PRODUCT_ENTRYCODE, "1212");
+
+        CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, query, null);
         assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }
 
