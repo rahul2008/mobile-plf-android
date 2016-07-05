@@ -41,10 +41,10 @@ public class MockNetworkController extends NetworkController {
         store = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
     }
 
-/*    @Override
+    @Override
     public void hybrisVolleyCreateConnection(final Context context) {
         //just simulate
-    }*/
+    }
 
     @Override
     IAPJsonRequest getIapJsonRequest(final AbstractModel model, final Response.ErrorListener error, final Response.Listener<JSONObject> response) {
@@ -53,10 +53,10 @@ public class MockNetworkController extends NetworkController {
         return iapJsonRequest;
     }
 
-/*    @Override
+    @Override
     public void addToVolleyQueue(final IAPJsonRequest jsObjRequest) {
         //just simulate
-    }*/
+    }
 
     public void sendSuccess(JSONObject successResponse) {
         mIAPJSONRequest.deliverResponse(successResponse);
