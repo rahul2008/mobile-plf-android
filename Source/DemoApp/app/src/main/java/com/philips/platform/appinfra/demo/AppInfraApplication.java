@@ -8,6 +8,8 @@ package com.philips.platform.appinfra.demo;
 import android.app.Application;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 /**
@@ -15,12 +17,19 @@ import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
  */
 public class AppInfraApplication extends Application {
      public static AIAppTaggingInterface mAIAppTaggingInterface;
-    public static AppInfra gAppInfra;
+     public static AppInfraInterface gAppInfra;
     @Override
     public void onCreate() {
         super.onCreate();
 
-        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        //gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        //AppInfraSingleton appInfraSingleton ;
+
+        AppInfraSingleton.setInstance(gAppInfra=new AppInfra.Builder().build(getApplicationContext()));
+        gAppInfra=AppInfraSingleton.getInstance();
+       /* LoggingInterface overridenLogger=null;
+        AppInfraSingleton.setInstance(gAppInfra=new AppInfra.Builder().setLogging(overridenLogger).build(getApplicationContext()));*/
+
 
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name","Component ID");
         mAIAppTaggingInterface.setPreviousPage("SomeXpreviousPage");

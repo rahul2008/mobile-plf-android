@@ -25,7 +25,7 @@ import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 /**
  * Created by 310238114 on 5/5/2016.
  */
-public class AppInfra {
+public class AppInfra implements AppInfraInterface{
 
 
     private SecureStorageInterface secureStorage;
@@ -128,100 +128,88 @@ public class AppInfra {
             return ai;
         }
     }
-    public TimeSyncInterface getTimeSync() {
-        return mTimeSyncInterface;
-    }
 
-    public void setTimeSync(TimeSyncInterface mTimeSyncInterface) {
-        this.mTimeSyncInterface = mTimeSyncInterface;
-    }
 
-    /**
-     * Gets app infra context.
-     * @return the app infra context
-     */
+
     public Context getAppInfraContext() {
         return appInfraContext;
     }
 
-    /**
-     * Gets secure storage.
-     * @return the secure storage value
-     */
+    @Override
+    public TimeSyncInterface getTimeSync() {
+        return mTimeSyncInterface;
+    }
+
+    @Override
     public SecureStorageInterface getSecureStorage() {
         return secureStorage;
     }
 
+    @Override
     public AppIdentityInterface getAppIdentity() {
         return appIdentity;
     }
 
+    @Override
     public LocalInterface getLocal() {
         return local;
     }
 
-    /**
-     * Gets AppInfra log instance to be used by component and app framework.
-     * @return the logging
-     */
+    @Override
     public LoggingInterface getLogging() {
         return logger;
     }
+
+    @Override
     public ServiceDiscoveryInterface getServiceDiscoveryInterface() {
         return mServiceDiscoveryInterface;
     }
 
 
-    /**
-     * Instantiates a new App infra.
-     * @param pContext  context
-     */
+
     public AppInfra(Context pContext) {
         appInfraContext = pContext;
     }
 
-    public void setSecureStorage(SecureStorageInterface sec) {
+    private void setTimeSync(TimeSyncInterface mTimeSyncInterface) {
+        this.mTimeSyncInterface = mTimeSyncInterface;
+    }
+
+    private void setSecureStorage(SecureStorageInterface sec) {
         secureStorage = sec;
     }
 
-    public void setLogging(LoggingInterface log) {
+    private void setLogging(LoggingInterface log) {
         logger = log;
         appInfraLogger = logger.createInstanceForComponent(this.getClass().getPackage().toString(), APP_INFRA_VERSION);
     }
 
-    public void setTagging(AIAppTaggingInterface tagg) {
+    private void setTagging(AIAppTaggingInterface tagg) {
         tagging = tagg;
 
     }
 
-    public void setAppIdentity(AppIdentityInterface identity) {
+    private void setAppIdentity(AppIdentityInterface identity) {
         appIdentity = identity;
 
     }
 
-    public void setLocal(LocalInterface locale) {
+    private void setLocal(LocalInterface locale) {
         local = locale;
 
     }
 
-    public void setServiceDiscoveryInterface(ServiceDiscoveryInterface mServiceDiscoveryInterfac) {
+    private void setServiceDiscoveryInterface(ServiceDiscoveryInterface mServiceDiscoveryInterfac) {
         mServiceDiscoveryInterface = mServiceDiscoveryInterfac;
 
     }
 
-    /**
-     * Gets AppInfra tagging.
-     * @return the tagging
-     */
+
     public AIAppTaggingInterface getTagging() {
         return tagging;
     }
 
 
-    /**
-     * Gets app infra log instance to be used within App Infra library.
-     * @return the app infra log instance
-     */
     public LoggingInterface getAppInfraLogInstance() { // this log should be used withing App Infra library
         return appInfraLogger;
     }

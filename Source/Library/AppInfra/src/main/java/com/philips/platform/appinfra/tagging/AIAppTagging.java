@@ -214,23 +214,13 @@ public class AIAppTagging implements AIAppTaggingInterface {
         AIAppTagging.componentVersionVersionValue = componentVersionVersionValue;
     }
 
-    /**
-     * Create instance for component tagging interface.
-     * This method to be used by all component to get their respective tagging
-     * @param componentId      the component id
-     * @param componentVersion the component version
-     * @return the appinfra app tagging interface
-     */
+
     @Override
     public AIAppTaggingInterface createInstanceForComponent(String componentId, String componentVersion) {
         return new AIAppTaggingWrapper(mAppInfra, componentId, componentVersion);
     }
 
-     /**
-     * Sets privacy consent.
-     *
-     * @param privacyStatus the privacy status
-     */
+
     @Override
     public void setPrivacyConsent(PrivacyStatus privacyStatus) {
         switch (privacyStatus) {
@@ -256,23 +246,13 @@ public class AIAppTagging implements AIAppTaggingInterface {
         mGlobalStore.setValue(prevPage);
     }
 
-    /**
-     * Gets privacy consent.
-     *
-     * @return the privacy consent
-     */
+
     @Override
     public PrivacyStatus getPrivacyConsent() {
         return null;
     }
 
-    /**
-     * Track page with info with single key value.
-     *
-     * @param pageName the page name
-     * @param key      the key
-     * @param value    the value
-     */
+
     @Override
     public void trackPageWithInfo(String pageName, String key, String value) {
         contextData = addAnalyticsDataObject();
@@ -307,12 +287,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
         prevPage = pageName;
     }
 
-    /**
-     * Track page with info with multiple key value.
-     *
-     * @param pageName  the page name
-     * @param paramMap the param dict
-     */
+
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
         Map<String, Object> contextData = addAnalyticsDataObject();
@@ -326,13 +301,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
 
     }
 
-    /**
-     * Track action with info with single key value.
-     *
-     * @param pageName the page name
-     * @param key      the key
-     * @param value    the value
-     */
+
     @Override
     public void trackActionWithInfo(String pageName, String key, String value) {
         Map<String, Object> contextData = addAnalyticsDataObject();
@@ -348,12 +317,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
         prevPage = pageName;
     }
 
-    /**
-     * Track action with info with multiple key value.
-     *
-     * @param pageName  the page name
-     * @param paramMap the param dict
-     */
+
     @Override
     public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
         Map<String, Object> contextData = addAnalyticsDataObject();

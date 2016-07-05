@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.net.URL;
@@ -19,7 +19,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     ServiceDiscoveryInterface.OnGetServicesListener mOnGetServicesListener = null;
     ServiceDiscoveryInterface.OnGetServiceLocaleListener mOnGetServiceLocaleListener = null;
     ServiceDiscoveryInterface.OnGetServiceUrlListener mOnGetServiceUrlListener = null;
-    AppInfra appInfra;
+    AppInfraInterface appInfra;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

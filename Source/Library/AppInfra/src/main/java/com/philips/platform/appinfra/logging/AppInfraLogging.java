@@ -174,29 +174,36 @@ public class AppInfraLogging implements  LoggingInterface {
 
     @Override
     public void enableFileLog(boolean pFileLogEnabled) {
-        if(pFileLogEnabled) {
-            if(null==fileHandler) {// add file log
-                fileHandler = getFileHandler();
-                fileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
-                javaLogger.addHandler(fileHandler);
+        boolean isDebuggable =  ( 0 != ( mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
+        if(!isDebuggable){
+            // if app is in release mode then disable file logs for security reason.
+            //file logging is blocked till logged files are encrypted TBD in next PI
+            fileHandler = null;
+        }else {// if app is in debug mode then only enable file logs
+            if (pFileLogEnabled) {
+                if (null == fileHandler) {// add file log
+                    fileHandler = getFileHandler();
+                    fileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
+                    javaLogger.addHandler(fileHandler);
 
-            }else{
-                // nothing to do, fileHandler already added to Logger
-            }
-        }else{ // remove file log if any
-            Handler[] currentComponentHandlers = javaLogger.getHandlers();
-            if (null!=currentComponentHandlers && currentComponentHandlers.length>0 ) {
-                for (Handler handler : currentComponentHandlers) {
-                    if (handler instanceof FileHandler) {
-                        handler.close(); // flush and close connection of file
-                        javaLogger.removeHandler(handler);
-                        fileHandler.flush();
-                        fileHandler.close();
-                        fileHandler=null;
+                } else {
+                    // nothing to do, fileHandler already added to Logger
+                }
+            } else { // remove file log if any
+                Handler[] currentComponentHandlers = javaLogger.getHandlers();
+                if (null != currentComponentHandlers && currentComponentHandlers.length > 0) {
+                    for (Handler handler : currentComponentHandlers) {
+                        if (handler instanceof FileHandler) {
+                            handler.close(); // flush and close connection of file
+                            javaLogger.removeHandler(handler);
+                            fileHandler.flush();
+                            fileHandler.close();
+                            fileHandler = null;
+                        }
                     }
                 }
             }
-        }
+        }//
     }
 
     // return file handler for writting logs on file based on logging.properties config
