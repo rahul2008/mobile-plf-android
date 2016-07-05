@@ -57,7 +57,7 @@ public class LocalManager implements LocalInterface {
                     mAppInfra.getTagging().trackActionWithInfo("LocalPage", "KeyCountry", "ValueCountry");
                 }
 
-                return mCountry;
+                return mCountry.toUpperCase();
 
             }
 
@@ -68,7 +68,7 @@ public class LocalManager implements LocalInterface {
                 final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 final String simCountry = tm.getSimCountryIso();
                 if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
-                    mCountry = simCountry.toLowerCase(Locale.US);
+                    mCountry = simCountry.toUpperCase(Locale.US);
 
                     editor.putString(RequestManager.COUNTRY_NAME, mCountry);
                     editor.commit();
@@ -77,7 +77,7 @@ public class LocalManager implements LocalInterface {
                 } else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { //
                     String networkCountry = tm.getNetworkCountryIso();
                     if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
-                        mCountry= networkCountry.toLowerCase(Locale.US);
+                        mCountry= networkCountry.toUpperCase(Locale.US);
                         editor.putString(RequestManager.COUNTRY_NAME, mCountry);
                         editor.commit();
                         if(mCountry!= null)
