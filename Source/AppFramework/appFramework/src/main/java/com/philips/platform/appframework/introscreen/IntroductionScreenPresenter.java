@@ -3,7 +3,7 @@ package com.philips.platform.appframework.introscreen;
 import android.content.Context;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.userregistration.UserRegistrationNavigator;
+import com.philips.platform.modularui.navigatorimpl.UserRegistrationNavigator;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 

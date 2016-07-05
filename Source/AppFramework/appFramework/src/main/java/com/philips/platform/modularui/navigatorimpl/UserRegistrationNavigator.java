@@ -1,4 +1,4 @@
-package com.philips.platform.appframework.userregistration;
+package com.philips.platform.modularui.navigatorimpl;
 
 import android.content.Context;
 import android.content.Intent;

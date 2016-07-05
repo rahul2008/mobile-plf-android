@@ -185,13 +185,16 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
+        /*mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
         if (null != activity) {
             UIState returnedState = (UIState) mNavigator.onPageLoad(IntroductionScreenActivity.this);
             RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
             UIStateManager.getInstance().setCurrentState(returnedState);
             LaunchScreen.getInstance().launchScreen(IntroductionScreenActivity.this,returnedState.getStateID());
-            }
+            }*/
+        if(null != activity){
+            uiBasePresenter.onClick(userRegistrationClickID,IntroductionScreenActivity.this);
+        }
     }
 
     @Override

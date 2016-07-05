@@ -18,6 +18,7 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.Logger;
+import com.philips.platform.modularui.statecontroller.SomeInterface;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
@@ -25,7 +26,7 @@ import com.philips.platform.appframework.utility.Logger;
  * @author: ritesh.jha@philips.com
  * @since: June 17, 2016
  */
-public abstract class AppFrameworkBaseActivity extends UiKitActivity {
+public abstract class AppFrameworkBaseActivity extends UiKitActivity implements SomeInterface{
     public static final String SHARED_PREFERENCES = "SharedPref";
     public static final String DONE_PRESSED = "donePressed";
     private static String TAG = AppFrameworkBaseActivity.class.getSimpleName();
@@ -52,6 +53,11 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
             Logger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void showFragmentCallBack(Fragment fragment) {
+        showFragment(fragment,fragment.getClass().getSimpleName());
     }
 
     @Override

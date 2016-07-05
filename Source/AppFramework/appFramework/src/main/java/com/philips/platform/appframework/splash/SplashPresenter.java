@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.userregistration.UserRegistrationNavigator;
+import com.philips.platform.modularui.navigatorimpl.UserRegistrationNavigator;
 import com.philips.platform.modularui.navigatorimpl.HomeActivityNavigator;
 import com.philips.platform.modularui.navigatorimpl.IntroductionScreenNavigator;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;

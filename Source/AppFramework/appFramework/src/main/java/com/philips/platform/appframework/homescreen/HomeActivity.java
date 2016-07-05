@@ -33,11 +33,9 @@ import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
-import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
-import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.statecontroller.UIStateManager;
-import com.philips.platform.modularui.util.ActivityMap;
 import com.philips.platform.appframework.utility.Logger;
+import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
+import com.philips.platform.modularui.statecontroller.UIStateManager;
 
 import java.util.ArrayList;
 
@@ -58,8 +56,9 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
     private HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
     private UIBaseNavigation mNavigator;
-	private LinearLayout hamburgerClick = null;
+    private LinearLayout hamburgerClick = null;
     private ConsumerCareLauncher mConsumerCareFragment = null;
+    private HomeActivityPresenter basePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +69,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
         super.onCreate(savedInstanceState);
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
+        basePresenter = new HomeActivityPresenter();
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
         initActionBar(getSupportActionBar());
@@ -90,11 +90,12 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
             }
         });
     }
- private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
+
+    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
 
         @Override
         public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-            Logger.i("testing","titleActionbar : " + titleActionbar + " -- hamburgerIconAvailable : " +hamburgerIconAvailable);
+            Logger.i("testing", "titleActionbar : " + titleActionbar + " -- hamburgerIconAvailable : " + hamburgerIconAvailable);
             if (hamburgerIconAvailable) {
                 hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
                 hamburgerClick.setOnClickListener(new View.OnClickListener() {
@@ -195,15 +196,17 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
     private void showNavigationDrawerItem(int position) {
 
         philipsDrawerLayout.closeDrawer(navigationView);
-        UIState returnedState =  (UIState)mNavigator.onClick(position,HomeActivity.this);
+        /*UIState returnedState = (UIState) mNavigator.onClick(position, HomeActivity.this);
         UIStateManager.getInstance().setCurrentState(returnedState);
-        showFragment(ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()),ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()).getClass().getSimpleName());
+        showFragment(ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()), ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()).getClass().getSimpleName());*/
 
+        basePresenter.onClick(position,HomeActivity.this);
+        basePresenter.onLoad(this);
     }
 
     @Override
     public void onBackPressed() {
-         mNavigator.setState();
+        mNavigator.setState();
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
         }
