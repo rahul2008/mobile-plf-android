@@ -18,9 +18,12 @@ import org.mockito.Mock;
 import java.util.HashMap;
 import java.util.Map;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
-public class CartDeleteProductRequestTest extends TestCase {
+public class CartDeleteProductRequestTest{
     @Mock
     private StoreSpec mStore;
 
@@ -38,10 +41,10 @@ public class CartDeleteProductRequestTest extends TestCase {
         assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testGetURLWhenParamsEqualToNull() {
         Map<String, String> query = new HashMap<>();
-        query.put(ModelConstants.ENTRY_CODE, "HX8071/10");
+        query.put(ModelConstants.ENTRY_CODE, "1212");
         CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, query, null);
         assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }
