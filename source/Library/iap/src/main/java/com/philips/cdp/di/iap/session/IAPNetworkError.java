@@ -32,8 +32,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             mVolleyError = error;
         }
 
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, getMessage());
+        if (getMessage() != null)
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.ERROR, getMessage());
 
         Message msg = Message.obtain();
         msg.what = requestCode;
