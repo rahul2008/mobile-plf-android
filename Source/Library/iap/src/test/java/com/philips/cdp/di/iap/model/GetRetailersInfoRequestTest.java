@@ -19,9 +19,11 @@ import org.mockito.Mock;
 
 import java.util.HashMap;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
-public class GetRetailersInfoRequestTest extends TestCase {
+public class GetRetailersInfoRequestTest{
     @Mock
     private StoreSpec mStore;
 
