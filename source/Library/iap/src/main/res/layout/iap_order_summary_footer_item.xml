@@ -165,13 +165,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
-            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
-            android:orientation="horizontal">
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top">
+
+            <ImageView
+                android:id="@+id/edit_icon"
+                android:layout_width="@dimen/iap_edit_icon_width"
+                android:layout_height="@dimen/iap_edit_icon_width"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/pencil_01"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tv_delivery_price"
                 style="@style/tvBoldTitle"
-                android:layout_alignParentEnd="true"
+                android:layout_toLeftOf="@id/edit_icon"
+                android:layout_marginEnd="@dimen/iap_dots_padding"
                 android:layout_marginBottom="0dp"
                 android:layout_marginStart="0dp" />
 

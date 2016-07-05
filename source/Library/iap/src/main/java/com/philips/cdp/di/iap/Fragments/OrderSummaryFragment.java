@@ -17,6 +17,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
  * All rights reserved.
  */
 public class OrderSummaryFragment extends BaseAnimationSupportFragment implements View.OnClickListener, TwoButtonDailogFragment.TwoButtonDialogListener,
-        PaymentController.MakePaymentListener {
+        PaymentController.MakePaymentListener, AddressController.AddressListener {
     private OrderProductAdapter mAdapter;
     private AddressFields mBillingAddress;
     private PaymentMethod mPaymentMethod;
@@ -83,9 +84,9 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         mOrderListView.setLayoutManager(layoutManager);
         if (isOrderPlaced()) {
             ArrayList<ShoppingCartData> shoppingCartDataArrayList = CartModelContainer.getInstance().getShoppingCartData();
-            mAdapter = new OrderProductAdapter(getContext(), shoppingCartDataArrayList, mBillingAddress, mPaymentMethod);
+            mAdapter = new OrderProductAdapter(getContext(), this, shoppingCartDataArrayList, mBillingAddress, mPaymentMethod);
         } else {
-            mAdapter = new OrderProductAdapter(getContext(), new ArrayList<ShoppingCartData>(), mBillingAddress, mPaymentMethod);
+            mAdapter = new OrderProductAdapter(getContext(), this, new ArrayList<ShoppingCartData>(), mBillingAddress, mPaymentMethod);
             updateCartOnResume();
         }
         mOrderListView.setAdapter(mAdapter);
@@ -261,5 +262,40 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     @Override
     public void onDialogCancelClick() {
         //NOP
+    }
+
+    @Override
+    public void onGetRegions(Message msg) {
+
+    }
+
+    @Override
+    public void onCreateAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onGetAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onSetDeliveryAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onGetDeliveryModes(Message msg) {
+
+    }
+
+    @Override
+    public void onSetDeliveryMode(Message msg) {
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            updateCartOnResume();
+        } else {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            Utility.dismissProgressDialog();
+        }
     }
 }
