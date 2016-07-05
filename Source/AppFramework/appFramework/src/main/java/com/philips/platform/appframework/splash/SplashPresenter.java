@@ -5,7 +5,7 @@ import android.content.Context;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.userregistration.UserRegistrationNavigator;
-import com.philips.platform.modularui.navigatorimpl.HamburgerNavigator;
+import com.philips.platform.modularui.navigatorimpl.HomeActivityNavigator;
 import com.philips.platform.modularui.navigatorimpl.IntroductionScreenNavigator;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
@@ -20,7 +20,7 @@ public class SplashPresenter implements UIBasePresenter {
     public void onClick(int componentID, Context context) {
         userRegistration = new User(context.getApplicationContext());
         if(userRegistration.isUserSignIn()){
-            uiBaseNavigator = new HamburgerNavigator();
+            uiBaseNavigator = new HomeActivityNavigator();
         }
         else if(AppFrameworkBaseActivity.getIntroScreenDonePressed() && !userRegistration.isUserSignIn()){
             uiBaseNavigator = new UserRegistrationNavigator();

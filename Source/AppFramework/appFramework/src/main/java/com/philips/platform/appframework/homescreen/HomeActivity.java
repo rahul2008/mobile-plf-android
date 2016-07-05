@@ -42,7 +42,7 @@ import com.philips.platform.appframework.utility.Logger;
 import java.util.ArrayList;
 
 
-public class HamburgerActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener {
     private String[] hamburgerMenuTitles;
     // private TypedArray hamburgerMenuIcons;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -96,7 +96,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements UserR
         public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
             Logger.i("testing","titleActionbar : " + titleActionbar + " -- hamburgerIconAvailable : " +hamburgerIconAvailable);
             if (hamburgerIconAvailable) {
-                hamburgerIcon.setImageDrawable(VectorDrawable.create(HamburgerActivity.this, R.drawable.uikit_hamburger_icon));
+                hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
                 hamburgerClick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -105,7 +105,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements UserR
                 });
             } else {
 //                hamburgerIcon.setImageDrawable(R.drawable.consumercare_actionbar_back_arrow_white);
-                hamburgerIcon.setImageDrawable(ContextCompat.getDrawable(HamburgerActivity.this,
+                hamburgerIcon.setImageDrawable(ContextCompat.getDrawable(HomeActivity.this,
                         R.drawable.consumercare_actionbar_back_arrow_white));
                 hamburgerClick.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -195,7 +195,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements UserR
     private void showNavigationDrawerItem(int position) {
 
         philipsDrawerLayout.closeDrawer(navigationView);
-        UIState returnedState =  (UIState)mNavigator.onClick(position,HamburgerActivity.this);
+        UIState returnedState =  (UIState)mNavigator.onClick(position,HomeActivity.this);
         UIStateManager.getInstance().setCurrentState(returnedState);
         showFragment(ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()),ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()).getClass().getSimpleName());
 

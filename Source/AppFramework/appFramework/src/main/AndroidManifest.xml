@@ -30,7 +30,7 @@
         </activity>
         <activity android:name=".introscreen.IntroductionScreenActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
-        <activity android:name=".homescreen.HamburgerActivity"
+        <activity android:name=".homescreen.HomeActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"/>
         <!--<receiver-->
             <!--android:name="NetworkReceiver"-->

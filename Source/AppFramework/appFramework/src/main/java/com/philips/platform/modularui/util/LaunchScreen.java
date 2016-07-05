@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.introscreen.IntroductionScreenActivity;
 
 /**
@@ -29,7 +29,7 @@ public class LaunchScreen {
                 launchIntent = new Intent(context, IntroductionScreenActivity.class);
                 break;
             case  UIConstants.UI_HAMBURGER_SCREEN:
-                launchIntent = new Intent(context, HamburgerActivity.class);
+                launchIntent = new Intent(context, HomeActivity.class);
                 break;
             case  UIConstants.UI_USER_REGISTRATION_SCREEN:
                 launchIntent = new Intent(context, RegistrationActivity.class);
