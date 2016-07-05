@@ -123,16 +123,19 @@ public class DemoAppActivity extends Activity implements View.OnClickListener,
 
         mCountryPreference = new CountryPreferences(this);
         mSpinner.setSelection(mCountryPreference.getSelectedCountryIndex());
-        setUseLocalData();
-        if (!mIAPSettings.isUseLocalData()) {
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mIapHandler.getCompleteProductList(mGetCompleteProductListener);
-                }
-            }, 1000);
-        }
+
+        /*Pls uncommnet when vertical wants to get complete product list from hybris*/
+        
+//        mIAPSettings.setUseLocalData(false);
+//        if (!mIAPSettings.isUseLocalData()) {
+//            Handler handler = new Handler(Looper.getMainLooper());
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mIapHandler.getCompleteProductList(mGetCompleteProductListener);
+//                }
+//            }, 1000);
+//        }
     }
 
     @Override

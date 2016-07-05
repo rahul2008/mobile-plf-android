@@ -42,9 +42,9 @@ public class IAPActivity extends UiKitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_activity);
-        initTheme();
         addActionBar();
 
         if (savedInstanceState == null) {
