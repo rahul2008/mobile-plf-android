@@ -11,8 +11,6 @@ import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,33 +18,37 @@ import org.mockito.Mockito;
 
 import java.util.HashMap;
 
-import static org.mockito.Mockito.mock;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 
-public class CreateAddressRequestTest extends TestCase {
+public class CreateAddressRequestTest {
     @Mock
-    private StoreSpec mStore;
+    Context mContext;
+    @Mock
+    IAPUser mUser;
+    private AbstractModel mModel;
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
-        mStore.initStoreConfig("en", "us", null);
-    }
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        mStore.initStoreConfig("en", "US", null);
 
-    @Test
-    public void matchCreateAddressRequestURL() {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUBMBER);
         query.put(ModelConstants.PRODUCT_CODE, NetworkURLConstants.DUMMY_PRODUCT_ID);
         query.put(ModelConstants.PRODUCT_QUANTITY, "2");
-        CreateAddressRequest request = new CreateAddressRequest(mStore, query, null);
-        assertEquals(NetworkURLConstants.ADDRESS_DETAILS_URL, request.getUrl());
+        mModel = new CreateAddressRequest(mStore, query, null);
+    }
+
+    @Test
+    public void isValidUrl() {
+        assertEquals(NetworkURLConstants.ADDRESS_DETAILS_URL, mModel.getUrl());
     }
 
 
     @Test
     public void testRequestMethodIsPOST() {
-        CreateAddressRequest request = new CreateAddressRequest(mStore, null, null);
-        assertEquals(Request.Method.POST, request.getMethod());
+        assertEquals(Request.Method.POST, mModel.getMethod());
     }
 
     @Test
@@ -56,12 +58,14 @@ public class CreateAddressRequestTest extends TestCase {
     }
 
     @Test
-    public void parseResponseShouldBeOfCreateAddressRequestDataType() {
-        CreateAddressRequest request = new CreateAddressRequest(mStore, null, null);
-        String oneAddress = TestUtils.readFile(CreateAddressRequestTest.class, "create_address.txt");
-        Object response = request.parseResponse(oneAddress);
-        assertEquals(response.getClass(), Addresses.class);
+    public void testStoreIsNotNull() {
+        assertNotNull(mModel.getStore());
     }
 
-
+    @Test
+    public void isValidResponse() {
+        String isCreated = TestUtils.readFile(CreateAddressRequestTest.class, "CreateAddress.txt");
+        Object response = mModel.parseResponse(isCreated);
+        assertEquals(response.getClass(), Addresses.class);
+    }
 }
