@@ -1,5 +1,9 @@
 package com.philips.platform.modularui.navigatorimpl;
 
+import android.content.Context;
+import android.content.Intent;
+
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 
 /**
@@ -7,7 +11,7 @@ import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
  */
 public class HamburgerNavigator implements UIBaseNavigator {
     @Override
-    public void loadScreen() {
-
+    public void loadScreen(Context context) {
+        context.startActivity(new Intent(context, HamburgerActivity.class));
     }
 }

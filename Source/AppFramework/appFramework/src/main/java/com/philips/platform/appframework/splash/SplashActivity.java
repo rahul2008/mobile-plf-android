@@ -16,13 +16,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
-import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.statecontroller.UIStateManager;
-import com.philips.platform.modularui.util.LaunchScreen;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
  * <H1>Dev Guide</H1>
@@ -58,8 +55,8 @@ import com.philips.platform.appframework.R;
  */
 public class SplashActivity extends AppFrameworkBaseActivity {
     private static int SPLASH_TIME_OUT = 3000;
-    private UIBaseNavigation mNavigator;
-
+    private UIBasePresenter basePresenter;
+    private int SplashID = 90001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -67,7 +64,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
-        mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
+        basePresenter = new SplashPresenter();
         initView();
         startTimer();
     }
@@ -109,9 +106,10 @@ public class SplashActivity extends AppFrameworkBaseActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                UIState returnedState =  (UIState) mNavigator.onPageLoad(SplashActivity.this);
+                /*UIState returnedState =  (UIState) mNavigator.onPageLoad(SplashActivity.this);
                 UIStateManager.getInstance().setCurrentState(returnedState);
-                LaunchScreen.getInstance().launchScreen(SplashActivity.this,returnedState.getStateID());
+                LaunchScreen.getInstance().launchScreen(SplashActivity.this,returnedState.getStateID());*/
+                basePresenter.onClick(SplashID,SplashActivity.this);
                 finish();
             }
         }, SPLASH_TIME_OUT);

@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIState;
 import com.philips.platform.modularui.statecontroller.UIStateManager;
 import com.philips.platform.modularui.util.LaunchScreen;
@@ -101,11 +102,13 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     private CircleIndicator mIndicator;
     private UIBaseNavigation mNavigator;
     public static final int userRegistrationClickID = 7001;
+    UIBasePresenter uiBasePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
+        uiBasePresenter = new IntroductionScreenPresenter();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.app_framework_introduction_activity);
@@ -240,10 +243,8 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     public void onClick(View v) {
 
-        UIState returnedState  = (UIState) mNavigator.onClick(v.getId(), IntroductionScreenActivity.this);
-        UIStateManager.getInstance().setCurrentState(returnedState);
-        LaunchScreen.getInstance().launchScreen(IntroductionScreenActivity.this,returnedState.getStateID());
-
+        AppFrameworkBaseActivity.setIntroScreenDonePressed();
+        uiBasePresenter.onClick(v.getId(),IntroductionScreenActivity.this);
     }
 
     @Override
