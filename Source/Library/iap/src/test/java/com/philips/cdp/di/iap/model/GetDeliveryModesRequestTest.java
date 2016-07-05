@@ -1,7 +1,3 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 package com.philips.cdp.di.iap.model;
 
 import android.content.Context;
@@ -9,20 +5,18 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.core.StoreSpec;
-import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
+
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-
-public class GetAddressRequestTest {
+public class GetDeliveryModesRequestTest extends TestCase {
     @Mock
     Context mContext;
     @Mock
@@ -33,7 +27,7 @@ public class GetAddressRequestTest {
     public void setUP() {
         StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
         mStore.initStoreConfig("en", "US", null);
-        mModel = new GetAddressRequest(mStore, null, null);
+        mModel = new GetDeliveryModesRequest(mStore, null, null);
     }
 
     @Test
@@ -53,14 +47,14 @@ public class GetAddressRequestTest {
 
     @Test
     public void isValidResponse() {
-        String validAddress = TestUtils.readFile(GetAddressRequestTest.class,
-                "Addresses.txt");
-        Object response = mModel.parseResponse(validAddress);
-        assertEquals(response.getClass(), GetShippingAddressData.class);
+        String validDeliveryModes = TestUtils.readFile(GetDeliveryModesRequestTest.class,
+                "DeliveryModes.txt");
+        Object response = mModel.parseResponse(validDeliveryModes);
+        assertEquals(response.getClass(), GetDeliveryModes.class);
     }
 
     @Test
     public void isValidUrl() {
-        assertEquals(NetworkURLConstants.ADDRESS_DETAILS_URL, mModel.getUrl());
+        assertEquals(NetworkURLConstants.GET_DELIVERY_MODEs_URL, mModel.getUrl());
     }
 }

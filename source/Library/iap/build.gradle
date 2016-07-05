@@ -10,6 +10,7 @@ jacoco {
 def coverageSourceDirs = [
         '../iap/src/main/java'
 ]
+
 buildscript {
     repositories {
         maven {
@@ -59,6 +60,9 @@ allprojects {
         }
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+        }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots"
         }
 
         apply plugin: 'com.jfrog.artifactory'
@@ -162,6 +166,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'org.robolectric:robolectric:3.0'
+
+    testCompile group: 'org.robolectric', name: 'shadows-support-v4', version: '3.0'
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
 
 //maven configuration stuff required for artifactory plugin
@@ -196,7 +203,7 @@ artifacts {
 
 task zipDocuments(type: Zip) {
     def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
     from files(docfiles) {
         baseName = project.name
         classifier 'docs'

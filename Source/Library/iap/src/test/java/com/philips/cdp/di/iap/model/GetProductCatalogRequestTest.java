@@ -13,20 +13,14 @@ import com.philips.cdp.di.iap.store.NetworkURLConstants;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by 310164421 on 5/3/2016.
- */
-@RunWith(RobolectricTestRunner.class)
 public class GetProductCatalogRequestTest {
     @Mock
     private StoreSpec mStore;

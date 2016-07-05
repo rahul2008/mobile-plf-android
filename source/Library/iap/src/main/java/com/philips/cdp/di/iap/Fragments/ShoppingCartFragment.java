@@ -218,7 +218,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onSetDeliveryModes(final Message msg) {
+    public void onSetDeliveryMode(final Message msg) {
         //NOP
     }
 
@@ -231,7 +231,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }
-        mAddressController.getShippingAddresses();
+        mAddressController.getAddresses();
     }
 
     @Override

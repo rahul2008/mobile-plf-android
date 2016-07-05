@@ -34,7 +34,7 @@ public class VerticalAppConfig {
             AppConfigResponse configuration = new Gson().fromJson(reader, AppConfigResponse.class);
             mHostPort = configuration.getHostport();
             mPropositionID = configuration.getPropositionid();
-            IAPLog.i(IAPLog.LOG, "HostPort =" + mHostPort + "and PropositionID =" + mPropositionID);
+//            IAPLog.i(IAPLog.LOG, "HostPort =" + mHostPort + "and PropositionID =" + mPropositionID);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

@@ -49,13 +49,16 @@ import java.util.Locale;
 
 public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener,
         EventListener, PaymentController.PaymentListener {
+
+    public static final String TAG = AddressSelectionFragment.class.getName();
+    private Context mContext;
+
     private RecyclerView mAddressListView;
-    private AddressController mAddrController;
+    private AddressController mAddressController;
     private AddressSelectionAdapter mAdapter;
     private List<Addresses> mAddresses = new ArrayList<>();
     private Button mCancelButton;
-    private Context mContext;
-    public static final String TAG = AddressSelectionFragment.class.getName();
+
     private boolean mIsAddressUpdateAfterDelivery;
     private String mJanRainEmail;
 
@@ -65,9 +68,37 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
         mCancelButton = (Button) view.findViewById(R.id.btn_cancel);
         bindCancelListener();
-        mJanRainEmail = HybrisDelegate.getInstance(getContext()).getStore().getJanRainEmail();
+
+        mAddressController = new AddressController(mContext, this);
+        mJanRainEmail = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
         registerEvents();
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mAddressListView.setLayoutManager(layoutManager);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
+        setTitle(R.string.iap_address);
+
+        if (!isNetworkNotConnected()) {
+            getAddresses();
+        }
+        mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
+        mAddressListView.setAdapter(mAdapter);
     }
 
     public void registerEvents() {
@@ -90,59 +121,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         moveToFragment(ShoppingCartFragment.TAG);
     }
 
-    private void sendShippingAddressesRequest() {
-        String msg = getContext().getString(R.string.iap_please_wait);
+    private void getAddresses() {
+        String msg = mContext.getString(R.string.iap_please_wait);
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), msg);
-            mAddrController.getShippingAddresses();
+            Utility.showProgressDialog(mContext, msg);
+            mAddressController.getAddresses();
         }
-    }
-
-    @Override
-    public void onActivityCreated(final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mAddressListView.setLayoutManager(layoutManager);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
-        setTitle(R.string.iap_address);
-        if (!isNetworkNotConnected()) {
-            mAddrController = new AddressController(getContext(), this);
-            sendShippingAddressesRequest();
-        }
-        mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
-        mAddressListView.setAdapter(mAdapter);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAdapter != null) {
-            mAdapter.onStop();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterEvents();
-    }
-
-    public void unregisterEvents() {
-        EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_EDIT, this);
-        EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_DELETE, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, this);
     }
 
     @Override
@@ -154,7 +138,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             moveToShoppingCart();
         } else {
             if (msg.what == RequestCode.DELETE_ADDRESS) {
@@ -166,7 +150,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 if (msg.obj instanceof GetShippingAddressData) {
                     GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                     mAddresses = shippingAddresses.getAddresses();
-                    mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
+                    mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
                     mAddressListView.setAdapter(mAdapter);
                 }
             }
@@ -183,27 +167,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             Addresses selectedAddress = retrieveSelectedAddress();
             mIsAddressUpdateAfterDelivery = true;
-            mAddrController.setDefaultAddress(selectedAddress);
-            mAddrController.getDeliveryMode();
+            mAddressController.setDefaultAddress(selectedAddress);
+            mAddressController.getDeliveryModes();
         } else {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             Utility.dismissProgressDialog();
         }
-    }
-
-    @Override
-    public void onSetDeliveryModes(final Message msg) {
-        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            checkPaymentDetails();
-        } else {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
-            Utility.dismissProgressDialog();
-        }
-    }
-
-    @Override
-    public void onGetRegions(Message msg) {
-
     }
 
     @Override
@@ -211,23 +180,61 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             Utility.dismissProgressDialog();
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             Utility.dismissProgressDialog();
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             if (deliveryModeList.size() > 0) {
                 CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
-                mAddrController.setDeliveryMode(deliveryModeList.get(0).getCode());
+                mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
             }
         }
     }
 
-    public static AddressSelectionFragment createInstance(final Bundle args, final AnimationType animType) {
-        AddressSelectionFragment fragment = new AddressSelectionFragment();
-        args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onSetDeliveryMode(final Message msg) {
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            checkPaymentDetails();
+        } else {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            Utility.dismissProgressDialog();
+        }
+    }
+
+    @Override
+    public void onGetPaymentDetails(Message msg) {
+        Utility.dismissProgressDialog();
+        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+
+            Addresses address = retrieveSelectedAddress();
+            AddressFields selectedAddress = prepareAddressFields(address);
+            CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
+            addFragment(BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE),
+                    BillingAddressFragment.TAG);
+        } else if ((msg.obj instanceof IAPNetworkError)) {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+        } else if ((msg.obj instanceof PaymentMethods)) {
+            AddressFields selectedAddress = prepareAddressFields(retrieveSelectedAddress());
+            CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
+            PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
+            List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
+            addFragment(
+                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG);
+        }
+    }
+
+    @Override
+    public void onSetPaymentDetails(Message msg) {
+
+    }
+
+    @Override
+    public void onGetRegions(Message msg) {
+
     }
 
     @Override
@@ -248,8 +255,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                     ShippingAddressFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
             if (!Utility.isProgressDialogShowing()) {
-                Utility.showProgressDialog(getContext(), getResources().getString(R.string.iap_please_wait));
-                mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
+                Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
+                mAddressController.setDeliveryAddress(retrieveSelectedAddress().getId());
                 CartModelContainer.getInstance().setAddressId(retrieveSelectedAddress().getId());
             }
         }
@@ -262,9 +269,9 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private void deleteShippingAddress() {
         if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
             int pos = mAdapter.getOptionsClickPosition();
-            mAddrController.deleteAddress(mAddresses.get(pos).getId());
+            mAddressController.deleteAddress(mAddresses.get(pos).getId());
         }
     }
 
@@ -308,36 +315,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
         addFragment(ShippingAddressFragment.createInstance(extras, AnimationType.NONE),
                 ShippingAddressFragment.TAG);
-    }
-
-    @Override
-    public void onGetPaymentDetails(Message msg) {
-        Utility.dismissProgressDialog();
-        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-
-            Addresses address = retrieveSelectedAddress();
-            AddressFields selectedAddress = prepareAddressFields(address);
-            CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
-            addFragment(BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    BillingAddressFragment.TAG);
-        } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
-        } else if ((msg.obj instanceof PaymentMethods)) {
-            AddressFields selectedAddress = prepareAddressFields(retrieveSelectedAddress());
-            CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
-            PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
-            List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
-
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
-            addFragment(
-                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG);
-        }
-    }
-
-    @Override
-    public void onSetPaymentDetails(Message msg) {
-
     }
 
     private Addresses retrieveSelectedAddress() {
@@ -394,5 +371,33 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private boolean isNotNullNorEmpty(String field) {
         return !TextUtils.isEmpty(field);
+    }
+
+    public static AddressSelectionFragment createInstance(final Bundle args, final AnimationType animType) {
+        AddressSelectionFragment fragment = new AddressSelectionFragment();
+        args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAdapter != null) {
+            mAdapter.onStop();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterEvents();
+    }
+
+    public void unregisterEvents() {
+        EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_EDIT, this);
+        EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_DELETE, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, this);
     }
 }

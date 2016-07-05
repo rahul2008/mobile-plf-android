@@ -11,10 +11,8 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,10 +22,6 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
-/**
- * Created by 310164421 on 3/8/2016.
- */
-@RunWith(RobolectricTestRunner.class)
 public class SetPaymentDetailsRequestTest {
     @Mock
     private StoreSpec mStore;

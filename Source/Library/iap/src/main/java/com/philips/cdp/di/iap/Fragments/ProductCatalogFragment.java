@@ -79,6 +79,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mPresenter = ControllerFactory.getInstance()
                 .getProductCatalogPresenter(getContext(), this, getFragmentManager());
         mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>());
+        loadProductCatalog();
     }
 
     @Override
@@ -93,7 +94,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         mShoppingCartAPI = new ShoppingCartPresenter(getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mRecyclerViewOnScrollListener);
-        loadProductCatalog();
         return rootView;
     }
 

@@ -1,12 +1,24 @@
 package com.philips.cdp.di.iap.adapters;
 
+import android.app.Dialog;
+import android.app.Fragment;
 import android.content.Context;
+import android.os.Message;
+import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -15,11 +27,21 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.AddressController;
+import com.philips.cdp.di.iap.controller.AddressController.AddressListener;
+import com.philips.cdp.di.iap.response.addresses.DeliveryCost;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
+import com.philips.cdp.di.iap.response.orders.DeliveryMode;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +59,14 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ShoppingCartData cartData;
     private AddressFields mBillingAddress;
     private PaymentMethod mPaymentMethod;
+    private AddressListener mListener;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
 
-    public OrderProductAdapter(Context pContext, ArrayList<ShoppingCartData> pShoppingCartDataList,
+    public OrderProductAdapter(Context pContext, AddressListener listener, ArrayList<ShoppingCartData> pShoppingCartDataList,
                                AddressFields pBillingAddress, PaymentMethod pPaymentMethod) {
         mContext = pContext;
+        mListener = listener;
         mShoppingCartDataList = pShoppingCartDataList;
         mBillingAddress = pBillingAddress;
         mPaymentMethod = pPaymentMethod;
@@ -121,6 +145,41 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mVatInclusive.setVisibility(View.GONE);
                 footerHolder.mVatValueUK.setVisibility(View.GONE);
             }
+
+            final List<DeliveryModes> mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
+            footerHolder.mEditIcon.setVisibility(View.VISIBLE);
+            footerHolder.mEditIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+                    View convertView = (LayoutInflater.from(mContext).inflate(R.layout.iap_delivery_dialog, null));
+                    alertDialog.setView(convertView);
+                    ListView lv = (ListView) convertView.findViewById(R.id.lv);
+                    DeliveryModeAdapter adapter = new DeliveryModeAdapter(mContext,R.layout.iap_delivery_mode_spinner_item, mDeliveryModes);
+                    lv.setClickable(true);
+                    lv.setAdapter(adapter);
+
+                    final Dialog dialog = alertDialog.create();
+                    dialog.show();
+
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            dialog.dismiss();
+                            if (!Utility.isProgressDialogShowing())
+                                Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+                            AddressController addressController = new AddressController(mContext, mListener);
+                            addressController.setDeliveryMode(mDeliveryModes.get(position).getCode());
+
+                        }
+                    });
+
+
+
+                }
+            });
+
+
         } else {
             OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
             IAPLog.d(TAG, "Size of ShoppingCarData is " + String.valueOf(mShoppingCartDataList.size()));
@@ -175,7 +234,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         //NOP
     }
 
-
     public class OrderProductHolder extends RecyclerView.ViewHolder {
         TextView mTvProductName;
         NetworkImageView mNetworkImage;
@@ -212,6 +270,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mVatInclusive;
         View mDeliveryView;
         TextView mVatValueUK;
+        ImageView mEditIcon;
 
         public FooterOrderSummaryViewHolder(View itemView) {
             super(itemView);
@@ -234,6 +293,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mVatInclusive = (TextView) itemView.findViewById(R.id.tv_vat_inclusive);
             mDeliveryView = (View) itemView.findViewById(R.id.delivery_view);
             mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_order_summary);
+            mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
         }
     }
 }

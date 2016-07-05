@@ -6,7 +6,6 @@ import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
-import com.philips.cdp.di.iap.response.orders.OrdersData;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
@@ -14,18 +13,15 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
-//@RunWith(RobolectricTestRunner.class)
 public class OrderDetailRequestTest {
 
     @Mock
@@ -66,9 +62,9 @@ public class OrderDetailRequestTest {
         assertEquals(NetworkURLConstants.ORDER_DETAIL_URL, request.getUrl());
     }
 
-    @Test
-    public void testOrderDetailURLWhenParamsIsNull() {
-        assertEquals(NetworkURLConstants.ORDER_DETAIL_URL, mModel.getUrl());
+    @Test(expected = RuntimeException.class)
+    public void testOrderDetailURLWhenParamsIsNull() throws Exception {
+        assertNotEquals(NetworkURLConstants.ORDER_DETAIL_URL, mModel.getUrl());
     }
 
     @Test
