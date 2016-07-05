@@ -18,56 +18,43 @@ import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class SetDeliveryAddressModeRequestTest {
     @Mock
-    private StoreSpec mStore;
+    Context mContext;
+    @Mock
+    IAPUser mUser;
+    private AbstractModel mModel;
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore();
-        mStore.initStoreConfig("gb", "us", null);
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        mStore.initStoreConfig("en", "US", null);
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put(ModelConstants.DELIVERY_MODE_ID, "standard-net");
+        mModel = new SetDeliveryAddressModeRequest(mStore, params, null);
     }
 
     @Test
-    public void testRequestMethodIsPOST() {
-        SetDeliveryAddressModeRequest request = new SetDeliveryAddressModeRequest(mStore, null, null);
-        assertEquals(Request.Method.PUT, request.getMethod());
+    public void testRequestMethodIsPUT() {
+        assertEquals(Request.Method.PUT, mModel.getMethod());
     }
 
     @Test
-    public void testQueryParamsIsNotNull() {
-        SetDeliveryAddressModeRequest request = new SetDeliveryAddressModeRequest(mStore, null, null);
-        assertNotNull(request.requestBody());
+    public void testBodyParamsIsNull() {
+        SetDeliveryAddressModeRequest setDeliveryAddressModeRequest =
+                Mockito.mock(SetDeliveryAddressModeRequest.class);
+        assertNotNull(setDeliveryAddressModeRequest.requestBody());
     }
 
     @Test
-    public void testQueryParamsHasBodyForCountryEqualToEN() {
-        mStore.initStoreConfig("en", "us", null);
-        SetDeliveryAddressModeRequest request = new SetDeliveryAddressModeRequest(mStore, null, null);
-        HashMap<String, String> query = new HashMap<String, String>();
-        query.put(ModelConstants.DELIVERY_MODE_ID, "standard-net");
-        assertEquals(request.requestBody(), query);
+    public void testStoreIsNotNull() {
+        assertNotNull(mModel.getStore());
     }
 
     @Test
-    public void testQueryParamsHasBodyForCountryEqualToGB() {
-
-        mStore.setLangAndCountry("GB", "US");
-        when(mStore.getCountry()).thenReturn(mStore.getCountry());
-        SetDeliveryAddressModeRequest request = Mockito.mock(SetDeliveryAddressModeRequest.class);//new SetDeliveryAddressModeRequest(mStore, null, null);
-        HashMap<String, String> query = new HashMap<String, String>();
-        query.put(ModelConstants.DELIVERY_MODE_ID, "standard-gross");
-        when(request.requestBody()).thenReturn(query);
-        assertEquals(request.requestBody(), query);
+    public void isValidUrl() {
+        assertEquals(NetworkURLConstants.UPDATE_DELIVERY_MODE_URL, mModel.getUrl());
     }
-
-    @Test
-    public void matchPlaceOrderURL() {
-        SetDeliveryAddressModeRequest request = new SetDeliveryAddressModeRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.UPDATE_DELIVERY_MODE_URL, request.getUrl());
-    }
-
 }
