@@ -104,17 +104,33 @@ public class ProdRegRegistrationController {
         return validDate;
     }
 
-    public void registerProduct(final String date, final String serialNumber) {
-        final boolean validDate = isValidDate(date);
-        final boolean validSerialNumber = isValidSerialNumber(serialNumber);
+    public void registerProduct(final String purchaseDate, final String serialNumber) {
+        final boolean validDate = validatePurchaseDate(purchaseDate);
+        final boolean validSerialNumber = validateSerialNumber(serialNumber);
         if (validDate && validSerialNumber) {
             registerControllerCallBacks.showLoadingDialog();
-            registeredProduct.setPurchaseDate(date);
+            registeredProduct.setPurchaseDate(purchaseDate);
             registeredProduct.setSerialNumber(serialNumber);
             ProdRegHelper prodRegHelper = new ProdRegHelper();
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
             prodRegHelper.getSignedInUserWithProducts().registerProduct(registeredProduct);
         }
+    }
+
+    private boolean validateSerialNumber(final String serialNumber) {
+        boolean validSerialNumber = true;
+        if (productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true")) {
+            validSerialNumber = isValidSerialNumber(serialNumber);
+        }
+        return validSerialNumber;
+    }
+
+    private boolean validatePurchaseDate(final String purchaseDate) {
+        boolean validPurchaseDate = true;
+        if (productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
+            validPurchaseDate = isValidDate(purchaseDate);
+        }
+        return validPurchaseDate;
     }
 
     @NonNull
