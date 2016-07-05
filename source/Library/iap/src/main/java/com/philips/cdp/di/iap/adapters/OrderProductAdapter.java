@@ -166,6 +166,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             dialog.dismiss();
+                            if (!Utility.isProgressDialogShowing())
+                                Utility.showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
                             AddressController addressController = new AddressController(mContext, mListener);
                             addressController.setDeliveryMode(mDeliveryModes.get(position).getCode());
 

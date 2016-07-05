@@ -102,10 +102,9 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private void updateCartOnResume() {
         ShoppingCartAPI presenter = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
-        if (!Utility.isProgressDialogShowing()) {
+        if (!Utility.isProgressDialogShowing())
             Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-            updateCartDetails(presenter);
-        }
+        updateCartDetails(presenter);
     }
 
     private void updateCartDetails(ShoppingCartAPI presenter) {
