@@ -10,6 +10,7 @@ jacoco {
 def coverageSourceDirs = [
         '../iap/src/main/java'
 ]
+
 buildscript {
     repositories {
         maven {
@@ -60,7 +61,9 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
 
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
@@ -163,7 +166,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'org.robolectric:robolectric:3.0'
-    //testCompile 'org.robolectric:shadows-support-v4:3.0'
+
     testCompile group: 'org.robolectric', name: 'shadows-support-v4', version: '3.0'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }

@@ -16,15 +16,12 @@ import com.philips.cdp.di.iap.store.NetworkURLConstants;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
-@RunWith(RobolectricTestRunner.class)
 public class GetPaymentDetailRequestTest {
     @Mock
     Context mContext;
