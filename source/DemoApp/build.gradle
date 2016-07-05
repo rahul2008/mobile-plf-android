@@ -30,7 +30,10 @@ allprojects {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
         }
-        // jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+
+
+        jcenter()
 //        flatDir {
 //            dirs 'libs'
 //        }

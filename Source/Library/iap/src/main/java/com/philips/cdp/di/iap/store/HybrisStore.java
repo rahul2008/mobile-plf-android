@@ -55,7 +55,7 @@ public class HybrisStore extends AbstractStoreSpec {
     private static final String PREFIX_RETAILERS = "www.philips.com/api/wtb/v1/";
     private static final String RETAILERS_ALTER = "online-retailers?product=%s&lang=en";
 
-    private static final String SUFFIX_SEARCH_PRODUCT_URL = "/products/%s";
+    private static final String SUFFIX_SEARCH_PRODUCT_URL = "products/%s";
     private static final String SUFFIX_ORDER_DETAIL_URL = "/orders/%s?fields=FULL&lang=en";
     private static final String SUFFIX_CURRENT_PAGE="?fields=FULL&lang=en&currentPage=%s";
 

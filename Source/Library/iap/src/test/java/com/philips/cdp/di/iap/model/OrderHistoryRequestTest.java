@@ -54,7 +54,7 @@ public class OrderHistoryRequestTest {
         assertNotNull(mModel.getStore());
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void orderHistoryURL() {
         assertEquals(NetworkURLConstants.PLACE_ORDER_URL, mModel.getUrl());
     }

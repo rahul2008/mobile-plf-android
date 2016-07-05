@@ -66,9 +66,9 @@ public class OrderDetailRequestTest {
         assertEquals(NetworkURLConstants.ORDER_DETAIL_URL, request.getUrl());
     }
 
-    @Test
-    public void testOrderDetailURLWhenParamsIsNull() {
-        assertEquals(NetworkURLConstants.ORDER_DETAIL_URL, mModel.getUrl());
+    @Test(expected = RuntimeException.class)
+    public void testOrderDetailURLWhenParamsIsNull() throws Exception {
+        assertNotEquals(NetworkURLConstants.ORDER_DETAIL_URL, mModel.getUrl());
     }
 
     @Test

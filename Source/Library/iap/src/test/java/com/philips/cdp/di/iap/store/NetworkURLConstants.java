@@ -37,10 +37,10 @@ public class NetworkURLConstants {
     public static final String PLACE_ORDER_URL = BASE_URL + "/orders";
     public static final String PAYMENT_DETAILS_URL = BASE_URL + "/carts/current/paymentdetails";
     public static final String PRODUCT_CATALOG_URL = "https://acc.occ.shop.philips" +
-            ".com/pilcommercewebservices/v2/US_TUSCANY/products/search?query=::category:Tuscany_Campaign&lang=en";
-    public static final String REGION_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/metainfo/regions/us?fields=FULL&lang=en";
+            ".com/pilcommercewebservices/v2/US_TUSCANY/products/search?query=::category:Tuscany_Campaign&lang=en&currentPage=0&pageSize=1";
+    public static final String REGION_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/metainfo/regions/US?fields=FULL&lang=en";
     public static final String RETAILORS_URL = "https://www.philips.com/api/wtb/v1/B2C/en_US/online-retailers?product=code&lang=en";
     public static final String ORDER_DETAIL_URL = BASE_URL + "/orders/" + DUMMY_ORDER_ID + "?fields=FULL&lang=en";
-    public static final String ORDER_HISTORY_URL = BASE_URL + "/orders/?fields=FULL&lang=en&currentPage=" + DUMMY_PAGE_NUMBER;
+    public static final String ORDER_HISTORY_URL = BASE_URL + "/orders?fields=FULL&lang=en&currentPage=" + DUMMY_PAGE_NUMBER;
     public static final String PRODUCT_DETAIL_URL = PRODUCT_CATALOG_BASE_URL + "/products/" + DUMMY_PRODUCT_ID;
 }
