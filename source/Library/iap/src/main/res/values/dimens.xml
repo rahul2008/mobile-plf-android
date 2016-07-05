@@ -99,4 +99,6 @@
     <dimen name="iap_track_order_button_margin_bottom">40dp</dimen>
     <dimen name="iap_order_one_spacing">5dp</dimen>
     <dimen name="iap_order_price_margin_right">38dp</dimen>
+
+    <dimen name="iap_edit_icon_width">18dp</dimen>
 </resources>
