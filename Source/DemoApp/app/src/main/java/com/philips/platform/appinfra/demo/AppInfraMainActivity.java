@@ -21,7 +21,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
 
 
     ListView listView;
-    String appInfraComponents[] = {"Secure Storage", "AIAppTagging", "Logging", "Prx", "LocalMatch", "AppIdentity", "LocalMain", "ServiceDiscovery", "TimeSync"};
+    String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging", "Prx", "LocalMatch", "AppIdentity", "LocalMain", "ServiceDiscovery", "TimeSync"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +49,10 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case 1 :
-                //                AIAppTagging.enableAppTagging(true);
+                //                AppTagging.enableAppTagging(true);
 //                //Mandatory to set
-//                AIAppTagging.setTrackingIdentifier(ANALYTICS_APP_ID);
-//                AIAppTagging.init(Locale.CHINA, getActivity(), "App Framwork demo app");
+//                AppTagging.setTrackingIdentifier(ANALYTICS_APP_ID);
+//                AppTagging.init(Locale.CHINA, getActivity(), "App Framwork demo app");
                 Intent i = new Intent(AppInfraMainActivity.this, AIATDemoPage.class);
                 startActivity(i);
                 break;

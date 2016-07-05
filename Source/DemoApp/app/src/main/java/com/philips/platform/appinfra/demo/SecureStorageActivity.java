@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageError;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -31,7 +30,7 @@ public class SecureStorageActivity extends AppCompatActivity  {
 
         final EditText userKey = (EditText) findViewById(R.id.Key_editText);
         final  EditText data = (EditText) findViewById(R.id.data_editText);
-        final TextView encryptedDataTextView = (TextView) findViewById(R.id.encripted_Ouput_textView);
+
         final  TextView decryptedDataTextView = (TextView) findViewById(R.id.decripted_Output_textView);
 
 
@@ -43,9 +42,8 @@ public class SecureStorageActivity extends AppCompatActivity  {
             public void onClick(View v) {
 
                 SecureStorageError sseStore = new SecureStorageError(); // to get error code if any
-                SecureStorage.encryptedTextTemp=null;
                 decryptedDataTextView.setText(null);
-                encryptedDataTextView.setText(null);
+
                 boolean isSaved = mSecureStorage.storeValueForKey(userKey.getText().toString(), data.getText().toString(),sseStore);
                 if(null!=sseStore.getErrorCode())
                 {
@@ -53,10 +51,7 @@ public class SecureStorageActivity extends AppCompatActivity  {
                 }else{
 
                 }
-                if(null==SecureStorage.encryptedTextTemp){
-                    Toast.makeText(SecureStorageActivity.this, "Key or Value incorrect", Toast.LENGTH_SHORT).show();;
-                }
-                encryptedDataTextView.setText(SecureStorage.encryptedTextTemp);
+              
 
             }
         });
@@ -95,7 +90,6 @@ public class SecureStorageActivity extends AppCompatActivity  {
                 if(result) {
                     data.setText(null);
                     userKey.setText(null);
-                    encryptedDataTextView.setText(null);
                     decryptedDataTextView.setText(null);
                 }else{
                     Toast.makeText(SecureStorageActivity.this,"Deletion failed",Toast.LENGTH_SHORT).show();

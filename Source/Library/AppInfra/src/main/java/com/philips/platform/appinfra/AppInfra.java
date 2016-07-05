@@ -17,7 +17,7 @@ import com.philips.platform.appinfra.servicediscovery.LocalInterface;
 import com.philips.platform.appinfra.servicediscovery.LocalManager;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
-import com.philips.platform.appinfra.tagging.AIAppTagging;
+import com.philips.platform.appinfra.tagging.AppTagging;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
@@ -106,8 +106,18 @@ public class AppInfra implements AppInfraInterface{
             return this;
         }
 
+        public Builder setServiceDiscovery(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+            mServiceDiscoveryInterface = serviceDiscoveryInterface;
+            return this;
+        }
+
+        public Builder setTagging(AIAppTaggingInterface aIAppTaggingInterface) {
+            tagging = aIAppTaggingInterface;
+            return this;
+        }
+
         /**
-         * Build app infra.
+         * Build App Infra instance with give feature instances overriding the default implementation.
          * @param pContext  context
          * @return the app infra
          */
@@ -120,7 +130,7 @@ public class AppInfra implements AppInfraInterface{
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
             // ai.setLogging(new AppInfraLogging(ai));
 
-            ai.setTagging(tagging == null ? new AIAppTagging(ai) : tagging);
+            ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
             ai.setLocal(local == null ? new LocalManager(ai) : local);
 

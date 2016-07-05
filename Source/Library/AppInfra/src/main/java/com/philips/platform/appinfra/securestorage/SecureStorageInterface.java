@@ -12,17 +12,17 @@ public  interface SecureStorageInterface {
 
 
     /**
-     * Store value for key boolean.
+     * Store value for key .
      *
      * @param userKey            the user key
      * @param valueToBeEncrypted the value to be encrypted
      * @param secureStorageError the secure storage error
-     * @return the boolean, denote store operation success or failure
+     * @return  denote store operation success or failure
      */
     public boolean storeValueForKey(String userKey, String valueToBeEncrypted,  SecureStorageError secureStorageError);
 
     /**
-     * Fetch value for key string.
+     * Fetch value for key .
      *
      * @param userKey            the user key
      * @param secureStorageError the secure storage error code if any
@@ -34,7 +34,7 @@ public  interface SecureStorageInterface {
      * Remove value for given key .
      *
      * @param userKey the user key
-     * @return the boolean, denote delete operation success or failure
+     * @return  denote delete operation success or failure
      */
     public boolean removeValueForKey(String userKey);
 }

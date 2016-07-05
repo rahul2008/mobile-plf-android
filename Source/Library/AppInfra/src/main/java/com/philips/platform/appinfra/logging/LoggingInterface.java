@@ -23,7 +23,7 @@ public interface LoggingInterface {
     public LoggingInterface createInstanceForComponent(String componentId, String componentVersion);
 
     /**
-     * Log.
+     * Logs message on console and file .
      * @param level   the level {VERBOSE, DEBUG, INFO, WARNING, ERROR}
      * @param eventId the Event name or Tag
      * @param message the message
@@ -31,13 +31,13 @@ public interface LoggingInterface {
     public void log(LogLevel level, String eventId, String message);
 
     /**
-     * Enable file log.
+     * Enable file log of application.
      * @param enable File
      */
     public void enableFileLog(boolean enable);
 
     /**
-     * Enable console log.
+     * Enable console log of application.
      * @param enable Console
      */
     public void enableConsoleLog(boolean enable );

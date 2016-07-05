@@ -81,7 +81,7 @@ public class AppIdentityManager implements AppIdentityInterface {
     }
 
 
-       public String loadJSONFromAsset() {
+    public String  loadJSONFromAsset() {
         String json = null;
         try {
             InputStream is = context.getAssets().open("AppIdentity.json");
@@ -128,10 +128,10 @@ public class AppIdentityManager implements AppIdentityInterface {
                     Log.i("mAppLocalizedNAme", ""+getAppLocalizedNAme());*/
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"micrositeId",""+getMicrositeId());
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"sector",""+getSector());
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"mAppState",""+getAppState());
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"mAppName",""+getAppName());
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"mAppVersion",""+getAppVersion());
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"mAppLocalizedNAme",""+getAppLocalizedNAme());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AppState",""+getAppState());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AppName",""+getAppName());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AppVersion",""+getAppVersion());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AppLocalizedNAme",""+getAppLocalizedNAme());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

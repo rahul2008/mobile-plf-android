@@ -45,9 +45,6 @@ public class SecureStorage implements SecureStorageInterface{
     private static KeyStore keyStore = null;
     AppInfra mAppInfra;
 
-    //this variable(encryptedTextTemp) must only  be used  for Demo App
-    // to see encrypted text and must be removed from release build
-    public static  String encryptedTextTemp= null;
 
 
 
@@ -98,7 +95,7 @@ public class SecureStorage implements SecureStorageInterface{
             encryptedString = returnResult?encryptedString:null; // if save of encryption data fails return null
             boolean isDebuggable =  ( 0 != ( mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
             if (isDebuggable) {
-                encryptedTextTemp = encryptedString; // to be removed from release build
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,"Encrypted Data",encryptedString);
             }
         } catch (Exception e) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);

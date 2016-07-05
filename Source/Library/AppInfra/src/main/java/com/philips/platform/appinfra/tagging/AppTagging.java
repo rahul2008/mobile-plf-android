@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class AIAppTagging implements AIAppTaggingInterface {
+public class AppTagging implements AIAppTaggingInterface {
     private static String componentVersionKey;
 
     private static String newFieldKey;
@@ -65,7 +65,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
     private static String mAppName;
     private static Map<String, Object> contextData;
 
-    public AIAppTagging(AppInfra aAppInfra) {
+    public AppTagging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         init(Locale.getDefault(), mAppInfra.getAppInfraContext(), "TaggingPageInitialization");
         // Class shall not presume appInfra to be completely initialized at this point.
@@ -133,11 +133,11 @@ public class AIAppTagging implements AIAppTaggingInterface {
     }
 
     private void setNewKey(String newFieldkey) {
-        AIAppTagging.newFieldKey = newFieldkey;
+        AppTagging.newFieldKey = newFieldkey;
 
     }
     private void setNewValue(String newFieldvalue) {
-        AIAppTagging.newFieldValue = newFieldvalue;
+        AppTagging.newFieldValue = newFieldvalue;
     }
     private String getNewKey(){
         return newFieldKey;
@@ -200,7 +200,7 @@ public class AIAppTagging implements AIAppTaggingInterface {
     }
 
     public void setComponentID(String componentID) {
-        AIAppTagging.componentVersionKey = componentID;
+        AppTagging.componentVersionKey = componentID;
     }
 
     public String getComponentVersionVersionValue() {
@@ -211,13 +211,13 @@ public class AIAppTagging implements AIAppTaggingInterface {
     }
 
     public void setComponentVersionVersionValue(String componentVersionVersionValue) {
-        AIAppTagging.componentVersionVersionValue = componentVersionVersionValue;
+        AppTagging.componentVersionVersionValue = componentVersionVersionValue;
     }
 
 
     @Override
     public AIAppTaggingInterface createInstanceForComponent(String componentId, String componentVersion) {
-        return new AIAppTaggingWrapper(mAppInfra, componentId, componentVersion);
+        return new AppTaggingWrapper(mAppInfra, componentId, componentVersion);
     }
 
 

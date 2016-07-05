@@ -9,7 +9,6 @@ import com.philips.platform.appinfra.AppInfra;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
@@ -59,15 +58,16 @@ private final String componentNameAndVersion;
             logLevelPrettyName="VERBOSE";
         }
         builder.append("[").append(logLevelPrettyName).append("]");
+        builder.append("[").append(formatMessage(record)).append("]"); // this we assume as event
         //builder.append("[").append(record.getSourceClassName()).append("] ");
         //builder.append("[").append(record.getSourceMethodName()).append("] ");
-        Object[] eventNameList= record.getParameters();
+        Object[] eventNameList= record.getParameters(); // this we assume as message
         String eventName = "NA";// Default event name
         if(null!=eventNameList && eventNameList.length>0){
             eventName=(String)eventNameList[0];
         }
         builder.append("[").append(eventName).append("]");
-        builder.append("[").append(formatMessage(record)).append("]");;
+
         builder.append("\n");
         return builder.toString();
     }

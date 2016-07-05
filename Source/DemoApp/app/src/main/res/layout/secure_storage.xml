@@ -97,23 +97,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Encrypted Data:"></TextView>
-        <ScrollView
-            android:id="@+id/SCROLLER_ID1"
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:scrollbars="vertical"
-            android:layout_weight="6"
-            android:fillViewport="true">
+            android:text="Encrypted Data: Please see console logs for encrpted data.(Visible only in debug mode)"></TextView>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-
-                android:id="@+id/encripted_Ouput_textView"
-                />
-        </ScrollView>
 
 
         <TextView
