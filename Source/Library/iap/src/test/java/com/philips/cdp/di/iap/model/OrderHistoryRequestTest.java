@@ -24,16 +24,14 @@ public class OrderHistoryRequestTest {
     Context mContext;
     @Mock
     IAPUser mUser;
-    private StoreSpec mStore;
     private AbstractModel mModel;
 
     @Before
     public void setUp() {
-        mStore = (new MockStore(mContext, mUser)).getStore();
-        mStore.initStoreConfig("en","US", null);
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        mStore.initStoreConfig("en", "US", null);
         mModel = new OrderHistoryRequest(mStore, null, null);
     }
-
 
     @Test
     public void testRequestMethodIsGET() {
@@ -56,9 +54,9 @@ public class OrderHistoryRequestTest {
     }
 
     @Test
-    public void parseResponseShouldBeOfGetShippingAddressDataType() {
-        String oneAddress = TestUtils.readFile(OrderHistoryRequestTest.class, "orders.txt");
-        Object response = mModel.parseResponse(oneAddress);
+    public void isValidResponse() {
+        String validAddress = TestUtils.readFile(OrderHistoryRequestTest.class, "Orders.txt");
+        Object response = mModel.parseResponse(validAddress);
         assertEquals(response.getClass(), OrdersData.class);
     }
 }

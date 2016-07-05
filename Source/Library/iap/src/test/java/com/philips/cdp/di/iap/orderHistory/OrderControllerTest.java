@@ -54,7 +54,7 @@ public class OrderControllerTest {
         setStoreAndDelegate();
         mController.getOrderList(0);
         JSONObject obj = new JSONObject(TestUtils.readFile(OrderControllerTest
-                .class, "orders.txt"));
+                .class, "Orders.txt"));
         mNetworkController.sendSuccess(obj);
     }
 
