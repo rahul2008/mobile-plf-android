@@ -34,6 +34,7 @@
             android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
             android:text="@string/uikit_modal_alert_message"
             android:textColor="?attr/uikit_baseColor"
+            android:layout_weight="1"
             android:textSize="@dimen/uikit_modal_alert_message_text_size" />
 
         <LinearLayout
