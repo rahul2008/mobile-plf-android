@@ -193,7 +193,7 @@ dependencies {
     compile('com.philips.cdp:prx:2.0.2@aar') {
         exclude group: 'com.android.support'
     }
-    compile('com.philips.cdp:localeMatch:2.0.0@aar') {
+    compile('com.philips.cdp:localeMatch:2.1.0@aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
