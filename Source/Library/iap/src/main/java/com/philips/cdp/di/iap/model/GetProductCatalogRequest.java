@@ -50,7 +50,7 @@ public class GetProductCatalogRequest extends AbstractModel{
         if (params == null) {
             throw new RuntimeException("Page size not specified");
         }
-        IAPLog.d(ProductCatalogFragment.TAG, store.getProductCatalogUrl(Integer.parseInt(params.get(ModelConstants.CURRENT_PAGE)), Integer.parseInt(params.get(ModelConstants.PAGE_SIZE))));
+        //IAPLog.d(ProductCatalogFragment.TAG, store.getProductCatalogUrl(Integer.parseInt(params.get(ModelConstants.CURRENT_PAGE)), Integer.parseInt(params.get(ModelConstants.PAGE_SIZE))));
         return  store.getProductCatalogUrl(Integer.parseInt(params.get(ModelConstants.CURRENT_PAGE)), Integer.parseInt(params.get(ModelConstants.PAGE_SIZE)));
 
     }

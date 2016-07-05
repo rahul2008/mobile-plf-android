@@ -10,11 +10,14 @@ import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
@@ -45,7 +48,10 @@ public class GetProductCatalogRequestTest {
 
     @Test
     public void matchAddressDetailURL() {
-        GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, null, null);
+        HashMap<String, String> query = new HashMap<>();
+        query.put(ModelConstants.CURRENT_PAGE, String.valueOf(0));
+        query.put(ModelConstants.PAGE_SIZE, String.valueOf(1));
+        GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, query, null);
         assertEquals(NetworkURLConstants.PRODUCT_CATALOG_URL, request.getUrl());
     }
 

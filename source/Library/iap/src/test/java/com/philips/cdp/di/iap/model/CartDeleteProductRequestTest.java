@@ -40,7 +40,9 @@ public class CartDeleteProductRequestTest extends TestCase {
 
     @Test(expected = RuntimeException.class)
     public void testGetURLWhenParamsEqualToNull() {
-        CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, null, null);
+        Map<String, String> query = new HashMap<>();
+        query.put(ModelConstants.ENTRY_CODE, "HX8071/10");
+        CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, query, null);
         assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }
 
