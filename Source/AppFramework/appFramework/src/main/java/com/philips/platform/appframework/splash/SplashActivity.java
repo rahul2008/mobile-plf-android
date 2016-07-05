@@ -109,7 +109,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 /*UIState returnedState =  (UIState) mNavigator.onPageLoad(SplashActivity.this);
                 UIStateManager.getInstance().setCurrentState(returnedState);
                 LaunchScreen.getInstance().launchScreen(SplashActivity.this,returnedState.getStateID());*/
-                basePresenter.onClick(SplashID,SplashActivity.this);
+                basePresenter.onClick(SplashID,SplashActivity.this,SplashActivity.this);
                 finish();
             }
         }, SPLASH_TIME_OUT);

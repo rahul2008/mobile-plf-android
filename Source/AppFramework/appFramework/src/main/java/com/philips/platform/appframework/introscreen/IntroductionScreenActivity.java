@@ -193,7 +193,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
             LaunchScreen.getInstance().launchScreen(IntroductionScreenActivity.this,returnedState.getStateID());
             }*/
         if(null != activity){
-            uiBasePresenter.onClick(userRegistrationClickID,IntroductionScreenActivity.this);
+            uiBasePresenter.onClick(userRegistrationClickID,IntroductionScreenActivity.this,this);
         }
     }
 
@@ -247,7 +247,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onClick(View v) {
 
         AppFrameworkBaseActivity.setIntroScreenDonePressed();
-        uiBasePresenter.onClick(v.getId(),IntroductionScreenActivity.this);
+        uiBasePresenter.onClick(v.getId(),IntroductionScreenActivity.this,this);
     }
 
     @Override

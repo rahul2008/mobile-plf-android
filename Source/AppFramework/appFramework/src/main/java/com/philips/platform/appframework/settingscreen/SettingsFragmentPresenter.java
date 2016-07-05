@@ -2,6 +2,7 @@ package com.philips.platform.appframework.settingscreen;
 
 import android.content.Context;
 
+import com.philips.platform.modularui.statecontroller.ShowFragmentCallBack;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
@@ -9,7 +10,7 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
  */
 public class SettingsFragmentPresenter implements UIBasePresenter {
     @Override
-    public void onClick(int componentID, Context context) {
+    public void onClick(int componentID, Context context,ShowFragmentCallBack showFragmentCallBack) {
 
     }
 }

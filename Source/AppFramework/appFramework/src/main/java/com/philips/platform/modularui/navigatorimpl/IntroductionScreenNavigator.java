@@ -2,6 +2,7 @@ package com.philips.platform.modularui.navigatorimpl;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 
 import com.philips.platform.appframework.introscreen.IntroductionScreenActivity;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
@@ -11,7 +12,12 @@ import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
  */
 public class IntroductionScreenNavigator implements UIBaseNavigator {
     @Override
-    public void loadScreen(Context context) {
+    public void loadActivity(Context context) {
         context.startActivity(new Intent(context, IntroductionScreenActivity.class));
+    }
+
+    @Override
+    public Fragment loadFragment() {
+        return null;
     }
 }

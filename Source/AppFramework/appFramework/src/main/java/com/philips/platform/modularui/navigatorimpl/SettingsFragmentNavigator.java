@@ -1,7 +1,9 @@
 package com.philips.platform.modularui.navigatorimpl;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
+import com.philips.platform.appframework.settingscreen.SettingsFragment;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 
 /**
@@ -9,7 +11,12 @@ import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
  */
 public class SettingsFragmentNavigator implements UIBaseNavigator {
     @Override
-    public void loadScreen(Context context) {
+    public void loadActivity(Context context) {
 
+    }
+
+    @Override
+    public Fragment loadFragment() {
+        return new SettingsFragment();
     }
 }

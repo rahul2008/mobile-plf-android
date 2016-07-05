@@ -7,6 +7,7 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.modularui.navigatorimpl.UserRegistrationNavigator;
 import com.philips.platform.modularui.navigatorimpl.HomeActivityNavigator;
 import com.philips.platform.modularui.navigatorimpl.IntroductionScreenNavigator;
+import com.philips.platform.modularui.statecontroller.ShowFragmentCallBack;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
@@ -17,7 +18,7 @@ public class SplashPresenter implements UIBasePresenter {
     User userRegistration;
     UIBaseNavigator uiBaseNavigator;
     @Override
-    public void onClick(int componentID, Context context) {
+    public void onClick(int componentID, Context context,ShowFragmentCallBack showFragmentCallBack) {
         userRegistration = new User(context.getApplicationContext());
         if(userRegistration.isUserSignIn()){
             uiBaseNavigator = new HomeActivityNavigator();
@@ -28,7 +29,7 @@ public class SplashPresenter implements UIBasePresenter {
             uiBaseNavigator = new IntroductionScreenNavigator();
         }
 
-        uiBaseNavigator.loadScreen(context);
+        uiBaseNavigator.loadActivity(context);
 
     }
 }

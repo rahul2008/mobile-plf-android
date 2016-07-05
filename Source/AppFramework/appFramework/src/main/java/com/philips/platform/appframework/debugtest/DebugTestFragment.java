@@ -6,7 +6,6 @@
 package com.philips.platform.appframework.debugtest;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,9 +19,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.AppFrameworkBaseFragment;
-import com.philips.platform.appframework.BuildConfig;
-import com.philips.platform.appframework.R;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Flow;
@@ -35,6 +31,9 @@ import com.philips.cdp.registration.configuration.SigninProviders;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appframework.AppFrameworkBaseFragment;
+import com.philips.platform.appframework.BuildConfig;
+import com.philips.platform.appframework.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +86,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
             public void onItemSelected(AdapterView<?> adapter, View v,
                                        int position, long id) {
                 final String configuration = adapter.getItemAtPosition(position).toString();
-                ((TextView) adapter.getChildAt(0)).setTextColor(Color.WHITE);
+//                ((TextView) adapter.getChildAt(0)).setTextColor(Color.WHITE);
                 if(count>0) {
                     User user = new User(context);
                     user.logout(null);

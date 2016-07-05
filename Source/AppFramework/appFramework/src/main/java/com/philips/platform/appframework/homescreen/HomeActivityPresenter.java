@@ -6,7 +6,7 @@ import com.philips.platform.modularui.navigatorimpl.DebugTestFragmentNavigator;
 import com.philips.platform.modularui.navigatorimpl.HomeFragmentNavigator;
 import com.philips.platform.modularui.navigatorimpl.SettingsFragmentNavigator;
 import com.philips.platform.modularui.navigatorimpl.SupportFragmentNavigator;
-import com.philips.platform.modularui.statecontroller.SomeInterface;
+import com.philips.platform.modularui.statecontroller.ShowFragmentCallBack;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
@@ -16,7 +16,7 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 public class HomeActivityPresenter implements UIBasePresenter {
     UIBaseNavigator uiBaseNavigator;
     @Override
-    public void onClick(int componentID, Context context) {
+    public void onClick(int componentID, Context context,ShowFragmentCallBack showFragmentCallBack) {
 
 
         switch (componentID){
@@ -31,10 +31,7 @@ public class HomeActivityPresenter implements UIBasePresenter {
             default: uiBaseNavigator = new HomeFragmentNavigator();
         }
 
-        uiBaseNavigator.loadScreen(context);
+        showFragmentCallBack.displayFragment(uiBaseNavigator.loadFragment());
     }
 
-    public void onLoad(SomeInterface someInterface){
-            someInterface.showFragmentCallBack(uiBaseNavigator.loadFragment());
-    }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.modularui.navigatorimpl.UserRegistrationNavigator;
+import com.philips.platform.modularui.statecontroller.ShowFragmentCallBack;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
@@ -13,7 +14,7 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 public class IntroductionScreenPresenter implements UIBasePresenter {
     UIBaseNavigator uiBaseNavigator;
     @Override
-    public void onClick(int componentID, Context context) {
+    public void onClick(int componentID, Context context,ShowFragmentCallBack showFragmentCallBack) {
         switch (componentID){
             case R.id.appframework_skip_button:
                 uiBaseNavigator = new UserRegistrationNavigator();
@@ -23,6 +24,6 @@ public class IntroductionScreenPresenter implements UIBasePresenter {
                 break;
         }
 
-        uiBaseNavigator.loadScreen(context);
+        uiBaseNavigator.loadActivity(context);
     }
 }
