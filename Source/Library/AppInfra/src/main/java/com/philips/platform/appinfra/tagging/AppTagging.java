@@ -157,16 +157,14 @@ public class AppTagging implements AIAppTaggingInterface {
     private String getUTCTimestamp() {
 
         if(mUTCTimestamp == null){
-            DateFormat df = DateFormat.getTimeInstance();
-            df.setTimeZone(TimeZone.getTimeZone("gmt"));
-            String utcTime = df.format(new Date());
+//            DateFormat df = DateFormat.getTimeInstance();
+//            df.setTimeZone(TimeZone.getTimeZone("gmt"));
+//            String utcTime = df.format(new Date());
             String UTCtime = null;
         if(mAppInfra.getTimeSync() != null){
             UTCtime=mAppInfra.getTimeSync().getUTCTime();
             mUTCTimestamp = UTCtime;
             Log.i("mUTCTimestamp", ""+mUTCTimestamp);
-        }else{
-            mUTCTimestamp = utcTime;
         }
 
 
@@ -265,7 +263,7 @@ public class AppTagging implements AIAppTaggingInterface {
 
                     contextData.put(AIAppTaggingConstants.COMPONENT_ID, value);
                     setComponentID(value);
-                    break;
+
                 case AIAppTaggingConstants.COMPONENT_VERSION:
                     contextData.put(AIAppTaggingConstants.COMPONENT_VERSION, value);
                     setComponentVersionVersionValue(value);
@@ -304,10 +302,35 @@ public class AppTagging implements AIAppTaggingInterface {
 
     @Override
     public void trackActionWithInfo(String pageName, String key, String value) {
-        Map<String, Object> contextData = addAnalyticsDataObject();
-        if (null != key) {
+//        Map<String, Object> contextData = addAnalyticsDataObject();
+//        if (null != key) {
+//
+//            contextData.put(key, value);
+//        }
 
-            contextData.put(key, value);
+        contextData = addAnalyticsDataObject();
+
+        if(Arrays.asList(defaultValues).contains(key)){
+
+            switch (key){
+
+                case AIAppTaggingConstants.COMPONENT_ID:
+
+                    contextData.put(AIAppTaggingConstants.COMPONENT_ID, value);
+                    setComponentID(value);
+
+                case AIAppTaggingConstants.COMPONENT_VERSION:
+                    contextData.put(AIAppTaggingConstants.COMPONENT_VERSION, value);
+                    setComponentVersionVersionValue(value);
+                    break;
+
+            }
+
+
+        }else{
+            setNewKey(key);
+            setNewValue(value);
+            contextData = addAnalyticsDataObject();
         }
         if (null != prevPage) {
             contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
@@ -322,6 +345,7 @@ public class AppTagging implements AIAppTaggingInterface {
     public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
         Map<String, Object> contextData = addAnalyticsDataObject();
 
+        
         if(null!=paramMap) {
             try {
                 Map<String, Object> tmp = new HashMap<String, Object>(paramMap);

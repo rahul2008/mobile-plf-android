@@ -141,7 +141,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
 
     public synchronized String getCurrentUTCTimeWithFormat(final String pFormat) {
         long diffElapsedOffset = getCurrentElapsedDifference() - getElapsedOffset();
-        final SimpleDateFormat sdf = new SimpleDateFormat(pFormat, Locale.ROOT);
+        final SimpleDateFormat sdf = new SimpleDateFormat(pFormat, Locale.ENGLISH);
         Date date = null;
         if (isRefreshInProgress) {
             date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
@@ -155,7 +155,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
     }
 
     public String getCurrentTime() {
-        final SimpleDateFormat sdf = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ROOT);
+        final SimpleDateFormat sdf = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
         Date date = new Date(getOffset() + System.currentTimeMillis() + getCurrentTimeZoneDiff());
         sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
 
@@ -254,18 +254,6 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
             long roundTripTime = responseTicks - requestTicks - (transmitTime - receiveTime);
             long clockOffset = ((receiveTime - originateTime) + (transmitTime - responseTime)) / 2;
             mNtpTime = responseTime + clockOffset;
-            SimpleDateFormat formatter = new SimpleDateFormat(TimeConstants.DATE_FORMAT);
-            Date d = formatter.parse(Long.toString(mNtpTime));
-            String dateString = formatter.format(new Date(mNtpTime));
-            Log.i("mNtpTime", ""+formatter.format(new Date(mNtpTime)));
-            Log.i("clockOffset", ""+formatter.format(new Date(clockOffset)));
-            Log.i("originateTime", ""+formatter.format(new Date(originateTime)));
-            Log.i("receiveTime", ""+formatter.format(new Date(receiveTime)));
-            Log.i("transmitTime", ""+formatter.format(new Date(transmitTime)));
-            Log.i("roundTripTime", ""+formatter.format(new Date(roundTripTime)));
-
-            getCurrentUTCTimeWithFormat(dateString);
-            getCurrentTime();
 
             mNtpTimeReference = responseTicks;
             mRoundTripTime = roundTripTime;
@@ -364,7 +352,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
         String mNtpDate = null;
         try{
             if(mNtpTime == 0L){
-                DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS", Locale.ROOT);
+                DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS", Locale.ENGLISH);
                 Date UTCdate = new Date(mNtpTime);
                 DATE_FORMAT.format(UTCdate);
                 Log.i("DATE_FORMAT", ""+DATE_FORMAT.format(UTCdate));

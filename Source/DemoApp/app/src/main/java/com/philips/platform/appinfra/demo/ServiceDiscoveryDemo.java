@@ -31,7 +31,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         mOnGetServicesListener=this;
         mOnGetServiceLocaleListener=this;
         mOnGetServiceUrlListener=this;
-        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("ServiceDiscoveryDemoPage", "SDKEy", "SDValue");
+//        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("ServiceDiscoveryDemoPage", "SDKEy", "SDValue");
         mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
             @Override
             public void onError(ERRORVALUES error, String message) {

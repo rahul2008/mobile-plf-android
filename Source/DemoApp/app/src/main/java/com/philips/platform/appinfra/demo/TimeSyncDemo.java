@@ -38,10 +38,12 @@ public class TimeSyncDemo extends AppCompatActivity {
 
 
         mTimeSyncInterface= AppInfraApplication.gAppInfra.getTimeSync();
-        formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
+
+        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("TimeSyncDemo", "SDKEy", "SDValue");
+        formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
          dateString = formatter.format(new Date());
         localTimeTextvalue.setText(dateString);
-        utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());
+//        utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());
         Log.i("TimeSyncDemo", "UTCTime  "+mTimeSyncInterface.getUTCTime());
 
         localTimeUpdateButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +56,7 @@ public class TimeSyncDemo extends AppCompatActivity {
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mTimeSyncInterface.refreshTime();
+                mTimeSyncInterface.refreshTime();
                 utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());
             }
         });

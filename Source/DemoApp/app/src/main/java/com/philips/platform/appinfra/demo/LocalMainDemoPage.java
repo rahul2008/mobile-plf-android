@@ -20,6 +20,8 @@ public class LocalMainDemoPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppInfraInterface appInfra = AppInfraApplication.gAppInfra;
         mappIdentityinterface = appInfra.getLocal();
+
+        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("LocalMainDemoPage", "SDKEy", "SDValue");
         Log.i("TAG-Local-Country", ""+mappIdentityinterface.getCountry());
         Log.i("TAG-Local-language", ""+mappIdentityinterface.getlocal());
     }
