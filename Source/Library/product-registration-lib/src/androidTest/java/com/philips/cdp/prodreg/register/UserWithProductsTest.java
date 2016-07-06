@@ -396,11 +396,11 @@ public class UserWithProductsTest extends MockitoTestCase {
                 return localRegisteredProductsMock;
             }
         };
+        userWithProducts.setRequestType(UserWithProducts.PRODUCT_REGISTRATION);
         RefreshLoginSessionHandler refreshLoginSessionHandler = userWithProducts.getRefreshLoginSessionHandler(product, context);
         refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(50);
         verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
         verify(localRegisteredProductsMock).updateRegisteredProducts(product);
-        verify(prodRegListener).onProdRegFailed(product, userWithProductsMock);
         refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
         verify(userWithProductsMock).retryRequests(context, product);
     }

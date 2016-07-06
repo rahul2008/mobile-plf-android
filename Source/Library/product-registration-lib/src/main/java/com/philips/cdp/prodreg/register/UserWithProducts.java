@@ -302,7 +302,7 @@ public class UserWithProducts {
                 Log.d(TAG, "error in refreshing session");
                 if (requestType == PRODUCT_REGISTRATION && registeredProduct != null) {
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
-                    updateWithCallBack(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
+                    getUserProduct().updateWithCallBack(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
                 } else if (requestType == FETCH_REGISTERED_PRODUCTS && registeredProductsListener != null) {
                     registeredProductsListener.getRegisteredProductsSuccess(getLocalRegisteredProductsInstance().getRegisteredProducts(), -1);
                 }
