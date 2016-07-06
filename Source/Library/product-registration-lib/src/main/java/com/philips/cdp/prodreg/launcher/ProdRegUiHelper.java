@@ -108,7 +108,6 @@ public class ProdRegUiHelper {
         ProdRegTagging.getInstance(context).trackActionWithCommonGoals("sendData", "specialEvents", "startProductRegistration");
         final ArrayList<Product> regProdList = getUiLauncher().getRegProdList();
         Intent intent = new Intent(context, ProdRegBaseActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, regProdList);
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, startAnimation);
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, endAnimation);

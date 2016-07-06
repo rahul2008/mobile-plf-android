@@ -155,7 +155,6 @@
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_below="@+id/InlineForms_serial_number"
             android:layout_marginLeft="@dimen/pr_first_launch_padding_left"
             android:layout_marginRight="@dimen/pr_first_launch_padding_right"

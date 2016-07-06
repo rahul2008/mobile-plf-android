@@ -55,29 +55,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     }
 
     @Override
-    public void showLoadingDialog() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.commitAllowingStateLoss();
-        DialogFragment newFragment = ProdRegLoadingFragment.newInstance(getString(R.string.PPR_Looking_For_Products_Lbltxt));
-        newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
-    }
-
-    @Override
-    public void dismissLoadingDialog() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
-            if (prev instanceof DialogFragment) {
-                ((DialogFragment) prev).dismissAllowingStateLoss();
-            }
-        }
-    }
-
-    @Override
     public DialogOkButtonListener getDialogOkButtonListener() {
         return new DialogOkButtonListener() {
             @Override
@@ -104,5 +81,28 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     @Override
     public void showFragment(Fragment fragment) {
         super.showFragment(fragment);
+    }
+
+    @Override
+    public void showLoadingDialog() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+            ft.commitAllowingStateLoss();
+        }
+        DialogFragment newFragment = ProdRegLoadingFragment.newInstance(getString(R.string.PPR_Looking_For_Products_Lbltxt));
+        newFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+    }
+
+    @Override
+    public void dismissLoadingDialog() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
+            if (prev instanceof DialogFragment) {
+                ((DialogFragment) prev).dismissAllowingStateLoss();
+            }
+        }
     }
 }

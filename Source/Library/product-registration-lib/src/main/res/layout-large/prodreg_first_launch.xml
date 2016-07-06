@@ -40,7 +40,7 @@
         android:id="@+id/yes_register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/conf_subtext_textview"
+        android:layout_below="@+id/conf_subtext_two_textview"
         android:layout_marginTop="@dimen/pr_d_value_tablet"
         android:text="@string/PPR_Yes_Btntxt"
         android:textAllCaps="false"/>

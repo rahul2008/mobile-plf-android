@@ -237,35 +237,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     @Override
-    public void dismissLoadingDialog() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
-            if (prev != null && prev instanceof DialogFragment) {
-                ((DialogFragment) prev).dismissAllowingStateLoss();
-            }
-        }
-    }
-
-    @Override
     public void exitProductRegistration() {
         clearFragmentStack();
-    }
-
-    @Override
-    public void showLoadingDialog() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-            if (prev != null) {
-                ft.remove(prev);
-            }
-            ft.commit();
-            DialogFragment newFragment = ProdRegLoadingFragment.newInstance(activity.getString(R.string.prod_reg_registering_product));
-            newFragment.show(activity.getSupportFragmentManager(), "dialog");
-            activity.getSupportFragmentManager().executePendingTransactions();
-        }
     }
 
     @Override
@@ -323,4 +296,32 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         if (requireSerialNumber)
             serialLayout.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void dismissLoadingDialog() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
+            if (prev != null && prev instanceof DialogFragment) {
+                ((DialogFragment) prev).dismissAllowingStateLoss();
+            }
+        }
+    }
+
+    @Override
+    public void showLoadingDialog() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.commit();
+            DialogFragment newFragment = ProdRegLoadingFragment.newInstance(activity.getString(R.string.prod_reg_registering_product));
+            newFragment.show(activity.getSupportFragmentManager(), "dialog");
+            activity.getSupportFragmentManager().executePendingTransactions();
+        }
+    }
+
 }
