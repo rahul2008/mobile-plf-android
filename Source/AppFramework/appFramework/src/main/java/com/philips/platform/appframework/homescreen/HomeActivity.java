@@ -243,6 +243,7 @@ public class HomeActivity extends AppFrameworkBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(mConsumerCareFragment!=null)
         mConsumerCareFragment.releaseConsumerCare();
     }
 }
