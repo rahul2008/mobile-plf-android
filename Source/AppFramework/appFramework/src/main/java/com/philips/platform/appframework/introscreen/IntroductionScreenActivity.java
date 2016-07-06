@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
@@ -24,6 +25,7 @@ import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.shamanland.fonticon.FontIconView;
 
 /**
@@ -99,6 +101,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
+    private static String TAG = IntroductionScreenActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +109,8 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.app_framework_introduction_activity);
+        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG ," IntroductionScreen Activity Created ");
+
         final ViewPager mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
 

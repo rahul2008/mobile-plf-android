@@ -14,17 +14,27 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.Locale;
 
 
 
 public class AppFrameworkApplication extends Application {
+        public static AppInfra gAppInfra;
+        public static LoggingInterface loggingInterface;
+
     @Override
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
         initializeUserRegistrationLibrary();
+        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        loggingInterface = gAppInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
+        loggingInterface.enableConsoleLog(true);
+        loggingInterface.enableFileLog(true);
+
     }
 
     private void initializeUserRegistrationLibrary() {
