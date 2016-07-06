@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -176,6 +177,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         super.onDetach();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDetach");
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
 
     @Override
     public void onConfigurationChanged(Configuration config) {

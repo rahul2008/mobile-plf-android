@@ -137,7 +137,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-
     }
 
     private void setPrevTiltle() {

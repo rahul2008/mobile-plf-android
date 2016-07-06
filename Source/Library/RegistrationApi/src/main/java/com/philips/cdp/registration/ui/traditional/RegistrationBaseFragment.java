@@ -343,9 +343,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-
     }
-
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
         view.requestFocus();

@@ -135,7 +135,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-
     }
 
     @Override
