@@ -4,8 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.RegistrationState;
-import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
+import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.registration.User;
 
 import java.util.ArrayList;
@@ -21,15 +22,14 @@ import java.util.Set;
 */
 public class LocalRegisteredProducts {
 
-    public static String PRODUCT_REGISTRATION_KEY = "prod_reg_key";
-    private LocalSharedPreference localSharedPreference;
+    private ProdRegCache prodRegCache;
     private String uuid;
     private User user;
     private Gson gson;
 
     public LocalRegisteredProducts(Context context, User user) {
         this.user = user;
-        localSharedPreference = new LocalSharedPreference(context);
+        prodRegCache = new ProdRegCache(context);
         gson = new Gson();
         uuid = user.getJanrainUUID() != null ? user.getJanrainUUID() : "";
     }
@@ -40,7 +40,7 @@ public class LocalRegisteredProducts {
         if (registeredProducts.contains(registeredProduct))
             registeredProducts.remove(registeredProduct);
         registeredProducts.add(registeredProduct);
-        getLocalSharedPreference().storeData(PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+        getProdRegCache().storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
     @NonNull
@@ -49,7 +49,7 @@ public class LocalRegisteredProducts {
     }
 
     protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
-        final String data = getLocalSharedPreference().getData(PRODUCT_REGISTRATION_KEY);
+        final String data = getProdRegCache().getStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY);
         Gson gson = getGSon();
         RegisteredProduct[] registeredProducts = getRegisteredProducts(gson, data);
         if (registeredProducts == null) {
@@ -60,7 +60,7 @@ public class LocalRegisteredProducts {
 
     public List<RegisteredProduct> getRegisteredProducts() {
         Gson gson = getGSon();
-        String data = getLocalSharedPreference().getData(PRODUCT_REGISTRATION_KEY);
+        String data = getProdRegCache().getStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY);
         RegisteredProduct[] products = getRegisteredProducts(gson, data);
         if (user.isUserSignIn() && products != null) {
             ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
@@ -86,7 +86,7 @@ public class LocalRegisteredProducts {
             registeredProducts.remove(registeredProduct);
         }
         registeredProducts.add(registeredProduct);
-        getLocalSharedPreference().storeData(PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+        getProdRegCache().storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
     protected void syncLocalCache(final RegisteredProduct[] products) {
@@ -99,15 +99,15 @@ public class LocalRegisteredProducts {
             }
             localRegisteredProducts.add(registeredProduct);
         }
-        getLocalSharedPreference().storeData(PRODUCT_REGISTRATION_KEY, getGSon().toJson(localRegisteredProducts));
+        getProdRegCache().storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, getGSon().toJson(localRegisteredProducts));
     }
 
     public LocalRegisteredProducts getLocalRegisteredProducts() {
         return this;
     }
 
-    protected LocalSharedPreference getLocalSharedPreference() {
-        return localSharedPreference;
+    protected ProdRegCache getProdRegCache() {
+        return prodRegCache;
     }
 
     protected User getUser() {
@@ -119,6 +119,6 @@ public class LocalRegisteredProducts {
         if (registeredProducts.contains(registeredProduct)) {
             registeredProducts.remove(registeredProduct);
         }
-        getLocalSharedPreference().storeData(PRODUCT_REGISTRATION_KEY, getGSon().toJson(registeredProducts));
+        getProdRegCache().storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, getGSon().toJson(registeredProducts));
     }
 }

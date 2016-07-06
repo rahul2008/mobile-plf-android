@@ -9,6 +9,7 @@ import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
+import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
@@ -109,12 +110,15 @@ public class ProdRegRegistrationController {
         final boolean validDate = validatePurchaseDate(purchaseDate);
         final boolean validSerialNumber = validateSerialNumber(serialNumber);
         if (validDate && validSerialNumber) {
-            ProdRegTagging.getInstance(fragmentActivity).trackActionWithCommonGoals("sendData", "specialEvents", "extendWarrantyOptin");
+            ProdRegTagging.getInstance(fragmentActivity).trackActionWithCommonGoals("sendData", "specialEvents", "extendWarrantyOption");
             registerControllerCallBacks.showLoadingDialog();
             registeredProduct.setPurchaseDate(purchaseDate);
             registeredProduct.setSerialNumber(serialNumber);
             ProdRegHelper prodRegHelper = new ProdRegHelper();
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
+            final ProdRegCache prodRegCache = new ProdRegCache(fragmentActivity);
+            ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_START_COUNT, 1);
+            ProdRegTagging.getInstance(fragmentActivity).trackActionWithCommonGoals("sendData", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_START_COUNT)));
             prodRegHelper.getSignedInUserWithProducts().registerProduct(registeredProduct);
         }
     }
@@ -142,6 +146,9 @@ public class ProdRegRegistrationController {
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     registerControllerCallBacks.dismissLoadingDialog();
+                    final ProdRegCache prodRegCache = new ProdRegCache(fragmentActivity);
+                    ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
+                    ProdRegTagging.getInstance(fragmentActivity).trackActionWithCommonGoals("sendData", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_COMPLETED_COUNT)));
                     final ProdRegSuccessFragment fragment = new ProdRegSuccessFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);

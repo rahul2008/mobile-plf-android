@@ -5,8 +5,9 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.MockitoTestCase;
+import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.RegistrationState;
-import com.philips.cdp.prodreg.localcache.LocalSharedPreference;
+import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.registration.User;
 
 import org.mockito.Mock;
@@ -28,7 +29,7 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
     private LocalRegisteredProducts localRegisteredProducts;
     private Context context;
     @Mock
-    private LocalSharedPreference localSharedPreference;
+    private ProdRegCache prodRegCache;
     private HashSet<RegisteredProduct> registeredProducts = new HashSet<>();
     private Gson gson;
 
@@ -52,8 +53,8 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
             }
 
             @Override
-            public LocalSharedPreference getLocalSharedPreference() {
-                return localSharedPreference;
+            public ProdRegCache getProdRegCache() {
+                return prodRegCache;
             }
         };
     }
@@ -69,7 +70,7 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         when(registeredProductMock.getCtn()).thenReturn("ctn");
         localRegisteredProducts.store(registeredProductMock);
         assertEquals(registeredProducts.size(), 4);
-        verify(localSharedPreference).storeData(LocalRegisteredProducts.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+        verify(prodRegCache).storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
     public void testUpdateRegisteredProducts() {
@@ -77,7 +78,7 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         when(registeredProductMock.getCtn()).thenReturn("ctn");
         localRegisteredProducts.updateRegisteredProducts(registeredProductMock);
         assertEquals(registeredProducts.size(), 4);
-        verify(localSharedPreference).storeData(LocalRegisteredProducts.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+        verify(prodRegCache).storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
     }
 
     public void testSyncLocalCache() {

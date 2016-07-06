@@ -1,6 +1,7 @@
 package com.philips.cdp.prodreg.util;
 
 import com.philips.cdp.prodreg.ProdRegConstants;
+import com.philips.cdp.prodreg.localcache.ProdRegCache;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,5 +52,10 @@ public class ProdRegUtil {
         cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
         cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
         return cal.getTimeInMillis();
+    }
+
+    public static void storeProdRegTaggingMeasuresCount(final ProdRegCache prodRegCache, final String key, final int count) {
+        final int intData = prodRegCache.getIntData(key);
+        prodRegCache.storeIntData(key, (intData + count));
     }
 }

@@ -20,11 +20,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
+import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -166,8 +168,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageDate(final EditText editTextView) {
-        purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_DATE.getCode()).getDescription());
-        ProdRegTagging.getInstance(getActivity()).trackActionWithCommonGoals("sendData", "specialEvents", "purchaseDateRequired");
+        final FragmentActivity activity = getActivity();
+        purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(activity, ProdRegError.INVALID_DATE.getCode()).getDescription());
+        ProdRegTagging.getInstance(activity).trackActionWithCommonGoals("sendData", "specialEvents", "purchaseDateRequired");
+        final ProdRegCache prodRegCache = new ProdRegCache(activity);
+        ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_DATE_COUNT, 1);
+        ProdRegTagging.getInstance(activity).trackActionWithCommonGoals("sendData", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_DATE_COUNT)));
         purchaseDateLayout.showError(editTextView);
     }
 
