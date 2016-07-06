@@ -5,12 +5,15 @@ import com.philips.cdp.dicommclient.communication.CommunicationMarshal;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
+import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
+import com.philips.cdp.dicommclientsample.airpurifier.ComfortAirPurifier;
+import com.philips.cdp.dicommclientsample.airpurifier.JaguarAirPurifier;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
+ * (C) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
-class AirPurifierFactory extends DICommApplianceFactory<AirPurifier> {
+class SampleApplianceFactory extends DICommApplianceFactory<AirPurifier> {
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
@@ -24,9 +27,12 @@ class AirPurifierFactory extends DICommApplianceFactory<AirPurifier> {
 
     @Override
     public AirPurifier createApplianceForNode(NetworkNode networkNode) {
-        if (networkNode.getModelName().equals(AirPurifier.MODELNAME)) {
+        if (networkNode.getModelName().equals(ComfortAirPurifier.MODELNAME)) {
             CommunicationStrategy communicationStrategy = new CommunicationMarshal(new DISecurity());
-            return new AirPurifier(networkNode, communicationStrategy);
+            if ("AC2889".equals(networkNode.getModelType())) {
+                return new ComfortAirPurifier(networkNode, communicationStrategy);
+            }
+            return new JaguarAirPurifier(networkNode, communicationStrategy);
         }
         return null;
     }

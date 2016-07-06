@@ -19,6 +19,10 @@ import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
+import com.philips.cdp.dicommclientsample.airpurifier.AirPort;
+import com.philips.cdp.dicommclientsample.airpurifier.AirPortProperties;
+import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
+import com.philips.cdp.dicommclientsample.airpurifier.JaguarAirPort;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -97,8 +101,8 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onAppliancePortUpdate(final DICommAppliance appliance, final DICommPort<?> port) {
-            if (port instanceof AirPort) {
-                updateLightSwitchView((AirPort) port);
+            if (port instanceof JaguarAirPort) {
+                updateLightSwitchView((JaguarAirPort) port);
             } else if (port instanceof DevicePort) {
                 updateDeviceNameView((DevicePort) port);
             }
@@ -116,7 +120,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    private void updateLightSwitchView(final AirPort port) {
+    private void updateLightSwitchView(final AirPort<? extends AirPortProperties> port) {
         AirPortProperties properties = port.getPortProperties();
         if (properties != null) {
             lightSwitch.setChecked(properties.getLightOn());

@@ -19,7 +19,7 @@ public class App extends Application {
         cppController.setDefaultDcsState();
 
         if (DICommClientWrapper.getContext() == null) {
-            DICommClientWrapper.initializeDICommLibrary(this, new AirPurifierFactory(), null, cppController);
+            DICommClientWrapper.initializeDICommLibrary(this, new SampleApplianceFactory(), null, cppController);
         }
     }
 }
