@@ -36,7 +36,6 @@ import java.io.ObjectOutputStream;
 import java.util.Map;
 
 /**
- * Created by 310190722 on 9/15/2015.
  * class hsdp user
  */
 public class HsdpUser {

@@ -28,7 +28,6 @@ repositories {
 dependencies {
     compile(group:'adobeMobileLibrary', name:'adobeMobileLibrary', version:'4.5.1')
     compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.0.0', ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.0.0-rc.4', ext: 'aar')
 }
 
 apply plugin: 'cdpSCM'
@@ -46,7 +45,7 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.registration"
-        minSdkVersion 11
+        minSdkVersion 19
         targetSdkVersion 23
 
         testApplicationId "com.philips.cdp.registration.test"

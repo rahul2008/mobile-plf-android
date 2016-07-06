@@ -103,7 +103,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 19
         targetSdkVersion 23
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.cdp.registration.test"
@@ -146,7 +146,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':jump')
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.0.0', ext: 'aar')
     compile project(':hsdp')
     compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
