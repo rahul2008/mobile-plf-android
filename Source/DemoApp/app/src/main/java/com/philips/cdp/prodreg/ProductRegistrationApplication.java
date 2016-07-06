@@ -10,6 +10,8 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.util.Locale;
@@ -17,17 +19,26 @@ import java.util.Locale;
 public class ProductRegistrationApplication extends Application {
 
     public static AIAppTaggingInterface mAIAppTaggingInterface;
-    public static AppInfra gAppInfra;
+    public static AppInfraInterface gAppInfra;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
         MultiDex.install(this);
-
-        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
-        new ProdRegHelper().init(getApplicationContext());
+        initProductRegistration();
+        initAppInfra();
         initRegistration();
+    }
+
+    private void initAppInfra() {
+        AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
+        gAppInfra = AppInfraSingleton.getInstance();
+        mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Product Registration", "Component ID");
+    }
+
+    private void initProductRegistration() {
+        new ProdRegHelper().init(getApplicationContext());
     }
 
     private void initRegistration() {

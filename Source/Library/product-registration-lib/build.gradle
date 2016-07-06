@@ -169,8 +169,7 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.2.1', ext: 'aar') {
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.0-rc.2', ext: 'aar')
-
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.1.0-rc.4', ext: 'aar')
 
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.mockito:mockito-core:1.9.5'

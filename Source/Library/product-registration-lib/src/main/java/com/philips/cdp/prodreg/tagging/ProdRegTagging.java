@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 
 import com.adobe.mobile.Analytics;
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.text.SimpleDateFormat;
@@ -34,7 +34,7 @@ public class ProdRegTagging {
         if (prodRegTagging == null) {
             ProdRegTagging.context = context;
             prodRegTagging = new ProdRegTagging();
-            aiAppTaggingInterface = new AppInfra.Builder().build(context).getTagging();
+            aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging();
             aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
         }
         return prodRegTagging;
