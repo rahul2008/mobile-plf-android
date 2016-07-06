@@ -95,7 +95,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private ProgressDialog mProgressDialog = null;
-    protected ResponseCallback cateGoryResponseCallbak = new ResponseCallback() {
+    protected ResponseCallback categoryResponseCallbak = new ResponseCallback() {
         @Override
         public void onResponseReceived(String response) {
 
@@ -762,7 +762,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             RequestData subCategoryRequest = new RequestData();
 
             subCategoryRequest.setRequestUrl(subCategoryUrl);
-            subCategoryRequest.setResponseCallback(cateGoryResponseCallbak);
+            subCategoryRequest.setResponseCallback(categoryResponseCallbak);
 
             if (mProgressDialog == null) mProgressDialog = new ProgressDialog
                     (getActivity(), R.style.loaderTheme);
@@ -864,6 +864,26 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 
     @Override
     public void onDestroy() {
+        if (mProgressDialog != null && isAdded()) {
+            if (mProgressDialog.isShowing()) {
+                try {
+                    mProgressDialog.dismiss();
+                    mProgressDialog.cancel();
+                    mProgressDialog = null;
+                } catch (IllegalArgumentException e) {
+                    DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+                }
+            }
+
+        } else if(mProgressDialog != null)
+        {
+            try {
+                mProgressDialog.dismiss();
+            }catch (IllegalArgumentException e)
+            {
+                DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+            }
+        }
         super.onDestroy();
         /*
         Commenting below finish() because of "Rally DE9081".
@@ -872,6 +892,22 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
 //        getActivity().finish();
     }
 
+    @Override
+    public void onDestroyView() {
+        if (mProgressDialog != null && isAdded()) {
+            if (mProgressDialog.isShowing()) {
+                try {
+                    mProgressDialog.dismiss();
+                    mProgressDialog.cancel();
+                    mProgressDialog = null;
+                } catch (IllegalArgumentException e) {
+                    DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+                }
+            }
+
+        }
+        super.onDestroyView();
+    }
 
     private Drawable getDrawable(int resId) {
         return getResources().getDrawable(resId);

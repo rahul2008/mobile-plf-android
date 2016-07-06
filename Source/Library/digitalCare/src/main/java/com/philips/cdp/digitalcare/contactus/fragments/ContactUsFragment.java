@@ -671,6 +671,23 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 //                    .setBackgroundResource(R.drawable.consumercare_selector_option_button_faded_bg);
 //            mCallPhilips.setEnabled(false);
         }
+
+        TypedArray titles = getResources().obtainTypedArray
+                (R.array.social_service_provider_menu_title);
+        boolean isSocialButtonsEnabled = titles.length() > 0 ? true : false;
+        boolean isEmailEnabled = mEmail.getVisibility() == View.VISIBLE ? true : false;
+        boolean isChatEnabled = mChat.getVisibility() == View.VISIBLE ? true : false;
+        boolean isCallEnabled = mCallPhilips.getVisibility() == View.VISIBLE ? true : false;
+
+       /* if (!(isSocialButtonsEnabled && isEmailEnabled && isChatEnabled && isCallEnabled)) {
+            showAlert(getResources().getString(R.string.NO_SUPPORT_KEY));
+        }*/
+
+        if(!isSocialButtonsEnabled && !isEmailEnabled)
+        {
+            showAlert(getResources().getString(R.string.NO_SUPPORT_KEY));
+        }
+
       /*if (mChat != null) {
             mChat.setVisibility(View.GONE);
         }*/
