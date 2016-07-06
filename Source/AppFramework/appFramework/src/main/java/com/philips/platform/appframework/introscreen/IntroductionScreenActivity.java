@@ -14,17 +14,16 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
-import com.philips.platform.modularui.statecontroller.UIBasePresenter;
-import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.statecontroller.UIStateManager;
-import com.philips.platform.modularui.util.LaunchScreen;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
+import com.philips.platform.modularui.statecontroller.UIState;
+import com.philips.platform.modularui.statecontroller.UIStateManager;
+import com.philips.platform.modularui.util.LaunchScreen;
 import com.shamanland.fonticon.FontIconView;
 
 /**
@@ -102,13 +101,12 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     private CircleIndicator mIndicator;
     private UIBaseNavigation mNavigator;
     public static final int userRegistrationClickID = 7001;
-    UIBasePresenter uiBasePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
-        uiBasePresenter = new IntroductionScreenPresenter();
+        basePresenter = new IntroductionScreenPresenter();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.app_framework_introduction_activity);
@@ -193,7 +191,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
             LaunchScreen.getInstance().launchScreen(IntroductionScreenActivity.this,returnedState.getStateID());
             }*/
         if(null != activity){
-            uiBasePresenter.onClick(userRegistrationClickID,IntroductionScreenActivity.this,this);
+            basePresenter.onClick(userRegistrationClickID,IntroductionScreenActivity.this,this);
         }
     }
 
@@ -247,7 +245,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onClick(View v) {
 
         AppFrameworkBaseActivity.setIntroScreenDonePressed();
-        uiBasePresenter.onClick(v.getId(),IntroductionScreenActivity.this,this);
+        basePresenter.onClick(v.getId(),IntroductionScreenActivity.this,this);
     }
 
     @Override

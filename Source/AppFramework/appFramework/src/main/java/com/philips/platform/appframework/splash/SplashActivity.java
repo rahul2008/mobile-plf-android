@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
  * <H1>Dev Guide</H1>
@@ -55,7 +54,6 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
  */
 public class SplashActivity extends AppFrameworkBaseActivity {
     private static int SPLASH_TIME_OUT = 3000;
-    private UIBasePresenter basePresenter;
     private int SplashID = 90001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +104,6 @@ public class SplashActivity extends AppFrameworkBaseActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                /*UIState returnedState =  (UIState) mNavigator.onPageLoad(SplashActivity.this);
-                UIStateManager.getInstance().setCurrentState(returnedState);
-                LaunchScreen.getInstance().launchScreen(SplashActivity.this,returnedState.getStateID());*/
                 basePresenter.onClick(SplashID,SplashActivity.this,SplashActivity.this);
                 finish();
             }

@@ -35,7 +35,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
 import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
-import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.statecontroller.UIStateManager;
 
 import java.util.ArrayList;
@@ -59,7 +58,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
     private UIBaseNavigation mNavigator;
     private LinearLayout hamburgerClick = null;
     private ConsumerCareLauncher mConsumerCareFragment = null;
-    private UIBasePresenter basePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,10 +195,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
     private void showNavigationDrawerItem(int position) {
 
         philipsDrawerLayout.closeDrawer(navigationView);
-        /*UIState returnedState = (UIState) mNavigator.onClick(position, HomeActivity.this);
-        UIStateManager.getInstance().setCurrentState(returnedState);
-        showFragment(ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()), ActivityMap.getInstance().getFragmentFromMap(returnedState.getStateID()).getClass().getSimpleName());*/
-
         basePresenter.onClick(position,HomeActivity.this,this);
     }
 

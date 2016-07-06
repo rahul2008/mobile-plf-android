@@ -19,6 +19,7 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.modularui.statecontroller.ShowFragmentCallBack;
+import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
@@ -32,6 +33,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
     private static String TAG = AppFrameworkBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private static SharedPreferences mSharedPreference = null;
+    public UIBasePresenter basePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
