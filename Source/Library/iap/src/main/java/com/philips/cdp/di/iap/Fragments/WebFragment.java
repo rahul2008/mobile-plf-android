@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
 
@@ -70,7 +71,14 @@ public class WebFragment extends BaseAnimationSupportFragment {
     }
 
     protected String getWebUrl() {
-        throw new RuntimeException("URL must be provided");
+        if (getArguments() == null) {
+            throw new RuntimeException("URL must be provided");
+        }
+        String string = getArguments().getString(IAPConstant.ORDER_TRACK_URL);
+        if (string == null) {
+            throw new RuntimeException("URL must be provided");
+        }
+        return string;
     }
 
     protected boolean shouldOverrideUrlLoading(final String url) {
