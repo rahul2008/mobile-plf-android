@@ -1,5 +1,16 @@
 package com.philips.cl.di.common.ssdp.controller;
 
+import android.util.Log;
+
+import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
+import com.philips.cl.di.common.ssdp.contants.XmlParserConstants;
+import com.philips.cl.di.common.ssdp.models.SSDPdevice;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,17 +20,6 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
-import android.util.Log;
-
-import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
-import com.philips.cl.di.common.ssdp.contants.XmlParserConstants;
-import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
 /*
  * Parser for the base URL currently parser only for icons
@@ -100,6 +100,8 @@ public class BaseUrlParser {
 						mSsdpDevice.setManufacturer(modifiedString);
 					} else if (isEqual(localName, XmlParserConstants.MODEL_NAME)) {
 						mSsdpDevice.setModelName(modifiedString);
+					 } else if (isEqual(localName, XmlParserConstants.MODEL_NUMBER)) {
+						 mSsdpDevice.setModelNumber(modifiedString);
 					} else if (isEqual(localName, XmlParserConstants.UDN)) {
 						mSsdpDevice.setUdn(modifiedString);
 					} else if (isEqual(localName, XmlParserConstants.CPP_ID)) {
