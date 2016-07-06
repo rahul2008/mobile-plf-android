@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
 package com.philips.cdp.dicommclientsample.airpurifier;
 
 import com.google.gson.Gson;
@@ -6,10 +10,6 @@ import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public abstract class AirPort<T extends AirPortProperties> extends DICommPort<T> {
 
     //This name and ID need to match with the appliance's DiComm protocol port name and ID

@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
 package com.philips.cdp.dicommclientsample;
 
 import android.app.Application;

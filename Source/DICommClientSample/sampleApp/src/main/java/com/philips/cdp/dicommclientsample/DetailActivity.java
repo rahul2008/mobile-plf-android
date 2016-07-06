@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
 package com.philips.cdp.dicommclientsample;
 
 import android.os.Bundle;
@@ -23,10 +27,6 @@ import com.philips.cdp.dicommclientsample.airpurifier.AirPort;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPortProperties;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class DetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailActivity";
 

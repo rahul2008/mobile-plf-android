@@ -1,11 +1,11 @@
+/*
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
 package com.philips.cdp.dicommclientsample.airpurifier;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * (C) Koninklijke Philips N.V., 2015, 2016.
- * All rights reserved.
- */
 public class ComfortAirPortProperties implements AirPortProperties {
 
     public static final Integer LIGHT_ON_INTEGER = 50;

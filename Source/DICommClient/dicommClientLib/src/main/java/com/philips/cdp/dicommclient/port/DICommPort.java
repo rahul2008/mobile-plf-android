@@ -1,14 +1,9 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +14,11 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class DICommPort<T> {
 

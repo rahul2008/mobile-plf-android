@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
 package com.philips.cl.di.common.ssdp.controller;
 
 import android.util.Log;
@@ -21,20 +25,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-/*
- * Parser for the base URL currently parser only for icons
- */
 /**
- * @author 310151556
- * @version $Revision: 1.0 $
+ * Parser for the base URL currently parser only for icons
  */
 public class BaseUrlParser {
 
-	/*
-	 * Parser that does the whole job
-	 */
 	/**
-	 * @author 310151556
+	 * Parser that does the whole job
 	 */
 	class BaseUrlXmlHandler extends DefaultHandler {
 		private int devicesCount = -1;

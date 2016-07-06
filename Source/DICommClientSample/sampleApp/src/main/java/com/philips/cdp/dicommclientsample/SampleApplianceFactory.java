@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
 package com.philips.cdp.dicommclientsample;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
@@ -9,10 +13,6 @@ import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.ComfortAirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.JaguarAirPurifier;
 
-/**
- * (C) Koninklijke Philips N.V., 2015, 2016.
- * All rights reserved.
- */
 class SampleApplianceFactory extends DICommApplianceFactory<AirPurifier> {
 
     @Override
