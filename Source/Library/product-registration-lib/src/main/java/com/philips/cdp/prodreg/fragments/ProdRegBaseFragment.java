@@ -153,8 +153,8 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
             Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
             if (prev != null) {
                 ft.remove(prev);
+                ft.commitAllowingStateLoss();
             }
-            ft.commitAllowingStateLoss();
             // Create and show the dialog.
             ProdRegErrorAlertFragment newFragment = ProdRegErrorAlertFragment.newInstance(prodRegErrorMap.getTitle(), prodRegErrorMap.getDescription());
             newFragment.setDialogOkButtonListener(getDialogOkButtonListener());
