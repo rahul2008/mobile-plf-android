@@ -38,11 +38,13 @@ public class MockPRXDataBuilder extends PRXDataBuilder{
     }
 
     public void sendSuccess(ResponseData responseData) throws JSONException {
-        CartModelContainer.getInstance().addProductDataToList("HX8071/10", (SummaryModel) responseData);
+        mProudctUpdateCount++;
+        mProductPresentInPRX++;
         notifySucces((SummaryModel) responseData);
     }
 
     public void sendFailure(final PrxError prxError) {
+        mProudctUpdateCount++;
         notifyError(prxError.getDescription());
     }
 

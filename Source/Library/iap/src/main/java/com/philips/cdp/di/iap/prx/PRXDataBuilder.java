@@ -30,8 +30,8 @@ public class PRXDataBuilder {
     AbstractModel.DataLoadListener mDataLoadListener;
     private HashMap<String,SummaryModel> mPRXProductData;
     //Handling error cases where Product is in Hybris but not in PRX store.
-    private volatile int mProudctUpdateCount;
-    private int mProductPresentInPRX;
+    protected volatile int mProudctUpdateCount;
+    protected int mProductPresentInPRX;
 
     public PRXDataBuilder(Context context,ArrayList<String> ctns, AbstractModel.DataLoadListener listener) {
         mContext = context;
