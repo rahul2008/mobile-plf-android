@@ -29,7 +29,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_registere_success, container, false);
-        ProdRegTagging.getInstance(getActivity()).trackActionWithCommonGoals("sendData", "specialEvents", "successProductRegistration");
+        ProdRegTagging.getInstance(getActivity()).trackActionWithCommonGoals("ProdRegSuccessScreen", "specialEvents", "successProductRegistration");
         Button button = (Button) view.findViewById(R.id.continueButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

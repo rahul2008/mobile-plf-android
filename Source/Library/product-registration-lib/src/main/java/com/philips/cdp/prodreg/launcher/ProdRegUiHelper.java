@@ -67,7 +67,7 @@ public class ProdRegUiHelper {
         final Bundle arguments = new Bundle();
         arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, fragmentLauncher.getRegProdList());
 
-        ProdRegTagging.getInstance(fragmentLauncher.getFragmentActivity()).trackActionWithCommonGoals("sendData", "specialEvents", "startProductRegistration");
+        ProdRegTagging.getInstance(fragmentLauncher.getFragmentActivity()).trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         if (fragmentLauncher.isFirstLaunch()) {
             ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
             prodRegFirstLaunchFragment.setArguments(arguments);
@@ -105,7 +105,7 @@ public class ProdRegUiHelper {
      * @param orientation    Orientation
      */
     private void invokeProductRegistrationAsActivity(Context context, int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
-        ProdRegTagging.getInstance(context).trackActionWithCommonGoals("sendData", "specialEvents", "startProductRegistration");
+        ProdRegTagging.getInstance(context).trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         final ArrayList<Product> regProdList = getUiLauncher().getRegProdList();
         Intent intent = new Intent(context, ProdRegBaseActivity.class);
         intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, regProdList);

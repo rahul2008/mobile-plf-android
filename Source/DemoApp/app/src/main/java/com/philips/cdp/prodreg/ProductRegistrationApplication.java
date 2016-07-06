@@ -8,7 +8,6 @@ import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
@@ -34,7 +33,8 @@ public class ProductRegistrationApplication extends Application {
     private void initAppInfra() {
         AppInfraSingleton.setInstance(gAppInfra = new AppInfra.Builder().build(getApplicationContext()));
         gAppInfra = AppInfraSingleton.getInstance();
-        mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Product Registration", "Component ID");
+        mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Product Registration", com.philips.cdp.product_registration_lib.BuildConfig.VERSION_NAME);
+        mAIAppTaggingInterface.setPreviousPage("DemoPage");
     }
 
     private void initProductRegistration() {
@@ -42,19 +42,11 @@ public class ProductRegistrationApplication extends Application {
     }
 
     private void initRegistration() {
-
-        Tagging.enableAppTagging(true);
-        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
-        Tagging.setLaunchingPageName("demo_app_home");
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
-
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
-
         PILLocaleManager localeManager = new PILLocaleManager(this);
         localeManager.setInputLocale(languageCode, countryCode);
-
         RegistrationHelper.getInstance().initializeUserRegistration(this);
-        Tagging.init(this, "Product Registration");
     }
 }

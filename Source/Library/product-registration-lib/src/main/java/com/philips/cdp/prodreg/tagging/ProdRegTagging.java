@@ -2,11 +2,10 @@ package com.philips.cdp.prodreg.tagging;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 
 import com.adobe.mobile.Analytics;
+import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
@@ -48,16 +47,8 @@ public class ProdRegTagging {
         return currencyCode;
     }
 
-    private static int getAppVersion() {
-        int appVersion;
-        try {
-            PackageInfo packageInfo = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0);
-            appVersion = packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            throw new RuntimeException("Could not get package name: " + e);
-        }
-        return appVersion;
+    public static String getAppVersion() {
+        return BuildConfig.VERSION_NAME;
     }
 
     @SuppressLint("SimpleDateFormat")

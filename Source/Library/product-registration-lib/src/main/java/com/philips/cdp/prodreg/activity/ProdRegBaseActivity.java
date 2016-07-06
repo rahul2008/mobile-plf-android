@@ -10,6 +10,7 @@ package com.philips.cdp.prodreg.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -26,13 +27,30 @@ import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 
 import java.util.ArrayList;
 
 public class ProdRegBaseActivity extends UiKitActivity {
     private TextView mTitleTextView;
+    private Handler mSiteCatListHandler = new Handler();
 
+    private Runnable mPauseSiteCatalystRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            Tagging.pauseCollectingLifecycleData();
+        }
+    };
+
+    private Runnable mResumeSiteCatalystRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            Tagging.collectLifecycleData();
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +60,18 @@ public class ProdRegBaseActivity extends UiKitActivity {
         if (savedInstanceState == null) {
             showFragment();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        mSiteCatListHandler.post(mPauseSiteCatalystRunnable);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        mSiteCatListHandler.post(mResumeSiteCatalystRunnable);
+        super.onResume();
     }
 
     @Override

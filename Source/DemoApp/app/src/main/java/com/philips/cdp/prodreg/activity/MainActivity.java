@@ -1,6 +1,7 @@
 package com.philips.cdp.prodreg.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,12 +16,30 @@ import android.widget.TextView;
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.fragment.LaunchFragment;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 
 public class MainActivity extends UiKitActivity {
 
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
+    private Handler mSiteCatListHandler = new Handler();
+
+    private Runnable mPauseSiteCatalystRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            Tagging.pauseCollectingLifecycleData();
+        }
+    };
+
+    private Runnable mResumeSiteCatalystRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            Tagging.collectLifecycleData();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +53,18 @@ public class MainActivity extends UiKitActivity {
             fragmentTransaction.replace(R.id.parent_layout, launchFragment);
             fragmentTransaction.commitAllowingStateLoss();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        mSiteCatListHandler.post(mPauseSiteCatalystRunnable);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        mSiteCatListHandler.post(mResumeSiteCatalystRunnable);
+        super.onResume();
     }
 
     private void initCustomActionBar() {
