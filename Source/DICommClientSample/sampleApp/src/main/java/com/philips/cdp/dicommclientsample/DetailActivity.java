@@ -22,7 +22,6 @@ import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPort;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPortProperties;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
-import com.philips.cdp.dicommclientsample.airpurifier.JaguarAirPort;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -101,8 +100,8 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onAppliancePortUpdate(final DICommAppliance appliance, final DICommPort<?> port) {
-            if (port instanceof JaguarAirPort) {
-                updateLightSwitchView((JaguarAirPort) port);
+            if (port instanceof AirPort) {
+                updateLightSwitchView((AirPort) port);
             } else if (port instanceof DevicePort) {
                 updateDeviceNameView((DevicePort) port);
             }
