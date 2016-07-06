@@ -439,6 +439,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         }
     }
 
+    public void showKeyBoard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+    }
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_reg_back) {

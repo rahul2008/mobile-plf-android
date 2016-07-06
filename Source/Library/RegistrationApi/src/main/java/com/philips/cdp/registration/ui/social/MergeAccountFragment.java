@@ -40,6 +40,7 @@ import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -192,6 +193,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
         mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.rl_reg_btn_container);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
+        ((RegistrationFragment) getParentFragment()).showKeyBoard();
+        mEtPassword.requestFocus();
         mEtPassword.setOnUpdateListener(this);
         mEtPassword.isValidatePassword(false);
 

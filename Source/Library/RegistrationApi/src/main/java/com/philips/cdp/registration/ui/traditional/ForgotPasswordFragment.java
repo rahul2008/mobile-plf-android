@@ -99,6 +99,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     private void initUI(View view) {
         consumeTouch(view);
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+        ((RegistrationFragment) getParentFragment()).showKeyBoard();
+        mEtEmail.requestFocus();
         mEtEmail.setOnUpdateListener(this);
         mEtEmail.setOnClickListener(this);
         mEtEmail.setImeOptions(EditorInfo.IME_ACTION_DONE);

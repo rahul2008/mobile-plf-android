@@ -380,7 +380,6 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     @Override
     public void onRefreshLoginSessionSuccess() {
         dimissDialog();
-        RLog.d(RLog.HSDP, "RegistrationCoppaSampleActivity Access token: " + user.getHsdpAccessToken());
         showToast("Success to refresh hsdp access token");
     }
 

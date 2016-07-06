@@ -242,6 +242,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mBtnCreateAccount.setOnClickListener(this);
         mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);
+        ((RegistrationFragment) getParentFragment()).showKeyBoard();
+        mEtName.requestFocus();
         mEtName.setOnUpdateListener(this);
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
