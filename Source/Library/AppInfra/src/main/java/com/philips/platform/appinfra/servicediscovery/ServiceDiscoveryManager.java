@@ -306,8 +306,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
         //this is future implementaion
 
-//        for(int configCount=0;configCount<RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().size();configCount++) {
-//            HashMap<String, String> urls = RequestManager.mServiceDiscovery.getMatchByCountry().getConfigs().get(configCount).getUrls();
+//        for(int configCount=0;configCount<RequestManager.mServiceDiscovery.getMatchByCountryOrLanguage().getConfigs().size();configCount++) {
+//            HashMap<String, String> urls = RequestManager.mServiceDiscovery.getMatchByCountryOrLanguage().getConfigs().get(configCount).getUrls();
 //            String serviceUrlval = null;
 //            for (String key : urls.keySet()) {
 //                if (key.contains(serviceIds)) {
@@ -319,7 +319,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 //                        e.printStackTrace();
 //                    }
 //
-//                    ServiceUrlandLocale serviceUrlandLocale = new ServiceUrlandLocale(serviceURL, RequestManager.mServiceDiscovery.getMatchByCountry().getLocale());
+//                    ServiceUrlandLocale serviceUrlandLocale = new ServiceUrlandLocale(serviceURL, RequestManager.mServiceDiscovery.getMatchByCountryOrLanguage().getLocale());
 //                    responseMap.put(key,serviceUrlandLocale );
 //                }
 //            }

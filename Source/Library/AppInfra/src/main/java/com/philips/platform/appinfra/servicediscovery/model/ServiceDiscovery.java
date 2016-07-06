@@ -14,8 +14,8 @@ public class ServiceDiscovery {
     boolean success;
     String httpStatus;
     String country;
-    MatchByCountry  matchByCountry;
-    MatchByLanguage matchByLanguage;
+    MatchByCountryOrLanguage matchByCountry;
+    MatchByCountryOrLanguage matchByLanguage;
 
 
     Error error=null;
@@ -37,20 +37,20 @@ public class ServiceDiscovery {
     }
 
 
-    public MatchByCountry getMatchByCountry() {
+    public MatchByCountryOrLanguage getMatchByCountry() {
         return matchByCountry;
     }
 
-    public void setMatchByCountry(MatchByCountry matchByCountry) {
+    public void setMatchByCountry(MatchByCountryOrLanguage matchByCountry) {
         this.matchByCountry = matchByCountry;
     }
 
 
-    public MatchByLanguage getMatchByLanguage() {
+    public MatchByCountryOrLanguage getMatchByLanguage() {
         return matchByLanguage;
     }
 
-    public void setMatchByLanguage(MatchByLanguage matchByLanguage) {
+    public void setMatchByLanguage(MatchByCountryOrLanguage matchByLanguage) {
         this.matchByLanguage = matchByLanguage;
     }
     public String getCountry() {

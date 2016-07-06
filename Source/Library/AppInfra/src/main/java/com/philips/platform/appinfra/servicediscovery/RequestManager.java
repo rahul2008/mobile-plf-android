@@ -24,8 +24,7 @@ import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.network.SSLCertificateManager;
 import com.philips.platform.appinfra.servicediscovery.model.Config;
 import com.philips.platform.appinfra.servicediscovery.model.Error;
-import com.philips.platform.appinfra.servicediscovery.model.MatchByCountry;
-import com.philips.platform.appinfra.servicediscovery.model.MatchByLanguage;
+import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.Tag;
 
@@ -89,8 +88,8 @@ public class RequestManager{
                                         mServiceDiscovery.setError(null); // set (if any) previous error to null
                                     }
                                     JSONObject matchByCountryJSONObject = payloadJSONObject.getJSONObject("matchByCountry");
-                                    MatchByCountry
-                                            matchByCountry = new MatchByCountry();
+                                    MatchByCountryOrLanguage
+                                            matchByCountry = new MatchByCountryOrLanguage();
                                     matchByCountry.setAvailable(matchByCountryJSONObject.optBoolean("available"));
 
                                     JSONArray resultsJSONArray = matchByCountryJSONObject.optJSONArray("results");
@@ -136,7 +135,7 @@ public class RequestManager{
 
                                     // START setting match by language
                                     JSONObject matchByLanguageJSONObject = payloadJSONObject.getJSONObject("matchByLanguage");
-                                    MatchByLanguage matchByLanguage = new MatchByLanguage();
+                                    MatchByCountryOrLanguage matchByLanguage = new MatchByCountryOrLanguage();
                                     matchByLanguage.setAvailable(matchByLanguageJSONObject.optBoolean("available"));
 
                                     JSONArray resultsLanguageJSONArray = matchByLanguageJSONObject.optJSONArray("results");
