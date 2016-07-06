@@ -1,0 +1,58 @@
+{
+  "success": true,
+  "data": {
+    "locale": "en_US",
+    "ctn": "HX8071/10",
+    "dtn": "HX8071/10",
+    "leafletUrl": "https://www.download.p4c.philips.com/files/h/hx8071_10/hx8071_10_pss_aenus.pdf",
+    "productTitle": "Sonicare TongueCare+ Tongue cleaning starter kit",
+    "alphanumeric": "HX8071/10",
+    "brandName": "Sonicare",
+    "brand": {
+      "partnerBrandType": "MakersMark",
+      "partnerLogo": "https://images.philips.com/is/image/PhilipsConsumer/SON-BRP-global-001"
+    },
+    "familyName": "TongueCare+",
+    "productURL": "/c-p/HX8071_10/sonicare-tonguecare-plus-tongue-cleaning-starter-kit",
+    "productPagePath": "/content/B2C/en_US/product-catalog/HX8071_10",
+    "categoryPath": "/content/B2C/en_US/marketing-catalog/pe/fresh-breath/philips-sonicare-breathrx",
+    "descriptor": "Tongue cleaning starter kit",
+    "domain": "http://www.usa.philips.com",
+    "versions": [
+      "1 tongue brush",
+      "1 tongue spray"
+    ],
+    "productStatus": "NORMAL",
+    "imageURL": "http://images.philips.com/is/image/PhilipsConsumer/HX8071_10-IMS-en_US",
+    "sop": "2015-08-17T00:00:00.000+02:00",
+    "somp": "2015-08-17T00:00:00.000+02:00",
+    "eop": "2019-07-19T00:00:00.000+02:00",
+    "isDeleted": false,
+    "priority": 735991,
+    "price": {
+      "productPrice": "14.99",
+      "displayPriceType": "srp",
+      "displayPrice": "14.99",
+      "currencyCode": "USD",
+      "formattedPrice": "$14.99",
+      "formattedDisplayPrice": "$14.99"
+    },
+    "reviewStatistics": {
+      "averageOverallRating": 5,
+      "totalReviewCount": 1
+    },
+    "wow": "Clean tongue, fresh breath",
+    "subWOW": "Kills bad breath bacteria",
+    "marketingTextHeader": "Click. Spray. Clean. Our breakthrough TongueCare+ tongue brush and spray instantly transform your Philips Sonicare toothbrush into a powerful fresh breath solution . Your tongue gets a Sonicare clean. You get long lasting fresh breath.",
+    "careSop": "2015-08-17T00:00:00.000+02:00",
+    "filterKeys": [
+      "CLEAN_BREATH_CA",
+      "FK_CLEA_PEC",
+      "FK_REF_PEC",
+      "PERSONAL_CARE_GR",
+      "PHILIPS_SONICARE_BREATHRX_SU",
+      "TONGUECAREPLUS_SU"
+    ],
+    "subcategory": "PHILIPS_SONICARE_BREATHRX_SU"
+  }
+}

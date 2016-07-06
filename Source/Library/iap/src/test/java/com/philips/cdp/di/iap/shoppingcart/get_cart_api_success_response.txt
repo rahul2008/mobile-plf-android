@@ -1,0 +1,193 @@
+{
+  "type": "cartWsDTO",
+  "calculated": true,
+  "code": "14000111377",
+  "deliveryAddress": {
+    "country": {
+      "isocode": "US",
+      "name": "United States"
+    },
+    "firstName": "Happy",
+    "formattedAddress": "200 E Main St, California, CA, 92821",
+    "id": "8809138389015",
+    "lastName": "User",
+    "line1": "200 E Main St",
+    "phone1": "(877)682-8074",
+    "postalCode": "92821",
+    "region": {
+      "countryIso": "US",
+      "isocode": "US-CA",
+      "isocodeShort": "CA",
+      "name": "California"
+    },
+    "shippingAddress": true,
+    "titleCode": "mr",
+    "town": "CA",
+    "visibleInAddressBook": true
+  },
+  "deliveryCost": {
+    "currencyIso": "USD",
+    "formattedValue": "$799.00",
+    "priceType": "BUY",
+    "value": 799
+  },
+  "deliveryItemsQuantity": 1,
+  "deliveryMode": {
+    "code": "standard-net",
+    "deliveryCost": {
+      "currencyIso": "USD",
+      "formattedValue": "$799.00",
+      "priceType": "BUY",
+      "value": 799
+    },
+    "description": "3-5 business days",
+    "name": "Standard Delivery Mode"
+  },
+  "deliveryOrderGroups": [
+    {
+      "entries": [
+        {
+          "basePrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$30.00",
+            "priceType": "BUY",
+            "value": 30
+          },
+          "entryNumber": 0,
+          "product": {
+            "availableForPickup": false,
+            "categories": [
+              {
+                "code": "Tuscany_Campaign",
+                "url": "//c/Tuscany_Campaign"
+              }
+            ],
+            "code": "HX8071/10",
+            "discountPrice": {
+              "currencyIso": "USD",
+              "value": 30
+            },
+            "purchasable": true,
+            "stock": {
+              "stockLevel": 1228,
+              "stockLevelStatus": "inStock"
+            },
+            "url": "///p/HX8071_10"
+          },
+          "quantity": 1,
+          "totalPrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$30.00",
+            "priceType": "BUY",
+            "value": 30
+          },
+          "updateable": true
+        }
+      ],
+      "totalPriceWithTax": {
+        "currencyIso": "USD",
+        "formattedValue": "$33.04",
+        "priceType": "BUY",
+        "value": 33.04
+      }
+    }
+  ],
+  "entries": [
+    {
+      "basePrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$30.00",
+        "priceType": "BUY",
+        "value": 30
+      },
+      "entryNumber": 0,
+      "product": {
+        "availableForPickup": false,
+        "categories": [
+          {
+            "code": "Tuscany_Campaign",
+            "url": "//c/Tuscany_Campaign"
+          }
+        ],
+        "code": "HX8071/10",
+        "discountPrice": {
+          "currencyIso": "USD",
+          "value": 30
+        },
+        "purchasable": true,
+        "stock": {
+          "stockLevel": 1228,
+          "stockLevelStatus": "inStock"
+        },
+        "url": "///p/HX8071_10"
+      },
+      "quantity": 1,
+      "totalPrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$30.00",
+        "priceType": "BUY",
+        "value": 30
+      },
+      "updateable": true
+    }
+  ],
+  "guid": "f7ee2fb9-656c-4e77-b837-3ea3906dce6d",
+  "net": true,
+  "orderDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "$0.00",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "pickupItemsQuantity": 0,
+  "productDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "$0.00",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "site": "US_Tuscany",
+  "store": "US_Pub",
+  "subTotal": {
+    "currencyIso": "USD",
+    "formattedValue": "$30.00",
+    "priceType": "BUY",
+    "value": 30
+  },
+  "totalDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "$0.00",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "totalItems": 1,
+  "totalPrice": {
+    "currencyIso": "USD",
+    "formattedValue": "$829.00",
+    "priceType": "BUY",
+    "value": 829
+  },
+  "totalPriceWithTax": {
+    "currencyIso": "USD",
+    "formattedValue": "$832.04",
+    "priceType": "BUY",
+    "value": 832.04
+  },
+  "totalTax": {
+    "currencyIso": "USD",
+    "formattedValue": "$3.04",
+    "priceType": "BUY",
+    "value": 3.04
+  },
+  "potentialOrderPromotions": [
+    {
+      "description": "Spent $70 more to qualify for free shipping",
+      "promotion": {
+        "code": "freeshippingpromoUS",
+        "description": "Free delivery",
+        "endDate": "2099-01-01T00:00:00"
+      }
+    }
+  ],
+  "totalUnitCount": 1
+}
