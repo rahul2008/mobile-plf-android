@@ -7,7 +7,7 @@ import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
  *
  * @author : Ritesh.jha@philips.com
  * @since : 16 Jan 2015
- * <p/>
+ * <p>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -533,7 +533,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             String country = locale.getCountry();
             String language = locale.getLanguage();
             String mFilePath = mViewProductDetailsModel.getManualLink();
-            DigiCareLogger.d(TAG, "Manual name : "+ mFilePath);
+            DigiCareLogger.d(TAG, "Manual name : " + mFilePath);
 
             // creating the name of the manual. So that Same manual should not be downloaded again and again.
             String pdfName = mViewProductDetailsModel.getProductName() + language + '_' + country + ".pdf";
@@ -578,11 +578,15 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                         @Override
                         public void onResponse(Bitmap bitmap) {
                             if (isTablet) {
-                                mProductImageTablet.setVisibility(View.VISIBLE);
-                                mProductImageTablet.setImageBitmap(bitmap);
+                                if (mProductImageTablet != null) {
+                                    mProductImageTablet.setVisibility(View.VISIBLE);
+                                    mProductImageTablet.setImageBitmap(bitmap);
+                                }
                             } else {
-                                mProductImage.setVisibility(View.VISIBLE);
-                                mProductImage.setImageBitmap(bitmap);
+                                if (mProductImage != null) {
+                                    mProductImage.setVisibility(View.VISIBLE);
+                                    mProductImage.setImageBitmap(bitmap);
+                                }
                             }
                         }
                     }, 0, 0, null, null,
