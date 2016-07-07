@@ -1,5 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.orderHistory;
-
 
 import android.content.Context;
 import android.os.Message;
@@ -37,8 +40,6 @@ public class OrderControllerTest {
     private OrderController mController;
     @Mock
     private Context mContext;
-    @Mock
-    private OrderDetail detail;
 
     @Before
     public void setUP() {
