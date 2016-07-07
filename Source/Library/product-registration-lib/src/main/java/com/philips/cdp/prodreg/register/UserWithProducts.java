@@ -117,9 +117,11 @@ public class UserWithProducts {
                 updateWithCallBack(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
             } else {
                 UserWithProducts userWithProducts = getUserProduct();
-                updateLocaleCache(registeredProduct, registeredProduct.getProdRegError(), RegistrationState.REGISTERING);
+                userWithProducts.updateLocaleCache(registeredProduct, registeredProduct.getProdRegError(), RegistrationState.REGISTERING);
                 userWithProducts.getRegisteredProducts(userWithProducts.getRegisteredProductsListener(registeredProduct));
             }
+        } else if (currentRegisteredProduct != null && currentRegisteredProduct.equals(registeredProduct) && failedOnInvalidInput) {
+            appListener.onProdRegFailed(registeredProduct, getUserProduct());
         }
     }
 

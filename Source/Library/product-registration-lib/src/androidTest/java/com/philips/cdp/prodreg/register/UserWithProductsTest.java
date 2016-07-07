@@ -133,7 +133,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         assertEquals(userWithProducts.getRequestType(), (UserWithProducts.PRODUCT_REGISTRATION));
     }
 
-    public void testRegisterProductOnValidParameters() {
+    public void testRegisterProductOnUserAlreadyRegistered() {
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         final RegisteredProductsListener prodRegListenerMock = mock(RegisteredProductsListener.class);
         ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
@@ -180,6 +180,58 @@ public class UserWithProductsTest extends MockitoTestCase {
         verify(prodRegListener).onProdRegFailed(registeredProduct, userWithProductsMock);
         testMapProductToRegisteredProduct(product);
         testThrowExceptionWhenListenerNull(userWithProducts, product);
+    }
+
+    public void testRegisterProductOnValidInput() {
+        final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        final RegisteredProductsListener prodRegListenerMock = mock(RegisteredProductsListener.class);
+        ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
+        Set<RegisteredProduct> registeredProductSet = new HashSet<>();
+        registeredProducts.add(new RegisteredProduct(null, null, null));
+        registeredProducts.add(new RegisteredProduct(null, null, null));
+        registeredProductSet.add(new RegisteredProduct("ctn", null, null));
+        registeredProductSet.add(new RegisteredProduct("ctn1", null, null));
+        when(localRegisteredProducts.getRegisteredProducts()).thenReturn(registeredProducts);
+        when(localRegisteredProducts.getUniqueRegisteredProducts()).thenReturn(registeredProductSet);
+        final UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
+            @Override
+            protected boolean isUserSignedIn(final Context context) {
+                return true;
+            }
+
+            @NonNull
+            @Override
+            UserWithProducts getUserProduct() {
+                return userWithProductsMock;
+            }
+
+            @NonNull
+            @Override
+            RegisteredProductsListener getRegisteredProductsListener(final RegisteredProduct product) {
+                return prodRegListenerMock;
+            }
+
+            @NonNull
+            @Override
+            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
+                return localRegisteredProducts;
+            }
+
+            @Override
+            public String getUuid() {
+                return "1234";
+            }
+        };
+
+        final Product product = new Product("ctn", null, null);
+        RegisteredProduct registeredProduct = mock(RegisteredProduct.class);
+        when(userWithProductsMock.isUserSignedIn(context)).thenReturn(true);
+        when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
+        when(registeredProduct.getRegisteredProductIfExists(localRegisteredProducts)).thenReturn(registeredProduct);
+        when(registeredProduct.getRegistrationState()).thenReturn(RegistrationState.PENDING);
+        when(registeredProduct.getUserUUid()).thenReturn("1234");
+        userWithProducts.registerProduct(product);
+        verify(userWithProductsMock).updateLocaleCache(registeredProduct, registeredProduct.getProdRegError(), RegistrationState.REGISTERING);
     }
 
     private void testThrowExceptionWhenListenerNull(final UserWithProducts userWithProducts, final Product product) {
