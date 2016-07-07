@@ -11,6 +11,7 @@ package com.philips.cdp.registration.coppa.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -95,7 +96,9 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaFragment  Register: NetworStateListener");
         mFragmentManager = getChildFragmentManager();
-        loadFirstFragment();
+        if(mFragmentManager.getBackStackEntryCount() < 1){
+            loadFirstFragment();
+        }
         return view;
     }
 
@@ -138,6 +141,16 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         RegistrationCoppaBaseFragment.mWidth = 0;
         RegistrationCoppaBaseFragment.mHeight = 0;
         super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     public boolean onBackPressed() {
@@ -210,7 +223,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         return null;
     }
 
-    public void loadFirstFragment() {
+    private void loadFirstFragment() {
 
         User user = new User(mActivity);
         if (user.isUserSignIn()) {
@@ -338,19 +351,25 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 @Override
                 public void updateRegistrationTitle(int titleResourceID) {
                     lastKnownResourceId = titleResourceID;
-                    mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                    if(mRegistrationUpdateTitleListener!=null){
+                        mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                    }
                 }
 
                 @Override
                 public void updateRegistrationTitleWithBack(int titleResourceID) {
                     lastKnownResourceId = titleResourceID;
-                    mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                    if(mRegistrationUpdateTitleListener!=null){
+                        mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                    }
                 }
 
                 @Override
                 public void updateRegistrationTitleWithOutBack(int titleResourceID) {
                     lastKnownResourceId = titleResourceID;
-                    mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                    if(mRegistrationUpdateTitleListener!=null){
+                        mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                    }
 
                 }
             });

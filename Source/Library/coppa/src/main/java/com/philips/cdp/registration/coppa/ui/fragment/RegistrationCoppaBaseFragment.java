@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -109,13 +110,8 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
     @Override
     public void onResume() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaBaseFragment : onResume");
-
         super.onResume();
-
-
         setCurrentTitle();
-
-
     }
 
     @Override
@@ -141,6 +137,16 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaBaseFragment : onDestroy");
         setPrevTiltle();
         super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     private void setPrevTiltle() {
@@ -203,9 +209,13 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         }
         if (null != fragment) {
             if (fragment.getFragmentBackStackCount() > 1) {
-                fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
+                if(null!=fragment.getUpdateTitleListener()){
+                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
+                }
             } else {
-                fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+                if(null!=fragment.getUpdateTitleListener()){
+                    fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+                }
             }
             fragment.setResourceID(getTitleResourceId());
         }

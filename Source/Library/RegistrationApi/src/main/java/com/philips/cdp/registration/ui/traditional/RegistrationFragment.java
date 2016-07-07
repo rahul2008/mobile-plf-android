@@ -213,8 +213,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         }
     }
 
-
-    public void loadFirstFragment() {
+    private void loadFirstFragment() {
         try {
             handleUserLoginStateFragments();
         } catch (IllegalStateException e) {

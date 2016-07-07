@@ -12,6 +12,7 @@ package com.philips.cdp.registration.coppa.ui.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -72,9 +73,20 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
             }
         }
 
+        int alwaysFinishActivity = 0;
+        try {
+            alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
+        } catch (NullPointerException e) {
+        }
+
         setContentView(R.layout.reg_activity_coppa_registration);
+        ivBack = (TextView) findViewById(R.id.iv_reg_back);
+        ivBack.setOnClickListener(this);
+
+        if (alwaysFinishActivity == 0) {
+            initUI();
+        }
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity  Register: NetworStateListener");
-        initUI();
     }
 
     @Override
@@ -113,6 +125,21 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
+        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
+    }
+
+    @Override
     public void onBackPressed() {
 
         if (!RegistrationCoppaLaunchHelper.isBackEventConsumedByRegistration(this)) {
@@ -122,11 +149,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     }
 
     private void initUI() {
-        ivBack = (TextView) findViewById(R.id.iv_reg_back);
-        ivBack.setOnClickListener(this);
         launchRegistrationFragment(isAccountSettings,isParentalConsent);
-
-
     }
 
     private void launchRegistrationFragment(boolean isAccountSettings, boolean isParentalConsent) {
