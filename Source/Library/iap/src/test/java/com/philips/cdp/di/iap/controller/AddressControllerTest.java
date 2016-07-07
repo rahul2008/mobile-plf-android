@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +26,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+
+import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -201,8 +204,36 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void testUpdateAddress() throws Exception {
+    public void testUpdateAddressSuccessResponse() throws Exception {
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetAddress(final Message msg) {
+                testEmptyResponse(msg, RequestCode.UPDATE_ADDRESS);
+            }
+        });
 
+        setStoreAndDelegate();
+        HashMap<String, String> address = new HashMap<>();
+        address.put(ModelConstants.ADDRESS_ID, "8799470125079");
+        mAddressController.updateAddress(address);
+        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testUpdateAddressErrorResponse() throws Exception {
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetAddress(final Message msg) {
+                testErrorResponse(msg, RequestCode.UPDATE_ADDRESS);
+            }
+        });
+
+        setStoreAndDelegate();
+        HashMap<String, String> address = new HashMap<>();
+        address.put(ModelConstants.ADDRESS_ID, "8799470125079");
+        mAddressController.updateAddress(address);
+        mNetworkController.sendFailure(new VolleyError());
     }
 
     @Test
