@@ -7,6 +7,7 @@ import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
@@ -56,5 +57,10 @@ public class SetDeliveryAddressModeRequestTest {
     @Test
     public void isValidUrl() {
         assertEquals(NetworkURLConstants.UPDATE_DELIVERY_MODE_URL, mModel.getUrl());
+    }
+
+    @Test
+    public void testSetDeliveryModeAddressResponse() {
+        assertEquals(IAPConstant.IAP_SUCCESS, mModel.parseResponse(null));
     }
 }

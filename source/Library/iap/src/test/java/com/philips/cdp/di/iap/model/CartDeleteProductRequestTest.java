@@ -21,6 +21,7 @@ import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 
 public class CartDeleteProductRequestTest{
@@ -41,12 +42,10 @@ public class CartDeleteProductRequestTest{
         assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }
 
-    @Test
-    public void testGetURLWhenParamsEqualToNull() {
-        Map<String, String> query = new HashMap<>();
-        query.put(ModelConstants.ENTRY_CODE, "1212");
-        CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, query, null);
-        assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
+    @Test(expected = RuntimeException.class)
+    public void testGetURLWhenParamsEqualToNull() throws Exception{
+        CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, null, null);
+        assertNotEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }
 
     @Test
@@ -71,5 +70,11 @@ public class CartDeleteProductRequestTest{
         String str = null;
         Object response = request.parseResponse(str);
         assertNull(null, response);
+    }
+
+    @Test
+    public void testStoreIsNotNull() {
+        CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, null, null);
+        assertNotNull(request.getStore());
     }
 }

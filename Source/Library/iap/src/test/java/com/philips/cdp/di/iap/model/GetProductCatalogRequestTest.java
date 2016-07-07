@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -47,7 +48,7 @@ public class GetProductCatalogRequestTest {
     }
 
     @Test
-    public void matchAddressDetailURL() {
+    public void matchProductCatalogURL() {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.CURRENT_PAGE, String.valueOf(0));
         query.put(ModelConstants.PAGE_SIZE, String.valueOf(1));
@@ -55,8 +56,14 @@ public class GetProductCatalogRequestTest {
         assertEquals(NetworkURLConstants.PRODUCT_CATALOG_URL, request.getUrl());
     }
 
+    @Test(expected = RuntimeException.class)
+    public void testProductDetailURLWhenParamsIsNull() throws Exception {
+        GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, null, null);
+        assertNotEquals(NetworkURLConstants.PRODUCT_CATALOG_URL, request.getUrl());
+    }
+
     @Test
-    public void parseResponseShouldBeOfGetShippingAddressDataType() {
+    public void parseResponseShouldBeOfProductsDataType() {
         GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, null, null);
         String paymentResponse = TestUtils.readFile(GetRegionsRequestTest.class, "get_catalog.txt");
         Object response = request.parseResponse(paymentResponse);
