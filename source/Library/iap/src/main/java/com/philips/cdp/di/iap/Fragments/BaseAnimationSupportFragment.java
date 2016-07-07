@@ -13,7 +13,6 @@ import android.view.View;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
-import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -42,7 +41,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
     };
 
     protected boolean isNetworkNotConnected() {
-        if (getContext()!=null && !NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
+        if (getContext() != null && !NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
             NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
             return true;
         }
@@ -71,6 +70,14 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         setBackButtonVisibility(View.VISIBLE);
         setCartIconVisibility(View.GONE);
         mFragmentLayout.getCartContainer().setOnClickListener(mCartIconListener);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        NetworkUtility.getInstance().dismissErrorDialog();
+        if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
     }
 
     public void addFragment(BaseAnimationSupportFragment newFragment,

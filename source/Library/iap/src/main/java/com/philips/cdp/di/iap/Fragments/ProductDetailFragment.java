@@ -212,7 +212,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         ctnList.add(mCTNValue);
         if (!CartModelContainer.getInstance().isPRXDataPresent(mCTNValue)) {
             if (!Utility.isProgressDialogShowing()) {
-                if(mContext == null) return;
+                if (mContext == null) return;
                 Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
             }
             PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnList, this);
@@ -250,6 +250,8 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             } else {
                 setTitle(mProductTitle);
                 setButtonState();
+                //   if (ControllerFactory.getInstance().loadLocalData())
+                mBuyFromRetailors.setVisibility(View.VISIBLE);
                 mBuyFromRetailors.setOnClickListener(this);
             }
         }
@@ -261,14 +263,14 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             mAddToCart.setVisibility(View.GONE);
             mBuyFromRetailors.setVisibility(View.GONE);
             return;
+        } else {
+            mBuyFromRetailors.setVisibility(View.VISIBLE);
+            mAddToCart.setVisibility(View.VISIBLE);
+            mAddToCart.setOnClickListener(this);
+            Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
+            mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
         }
-        mBuyFromRetailors.setVisibility(View.VISIBLE);
-        mAddToCart.setVisibility(View.VISIBLE);
-        mAddToCart.setOnClickListener(this);
-        Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
-        mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
     }
-
     private void getRetailersInformation() {
         ShoppingCartAPI presenter = ControllerFactory.
                 getInstance().getShoppingCartPresenter(getContext(), this, getFragmentManager());
