@@ -2,9 +2,9 @@ package com.philips.platform.modularui.navigatorimpl;
 
 import android.content.Context;
 
-import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.homescreen.HomeScreenFragment;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 
 /**
@@ -14,6 +14,6 @@ public class SupportFragmentNavigator implements UIBaseNavigator {
     AppFrameworkApplication appFrameworkApplication;
     @Override
     public void navigate(Context context) {
-        ((AppFrameworkBaseActivity)context).showFragment( new SupportHomeFragment(), new SupportHomeFragment().getClass().getSimpleName());
+        ((AppFrameworkBaseActivity)context).showFragment( new HomeScreenFragment(), new HomeScreenFragment().getClass().getSimpleName());
     }
 }
