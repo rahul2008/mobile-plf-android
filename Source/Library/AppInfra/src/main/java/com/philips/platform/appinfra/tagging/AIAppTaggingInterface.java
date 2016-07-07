@@ -5,6 +5,9 @@
  */
 package com.philips.platform.appinfra.tagging;
 
+import android.app.Activity;
+import android.content.Context;
+
 import com.adobe.mobile.MobilePrivacyStatus;
 
 import java.util.Map;
@@ -84,6 +87,25 @@ public interface AIAppTaggingInterface {
      * @param paramDict set of key/value pairs to be added to the tracking entry
      */
     public void trackActionWithInfo(String pageName, Map<String, String> paramDict);
+
+    /**
+     * Collect LifeCycle info.
+     *
+     * @param context  the page name
+     * @param paramDict set of key/value pairs to be added to the tracking entry
+     */
+    public void collectLifecycleInfo(Activity context, Map<String, Object> paramDict);
+    /**
+     * Collect LifeCycle info.
+     *
+     * @param context  the page name
+     */
+    public void collectLifecycleInfo(Activity context);
+    /**
+     * Pause LifeCycle info.
+     *
+     */
+    public void pauseLifecycleInfo();
 
 }
 

@@ -5,6 +5,7 @@
  */
 package com.philips.platform.appinfra.tagging;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -300,6 +301,20 @@ public class AppTagging implements AIAppTaggingInterface {
                 prevPage = pageName;
 
         }
+    }
+    @Override
+    public void collectLifecycleInfo(Activity context, Map<String, Object> paramDict) {
+        Config.collectLifecycleData(context, paramDict);
+    }
+
+    @Override
+    public void collectLifecycleInfo(Activity context) {
+        Config.collectLifecycleData(context);
+    }
+
+    @Override
+    public void pauseLifecycleInfo() {
+        Config.pauseCollectingLifecycleData();
     }
 
 }
