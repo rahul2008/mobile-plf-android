@@ -3,33 +3,35 @@ package com.philips.platform.appframework.splash;
 import android.content.Context;
 
 import com.philips.cdp.registration.User;
+import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.modularui.navigatorimpl.UserRegistrationNavigator;
-import com.philips.platform.modularui.navigatorimpl.HomeActivityNavigator;
-import com.philips.platform.modularui.navigatorimpl.IntroductionScreenNavigator;
 import com.philips.platform.modularui.statecontroller.ShowFragmentCallBack;
-import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.modularui.util.UIConstants;
 
 /**
  * Created by 310240027 on 7/4/2016.
  */
 public class SplashPresenter implements UIBasePresenter {
     User userRegistration;
-    UIBaseNavigator uiBaseNavigator;
-    @Override
-    public void onClick(int componentID, Context context,ShowFragmentCallBack showFragmentCallBack) {
-        userRegistration = new User(context.getApplicationContext());
-        if(userRegistration.isUserSignIn()){
-            uiBaseNavigator = new HomeActivityNavigator();
-        }
-        else if(AppFrameworkBaseActivity.getIntroScreenDonePressed() && !userRegistration.isUserSignIn()){
-            uiBaseNavigator = new UserRegistrationNavigator();
-        }else {
-            uiBaseNavigator = new IntroductionScreenNavigator();
-        }
+    AppFrameworkApplication appFrameworkApplication;
 
-        uiBaseNavigator.loadActivity(context);
+    @Override
+    public void onClick(int componentID, Context context, ShowFragmentCallBack showFragmentCallBack) {
+
+    }
+
+    @Override
+    public void onLoad(Context context) {
+        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
+        userRegistration = new User(context.getApplicationContext());
+        if (userRegistration.isUserSignIn()) {
+            appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_HOME_STATE, context);
+        } else if (AppFrameworkBaseActivity.getIntroScreenDonePressed() && !userRegistration.isUserSignIn()) {
+            appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_REGISTRATION_STATE, context);
+        } else {
+            appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_WELCOME_STATE, context);
+        }
 
     }
 }

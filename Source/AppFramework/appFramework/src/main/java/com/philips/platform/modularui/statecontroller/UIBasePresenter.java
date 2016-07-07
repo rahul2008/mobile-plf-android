@@ -7,4 +7,5 @@ import android.content.Context;
  */
 public interface UIBasePresenter {
     void onClick(int componentID, Context context,ShowFragmentCallBack showFragmentCallBack);
+    void onLoad(Context context);
 }

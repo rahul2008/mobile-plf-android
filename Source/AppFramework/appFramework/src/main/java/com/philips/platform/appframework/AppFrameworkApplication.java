@@ -6,32 +6,45 @@ package com.philips.platform.appframework;
 */
 
 import android.app.Application;
+import android.content.Context;
 import android.support.multidex.MultiDex;
 
-import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.platform.modularui.util.ActivityMap;
-import com.philips.platform.modularui.statecontroller.UIStateManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appframework.utility.SharedPreferenceUtility;
+import com.philips.platform.modularui.statecontroller.FlowManager;
+import com.philips.platform.modularui.util.ActivityMap;
 
 import java.util.Locale;
 
 
 
 public class AppFrameworkApplication extends Application {
+    public FlowManager flowManager;
+    private static Context mContext;
     @Override
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
+        mContext = getApplicationContext();
         SharedPreferenceUtility.getInstance().Initialize(getApplicationContext());
         initializeUserRegistrationLibrary();
-        UIStateManager.getInstance().initAppStartState(getApplicationContext());
+        //UIFlowManager.getInstance().initAppStartState(getApplicationContext());
+        flowManager = new FlowManager();
         ActivityMap.getInstance().populateActivityMap();
         ActivityMap.getInstance().populateFragmentMap();
+    }
+
+    public FlowManager getFlowManager() {
+        return flowManager;
+    }
+
+    public static Context getContext() {
+        return mContext;
     }
 
     private void initializeUserRegistrationLibrary() {

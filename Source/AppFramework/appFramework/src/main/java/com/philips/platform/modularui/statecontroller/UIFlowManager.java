@@ -12,17 +12,17 @@ import java.util.Map;
 /**
  * Created by 310240027 on 6/16/2016.
  */
-public class UIStateManager {
+public class UIFlowManager {
 
-    private static UIStateManager instance = new UIStateManager();
+    private static UIFlowManager instance = new UIFlowManager();
 
-    private UIStateManager() {
+    private UIFlowManager() {
 
     }
 
-    public static UIStateManager getInstance() {
+    public static UIFlowManager getInstance() {
         if (null == instance) {
-            instance = new UIStateManager();
+            instance = new UIFlowManager();
         }
         return instance;
     }

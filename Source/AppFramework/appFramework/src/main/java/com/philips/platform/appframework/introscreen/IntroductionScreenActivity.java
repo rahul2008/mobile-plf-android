@@ -20,10 +20,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
-import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
-import com.philips.platform.modularui.statecontroller.UIState;
-import com.philips.platform.modularui.statecontroller.UIStateManager;
-import com.philips.platform.modularui.util.LaunchScreen;
 import com.shamanland.fonticon.FontIconView;
 
 /**
@@ -99,13 +95,11 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
-    private UIBaseNavigation mNavigator;
     public static final int userRegistrationClickID = 7001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
         basePresenter = new IntroductionScreenPresenter();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
@@ -183,15 +177,15 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        /*mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
+        /*mNavigator = UIFlowManager.getInstance().getCurrentState().getNavigator();
         if (null != activity) {
             UIState returnedState = (UIState) mNavigator.onPageLoad(IntroductionScreenActivity.this);
             RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
-            UIStateManager.getInstance().setCurrentState(returnedState);
+            UIFlowManager.getInstance().setCurrentState(returnedState);
             LaunchScreen.getInstance().launchScreen(IntroductionScreenActivity.this,returnedState.getStateID());
             }*/
         if(null != activity){
-            basePresenter.onClick(userRegistrationClickID,IntroductionScreenActivity.this,this);
+            basePresenter.onLoad(IntroductionScreenActivity.this);
         }
     }
 
@@ -257,10 +251,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
 
     @Override
     protected void onRestart() {
-        UIState returnedState = (UIState) mNavigator.onPageLoad(this);
-        UIStateManager.getInstance().setCurrentState(returnedState);
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
-        LaunchScreen.getInstance().launchScreen(IntroductionScreenActivity.this,returnedState.getStateID());
         super.onRestart();
     }
 }

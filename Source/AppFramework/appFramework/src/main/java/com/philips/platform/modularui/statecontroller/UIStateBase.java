@@ -6,16 +6,16 @@ import com.philips.platform.modularui.util.UIConstants;
  * Created by 310240027 on 6/16/2016.
  */
 public abstract class UIStateBase {
-    UIBaseNavigation navigator;
+    UIBaseNavigator navigator;
     @UIConstants.UIStateDef
     int stateID;
     UIBaseLogic logic;
 
-    public UIBaseNavigation getNavigator() {
+    public UIBaseNavigator getNavigator() {
         return navigator;
     }
 
-    public void setNavigator(UIBaseNavigation navigator) {
+    public void setNavigator(UIBaseNavigator navigator) {
         this.navigator = navigator;
     }
 

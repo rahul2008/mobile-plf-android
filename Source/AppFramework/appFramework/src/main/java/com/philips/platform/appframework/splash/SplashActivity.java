@@ -104,7 +104,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                basePresenter.onClick(SplashID,SplashActivity.this,SplashActivity.this);
+                basePresenter.onLoad(SplashActivity.this);
                 finish();
             }
         }, SPLASH_TIME_OUT);

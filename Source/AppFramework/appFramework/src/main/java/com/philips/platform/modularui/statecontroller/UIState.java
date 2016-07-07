@@ -7,17 +7,17 @@ import com.philips.platform.modularui.util.UIConstants;
  */
 public class UIState extends UIStateBase {
 
-    UIBaseNavigation navigator;
+    UIBaseNavigator navigator;
     @UIConstants.UIStateDef
     int stateID;
 
     @Override
-    public UIBaseNavigation getNavigator() {
+    public UIBaseNavigator getNavigator() {
         return navigator;
     }
 
     @Override
-    public void setNavigator(UIBaseNavigation navigator) {
+    public void setNavigator(UIBaseNavigator navigator) {
         this.navigator = navigator;
     }
 

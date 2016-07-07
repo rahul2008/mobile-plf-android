@@ -13,4 +13,9 @@ public class DebugTestFragmentPresenter implements UIBasePresenter {
     public void onClick(int componentID, Context context,ShowFragmentCallBack showFragmentCallBack) {
 
     }
+
+    @Override
+    public void onLoad(Context context) {
+
+    }
 }

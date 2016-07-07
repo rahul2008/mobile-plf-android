@@ -35,12 +35,12 @@ public class ActivityMap {
         activityMap.put(UIConstants.UI_SPLASH_REGISTERED_STATE, UIConstants.UI_HAMBURGER_SCREEN);
         activityMap.put(UIConstants.UI_SPLASH_DONE_PRESSED_STATE, UIConstants.UI_USER_REGISTRATION_SCREEN);
         activityMap.put(UIConstants.UI_WELCOME_STATE, UIConstants.UI_WELCOME_SCREEN);
-        activityMap.put(UIConstants.UI_HAMBURGER_STATE, UIConstants.UI_HAMBURGER_SCREEN);
+        activityMap.put(UIConstants.UI_HOME_STATE, UIConstants.UI_HAMBURGER_SCREEN);
         activityMap.put(UIConstants.UI_REGISTRATION_STATE, UIConstants.UI_USER_REGISTRATION_SCREEN);
-        activityMap.put(UIConstants.UI_HAMBURGER_HOME_STATE_ONE, UIConstants.UI_HOME_SCREEN);
-        activityMap.put(UIConstants.UI_HAMBURGER_SUPPORT_STATE_ONE, UIConstants.UI_SUPPORT_SCREEN);
-        activityMap.put(UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE, UIConstants.UI_SETTINGS_SCREEN);
-        activityMap.put(UIConstants.UI_HAMBURGER_DEBUG_STATE_STATE_ONE, UIConstants.UI_DEBUG_SCREEN);
+        activityMap.put(UIConstants.UI_HOME_FRAGMENT_STATE, UIConstants.UI_HOME_SCREEN);
+        activityMap.put(UIConstants.UI_SUPPORT_FRAGMENT_STATE, UIConstants.UI_SUPPORT_SCREEN);
+        activityMap.put(UIConstants.UI_SETTINGS__FRAGMENT_STATE, UIConstants.UI_SETTINGS_SCREEN);
+        activityMap.put(UIConstants.UI_DEBUG_FRAGMENT_STATE, UIConstants.UI_DEBUG_SCREEN);
     }
 
     @UIConstants.UIScreenConstants public int getFromActivityMap(int stateID){
@@ -51,10 +51,10 @@ public class ActivityMap {
 
     public void populateFragmentMap(){
         fragmentMap = new HashMap<Integer,Fragment>();
-        fragmentMap.put(UIConstants.UI_HAMBURGER_HOME_STATE_ONE, new HomeScreenFragment());
-        fragmentMap.put(UIConstants.UI_HAMBURGER_SUPPORT_STATE_ONE, new HomeScreenFragment());
-        fragmentMap.put(UIConstants.UI_HAMBURGER_SETTINGS_STATE_ONE ,new SettingsFragment());
-        fragmentMap.put(UIConstants.UI_HAMBURGER_DEBUG_STATE_STATE_ONE, new DebugTestFragment());
+        fragmentMap.put(UIConstants.UI_HOME_FRAGMENT_STATE, new HomeScreenFragment());
+        fragmentMap.put(UIConstants.UI_SUPPORT_FRAGMENT_STATE, new HomeScreenFragment());
+        fragmentMap.put(UIConstants.UI_SETTINGS__FRAGMENT_STATE,new SettingsFragment());
+        fragmentMap.put(UIConstants.UI_DEBUG_FRAGMENT_STATE, new DebugTestFragment());
 
     }
     public Fragment getFragmentFromMap(int stateID){

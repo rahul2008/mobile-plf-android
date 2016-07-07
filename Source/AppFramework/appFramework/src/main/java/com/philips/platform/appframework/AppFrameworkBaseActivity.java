@@ -43,7 +43,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
         fragmentManager = getSupportFragmentManager();
     }
 
-    protected void showFragment(Fragment fragment, String fragmentTag) {
+    public void showFragment(Fragment fragment, String fragmentTag) {
         int containerId = R.id.frame_container;
 
         try {

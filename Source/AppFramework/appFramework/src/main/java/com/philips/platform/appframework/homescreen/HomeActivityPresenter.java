@@ -2,36 +2,38 @@ package com.philips.platform.appframework.homescreen;
 
 import android.content.Context;
 
-import com.philips.platform.modularui.navigatorimpl.DebugTestFragmentNavigator;
-import com.philips.platform.modularui.navigatorimpl.HomeFragmentNavigator;
-import com.philips.platform.modularui.navigatorimpl.SettingsFragmentNavigator;
-import com.philips.platform.modularui.navigatorimpl.SupportFragmentNavigator;
+import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.modularui.statecontroller.ShowFragmentCallBack;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
+import com.philips.platform.modularui.util.UIConstants;
 
 /**
  * Created by 310240027 on 7/4/2016.
  */
 public class HomeActivityPresenter implements UIBasePresenter {
     UIBaseNavigator uiBaseNavigator;
+    AppFrameworkApplication appFrameworkApplication;
     @Override
     public void onClick(int componentID, Context context,ShowFragmentCallBack showFragmentCallBack) {
-
+        appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
 
         switch (componentID){
-            case 0: uiBaseNavigator = new HomeFragmentNavigator();
+            case 0: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_HOME_FRAGMENT_STATE,context);
                 break;
-            case 1: uiBaseNavigator = new SupportFragmentNavigator();
+            case 1: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_SUPPORT_FRAGMENT_STATE,context);
                 break;
-            case 2: uiBaseNavigator = new SettingsFragmentNavigator();
+            case 2: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_SETTINGS__FRAGMENT_STATE,context);
                 break;
-            case 3: uiBaseNavigator = new DebugTestFragmentNavigator();
+            case 3: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_DEBUG_FRAGMENT_STATE,context);
                 break;
-            default: uiBaseNavigator = new HomeFragmentNavigator();
+            default:appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_HOME_FRAGMENT_STATE,context);
         }
+    }
 
-        showFragmentCallBack.displayFragment(uiBaseNavigator.loadFragment());
+    @Override
+    public void onLoad(Context context) {
+
     }
 
 }

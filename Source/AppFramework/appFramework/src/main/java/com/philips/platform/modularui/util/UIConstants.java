@@ -14,8 +14,8 @@ public class UIConstants {
      * Constants for each state
      */
     @IntDef({UI_SPLASH_UNREGISTERED_STATE,UI_SPLASH_REGISTERED_STATE,UI_SPLASH_DONE_PRESSED_STATE,
-             UI_WELCOME_STATE, UI_REGISTRATION_STATE, UI_HAMBURGER_STATE,
-            UI_HAMBURGER_HOME_STATE_ONE, UI_HAMBURGER_SETTINGS_STATE_ONE, UI_HAMBURGER_SUPPORT_STATE_ONE, UI_HAMBURGER_DEBUG_STATE_STATE_ONE})
+             UI_WELCOME_STATE, UI_REGISTRATION_STATE, UI_HOME_STATE,
+            UI_HOME_FRAGMENT_STATE, UI_SETTINGS__FRAGMENT_STATE, UI_SUPPORT_FRAGMENT_STATE, UI_DEBUG_FRAGMENT_STATE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface UIStateDef {
     }
@@ -24,12 +24,12 @@ public class UIConstants {
     public static final int UI_SPLASH_REGISTERED_STATE = 1004;
     public static final int UI_SPLASH_DONE_PRESSED_STATE = 1005;
     public static final int UI_WELCOME_STATE = 1006;
-    public static final int UI_HAMBURGER_STATE = 1007;
+    public static final int UI_HOME_STATE = 1007;
     public static final int UI_REGISTRATION_STATE = 1008;
-    public static final int UI_HAMBURGER_HOME_STATE_ONE = 1009;
-    public static final int UI_HAMBURGER_SETTINGS_STATE_ONE = 1010;
-    public static final int UI_HAMBURGER_SUPPORT_STATE_ONE = 1011;
-    public static final int UI_HAMBURGER_DEBUG_STATE_STATE_ONE = 1012;
+    public static final int UI_HOME_FRAGMENT_STATE = 1009;
+    public static final int UI_SETTINGS__FRAGMENT_STATE = 1010;
+    public static final int UI_SUPPORT_FRAGMENT_STATE = 1011;
+    public static final int UI_DEBUG_FRAGMENT_STATE = 1012;
 
     /**
      * Constants for each CoCo

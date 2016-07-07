@@ -35,7 +35,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
 import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
-import com.philips.platform.modularui.statecontroller.UIStateManager;
 
 import java.util.ArrayList;
 
@@ -67,7 +66,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
          */
         super.onCreate(savedInstanceState);
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
-        mNavigator = UIStateManager.getInstance().getCurrentState().getNavigator();
         basePresenter = new HomeActivityPresenter();
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
