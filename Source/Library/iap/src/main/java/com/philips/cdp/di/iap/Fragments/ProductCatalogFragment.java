@@ -250,13 +250,15 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     @Override
     public void onLoadError(IAPNetworkError error) {
         if (error.getMessage().equalsIgnoreCase(getResources().getString(R.string.iap_no_product_available))) {
-            if (mRecyclerView != null)
+            if (mRecyclerView != null && mEmptyCatalogText != null) {
                 mRecyclerView.setVisibility(View.GONE);
-            mEmptyCatalogText.setVisibility(View.VISIBLE);
+                mEmptyCatalogText.setVisibility(View.VISIBLE);
+            }
         } else {
-            if (mRecyclerView != null)
+            if (mRecyclerView != null && mEmptyCatalogText != null) {
                 mRecyclerView.setVisibility(View.VISIBLE);
-            mEmptyCatalogText.setVisibility(View.GONE);
+                mEmptyCatalogText.setVisibility(View.GONE);
+            }
         }
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
