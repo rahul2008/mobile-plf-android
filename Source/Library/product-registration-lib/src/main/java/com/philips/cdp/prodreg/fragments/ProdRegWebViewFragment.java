@@ -11,7 +11,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.philips.cdp.prodreg.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.product_registration_lib.R;
 
 /**

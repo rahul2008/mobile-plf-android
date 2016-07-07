@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.prodreg.MockitoTestCase;
-import com.philips.cdp.prodreg.error.ProdRegError;
+import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;

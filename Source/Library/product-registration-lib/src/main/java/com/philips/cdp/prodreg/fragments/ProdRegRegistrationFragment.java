@@ -20,9 +20,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.philips.cdp.prodreg.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
-import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;

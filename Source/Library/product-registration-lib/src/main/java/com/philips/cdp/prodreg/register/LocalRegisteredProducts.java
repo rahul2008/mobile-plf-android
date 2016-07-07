@@ -4,8 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.philips.cdp.prodreg.ProdRegConstants;
-import com.philips.cdp.prodreg.RegistrationState;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.registration.User;
 

@@ -2,7 +2,8 @@ package com.philips.cdp.prodreg.error;
 
 import android.content.Context;
 
-import com.philips.cdp.prodreg.RegistrationState;
+import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.product_registration_lib.R;

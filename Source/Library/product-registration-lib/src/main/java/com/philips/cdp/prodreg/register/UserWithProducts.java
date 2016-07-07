@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.philips.cdp.prodreg.RegistrationState;
+import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
-import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;

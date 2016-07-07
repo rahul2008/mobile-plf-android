@@ -20,8 +20,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegProcessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;

@@ -7,7 +7,7 @@
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
-package com.philips.cdp.prodreg;
+package com.philips.cdp.prodreg.constants;
 
 public class ProdRegConstants {
     public static final String PRODUCT_REGISTRATION = "product_registration";

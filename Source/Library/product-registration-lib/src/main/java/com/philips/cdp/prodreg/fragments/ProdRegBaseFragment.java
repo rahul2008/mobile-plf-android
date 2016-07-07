@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
-import com.philips.cdp.prodreg.ProdRegConstants;
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegErrorMap;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;

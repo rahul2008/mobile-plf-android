@@ -3,7 +3,7 @@ package com.philips.cdp.prodreg.register;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
-import com.philips.cdp.prodreg.RegistrationState;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 
 import java.util.ArrayList;
 import java.util.List;

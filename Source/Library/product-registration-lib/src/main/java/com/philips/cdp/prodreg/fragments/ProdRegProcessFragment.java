@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.cdp.prodreg.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.ProdRegProcessController;

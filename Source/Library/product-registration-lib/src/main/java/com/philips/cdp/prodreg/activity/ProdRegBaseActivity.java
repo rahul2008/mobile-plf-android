@@ -21,7 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.prodreg.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;

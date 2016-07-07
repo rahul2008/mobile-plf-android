@@ -1,6 +1,6 @@
 package com.philips.cdp.prodreg.util;
 
-import com.philips.cdp.prodreg.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 
 import java.text.ParseException;

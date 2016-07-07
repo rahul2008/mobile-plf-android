@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.philips.cdp.prodreg.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
 import com.philips.cdp.prodreg.util.EnhancedLinkMovementMethod;
 import com.philips.cdp.product_registration_lib.R;

@@ -9,8 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.cdp.prodreg.ProdRegConstants;
-import com.philips.cdp.prodreg.RegistrationState;
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
 import com.philips.cdp.prodreg.listener.MetadataListener;

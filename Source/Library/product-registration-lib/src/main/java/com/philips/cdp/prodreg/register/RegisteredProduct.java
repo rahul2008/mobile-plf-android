@@ -2,8 +2,8 @@ package com.philips.cdp.prodreg.register;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prodreg.RegistrationState;
-import com.philips.cdp.prodreg.error.ProdRegError;
+import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.constants.RegistrationState;
 
 import java.util.List;
 
