@@ -164,7 +164,7 @@ public class AppTagging implements AIAppTaggingInterface {
 
 
             Calendar c = Calendar.getInstance();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
             String formattedDate = df.format(c.getTime());
             mLocalTimestamp = formattedDate;
 

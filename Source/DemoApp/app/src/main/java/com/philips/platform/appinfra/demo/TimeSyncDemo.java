@@ -40,7 +40,7 @@ public class TimeSyncDemo extends AppCompatActivity {
         mTimeSyncInterface= AppInfraApplication.gAppInfra.getTimeSync();
 
         AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("TimeSyncDemo", "SDKEy", "SDValue");
-        formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
          dateString = formatter.format(new Date());
         localTimeTextvalue.setText(dateString);
 //        utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());

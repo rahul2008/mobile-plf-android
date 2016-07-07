@@ -352,7 +352,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
         String mNtpDate = null;
         try{
             if(mNtpTime == 0L){
-                DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS", Locale.ENGLISH);
+                DateFormat DATE_FORMAT = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
                 Date UTCdate = new Date(mNtpTime);
                 DATE_FORMAT.format(UTCdate);
                 Log.i("DATE_FORMAT", ""+DATE_FORMAT.format(UTCdate));

@@ -7,7 +7,7 @@ public class TimeConstants {
 
     public static final String OFFSET = "offset";
     public static final String OFFSET_ELAPSED = "offsetElapsed";
-    public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS a";
     public static final String DATE_FORMAT_COPPA = "yyyy-MM-dd HH:mm:ss Z";
     public static final String DATE_FORMAT_FOR_JUMP = "yyyy-MM-dd HH:mm:ss";
     public static final String UTC = "UTC";

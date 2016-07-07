@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.appidentity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
@@ -102,6 +103,14 @@ public class AppIdentityManager implements AppIdentityInterface {
                      sector = obj.getString("sector");
                      mAppState= obj.getString("AppState");
 
+                    if(mAppState.equalsIgnoreCase("DEVELOPMENT")&& mAppState.length()==11 || mAppState.equalsIgnoreCase("TEST")&& mAppState.length()==4 || mAppState.equalsIgnoreCase("STAGING")&& mAppState.length()==7 || mAppState.equalsIgnoreCase("ACCEPTANCE")&& mAppState.length()==10 ||mAppState.equalsIgnoreCase("PRODUCTION")&& mAppState.length()==10){
+
+                        mAppState= obj.getString("AppState");
+
+                    }else{
+                        mAppState= null;
+                    }
+
                     try {
                         PackageInfo pInfo = null;
                         pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -120,12 +129,6 @@ public class AppIdentityManager implements AppIdentityInterface {
                     }
 
 
-                   /* Log.i("micrositeId", ""+getMicrositeId());
-                    Log.i("sector", ""+getSector());
-                    Log.i("mAppState", ""+getAppState());
-                    Log.i("mAppName", ""+getAppName());
-                    Log.i("mAppVersion", ""+getAppVersion());
-                    Log.i("mAppLocalizedNAme", ""+getAppLocalizedNAme());*/
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"micrositeId",""+getMicrositeId());
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"sector",""+getSector());
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"AppState",""+getAppState());
