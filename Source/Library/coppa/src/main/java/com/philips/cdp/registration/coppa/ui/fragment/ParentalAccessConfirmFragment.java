@@ -31,7 +31,9 @@ import com.philips.cdp.registration.coppa.utils.AppCoppaTaggingConstants;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.servertime.ServerTime;
-import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.util.Calendar;
 
@@ -212,7 +214,11 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         }
 
         if (howMuchOld == caluculateAge || howMuchOld == caluculateAge - 1) {
-            Tagging.setLaunchingPageName("coppa:ageverification");
+
+            AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
+            aiAppTaggingInterface.createInstanceForComponent("User Registration", RegistrationHelper.getRegistrationApiVersion());
+            aiAppTaggingInterface.setPreviousPage("coppa:ageverification");
+            aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
             getRegistrationFragment().launchRegistrationFragment();
             mBtnContinue.setEnabled(true);
             return;

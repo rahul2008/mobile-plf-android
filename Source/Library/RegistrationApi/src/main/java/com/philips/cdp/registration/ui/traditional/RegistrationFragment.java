@@ -39,8 +39,11 @@ import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.tagging.Tagging;
+//import com.philips.cdp.tagging.Tagging;
 import com.philips.dhpclient.BuildConfig;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import org.json.JSONObject;
 
@@ -66,8 +69,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.i(RLog.VERSION, "LocaleMatch Version :" + PILLocaleManager.getLacaleMatchVersion());
         RLog.i(RLog.VERSION, "Registration Version :" + RegistrationHelper.getRegistrationApiVersion());
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
-        Tagging.setComponentVersionKey(REGISTRATION_VERSION_TAG);
-        Tagging.setComponentVersionVersionValue(RegistrationHelper.getRegistrationApiVersion());
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
         Bundle bunble = getArguments();
@@ -231,7 +232,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         User mUser = new User(mActivity.getApplicationContext());
         if (isAccountSettings) {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                Tagging.setLaunchingPageName("demoapp:home");
+                AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
+                aiAppTaggingInterface.setPreviousPage("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
@@ -246,7 +248,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             replaceWithHomeFragment();
         } else {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                Tagging.setLaunchingPageName("demoapp:home");
+                AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
+                aiAppTaggingInterface.setPreviousPage("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 // replaceWithLogoutFragment();
                 //replace with welcome

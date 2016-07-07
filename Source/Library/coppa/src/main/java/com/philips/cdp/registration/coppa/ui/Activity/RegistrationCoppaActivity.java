@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.fragment.RegistrationCoppaFragment;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
@@ -28,7 +29,6 @@ import com.philips.cdp.registration.coppa.utils.RegistrationCoppaLaunchHelper;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.tagging.Tagging;
 
 public class RegistrationCoppaActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
@@ -41,7 +41,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
 
         @Override
         public void run() {
-            Tagging.pauseCollectingLifecycleData();
+            AppTagging.pauseCollectingLifecycleData();
         }
     };
 
@@ -49,7 +49,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
 
         @Override
         public void run() {
-            Tagging.collectLifecycleData();
+            AppTagging.collectLifecycleData();
         }
     };
 

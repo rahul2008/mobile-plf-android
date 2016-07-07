@@ -13,7 +13,9 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,13 +39,17 @@ public class RegistrationCoppaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mRegistrationHelper = this;
+
+        AppInfraSingleton.setInstance( new AppInfra.Builder().build(this));
+        AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
+        aiAppTaggingInterface.createInstanceForComponent("User Registration", RegistrationHelper.getRegistrationApiVersion());
+        aiAppTaggingInterface.setPreviousPage("demoapp:home");
+        aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
+
+        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         RLog.init(this);
         RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
         RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
-        Tagging.enableAppTagging(true);
-        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
-        Tagging.setLaunchingPageName("demoapp:home");
-        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 
 
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
@@ -119,7 +125,7 @@ public class RegistrationCoppaApplication extends Application {
         localeManager.setInputLocale(languageCode, countryCode);
 
         RegistrationHelper.getInstance().initializeUserRegistration(this);
-        Tagging.init(this, "Philips Registration");
+        //Tagging.init(this, "Philips Registration");
 
     }
 

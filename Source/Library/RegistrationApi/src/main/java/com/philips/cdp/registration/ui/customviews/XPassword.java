@@ -308,13 +308,13 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     private void togglePasswordMask() {
         if(mEtPassword.getInputType()!=(InputType.TYPE_CLASS_TEXT |
                 InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)){
-            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,true);
+            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,"true");
             mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 
             mEtPassword.setSelection(mEtPassword.getText().length());
         }else{
-            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,false);
+            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,"false");
             mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_PASSWORD);
             mEtPassword.setSelection(mEtPassword.getText().length());
