@@ -226,11 +226,27 @@ public class AppTagging implements AIAppTaggingInterface {
     @Override
     public void trackPageWithInfo(String pageName, String key, String value) {
 
-        if(!Arrays.asList(defaultValues).contains(key)){
+        track(pageName, key, value, null);
+    }
+    private void track(String pageName, String key, String value, Map<String, String> paramMap){
 
-            setNewKey(key);
-            setNewValue(value);
+        if(key!=null && value!=null){
+            if(!Arrays.asList(defaultValues).contains(key)){
+
+                setNewKey(key);
+                setNewValue(value);
+            }
+        }else{
+            for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+                if (!Arrays.asList(defaultValues).contains(entry.getKey())) {
+
+                    setNewKey(entry.getKey());
+                    setNewValue(entry.getValue());
+                    contextData = addAnalyticsDataObject();
+                }
+            }
         }
+
         contextData = addAnalyticsDataObject();
         if (null != prevPage) {
             contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
@@ -240,67 +256,25 @@ public class AppTagging implements AIAppTaggingInterface {
         prevPage = pageName;
     }
 
-
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
 
-        if (null != paramMap) {
-            for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-                if (!Arrays.asList(defaultValues).contains(entry.getKey())) {
+       track(pageName, null, null, paramMap);
 
-                    setNewKey(entry.getKey());
-                    setNewValue(entry.getValue());
-                    contextData = addAnalyticsDataObject();
-                }
-            }
-            contextData = addAnalyticsDataObject();
-            if (null != prevPage) {
-                contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
-            }
-            Analytics.trackState(pageName, contextData);
-
-            prevPage = pageName;
-
-        }
     }
 
 
     @Override
     public void trackActionWithInfo(String pageName, String key, String value) {
 
-        if(!Arrays.asList(defaultValues).contains(key)){
-            setNewKey(key);
-            setNewValue(value);
-        }
-        contextData = addAnalyticsDataObject();
-        if (null != prevPage) {
-            contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
-        }
-        Analytics.trackAction(pageName, contextData);
+        track(pageName, key, value, null);
 
-        prevPage = pageName;
-    }
+        }
 
 
     @Override
     public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
-        if(null!=paramMap) {
-
-                  for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-                    if(!Arrays.asList(defaultValues).contains(entry.getKey())){
-                        setNewKey(entry.getKey());
-                        setNewValue(entry.getValue());
-                        contextData = addAnalyticsDataObject();
-                    }
-                }
-                contextData = addAnalyticsDataObject();
-                if (null != prevPage) {
-                    contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
-                }
-                Analytics.trackAction(pageName, contextData);
-                prevPage = pageName;
-
-        }
+        track(pageName, null, null, paramMap);
     }
     @Override
     public void collectLifecycleInfo(Activity context, Map<String, Object> paramDict) {
