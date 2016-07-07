@@ -1,6 +1,14 @@
 package com.philips.cdp.prodreg.util;
 
 import com.philips.cdp.prodreg.MockitoTestCase;
+import com.philips.cdp.prodreg.ProdRegConstants;
+import com.philips.cdp.prodreg.localcache.ProdRegCache;
+
+import java.text.ParseException;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -8,16 +16,16 @@ import com.philips.cdp.prodreg.MockitoTestCase;
  */
 public class ProdRegUtilTest extends MockitoTestCase {
 
-    private ProdRegUtil prodRegUtil;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        prodRegUtil = new ProdRegUtil();
     }
 
     public void testReturnTrueForValidDate() throws Exception {
         assertTrue(ProdRegUtil.isValidDate("2016-03-22"));
+        assertFalse(ProdRegUtil.isValidDate(""));
+        assertFalse(ProdRegUtil.isValidDate(null));
     }
 
     public void testReturnFalseForInValidDate() throws Exception {
@@ -30,5 +38,25 @@ public class ProdRegUtilTest extends MockitoTestCase {
         assertTrue(ProdRegUtil.isFutureDate(date));
         String date1 = "2016-05-16";
         assertFalse(ProdRegUtil.isFutureDate(date1));
+        try {
+            ProdRegUtil.isFutureDate("05-06-2016");
+        } catch (Exception e) {
+            assertTrue(e instanceof ParseException);
+        }
     }
+
+    public void testGettingMinDate() {
+        assertTrue(ProdRegUtil.getMinDate() != 0);
+    }
+
+    public void testStoreProdRegTaggingMeasuresCount() {
+        ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
+        String key = ProdRegConstants.Product_REGISTRATION_START_COUNT;
+        when(prodRegCacheMock.getIntData(key)).thenReturn(1);
+        int count = 2;
+        ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCacheMock, key, count);
+        verify(prodRegCacheMock).storeIntData(key, 3);
+    }
+
+
 }
