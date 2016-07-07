@@ -101,6 +101,10 @@ public class ErrorHandlerTest extends MockitoTestCase {
         assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Network_ErrMsg));
         assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Network_Err_Title));
 
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.INVALID_SERIALNUMBER.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_SerialNum_Format_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Invalid_SerialNum_Title));
+
         prodRegErrorMap = errorHandler.getError(context, ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE.getCode());
         assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Invalid_Date_And_serial_ErrMsg));
         assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Invalid_Date_And_serial_title));

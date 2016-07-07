@@ -121,4 +121,31 @@ public class LocalRegisteredProductsTest extends MockitoTestCase {
         };
         assertTrue(localRegisteredProducts.getUniqueRegisteredProducts().size() == 1);
     }
+
+    public void testRemoveProductFromCache() {
+        User userMock = mock(User.class);
+        RegisteredProduct registeredProductMock = new RegisteredProduct("ctn", null, null);
+        when(userMock.isUserSignIn()).thenReturn(true);
+        final ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
+        localRegisteredProducts = new LocalRegisteredProducts(context, userMock) {
+            @Override
+            protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
+                return registeredProducts;
+            }
+
+            @Override
+            protected ProdRegCache getProdRegCache() {
+                return prodRegCacheMock;
+            }
+
+            @NonNull
+            @Override
+            protected Gson getGSon() {
+                return gson;
+            }
+        };
+        localRegisteredProducts.removeProductFromCache(registeredProductMock);
+        assertEquals(registeredProducts.size(), 2);
+        verify(prodRegCacheMock).storeStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY, gson.toJson(registeredProducts));
+    }
 }

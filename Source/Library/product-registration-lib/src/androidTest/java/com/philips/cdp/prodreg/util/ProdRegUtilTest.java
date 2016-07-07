@@ -33,6 +33,12 @@ public class ProdRegUtilTest extends MockitoTestCase {
         assertFalse(ProdRegUtil.isValidDate("2098-05-22"));
     }
 
+    public void testIsInValidSerialNumber() {
+        assertTrue(ProdRegUtil.isInValidSerialNumber("[0-9]-[0-9]-[0-9]", "@3456"));
+        assertTrue(ProdRegUtil.isInValidSerialNumber("", ""));
+        assertTrue(ProdRegUtil.isInValidSerialNumber(null, ""));
+    }
+
     public void testIsFutureDate() {
         String date = "2098-05-22";
         assertTrue(ProdRegUtil.isFutureDate(date));
