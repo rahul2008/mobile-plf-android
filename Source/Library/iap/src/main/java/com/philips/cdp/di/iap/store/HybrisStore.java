@@ -263,7 +263,10 @@ public class HybrisStore extends AbstractStoreSpec {
 
     @Override
     public String getModifyProductUrl(String productID) {
-        return String.format(mModifyProductUrl, productID);
+        if (mModifyProductUrl != null && productID!=null)
+            return String.format(mModifyProductUrl, productID);
+        else
+            return null;
     }
 
     @Override

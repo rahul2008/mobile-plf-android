@@ -25,6 +25,7 @@ public class IAPAnalytics {
 
     public static void trackAction(String state, String key, Object value) {
         String valueObject = (String) value;
+        if(AnalyticsHelper.getInstance().getAIAppTaggingInterface()!=null)
         AnalyticsHelper.getInstance().getAIAppTaggingInterface().
                 trackActionWithInfo(state, key, valueObject);
     }
