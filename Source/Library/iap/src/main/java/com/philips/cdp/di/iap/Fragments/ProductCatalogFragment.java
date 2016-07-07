@@ -249,7 +249,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     @Override
     public void onLoadError(IAPNetworkError error) {
-        if (error.getMessage().equalsIgnoreCase(getResources().getString(R.string.iap_no_product_available))) {
+        if (error.getMessage() != null && error.getMessage().equalsIgnoreCase(getResources().getString(R.string.iap_no_product_available))) {
             if (mRecyclerView != null && mEmptyCatalogText != null) {
                 mRecyclerView.setVisibility(View.GONE);
                 mEmptyCatalogText.setVisibility(View.VISIBLE);
