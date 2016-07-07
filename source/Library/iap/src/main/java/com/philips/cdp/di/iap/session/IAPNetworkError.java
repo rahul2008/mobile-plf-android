@@ -35,7 +35,11 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
         if (getMessage() != null)
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.ERROR, getMessage());
+        initMessage(requestCode, requestListener);
 
+    }
+
+    void initMessage(int requestCode, RequestListener requestListener){
         Message msg = Message.obtain();
         msg.what = requestCode;
         msg.obj = this;
