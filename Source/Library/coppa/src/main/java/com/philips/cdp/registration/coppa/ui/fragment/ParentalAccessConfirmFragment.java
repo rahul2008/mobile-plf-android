@@ -11,6 +11,7 @@ package com.philips.cdp.registration.coppa.ui.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -128,6 +129,16 @@ public class ParentalAccessConfirmFragment extends RegistrationCoppaBaseFragment
         applyParams(config, mRlBtnContinueContainer, width);
         applyParams(config, mLlSelectAgeContainer, width);
         applyParams(config, mLlSelectYearContainer, width);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     @Override
