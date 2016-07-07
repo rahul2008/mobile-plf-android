@@ -241,6 +241,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                     setButtonState();
                     setCartIconVisibility(View.VISIBLE);
                     mBuyFromRetailors.setOnClickListener(this);
+                    mBuyFromRetailors.setVisibility(View.VISIBLE);
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
                     setTitle(mProductTitle);
                 } else {
