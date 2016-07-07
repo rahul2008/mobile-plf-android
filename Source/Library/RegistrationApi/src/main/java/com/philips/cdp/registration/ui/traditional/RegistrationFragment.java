@@ -234,8 +234,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         User mUser = new User(mActivity.getApplicationContext());
         if (isAccountSettings) {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity().getApplicationContext()));
-                AIAppTaggingInterface aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging();
+                AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
                 aiAppTaggingInterface.setPreviousPage("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
