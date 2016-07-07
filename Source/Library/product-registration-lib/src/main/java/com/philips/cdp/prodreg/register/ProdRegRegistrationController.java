@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prodreg.ProdRegConstants;
-import com.philips.cdp.prodreg.RegistrationState;
 import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
@@ -45,8 +44,7 @@ public class ProdRegRegistrationController {
     }
 
     public void handleState() {
-        final RegisteredProduct productAlreadyRegistered = registeredProduct.isProductAlreadyRegistered(new LocalRegisteredProducts(fragmentActivity, new User(fragmentActivity)));
-        if (productAlreadyRegistered != null && productAlreadyRegistered.getRegistrationState() == RegistrationState.REGISTERED) {
+        if (registeredProduct.isProductAlreadyRegistered(new LocalRegisteredProducts(fragmentActivity, new User(fragmentActivity)))) {
             registerControllerCallBacks.showFragment(new ProdRegSuccessFragment());
         }
     }

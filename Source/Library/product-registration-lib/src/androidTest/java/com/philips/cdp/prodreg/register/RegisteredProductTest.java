@@ -5,6 +5,13 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.RegistrationState;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
@@ -58,5 +65,36 @@ public class RegisteredProductTest extends MockitoTestCase {
 
     public void testEqual() {
         assertFalse(registeredProduct.equals(registeredProduct.isShouldConsiderUUID("abc", "abc", true, true)));
+    }
+
+    public void testIsProductAlreadyRegistered() {
+        RegisteredProduct registeredProduct = new RegisteredProduct("abcd", null, null);
+        RegisteredProduct registeredProduct1 = new RegisteredProduct("abcdef", null, null);
+        LocalRegisteredProducts localRegisteredProductsMock = mock(LocalRegisteredProducts.class);
+        List<RegisteredProduct> registeredProducts = new ArrayList<>();
+        registeredProducts.add(new RegisteredProduct("abc", null, null));
+        final RegisteredProduct abcd = new RegisteredProduct("abcd", null, null);
+        abcd.setRegistrationState(RegistrationState.REGISTERED);
+        registeredProducts.add(abcd);
+        registeredProducts.add(new RegisteredProduct("abcde", null, null));
+        when(localRegisteredProductsMock.getRegisteredProducts()).thenReturn(registeredProducts);
+        assertTrue(registeredProduct.isProductAlreadyRegistered(localRegisteredProductsMock));
+        assertFalse(registeredProduct1.isProductAlreadyRegistered(localRegisteredProductsMock));
+    }
+
+    public void testGetRegisteredProductIfExists() {
+        RegisteredProduct registeredProduct = new RegisteredProduct("abcd", null, null);
+        RegisteredProduct registeredProduct1 = new RegisteredProduct("abcdef", null, null);
+        LocalRegisteredProducts localRegisteredProductsMock = mock(LocalRegisteredProducts.class);
+        List<RegisteredProduct> registeredProducts = new ArrayList<>();
+        registeredProducts.add(new RegisteredProduct("abc", null, null));
+        final RegisteredProduct abcd = new RegisteredProduct("abcd", null, null);
+        abcd.setRegistrationState(RegistrationState.REGISTERED);
+        registeredProducts.add(abcd);
+        registeredProducts.add(new RegisteredProduct("abcde", null, null));
+        when(localRegisteredProductsMock.getRegisteredProducts()).thenReturn(registeredProducts);
+        assertTrue(registeredProduct.getRegisteredProductIfExists(localRegisteredProductsMock) != null);
+        verify(localRegisteredProductsMock).updateRegisteredProducts(registeredProduct);
+        assertFalse(registeredProduct1.getRegisteredProductIfExists(localRegisteredProductsMock) != null);
     }
 }

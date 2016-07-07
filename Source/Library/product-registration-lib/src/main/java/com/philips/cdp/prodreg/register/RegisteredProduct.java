@@ -150,13 +150,14 @@ public class RegisteredProduct extends Product {
         return null;
     }
 
-    public RegisteredProduct isProductAlreadyRegistered(final LocalRegisteredProducts localRegisteredProducts) {
+    public boolean isProductAlreadyRegistered(final LocalRegisteredProducts localRegisteredProducts) {
         final List<RegisteredProduct> registeredProducts = localRegisteredProducts.getRegisteredProducts();
         final int index = registeredProducts.indexOf(this);
         if (index != -1) {
-            return registeredProducts.get(index);
+            final RegisteredProduct registeredProduct = registeredProducts.get(index);
+            return registeredProduct != null && registeredProduct.getRegistrationState() == RegistrationState.REGISTERED;
         }
-        return null;
+        return false;
     }
 
     private void updateFields(final RegisteredProduct product) {
