@@ -5,6 +5,8 @@
  */
 package com.philips.platform.appinfra.tagging;
 
+import com.adobe.mobile.MobilePrivacyStatus;
+
 import java.util.Map;
 
 
@@ -47,7 +49,7 @@ public interface AIAppTaggingInterface {
      *
      * @return the privacy consent
      */
-    public PrivacyStatus getPrivacyConsent();
+    public MobilePrivacyStatus getPrivacyConsent();
 
     /**
      * Track page with info.

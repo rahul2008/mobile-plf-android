@@ -73,7 +73,7 @@ public class AppTagging implements AIAppTaggingInterface {
 
     }
 
-    public void init(Locale locale, Context context,String appName){
+    private void init(Locale locale, Context context,String appName){
         mlocale = locale;
         mcontext = context;
         prevPage = appName;
@@ -93,13 +93,6 @@ public class AppTagging implements AIAppTaggingInterface {
         Config.setDebugLogging(enable);
     }
 
-
-    public void getPrivacyStatus(){
-        Config.getPrivacyStatus();
-    }
-
-
-
     private Map<String, Object> addAnalyticsDataObject() {
         Map<String, Object> contextData = new HashMap<String, Object>();
 
@@ -112,11 +105,8 @@ public class AppTagging implements AIAppTaggingInterface {
         contextData.put(AIAppTaggingConstants.LOCAL_TIMESTAMP_KEY, getLocalTimestamp());
         contextData.put(AIAppTaggingConstants.UTC_TIMESTAMP_KEY, getUTCTimestamp());
         if (null != getNewKey() && null != getNewValue()) {
-//            contextData.put(getComponentVersionKey(), getComponentVersionVersionValue());
 
-            if(getNewKey().contains(",") && getNewValue().contains(",") ){
-
-            }else{
+            if(!getNewKey().contains(",") && !getNewValue().contains(",") ){
                 contextData.put(getNewKey(), getNewValue());
             }
 
@@ -155,19 +145,12 @@ public class AppTagging implements AIAppTaggingInterface {
     }
 
     private String getUTCTimestamp() {
+        String UTCtime = null;
 
-        if(mUTCTimestamp == null){
-//            DateFormat df = DateFormat.getTimeInstance();
-//            df.setTimeZone(TimeZone.getTimeZone("gmt"));
-//            String utcTime = df.format(new Date());
-            String UTCtime = null;
         if(mAppInfra.getTimeSync() != null){
             UTCtime=mAppInfra.getTimeSync().getUTCTime();
             mUTCTimestamp = UTCtime;
             Log.i("mUTCTimestamp", ""+mUTCTimestamp);
-        }
-
-
         }
 
         if(mUTCTimestamp!=null){
@@ -179,39 +162,31 @@ public class AppTagging implements AIAppTaggingInterface {
     private String getLocalTimestamp() {
 
 
-        if(mLocalTimestamp == null){
             Calendar c = Calendar.getInstance();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String formattedDate = df.format(c.getTime());
             mLocalTimestamp = formattedDate;
+
+
+        if(mLocalTimestamp != null){
+            return mLocalTimestamp;
         }
-
-
-        return mUTCTimestamp;
+        return mLocalTimestamp;
     }
 
-    public String getComponentId() {
-        if(componentVersionKey == null){
-            componentVersionKey = "DefaultText";
+    private String getComponentId() {
+        if(mComponentID == null){
+            mComponentID = "DefaultText";
         }
-        return componentVersionKey;
+        return mComponentID;
     }
 
-    public void setComponentID(String componentID) {
-        AppTagging.componentVersionKey = componentID;
-    }
-
-    public String getComponentVersionVersionValue() {
-        if(componentVersionVersionValue == null){
-            componentVersionVersionValue = "DefalutValue";
+    private String getComponentVersionVersionValue() {
+        if(mComponentVersion == null){
+            mComponentVersion = "DefalutValue";
         }
-        return componentVersionVersionValue;
+        return mComponentVersion;
     }
-
-    public void setComponentVersionVersionValue(String componentVersionVersionValue) {
-        AppTagging.componentVersionVersionValue = componentVersionVersionValue;
-    }
-
 
     @Override
     public AIAppTaggingInterface createInstanceForComponent(String componentId, String componentVersion) {
@@ -234,8 +209,6 @@ public class AppTagging implements AIAppTaggingInterface {
                 break;
 
         }
-
-
     }
 
     @Override
@@ -243,40 +216,21 @@ public class AppTagging implements AIAppTaggingInterface {
         prevPage = previousPage;
         mGlobalStore.setValue(prevPage);
     }
-
-
     @Override
-    public PrivacyStatus getPrivacyConsent() {
-        return null;
+    public MobilePrivacyStatus getPrivacyConsent() {
+        return Config.getPrivacyStatus();
     }
 
 
     @Override
     public void trackPageWithInfo(String pageName, String key, String value) {
-        contextData = addAnalyticsDataObject();
 
-        if(Arrays.asList(defaultValues).contains(key)){
+        if(!Arrays.asList(defaultValues).contains(key)){
 
-            switch (key){
-
-                case AIAppTaggingConstants.COMPONENT_ID:
-
-                    contextData.put(AIAppTaggingConstants.COMPONENT_ID, value);
-                    setComponentID(value);
-
-                case AIAppTaggingConstants.COMPONENT_VERSION:
-                    contextData.put(AIAppTaggingConstants.COMPONENT_VERSION, value);
-                    setComponentVersionVersionValue(value);
-                    break;
-
-            }
-
-
-        }else{
             setNewKey(key);
             setNewValue(value);
-            contextData = addAnalyticsDataObject();
         }
+        contextData = addAnalyticsDataObject();
         if (null != prevPage) {
             contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
@@ -288,50 +242,36 @@ public class AppTagging implements AIAppTaggingInterface {
 
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
-        Map<String, Object> contextData = addAnalyticsDataObject();
-        contextData.putAll(paramMap);
-        if (null != prevPage) {
-            contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
+
+        if (null != paramMap) {
+            for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+                if (!Arrays.asList(defaultValues).contains(entry.getKey())) {
+
+                    setNewKey(entry.getKey());
+                    setNewValue(entry.getValue());
+                    contextData = addAnalyticsDataObject();
+                }
+            }
+            contextData = addAnalyticsDataObject();
+            if (null != prevPage) {
+                contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
+            }
+            Analytics.trackState(pageName, contextData);
+
+            prevPage = pageName;
+
         }
-        Analytics.trackState(pageName, contextData);
-
-        prevPage = pageName;
-
     }
 
 
     @Override
     public void trackActionWithInfo(String pageName, String key, String value) {
-//        Map<String, Object> contextData = addAnalyticsDataObject();
-//        if (null != key) {
-//
-//            contextData.put(key, value);
-//        }
 
-        contextData = addAnalyticsDataObject();
-
-        if(Arrays.asList(defaultValues).contains(key)){
-
-            switch (key){
-
-                case AIAppTaggingConstants.COMPONENT_ID:
-
-                    contextData.put(AIAppTaggingConstants.COMPONENT_ID, value);
-                    setComponentID(value);
-
-                case AIAppTaggingConstants.COMPONENT_VERSION:
-                    contextData.put(AIAppTaggingConstants.COMPONENT_VERSION, value);
-                    setComponentVersionVersionValue(value);
-                    break;
-
-            }
-
-
-        }else{
+        if(!Arrays.asList(defaultValues).contains(key)){
             setNewKey(key);
             setNewValue(value);
-            contextData = addAnalyticsDataObject();
         }
+        contextData = addAnalyticsDataObject();
         if (null != prevPage) {
             contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
@@ -343,23 +283,22 @@ public class AppTagging implements AIAppTaggingInterface {
 
     @Override
     public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
-        Map<String, Object> contextData = addAnalyticsDataObject();
-
-        
         if(null!=paramMap) {
-            try {
-                Map<String, Object> tmp = new HashMap<String, Object>(paramMap);
-                tmp.keySet().removeAll(contextData.keySet());
-                contextData.putAll(paramMap);
 
+                  for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+                    if(!Arrays.asList(defaultValues).contains(entry.getKey())){
+                        setNewKey(entry.getKey());
+                        setNewValue(entry.getValue());
+                        contextData = addAnalyticsDataObject();
+                    }
+                }
+                contextData = addAnalyticsDataObject();
                 if (null != prevPage) {
                     contextData.put(AIAppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
                 }
                 Analytics.trackAction(pageName, contextData);
                 prevPage = pageName;
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+
         }
     }
 

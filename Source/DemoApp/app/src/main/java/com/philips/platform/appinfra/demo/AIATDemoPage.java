@@ -68,7 +68,28 @@ public class AIATDemoPage extends AppCompatActivity {
         TaggActionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage",key.getText().toString(), value.getText().toString());
+
+                if(null==key.getText().toString() || key.getText().toString().isEmpty() || null==value.getText().toString() || value.getText().toString().isEmpty()){
+                    // invalid key value
+                    Toast.makeText(AIATDemoPage.this,"Please enter any Key value pair", Toast.LENGTH_SHORT).show();
+
+                }else {
+                    if (key.getText().toString().contains(",")) { // if multiple keys passed
+                        HashMap<String, String> keyValuePair ;
+                        String[] keyArray  =key.getText().toString().split(",");
+                        String[] valueArray =value.getText().toString().split(",");
+                        if(keyArray.length >0 && keyArray.length==valueArray.length){ // number of keys should be same as that of values
+                            keyValuePair = new HashMap<String, String>();
+                            for(int keyCount=0;keyCount<keyArray.length;keyCount++){
+                                keyValuePair.put(keyArray[keyCount].trim(),valueArray[keyCount].trim());
+                            }
+                            AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", keyValuePair);
+                        }
+                    }else {
+                        AppInfraApplication.mAIAppTaggingInterface.trackActionWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());
+                    }
+                }
+
 
             }
         });

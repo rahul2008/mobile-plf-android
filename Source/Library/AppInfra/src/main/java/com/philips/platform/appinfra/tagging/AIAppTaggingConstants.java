@@ -25,7 +25,7 @@ public class AIAppTaggingConstants {
 
     public static final String LOCAL_TIMESTAMP_KEY = "localTimestamp";
 
-    public static final String UTC_TIMESTAMP_KEY = "UTClocalTimestamp";
+    public static final String UTC_TIMESTAMP_KEY = "UTCTimestamp";
 
 //    public static final String CP_VALUE = "CP";
 
