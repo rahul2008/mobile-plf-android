@@ -246,6 +246,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                 } else {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
                     setCartIconVisibility(View.GONE);
+                    setTitle(R.string.iap_shopping_cart_item);
                 }
             } else {
                 setTitle(mProductTitle);
