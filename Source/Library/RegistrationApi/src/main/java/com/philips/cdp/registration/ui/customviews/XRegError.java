@@ -9,8 +9,6 @@
 package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
@@ -24,8 +22,6 @@ public class XRegError extends RelativeLayout {
 
     private TextView mTvError;
 
-    private int stateToSave;
-
     private String mErrMsg;
 
     public XRegError(Context context) {
@@ -38,32 +34,6 @@ public class XRegError extends RelativeLayout {
         super(context, attrs);
         mContext = context;
         initUi(R.layout.reg_error_mapping);
-    }
-
-    @Override
-    public Parcelable onSaveInstanceState() {
-        //begin boilerplate code that allows parent classes to save state
-        Parcelable superState = super.onSaveInstanceState();
-
-        SavedState ss = new SavedState(superState);
-        //end
-        ss.stateToSave = this.stateToSave;
-
-        return ss;
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        //begin boilerplate code so parent classes can restore state
-        if(!(state instanceof SavedState)) {
-            super.onRestoreInstanceState(state);
-            return;
-        }
-
-        SavedState ss = (SavedState)state;
-        super.onRestoreInstanceState(ss.getSuperState());
-        //end
-        this.stateToSave = ss.stateToSave;
     }
 
 
@@ -84,42 +54,30 @@ public class XRegError extends RelativeLayout {
         setVisibility(VISIBLE);
     }
 
-    public String getError() {
+    public String getErrorMsg() {
+        System.out.println("*************** GET mErrMsg : "+mErrMsg);
+        return mErrMsg;
+    }
+
+/*
+    public String getSigninErrorMsg() {
+        System.out.println("*************** GET mErrMsg : "+mErrMsg);
+        return mErrMsg;
+    }
+
+
+    public void setSavedErrMsg(String errorMsg){
+        System.out.println("*************** SET mErrMsg : "+mErrMsg);
+        mErrMsg = errorMsg;
+    }
+
+    public String getErrorMsg() {
+        System.out.println("*************** GET mErrMsg : "+mErrMsg);
        return mErrMsg;
     }
+*/
 
     public void hideError() {
         setVisibility(GONE);
     }
-
-    static class SavedState extends BaseSavedState {
-        int stateToSave;
-
-        SavedState(Parcelable superState) {
-            super(superState);
-        }
-
-        private SavedState(Parcel in) {
-            super(in);
-            this.stateToSave = in.readInt();
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeInt(this.stateToSave);
-        }
-
-        //required field that makes Parcelables from a Parcel
-        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
-                    public SavedState createFromParcel(Parcel in) {
-                        return new SavedState(in);
-                    }
-
-                    public SavedState[] newArray(int size) {
-                        return new SavedState[size];
-                    }
-                };
-    }
-
 }

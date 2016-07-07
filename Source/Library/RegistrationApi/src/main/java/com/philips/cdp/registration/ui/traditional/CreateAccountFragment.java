@@ -176,7 +176,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("saveErrText", mRegError.getError());
+        outState.putString("saveErrText", mRegError.getErrorMsg());
         super.onSaveInstanceState(outState);
     }
 

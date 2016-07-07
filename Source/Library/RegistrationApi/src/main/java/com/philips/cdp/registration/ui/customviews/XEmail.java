@@ -44,6 +44,8 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     private FrameLayout mFlInvalidFieldAlert;
 
+    private String mSavedEmaillError;
+
     public XEmail(Context context) {
         super(context);
         this.mContext = context;
@@ -95,6 +97,11 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
     public void setErrDescription(String mErrDescription) {
         mTvErrDescriptionView.setText(mErrDescription);
+        mSavedEmaillError = mErrDescription;
+    }
+
+    public String getSavedEmailErrDescrition(){
+        return mSavedEmaillError;
     }
 
     private void handleEmail(boolean hasFocus) {

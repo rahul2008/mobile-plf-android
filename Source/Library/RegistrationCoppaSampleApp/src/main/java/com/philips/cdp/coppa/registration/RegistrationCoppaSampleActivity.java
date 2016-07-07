@@ -113,10 +113,6 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
         }
 
-
-
-
-
         mLlConfiguration.setVisibility(View.GONE);
         mBtnChangeConfiguaration = (Button) findViewById(R.id.btn_change_configuration);
         mBtnChangeConfiguaration.setOnClickListener(new OnClickListener() {
@@ -130,7 +126,6 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
             @Override
             public void onClick(View v) {
                 mLlConfiguration.setVisibility(View.GONE);
-
 
                 //Resetn
                 UserRegistrationInitializer.getInstance().resetInitializationState();

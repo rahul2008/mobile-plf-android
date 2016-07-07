@@ -160,6 +160,16 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalApprovalFragment : onConfigurationChanged");
