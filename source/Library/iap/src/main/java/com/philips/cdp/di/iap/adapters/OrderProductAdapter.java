@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.adapters;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
@@ -41,6 +42,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -63,6 +65,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
 
+    private Drawable mEditDrawable;
+
     public OrderProductAdapter(Context pContext, AddressListener listener, ArrayList<ShoppingCartData> pShoppingCartDataList,
                                AddressFields pBillingAddress, PaymentMethod pPaymentMethod) {
         mContext = pContext;
@@ -70,6 +74,11 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mShoppingCartDataList = pShoppingCartDataList;
         mBillingAddress = pBillingAddress;
         mPaymentMethod = pPaymentMethod;
+        initDrawables();
+    }
+
+    void initDrawables() {
+        mEditDrawable = VectorDrawable.create(mContext, R.drawable.pencil_01);
     }
 
     @Override
@@ -148,6 +157,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             final List<DeliveryModes> mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
             footerHolder.mEditIcon.setVisibility(View.VISIBLE);
+            footerHolder.mEditIcon.setImageDrawable(mEditDrawable);
             footerHolder.mEditIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

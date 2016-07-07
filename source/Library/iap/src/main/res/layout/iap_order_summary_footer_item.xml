@@ -172,7 +172,6 @@
                 android:layout_width="@dimen/iap_edit_icon_width"
                 android:layout_height="@dimen/iap_edit_icon_width"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/pencil_01"
                 android:visibility="gone"/>
 
             <TextView

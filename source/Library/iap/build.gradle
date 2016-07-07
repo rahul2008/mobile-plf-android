@@ -167,7 +167,6 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'org.robolectric:robolectric:3.0'
 
-    testCompile group: 'org.robolectric', name: 'shadows-support-v4', version: '3.0'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
 

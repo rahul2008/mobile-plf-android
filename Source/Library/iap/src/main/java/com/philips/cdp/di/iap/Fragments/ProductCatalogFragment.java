@@ -208,15 +208,15 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     @Override
     public void onLoadFinished(final ArrayList<ProductCatalogData> dataFetched, PaginationEntity paginationEntity) {
         updateProductCatalogList(dataFetched);
-
         mAdapter = new ProductCatalogAdapter(getContext(), mProductCatalog);
-        mRecyclerView.setAdapter(mAdapter);
+        if (mRecyclerView != null)
+            mRecyclerView.setAdapter(mAdapter);
         mAdapter.tagProducts();
 
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
 
-        if(paginationEntity == null)
+        if (paginationEntity == null)
             return;
 
         if (mTotalResults == 0)
@@ -229,7 +229,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     }
 
     private void updateProductCatalogList(final ArrayList<ProductCatalogData> dataFetched) {
-        if(mProductCatalog==null){
+        if (mProductCatalog == null) {
             mProductCatalog = new ArrayList<>();
         }
         for (ProductCatalogData data : dataFetched) {
@@ -239,8 +239,8 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     }
 
     private boolean checkIfEntryExists(final ProductCatalogData data) {
-        for(ProductCatalogData entry : mProductCatalog) {
-            if(entry.getCtnNumber().equalsIgnoreCase(data.getCtnNumber())) {
+        for (ProductCatalogData entry : mProductCatalog) {
+            if (entry.getCtnNumber().equalsIgnoreCase(data.getCtnNumber())) {
                 return true;
             }
         }
@@ -249,12 +249,16 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
 
     @Override
     public void onLoadError(IAPNetworkError error) {
-        if (error.getMessage().equalsIgnoreCase(getResources().getString(R.string.iap_no_product_available))) {
-            mRecyclerView.setVisibility(View.GONE);
-            mEmptyCatalogText.setVisibility(View.VISIBLE);
+        if (error.getMessage() != null && error.getMessage().equalsIgnoreCase(getResources().getString(R.string.iap_no_product_available))) {
+            if (mRecyclerView != null && mEmptyCatalogText != null) {
+                mRecyclerView.setVisibility(View.GONE);
+                mEmptyCatalogText.setVisibility(View.VISIBLE);
+            }
         } else {
-            mRecyclerView.setVisibility(View.VISIBLE);
-            mEmptyCatalogText.setVisibility(View.GONE);
+            if (mRecyclerView != null && mEmptyCatalogText != null) {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mEmptyCatalogText.setVisibility(View.GONE);
+            }
         }
         if (Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
