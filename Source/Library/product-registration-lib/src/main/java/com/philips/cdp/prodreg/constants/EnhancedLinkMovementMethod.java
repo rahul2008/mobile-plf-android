@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.util;
+package com.philips.cdp.prodreg.constants;
 
 import android.graphics.Rect;
 import android.text.Layout;
