@@ -9,6 +9,8 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 public class ComfortAirPurifier extends AirPurifier<ComfortAirPort> {
 
+    public static final String MODELNUMBER = "AC2889";
+
     public ComfortAirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
 

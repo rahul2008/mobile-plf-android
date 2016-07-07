@@ -27,9 +27,9 @@ class SampleApplianceFactory extends DICommApplianceFactory<AirPurifier> {
 
     @Override
     public AirPurifier createApplianceForNode(NetworkNode networkNode) {
-        if (networkNode.getModelName().equals(ComfortAirPurifier.MODELNAME)) {
+        if (networkNode.getModelName().equals(AirPurifier.MODELNAME)) {
             CommunicationStrategy communicationStrategy = new CommunicationMarshal(new DISecurity());
-            if ("AC2889".equals(networkNode.getModelType())) {
+            if (ComfortAirPurifier.MODELNUMBER.equals(networkNode.getModelType())) {
                 return new ComfortAirPurifier(networkNode, communicationStrategy);
             }
             return new JaguarAirPurifier(networkNode, communicationStrategy);
