@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,21 +35,43 @@ public class HamburgerAdapter extends BaseAdapter {
     private final LayoutInflater mInflater;
     private Context context;
     private ArrayList<HamburgerItem> hamburgerItems;
-    private int totalCount = 0;
     private int disabledColor;
     private int brightColor;
     private int selectedIndex;
     private int baseColor;
     private int groupAlpha = 0;
+    private TextView mHamburgerTotalCountView;
 
-    public HamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
+    /**
+     * Provides auto update of total count
+     * when total count text view is provided as input. If used from uikit, the resource id is {@code R.id.hamburger_count}
+     * <br>
+     * @param context            {@link Context} Context
+     * @param hamburgerItems     {@link HamburgerItem} List of items to be shown in Hamburger menu
+     * @param totalCountTextView {@link TextView} representing total count of all the items in the hamburger menu.
+     *                                           Pass {@code null}, if no total count view is required.
+     */
+    public HamburgerAdapter(@NonNull Context context, @NonNull ArrayList<HamburgerItem> hamburgerItems, TextView totalCountTextView) {
         this.context = context;
         this.hamburgerItems = hamburgerItems;
         mInflater = (LayoutInflater)
                 context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         setColors();
-        calculateCount();
         groupAlpha = adjustAlpha(baseColor, 0.5f);
+        mHamburgerTotalCountView = totalCountTextView;
+
+        setCounterView(totalCountTextView, calculateCount());
+    }
+
+
+    /**
+     * Preferred only when total badge count is not required, otherwise use {@link HamburgerAdapter#HamburgerAdapter(Context, ArrayList, TextView)}
+     *
+     * @param context            {@link Context} Context
+     * @param hamburgerItems     {@link HamburgerItem} List of items to be shown in Hamburger menu
+     */
+    public HamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
+        this(context, hamburgerItems, null);
     }
 
     /**
@@ -62,7 +85,6 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @return Returns the count of adapter
      */
     @Override
@@ -71,7 +93,6 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @param position - index of row
      * @return - Returns Object of required index
      */
@@ -81,7 +102,6 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @param position
      * @return Returns id of position
      */
@@ -195,11 +215,18 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     private void setCounterView(final TextView txtCount, final int count) {
+        if (txtCount == null) {
+            return;
+        }
+        setCountViewVisibility(txtCount, count);
         if (count > 0) {
             txtCount.setText(String.valueOf(count));
-        } else {
-            txtCount.setVisibility(View.GONE);
         }
+    }
+
+    private void setCountViewVisibility(TextView countView, int count) {
+        int visibility = count > 0 ? View.VISIBLE : View.GONE;
+        countView.setVisibility(visibility);
     }
 
     private void setImageView(final ImageView imgIcon, final Drawable icon, TextView txtTitle, int color) {
@@ -222,11 +249,10 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @return Returns the badge count
      */
     public int getCounterValue() {
-        return totalCount;
+        return calculateCount();
     }
 
     /**
@@ -235,17 +261,18 @@ public class HamburgerAdapter extends BaseAdapter {
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
-        totalCount = 0;
-        calculateCount();
+        setCounterView(mHamburgerTotalCountView, calculateCount());
     }
 
     /**
      * API to be called to calculate total badge count
      */
-    public void calculateCount() {
+    public int calculateCount() {
+        int totalCount = 0;
         for (HamburgerItem hamburgerItem : hamburgerItems) {
             totalCount += hamburgerItem.getCount();
         }
+        return totalCount;
     }
 
     @Override
