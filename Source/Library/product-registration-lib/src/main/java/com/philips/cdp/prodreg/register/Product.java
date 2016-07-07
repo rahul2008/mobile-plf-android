@@ -49,12 +49,17 @@ public class Product implements Serializable {
     }
 
     public void getProductSummary(final Context context, final Product product, final SummaryListener summaryListener) {
-        ProductSummaryRequest productSummaryRequest = new ProductSummaryRequest(product.getCtn());
+        ProductSummaryRequest productSummaryRequest = getProductSummaryRequest(product);
         productSummaryRequest.setSector(product.getSector());
         productSummaryRequest.setCatalog(product.getCatalog());
         RequestManager mRequestManager = getRequestManager(context);
         final ResponseListener summaryResponseListener = getPrxResponseListenerForSummary(summaryListener);
         mRequestManager.executeRequest(productSummaryRequest, summaryResponseListener);
+    }
+
+    @NonNull
+    protected ProductSummaryRequest getProductSummaryRequest(final Product product) {
+        return new ProductSummaryRequest(product.getCtn());
     }
 
     @NonNull
