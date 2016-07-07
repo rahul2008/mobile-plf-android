@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.philips.cdp.prodreg.ProdRegConstants;
-import com.philips.cdp.prodreg.alert.ProdRegLoadingFragment;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegError;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;

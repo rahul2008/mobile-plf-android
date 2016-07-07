@@ -1,3 +1,8 @@
+
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.prodreg.register;
 
 import android.os.Bundle;
@@ -15,10 +20,6 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.registration.User;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class ProdRegRegistrationController {
 
     public interface RegisterControllerCallBacks extends ProdRegProcessController.ProcessControllerCallBacks {

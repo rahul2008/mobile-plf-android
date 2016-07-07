@@ -39,7 +39,7 @@ public class ProdRegUtilTest extends MockitoTestCase {
         String date1 = "2016-05-16";
         assertFalse(ProdRegUtil.isFutureDate(date1));
         try {
-            ProdRegUtil.isFutureDate("05-06-2016");
+            assertFalse(ProdRegUtil.isFutureDate("05/06/2016"));
         } catch (Exception e) {
             assertTrue(e instanceof ParseException);
         }

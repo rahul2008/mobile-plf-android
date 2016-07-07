@@ -1,4 +1,4 @@
-package com.philips.cdp.prodreg.alert;
+package com.philips.cdp.prodreg.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;

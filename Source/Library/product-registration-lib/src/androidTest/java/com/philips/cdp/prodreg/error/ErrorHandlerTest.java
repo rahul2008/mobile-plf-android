@@ -71,5 +71,41 @@ public class ErrorHandlerTest extends MockitoTestCase {
         ProdRegErrorMap prodRegErrorMap = errorHandler.getError(context, ProdRegError.INVALID_DATE.getCode());
         assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Enter_Purchase_Date_ErrMsg));
         assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Req_Purchase_Date_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.INVALID_CTN.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Product_Not_Found_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Product_Not_Found_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.PRODUCT_ALREADY_REGISTERED.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Already_Registered_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Already_Registered_title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.ACCESS_TOKEN_INVALID.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Authentication_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Authentication_Fail_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.NO_INTERNET_AVAILABLE.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_No_Internet_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_No_Internet_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.INTERNAL_SERVER_ERROR.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Unable_Connect_Server_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Communication_Err_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.TIME_OUT.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Unable_Connect_Server_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Communication_Err_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.NETWORK_ERROR.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Network_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Network_Err_Title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Invalid_Date_And_serial_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Invalid_Date_And_serial_title));
+
+        prodRegErrorMap = errorHandler.getError(context, ProdRegError.UNKNOWN.getCode());
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PPR_Unknown_ErrMsg));
+        assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PPR_Unknown_title));
     }
 }
