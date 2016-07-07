@@ -11,8 +11,9 @@ package com.philips.cdp.registration.settings;
 
 import android.content.Context;
 
+import com.philips.cdp.localematch.BuildConfig;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.BuildConfig;
+//import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
 import com.philips.cdp.registration.datamigration.DataMigration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -25,7 +26,10 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.servertime.ServerTime;
-import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.util.Locale;
 
@@ -34,6 +38,7 @@ import java.util.Locale;
  * It exposes APIs to be used when User Registration is intended to be integrated by any application.
  */
 public class RegistrationHelper {
+
 
     private Context mContext;
 
@@ -45,11 +50,12 @@ public class RegistrationHelper {
 
     private Locale mLocale;
 
+
     private RegistrationHelper() {
     }
 
+
     /**
-     *
      * @return instance of this class
      */
     public synchronized static RegistrationHelper getInstance() {
@@ -63,6 +69,11 @@ public class RegistrationHelper {
         }
         return mRegistrationHelper;
     }
+
+    public AppInfraInterface getAppInfraInstance() {
+       return AppInfraSingleton.getInstance();
+    }
+
 
     /*
      * Initialize Janrain
@@ -83,9 +94,9 @@ public class RegistrationHelper {
         mContext = context.getApplicationContext();
         countryCode = mLocale.getCountry();
 
-        if (Tagging.isTagginEnabled() && null == Tagging.getTrackingIdentifer()) {
-            throw new RuntimeException("Please set appid for tagging before you invoke registration");
-        }
+//        if (Tagging.isTagginEnabled() && null == Tagging.getTrackingIdentifer()) {
+//            throw new RuntimeException("Please set appid for tagging before you invoke registration");
+//        }
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
         generateKeyAndMigrateData();
@@ -141,6 +152,7 @@ public class RegistrationHelper {
      * {@code registerUserRegistrationListener} method registers a listener in order to listen
      * the callbacks returned by User Registration component. It must be called by integrating applications
      * to be able to listen to User Registration events.
+     *
      * @param userRegistrationListener
      */
     public synchronized void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
@@ -151,6 +163,7 @@ public class RegistrationHelper {
      * {@code unRegisterUserRegistrationListener} method unregisters the listener registered via
      * {@code registerUserRegistrationListener} method. This will make integrating applications to stop
      * listening to User Registration events.
+     *
      * @param userRegistrationListener
      */
     public synchronized void unRegisterUserRegistrationListener(UserRegistrationListener userRegistrationListener) {

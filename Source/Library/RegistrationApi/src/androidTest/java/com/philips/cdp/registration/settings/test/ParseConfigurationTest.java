@@ -20,7 +20,10 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
+//import com.philips.cdp.tagging.Tagging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,9 +51,14 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
         Locale locale = new Locale("en","US");
-        Tagging.enableAppTagging(true);
-        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
-        Tagging.setLaunchingPageName("demoapp:home");
+//        Tagging.enableAppTagging(true);
+//        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
+//        Tagging.setLaunchingPageName("demoapp:home");
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity().getApplicationContext()));
+        AIAppTaggingInterface aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging();
+        aiAppTaggingInterface.createInstanceForComponent("User Registration", RegistrationHelper.getRegistrationApiVersion());
+        aiAppTaggingInterface.setPreviousPage("demoapp:home");
+        aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
         mRegistrationHelper = RegistrationHelper.getInstance();
        // mRegistrationHelper.initializeUserRegistration(getInstrumentation().getTargetContext(), locale);
         //mEmailValidator = mock(EmailValidator.class);

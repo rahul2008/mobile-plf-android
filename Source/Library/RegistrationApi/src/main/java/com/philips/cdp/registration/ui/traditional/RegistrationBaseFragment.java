@@ -265,14 +265,14 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void trackMultipleActionsRegistration() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.REGISTRATION_CHANNEL, AppTagingConstants.MY_PHILIPS);
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_USER_REGISTRATION);
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
     protected void trackMultipleActionsLogin(String providerName) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.LOGIN_CHANNEL, providerName);
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.LOGIN_START);
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);

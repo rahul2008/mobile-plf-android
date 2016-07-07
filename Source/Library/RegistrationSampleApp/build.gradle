@@ -26,8 +26,6 @@ repositories {
 }
 
 dependencies {
-    compile(group:'adobeMobileLibrary', name:'adobeMobileLibrary', version:'4.5.1')
-    compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.0.0', ext: 'aar')
 }
 
 apply plugin: 'cdpSCM'

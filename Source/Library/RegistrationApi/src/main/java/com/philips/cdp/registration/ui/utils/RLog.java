@@ -12,6 +12,7 @@ package com.philips.cdp.registration.ui.utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -52,7 +53,7 @@ public class RLog {
 
     public static void init(final Context context){
         mContext = context;
-        mLoggingInterface =  new AppInfra.Builder().build(context).getLogging().createInstanceForComponent("Registration","Registration");
+        mLoggingInterface =  RegistrationHelper.getInstance().getAppInfraInstance().getLogging().createInstanceForComponent("Registration","Registration");
         mLoggingInterface.enableConsoleLog(false);
         mLoggingInterface.enableFileLog(true);
 

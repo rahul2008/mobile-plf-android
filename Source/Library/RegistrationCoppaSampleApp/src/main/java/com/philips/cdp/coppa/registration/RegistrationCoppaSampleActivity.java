@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.base.CoppaResendError;
@@ -41,7 +42,6 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.tagging.Tagging;
 
 public class RegistrationCoppaSampleActivity extends Activity implements OnClickListener,
         UserRegistrationCoppaListener, RefreshLoginSessionHandler, ResendCoppaEmailConsentHandler {
@@ -198,7 +198,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
     @Override
     protected void onResume() {
-        Tagging.collectLifecycleData();
+        AppTagging.collectLifecycleData();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaSampleActivity : onResume");
         super.onResume();
 
@@ -206,7 +206,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
     @Override
     protected void onPause() {
-        Tagging.pauseCollectingLifecycleData();
+        AppTagging.pauseCollectingLifecycleData();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaSampleActivity : onPause");
         super.onPause();
     }
