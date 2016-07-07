@@ -11,6 +11,7 @@ package com.philips.cdp.registration.coppa.ui.fragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,7 +145,9 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
         if (mCoppaStatus == CoppaStatus.kDICOPPAConfirmationPending.toString()) {
             mTextDetailsContant.setText(getUsText());
             mTextContantTitle.setText(getResources().getString(R.string.reg_Coppa_US_Parental_Access_Thank_You_Txt));
-            RegCoppaUtility.linkifyTermAndPolicy(mTextDetailsContant, getActivity(), privacyLinkClick);
+            if(getActivity()!=null){
+                RegCoppaUtility.linkifyTermAndPolicy(mTextDetailsContant, getActivity(), privacyLinkClick);
+            }
             trackPage(AppTaggingCoppaPages.COPPA_THANK_AFTER_FIRST_CONSENT);
         } else if (mCoppaStatus == CoppaStatus.kDICOPPAConfirmationGiven.toString()) {
             mTextDetailsContant.setText(getAlreadyUsText());
@@ -171,6 +174,16 @@ public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment
 
     private String getAlreadyUsText() {
         return mContext.getString(R.string.reg_Coppa_US_Parental_Access_Consent_Given_Content_Txt);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -124,6 +125,16 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     public void onDetach() {
         super.onDetach();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDetach");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     @Override
@@ -253,7 +264,9 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }
-        mBtnSignOut.setEnabled(true);
+        if (mBtnSignOut != null) {
+            mBtnSignOut.setEnabled(true);
+        }
     }
 
 }

@@ -543,7 +543,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 handleLoginSuccess();
             }
         });
-
     }
 
     private void handleLoginSuccess() {
@@ -565,7 +564,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void launchAccountActivationFragment() {
        getRegistrationFragment().launchAccountActivationFragmentForLogin();
     }
-
 
     private void launchWelcomeFragment() {
         String emailId = mUser.getEmail();
@@ -614,8 +612,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 handleLoginFailedWithError(userRegistrationFailureInfo);
             }
         });
-
-
     }
 
     private void handleLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -731,8 +727,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
         handleUiState();
     }
-
-
 
     private void trackSocialProviderPage() {
         if (mProvider == null) {

@@ -181,13 +181,13 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
                 Fragment regFragment = fragment.getChildFragmentManager().getFragments().get(count);
                 if (regFragment != null && regFragment instanceof RegistrationFragment) {
-                    fragment.getUpdateTitleListener().updateRegistrationTitle(((RegistrationFragment)regFragment).getCurrentTitleResource());
+                    if(null != fragment.getUpdateTitleListener()){
+                        fragment.getUpdateTitleListener().updateRegistrationTitle(((RegistrationFragment)regFragment).getCurrentTitleResource());
+                    }
                 }
 
             }
         }
-
-
     }
 
     private void trackBackActionPage() {

@@ -153,23 +153,25 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     private boolean handleBackStack() {
-        int count = mFragmentManager.getBackStackEntryCount();
-        if (count == 0) {
-            return true;
-        }
-        Fragment fragment = mFragmentManager.getFragments().get(count);
-        if (fragment instanceof WelcomeFragment) {
-            navigateToHome();
-            trackPage(AppTaggingPages.HOME);
-        } else {
-            if (fragment instanceof AlmostDoneFragment) {
-                ((AlmostDoneFragment) (fragment)).clearUserData();
+        if(mFragmentManager!=null){
+            int count = mFragmentManager.getBackStackEntryCount();
+            if (count == 0) {
+                return true;
             }
-            trackHandler();
-            mFragmentManager.popBackStack();
-        }
-        if (fragment instanceof AccountActivationFragment) {
-            RegUtility.setCreateAccountStartTime(System.currentTimeMillis());
+            Fragment fragment = mFragmentManager.getFragments().get(count);
+            if (fragment instanceof WelcomeFragment) {
+                navigateToHome();
+                trackPage(AppTaggingPages.HOME);
+            } else {
+                if (fragment instanceof AlmostDoneFragment) {
+                    ((AlmostDoneFragment) (fragment)).clearUserData();
+                }
+                trackHandler();
+                mFragmentManager.popBackStack();
+            }
+            if (fragment instanceof AccountActivationFragment) {
+                RegUtility.setCreateAccountStartTime(System.currentTimeMillis());
+            }
         }
         return false;
     }
@@ -433,16 +435,20 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     public void hideKeyBoard() {
-        InputMethodManager imm = (InputMethodManager) mActivity
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (mActivity.getWindow() != null && mActivity.getWindow().getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(mActivity.getWindow().getCurrentFocus().getWindowToken(), 0);
+        if(mActivity!=null){
+            InputMethodManager imm = (InputMethodManager) mActivity
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (mActivity.getWindow() != null && mActivity.getWindow().getCurrentFocus() != null) {
+                imm.hideSoftInputFromWindow(mActivity.getWindow().getCurrentFocus().getWindowToken(), 0);
+            }
         }
     }
 
     public void showKeyBoard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        if(mActivity!=null){
+            InputMethodManager inputMethodManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        }
     }
     @Override
     public void onClick(View v) {

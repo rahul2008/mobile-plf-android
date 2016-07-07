@@ -159,7 +159,10 @@ public class ParentalConsentFragment extends RegistrationCoppaBaseFragment imple
         mLlRootContainer = (LinearLayout) view.findViewById(R.id.ll_reg_create_account_validation_fields);
         mTVRegConfirm = (TextView) view.findViewById(R.id.tv_reg_confirm);
         mTVRegConfirm.setText(getReConfirmText());
-        RegCoppaUtility.linkifyTermAndPolicy(mTVRegConfirm, getActivity(), privacyLinkClick);
+        if(getActivity()!=null){
+            RegCoppaUtility.linkifyTermAndPolicy(mTVRegConfirm, getActivity(), privacyLinkClick);
+        }
+
     }
 
     private String getReConfirmText() {

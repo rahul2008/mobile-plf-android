@@ -181,13 +181,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putString("saveErrText", mRegError.getError());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null){
+            mRegError.setError(savedInstanceState.getString("saveErrText"));
+        }
     }
-
 
     @Override
     public void onConfigurationChanged(Configuration config) {
@@ -350,10 +354,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         hideSignInSpinner();
         mBtnSignInAccount.setEnabled(false);
 
-        if(userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE
-                || userRegistrationFailureInfo.getErrorCode() == UN_EXPECTED_ERROR){
+        if (userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE
+                || userRegistrationFailureInfo.getErrorCode() == UN_EXPECTED_ERROR) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-        }else {
+        } else {
             if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
                 //HSDP related error description
                 scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -429,7 +433,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             return;
         } else {
             mLlattentionBox.setVisibility(View.GONE);
-            if(userRegistrationFailureInfo.getErrorCode() == -1) {
+            if (userRegistrationFailureInfo.getErrorCode() == -1) {
                 mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             }
         }

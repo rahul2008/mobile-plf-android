@@ -174,6 +174,21 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("saveErrText", mRegError.getError());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null){
+            mRegError.setError(savedInstanceState.getString("saveErrText"));
+        }
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration config) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onConfigurationChanged");
         super.onConfigurationChanged(config);

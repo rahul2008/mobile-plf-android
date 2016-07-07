@@ -126,10 +126,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
         }
 
-
-
-
-
         mLlConfiguration.setVisibility(View.GONE);
         mBtnChangeConfiguaration = (Button) findViewById(R.id.btn_change_configuration);
         mBtnChangeConfiguaration.setOnClickListener(new OnClickListener() {
@@ -144,13 +140,10 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             public void onClick(View v) {
                 mLlConfiguration.setVisibility(View.GONE);
 
-
                 //Resetn
                 UserRegistrationInitializer.getInstance().resetInitializationState();
                 //Logout user
                 clearData();
-
-
 
                 int checkedId = mRadioGroup.getCheckedRadioButtonId();
                 // find which radio button is selected

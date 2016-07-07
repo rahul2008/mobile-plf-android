@@ -401,19 +401,25 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
                 @Override
                 public void updateRegistrationTitle(int titleResourceID) {
                     lastKnownResourceId = titleResourceID;
-                    mRegistrationUpdateTitleListener.updateRegistrationTitle(titleResourceID);
+                    if(mRegistrationUpdateTitleListener!=null){
+                        mRegistrationUpdateTitleListener.updateRegistrationTitle(titleResourceID);
+                    }
                 }
 
                 @Override
                 public void updateRegistrationTitleWithBack(int titleResourceID) {
                     lastKnownResourceId = titleResourceID;
-                    mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                    if(mRegistrationUpdateTitleListener!=null){
+                        mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                    }
                 }
 
                 @Override
                 public void updateRegistrationTitleWithOutBack(int titleResourceID) {
                     lastKnownResourceId = titleResourceID;
-                    mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                    if(mRegistrationUpdateTitleListener!=null){
+                        mRegistrationUpdateTitleListener.updateRegistrationTitleWithBack(titleResourceID);
+                    }
 
                 }
             });
@@ -491,10 +497,6 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
             handleConsentState();
 
         }
-
-
-
-
 
         @Override
         public void onPrivacyPolicyClick(Activity activity) {

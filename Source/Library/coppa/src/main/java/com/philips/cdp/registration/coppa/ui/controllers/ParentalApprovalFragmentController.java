@@ -51,10 +51,12 @@ public class ParentalApprovalFragmentController implements RefreshUserHandler, V
 
     public ParentalApprovalFragmentController(ParentalApprovalFragment fragment) {
         mParentalApprovalFragment = fragment;
-        mCoppaExtension = new CoppaExtension(mParentalApprovalFragment.getRegistrationFragment().getParentActivity().getApplicationContext());
-        Bundle bunble = mParentalApprovalFragment.getArguments();
-        if (bunble != null) {
-            isParentalConsent = bunble.getBoolean(RegConstants.IS_FROM_PARENTAL_CONSENT, false);
+        if(mParentalApprovalFragment.getRegistrationFragment().getParentActivity() != null){
+            mCoppaExtension = new CoppaExtension(mParentalApprovalFragment.getRegistrationFragment().getParentActivity().getApplicationContext());
+            Bundle bunble = mParentalApprovalFragment.getArguments();
+            if (bunble != null) {
+                isParentalConsent = bunble.getBoolean(RegConstants.IS_FROM_PARENTAL_CONSENT, false);
+            }
         }
     }
 

@@ -48,6 +48,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     private XRegError mRegError;
     private ScrollView mSvRootLayout;
     private View mShadowLineView;
+    private String mSavedTitleStr;
     private ClickableSpan privacyLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
@@ -159,16 +160,6 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-    }
-
-    @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserParentalApprovalFragment : onConfigurationChanged");
@@ -209,7 +200,9 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
         if (mParentalApprovalFragmentController.isCountryUS()) {
             mTvConfirmApprovalDesc.setText(getUsText());
         }
-        RegCoppaUtility.linkifyTermAndPolicy(mTvConfirmApprovalDesc, getActivity(), privacyLinkClick);
+        if (getActivity() != null) {
+            RegCoppaUtility.linkifyTermAndPolicy(mTvConfirmApprovalDesc, getActivity(), privacyLinkClick);
+        }
         mTvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
         mBtnDisAgree.setVisibility(View.VISIBLE);
@@ -220,7 +213,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     private String getUsText() {
         return mContext.getString(R.string.reg_Coppa_Give_Approval_txt) +
-               String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
+                String.format(mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_PrivacyNoticeText));
     }
 
     private String getNonUsText() {
@@ -231,7 +224,8 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     public void setIsUSRegionCode() {
         mTvRegConfirmApproval.setVisibility(View.VISIBLE);
         mTvConfirmApprovalDesc.setText(String.format(mContext.getString(R.string.reg_Coppa_Confirm_Approval_Content_txt) + mContext.getString(R.string.reg_Coppa_Give_Approval_PrivacyNotes_txt), mContext.getString(R.string.reg_Coppa_Privacy_Notice_Screen_Title_txt)));
-        RegCoppaUtility.linkifyTermAndPolicy(mTvConfirmApprovalDesc, getActivity(), privacyLinkClick);
+        if (getActivity() != null)
+            RegCoppaUtility.linkifyTermAndPolicy(mTvConfirmApprovalDesc, getActivity(), privacyLinkClick);
         mTvConfirmApprovalDesc.setVisibility(View.VISIBLE);
         mBtnAgree.setVisibility(View.VISIBLE);
         mBtnDisAgree.setVisibility(View.VISIBLE);
@@ -241,7 +235,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_Coppa_Age_Confirmation_Screen_Title_txt;
+          return R.string.reg_Coppa_Age_Confirmation_Screen_Title_txt;
     }
 
     public void showRefreshProgress() {

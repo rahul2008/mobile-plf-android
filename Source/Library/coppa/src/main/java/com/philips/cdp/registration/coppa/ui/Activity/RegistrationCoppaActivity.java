@@ -90,6 +90,21 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
+        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
+    }
+
+    @Override
     protected void onStart() {
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaActivity : onStart");
         super.onStart();
@@ -124,20 +139,6 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         super.onDestroy();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
-        RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
-        bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
-        savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
-    }
 
     @Override
     public void onBackPressed() {
