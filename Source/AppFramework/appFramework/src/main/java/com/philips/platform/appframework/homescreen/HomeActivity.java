@@ -34,7 +34,6 @@ import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
 import com.philips.platform.appframework.utility.Logger;
-import com.philips.platform.modularui.statecontroller.UIBaseNavigation;
 
 import java.util.ArrayList;
 
@@ -54,7 +53,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
     private TextView actionBarCount;
     private HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
-    private UIBaseNavigation mNavigator;
     private LinearLayout hamburgerClick = null;
     private ConsumerCareLauncher mConsumerCareFragment = null;
 
@@ -198,7 +196,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
 
     @Override
     public void onBackPressed() {
-        mNavigator.setState();
         if (philipsDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             philipsDrawerLayout.closeDrawer(Gravity.LEFT);
         }
@@ -207,7 +204,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
     @Override
     protected void onResume() {
         super.onResume();
-        mNavigator.setState();
         showNavigationDrawerItem(0);
 
     }
