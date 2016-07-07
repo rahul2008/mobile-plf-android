@@ -78,31 +78,7 @@
     </string-array>
 
     <string-array name="productselection_ctnlist">
-        <item>SCD888/26</item>
-        <item>RQ1250/16</item>
-        <item>RQ1250/17</item>
-        <item>HD3197/03</item>
-        <item>HX6321_02</item>
-        <item>SC2009/00</item>
-        <item>PR3743/00</item>
-        <item>PR3840/00</item>
-        <item>S9721/84</item>
-        <item>HP6519/01</item>
-        <item>S9711/31</item>
-        <item>S9511/26</item>
-        <item>S9031/12</item>
-        <item>HD8967_01</item>
         <item>HD9240/90</item>
-        <item>RQ1150/16</item>
-        <item>SC5994/00</item>
-        <item>SC2008/11</item>
-        <item>HR1871_00</item>
-        <item>SC2009/00</item>
-        <item>HX9192/01</item>
-        <item>HX9192/02</item>
-        <item>HX9192/03</item>
-        <item>HX9192/04</item>
-        <item>HX9191/06</item>
     </string-array>
     <!--ConsumerCare related end here.-->
 

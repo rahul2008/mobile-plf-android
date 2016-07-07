@@ -149,7 +149,7 @@ android {
         }
 
         debug {
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources true
             debuggable true
             testCoverageEnabled true
@@ -232,12 +232,12 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '5.2.1', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '5.2.5', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'productselection', version: '1.2.0', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'productselection', version: '1.3.0-rc.9', ext: 'aar'){
         exclude group: 'com.android.support'
         transitive = true
     }
