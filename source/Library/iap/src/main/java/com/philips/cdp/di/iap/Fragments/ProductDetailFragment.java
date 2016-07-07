@@ -250,7 +250,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
             } else {
                 setTitle(mProductTitle);
                 setButtonState();
-                //   if (ControllerFactory.getInstance().loadLocalData())
                 mBuyFromRetailors.setVisibility(View.VISIBLE);
                 mBuyFromRetailors.setOnClickListener(this);
             }
