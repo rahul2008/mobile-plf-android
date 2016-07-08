@@ -32,11 +32,20 @@ public class Product implements Serializable {
     private Catalog catalog;
     private String locale;
     private boolean shouldSendEmailAfterRegistration;
+    private String friendlyName;
 
     public Product(String productModelNumber, Sector sector, Catalog catalog) {
         this.productModelNumber = productModelNumber;
         this.sector = sector;
         this.catalog = catalog;
+    }
+
+    public String getFriendlyName() {
+        return friendlyName;
+    }
+
+    public void setFriendlyName(final String friendlyName) {
+        this.friendlyName = friendlyName;
     }
 
     public void getProductMetadata(final Context context, final MetadataListener metadataListener) {

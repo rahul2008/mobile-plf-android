@@ -17,13 +17,11 @@
 
 
         <EditText
-            android:id="@+id/edt_reg_channel"
+            android:id="@+id/friendly_name_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
-            android:editable="false"
-            android:hint="Registration Channel"
-            android:visibility="gone"/>
+            android:hint="Friendly Name"/>
 
         <EditText
             android:id="@+id/edt_purchase_date"

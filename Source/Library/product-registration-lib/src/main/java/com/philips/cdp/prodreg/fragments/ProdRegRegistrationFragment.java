@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -274,12 +275,17 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void setSummaryView(final Data summaryData) {
-        final String familyName = summaryData.getFamilyName();
-        final String productTitle = summaryData.getProductTitle();
-        productFriendlyNameTextView.setText(familyName != null ? familyName : "");
-        productTitleTextView.setText(productTitle != null ? productTitle : "");
-        imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.prod_reg_default_placeholder, R.drawable.prod_reg_default_placeholder));
-        serial_number_editText.addTextChangedListener(getWatcher());
+        if (summaryData != null) {
+            final String productTitle = summaryData.getProductTitle();
+            if (!TextUtils.isEmpty(productTitle)) {
+                productTitleTextView.setVisibility(View.VISIBLE);
+                productTitleTextView.setText(productTitle);
+            } else {
+                productTitleTextView.setVisibility(View.GONE);
+            }
+            imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.prod_reg_default_placeholder, R.drawable.prod_reg_default_placeholder));
+            serial_number_editText.addTextChangedListener(getWatcher());
+        }
     }
 
     @Override
@@ -287,7 +293,18 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         date_EditText.setText(registeredProduct.getPurchaseDate());
         serial_number_editText.setText(registeredProduct.getSerialNumber());
         final String productCtn = registeredProduct.getCtn();
-        productCtnTextView.setText(productCtn != null ? productCtn : "");
+        if (!TextUtils.isEmpty(registeredProduct.getCtn())) {
+            productCtnTextView.setVisibility(View.VISIBLE);
+            productCtnTextView.setText(productCtn);
+        } else {
+            productCtnTextView.setVisibility(View.GONE);
+        }
+        if (TextUtils.isEmpty(registeredProduct.getFriendlyName())) {
+            productFriendlyNameTextView.setVisibility(View.GONE);
+        } else {
+            productFriendlyNameTextView.setVisibility(View.VISIBLE);
+            productFriendlyNameTextView.setText(registeredProduct.getFriendlyName());
+        }
         handleDateEditTextOnError();
         handleSerialNumberEditTextOnError();
     }
@@ -326,5 +343,4 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             activity.getSupportFragmentManager().executePendingTransactions();
         }
     }
-
 }

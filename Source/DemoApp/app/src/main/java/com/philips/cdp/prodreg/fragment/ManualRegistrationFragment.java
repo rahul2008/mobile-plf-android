@@ -27,7 +27,6 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,7 +42,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
 
     public static final String TAG = ManualRegistrationFragment.class.getName();
     private ToggleButton toggleButton;
-    private EditText mRegChannel, mSerialNumber, mPurchaseDate, mCtn;
+    private EditText mFriendlyName, mSerialNumber, mPurchaseDate, mCtn;
     private Calendar mCalendar;
     private Button pr_activity_a, pr_activity_b, pr_fragment_a, pr_fragment_b;
     private boolean eMailConfiguration = false;
@@ -95,9 +94,9 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
 
     private void init(final View view) {
         fragmentActivity = getActivity();
-        mRegChannel = (EditText) view.findViewById(R.id.edt_reg_channel);
         mSerialNumber = (EditText) view.findViewById(R.id.edt_serial_number);
         mPurchaseDate = (EditText) view.findViewById(R.id.edt_purchase_date);
+        mFriendlyName = (EditText) view.findViewById(R.id.friendly_name_edittext);
         mCtn = (EditText) view.findViewById(R.id.edt_ctn);
         pr_activity_a = (Button) view.findViewById(R.id.pr_activity_a);
         pr_activity_b = (Button) view.findViewById(R.id.pr_activity_b);
@@ -153,9 +152,6 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         if (mCtn.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(fragmentActivity, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
         } else {
-            String MICRO_SITE_ID = "MS";
-            final String text = MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId();
-            mRegChannel.setText(text);
             registerProduct(isActivity, type);
         }
     }
@@ -185,6 +181,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         Product product = new Product(mCtn.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         product.setSerialNumber(mSerialNumber.getText().toString());
         product.setPurchaseDate(mPurchaseDate.getText().toString());
+        product.setFriendlyName(mFriendlyName.getText().toString());
         product.sendEmail(eMailConfiguration);
         invokeProdRegFragment(product, isActivity, type);
     }

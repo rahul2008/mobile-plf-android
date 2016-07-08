@@ -81,14 +81,13 @@ public class ProdRegRegistrationController {
             registeredProduct.setSerialNumber(currentProduct.getSerialNumber());
             registeredProduct.setPurchaseDate(currentProduct.getPurchaseDate());
             registeredProduct.sendEmail(currentProduct.getEmail());
+            registeredProduct.setFriendlyName(currentProduct.getFriendlyName());
         }
         return registeredProduct;
     }
 
     private void updateSummaryView(final Data summaryData) {
-        if (summaryData != null) {
-            registerControllerCallBacks.setSummaryView(summaryData);
-        }
+        registerControllerCallBacks.setSummaryView(summaryData);
     }
 
     private void updateProductView() {
