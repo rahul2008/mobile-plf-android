@@ -22,7 +22,10 @@ import com.philips.cdp.prodreg.launcher.ActivityLauncher;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
+import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
@@ -198,19 +201,27 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                         getActivity().getActionBar().setTitle(var1);
                 }
             });
-            fragLauncher.setRegProdList(regProdList);
             fragLauncher.setAnimation(0, 0);
             if (type.equalsIgnoreCase("a")) {
                 fragLauncher.setFirstLaunch(true);
             }
-            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher);
+            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, regProdList, new ProdRegUiListener() {
+                @Override
+                public void onProdRegExit(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
+
+                }
+            });
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, -1);
             if (type.equalsIgnoreCase("a")) {
                 activityLauncher.setFirstLaunch(true);
             }
-            activityLauncher.setRegProdList(regProdList);
-            ProdRegUiHelper.getInstance().invokeProductRegistration(activityLauncher);
+            ProdRegUiHelper.getInstance().invokeProductRegistration(activityLauncher, regProdList, new ProdRegUiListener() {
+                @Override
+                public void onProdRegExit(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
+
+                }
+            });
         }
     }
 

@@ -20,12 +20,16 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
+import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
+import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -96,9 +100,13 @@ public class ProdRegBaseActivity extends UiKitActivity {
                 }
             });
             fragLauncher.setAnimation(0, 0);
-            fragLauncher.setRegProdList(regProdList);
             fragLauncher.setFirstLaunch(isFirstLaunch);
-            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher);
+            ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, regProdList, new ProdRegUiListener() {
+                @Override
+                public void onProdRegExit(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
+                    Toast.makeText(ProdRegBaseActivity.this, registeredProduct.getCtn(), Toast.LENGTH_SHORT).show();
+                }
+            });
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
@@ -108,7 +116,6 @@ public class ProdRegBaseActivity extends UiKitActivity {
         Bundle bundleExtras = getIntent().getExtras();
         int startAnimation = bundleExtras.getInt(ProdRegConstants.START_ANIMATION_ID);
         int endAnimation = bundleExtras.getInt(ProdRegConstants.STOP_ANIMATION_ID);
-        int orientation = bundleExtras.getInt(ProdRegConstants.SCREEN_ORIENTATION);
 
         if (startAnimation == 0 && endAnimation == 0) {
             return;
@@ -122,7 +129,6 @@ public class ProdRegBaseActivity extends UiKitActivity {
                 "anim", packageName);
         final int mExitAnimation = getApplicationContext().getResources().getIdentifier(endAnim, "anim",
                 packageName);
-        setRequestedOrientation(orientation);
         overridePendingTransition(mEnterAnimation, mExitAnimation);
     }
 

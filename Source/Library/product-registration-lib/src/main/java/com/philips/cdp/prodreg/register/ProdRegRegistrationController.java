@@ -38,16 +38,28 @@ public class ProdRegRegistrationController {
     private ProductMetadataResponseData productMetadataResponseData;
     private RegisteredProduct registeredProduct;
     private FragmentActivity fragmentActivity;
+    private User user;
 
     public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.registerControllerCallBacks = registerControllerCallBacks;
         this.fragmentActivity = fragmentActivity;
+        this.user = new User(fragmentActivity);
     }
 
     public void handleState() {
-        if (registeredProduct.isProductAlreadyRegistered(new LocalRegisteredProducts(fragmentActivity, new User(fragmentActivity)))) {
-            registerControllerCallBacks.showFragment(new ProdRegSuccessFragment());
+        if (getRegisteredProduct().isProductAlreadyRegistered(getLocalRegisteredProducts())) {
+            registerControllerCallBacks.showFragment(getSuccessFragment());
         }
+    }
+
+    @NonNull
+    protected ProdRegSuccessFragment getSuccessFragment() {
+        return new ProdRegSuccessFragment();
+    }
+
+    @NonNull
+    protected LocalRegisteredProducts getLocalRegisteredProducts() {
+        return new LocalRegisteredProducts(fragmentActivity, user);
     }
 
     public void init(final Bundle bundle) {
@@ -81,14 +93,14 @@ public class ProdRegRegistrationController {
 
     private void updateProductView() {
         if (registeredProduct != null) {
-            handleRequiredFieldState();
-            registerControllerCallBacks.setProductView(registeredProduct);
+            handleRequiredFieldState(getRegisteredProduct());
+            registerControllerCallBacks.setProductView(getRegisteredProduct());
         }
     }
 
-    private void handleRequiredFieldState() {
+    private void handleRequiredFieldState(final RegisteredProduct registeredProduct) {
         if (productMetadataResponseData != null) {
-            registerControllerCallBacks.requireFields(productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true"), productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true"));
+            registerControllerCallBacks.requireFields(productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true"), (productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true") && !isValidSerialNumber(registeredProduct.getSerialNumber())));
         }
     }
 
@@ -111,14 +123,14 @@ public class ProdRegRegistrationController {
         if (validDate && validSerialNumber) {
             ProdRegTagging.getInstance(fragmentActivity).trackActionWithCommonGoals("ProdRegRegistrationScreen", "specialEvents", "extendWarrantyOption");
             registerControllerCallBacks.showLoadingDialog();
-            registeredProduct.setPurchaseDate(purchaseDate);
-            registeredProduct.setSerialNumber(serialNumber);
+            getRegisteredProduct().setPurchaseDate(purchaseDate);
+            getRegisteredProduct().setSerialNumber(serialNumber);
             ProdRegHelper prodRegHelper = new ProdRegHelper();
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
             final ProdRegCache prodRegCache = new ProdRegCache(fragmentActivity);
             ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_START_COUNT, 1);
             ProdRegTagging.getInstance(fragmentActivity).trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_START_COUNT)));
-            prodRegHelper.getSignedInUserWithProducts().registerProduct(registeredProduct);
+            prodRegHelper.getSignedInUserWithProducts().registerProduct(getRegisteredProduct());
         }
     }
 
@@ -148,7 +160,7 @@ public class ProdRegRegistrationController {
                     final ProdRegCache prodRegCache = new ProdRegCache(fragmentActivity);
                     ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
                     ProdRegTagging.getInstance(fragmentActivity).trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_COMPLETED_COUNT)));
-                    final ProdRegSuccessFragment fragment = new ProdRegSuccessFragment();
+                    final ProdRegSuccessFragment fragment = getSuccessFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
                     fragment.setArguments(bundle);
@@ -163,10 +175,22 @@ public class ProdRegRegistrationController {
                     if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
                         registerControllerCallBacks.showAlertOnError(registeredProduct.getProdRegError().getCode());
                     } else {
-                        registerControllerCallBacks.showFragment(new ProdRegSuccessFragment());
+                        final ProdRegSuccessFragment fragment = getSuccessFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
+                        fragment.setArguments(bundle);
+                        registerControllerCallBacks.showFragment(fragment);
                     }
                 }
             }
         };
+    }
+
+    protected User getUser() {
+        return user;
+    }
+
+    protected RegisteredProduct getRegisteredProduct() {
+        return registeredProduct;
     }
 }

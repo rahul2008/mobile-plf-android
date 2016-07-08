@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
+import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
@@ -20,6 +22,7 @@ import com.philips.cdp.product_registration_lib.R;
 public class ProdRegSuccessFragment extends ProdRegBaseFragment {
 
     public static final String TAG = ProdRegSuccessFragment.class.getName();
+    private RegisteredProduct registeredProduct;
 
     @Override
     public String getActionbarTitle() {
@@ -35,6 +38,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
             @Override
             public void onClick(final View v) {
                 onBackPressed();
+                ProdRegUiHelper.getInstance().getProdRegUiListener().onProdRegExit(registeredProduct, new ProdRegHelper().getSignedInUserWithProducts());
             }
         });
         return view;
@@ -45,9 +49,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         super.onActivityCreated(savedInstanceState);
         final Bundle arguments = getArguments();
         if (arguments != null) {
-            RegisteredProduct registeredProduct = (RegisteredProduct) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
-            if (registeredProduct != null)
-                ProdRegTagging.getInstance(getActivity()).trackPageWithCommonGoals("ProdRegSuccessScreen", "productModel", registeredProduct.getCtn());
+            registeredProduct = (RegisteredProduct) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
         }
     }
 

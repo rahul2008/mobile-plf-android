@@ -5,6 +5,7 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 
+import java.io.Serializable;
 import java.util.List;
 
 /* Copyright (c) Koninklijke Philips N.V., 2016
@@ -12,7 +13,7 @@ import java.util.List;
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-public class RegisteredProduct extends Product {
+public class RegisteredProduct extends Product implements Serializable {
 
     private RegistrationState registrationState;
     private String endWarrantyDate;

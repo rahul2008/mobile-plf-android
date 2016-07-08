@@ -259,7 +259,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void isValidDate(boolean validDate) {
         if (validDate) {
-            registerButton.setEnabled(true);
             purchaseDateLayout.removeError(date_EditText);
         } else
             showErrorMessageDate(date_EditText);
@@ -269,7 +268,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void isValidSerialNumber(boolean validSerialNumber, String format) {
         if (validSerialNumber) {
             serialLayout.removeError(serial_number_editText);
-            registerButton.setEnabled(true);
         } else
             showErrorMessageSerialNumber(serial_number_editText, format);
     }

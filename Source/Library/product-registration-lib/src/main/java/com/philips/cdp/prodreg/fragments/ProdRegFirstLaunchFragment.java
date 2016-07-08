@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.localcache.ProdRegCache;
+import com.philips.cdp.prodreg.tagging.ProdRegTagging;
+import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 
 /**
@@ -53,6 +56,11 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                     bundle.putBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, true);
                     processFragment.setArguments(bundle);
                 }
+                ProdRegTagging.getInstance(getActivity()).trackActionWithCommonGoals("ProdRegFirstLaunchScreen", "specialEvents", "productregistrationOptin");
+                final ProdRegCache prodRegCache = new ProdRegCache(getActivity());
+                ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_EXTENDED_WARRANTY_COUNT, 1);
+                ProdRegTagging.getInstance(getActivity()).trackActionWithCommonGoals("ProdRegFirstLaunchScreen", "noOfExtendedWarrantyOptIns", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_EXTENDED_WARRANTY_COUNT)));
+
                 showFragment(processFragment);
             }
         };

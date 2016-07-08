@@ -31,4 +31,5 @@ public class ProdRegConstants {
     public static String Product_REGISTRATION_COMPLETED_COUNT = "prod_reg_complete_count";
     public static String Product_REGISTRATION_DATE_COUNT = "prod_reg_date_count";
     public static String Product_REGISTRATION_SCAN_COUNT = "prod_reg_scan_count";
+    public static String Product_REGISTRATION_EXTENDED_WARRANTY_COUNT = "prod_reg_ext_warranty_count";
 }
