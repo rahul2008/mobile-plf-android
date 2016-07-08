@@ -45,8 +45,7 @@ public class DeviceDefinitionInfoReferenceBoard implements SHNDeviceDefinitionIn
     @Override
     public SHNDeviceDefinition getSHNDeviceDefinition() {
         if (shnDeviceDefinition == null) {
-            DeviceDefinitionReferenceBoardFactory factory = new DeviceDefinitionReferenceBoardFactory();
-            shnDeviceDefinition = new DeviceDefinitionReferenceBoard(factory);
+            shnDeviceDefinition = new DeviceDefinitionReferenceBoard();
         }
         return shnDeviceDefinition;
     }
