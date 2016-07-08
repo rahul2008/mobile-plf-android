@@ -83,10 +83,10 @@ public class ProdRegUiHelper {
         }
     }
 
-    public void invokeProductRegistration(UiLauncher uiLauncher, ArrayList<Product> products, ProdRegUiListener listener) {
+    public void invokeProductRegistration(UiLauncher uiLauncher, ArrayList<Product> products, ProdRegUiListener prodRegUiListener) {
         mUiLauncher = uiLauncher;
         this.productList = products;
-        this.prodRegUiListener = listener;
+        this.prodRegUiListener = prodRegUiListener;
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             invokeProductRegistrationAsActivity(activityLauncher.getFragmentActivity(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());

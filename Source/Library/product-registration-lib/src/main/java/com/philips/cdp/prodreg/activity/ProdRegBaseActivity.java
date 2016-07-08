@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.FragmentLauncher;
@@ -104,7 +103,6 @@ public class ProdRegBaseActivity extends UiKitActivity {
             ProdRegUiHelper.getInstance().invokeProductRegistration(fragLauncher, regProdList, new ProdRegUiListener() {
                 @Override
                 public void onProdRegExit(final RegisteredProduct registeredProduct, final UserWithProducts userWithProduct) {
-                    Toast.makeText(ProdRegBaseActivity.this, registeredProduct.getCtn(), Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (IllegalStateException e) {
