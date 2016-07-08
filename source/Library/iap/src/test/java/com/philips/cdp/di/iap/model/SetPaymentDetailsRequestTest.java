@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.model;
 
 import android.content.Context;
@@ -7,6 +11,7 @@ import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
@@ -19,7 +24,6 @@ import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
 public class SetPaymentDetailsRequestTest {
@@ -81,7 +85,7 @@ public class SetPaymentDetailsRequestTest {
         SetPaymentDetailsRequest request = new SetPaymentDetailsRequest(mStore, null, null);
         String str = null;
         Object response = request.parseResponse(str);
-        assertNull(null, response);
+        assertEquals(IAPConstant.IAP_SUCCESS, response);
     }
 
     @Test
