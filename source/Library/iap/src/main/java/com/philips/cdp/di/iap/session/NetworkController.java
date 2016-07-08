@@ -20,15 +20,16 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
 
+/**
+ * NetworkController class is used to make Hybris request
+ */
 public class NetworkController {
-    HurlStack mIAPHurlStack;
-    RequestQueue hybrisVolleyQueue;
-    Context context;
-    StoreSpec store;
-    OAuthHandler oAuthHandler;
-
-    NetworkEssentials mNetworkEssentials;
-
+    private HurlStack mIapHurlStack;
+    private RequestQueue hybrisVolleyQueue;
+    private Context context;
+    private StoreSpec store;
+    private  OAuthHandler oAuthHandler;
+    private NetworkEssentials mNetworkEssentials;
 
     public NetworkController(Context context) {
         this(context, null);
@@ -44,7 +45,7 @@ public class NetworkController {
     }
 
     void initHurlStack(final Context context) {
-        mIAPHurlStack = mNetworkEssentials.getHurlStack(context, oAuthHandler);
+        mIapHurlStack = mNetworkEssentials.getHurlStack(context, oAuthHandler);
     }
 
     void initStore() {
@@ -52,7 +53,7 @@ public class NetworkController {
     }
 
     public void hybrisVolleyCreateConnection(Context context) {
-        hybrisVolleyQueue = VolleyWrapper.newRequestQueue(context, mIAPHurlStack);
+        hybrisVolleyQueue = VolleyWrapper.newRequestQueue(context, mIapHurlStack);
     }
 
     void refreshOAuthToken(RequestListener listener) {

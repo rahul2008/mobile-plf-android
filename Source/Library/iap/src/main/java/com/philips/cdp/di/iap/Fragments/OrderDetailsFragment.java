@@ -266,7 +266,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     }
 
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"rawtype","unchecked"})
     private boolean processResponseFromPRX(final Message msg) {
         if (msg.obj instanceof HashMap) {
             final HashMap obj = (HashMap) msg.obj;
