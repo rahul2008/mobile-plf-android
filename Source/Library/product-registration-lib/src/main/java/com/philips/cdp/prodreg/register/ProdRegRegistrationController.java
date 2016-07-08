@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
@@ -175,11 +176,7 @@ public class ProdRegRegistrationController {
                     if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
                         registerControllerCallBacks.showAlertOnError(registeredProduct.getProdRegError().getCode());
                     } else {
-                        final ProdRegSuccessFragment fragment = getSuccessFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);
-                        fragment.setArguments(bundle);
-                        registerControllerCallBacks.showFragment(fragment);
+                        registerControllerCallBacks.showFragment(new ProdRegConnectionFragment());
                     }
                 }
             }
