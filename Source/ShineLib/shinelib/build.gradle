@@ -2,11 +2,18 @@
  * Copyright (c) Koninklijke Philips N.V., 2016
  * All rights reserved.
  */
-
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'cdpSCM'
 
-apply from: '../extra/artifactory.gradle'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
 
 android {
     compileSdkVersion _compileSdkVersion
@@ -16,7 +23,7 @@ android {
         minSdkVersion _minSdkVersion
         targetSdkVersion _targetSdkVersion
         versionCode _versionCode
-        versionName getLibVersionName(shineLibVersion)
+        versionName version
 
         consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
@@ -25,8 +32,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
         }
     }
 }
@@ -51,15 +56,23 @@ dependencies {
     }
 }
 
-def getLibVersionName(shineLibVersion) {
-    def gitHash = """git rev-parse --short HEAD""".execute().text.trim()
-    def workingBranch = """git rev-parse --abbrev-ref HEAD""".execute().text.trim()
-
-    if (!workingBranch.equals('master')) {
-        return "${shineLibVersion} (${gitHash} ${workingBranch})"
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = true
+        }
     }
-
-    return "${shineLibVersion}"
+    resolve {
+        repository {
+            repoKey = 'libs-release-local-android'
+        }
+    }
 }
 
 def javaDocClassesForPublicApi = ['SHNCentral',
@@ -72,7 +85,7 @@ def javaDocClassesForPublicApi = ['SHNCentral',
                                   'SHNUserConfiguration',
                                   'SHNDevice',
                                   'SHNCapability',
-                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNFirmwareInfoResultListener','SHNFirmwareInfo','SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',
+                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNFirmwareInfoResultListener', 'SHNFirmwareInfo', 'SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',
                                   'SHNData',
                                   'SHNDataType', 'SHNDataBloodPressure', 'SHNDataHeartRate', 'SHNDataWeight', 'SHNDataBodyTemperature', 'SHNTemperatureType',
                                   'SHNResult', 'SHNResultListener', 'SHNIntegerResultListener', 'SHNStringResultListener', 'SHNSetResultListener', 'SHNMapResultListener', 'SHNObjectResultListener']
@@ -139,3 +152,26 @@ task generateJavadoc()
 generateJavadoc.dependsOn {
     tasks.findAll { task -> task.name.startsWith('generateJavadoc') && task.name != "generateJavadoc" }
 }
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+    archives sourceJar
+}
+
+task zipDocuments(type: Zip) {
+    def docFiles = objcdp.getExternalDocPath()
+    from files(docFiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+
+zipDocuments {}.dependsOn generateJavadoc
+//=======To zip and upload "Documents/External" ==ENDS=============
