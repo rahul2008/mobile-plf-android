@@ -1,8 +1,7 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
  */
-
 package com.philips.cdp.dicommclient.discovery;
 
 import android.content.Context;
@@ -621,6 +620,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         String modelName = ssdpDevice.getModelName();
         String networkSsid = mNetwork.getLastKnownNetworkSsid();
         Long bootId = -1l;
+        String modelNumber = ssdpDevice.getModelNumber();
         try {
             bootId = Long.parseLong(deviceModel.getBootID());
         } catch (NumberFormatException e) {
@@ -632,6 +632,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         networkNode.setCppId(cppId);
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
+        networkNode.setModelType(modelNumber);
         networkNode.setModelName(modelName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         networkNode.setHomeSsid(networkSsid);

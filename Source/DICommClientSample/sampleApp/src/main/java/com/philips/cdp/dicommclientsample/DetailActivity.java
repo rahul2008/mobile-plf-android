@@ -1,3 +1,7 @@
+/*
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
 package com.philips.cdp.dicommclientsample;
 
 import android.os.Bundle;
@@ -19,11 +23,10 @@ import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
+import com.philips.cdp.dicommclientsample.airpurifier.AirPort;
+import com.philips.cdp.dicommclientsample.airpurifier.AirPortProperties;
+import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class DetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailActivity";
 
@@ -116,7 +119,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    private void updateLightSwitchView(final AirPort port) {
+    private void updateLightSwitchView(final AirPort<? extends AirPortProperties> port) {
         AirPortProperties properties = port.getPortProperties();
         if (properties != null) {
             lightSwitch.setChecked(properties.getLightOn());

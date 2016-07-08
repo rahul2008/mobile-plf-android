@@ -1,11 +1,11 @@
+/*
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
 package com.philips.cdp.dicommclientsample;
 
 import com.philips.cdp.dicommclient.cpp.KpsConfigurationInfo;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 class SampleKpsConfigurationInfo extends KpsConfigurationInfo {
 
     // Example configuration for test environment in Europe

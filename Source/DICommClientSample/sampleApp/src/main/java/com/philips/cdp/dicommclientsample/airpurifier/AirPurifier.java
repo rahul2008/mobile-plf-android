@@ -1,19 +1,20 @@
-package com.philips.cdp.dicommclientsample;
+/*
+ * (C) Koninklijke Philips N.V., 2015, 2016.
+ * All rights reserved.
+ */
+package com.philips.cdp.dicommclientsample.airpurifier;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-class AirPurifier extends DICommAppliance {
+public abstract class AirPurifier extends DICommAppliance {
 
     public static final String MODELNAME = "AirPurifier";
-    private final AirPort airPort;
+    AirPort<?> airPort;
 
     public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
-
-        airPort = new AirPort(networkNode, communicationStrategy);
-        addPort(airPort);
     }
 
     @Override
@@ -21,7 +22,7 @@ class AirPurifier extends DICommAppliance {
         return MODELNAME;
     }
 
-    public AirPort getAirPort() {
+    public AirPort<?> getAirPort() {
         return airPort;
     }
 }
