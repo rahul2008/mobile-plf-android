@@ -54,6 +54,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
     public ShoppingCartPresenter() {
     }
 
+    @SuppressWarnings("rawtype")
     public ShoppingCartPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
         super(context, listener, fragmentManager);
     }
