@@ -125,6 +125,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         listener.onError(msg);
     }
 
+    @SuppressWarnings("rawtypes")
     private void notifySuccessListener(final Response response, final RequestListener listener) {
         if(listener == null) return;
 
