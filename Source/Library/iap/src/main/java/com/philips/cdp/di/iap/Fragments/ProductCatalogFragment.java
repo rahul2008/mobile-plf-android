@@ -51,7 +51,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     private boolean mIsLoading = false;
     private int mTotalPages = -1;
     ProductCatalogAPI mPresenter;
-    ArrayList<ProductCatalogData> mProductCatalog;
+    ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
 
     private IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -78,7 +78,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
         super.onCreate(savedInstanceState);
         mPresenter = ControllerFactory.getInstance()
                 .getProductCatalogPresenter(getContext(), this, getFragmentManager());
-        mAdapter = new ProductCatalogAdapter(getContext(), new ArrayList<ProductCatalogData>());
+        mAdapter = new ProductCatalogAdapter(getContext(), mProductCatalog);
         loadProductCatalog();
     }
 
@@ -208,9 +208,7 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     @Override
     public void onLoadFinished(final ArrayList<ProductCatalogData> dataFetched, PaginationEntity paginationEntity) {
         updateProductCatalogList(dataFetched);
-        mAdapter = new ProductCatalogAdapter(getContext(), mProductCatalog);
-        if (mRecyclerView != null)
-            mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
         mAdapter.tagProducts();
 
         if (Utility.isProgressDialogShowing())
@@ -229,9 +227,6 @@ public class ProductCatalogFragment extends BaseAnimationSupportFragment impleme
     }
 
     private void updateProductCatalogList(final ArrayList<ProductCatalogData> dataFetched) {
-        if (mProductCatalog == null) {
-            mProductCatalog = new ArrayList<>();
-        }
         for (ProductCatalogData data : dataFetched) {
             if (!checkIfEntryExists(data))
                 mProductCatalog.add(data);

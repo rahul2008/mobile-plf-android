@@ -36,6 +36,7 @@ public class ProductCatalogHelper {
         mGetProductCatalogListener = productlistener;
     }
 
+    @SuppressWarnings("unchecked")
     public boolean processPRXResponse(final Message msg, ArrayList<String> planBProductCTNs, Products productData) {
         if (msg.obj instanceof HashMap) {
             HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
