@@ -32,7 +32,7 @@ public class AppInfra implements AppInfraInterface{
     private LoggingInterface logger;
     private AIAppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
-    private final static String APP_INFRA_VERSION = "1.1.0-rc3";
+    private final static String APP_INFRA_VERSION = "1.1.0-rc5";
     private AppIdentityInterface appIdentity;
     private LocalInterface local;
     private ServiceDiscoveryInterface mServiceDiscoveryInterface;

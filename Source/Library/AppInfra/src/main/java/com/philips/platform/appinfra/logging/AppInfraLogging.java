@@ -14,6 +14,7 @@ import com.philips.platform.appinfra.AppInfra;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -134,7 +135,12 @@ public class AppInfraLogging implements  LoggingInterface {
                 outputStream.close();
             }
         }catch(IOException e){
-            e.printStackTrace();
+            if(e instanceof FileNotFoundException){
+                Log.d("Logging Error","logging.properties file missing under App assets folder",e);
+            }else{
+                Log.d("Logging Error","",e);
+            }
+            //e.printStackTrace();
         }
     }
 
