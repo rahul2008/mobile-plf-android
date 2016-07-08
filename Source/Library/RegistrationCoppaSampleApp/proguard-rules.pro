@@ -260,7 +260,10 @@
 
 
 
-
+-keep class org.apache.commons.logging.**
+-keep class com.android.volley.**
+-keep interface com.android.volley.**
+-dontwarn com.android.volley.**
 
 
 
