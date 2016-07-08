@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.TreeMap;
 
 public class PRXProductAssetBuilder {
-    private static final String TAG = PRXProductAssetBuilder.class.getSimpleName();
     private AssetListener mAssetListener;
     private Context mContext;
     String mCTN;
