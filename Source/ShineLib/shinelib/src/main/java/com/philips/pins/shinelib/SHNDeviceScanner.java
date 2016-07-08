@@ -90,6 +90,7 @@ public class SHNDeviceScanner {
 
             @Override
             public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
+                shnInternalScanRequest = null;
                 userHandler.post(new Runnable() {
                     @Override
                     public void run() {

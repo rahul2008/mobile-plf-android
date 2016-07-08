@@ -27,6 +27,7 @@ import org.mockito.Mock;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -36,12 +37,15 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 
 public class SHNCentralTest extends RobolectricTest {
+    public static final String TEST_DEVICE_MAC_ADDRESS = "DE:AD:C0:DE:01:23";
+    public static final String TEST_DEVICE_TYPE = "TestDeviceType";
     private SHNCentral shnCentral;
     private MockedHandler mockedUserHandler;
     private MockedHandler mockedInternalHandler;
@@ -67,6 +71,18 @@ public class SHNCentralTest extends RobolectricTest {
 
     @Mock
     private SharedPreferencesMigrator mockedSharedPreferencesMigrator;
+
+    @Mock
+    private SHNDeviceDefinitionInfo shnDeviceDefinitionInfoMock;
+
+    @Mock
+    private SHNDeviceDefinitionInfo.SHNDeviceDefinition shnDeviceDefinitionMock;
+
+    @Mock
+    private SHNDevice shnDeviceMock;
+
+    @Mock
+    private SHNDevice alternateShnDeviceMock;
 
     @Before
     public void setUp() throws SHNBluetoothHardwareUnavailableException, Exception {
@@ -94,6 +110,13 @@ public class SHNCentralTest extends RobolectricTest {
 
         doNothing().when(mockedDataMigrater).execute(any(Context.class), any(PersistentStorageFactory.class));
 
+        doReturn(shnDeviceDefinitionMock).when(shnDeviceDefinitionInfoMock).getSHNDeviceDefinition();
+        doReturn(TEST_DEVICE_TYPE).when(shnDeviceDefinitionInfoMock).getDeviceTypeName();
+        doReturn(TEST_DEVICE_TYPE).when(shnDeviceMock).getDeviceTypeName();
+        doReturn(TEST_DEVICE_MAC_ADDRESS).when(shnDeviceMock).getAddress();
+        doReturn(TEST_DEVICE_TYPE).when(alternateShnDeviceMock).getDeviceTypeName();
+        doReturn(TEST_DEVICE_MAC_ADDRESS).when(alternateShnDeviceMock).getAddress();
+
         shnCentral = new SHNCentral(mockedUserHandler.getMock(), mockedContext) {
             @Override
             DataMigrater createDataMigrater() {
@@ -115,6 +138,8 @@ public class SHNCentralTest extends RobolectricTest {
                return mock(SHNUserConfiguration.class);
             }
         };
+
+        doReturn(shnDeviceMock).when(shnDeviceDefinitionMock).createDeviceFromDeviceAddress(TEST_DEVICE_MAC_ADDRESS, shnDeviceDefinitionInfoMock, shnCentral);
     }
 
     private BroadcastReceiver captureBroadCastReceiver(@NonNull String action) {
@@ -241,5 +266,27 @@ public class SHNCentralTest extends RobolectricTest {
         createSHNCentralWithProvider(mockedSharedPreferencesProvider, true);
 
         verify(mockedSharedPreferencesMigrator, never()).execute();
+    }
+
+    @Test
+    public void verifyThatRemoveDeviceFromDeviceCacheCorrectlyRemovesItFromTheCache() {
+        // Verify that shnDeviceMock is returned when a device needs to be created
+        SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(TEST_DEVICE_MAC_ADDRESS, shnDeviceDefinitionInfoMock);
+        verify(shnDeviceDefinitionMock).createDeviceFromDeviceAddress(anyString(), isA(SHNDeviceDefinitionInfo.class), isA(SHNCentral.class));
+        assertEquals(shnDeviceMock, shnDevice);
+
+        // Change the setup such that the alternativeSHNDevice is returned when a new one needs to be created
+        doReturn(alternateShnDeviceMock).when(shnDeviceDefinitionMock).createDeviceFromDeviceAddress(TEST_DEVICE_MAC_ADDRESS, shnDeviceDefinitionInfoMock, shnCentral);
+
+        // verify that when a the device is again created it is actually obtained from a cache
+        shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(TEST_DEVICE_MAC_ADDRESS, shnDeviceDefinitionInfoMock);
+        verify(shnDeviceDefinitionMock).createDeviceFromDeviceAddress(anyString(), isA(SHNDeviceDefinitionInfo.class), isA(SHNCentral.class));
+        assertEquals(shnDeviceMock, shnDevice);
+
+        // Remove the device from the cache and verify that the alternative is now returned
+        shnCentral.removeDeviceFromDeviceCache(shnDevice);
+        shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(TEST_DEVICE_MAC_ADDRESS, shnDeviceDefinitionInfoMock);
+        verify(shnDeviceDefinitionMock, times(2)).createDeviceFromDeviceAddress(anyString(), isA(SHNDeviceDefinitionInfo.class), isA(SHNCentral.class));
+        assertEquals(alternateShnDeviceMock, shnDevice);
     }
 }
