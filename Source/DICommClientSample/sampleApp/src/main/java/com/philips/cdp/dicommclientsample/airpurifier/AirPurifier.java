@@ -8,10 +8,10 @@ import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-public abstract class AirPurifier<T extends AirPort<?>> extends DICommAppliance {
+public abstract class AirPurifier extends DICommAppliance {
 
     public static final String MODELNAME = "AirPurifier";
-    T airPort;
+    AirPort<?> airPort;
 
     public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
@@ -22,7 +22,7 @@ public abstract class AirPurifier<T extends AirPort<?>> extends DICommAppliance 
         return MODELNAME;
     }
 
-    public T getAirPort() {
+    public AirPort<?> getAirPort() {
         return airPort;
     }
 }
