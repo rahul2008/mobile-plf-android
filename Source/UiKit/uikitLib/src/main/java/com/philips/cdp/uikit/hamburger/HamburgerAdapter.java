@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,9 @@ public class HamburgerAdapter extends BaseAdapter {
     private int groupAlpha = 0;
     private TextView mHamburgerTotalCountView;
 
+    private boolean isFullScreen;
+    private boolean isPreLollipop = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
+
     /**
      * Provides auto update of total count
      * when total count text view is provided as input. If used from uikit, the resource id is {@code R.id.hamburger_count}
@@ -50,8 +54,10 @@ public class HamburgerAdapter extends BaseAdapter {
      * @param hamburgerItems     {@link HamburgerItem} List of items to be shown in Hamburger menu
      * @param totalCountTextView {@link TextView} representing total count of all the items in the hamburger menu.
      *                                           Pass {@code null}, if no total count view is required.
+     * @param isFullScreen       if {@code {@link Boolean#TRUE}}, it removes the top offset for drawer view. The offset accounts to match the status bar height.
+     *                           If app running in fullscreen/immersive mode true can be applied.
      */
-    public HamburgerAdapter(@NonNull Context context, @NonNull ArrayList<HamburgerItem> hamburgerItems, TextView totalCountTextView) {
+    public HamburgerAdapter(@NonNull Context context, @NonNull ArrayList<HamburgerItem> hamburgerItems, TextView totalCountTextView, boolean isFullScreen) {
         this.context = context;
         this.hamburgerItems = hamburgerItems;
         mInflater = (LayoutInflater)
@@ -59,19 +65,19 @@ public class HamburgerAdapter extends BaseAdapter {
         setColors();
         groupAlpha = adjustAlpha(baseColor, 0.5f);
         mHamburgerTotalCountView = totalCountTextView;
-
+        this.isFullScreen = isFullScreen;
         setCounterView(totalCountTextView, calculateCount());
     }
 
 
     /**
-     * Preferred only when total badge count is not required, otherwise use {@link HamburgerAdapter#HamburgerAdapter(Context, ArrayList, TextView)}
+     * Preferred only when total badge count is not required, otherwise use {@link HamburgerAdapter#HamburgerAdapter(Context, ArrayList, TextView, boolean)}
      *
      * @param context            {@link Context} Context
      * @param hamburgerItems     {@link HamburgerItem} List of items to be shown in Hamburger menu
      */
     public HamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
-        this(context, hamburgerItems, null);
+        this(context, hamburgerItems, null, false);
     }
 
     /**
@@ -156,7 +162,7 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     private void addHeaderMargin(int position, View transparentView) {
-        if (position == 0)
+        if (position == 0 && !(isFullScreen || isPreLollipop))
             transparentView.setVisibility(View.VISIBLE);
     }
 

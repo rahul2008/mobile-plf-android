@@ -216,7 +216,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
 
     private void setDrawerAdaptor() {
         TextView totalCountView = (TextView) findViewById(R.id.hamburger_count);
-        adapter = new HamburgerAdapter(this, hamburgerItems, totalCountView);
+        adapter = new HamburgerAdapter(this, hamburgerItems, totalCountView, false);
         drawerListView.setAdapter(adapter);
     }
 
