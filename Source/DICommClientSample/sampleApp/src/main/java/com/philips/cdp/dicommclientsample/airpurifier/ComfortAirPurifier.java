@@ -7,7 +7,7 @@ package com.philips.cdp.dicommclientsample.airpurifier;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-public class ComfortAirPurifier extends AirPurifier<ComfortAirPort> {
+public class ComfortAirPurifier extends AirPurifier {
 
     public static final String MODELNUMBER = "AC2889";
 
