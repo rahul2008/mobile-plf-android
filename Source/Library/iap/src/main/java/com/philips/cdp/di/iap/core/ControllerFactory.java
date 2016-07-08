@@ -28,10 +28,7 @@ public class ControllerFactory {
     }
 
     public boolean shouldDisplayCartIcon() {
-        if (loadLocalData()) {
-            return false;
-        }
-        return true;
+        return !loadLocalData();
     }
 
     public boolean loadLocalData() {
@@ -40,10 +37,12 @@ public class ControllerFactory {
 
     public ShoppingCartAPI getShoppingCartPresenter(Context context,
                                                     ShoppingCartPresenter.LoadListener listener, FragmentManager fragmentManager) {
-        ShoppingCartAPI api = null;
-        if (loadLocalData()) {
+        ShoppingCartAPI api;
+        boolean isLocalData = loadLocalData();
+        if (isLocalData) {
             api = new LocalShoppingCartPresenter(context, listener, fragmentManager);
-        } else {
+        }
+        else {
             api = new ShoppingCartPresenter(context, listener, fragmentManager);
         }
         return api;
@@ -52,9 +51,9 @@ public class ControllerFactory {
     public ProductCatalogAPI getProductCatalogPresenter(Context context, ProductCatalogPresenter.LoadListener listener,
                                                         FragmentManager fragmentManager) {
         ProductCatalogAPI api = null;
-        if (loadLocalData()) {
+        if (loadLocalData())
             api = new LocalProductCatalog(context, listener, fragmentManager, true);
-        } else {
+        else {
             api = new ProductCatalogPresenter(context, listener, fragmentManager, false);
         }
         return api;

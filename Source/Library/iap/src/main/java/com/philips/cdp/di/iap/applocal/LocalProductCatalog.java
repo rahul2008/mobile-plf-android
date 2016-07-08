@@ -22,21 +22,16 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
-import java.util.ArrayList;
-
 public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.DataLoadListener {
     private Context mContext;
-    private FragmentManager mFragmentManager;
     private ProductCatalogHelper mProductCatalogHelper;
     Products mProductCatalog;
     ProductCatalogPresenter.LoadListener mListener;
-    ArrayList<String> mProductList;
     boolean isLocalData;
 
     public LocalProductCatalog(final Context context, final ProductCatalogPresenter.LoadListener listener, final FragmentManager fragmentManager, final boolean isPlanB) {
         mContext = context;
         mListener = listener;
-        mFragmentManager = fragmentManager;
         mProductCatalogHelper = new ProductCatalogHelper(context, listener, this);
         isLocalData = isPlanB;
     }

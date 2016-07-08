@@ -17,7 +17,7 @@ import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
  * Retailer request doesn't depend on store and implemented in abstract class
  */
 public class LocalShoppingCartPresenter extends AbstractShoppingCartPresenter{
-    public LocalShoppingCartPresenter(final Context context, final ShoppingCartPresenter.LoadListener listener, final FragmentManager fragmentManager) {
+    public LocalShoppingCartPresenter(Context context, LoadListener listener, FragmentManager fragmentManager) {
         super(context, listener, fragmentManager);
     }
 

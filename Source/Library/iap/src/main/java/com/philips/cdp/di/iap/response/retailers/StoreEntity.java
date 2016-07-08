@@ -7,6 +7,7 @@ import java.io.Serializable;
  * All rights reserved.
  */
 public class StoreEntity implements Serializable{
+    static final long serialVersionUID = 7L;
     private String name;
     private String availability;
     private String isPhilipsStore;

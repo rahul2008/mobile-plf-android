@@ -73,7 +73,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
         sendHybrisRequest(0, model, model);
     }
 
-    private void notifyListChanged(final HashMap<String, SummaryModel> prxModel) {
+    private void notifyListChanged() {
         ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
         refreshList(products);
         CartModelContainer.getInstance().setShoppingCartData(products);
@@ -142,7 +142,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
 
     @Override
     public void updateProductQuantity(final ShoppingCartData data, final int count, final int quantityStatus) {
-        HashMap<String, String> query = new HashMap<String, String>();
+        HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.PRODUCT_CODE, data.getCtnNumber());
         query.put(ModelConstants.PRODUCT_QUANTITY, String.valueOf(count));
         query.put(ModelConstants.PRODUCT_ENTRYCODE, String.valueOf(data.getEntryNumber()));
@@ -362,13 +362,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
 
     private boolean processResponseFromPRX(final Message msg) {
         if (msg.obj instanceof HashMap) {
-            HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
-            if (prxModel == null || prxModel.size() == 0) {
-                EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
-                Utility.dismissProgressDialog();
-                return true;
-            }
-            notifyListChanged(prxModel);
+            notifyListChanged();
         } else {
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
             dismissProgressDialog();
@@ -379,7 +373,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
     private boolean processResponseFromHybrisForGetCart(final Message msg) {
         if (msg.obj instanceof Carts) {
             mCartData = (Carts) msg.obj;
-            if (mCartData != null && mCartData.getCarts().get(0).getEntries() != null) {
+            if (null != mCartData.getCarts().get(0).getEntries()) {
                 makePrxCall(mCartData);
                 return true;
             }
@@ -390,13 +384,13 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
     private void makePrxCall(final Carts mCarts) {
         ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
         List<EntriesEntity> entries = mCarts.getCarts().get(0).getEntries();
-        ArrayList<String> productsToBeShown = new ArrayList<>();
+        //ArrayList<String> productsToBeShown = new ArrayList<>();
         String ctn;
 
         CartModelContainer cartModelContainer = CartModelContainer.getInstance();
         for (EntriesEntity entry : entries) {
             ctn = entry.getProduct().getCode();
-            productsToBeShown.add(ctn);
+            //productsToBeShown.add(ctn);
             if (!cartModelContainer.isPRXDataPresent(ctn)) {
                 ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
             }
@@ -405,11 +399,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             PRXDataBuilder builder = new PRXDataBuilder(mContext, ctnsToBeRequestedForPRX, this);
             builder.preparePRXDataRequest();
         } else {
-            HashMap<String, SummaryModel> prxModel = new HashMap<>();
-            for (String ctnPresent : productsToBeShown) {
-                prxModel.put(ctnPresent, cartModelContainer.getProductData(ctnPresent));
-            }
-            notifyListChanged(prxModel);
+            notifyListChanged();
         }
     }
 
