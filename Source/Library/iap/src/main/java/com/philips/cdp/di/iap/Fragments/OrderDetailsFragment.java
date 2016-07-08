@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,13 +30,9 @@ import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.shamanland.fonticon.FontIconTextView;
-import com.squareup.okhttp.internal.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class OrderDetailsFragment extends BaseAnimationSupportFragment implements OrderController.OrderListener, View.OnClickListener, AbstractModel.DataLoadListener {
@@ -56,20 +51,14 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     private TextView mBillingName;
     private TextView mBillingAddress;
     private ScrollView mParentView;
-    private FontIconTextView mOrderDetailArrow;
     private TextView mPaymentCardType;
-    private Button mBuyNow;
-    private Button mCancelOrder;
-    private LinearLayout mTrackOrderLayout;
     private OrderDetail mOrderDetail;
-    private RecyclerView mProductListView;
     private OrderDetailAdapter mAdapter;
     private LinearLayout mPaymentModeLayout;
     private OrderController mController;
     private View mPaymentDivider;
     private TextView mShippingStatus;
 
-    private String mOrderId;
 
     @Override
     public void onResume() {
@@ -93,13 +82,13 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         mBillingAddress = (TextView) view.findViewById(R.id.tv_billing_address);
         mPaymentModeLayout = (LinearLayout) view.findViewById(R.id.ll_payment_mode);
         mPaymentCardType = (TextView) view.findViewById(R.id.tv_card_type);
-        mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
+        Button mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
         mBuyNow.setOnClickListener(this);
-        mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
+        Button mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
-        mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
+       LinearLayout mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
         mTrackOrderLayout.setOnClickListener(this);
-        mProductListView = (RecyclerView) view.findViewById(R.id.product_detail);
+        RecyclerView mProductListView = (RecyclerView) view.findViewById(R.id.product_detail);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mProductListView.setLayoutManager(layoutManager);
         mProductListView.setNestedScrollingEnabled(false);
@@ -107,19 +96,15 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
         mAdapter = new OrderDetailAdapter(mContext, mProducts);
         mProductListView.setAdapter(mAdapter);
-        mPaymentDivider = (View) view.findViewById(R.id.payment_divider);
+        mPaymentDivider = view.findViewById(R.id.payment_divider);
 
         Bundle bundle = getArguments();
-        if(null != bundle)
-        {
-            if (bundle.containsKey(IAPConstant.PURCHASE_ID))
-                mOrderId = bundle.getString(IAPConstant.PURCHASE_ID);
-            if (bundle.containsKey(IAPConstant.ORDER_STATUS) && !(bundle.getString(IAPConstant.ORDER_STATUS).equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)))
-                    mTrackOrderLayout.setVisibility(View.GONE);
-            if(bundle.containsKey(IAPConstant.ORDER_DETAIL))
-            {
-               // List<OrderDetail> detailList = (ArrayList);
-                mOrderDetail = (OrderDetail)bundle.getParcelable(IAPConstant.ORDER_DETAIL);
+        if (null != bundle) {
+            if (bundle.containsKey(IAPConstant.ORDER_STATUS) && !(IAPConstant.ORDER_COMPLETED.equalsIgnoreCase(bundle.getString(IAPConstant.ORDER_STATUS))))
+                mTrackOrderLayout.setVisibility(View.GONE);
+            if (bundle.containsKey(IAPConstant.ORDER_DETAIL)) {
+                // List<OrderDetail> detailList = (ArrayList);
+                mOrderDetail = bundle.getParcelable(IAPConstant.ORDER_DETAIL);
                 updateUIwithDetails(mOrderDetail);
             }
         }
@@ -146,13 +131,13 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
         return fragment;
     }
 
-    private void updateOrderDetailOnResume(String purchaseId) {
-        OrderController controller = new OrderController(mContext, this);
-        if (!Utility.isProgressDialogShowing()) {
-            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
-            controller.getOrderDetails(purchaseId);
-        }
-    }
+//    private void updateOrderDetailOnResume(String purchaseId) {
+//        OrderController controller = new OrderController(mContext, this);
+//        if (!Utility.isProgressDialogShowing()) {
+//            Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+//            controller.getOrderDetails(purchaseId);
+//        }
+//    }
 
     @Override
     public void onGetOrderList(Message msg) {
@@ -178,17 +163,17 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void updateUiOnProductList() {
-        ArrayList<OrderDetail> detailList = new ArrayList<OrderDetail>();
+        ArrayList<OrderDetail> detailList = new ArrayList<>();
         detailList.add(mOrderDetail);
-        if(mController == null)
+        if (mController == null)
             mController = new OrderController(mContext, this);
-        ArrayList<ProductData> productList=  mController.getProductData(detailList);
+        ArrayList<ProductData> productList = mController.getProductData(detailList);
         mProducts.clear();
-        for(ProductData product : productList)
+        for (ProductData product : productList)
             mProducts.add(product);
         mAdapter.notifyDataSetChanged();
         int totalQuantity = 0;
-        for(ProductData data : mProducts){
+        for (ProductData data : mProducts) {
             totalQuantity += data.getQuantity();
         }
         mTvQuantity.setText(" (" + totalQuantity + " items)");
@@ -213,7 +198,7 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
                     bundle.putString(IAPConstant.ADD_DELIVERY_ADDRESS, Utility.formatAddress(mOrderDetail.getDeliveryAddress().getFormattedAddress()));
                 }
 
-                if(mOrderDetail.getOrdertrackUrl() != null){
+                if (mOrderDetail.getOrdertrackUrl() != null) {
                     bundle.putString(IAPConstant.ORDER_TRACK_URL, mOrderDetail.getOrdertrackUrl());
                 }
                 addFragment(TrackOrderFragment.createInstance(bundle, AnimationType.NONE), TrackOrderFragment.TAG);
@@ -225,19 +210,18 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
     public void updateUIwithDetails(OrderDetail detail) {
         mTime.setText(Utility.getFormattedDate(detail.getCreated()));
         String orderStatus = detail.getStatusDisplay();
-        mOrderState.setText(orderStatus.substring(0,1).toUpperCase() + orderStatus.substring(1));
+        mOrderState.setText(orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1));
         mOrderNumber.setText(detail.getCode());
         mTvQuantity.setText(" (" + mOrderDetail.getDeliveryItemsQuantity() + " item)");
-        if(detail.getDeliveryOrderGroups() != null)
-        {
-            if(mController == null)
+        if (detail.getDeliveryOrderGroups() != null) {
+            if (mController == null)
                 mController = new OrderController(mContext, this);
         }
-        ArrayList<OrderDetail> detailList = new ArrayList<OrderDetail>();
+        ArrayList<OrderDetail> detailList = new ArrayList<>();
         detailList.add(detail);
         mController.makePrxCall(detailList, this);
 
-        if(detail.getTotalPriceWithTax() != null)
+        if (detail.getTotalPriceWithTax() != null)
             mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
 
         if (detail.getDeliveryAddress() != null) {
@@ -259,9 +243,8 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
         }
 
-        if(detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED))
-        {
-            if(detail.getConsignments() != null && detail.getConsignments().size() > 0)
+        if (detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)) {
+            if (detail.getConsignments() != null && detail.getConsignments().size() > 0)
                 mShippingStatus.setText(getString(R.string.iap_order_completed_text, detail.getConsignments().get(0).getTrackingID()));
             else
                 mShippingStatus.setText(getString(R.string.iap_order_completed_text_without_track_id));
@@ -285,12 +268,13 @@ public class OrderDetailsFragment extends BaseAnimationSupportFragment implement
 
     private boolean processResponseFromPRX(final Message msg) {
         if (msg.obj instanceof HashMap) {
-            HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
-            if (prxModel == null || prxModel.size() == 0) {
+            final HashMap obj = (HashMap) msg.obj;
+            if (obj.size() != 0) {
+                updateUiOnProductList();
+            } else {
                 Utility.dismissProgressDialog();
                 return true;
             }
-            updateUiOnProductList();
         }
         return false;
     }

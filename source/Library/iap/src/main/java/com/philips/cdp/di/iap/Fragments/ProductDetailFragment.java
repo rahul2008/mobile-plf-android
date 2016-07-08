@@ -69,7 +69,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     Button mBuyFromRetailors;
     ScrollView mDetailLayout;
 
-    ArrayList<String> mAsset;
+    ArrayList<String> mAsset = (ArrayList<String>) msg.obj;
     private boolean mLaunchedFromProductCatalog = false;
     private String mCTNValue;
     private String mProductTitle;
@@ -263,7 +263,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
             mAddToCart.setVisibility(View.GONE);
             mBuyFromRetailors.setVisibility(View.GONE);
-            return;
         } else {
             mBuyFromRetailors.setVisibility(View.VISIBLE);
             mAddToCart.setVisibility(View.VISIBLE);
