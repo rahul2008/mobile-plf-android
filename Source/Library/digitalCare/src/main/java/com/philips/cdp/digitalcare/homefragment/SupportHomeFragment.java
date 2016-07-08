@@ -4,7 +4,7 @@
  *
  * @author : Ritesh.jha@philips.com
  * @creation Date : 5 Dec 2014
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -596,6 +596,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         if (mProductChangeButton != null) {
             mProductChangeButton.setClickable(false);
         }
+
+        if (mProgressDialog == null) mProgressDialog = new ProgressDialog
+                (getActivity(), R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
+        if (!(getActivity().isFinishing())) {
+            mProgressDialog.show();
+        }
+
         FragmentLauncher fragmentLauncher = (FragmentLauncher) DigitalCareConfigManager.getInstance().getUiLauncher();
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
@@ -630,6 +639,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private void launchProductSelectionActivityComponent() {
         if (mProductChangeButton != null) {
             mProductChangeButton.setClickable(false);
+        }
+        if (mProgressDialog == null) mProgressDialog = new ProgressDialog
+                (getActivity(), R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
+        if (!(getActivity().isFinishing())) {
+            mProgressDialog.show();
         }
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
@@ -875,12 +891,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 }
             }
 
-        } else if(mProgressDialog != null)
-        {
+        } else if (mProgressDialog != null) {
             try {
                 mProgressDialog.dismiss();
-            }catch (IllegalArgumentException e)
-            {
+            } catch (IllegalArgumentException e) {
                 DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
             }
         }
@@ -905,8 +919,37 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 }
             }
 
+        } else if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            try {
+                mProgressDialog.dismiss();
+            } catch (IllegalArgumentException e) {
+                DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+            }
         }
         super.onDestroyView();
+    }
+
+    @Override
+    public void onPause() {
+        if (mProgressDialog != null && isAdded()) {
+            if (mProgressDialog.isShowing()) {
+                try {
+                    mProgressDialog.dismiss();
+                    mProgressDialog.cancel();
+                    mProgressDialog = null;
+                } catch (IllegalArgumentException e) {
+                    DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+                }
+            }
+
+        } else if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            try {
+                mProgressDialog.dismiss();
+            } catch (IllegalArgumentException e) {
+                DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+            }
+        }
+        super.onPause();
     }
 
     private Drawable getDrawable(int resId) {
