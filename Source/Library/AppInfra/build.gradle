@@ -149,12 +149,12 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             debuggable true
             testCoverageEnabled true
             proguardFile 'proguard-rules.pro'
