@@ -93,7 +93,7 @@ public class PRXProductAssetBuilder {
     private ArrayList<String> fetchImageUrlsFromPRXAssets(List<Asset> assets) {
         ArrayList<String> mAssetsFromPRX = new ArrayList<>();
         TreeMap<Integer, String> sortedAssetsFromPRX = new TreeMap<>();
-        int width = (int) mContext.getResources().getDisplayMetrics().widthPixels;
+        int width = mContext.getResources().getDisplayMetrics().widthPixels;
         int height = (int) mContext.getResources().getDimension(R.dimen.iap_product_detail_image_height);
 
         for (Asset asset : assets) {
