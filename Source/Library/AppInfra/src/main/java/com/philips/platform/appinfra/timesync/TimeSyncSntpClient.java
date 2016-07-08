@@ -61,7 +61,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
 
     private static volatile TimeSyncSntpClient serverTimeInstance;
 
-    private final String[] serverPool;
+    private String[] serverPool;
 
     private static AppInfra mAppInfra;
 
@@ -77,6 +77,9 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
         syncWithDayandDateSettingChange();
     }
 
+    public TimeSyncSntpClient() {
+
+    }
     public synchronized static void init(final Context pContext) {
         mContext = pContext;
         mSharedPreferences = mContext.getSharedPreferences(SERVERTIME_PREFERENCE, Context.MODE_PRIVATE);
@@ -178,7 +181,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
 
-        Intent intent = new Intent(mContext, DateTimeChangedReceiver.class);
+        Intent intent = new Intent(mContext, TimeSyncSntpClient.class);
         PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(mContext,
                         0, intent, 0);
