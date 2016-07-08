@@ -69,7 +69,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     Button mBuyFromRetailors;
     ScrollView mDetailLayout;
 
-    ArrayList<String> mAsset = (ArrayList<String>) msg.obj;
+    ArrayList<String> mAsset;
     private boolean mLaunchedFromProductCatalog = false;
     private String mCTNValue;
     private String mProductTitle;
