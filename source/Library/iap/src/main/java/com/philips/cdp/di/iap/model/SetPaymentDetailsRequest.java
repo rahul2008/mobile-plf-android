@@ -2,12 +2,13 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SetPaymentDetailsRequest extends AbstractModel{
+public class SetPaymentDetailsRequest extends AbstractModel {
 
     public SetPaymentDetailsRequest(final StoreSpec store, final Map<String, String> query,
                                     final DataLoadListener listener) {
@@ -16,7 +17,7 @@ public class SetPaymentDetailsRequest extends AbstractModel{
 
     @Override
     public Object parseResponse(Object response) {
-        return null;
+        return IAPConstant.IAP_SUCCESS;
     }
 
     @Override
