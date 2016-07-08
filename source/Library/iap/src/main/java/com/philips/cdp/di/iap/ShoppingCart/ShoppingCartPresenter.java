@@ -77,8 +77,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
         ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
         refreshList(products);
         CartModelContainer.getInstance().setShoppingCartData(products);
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        dismissProgressDialog();
     }
 
     private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX() {

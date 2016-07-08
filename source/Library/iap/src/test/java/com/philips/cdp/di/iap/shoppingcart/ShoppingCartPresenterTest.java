@@ -30,11 +30,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -274,9 +276,13 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
     @Override
     public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
-        boolean isShoppingCartDataReturned = data.get(0) instanceof ShoppingCartData;
-        assert(isShoppingCartDataReturned);
-        assertEquals(mCTNS.size(),data.size());
+        if(data.size() > 0) {
+            boolean isShoppingCartDataReturned = data.get(0) instanceof ShoppingCartData;
+            assert (isShoppingCartDataReturned);
+            assertEquals(mCTNS.size(), data.size());
+        }else{
+            assertFalse(false);
+        }
     }
 
     @Override
