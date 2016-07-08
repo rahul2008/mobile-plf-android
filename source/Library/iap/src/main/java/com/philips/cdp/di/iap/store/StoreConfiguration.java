@@ -8,6 +8,9 @@ import android.content.Context;
 
 import com.philips.cdp.di.iap.session.RequestListener;
 
+/*
+ * This class having responsible for Store configuration
+ */
 public class StoreConfiguration {
     private static final String SUFFIX_INAPPCONFIG = "inAppConfig";
 
