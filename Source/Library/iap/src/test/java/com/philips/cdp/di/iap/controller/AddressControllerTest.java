@@ -124,7 +124,8 @@ public class AddressControllerTest {
 
         setStoreAndDelegate();
         AddressFields address = new AddressFields();
-        address.setTitleCode("Mr");
+        address = formAddressBodyParams(address);
+
         mAddressController.createAddress(address);
         mNetworkController.sendFailure(new VolleyError());
     }
@@ -237,7 +238,7 @@ public class AddressControllerTest {
     }
 
     @Test
-      public void testSetDeliveryAddressSuccessResponse() throws Exception {
+    public void testSetDeliveryAddressSuccessResponse() throws Exception {
         mAddressController = new AddressController(mContext, new MockAddressListener() {
             @Override
             public void onSetDeliveryAddress(Message msg) {
@@ -246,9 +247,23 @@ public class AddressControllerTest {
         });
 
         setStoreAndDelegate();
-        mAddressController.setDeliveryAddress("");
+        mAddressController.setDeliveryAddress("8799470125079");
         JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "EmptyResponse.txt"));
         mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testSetDeliveryAddressWithNull() throws Exception {
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onSetDeliveryAddress(Message msg) {
+                testErrorResponse(msg, RequestCode.SET_DELIVERY_ADDRESS);
+            }
+        });
+
+        setStoreAndDelegate();
+        mAddressController.setDeliveryAddress(null);
+        mNetworkController.sendFailure(new VolleyError());
     }
 
     @Test
@@ -261,7 +276,7 @@ public class AddressControllerTest {
         });
 
         setStoreAndDelegate();
-        mAddressController.setDeliveryAddress("");
+        mAddressController.setDeliveryAddress("8799470125079");
         mNetworkController.sendFailure(new VolleyError());
     }
 
@@ -323,17 +338,31 @@ public class AddressControllerTest {
         mNetworkController.sendFailure(new VolleyError());
     }
 
-    public void testErrorResponse(Message msg, int requestCode){
+    public AddressFields formAddressBodyParams(AddressFields address) {
+        address.setTitleCode("Mr");
+        address.setFirstName("Happy");
+        address.setLastName("User");
+        address.setCountryIsocode("US");
+        address.setRegionIsoCode("US-CA");
+        address.setLine1("Line1");
+        address.setLine2("Line2");
+        address.setPostalCode("92821");
+        address.setTown("California");
+        address.setPhoneNumber("+1877-682-8207");
+        return address;
+    }
+
+    public void testErrorResponse(Message msg, int requestCode) {
         assertEquals(requestCode, msg.what);
         assertTrue(msg.obj instanceof IAPNetworkError);
     }
 
-    public void testEmptyResponse(Message msg, int requestCode){
+    public void testEmptyResponse(Message msg, int requestCode) {
         assertEquals(requestCode, msg.what);
         assertEquals(NetworkConstants.EMPTY_RESPONSE, msg.obj);
     }
 
-    public void testSuccessResponse(Message msg, int requestCode){
+    public void testSuccessResponse(Message msg, int requestCode) {
         assertEquals(requestCode, msg.what);
         assertEquals(IAPConstant.IAP_SUCCESS, msg.obj);
     }
