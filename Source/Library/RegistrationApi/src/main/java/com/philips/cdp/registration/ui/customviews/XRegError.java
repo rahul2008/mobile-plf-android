@@ -55,7 +55,6 @@ public class XRegError extends RelativeLayout {
     }
 
     public String getErrorMsg() {
-        System.out.println("*************** GET mErrMsg : "+mSigninErrMsg);
         return mSigninErrMsg;
     }
 
@@ -80,4 +79,5 @@ public class XRegError extends RelativeLayout {
     public void hideError() {
         setVisibility(GONE);
     }
+
 }

@@ -93,6 +93,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private long mTrackCreateAccountTime;
 
+    private String mSavedTermsAndConditionErr;
+
+    private boolean isTermsAndConditionVisible;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreate");
@@ -173,19 +177,40 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDetach");
     }
 
+    private Bundle mBundle;
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("saveErrText", mRegError.getErrorMsg());
-        super.onSaveInstanceState(outState);
+        mBundle = outState;
+        super.onSaveInstanceState(mBundle);
+        mBundle.putString("saveErrText", mRegError.getErrorMsg());
+        mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescrition());
+        if(mRegAccptTermsError.getVisibility() == View.VISIBLE){
+            isTermsAndConditionVisible = true;
+            mBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
+            mBundle.putString("saveTermsAndConditionErrText", mSavedTermsAndConditionErr);
+        }else{
+            isTermsAndConditionVisible = false;
+            mBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
+        }
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null){
-            mRegError.setError(savedInstanceState.getString("saveErrText"));
+            if(savedInstanceState.getString("saveEmailErrText")!=null && savedInstanceState.getString("saveEmailErrText").length() > 0){
+                mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
+                mEtEmail.showInvalidAlert();
+                mEtEmail.showErrPopUp();
+            }else{
+                mRegError.setError(savedInstanceState.getString("saveErrText"));
+            }
+            if(savedInstanceState.getBoolean("isTermsAndConditionVisible")){
+                mRegAccptTermsError.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
+            }
+
         }
+        mBundle = null;
     }
 
     @Override
@@ -484,6 +509,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 mRegAccptTermsError.setVisibility(View.GONE);
             } else {
                 mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                mSavedTermsAndConditionErr = mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error);
             }
         }
     }
