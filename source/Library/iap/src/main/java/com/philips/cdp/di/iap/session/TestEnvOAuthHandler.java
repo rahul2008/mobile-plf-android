@@ -25,7 +25,6 @@ import java.util.HashMap;
 
 public class TestEnvOAuthHandler implements OAuthHandler {
     private final String TAG = TestEnvOAuthHandler.class.getSimpleName();
-    private final String TYPE_INVALID_GRANT_ERROR = "InvalidGrantError";
 
     private String access_token;
     private NewOAuthRequest mOAuthRequest;
@@ -147,6 +146,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
                         .networkResponse.data), ServerError.class));
                 if (response.getErrors() != null) {
                     Error error = response.getErrors().get(0);
+                    final String TYPE_INVALID_GRANT_ERROR = "InvalidGrantError";
                     if (TYPE_INVALID_GRANT_ERROR.equals(error.getType())) {
                         return true;
                     }
