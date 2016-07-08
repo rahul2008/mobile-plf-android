@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("rawtypes")
 public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     public interface LoadListener<T> {
         void onLoadFinished(ArrayList<T> data);
