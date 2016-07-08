@@ -13,7 +13,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -178,19 +177,31 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDetach");
     }
 
+    private boolean isLoginBtn;
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("saveErrText", mRegError.getErrorMsg());
-        super.onSaveInstanceState(outState);
+        mBundle = outState;
+        super.onSaveInstanceState(mBundle);
+        mBundle.putString("saveErrText", mRegError.getErrorMsg());
+        mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescrition());
+        mBundle.putBoolean("isLoginBton", isLoginBtn);
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null){
-            mRegError.setError(savedInstanceState.getString("saveErrText"));
+            if(savedInstanceState.getString("saveEmailErrText")!=null && savedInstanceState.getString("saveEmailErrText").length() > 0 && !savedInstanceState.getBoolean("isLoginBton", isLoginBtn)){
+                mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
+                mEtEmail.showInvalidAlert();
+                mEtEmail.showErrPopUp();
+
+            }else{
+                mRegError.setError(savedInstanceState.getString("saveErrText"));
+            }
         }
+        mBundle = null;
     }
 
     @Override
@@ -209,6 +220,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         applyParams(config, mViewHavingProblem, width);
     }
 
+    private Bundle mBundle;
+
     @Override
     protected void handleOrientation(View view) {
         handleOrientationOnView(view);
@@ -218,10 +231,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_reg_sign_in) {
+            isLoginBtn = true;
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : SignIn");
             hideValidations();
             signIn();
         } else if (id == R.id.btn_reg_forgot_password) {
+            isLoginBtn = false;
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
             hideValidations();
             mEtEmail.clearFocus();
@@ -406,14 +421,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             @Override
             public void run() {
 
-                handleSendForgetPasswordSuccess(userRegistrationFailureInfo);
+                handleSendForgetPasswordFailure(userRegistrationFailureInfo);
             }
         });
 
 
     }
 
-    private void handleSendForgetPasswordSuccess(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    private void handleSendForgetPasswordFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError ERROR CODE :" + userRegistrationFailureInfo.getErrorCode());
         mBtnResend.setEnabled(true);
         hideForgotPasswordSpinner();

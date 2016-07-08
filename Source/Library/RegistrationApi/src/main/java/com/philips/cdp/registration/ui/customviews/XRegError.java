@@ -22,7 +22,7 @@ public class XRegError extends RelativeLayout {
 
     private TextView mTvError;
 
-    private String mErrMsg;
+    private String mSigninErrMsg;
 
     public XRegError(Context context) {
         super(context);
@@ -49,14 +49,14 @@ public class XRegError extends RelativeLayout {
         if (null == errorMsg) {
             return;
         }
-        mErrMsg = errorMsg;
+        mSigninErrMsg = errorMsg;
         mTvError.setText(errorMsg);
         setVisibility(VISIBLE);
     }
 
     public String getErrorMsg() {
-        System.out.println("*************** GET mErrMsg : "+mErrMsg);
-        return mErrMsg;
+        System.out.println("*************** GET mErrMsg : "+mSigninErrMsg);
+        return mSigninErrMsg;
     }
 
 /*

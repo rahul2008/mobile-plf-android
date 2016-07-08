@@ -169,6 +169,27 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("saveErrText", mRegError.getErrorMsg());
+        outState.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescrition());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null){
+            mRegError.setError(savedInstanceState.getString("saveErrText"));
+            if(savedInstanceState.getString("saveEmailErrText")!=null && savedInstanceState.getString("saveEmailErrText").length() > 0){
+                mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
+                mEtEmail.showInvalidAlert();
+                mEtEmail.showErrPopUp();
+            }
+        }
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onConfigurationChanged");
