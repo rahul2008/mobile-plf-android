@@ -62,6 +62,11 @@ public class ProductDetailRequestTest {
         assertEquals(NetworkURLConstants.PRODUCT_DETAIL_URL, request.getUrl());
     }
 
+    @Test(expected = RuntimeException.class)
+    public void testProductDetailURLWhenParamsIsNull() throws Exception {
+        assertNotEquals(NetworkURLConstants.PRODUCT_DETAIL_URL, mModel.getUrl());
+    }
+
     @Test
     public void parseResponseShouldBeOfGetShippingAddressDataType() {
         String oneAddress = TestUtils.readFile(ProductDetailRequestTest.class, "product_detail.txt");

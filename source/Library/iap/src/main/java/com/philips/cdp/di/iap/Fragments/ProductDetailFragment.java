@@ -241,11 +241,13 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
                     setButtonState();
                     setCartIconVisibility(View.VISIBLE);
                     mBuyFromRetailors.setOnClickListener(this);
+                    mBuyFromRetailors.setVisibility(View.VISIBLE);
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
                     setTitle(mProductTitle);
                 } else {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
                     setCartIconVisibility(View.GONE);
+                    setTitle(R.string.iap_shopping_cart_item);
                 }
             } else {
                 setTitle(mProductTitle);

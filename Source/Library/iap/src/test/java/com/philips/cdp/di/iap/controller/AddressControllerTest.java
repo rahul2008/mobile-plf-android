@@ -8,6 +8,7 @@ import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -15,6 +16,7 @@ import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +26,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+
+import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -199,8 +203,37 @@ public class AddressControllerTest {
         mNetworkController.sendFailure(new VolleyError());
     }
 
-    public void testUpdateAddress() throws Exception {
+    @Test
+    public void testUpdateAddressSuccessResponse() throws Exception {
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetAddress(final Message msg) {
+                testEmptyResponse(msg, RequestCode.UPDATE_ADDRESS);
+            }
+        });
 
+        setStoreAndDelegate();
+        HashMap<String, String> address = new HashMap<>();
+        address.put(ModelConstants.ADDRESS_ID, "8799470125079");
+        mAddressController.updateAddress(address);
+        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "EmptyResponse.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testUpdateAddressErrorResponse() throws Exception {
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetAddress(final Message msg) {
+                testErrorResponse(msg, RequestCode.UPDATE_ADDRESS);
+            }
+        });
+
+        setStoreAndDelegate();
+        HashMap<String, String> address = new HashMap<>();
+        address.put(ModelConstants.ADDRESS_ID, "8799470125079");
+        mAddressController.updateAddress(address);
+        mNetworkController.sendFailure(new VolleyError());
     }
 
     @Test
@@ -234,7 +267,16 @@ public class AddressControllerTest {
 
     @Test
     public void testSetDeliveryModeSuccessResponse() throws Exception {
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onSetDeliveryMode(final Message msg) {
+                testSuccessResponse(msg, RequestCode.SET_DELIVERY_MODE);
+            }
+        });
 
+        setStoreAndDelegate();
+        mAddressController.setDeliveryMode("");
+        mNetworkController.sendSuccess(null);
     }
 
     @Test
@@ -248,6 +290,36 @@ public class AddressControllerTest {
 
         setStoreAndDelegate();
         mAddressController.setDeliveryMode("");
+        mNetworkController.sendFailure(new VolleyError());
+    }
+
+    @Test
+    public void testGetDeliveryModesSuccessResponse() throws Exception {
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetDeliveryModes(final Message msg) {
+                assertEquals(RequestCode.GET_DELIVERY_MODE, msg.what);
+                assertTrue(msg.obj instanceof GetDeliveryModes);
+            }
+        });
+
+        setStoreAndDelegate();
+        mAddressController.getDeliveryModes();
+        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "DeliveryModes.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testGetDeliveryModesErrorResponse() throws Exception {
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetDeliveryModes(final Message msg) {
+                testErrorResponse(msg, RequestCode.GET_DELIVERY_MODE);
+            }
+        });
+
+        setStoreAndDelegate();
+        mAddressController.getDeliveryModes();
         mNetworkController.sendFailure(new VolleyError());
     }
 

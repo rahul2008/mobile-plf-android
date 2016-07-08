@@ -57,7 +57,6 @@ public class SetDeliveryAddressRequestTest {
     @Test
     public void parseResponseShouldBeOfSetDeliveryAddressRequestDataType() {
         SetDeliveryAddressRequest request = new SetDeliveryAddressRequest(mHybrisStore, null, null);
-        Object response = IAPConstant.IAP_SUCCESS;
-        assertEquals(response, IAPConstant.IAP_SUCCESS);
+        assertEquals(IAPConstant.IAP_SUCCESS, request.parseResponse(null));
     }
 }

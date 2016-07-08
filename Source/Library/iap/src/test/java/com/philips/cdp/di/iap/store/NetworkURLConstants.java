@@ -15,6 +15,7 @@ public class NetworkURLConstants {
     public static final String SITE = "US_TUSCANY";
     public static final String JANRAIN_EMAIL = "a@b.com";
     public static final String JANRAIN_ID = "sometoken";
+    public static final String ADDRESS_ID = "8799470125079";
     public static final String OAUTH_URL = String.format("https://" + HOST_PORT +
             "/pilcommercewebservices/oauth/token?janrain=%s&grant_type=janrain&client_id" +
             "=mobile_android&client_secret=secret", JANRAIN_ID);
@@ -44,4 +45,5 @@ public class NetworkURLConstants {
     public static final String ORDER_DETAIL_URL = BASE_URL + "/orders/" + DUMMY_ORDER_ID + "?fields=FULL&lang=en";
     public static final String ORDER_HISTORY_URL = BASE_URL + "/orders?fields=FULL&lang=en&currentPage=" + DUMMY_PAGE_NUMBER;
     public static final String PRODUCT_DETAIL_URL = PRODUCT_CATALOG_BASE_URL + "/products/" + DUMMY_PRODUCT_ID;
+    public static final String GET_UPDATE_ADDRESS_URL = BASE_URL + "/addresses/" + ADDRESS_ID;
 }
