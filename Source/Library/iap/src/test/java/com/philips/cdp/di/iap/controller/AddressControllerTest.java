@@ -55,6 +55,24 @@ public class AddressControllerTest {
     }
 
     @Test
+    public void testNullStoreAndDelegate() throws JSONException{
+        mAddressController = new AddressController(mContext, new MockAddressListener() {
+            @Override
+            public void onGetRegions(Message msg) {
+                assertEquals(RequestCode.GET_REGIONS, msg.what);
+                assertTrue(msg.obj instanceof RegionsList);
+            }
+        });
+
+        setStoreAndDelegate();
+        mAddressController.setHybrisDelegate(null);
+        mAddressController.setStore(null);
+        mAddressController.getRegions();
+        JSONObject obj = new JSONObject(TestUtils.readFile(AddressControllerTest.class, "Region.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
     public void testGetRegionsSuccessResponseWithData() throws JSONException {
         mAddressController = new AddressController(mContext, new MockAddressListener() {
             @Override
