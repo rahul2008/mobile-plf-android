@@ -57,7 +57,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/uikit_modal_alert_negative_button_text"
                 android:textSize="@dimen/uikit_modal_alert_message_text_size"
-                android:visibility="gone"
                 android:layout_weight="1"/>
 
             <Button
