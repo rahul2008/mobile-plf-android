@@ -349,7 +349,6 @@ public class DiscoveryManager<T extends DICommAppliance> {
         if (existingAppliance.getNetworkNode().getBootId() != networkNode.getBootId() || existingAppliance.getNetworkNode().getEncryptionKey() == null) {
             existingAppliance.getNetworkNode().setEncryptionKey(null);
             existingAppliance.getNetworkNode().setBootId(networkNode.getBootId());
-            existingAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
             DICommLog.d(DICommLog.PAIRING, "Discovery-Boot id changed pairing set to false");
         }
 
