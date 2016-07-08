@@ -118,6 +118,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        textWatcherCalled = false;
         Bundle bundle = getArguments();
         prodRegRegistrationController.init(bundle);
         prodRegRegistrationController.handleState();
