@@ -6,8 +6,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/iap_order_margin_top"
+        android:paddingBottom="@dimen/iap_order_margin_top"
         android:background="@color/uikit_enricher7">
 
         <TextView
@@ -16,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginTop="0dp"
             android:layout_marginStart="@dimen/iap_shopping_cart_image_margin_top" />
     </RelativeLayout>
 
@@ -23,21 +25,19 @@
         android:id="@+id/order_summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top">
+        android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top">
 
         <TextView
             android:id="@+id/order_number_text"
-            style="@style/tvBoldTitle"
-            android:layout_marginEnd="3dp"
-            android:text="@string/iap_order_number" />
+            style="@style/tvOrderHeaderTitle"
+            android:text="@string/iap_order_number"
+            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"/>
 
         <TextView
             android:id="@+id/tv_order_number"
-            style="@style/tvBoldTitle"
+            style="@style/tvOrderHeaderTitle"
             android:layout_alignBaseline="@id/order_number_text"
-            android:layout_toEndOf="@id/order_number_text" />
+            android:layout_toEndOf="@id/order_number_text"/>
 
         <TextView
             android:id="@+id/tv_order_state"
@@ -46,13 +46,13 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/order_number_text"
             android:layout_below="@+id/order_number_text"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/iap_order_margin_top"
+            android:layout_marginBottom="@dimen/iap_selection_address_layout_margin"
             android:text="Order state" />
 
         <com.shamanland.fonticon.FontIconTextView
             android:id="@+id/arrow"
-            style="@style/iap_right_arrow"
-            android:layout_alignBaseline="@id/order_number_text"
+            style="@style/iap_order_right_arrow"
             android:layout_centerVertical="true" />
 
     </RelativeLayout>
@@ -60,86 +60,46 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
         android:background="?attr/uikit_listDividerColor" />
 
-    <RelativeLayout
-        android:id="@+id/rl_list_item"
+    <LinearLayout
+        android:id="@+id/product_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:visibility="gone">
+        android:orientation="vertical"></LinearLayout>
 
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/iv_product_image"
-            style="@style/networkImage"
-            android:layout_alignParentStart="true" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
-            android:layout_toEndOf="@id/iv_product_image"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/tv_productName"
-                style="@style/tvBoldTitle"
-                android:layout_alignParentStart="true"
-                android:scrollHorizontally="false" />
-
-            <TextView
-                android:id="@+id/tv_product_number"
-                style="@style/tvBoldTitle"
-                android:layout_below="@+id/tv_productName"
-                android:layout_marginStart="@dimen/iap_quantity_price_start_margin"
-                android:layout_marginTop="3dp"
-                android:text="hrdfd" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/iap_divider_height"
-        android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
-        android:background="?attr/uikit_listDividerColor"
-        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/quantity_count_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginTop="5dp"
-        android:visibility="gone">
+        android:layout_marginTop="@dimen/iap_order_margin_top">
 
         <TextView
             android:id="@+id/total_item_text"
-            style="@style/tvTitle"
-            android:layout_marginEnd="3dp"
+            style="@style/iap_order_total_items"
             android:text="@string/iap_total" />
 
         <TextView
             android:id="@+id/tv_total_item"
-            style="@style/tvTitle"
+            style="@style/iap_order_total_items"
             android:layout_alignBaseline="@id/total_item_text"
-            android:layout_toEndOf="@id/total_item_text"
-            android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
-            android:textColor="?attr/uikit_baseColor"
-            android:textSize="14sp" />
+            android:layout_toEndOf="@id/total_item_text" />
 
         <TextView
             android:id="@+id/tv_total_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/tvOrderHeaderTitle"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/iap_shipping_address_margin_left" />
+            android:layout_marginEnd="@dimen/iap_order_price_margin_right" />
     </RelativeLayout>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/iap_divider_height"
+        android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
+        android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom"
+        android:background="?attr/uikit_listDividerColor" />
 </LinearLayout>

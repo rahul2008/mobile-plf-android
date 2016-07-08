@@ -17,18 +17,17 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.tagging.Tagging;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 
-public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ProductCatalogPresenter.LoadListener {
+public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final ImageLoader mImageLoader;
     private Context mContext;
@@ -39,20 +38,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         mContext = pContext;
         mData = pArrayList;
         mImageLoader = NetworkImageLoader.getInstance(mContext)
-            .getImageLoader();
-}
-
-
-    @Override
-    public void onLoadFinished(final ArrayList<ProductCatalogData> data) {
-        mData = data;
-        notifyDataSetChanged();
-        tagProducts();
-    }
-
-    @Override
-    public void onLoadError(IAPNetworkError error) {
-
+                .getImageLoader();
     }
 
     @Override
@@ -73,14 +59,14 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formatedPrice);
         productHolder.mCTN.setText(productCatalogData.getCtnNumber());
-        if(discountedPrice ==null || discountedPrice ==""){
+        if (discountedPrice == null || discountedPrice == "") {
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
             productHolder.mPrice.setTextColor(Utility.getThemeColor(mContext));
-        }else if(formatedPrice!=null && discountedPrice.equalsIgnoreCase(formatedPrice)) {
+        } else if (formatedPrice != null && discountedPrice.equalsIgnoreCase(formatedPrice)) {
             productHolder.mPrice.setVisibility(View.GONE);
             productHolder.mDiscountedPrice.setVisibility(View.VISIBLE);
             productHolder.mDiscountedPrice.setText(discountedPrice);
-        }else {
+        } else {
             productHolder.mDiscountedPrice.setVisibility(View.VISIBLE);
             productHolder.mDiscountedPrice.setText(discountedPrice);
             productHolder.mPrice.setPaintFlags(productHolder.mPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -117,8 +103,8 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return mData.size();
     }
 
-    public void tagProducts(){
-        if(mData.size() != 0){
+    public void tagProducts() {
+        if (mData.size() != 0) {
             StringBuilder products = new StringBuilder();
             for (int i = 0; i < mData.size(); i++) {
                 ProductCatalogData catalogData = mData.get(i);
@@ -129,7 +115,8 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         .append(catalogData.getProductTitle()).append(";").append(";")
                         .append(catalogData.getPriceValue());
             }
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PRODUCTS, products);
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.PRODUCTS, products.toString());
         }
     }
 

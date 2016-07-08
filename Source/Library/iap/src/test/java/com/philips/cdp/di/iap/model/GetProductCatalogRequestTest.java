@@ -10,23 +10,21 @@ import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.robolectric.RobolectricTestRunner;
+
+import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by 310164421 on 5/3/2016.
- */
-@RunWith(RobolectricTestRunner.class)
 public class GetProductCatalogRequestTest {
     @Mock
     private StoreSpec mStore;
@@ -50,13 +48,22 @@ public class GetProductCatalogRequestTest {
     }
 
     @Test
-    public void matchAddressDetailURL() {
-        GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, null, null);
+    public void matchProductCatalogURL() {
+        HashMap<String, String> query = new HashMap<>();
+        query.put(ModelConstants.CURRENT_PAGE, String.valueOf(0));
+        query.put(ModelConstants.PAGE_SIZE, String.valueOf(1));
+        GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, query, null);
         assertEquals(NetworkURLConstants.PRODUCT_CATALOG_URL, request.getUrl());
     }
 
+    @Test(expected = RuntimeException.class)
+    public void testProductDetailURLWhenParamsIsNull() throws Exception {
+        GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, null, null);
+        assertNotEquals(NetworkURLConstants.PRODUCT_CATALOG_URL, request.getUrl());
+    }
+
     @Test
-    public void parseResponseShouldBeOfGetShippingAddressDataType() {
+    public void parseResponseShouldBeOfProductsDataType() {
         GetProductCatalogRequest request = new GetProductCatalogRequest(mStore, null, null);
         String paymentResponse = TestUtils.readFile(GetRegionsRequestTest.class, "get_catalog.txt");
         Object response = request.parseResponse(paymentResponse);

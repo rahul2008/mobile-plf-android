@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -15,29 +14,24 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.Fragments.WebBuyFromRetailers;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.tagging.Tagging;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetailersAdapter.RetailerViewHolder> {
-    Context mContext;
-    ArrayList<StoreEntity> mStoreEntities;
-    private final ImageLoader mImageLoader;
+    private Context mContext;
+    private ArrayList<StoreEntity> mStoreEntities;
     private FragmentManager mFragmentManager;
     private int mThemeBaseColor;
-
     private int mContainerID;
+    private final ImageLoader mImageLoader;
 
     public BuyFromRetailersAdapter(Context context, ArrayList<StoreEntity> storeEntities, FragmentManager fragmentManager, int id) {
         mContext = context;
@@ -48,7 +42,6 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 .getImageLoader();
         mContainerID = id;
     }
-
 
 
     @Override
@@ -76,8 +69,13 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         holder.mArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                tagOnSelectRetailer(storeEntity);
-                addWebBuyFromRetailers(buyURL,storeEntity.getName());
+                if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
+                    NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
+                    return;
+                } else {
+                    tagOnSelectRetailer(storeEntity);
+                    addWebBuyFromRetailers(buyURL, storeEntity.getName());
+                }
             }
         });
 
@@ -85,7 +83,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     }
 
     private void tagOnSelectRetailer(StoreEntity storeEntity) {
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED,
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED,
                 storeEntity.getName());
     }
 
@@ -107,7 +105,6 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                         .ic_dialog_alert));
         retailerHolder.mLogo.setImageUrl(imageURL, mImageLoader);
     }
-
 
     @Override
     public int getItemCount() {
@@ -131,10 +128,16 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
         @Override
         public void onClick(final View v) {
-            final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.RETAILER_SELECTED, mStoreEntities.get(getAdapterPosition()).getName());
-            addWebBuyFromRetailers(buyURL,mStoreEntities.get(getAdapterPosition()).getName());
+            if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
+                NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
+                return;
+            } else {
+                final String buyURL = mStoreEntities.get(getAdapterPosition()).getBuyURL();
+                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                        IAPAnalyticsConstant.RETAILER_SELECTED,
+                        mStoreEntities.get(getAdapterPosition()).getName());
+                addWebBuyFromRetailers(buyURL, mStoreEntities.get(getAdapterPosition()).getName());
+            }
         }
     }
 }

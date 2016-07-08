@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,11 +31,8 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
-
-import static com.android.volley.Request.Method.HEAD;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
@@ -91,7 +89,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitle(R.string.iap_shopping_cart);
         if (!isNetworkNotConnected()) {
@@ -138,12 +136,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                 mAddressController.getRegions();
             }
             //Track checkout action
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
 
             if (mAdapter.isFreeDelivery()) {
                 //Action to track free delivery
-                Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                         IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
             }
         }
@@ -151,7 +149,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             if (isNetworkNotConnected()) return;
 
             //Track continue shopping action
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
                     IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG);
         }
@@ -159,7 +157,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public boolean onBackPressed() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
         }
         return false;
@@ -168,7 +167,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
@@ -219,7 +218,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onSetDeliveryModes(final Message msg) {
+    public void onSetDeliveryMode(final Message msg) {
         //NOP
     }
 
@@ -232,7 +231,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }
-        mAddressController.getShippingAddresses();
+        mAddressController.getAddresses();
+    }
+
+    @Override
+    public void onGetDeliveryModes(Message msg) {
+
     }
 
     @Override

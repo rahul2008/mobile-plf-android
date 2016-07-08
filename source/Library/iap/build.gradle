@@ -10,6 +10,7 @@ jacoco {
 def coverageSourceDirs = [
         '../iap/src/main/java'
 ]
+
 buildscript {
     repositories {
         maven {
@@ -59,6 +60,9 @@ allprojects {
         }
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+        }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots"
         }
 
         apply plugin: 'com.jfrog.artifactory'
@@ -115,6 +119,18 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+        exclude 'lib/arm64-v8a/librsjni.so'
+        exclude 'lib/arm64-v8a/libRSSupport.so'
+        exclude 'lib/armeabi-v7a/libblasV8.so'
+        exclude 'lib/armeabi-v7a/librsjni.so'
+        exclude 'lib/armeabi-v7a/libRSSupport.so'
+        exclude 'lib/mips/libblasV8.so'
+        exclude 'lib/mips/librsjni.so'
+        exclude 'lib/mips/libRSSupport.so'
+        exclude 'lib/x86/libblasV8.so'
+        exclude 'lib/x86/librsjni.so'
+        exclude 'lib/x86/libRSSupport.so'
+
     }
     lintOptions {
         abortOnError false
@@ -138,9 +154,9 @@ dependencies {
     compile 'com.googlecode.libphonenumber:libphonenumber:7.1.1'
 
     //Coco
-    compile 'com.philips.cdp:prx:2.0.1'
-    compile 'com.philips.cdp:uikitLib:3.2.0'
-    compile 'com.philips.cdp:Tagging:2.0.0'
+    compile 'com.philips.cdp:uikitLib:3.2.1'
+    compile 'com.philips.cdp:AppInfra:1.0.0'
+
     compile('com.philips.cdp:registrationApi:6.0.2') {
         exclude group: 'com.android.support'
         transitive = true
@@ -150,6 +166,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'org.robolectric:robolectric:3.0'
+
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
 
 //maven configuration stuff required for artifactory plugin
@@ -184,7 +202,7 @@ artifacts {
 
 task zipDocuments(type: Zip) {
     def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
     from files(docfiles) {
         baseName = project.name
         classifier 'docs'

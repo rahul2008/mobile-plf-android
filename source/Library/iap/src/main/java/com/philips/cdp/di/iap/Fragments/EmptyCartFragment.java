@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.tagging.Tagging;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -47,6 +47,7 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
     @Override
     public void onResume() {
         super.onResume();
+        setTitle(R.string.iap_shopping_cart);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
     }
 
@@ -61,7 +62,7 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
         if (isNetworkNotConnected()) return;
         if (v == mContinueShopping) {
             //Track continue shopping action
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
                     IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
 
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART);
@@ -71,11 +72,11 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
 
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment != null) {
-            getFragmentManager().popBackStack();
-        } else {
+        Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
+        if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
+        } else {
+            getFragmentManager().popBackStack();
         }
         return false;
     }

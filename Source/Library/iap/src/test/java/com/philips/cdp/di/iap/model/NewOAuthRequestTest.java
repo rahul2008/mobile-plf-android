@@ -12,28 +12,24 @@ import com.philips.cdp.di.iap.store.NetworkURLConstants;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
-@RunWith(RobolectricTestRunner.class)
 public class NewOAuthRequestTest {
 
     @Mock
     Context mContext;
     @Mock
     IAPUser mUser;
-    private StoreSpec mStore;
     private AbstractModel mModel;
 
     @Before
     public void setUp() {
-        mStore = (new MockStore(mContext, mUser)).getStore();
-        mStore.initStoreConfig("en","US", null);
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        mStore.initStoreConfig("en", "US", null);
         mModel = new NewOAuthRequest(mStore, null);
     }
 
@@ -53,35 +49,34 @@ public class NewOAuthRequestTest {
     }
 
     @Test
-    public void testTestingUrilIsNotNull() {
+    public void isValidUrl() {
         assertEquals(mModel.getUrl(), NetworkURLConstants.OAUTH_URL);
     }
 
     @Test
-    public void parseResponseShouldBeOfGetShippingAddressDataType() {
-//        CartAddProductRequest request = new CartAddProductRequest(mStore, null, null);
-        String response = TestUtils.readFile(this.getClass(), "oauth_response.txt");
-        Object result = mModel.parseResponse(response);
+    public void isValidResponse() {
+        String validResponse = TestUtils.readFile(this.getClass(), "OAuth.txt");
+        Object result = mModel.parseResponse(validResponse);
         assertEquals(result.getClass(), OAuthResponse.class);
     }
 
     @Test
-    public void matchAccessTokenAfterParseRespnse() {
-        String response = TestUtils.readFile(this.getClass(), "oauth_response.txt");
+    public void matchAccessTokenAfterParseResponse() {
+        String response = TestUtils.readFile(this.getClass(), "OAuth.txt");
         mModel.parseResponse(response);
         assertEquals(((NewOAuthRequest)mModel).getAccessToken(), "afa814bf-ad4d-477c-9bed-a79f0e37b8dd");
     }
 
     @Test
-    public void matchRefreshTokenAfterParseRespnse() {
-        String response = TestUtils.readFile(this.getClass(), "oauth_response.txt");
+    public void matchRefreshTokenAfterParseResponse() {
+        String response = TestUtils.readFile(this.getClass(), "OAuth.txt");
         mModel.parseResponse(response);
         assertEquals(((NewOAuthRequest) mModel).getrefreshToken(), "81eafe29-6036-4729-9118-63e6d089bdba");
     }
 
     @Test
     public void accessTokenShouldBeNullAfterResetToken() {
-        String response = TestUtils.readFile(this.getClass(), "oauth_response.txt");
+        String response = TestUtils.readFile(this.getClass(), "OAuth.txt");
         mModel.parseResponse(response);
         ((NewOAuthRequest) mModel).resetAccessToken();
         assertNull(((NewOAuthRequest) mModel).getAccessToken());
@@ -89,7 +84,7 @@ public class NewOAuthRequestTest {
 
     @Test
     public void refreshTokenShouldBeEmptyAfterResetToken() {
-        String response = TestUtils.readFile(this.getClass(), "oauth_response.txt");
+        String response = TestUtils.readFile(this.getClass(), "OAuth.txt");
         mModel.parseResponse(response);
         ((NewOAuthRequest) mModel).resetAccessToken();
         assertEquals("", ((NewOAuthRequest) mModel).getrefreshToken());

@@ -13,20 +13,18 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 
-/**
- * Created by 310164421 on 3/8/2016.
- */
-@RunWith(RobolectricTestRunner.class)
-public class CartDeleteProductRequestTest extends TestCase {
+public class CartDeleteProductRequestTest{
     @Mock
     private StoreSpec mStore;
 
@@ -45,9 +43,9 @@ public class CartDeleteProductRequestTest extends TestCase {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testGetURLWhenParamsEqualToNull() {
+    public void testGetURLWhenParamsEqualToNull() throws Exception{
         CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
+        assertNotEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }
 
     @Test
@@ -72,5 +70,11 @@ public class CartDeleteProductRequestTest extends TestCase {
         String str = null;
         Object response = request.parseResponse(str);
         assertNull(null, response);
+    }
+
+    @Test
+    public void testStoreIsNotNull() {
+        CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, null, null);
+        assertNotNull(request.getStore());
     }
 }

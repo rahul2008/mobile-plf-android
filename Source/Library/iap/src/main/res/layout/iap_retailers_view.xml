@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/ratingtheme"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-    >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ratingtheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <FrameLayout
+    <!--<FrameLayout
         android:id="@+id/iap_retailer_cross_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,8 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="@dimen/iap_select_retailer_right_margin"
-            android:paddingTop="@dimen/iap_select_retailer_right_margin"
-            />
+            android:paddingTop="@dimen/iap_select_retailer_right_margin" />
 
     </FrameLayout>
 
@@ -29,28 +27,24 @@
         style="@style/iapCentralesansBoldFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iap_retailer_cross_container"
-        android:layout_marginBottom="@dimen/iap_select_retailer_bottom_margin"
-        android:text="@string/iap_select_retailer"
-        android:textSize="@dimen/iap_select_retailer_text_size"
-        android:textColor="?attr/uikit_baseColor"
-        android:paddingLeft="@dimen/iap_select_retailer_left_margin"
-        />
 
+        android:layout_marginBottom="@dimen/iap_select_retailer_bottom_margin"
+        android:paddingLeft="@dimen/iap_select_retailer_left_margin"
+        android:text="@string/iap_select_retailer"
+        android:textColor="?attr/uikit_baseColor"
+        android:textSize="@dimen/iap_select_retailer_text_size" />
+-->
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/select_retailer"
-        android:background="?attr/uikit_listDividerColor"/>
+        android:background="?attr/uikit_listDividerColor" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/iap_retailer_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/divider"
-        android:listSelector="@android:color/transparent"
-        >
-    </android.support.v7.widget.RecyclerView>
+        android:listSelector="@android:color/transparent" />
 
 </RelativeLayout>

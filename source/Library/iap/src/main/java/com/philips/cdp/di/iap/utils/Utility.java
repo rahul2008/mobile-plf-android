@@ -1,13 +1,13 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.utils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -16,7 +16,7 @@ import android.widget.EditText;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
-import com.philips.cdp.di.iap.response.carts.CountryEntity;
+import com.philips.cdp.di.iap.response.addresses.Country;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.orders.Address;
 import com.philips.cdp.di.iap.response.payment.BillingAddress;
@@ -28,14 +28,8 @@ import java.util.Locale;
 
 public class Utility {
     public static final String TAG = Utility.class.getName();
-
     private static ProgressDialog mProgressDialog = null;
 
-    /**
-     * Displays the loading progress dialog
-     *
-     * @param context Current context
-     */
     public static void showProgressDialog(Context context, String message) {
         mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setCancelable(false);
@@ -93,9 +87,9 @@ public class Utility {
         if (addressObj instanceof DeliveryAddressEntity) {
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getPostalCode());
-            CountryEntity countryEntity = ((DeliveryAddressEntity) addressObj).getCountry();
+            appendAddressWithNewLineIfNotNull(sb, ((DeliveryAddressEntity) addressObj).getTown());
+            Country countryEntity = ((DeliveryAddressEntity) addressObj).getCountry();
             String country = getCountryName(countryEntity.getIsocode());
             if (country != null) {
                 sb.append(country);
@@ -104,8 +98,8 @@ public class Utility {
         } else if (addressObj instanceof AddressFields) {
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getPostalCode());
+            appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getTown());
             String country = getCountryName(((AddressFields) addressObj).getCountryIsocode());
             if (country != null) {
                 sb.append(country);
@@ -113,35 +107,42 @@ public class Utility {
         } else if (addressObj instanceof Addresses) {
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getPostalCode());
-            String country = getCountryName(((Addresses) addressObj).getCountry().getIsocode());
-            if (country != null) {
-                sb.append(country);
+            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getTown());
+            if ((((Addresses) addressObj).getRegion()) != null && (((Addresses) addressObj).getRegion().getName()) != null) {
+                appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getRegion().getName());
             }
+            sb.append(((Addresses) addressObj).getCountry().getName());
         } else if (addressObj instanceof BillingAddress) {
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getPostalCode());
+            appendAddressWithNewLineIfNotNull(sb, ((BillingAddress) addressObj).getTown());
             String country = getCountryName(((BillingAddress) addressObj).getCountry().getIsocode());
             if (country != null) {
                 sb.append(country);
             }
-        }else if (addressObj instanceof Address) {
+        } else if (addressObj instanceof Address) {
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine1());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getLine2());
-            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getPostalCode());
-            String country = getCountryName(((Address) addressObj).getCountry().getIsocode());
-            if (country != null) {
-                sb.append(country);
+            appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getTown());
+            if ((((Address) addressObj).getRegion()) != null && (((Address) addressObj).getRegion().getName()) != null) {
+                appendAddressWithNewLineIfNotNull(sb, ((Address) addressObj).getRegion().getName());
             }
+            appendAddressWithNewLineIfNotNull(sb, (((Address) addressObj).getCountry().getName()));
         }
         return sb.toString();
     }
 
-    public static int getThemeColor(Context context){
+    public static String formatAddress(final String address) {
+        if (address != null)
+            return address.replaceAll(", ", "\n");
+        else
+            return null;
+    }
+
+    public static int getThemeColor(Context context) {
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
         int mThemeBaseColor = a.getColor(0, ContextCompat.getColor(context, R.color.uikit_philips_blue));
         a.recycle();
@@ -160,5 +161,4 @@ public class Utility {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy"); // Set your date format
         return sdf.format(convertedDate);
     }
-
 }

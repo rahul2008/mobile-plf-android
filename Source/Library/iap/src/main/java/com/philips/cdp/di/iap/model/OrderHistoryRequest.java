@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.response.orders.OrdersData;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.Map;
 
@@ -33,6 +34,9 @@ public class OrderHistoryRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        return store.getPlaceOrderUrl();
+        if (params == null) {
+            throw new RuntimeException("Order number has to be supplied");
+        }
+        return  store.getOrderHistoryUrl(params.get(ModelConstants.CURRENT_PAGE));
     }
 }

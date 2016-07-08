@@ -19,10 +19,6 @@ public class LauncherFragmentActivity extends AppCompatActivity {
     View mCustomView;
     private IAPActionLayout layout;
 
-    private int getContainerId() {
-        return R.id.vertical_Container;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +40,7 @@ public class LauncherFragmentActivity extends AppCompatActivity {
         });
         //Launch via interface
         mIAPSettings = new IAPSettings("US", "en", R.style.Theme_Philips_BrightOrange_Gradient);
+
         mIAPSettings.setLaunchAsFragment(true);
         mIAPSettings.setFragProperties(getSupportFragmentManager(), R.id.vertical_Container);
 

@@ -1,17 +1,19 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.container;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.State.RegionsList;
+import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class CartModelContainer {
     private static CartModelContainer container;
     private AddressFields mBillingAddress;
@@ -25,10 +27,11 @@ public class CartModelContainer {
     private RegionsList mRegionList;
     private HashMap<String, SummaryModel> mPRXDataObjects;
     private HashMap<String, ArrayList<String>> mPRXAssetObjects;
+    private List<DeliveryModes> mDeliveryModes;
 
     private boolean switchToBillingAddress;
 
-    private CartModelContainer(){
+    private CartModelContainer() {
         mPRXDataObjects = new HashMap<>();
         mPRXAssetObjects = new HashMap<>();
     }
@@ -72,6 +75,14 @@ public class CartModelContainer {
 
     public void setShoppingCartData(final ArrayList<ShoppingCartData> mShoppingCartData) {
         this.mShoppingCartData = mShoppingCartData;
+    }
+
+    public List<DeliveryModes> getDeliveryModes() {
+        return mDeliveryModes;
+    }
+
+    public void setDeliveryModes(List<DeliveryModes> mDeliveryModes) {
+        this.mDeliveryModes = mDeliveryModes;
     }
 
     public AddressFields getShippingAddressFields() {
@@ -124,27 +135,27 @@ public class CartModelContainer {
         return switchToBillingAddress;
     }
 
-    public void setRegionList(RegionsList regionList){
+    public void setRegionList(RegionsList regionList) {
         mRegionList = regionList;
     }
 
-    public RegionsList getRegionList(){
+    public RegionsList getRegionList() {
         return mRegionList;
     }
 
-    public SummaryModel getProductData(String ctn){
-            return mPRXDataObjects.get(ctn);
+    public SummaryModel getProductData(String ctn) {
+        return mPRXDataObjects.get(ctn);
     }
 
     public boolean isPRXDataPresent(String ctn) {
         return mPRXDataObjects.containsKey(ctn);
     }
 
-    public void addProductDataToList(String ctn, SummaryModel model){
-        mPRXDataObjects.put(ctn,model);
+    public void addProductDataToList(String ctn, SummaryModel model) {
+        mPRXDataObjects.put(ctn, model);
     }
 
-    public HashMap<String, SummaryModel> getPRXDataObjects(){
+    public HashMap<String, SummaryModel> getPRXDataObjects() {
         return mPRXDataObjects;
     }
 
@@ -152,11 +163,11 @@ public class CartModelContainer {
         return mPRXAssetObjects.containsKey(ctn);
     }
 
-    public void addAssetDataToList(String ctn, ArrayList<String> assets){
-        mPRXAssetObjects.put(ctn,assets);
+    public void addAssetDataToList(String ctn, ArrayList<String> assets) {
+        mPRXAssetObjects.put(ctn, assets);
     }
 
-    public HashMap<String, ArrayList<String>> getPRXAssetObjects(){
+    public HashMap<String, ArrayList<String>> getPRXAssetObjects() {
         return mPRXAssetObjects;
     }
 }

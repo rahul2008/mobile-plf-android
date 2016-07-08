@@ -9,8 +9,8 @@ import android.content.Context;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.IAPLaunchHelper;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPSettings;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public class AppLocalHandler implements IAPExposedAPI {
 
@@ -27,10 +27,10 @@ public class AppLocalHandler implements IAPExposedAPI {
     @Override
     public void launchIAP(final int landingView, final String ctnNumber, final IAPHandlerListener listener) {
         if (mIAPSettings.isLaunchAsFragment()) {
-            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, landingView);
+            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, landingView, ctnNumber);
         } else {
             IAPLaunchHelper.launchIAPActivity(mContext,
-                    IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, mThemeIndex);
+                    landingView, mThemeIndex, ctnNumber);
         }
     }
 
@@ -45,4 +45,10 @@ public class AppLocalHandler implements IAPExposedAPI {
             iapHandlerListener.onSuccess(0);
         }
     }
+
+    @Override
+    public void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener) {
+        //NOP
+    }
+
 }

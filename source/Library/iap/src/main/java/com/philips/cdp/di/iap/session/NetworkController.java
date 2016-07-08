@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
@@ -7,12 +11,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.tagging.Tagging;
 
 import org.json.JSONObject;
 
@@ -67,11 +71,12 @@ public class NetworkController {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
+                if(model.getUrl() != null)
                 IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error
                         .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
-                        requestListener.getClass().getSimpleName());
+                        requestListener.getClass().getSimpleName()+ " " + model.getUrl().substring(0, 20));
                 if (error != null && error.getMessage() != null)
-                    Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                             IAPAnalyticsConstant.ERROR, error.getMessage());
                 if (requestListener != null) {
                     new IAPNetworkError(error, requestCode, requestListener);
@@ -94,8 +99,9 @@ public class NetworkController {
                     }
 
                     requestListener.onSuccess(msg);
-                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onSuccess =" + msg + " requestCode=" + requestCode + "in " +
-                            requestListener.getClass().getSimpleName());
+                    if(model.getUrl() != null)
+                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onFetchOfProductList =" + msg + " requestCode=" + requestCode + "in " +
+                            requestListener.getClass().getSimpleName() + "env = " + " " +model.getUrl().substring(0, 15));
                 }
             }
         };

@@ -11,9 +11,7 @@ import com.philips.cdp.di.iap.store.NetworkURLConstants;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 
@@ -22,20 +20,18 @@ import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
-@RunWith(RobolectricTestRunner.class)
 public class RefreshOAuthRequestTest {
 
     @Mock
     Context mContext;
     @Mock
     IAPUser mUser;
-    private StoreSpec mStore;
     private AbstractModel mModel;
 
     @Before
     public void setUp() {
-        mStore = (new MockStore(mContext, mUser)).getStore();
-        mStore.initStoreConfig("en","US", null);
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        mStore.initStoreConfig("en", "US", null);
         mModel = new RefreshOAuthRequest(mStore, new HashMap<String, String>());
     }
 
@@ -60,7 +56,7 @@ public class RefreshOAuthRequestTest {
     }
 
     @Test
-    public void testTestingUrilIsNotNull() {
+    public void isValidUrl() {
         assertEquals(mModel.getUrl(), NetworkURLConstants.OAUTH_REFRESH_URL);
     }
 

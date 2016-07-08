@@ -58,7 +58,7 @@ public class UpdateAddressRequest extends AbstractModel {
         return store.getAddressAlterUrl(addressId);
     }
 
-    private String getValue(String key) {
+    public String getValue(String key) {
         if (params.containsKey(key) && null != params.get(key)) {
             return params.get(key);
         }

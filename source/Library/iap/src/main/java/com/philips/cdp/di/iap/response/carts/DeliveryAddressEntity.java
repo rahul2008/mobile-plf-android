@@ -1,12 +1,14 @@
 package com.philips.cdp.di.iap.response.carts;
 
+import com.philips.cdp.di.iap.response.addresses.Country;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class DeliveryAddressEntity {
 
-    private CountryEntity country;
+    private Country country;
     private String firstName;
     private String formattedAddress;
     private String id;
@@ -20,7 +22,7 @@ public class DeliveryAddressEntity {
     private String town;
     private boolean visibleInAddressBook;
 
-    public CountryEntity getCountry() {
+    public Country getCountry() {
         return country;
     }
 

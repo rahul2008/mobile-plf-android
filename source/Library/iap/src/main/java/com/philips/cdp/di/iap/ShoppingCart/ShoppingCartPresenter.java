@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.core.AbstractShoppingCartPresenter;
@@ -36,7 +37,6 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,8 +77,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
         ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
         refreshList(products);
         CartModelContainer.getInstance().setShoppingCartData(products);
-        if (Utility.isProgressDialogShowing())
-            Utility.dismissProgressDialog();
+        dismissProgressDialog();
     }
 
     private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX() {
@@ -128,7 +127,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
                         //Track product delete action
-                        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PRODUCT_REMOVED);
                         getCurrentCartDetails();
                     }
@@ -154,10 +153,11 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter impleme
             public void onModelDataLoadFinished(final Message msg) {
                 if (quantityStatus == 1) {
                     //Track Add to cart action
-                    Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
+                    IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                            IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
                 } else if (quantityStatus == 0) {
                     //Track product delete action
-                    Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                             IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PRODUCT_REMOVED);
                 }
                 getCurrentCartDetails();

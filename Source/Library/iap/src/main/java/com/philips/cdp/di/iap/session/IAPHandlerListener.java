@@ -9,12 +9,14 @@ public interface IAPHandlerListener {
     /**
      * If called with addProductToCart, returns the cart items count
      * Otherwise always returns 0
+     *
      * @param count Items in cart
      */
     void onSuccess(int count);
 
     /**
      * Error occurred during the request
+     *
      * @param errorCode
      */
     void onFailure(final int errorCode);

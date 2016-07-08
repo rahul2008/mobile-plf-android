@@ -38,7 +38,7 @@ public class IAPUser implements UserRegistrationListener {
     }
 
     public String getJanRainEmail() {
-        Log.i("Janrain UUID", mJanRainUser.getJanrainUUID());
+//        Log.i("Janrain UUID", mJanRainUser.getJanrainUUID());
         return mJanRainUser.getEmail();
     }
 

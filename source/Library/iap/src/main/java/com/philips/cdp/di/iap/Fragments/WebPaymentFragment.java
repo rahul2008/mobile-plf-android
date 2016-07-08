@@ -12,9 +12,8 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.tagging.Tagging;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 public class WebPaymentFragment extends WebFragment {
     public static final String TAG = WebPaymentFragment.class.getName();
@@ -91,7 +90,7 @@ public class WebPaymentFragment extends WebFragment {
             launchConfirmationScreen(createErrorBundle());
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
             //Track Payment cancelled action
-            Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
             moveToPreviousFragment();
         } else {

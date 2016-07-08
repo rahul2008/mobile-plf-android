@@ -11,9 +11,9 @@ import android.text.TextUtils;
 
 import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.tagging.Tagging;
 
 public class NetworkUtility {
     private static NetworkUtility mNetworkUtility;
@@ -37,10 +37,11 @@ public class NetworkUtility {
     }
 
 
-    public void showErrorDialog(Context context, FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription) {
+    public void showErrorDialog(Context context, FragmentManager pFragmentManager,
+                                String pButtonText, String pErrorString, String pErrorDescription) {
 
         //Track pop up
-        Tagging.trackAction(IAPAnalyticsConstant.SEND_DATA,
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
         if (!((Activity) context).isFinishing()) {
             if (mModalAlertDemoFragment == null) {
@@ -90,7 +91,7 @@ public class NetworkUtility {
     private String getErrorTitleMessageFromErrorCode(final Context context, int errorCode) {
         String errorMessage = null;
         if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
-            errorMessage = context.getString(R.string.iap_network_error);
+            errorMessage = context.getString(R.string.iap_you_are_offline);
         } else {
             errorMessage = context.getString(R.string.iap_server_error);
         }
@@ -107,7 +108,7 @@ public class NetworkUtility {
         String errorMessage = null;
         int errorCode = error.getIAPErrorCode();
         if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
-            errorMessage = context.getString(R.string.iap_check_connection);
+            errorMessage = context.getString(R.string.iap_no_internet);
         } else if (errorCode == IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT) {
             errorMessage = context.getString(R.string.iap_time_out_error);
         } else if (errorCode == IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE) {

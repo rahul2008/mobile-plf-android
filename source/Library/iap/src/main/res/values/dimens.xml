@@ -1,5 +1,6 @@
 <resources>
     <dimen name="iap_count_drop_down_popup_width">85dp</dimen>
+    <dimen name="iap_count_drop_down_popup_height">300dp</dimen>
     <dimen name="iap_count_drop_down_icon_width">10dp</dimen>
     <dimen name="iap_count_drop_down_icon_height">5dp</dimen>
     <dimen name="iap_count_drop_down_icon_padding">5dp</dimen>
@@ -11,7 +12,7 @@
     <dimen name="iap_options_icon_height">17dp</dimen>
 
 
-    <dimen name="iap_shipping_address_margin_left">19dp</dimen>
+    <dimen name="iap_shipping_address_margin_left">20dp</dimen>
     <dimen name="iap_shipping_address_margin_top_bottom">33dp</dimen>
     <dimen name="iap_billing_toggle_margin_bottom">33dp</dimen>
     <dimen name="iap_billing_toggle_margin_top">11dp</dimen>
@@ -58,6 +59,7 @@
     <dimen name="iap_image_top_margin">4dp</dimen>
     <dimen name="iap_dots_padding">10dp</dimen>
     <dimen name="iap_product_detail_top_padding">33dp</dimen>
+    <dimen name="iap_product_detail_top_padding_top">23dp</dimen>
     <dimen name="iap_product_detail_bottom_padding">20dp</dimen>
     <dimen name="iap_product_detail_left_padding">20dp</dimen>
     <dimen name="iap_product_detail_right_padding">20dp</dimen>
@@ -89,4 +91,14 @@
     <dimen name="iap_retailers_store_name_top_margin">20dp</dimen>
     <dimen name="iap_retailers_store_name_size">16sp</dimen>
     <dimen name="iap_retailers_image_top">20dp</dimen>
+
+    <!-- Purchase history -->
+    <dimen name="iap_order_margin_top">12dp</dimen>
+    <dimen name="iap_order_detail_margin_bottom">20dp</dimen>
+    <dimen name="iap_order_icon_margin_left">7dp</dimen>
+    <dimen name="iap_track_order_button_margin_bottom">40dp</dimen>
+    <dimen name="iap_order_one_spacing">5dp</dimen>
+    <dimen name="iap_order_price_margin_right">38dp</dimen>
+
+    <dimen name="iap_edit_icon_width">18dp</dimen>
 </resources>

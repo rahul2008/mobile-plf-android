@@ -32,6 +32,7 @@ public class IAPConstant {
     public static final String IS_SECOND_USER = "IS_SECOND_USER";
     public static final String PAYMENT_METHOD_LIST = "PAYMENT_METHOD_LIST";
     public static final String ADD_DELIVERY_ADDRESS = "ADD_DELIVERY_ADDRESS";
+    public static final String ORDER_TRACK_URL = "ORDER_TRACK_URL";
     public static final String FROM_PAYMENT_SELECTION = "FROM_PAYMENT_SELECTION";
     public static final String BILLING_ADDRESS_FIELDS = "BILLING_ADDRESS_FIELDS";
     public static final String USE_PAYMENT = "USE_PAYMENT";
@@ -41,6 +42,7 @@ public class IAPConstant {
     public final static String NEW_LINE_ESCAPE_CHARACTER = "\n";
     public static final String INSUFFICIENT_STOCK_LEVEL_ERROR = "InsufficientStockLevelError";
     public static final String IAP_IS_SHOPPING_CART_VIEW_SELECTED = "IAP_IS_SHOPPING_CART_VIEW_SELECTED";
+    public static final String IAP_PRODUCT_CATALOG_NUMBER = "IAP_PRODUCT_CATALOG_NUMBER";
     public static final String IS_PRODUCT_CATALOG = "IS_PRODUCT_CATALOG";
     public static final String PRODUCT_DETAIL_FRAGMENT_CATALOG = "PRODUCT_DETAIL_FRAGMENT_CATALOG";
     public static final String IAP_LAUNCH_PRODUCT_CATALOG = "IAP_LAUNCH_PRODUCT_CATALOG";
@@ -56,12 +58,17 @@ public class IAPConstant {
     public static final String ORDER_STATUS = "ORDER_STATUS";
     public static final String TRACKING_ID = "TRACKING_ID";
     public static final String DELIVERY_NAME="DELIVERY_NAME";
+    public static final String ORDER_COMPLETED = "completed";
+    public static final String ORDER_PROCESSING = "processing";
+    public static final String ORDER_DETAIL = "ORDER_DETAIL";
 
     public interface IAPLandingViews {
         int IAP_PRODUCT_CATALOG_VIEW = 0;
         int IAP_SHOPPING_CART_VIEW = 1;
         int IAP_PURCHASE_HISTORY_VIEW = 2;
+        int IAP_PRODUCT_DETAIL_VIEW = 3;
     }
 
     public static final String IAP_STORE_NAME = "IAP_STORE_NAME";
+    public static final String IAP_RETAILER_INFO = "IAP_RETAILER_INFO";
 }

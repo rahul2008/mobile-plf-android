@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
@@ -9,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 
 public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
@@ -52,13 +57,16 @@ public class EmptyPurchaseHistoryFragment extends BaseAnimationSupportFragment
 
     @Override
     public boolean onBackPressed() {
-        finishActivity();
+        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+            finishActivity();
+        }
         return false;
     }
 
     @Override
     public void onClick(View v) {
         if (v == mContinueShoppingBtn) {
+            if (isNetworkNotConnected()) return;
             launchProductCatalog();
         } else if (v == mContactConsumerCare) {
             //Launch digital care contact us

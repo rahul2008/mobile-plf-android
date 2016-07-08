@@ -30,8 +30,8 @@ public class PRXDataBuilder {
     AbstractModel.DataLoadListener mDataLoadListener;
     private HashMap<String,SummaryModel> mPRXProductData;
     //Handling error cases where Product is in Hybris but not in PRX store.
-    private volatile int mProudctUpdateCount;
-    private int mProductPresentInPRX;
+    protected volatile int mProudctUpdateCount;
+    protected int mProductPresentInPRX;
 
     public PRXDataBuilder(Context context,ArrayList<String> ctns, AbstractModel.DataLoadListener listener) {
         mContext = context;
@@ -52,7 +52,7 @@ public class PRXDataBuilder {
         }
     }
 
-    private void executeRequest(final String ctn,final ProductSummaryRequest productSummaryBuilder) {
+    protected void executeRequest(final String ctn,final ProductSummaryRequest productSummaryBuilder) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(mContext);
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
@@ -72,7 +72,7 @@ public class PRXDataBuilder {
         });
     }
 
-    private void notifyError(final String error) {
+    protected void notifyError(final String error) {
         Message result = Message.obtain();
         result.obj = error;
         if (mDataLoadListener != null && mProudctUpdateCount == mCtns.size()) {
@@ -85,7 +85,7 @@ public class PRXDataBuilder {
         }
     }
 
-    private void notifySucces(SummaryModel model) {
+    protected void notifySucces(SummaryModel model) {
         mPRXProductData.put(model.getData().getCtn(),model);
         if (mDataLoadListener != null && mProudctUpdateCount == mCtns.size()) {
             Message result = Message.obtain();

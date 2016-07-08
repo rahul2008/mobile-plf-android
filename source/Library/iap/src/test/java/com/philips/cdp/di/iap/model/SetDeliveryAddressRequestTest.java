@@ -1,35 +1,47 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.model;
 
+import android.content.Context;
+
 import com.android.volley.Request;
+import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.store.IAPUser;
+import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
-import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 
-/**
- * Created by 310164421 on 3/8/2016.
- */
-@RunWith(MockitoJUnitRunner.class)
 public class SetDeliveryAddressRequestTest {
+
     @Mock
-    private HybrisStore mHybrisStore;
+    Context mContext;
+    @Mock
+    IAPUser mUser;
+    private AbstractModel mModel;
+
+    @Before
+    public void setUP() {
+        StoreSpec mStore = (new MockStore(mContext, mUser)).getStore();
+        mStore.initStoreConfig("en", "US", null);
+        mModel = new SetDeliveryAddressRequest(mStore, null, null);
+    }
 
     @Test
     public void testRequestMethodIsPUT() {
-        SetDeliveryAddressRequest request = new SetDeliveryAddressRequest(mHybrisStore, null, null);
-        assertEquals(Request.Method.PUT, request.getMethod());
+        assertEquals(Request.Method.PUT, mModel.getMethod());
     }
 
     @Test
@@ -63,8 +75,6 @@ public class SetDeliveryAddressRequestTest {
 
     @Test
     public void parseResponseShouldBeOfSetDeliveryAddressRequestDataType() {
-        SetDeliveryAddressRequest request = new SetDeliveryAddressRequest(mHybrisStore, null, null);
-        Object response = IAPConstant.IAP_SUCCESS;
-        assertEquals(response, IAPConstant.IAP_SUCCESS);
+        assertEquals(IAPConstant.IAP_SUCCESS, mModel.parseResponse(null));
     }
 }

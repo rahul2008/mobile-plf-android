@@ -15,21 +15,18 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 
-/**
- * Created by 310164421 on 3/8/2016.
- */
-@RunWith(RobolectricTestRunner.class)
-public class CartUpdateProductQuantityRequestTest extends TestCase {
+public class CartUpdateProductQuantityRequestTest{
     @Mock
     private StoreSpec mStore;
 
@@ -84,9 +81,16 @@ public class CartUpdateProductQuantityRequestTest extends TestCase {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testGetURLWhenParamsEqualToNull() {
+    public void testGetURLWhenParamsEqualToNull() throws Exception{
         CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
+        assertNotEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
+    }
+
+    @Test
+    public void testStoreIsNotNull() {
+
+        CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, null, null);
+        assertNotNull(request.getStore());
     }
 
 }

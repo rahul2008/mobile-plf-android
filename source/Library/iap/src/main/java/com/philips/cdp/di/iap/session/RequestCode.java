@@ -17,4 +17,6 @@ public class RequestCode {
     public static final int GET_REGIONS = 14;
     public static final int GET_ORDERS = 15;
     public static final int GET_ORDER_DETAIL = 16;
+    public static final int SEARCH_PRODUCT = 17;
+    public static final int GET_DELIVERY_MODE = 18;
 }

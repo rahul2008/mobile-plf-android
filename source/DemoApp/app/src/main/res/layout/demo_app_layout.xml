@@ -25,7 +25,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="50dp"
-        android:visibility="gone">
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/cart_iv"
@@ -54,10 +54,31 @@
         android:gravity="center_horizontal" />
 
     <LinearLayout
+        android:id="@+id/ll_ctn"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/shopping_cart_icon"
+        android:layout_alignParentLeft="true"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_add_ctn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter CTN" />
+
+        <Button
+            android:id="@+id/btn_add_ctn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/select_country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/ll_ctn"
         android:orientation="horizontal"
         android:visibility="gone">
 
@@ -115,5 +136,21 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_shop_now"
         android:text="@string/activity" />
+
+    <Button
+        android:id="@+id/btn_launch_product_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_fragment_launch"
+        android:text="@string/launch_product_detail"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_categorized_shop_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_launch_product_detail"
+        android:text="@string/categorized_shop_now"
+        android:visibility="gone" />
 
 </RelativeLayout>

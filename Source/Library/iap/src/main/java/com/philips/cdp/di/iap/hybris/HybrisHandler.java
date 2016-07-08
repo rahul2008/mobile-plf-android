@@ -13,12 +13,16 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.IAPLaunchHelper;
 import com.philips.cdp.di.iap.core.ShoppingCartAPI;
+import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandlerListener;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+
+import java.util.ArrayList;
 
 /**
  * We go via Hybris interface.
@@ -31,6 +35,9 @@ public class HybrisHandler implements IAPExposedAPI {
     private String mLanguage;
     private String mCountry;
     private IAPSettings mIAPSettings;
+    private final int CURRENT_PAGE = 0;
+    //Hybris default page size is 20. We are using the same
+    private final int PAGE_SIZE = 20;
 
     public HybrisHandler(Context context, IAPSettings settings) {
         mContext = context;
@@ -69,18 +76,57 @@ public class HybrisHandler implements IAPExposedAPI {
         }
     }
 
+    @Override
+    public void getCompleteProductList(final IAPHandlerProductListListener iapHandlerListener) {
+        if (isStoreInitialized()) {
+            getArrayListOfProductes(iapHandlerListener);
+        } else {
+            HybrisDelegate.getInstance(mContext).getStore().
+                    initStoreConfig(mLanguage, mCountry, new RequestListener() {
+                        @Override
+                        public void onSuccess(final Message msg) {
+                            getArrayListOfProductes(iapHandlerListener);
+                        }
+
+                        @Override
+                        public void onError(final Message msg) {
+                            iapHandlerListener.onFailure(getIAPErrorCode(msg));
+                        }
+                    });
+        }
+    }
+
+    private void getArrayListOfProductes(final IAPHandlerProductListListener iapHandlerListener) {
+        ProductCatalogPresenter presenter = new ProductCatalogPresenter();
+        presenter.getCompleteProductList(mContext, new IAPHandlerProductListListener() {
+
+            @Override
+            public void onFailure(int errorCode) {
+                iapHandlerListener.onFailure(errorCode);
+            }
+
+            @Override
+            public void onSuccess(ArrayList<String> productList) {
+                updateSuccessListener(productList, iapHandlerListener);
+            }
+        },CURRENT_PAGE,PAGE_SIZE);
+    }
+
     private boolean isStoreInitialized() {
         return HybrisDelegate.getInstance(mContext).getStore().isStoreInitialized();
     }
 
     void checkLaunchOrBuy(int screen, String ctnNumber, IAPHandlerListener listener) {
         if (screen == IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW) {
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW);
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_CATALOG_VIEW, ctnNumber);
         } else if (screen == IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW && TextUtils.isEmpty(ctnNumber)) {
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW);
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, ctnNumber);
         } else if (screen == IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW) {
-            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW);
-        } else {
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PURCHASE_HISTORY_VIEW, ctnNumber);
+        }else if( screen == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW){
+            launchIAPActivity(IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW, ctnNumber);
+        }
+        else {
             buyProduct(ctnNumber, listener);
         }
     }
@@ -105,11 +151,11 @@ public class HybrisHandler implements IAPExposedAPI {
         });
     }
 
-    void launchIAPActivity(int screen) {
+    void launchIAPActivity(int screen, String ctnNumber) {
         if (mIAPSettings.isLaunchAsFragment()) {
-            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, screen);
+            IAPLaunchHelper.launchIAPAsFragment(mIAPSettings, screen, ctnNumber);
         } else {
-            IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex);
+            IAPLaunchHelper.launchIAPActivity(mContext, screen, mThemeIndex, ctnNumber);
         }
     }
 
@@ -133,7 +179,7 @@ public class HybrisHandler implements IAPExposedAPI {
         presenter.buyProduct(mContext, ctnNumber, new IAPCartListener() {
             @Override
             public void onSuccess(final int count) {
-                launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW);
+                launchIAPActivity(IAPConstant.IAPLandingViews.IAP_SHOPPING_CART_VIEW, ctnNumber);
             }
 
             @Override
@@ -152,6 +198,12 @@ public class HybrisHandler implements IAPExposedAPI {
     private void updateSuccessListener(final int count, final IAPHandlerListener iapHandlerListener) {
         if (iapHandlerListener != null) {
             iapHandlerListener.onSuccess(count);
+        }
+    }
+
+    private void updateSuccessListener(final ArrayList<String> list, final IAPHandlerProductListListener iapHandlerListener) {
+        if (iapHandlerListener != null) {
+            iapHandlerListener.onSuccess(list);
         }
     }
 

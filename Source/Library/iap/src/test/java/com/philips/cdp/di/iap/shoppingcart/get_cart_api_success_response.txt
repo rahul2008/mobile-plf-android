@@ -1,0 +1,333 @@
+{
+  "type": "cartWsDTO",
+  "calculated": true,
+  "code": "14000084116",
+  "deliveryAddress": {
+    "country": {
+      "isocode": "US",
+      "name": "United States"
+    },
+    "firstName": "Sharon",
+    "formattedAddress": "17603 34 Place W, Kormangala, Washington, Lynnwood, 98037",
+    "id": "8804269981719",
+    "lastName": "Dsouza",
+    "line1": "17603 34 Place W",
+    "line2": "Kormangala",
+    "phone1": "(339)224-8782",
+    "postalCode": "98037",
+    "region": {
+      "countryIso": "US",
+      "isocode": "US-WA",
+      "isocodeShort": "WA",
+      "name": "Washington"
+    },
+    "shippingAddress": true,
+    "title": "Ms.",
+    "titleCode": "ms",
+    "town": "Lynnwood",
+    "visibleInAddressBook": true
+  },
+  "deliveryCost": {
+    "currencyIso": "USD",
+    "formattedValue": "$12.85",
+    "priceType": "BUY",
+    "value": 12.85
+  },
+  "deliveryItemsQuantity": 3,
+  "deliveryMode": {
+    "code": "standard-net",
+    "deliveryCost": {
+      "currencyIso": "USD",
+      "formattedValue": "$12.85",
+      "priceType": "BUY",
+      "value": 12.85
+    },
+    "description": "3-5 business days",
+    "name": "Standard Delivery Mode"
+  },
+  "deliveryOrderGroups": [
+    {
+      "entries": [
+        {
+          "basePrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$29.99",
+            "priceType": "BUY",
+            "value": 29.99
+          },
+          "entryNumber": 0,
+          "product": {
+            "availableForPickup": false,
+            "categories": [
+              {
+                "code": "Tuscany_Campaign",
+                "url": "/Tuscany-Category/c/Tuscany_Campaign"
+              }
+            ],
+            "code": "HX9033/64",
+            "discountPrice": {
+              "currencyIso": "USD",
+              "value": 29.99
+            },
+            "purchasable": true,
+            "stock": {
+              "stockLevel": 117,
+              "stockLevelStatus": "inStock"
+            },
+            "url": "/c//p/HX9033_64"
+          },
+          "quantity": 1,
+          "totalPrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$29.99",
+            "priceType": "BUY",
+            "value": 29.99
+          },
+          "updateable": true
+        },
+        {
+          "basePrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$29.99",
+            "priceType": "BUY",
+            "value": 29.99
+          },
+          "entryNumber": 1,
+          "product": {
+            "availableForPickup": false,
+            "categories": [
+              {
+                "code": "Tuscany_Campaign",
+                "url": "/Tuscany-Category/c/Tuscany_Campaign"
+              }
+            ],
+            "code": "HX9023/64",
+            "discountPrice": {
+              "currencyIso": "USD",
+              "value": 29.99
+            },
+            "purchasable": true,
+            "stock": {
+              "stockLevel": 95,
+              "stockLevelStatus": "inStock"
+            },
+            "url": "/c//p/HX9023_64"
+          },
+          "quantity": 1,
+          "totalPrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$29.99",
+            "priceType": "BUY",
+            "value": 29.99
+          },
+          "updateable": true
+        },
+        {
+          "basePrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$38.99",
+            "priceType": "BUY",
+            "value": 38.99
+          },
+          "entryNumber": 2,
+          "product": {
+            "availableForPickup": false,
+            "categories": [
+              {
+                "code": "Tuscany_Campaign",
+                "url": "/Tuscany-Category/c/Tuscany_Campaign"
+              }
+            ],
+            "code": "HX9003/64",
+            "discountPrice": {
+              "currencyIso": "USD",
+              "value": 38.99
+            },
+            "purchasable": true,
+            "stock": {
+              "stockLevel": 138,
+              "stockLevelStatus": "inStock"
+            },
+            "url": "/c//p/HX9003_64"
+          },
+          "quantity": 1,
+          "totalPrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$38.99",
+            "priceType": "BUY",
+            "value": 38.99
+          },
+          "updateable": true
+        }
+      ],
+      "totalPriceWithTax": {
+        "currencyIso": "USD",
+        "formattedValue": "$109.93",
+        "priceType": "BUY",
+        "value": 109.93
+      }
+    }
+  ],
+  "entries": [
+    {
+      "basePrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$29.99",
+        "priceType": "BUY",
+        "value": 29.99
+      },
+      "entryNumber": 0,
+      "product": {
+        "availableForPickup": false,
+        "categories": [
+          {
+            "code": "Tuscany_Campaign",
+            "url": "/Tuscany-Category/c/Tuscany_Campaign"
+          }
+        ],
+        "code": "HX9033/64",
+        "discountPrice": {
+          "currencyIso": "USD",
+          "value": 29.99
+        },
+        "purchasable": true,
+        "stock": {
+          "stockLevel": 117,
+          "stockLevelStatus": "inStock"
+        },
+        "url": "/c//p/HX9033_64"
+      },
+      "quantity": 1,
+      "totalPrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$29.99",
+        "priceType": "BUY",
+        "value": 29.99
+      },
+      "updateable": true
+    },
+    {
+      "basePrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$29.99",
+        "priceType": "BUY",
+        "value": 29.99
+      },
+      "entryNumber": 1,
+      "product": {
+        "availableForPickup": false,
+        "categories": [
+          {
+            "code": "Tuscany_Campaign",
+            "url": "/Tuscany-Category/c/Tuscany_Campaign"
+          }
+        ],
+        "code": "HX9023/64",
+        "discountPrice": {
+          "currencyIso": "USD",
+          "value": 29.99
+        },
+        "purchasable": true,
+        "stock": {
+          "stockLevel": 95,
+          "stockLevelStatus": "inStock"
+        },
+        "url": "/c//p/HX9023_64"
+      },
+      "quantity": 1,
+      "totalPrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$29.99",
+        "priceType": "BUY",
+        "value": 29.99
+      },
+      "updateable": true
+    },
+    {
+      "basePrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$38.99",
+        "priceType": "BUY",
+        "value": 38.99
+      },
+      "entryNumber": 2,
+      "product": {
+        "availableForPickup": false,
+        "categories": [
+          {
+            "code": "Tuscany_Campaign",
+            "url": "/Tuscany-Category/c/Tuscany_Campaign"
+          }
+        ],
+        "code": "HX9003/64",
+        "discountPrice": {
+          "currencyIso": "USD",
+          "value": 38.99
+        },
+        "purchasable": true,
+        "stock": {
+          "stockLevel": 138,
+          "stockLevelStatus": "inStock"
+        },
+        "url": "/c//p/HX9003_64"
+      },
+      "quantity": 1,
+      "totalPrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$38.99",
+        "priceType": "BUY",
+        "value": 38.99
+      },
+      "updateable": true
+    }
+  ],
+  "guid": "0d487b50-e3e8-4e31-bf14-f5c2f968f522",
+  "net": true,
+  "orderDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "$0.00",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "pickupItemsQuantity": 0,
+  "productDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "$0.00",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "site": "US_Tuscany",
+  "store": "US_Pub",
+  "subTotal": {
+    "currencyIso": "USD",
+    "formattedValue": "$98.97",
+    "priceType": "BUY",
+    "value": 98.97
+  },
+  "totalDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "$0.00",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "totalItems": 3,
+  "totalPrice": {
+    "currencyIso": "USD",
+    "formattedValue": "$111.82",
+    "priceType": "BUY",
+    "value": 111.82
+  },
+  "totalPriceWithTax": {
+    "currencyIso": "USD",
+    "formattedValue": "$122.78",
+    "priceType": "BUY",
+    "value": 122.78
+  },
+  "totalTax": {
+    "currencyIso": "USD",
+    "formattedValue": "$10.96",
+    "priceType": "BUY",
+    "value": 10.96
+  },
+  "totalUnitCount": 3
+}

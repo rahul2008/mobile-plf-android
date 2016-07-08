@@ -1,11 +1,7 @@
-/*----------------------------------------------------------------------------
-Copyright(c) Philips Electronics India Ltd
-All rights reserved. Reproduction in whole or in part is prohibited without
-the written consent of the copyright holder.
-
-Project           : InAppPurchase
-----------------------------------------------------------------------------*/
-
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
@@ -17,11 +13,11 @@ import android.view.View;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
-import com.philips.cdp.di.iap.activity.IAPFragmentListener;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.core.ControllerFactory;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.List;
@@ -39,14 +35,14 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
             } else {
                 NetworkUtility.getInstance().showErrorDialog(getActivity(), getActivity()
                                 .getSupportFragmentManager(), getString(R.string.iap_ok),
-                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                        getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
             }
         }
     };
 
     protected boolean isNetworkNotConnected() {
-        if (!NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
-            NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        if (getContext() != null && !NetworkUtility.getInstance().isNetworkAvailable(getContext())) {
+            NetworkUtility.getInstance().showErrorDialog(getContext(), getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
             return true;
         }
         return false;
@@ -74,6 +70,14 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         setBackButtonVisibility(View.VISIBLE);
         setCartIconVisibility(View.GONE);
         mFragmentLayout.getCartContainer().setOnClickListener(mCartIconListener);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        NetworkUtility.getInstance().dismissErrorDialog();
+        if (Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
     }
 
     public void addFragment(BaseAnimationSupportFragment newFragment,
@@ -134,17 +138,14 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
     protected void setTitle(int resourceId) {
         mFragmentLayout.setHeaderTitle(resourceId);
-//        mActivityListener.setHeaderTitle(resourceId);
     }
 
     protected void setTitle(String title) {
         mFragmentLayout.setHeaderTitle(title);
-        //mActivityListener.setHeaderTitle(title);
     }
 
     protected void setBackButtonVisibility(final int isVisible) {
         mFragmentLayout.setBackButtonVisibility(isVisible);
-//        mActivityListener.setBackButtonVisibility(isVisible);
     }
 
     protected void finishActivity() {
@@ -177,9 +178,7 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
             for (; count >= 0; count--) {
                 List<Fragment> fragmentList = fragManager.getFragments();
                 if (fragmentList != null && fragmentList.size() > 0) {
-                    if (fragmentList.get(fragmentList.size() - 1) instanceof IAPFragmentListener) {
-                        fragManager.popBackStackImmediate();
-                    }
+                    fragManager.popBackStack();
                 }
             }
         }
@@ -187,16 +186,13 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
     public void updateCount(final int count) {
         mFragmentLayout.updateCount(count);
-        //mActivityListener.updateCount(count);
     }
 
     public void setCartIconVisibility(final int visibility) {
         if (!ControllerFactory.getInstance().shouldDisplayCartIcon()) {
             mFragmentLayout.setCartIconVisibility(View.GONE);
-            //mActivityListener.setCartIconVisibility(View.GONE);
         } else {
             mFragmentLayout.setCartIconVisibility(visibility);
-//            mActivityListener.setCartIconVisibility(visibility);
         }
     }
 }

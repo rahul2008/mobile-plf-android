@@ -132,8 +132,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
 
     private void disableAllFields() {
         removeErrorInAllFields();
-        disableFocus();
         setFieldsEnabled(false);
+        disableFocus();
     }
 
     private void enableFocus() {
@@ -167,7 +167,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
 
     @Override
     public void onClick(View v) {
-
         Utility.hideKeypad(mContext);
         if (isNetworkNotConnected()) return;
         if (v == mBtnContinue) {
@@ -231,5 +230,12 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             }
             mEtPhoneNumber.setFocusableInTouchMode(true);
         }
+
+        mEtCountry.setFocusable(false);
+        mEtCountry.setFocusableInTouchMode(false);
+        mEtEmail.setFocusableInTouchMode(false);
+        mEtEmail.setFocusable(false);
+        mEtEmail.setEnabled(false);
+        mEtCountry.setEnabled(false);
     }
 }

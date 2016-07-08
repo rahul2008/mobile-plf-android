@@ -13,18 +13,12 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 
 import static org.mockito.Mockito.mock;
 
-/**
- * Created by 310164421 on 3/8/2016.
- */
-@RunWith(RobolectricTestRunner.class)
 public class DeleteAddressRequestTest extends TestCase {
     @Mock
     private StoreSpec mStore;

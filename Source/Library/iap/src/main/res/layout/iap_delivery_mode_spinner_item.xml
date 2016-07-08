@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/delivery_mode_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/tvBoldTitle"
+        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_marginStart="@dimen/iap_product_detail_left_padding"
+        android:text="@string/iap_delivery_method"/>
+    <TextView
+        android:id="@+id/delivery_date"
+        android:layout_below="@id/delivery_mode_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/tvTitle"
+        android:layout_marginTop="@dimen/iap_order_one_spacing"
+        android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom"
+        android:layout_alignStart="@id/delivery_mode_name"/>
+
+    <TextView
+        android:id="@+id/delivery_mode_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/tvBoldTitle"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBaseline="@id/delivery_mode_name"
+        android:layout_marginEnd="@dimen/iap_order_detail_margin_bottom"/>
+</RelativeLayout>

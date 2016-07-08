@@ -30,7 +30,7 @@ public class ModelConstants {
     public static final String DEFAULT_ADDRESS = "defaultAddress";
     public static final String EMAIL_ADDRESS = "email_address";
 
-    public static final String DEVLVERY_MODE_ID = "deliveryModeId";
+    public static final String DELIVERY_MODE_ID = "deliveryModeId";
 
     public static final String PAYMENT_DETAILS_ID = "paymentDetailsId";
     public static final String WEBPAY_URL = "webpay_url";
@@ -38,4 +38,7 @@ public class ModelConstants {
     public static final String CART_ID = "cartId";
     public static final String PAYMENT_SUCCESS_STATUS = "payment_success_status";
     public static final String REFRESH_TOKEN = "refresh_token";
+
+    public static final String CURRENT_PAGE = "currentPage";
+    public static final String PAGE_SIZE = "PAGE_SIZE";
 }

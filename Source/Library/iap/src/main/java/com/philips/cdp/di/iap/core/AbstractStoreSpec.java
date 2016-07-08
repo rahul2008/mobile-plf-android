@@ -87,7 +87,7 @@ public abstract class AbstractStoreSpec implements StoreSpec {
     }
 
     @Override
-    public String getProductCatalogUrl() {
+    public String getProductCatalogUrl(int currentPage, int pageSize) {
         return null;
     }
 
@@ -178,6 +178,17 @@ public abstract class AbstractStoreSpec implements StoreSpec {
 
     @Override
     public String getOrderDetailUrl(String orderID) {
+        return null;
+    }
+
+    @Override
+    public String getSearchProductUrl(String ctnNumber) { return null; }
+
+    @Override
+    public String getOrderHistoryUrl(String pageNumber) { return null; }
+
+    @Override
+    public String getDeliveryModesUrl() {
         return null;
     }
 }

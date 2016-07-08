@@ -13,10 +13,14 @@ import com.philips.cdp.di.iap.core.IAPExposedAPI;
 import com.philips.cdp.di.iap.core.NetworkEssentials;
 import com.philips.cdp.di.iap.core.NetworkEssentialsFactory;
 import com.philips.cdp.di.iap.hybris.HybrisHandler;
+import com.philips.cdp.di.iap.utils.IAPConstant;
+
+import java.util.ArrayList;
 
 public class IAPHandler implements IAPExposedAPI {
 
     private IAPExposedAPI mImplementationHandler;
+    public static ArrayList<String> mProductCTNs;
 
     private IAPHandler() {
     }
@@ -30,14 +34,27 @@ public class IAPHandler implements IAPExposedAPI {
         return handler;
     }
 
+    public void launchCategorizedCatalog(ArrayList<String> pProductCTNs) {
+        mProductCTNs = pProductCTNs;
+    }
+
     @Override
     public void launchIAP(int landingView, String ctnNumber, IAPHandlerListener listener) {
+        if(landingView == IAPConstant.IAPLandingViews.IAP_PRODUCT_DETAIL_VIEW &&
+                (ctnNumber == null || ctnNumber.trim().equalsIgnoreCase("")) ){
+            throw new RuntimeException("Product Ctn passed is null");
+        }
         mImplementationHandler.launchIAP(landingView, ctnNumber, listener);
     }
 
     @Override
     public void getProductCartCount(final IAPHandlerListener iapHandlerListener) {
         mImplementationHandler.getProductCartCount(iapHandlerListener);
+    }
+
+    @Override
+    public void getCompleteProductList(IAPHandlerProductListListener iapHandlerListener) {
+        mImplementationHandler.getCompleteProductList(iapHandlerListener);
     }
 
     private void setLangAndCountry(final String language, final String country) {

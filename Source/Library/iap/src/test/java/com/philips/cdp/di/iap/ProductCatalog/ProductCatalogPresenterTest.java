@@ -57,7 +57,7 @@ public class ProductCatalogPresenterTest {
 
     @Before
     public void setUP() {
-        mPresenter = new ProductCatalogPresenter(context, null, mFragmentManager);
+        mPresenter = new ProductCatalogPresenter(context, null, mFragmentManager, true);
         mPresenter.setHybrisDelegate(mHybrisDelegate);
         when(mHybrisDelegate.getNetworkController(context)).thenReturn(mNetworkController);
         doNothing().when(mNetworkController).addToVolleyQueue(mIAPJsonReq);
@@ -65,7 +65,7 @@ public class ProductCatalogPresenterTest {
 
     @Test
     public void doSomething() {
-        mPresenter.getProductCatalog();
+        mPresenter.getProductCatalog(0,0);
         HybrisStore hybrisStore = Mockito.mock(HybrisStore.class);
         GetProductCatalogRequest model = new GetProductCatalogRequest(hybrisStore, null,
                 new AbstractModel.DataLoadListener() {
