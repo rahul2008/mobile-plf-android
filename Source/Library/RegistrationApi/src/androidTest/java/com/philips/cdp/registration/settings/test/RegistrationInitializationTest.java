@@ -8,25 +8,14 @@
 
 package com.philips.cdp.registration.settings.test;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.test.InstrumentationTestCase;
-
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.RLog;
-
-import java.util.Locale;
 
 /**
  * Created by 310202337 on 2/15/2016.
  */
 public class RegistrationInitializationTest extends InstrumentationTestCase {
 
-    public static final int TIME = 1000*5;
+/*    public static final int TIME = 1000*5;
 
     public RegistrationInitializationTest() {
        // super(RegistrationActivity.class);
@@ -130,6 +119,6 @@ public class RegistrationInitializationTest extends InstrumentationTestCase {
 
 
 
-    }
+    }*/
 
 }
