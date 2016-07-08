@@ -129,7 +129,7 @@ public class ProductCatalogHelper {
         for (String planBProduct : planBProductList) {
             ctn = planBProduct;
             ProductCatalogData productItem = new ProductCatalogData();
-            Data data = null;
+            Data data;
             if (prxModel.containsKey(ctn)) {
                 data = prxModel.get(ctn).getData();
             } else if (list.containsKey(ctn)) {
@@ -148,17 +148,15 @@ public class ProductCatalogHelper {
 
     private ArrayList<ProductCatalogData> mergeResponsesFromHybrisAndPRX(ArrayList<String> planBProductList, final Products productData, final HashMap<String, SummaryModel> prxModel) {
         if (planBProductList != null) {
-            ArrayList<ProductCatalogData> products = mergeHybrisAndPRXPlanB(planBProductList, prxModel);
-            return products;
+            return mergeHybrisAndPRXPlanB(planBProductList, prxModel);
         } else {
-            ArrayList<ProductCatalogData> products = mergeHybrisAndPRXPlanA(productData, prxModel);
-            return products;
+            return mergeHybrisAndPRXPlanA(productData, prxModel);
         }
     }
 
-    private PaginationEntity getPaginationInfo(Products productCatalog){
+   /* private PaginationEntity getPaginationInfo(Products productCatalog){
         return productCatalog.getPagination();
-    }
+    }*/
 
     private ArrayList<ProductCatalogData> mergeHybrisAndPRXPlanA(Products productData, HashMap<String, SummaryModel> prxModel) {
         List<ProductsEntity> entries = productData.getProducts();
@@ -169,7 +167,7 @@ public class ProductCatalogHelper {
         for (ProductsEntity entry : entries) {
             ctn = entry.getCode();
             ProductCatalogData productItem = new ProductCatalogData();
-            Data data = null;
+            Data data;
             if (prxModel.containsKey(ctn)) {
                 data = prxModel.get(ctn).getData();
             } else if (list.containsKey(ctn)) {
@@ -181,13 +179,13 @@ public class ProductCatalogHelper {
             productItem.setProductTitle(data.getProductTitle());
             productItem.setCtnNumber(ctn);
             productItem.setMarketingTextHeader(data.getMarketingTextHeader());
-            fillEntryBaseData(entry, productItem, data);
+            fillEntryBaseData(entry, productItem);
             products.add(productItem);
         }
         return products;
     }
 
-    private void fillEntryBaseData(final ProductsEntity entry, final ProductCatalogData productItem, final Data data) {
+    private void fillEntryBaseData(final ProductsEntity entry, final ProductCatalogData productItem) {
         if (entry.getPrice() == null || entry.getDiscountPrice() == null)
             return;
         productItem.setFormatedPrice(entry.getPrice().getFormattedValue());
