@@ -27,7 +27,7 @@ import java.util.TimeZone;
 /**
  * Created by 310243577 on 6/27/2016.
  */
-public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInterface{
+public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInterface {
 
 
     private static final String TAG = "TimeSyncSntpClient";
@@ -61,7 +61,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
 
     private static volatile TimeSyncSntpClient serverTimeInstance;
 
-    private String[] serverPool;
+    private static String[] serverPool;
 
     private static AppInfra mAppInfra;
 
@@ -80,6 +80,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
     public TimeSyncSntpClient() {
 
     }
+
     public synchronized static void init(final Context pContext) {
         mContext = pContext;
         mSharedPreferences = mContext.getSharedPreferences(SERVERTIME_PREFERENCE, Context.MODE_PRIVATE);
@@ -119,7 +120,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
 
 
     public synchronized void refreshOffset() {
-        long  mNTPTime;
+        long mNTPTime;
 
         isRefreshInProgress = true;
         long elapsedTime = SystemClock.elapsedRealtime();
@@ -153,7 +154,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
         }
         sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
         final String utcTime = sdf.format(date);
-        Log.i("CurrentUTCTime", ""+utcTime);
+        Log.i("CurrentUTCTime", "" + utcTime);
         return utcTime;
     }
 
@@ -163,7 +164,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
         sdf.setTimeZone(TimeZone.getTimeZone(TimeConstants.UTC));
 
         final String curruntTime = sdf.format(date);
-        Log.i("CurrentTime", ""+curruntTime);
+        Log.i("CurrentTime", "" + curruntTime);
         return curruntTime;
     }
 
@@ -261,7 +262,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
             mNtpTimeReference = responseTicks;
             mRoundTripTime = roundTripTime;
         } catch (Exception e) {
-            Log.i("Exception", ""+e);
+            Log.i("Exception", "" + e);
             if (false) Log.d(TAG, "request time failed: " + e);
             return false;
         } finally {
@@ -350,23 +351,22 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
 
 
     @Override
-    public String getUTCTime()
-    {
+    public String getUTCTime() {
         String mNtpDate = null;
-        try{
-            if(mNtpTime == 0L){
+        try {
+            if (mNtpTime == 0L) {
                 DateFormat DATE_FORMAT = new SimpleDateFormat(TimeConstants.DATE_FORMAT, Locale.ENGLISH);
                 Date UTCdate = new Date(mNtpTime);
                 DATE_FORMAT.format(UTCdate);
-                Log.i("DATE_FORMAT", ""+DATE_FORMAT.format(UTCdate));
+                Log.i("DATE_FORMAT", "" + DATE_FORMAT.format(UTCdate));
                 refreshTime();
                 mNtpDate = getCurrentTime();
-            }else{
+            } else {
                 mNtpDate = getCurrentTime();
             }
 
-        }catch (Exception e){
-        Log.i("Error", ""+e);
+        } catch (Exception e) {
+            Log.i("Error", "" + e);
         }
 
         return mNtpDate;
@@ -377,7 +377,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if(mNtpTime == 0L) {
+                if (mNtpTime == 0L) {
                     refreshOffset();
                 }
             }
