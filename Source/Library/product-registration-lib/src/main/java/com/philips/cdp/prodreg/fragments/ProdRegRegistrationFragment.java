@@ -59,8 +59,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
             final int mMonthInt = (arg2 + 1);
-            String mMonth = getValidatedString(mMonthInt);
-            String mDate = getValidatedString(arg3);
+            String mMonth = ProdRegUtil.getValidatedString(mMonthInt);
+            String mDate = ProdRegUtil.getValidatedString(arg3);
             SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_formate));
             final Calendar mCalendar = Calendar.getInstance();
             final String mGetDeviceDate = dateFormat.format(mCalendar.getTime());
@@ -176,16 +176,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_DATE_COUNT, 1);
         ProdRegTagging.getInstance(activity).trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_DATE_COUNT)));
         purchaseDateLayout.showError(editTextView);
-    }
-
-    private String getValidatedString(final int value) {
-        final String valueString;
-        if (value < 10) {
-            valueString = getResources().getString(R.string.zero) + value;
-        } else {
-            valueString = Integer.toString(value);
-        }
-        return valueString;
     }
 
     private View.OnClickListener onClickPurchaseDate() {

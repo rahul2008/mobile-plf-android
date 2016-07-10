@@ -234,6 +234,17 @@ Version - 0.5.0.rc_2                        Date: 25-04-2016
 	6. PRA-257 - Register, Yes button bar its looking too long in landscape mode
 	7. PRA-256 - Date of Purchase filed is hidden beyond the register button(Landscape)
 	8. PRA-254 - Cursor point is not pointing properly in Serial number parameter in Semi-automatic PR page
-	9. PRA- 255  - No hyperlinks for *www.philips.com *
+	9. PRA-255  - No hyperlinks for *www.philips.com *
 	
 	open issues - PRA - 262 - Option is not available for user to modify the product name as per the his/her wish(Need clarifications)
+	
+	Version - 1.0.2.rc6                        Date: 8-07-2016
+----------------------------------------------------------------
+	Following issues are fixed
+
+	1. PRA-285 - Hide serial number field on entered valid serial number
+	2. PRA-271 - Code Review and Optimization
+	3. PRA-280 - Application process is getting killed, when a user sent app to background and again bring back to foreground
+	4. PRA-274 - Please enter date of purchase error message should be removed in semi automatic product registration page.
+	5. PRA-262 - Option is not available for user to modify the product name as per the his/her wish
+	

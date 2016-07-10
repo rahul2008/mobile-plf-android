@@ -64,5 +64,15 @@ public class ProdRegUtilTest extends MockitoTestCase {
         verify(prodRegCacheMock).storeIntData(key, 3);
     }
 
+    public void testGettingValidatedString() {
+        int value = 5;
+        String data = ProdRegUtil.getValidatedString(value);
+        assertTrue(data.equals("05"));
+
+        int value2 = 15;
+        String data2 = ProdRegUtil.getValidatedString(value2);
+        assertTrue(data2.equals("15"));
+    }
+
 
 }

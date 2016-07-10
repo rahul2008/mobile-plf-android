@@ -58,4 +58,14 @@ public class ProdRegUtil {
         final int intData = prodRegCache.getIntData(key);
         prodRegCache.storeIntData(key, (intData + count));
     }
+
+    public static String getValidatedString(final int value) {
+        final String valueString;
+        if (value < 10) {
+            valueString = "0" + value;
+        } else {
+            valueString = Integer.toString(value);
+        }
+        return valueString;
+    }
 }

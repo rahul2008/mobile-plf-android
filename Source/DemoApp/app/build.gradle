@@ -56,12 +56,12 @@ android {
         simulator {
             applicationId 'com.philips.cdp.demo'
             versionCode 2
-            versionName "1.0.2.rc5"
+            versionName "1.0.2.rc6"
         }
         device {
             applicationId 'com.philips.cdp.demo'
             versionCode 2
-            versionName "1.0.2.rc5"
+            versionName "1.0.2.rc6"
         }
     }
 
