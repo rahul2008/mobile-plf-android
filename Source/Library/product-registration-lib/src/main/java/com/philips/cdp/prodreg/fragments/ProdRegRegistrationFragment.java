@@ -171,10 +171,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private void showErrorMessageDate(final EditText editTextView) {
         final FragmentActivity activity = getActivity();
         purchaseDateLayout.setErrorMessage(new ErrorHandler().getError(activity, ProdRegError.INVALID_DATE.getCode()).getDescription());
-        ProdRegTagging.getInstance(activity).trackActionWithCommonGoals("ProdRegRegistrationScreen", "specialEvents", "purchaseDateRequired");
+        ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "specialEvents", "purchaseDateRequired");
         final ProdRegCache prodRegCache = new ProdRegCache(activity);
         ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_DATE_COUNT, 1);
-        ProdRegTagging.getInstance(activity).trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_DATE_COUNT)));
+        ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_DATE_COUNT)));
         purchaseDateLayout.showError(editTextView);
     }
 

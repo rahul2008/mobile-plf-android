@@ -69,7 +69,7 @@ public class ProdRegUiHelper {
         final Bundle arguments = new Bundle();
         arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, productList);
 
-        ProdRegTagging.getInstance(fragmentLauncher.getFragmentActivity()).trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
+        ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         if (fragmentLauncher.isFirstLaunch()) {
             ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
             prodRegFirstLaunchFragment.setArguments(arguments);
@@ -109,7 +109,7 @@ public class ProdRegUiHelper {
      * @param orientation    Orientation
      */
     private void invokeProductRegistrationAsActivity(Context context, int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
-        ProdRegTagging.getInstance(context).trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
+        ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         Intent intent = new Intent(context, ProdRegBaseActivity.class);
         intent.putExtra(ProdRegConstants.MUL_PROD_REG_CONSTANT, productList);
         intent.putExtra(ProdRegConstants.START_ANIMATION_ID, startAnimation);

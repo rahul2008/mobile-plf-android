@@ -1,7 +1,6 @@
 package com.philips.cdp.prodreg.tagging;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Build;
 
 import com.adobe.mobile.Analytics;
@@ -24,14 +23,12 @@ public class ProdRegTagging {
 
     private static ProdRegTagging prodRegTagging;
     private static AIAppTaggingInterface aiAppTaggingInterface;
-    private static Context context;
 
     private ProdRegTagging() {
     }
 
-    public static ProdRegTagging getInstance(Context context) {
+    public static ProdRegTagging getInstance() {
         if (prodRegTagging == null) {
-            ProdRegTagging.context = context;
             prodRegTagging = new ProdRegTagging();
             aiAppTaggingInterface = AppInfraSingleton.getInstance().getTagging();
             aiAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);

@@ -122,7 +122,7 @@ public class ProdRegRegistrationController {
         final boolean validDate = validatePurchaseDate(purchaseDate);
         final boolean validSerialNumber = validateSerialNumber(serialNumber);
         if (validDate && validSerialNumber) {
-            ProdRegTagging.getInstance(fragmentActivity).trackActionWithCommonGoals("ProdRegRegistrationScreen", "specialEvents", "extendWarrantyOption");
+            ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "specialEvents", "extendWarrantyOption");
             registerControllerCallBacks.showLoadingDialog();
             getRegisteredProduct().setPurchaseDate(purchaseDate);
             getRegisteredProduct().setSerialNumber(serialNumber);
@@ -130,7 +130,7 @@ public class ProdRegRegistrationController {
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
             final ProdRegCache prodRegCache = new ProdRegCache(fragmentActivity);
             ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_START_COUNT, 1);
-            ProdRegTagging.getInstance(fragmentActivity).trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_START_COUNT)));
+            ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_START_COUNT)));
             prodRegHelper.getSignedInUserWithProducts().registerProduct(getRegisteredProduct());
         }
     }
@@ -160,7 +160,7 @@ public class ProdRegRegistrationController {
                     registerControllerCallBacks.dismissLoadingDialog();
                     final ProdRegCache prodRegCache = new ProdRegCache(fragmentActivity);
                     ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
-                    ProdRegTagging.getInstance(fragmentActivity).trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_COMPLETED_COUNT)));
+                    ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_COMPLETED_COUNT)));
                     final ProdRegSuccessFragment fragment = getSuccessFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);

@@ -38,7 +38,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         if (savedInstanceState == null) {
             final ProdRegCache prodRegCache = new ProdRegCache(activity);
             ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_SCAN_COUNT, 1);
-            ProdRegTagging.getInstance(activity).trackActionWithCommonGoals("ProdRegProcessScreen", "noOfScannedProducts", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_SCAN_COUNT)));
+            ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegProcessScreen", "noOfScannedProducts", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_SCAN_COUNT)));
 
             showLoadingDialog();
         } else {
