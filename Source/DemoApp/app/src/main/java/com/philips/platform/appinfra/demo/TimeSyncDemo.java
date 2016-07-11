@@ -13,6 +13,7 @@ import com.philips.platform.appinfra.timesync.TimeSyncInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -38,10 +39,12 @@ public class TimeSyncDemo extends AppCompatActivity {
 
 
         mTimeSyncInterface= AppInfraApplication.gAppInfra.getTimeSync();
+        Calendar c = Calendar.getInstance();
+
 
         AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("TimeSyncDemo", "SDKEy", "SDValue");
         formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
-         dateString = formatter.format(new Date());
+         dateString = formatter.format(c.getTime());
         localTimeTextvalue.setText(dateString);
 //        utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());
         Log.i("TimeSyncDemo", "UTCTime  "+mTimeSyncInterface.getUTCTime());
