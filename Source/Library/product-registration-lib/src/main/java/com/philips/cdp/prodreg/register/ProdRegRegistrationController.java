@@ -17,6 +17,7 @@ import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
+import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.registration.User;
@@ -129,8 +130,8 @@ public class ProdRegRegistrationController {
             ProdRegHelper prodRegHelper = new ProdRegHelper();
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
             final ProdRegCache prodRegCache = new ProdRegCache(fragmentActivity);
-            ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_START_COUNT, 1);
-            ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_START_COUNT)));
+            ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_START_COUNT, 1);
+            ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)));
             prodRegHelper.getSignedInUserWithProducts().registerProduct(getRegisteredProduct());
         }
     }
@@ -159,8 +160,8 @@ public class ProdRegRegistrationController {
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     registerControllerCallBacks.dismissLoadingDialog();
                     final ProdRegCache prodRegCache = new ProdRegCache(fragmentActivity);
-                    ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, ProdRegConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
-                    ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(ProdRegConstants.Product_REGISTRATION_COMPLETED_COUNT)));
+                    ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
+                    ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)));
                     final ProdRegSuccessFragment fragment = getSuccessFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProduct);

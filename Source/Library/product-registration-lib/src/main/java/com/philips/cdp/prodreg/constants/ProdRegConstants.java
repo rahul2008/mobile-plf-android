@@ -27,9 +27,4 @@ public class ProdRegConstants {
     public static final int START_DATE_MONTH = 0;
     public static final int START_DATE_DAY = 01;
     public static String PRODUCT_REGISTRATION_KEY = "prod_reg_key";
-    public static String Product_REGISTRATION_START_COUNT = "prod_reg_start_count";
-    public static String Product_REGISTRATION_COMPLETED_COUNT = "prod_reg_complete_count";
-    public static String Product_REGISTRATION_DATE_COUNT = "prod_reg_date_count";
-    public static String Product_REGISTRATION_SCAN_COUNT = "prod_reg_scan_count";
-    public static String Product_REGISTRATION_EXTENDED_WARRANTY_COUNT = "prod_reg_ext_warranty_count";
 }

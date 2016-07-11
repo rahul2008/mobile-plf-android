@@ -1,8 +1,8 @@
 package com.philips.cdp.prodreg.util;
 
 import com.philips.cdp.prodreg.MockitoTestCase;
-import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
+import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 
 import java.text.ParseException;
 
@@ -57,7 +57,7 @@ public class ProdRegUtilTest extends MockitoTestCase {
 
     public void testStoreProdRegTaggingMeasuresCount() {
         ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
-        String key = ProdRegConstants.Product_REGISTRATION_START_COUNT;
+        String key = AnalyticsConstants.Product_REGISTRATION_START_COUNT;
         when(prodRegCacheMock.getIntData(key)).thenReturn(1);
         int count = 2;
         ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCacheMock, key, count);

@@ -16,14 +16,11 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
-import java.util.ArrayList;
-
 /**
  * <b> Helper class used to process product registration backend calls</b>
  */
 public class ProdRegHelper {
 
-    public static ArrayList<ProdRegListener> prodRegListeners;
     private static Context context;
     private static UserRegistrationListener userRegistrationListener;
     private static ProdRegHelper prodRegHelper;
@@ -88,7 +85,6 @@ public class ProdRegHelper {
      */
     public void init(Context context) {
         ProdRegHelper.context = context;
-        ProdRegHelper.prodRegListeners = new ArrayList<>();
         UserRegistrationObserver.registerListerOnUserSignIn();
     }
 
@@ -99,12 +95,10 @@ public class ProdRegHelper {
      */
     public void addProductRegistrationListener(final ProdRegListener listener) {
         this.prodRegListener = listener;
-        prodRegListeners.add(listener);
     }
 
     public void removeProductRegistrationListener(final ProdRegListener prodRegListener) {
-//        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
-        prodRegListeners.remove(prodRegListener);
+        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(userRegistrationListener);
     }
 
     /**
