@@ -74,7 +74,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
 //        Reader reader = null;
 //        Products products = null;
 //        try {
-//            fromAsset = readJSONInputStream(context, fileName);
+//            fromAsset = readJsonInputStream(context, fileName);
 //            reader = new BufferedReader(new InputStreamReader(fromAsset));
 //            products = new Gson().fromJson(reader, Products.class);
 //        } catch (IOException e) {
@@ -98,7 +98,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
 //        return products;
 //    }
 
-//    public InputStream readJSONInputStream(final Context context, String fileName) throws IOException {
+//    public InputStream readJsonInputStream(final Context context, String fileName) throws IOException {
 //        return context.getResources().getAssets().open(fileName);
 //    }
 

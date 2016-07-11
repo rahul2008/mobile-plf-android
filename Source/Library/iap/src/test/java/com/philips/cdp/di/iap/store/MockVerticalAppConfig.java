@@ -18,7 +18,7 @@ public class MockVerticalAppConfig extends VerticalAppConfig {
     }
 
     @Override
-    public InputStream readJSONInputStream(final Context context) throws IOException {
+    public InputStream readJsonInputStream(final Context context) throws IOException {
         String config = TestUtils.readFile(this.getClass(),"PhilipsInAppPurchaseConfiguration.json");
         InputStream is = new ByteArrayInputStream(config.getBytes());
         return is;

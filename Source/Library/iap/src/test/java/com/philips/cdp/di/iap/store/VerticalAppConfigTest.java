@@ -31,24 +31,24 @@ public class VerticalAppConfigTest extends TestCase {
     @Test
     public void testPropositionIDIsTuscany2016() {
         MockVerticalAppConfig mockConfig = new MockVerticalAppConfig(mContext);
-        assertEquals("Tuscany2016", mockConfig.getPropositionID());
+        assertEquals("Tuscany2016", mockConfig.getProposition());
     }
 
     @Test
     public void testIOExceptionForWrongFileInput() {
         VerticalAppConfig mockConfig = new VerticalAppConfig(mContext) {
             @Override
-            public InputStream readJSONInputStream(final Context context) throws IOException {
+            public InputStream readJsonInputStream(final Context context) throws IOException {
                 throw new IOException();
             }
         };
 
-        assertNull(mockConfig.getPropositionID());
+        assertNull(mockConfig.getProposition());
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullPointerExceptionWhenMockedReadJSONInputStream() throws IOException {
         VerticalAppConfig config = new VerticalAppConfig(mContext);
-        config.readJSONInputStream(mContext);
+        config.readJsonInputStream(mContext);
     }
 }
