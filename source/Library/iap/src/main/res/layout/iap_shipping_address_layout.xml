@@ -27,6 +27,13 @@
             android:textSize="@dimen/iap_shipping_address_title_size"
             android:textStyle="bold" />
 
+        <View
+            android:id="@+id/address_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uikit_view_height"
+            android:background="@color/uikit_enricher4"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/same_as_shipping_ll"
             android:layout_width="match_parent"
@@ -36,33 +43,29 @@
 
             <TextView
                 android:id="@+id/billing_address_tv"
-                style="@style/iapCentralesansBoldFont"
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:layout_marginStart="19dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginBottom="@dimen/iap_billing_toggle_margin_top"
+                android:layout_marginTop="@dimen/iap_billing_toggle_margin_top"
                 android:layout_weight="0.5"
-                android:background="@color/uikit_white"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:text="@string/iap_billing_address_is_same"
-                android:textColor="?attr/uikit_baseColor"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="@string/iap_billing_address_is_same" />
 
             <com.philips.cdp.uikit.customviews.PuiSwitch
                 android:id="@+id/switch_billing_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/iap_billing_toggle_margin_bottom"
+                android:layout_marginBottom="@dimen/iap_billing_toggle_margin_top"
                 android:layout_marginEnd="@dimen/iap_billing_toggle_margin_right"
                 android:layout_marginTop="@dimen/iap_billing_toggle_margin_top"
                 android:checked="true" />
 
         </LinearLayout>
 
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uikit_view_height"
+            android:background="@color/uikit_enricher4" />
 
         <com.philips.cdp.uikit.customviews.InlineForms
             android:id="@+id/inlineForms"
@@ -277,8 +280,8 @@
                 android:id="@+id/ll_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_state"
