@@ -33,37 +33,34 @@ public class LocalManager implements LocalInterface {
     }
 
 
-    public String getlocal(){
-        if(Locale.getDefault() != null){
+    public String getlocal() {
+        if (Locale.getDefault() != null) {
 //            mAppInfra.getTagging().createInstanceForComponent("key", "value");
-            if(mAppInfra.getTagging()!=null){
+            if (mAppInfra.getTagging() != null) {
                 mAppInfra.getTagging().trackActionWithInfo("LocalPage", "KeyLocal", "ValueLocal");
             }
 
             return Locale.getDefault().toString();
-        }else{
+        } else {
             return null;
         }
     }
 
     @Override
-    public String  getCountry() {
+    public String getCountry() {
         pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
-        if(mCountry == null){
+        if (mCountry == null) {
             mCountry = pref.getString(RequestManager.COUNTRY_NAME, null);
-           // Log.i("Country", " "+mCountry);
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,"Country",mCountry);
-            if(mCountry!= null){
-                if(mAppInfra.getTagging()!=null){
+            // Log.i("Country", " "+mCountry);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Country", mCountry);
+            if (mCountry != null) {
+                if (mAppInfra.getTagging() != null) {
                     mAppInfra.getTagging().trackActionWithInfo("LocalPage", "KeyCountry", "ValueCountry");
                 }
-
                 return mCountry.toUpperCase();
-
             }
-
         }
-        if(mCountry== null){
+        if (mCountry == null) {
             SharedPreferences.Editor editor = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE).edit();
             try {
                 final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -73,23 +70,23 @@ public class LocalManager implements LocalInterface {
 
                     editor.putString(RequestManager.COUNTRY_NAME, mCountry);
                     editor.commit();
-                    if(mCountry!= null)
-                    return mCountry.toUpperCase();
+                    if (mCountry != null)
+                        return mCountry.toUpperCase();
                 } else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { //
                     String networkCountry = tm.getNetworkCountryIso();
                     if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
-                        mCountry= networkCountry.toUpperCase(Locale.US);
+                        mCountry = networkCountry.toUpperCase(Locale.US);
                         editor.putString(RequestManager.COUNTRY_NAME, mCountry);
                         editor.commit();
-                        if(mCountry!= null)
-                        return mCountry.toUpperCase();
+                        if (mCountry != null)
+                            return mCountry.toUpperCase();
                     }
                 }
             } catch (Exception e) {
             }
         }
 
-        return mCountry.toUpperCase();
+        return mCountry;
     }
 
 }
