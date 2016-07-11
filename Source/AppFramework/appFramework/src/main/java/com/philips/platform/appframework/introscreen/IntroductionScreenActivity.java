@@ -6,7 +6,6 @@
 
 package com.philips.platform.appframework.introscreen;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -14,9 +13,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
@@ -91,11 +87,10 @@ import com.shamanland.fonticon.FontIconView;
  *        </pre>
  */
 
-public class IntroductionScreenActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener, View.OnClickListener {
+public class IntroductionScreenActivity extends AppFrameworkBaseActivity implements View.OnClickListener {
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
-    public static final int userRegistrationClickID = 7001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,72 +167,14 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
                     mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
             }
         });
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
     }
 
-    @Override
-    public void onUserRegistrationComplete(Activity activity) {
-        /*mNavigator = UIFlowManager.getInstance().getCurrentState().getNavigator();
-        if (null != activity) {
-            UIState returnedState = (UIState) mNavigator.onPageLoad(IntroductionScreenActivity.this);
-            RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
-            UIFlowManager.getInstance().setCurrentState(returnedState);
-            LaunchScreen.getInstance().launchScreen(IntroductionScreenActivity.this,returnedState.getStateID());
-            }*/
-        if(null != activity){
-            basePresenter.onLoad(IntroductionScreenActivity.this);
-        }
-    }
-
-    @Override
-    public void onPrivacyPolicyClick(Activity activity) {
-
-    }
-
-    @Override
-    public void onTermsAndConditionClick(Activity activity) {
-
-    }
-
-    @Override
-    public void onUserLogoutSuccess() {
-
-    }
-
-    @Override
-    public void onUserLogoutFailure() {
-
-    }
-
-    @Override
-    public void onUserLogoutSuccessWithInvalidAccessToken() {
-
-    }
-
-    @Override
     protected void onDestroy() {
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
         super.onDestroy();
     }
 
     @Override
-    public void updateRegistrationTitle(int i) {
-
-    }
-
-    @Override
-    public void updateRegistrationTitleWithBack(int i) {
-
-    }
-
-    @Override
-    public void updateRegistrationTitleWithOutBack(int i) {
-
-    }
-
-    @Override
     public void onClick(View v) {
-
         AppFrameworkBaseActivity.setIntroScreenDonePressed();
         basePresenter.onClick(v.getId(),IntroductionScreenActivity.this);
     }
@@ -245,13 +182,10 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     protected void onResume() {
         super.onResume();
-
-        //mNavigator.setState();
     }
 
     @Override
     protected void onRestart() {
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
         super.onRestart();
     }
 }

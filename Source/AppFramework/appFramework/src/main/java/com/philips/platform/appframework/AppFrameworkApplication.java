@@ -32,7 +32,6 @@ public class AppFrameworkApplication extends Application {
         mContext = getApplicationContext();
         SharedPreferenceUtility.getInstance().Initialize(getApplicationContext());
         initializeUserRegistrationLibrary();
-        //UIFlowManager.getInstance().initAppStartState(getApplicationContext());
         flowManager = new FlowManager();
     }
 
