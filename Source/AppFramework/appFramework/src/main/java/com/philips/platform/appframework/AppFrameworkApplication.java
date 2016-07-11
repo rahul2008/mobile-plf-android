@@ -17,7 +17,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.FlowManager;
-import com.philips.platform.modularui.util.ActivityMap;
 
 import java.util.Locale;
 
@@ -35,8 +34,6 @@ public class AppFrameworkApplication extends Application {
         initializeUserRegistrationLibrary();
         //UIFlowManager.getInstance().initAppStartState(getApplicationContext());
         flowManager = new FlowManager();
-        ActivityMap.getInstance().populateActivityMap();
-        ActivityMap.getInstance().populateFragmentMap();
     }
 
     public FlowManager getFlowManager() {
