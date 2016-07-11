@@ -37,7 +37,7 @@ public class MockWebStoreConfig extends WebStoreConfig {
     @Override
     void initLocaleMatcher() {
         mSiteID = SITE_ID;
-        mStoreConfig.getPropositionID();
+        mStoreConfig.getProposition();
         mStoreConfig.getRawConfigUrl();
         mStoreConfig.generateStoreUrls();
 //        requestHybrisConfig();
@@ -46,7 +46,7 @@ public class MockWebStoreConfig extends WebStoreConfig {
 /*    @Override
     void requestHybrisConfig() {
         mSiteID = SITE_ID;
-        mStoreConfig.getPropositionID();
+        mStoreConfig.getProposition();
         mStoreConfig.getRawConfigUrl();
         mStoreConfig.generateStoreUrls();
     }*/

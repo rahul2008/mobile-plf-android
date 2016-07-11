@@ -17,9 +17,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+/**
+ * This class will read the inapp configuration file to get hostport and propostion
+ */
 public class VerticalAppConfig {
-    String mHostPort;
-    String mPropositionID;
+    private String mHostPort;
+    private String mProposition;
 
     public VerticalAppConfig(final Context context) {
         loadConfigurationFromAsset(context);
@@ -29,34 +32,33 @@ public class VerticalAppConfig {
         InputStream fromAsset = null;
         Reader reader = null;
         try {
-            fromAsset = readJSONInputStream(context);
+            fromAsset = readJsonInputStream(context);
             reader = new BufferedReader(new InputStreamReader(fromAsset));
             AppConfigResponse configuration = new Gson().fromJson(reader, AppConfigResponse.class);
             mHostPort = configuration.getHostport();
-            mPropositionID = configuration.getPropositionid();
-//            IAPLog.i(IAPLog.LOG, "HostPort =" + mHostPort + "and PropositionID =" + mPropositionID);
+            mProposition = configuration.getPropositionid();
         } catch (IOException e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         } finally {
             if (fromAsset != null) {
                 try {
                     fromAsset.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    IAPLog.e(IAPLog.LOG, e.getMessage());
                 }
             }
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    IAPLog.e(IAPLog.LOG, e.getMessage());
                 }
             }
         }
     }
 
-    public InputStream readJSONInputStream(final Context context) throws IOException {
-        AssetManager assetManager = context.getAssets();
+    public InputStream readJsonInputStream(final Context context) throws IOException {
+       final AssetManager assetManager = context.getAssets();
         return assetManager.open("PhilipsInAppPurchaseConfiguration.json");
     }
 
@@ -64,7 +66,7 @@ public class VerticalAppConfig {
         return mHostPort;
     }
 
-    public String getPropositionID() {
-        return mPropositionID;
+    public String getProposition() {
+        return mProposition;
     }
 }
