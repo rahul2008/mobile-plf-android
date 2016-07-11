@@ -360,12 +360,8 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-
         super.onConfigurationChanged(newConfig);
-
         setCustomLocale();
-
-
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {

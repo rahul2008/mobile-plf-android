@@ -171,6 +171,13 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mTvErrDescriptionView.setVisibility(View.VISIBLE);
     }
 
+    public boolean isEmailErrorVisible(){
+        if(mTvErrDescriptionView.getVisibility() == View.VISIBLE){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

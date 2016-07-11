@@ -96,6 +96,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private ScrollView mSvRootLayout;
 
+    private boolean isSavedEmailError;
+
+    private boolean isSavedRegError;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onAttach");
@@ -183,8 +187,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onSaveInstanceState(Bundle outState) {
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
-        mBundle.putString("saveErrText", mRegError.getErrorMsg());
-        mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescrition());
+        if(mRegError.getVisibility() == View.VISIBLE){
+            isSavedRegError =true;
+            mBundle.putBoolean("isSavedRegError", isSavedRegError);
+            mBundle.putString("saveErrText", mRegError.getErrorMsg());
+        }
+        if(mEtEmail.isEmailErrorVisible()){
+            isSavedEmailError = true;
+            mBundle.putBoolean("isSaveEmailErrText", isSavedEmailError);
+            mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescrition());
+        }
         mBundle.putBoolean("isLoginBton", isLoginBtn);
     }
 
@@ -192,12 +204,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null){
-            if(savedInstanceState.getString("saveEmailErrText")!=null && savedInstanceState.getString("saveEmailErrText").length() > 0 && !savedInstanceState.getBoolean("isLoginBton", isLoginBtn)){
+            if(savedInstanceState.getString("saveEmailErrText")!=null && savedInstanceState.getBoolean("isSaveEmailErrText") && !savedInstanceState.getBoolean("isLoginBton")){
                 mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
                 mEtEmail.showInvalidAlert();
                 mEtEmail.showErrPopUp();
 
-            }else{
+            }else if(savedInstanceState.getBoolean("isSavedRegError")){
                 mRegError.setError(savedInstanceState.getString("saveErrText"));
             }
         }

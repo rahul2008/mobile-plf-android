@@ -81,6 +81,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private boolean isSocialProvider;
 
+    private boolean isEmailVerifiedError;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onAttach");
@@ -161,6 +163,30 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         super.onDetach();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDetach");
     }
+
+    private Bundle mBundle;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        mBundle = outState;
+        super.onSaveInstanceState(mBundle);
+        if(mEMailVerifiedError.getVisibility() == View.VISIBLE){
+            isEmailVerifiedError = true;
+            mBundle.putBoolean("isEmailVerifiedError", isEmailVerifiedError);
+            mBundle.putString("saveEmailVerifiedErrorText", mContext.getResources().getString(R.string.reg_RegEmailNotVerified_AlertPopupErrorText));
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null){
+            if(savedInstanceState.getString("saveEmailVerifiedErrorText")!=null && savedInstanceState.getBoolean("isEmailVerifiedError") ){
+                mEMailVerifiedError.setError(savedInstanceState.getString("saveEmailVerifiedErrorText"));
+            }
+        }
+        mBundle = null;
+    }
+
 
     @Override
     public void onConfigurationChanged(Configuration config) {
