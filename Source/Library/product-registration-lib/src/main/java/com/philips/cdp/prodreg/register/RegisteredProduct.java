@@ -164,6 +164,7 @@ public class RegisteredProduct extends Product implements Serializable {
     private void updateFields(final RegisteredProduct product) {
         product.setUserUUid(getUserUUid());
         product.sendEmail(getEmail());
+        product.setPurchaseDate(getPurchaseDate());
     }
 
     @Override

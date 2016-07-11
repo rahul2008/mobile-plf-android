@@ -131,7 +131,7 @@ public class UserWithProducts {
 
     protected boolean isFailedOnInvalidInput(final RegisteredProduct registeredProduct) {
         final ProdRegError prodRegError = registeredProduct.getProdRegError();
-        return prodRegError != null && (prodRegError == ProdRegError.INVALID_CTN || prodRegError == ProdRegError.INVALID_SERIALNUMBER || prodRegError == ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE);
+        return prodRegError != null && (prodRegError == ProdRegError.INVALID_CTN || prodRegError == ProdRegError.INVALID_SERIALNUMBER);
     }
 
     /**
