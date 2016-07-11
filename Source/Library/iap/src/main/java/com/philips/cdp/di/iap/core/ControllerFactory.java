@@ -35,6 +35,7 @@ public class ControllerFactory {
         return mRequestCode == NetworkEssentialsFactory.LOAD_LOCAL_DATA;
     }
 
+    @SuppressWarnings({"rawtype","unchecked"})
     public ShoppingCartAPI getShoppingCartPresenter(Context context,
                                                     ShoppingCartPresenter.LoadListener listener, FragmentManager fragmentManager) {
         ShoppingCartAPI api;
@@ -50,7 +51,7 @@ public class ControllerFactory {
 
     public ProductCatalogAPI getProductCatalogPresenter(Context context, ProductCatalogPresenter.LoadListener listener,
                                                         FragmentManager fragmentManager) {
-        ProductCatalogAPI api = null;
+        ProductCatalogAPI api;
         if (loadLocalData())
             api = new LocalProductCatalog(context, listener, true);
         else {

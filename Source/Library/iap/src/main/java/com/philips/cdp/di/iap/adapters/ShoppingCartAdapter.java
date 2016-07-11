@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
@@ -348,7 +352,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mVatInclusiveValue = (TextView) itemView.findViewById(R.id.iap_tv_vat_inclusive);
             mTotalItems = (TextView) itemView.findViewById(R.id.iap_tv_totalItems);
             mTotalCost = (TextView) itemView.findViewById(R.id.iap_tv_totalcost);
-            mDeliveryView = (View) itemView.findViewById(R.id.iap_divider_bottom_delivery);
+            mDeliveryView = itemView.findViewById(R.id.iap_divider_bottom_delivery);
             mDeliveryVia = (TextView) itemView.findViewById(R.id.iap_tv_delivery_via_ups);
             mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_shopping_cart);
             mVAT = (TextView) itemView.findViewById(R.id.iap_tv_vat);

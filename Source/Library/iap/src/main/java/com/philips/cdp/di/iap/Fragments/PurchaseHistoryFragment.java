@@ -219,6 +219,7 @@ public class PurchaseHistoryFragment extends BaseAnimationSupportFragment implem
         mController.makePrxCall(orderDetails, this);
     }
 
+    @SuppressWarnings({"rawtype", "unchecked"})
     private boolean processResponseFromPRX(final Message msg) {
         if (msg.obj instanceof HashMap) {
             HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;

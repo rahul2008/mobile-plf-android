@@ -44,7 +44,7 @@ public class MockNetworkController extends NetworkController {
     void initHurlStack(final Context context) {
         MockIAPHurlStack mockIAPHurlStack = new MockIAPHurlStack(oAuthHandler);
         mockIAPHurlStack.setContext(mMockedContext);
-        mIAPHurlStack = mockIAPHurlStack.getHurlStack();
+        mIapHurlStack = mockIAPHurlStack.getHurlStack();
     }
 
     @Override

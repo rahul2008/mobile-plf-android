@@ -22,6 +22,9 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.List;
 
+/**
+ * Custom Actionbar view
+ */
 public class IAPActionLayout implements ActionLayoutCallBack {
 
     protected View mBackButton;
