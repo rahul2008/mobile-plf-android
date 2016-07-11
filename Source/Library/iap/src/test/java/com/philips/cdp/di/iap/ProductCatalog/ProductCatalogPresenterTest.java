@@ -28,6 +28,7 @@ import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.StoreConfiguration;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 
@@ -80,6 +81,28 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
         mNetworkController.sendSuccess(obj);
 
         makePRXData();
+    }
+
+    @Test
+    public void getProductCatalogVerifyPRXFail() throws JSONException {
+        mProductCatalogPresenter =new ProductCatalogPresenter(mContext, this, false);
+        mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
+        mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
+        mProductCatalogPresenter.getProductCatalog(0, 20);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
+                .class, "product_catalog_get_request.txt"));
+        mNetworkController.sendSuccess(obj);
+
+        mMockPRXDataBuilder.sendFailure(new PrxError("fail", 500));
+    }
+
+    @Test
+    public void TestcreateIAPErrorMessage(){
+        mProductCatalogPresenter = new ProductCatalogPresenter();
+        IAPNetworkError error = mProductCatalogPresenter.createIAPErrorMessage("Appologies");
+        boolean isIAPNetworkError = error instanceof IAPNetworkError;
+        assert(isIAPNetworkError);
     }
 
     @Test
@@ -183,6 +206,14 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
         VolleyError error = new ServerError(networkResponse);
 
         mNetworkController.sendFailure(error);
+    }
+
+    @Test
+    public void getHybrisDelegateTest(){
+        mProductCatalogPresenter = new ProductCatalogPresenter();
+        HybrisDelegate delegate = mProductCatalogPresenter.getHybrisDelegate();
+        boolean isHybrisDelegateInstance = delegate instanceof HybrisDelegate;
+        assert(isHybrisDelegateInstance);
     }
 
     @Override

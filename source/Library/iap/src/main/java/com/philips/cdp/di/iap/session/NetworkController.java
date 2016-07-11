@@ -72,7 +72,7 @@ public class NetworkController {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                if (model.getUrl() != null)
+                if (model.getUrl() != null && error!=null)
                     IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error
                             .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
                             requestListener.getClass().getSimpleName() + " " + model.getUrl().substring(0, 20));

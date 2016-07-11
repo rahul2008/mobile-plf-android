@@ -56,9 +56,6 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
     ArrayList<String> mCTNS = new ArrayList<>();
 
-
-
-
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);

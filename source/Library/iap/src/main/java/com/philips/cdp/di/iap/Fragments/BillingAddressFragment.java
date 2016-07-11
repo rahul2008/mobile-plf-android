@@ -42,6 +42,9 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mTvTitle.setText(getResources().getString(R.string.iap_billing_address));
         mSameAsBillingAddress.setVisibility(View.VISIBLE);
 
+        View divider = rootView.findViewById(R.id.address_divider);
+        divider.setVisibility(View.VISIBLE);
+
         if (CartModelContainer.getInstance().getShippingAddressFields() != null) {
             mBillingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
             CartModelContainer.getInstance().setSwitchToBillingAddress(false);
