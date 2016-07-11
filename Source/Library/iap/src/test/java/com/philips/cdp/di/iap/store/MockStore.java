@@ -31,7 +31,7 @@ public class MockStore {
     }
 
     public StoreSpec getStore() {
-        return new HybrisStore(mContext) {
+        HybrisStore hybrisStore = new HybrisStore(mContext) {
             @Override
             protected StoreConfiguration getStoreConfig(final Context context) {
                 return getStoreConfiguration(this);
@@ -42,6 +42,8 @@ public class MockStore {
                 return mUser;
             }
         };
+        hybrisStore.setNewUser(mContext);
+        return hybrisStore;
     }
 
     private StoreConfiguration getStoreConfiguration(HybrisStore hybrisStore) {

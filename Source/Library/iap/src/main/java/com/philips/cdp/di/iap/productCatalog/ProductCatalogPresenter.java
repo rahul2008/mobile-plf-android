@@ -17,7 +17,6 @@ import com.philips.cdp.di.iap.core.ProductCatalogHelper;
 import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
-import com.philips.cdp.di.iap.model.OrderHistoryRequest;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
@@ -25,7 +24,6 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -42,7 +40,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     private HybrisDelegate mHybrisDelegate;
     private StoreSpec mStore;
 
-    private FragmentManager mFragmentManager;
+    //private FragmentManager mFragmentManager;
     Products mProductData = null;
     ProductCatalogHelper mProductCatalogHelper;
     boolean isPlanA;
@@ -135,10 +133,10 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     public ProductCatalogPresenter() {
     }
 
-    public ProductCatalogPresenter(Context context, LoadListener listener, FragmentManager fragmentManager, boolean isPlanA) {
+    public ProductCatalogPresenter(Context context, LoadListener listener,boolean isPlanA) {
         mContext = context;
         mLoadListener = listener;
-        mFragmentManager = fragmentManager;
+        //mFragmentManager = fragmentManager;
         mProductCatalogHelper = new ProductCatalogHelper(mContext, mLoadListener, this);
         this.isPlanA = isPlanA;
     }

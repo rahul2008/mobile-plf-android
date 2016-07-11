@@ -8,21 +8,35 @@ import android.content.Context;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.core.StoreSpec;
 import com.philips.cdp.di.iap.hybris.HybrisNetworkEssentials;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
+import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.di.iap.store.StoreConfiguration;
 
 import org.json.JSONObject;
+import org.mockito.Mock;
+
+import java.lang.reflect.Field;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MockNetworkController extends NetworkController {
     private Context mMockedContext;
     private IAPJsonRequest mIAPJSONRequest;
+    @Mock
+    IAPUser mIAPMockedUser;
+    @Mock
+    StoreConfiguration mStoreConfig;
+    Context mContext;
 
     public MockNetworkController(final Context context) {
         super(context, new HybrisNetworkEssentials());
+        mContext = context;
         mMockedContext = mock(Context.class);
     }
 

@@ -1,84 +1,212 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.ProductCatalog;
 
 import android.content.Context;
-import android.os.Message;
-import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.core.StoreSpec;
+import com.philips.cdp.di.iap.productCatalog.ProductCatalogData;
 import com.philips.cdp.di.iap.productCatalog.ProductCatalogPresenter;
+import com.philips.cdp.di.iap.prx.MockPRXDataBuilder;
+import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.IAPJsonRequest;
-import com.philips.cdp.di.iap.session.NetworkController;
-import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.store.HybrisStore;
+import com.philips.cdp.di.iap.session.IAPHandlerProductListListener;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.session.MockNetworkController;
+import com.philips.cdp.di.iap.shoppingcart.ShoppingCartPresenterTest;
+import com.philips.cdp.di.iap.store.IAPUser;
+import com.philips.cdp.di.iap.store.MockStore;
+import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.di.iap.store.StoreConfiguration;
+import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.request.ProductSummaryRequest;
+import com.philips.cdp.prxclient.response.ResponseData;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
-import javax.net.ssl.SSLSocketFactory;
+import java.util.ArrayList;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * To work on unit tests, switch the Test Artifact in the Build Variants view.
- */
-@RunWith(MockitoJUnitRunner.class)
-public class ProductCatalogPresenterTest {
+@RunWith(RobolectricTestRunner.class)
+public class ProductCatalogPresenterTest implements ShoppingCartPresenter.ShoppingCartLauncher, ProductCatalogPresenter.LoadListener, IAPHandlerProductListListener {
 
-    @Mock
-    private NetworkController mNetworkController;
-    @Mock
+    private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
     @Mock
-    private ProductCatalogPresenter mPresenter;
-    @Mock
-    private Context context;
-    @Mock
-    private IAPJsonRequest mIAPJsonReq;
-    @Captor
-    private ArgumentCaptor<RequestListener> mRequestListener;
-    @Mock
-    private SSLSocketFactory mSocketFactory;
-    @Mock
-    private Message mResultMessage;
-    @Mock
-    private FragmentManager mFragmentManager;
+    Context mContext;
+    public ProductCatalogPresenter mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this, false);
+    private MockPRXDataBuilder mMockPRXDataBuilder;
+    ArrayList<String> mCTNS = new ArrayList<>();
 
     @Before
     public void setUP() {
-        mPresenter = new ProductCatalogPresenter(context, null, mFragmentManager, true);
-        mPresenter.setHybrisDelegate(mHybrisDelegate);
-        when(mHybrisDelegate.getNetworkController(context)).thenReturn(mNetworkController);
-        doNothing().when(mNetworkController).addToVolleyQueue(mIAPJsonReq);
+        MockitoAnnotations.initMocks(this);
+        mNetworkController = new MockNetworkController(mContext);
+        mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
+        mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(null);
+
+
+        mCTNS.add("HX9033/64");
+        mCTNS.add("HX9023/64");
+        mCTNS.add("HX9003/64");
     }
 
     @Test
-    public void doSomething() {
-        mPresenter.getProductCatalog(0,0);
-        HybrisStore hybrisStore = Mockito.mock(HybrisStore.class);
-        GetProductCatalogRequest model = new GetProductCatalogRequest(hybrisStore, null,
-                new AbstractModel.DataLoadListener() {
-                    @Override
-                    public void onModelDataLoadFinished(final Message msg) {
-                    }
+    public void getProductCatalogVerifySuccess() throws JSONException {
+        mProductCatalogPresenter =new ProductCatalogPresenter(mContext, this, false);
+        mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
+        mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
+        mProductCatalogPresenter.getProductCatalog(0, 20);
 
-                    @Override
-                    public void onModelDataError(final Message msg) {
-                    }
-                });
-        model.setContext(Mockito.mock(Context.class));
-        verify(mHybrisDelegate, times(1)).sendRequest(any(Integer.TYPE), any(AbstractModel.class),
-                mRequestListener.capture());
+        JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
+                .class, "product_catalog_get_request.txt"));
+        mNetworkController.sendSuccess(obj);
+
+        makePRXData();
+    }
+
+    @Test
+    public void getCompleteProductListVerifySuccessPageSize20() throws JSONException {
+        mProductCatalogPresenter =new ProductCatalogPresenter(mContext, this, false);
+        mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
+        mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
+        mProductCatalogPresenter.getCompleteProductList(mContext, this, 0, 20);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
+                .class, "product_catalog_get_request.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void getCompleteProductListVerifySuccessPageSize1() throws JSONException {
+        mProductCatalogPresenter =new ProductCatalogPresenter(mContext, this, false);
+        mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
+        mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
+        mProductCatalogPresenter.getCompleteProductList(mContext, this, 0, 1);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
+                .class, "product_catalog_get_request_page_size_1.txt"));
+        mNetworkController.sendSuccess(obj);
+
+        obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
+                .class, "product_catalog_get_request.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+
+    private void makePRXData() throws JSONException {
+        ProductSummaryRequest mProductSummaryBuilder = new ProductSummaryRequest("125", null);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
+                .class, "get_prx_success_response_HX9033_64.txt"));
+        ResponseData responseData = mProductSummaryBuilder.getResponseData(obj);
+        CartModelContainer.getInstance().addProductDataToList("HX9033/64", (SummaryModel) responseData);
+        mMockPRXDataBuilder.sendSuccess(responseData);
+
+        obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
+                .class, "get_prx_success_response_HX9023_64.txt"));
+        responseData = mProductSummaryBuilder.getResponseData(obj);
+        CartModelContainer.getInstance().addProductDataToList("HX9023/64", (SummaryModel) responseData);
+        mMockPRXDataBuilder.sendSuccess(responseData);
+
+        obj = new JSONObject(TestUtils.readFile(MockPRXDataBuilder
+                .class, "get_prx_success_response_HX9003_64.txt"));
+        responseData = mProductSummaryBuilder.getResponseData(obj);
+        CartModelContainer.getInstance().addProductDataToList("HX9003/64", (SummaryModel) responseData);
+        mMockPRXDataBuilder.sendSuccess(responseData);
+    }
+
+    @Test
+    public void getProductCatalogVerifyHybrisFail() throws JSONException {
+        mProductCatalogPresenter =new ProductCatalogPresenter(mContext, this,false);
+        mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
+        mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
+        mProductCatalogPresenter.getProductCatalog(0, 20);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
+                .class, "product_catalog_error.txt"));
+        NetworkResponse networkResponse = new NetworkResponse(500, obj.toString().getBytes(),null,true,1222L);
+
+        VolleyError error = new ServerError(networkResponse);
+
+        mNetworkController.sendFailure(error);
+    }
+
+    @Test
+    public void getProductCompleteListHybrisFailPageSize20() throws JSONException {
+        mProductCatalogPresenter =new ProductCatalogPresenter(mContext, this, false);
+        mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
+        mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
+        mProductCatalogPresenter.getCompleteProductList(mContext, this, 0, 1);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
+                .class, "product_catalog_error.txt"));
+        NetworkResponse networkResponse = new NetworkResponse(500, obj.toString().getBytes(),null,true,1222L);
+
+        VolleyError error = new ServerError(networkResponse);
+
+        mNetworkController.sendFailure(error);
+    }
+
+    @Test
+    public void getProductCompleteListHybrisFailForPage1() throws JSONException {
+        mProductCatalogPresenter =new ProductCatalogPresenter(mContext, this, false);
+        mMockPRXDataBuilder = new MockPRXDataBuilder(mContext, mCTNS, mProductCatalogPresenter);
+        mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
+        mProductCatalogPresenter.getCompleteProductList(mContext, this, 0, 1);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
+                .class, "product_catalog_get_request_page_size_1.txt"));
+        mNetworkController.sendSuccess(obj);
+
+        obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
+                .class, "product_catalog_error.txt"));
+        NetworkResponse networkResponse = new NetworkResponse(500, obj.toString().getBytes(),null,true,1222L);
+
+        VolleyError error = new ServerError(networkResponse);
+
+        mNetworkController.sendFailure(error);
+    }
+
+    @Override
+    public void onLoadFinished(final ArrayList<ProductCatalogData> data, final PaginationEntity paginationEntity) {
+
+    }
+
+    @Override
+    public void onLoadError(final IAPNetworkError error) {
+
+    }
+
+    @Override
+    public void launchShoppingCart() {
+
+    }
+
+    @Override
+    public void onSuccess(final ArrayList<String> productList) {
+
+    }
+
+    @Override
+    public void onFailure(final int errorCode) {
+
     }
 }

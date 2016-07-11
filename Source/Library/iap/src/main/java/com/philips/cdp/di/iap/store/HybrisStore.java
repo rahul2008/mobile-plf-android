@@ -248,7 +248,9 @@ public class HybrisStore extends AbstractStoreSpec {
 
     @Override
     public String getProductCatalogUrl(int currentPage, int pageSize) {
-        return String.format(mGetProductCatalogUrl, currentPage, pageSize);
+        if (mGetProductCatalogUrl != null)
+            return String.format(mGetProductCatalogUrl, currentPage, pageSize);
+        return null;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     ProductCatalogPresenter.LoadListener mListener;
     boolean isLocalData;
 
-    public LocalProductCatalog(final Context context, final ProductCatalogPresenter.LoadListener listener, final FragmentManager fragmentManager, final boolean isPlanB) {
+    public LocalProductCatalog(final Context context, final ProductCatalogPresenter.LoadListener listener, final boolean isPlanB) {
         mContext = context;
         mListener = listener;
         mProductCatalogHelper = new ProductCatalogHelper(context, listener, this);
