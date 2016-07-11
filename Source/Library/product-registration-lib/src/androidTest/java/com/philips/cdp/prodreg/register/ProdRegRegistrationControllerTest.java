@@ -10,6 +10,7 @@ import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -62,6 +63,7 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
         when(fragmentActivity.isFinishing()).thenReturn(false);
         when(productMetadataResponseData.getRequiresDateOfPurchase()).thenReturn("true");
         when(productMetadataResponseData.getRequiresSerialNumber()).thenReturn("true");
+        when(productMetadataResponseData.getSerialNumberFormat()).thenReturn("[0-9]-[0-9]-[0-9]");
         bundleMock.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProductMock);
         bundleMock.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA, productMetadataResponseData);
         bundleMock.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY, summaryDataMock);
@@ -80,5 +82,23 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
         verify(registerControllerCallBacksMock).requireFields(true, true);
         verify(registerControllerCallBacksMock).setSummaryView(summaryDataMock);
         verify(registerControllerCallBacksMock).setProductView(registeredProductMock);
+        verify(registeredProductMock, atLeastOnce()).setSerialNumber(registeredProductMock.getSerialNumber());
+        verify(registeredProductMock, atLeastOnce()).setPurchaseDate(registeredProductMock.getPurchaseDate());
+        verify(registeredProductMock, atLeastOnce()).sendEmail(registeredProductMock.getEmail());
+        verify(registeredProductMock, atLeastOnce()).setFriendlyName(registeredProductMock.getFriendlyName());
+    }
+
+    public void testIsValidSerialNumber() {
+        prodRegRegistrationController.init(bundleMock);
+        assertFalse(prodRegRegistrationController.isValidSerialNumber("1234"));
+        verify(registerControllerCallBacksMock).isValidSerialNumber(false, "[0-9]-[0-9]-[0-9]");
+    }
+
+    public void testIsValidDate() {
+        prodRegRegistrationController.init(bundleMock);
+        assertTrue(prodRegRegistrationController.isValidDate("2016-01-22"));
+        verify(registerControllerCallBacksMock).isValidDate(true);
+        assertFalse(prodRegRegistrationController.isValidDate("2099-01-01"));
+        verify(registerControllerCallBacksMock).isValidDate(false);
     }
 }
