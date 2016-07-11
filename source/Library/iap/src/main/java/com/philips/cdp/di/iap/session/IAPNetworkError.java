@@ -39,7 +39,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
 
     }
 
-    void initMessage(int requestCode, RequestListener requestListener){
+    void initMessage(int requestCode, RequestListener requestListener) {
         Message msg = Message.obtain();
         msg.what = requestCode;
         msg.obj = this;
@@ -64,10 +64,10 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
 
     @Override
     public String getMessage() {
-        if(mCustomErrorMessage != null) {
+        if (mCustomErrorMessage != null) {
             return mCustomErrorMessage;
         } else if (mServerError != null) {
-            if(mServerError.getErrors() == null || mServerError.getErrors().get(0)== null) {
+            if (mServerError.getErrors() == null || mServerError.getErrors().get(0) == null) {
                 return null;
             }
             return mServerError.getErrors().get(0).getMessage();
@@ -83,7 +83,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
 
     @Override
     public int getStatusCode() {
-        if (mVolleyError!= null && mVolleyError.networkResponse != null)
+        if (mVolleyError != null && mVolleyError.networkResponse != null)
             return mVolleyError.networkResponse.statusCode;
         return mIAPErrorCode;
     }

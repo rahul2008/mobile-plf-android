@@ -12,13 +12,14 @@ import com.philips.cdp.di.iap.store.NetworkURLConstants;
 
 import junit.framework.TestCase;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.mock;
 
-public class CartCreateRequestTest extends TestCase {
+public class CartCreateRequestTest {
     @Mock
     private StoreSpec mStore;
 
@@ -31,26 +32,27 @@ public class CartCreateRequestTest extends TestCase {
     @Test
     public void matchCartCreateRequestURL() {
         CartCreateRequest request = new CartCreateRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.CART_CREATE_URL, request.getUrl());
+        Assert.assertEquals(NetworkURLConstants.CART_CREATE_URL, request.getUrl());
     }
 
     @Test
     public void testRequestMethodIsPOST() {
         CartCreateRequest request = new CartCreateRequest(mStore, null, null);
-        assertEquals(Request.Method.POST, request.getMethod());
+        Assert.assertEquals(Request.Method.POST, request.getMethod());
     }
 
     @Test
     public void testQueryParamsIsNull() {
         CartCreateRequest request = new CartCreateRequest(mStore, null, null);
-        assertNull(request.requestBody());
+        Assert.assertNull(request.requestBody());
     }
 
+
     @Test
-    public void parseResponseShouldBeOfGetShippingAddressDataType() {
+    public void parseResponseShouldBeOfCartCreateDataType() {
         CartCreateRequest request = new CartCreateRequest(mStore, null, null);
         String oneAddress = TestUtils.readFile(CartCreateRequestTest.class, "create_cart.txt");
         Object response = request.parseResponse(oneAddress);
-        assertEquals(response.getClass(), CreateCartData.class);
+        Assert.assertEquals(response.getClass(), CreateCartData.class);
     }
 }

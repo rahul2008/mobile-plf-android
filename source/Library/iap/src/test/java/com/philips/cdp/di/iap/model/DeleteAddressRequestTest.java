@@ -11,6 +11,7 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import junit.framework.TestCase;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 
 import static org.mockito.Mockito.mock;
 
-public class DeleteAddressRequestTest extends TestCase {
+public class DeleteAddressRequestTest {
     @Mock
     private StoreSpec mStore;
 
@@ -34,7 +35,7 @@ public class DeleteAddressRequestTest extends TestCase {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ADDRESS_ID, NetworkURLConstants.DUMMY_PRODUCT_ID);
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, query, null);
-        assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
+        Assert.assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
     }
 
     @Test(expected = RuntimeException.class)
@@ -42,25 +43,25 @@ public class DeleteAddressRequestTest extends TestCase {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ADDRESS_ID, NetworkURLConstants.DUMMY_PRODUCT_ID);
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
+        Assert.assertEquals(NetworkURLConstants.ADDRESS_ALTER_URL, request.getUrl());
     }
 
     @Test
     public void testRequestMethodIsDELETE() {
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, null, null);
-        assertEquals(Request.Method.DELETE, request.getMethod());
+        Assert.assertEquals(Request.Method.DELETE, request.getMethod());
     }
 
     @Test
     public void testQueryParamsIsNull() {
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, null, null);
-        assertNull(request.requestBody());
+        Assert.assertNull(request.requestBody());
     }
 
     @Test
     public void parseResponseShouldBeOfDeleteAddressRequestDataType() {
         DeleteAddressRequest request = new DeleteAddressRequest(mStore, null, null);
         Object response = request.parseResponse(null);
-        assertNull(response);
+        Assert.assertNull(response);
     }
 }

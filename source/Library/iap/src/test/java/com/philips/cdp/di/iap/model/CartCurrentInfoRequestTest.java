@@ -13,6 +13,7 @@ import com.philips.cdp.di.iap.store.NetworkURLConstants;
 
 import junit.framework.TestCase;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -21,7 +22,7 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class CartCurrentInfoRequestTest extends TestCase {
+public class CartCurrentInfoRequestTest {
     @Mock
     private StoreSpec mStore;
 
@@ -34,27 +35,27 @@ public class CartCurrentInfoRequestTest extends TestCase {
     @Test
     public void matchCartCreateRequestURL() {
         CartCurrentInfoRequest request = new CartCurrentInfoRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.CART_DETAIL_URL, request.getUrl());
+        Assert.assertEquals(NetworkURLConstants.CART_DETAIL_URL, request.getUrl());
     }
 
     @Test
     public void testRequestMethodIsGET() {
         CartCurrentInfoRequest request = new CartCurrentInfoRequest(mStore, null, null);
-        assertEquals(Request.Method.GET, request.getMethod());
+        Assert.assertEquals(Request.Method.GET, request.getMethod());
     }
 
     @Test
     public void testQueryParamsIsNull() {
         CartCurrentInfoRequest request = new CartCurrentInfoRequest(mStore, null, null);
-        assertNull(request.requestBody());
+        Assert.assertNull(request.requestBody());
     }
 
     @Test
-    public void parseResponseShouldBeOfGetShippingAddressDataType() {
+    public void parseResponseShouldBeOfCartCurrentInfoDataType() {
         CartCurrentInfoRequest request = new CartCurrentInfoRequest(mStore, null, null);
         String oneAddress = TestUtils.readFile(CartCurrentInfoRequestTest.class, "create_cart.txt");
         Object response = request.parseResponse(oneAddress);
-        assertEquals(response.getClass(), Carts.class);
+        Assert.assertEquals(response.getClass(), Carts.class);
     }
 
     @Test

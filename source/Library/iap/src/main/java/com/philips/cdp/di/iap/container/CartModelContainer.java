@@ -49,8 +49,9 @@ public class CartModelContainer {
         return mAddressId;
     }
 
-    public void setAddressId(String mAddressId) {
+    public String setAddressId(String mAddressId) {
         this.mAddressId = mAddressId;
+        return mAddressId;
     }
 
     public String getRegionIsoCode() {
