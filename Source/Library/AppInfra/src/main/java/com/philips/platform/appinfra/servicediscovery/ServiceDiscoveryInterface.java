@@ -11,6 +11,9 @@ import java.net.URL;
 public interface ServiceDiscoveryInterface {
 
 
+    /**
+     * The type Service url and locale.
+     */
     public class ServiceUrlandLocale {
         public final URL    serviceUrl;
         public final String serviceLocale;
@@ -21,27 +24,65 @@ public interface ServiceDiscoveryInterface {
         }
     }
 
+    /**
+     * This is the callback method Error cases.
+     * the call back will have Error method for actions completed with Errors.
+     * onSuccess returns the Error response type
+     */
     interface OnErrorListener {
         enum ERRORVALUES {NO_NETWORK, CONNECTION_TIMEOUT, SERVER_ERROR, SECURITY_ERROR, INVALID_RESPONSE};
         void onError(ERRORVALUES error, String message);
     }
+
+    /**
+     * This is the callback method from getHomeCountry() API.
+     * the call back will have success method for actions completed successfully.
+     * onSuccess returns the successful response
+     */
     interface OnGetHomeCountryListener extends OnErrorListener {
         enum SOURCE {STOREDPREFERENCE, SIMCARD, GEOIP};
         void onSuccess(String countryCode, SOURCE source);
     }
+
+    /**
+     * This is the callback method from getServiceUrlWithLanguagePreference() API.
+     * the call back will have success method for actions completed successfully.
+     * onSuccess returns the successful response
+     */
     interface OnGetServiceUrlListener extends OnErrorListener {
         void onSuccess(URL url);
     }
+
+    /**
+     * This is the callback method from getServiceLocaleWithLanguagePreference() API.
+     * the call back will have success method for actions completed successfully.
+     * onSuccess returns the successful response
+     */
     interface OnGetServiceLocaleListener extends OnErrorListener {
         void onSuccess(String locale);
     }
+    /**
+     * This is the callback method from getServicesWithCountryPreference() API.
+     * the call back will have success method for actions completed successfully.
+     * onSuccess returns the successful response
+     */
     interface OnGetServicesListener extends OnErrorListener {
 //        void onSuccess(Map<String, ServiceUrlandLocale> services);
             void onSuccess(String services);
     }
+
+    /**
+     * This is the callback method from refresh() API.
+     * the call back will have success method for actions completed successfully
+     */
     interface OnRefreshListener extends OnErrorListener {
         void onSuccess();
     }
+    /**
+     * Fetches the Persistently stored Home country, the value is taken from the variable which has been set by setHomeCountry API.
+     * Changing the country automatically clears the cached service list and triggers a refresh.
+     * @param listener country code to persistently store, code must be according to ISO 3166-1
+     */
     void getHomeCountry(OnGetHomeCountryListener listener);
     /**
      * Persistently store Home country, overwrites any existing country value.

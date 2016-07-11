@@ -5,9 +5,23 @@
  */
 package com.philips.platform.appinfra.servicediscovery;
 
+/**
+ * The interface Local interface.
+ */
 public interface LocalInterface {
 
+    /**
+     * Gets country.
+     *
+     * @return the country
+     */
     public String getCountry();
+
+    /**
+     * Gets local .
+     *
+     * @return the local
+     */
     public String getlocal();
 
 }
