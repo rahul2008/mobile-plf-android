@@ -6,7 +6,6 @@
 package com.philips.platform.appframework.homescreen;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -23,9 +22,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
-import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -38,7 +34,7 @@ import com.philips.platform.appframework.utility.Logger;
 import java.util.ArrayList;
 
 
-public class HomeActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener {
     private String[] hamburgerMenuTitles;
     // private TypedArray hamburgerMenuIcons;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -63,7 +59,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         basePresenter = new HomeActivityPresenter();
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
@@ -191,7 +186,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
     private void showNavigationDrawerItem(int position) {
 
         philipsDrawerLayout.closeDrawer(navigationView);
-        basePresenter.onClick(position,HomeActivity.this,this);
+        basePresenter.onClick(position, HomeActivity.this, this);
     }
 
     @Override
@@ -210,54 +205,31 @@ public class HomeActivity extends AppFrameworkBaseActivity implements UserRegist
 
     @Override
     protected void onDestroy() {
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
         super.onDestroy();
     }
 
-    @Override
-    public void updateRegistrationTitle(int i) {
 
-    }
 
     @Override
-    public void updateRegistrationTitleWithBack(int i) {
-
+    public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
+        Logger.i("testing", "titleActionbar : " + titleActionbar + " -- hamburgerIconAvailable : " + hamburgerIconAvailable);
+        if (hamburgerIconAvailable) {
+            hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    philipsDrawerLayout.openDrawer(navigationView);
+                }
+            });
+        } else {
+            hamburgerIcon.setImageDrawable(ContextCompat.getDrawable(HomeActivity.this,
+                    R.drawable.consumercare_actionbar_back_arrow_white));
+            hamburgerClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    backstackFragment();
+                }
+            });
+        }
     }
-
-    @Override
-    public void updateRegistrationTitleWithOutBack(int i) {
-
-    }
-
-    @Override
-    public void onUserRegistrationComplete(Activity activity) {
-        activity.finish();
-    }
-
-    @Override
-    public void onPrivacyPolicyClick(Activity activity) {
-
-    }
-
-    @Override
-    public void onTermsAndConditionClick(Activity activity) {
-
-    }
-
-    @Override
-    public void onUserLogoutSuccess() {
-
-    }
-
-    @Override
-    public void onUserLogoutFailure() {
-
-    }
-
-    @Override
-    public void onUserLogoutSuccessWithInvalidAccessToken() {
-
-    }
-
-
 }

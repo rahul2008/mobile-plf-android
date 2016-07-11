@@ -34,6 +34,7 @@ public class StateCreator {
     public void handleSplashEvent(StateEvent stateEvent){
         appFrameworkApplication = (AppFrameworkApplication) stateEvent.getContext().getApplicationContext();
         if(stateEvent.getStateID() == UIConstants.UI_SPLASH_UNREGISTERED_STATE){
+            uiState = new UIState();
             uiBaseNavigator = new IntroductionScreenNavigator();
             uiState.setStateID(stateEvent.stateID);
             uiState.setNavigator(uiBaseNavigator);
@@ -46,6 +47,7 @@ public class StateCreator {
     public void handleWelcomeEvent(StateEvent stateEvent){
         appFrameworkApplication = (AppFrameworkApplication) stateEvent.getContext().getApplicationContext();
         if(stateEvent.getStateID() == UIConstants.UI_WELCOME_STATE){
+            uiState = new UIState();
             uiBaseNavigator = new IntroductionScreenNavigator();
             uiState.setStateID(stateEvent.stateID);
             uiState.setNavigator(uiBaseNavigator);
@@ -58,6 +60,7 @@ public class StateCreator {
     public void handleUserRegistrationEvent(StateEvent stateEvent){
         appFrameworkApplication = (AppFrameworkApplication) stateEvent.getContext().getApplicationContext();
         if(stateEvent.getStateID() == UIConstants.UI_REGISTRATION_STATE){
+            uiState = new UIState();
             uiBaseNavigator = new UserRegistrationNavigator();
             uiState.setStateID(stateEvent.stateID);
             uiState.setNavigator(uiBaseNavigator);
@@ -70,6 +73,7 @@ public class StateCreator {
     public void handleHomeEvent(StateEvent stateEvent){
         appFrameworkApplication = (AppFrameworkApplication) stateEvent.getContext().getApplicationContext();
         if(stateEvent.getStateID() == UIConstants.UI_HOME_STATE){
+            uiState = new UIState();
             uiBaseNavigator = new HomeActivityNavigator();
             uiState.setStateID(stateEvent.stateID);
             uiState.setNavigator(uiBaseNavigator);
@@ -82,6 +86,7 @@ public class StateCreator {
     public void handleHomeFragmentEvent(StateEvent stateEvent){
         appFrameworkApplication = (AppFrameworkApplication) stateEvent.getContext().getApplicationContext();
         if(stateEvent.getStateID() == UIConstants.UI_HOME_FRAGMENT_STATE){
+            uiState = new UIState();
             uiBaseNavigator = new HomeFragmentNavigator();
             uiState.setStateID(stateEvent.stateID);
             uiState.setNavigator(uiBaseNavigator);
@@ -94,6 +99,7 @@ public class StateCreator {
     public void handleSupportFragmentEvent(StateEvent stateEvent){
         appFrameworkApplication = (AppFrameworkApplication) stateEvent.getContext().getApplicationContext();
         if(stateEvent.getStateID() == UIConstants.UI_SUPPORT_FRAGMENT_STATE){
+            uiState = new UIState();
             uiBaseNavigator = new SupportFragmentNavigator();
             uiState.setStateID(stateEvent.stateID);
             uiState.setNavigator(uiBaseNavigator);
@@ -103,9 +109,10 @@ public class StateCreator {
         }
     }
     @Subscribe
-    public void handleSettingsEvent(StateEvent stateEvent){
+    public void handleSettingsFragmentEvent(StateEvent stateEvent){
         appFrameworkApplication = (AppFrameworkApplication) stateEvent.getContext().getApplicationContext();
-        if(stateEvent.getStateID() == UIConstants.UI_SETTINGS__FRAGMENT_STATE){
+        if(stateEvent.getStateID() == UIConstants.UI_SETTINGS_FRAGMENT_STATE){
+            uiState = new UIState();
             uiBaseNavigator = new SettingsFragmentNavigator();
             uiState.setStateID(stateEvent.stateID);
             uiState.setNavigator(uiBaseNavigator);
@@ -118,6 +125,7 @@ public class StateCreator {
     public void handleDebugFragmentEvent(StateEvent stateEvent){
         appFrameworkApplication = (AppFrameworkApplication) stateEvent.getContext().getApplicationContext();
         if(stateEvent.getStateID() == UIConstants.UI_DEBUG_FRAGMENT_STATE){
+            uiState = new UIState();
             uiBaseNavigator = new DebugTestFragmentNavigator();
             uiState.setStateID(stateEvent.stateID);
             uiState.setNavigator(uiBaseNavigator);

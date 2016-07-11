@@ -15,7 +15,7 @@ public class UIConstants {
      */
     @IntDef({UI_SPLASH_UNREGISTERED_STATE,UI_SPLASH_REGISTERED_STATE,UI_SPLASH_DONE_PRESSED_STATE,
              UI_WELCOME_STATE, UI_REGISTRATION_STATE, UI_HOME_STATE,
-            UI_HOME_FRAGMENT_STATE, UI_SETTINGS__FRAGMENT_STATE, UI_SUPPORT_FRAGMENT_STATE, UI_DEBUG_FRAGMENT_STATE})
+            UI_HOME_FRAGMENT_STATE, UI_SETTINGS_FRAGMENT_STATE, UI_SUPPORT_FRAGMENT_STATE, UI_DEBUG_FRAGMENT_STATE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface UIStateDef {
     }
@@ -27,7 +27,7 @@ public class UIConstants {
     public static final int UI_HOME_STATE = 1007;
     public static final int UI_REGISTRATION_STATE = 1008;
     public static final int UI_HOME_FRAGMENT_STATE = 1009;
-    public static final int UI_SETTINGS__FRAGMENT_STATE = 1010;
+    public static final int UI_SETTINGS_FRAGMENT_STATE = 1010;
     public static final int UI_SUPPORT_FRAGMENT_STATE = 1011;
     public static final int UI_DEBUG_FRAGMENT_STATE = 1012;
 

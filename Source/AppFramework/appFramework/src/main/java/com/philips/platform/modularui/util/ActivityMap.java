@@ -39,7 +39,7 @@ public class ActivityMap {
         activityMap.put(UIConstants.UI_REGISTRATION_STATE, UIConstants.UI_USER_REGISTRATION_SCREEN);
         activityMap.put(UIConstants.UI_HOME_FRAGMENT_STATE, UIConstants.UI_HOME_SCREEN);
         activityMap.put(UIConstants.UI_SUPPORT_FRAGMENT_STATE, UIConstants.UI_SUPPORT_SCREEN);
-        activityMap.put(UIConstants.UI_SETTINGS__FRAGMENT_STATE, UIConstants.UI_SETTINGS_SCREEN);
+        activityMap.put(UIConstants.UI_SETTINGS_FRAGMENT_STATE, UIConstants.UI_SETTINGS_SCREEN);
         activityMap.put(UIConstants.UI_DEBUG_FRAGMENT_STATE, UIConstants.UI_DEBUG_SCREEN);
     }
 
@@ -53,7 +53,7 @@ public class ActivityMap {
         fragmentMap = new HashMap<Integer,Fragment>();
         fragmentMap.put(UIConstants.UI_HOME_FRAGMENT_STATE, new HomeScreenFragment());
         fragmentMap.put(UIConstants.UI_SUPPORT_FRAGMENT_STATE, new HomeScreenFragment());
-        fragmentMap.put(UIConstants.UI_SETTINGS__FRAGMENT_STATE,new SettingsFragment());
+        fragmentMap.put(UIConstants.UI_SETTINGS_FRAGMENT_STATE,new SettingsFragment());
         fragmentMap.put(UIConstants.UI_DEBUG_FRAGMENT_STATE, new DebugTestFragment());
 
     }

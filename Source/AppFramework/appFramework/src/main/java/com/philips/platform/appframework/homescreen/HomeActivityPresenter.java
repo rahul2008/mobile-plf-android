@@ -23,7 +23,7 @@ public class HomeActivityPresenter implements UIBasePresenter {
                 break;
             case 1: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_SUPPORT_FRAGMENT_STATE,context);
                 break;
-            case 2: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_SETTINGS__FRAGMENT_STATE,context);
+            case 2: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_SETTINGS_FRAGMENT_STATE,context);
                 break;
             case 3: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_DEBUG_FRAGMENT_STATE,context);
                 break;

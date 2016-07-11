@@ -56,8 +56,8 @@ public class UIStateFactory {
                     uistate.setStateID(UIConstants.UI_SUPPORT_FRAGMENT_STATE);
                     uistate.setNavigator(new SupportFragmentNavigator());
                     break;
-                case UIConstants.UI_SETTINGS__FRAGMENT_STATE:
-                    uistate.setStateID(UIConstants.UI_SETTINGS__FRAGMENT_STATE);
+                case UIConstants.UI_SETTINGS_FRAGMENT_STATE:
+                    uistate.setStateID(UIConstants.UI_SETTINGS_FRAGMENT_STATE);
                     uistate.setNavigator(new SettingsFragmentNavigator());
                     break;
                 case UIConstants.UI_DEBUG_FRAGMENT_STATE:

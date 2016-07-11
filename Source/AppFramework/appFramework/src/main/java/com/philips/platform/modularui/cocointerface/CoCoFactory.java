@@ -1,6 +1,7 @@
 package com.philips.platform.modularui.cocointerface;
 
-import com.philips.platform.appframework.UIConstants;
+
+import com.philips.platform.modularui.util.UIConstants;
 
 /**
  * Created by 310213373 on 7/7/2016.
