@@ -45,6 +45,7 @@ public class LocalManager implements LocalInterface {
             return null;
         }
     }
+
     @Override
     public String  getCountry() {
         pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
@@ -73,7 +74,7 @@ public class LocalManager implements LocalInterface {
                     editor.putString(RequestManager.COUNTRY_NAME, mCountry);
                     editor.commit();
                     if(mCountry!= null)
-                    return mCountry;
+                    return mCountry.toUpperCase();
                 } else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { //
                     String networkCountry = tm.getNetworkCountryIso();
                     if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
@@ -81,14 +82,14 @@ public class LocalManager implements LocalInterface {
                         editor.putString(RequestManager.COUNTRY_NAME, mCountry);
                         editor.commit();
                         if(mCountry!= null)
-                        return mCountry;
+                        return mCountry.toUpperCase();
                     }
                 }
             } catch (Exception e) {
             }
         }
 
-        return mCountry;
+        return mCountry.toUpperCase();
     }
 
 }
