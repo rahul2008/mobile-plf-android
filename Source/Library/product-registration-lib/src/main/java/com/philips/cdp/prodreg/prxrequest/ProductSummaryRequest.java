@@ -2,8 +2,8 @@ package com.philips.cdp.prodreg.prxrequest;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
@@ -20,7 +20,7 @@ import java.util.Map;
  * All rights reserved.
  */
 public class ProductSummaryRequest extends PrxRequest {
-
+    private static final String TAG = ProductSummaryRequest.class.getSimpleName();
     private String mServerInfo;
     private String mCtn;
 
@@ -79,7 +79,7 @@ public class ProductSummaryRequest extends PrxRequest {
                 .appendPath("products")
                 .appendPath(mCtn + ".summary")
                 .build();
-        Log.d(getClass() + "URl :", builtUri.toString());
+        ProdRegLogger.d(getClass() + "URl :", builtUri.toString());
         return getDecodedUrl(builtUri);
     }
 
@@ -89,9 +89,9 @@ public class ProductSummaryRequest extends PrxRequest {
         try {
             url = java.net.URLDecoder.decode(url, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            ProdRegLogger.e(TAG, e.getMessage());
         }
-        Log.d(getClass() + "", url);
+        ProdRegLogger.d(getClass() + "", url);
         return url;
     }
 

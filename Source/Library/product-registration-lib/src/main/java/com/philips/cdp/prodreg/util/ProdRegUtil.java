@@ -1,5 +1,7 @@
 package com.philips.cdp.prodreg.util;
 
+import android.util.Log;
+
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 
@@ -13,7 +15,7 @@ import java.util.Date;
  * All rights reserved.
  */
 public class ProdRegUtil {
-
+    private static final String TAG = ProdRegUtil.class.getSimpleName();
     public static boolean isValidDate(final String date) {
         if (date != null) {
             String[] dates = date.split("-");
@@ -30,7 +32,7 @@ public class ProdRegUtil {
             final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
             return mDisplayDate.after(mDeviceDate);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
         return false;
     }

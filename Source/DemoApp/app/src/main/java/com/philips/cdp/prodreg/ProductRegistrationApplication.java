@@ -11,6 +11,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraSingleton;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import java.util.Locale;
@@ -19,7 +20,7 @@ public class ProductRegistrationApplication extends Application {
 
     public static AIAppTaggingInterface mAIAppTaggingInterface;
     public static AppInfraInterface gAppInfra;
-
+    public static LoggingInterface AILoggingInterface;
 
     @Override
     public void onCreate() {
@@ -35,6 +36,14 @@ public class ProductRegistrationApplication extends Application {
         gAppInfra = AppInfraSingleton.getInstance();
         mAIAppTaggingInterface = gAppInfra.getTagging().createInstanceForComponent("Product Registration", com.philips.cdp.product_registration_lib.BuildConfig.VERSION_NAME);
         mAIAppTaggingInterface.setPreviousPage("DemoPage");
+        AILoggingInterface = gAppInfra.getLogging().createInstanceForComponent("Product Registration", com.philips.cdp.product_registration_lib.BuildConfig.VERSION_NAME);
+        if (BuildConfig.DEBUG) {
+            AILoggingInterface.enableConsoleLog(true);
+            AILoggingInterface.enableFileLog(true);
+        } else {
+            AILoggingInterface.enableConsoleLog(false);
+            AILoggingInterface.enableFileLog(false);
+        }
     }
 
     private void initProductRegistration() {

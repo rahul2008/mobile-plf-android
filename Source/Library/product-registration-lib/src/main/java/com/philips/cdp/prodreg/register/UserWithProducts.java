@@ -2,7 +2,6 @@ package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.constants.ProdRegError;
@@ -11,6 +10,7 @@ import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
@@ -37,7 +37,7 @@ public class UserWithProducts {
 
     public static final int PRODUCT_REGISTRATION = 0;
     public static final int FETCH_REGISTERED_PRODUCTS = 1;
-    private final String TAG = getClass() + "";
+    private static final String TAG = UserWithProducts.class.getSimpleName();
     private int requestType = -1;
     private RegisteredProductsListener registeredProductsListener;
     private Context mContext;
@@ -109,7 +109,7 @@ public class UserWithProducts {
         final RegistrationState registrationState = registeredProduct.getRegistrationState();
         final boolean failedOnInvalidInput = isFailedOnInvalidInput(registeredProduct);
         if (!failedOnInvalidInput && (registrationState == RegistrationState.PENDING || registrationState == RegistrationState.FAILED) && getUuid().equals(registeredProduct.getUserUUid())) {
-            Log.e(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber() + "________" + registeredProduct.getUserUUid() + "_________" + getUuid());
+            ProdRegLogger.e(TAG, registeredProduct.getCtn() + "___" + registeredProduct.getSerialNumber() + "________" + registeredProduct.getUserUUid() + "_________" + getUuid());
             if (!getUserProduct().isUserSignedIn(mContext)) {
                 getUserProduct().updateLocaleCache(registeredProduct, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
                 sendErrorCallBack(registeredProduct);
@@ -301,7 +301,7 @@ public class UserWithProducts {
 
             @Override
             public void onRefreshLoginSessionFailedWithError(final int error) {
-                Log.d(TAG, "error in refreshing session");
+                ProdRegLogger.d(TAG, "error in refreshing session");
                 if (requestType == PRODUCT_REGISTRATION && registeredProduct != null) {
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     getUserProduct().updateWithCallBack(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
@@ -359,7 +359,7 @@ public class UserWithProducts {
                         getUserProduct().registerCachedProducts(registeredProducts);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    ProdRegLogger.e(TAG, e.getMessage());
                 }
             }
         };

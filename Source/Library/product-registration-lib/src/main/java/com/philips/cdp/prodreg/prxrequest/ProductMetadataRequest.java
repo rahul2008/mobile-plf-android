@@ -2,8 +2,8 @@ package com.philips.cdp.prodreg.prxrequest;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
@@ -21,7 +21,7 @@ import java.util.Map;
  * consent of the copyright holder.
 */
 public class ProductMetadataRequest extends PrxRequest {
-
+    private static final String TAG = ProductMetadataRequest.class.getSimpleName();
     private String mCtn = null;
     private String mServerInfo = "https://acc.philips.com/prx/registration/";
 
@@ -80,7 +80,7 @@ public class ProductMetadataRequest extends PrxRequest {
                 .appendPath("products")
                 .appendPath(mCtn + ".metadata")
                 .build();
-        Log.d(getClass() + "URl :", builtUri.toString());
+        ProdRegLogger.d(getClass() + "URl :", builtUri.toString());
         return getDecodedUrl(builtUri);
     }
 
@@ -90,9 +90,9 @@ public class ProductMetadataRequest extends PrxRequest {
         try {
             url = java.net.URLDecoder.decode(url, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            ProdRegLogger.e(TAG, e.getMessage());
         }
-        Log.d(getClass() + "", url);
+        ProdRegLogger.d(getClass() + "", url);
         return url;
     }
 

@@ -26,6 +26,7 @@ import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.register.ProdRegRegistrationController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -73,7 +74,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     prodRegRegistrationController.isValidDate(text);
                 }
             } catch (ParseException e) {
-                e.printStackTrace();
+                ProdRegLogger.e(TAG, e.getMessage());
             }
         }
     };

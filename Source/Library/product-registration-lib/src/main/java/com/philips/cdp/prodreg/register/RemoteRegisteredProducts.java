@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
@@ -20,7 +21,7 @@ import com.philips.cdp.registration.User;
  * consent of the copyright holder.
 */
 public class RemoteRegisteredProducts {
-
+    private static final String TAG = RemoteRegisteredProducts.class.getSimpleName();
     @NonNull
     ResponseListener getPrxResponseListenerForRegisteredProducts(final UserWithProducts userWithProducts, final LocalRegisteredProducts localRegisteredProducts, final RegisteredProductsListener registeredProductsListener) {
         return new ResponseListener() {
@@ -42,7 +43,7 @@ public class RemoteRegisteredProducts {
                     } else
                         registeredProductsListener.getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    ProdRegLogger.e(TAG, e.getMessage());
                 }
             }
         };

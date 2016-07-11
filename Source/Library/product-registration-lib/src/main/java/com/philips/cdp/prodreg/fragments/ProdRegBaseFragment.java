@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -65,7 +65,7 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
 
     public void showFragment(Fragment fragment, FragmentLauncher fragmentLauncher,
                              int startAnimation, int endAnimation) {
-        Log.i(TAG, "Product Registration Base Fragment -- Fragment Invoke");
+        ProdRegLogger.i(TAG, "Product Registration Base Fragment -- Fragment Invoke");
         final FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
         mActionbarUpdateListener = fragmentLauncher.getActionbarUpdateListener();
         int containerId = fragmentLauncher.getParentContainerResourceID();
@@ -95,7 +95,7 @@ abstract class ProdRegBaseFragment extends Fragment implements ProdRegBackListen
 
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
-            Log.e(TAG, e.getMessage());
+            ProdRegLogger.e(TAG, e.getMessage());
         }
     }
 

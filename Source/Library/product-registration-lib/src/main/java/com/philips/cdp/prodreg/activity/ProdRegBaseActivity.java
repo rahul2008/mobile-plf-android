@@ -26,6 +26,7 @@ import com.philips.cdp.prodreg.launcher.FragmentLauncher;
 import com.philips.cdp.prodreg.launcher.ProdRegUiHelper;
 import com.philips.cdp.prodreg.listener.ActionbarUpdateListener;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
@@ -36,6 +37,7 @@ import com.philips.cdp.uikit.UiKitActivity;
 import java.util.ArrayList;
 
 public class ProdRegBaseActivity extends UiKitActivity {
+    private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
     private TextView mTitleTextView;
     private Handler mSiteCatListHandler = new Handler();
 
@@ -54,6 +56,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
             Tagging.collectLifecycleData();
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +109,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
                 }
             });
         } catch (IllegalStateException e) {
-            e.printStackTrace();
+            ProdRegLogger.e(TAG, e.getMessage());
         }
     }
 

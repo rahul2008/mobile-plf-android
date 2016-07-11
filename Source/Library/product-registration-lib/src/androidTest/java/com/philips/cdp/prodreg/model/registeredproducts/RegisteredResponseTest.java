@@ -1,8 +1,8 @@
 package com.philips.cdp.prodreg.model.registeredproducts;
 
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 
 import org.json.JSONObject;
@@ -68,7 +68,7 @@ public class RegisteredResponseTest extends InstrumentationTestCase {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.d(TAG, "Parsed Data : " + sb.toString());
+            ProdRegLogger.d(TAG, "Parsed Data : " + sb.toString());
 
             RegisteredResponse registeredDataResponse = (RegisteredResponse) mRegistrationRequest.getResponseData(new JSONObject(sb.toString()));
             RegisteredResponseData[] mResponseData = registeredDataResponse.getResults();
@@ -78,7 +78,7 @@ public class RegisteredResponseTest extends InstrumentationTestCase {
             TestAssertionOnResponse(mResponseData, setProductRegister);
         } catch (Exception e) {
 
-            Log.d(TAG, "IO " + e);
+            ProdRegLogger.d(TAG, "IO " + e);
         }
     }
 
