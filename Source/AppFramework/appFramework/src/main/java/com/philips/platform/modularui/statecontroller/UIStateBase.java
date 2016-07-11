@@ -9,7 +9,6 @@ public abstract class UIStateBase {
     UIBaseNavigator navigator;
     @UIConstants.UIStateDef
     int stateID;
-    UIBaseLogic logic;
 
     public UIBaseNavigator getNavigator() {
         return navigator;

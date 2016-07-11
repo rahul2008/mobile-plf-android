@@ -1,14 +1,28 @@
 package com.philips.platform.modularui.factorymanager;
 
-import com.philips.platform.modularui.statecontroller.UICoCoInterface;
-import com.philips.platform.modularui.statecontroller.UICoCoProdRegImpl;
-import com.philips.platform.modularui.statecontroller.UICoCoUserRegImpl;
+
+import com.philips.platform.modularui.cocointerface.UICoCoConsumerCareImpl;
+import com.philips.platform.modularui.cocointerface.UICoCoInterface;
+import com.philips.platform.modularui.cocointerface.UICoCoProdRegImpl;
+import com.philips.platform.modularui.cocointerface.UICoCoUserRegImpl;
 import com.philips.platform.modularui.util.UIConstants;
 
 /**
- * Created by 310240027 on 6/22/2016.
+ * Created by 310213373 on 7/7/2016.
  */
 public class CoCoFactory {
+    private static CoCoFactory instance = new CoCoFactory();
+
+    private CoCoFactory() {
+
+    }
+
+    public static CoCoFactory getInstance() {
+        if (null == instance) {
+            instance = new CoCoFactory();
+        }
+        return instance;
+    }
 
     public UICoCoInterface getCoCo(@UIConstants.UICoCoConstants int coCo) {
 
@@ -17,6 +31,8 @@ public class CoCoFactory {
                 return new UICoCoProdRegImpl();
             case UIConstants.UI_COCO_USER_REGISTRATION:
                 return new UICoCoUserRegImpl();
+            case UIConstants.UI_COCO_CONSUMER_CARE:
+                return new UICoCoConsumerCareImpl();
             default:
                 return null;
         }

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
-import com.philips.platform.modularui.cocointerface.CoCoFactory;
+import com.philips.platform.modularui.factorymanager.CoCoFactory;
 import com.philips.platform.modularui.cocointerface.UICoCoInterface;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.util.UIConstants;

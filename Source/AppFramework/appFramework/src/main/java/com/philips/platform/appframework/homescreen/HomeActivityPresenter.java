@@ -3,7 +3,6 @@ package com.philips.platform.appframework.homescreen;
 import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.modularui.statecontroller.ShowFragmentCallBack;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.util.UIConstants;
@@ -15,7 +14,7 @@ public class HomeActivityPresenter implements UIBasePresenter {
     UIBaseNavigator uiBaseNavigator;
     AppFrameworkApplication appFrameworkApplication;
     @Override
-    public void onClick(int componentID, Context context,ShowFragmentCallBack showFragmentCallBack) {
+    public void onClick(int componentID, Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
 
         switch (componentID){

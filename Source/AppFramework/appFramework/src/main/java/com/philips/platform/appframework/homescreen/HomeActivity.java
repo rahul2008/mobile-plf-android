@@ -186,7 +186,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     private void showNavigationDrawerItem(int position) {
 
         philipsDrawerLayout.closeDrawer(navigationView);
-        basePresenter.onClick(position, HomeActivity.this, this);
+        basePresenter.onClick(position, HomeActivity.this);
     }
 
     @Override

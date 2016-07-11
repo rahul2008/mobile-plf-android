@@ -13,12 +13,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
 
-import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.Logger;
-import com.philips.platform.modularui.statecontroller.ShowFragmentCallBack;
+import com.philips.platform.appframework.utility.SharedPreferenceUtility;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
@@ -27,7 +26,7 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
  * @author: ritesh.jha@philips.com
  * @since: June 17, 2016
  */
-public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ShowFragmentCallBack {
+public abstract class AppFrameworkBaseActivity extends UiKitActivity{
     public static final String SHARED_PREFERENCES = "SharedPref";
     public static final String DONE_PRESSED = "donePressed";
     private static String TAG = AppFrameworkBaseActivity.class.getSimpleName();
@@ -55,11 +54,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
             Logger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void displayFragment(Fragment fragment) {
-        showFragment(fragment,fragment.getClass().getSimpleName());
     }
 
     @Override

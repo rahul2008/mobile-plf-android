@@ -2,7 +2,7 @@ package com.philips.platform.modularui.navigatorimpl;
 
 import android.content.Context;
 
-import com.philips.platform.modularui.cocointerface.CoCoFactory;
+import com.philips.platform.modularui.factorymanager.CoCoFactory;
 import com.philips.platform.modularui.cocointerface.UICoCoInterface;
 import com.philips.platform.modularui.statecontroller.UIBaseNavigator;
 import com.philips.platform.modularui.util.UIConstants;

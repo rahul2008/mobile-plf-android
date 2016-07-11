@@ -239,7 +239,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     public void onClick(View v) {
 
         AppFrameworkBaseActivity.setIntroScreenDonePressed();
-        basePresenter.onClick(v.getId(),IntroductionScreenActivity.this,this);
+        basePresenter.onClick(v.getId(),IntroductionScreenActivity.this);
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.modularui.statecontroller.ShowFragmentCallBack;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.util.UIConstants;
 
@@ -15,7 +14,7 @@ public class IntroductionScreenPresenter implements UIBasePresenter {
     AppFrameworkApplication appFrameworkApplication;
 
     @Override
-    public void onClick(int componentID, Context context, ShowFragmentCallBack showFragmentCallBack) {
+    public void onClick(int componentID, Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         switch (componentID) {
             case R.id.appframework_skip_button:

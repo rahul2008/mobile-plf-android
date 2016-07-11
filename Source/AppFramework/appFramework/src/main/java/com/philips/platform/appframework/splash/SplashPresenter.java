@@ -5,7 +5,6 @@ import android.content.Context;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.modularui.statecontroller.ShowFragmentCallBack;
 import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 import com.philips.platform.modularui.util.UIConstants;
 
@@ -17,7 +16,7 @@ public class SplashPresenter implements UIBasePresenter {
     AppFrameworkApplication appFrameworkApplication;
 
     @Override
-    public void onClick(int componentID, Context context, ShowFragmentCallBack showFragmentCallBack) {
+    public void onClick(int componentID, Context context) {
 
     }
 
