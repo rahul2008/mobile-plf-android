@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -6,18 +10,13 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 
 import com.philips.cdp.uikit.R;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- * <p/>
  * Helper class if the compound drawables needs to be tinted.
  * Otherwise behaves as android base button.
  */
@@ -95,15 +94,11 @@ public class UIKitButton extends AppCompatButton {
     private Drawable wrap(Drawable d) {
         if (d == null) return null;
 
-        Drawable wrappedDrawable = DrawableCompat.wrap(d).mutate();
+        Drawable wrappedDrawable = DrawableCompat.wrap(d.getConstantState().newDrawable().mutate());
         wrappedDrawable.setBounds(d.getBounds());
-        if (wrappedDrawable instanceof DrawableWrapper) {
-           ((DrawableWrapper) wrappedDrawable).setTintList(mTintList);
-           ((DrawableWrapper) wrappedDrawable).setTintMode(PorterDuff.Mode.SRC_ATOP);
-        } else {
+        DrawableCompat.setTintList(wrappedDrawable, mTintList);
+        DrawableCompat.setTintMode(wrappedDrawable, PorterDuff.Mode.SRC_ATOP);
 
-            DrawableCompat.setTintList(wrappedDrawable, mTintList);
-        }
         return wrappedDrawable;
     }
 }

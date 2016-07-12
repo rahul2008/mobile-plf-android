@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/input_field_container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:animateLayoutChanges="true"
-    android:background="@color/uikit_white"
-    android:orientation="vertical">
+<LinearLayout android:id="@+id/input_field_container"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:animateLayoutChanges="true"
+              android:background="@color/uikit_white"
+              android:orientation="vertical">
 
     <com.philips.cdp.uikit.customviews.InlineForms
         android:id="@+id/InlineForms"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/disabledlayout"
+            android:id="@+id/firstNameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="false"
@@ -38,7 +38,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/firstnamelayouthorzontal"
+            android:id="@+id/lastNamelayouthorzontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -50,7 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:hint="Last Name"
-                android:text="Last Name" />
+                android:text="Last Name"/>
 
             <EditText
                 android:id="@+id/firstnamevalue"
@@ -58,11 +58,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:hint="Jones" />
+                android:hint="Jones"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lastnamelayouthorizontal"
+            android:id="@+id/emailIdlayouthorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -74,7 +74,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:hint="Email Address"
-                android:text="Email Address" />
+                android:text="Email Address"/>
 
             <EditText
                 android:id="@+id/lastnamevalue"
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:hint="s.jones@philips.com" />
+                android:hint="s.jones@philips.com"/>
         </LinearLayout>
 
         <LinearLayout
@@ -98,7 +98,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:hint="Full Name"
-                android:text="Full Name" />
+                android:text="Full Name"/>
 
             <EditText
                 android:id="@+id/fullnamelastfirstnamevalue"
@@ -106,8 +106,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:hint="Samanta Jones" />
+                android:hint="Samanta Jones"/>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/passwordFieldLayout"
             android:layout_width="match_parent"
@@ -120,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:text="Password" />
+                android:text="Password"/>
 
             <com.philips.cdp.uikit.customviews.UikitPasswordEditText
                 android:id="@+id/passwordValue"
@@ -128,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:hint="Samanta Jones" />
+                android:hint="Samanta Jones"/>
         </LinearLayout>
     </com.philips.cdp.uikit.customviews.InlineForms>
 

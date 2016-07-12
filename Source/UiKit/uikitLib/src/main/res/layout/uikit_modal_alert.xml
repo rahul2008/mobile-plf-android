@@ -34,6 +34,7 @@
             android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
             android:text="@string/uikit_modal_alert_message"
             android:textColor="?attr/uikit_baseColor"
+            android:layout_weight="1"
             android:textSize="@dimen/uikit_modal_alert_message_text_size" />
 
         <LinearLayout
@@ -46,25 +47,26 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <!--Make this button gone in case only one button is required.-->
             <Button
                 android:id="@+id/dialogButtonCancel"
                 style="?attr/uikit_outlinedButtonStyle"
                 fontPath="fonts/centralesansbook.ttf"
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
+                android:layout_marginRight="@dimen/uikit_modal_alert_button_left_margin"
                 android:layout_height="wrap_content"
-                android:minWidth="@dimen/uikit_modal_alert_button_width"
                 android:text="@string/uikit_modal_alert_negative_button_text"
-                android:textSize="@dimen/uikit_modal_alert_message_text_size" />
+                android:textSize="@dimen/uikit_modal_alert_message_text_size"
+                android:layout_weight="1"/>
 
             <Button
                 android:id="@+id/dialogButtonOK"
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/uikit_modal_alert_button_left_margin"
                 android:gravity="center"
-                android:minWidth="@dimen/uikit_modal_alert_button_width"
                 android:text="@string/uikit_modal_alert_positive_button_text"
-                android:textSize="@dimen/uikit_modal_alert_message_text_size" />
+                android:textSize="@dimen/uikit_modal_alert_message_text_size"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 
