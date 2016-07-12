@@ -7,7 +7,10 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
+import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
@@ -38,6 +41,7 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     private Context context;
     private ProdRegCache prodRegCacheMock;
     private ProdRegHelper prodRegHelperMock;
+    private ProdRegConnectionFragment prodRegConnectionFragmentMock;
 
     @Override
     protected void setUp() throws Exception {
@@ -50,6 +54,7 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
         registeredProductMock = mock(RegisteredProduct.class);
         localRegisteredProductsMock = mock(LocalRegisteredProducts.class);
         prodRegSuccessFragmentMock = mock(ProdRegSuccessFragment.class);
+        prodRegConnectionFragmentMock = mock(ProdRegConnectionFragment.class);
         bundleMock = new Bundle();
         productMetadataResponseData = mock(ProductMetadataResponseData.class);
         summaryDataMock = mock(Data.class);
@@ -69,6 +74,12 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
             @Override
             protected ProdRegSuccessFragment getSuccessFragment() {
                 return prodRegSuccessFragmentMock;
+            }
+
+            @NonNull
+            @Override
+            protected ProdRegConnectionFragment getConnectionFragment() {
+                return prodRegConnectionFragmentMock;
             }
 
             @NonNull
@@ -136,6 +147,29 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     }
 
     public void testGetProdRegListener() {
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+        when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)).thenReturn(0);
+        ProdRegListener prodRegListener = prodRegRegistrationController.getProdRegListener();
+        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);
+        verify(registerControllerCallBacksMock).dismissLoadingDialog();
+        verify(registerControllerCallBacksMock).showFragment(prodRegSuccessFragmentMock);
 
+        when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
+        prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
+        verify(registerControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
+
+        when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.INVALID_CTN);
+        prodRegListener.onProdRegFailed(registeredProductMock, userWithProductsMock);
+        verify(registerControllerCallBacksMock).showAlertOnError(registeredProductMock.getProdRegError().getCode());
+    }
+
+    public void testGetMethods() {
+        assertTrue(prodRegRegistrationController.getConnectionFragment() instanceof ProdRegConnectionFragment);
+        assertTrue(prodRegRegistrationController.getLocalRegisteredProducts() instanceof LocalRegisteredProducts);
+        assertTrue(prodRegRegistrationController.getProdRegCache() instanceof ProdRegCache);
+        assertTrue(prodRegRegistrationController.getProdRegHelper() instanceof ProdRegHelper);
+        assertTrue(prodRegRegistrationController.getSuccessFragment() instanceof ProdRegSuccessFragment);
+        assertTrue(prodRegRegistrationController.getRegisteredProduct() instanceof RegisteredProduct);
     }
 }

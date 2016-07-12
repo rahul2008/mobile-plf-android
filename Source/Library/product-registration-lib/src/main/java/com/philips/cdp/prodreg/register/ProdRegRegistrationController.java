@@ -163,7 +163,7 @@ public class ProdRegRegistrationController {
     }
 
     @NonNull
-    private ProdRegListener getProdRegListener() {
+    protected ProdRegListener getProdRegListener() {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
@@ -187,11 +187,16 @@ public class ProdRegRegistrationController {
                     if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
                         registerControllerCallBacks.showAlertOnError(registeredProduct.getProdRegError().getCode());
                     } else {
-                        registerControllerCallBacks.showFragment(new ProdRegConnectionFragment());
+                        registerControllerCallBacks.showFragment(getConnectionFragment());
                     }
                 }
             }
         };
+    }
+
+    @NonNull
+    protected ProdRegConnectionFragment getConnectionFragment() {
+        return new ProdRegConnectionFragment();
     }
 
     protected User getUser() {
