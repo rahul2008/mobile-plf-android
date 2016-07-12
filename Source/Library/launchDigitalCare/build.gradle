@@ -39,16 +39,16 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-          //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             proguardFile 'proguard.pro'
             //  proguardFile 'proguard.pro'
             signingConfig signingConfigs.release
         }
         debug {
             //   proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/launchDigitalCare/proguard.pro'
-            minifyEnabled false
-          //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            proguardFile 'proguard.pro'
+            minifyEnabled true
+            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFile 'C:/CodeRepository/ConsumerCare/consumer_care_android/Source/Library/launchDigitalCare/proguard.pro'
         }
     }
 
@@ -81,13 +81,13 @@ android {
     productFlavors {
         simulator {
             applicationId 'com.philips.cdp.sampledigitalcare'
-            versionCode 141
+            versionCode 525
             versionName '5.2.5.1'
         }
         device {
             applicationId 'com.philips.cdp.sampledigitalcare'
-            versionCode 141
-            versionName '5.3.5.1'
+            versionCode 525
+            versionName '5.2.5.1'
         }
     }
 

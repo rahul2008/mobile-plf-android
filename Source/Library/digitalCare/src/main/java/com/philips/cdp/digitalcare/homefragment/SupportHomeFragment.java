@@ -4,7 +4,7 @@
  *
  * @author : Ritesh.jha@philips.com
  * @creation Date : 5 Dec 2014
- * <p>
+ * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -68,6 +68,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
+    private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
+    private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
     private static final String SUBCATEGORY_URL_PORT = "https://www.philips.com/prx/category/%s/%s/%s/%s.json";
     private static boolean isFirstTimeProductComponentlaunch = true;
     //  private boolean isfragmentFirstTimeVisited;
@@ -507,6 +509,20 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             launchProductSelectionFragmentComponent();
     }
 
+    protected boolean isContactNumberCached() {
+        String customerSupportNumber = null;
+        customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
+        return (customerSupportNumber != null && customerSupportNumber != "");
+    }
+
+
+    protected boolean isContactHoursCached() {
+        String contactHours = null;
+        contactHours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
+        return (contactHours != null && contactHours != "");
+    }
+
+
     @Override
     public void onClick(View view) {
 
@@ -524,12 +540,19 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         }
 
         if (tag.equals(getStringKey(R.string.contact_us))) {
-            if (isConnectionAvailable())
-                if (isProductSelected() && isSupportScreenLaunched) {
+            if (isProductSelected() && isSupportScreenLaunched) {
+                if (isConnectionAvailable()) {
                     disableSupportButtonClickable();
                     launchProductSelectionComponent();
-                } else
+                }
+            } else {
+
+                if (isInternetAvailable) {
                     showFragment(new ContactUsFragment());
+                } else if (isContactHoursCached() || isContactNumberCached()) {
+                    showFragment(new ContactUsFragment());
+                } else isConnectionAlertDisplayed();
+            }
         } else if (tag.equals(getStringKey(R.string.view_product_details))) {
             if (isConnectionAvailable())
                 if (isProductSelected() && isSupportScreenLaunched) {
@@ -596,6 +619,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         if (mProductChangeButton != null) {
             mProductChangeButton.setClickable(false);
         }
+
+        if (mProgressDialog == null) mProgressDialog = new ProgressDialog
+                (getActivity(), R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
+        if (!(getActivity().isFinishing())) {
+            mProgressDialog.show();
+        }
+
         FragmentLauncher fragmentLauncher = (FragmentLauncher) DigitalCareConfigManager.getInstance().getUiLauncher();
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
@@ -630,6 +662,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private void launchProductSelectionActivityComponent() {
         if (mProductChangeButton != null) {
             mProductChangeButton.setClickable(false);
+        }
+        if (mProgressDialog == null) mProgressDialog = new ProgressDialog
+                (getActivity(), R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
+        if (!(getActivity().isFinishing())) {
+            mProgressDialog.show();
         }
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
@@ -875,12 +914,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 }
             }
 
-        } else if(mProgressDialog != null)
-        {
+        } else if (mProgressDialog != null) {
             try {
                 mProgressDialog.dismiss();
-            }catch (IllegalArgumentException e)
-            {
+            } catch (IllegalArgumentException e) {
                 DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
             }
         }
@@ -905,8 +942,37 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
                 }
             }
 
+        } else if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            try {
+                mProgressDialog.dismiss();
+            } catch (IllegalArgumentException e) {
+                DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+            }
         }
         super.onDestroyView();
+    }
+
+    @Override
+    public void onPause() {
+        if (mProgressDialog != null && isAdded()) {
+            if (mProgressDialog.isShowing()) {
+                try {
+                    mProgressDialog.dismiss();
+                    mProgressDialog.cancel();
+                    mProgressDialog = null;
+                } catch (IllegalArgumentException e) {
+                    DigiCareLogger.i(TAG, "Progress Dialog got IllegalArgumentException");
+                }
+            }
+
+        } else if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            try {
+                mProgressDialog.dismiss();
+            } catch (IllegalArgumentException e) {
+                DigiCareLogger.e(TAG, "Progress Dialog got IllegalArgumentException");
+            }
+        }
+        super.onPause();
     }
 
     private Drawable getDrawable(int resId) {
