@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -19,6 +20,14 @@ import com.philips.platform.appframework.introscreen.IntroductionScreenActivity;
 
 public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListener,RegistrationTitleBarListener {
     Context context;
+    User userObject;
+
+
+    public User getUserObject(Context context) {
+        userObject = new User(context);
+        return userObject;
+    }
+
     @Override
     public void loadPlugIn(Context context) {
         this.context = context;

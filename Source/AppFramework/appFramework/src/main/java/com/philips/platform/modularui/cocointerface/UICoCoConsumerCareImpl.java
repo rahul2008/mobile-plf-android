@@ -11,7 +11,6 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appframework.R;
@@ -81,16 +80,13 @@ public class UICoCoConsumerCareImpl implements UICoCoInterface, MainMenuListener
 
         DigiCareLogger.enableLogging();
         mConsumerCareFragment = new ConsumerCareLauncher();
-        mConsumerCareFragment.initCC(mFragmentActivity, actionBarClickListener);
+
     }
 
 
     @Override
     public void runCoCo(Context context) {
-        FragmentLauncher fragLauncher = new FragmentLauncher(
-                mFragmentActivity, R.id.frame_container, mActionBarClickListener);
-        fragLauncher.setAnimation(0, 0);
-        //  DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
+        mConsumerCareFragment.initCC(mFragmentActivity, actionBarClickListener);
     }
 
     @Override

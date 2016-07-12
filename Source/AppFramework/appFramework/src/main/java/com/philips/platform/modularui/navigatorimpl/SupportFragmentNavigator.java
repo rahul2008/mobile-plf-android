@@ -19,5 +19,6 @@ public class SupportFragmentNavigator implements UIBaseNavigator {
         uiCoCoConsumerCare.setActionbar((HomeActivity)context);
         uiCoCoConsumerCare.setFragActivity((HomeActivity)context);
         uiCoCoConsumerCare.loadPlugIn(context);
+        uiCoCoConsumerCare.runCoCo(context);
     }
 }
