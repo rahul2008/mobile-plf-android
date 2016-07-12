@@ -51,7 +51,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        ProductSelectionLogger.i(TAG, "onCreate");
         ProductModelSelectionHelper.getInstance();
         fragmentManager = getSupportFragmentManager();
 
@@ -93,7 +92,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        ProductSelectionLogger.i(TAG, TAG + " : onConfigurationChanged ");
     }
 
     @Override
@@ -160,7 +158,7 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            ProductSelectionLogger.e(TAG, e.getMessage());
+            ProductSelectionLogger.e(TAG, "Fragment Transaction exception is handled " + e.getMessage());
         }
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -176,7 +174,7 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
             if (this.getWindowManager() != null)
                 this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         } catch (NullPointerException e) {
-            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
+            ProductSelectionLogger.e(TAG, "V4 library known issue is catched");
         } finally {
             float yInches = metrics.heightPixels / metrics.ydpi;
             float xInches = metrics.widthPixels / metrics.xdpi;

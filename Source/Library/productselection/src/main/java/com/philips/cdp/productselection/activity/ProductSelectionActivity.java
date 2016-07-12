@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.provider.Settings;
 
-import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
@@ -24,28 +24,41 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        int alwaysFinishActivity = 0;
+
+        if (savedInstanceState != null)
+            alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
+
         setContentView(R.layout.activity_productselection_layout);
 
-        animateThisScreen();
+        if (alwaysFinishActivity == 0) {
+            animateThisScreen();
 
-        Configuration configuration = getResources().getConfiguration();
-        if (getCtnFromPreference()) {
-            showFragment(new WelcomeScreenFragmentSelection());
-            // isFirstTimeWelcomeScreenlaunch = false;
-        } else {
-            showFragment(new ProductSelectionListingFragment());
+            Configuration configuration = getResources().getConfiguration();
+            if (getCtnFromPreference()) {
+                showFragment(new WelcomeScreenFragmentSelection());
+                // isFirstTimeWelcomeScreenlaunch = false;
+            } else {
+                showFragment(new ProductSelectionListingFragment());
+            }
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
+    }
+
 
     protected boolean getCtnFromPreference() {
         String ctn = null;
         prefs = getSharedPreferences(
                 USER_PREFERENCE, Context.MODE_PRIVATE);
         ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
-        if (ctn != null && ctn != "")
-            return false;
-        else
-            return true;
+        return !(ctn != null && ctn != "");
     }
 
     private void animateThisScreen() {

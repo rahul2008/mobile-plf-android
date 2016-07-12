@@ -123,7 +123,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                         "&hei=" + imageWidth +
                         "&fit=fit,1";
 
-        ProductSelectionLogger.v(TAG, "Image : " + imagepath);
+        ProductSelectionLogger.v(TAG, "Image loaded in the Saved Screen is from the PATH : " + imagepath);
 
         final ImageRequest request = new ImageRequest(imagepath,
                 new Response.Listener<Bitmap>() {
@@ -134,6 +134,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                 }, 0, 0, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
+                        ProductSelectionLogger.e(TAG, "Selected Product Image is failed donalod  : " + error);
                     }
                 });
 

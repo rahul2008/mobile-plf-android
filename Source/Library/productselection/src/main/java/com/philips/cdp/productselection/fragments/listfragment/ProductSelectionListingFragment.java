@@ -88,7 +88,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     private void injectSummaryDataList() {
         SummaryModel[] summaryList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSummaryModelList();
-        ProductSelectionLogger.d(TAG, "Summary List : " + summaryList.length);
+        ProductSelectionLogger.d(TAG, "Number of Products Available for the selected Country from the passed CTN's : " + summaryList.length);
         productList = new ArrayList<SummaryModel>();
 
         for (int i = 0; i < summaryList.length; i++) {
@@ -100,6 +100,19 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             mProductAdapter.notifyDataSetChanged();
         } else
             ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (mSummaryDialog != null) {
+
+            if (!(getActivity().isFinishing()) && mSummaryDialog.isShowing()) {
+                mSummaryDialog.dismiss();
+                mSummaryDialog.cancel();
+            }
+        }
+        super.onDestroyView();
 
     }
 
@@ -160,7 +173,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
                 @Override
                 public void onFail(String errorMessage) {
-                    ProductSelectionLogger.e(TAG, " Error : " + errorMessage);
+                    ProductSelectionLogger.e(TAG, "Error Scenario > Product not available : " + errorMessage);
                     String[] ctnList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getHardCodedProductList();
                     if (ctn == ctnList[ctnList.length - 1]) {
 

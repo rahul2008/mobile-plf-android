@@ -77,7 +77,7 @@ public final class NavigationFragment extends Fragment {
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
                         image.setImageBitmap(getBlankThumbnail(imageWidth));
-                        ProductSelectionLogger.e(TAG, "Imaged Loading : " + error.toString());
+                        ProductSelectionLogger.e(TAG, "Some issues with Image downloading : " + error.toString());
                     }
                 });
 
