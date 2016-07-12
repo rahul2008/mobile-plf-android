@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.RegistrationState;
+import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
+import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.registration.User;
 
@@ -29,15 +32,19 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
     private User userMock;
     private ProdRegHelper prodRegHelperMock;
     private RegisteredProductsListener registeredProductsListenerMock;
+    private MetadataListener metadataListenerMock;
+    private ProdRegConnectionFragment prodRegConnectionFragmentMock;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         fragmentActivity = mock(FragmentActivity.class);
         processControllerCallBacksMock = mock(ProdRegProcessController.ProcessControllerCallBacks.class);
+        metadataListenerMock = mock(MetadataListener.class);
         productMock = mock(Product.class);
         userMock = mock(User.class);
         prodRegHelperMock = mock(ProdRegHelper.class);
+        prodRegConnectionFragmentMock = mock(ProdRegConnectionFragment.class);
         registeredProductsListenerMock = mock(RegisteredProductsListener.class);
         bundle = new Bundle();
         when(fragmentActivity.isFinishing()).thenReturn(false);
@@ -58,8 +65,16 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
             protected RegisteredProductsListener getRegisteredProductsListener() {
                 return registeredProductsListenerMock;
             }
+
+            @NonNull
+            @Override
+            protected MetadataListener getMetadataListener() {
+                return metadataListenerMock;
+            }
         };
         final ArrayList<Product> products = new ArrayList<>();
+        when(productMock.getCtn()).thenReturn("HC5410/83");
+        when(productMock.getSerialNumber()).thenReturn("1344");
         products.add(productMock);
         bundle.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, products);
     }
@@ -75,5 +90,34 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
         prodRegProcessController.process(bundle);
         verify(processControllerCallBacksMock).dismissLoadingDialog();
         verify(processControllerCallBacksMock).exitProductRegistration();
+    }
+
+    public void testGetRegisteredProductsListener() {
+        prodRegProcessController = new ProdRegProcessController(processControllerCallBacksMock, fragmentActivity) {
+            @NonNull
+            @Override
+            protected MetadataListener getMetadataListener() {
+                return metadataListenerMock;
+            }
+
+            @NonNull
+            @Override
+            protected ProdRegConnectionFragment getConnectionFragment() {
+                return prodRegConnectionFragmentMock;
+            }
+        };
+        prodRegProcessController.process(bundle);
+        final RegisteredProductsListener registeredProductsListener = prodRegProcessController.getRegisteredProductsListener();
+        final ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
+        registeredProducts.add(new RegisteredProduct("124", null, null));
+        registeredProductsListener.getRegisteredProductsSuccess(registeredProducts, 0);
+        verify(productMock).getProductMetadata(fragmentActivity, metadataListenerMock);
+        final RegisteredProduct registeredProduct = new RegisteredProduct("HC5410/83", null, null);
+        registeredProduct.setSerialNumber("1344");
+        registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
+        registeredProducts.add(registeredProduct);
+        registeredProductsListener.getRegisteredProductsSuccess(registeredProducts, 0);
+        verify(processControllerCallBacksMock).dismissLoadingDialog();
+        verify(processControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
     }
 }

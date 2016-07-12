@@ -106,14 +106,19 @@ public class ProdRegProcessController {
                     currentProduct.getProductMetadata(fragmentActivity, getMetadataListener());
                 } else {
                     processControllerCallBacks.dismissLoadingDialog();
-                    processControllerCallBacks.showFragment(new ProdRegConnectionFragment());
+                    processControllerCallBacks.showFragment(getConnectionFragment());
                 }
             }
         };
     }
 
     @NonNull
-    private MetadataListener getMetadataListener() {
+    protected ProdRegConnectionFragment getConnectionFragment() {
+        return new ProdRegConnectionFragment();
+    }
+
+    @NonNull
+    protected MetadataListener getMetadataListener() {
         return new MetadataListener() {
             @Override
             public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
