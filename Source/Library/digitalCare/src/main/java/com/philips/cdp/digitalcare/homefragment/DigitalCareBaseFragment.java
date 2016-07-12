@@ -3,7 +3,7 @@
  *
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
- * <p/>
+ * <p>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
@@ -55,7 +55,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     protected static SummaryModel mViewProductSummaryModel = null;
     protected static FragmentLauncher mFragmentLauncher = null;
     private static String TAG = DigitalCareBaseFragment.class.getSimpleName();
-    private static boolean isConnectionAvailable;
+    protected static boolean isInternetAvailable;
     private static int mContainerId = 0;
     private static ActionbarUpdateListener mActionbarUpdateListener = null;
     private static String mPreviousPageName = null;
@@ -73,7 +73,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private ImageView mHomeIcon = null;
 
     public synchronized static void setStatus(boolean connection) {
-        isConnectionAvailable = connection;
+        isInternetAvailable = connection;
     }
 
     protected void setWebSettingForWebview(String url, WebView webView, final ProgressBar progressBar) {
@@ -206,31 +206,35 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     protected boolean isConnectionAvailable() {
-        if (isConnectionAvailable)
+        if (isInternetAvailable)
             return true;
         else {
-            // new NetworkAlertView().showNetworkAlert(getActivity());
-            mHandler.postAtFrontOfQueue(new Runnable() {
-
-                @Override
-                public void run() {
-                    new NetworkAlertView().showAlertBox(
-                            getActivity(),
-                            null,
-                            getActivity().getResources().getString(
-                                    R.string.no_internet),
-                            getActivity().getResources().getString(
-                                    android.R.string.yes));
-                    AnalyticsTracker
-                            .trackAction(
-                                    AnalyticsConstants.ACTION_SET_ERROR,
-                                    AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-                                    AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);
-
-                }
-            });
-            return false;
+            return isConnectionAlertDisplayed();
         }
+    }
+
+    protected boolean isConnectionAlertDisplayed() {
+        // new NetworkAlertView().showNetworkAlert(getActivity());
+        mHandler.postAtFrontOfQueue(new Runnable() {
+
+            @Override
+            public void run() {
+                new NetworkAlertView().showAlertBox(
+                        getActivity(),
+                        null,
+                        getActivity().getResources().getString(
+                                R.string.no_internet),
+                        getActivity().getResources().getString(
+                                android.R.string.yes));
+                AnalyticsTracker
+                        .trackAction(
+                                AnalyticsConstants.ACTION_SET_ERROR,
+                                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+                                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);
+
+            }
+        });
+        return false;
     }
 
     protected void enableActionBarLeftArrow(ImageView hambergermenu, ImageView backarrow) {

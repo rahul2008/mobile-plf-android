@@ -68,6 +68,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
+    private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
+    private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
     private static final String SUBCATEGORY_URL_PORT = "https://www.philips.com/prx/category/%s/%s/%s/%s.json";
     private static boolean isFirstTimeProductComponentlaunch = true;
     //  private boolean isfragmentFirstTimeVisited;
@@ -507,6 +509,20 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
             launchProductSelectionFragmentComponent();
     }
 
+    protected boolean isContactNumberCached() {
+        String customerSupportNumber = null;
+        customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
+        return (customerSupportNumber != null && customerSupportNumber != "");
+    }
+
+
+    protected boolean isContactHoursCached() {
+        String contactHours = null;
+        contactHours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
+        return (contactHours != null && contactHours != "");
+    }
+
+
     @Override
     public void onClick(View view) {
 
@@ -524,12 +540,19 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements prxS
         }
 
         if (tag.equals(getStringKey(R.string.contact_us))) {
-            if (isConnectionAvailable())
-                if (isProductSelected() && isSupportScreenLaunched) {
+            if (isProductSelected() && isSupportScreenLaunched) {
+                if (isConnectionAvailable()) {
                     disableSupportButtonClickable();
                     launchProductSelectionComponent();
-                } else
+                }
+            } else {
+
+                if (isInternetAvailable) {
                     showFragment(new ContactUsFragment());
+                } else if (isContactHoursCached() || isContactNumberCached()) {
+                    showFragment(new ContactUsFragment());
+                } else isConnectionAlertDisplayed();
+            }
         } else if (tag.equals(getStringKey(R.string.view_product_details))) {
             if (isConnectionAvailable())
                 if (isProductSelected() && isSupportScreenLaunched) {

@@ -10,7 +10,9 @@ package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
@@ -76,6 +78,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback, Observer {
     private static final String CDLS_URL_PORT = "https://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
     private static final String TAG = ContactUsFragment.class.getSimpleName();
+    private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
+    private static final String USER_PREFERENCE = "user_product";
+    private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
+    private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
+    private SharedPreferences prefs = null;
     private static View mView = null;
     private static boolean isFirstTimeCdlsCall = true;
     private LinearLayout mContactUsParent = null;
@@ -149,15 +156,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         DigiCareLogger.i(TAG, "ContactUsFragment : onCreateView: mView - "
                 + mView);
 
-        if (isConnectionAvailable() && isCdlsUrlNull()) {
-            requestCdlsData();
-        } else {
-            LocaleMatchHandlerObserver observer = DigitalCareConfigManager.getInstance().getObserver();
-            if (observer != null) {
-                observer.addObserver(this);
-            }
-        }
-
+        prefs = getActivity().getSharedPreferences(
+                USER_PREFERENCE, Context.MODE_PRIVATE);
         if (mView != null) {
             final ViewGroup parent = (ViewGroup) mView.getParent();
             if (parent != null) {
@@ -219,6 +219,34 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         mCallPhilips.setTransformationMethod(null);
         mEmail.setOnClickListener(this);
         mEmail.setTransformationMethod(null);
+
+        if (isInternetAvailable && isCdlsUrlNull()) {
+            requestCdlsData();
+        } else {
+            LocaleMatchHandlerObserver observer = DigitalCareConfigManager.getInstance().getObserver();
+            if (observer != null) {
+                observer.addObserver(this);
+            }
+
+            String contactNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
+            String hours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
+
+            DigiCareLogger.v(TAG, "CACHED Number : " + contactNumber);
+            DigiCareLogger.v(TAG, "CACHED Hours : " + hours);
+            if (mFirstRowText != null && isContactHoursCached()) {
+                mFirstRowText.setVisibility(View.VISIBLE);
+                mFirstRowText.setText(hours);
+            }
+            if (mCallPhilips != null && isContactNumberCached()) {
+                mCallPhilips.setVisibility(View.VISIBLE);
+                mCallPhilips.setText(getResources().getString(R.string.call_number)
+                        + " "
+                        + contactNumber);
+            }
+            isEmailButtonEnabled();
+
+        }
+
         mParams = (FrameLayout.LayoutParams) mContactUsParent.getLayoutParams();
 
         try {
@@ -241,6 +269,19 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         }
 
         return (mEmail.getVisibility() == View.VISIBLE) ? true : false;
+    }
+
+    protected boolean isContactNumberCached() {
+        String customerSupportNumber = null;
+        customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
+        return (customerSupportNumber != null && customerSupportNumber != "");
+    }
+
+
+    protected boolean isContactHoursCached() {
+        String contactHours = null;
+        contactHours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
+        return (contactHours != null && contactHours != "");
     }
 
     private void createSocialProviderMenu() {
@@ -386,6 +427,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                                 + mCdlsParsedResponse.getPhone()
                                 .getPhoneNumber());
                 mFirstRowText.setText(stringBuilder);
+
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(USER_SELECTED_PRODUCT_CTN_HOURS, stringBuilder.toString());
+                editor.putString(USER_SELECTED_PRODUCT_CTN_CALL, mCdlsParsedResponse.getPhone()
+                        .getPhoneNumber());
+
+                editor.apply();
             }
 
           /*  if (hasEmptyChatContent(mCdlsParsedResponse)) {
@@ -446,7 +494,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         try {
             final Intent myintent = new Intent(Intent.ACTION_DIAL);
             myintent.setData(Uri.parse("tel:"
-                    + mCdlsParsedResponse.getPhone().getPhoneNumber()));
+                    + prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "")));
             myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myintent);
         } catch (NullPointerException e) {
@@ -487,13 +535,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CHAT);
             showFragment(new ChatFragment());
         } else if (id == R.id.contactUsCall) {
-            if (mCdlsResponseStr == null) {
+            if (!isContactNumberCached()) {
                 showAlert(getActivity().getString(R.string.no_data));
-                return;
-            } else if (isCdlsResponseNull(mCdlsParsedResponse)
-                    && !mCdlsParsedResponse.getSuccess()) {
-                showAlert(getActivity().getString(R.string.no_data));
-                return;
             } else if (isSimAvailable()) {
                 tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
                 callPhilips();
@@ -544,7 +587,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				mPostProgress.show();
 			mTwitterProgresshandler.postDelayed(mTwitteroAuthRunnable, 10000l);*/
 
-        } else if (id == R.id.contactUsEmail) {
+        } else if ((id == R.id.contactUsEmail) && isConnectionAvailable()) {
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
             sendEmail();
         }
@@ -683,8 +726,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             showAlert(getResources().getString(R.string.NO_SUPPORT_KEY));
         }*/
 
-        if(!isSocialButtonsEnabled && !isEmailEnabled)
-        {
+        if (!isSocialButtonsEnabled && !isEmailEnabled) {
             showAlert(getResources().getString(R.string.NO_SUPPORT_KEY));
         }
 
