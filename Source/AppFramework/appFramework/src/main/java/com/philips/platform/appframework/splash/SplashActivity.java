@@ -55,9 +55,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
  *
  * SplashActivity is class which will appear at the very start when user
  * opens the app.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 2 June 2016
  */
 public class SplashActivity extends AppFrameworkBaseActivity {
     private static int SPLASH_TIME_OUT = 3000;

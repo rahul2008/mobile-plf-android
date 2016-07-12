@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.settingscreen;
 
 import android.content.Context;
@@ -27,12 +28,6 @@ import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 
-/**
- * SettingsAdapter is responsible for showing Settings Screen.
- *
- * @author: ritesh.jha@philips.com
- * @since: June 17, 2016
- */
 public class SettingsAdapter extends BaseAdapter {
     private Context mActivity;
     private Bundle saveBundle = new Bundle();

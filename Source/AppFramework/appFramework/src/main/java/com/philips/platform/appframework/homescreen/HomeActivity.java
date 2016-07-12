@@ -32,7 +32,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
 import com.philips.platform.appframework.debugtest.DebugTestFragment;
 import com.philips.platform.appframework.settingscreen.SettingsFragment;
-import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.ArrayList;
@@ -60,7 +59,6 @@ public class HomeActivity extends AppFrameworkBaseActivity {
 
         @Override
         public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-            Logger.i("testing", "titleActionbar : " + titleActionbar + " -- hamburgerIconAvailable : " + hamburgerIconAvailable);
             if (hamburgerIconAvailable) {
                 hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
                 hamburgerClick.setOnClickListener(new View.OnClickListener() {

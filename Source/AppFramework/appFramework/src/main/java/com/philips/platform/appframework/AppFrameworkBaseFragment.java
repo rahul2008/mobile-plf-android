@@ -26,9 +26,6 @@ import com.philips.platform.appframework.utility.NetworkStateListener;
 
 /**
  * AppFrameworkBaseFragment is the <b>Base class</b> for all fragments.
- *
- * @author: ritesh.jha@philips.com
- * @since: June 17, 2016
  */
 public abstract class AppFrameworkBaseFragment extends Fragment implements
         NetworkStateListener {

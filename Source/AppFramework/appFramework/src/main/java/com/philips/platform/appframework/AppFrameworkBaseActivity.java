@@ -21,9 +21,6 @@ import com.philips.platform.appframework.utility.Logger;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
- *
- * @author: ritesh.jha@philips.com
- * @since: June 17, 2016
  */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     public static final String SHARED_PREFERENCES = "SharedPref";

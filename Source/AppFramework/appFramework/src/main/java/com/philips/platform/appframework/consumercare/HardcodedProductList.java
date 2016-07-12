@@ -7,11 +7,6 @@ package com.philips.platform.appframework.consumercare;
 
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 
-/**
- * @author: ritesh.jha@philips.com
- * @since: June 30, 2016
- */
-
 public class HardcodedProductList extends ProductModelSelectionType {
 
     public String[] mCtnList = null;
