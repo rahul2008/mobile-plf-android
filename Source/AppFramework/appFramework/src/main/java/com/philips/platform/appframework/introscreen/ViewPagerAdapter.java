@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 
-
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     protected static final String[] CONTENT = new String[]{"Page 1", "Page 2", "Page 3"};
     private int mCount = CONTENT.length;
@@ -33,7 +32,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 return IntroductionFragmentStart.newInstance(2, "");
             default:
                 return null;
-
         }
     }
 

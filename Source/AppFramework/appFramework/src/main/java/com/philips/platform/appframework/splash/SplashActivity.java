@@ -17,15 +17,14 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.User;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.platform.appframework.introscreen.IntroductionScreenActivity;
 import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 /**
@@ -73,7 +72,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
         super.onCreate(savedInstanceState);
         initView();
         startTimer();
-        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG," Splash Activity Created ");
+        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " Splash Activity Created ");
 
     }
 
@@ -86,8 +85,6 @@ public class SplashActivity extends AppFrameworkBaseActivity {
         setContentView(R.layout.uikit_splash_screen_logo_center_tb);
 
         ViewGroup group = (ViewGroup) findViewById(R.id.splash_layout);
-       // group.setBackground(uikit_splashGradient));
-
         ImageView logo = (ImageView) findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_philips_logo));
 
@@ -118,11 +115,11 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 if (getIntroScreenDonePressed()) {
                     if (user.isUserSignIn()) {
                         startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG," Launching HomeActivity ");
+                        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " Launching HomeActivity ");
 
                     } else {
                         startActivity(new Intent(SplashActivity.this, UserRegistrationActivity.class));
-                        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG ," User Registration invoked ");
+                        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " User Registration invoked ");
 
                     }
                 } else {

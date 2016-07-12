@@ -15,16 +15,16 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.AppFrameworkApplication;
-import com.philips.platform.appframework.AppFrameworkBaseActivity;
-import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
+import com.philips.platform.appframework.AppFrameworkApplication;
+import com.philips.platform.appframework.AppFrameworkBaseActivity;
+import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HomeActivity;
+import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.shamanland.fonticon.FontIconView;
 
@@ -38,70 +38,70 @@ import com.shamanland.fonticon.FontIconView;
  * addOnPageChangeListener.
  *
  * /&gt;</pre><br>
- * <p/>
+ *
  * <b>Sample Code:</b>
  * <pre>
  *            @Override
-        public void onPageSelected(int position) {
-        switch (position) {
-        case 0:
-        appframework_leftarrow.setVisibility(FontIconView.GONE);
-        appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
-        startRegistrationScreenButton.setVisibility(TextView.GONE);
-        appframeworkSkipButton.setVisibility(TextView.VISIBLE);
-        break;
-        case 1:
-        appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
-        appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
-        startRegistrationScreenButton.setVisibility(TextView.GONE);
-        appframeworkSkipButton.setVisibility(TextView.VISIBLE);
-        break;
-        case 2:
-        appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
-        appframework_rightarrow.setVisibility(FontIconView.GONE);
-        startRegistrationScreenButton.setVisibility(TextView.VISIBLE);
-        appframeworkSkipButton.setVisibility(TextView.GONE);
-        break;
-        default:
-        }
-        }
+ * public void onPageSelected(int position) {
+ * switch (position) {
+ * case 0:
+ * appframework_leftarrow.setVisibility(FontIconView.GONE);
+ * appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
+ * startRegistrationScreenButton.setVisibility(TextView.GONE);
+ * appframeworkSkipButton.setVisibility(TextView.VISIBLE);
+ * break;
+ * case 1:
+ * appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
+ * appframework_rightarrow.setVisibility(FontIconView.VISIBLE);
+ * startRegistrationScreenButton.setVisibility(TextView.GONE);
+ * appframeworkSkipButton.setVisibility(TextView.VISIBLE);
+ * break;
+ * case 2:
+ * appframework_leftarrow.setVisibility(FontIconView.VISIBLE);
+ * appframework_rightarrow.setVisibility(FontIconView.GONE);
+ * startRegistrationScreenButton.setVisibility(TextView.VISIBLE);
+ * appframeworkSkipButton.setVisibility(TextView.GONE);
+ * break;
+ * default:
+ * }
+ * }
  *        </pre>
- *
- *        <p/>
+ * <p/>
+ * <p/>
  * <b>To change text in each Welcome Screen/Fragment please use the strings file:</b>
  * <br>
- *     <b>To modify a screen/fragment use the Fragments onCreateView method's switch statement, choose the screen to be modified and
- *     make the necessary changes. Sample code below:
- *     </b>
+ * <b>To modify a screen/fragment use the Fragments onCreateView method's switch statement, choose the screen to be modified and
+ * make the necessary changes. Sample code below:
+ * </b>
  * <pre>
  *         switch (page) {
-        case PAGE_ONE:
-        view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
-        break;
-        case PAGE_TWO:
-        view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_center_page_bg));
-        smallText.setText(getResources().getString(R.string.introduction_screen_two_bottom_text));
-        break;
-        case PAGE_THREE:
-        view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_end_page_bg));
-        smallText.setText(getResources().getString(R.string.introduction_screen_three_bottom_text));
-        break;
-        default:
-        view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
-        smallText.setText(getResources().getString(R.string.introduction_screen_one_bottom_text));
-        }
+ * case PAGE_ONE:
+ * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+ * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
+ * break;
+ * case PAGE_TWO:
+ * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+ * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_center_page_bg));
+ * smallText.setText(getResources().getString(R.string.introduction_screen_two_bottom_text));
+ * break;
+ * case PAGE_THREE:
+ * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+ * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_end_page_bg));
+ * smallText.setText(getResources().getString(R.string.introduction_screen_three_bottom_text));
+ * break;
+ * default:
+ * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
+ * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
+ * smallText.setText(getResources().getString(R.string.introduction_screen_one_bottom_text));
+ * }
  *        </pre>
  */
 
 public class IntroductionScreenActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener, View.OnClickListener {
+    private static String TAG = IntroductionScreenActivity.class.getSimpleName();
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
-    private static String TAG = IntroductionScreenActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +109,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.app_framework_introduction_activity);
-        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG ," IntroductionScreen Activity Created ");
+        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " IntroductionScreen Activity Created ");
 
         final ViewPager mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));

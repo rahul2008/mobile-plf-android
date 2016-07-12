@@ -18,12 +18,12 @@ import android.widget.TextView;
 import com.philips.platform.appframework.R;
 
 public class IntroductionFragmentStart extends Fragment {
-    // Store instance variables
-    private int page;
-    private TextView largeText, smallText;
     private static final int PAGE_ONE = 0;
     private static final int PAGE_TWO = 1;
     private static final int PAGE_THREE = 2;
+    // Store instance variables
+    private int page;
+    private TextView largeText, smallText;
 
     public static IntroductionFragmentStart newInstance(int page, String title) {
         IntroductionFragmentStart fragmentFirst = new IntroductionFragmentStart();

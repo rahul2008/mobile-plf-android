@@ -4,6 +4,7 @@
  */
 
 package com.philips.platform.appframework.debugtest;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -20,11 +21,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.AppFrameworkBaseFragment;
-import com.philips.platform.appframework.BuildConfig;
-import com.philips.platform.appframework.R;
 import com.philips.cdp.localematch.PILLocaleManager;
-
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Flow;
 import com.philips.cdp.registration.configuration.JanRainConfiguration;
@@ -36,6 +33,9 @@ import com.philips.cdp.registration.configuration.SigninProviders;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.platform.appframework.AppFrameworkBaseFragment;
+import com.philips.platform.appframework.BuildConfig;
+import com.philips.platform.appframework.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,7 +89,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                                        int position, long id) {
                 final String configuration = adapter.getItemAtPosition(position).toString();
                 ((TextView) adapter.getChildAt(0)).setTextColor(Color.WHITE);
-                if(count>0) {
+                if (count > 0) {
                     User user = new User(context);
                     user.logout(null);
                     Log.d(TAG, "Before Configuration" + configuration);
@@ -132,19 +132,18 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         final ArrayAdapter<String> configType = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, configurationType);
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-             spinner.setAdapter(configType);
+        spinner.setAdapter(configType);
     }
 
     private void initViews(final View view) {
-        version=(TextView)view.findViewById(R.id.version) ;
+        version = (TextView) view.findViewById(R.id.version);
 
-        version.setText(" App Version "+BuildConfig.VERSION_NAME);
+        version.setText(" App Version " + BuildConfig.VERSION_NAME);
 
         spinner = (Spinner) view.findViewById(R.id.spinner);
         txt_title = (TextView) view.findViewById(R.id.txt_title);
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
     }
-
 
 
     private void initialiseUserRegistration(final String development) {

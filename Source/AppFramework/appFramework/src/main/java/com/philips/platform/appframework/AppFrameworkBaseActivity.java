@@ -14,11 +14,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
 
-import com.philips.platform.appframework.utility.Constants;
-import com.philips.platform.appframework.utility.Logger;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.utility.Constants;
+import com.philips.platform.appframework.utility.Logger;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
@@ -30,8 +29,8 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     public static final String SHARED_PREFERENCES = "SharedPref";
     public static final String DONE_PRESSED = "donePressed";
     private static String TAG = AppFrameworkBaseActivity.class.getSimpleName();
-    private FragmentManager fragmentManager = null;
     private static SharedPreferences mSharedPreference = null;
+    private FragmentManager fragmentManager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +45,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
 
         try {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            if (mEnterAnimation != 0 && mExitAnimation != 0) {
-//                fragmentTransaction.setCustomAnimations(mEnterAnimation,
-//                        mExitAnimation, mEnterAnimation, mExitAnimation);
-//            }
             fragmentTransaction.replace(containerId, fragment, fragmentTag);
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
@@ -84,12 +79,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity {
     }
 
     protected boolean backstackFragment() {
-//        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-//            finish();
-//        } else {
-            fragmentManager.popBackStack();
-            //removeCurrentFragment();
-//        }
+        fragmentManager.popBackStack();
         return true;
     }
 

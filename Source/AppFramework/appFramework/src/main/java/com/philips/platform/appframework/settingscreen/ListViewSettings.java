@@ -18,11 +18,11 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
+import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -84,8 +84,6 @@ public class ListViewSettings extends BaseAdapter {
         TextView on_off = (TextView) vi.findViewById(R.id.medium);
         FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
         TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
-
-//        CharSequence titleText = null;
 
         SettingScreenItemType type = mSettingsItemList.get(position).type;
 
@@ -153,7 +151,6 @@ public class ListViewSettings extends BaseAdapter {
 
         value.setVisibility(View.GONE);
         description.setVisibility(View.GONE);
-        //  arrow.setVisibility(View.GONE);
         on_off.setVisibility(View.GONE);
         arrow.setVisibility(View.VISIBLE);
     }
@@ -183,7 +180,6 @@ public class ListViewSettings extends BaseAdapter {
                 .setPositiveButton(getString(R.string.settings_list_item_log_out),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-//                                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
                                 mUser.logout(mLogoutHandler);
                             }
                         })

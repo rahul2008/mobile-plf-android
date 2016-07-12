@@ -8,9 +8,9 @@ package com.philips.platform.appframework.userregistrationscreen;
 
 import android.content.Intent;
 
-import com.philips.platform.appframework.homescreen.HomeActivity;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.platform.appframework.homescreen.HomeActivity;
 
 
 /**

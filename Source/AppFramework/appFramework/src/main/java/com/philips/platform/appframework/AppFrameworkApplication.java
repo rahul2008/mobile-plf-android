@@ -20,10 +20,9 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import java.util.Locale;
 
 
-
 public class AppFrameworkApplication extends Application {
-        public static AppInfra gAppInfra;
-        public static LoggingInterface loggingInterface;
+    public static AppInfra gAppInfra;
+    public static LoggingInterface loggingInterface;
 
     @Override
     public void onCreate() {

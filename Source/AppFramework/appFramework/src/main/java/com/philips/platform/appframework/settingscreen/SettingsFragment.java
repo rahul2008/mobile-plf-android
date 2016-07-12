@@ -12,10 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.philips.platform.appframework.AppFrameworkBaseFragment;
-import com.philips.platform.appframework.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.platform.appframework.AppFrameworkBaseFragment;
+import com.philips.platform.appframework.R;
 
 import java.util.ArrayList;
 
@@ -27,9 +27,20 @@ import java.util.ArrayList;
  */
 public class SettingsFragment extends AppFrameworkBaseFragment {
 
+    private static String TAG = SettingsFragment.class.getSimpleName();
     private ListViewSettings mAdapter = null;
     private ListView mList = null;
-    private static String TAG = SettingsFragment.class.getSimpleName();
+    private LogoutHandler mLogoutHandler = new LogoutHandler() {
+        @Override
+        public void onLogoutSuccess() {
+            backstackFragment();
+        }
+
+        @Override
+        public void onLogoutFailure(int i, String s) {
+
+        }
+    };
 
     private ArrayList<SettingScreenItem> buildSettingsScreenList() {
         ArrayList<SettingScreenItem> settingScreenItemList = new ArrayList<SettingScreenItem>();
@@ -57,84 +68,27 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
         mList = (ListView) view.findViewById(R.id.listwithouticon);
 
         ArrayList<SettingScreenItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
-//        formObjectList();
-
-        /*
-        * Use asList method of Arrays class to convert Java String array to ArrayList
-        */
-//        ArrayList<String> settingsItemList = new ArrayList<String>(Arrays.asList(settingsItemArray));
-
-//        User userRegistration = new User(getActivity());
-//
-//        if(!userRegistration.isUserSignIn()){
-//            settingsItemList = filterListForRegistration(settingsItemList);
-//        }
-
         mAdapter = new ListViewSettings(getActivity(), settingScreenItemList, mLogoutHandler);
-
-//        if (savedInstanceState != null) {
-//            if (savedInstanceState.containsKey("ListViewWithoutIcons")) {
-//                mAdapter.setSavedBundle(savedInstanceState.getBundle("ListViewWithoutIcons"));
-//            }
-//        }
-
         mList.setAdapter(mAdapter);
-
-//        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-//                Toast.makeText(getActivity(), "settings clicked", Toast.LENGTH_LONG).show();
-//            }
-//        });
 
         return view;
     }
 
-    private LogoutHandler mLogoutHandler = new LogoutHandler() {
-        @Override
-        public void onLogoutSuccess() {
-            backstackFragment();
-        }
-
-        @Override
-        public void onLogoutFailure(int i, String s) {
-
-        }
-    };
-
     private ArrayList<SettingScreenItem> filterSettingScreenItemList(ArrayList<SettingScreenItem> settingScreenItemList) {
         User user = new User(getActivity());
 
-        if(user.isUserSignIn()){
+        if (user.isUserSignIn()) {
             return settingScreenItemList;
         }
 
         ArrayList<SettingScreenItem> newSettingScreenItemList = new ArrayList<SettingScreenItem>();
-        for(int i = 0; i < settingScreenItemList.size(); i++){
-            if(!settingScreenItemList.get(i).userRegistrationRequired){
+        for (int i = 0; i < settingScreenItemList.size(); i++) {
+            if (!settingScreenItemList.get(i).userRegistrationRequired) {
                 newSettingScreenItemList.add(settingScreenItemList.get(i));
             }
         }
         return newSettingScreenItemList;
     }
-
-//    private void formObjectList() {
-//        String[] settingsItemArray = getActivity().getResources().getStringArray(R.array.settingsScreen_list);
-//
-//        for (int i = 0; i < settingsItemArray.length; i++) {
-//            switch (i) {
-//                case "abc":
-//                    formSection(settingsItemArray[i], SettingScreenItemType);
-//                    break;
-//                case 1:
-//                    formSection(settingsItemArray, i);
-//                    break;
-//                case 2:
-//                    formNotificationSection(settingsItemArray, i);
-//                    break;
-//            }
-//        }
-//    }
 
     private SettingScreenItem formDataSection(String settingsItem, SettingScreenItemType type, boolean userRegistrationRequired) {
         SettingScreenItem settingScreenItem = new SettingScreenItem();
@@ -144,28 +98,8 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
         return settingScreenItem;
     }
 
-//    private void formNotificationSection(String[] settingsItemArray, int i) {
-//        SettingScreenItem settingScreenItem = new SettingScreenItem();
-//        settingScreenItem.title = settingsItemArray[i];
-//        settingScreenItem.type = SettingScreenItemType.HEADER;
-//        settingScreenItem.UserRegistrationRequired = false;
-//    }
-//
-//    private ArrayList<String> filterListForRegistration(ArrayList<String> settingsItemList) {
-//        ArrayList<String> userRegistrationDependentList = new ArrayList<String>();
-//        userRegistrationDependentList.add(getString(R.string.settings_list_item_notify));
-//        userRegistrationDependentList.add(getString(R.string.settings_list_item_purchases));
-//        userRegistrationDependentList.add(getString(R.string.settings_list_item_order_history));
-//
-//        settingsItemList.removeAll(userRegistrationDependentList);
-//
-//        return settingsItemList;
-//    }
-
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        outState.putBundle("ListViewWithoutIcons", mAdapter.getSavedBundle());
     }
 }
