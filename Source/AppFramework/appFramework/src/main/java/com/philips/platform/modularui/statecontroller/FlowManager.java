@@ -44,8 +44,10 @@ public class FlowManager {
     public void getNextState(){
 
     }
-    public void navigateNextState(@UIConstants.UIStateDef int stateID, Context context) {
+    //TODO : optimize hashmap creation to avoid multiple instances of navigator getting creator.
+    public void navigateState(@UIConstants.UIStateDef int stateID, Context context) {
         if (getStateMap().containsKey(stateID)) {
+            //TODO: update current state here
                 getStateMap().get(stateID).getNavigator().navigate(context);
         }else {
             EventBus.getDefault().post(new StateEvent(stateID,context));

@@ -90,6 +90,7 @@ public class StateCreator {
             uiBaseNavigator = new HomeFragmentNavigator();
             uiState.setStateID(stateEvent.stateID);
             uiState.setNavigator(uiBaseNavigator);
+            //TODO : update current state and statemap before navigation
             uiBaseNavigator.navigate(stateEvent.getContext());
             appFrameworkApplication.getFlowManager().setCurrentState(uiState);
             appFrameworkApplication.getFlowManager().addToStateMap(uiState);

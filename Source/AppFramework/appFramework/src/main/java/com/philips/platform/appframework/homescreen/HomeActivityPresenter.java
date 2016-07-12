@@ -18,15 +18,15 @@ public class HomeActivityPresenter implements UIBasePresenter {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
 
         switch (componentID){
-            case 0: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_HOME_FRAGMENT_STATE,context);
+            case 0: appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_HOME_FRAGMENT_STATE,context);
                 break;
-            case 1: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_SUPPORT_FRAGMENT_STATE,context);
+            case 1: appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_SUPPORT_FRAGMENT_STATE,context);
                 break;
-            case 2: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_SETTINGS_FRAGMENT_STATE,context);
+            case 2: appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_SETTINGS_FRAGMENT_STATE,context);
                 break;
-            case 3: appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_DEBUG_FRAGMENT_STATE,context);
+            case 3: appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_DEBUG_FRAGMENT_STATE,context);
                 break;
-            default:appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_HOME_FRAGMENT_STATE,context);
+            default:appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_HOME_FRAGMENT_STATE,context);
         }
     }
 

@@ -59,7 +59,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
          * Setting Philips UI KIT standard BLUE theme.
          */
         super.onCreate(savedInstanceState);
-        basePresenter = new HomeActivityPresenter();
+        presenter = new HomeActivityPresenter();
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
         initActionBar(getSupportActionBar());
@@ -84,7 +84,7 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     private void showNavigationDrawerItem(int position) {
 
         philipsDrawerLayout.closeDrawer(navigationView);
-        basePresenter.onClick(position, HomeActivity.this);
+        presenter.onClick(position, HomeActivity.this);
     }
 
     private void initActionBar(ActionBar actionBar) {

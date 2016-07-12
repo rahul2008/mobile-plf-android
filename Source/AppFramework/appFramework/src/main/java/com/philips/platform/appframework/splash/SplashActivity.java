@@ -62,7 +62,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
-        basePresenter = new SplashPresenter();
+        presenter = new SplashPresenter();
         initView();
         startTimer();
     }
@@ -104,7 +104,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                basePresenter.onLoad(SplashActivity.this);
+                presenter.onLoad(SplashActivity.this);
                 finish();
             }
         }, SPLASH_TIME_OUT);

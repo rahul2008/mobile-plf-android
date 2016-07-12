@@ -32,7 +32,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
     private static String TAG = AppFrameworkBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private static SharedPreferences mSharedPreference = null;
-    public UIBasePresenter basePresenter;
+    public UIBasePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

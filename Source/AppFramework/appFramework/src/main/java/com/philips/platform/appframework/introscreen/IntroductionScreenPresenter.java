@@ -18,10 +18,10 @@ public class IntroductionScreenPresenter implements UIBasePresenter {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         switch (componentID) {
             case R.id.appframework_skip_button:
-                appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_REGISTRATION_STATE, context);
+                appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_REGISTRATION_STATE, context);
                 break;
             case R.id.start_registration_button:
-                appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_REGISTRATION_STATE, context);
+                appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_REGISTRATION_STATE, context);
                 break;
         }
 
@@ -30,6 +30,6 @@ public class IntroductionScreenPresenter implements UIBasePresenter {
     @Override
     public void onLoad(Context context) {
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
-        appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_HOME_STATE, context);
+        appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_HOME_STATE, context);
     }
 }

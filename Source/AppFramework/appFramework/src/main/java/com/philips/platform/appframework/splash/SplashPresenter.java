@@ -22,14 +22,18 @@ public class SplashPresenter implements UIBasePresenter {
 
     @Override
     public void onLoad(Context context) {
+            //TODO:Better way to access Application class
         appFrameworkApplication = (AppFrameworkApplication) context.getApplicationContext();
         UICoCoUserRegImpl uiCoCoUserReg = (UICoCoUserRegImpl) CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
         if (uiCoCoUserReg.getUserObject(context).isUserSignIn()) {
-            appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_HOME_STATE, context);
+            //TODO : Move state constants to StateClass, rename navigateNextState method in flowmanager
+            appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_HOME_STATE, context);
+            //TODO : move this logic out of base activity
         } else if (AppFrameworkBaseActivity.getIntroScreenDonePressed() && !uiCoCoUserReg.getUserObject(context).isUserSignIn()) {
-            appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_REGISTRATION_STATE, context);
+            //TODO: refer UGrow for accessing flowmanager through application class
+            appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_REGISTRATION_STATE, context);
         } else {
-            appFrameworkApplication.getFlowManager().navigateNextState(UIConstants.UI_WELCOME_STATE, context);
+            appFrameworkApplication.getFlowManager().navigateState(UIConstants.UI_WELCOME_STATE, context);
         }
 
     }

@@ -95,7 +95,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        basePresenter = new IntroductionScreenPresenter();
+        presenter = new IntroductionScreenPresenter();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.app_framework_introduction_activity);
@@ -176,7 +176,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     public void onClick(View v) {
         AppFrameworkBaseActivity.setIntroScreenDonePressed();
-        basePresenter.onClick(v.getId(),IntroductionScreenActivity.this);
+        presenter.onClick(v.getId(),IntroductionScreenActivity.this);
     }
 
     @Override
