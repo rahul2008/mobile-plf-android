@@ -42,6 +42,7 @@ public class ProductModelSelectionHelper {
     private ProductSelectionListener mProductSelectionListener = null;
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
+    private ProgressDialog mProgressDialog = null;
 
     /*
      * Initialize everything(resources, variables etc) required for product selection.
@@ -113,6 +114,21 @@ public class ProductModelSelectionHelper {
             throw new IllegalArgumentException("Please make sure to set the valid parameters before you invoke");
         }
 
+        final Activity mActivity = (Activity) mContext;
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
+        if (!(mActivity.isFinishing()) && (mProgressDialog != null)) {
+
+            try {
+                mProgressDialog.show();
+            } catch (WindowManager.BadTokenException e) {
+                ProductSelectionLogger.e(TAG, "WindowManager Exception Handled : " + e);
+            }
+        }
+
+
         PrxWrapper prxWrapperCode = new PrxWrapper(mContext, null,
                 productModelSelectionType.getSector(),
                 getLocale().toString(),
@@ -121,6 +137,24 @@ public class ProductModelSelectionHelper {
         prxWrapperCode.requestPrxSummaryList(new SummaryDataListener() {
             @Override
             public void onSuccess(List<SummaryModel> summaryModels) {
+                if (mProgressDialog != null) {
+                    if (mProgressDialog.isShowing() && !mActivity.isFinishing()) {
+                        try {
+                            mProgressDialog.dismiss();
+                            mProgressDialog = null;
+                        } catch (IllegalArgumentException e) {
+                            ProductSelectionLogger.e(TAG, "Progress Dialog Exception " + e);
+                        }
+                    } else if (mProgressDialog.isShowing()) {
+
+                        try {
+                            mProgressDialog.dismiss();
+                            mProgressDialog = null;
+                        } catch (IllegalArgumentException e) {
+                            ProductSelectionLogger.e(TAG, "Progress Dialog Exception " + e);
+                        }
+                    }
+                }
                 if (summaryModels.size() >= 1) {
                     SummaryModel[] ctnArray = new SummaryModel[summaryModels.size()];
                     for (int i = 0; i < summaryModels.size(); i++)
