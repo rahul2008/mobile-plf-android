@@ -150,7 +150,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         serialLayout.setValidator(new InlineForms.Validator() {
             @Override
             public void validate(final View editText, final boolean hasFocus) {
-                prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
+                if (!hasFocus)
+                    prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
             }
         });
     }
@@ -164,7 +165,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         purchaseDateLayout.setValidator(new InlineForms.Validator() {
             @Override
             public void validate(final View editText, final boolean hasFocus) {
-                prodRegRegistrationController.isValidDate(date_EditText.getText().toString());
+                if (!hasFocus)
+                    prodRegRegistrationController.isValidDate(date_EditText.getText().toString());
             }
         });
     }
