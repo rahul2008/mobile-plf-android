@@ -607,7 +607,7 @@ public class UserWithProductsTest extends MockitoTestCase {
         RegisteredProductsListener registeredProductsListener = userWithProducts.getRegisteredProductsListener(registeredProductMock);
         final ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
         registeredProducts.add(registeredProductMock);
-        registeredProductsListener.getRegisteredProductsSuccess(registeredProducts, 0);
+        registeredProductsListener.getRegisteredProducts(registeredProducts, 0);
         verify(prodRegListener).onProdRegFailed(registeredProductMock, userWithProductsMock);
     }
 }

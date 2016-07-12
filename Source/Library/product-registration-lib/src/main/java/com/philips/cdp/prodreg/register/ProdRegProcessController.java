@@ -93,7 +93,7 @@ public class ProdRegProcessController {
     protected RegisteredProductsListener getRegisteredProductsListener() {
         return new RegisteredProductsListener() {
             @Override
-            public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
+            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 if (!isCtnRegistered(registeredProducts, currentProduct) && fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     currentProduct.getProductMetadata(fragmentActivity, getMetadataListener());
                 } else {
@@ -137,7 +137,7 @@ public class ProdRegProcessController {
     }
 
     @NonNull
-    private SummaryListener getSummaryListener() {
+    protected SummaryListener getSummaryListener() {
         return new SummaryListener() {
             @Override
             public void onSummaryResponse(final ProductSummaryResponse productSummaryResponse) {

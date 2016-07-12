@@ -146,7 +146,7 @@ public class UserWithProducts {
             final RemoteRegisteredProducts remoteRegisteredProducts = new RemoteRegisteredProducts();
             remoteRegisteredProducts.getRegisteredProducts(mContext, getUserProduct(), getUser(), registeredProductsListener);
         } else {
-            registeredProductsListener.getRegisteredProductsSuccess(getLocalRegisteredProductsInstance().getRegisteredProducts(), -1);
+            registeredProductsListener.getRegisteredProducts(getLocalRegisteredProductsInstance().getRegisteredProducts(), -1);
         }
     }
 
@@ -195,7 +195,7 @@ public class UserWithProducts {
     RegisteredProductsListener getRegisteredProductsListener(final RegisteredProduct registeredProduct) {
         return new RegisteredProductsListener() {
             @Override
-            public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
+            public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 if (!isCtnRegistered(registeredProducts, registeredProduct)) {
                     registeredProduct.getProductMetadata(mContext, getUserProduct().getMetadataListener(registeredProduct));
                 } else {
@@ -306,7 +306,7 @@ public class UserWithProducts {
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     getUserProduct().updateWithCallBack(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
                 } else if (requestType == FETCH_REGISTERED_PRODUCTS && registeredProductsListener != null) {
-                    registeredProductsListener.getRegisteredProductsSuccess(getLocalRegisteredProductsInstance().getRegisteredProducts(), -1);
+                    registeredProductsListener.getRegisteredProducts(getLocalRegisteredProductsInstance().getRegisteredProducts(), -1);
                 }
             }
 

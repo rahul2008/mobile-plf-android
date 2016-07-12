@@ -10,6 +10,8 @@ import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
+import com.philips.cdp.prodreg.listener.SummaryListener;
+import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.registration.User;
 
 import java.util.ArrayList;
@@ -110,14 +112,33 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
         final RegisteredProductsListener registeredProductsListener = prodRegProcessController.getRegisteredProductsListener();
         final ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
         registeredProducts.add(new RegisteredProduct("124", null, null));
-        registeredProductsListener.getRegisteredProductsSuccess(registeredProducts, 0);
+        registeredProductsListener.getRegisteredProducts(registeredProducts, 0);
         verify(productMock).getProductMetadata(fragmentActivity, metadataListenerMock);
         final RegisteredProduct registeredProduct = new RegisteredProduct("HC5410/83", null, null);
         registeredProduct.setSerialNumber("1344");
         registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
         registeredProducts.add(registeredProduct);
-        registeredProductsListener.getRegisteredProductsSuccess(registeredProducts, 0);
+        registeredProductsListener.getRegisteredProducts(registeredProducts, 0);
         verify(processControllerCallBacksMock).dismissLoadingDialog();
         verify(processControllerCallBacksMock).showFragment(prodRegConnectionFragmentMock);
+    }
+
+    public void testMetadataListener() {
+        final SummaryListener summaryListenerMock = mock(SummaryListener.class);
+        prodRegProcessController = new ProdRegProcessController(processControllerCallBacksMock, fragmentActivity) {
+            @NonNull
+            @Override
+            protected SummaryListener getSummaryListener() {
+                return summaryListenerMock;
+            }
+        };
+        prodRegProcessController.process(bundle);
+        ProductMetadataResponse productMetadataResponse = mock(ProductMetadataResponse.class);
+        final MetadataListener metadataListener = prodRegProcessController.getMetadataListener();
+        metadataListener.onMetadataResponse(productMetadataResponse);
+        verify(productMock).getProductSummary(fragmentActivity, productMock, summaryListenerMock);
+        metadataListener.onErrorResponse("error in metadata", -1);
+        verify(processControllerCallBacksMock).dismissLoadingDialog();
+        verify(processControllerCallBacksMock).showAlertOnError(-1);
     }
 }
