@@ -119,7 +119,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 3
-        versionName "0.1.0-rc.3"
+        versionName "0.1.0-rc.4"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
