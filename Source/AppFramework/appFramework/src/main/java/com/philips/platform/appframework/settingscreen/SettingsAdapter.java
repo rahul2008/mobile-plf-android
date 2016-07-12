@@ -39,9 +39,9 @@ public class SettingsAdapter extends BaseAdapter {
     private LayoutInflater inflater = null;
     private User mUser = null;
     private LogoutHandler mLogoutHandler = null;
-    private ArrayList<SettingScreenItem> mSettingsItemList = null;
+    private ArrayList<SettingListItem> mSettingsItemList = null;
 
-    public SettingsAdapter(Context context, ArrayList<SettingScreenItem> settingsItemList,
+    public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
                            LogoutHandler logoutHandler) {
         mActivity = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -85,7 +85,7 @@ public class SettingsAdapter extends BaseAdapter {
         FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
         TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
 
-        SettingScreenItemType type = mSettingsItemList.get(position).type;
+        SettingListItemType type = mSettingsItemList.get(position).type;
 
         switch (type) {
             case HEADER:

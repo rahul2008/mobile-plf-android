@@ -16,6 +16,6 @@ import android.text.Spanned;
  */
 public class SettingListItem {
     Spanned title = null;
-    SettingScreenItemType type = null;
+    SettingListItemType type = null;
     boolean userRegistrationRequired = false;
 }

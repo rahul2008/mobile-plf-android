@@ -77,21 +77,21 @@ import com.shamanland.fonticon.FontIconView;
  *         switch (page) {
  * case PAGE_ONE:
  * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
+ * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_start_page_bg));
  * break;
  * case PAGE_TWO:
  * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_center_page_bg));
+ * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_center_page_bg));
  * smallText.setText(getResources().getString(R.string.introduction_screen_two_bottom_text));
  * break;
  * case PAGE_THREE:
  * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_end_page_bg));
+ * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_end_page_bg));
  * smallText.setText(getResources().getString(R.string.introduction_screen_three_bottom_text));
  * break;
  * default:
  * view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
- * ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
+ * ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_start_page_bg));
  * smallText.setText(getResources().getString(R.string.introduction_screen_one_bottom_text));
  * }
  *        </pre>
@@ -108,11 +108,11 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements UserReg
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
-        setContentView(R.layout.app_framework_introduction_activity);
+        setContentView(R.layout.af_welcome_activity);
         AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " IntroductionScreen Activity Created ");
 
         final ViewPager mPager = (ViewPager) findViewById(R.id.pager);
-        mPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+        mPager.setAdapter(new WelcomePagerAdapter(getSupportFragmentManager()));
 
         appframework_leftarrow = (FontIconView) findViewById(R.id.appframework_leftarrow);
         appframework_rightarrow = (FontIconView) findViewById(R.id.appframework_rightarrow);

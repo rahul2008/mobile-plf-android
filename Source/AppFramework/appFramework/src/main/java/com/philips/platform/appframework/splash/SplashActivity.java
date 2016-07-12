@@ -23,7 +23,7 @@ import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appframework.introscreen.IntroductionScreenActivity;
+import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -123,7 +123,7 @@ public class SplashActivity extends AppFrameworkBaseActivity {
 
                     }
                 } else {
-                    Intent i = new Intent(SplashActivity.this, IntroductionScreenActivity.class);
+                    Intent i = new Intent(SplashActivity.this, WelcomeActivity.class);
                     startActivity(i);
                 }
 

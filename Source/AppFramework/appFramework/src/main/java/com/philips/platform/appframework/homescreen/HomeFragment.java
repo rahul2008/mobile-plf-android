@@ -33,7 +33,7 @@ public class HomeFragment extends AppFrameworkBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.home_screen, container, false);
+        View rootView = inflater.inflate(R.layout.af_home_fragment, container, false);
 
         setDateToView();
 

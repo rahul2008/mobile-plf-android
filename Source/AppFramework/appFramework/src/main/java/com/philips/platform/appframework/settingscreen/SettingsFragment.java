@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class SettingsFragment extends AppFrameworkBaseFragment {
 
     private static String TAG = SettingsFragment.class.getSimpleName();
-    private ListViewSettings mAdapter = null;
+    private SettingsAdapter mAdapter = null;
     private ListView mList = null;
     private LogoutHandler mLogoutHandler = new LogoutHandler() {
         @Override
@@ -42,17 +42,17 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
         }
     };
 
-    private ArrayList<SettingScreenItem> buildSettingsScreenList() {
-        ArrayList<SettingScreenItem> settingScreenItemList = new ArrayList<SettingScreenItem>();
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_main), SettingScreenItemType.HEADER, false));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_one), SettingScreenItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_two), SettingScreenItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_three), SettingScreenItemType.CONTENT, false));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_notify), SettingScreenItemType.NOTIFICATION, true));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_purchases), SettingScreenItemType.HEADER, true));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_order_history), SettingScreenItemType.CONTENT, true));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_my_acc), SettingScreenItemType.HEADER, false));
-        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_login), SettingScreenItemType.CONTENT, false));
+    private ArrayList<SettingListItem> buildSettingsScreenList() {
+        ArrayList<SettingListItem> settingScreenItemList = new ArrayList<SettingListItem>();
+        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_main), SettingListItemType.HEADER, false));
+        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_one), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_two), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_three), SettingListItemType.CONTENT, false));
+        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_notify), SettingListItemType.NOTIFICATION, true));
+        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_purchases), SettingListItemType.HEADER, true));
+        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_order_history), SettingListItemType.CONTENT, true));
+        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_my_acc), SettingListItemType.HEADER, false));
+        settingScreenItemList.add(formDataSection(getString(R.string.settings_list_item_login), SettingListItemType.CONTENT, false));
         return settingScreenItemList;
     }
 
@@ -63,25 +63,25 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.listview_settings, container, false);
+        View view = inflater.inflate(R.layout.af_settings_fragment, container, false);
 
         mList = (ListView) view.findViewById(R.id.listwithouticon);
 
-        ArrayList<SettingScreenItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
-        mAdapter = new ListViewSettings(getActivity(), settingScreenItemList, mLogoutHandler);
+        ArrayList<SettingListItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
+        mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler);
         mList.setAdapter(mAdapter);
 
         return view;
     }
 
-    private ArrayList<SettingScreenItem> filterSettingScreenItemList(ArrayList<SettingScreenItem> settingScreenItemList) {
+    private ArrayList<SettingListItem> filterSettingScreenItemList(ArrayList<SettingListItem> settingScreenItemList) {
         User user = new User(getActivity());
 
         if (user.isUserSignIn()) {
             return settingScreenItemList;
         }
 
-        ArrayList<SettingScreenItem> newSettingScreenItemList = new ArrayList<SettingScreenItem>();
+        ArrayList<SettingListItem> newSettingScreenItemList = new ArrayList<SettingListItem>();
         for (int i = 0; i < settingScreenItemList.size(); i++) {
             if (!settingScreenItemList.get(i).userRegistrationRequired) {
                 newSettingScreenItemList.add(settingScreenItemList.get(i));
@@ -90,8 +90,8 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
         return newSettingScreenItemList;
     }
 
-    private SettingScreenItem formDataSection(String settingsItem, SettingScreenItemType type, boolean userRegistrationRequired) {
-        SettingScreenItem settingScreenItem = new SettingScreenItem();
+    private SettingListItem formDataSection(String settingsItem, SettingListItemType type, boolean userRegistrationRequired) {
+        SettingListItem settingScreenItem = new SettingListItem();
         settingScreenItem.title = Html.fromHtml(settingsItem);
         settingScreenItem.type = type;
         settingScreenItem.userRegistrationRequired = userRegistrationRequired;

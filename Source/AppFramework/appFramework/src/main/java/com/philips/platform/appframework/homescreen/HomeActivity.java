@@ -199,8 +199,8 @@ public class HomeActivity extends AppFrameworkBaseActivity {
         } else if (hamburgerMenuTitles[position].equalsIgnoreCase("Debug and Testing")) {
             showDebugTestFragment();
         } else {
-            final HomeScreenFragment fragment = new HomeScreenFragment();
-            String homeTag = HomeScreenFragment.class.getSimpleName();
+            final HomeFragment fragment = new HomeFragment();
+            String homeTag = HomeFragment.class.getSimpleName();
             showFragment(fragment, homeTag);
         }
         philipsDrawerLayout.closeDrawer(navigationView);

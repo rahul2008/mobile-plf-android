@@ -64,7 +64,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.debug_test, container, false);
+        View view = inflater.inflate(R.layout.af_debug_fragment, container, false);
         setUp(view);
         return view;
     }
