@@ -219,7 +219,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     protected void onResume() {
-        AppTagging.collectLifecycleData();
+        AppTagging.collectLifecycleData(this);
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onResume");
         super.onResume();
 

@@ -46,7 +46,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
         @Override
         public void run() {
-            AppTagging.collectLifecycleData();
+            AppTagging.collectLifecycleData(RegistrationActivity.this);
         }
     };
 

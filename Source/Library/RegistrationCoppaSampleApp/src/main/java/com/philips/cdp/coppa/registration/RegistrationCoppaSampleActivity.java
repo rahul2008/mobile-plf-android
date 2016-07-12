@@ -193,7 +193,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
     @Override
     protected void onResume() {
-        AppTagging.collectLifecycleData();
+        AppTagging.collectLifecycleData(this);
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaSampleActivity : onResume");
         super.onResume();
 

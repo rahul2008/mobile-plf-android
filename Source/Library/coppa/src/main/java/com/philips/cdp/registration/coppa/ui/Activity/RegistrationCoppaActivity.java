@@ -49,7 +49,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
 
         @Override
         public void run() {
-            AppTagging.collectLifecycleData();
+            AppTagging.collectLifecycleData(RegistrationCoppaActivity.this);
         }
     };
 
