@@ -47,35 +47,7 @@
 
     </string-array>
 
-
-    <string-array name="settingsScreen_list">
-        <item>@string/settings_list_item_main</item>
-        <item>@string/settings_list_item_one</item>
-        <item>@string/settings_list_item_two</item>
-        <item>@string/settings_list_item_three</item>
-        <item>@string/settings_list_item_notify</item>
-        <item>@string/settings_list_item_purchases</item>
-        <item>@string/settings_list_item_order_history</item>
-        <item>@string/settings_list_item_my_acc</item>
-        <item>@string/settings_list_item_login</item>
-    </string-array>
-
-
     <!-- Consumer Care related-->
-
-    <string-array name="category">
-        <item>HAIRCARE_CA</item>
-        <item>MENS_SHAVING_CA</item>
-    </string-array>
-
-
-    <string-array name="subcategory">
-        <item>HAIR_STYLERS_SU</item>
-        <item>SONICARE_FOR_KIDS_SU</item>
-        <item>HAIR_STYLERS_SU</item>
-        <item>HAIR_DRYERS_SU</item>
-        <item>STRAIGHTENER_SU</item>
-    </string-array>
 
     <string-array name="productselection_ctnlist">
         <item>HD9240/90</item>
