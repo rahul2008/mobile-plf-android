@@ -451,13 +451,18 @@ public class SHNCentral {
     }
 
     /**
-     * Get the current BlueLib version (currently not supported)
+     * Get the current BlueLib version. For release version returns the version. For any other version returns short SHA1 hash and SNAPSHOT tag.
      *
-     * @return nothing
-     * @throws UnsupportedOperationException
+     * @return string representation of the BlueLib version
      */
     public String getVersion() {
-        throw new UnsupportedOperationException();
+        String version = BuildConfig.VERSION_NAME;
+
+        if (version.contains("SNAPSHOT")) {
+            version = BuildConfig.HASH + "_" + version;
+        }
+
+        return version;
     }
 
     /**

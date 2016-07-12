@@ -29,9 +29,13 @@ android {
     }
 
     buildTypes {
+        debug{
+            buildConfigField "int", "HASH" , objcdp.getCommitHash()
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "int", "HASH" , objcdp.getCommitHash()
         }
     }
 }
