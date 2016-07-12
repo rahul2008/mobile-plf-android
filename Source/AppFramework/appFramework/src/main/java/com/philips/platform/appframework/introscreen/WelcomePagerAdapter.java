@@ -11,11 +11,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class WelcomePagerAdapter extends FragmentPagerAdapter {
+    private static final int FIRST_INSTANCE = 0;
+    private static final int SECOND_INSTANCE = 1;
+    private static final int THIRD_INSTANCE = 2;
+
     protected static final String[] CONTENT = new String[]{"Page 1", "Page 2", "Page 3"};
     private int mCount = CONTENT.length;
 
-    public ViewPagerAdapter(FragmentManager fragmentManager) {
+    public WelcomePagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
 
@@ -25,11 +29,11 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                return IntroductionFragmentStart.newInstance(0, "");
+                return WelcomeFragment.newInstance(FIRST_INSTANCE, "");
             case 1:
-                return IntroductionFragmentStart.newInstance(1, "");
+                return WelcomeFragment.newInstance(SECOND_INSTANCE, "");
             case 2:
-                return IntroductionFragmentStart.newInstance(2, "");
+                return WelcomeFragment.newInstance(THIRD_INSTANCE, "");
             default:
                 return null;
         }
@@ -42,6 +46,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return ViewPagerAdapter.CONTENT[position % CONTENT.length];
+        return WelcomePagerAdapter.CONTENT[position % CONTENT.length];
     }
 }

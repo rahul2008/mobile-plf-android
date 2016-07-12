@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
 
-public class IntroductionFragmentStart extends Fragment {
+public class WelcomeFragment extends Fragment {
     private static final int PAGE_ONE = 0;
     private static final int PAGE_TWO = 1;
     private static final int PAGE_THREE = 2;
@@ -25,8 +25,8 @@ public class IntroductionFragmentStart extends Fragment {
     private int page;
     private TextView largeText, smallText;
 
-    public static IntroductionFragmentStart newInstance(int page, String title) {
-        IntroductionFragmentStart fragmentFirst = new IntroductionFragmentStart();
+    public static WelcomeFragment newInstance(int page, String title) {
+        WelcomeFragment fragmentFirst = new WelcomeFragment();
         Bundle args = new Bundle();
         args.putInt("pageIndex", page);
         fragmentFirst.setArguments(args);

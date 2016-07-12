@@ -17,11 +17,11 @@ import com.philips.platform.appframework.AppFrameworkBaseFragment;
 import com.philips.platform.appframework.R;
 
 
-public class HomeScreenFragment extends AppFrameworkBaseFragment {
+public class HomeFragment extends AppFrameworkBaseFragment {
     private TextView textView;
     private ImageView imageView;
 
-    public HomeScreenFragment() {
+    public HomeFragment() {
     }
 
     @Override

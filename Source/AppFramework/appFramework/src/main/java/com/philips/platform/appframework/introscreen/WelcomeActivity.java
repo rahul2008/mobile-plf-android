@@ -97,8 +97,8 @@ import com.shamanland.fonticon.FontIconView;
  *        </pre>
  */
 
-public class IntroductionScreenActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener, View.OnClickListener {
-    private static String TAG = IntroductionScreenActivity.class.getSimpleName();
+public class WelcomeActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener, View.OnClickListener {
+    private static String TAG = WelcomeActivity.class.getSimpleName();
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
     private CircleIndicator mIndicator;
@@ -185,7 +185,7 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
-            startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+            startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
         }
     }
 
@@ -243,16 +243,16 @@ public class IntroductionScreenActivity extends AppFrameworkBaseActivity impleme
             case R.id.start_registration_button:
                 setIntroScreenDonePressed();
                 if (user.isUserSignIn()) {
-                    startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+                    startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
                 } else {
-                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
+                    startActivity(new Intent(WelcomeActivity.this, UserRegistrationActivity.class));
                 }
                 break;
             case R.id.appframework_skip_button:
                 if (user.isUserSignIn()) {
-                    startActivity(new Intent(IntroductionScreenActivity.this, HomeActivity.class));
+                    startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
                 } else {
-                    startActivity(new Intent(IntroductionScreenActivity.this, UserRegistrationActivity.class));
+                    startActivity(new Intent(WelcomeActivity.this, UserRegistrationActivity.class));
                 }
                 break;
         }

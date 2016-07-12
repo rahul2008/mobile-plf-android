@@ -28,12 +28,12 @@ import com.shamanland.fonticon.FontIconTextView;
 import java.util.ArrayList;
 
 /**
- * ListViewSettings is responsible for showing Settings Screen.
+ * SettingsAdapter is responsible for showing Settings Screen.
  *
  * @author: ritesh.jha@philips.com
  * @since: June 17, 2016
  */
-public class ListViewSettings extends BaseAdapter {
+public class SettingsAdapter extends BaseAdapter {
     private Context mActivity;
     private Bundle saveBundle = new Bundle();
     private LayoutInflater inflater = null;
@@ -41,8 +41,8 @@ public class ListViewSettings extends BaseAdapter {
     private LogoutHandler mLogoutHandler = null;
     private ArrayList<SettingScreenItem> mSettingsItemList = null;
 
-    public ListViewSettings(Context context, ArrayList<SettingScreenItem> settingsItemList,
-                            LogoutHandler logoutHandler) {
+    public SettingsAdapter(Context context, ArrayList<SettingScreenItem> settingsItemList,
+                           LogoutHandler logoutHandler) {
         mActivity = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mUser = new User(context);
