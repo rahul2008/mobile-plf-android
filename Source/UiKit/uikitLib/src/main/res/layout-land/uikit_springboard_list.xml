@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            tools:ignore="MissingPrefix">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/uikit_gradWindowBackground"
-        android:isScrollContainer="true"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/springboard_list_left_margin"
-        android:paddingRight="@dimen/springboard_list_right_margin">
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="?attr/uikit_gradWindowBackground"
+                  android:isScrollContainer="true"
+                  android:orientation="vertical"
+                  android:paddingLeft="@dimen/springboard_list_left_margin"
+                  android:paddingRight="@dimen/springboard_list_right_margin">
 
         <TextView
             fontPath="fonts/centralesanslight.ttf"
@@ -24,19 +26,19 @@
             android:layout_marginTop="53dp"
             android:text="@string/uikit_about_screen_apptitle"
             android:textColor="@color/uikit_white"
-            android:textSize="38dp" />
+            android:textSize="38dp"/>
 
         <com.philips.cdp.uikit.UikitSpringBoardLayout
-        android:layout_width="match_parent"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-        android:orientation="vertical"
+            android:orientation="vertical"
             app:uikit_opacityStyle="darker_color">
 
 
             <LinearLayout
                 android:id="@+id/row_layout2"
                 android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:clickable="true"
                 android:gravity="center|left"
@@ -51,19 +53,19 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="11dp"
-                    app:uikit_themeStyle="theme" />
+                    app:uikit_themeStyle="theme"/>
 
                 <TextView
                     android:id="@+id/textView1"
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|left"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 
@@ -85,19 +87,19 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="14dp"
                     android:layout_marginTop="11dp"
-                    app:uikit_themeStyle="theme" />
+                    app:uikit_themeStyle="theme"/>
 
                 <TextView
                     android:id="@+id/textView2"
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|left"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 
@@ -121,19 +123,19 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="11dp"
-                    app:uikit_themeStyle="theme" />
+                    app:uikit_themeStyle="theme"/>
 
                 <TextView
                     android:id="@+id/textView3"
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|left"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 
@@ -156,19 +158,19 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="11dp"
-                    app:uikit_themeStyle="theme" />
+                    app:uikit_themeStyle="theme"/>
 
                 <TextView
                     android:id="@+id/textView4"
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|left"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 
@@ -191,20 +193,20 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="11dp"
-                    app:uikit_themeStyle="theme" />
+                    app:uikit_themeStyle="theme"/>
 
                 <TextView
                     android:id="@+id/textView5"
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|left"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 
@@ -228,20 +230,20 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="11dp"
-                    app:uikit_themeStyle="theme" />
+                    app:uikit_themeStyle="theme"/>
 
                 <TextView
                     android:id="@+id/textView6"
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|left"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="@string/uikit_springboard_textview_label"
                     android:textColor="@color/uikit_white"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 

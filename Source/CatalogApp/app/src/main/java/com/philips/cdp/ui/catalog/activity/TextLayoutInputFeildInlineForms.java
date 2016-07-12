@@ -47,9 +47,9 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
         /**
          * The Below Layout acts as one item in the inline form
          */
-        final InlineForms layout = (InlineForms) findViewById(R.id.InlineForms);
-        final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
-        final UikitPasswordEditText passwordEditText = (UikitPasswordEditText) layout.findViewById(R.id.passwordValue);
+        final InlineForms inlineForms = (InlineForms) findViewById(R.id.InlineForms);
+        final EditText email = (EditText) inlineForms.findViewById(R.id.lastnamevalue);
+        final UikitPasswordEditText passwordEditText = (UikitPasswordEditText) inlineForms.findViewById(R.id.passwordValue);
 
         passwordEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -65,11 +65,13 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (validatePassword(passwordEditText)) {
-                    layout.removeError(passwordEditText);
+                    inlineForms.removeError(passwordEditText);
                 }
             }
         });
 
+        final View firstNameLayout = findViewById(R.id.firstNameLayout);
+        inlineForms.disableRow(firstNameLayout);
 
         email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -89,25 +91,24 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
                     /**
                      * Error Layout should be removed after the entered text is verified as the right Email Address
                      */
-                    layout.removeError(email);
+                    inlineForms.removeError(email);
                 }
             }
         });
 
-        layout.setValidator(new InlineForms.Validator() {
+        inlineForms.setValidator(new InlineForms.Validator() {
             @Override
             public void validate(View editText, boolean hasFocus) {
                 if (editText.getId() == R.id.lastnamevalue && hasFocus == false) {
                     boolean result = validateEmail(editText, hasFocus);
                     if (!result) {
-                        layout.setErrorMessage(getResources().getString(com.philips.cdp.uikit.R.string.invalid_email_format));
-                        layout.showError((EditText) editText);
+                        inlineForms.setErrorMessage(getResources().getString(com.philips.cdp.uikit.R.string.invalid_email_format));
+                        inlineForms.showError((EditText) editText);
                     }
-                }
-                else if(editText.getId() == R.id.passwordValue && hasFocus == false){
-                    if(!validatePassword(passwordEditText)){
-                        layout.setErrorMessage("Invalid password format");
-                                layout.showError(passwordEditText);
+                } else if (editText.getId() == R.id.passwordValue && hasFocus == false) {
+                    if (!validatePassword(passwordEditText)) {
+                        inlineForms.setErrorMessage("Invalid password format");
+                        inlineForms.showError(passwordEditText);
                     }
                 }
             }
@@ -116,6 +117,7 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
 
     /**
      * Method to check for password validity
+     *
      * @param view the UikitPasswordEditText to validate
      * @return true if password matches, false if it doesn't
      */
@@ -125,10 +127,9 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
         return passwordCheck.equals(passwordToCheck);
     }
 
-
-
     /**
      * Match the Email Pattern and return the result accordingly
+     *
      * @param editText - The Edit text to be validated
      * @param hasFocus - weather the Edit Text has Focus
      * @return

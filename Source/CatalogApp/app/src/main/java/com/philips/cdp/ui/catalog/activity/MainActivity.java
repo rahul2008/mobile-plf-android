@@ -17,38 +17,40 @@ import com.philips.cdp.ui.catalog.SplashLauncher;
 import com.philips.cdp.ui.catalog.cardviewpager.CardActivity;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Class to demo available features with UIKit.
  * Refer below demo classes for further documentation about usage and features.
  * <br>
- *  <ol type="1">
- *     <li>ActionButtonsActivity : {@link ActionButtonsActivity}</li>
- *     <li>Splash screen : {@link SplashLauncher}</li>
- *     <li>Buttons : {@link ButtonsActivity}</li>
- *     <li>DotNavigation : {@link DotNavigation} for usage in demo app, and {@link com.philips.cdp.uikit.customviews.CircleIndicator} for implementation </li>
- *     <li>InputTextFieldsActivity :{@link InputTextFieldsActivity} for usage in demo app, and {@link com.philips.cdp.uikit.customviews.PuiEditText} for implementation </li>
- *     <li>ActionButtonsActivity : {@link ActionButtonsActivity}</li>
- *     <li>About Screen : {@link AboutScreenLauncher}</li>
- *     <li>TabBar : {@link TabBarDemo}</li>
- *     <li>Rating bar/stars : {@link RatingBarLauncher}</li>
- *     <li>Action Bar : {@link ActionBarLauncher}</li>
- *     <li>Hamburger Menu : {@link HamburgerMenuDemo}</li>
- *     <li>Soical icons : {@link SocialIconsActivity}</li>
- *     <li>PopOverMenu : {@link PopOverMenu}</li>
- *     <li>Springboard : {@link SpringBoardsctivity}</li>
- *     <li>Inline forms :{@link TextLayoutInputFeildInlineForms} and {@link com.philips.cdp.uikit.customviews.InlineForms} from lib</li>
- *     <li>Slider:{@link SliderActivity} for usage in app and {@link com.philips.cdp.uikit.customviews.BaseSlider}, {@link com.philips.cdp.uikit.customviews.DiscreteSlider},
- *                {@link com.philips.cdp.uikit.customviews.IndicatorSlider}, {@link com.philips.cdp.uikit.customviews.RangeSlider}, </li>
- *     <li>Progress bar : {@link ProgressBarActivity} for demo app and {@link com.philips.cdp.uikit.customviews.PUIProgressBar}</li>
- *     <li>Model alert : {@link ModalAlertDemo}</li>
- *     <li>Favorites : {@link FavoritesActivity}</li>
- *     <li>Badge count view : {@link com.philips.cdp.uikit.customviews.BadgeView}</li>
- *     <li>Radio Button, Check Box, State Controls : {@link com.philips.cdp.ui.catalog.activity.ControlsActivity}</li>
- *   </ol>
+ * <ol type="1">
+ * <li>ActionButtonsActivity : {@link ActionButtonsActivity}</li>
+ * <li>Splash screen : {@link SplashLauncher}</li>
+ * <li>Buttons : {@link ButtonsActivity}</li>
+ * <li>DotNavigation : {@link DotNavigation} for usage in demo app, and {@link com.philips.cdp.uikit.customviews.CircleIndicator} for implementation </li>
+ * <li>InputTextFieldsActivity :{@link InputTextFieldsActivity} for usage in demo app, and {@link com.philips.cdp.uikit.customviews.PuiEditText} for implementation </li>
+ * <li>ActionButtonsActivity : {@link ActionButtonsActivity}</li>
+ * <li>About Screen : {@link AboutScreenLauncher}</li>
+ * <li>TabBar : {@link TabBarDemo}</li>
+ * <li>Rating bar/stars : {@link RatingBarLauncher}</li>
+ * <li>Action Bar : {@link ActionBarLauncher}</li>
+ * <li>Hamburger Menu : {@link HamburgerMenuDemo}</li>
+ * <li>Soical icons : {@link SocialIconsActivity}</li>
+ * <li>PopOverMenu : {@link PopOverMenu}</li>
+ * <li>Springboard : {@link SpringBoardsctivity}</li>
+ * <li>Inline forms :{@link TextLayoutInputFeildInlineForms} and {@link com.philips.cdp.uikit.customviews.InlineForms} from lib</li>
+ * <li>Slider:{@link SliderActivity} for usage in app and {@link com.philips.cdp.uikit.customviews.BaseSlider}, {@link com.philips.cdp.uikit.customviews.DiscreteSlider},
+ * {@link com.philips.cdp.uikit.customviews.IndicatorSlider}, {@link com.philips.cdp.uikit.customviews.RangeSlider}, </li>
+ * <li>Progress bar : {@link ProgressBarActivity} for demo app and {@link com.philips.cdp.uikit.customviews.PUIProgressBar}</li>
+ * <li>Model alert : {@link ModalAlertDemo}</li>
+ * <li>Favorites : {@link FavoritesActivity}</li>
+ * <li>Badge count view : {@link com.philips.cdp.uikit.customviews.BadgeView}</li>
+ * <li>Radio Button, Check Box, State Controls : {@link com.philips.cdp.ui.catalog.activity.ControlsActivity}</li>
+ * </ol>
  */
 public class MainActivity extends CatalogActivity implements AdapterView.OnItemClickListener {
 
@@ -134,8 +136,8 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
             case 17:
                 startActivity(new Intent(this, SpringBoardsctivity.class));
-				break;
-			case 18:
+                break;
+            case 18:
                 startActivity(new Intent(this, TextLayoutInputFeildInlineForms.class));
                 break;
             case 19:
@@ -147,7 +149,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 21:
                 startActivity(new Intent(this, ModalAlertDemo.class));
                 break;
-			case 22:
+            case 22:
                 startActivity(new Intent(this, FavoritesActivity.class));
                 break;
             case 23:
@@ -197,7 +199,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         lv.addHeaderView(version, null, false);
     }
 
-    private HashMap<Integer, String> getDemoItems() {
+    private Map<Integer, String> getDemoItems() {
         itemsMap = new LinkedHashMap<Integer, String>();
         itemsMap.put(0, "Action Buttons");
         itemsMap.put(1, "Splash Screen");
@@ -212,22 +214,33 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(10, "Rating Bar");
         itemsMap.put(11, "Controls");
         itemsMap.put(12, "Action Bar Up");
-        itemsMap.put(13,"Hamburger Menu");
-        itemsMap.put(14,"Social Media Icons");
+        itemsMap.put(13, "Hamburger Menu");
+        itemsMap.put(14, "Social Media Icons");
         itemsMap.put(15, "Lists View Demo");
         itemsMap.put(16, "Pop Over Menu");
-        itemsMap.put(17,"Spring Board");       
+        itemsMap.put(17, "Spring Board");
         itemsMap.put(18, "Inline Forms");
-		itemsMap.put(19, "ProgressBar");
+        itemsMap.put(19, "ProgressBar");
         itemsMap.put(20, "Cards");
         itemsMap.put(21, "Modal Alert");
         itemsMap.put(22, "Favorites");
         itemsMap.put(23, "Pickers");
         itemsMap.put(24, "Font Support");
         itemsMap.put(25, "Spinner on Button");
-        return itemsMap;
+        return sortMap(itemsMap);
     }
 
 
+    private Map<Integer, String> sortMap(final HashMap<Integer, String> map) {
+        TreeMap<Integer, String> sortedMap = new TreeMap<>(new Comparator<Integer>() {
+            @Override
+            public int compare(final Integer key1, final Integer key2) {
+                return map.get(key1).compareTo(map.get(key2));
+            }
+        });
 
+        sortedMap.putAll(map);
+
+        return sortedMap;
+    }
 }
