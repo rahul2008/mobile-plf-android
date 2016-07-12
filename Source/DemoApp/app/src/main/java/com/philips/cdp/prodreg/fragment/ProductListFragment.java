@@ -59,7 +59,7 @@ public class ProductListFragment extends Fragment {
         ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(new RegisteredProductsListener() {
             @Override
-            public void onGetRegisteredProductListSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
+            public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 final OnItemClickListener onItemClickListener = new OnItemClickListener() {
                     @Override
                     public void onItemClick(final RegisteredProduct registeredProduct) {

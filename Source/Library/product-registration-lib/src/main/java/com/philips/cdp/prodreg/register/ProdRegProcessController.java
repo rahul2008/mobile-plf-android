@@ -16,7 +16,6 @@ import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
-import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.registration.User;
@@ -35,8 +34,6 @@ public class ProdRegProcessController {
         void showFragment(Fragment fragment);
         void showAlertOnError(int responseCode);
     }
-
-    private static final String TAG = ProdRegProcessController.class.getSimpleName();
     private Product currentProduct;
     private ProcessControllerCallBacks processControllerCallBacks;
     private Bundle dependencyBundle;
@@ -59,12 +56,10 @@ public class ProdRegProcessController {
                 if (getUser().isUserSignIn()) {
                     //Signed in case
                     if (!isApiCallingProgress) {
-                        ProdRegLogger.v(TAG, "Checking product in registered product list");
                         getRegisteredProducts();
                     }
                 } else {
                     //Not signed in
-
                     if (launchedRegistration) {
                         //Registration page has already launched
                         processControllerCallBacks.dismissLoadingDialog();
@@ -72,7 +67,6 @@ public class ProdRegProcessController {
                     } else {
                         //Registration is not yet launched.
                         launchedRegistration = true;
-                        ProdRegLogger.v(TAG, "User not signed in. Startng sign in flow");
                         RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(fragmentActivity);
                     }
                 }
@@ -86,7 +80,6 @@ public class ProdRegProcessController {
         if (fragmentActivity != null && !fragmentActivity.isFinishing() && currentProduct != null) {
             ProdRegHelper prodRegHelper = getProdRegHelper();
             isApiCallingProgress = true;
-            ProdRegLogger.v(TAG, "Getting registered product list");
             prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
         }
     }
@@ -100,8 +93,7 @@ public class ProdRegProcessController {
     protected RegisteredProductsListener getRegisteredProductsListener() {
         return new RegisteredProductsListener() {
             @Override
-            public void onGetRegisteredProductListSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
-                ProdRegLogger.v(TAG, "Get Product Registered list::success");
+            public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 if (!isCtnRegistered(registeredProducts, currentProduct) && fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     currentProduct.getProductMetadata(fragmentActivity, getMetadataListener());
                 } else {
@@ -122,7 +114,6 @@ public class ProdRegProcessController {
         return new MetadataListener() {
             @Override
             public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
-                ProdRegLogger.v(TAG, "Get Product Metadata::success");
                 if (productMetadataResponse != null) {
                     dependencyBundle = new Bundle();
                     dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA, productMetadataResponse.getData());
@@ -132,7 +123,6 @@ public class ProdRegProcessController {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                ProdRegLogger.v(TAG, "Get Product Metadata::error");
                 processControllerCallBacks.dismissLoadingDialog();
                 processControllerCallBacks.showAlertOnError(responseCode);
             }
@@ -152,7 +142,6 @@ public class ProdRegProcessController {
             @Override
             public void onSummaryResponse(final ProductSummaryResponse productSummaryResponse) {
                 if (productSummaryResponse != null) {
-                    ProdRegLogger.v(TAG, "Get Product Summary::success");
                     dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY, productSummaryResponse.getData());
                     final ProdRegRegistrationFragment prodRegRegistrationFragment = getProdRegRegistrationFragment();
                     prodRegRegistrationFragment.setArguments(dependencyBundle);
@@ -163,7 +152,6 @@ public class ProdRegProcessController {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                ProdRegLogger.v(TAG, "Get Product Summary::error");
                 final ProdRegRegistrationFragment prodRegRegistrationFragment = getProdRegRegistrationFragment();
                 prodRegRegistrationFragment.setArguments(dependencyBundle);
                 processControllerCallBacks.dismissLoadingDialog();

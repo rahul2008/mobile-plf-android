@@ -32,7 +32,7 @@ public class RemoteRegisteredProducts {
                 Gson gson = getGson();
                 RegisteredProduct[] registeredProducts = userWithProducts.getRegisteredProductsFromResponse(results, gson);
                 localRegisteredProducts.syncLocalCache(registeredProducts);
-                registeredProductsListener.onGetRegisteredProductListSuccess(localRegisteredProducts.getRegisteredProducts(), userWithProducts.getTimeStamp());
+                registeredProductsListener.getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), userWithProducts.getTimeStamp());
             }
 
             @Override
@@ -41,7 +41,7 @@ public class RemoteRegisteredProducts {
                     if (prxError.getStatusCode() == PrxError.PrxErrorType.AUTHENTICATION_FAILURE.getId()) {
                         userWithProducts.onAccessTokenExpire(null);
                     } else
-                        registeredProductsListener.onGetRegisteredProductListSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
+                        registeredProductsListener.getRegisteredProductsSuccess(localRegisteredProducts.getRegisteredProducts(), 0);
                 } catch (Exception e) {
                     ProdRegLogger.e(TAG, e.getMessage());
                 }
