@@ -53,7 +53,7 @@ public class ProdRegProcessController {
             ArrayList<Product> regProdList = (ArrayList<Product>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             if (regProdList != null) {
                 currentProduct = regProdList.get(0);
-                if (user.isUserSignIn()) {
+                if (getUser().isUserSignIn()) {
                     //Signed in case
                     if (!isApiCallingProgress) {
                         getRegisteredProducts();
@@ -78,14 +78,19 @@ public class ProdRegProcessController {
 
     private void getRegisteredProducts() {
         if (fragmentActivity != null && !fragmentActivity.isFinishing() && currentProduct != null) {
-            ProdRegHelper prodRegHelper = new ProdRegHelper();
+            ProdRegHelper prodRegHelper = getProdRegHelper();
             isApiCallingProgress = true;
             prodRegHelper.getSignedInUserWithProducts().getRegisteredProducts(getRegisteredProductsListener());
         }
     }
 
     @NonNull
-    private RegisteredProductsListener getRegisteredProductsListener() {
+    protected ProdRegHelper getProdRegHelper() {
+        return new ProdRegHelper();
+    }
+
+    @NonNull
+    protected RegisteredProductsListener getRegisteredProductsListener() {
         return new RegisteredProductsListener() {
             @Override
             public void getRegisteredProductsSuccess(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
@@ -133,7 +138,7 @@ public class ProdRegProcessController {
             public void onSummaryResponse(final ProductSummaryResponse productSummaryResponse) {
                 if (productSummaryResponse != null) {
                     dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY, productSummaryResponse.getData());
-                    final ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
+                    final ProdRegRegistrationFragment prodRegRegistrationFragment = getProdRegRegistrationFragment();
                     prodRegRegistrationFragment.setArguments(dependencyBundle);
                     processControllerCallBacks.dismissLoadingDialog();
                     processControllerCallBacks.showFragment(prodRegRegistrationFragment);
@@ -142,7 +147,7 @@ public class ProdRegProcessController {
 
             @Override
             public void onErrorResponse(final String errorMessage, final int responseCode) {
-                final ProdRegRegistrationFragment prodRegRegistrationFragment = new ProdRegRegistrationFragment();
+                final ProdRegRegistrationFragment prodRegRegistrationFragment = getProdRegRegistrationFragment();
                 prodRegRegistrationFragment.setArguments(dependencyBundle);
                 processControllerCallBacks.dismissLoadingDialog();
                 processControllerCallBacks.showFragment(prodRegRegistrationFragment);
@@ -150,7 +155,12 @@ public class ProdRegProcessController {
         };
     }
 
-    protected boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final Product product) {
+    @NonNull
+    protected ProdRegRegistrationFragment getProdRegRegistrationFragment() {
+        return new ProdRegRegistrationFragment();
+    }
+
+    private boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final Product product) {
         for (RegisteredProduct result : registeredProducts) {
             if (product.getCtn().equalsIgnoreCase(result.getCtn()) && product.getSerialNumber().equals(result.getSerialNumber()) && result.getRegistrationState() == RegistrationState.REGISTERED) {
                 return true;
@@ -169,5 +179,9 @@ public class ProdRegProcessController {
 
     public boolean isApiCallingProgress() {
         return isApiCallingProgress;
+    }
+
+    protected User getUser() {
+        return user;
     }
 }

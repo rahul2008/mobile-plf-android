@@ -35,7 +35,7 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     private RegisteredProduct registeredProductMock;
     private LocalRegisteredProducts localRegisteredProductsMock;
     private ProdRegSuccessFragment prodRegSuccessFragmentMock;
-    private Bundle bundleMock;
+    private Bundle bundle;
     private ProductMetadataResponseData productMetadataResponseData;
     private Data summaryDataMock;
     private Context context;
@@ -55,7 +55,7 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
         localRegisteredProductsMock = mock(LocalRegisteredProducts.class);
         prodRegSuccessFragmentMock = mock(ProdRegSuccessFragment.class);
         prodRegConnectionFragmentMock = mock(ProdRegConnectionFragment.class);
-        bundleMock = new Bundle();
+        bundle = new Bundle();
         productMetadataResponseData = mock(ProductMetadataResponseData.class);
         summaryDataMock = mock(Data.class);
         prodRegRegistrationController = new ProdRegRegistrationController(registerControllerCallBacksMock, fragmentActivity) {
@@ -98,9 +98,9 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
         when(productMetadataResponseData.getRequiresDateOfPurchase()).thenReturn("true");
         when(productMetadataResponseData.getRequiresSerialNumber()).thenReturn("true");
         when(productMetadataResponseData.getSerialNumberFormat()).thenReturn("[0-9]-[0-9]-[0-9]");
-        bundleMock.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProductMock);
-        bundleMock.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA, productMetadataResponseData);
-        bundleMock.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY, summaryDataMock);
+        bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT, registeredProductMock);
+        bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA, productMetadataResponseData);
+        bundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_SUMMARY, summaryDataMock);
     }
 
     public void testHandleState() {
@@ -112,7 +112,7 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     public void testInit() {
         prodRegRegistrationController.init(null);
         verify(registerControllerCallBacksMock).exitProductRegistration();
-        prodRegRegistrationController.init(bundleMock);
+        prodRegRegistrationController.init(bundle);
         verify(registerControllerCallBacksMock).requireFields(true, true);
         verify(registerControllerCallBacksMock).setSummaryView(summaryDataMock);
         verify(registerControllerCallBacksMock).setProductView(registeredProductMock);
@@ -123,7 +123,7 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     }
 
     public void testIsValidSerialNumber() {
-        prodRegRegistrationController.init(bundleMock);
+        prodRegRegistrationController.init(bundle);
         assertFalse(prodRegRegistrationController.isValidSerialNumber("1234"));
         verify(registerControllerCallBacksMock).isValidSerialNumber(false, "[0-9]-[0-9]-[0-9]");
     }
@@ -140,7 +140,7 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
         when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)).thenReturn(0);
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
-        prodRegRegistrationController.init(bundleMock);
+        prodRegRegistrationController.init(bundle);
         prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
         verify(registerControllerCallBacksMock).showLoadingDialog();
         verify(userWithProductsMock).registerProduct(registeredProductMock);
