@@ -165,11 +165,11 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     }
 
     public void testGetMethods() {
-        assertTrue(prodRegRegistrationController.getConnectionFragment() instanceof ProdRegConnectionFragment);
-        assertTrue(prodRegRegistrationController.getLocalRegisteredProducts() instanceof LocalRegisteredProducts);
-        assertTrue(prodRegRegistrationController.getProdRegCache() instanceof ProdRegCache);
-        assertTrue(prodRegRegistrationController.getProdRegHelper() instanceof ProdRegHelper);
-        assertTrue(prodRegRegistrationController.getSuccessFragment() instanceof ProdRegSuccessFragment);
-        assertTrue(prodRegRegistrationController.getRegisteredProduct() instanceof RegisteredProduct);
+        assertTrue(prodRegRegistrationController.getConnectionFragment() != null);
+        assertTrue(prodRegRegistrationController.getLocalRegisteredProducts() != null);
+        assertTrue(prodRegRegistrationController.getProdRegCache() != null);
+        assertTrue(prodRegRegistrationController.getProdRegHelper() != null);
+        assertTrue(prodRegRegistrationController.getSuccessFragment() != null);
+        assertTrue(prodRegRegistrationController.getRegisteredProduct() != null);
     }
 }
