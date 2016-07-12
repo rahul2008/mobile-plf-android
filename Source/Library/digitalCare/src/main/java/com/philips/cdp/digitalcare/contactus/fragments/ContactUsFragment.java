@@ -239,6 +239,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             }
             if (mCallPhilips != null && isContactNumberCached()) {
                 mCallPhilips.setVisibility(View.VISIBLE);
+                mContactUsOpeningHours.setVisibility(View.VISIBLE);
                 mCallPhilips.setText(getResources().getString(R.string.call_number)
                         + " "
                         + contactNumber);
