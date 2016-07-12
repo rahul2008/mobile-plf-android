@@ -15,9 +15,7 @@ public class UserRegistrationNavigator implements UIBaseNavigator {
     @Override
     public void navigate(Context context) {
         uiCoCoUserReg= CoCoFactory.getInstance().getCoCo(UIConstants.UI_COCO_USER_REGISTRATION);
-        //context.startActivity(new Intent(context, RegistrationActivity.class));
         uiCoCoUserReg.loadPlugIn(context);
         uiCoCoUserReg.runCoCo(context);
-        //context.startActivity(new Intent(context, RegistrationActivity.class));
     }
 }

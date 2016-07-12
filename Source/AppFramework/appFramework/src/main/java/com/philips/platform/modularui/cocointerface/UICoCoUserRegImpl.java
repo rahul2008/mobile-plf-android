@@ -51,9 +51,9 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
-            if(context instanceof IntroductionScreenActivity)
-            activity.startActivity(new Intent(activity, HomeActivity.class));
-            else if(context instanceof HomeActivity){
+            if(context instanceof IntroductionScreenActivity) {
+                activity.startActivity(new Intent(activity, HomeActivity.class));
+            } else if(context instanceof HomeActivity){
                 activity.finish();
             }
         }

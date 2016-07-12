@@ -81,33 +81,11 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         });
     }
 
-    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
+    private void showNavigationDrawerItem(int position) {
 
-        @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-            Logger.i("testing", "titleActionbar : " + titleActionbar + " -- hamburgerIconAvailable : " + hamburgerIconAvailable);
-            if (hamburgerIconAvailable) {
-                hamburgerIcon.setImageDrawable(VectorDrawable.create(HomeActivity.this, R.drawable.uikit_hamburger_icon));
-                hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        philipsDrawerLayout.openDrawer(navigationView);
-                    }
-                });
-            } else {
-//                hamburgerIcon.setImageDrawable(R.drawable.consumercare_actionbar_back_arrow_white);
-                hamburgerIcon.setImageDrawable(ContextCompat.getDrawable(HomeActivity.this,
-                        R.drawable.consumercare_actionbar_back_arrow_white));
-                hamburgerClick.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        backstackFragment();
-                    }
-                });
-            }
-            setTitle(titleActionbar);
-        }
-    };
+        philipsDrawerLayout.closeDrawer(navigationView);
+        basePresenter.onClick(position, HomeActivity.this);
+    }
 
     private void initActionBar(ActionBar actionBar) {
         actionBar.setDisplayShowCustomEnabled(true);
@@ -183,11 +161,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
         }
     }
 
-    private void showNavigationDrawerItem(int position) {
-
-        philipsDrawerLayout.closeDrawer(navigationView);
-        basePresenter.onClick(position, HomeActivity.this);
-    }
 
     @Override
     public void onBackPressed() {
@@ -207,7 +180,6 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
     protected void onDestroy() {
         super.onDestroy();
     }
-
 
 
     @Override
