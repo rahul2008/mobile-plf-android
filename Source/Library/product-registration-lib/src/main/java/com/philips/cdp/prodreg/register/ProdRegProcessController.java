@@ -46,6 +46,7 @@ public class ProdRegProcessController {
         this.processControllerCallBacks = processControllerCallBacks;
         this.fragmentActivity = fragmentActivity;
         this.user = new User(fragmentActivity);
+        dependencyBundle = new Bundle();
     }
 
     public void process(final Bundle arguments) {
@@ -115,7 +116,6 @@ public class ProdRegProcessController {
             @Override
             public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
                 if (productMetadataResponse != null) {
-                    dependencyBundle = new Bundle();
                     dependencyBundle.putSerializable(ProdRegConstants.PROD_REG_PRODUCT_METADATA, productMetadataResponse.getData());
                     doSummaryRequest();
                 }

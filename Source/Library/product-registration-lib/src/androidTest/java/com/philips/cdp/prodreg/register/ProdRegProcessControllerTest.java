@@ -8,14 +8,17 @@ import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
+import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
+import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.registration.User;
 
 import java.util.ArrayList;
 
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,7 +39,7 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
     private RegisteredProductsListener registeredProductsListenerMock;
     private MetadataListener metadataListenerMock;
     private ProdRegConnectionFragment prodRegConnectionFragmentMock;
-
+    private ProdRegRegistrationFragment prodRegRegistrationFragmentMock;
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -47,6 +50,7 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
         userMock = mock(User.class);
         prodRegHelperMock = mock(ProdRegHelper.class);
         prodRegConnectionFragmentMock = mock(ProdRegConnectionFragment.class);
+        prodRegRegistrationFragmentMock = mock(ProdRegRegistrationFragment.class);
         registeredProductsListenerMock = mock(RegisteredProductsListener.class);
         bundle = new Bundle();
         when(fragmentActivity.isFinishing()).thenReturn(false);
@@ -72,6 +76,12 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
             @Override
             protected MetadataListener getMetadataListener() {
                 return metadataListenerMock;
+            }
+
+            @NonNull
+            @Override
+            protected ProdRegRegistrationFragment getProdRegRegistrationFragment() {
+                return prodRegRegistrationFragmentMock;
             }
         };
         final ArrayList<Product> products = new ArrayList<>();
@@ -140,5 +150,17 @@ public class ProdRegProcessControllerTest extends MockitoTestCase {
         metadataListener.onErrorResponse("error in metadata", -1);
         verify(processControllerCallBacksMock).dismissLoadingDialog();
         verify(processControllerCallBacksMock).showAlertOnError(-1);
+    }
+
+    public void testGetSummaryListener() {
+        prodRegProcessController.process(bundle);
+        final SummaryListener summaryListener = prodRegProcessController.getSummaryListener();
+        ProductSummaryResponse productSummaryResponseMock = mock(ProductSummaryResponse.class);
+        summaryListener.onSummaryResponse(productSummaryResponseMock);
+        verify(processControllerCallBacksMock).dismissLoadingDialog();
+        verify(processControllerCallBacksMock).showFragment(prodRegRegistrationFragmentMock);
+        summaryListener.onErrorResponse("error in getting summary", -1);
+        verify(processControllerCallBacksMock, atLeastOnce()).dismissLoadingDialog();
+        verify(processControllerCallBacksMock, atLeastOnce()).showFragment(prodRegRegistrationFragmentMock);
     }
 }
