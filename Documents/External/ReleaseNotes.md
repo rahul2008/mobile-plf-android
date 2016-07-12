@@ -1,5 +1,13 @@
 PhilipsUIKit for Android Release Notes
 ======================================
+Version -3.2.2								Date: 12-07-2016
+-------------------------------------------------------------
+Fixed below issues.(Issues reported in rally under common components support)
+DE12389 : Hamburger badge count is not automatically updated and row doesn't update on notify data set changed.
+DE12390 : Modal alert buttons are misplaced and not aligned.
+DE12391 : Inline forms: Error message and component state is not retained on rotation
+
+
 Version -3.2.0								Date: 26-05-2016
 -------------------------------------------------------------
 1.	Added Support for Spinner over a button 
