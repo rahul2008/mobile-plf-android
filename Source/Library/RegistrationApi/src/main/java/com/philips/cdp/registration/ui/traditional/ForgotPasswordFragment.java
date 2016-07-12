@@ -71,6 +71,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private final int BAD_RESPONSE_CODE = 7004;
 
+    private boolean isSavedEmailError;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -168,25 +169,30 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onDetach");
     }
 
+    private Bundle mBundle;
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("saveErrText", mRegError.getErrorMsg());
-        outState.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescrition());
-        super.onSaveInstanceState(outState);
+        mBundle = outState;
+        super.onSaveInstanceState(mBundle);
+        if(mEtEmail.isEmailErrorVisible()){
+            isSavedEmailError = true;
+            mBundle.putBoolean("isSaveEmailErrText", isSavedEmailError);
+            mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescrition());
+        }
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null){
-            mRegError.setError(savedInstanceState.getString("saveErrText"));
-            if(savedInstanceState.getString("saveEmailErrText")!=null && savedInstanceState.getString("saveEmailErrText").length() > 0){
-                mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
+            if(savedInstanceState.getString("saveEmailErrText")!=null && savedInstanceState.getBoolean("isSaveEmailErrText")){
                 mEtEmail.showInvalidAlert();
                 mEtEmail.showErrPopUp();
+                mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
             }
         }
+        mBundle = null;
     }
 
     @Override
