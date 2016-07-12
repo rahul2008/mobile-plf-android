@@ -1,5 +1,6 @@
 package com.philips.cdp.prodreg.register;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -7,8 +8,12 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
+import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
+import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
 
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
@@ -30,11 +35,17 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     private Bundle bundleMock;
     private ProductMetadataResponseData productMetadataResponseData;
     private Data summaryDataMock;
+    private Context context;
+    private ProdRegCache prodRegCacheMock;
+    private ProdRegHelper prodRegHelperMock;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        context = getInstrumentation().getContext();
         fragmentActivity = mock(FragmentActivity.class);
+        prodRegHelperMock = mock(ProdRegHelper.class);
+        prodRegCacheMock = mock(ProdRegCache.class);
         registerControllerCallBacksMock = mock(ProdRegRegistrationController.RegisterControllerCallBacks.class);
         registeredProductMock = mock(RegisteredProduct.class);
         localRegisteredProductsMock = mock(LocalRegisteredProducts.class);
@@ -58,6 +69,18 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
             @Override
             protected ProdRegSuccessFragment getSuccessFragment() {
                 return prodRegSuccessFragmentMock;
+            }
+
+            @NonNull
+            @Override
+            protected ProdRegHelper getProdRegHelper() {
+                return prodRegHelperMock;
+            }
+
+            @NonNull
+            @Override
+            protected ProdRegCache getProdRegCache() {
+                return prodRegCacheMock;
             }
         };
         when(fragmentActivity.isFinishing()).thenReturn(false);
@@ -95,10 +118,24 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     }
 
     public void testIsValidDate() {
-        prodRegRegistrationController.init(bundleMock);
         assertTrue(prodRegRegistrationController.isValidDate("2016-01-22"));
         verify(registerControllerCallBacksMock).isValidDate(true);
         assertFalse(prodRegRegistrationController.isValidDate("2099-01-01"));
         verify(registerControllerCallBacksMock).isValidDate(false);
+    }
+
+    public void testRegisterEvent() {
+        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+        when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)).thenReturn(0);
+        UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);
+        prodRegRegistrationController.init(bundleMock);
+        prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
+        verify(registerControllerCallBacksMock).showLoadingDialog();
+        verify(userWithProductsMock).registerProduct(registeredProductMock);
+    }
+
+    public void testGetProdRegListener() {
+
     }
 }

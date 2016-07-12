@@ -127,13 +127,23 @@ public class ProdRegRegistrationController {
             registerControllerCallBacks.showLoadingDialog();
             getRegisteredProduct().setPurchaseDate(purchaseDate);
             getRegisteredProduct().setSerialNumber(serialNumber);
-            ProdRegHelper prodRegHelper = new ProdRegHelper();
+            ProdRegHelper prodRegHelper = getProdRegHelper();
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
-            final ProdRegCache prodRegCache = new ProdRegCache(fragmentActivity);
+            final ProdRegCache prodRegCache = getProdRegCache();
             ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_START_COUNT, 1);
             ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationStarts", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)));
             prodRegHelper.getSignedInUserWithProducts().registerProduct(getRegisteredProduct());
         }
+    }
+
+    @NonNull
+    protected ProdRegHelper getProdRegHelper() {
+        return new ProdRegHelper();
+    }
+
+    @NonNull
+    protected ProdRegCache getProdRegCache() {
+        return new ProdRegCache(fragmentActivity);
     }
 
     private boolean validateSerialNumber(final String serialNumber) {
@@ -159,7 +169,7 @@ public class ProdRegRegistrationController {
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     registerControllerCallBacks.dismissLoadingDialog();
-                    final ProdRegCache prodRegCache = new ProdRegCache(fragmentActivity);
+                    final ProdRegCache prodRegCache = getProdRegCache();
                     ProdRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
                     ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)));
                     final ProdRegSuccessFragment fragment = getSuccessFragment();
