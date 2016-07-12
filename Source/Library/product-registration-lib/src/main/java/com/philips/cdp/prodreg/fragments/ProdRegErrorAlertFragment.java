@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
 
@@ -18,6 +19,7 @@ import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
  */
 public class ProdRegErrorAlertFragment extends BlurDialogFragment {
 
+    private static final String TAG = ProdRegErrorAlertFragment.class.getSimpleName();
     private TextView titleTextView, descriptionTextView;
     private DialogOkButtonListener dialogOkButtonListener;
 
@@ -49,6 +51,7 @@ public class ProdRegErrorAlertFragment extends BlurDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String title = getArguments().getString("title");
         String description = getArguments().getString("description");
+        ProdRegLogger.v(TAG, "Starting dialog with error:" + title);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.prodreg_alert_dialog, null);
         Button always = (Button) v.findViewById(R.id.dialogButtonOK);

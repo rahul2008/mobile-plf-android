@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.philips.cdp.prodreg.constants.EnhancedLinkMovementMethod;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.listener.ProdRegBackListener;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.product_registration_lib.R;
 
 /**
@@ -87,6 +88,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment implements Pr
         @Override
         public void onClick(View view) {
             String url = getURL();
+            ProdRegLogger.v(TAG, "Opening Url in webview");
             final ProdRegWebViewFragment processRegWebViewFragment = new ProdRegWebViewFragment();
             Bundle bundle = new Bundle();
             bundle.putString(ProdRegConstants.WEB_URL, url);

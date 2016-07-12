@@ -15,6 +15,7 @@ import com.philips.cdp.prodreg.fragments.ProdRegConnectionFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegSuccessFragment;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
@@ -35,6 +36,8 @@ public class ProdRegRegistrationController {
 
         void requireFields(boolean requireDate, boolean requireSerialNumber);
     }
+
+    private static final String TAG = ProdRegRegistrationController.class.getSimpleName();
 
     private RegisterControllerCallBacks registerControllerCallBacks;
     private ProductMetadataResponseData productMetadataResponseData;
@@ -125,6 +128,7 @@ public class ProdRegRegistrationController {
         if (validDate && validSerialNumber) {
             ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegRegistrationScreen", "specialEvents", "extendWarrantyOption");
             registerControllerCallBacks.showLoadingDialog();
+            ProdRegLogger.v(TAG, "Registering product with product details as CTN::" + getRegisteredProduct().getCtn());
             getRegisteredProduct().setPurchaseDate(purchaseDate);
             getRegisteredProduct().setSerialNumber(serialNumber);
             ProdRegHelper prodRegHelper = getProdRegHelper();
@@ -167,6 +171,7 @@ public class ProdRegRegistrationController {
         return new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
+                ProdRegLogger.v(TAG, "Product registered successfully");
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     registerControllerCallBacks.dismissLoadingDialog();
                     final ProdRegCache prodRegCache = getProdRegCache();
@@ -182,6 +187,7 @@ public class ProdRegRegistrationController {
 
             @Override
             public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProducts) {
+                ProdRegLogger.v(TAG, "Product registration failed");
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     registerControllerCallBacks.dismissLoadingDialog();
                     if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
