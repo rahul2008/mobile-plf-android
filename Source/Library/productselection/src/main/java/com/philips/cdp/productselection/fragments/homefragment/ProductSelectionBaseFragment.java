@@ -80,7 +80,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnCreate on "
+        ProductSelectionLogger.d(ProductSelectionLogger.FRAGMENT, "OnCreate on "
                 + this.getClass().getSimpleName());
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getSimpleName();
@@ -145,21 +145,21 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnCreateView on "
+        ProductSelectionLogger.d(ProductSelectionLogger.FRAGMENT, "OnCreateView on "
                 + this.getClass().getSimpleName());
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onStart() {
-        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnStart on "
+        ProductSelectionLogger.d(ProductSelectionLogger.FRAGMENT, "OnStart on "
                 + this.getClass().getSimpleName());
         super.onStart();
     }
 
     @Override
     public void onResume() {
-        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnResume on "
+        ProductSelectionLogger.d(ProductSelectionLogger.FRAGMENT, "OnResume on "
                 + this.getClass().getSimpleName());
         super.onResume();
         setActionbarTitle();
@@ -167,21 +167,21 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
     @Override
     public void onPause() {
-        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnPause on "
+        ProductSelectionLogger.d(ProductSelectionLogger.FRAGMENT, "OnPause on "
                 + this.getClass().getSimpleName());
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnStop on "
+        ProductSelectionLogger.d(ProductSelectionLogger.FRAGMENT, "OnStop on "
                 + this.getClass().getSimpleName());
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "onDestroy on "
+        ProductSelectionLogger.d(ProductSelectionLogger.FRAGMENT, "onDestroy on "
                 + this.getClass().getSimpleName());
         getActivity().unregisterReceiver(mNetworkutility);
         super.onDestroy();
@@ -189,7 +189,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
     @Override
     public void onDestroyView() {
-        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnDestroyView on "
+        ProductSelectionLogger.d(ProductSelectionLogger.FRAGMENT, "OnDestroyView on "
                 + this.getClass().getSimpleName());
         super.onDestroyView();
         hideKeyboard();
@@ -278,7 +278,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        ProductSelectionLogger.i(TAG, TAG + " : onConfigurationChanged ");
+        ProductSelectionLogger.d(TAG, TAG + " : onConfigurationChanged ");
         // setLocaleLanguage();
         getAppName();
     }
@@ -460,12 +460,12 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         List<Fragment> listFragment = getActivity().getSupportFragmentManager().getFragments();
         for (int i = listFragment.size() - 1; i >= 0; i--) {
             Fragment fragment1 = listFragment.get(i);
-//            ProductSelectionLogger.i("testing", "Details Screen : " + fragment1);
+//            ProductSelectionLogger.d("testing", "Details Screen : " + fragment1);
         }
 
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag(oldFragmentAdd);
-//        ProductSelectionLogger.i("testing", "Saved screen found  : " + fragmentDetailsTablet);
+//        ProductSelectionLogger.d("testing", "Saved screen found  : " + fragmentDetailsTablet);
         try {
             if (fragmentDetailsTablet != null) {
                 fragmentTransaction.remove(fragmentDetailsTablet);
@@ -500,17 +500,17 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 //            for (int i = 1; i < fragmentManager.getFragments().size(); i++) {
 //                if(fragmentManager.getFragments().get(i) == null){
 //                    fragmentManager.popBackStack();
-//                    ProductSelectionLogger.i("testing", "fragmentManager.getFragments() : " + fragmentManager.getFragments().get(i));
+//                    ProductSelectionLogger.d("testing", "fragmentManager.getFragments() : " + fragmentManager.getFragments().get(i));
 //                }
 //            }
 
             for (int i = fragmentManager.getFragments().size() - 1; i > 0; i --) {
-                ProductSelectionLogger.i("testing", "fragmentManager.getFragments() : " + fragmentManager.getFragments().get(i)  + "  --- i  " + i );
+                ProductSelectionLogger.d("testing", "fragmentManager.getFragments() : " + fragmentManager.getFragments().get(i)  + "  --- i  " + i );
                 if(fragmentManager.getFragments().get(i) == null) {
                     continue;
                 }
                 else if(fragmentManager.getFragments().get(i) instanceof ProductSelectionListingFragment
-                       || fragmentManager.getFragments().get(i) instanceof SavedScreenFragmentSelection
+                        || fragmentManager.getFragments().get(i) instanceof SavedScreenFragmentSelection
                         || fragmentManager.getFragments().get(i) instanceof  WelcomeScreenFragmentSelection
                         || fragmentManager.getFragments().get(i) instanceof DetailedScreenFragmentSelection) {
                     fragmentManager.popBackStack();
@@ -521,18 +521,18 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     }
 
     private void removeWelcomeScreen() {
-//        ProductSelectionLogger.i("testing", "removeWelcomeScreen: ");
+//        ProductSelectionLogger.d("testing", "removeWelcomeScreen: ");
         List<Fragment> fragmentList = getActivity().getSupportFragmentManager().getFragments();
         for (int i = fragmentList.size() - 1; i >= 0; i--) {
             Fragment frag = fragmentList.get(i);
-//            ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen : " + frag);
+//            ProductSelectionLogger.d("testing", "WelcomeScreenFragmentSelection Screen : " + frag);
             if (frag instanceof WelcomeScreenFragmentSelection) {
                 FragmentTransaction fragmentTransactionNew = getActivity().getSupportFragmentManager().beginTransaction();
                 if (frag != null) {
                     try {
 //                        fragmentTransactionNew.remove(frag).commitAllowingStateLoss();
                         getActivity().getSupportFragmentManager().popBackStack();
-//                        ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen inside : ");
+//                        ProductSelectionLogger.d("testing", "WelcomeScreenFragmentSelection Screen inside : ");
                     } catch (IllegalStateException e) {
                     }
                 }

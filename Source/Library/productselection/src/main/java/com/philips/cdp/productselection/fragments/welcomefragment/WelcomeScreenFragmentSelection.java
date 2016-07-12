@@ -44,7 +44,7 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        ProductSelectionLogger.i(TAG, "Product selection welcome screen shown for user to select products\n");
         mParams = (FrameLayout.LayoutParams) mWelcomeScreenParent.getLayoutParams();
         mSelectProduct.setOnClickListener(this);
 
@@ -86,6 +86,7 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
         if (v.getId() == R.id.welcome_screen_parent_two) {
             if (isConnectionAvailable()) {
                 Configuration configuration = getResources().getConfiguration();
+                ProductSelectionLogger.i(TAG, "User clicked on find products");
                 showFragment(new ProductSelectionListingFragment());
             }
 

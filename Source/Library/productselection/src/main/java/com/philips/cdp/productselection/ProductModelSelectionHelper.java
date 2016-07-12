@@ -246,7 +246,7 @@ public class ProductModelSelectionHelper {
 
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
-            ProductSelectionLogger.i(TAG, "The Locale ProductSelection Component uses is : " + mLocale.toString());
+            ProductSelectionLogger.i(TAG, "setLocale API of ProductSelection : " + mLocale.toString());
         }
     }
 

@@ -55,6 +55,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ProductSelectionLogger.i(TAG, "Displaying the list of products for user to select their product");
         mProductListView = (ListView) getActivity().findViewById(R.id.productListView);
 
         injectSummaryDataList();
@@ -88,7 +89,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     private void injectSummaryDataList() {
         SummaryModel[] summaryList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSummaryModelList();
-        ProductSelectionLogger.d(TAG, "Number of Products Available for the selected Country from the passed CTN's : " + summaryList.length);
+        ProductSelectionLogger.i(TAG, "Found " + summaryList.length + " products in region " + ProductModelSelectionHelper.getInstance().getLocale().toString());
         productList = new ArrayList<SummaryModel>();
 
         for (int i = 0; i < summaryList.length; i++) {
