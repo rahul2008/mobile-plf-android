@@ -78,7 +78,6 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
             alwaysFinishActivity = savedInstanceState.getInt("ALWAYS_FINISH_ACTIVITIES");
         } catch (NullPointerException e) {
         }
-
         setContentView(R.layout.reg_activity_coppa_registration);
         ivBack = (TextView) findViewById(R.id.iv_reg_back);
         ivBack.setOnClickListener(this);
@@ -204,5 +203,4 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         tvTitle.setText(getString(titleResourceID));
     }
-
 }

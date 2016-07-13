@@ -47,6 +47,8 @@ import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener {
 
 
@@ -136,7 +138,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
     }
 
@@ -172,6 +174,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             if (fragment instanceof AccountActivationFragment) {
                 RegUtility.setCreateAccountStartTime(System.currentTimeMillis());
             }
+        }else{
+            getActivity().finish();
         }
         return false;
     }
