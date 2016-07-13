@@ -224,6 +224,14 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                        '**/listener/*.class',
                        '**/prxrequest/*.class',
                        '**/localcache/*.class',
+                       '**/activity/*.class',
+                       '**/adaptor/*.class',
+                       '**/constants/*.class',
+                       '**/fragments/*.class',
+                       '**/imagehandler/*.class',
+                       '**/launcher/*.class',
+                       '**/logging/*.class',
+                       '**/tagging/*.class',
                        '**/BuildConfig.*',
                        '**/Manifest*.*']
     )
