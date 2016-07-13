@@ -13,7 +13,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 public class RLog {

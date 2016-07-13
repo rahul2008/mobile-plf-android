@@ -1,37 +1,31 @@
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
  */
-
 package com.philips.cdp.registration.datamigration;
 
 import android.content.Context;
 
-import com.janrain.android.capture.Capture;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.security.SecureStorage;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
-import java.io.StreamCorruptedException;
 
 
 public class DataMigration {
 
-    private  final String JR_CAPTURE_SIGNED_IN_USER = "jr_capture_signed_in_user";
-    private  final String HSDP_RECORD = "hsdpRecord";
-    private  final String DI_PROFILE = "diProfile";
-    private  final String JUMP_REFRESH_SECRET = "jr_capture_refresh_secret";
-    private Context mContext;
+    private static final String JR_CAPTURE_SIGNED_IN_USER = "jr_capture_signed_in_user";
+    private static final String HSDP_RECORD = "hsdpRecord";
+    private static final String DI_PROFILE = "diProfile";
+    private static final String JUMP_REFRESH_SECRET = "jr_capture_refresh_secret";
+    private final Context mContext;
 
     public DataMigration(final Context context) {
         mContext = context;
@@ -39,24 +33,16 @@ public class DataMigration {
 
     private void migrateFileData(final String fileName) {
         try {
-            String plainText = readDataAndDeleteFile(fileName);
+            final String  plainText = readDataAndDeleteFile(fileName);
             writeDataToFile(fileName, plainText);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (OptionalDataException e) {
-            e.printStackTrace();
-        } catch (StreamCorruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
     }
 
     private String readDataAndDeleteFile(String fileName) throws IOException, ClassNotFoundException {
-        FileInputStream fis = mContext.openFileInput(fileName);
-        ObjectInputStream ois = new ObjectInputStream(fis);
+        final FileInputStream fis = mContext.openFileInput(fileName);
+        final ObjectInputStream ois = new ObjectInputStream(fis);
         Object object = ois.readObject();
         String plainText = null;
         HsdpUserRecord hsdpUserRecord = null;
@@ -69,8 +55,8 @@ public class DataMigration {
             diUserProfile = (DIUserProfile) object;
             plainText = SecureStorage.objectToString(diUserProfile);
         }
-        if(object instanceof String){
-            plainText = (String)object;
+        if (object instanceof String) {
+            plainText = (String) object;
         }
 
         mContext.deleteFile(fileName);
@@ -105,7 +91,7 @@ public class DataMigration {
         if (!isFileEncryptionDone(DI_PROFILE)) {
             migrateFileData(DI_PROFILE);
         }
-        if(!isFileEncryptionDone(JUMP_REFRESH_SECRET)){
+        if (!isFileEncryptionDone(JUMP_REFRESH_SECRET)) {
             migrateFileData(JUMP_REFRESH_SECRET);
         }
 
@@ -133,20 +119,12 @@ public class DataMigration {
                 if (plainText instanceof DIUserProfile) {
                     isEncryptionDone = false;
                 }
-                if(plainText instanceof String){
+                if (plainText instanceof String) {
                     isEncryptionDone = false;
                 }
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (OptionalDataException e) {
-            e.printStackTrace();
-        } catch (StreamCorruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
 
