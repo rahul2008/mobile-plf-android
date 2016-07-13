@@ -2,7 +2,6 @@ package com.philips.cdp.prodreg.model.metadata;
 
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 
 import org.json.JSONObject;
@@ -65,7 +64,6 @@ public class ProductMetadataResponseTest extends InstrumentationTestCase {
             ProductMetadataResponseData productData = setMetadataObject(mResponseData);
             TestAssertionOnResponse(mResponseData, productData);
         } catch (Exception e) {
-            ProdRegLogger.d(TAG, "IO " + e);
         }
     }
 

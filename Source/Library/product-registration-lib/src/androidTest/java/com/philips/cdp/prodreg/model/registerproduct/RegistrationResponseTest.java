@@ -2,7 +2,6 @@ package com.philips.cdp.prodreg.model.registerproduct;
 
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 
 import org.json.JSONObject;
@@ -67,7 +66,6 @@ public class RegistrationResponseTest extends InstrumentationTestCase {
 
             TestAssertionOnResponse(mResponseData, data);
         } catch (Exception e) {
-            ProdRegLogger.d(TAG, "IO " + e);
         }
     }
 
