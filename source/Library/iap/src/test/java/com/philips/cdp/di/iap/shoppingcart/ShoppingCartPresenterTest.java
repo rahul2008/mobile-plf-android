@@ -294,7 +294,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.LoadList
 
     @Override
     public void onRetailerError(final IAPNetworkError errorMsg) {
-
+        //NOP
     }
 
     @Override

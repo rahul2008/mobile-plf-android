@@ -43,6 +43,8 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
@@ -218,26 +220,45 @@ public class ProductCatalogPresenterTest implements ShoppingCartPresenter.Shoppi
 
     @Override
     public void onLoadFinished(final ArrayList<ProductCatalogData> data, final PaginationEntity paginationEntity) {
-
+        assert(data!=null);
+        assert (paginationEntity!=null);
+        if(data.size()>0){
+            assert (data.get(0) instanceof ProductCatalogData);
+            assertEquals(mCTNS.size(), data.size());
+        }else {
+            assertFalse(false);
+        }
     }
 
     @Override
     public void onLoadError(final IAPNetworkError error) {
-
+        boolean isHybrisError = error instanceof IAPNetworkError;
+        assert(isHybrisError);
+        assertEquals(error.getStatusCode(),error.getIAPErrorCode());
+        assertEquals("PRX", error.getServerError().getErrors().get(0).getType());
+        assertEquals("PRX might not have data", error.getServerError().getErrors().get(0).getReason());
+        assertEquals("PRX Error", error.getServerError().getErrors().get(0).getSubject());
+        assertEquals("No product found in your Store.", error.getServerError().getErrors().get(0).getMessage());
     }
 
     @Override
     public void launchShoppingCart() {
-
+        //NOP
     }
 
     @Override
     public void onSuccess(final ArrayList<String> productList) {
+        assert(productList!=null);
 
+        if(productList.size()>0){
+            assert (productList.get(0) instanceof String);
+        }else {
+            assertFalse(false);
+        }
     }
 
     @Override
     public void onFailure(final int errorCode) {
-
+        assertFalse(false);
     }
 }
