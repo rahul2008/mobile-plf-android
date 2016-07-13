@@ -89,7 +89,6 @@ public class HamburgerMenuDemo extends CatalogActivity {
     private TextView actionBarTitle;
     private ImageView footerView;
     private HamburgerAdapter adapter;
-    private TextView actionBarCount;
     private HamburgerUtil hamburgerUtil;
     private ImageView hamburgerIcon;
     private int feature;
@@ -216,10 +215,9 @@ public class HamburgerMenuDemo extends CatalogActivity {
     }
 
     private void setDrawerAdaptor() {
-        adapter = new HamburgerAdapter(this,
-                hamburgerItems);
+        TextView totalCountView = (TextView) findViewById(R.id.hamburger_count);
+        adapter = new HamburgerAdapter(this, hamburgerItems, totalCountView, false);
         drawerListView.setAdapter(adapter);
-        actionBarCount.setText(String.valueOf(adapter.getCounterValue()));
     }
 
     private void displayView(int position) {
@@ -270,7 +268,6 @@ public class HamburgerMenuDemo extends CatalogActivity {
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
-        actionBarCount = (TextView) findViewById(R.id.hamburger_count);
         hamburgerIcon = (ImageView) findViewById(R.id.hamburger_icon);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
         LinearLayout hamburgerClick = (LinearLayout) findViewById(R.id.hamburger_click);

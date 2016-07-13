@@ -4,11 +4,11 @@ apply plugin: 'spoon'
 
 buildscript {
     repositories {
-        jcenter()
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
     }
 
     dependencies {
-        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.2'
+        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.1.0'
     }
 }
 

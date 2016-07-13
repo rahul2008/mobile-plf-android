@@ -10,6 +10,8 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,21 +36,48 @@ public class HamburgerAdapter extends BaseAdapter {
     private final LayoutInflater mInflater;
     private Context context;
     private ArrayList<HamburgerItem> hamburgerItems;
-    private int totalCount = 0;
     private int disabledColor;
     private int brightColor;
     private int selectedIndex;
     private int baseColor;
     private int groupAlpha = 0;
+    private TextView mHamburgerTotalCountView;
 
-    public HamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
+    private boolean isFullScreen;
+    private boolean isPreLollipop = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
+
+    /**
+     * Provides auto update of total count
+     * when total count text view is provided as input. If used from uikit, the resource id is {@code R.id.hamburger_count}
+     * <br>
+     * @param context            {@link Context} Context
+     * @param hamburgerItems     {@link HamburgerItem} List of items to be shown in Hamburger menu
+     * @param totalCountTextView {@link TextView} representing total count of all the items in the hamburger menu.
+     *                                           Pass {@code null}, if no total count view is required.
+     * @param isFullScreen       if {@code {@link Boolean#TRUE}}, it removes the top offset for drawer view. The offset accounts to match the status bar height.
+     *                           If app running in fullscreen/immersive mode true can be applied.
+     */
+    public HamburgerAdapter(@NonNull Context context, @NonNull ArrayList<HamburgerItem> hamburgerItems, TextView totalCountTextView, boolean isFullScreen) {
         this.context = context;
         this.hamburgerItems = hamburgerItems;
         mInflater = (LayoutInflater)
                 context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         setColors();
-        calculateCount();
         groupAlpha = adjustAlpha(baseColor, 0.5f);
+        mHamburgerTotalCountView = totalCountTextView;
+        this.isFullScreen = isFullScreen;
+        setCounterView(totalCountTextView, calculateCount());
+    }
+
+
+    /**
+     * Preferred only when total badge count is not required, otherwise use {@link HamburgerAdapter#HamburgerAdapter(Context, ArrayList, TextView, boolean)}
+     *
+     * @param context            {@link Context} Context
+     * @param hamburgerItems     {@link HamburgerItem} List of items to be shown in Hamburger menu
+     */
+    public HamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
+        this(context, hamburgerItems, null, false);
     }
 
     /**
@@ -62,7 +91,6 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @return Returns the count of adapter
      */
     @Override
@@ -71,7 +99,6 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @param position - index of row
      * @return - Returns Object of required index
      */
@@ -81,7 +108,6 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @param position
      * @return Returns id of position
      */
@@ -136,7 +162,7 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     private void addHeaderMargin(int position, View transparentView) {
-        if (position == 0)
+        if (position == 0 && !(isFullScreen || isPreLollipop))
             transparentView.setVisibility(View.VISIBLE);
     }
 
@@ -195,11 +221,18 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     private void setCounterView(final TextView txtCount, final int count) {
+        if (txtCount == null) {
+            return;
+        }
+        setCountViewVisibility(txtCount, count);
         if (count > 0) {
             txtCount.setText(String.valueOf(count));
-        } else {
-            txtCount.setVisibility(View.GONE);
         }
+    }
+
+    private void setCountViewVisibility(TextView countView, int count) {
+        int visibility = count > 0 ? View.VISIBLE : View.GONE;
+        countView.setVisibility(visibility);
     }
 
     private void setImageView(final ImageView imgIcon, final Drawable icon, TextView txtTitle, int color) {
@@ -222,11 +255,10 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     /**
-     *
      * @return Returns the badge count
      */
     public int getCounterValue() {
-        return totalCount;
+        return calculateCount();
     }
 
     /**
@@ -235,17 +267,18 @@ public class HamburgerAdapter extends BaseAdapter {
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
-        totalCount = 0;
-        calculateCount();
+        setCounterView(mHamburgerTotalCountView, calculateCount());
     }
 
     /**
      * API to be called to calculate total badge count
      */
-    public void calculateCount() {
+    public int calculateCount() {
+        int totalCount = 0;
         for (HamburgerItem hamburgerItem : hamburgerItems) {
             totalCount += hamburgerItem.getCount();
         }
+        return totalCount;
     }
 
     @Override

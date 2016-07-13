@@ -6,7 +6,7 @@
     <string name="uikit_minus">-</string>
     <string name="uikit_greater">&gt;</string>
     <string name="uikit_cross_mark">X</string>
-    <string name="uikit_release_version">UIKITLib Version 3.2.0</string>
+    <string name="uikit_release_version">UIKITLib Version 3.2.2</string>
 
     <!-- Splash screen title-->
     <string name="uikit_splash_title">Hello World</string>
