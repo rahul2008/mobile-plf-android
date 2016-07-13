@@ -27,6 +27,7 @@ import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
+import com.philips.cdp.registration.coppa.ui.Activity.RegistrationCoppaActivity;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
@@ -96,6 +97,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = getActivity();
+        this.setOnUpdateTitleListener((RegistrationCoppaActivity)mActivity);
         View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
