@@ -4,5 +4,4 @@ node('Android') {
 
     stage 'Android Build'
     sh 'cd ./Source/DICommClientSample && ./gradlew assembleDebug'
-    #Test
 }
