@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -9,7 +8,6 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -51,7 +49,8 @@ import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener, EventListener, ResendVerificationEmailHandler,
+        TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener,
+        EventListener, ResendVerificationEmailHandler,
         NetworStateListener {
 
     private LinearLayout mLlCreateAccountFields;
@@ -88,23 +87,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private XHavingProblems mViewHavingProblem;
 
-    private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
+    private static final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
-    private final int UN_EXPECTED_ERROR = 500;
+    private static final int UN_EXPECTED_ERROR = 500;
 
-    private final int BAD_RESPONSE_CODE = 7004;
+    private static final int BAD_RESPONSE_CODE = 7004;
 
     private ScrollView mSvRootLayout;
 
-    private boolean isSavedEmailError;
-
-    private boolean isSavedRegError;
-
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onAttach");
-        super.onAttach(activity);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -188,13 +178,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
         if(mRegError.getVisibility() == View.VISIBLE){
-            isSavedRegError =true;
-            mBundle.putBoolean("isSavedRegError", isSavedRegError);
+            mBundle.putBoolean("isSavedRegError", true);
             mBundle.putString("saveErrText", mRegError.getErrorMsg());
         }
         if(mEtEmail.isEmailErrorVisible()){
-            isSavedEmailError = true;
-            mBundle.putBoolean("isSaveEmailErrText", isSavedEmailError);
+            mBundle.putBoolean("isSaveEmailErrText", true);
             mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescrition());
         }
         mBundle.putBoolean("isLoginBton", isLoginBtn);
@@ -204,7 +192,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null){
-            if(savedInstanceState.getString("saveEmailErrText")!=null && savedInstanceState.getBoolean("isSaveEmailErrText") && !savedInstanceState.getBoolean("isLoginBton")){
+            if(savedInstanceState.getString("saveEmailErrText")!=null
+                    && savedInstanceState.getBoolean("isSaveEmailErrText")
+                    && !savedInstanceState.getBoolean("isLoginBton")){
                 mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
                 mEtEmail.showInvalidAlert();
                 mEtEmail.showErrPopUp();
