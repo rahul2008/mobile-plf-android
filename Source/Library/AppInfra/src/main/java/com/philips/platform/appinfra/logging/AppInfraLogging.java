@@ -7,7 +7,6 @@ package com.philips.platform.appinfra.logging;
 
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -148,10 +147,6 @@ public class AppInfraLogging implements  LoggingInterface {
 
     @Override
     public void enableConsoleLog(boolean isEnabled ) {
-        boolean isDebuggable =  ( 0 != ( mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
-        if(!isDebuggable){ // if app is in release mode then disable console logs
-            consoleHandler = null;
-        }else {// if app is in debug mode then only enable console logs
             if (isEnabled) {
                 if (null == consoleHandler) {
                     consoleHandler = new ConsoleHandler();
@@ -173,19 +168,12 @@ public class AppInfraLogging implements  LoggingInterface {
                     }
                 }
             }
-        }
     }
 
 
 
     @Override
     public void enableFileLog(boolean pFileLogEnabled) {
-        boolean isDebuggable =  ( 0 != ( mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
-        if(!isDebuggable){
-            // if app is in release mode then disable file logs for security reason.
-            //file logging is blocked till logged files are encrypted TBD in next PI
-            fileHandler = null;
-        }else {// if app is in debug mode then only enable file logs
             if (pFileLogEnabled) {
                 if (null == fileHandler) {// add file log
                     fileHandler = getFileHandler();
@@ -209,7 +197,6 @@ public class AppInfraLogging implements  LoggingInterface {
                     }
                 }
             }
-        }//
     }
 
     // return file handler for writting logs on file based on logging.properties config
