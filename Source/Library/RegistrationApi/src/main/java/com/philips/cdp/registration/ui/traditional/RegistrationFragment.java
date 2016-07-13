@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -12,7 +11,6 @@ package com.philips.cdp.registration.ui.traditional;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -39,20 +37,14 @@ import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-//import com.philips.cdp.tagging.Tagging;
 import com.philips.dhpclient.BuildConfig;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 import org.json.JSONObject;
 
-import java.io.Serializable;
 
 public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener {
 
-
-    private final String REGISTRATION_VERSION_TAG = "registrationVersion";
 
     private FragmentManager mFragmentManager;
 
@@ -69,7 +61,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreate");
         RLog.i(RLog.VERSION, "Jump Version :" + Jump.getJumpVersion());
         RLog.i(RLog.VERSION, "LocaleMatch Version :" + PILLocaleManager.getLacaleMatchVersion());
-        RLog.i(RLog.VERSION, "Registration Version :" + RegistrationHelper.getRegistrationApiVersion());
+        RLog.i(RLog.VERSION, "Registration Version :" +
+                RegistrationHelper.getRegistrationApiVersion());
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
@@ -82,7 +75,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         mActivity = getActivity();
         View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreateView");
@@ -238,14 +232,16 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         User mUser = new User(mActivity.getApplicationContext());
         if (isAccountSettings) {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
+                AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+                        getAppInfraInstance().getTagging();
                 aiAppTaggingInterface.setPreviousPage("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
             }
 
-            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().
+                    isEmailVerificationRequired()) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
@@ -254,7 +250,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             replaceWithHomeFragment();
         } else {
             if (mUser.isUserSignIn() && mUser.getEmailVerificationStatus()) {
-                AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().getAppInfraInstance().getTagging();
+                AIAppTaggingInterface aiAppTaggingInterface = RegistrationHelper.getInstance().
+                        getAppInfraInstance().getTagging();
                 aiAppTaggingInterface.setPreviousPage("demoapp:home");
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 // replaceWithLogoutFragment();
@@ -262,7 +259,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
                 replaceWithWelcomeFragment();
                 return;
             }
-            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+            if (mUser.isUserSignIn() && !RegistrationConfiguration.getInstance().
+                    getFlow().isEmailVerificationRequired()) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 replaceWithWelcomeFragment();
                 return;
@@ -354,7 +352,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         try {
             WelcomeFragment welcomeFragment = new WelcomeFragment();
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment, AppTaggingPages.WELCOME);
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment,
+                    AppTaggingPages.WELCOME);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
@@ -419,7 +418,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     public void addMergeSocialAccountFragment(Bundle bundle) {
-        MergeSocialToSocialAccountFragment mergeAccountFragment = new MergeSocialToSocialAccountFragment();
+        MergeSocialToSocialAccountFragment mergeAccountFragment
+                = new MergeSocialToSocialAccountFragment();
         mergeAccountFragment.setArguments(bundle);
         addFragment(mergeAccountFragment);
     }
@@ -443,14 +443,16 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             InputMethodManager imm = (InputMethodManager) mActivity
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             if (mActivity.getWindow() != null && mActivity.getWindow().getCurrentFocus() != null) {
-                imm.hideSoftInputFromWindow(mActivity.getWindow().getCurrentFocus().getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(mActivity.getWindow().
+                        getCurrentFocus().getWindowToken(), 0);
             }
         }
     }
 
     public void showKeyBoard() {
         if(mActivity!=null){
-            InputMethodManager inputMethodManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager inputMethodManager = (InputMethodManager)
+                    mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
         }
     }
@@ -466,7 +468,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             UserRegistrationInitializer.getInstance().resetInitializationState();
         }
-        if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() && !UserRegistrationInitializer.getInstance().isJumpInitializationInProgress()) {
+        if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() &&
+                !UserRegistrationInitializer.getInstance().isJumpInitializationInProgress()) {
             RLog.d(RLog.NETWORK_STATE, "RegistrationFragment :onNetWorkStateReceived");
             RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
             registrationSettings
