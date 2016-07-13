@@ -96,7 +96,7 @@ public class TestingRegistrationSettings extends RegistrationSettings {
             jumpConfig.captureRedirectUri = TEST_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
 
 
-        jumpConfig.captureRedirectUri = TEST_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
+        jumpConfig.captureRecoverUri = TEST_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
         jumpConfig.captureLocale = locale;
 
         mPreferredCountryCode = countryCode;
