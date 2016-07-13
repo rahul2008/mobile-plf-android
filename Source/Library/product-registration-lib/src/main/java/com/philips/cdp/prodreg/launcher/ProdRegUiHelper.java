@@ -67,7 +67,8 @@ public class ProdRegUiHelper {
     private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher) {
         mContainerId = fragmentLauncher.getParentContainerResourceID();
         final Bundle arguments = new Bundle();
-        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, productList);
+        ArrayList<Product> registeredProducts = new ArrayList<>(productList);
+        arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
 
         ProdRegTagging.getInstance().trackActionWithCommonGoals("ProdRegHomeScreen", "specialEvents", "startProductRegistration");
         if (fragmentLauncher.isFirstLaunch()) {
@@ -83,8 +84,8 @@ public class ProdRegUiHelper {
         }
     }
 
-    public void invokeProductRegistration(UiLauncher uiLauncher, ArrayList<Product> products, ProdRegUiListener prodRegUiListener) {
-        mUiLauncher = uiLauncher;
+    public void invokeProductRegistration(final UiLauncher uiLauncher, final ArrayList<Product> products, final ProdRegUiListener prodRegUiListener) {
+        this.mUiLauncher = uiLauncher;
         this.productList = products;
         this.prodRegUiListener = prodRegUiListener;
         if (uiLauncher instanceof ActivityLauncher) {

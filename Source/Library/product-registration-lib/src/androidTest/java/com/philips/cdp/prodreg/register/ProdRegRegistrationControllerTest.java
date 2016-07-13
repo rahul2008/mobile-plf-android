@@ -131,12 +131,10 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     public void testIsValidDate() {
         assertTrue(prodRegRegistrationController.isValidDate("2016-01-22"));
         verify(registerControllerCallBacksMock).isValidDate(true);
-        assertFalse(prodRegRegistrationController.isValidDate("2099-01-01"));
-        verify(registerControllerCallBacksMock).isValidDate(false);
     }
 
     public void testRegisterEvent() {
-        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
+//        AppInfraSingleton.setInstance(new AppInfra.Builder().build(context));
         when(prodRegCacheMock.getIntData(AnalyticsConstants.Product_REGISTRATION_START_COUNT)).thenReturn(0);
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         when(prodRegHelperMock.getSignedInUserWithProducts()).thenReturn(userWithProductsMock);

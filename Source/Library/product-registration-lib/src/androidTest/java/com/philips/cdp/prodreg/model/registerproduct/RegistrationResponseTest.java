@@ -59,8 +59,6 @@ public class RegistrationResponseTest extends InstrumentationTestCase {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ProdRegLogger.d(TAG, "Parsed Data : " + sb.toString());
-
             RegistrationResponse registrationResponse = (RegistrationResponse) mRegistrationRequest.getResponseData(new JSONObject(sb.toString()));
             RegistrationResponseData mResponseData = registrationResponse.getData();
             assertNotNull(mResponseData);

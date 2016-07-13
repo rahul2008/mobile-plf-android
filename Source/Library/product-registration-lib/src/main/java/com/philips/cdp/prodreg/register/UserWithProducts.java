@@ -7,11 +7,9 @@ import com.google.gson.Gson;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
-import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
-import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
@@ -197,7 +195,7 @@ public class UserWithProducts {
             @Override
             public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 if (!isCtnRegistered(registeredProducts, registeredProduct)) {
-                    registeredProduct.getProductMetadata(mContext, getUserProduct().getMetadataListener(registeredProduct));
+                    getUserProduct().makeRegistrationRequest(mContext, registeredProduct);
                 } else {
                     updateWithCallBack(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
                 }
@@ -211,35 +209,6 @@ public class UserWithProducts {
 
     protected RegisteredProduct[] getRegisteredProductsFromResponse(final RegisteredResponseData[] results, final Gson gson) {
         return gson.fromJson(gson.toJson(results), RegisteredProduct[].class);
-    }
-
-    @NonNull
-    MetadataListener getMetadataListener(final RegisteredProduct registeredProduct) {
-        return new MetadataListener() {
-            @Override
-            public void onMetadataResponse(final ProductMetadataResponse productMetadataResponse) {
-                ProductMetadataResponseData productData = productMetadataResponse.getData();
-                boolean isValidSerialNumber = isValidSerialNumber(productData, registeredProduct);
-                boolean isValidDate = true;
-                if (productData != null && productData.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
-                    isValidDate = isValidPurchaseDate(registeredProduct.getPurchaseDate());
-                }
-                if (!isValidDate && !isValidSerialNumber) {
-                    updateWithCallBack(registeredProduct, ProdRegError.INVALID_SERIAL_NUMBER_AND_PURCHASE_DATE, RegistrationState.FAILED);
-                } else if (!isValidDate) {
-                    updateWithCallBack(registeredProduct, ProdRegError.MISSING_DATE, RegistrationState.FAILED);
-                } else if (!isValidSerialNumber) {
-                    updateWithCallBack(registeredProduct, ProdRegError.INVALID_SERIALNUMBER, RegistrationState.FAILED);
-                } else {
-                    getUserProduct().makeRegistrationRequest(mContext, registeredProduct);
-                }
-            }
-
-            @Override
-            public void onErrorResponse(final String errorMessage, final int responseCode) {
-                getErrorHandler().handleError(getUserProduct(), registeredProduct, responseCode);
-            }
-        };
     }
 
     private void updateWithCallBack(final RegisteredProduct registeredProduct, final ProdRegError prodRegError, final RegistrationState registrationState) {

@@ -58,8 +58,6 @@ public class ProductMetadataResponseTest extends InstrumentationTestCase {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ProdRegLogger.d(TAG, "Parsed Data : " + sb.toString());
-
             ProductMetadataResponse productMetaData = (ProductMetadataResponse) mRegistrationRequest.getResponseData(new JSONObject(sb.toString()));
             ProductMetadataResponseData mResponseData = productMetaData.getData();
             assertNotNull(mResponseData);

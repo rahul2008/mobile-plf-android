@@ -15,7 +15,7 @@ public class ProdRegLogger {
 
     private final static LoggingInterface mAppInfraLogger = AppInfraSingleton.getInstance().getLogging();
 
-    private ProdRegLogger() {
+    public ProdRegLogger() {
     }
 
     public static void v(String tag, String msg) {

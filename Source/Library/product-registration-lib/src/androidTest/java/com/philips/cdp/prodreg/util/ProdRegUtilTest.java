@@ -4,8 +4,6 @@ import com.philips.cdp.prodreg.MockitoTestCase;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.tagging.AnalyticsConstants;
 
-import java.text.ParseException;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,27 +26,10 @@ public class ProdRegUtilTest extends MockitoTestCase {
         assertFalse(ProdRegUtil.isValidDate(null));
     }
 
-    public void testReturnFalseForInValidDate() throws Exception {
-        assertFalse(ProdRegUtil.isValidDate("1998-03-22"));
-        assertFalse(ProdRegUtil.isValidDate("2098-05-22"));
-    }
-
     public void testIsInValidSerialNumber() {
         assertTrue(ProdRegUtil.isInValidSerialNumber("[0-9]-[0-9]-[0-9]", "@3456"));
         assertTrue(ProdRegUtil.isInValidSerialNumber("", ""));
         assertTrue(ProdRegUtil.isInValidSerialNumber(null, ""));
-    }
-
-    public void testIsFutureDate() {
-        String date = "2098-05-22";
-        assertTrue(ProdRegUtil.isFutureDate(date));
-        String date1 = "2016-05-16";
-        assertFalse(ProdRegUtil.isFutureDate(date1));
-        try {
-            assertFalse(ProdRegUtil.isFutureDate("05/06/2016"));
-        } catch (Exception e) {
-            assertTrue(e instanceof ParseException);
-        }
     }
 
     public void testGettingMinDate() {

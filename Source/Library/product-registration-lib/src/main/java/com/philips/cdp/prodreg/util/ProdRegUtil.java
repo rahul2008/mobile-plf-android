@@ -1,40 +1,19 @@
 package com.philips.cdp.prodreg.util;
 
-import android.util.Log;
+import android.text.TextUtils;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class ProdRegUtil {
-    private static final String TAG = ProdRegUtil.class.getSimpleName();
     public static boolean isValidDate(final String date) {
-        if (date != null) {
-            String[] dates = date.split("-");
-            return dates.length > 1 && Integer.parseInt(dates[0]) > 1999 && !isFutureDate(date);
-        } else return false;
-    }
-
-    public static boolean isFutureDate(String date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar = Calendar.getInstance();
-        final String mGetDeviceDate = dateFormat.format(calendar.getTime());
-        try {
-            final Date mDisplayDate = dateFormat.parse(date);
-            final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
-            return mDisplayDate.after(mDeviceDate);
-        } catch (ParseException e) {
-            Log.e(TAG, e.getMessage());
-        }
-        return false;
+        return !TextUtils.isEmpty(date);
     }
 
     public static boolean isInValidSerialNumber(final String regularExpression, final String serialNumber) {
