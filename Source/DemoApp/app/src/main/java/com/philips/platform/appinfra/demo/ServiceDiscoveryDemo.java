@@ -42,12 +42,12 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             @Override
             public void onSuccess() {
                 Log.i("refresh", "refresh");
-                mServiceDiscoveryInterface.getServicesWithCountryPreference("ugrow.privacy",mOnGetServicesListener );
-                mServiceDiscoveryInterface.getServicesWithLanguagePreference("ugrow.terms",mOnGetServicesListener );
-                mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference("ugrow.privacy",mOnGetServiceLocaleListener );
-                mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference("ugrow.terms",mOnGetServiceLocaleListener );
-                mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("ugrow.privacy",mOnGetServiceUrlListener );
-                mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference("ugrow.terms",mOnGetServiceUrlListener );
+                mServiceDiscoveryInterface.getServicesWithCountryPreference("userreg.janrain.cdn",mOnGetServicesListener );
+//                mServiceDiscoveryInterface.getServicesWithLanguagePreference("userreg.janrain.cdn",mOnGetServicesListener );
+//                mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.cdn",mOnGetServiceLocaleListener );
+//                mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference("userreg.janrain.cdn",mOnGetServiceLocaleListener );
+//                mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.janrain.cdn",mOnGetServiceUrlListener );
+//                mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference("userreg.janrain.cdn",mOnGetServiceUrlListener );
             }
         });
     }

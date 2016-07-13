@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
+public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, ServiceDiscoveryInterface.OnRefreshListener {
 
     AppInfra mAppInfra;
     Context context;
@@ -38,6 +38,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
 
+        refresh((OnRefreshListener)this);
+
     }
 
 
@@ -47,7 +49,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 //            mAppInfra.getTagging().trackActionWithInfo("ServiceDiscoveryPage", "KeyServiceDiscovery", "ValueServiceDiscovery");
 //        }
 
-        LocalManager locamManager= new LocalManager(mAppInfra);
+        InternationalizationManager locamManager= new InternationalizationManager(mAppInfra);
         String country= locamManager.getCountry();
         if(null!=country){
             urlBuild= buildUrl();
@@ -67,43 +69,62 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private String  buildUrl(){
         AppIdentityManager idntityManager = new AppIdentityManager(mAppInfra);
         idntityManager.loadJSONFromAsset();
-        LocalManager localmanager= new LocalManager(mAppInfra);
-        localmanager.getlocal();
+        InternationalizationManager localmanager= new InternationalizationManager(mAppInfra);
+        localmanager.getUILocal();
         String mState = idntityManager.getAppState();
+        String mEnvironment = idntityManager.getServiceDiscoveryEnvironment();
         String tags = null;
         String environment = null;
 
-        if(mState.contains("DEVELOPMENT")){
+        if(mState.equalsIgnoreCase("DEVELOPMENT") ){
             tags="apps%2b%2benv%2bdev";
-            environment = "tst";
         }
-        else if(mState.contains("TEST")){
-            tags="apps%2b%2benv%2btst";
-            environment = "tst";
+        else if(mState.equalsIgnoreCase("TEST")){
+            tags="apps%2b%2benv%2btest";
         }
-        else if(mState.contains("STAGING")){
-            tags="apps%2b%2benv%2bstag";
-            environment = "acc";
+        else if(mState.equalsIgnoreCase("STAGING")){
+            tags="apps%2b%2benv%2bstage";
         }
-        else if(mState.contains("ACCEPTANCE")){
+        else if(mState.equalsIgnoreCase("ACCEPTANCE")){
             tags="apps%2b%2benv%2bacc";
-            environment = "acc";
         }
-        else if(mState.contains("PRODUCTION")){
-            tags="apps%2b%2benv%2bprd";
-            environment = "www";
+        else if(mState.equalsIgnoreCase("PRODUCTION")){
+            tags="apps%2b%2benv%2bprod";
         }
-        if(idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getlocal() != null && tags!=null && environment!=null ){
+        if(mEnvironment.equalsIgnoreCase("PRODUCTION") ){
+            environment = "www.philips.com";
+        }
+        else if(mEnvironment.equalsIgnoreCase("TEST")){
+            environment = "tst.philips.com";
+        }
+        else if(mEnvironment.equalsIgnoreCase("STAGING")){
+            environment = "dev.philips.com";
+        }
+        else if(mEnvironment.equalsIgnoreCase("ACCEPTANCE")){
+            environment = "acc.philips.com";
+        }
+        if(idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getUILocal() != null && tags!=null && environment!=null ){
             if(localmanager.getCountry() == null){
-                URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getlocal()+"&tags="+tags;
+                URL = "https://"+environment+"/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getUILocal()+"&tags="+tags;
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev";
             }
             if(localmanager.getCountry() != null ){
-                URL = "https://"+environment+".philips.com/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getlocal()+"&tags="+tags+"&country="+ localmanager.getCountry();
+                URL = "https://"+environment+"/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getUILocal()+"&tags="+tags+"&country="+ localmanager.getCountry();
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev&country=US";
             }
         }
         return URL;
+    }
+
+    private void environmentSetUp(String state, String environment){
+
+        if(state!=null){
+
+        }
+        if(environment != null){
+
+        }
+
     }
 
     /**
@@ -113,7 +134,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     @Override
     public void getHomeCountry(final OnGetHomeCountryListener listener) {
         String country = null;
-        LocalManager locamManager= new LocalManager(mAppInfra);
+        InternationalizationManager locamManager= new InternationalizationManager(mAppInfra);
         country=locamManager.getCountry();
         if(country == null && country.contains("")){
 
@@ -341,6 +362,22 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             getservice(listener);
         }
 
+
+    }
+
+    @Override
+    public void onSuccess() {
+        if(RequestManager.mServiceDiscovery != null){
+            if(RequestManager.mServiceDiscovery.isSuccess()){
+                isDataAvailable = true;
+            }
+        }else{
+            getservice((OnRefreshListener)this);
+        }
+    }
+
+    @Override
+    public void onError(ERRORVALUES error, String message) {
 
     }
 }

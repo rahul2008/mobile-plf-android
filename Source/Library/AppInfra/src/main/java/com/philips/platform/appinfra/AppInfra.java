@@ -13,8 +13,8 @@ import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.servicediscovery.LocalInterface;
-import com.philips.platform.appinfra.servicediscovery.LocalManager;
+import com.philips.platform.appinfra.servicediscovery.InternationalizationInterface;
+import com.philips.platform.appinfra.servicediscovery.InternationalizationManager;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 import com.philips.platform.appinfra.tagging.AppTagging;
@@ -34,7 +34,7 @@ public class AppInfra implements AppInfraInterface{
     private LoggingInterface appInfraLogger;
     private final static String APP_INFRA_VERSION = "1.1.0-rc5";
     private AppIdentityInterface appIdentity;
-    private LocalInterface local;
+    private InternationalizationInterface local;
     private ServiceDiscoveryInterface mServiceDiscoveryInterface;
     private TimeSyncInterface mTimeSyncInterface;
 
@@ -54,7 +54,7 @@ public class AppInfra implements AppInfraInterface{
         private LoggingInterface    aiLogger; // app infra logger
         private AIAppTaggingInterface tagging;
         private AppIdentityInterface appIdentity;
-        private LocalInterface local;
+        private InternationalizationInterface local;
         private ServiceDiscoveryInterface mServiceDiscoveryInterface;
         private TimeSyncInterface mTimeSyncInterface;
 
@@ -132,7 +132,7 @@ public class AppInfra implements AppInfraInterface{
 
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
-            ai.setLocal(local == null ? new LocalManager(ai) : local);
+            ai.setLocal(local == null ? new InternationalizationManager(ai) : local);
 
             ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
             return ai;
@@ -161,7 +161,7 @@ public class AppInfra implements AppInfraInterface{
     }
 
     @Override
-    public LocalInterface getLocal() {
+    public InternationalizationInterface getLocal() {
         return local;
     }
 
@@ -204,7 +204,7 @@ public class AppInfra implements AppInfraInterface{
 
     }
 
-    private void setLocal(LocalInterface locale) {
+    private void setLocal(InternationalizationInterface locale) {
         local = locale;
 
     }

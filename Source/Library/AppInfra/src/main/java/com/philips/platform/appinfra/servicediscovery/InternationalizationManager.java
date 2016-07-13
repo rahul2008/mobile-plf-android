@@ -15,7 +15,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import java.util.Locale;
 
 
-public class LocalManager implements LocalInterface {
+public class InternationalizationManager implements InternationalizationInterface {
 
     AppInfra mAppInfra;
     Context context;
@@ -23,7 +23,7 @@ public class LocalManager implements LocalInterface {
     private static final String COUNTRY_URL = "";
     SharedPreferences pref;
 
-    public LocalManager(AppInfra aAppInfra) {
+    public InternationalizationManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
 //        monCountryResponse = this;
@@ -32,8 +32,8 @@ public class LocalManager implements LocalInterface {
 
     }
 
-
-    public String getlocal() {
+    @Override
+    public String getUILocal() {
         if (Locale.getDefault() != null) {
 //            mAppInfra.getTagging().createInstanceForComponent("key", "value");
             if (mAppInfra.getTagging() != null) {
@@ -46,7 +46,6 @@ public class LocalManager implements LocalInterface {
         }
     }
 
-    @Override
     public String getCountry() {
         pref = context.getSharedPreferences(RequestManager.COUNTRY_PRREFERENCE, Context.MODE_PRIVATE);
         if (mCountry == null) {

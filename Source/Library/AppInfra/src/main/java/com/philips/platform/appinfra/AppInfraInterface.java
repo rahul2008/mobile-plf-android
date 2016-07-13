@@ -3,7 +3,7 @@ package com.philips.platform.appinfra;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.servicediscovery.LocalInterface;
+import com.philips.platform.appinfra.servicediscovery.InternationalizationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncInterface;
@@ -31,7 +31,7 @@ public interface AppInfraInterface {
      *
      * @return the local
      */
-    public LocalInterface getLocal();
+    public InternationalizationInterface getLocal();
 
     /**
      * Gets logging.

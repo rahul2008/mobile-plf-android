@@ -50,4 +50,11 @@ public interface AppIdentityInterface {
      */
     public String getSector();
 
+    /**
+     * Gets ServiceDiscoveryEnvironment.
+     *
+     * @return the ServiceDiscoveryEnvironment
+     */
+    public String getServiceDiscoveryEnvironment();
+
 }

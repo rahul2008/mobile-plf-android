@@ -28,10 +28,12 @@ public class AppIdentityManager implements AppIdentityInterface {
 
     public String mAppName;
     public String mAppVersion;
-    public String mAppState;
+    public String mServiceDiscoveryEnvironment;
     public String mAppLocalizedNAme;
     public String micrositeId;
     public String sector;
+    public String mAppState;
+
 
     @Override
     public String getAppName() {
@@ -50,6 +52,11 @@ public class AppIdentityManager implements AppIdentityInterface {
     @Override
     public String getAppState() {
         return mAppState;
+    }
+
+    @Override
+    public String getServiceDiscoveryEnvironment() {
+        return mServiceDiscoveryEnvironment;
     }
 
 
@@ -99,16 +106,18 @@ public class AppIdentityManager implements AppIdentityInterface {
             if(json != null){
                 try {
                     JSONObject obj = new JSONObject(json);
+                    obj.getJSONObject("ServiceDiscoveryEnvironment");
                      micrositeId= obj.getString("micrositeId");
                      sector = obj.getString("sector");
-                     mAppState= obj.getString("AppState");
+                    mServiceDiscoveryEnvironment= obj.getString("ServiceDiscoveryEnvironment");
+                    mAppState = obj.getString("AppState");
 
-                    if(mAppState.equalsIgnoreCase("DEVELOPMENT")&& mAppState.length()==11 || mAppState.equalsIgnoreCase("TEST")&& mAppState.length()==4 || mAppState.equalsIgnoreCase("STAGING")&& mAppState.length()==7 || mAppState.equalsIgnoreCase("ACCEPTANCE")&& mAppState.length()==10 ||mAppState.equalsIgnoreCase("PRODUCTION")&& mAppState.length()==10){
+                    if(mServiceDiscoveryEnvironment.equalsIgnoreCase("DEVELOPMENT")&& mServiceDiscoveryEnvironment.length()==11 || mServiceDiscoveryEnvironment.equalsIgnoreCase("TEST")&& mServiceDiscoveryEnvironment.length()==4 || mServiceDiscoveryEnvironment.equalsIgnoreCase("STAGING")&& mServiceDiscoveryEnvironment.length()==7 || mServiceDiscoveryEnvironment.equalsIgnoreCase("ACCEPTANCE")&& mServiceDiscoveryEnvironment.length()==10 ||mServiceDiscoveryEnvironment.equalsIgnoreCase("PRODUCTION")&& mServiceDiscoveryEnvironment.length()==10){
 
-                        mAppState= obj.getString("AppState");
+                        mServiceDiscoveryEnvironment= obj.getString("ServiceDiscoveryEnvironment");
 
                     }else{
-                        mAppState= null;
+                        mServiceDiscoveryEnvironment= null;
                     }
 
                     try {
