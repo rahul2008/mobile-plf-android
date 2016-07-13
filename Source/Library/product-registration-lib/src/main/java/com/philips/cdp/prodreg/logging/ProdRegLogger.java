@@ -13,9 +13,9 @@ import java.net.UnknownHostException;
  */
 public class ProdRegLogger {
 
-    private final static LoggingInterface mAppInfraLogger = AppInfraSingleton.getInstance().getLogging();
+    private final static LoggingInterface mAppInfraLogger = AppInfraSingleton.getInstance() != null ? AppInfraSingleton.getInstance().getLogging() : null;
 
-    public ProdRegLogger() {
+    private ProdRegLogger() {
     }
 
     public static void v(String tag, String msg) {
