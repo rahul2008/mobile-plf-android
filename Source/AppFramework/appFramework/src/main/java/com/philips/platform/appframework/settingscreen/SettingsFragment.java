@@ -59,11 +59,11 @@ public class SettingsFragment extends AppFrameworkBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_settings_fragment, container, false);
-
+        fragmentPresenter = new SettingsFragmentPresenter();
         mList = (ListView) view.findViewById(R.id.listwithouticon);
 
         ArrayList<SettingListItem> settingScreenItemList = filterSettingScreenItemList(buildSettingsScreenList());
-        mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler);
+        mAdapter = new SettingsAdapter(getActivity(), settingScreenItemList, mLogoutHandler,fragmentPresenter);
         mList.setAdapter(mAdapter);
 
         return view;

@@ -3,15 +3,21 @@ package com.philips.platform.modularui.cocointerface;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appframework.introscreen.WelcomeActivity;
 import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 
 /**
@@ -37,10 +43,32 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
 
     @Override
     public void runCoCo(Context context) {
-        this.context.startActivity(new Intent(context, UserRegistrationActivity.class));
+        if(context instanceof UserRegistrationActivity) {
+            launchRegistrationFragment(R.id.frame_container_user_reg, (UserRegistrationActivity) context, true);
+        }
 
     }
-
+    /**
+     * Launch registration fragment
+     */
+    private void launchRegistrationFragment(int container, FragmentActivity fragmentActivity, boolean isAccountSettings ) {
+        try {
+            FragmentManager mFragmentManager = fragmentActivity.getSupportFragmentManager();
+            RegistrationFragment registrationFragment = new RegistrationFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
+            registrationFragment.setArguments(bundle);
+            registrationFragment.setOnUpdateTitleListener(this);
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(container, registrationFragment,
+                    RegConstants.REGISTRATION_FRAGMENT_TAG);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+                            + e.getMessage());
+        }
+    }
     @Override
     public void unloadCoCo() {
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
@@ -60,11 +88,12 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
-            if(context instanceof WelcomeActivity) {
+            activity.startActivity(new Intent(activity, HomeActivity.class));
+            /*if(context instanceof WelcomeActivity) {
                 activity.startActivity(new Intent(activity, HomeActivity.class));
             } else if(context instanceof HomeActivity){
                 activity.finish();
-            }
+            }*/
         }
 
     }
