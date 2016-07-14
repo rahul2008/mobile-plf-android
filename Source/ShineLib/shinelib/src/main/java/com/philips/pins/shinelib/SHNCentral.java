@@ -456,13 +456,7 @@ public class SHNCentral {
      * @return string representation of the BlueLib version
      */
     public String getVersion() {
-        String version = BuildConfig.VERSION_NAME;
-
-        if (version.contains("SNAPSHOT")) {
-            version = BuildConfig.HASH + "_" + version;
-        }
-
-        return version;
+        return BuildConfig.LIBRARY_VERSION;
     }
 
     /**
