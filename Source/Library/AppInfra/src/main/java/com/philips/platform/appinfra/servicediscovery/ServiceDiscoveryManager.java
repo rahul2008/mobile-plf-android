@@ -75,34 +75,36 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         String mEnvironment = idntityManager.getServiceDiscoveryEnvironment();
         String tags = null;
         String environment = null;
+if(mState!=null && mEnvironment!=null){
+    if(mState.equalsIgnoreCase("DEVELOPMENT")){
+        tags="apps%2b%2benv%2bdev";
+    }
+    else if(mState.equalsIgnoreCase("TEST")){
+        tags="apps%2b%2benv%2btest";
+    }
+    else if(mState.equalsIgnoreCase("STAGING")){
+        tags="apps%2b%2benv%2bstage";
+    }
+    else if(mState.equalsIgnoreCase("ACCEPTANCE")){
+        tags="apps%2b%2benv%2bacc";
+    }
+    else if(mState.equalsIgnoreCase("PRODUCTION")){
+        tags="apps%2b%2benv%2bprod";
+    }
+    if(mEnvironment.equalsIgnoreCase("PRODUCTION") ){
+        environment = "www.philips.com";
+    }
+    else if(mEnvironment.equalsIgnoreCase("TEST")){
+        environment = "tst.philips.com";
+    }
+    else if(mEnvironment.equalsIgnoreCase("STAGING")){
+        environment = "dev.philips.com";
+    }
+    else if(mEnvironment.equalsIgnoreCase("ACCEPTANCE")){
+        environment = "acc.philips.com";
+    }
+}
 
-        if(mState.equalsIgnoreCase("DEVELOPMENT") ){
-            tags="apps%2b%2benv%2bdev";
-        }
-        else if(mState.equalsIgnoreCase("TEST")){
-            tags="apps%2b%2benv%2btest";
-        }
-        else if(mState.equalsIgnoreCase("STAGING")){
-            tags="apps%2b%2benv%2bstage";
-        }
-        else if(mState.equalsIgnoreCase("ACCEPTANCE")){
-            tags="apps%2b%2benv%2bacc";
-        }
-        else if(mState.equalsIgnoreCase("PRODUCTION")){
-            tags="apps%2b%2benv%2bprod";
-        }
-        if(mEnvironment.equalsIgnoreCase("PRODUCTION") ){
-            environment = "www.philips.com";
-        }
-        else if(mEnvironment.equalsIgnoreCase("TEST")){
-            environment = "tst.philips.com";
-        }
-        else if(mEnvironment.equalsIgnoreCase("STAGING")){
-            environment = "dev.philips.com";
-        }
-        else if(mEnvironment.equalsIgnoreCase("ACCEPTANCE")){
-            environment = "acc.philips.com";
-        }
         if(idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getUILocal() != null && tags!=null && environment!=null ){
             if(localmanager.getCountry() == null){
                 URL = "https://"+environment+"/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getUILocal()+"&tags="+tags;

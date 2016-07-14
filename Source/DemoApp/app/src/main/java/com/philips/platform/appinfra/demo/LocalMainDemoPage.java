@@ -8,14 +8,14 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.servicediscovery.LocalInterface;
+import com.philips.platform.appinfra.servicediscovery.InternationalizationInterface;
 
 /**
  * Created by 310238655 on 6/2/2016.
  */
 public class LocalMainDemoPage extends AppCompatActivity {
 
-    LocalInterface mappIdentityinterface = null;
+    InternationalizationInterface mappIdentityinterface = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,10 +25,10 @@ public class LocalMainDemoPage extends AppCompatActivity {
         mappIdentityinterface = appInfra.getLocal();
 
         AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("LocalMainDemoPage", "SDKEy", "SDValue");
-        ((TextView)findViewById(R.id.countryValue)).setText(mappIdentityinterface.getCountry());
-        ((TextView)findViewById(R.id.localValue)).setText(mappIdentityinterface.getlocal());
+//        ((TextView)findViewById(R.id.countryValue)).setText(mappIdentityinterface.getCountry());
+        ((TextView)findViewById(R.id.localValue)).setText(mappIdentityinterface.getUILocal());
 
-        Log.i("TAG-Local-Country", ""+mappIdentityinterface.getCountry());
-        Log.i("TAG-Local-language", ""+mappIdentityinterface.getlocal());
+//        Log.i("TAG-Local-Country", ""+mappIdentityinterface.getCountry());
+        Log.i("TAG-Local-language", ""+mappIdentityinterface.getUILocal());
     }
 }

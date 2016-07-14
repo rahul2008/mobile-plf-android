@@ -119,7 +119,13 @@ public class AppIdentityManager implements AppIdentityInterface {
                     }else{
                         mServiceDiscoveryEnvironment= null;
                     }
+                    if(mAppState.equalsIgnoreCase("DEVELOPMENT")&& mAppState.length()==11 || mAppState.equalsIgnoreCase("TEST")&& mAppState.length()==4 || mAppState.equalsIgnoreCase("STAGING")&& mAppState.length()==7 || mAppState.equalsIgnoreCase("ACCEPTANCE")&& mAppState.length()==10 ||mAppState.equalsIgnoreCase("PRODUCTION")&& mAppState.length()==10){
 
+                        mAppState= obj.getString("AppState");
+
+                    }else{
+                        mAppState= null;
+                    }
                     try {
                         PackageInfo pInfo = null;
                         pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
