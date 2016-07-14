@@ -7,13 +7,16 @@ package com.philips.cdp.di.iap.analytics;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.BuildConfig;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 public class AnalyticsHelper {
 
     private static volatile AnalyticsHelper mAnalyticsHelper = null;
     private AIAppTaggingInterface mAIAppTaggingInterface;
+    private LoggingInterface mIAPLoggingInterface;
 
     private AnalyticsHelper() {
     }
@@ -33,6 +36,10 @@ public class AnalyticsHelper {
         return mAIAppTaggingInterface;
     }
 
+    public LoggingInterface getIAPLoggingInterfaceInterface() {
+        return mIAPLoggingInterface;
+    }
+
     public synchronized void initializeIAPTagging(final Context context) {
 //        Tagging.setDebuggable(true);
 //        Tagging.enableAppTagging(true);
@@ -40,6 +47,8 @@ public class AnalyticsHelper {
         mAIAppTaggingInterface = appInfra.getTagging().
                 createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
         mAIAppTaggingInterface.setPreviousPage("IAPDemo");
+        mIAPLoggingInterface=appInfra.getLogging().createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
+        IAPLog.enableLogging(true);
 //        mAIAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
     }
 }
