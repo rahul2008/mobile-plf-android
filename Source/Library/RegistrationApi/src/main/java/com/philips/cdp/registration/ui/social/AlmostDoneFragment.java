@@ -103,6 +103,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private boolean isForTermsAccepatance;
 
+    private boolean isSavedCBTermsChecked;
+
+    private boolean isSavedCbAcceptTermsChecked;
+
+    private boolean isTermsAndConditionVisible;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onAttach");
@@ -183,6 +189,45 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     public void onDetach() {
         super.onDetach();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDetach");
+    }
+
+    private Bundle mSavedBundle;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        mSavedBundle = outState;
+        super.onSaveInstanceState(mSavedBundle);
+        if(mCbTerms.isCBChecked()){
+            isSavedCBTermsChecked = true;
+            mSavedBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
+            mSavedBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        }
+        if(mCbAcceptTerms.isCBChecked()){
+            isSavedCbAcceptTermsChecked = true;
+            mSavedBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
+            mSavedBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        }
+        if(mRegAccptTermsError.getVisibility() == View.VISIBLE){
+            isTermsAndConditionVisible = true;
+            mSavedBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
+            mSavedBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null){
+            if(savedInstanceState.getBoolean("isSavedCBTermsChecked")){
+                mCbTerms.setChecked(true);
+            }
+            if(savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")){
+                mCbAcceptTerms.setChecked(true);
+            }
+            if(savedInstanceState.getString("saveTermsAndConditionErrText")!=null && savedInstanceState.getBoolean("isTermsAndConditionVisible")){
+                mRegAccptTermsError.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
+            }
+        }
+        mSavedBundle = null;
     }
 
     @Override

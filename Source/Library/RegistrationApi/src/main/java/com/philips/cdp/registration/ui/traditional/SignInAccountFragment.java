@@ -95,6 +95,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private ScrollView mSvRootLayout;
 
+    private boolean isSavedEmailError;
+
+    private boolean isSavedRegError;
+
+    private boolean isSavedPasswordErr;
+
+    private boolean isSavedVerifyEmail;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -182,8 +189,19 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mBundle.putString("saveErrText", mRegError.getErrorMsg());
         }
         if(mEtEmail.isEmailErrorVisible()){
-            mBundle.putBoolean("isSaveEmailErrText", true);
-            mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescrition());
+            isSavedEmailError = true;
+            mBundle.putBoolean("isSaveEmailErrText", isSavedEmailError);
+            mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescription());
+        }
+        if(mEtPassword.isPasswordErrorVisible()){
+            isSavedPasswordErr = true;
+            mBundle.putBoolean("isSavedPasswordErr", isSavedPasswordErr);
+            mBundle.putString("savedPasswordErr", mEtPassword.getmSavedPasswordErrDescription());
+        }
+        if(mBtnResend.getVisibility() == View.VISIBLE && mEtEmail.isEmailErrorVisible()){
+            isSavedVerifyEmail = true;
+            mBundle.putBoolean("isSavedVerifyEmail", isSavedVerifyEmail);
+            mBundle.putString("savedVerifyEmail", mEtEmail.getSavedEmailErrDescription());
         }
         mBundle.putBoolean("isLoginBton", isLoginBtn);
     }
@@ -201,6 +219,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
             }else if(savedInstanceState.getBoolean("isSavedRegError")){
                 mRegError.setError(savedInstanceState.getString("saveErrText"));
+            }
+            if(savedInstanceState.getString("savedPasswordErr")!=null && savedInstanceState.getBoolean("isSavedPasswordErr")){
+                mEtPassword.setErrDescription(savedInstanceState.getString("savedPasswordErr"));
+                mEtPassword.showInvalidPasswordAlert();
+            }
+            if(savedInstanceState.getString("savedVerifyEmail")!=null && savedInstanceState.getBoolean("isSavedVerifyEmail")){
+                mEtEmail.setErrDescription(savedInstanceState.getString("savedVerifyEmail"));
+                mEtEmail.showInvalidAlert();
+                mEtEmail.showErrPopUp();
+                mBtnResend.setVisibility(View.VISIBLE);
             }
         }
         mBundle = null;
@@ -258,8 +286,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void hideValidations() {
-        //mEtEmail.hideErrPopUp();
-        //mEtEmail.hideEmailInvalidAlert();
         mRegError.hideError();
     }
 
@@ -389,7 +415,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             }
         }
     }
-
 
     @Override
     public void onSendForgotPasswordSuccess() {
