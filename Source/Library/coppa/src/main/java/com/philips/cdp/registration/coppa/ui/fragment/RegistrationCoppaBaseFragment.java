@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
@@ -14,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -26,16 +24,12 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 
 import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTaggingErrors;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
@@ -145,7 +139,7 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
     }
 
@@ -269,47 +263,6 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         AppTagging.trackAction(state, key, value);
     }
 
-    protected void trackActionForRemarkettingOption(String state) {
-        AppTagging.trackAction(state, null, null);
-    }
-
-    protected void trackActionForAcceptTermsOption(String state) {
-        AppTagging.trackAction(state, null, null);
-    }
-
-    protected void trackActionRegisterError(int errorCode) {
-        AppTaggingErrors.trackActionRegisterError(errorCode);
-    }
-
-    protected void trackActionLoginError(int errorCode) {
-        AppTaggingErrors.trackActionLoginError(errorCode);
-    }
-
-    protected void trackActionForgotPasswordFailure(int errorCode) {
-        AppTaggingErrors.trackActionForgotPasswordFailure(errorCode);
-    }
-
-    protected void trackActionResendVerificationFailure(int errorCode) {
-        AppTaggingErrors.trackActionResendNetworkFailure(errorCode);
-    }
-
-    protected void trackMultipleActionsRegistration() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(AppTagingConstants.REGISTRATION_CHANNEL, AppTagingConstants.MY_PHILIPS);
-        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_USER_REGISTRATION);
-        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
-    }
-
-    protected void trackMultipleActionsLogin(String providerName) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(AppTagingConstants.LOGIN_CHANNEL, providerName);
-        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.LOGIN_START);
-        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
-    }
-
-    protected void trackMultipleActionsMap(String state, HashMap map) {
-        AppTagging.trackMultipleActions(state, map);
-    }
 
     protected void handleOrientationOnView(final View view) {
         if (null == view) {
@@ -366,12 +319,6 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
         view.requestFocus();
-      /* scrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                scrollView.scrollTo(0, view.getTop());
-            }
-        });*/
 
         scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 

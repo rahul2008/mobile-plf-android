@@ -163,7 +163,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    public void onViewStateRestored( Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
     }
 
