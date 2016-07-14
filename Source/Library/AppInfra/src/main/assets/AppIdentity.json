@@ -3,14 +3,4 @@
     "sector"  : "B2C",
     "AppState"  : "PRODUCTION",
     "ServiceDiscoveryEnvironment"  : "PRODUCTION"
-
-
-//    "ServiceDiscoveryEnvironment" : {
-//        "PRODUCTION": "www.philips.com",
-//        "TEST": "tst.philips.com",
-//        "STAGING": "dev.philips.com",
-//        "ACCEPTANCE": "acc.philips.com"
-//
-//    }
-
 }

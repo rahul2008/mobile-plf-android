@@ -106,7 +106,6 @@ public class AppIdentityManager implements AppIdentityInterface {
             if(json != null){
                 try {
                     JSONObject obj = new JSONObject(json);
-                    obj.getJSONObject("ServiceDiscoveryEnvironment");
                      micrositeId= obj.getString("micrositeId");
                      sector = obj.getString("sector");
                     mServiceDiscoveryEnvironment= obj.getString("ServiceDiscoveryEnvironment");
