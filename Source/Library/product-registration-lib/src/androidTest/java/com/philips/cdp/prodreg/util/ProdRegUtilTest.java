@@ -26,12 +26,6 @@ public class ProdRegUtilTest extends MockitoTestCase {
         assertFalse(ProdRegUtil.isValidDate(null));
     }
 
-    public void testIsInValidSerialNumber() {
-        assertTrue(ProdRegUtil.isInValidSerialNumber("[0-9]-[0-9]-[0-9]", "@3456"));
-        assertTrue(ProdRegUtil.isInValidSerialNumber("", ""));
-        assertTrue(ProdRegUtil.isInValidSerialNumber(null, ""));
-    }
-
     public void testGettingMinDate() {
         assertTrue(ProdRegUtil.getMinDate() != 0);
     }
@@ -55,5 +49,14 @@ public class ProdRegUtilTest extends MockitoTestCase {
         assertTrue(data2.equals("15"));
     }
 
+    public void testIsValidSerialNumber() {
+        String serialNumber = "124";
+        assertTrue(ProdRegUtil.isValidSerialNumber(true, "[0-9][0-9][0-9]", serialNumber));
+        assertTrue(ProdRegUtil.isValidSerialNumber(true, null, serialNumber));
+        assertTrue(ProdRegUtil.isValidSerialNumber(true, "", serialNumber));
+        assertFalse(ProdRegUtil.isValidSerialNumber(true, "[0-9][0-9][0-9]", null));
+        assertFalse(ProdRegUtil.isValidSerialNumber(true, "[0-9][0-9][0-9]", ""));
+        assertTrue(ProdRegUtil.isValidSerialNumber(false, "[0-9][0-9][0-9]", ""));
+    }
 
 }

@@ -586,9 +586,6 @@ public class UserWithProductsTest extends MockitoTestCase {
         verify(userWithProductsMock).updateLocaleCache(registeredProduct1, ProdRegError.USER_NOT_SIGNED_IN, RegistrationState.FAILED);
         verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
         when(userWithProductsMock.isUserSignedIn(context)).thenReturn(true);
-        userWithProducts.registerCachedProducts(registeredProducts);
-        verify(userWithProductsMock).updateLocaleCache(registeredProduct, ProdRegError.INVALID_DATE, RegistrationState.FAILED);
-        verify(prodRegListener, Mockito.atLeastOnce()).onProdRegFailed(registeredProduct, userWithProductsMock);
     }
 
     public void testGetRegisteredProductsListener() {

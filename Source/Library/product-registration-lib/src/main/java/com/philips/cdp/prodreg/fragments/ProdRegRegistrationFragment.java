@@ -157,7 +157,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageSerialNumber(final EditText editTextView, final String format) {
-        serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format);
+        if (TextUtils.isEmpty(format)) {
+            serialLayout.setErrorMessage(getActivity().getString(R.string.PPR_SerialNum_Missing_ErrMsg));
+        } else
+            serialLayout.setErrorMessage(new ErrorHandler().getError(getActivity(), ProdRegError.INVALID_SERIALNUMBER.getCode()).getDescription() + format);
         serialLayout.showError(editTextView);
     }
 

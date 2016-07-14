@@ -16,8 +16,17 @@ public class ProdRegUtil {
         return !TextUtils.isEmpty(date);
     }
 
-    public static boolean isInValidSerialNumber(final String regularExpression, final String serialNumber) {
-        return serialNumber == null || serialNumber.length() < 1 || regularExpression == null || !serialNumber.matches(regularExpression);
+    public static boolean isValidSerialNumber(final boolean isRequired, final String regularExpression, final String serialNumber) {
+        if (isRequired) {
+            if (TextUtils.isEmpty(serialNumber)) {
+                return false;
+            } else if (TextUtils.isEmpty(regularExpression)) {
+                return true;
+            } else if (!serialNumber.matches(regularExpression)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

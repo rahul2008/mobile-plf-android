@@ -97,21 +97,24 @@ public class ProdRegRegistrationController {
 
     private void updateProductView() {
         if (registeredProduct != null) {
-            handleRequiredFieldState(getRegisteredProduct());
+            handleRequiredFieldState(registeredProduct);
             registerControllerCallBacks.setProductView(getRegisteredProduct());
         }
     }
 
-    private void handleRequiredFieldState(final RegisteredProduct registeredProduct) {
+    private void handleRequiredFieldState(RegisteredProduct registeredProduct) {
         if (productMetadataResponseData != null) {
-            final boolean requireSerialNumber = productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true") && ProdRegUtil.isInValidSerialNumber(productMetadataResponseData.getSerialNumberFormat(), registeredProduct.getSerialNumber());
+            final boolean requiredSerialNumber = productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true");
+            final boolean isValidSerialNumber = ProdRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), registeredProduct.getSerialNumber());
+            final boolean requireSerialNumber = productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true") & !isValidSerialNumber;
             registerControllerCallBacks.requireFields(productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true"), requireSerialNumber);
         }
     }
 
     public boolean isValidSerialNumber(final String serialNumber) {
         final String serialNumberFormat = productMetadataResponseData.getSerialNumberFormat();
-        final boolean isValidSerialNumber = !ProdRegUtil.isInValidSerialNumber(serialNumberFormat, serialNumber);
+        final boolean requiredSerialNumber = productMetadataResponseData != null && productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true");
+        final boolean isValidSerialNumber = ProdRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), serialNumber);
         registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber, serialNumberFormat);
         return isValidSerialNumber;
     }

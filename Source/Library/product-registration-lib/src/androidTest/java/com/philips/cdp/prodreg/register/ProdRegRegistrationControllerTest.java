@@ -112,8 +112,9 @@ public class ProdRegRegistrationControllerTest extends MockitoTestCase {
     public void testInit() {
         prodRegRegistrationController.init(null);
         verify(registerControllerCallBacksMock).exitProductRegistration();
+        when(registeredProductMock.getSerialNumber()).thenReturn("1-2-3");
         prodRegRegistrationController.init(bundle);
-        verify(registerControllerCallBacksMock).requireFields(true, true);
+        verify(registerControllerCallBacksMock).requireFields(true, false);
         verify(registerControllerCallBacksMock).setSummaryView(summaryDataMock);
         verify(registerControllerCallBacksMock).setProductView(registeredProductMock);
         verify(registeredProductMock, atLeastOnce()).setSerialNumber(registeredProductMock.getSerialNumber());
