@@ -17,16 +17,16 @@ import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
 
-public class IntroductionFragmentStart extends Fragment {
-    // Store instance variables
-    private int page;
-    private TextView largeText, smallText;
+public class WelcomeFragment extends Fragment {
     private static final int PAGE_ONE = 0;
     private static final int PAGE_TWO = 1;
     private static final int PAGE_THREE = 2;
+    // Store instance variables
+    private int page;
+    private TextView largeText, smallText;
 
-    public static IntroductionFragmentStart newInstance(int page, String title) {
-        IntroductionFragmentStart fragmentFirst = new IntroductionFragmentStart();
+    public static WelcomeFragment newInstance(int page, String title) {
+        WelcomeFragment fragmentFirst = new WelcomeFragment();
         Bundle args = new Bundle();
         args.putInt("pageIndex", page);
         fragmentFirst.setArguments(args);
@@ -36,27 +36,27 @@ public class IntroductionFragmentStart extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.introduction_screen_start, null);
+        View view = inflater.inflate(R.layout.af_welcome_fragment, null);
         largeText = (TextView) view.findViewById(R.id.large_text);
         smallText = (TextView) view.findViewById(R.id.small_text);
         switch (page) {
             case PAGE_ONE:
                 view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-                        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
+                        ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_start_page_bg));
                 break;
             case PAGE_TWO:
                 view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-                        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_center_page_bg));
+                        ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_center_page_bg));
                 smallText.setText(getResources().getString(R.string.introduction_screen_two_bottom_text));
                 break;
             case PAGE_THREE:
                 view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-                        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_end_page_bg));
+                        ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_end_page_bg));
                 smallText.setText(getResources().getString(R.string.introduction_screen_three_bottom_text));
                 break;
             default:
                 view.findViewById(R.id.parent_introduction_fragment_layout).setBackground(
-                        ContextCompat.getDrawable(getActivity(), R.drawable.introduction_start_page_bg));
+                        ContextCompat.getDrawable(getActivity(), R.drawable.af_welcome_start_page_bg));
                 smallText.setText(getResources().getString(R.string.introduction_screen_one_bottom_text));
         }
 

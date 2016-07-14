@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.settingscreen;
 
 import android.content.Context;
@@ -18,31 +19,25 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
+import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
 
-/**
- * ListViewSettings is responsible for showing Settings Screen.
- *
- * @author: ritesh.jha@philips.com
- * @since: June 17, 2016
- */
-public class ListViewSettings extends BaseAdapter {
+public class SettingsAdapter extends BaseAdapter {
     private Context mActivity;
     private Bundle saveBundle = new Bundle();
     private LayoutInflater inflater = null;
     private User mUser = null;
     private LogoutHandler mLogoutHandler = null;
-    private ArrayList<SettingScreenItem> mSettingsItemList = null;
+    private ArrayList<SettingListItem> mSettingsItemList = null;
 
-    public ListViewSettings(Context context, ArrayList<SettingScreenItem> settingsItemList,
-                            LogoutHandler logoutHandler) {
+    public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
+                           LogoutHandler logoutHandler) {
         mActivity = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mUser = new User(context);
@@ -85,9 +80,7 @@ public class ListViewSettings extends BaseAdapter {
         FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
         TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
 
-//        CharSequence titleText = null;
-
-        SettingScreenItemType type = mSettingsItemList.get(position).type;
+        SettingListItemType type = mSettingsItemList.get(position).type;
 
         switch (type) {
             case HEADER:
@@ -113,7 +106,7 @@ public class ListViewSettings extends BaseAdapter {
                             if (mUser.isUserSignIn()) {
                                 logoutAlert();
                             } else {
-                                mActivity.startActivity(new Intent(mActivity, RegistrationActivity.class));
+                                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
                             }
                         }
                     });
@@ -153,7 +146,6 @@ public class ListViewSettings extends BaseAdapter {
 
         value.setVisibility(View.GONE);
         description.setVisibility(View.GONE);
-        //  arrow.setVisibility(View.GONE);
         on_off.setVisibility(View.GONE);
         arrow.setVisibility(View.VISIBLE);
     }
@@ -183,7 +175,6 @@ public class ListViewSettings extends BaseAdapter {
                 .setPositiveButton(getString(R.string.settings_list_item_log_out),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-//                                mActivity.startActivity(new Intent(mActivity, UserRegistrationActivity.class));
                                 mUser.logout(mLogoutHandler);
                             }
                         })

@@ -22,9 +22,6 @@ import com.philips.platform.modularui.statecontroller.UIBasePresenter;
 
 /**
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
- *
- * @author: ritesh.jha@philips.com
- * @since: June 17, 2016
  */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity{
     public static final String SHARED_PREFERENCES = "SharedPref";
@@ -81,12 +78,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity{
     }
 
     protected boolean backstackFragment() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            finish();
-        } else {
-            fragmentManager.popBackStack();
-            removeCurrentFragment();
-        }
+        fragmentManager.popBackStack();
         return true;
     }
 

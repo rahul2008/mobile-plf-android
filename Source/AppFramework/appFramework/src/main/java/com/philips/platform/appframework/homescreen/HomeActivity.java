@@ -26,15 +26,18 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.utils.HamburgerUtil;
+import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.consumercare.ConsumerCareLauncher;
 import com.philips.platform.appframework.utility.Logger;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.ArrayList;
 
 
-public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener {
+public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarUpdateListener{
+    private static String TAG = HomeActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     // private TypedArray hamburgerMenuIcons;
     private ArrayList<HamburgerItem> hamburgerItems;
@@ -60,6 +63,8 @@ public class HomeActivity extends AppFrameworkBaseActivity implements ActionbarU
          */
         super.onCreate(savedInstanceState);
         presenter = new HomeActivityPresenter();
+        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " HomeScreen Activity Created ");
+
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
         initActionBar(getSupportActionBar());

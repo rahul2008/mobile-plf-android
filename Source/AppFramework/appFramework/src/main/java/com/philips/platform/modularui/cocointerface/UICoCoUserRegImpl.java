@@ -10,9 +10,9 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.platform.appframework.homescreen.HomeActivity;
-import com.philips.platform.appframework.introscreen.IntroductionScreenActivity;
+import com.philips.platform.appframework.introscreen.WelcomeActivity;
+import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
 
 /**
  * Created by 310240027 on 6/22/2016.
@@ -37,7 +37,7 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
 
     @Override
     public void runCoCo(Context context) {
-        this.context.startActivity(new Intent(context, RegistrationActivity.class));
+        this.context.startActivity(new Intent(context, UserRegistrationActivity.class));
 
     }
 
@@ -60,7 +60,7 @@ public class UICoCoUserRegImpl implements UICoCoInterface,UserRegistrationListen
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         if (null != activity) {
-            if(context instanceof IntroductionScreenActivity) {
+            if(context instanceof WelcomeActivity) {
                 activity.startActivity(new Intent(activity, HomeActivity.class));
             } else if(context instanceof HomeActivity){
                 activity.finish();

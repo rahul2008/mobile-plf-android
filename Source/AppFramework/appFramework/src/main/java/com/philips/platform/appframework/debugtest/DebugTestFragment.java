@@ -1,9 +1,11 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 
 package com.philips.platform.appframework.debugtest;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -62,7 +64,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.debug_test, container, false);
+        View view = inflater.inflate(R.layout.af_debug_fragment, container, false);
         setUp(view);
         return view;
     }
@@ -86,8 +88,8 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
             public void onItemSelected(AdapterView<?> adapter, View v,
                                        int position, long id) {
                 final String configuration = adapter.getItemAtPosition(position).toString();
-//                ((TextView) adapter.getChildAt(0)).setTextColor(Color.WHITE);
-                if(count>0) {
+                //((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
+                if (count > 0) {
                     User user = new User(context);
                     user.logout(null);
                     Log.d(TAG, "Before Configuration" + configuration);
@@ -130,19 +132,18 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         final ArrayAdapter<String> configType = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, configurationType);
         configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-             spinner.setAdapter(configType);
+        spinner.setAdapter(configType);
     }
 
     private void initViews(final View view) {
-        version=(TextView)view.findViewById(R.id.version) ;
+        version = (TextView) view.findViewById(R.id.version);
 
-        version.setText(" App Version "+BuildConfig.VERSION_NAME);
+        version.setText(" App Version " + BuildConfig.VERSION_NAME);
 
         spinner = (Spinner) view.findViewById(R.id.spinner);
         txt_title = (TextView) view.findViewById(R.id.txt_title);
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
     }
-
 
 
     private void initialiseUserRegistration(final String development) {

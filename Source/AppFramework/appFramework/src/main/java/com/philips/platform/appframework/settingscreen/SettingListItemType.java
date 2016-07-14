@@ -5,12 +5,6 @@
 */
 package com.philips.platform.appframework.settingscreen;
 
-/**
- * SettingScreenItemType will describe the type of the items in the list.
- *
- * @author: ritesh.jha@philips.com
- * @since: June 22, 2016
- */
-public enum SettingScreenItemType {
+public enum SettingListItemType {
     HEADER, CONTENT, NOTIFICATION
 }

@@ -16,9 +16,15 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.User;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.appframework.AppFrameworkApplication;
 import com.philips.platform.appframework.AppFrameworkBaseActivity;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HomeActivity;
+import com.philips.platform.appframework.introscreen.WelcomeActivity;
+import com.philips.platform.appframework.userregistrationscreen.UserRegistrationActivity;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 /**
  * <H1>Dev Guide</H1>
@@ -48,23 +54,24 @@ import com.philips.platform.appframework.R;
  *
  * SplashActivity is class which will appear at the very start when user
  * opens the app.
- *
- * @author : Ritesh.jha@philips.com
- * @since : 2 June 2016
  */
 public class SplashActivity extends AppFrameworkBaseActivity {
     private static int SPLASH_TIME_OUT = 3000;
     private int SplashID = 90001;
+    private static String TAG = SplashActivity.class.getSimpleName();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         super.onCreate(savedInstanceState);
         presenter = new SplashPresenter();
         initView();
         startTimer();
+        AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.INFO, TAG, " Splash Activity Created ");
+
     }
 
     /*
@@ -76,8 +83,6 @@ public class SplashActivity extends AppFrameworkBaseActivity {
         setContentView(R.layout.uikit_splash_screen_logo_center_tb);
 
         ViewGroup group = (ViewGroup) findViewById(R.id.splash_layout);
-       // group.setBackground(uikit_splashGradient));
-
         ImageView logo = (ImageView) findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_philips_logo));
 

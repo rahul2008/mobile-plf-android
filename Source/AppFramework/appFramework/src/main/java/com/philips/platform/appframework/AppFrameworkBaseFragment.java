@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.utility.Constants;
 import com.philips.platform.appframework.utility.Logger;
 import com.philips.platform.appframework.utility.NetworkReceiver;
@@ -27,9 +26,6 @@ import com.philips.platform.appframework.utility.NetworkStateListener;
 
 /**
  * AppFrameworkBaseFragment is the <b>Base class</b> for all fragments.
- *
- * @author: ritesh.jha@philips.com
- * @since: June 17, 2016
  */
 public abstract class AppFrameworkBaseFragment extends Fragment implements
         NetworkStateListener {
@@ -68,25 +64,13 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
         Logger.i(Constants.FRAGMENT, TAG + " : onCreate ");
         mFragmentActivityContext = getActivity();
         fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-//        registerNetWorkReceiver();
     }
 
-
-//    private void registerNetWorkReceiver() {
-//        IntentFilter filter = new IntentFilter(
-//                "android.net.conn.CONNECTIVITY_CHANGE");
-//        mNetworkutility = new NetworkReceiver(this);
-//        getActivity().registerReceiver(mNetworkutility, filter);
-//    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Logger.i(Constants.FRAGMENT, " : onActivityCreated ");
-//        mLeftRightMarginPort = (int) mFragmentActivityContext.getResources()
-//                .getDimension(R.dimen.activity_margin_port);
-//        mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
-//                .getDimension(R.dimen.activity_margin_land);
     }
 
     @Override
@@ -146,85 +130,11 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
         super.onDetach();
     }
 
-//    protected boolean isConnectionAvailable() {
-//        if (isConnectionAvailable)
-//            return true;
-//        else {
-//            // new NetworkAlertView().showNetworkAlert(getActivity());
-//            mHandler.postAtFrontOfQueue(new Runnable() {
-//
-//                @Override
-//                public void run() {
-//                    new NetworkAlertView().showAlertBox(
-//                            getActivity(),
-//                            null,
-//                            getActivity().getResources().getString(
-//                                    R.string.No_Internet),
-//                            getActivity().getResources().getString(
-//                                    android.R.string.yes));
-//
-//
-//                }
-//            });
-//            return false;
-//        }
-//    }
-
-//    protected boolean isTablet() {
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        try {
-//            if (getActivity().getWindowManager() != null)
-//                getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//        } catch (NullPointerException e) {
-//            Logger.e(TAG, "V4 library issue catch ");
-//        } finally {
-//            float yInches = metrics.heightPixels / metrics.ydpi;
-//            float xInches = metrics.widthPixels / metrics.xdpi;
-//            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
-//            return diagonalInches >= 6.5;
-//        }
-//    }
-
-//    protected void showAlert(final String message) {
-//        mHandler.post(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                new NetworkAlertView().showAlertBox(
-//                        getActivity(),
-//                        null,
-//                        message,
-//                        getActivity().getResources().getString(
-//                                android.R.string.yes));
-//            }
-//        });
-//    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Logger.i(Constants.FRAGMENT, " : onConfigurationChanged ");
-        // setLocaleLanguage();
     }
-
-	/*
-     * This method can be called directly from outside and helps to invoke the
-	 * fragments, instead of full screen mActivity. DigitalCare fragments will be
-	 * added in the root container of hosting app. Integrating app has to pass
-	 * some parameters in order to do smooth operations.
-	 */
-
-//    public void removeFragmentByTag(String tag) {
-//        try {
-//            FragmentTransaction fragmentTransaction = mFragmentActivityContext
-//                    .getSupportFragmentManager().beginTransaction();
-//            Fragment fragmentDetailsTablet = mFragmentActivityContext.getSupportFragmentManager().findFragmentByTag(tag);
-//            fragmentTransaction.remove(fragmentDetailsTablet).commit();
-//        } catch (IllegalStateException e) {
-//            Logger.e(Constants.FRAGMENT, "IllegalStateException" + e.getMessage());
-//            e.printStackTrace();
-//        }
-//    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -248,13 +158,8 @@ public abstract class AppFrameworkBaseFragment extends Fragment implements
     }
 
     protected void backstackFragment() {
-//        if (mActivityContext.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-//            finish();
-//        } else {
         fragmentManager.popBackStack();
         removeCurrentFragment();
-//        }
-//        return true;
     }
 
     private void removeCurrentFragment() {

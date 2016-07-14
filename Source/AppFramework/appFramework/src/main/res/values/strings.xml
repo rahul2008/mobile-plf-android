@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AppFramework</string>
+    <string name="af_app_name">AppFramework</string>
     <string name="app_home_title">Mobile App Home</string>
     <string name="left_arrow">&lt;</string>
     <string name="right_arrow">&gt;</string>
@@ -41,62 +41,10 @@
         <item>Debug and Testing</item>
     </string-array>
 
-
-    <string-array name="settingsScreen_list">
-        <item>@string/settings_list_item_main</item>
-        <item>@string/settings_list_item_one</item>
-        <item>@string/settings_list_item_two</item>
-        <item>@string/settings_list_item_three</item>
-        <item>@string/settings_list_item_notify</item>
-        <item>@string/settings_list_item_purchases</item>
-        <item>@string/settings_list_item_order_history</item>
-        <item>@string/settings_list_item_my_acc</item>
-        <item>@string/settings_list_item_login</item>
-    </string-array>
-
-
     <!-- Consumer Care related-->
 
-    <string-array name="category">
-        <item>HAIRCARE_CA</item>
-        <item>MENS_SHAVING_CA</item>
-    </string-array>
-
-
-    <string-array name="subcategory">
-        <item>HAIR_STYLERS_SU</item>
-        <item>SONICARE_FOR_KIDS_SU</item>
-        <item>HAIR_STYLERS_SU</item>
-        <item>HAIR_DRYERS_SU</item>
-        <item>STRAIGHTENER_SU</item>
-    </string-array>
-
     <string-array name="productselection_ctnlist">
-        <item>SCD888/26</item>
-        <item>RQ1250/16</item>
-        <item>RQ1250/17</item>
-        <item>HD3197/03</item>
-        <item>HX6321_02</item>
-        <item>SC2009/00</item>
-        <item>PR3743/00</item>
-        <item>PR3840/00</item>
-        <item>S9721/84</item>
-        <item>HP6519/01</item>
-        <item>S9711/31</item>
-        <item>S9511/26</item>
-        <item>S9031/12</item>
-        <item>HD8967_01</item>
         <item>HD9240/90</item>
-        <item>RQ1150/16</item>
-        <item>SC5994/00</item>
-        <item>SC2008/11</item>
-        <item>HR1871_00</item>
-        <item>SC2009/00</item>
-        <item>HX9192/01</item>
-        <item>HX9192/02</item>
-        <item>HX9192/03</item>
-        <item>HX9192/04</item>
-        <item>HX9191/06</item>
     </string-array>
     <!--ConsumerCare related end here.-->
 
