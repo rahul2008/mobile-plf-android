@@ -97,7 +97,7 @@ import com.shamanland.fonticon.FontIconView;
  *        </pre>
  */
 
-public class WelcomeActivity extends AppFrameworkBaseActivity implements UserRegistrationListener, RegistrationTitleBarListener, View.OnClickListener {
+public class WelcomeActivity extends AppFrameworkBaseActivity implements View.OnClickListener {
     private static String TAG = WelcomeActivity.class.getSimpleName();
     private FontIconView appframework_leftarrow, appframework_rightarrow;
     private TextView startRegistrationScreenButton, appframeworkSkipButton;
@@ -179,60 +179,12 @@ public class WelcomeActivity extends AppFrameworkBaseActivity implements UserReg
                     mPager.setCurrentItem(mPager.getCurrentItem() - 1, true);
             }
         });
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
     }
 
-    @Override
-    public void onUserRegistrationComplete(Activity activity) {
-        if (null != activity) {
-            startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
-        }
-    }
-
-    @Override
-    public void onPrivacyPolicyClick(Activity activity) {
-
-    }
-
-    @Override
-    public void onTermsAndConditionClick(Activity activity) {
-
-    }
-
-    @Override
-    public void onUserLogoutSuccess() {
-
-    }
-
-    @Override
-    public void onUserLogoutFailure() {
-
-    }
-
-    @Override
-    public void onUserLogoutSuccessWithInvalidAccessToken() {
-
-    }
 
     @Override
     protected void onDestroy() {
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
         super.onDestroy();
-    }
-
-    @Override
-    public void updateRegistrationTitle(int i) {
-
-    }
-
-    @Override
-    public void updateRegistrationTitleWithBack(int i) {
-
-    }
-
-    @Override
-    public void updateRegistrationTitleWithOutBack(int i) {
-
     }
 
     @Override
