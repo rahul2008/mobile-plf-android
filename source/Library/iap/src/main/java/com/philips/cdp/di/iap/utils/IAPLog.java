@@ -8,27 +8,22 @@ Project           : SaecoAvanti
 
 package com.philips.cdp.di.iap.utils;
 
-import android.util.Log;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 public class IAPLog {
     public final static String LOG = "InAppPurchase";
     public static final String FRAGMENT_LIFECYCLE = "FragmentLifecycle";
-    public static final String DEMOAPPACTIVITY = "DemoAppActivity";
     public static final String BASE_FRAGMENT_ACTIVITY = "IAPActivity";
-    public static final String SHIPPING_ADDRESS_FRAGMENT = "ShippingAddressFragment";
+    public static final String DEMOAPPACTIVITY = "DemoAppActivity";
 
-    public static boolean isLoggingEnabled = true;
+    public static boolean isLoggingEnabled = false;
 
-    public static String APP_SOURCE_VALUE = "Develop";
+    private static LoggingInterface mIAPLoggingInterface = AppInfraHelper.getInstance().getIAPLoggingInterfaceInterface();
 
-    public static void enableLogging() {
-        isLoggingEnabled = true;
-        APP_SOURCE_VALUE = "Develop";
-    }
-
-    public static void disableLogging() {
-        isLoggingEnabled = false;
-        APP_SOURCE_VALUE = "PlayStore";
+    public static void enableLogging(boolean enableLog) {
+        mIAPLoggingInterface.enableConsoleLog(enableLog);
+        mIAPLoggingInterface.enableFileLog(enableLog);
+        isLoggingEnabled = enableLog;
     }
 
     public static boolean isLoggingEnabled() {
@@ -37,25 +32,25 @@ public class IAPLog {
 
     public static void d(String tag, String message) {
         if (isLoggingEnabled) {
-            Log.d(tag, message);
+            mIAPLoggingInterface.log(LoggingInterface.LogLevel.DEBUG,tag,message);
         }
     }
 
     public static void e(String tag, String message) {
         if (isLoggingEnabled) {
-            Log.e(tag, message);
+            mIAPLoggingInterface.log(LoggingInterface.LogLevel.ERROR, tag, message);
         }
     }
 
     public static void i(String tag, String message) {
         if (isLoggingEnabled) {
-            Log.i(tag, message);
+            mIAPLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, message);
         }
     }
 
     public static void v(String tag, String message) {
         if (isLoggingEnabled) {
-            Log.v(tag, message);
+            mIAPLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
         }
     }
 }
