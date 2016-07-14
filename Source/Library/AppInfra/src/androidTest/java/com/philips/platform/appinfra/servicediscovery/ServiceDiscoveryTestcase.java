@@ -14,6 +14,8 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase{
 
     ServiceDiscoveryInterface mServiceDiscoveryManager=null;
     AppInfra mAppInfra;
+
+    String mServiceId = "userreg.janrain.cdn";
     // Context context = Mockito.mock(Context.class);
 
     private Context context;
@@ -29,7 +31,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase{
         assertNotNull(mServiceDiscoveryManager);
     }
     public void testgetServiceUrlWithLanguagePreference()throws Exception{
-        mServiceDiscoveryManager.getServiceUrlWithLanguagePreference("ugrow.terms", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        mServiceDiscoveryManager.getServiceUrlWithLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onError(ERRORVALUES error, String message) {
 
@@ -42,7 +44,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase{
         });
     }
     public void testgetServiceUrlWithCountryPreference()throws Exception{
-        mServiceDiscoveryManager.getServiceUrlWithCountryPreference("ugrow.terms", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        mServiceDiscoveryManager.getServiceUrlWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onError(ERRORVALUES error, String message) {
 
@@ -55,7 +57,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase{
         });
     }
     public void testgetServiceLocaleWithCountryPreference()throws Exception{
-        mServiceDiscoveryManager.getServiceLocaleWithCountryPreference("ugrow.terms", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+        mServiceDiscoveryManager.getServiceLocaleWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
 
             @Override
             public void onError(ERRORVALUES error, String message) {
@@ -69,7 +71,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase{
         });
     }
     public void testgetServiceLocaleWithLanguagePreference()throws Exception{
-        mServiceDiscoveryManager.getServiceLocaleWithLanguagePreference("ugrow.terms", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+        mServiceDiscoveryManager.getServiceLocaleWithLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
 
 
             @Override
@@ -84,7 +86,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase{
         });
     }
     public void testgetServicesWithLanguagePreference()throws Exception{
-        mServiceDiscoveryManager.getServicesWithLanguagePreference("ugrow.terms", new ServiceDiscoveryInterface.OnGetServicesListener() {
+        mServiceDiscoveryManager.getServicesWithLanguagePreference(mServiceId, new ServiceDiscoveryInterface.OnGetServicesListener() {
 
 
             @Override
@@ -99,7 +101,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase{
         });
     }
     public void testgetServicesWithCountryPreference()throws Exception{
-        mServiceDiscoveryManager.getServicesWithCountryPreference("ugrow.terms", new ServiceDiscoveryInterface.OnGetServicesListener() {
+        mServiceDiscoveryManager.getServicesWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServicesListener() {
 
 
             @Override

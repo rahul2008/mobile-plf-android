@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, ServiceDiscoveryInterface.OnRefreshListener {
+public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, ServiceDiscoveryInterface.OnRefreshListener{
 
     AppInfra mAppInfra;
     Context context;
@@ -30,24 +31,23 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
     boolean mServiceLocaleWithCountryPreference= false;
     boolean mServicesWithLanguagePreferenceMultiple= false;
     boolean mmServiceUrlWithCountryPreferenceMultiple= false;
+    OnRefreshListener mOnRefreshListener;
 
 
     public ServiceDiscoveryManager(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
+        mOnRefreshListener =this;
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
 
-        refresh((OnRefreshListener)this);
+        refresh(mOnRefreshListener);
 
     }
 
 
     public String getservice(OnRefreshListener listener) {
         String urlBuild = null;
-//        if(mAppInfra.getTagging()!=null){
-//            mAppInfra.getTagging().trackActionWithInfo("ServiceDiscoveryPage", "KeyServiceDiscovery", "ValueServiceDiscovery");
-//        }
 
         InternationalizationManager locamManager= new InternationalizationManager(mAppInfra);
         String country= locamManager.getCountry();
@@ -359,6 +359,8 @@ if(mState!=null && mEnvironment!=null){
                     if(RequestManager.mServiceDiscovery.isSuccess()){
                         isDataAvailable = true;
                         listener.onSuccess();
+                    }else{
+                        listener.onError(ERRORVALUES.SECURITY_ERROR, "SECURITY_ERROR" );
                     }
                 }else{
             getservice(listener);
@@ -369,17 +371,17 @@ if(mState!=null && mEnvironment!=null){
 
     @Override
     public void onSuccess() {
+        Log.i("Refresh Success", "Refresh Success");
         if(RequestManager.mServiceDiscovery != null){
             if(RequestManager.mServiceDiscovery.isSuccess()){
                 isDataAvailable = true;
+//                listener.onSuccess();
             }
-        }else{
-            getservice((OnRefreshListener)this);
         }
     }
 
     @Override
     public void onError(ERRORVALUES error, String message) {
-
+        Log.i(""+error, "Refresh error"+message);
     }
 }
