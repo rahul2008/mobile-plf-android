@@ -4,7 +4,7 @@ apply plugin: 'pmd'
 apply plugin: 'jacoco'
 
 def coverageSourceDirs = [
-        '../Library/product-registration-lib/src/main/java'
+        '../Library/product-registration-lib/src/androidTest/java/com/philips/cdp/prodreg'
 ]
 buildscript {
     repositories {
@@ -238,7 +238,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../Library/product-registration-lib/build/jacoco/testDebugUnitTest.exec')
+    executionData = files('../product-registration-lib/build/jacoco/testDebugUnitTest.exec')
 
     reports {
         xml.enabled = true
