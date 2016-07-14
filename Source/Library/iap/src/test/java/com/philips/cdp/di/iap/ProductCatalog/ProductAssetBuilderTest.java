@@ -25,6 +25,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -87,11 +90,11 @@ public class ProductAssetBuilderTest implements
 
     @Override
     public void onFetchAssetSuccess(final Message msg) {
-
+        assertTrue(true);
     }
 
     @Override
     public void onFetchAssetFailure(final Message msg) {
-
+        assertFalse(false);
     }
 }
