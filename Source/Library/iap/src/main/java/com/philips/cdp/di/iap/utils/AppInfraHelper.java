@@ -2,30 +2,30 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.iap.analytics;
+package com.philips.cdp.di.iap.utils;
 
 import android.content.Context;
 
 import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
-public class AnalyticsHelper {
+public class AppInfraHelper {
 
-    private static volatile AnalyticsHelper mAnalyticsHelper = null;
+    private static volatile AppInfraHelper mAnalyticsHelper = null;
     private AIAppTaggingInterface mAIAppTaggingInterface;
     private LoggingInterface mIAPLoggingInterface;
 
-    private AnalyticsHelper() {
+    private AppInfraHelper() {
     }
 
-    public static AnalyticsHelper getInstance() {
+    public static AppInfraHelper getInstance() {
         if (mAnalyticsHelper == null) {
-            synchronized (AnalyticsHelper.class) {
+            synchronized (AppInfraHelper.class) {
                 if (mAnalyticsHelper == null) {
-                    mAnalyticsHelper = new AnalyticsHelper();
+                    mAnalyticsHelper = new AppInfraHelper();
                 }
             }
         }
@@ -40,7 +40,7 @@ public class AnalyticsHelper {
         return mIAPLoggingInterface;
     }
 
-    public synchronized void initializeIAPTagging(final Context context) {
+    public synchronized void initializeAppInfra(final Context context) {
 //        Tagging.setDebuggable(true);
 //        Tagging.enableAppTagging(true);
         AppInfra appInfra = new AppInfra.Builder().build(context);

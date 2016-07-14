@@ -8,10 +8,6 @@ Project           : SaecoAvanti
 
 package com.philips.cdp.di.iap.utils;
 
-import android.util.Log;
-
-import com.philips.cdp.di.iap.analytics.AnalyticsHelper;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 public class IAPLog {
@@ -22,7 +18,7 @@ public class IAPLog {
 
     public static boolean isLoggingEnabled = false;
 
-    private static LoggingInterface mIAPLoggingInterface = AnalyticsHelper.getInstance().getIAPLoggingInterfaceInterface();
+    private static LoggingInterface mIAPLoggingInterface = AppInfraHelper.getInstance().getIAPLoggingInterfaceInterface();
 
     public static void enableLogging(boolean enableLog) {
         mIAPLoggingInterface.enableConsoleLog(enableLog);

@@ -2,7 +2,7 @@ package com.philips.cdp.di.iapdemo;
 
 import android.app.Application;
 
-import com.philips.cdp.di.iap.analytics.AnalyticsHelper;
+import com.philips.cdp.di.iap.utils.AppInfraHelper;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -19,7 +19,7 @@ public class DemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initializeUserRegistration();
-        AnalyticsHelper.getInstance().initializeIAPTagging(this);
+        AppInfraHelper.getInstance().initializeAppInfra(this);
     }
 
     private void initializeUserRegistration() {
