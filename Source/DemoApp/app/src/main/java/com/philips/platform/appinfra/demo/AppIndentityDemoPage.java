@@ -31,6 +31,8 @@ public class AppIndentityDemoPage extends AppCompatActivity {
         ((TextView) findViewById(R.id.appStateValue)).setText(mAppIdentityInterface.getAppState());
         ((TextView) findViewById(R.id.micrositeIdValue)).setText(mAppIdentityInterface.getMicrositeId());
         ((TextView) findViewById(R.id.sectorValue)).setText(mAppIdentityInterface.getSector());
+        ((TextView) findViewById(R.id.servicediscoveryvalue)).setText(mAppIdentityInterface.getServiceDiscoveryEnvironment());
+
 
         Log.i("getAppLocalizedNAme", "" + mAppIdentityInterface.getAppLocalizedNAme());
         Log.i("getSector", "" + mAppIdentityInterface.getSector());
