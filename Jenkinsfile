@@ -12,5 +12,5 @@ node('Android') {
 
     stage 'Lint'
     sh 'cd ./Source/ShineLib && ./gradlew lintDebug || true'
-    step([$class: 'LintPublisher', canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: ''])
+    step([$class: 'LintPublisher', healthy: '0', unHealthy: '20'])
 }
