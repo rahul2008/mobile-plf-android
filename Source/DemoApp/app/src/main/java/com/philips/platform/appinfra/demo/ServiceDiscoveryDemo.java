@@ -49,6 +49,9 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         Button urlbyCountry = (Button) findViewById(R.id.geturl_by_lang_buttn);
         Button getHomecountryBtn = (Button) findViewById(R.id.gethome_country_btn);
         Button setHomeCountrybtn = (Button) findViewById(R.id.sethomecountry_btn);
+
+        Button getservicecountryBtn = (Button) findViewById(R.id.getservice_by_country);
+        Button getservicelangBtn = (Button) findViewById(R.id.getservice_by_lang);
         editTextData= idEditText.getText().toString();
 
         resultView = (TextView) findViewById(R.id.textView2) ;
@@ -57,8 +60,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             @Override
             public void onClick(View v) {
 
-//                mServiceDiscoveryInterface.getServicesWithCountryPreference("userreg.janrain.cdn",mOnGetServicesListener );
-//                mServiceDiscoveryInterface.getServicesWithLanguagePreference("userreg.janrain.cdn",mOnGetServicesListener );
                 editTextData= idEditText.getText().toString();
                 mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(editTextData,mOnGetServiceLocaleListener );
 
@@ -93,10 +94,24 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
                 mServiceDiscoveryInterface.getHomeCountry(mOnGetHomeCountryListener);
             }
         });
+
         setHomeCountrybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                mServiceDiscoveryInterface.setHomeCountry();
+            }
+        });
+        getservicelangBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mServiceDiscoveryInterface.getServicesWithLanguagePreference(editTextData, mOnGetServicesListener );
+            }
+        });
+        getservicecountryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mServiceDiscoveryInterface.getServicesWithCountryPreference(editTextData, mOnGetServicesListener );
             }
         });
 //        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("ServiceDiscoveryDemoPage", "SDKEy", "SDValue");
