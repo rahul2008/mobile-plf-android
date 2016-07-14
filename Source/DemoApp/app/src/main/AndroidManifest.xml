@@ -73,7 +73,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.philips.platform.appinfra.demo.LocalMainDemoPage"
+            android:name=".InternationalizationDemoPage"
             android:label="LocalMainDemo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

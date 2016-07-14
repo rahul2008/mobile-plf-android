@@ -13,7 +13,7 @@ import com.philips.platform.appinfra.servicediscovery.InternationalizationInterf
 /**
  * Created by 310238655 on 6/2/2016.
  */
-public class LocalMainDemoPage extends AppCompatActivity {
+public class InternationalizationDemoPage extends AppCompatActivity {
 
     InternationalizationInterface mappIdentityinterface = null;
 
@@ -24,7 +24,7 @@ public class LocalMainDemoPage extends AppCompatActivity {
         AppInfraInterface appInfra = AppInfraApplication.gAppInfra;
         mappIdentityinterface = appInfra.getLocal();
 
-        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("LocalMainDemoPage", "SDKEy", "SDValue");
+        AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("InternationalizationDemoPage", "SDKEy", "SDValue");
 //        ((TextView)findViewById(R.id.countryValue)).setText(mappIdentityinterface.getCountry());
         ((TextView)findViewById(R.id.localValue)).setText(mappIdentityinterface.getUILocal());
 
