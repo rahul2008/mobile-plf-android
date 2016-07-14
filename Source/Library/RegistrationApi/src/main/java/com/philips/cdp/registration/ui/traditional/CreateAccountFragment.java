@@ -97,6 +97,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private boolean isSavedEmailErr;
 
+    private boolean isSavedCBTermsChecked;
+
+    private boolean isSavedCbAcceptTermsChecked;
+
+    private boolean isSavedPasswordErr;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreate");
@@ -185,12 +191,27 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         if(mEtEmail.isEmailErrorVisible()){
             isSavedEmailErr = true;
             mBundle.putBoolean("isSavedEmailErr", isSavedEmailErr);
-            mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescrition());
+            mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescription());
+        }
+        if(mEtPassword.isPasswordErrorVisible()){
+            isSavedPasswordErr = true;
+            mBundle.putBoolean("isSavedPasswordErr", isSavedPasswordErr);
+            mBundle.putString("savedPasswordErr", mEtPassword.getmSavedPasswordErrDescription());
         }
         if(mRegAccptTermsError.getVisibility() == View.VISIBLE){
             isTermsAndConditionVisible = true;
             mBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
             mBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        }
+        if(mCbTerms.isCBChecked()){
+            isSavedCBTermsChecked = true;
+            mBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
+            mBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+        }
+        if(mCbAcceptTerms.isCBChecked()){
+            isSavedCbAcceptTermsChecked = true;
+            mBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
+            mBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
         }
     }
 
@@ -203,8 +224,18 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 mEtEmail.showInvalidAlert();
                 mEtEmail.showErrPopUp();
             }
+            if(savedInstanceState.getString("savedPasswordErr")!=null && savedInstanceState.getBoolean("isSavedPasswordErr")){
+                mEtPassword.setErrDescription(savedInstanceState.getString("savedPasswordErr"));
+                mEtPassword.showInvalidPasswordAlert();
+            }
             if(savedInstanceState.getString("saveTermsAndConditionErrText")!=null && savedInstanceState.getBoolean("isTermsAndConditionVisible")){
                 mRegAccptTermsError.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
+            }
+            if(savedInstanceState.getBoolean("isSavedCBTermsChecked")){
+                mCbTerms.setChecked(true);
+            }
+            if(savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")){
+                mCbAcceptTerms.setChecked(true);
             }
         }
         mBundle = null;

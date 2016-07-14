@@ -100,7 +100,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
         mSavedEmaillError = mErrDescription;
     }
 
-    public String getSavedEmailErrDescrition(){
+    public String getSavedEmailErrDescription(){
         return mSavedEmaillError;
     }
 

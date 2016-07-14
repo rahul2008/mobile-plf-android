@@ -51,6 +51,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     private boolean isValidatePassword = true;
 
+    private String mSavedPasswordError;
 
     public XPassword(Context context) {
         super(context);
@@ -110,9 +111,13 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     }
 
     public void setErrDescription(String mErrDescription) {
+        mSavedPasswordError = mErrDescription;
         mTvErrDescriptionView.setText(mErrDescription);
     }
 
+    public String getmSavedPasswordErrDescription(){
+        return mSavedPasswordError;
+    }
 
     private boolean validatePassword() {
         if (!FieldsValidator.isValidPassword(mEtPassword.getText().toString().trim())) {
@@ -161,14 +166,11 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     }
 
-    private void showErrPopUp() {
-        mTvErrDescriptionView.setVisibility(View.VISIBLE);
-        mFlInvaliFielddAlert.setVisibility(View.VISIBLE);
-    }
-
-    private void hideErrPopUp() {
-        mTvErrDescriptionView.setVisibility(View.GONE);
-        mFlInvaliFielddAlert.setVisibility(View.GONE);
+    public boolean isPasswordErrorVisible(){
+        if(mTvErrDescriptionView.getVisibility() == View.VISIBLE){
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -246,7 +248,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         }
     }
 
-    private void showInvalidPasswordAlert() {
+    public void showInvalidPasswordAlert() {
         mEtPassword.setTextColor(mContext.getResources().getColor(R.color.reg_error_box_color));
         mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_error);
         mFlInvaliFielddAlert.setVisibility(VISIBLE);

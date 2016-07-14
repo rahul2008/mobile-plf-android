@@ -71,8 +71,6 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private final int BAD_RESPONSE_CODE = 7004;
 
-    private boolean isSavedEmailError;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onCreate");
@@ -176,9 +174,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
         if(mEtEmail.isEmailErrorVisible()){
-            isSavedEmailError = true;
-            mBundle.putBoolean("isSaveEmailErrText", isSavedEmailError);
-            mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescrition());
+            mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescription());
         }
     }
 
@@ -186,7 +182,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null){
-            if(savedInstanceState.getString("saveEmailErrText")!=null && savedInstanceState.getBoolean("isSaveEmailErrText")){
+            if(savedInstanceState.getString("saveEmailErrText")!=null){
                 mEtEmail.showInvalidAlert();
                 mEtEmail.showErrPopUp();
                 mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
@@ -355,6 +351,11 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
                 mEtEmail.showInvalidAlert();
                 mEtEmail.showErrPopUp();
             }
+        }
+        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+            mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+            mEtEmail.showInvalidAlert();
+            mEtEmail.showErrPopUp();
         }
         scrollViewAutomatically(mEtEmail, mSvRootLayout);
         trackActionForgotPasswordFailure(userRegistrationFailureInfo.getErrorCode());
