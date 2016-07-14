@@ -8,7 +8,6 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.tagging.Tagging;
-
 import java.util.Locale;
 
 public class DemoApplication extends Application {
