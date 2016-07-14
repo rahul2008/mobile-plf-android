@@ -10,6 +10,7 @@
 package com.philips.cdp.registration.coppa.ui.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,8 @@ import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
 import com.philips.cdp.registration.coppa.utils.RegistrationCoppaHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -41,8 +44,6 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.dhpclient.BuildConfig;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.tagging.AIAppTaggingInterface;
 
 public class RegistrationCoppaFragment extends Fragment implements NetworStateListener, OnClickListener {
@@ -492,11 +493,60 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         }
     }
 
+    private static  ProgressDialog mProgressDialog;
+
+    public static void showRefreshProgress(Activity activity) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(activity, R.style.reg_Custom_loaderTheme);
+            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.show();
+
+        } else {
+            mProgressDialog.show();
+        }
+    }
+
+    public static void hideRefreshProgress() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
+
     private static UserRegistrationListener mUserRegistrationListener = new UserRegistrationListener() {
         @Override
         public void onUserRegistrationComplete(Activity activity) {
             //Launch the Approval fragment
-            handleConsentState();
+            showRefreshProgress(activity);
+            final User user = new User(activity.getApplicationContext());
+            user.refreshLoginSession(new RefreshLoginSessionHandler() {
+                @Override
+                public void onRefreshLoginSessionSuccess() {
+                    user.refreshUser(new RefreshUserHandler() {
+                        @Override
+                        public void onRefreshUserSuccess() {
+                            hideRefreshProgress();
+                            handleConsentState();
+                        }
+
+                        @Override
+                        public void onRefreshUserFailed(int error) {
+                            hideRefreshProgress();
+                        }
+                    });
+                }
+
+                @Override
+                public void onRefreshLoginSessionFailedWithError(int error) {
+                    hideRefreshProgress();
+                }
+
+                @Override
+                public void onRefreshLoginSessionInProgress(String message) {
+                    hideRefreshProgress();
+                }
+            });
 
         }
 

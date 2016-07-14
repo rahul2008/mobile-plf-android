@@ -55,7 +55,7 @@ public class ConsentHandler implements RefreshUserHandler {
         mParentalApprovalFragment = parentalApprovalFragment;
         mTaggingState = taggingState;
         mTaggingKey = taggingKey;
-        mParentalApprovalFragment.showRefreshProgress();
+        mParentalApprovalFragment.getRegistrationFragment().showRefreshProgress(mParentalApprovalFragment.getActivity());
         mUser.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
@@ -69,7 +69,7 @@ public class ConsentHandler implements RefreshUserHandler {
                     @Override
                     public void onFailure(int errorCode) {
                         AppTagging.trackAction(mTaggingState, mTaggingKey, "No");
-                        mParentalApprovalFragment.hideRefreshProgress();
+                        mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
                         if (errorCode == -1) {
                             Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
                                     , Toast.LENGTH_SHORT).show();
@@ -92,7 +92,7 @@ public class ConsentHandler implements RefreshUserHandler {
 
     public void disAgreeConsent(ParentalApprovalFragment parentalApprovalFragment) {
         mParentalApprovalFragment = parentalApprovalFragment;
-        mParentalApprovalFragment.showRefreshProgress();
+        mParentalApprovalFragment.getRegistrationFragment().showRefreshProgress(mParentalApprovalFragment.getActivity());
         mUser.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
@@ -102,7 +102,7 @@ public class ConsentHandler implements RefreshUserHandler {
                         mUser.refreshUser(new RefreshUserHandler() {
                             @Override
                             public void onRefreshUserSuccess() {
-                                mParentalApprovalFragment.hideRefreshProgress();
+                                mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
                                 mCoppaExtension.buildConfiguration();
                                 if (RegistrationCoppaHelper.getInstance().getUserRegistrationListener() != null) {
                                     RegistrationCoppaHelper.getInstance().getUserRegistrationListener().notifyonUserRegistrationCompleteEventOccurred(mParentalApprovalFragment.getActivity());
@@ -111,7 +111,7 @@ public class ConsentHandler implements RefreshUserHandler {
 
                             @Override
                             public void onRefreshUserFailed(final int error) {
-                                mParentalApprovalFragment.hideRefreshProgress();
+                                mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
                                 Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
                                         , Toast.LENGTH_SHORT).show();
                             }
@@ -120,7 +120,7 @@ public class ConsentHandler implements RefreshUserHandler {
 
                     @Override
                     public void onFailure(int errorCode) {
-                        mParentalApprovalFragment.hideRefreshProgress();
+                        mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
                         if (errorCode == -1) {
                             Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
                                     , Toast.LENGTH_SHORT).show();
@@ -145,7 +145,7 @@ public class ConsentHandler implements RefreshUserHandler {
     public void onRefreshUserSuccess() {
         mCoppaExtension.buildConfiguration();
         RLog.i("ConsentStatus", "Status :  " + mCoppaExtension.getCoppaEmailConsentStatus());
-        mParentalApprovalFragment.hideRefreshProgress();
+        mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
         updateUIBasedOnConsentStatus(mCoppaExtension.getCoppaEmailConsentStatus());
     }
 
@@ -179,7 +179,7 @@ public class ConsentHandler implements RefreshUserHandler {
     }
 
     private void handleFailure() {
-        mParentalApprovalFragment.hideRefreshProgress();
+        mParentalApprovalFragment.getRegistrationFragment().hideRefreshProgress();
         Toast.makeText(mParentalApprovalFragment.getContext(), mParentalApprovalFragment.getContext().getResources().getString(R.string.reg_JanRain_Server_Connection_Failed)
                 , Toast.LENGTH_SHORT).show();
     }

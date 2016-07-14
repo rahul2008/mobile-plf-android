@@ -8,11 +8,9 @@
 
 package com.philips.cdp.registration.coppa.ui.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +41,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     private Button mBtnAgree;
     private Button mBtnDisAgree;
     private ParentalApprovalFragmentController mParentalApprovalFragmentController;
-    private ProgressDialog mProgressDialog;
+
     private Context mContext;
     private XRegError mRegError;
     private ScrollView mSvRootLayout;
@@ -139,7 +137,7 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " ParentalApprovalFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        hideRefreshProgress();
+        getRegistrationFragment().hideRefreshProgress();
         super.onDestroy();
         if (mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus() != null
                 && mParentalApprovalFragmentController.getCoppaExtension().getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConsentPending)) {
@@ -245,27 +243,9 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
 
     @Override
     public int getTitleResourceId() {
-          return R.string.reg_Coppa_Age_Confirmation_Screen_Title_txt;
+        return R.string.reg_Coppa_Age_Confirmation_Screen_Title_txt;
     }
 
-    public void showRefreshProgress() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.show();
-
-        } else {
-            mProgressDialog.show();
-        }
-    }
-
-    public void hideRefreshProgress() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-        }
-    }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
