@@ -132,4 +132,27 @@
         android:padding="10dp"
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+    <TextView
+        android:id="@+id/servicediscovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sector"
+        android:padding="10dp"
+        android:text="Service Discovery Env"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/servicediscoveryvalue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/sector"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 </RelativeLayout>
