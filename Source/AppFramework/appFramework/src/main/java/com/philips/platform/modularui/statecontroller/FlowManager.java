@@ -2,11 +2,8 @@ package com.philips.platform.modularui.statecontroller;
 
 import android.content.Context;
 
-import com.philips.platform.modularui.eventbus.StateEvent;
 import com.philips.platform.modularui.factorymanager.StateCreator;
 import com.philips.platform.modularui.util.UIConstants;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +13,6 @@ import java.util.Map;
  */
 public class FlowManager {
 
-    StateCreator stateCreator;
     Map<Integer, UIState> stateMap;
     UIState currentState;
 
@@ -30,7 +26,6 @@ public class FlowManager {
 
     public FlowManager(){
         stateMap = new HashMap<Integer, UIState>();
-        stateCreator = new StateCreator();
     }
 
     public Map<Integer, UIState> getStateMap() {
@@ -46,12 +41,8 @@ public class FlowManager {
     }
     //TODO : optimize hashmap creation to avoid multiple instances of navigator getting creator.
     public void navigateState(@UIConstants.UIStateDef int stateID, Context context) {
-        if (getStateMap().containsKey(stateID)) {
             //TODO: update current state here
-                getStateMap().get(stateID).getNavigator().navigate(context);
-        }else {
-            EventBus.getDefault().post(new StateEvent(stateID,context));
-        }
+            StateCreator.getInstance().getState(stateID,context).getNavigator().navigate(context);
     }
 
     public void addToStateMap(UIState uiState) {
