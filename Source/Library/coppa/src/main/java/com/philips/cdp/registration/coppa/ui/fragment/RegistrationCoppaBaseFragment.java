@@ -1,9 +1,9 @@
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ *
  */
 
 package com.philips.cdp.registration.coppa.ui.fragment;
@@ -33,9 +33,9 @@ import java.util.Locale;
 
 public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
-    protected int mLeftRightMarginPort;
+    private int mLeftRightMarginPort;
 
-    protected int mLeftRightMarginLand;
+    private int mLeftRightMarginLand;
 
     protected abstract void setViewParams(Configuration config, int width);
 
@@ -58,7 +58,8 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private Thread mUiThread = Looper.getMainLooper().getThread();
-    protected final void handleOnUIThread(Runnable runnable) {
+
+    protected final void handleOnUiThread(Runnable runnable) {
         if (Thread.currentThread() != mUiThread) {
             mHandler.post(runnable);
         } else {
@@ -79,9 +80,10 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
     private void setCustomLocale() {
         Locale.setDefault(RegistrationHelper.getInstance().getLocale(getContext()));
-        Configuration config = new Configuration();
+        final Configuration config = new Configuration();
         config.locale = RegistrationHelper.getInstance().getLocale(getContext());
-        getActivity().getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
+        getActivity().getResources().updateConfiguration(config, getActivity().
+                getResources().getDisplayMetrics());
     }
 
     @Override
@@ -144,42 +146,45 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
     }
 
     private void setPrevTiltle() {
-        RegistrationCoppaFragment fragment = (RegistrationCoppaFragment) getParentFragment();
+        final RegistrationCoppaFragment fragment = (RegistrationCoppaFragment) getParentFragment();
 
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && mPrevTitleResourceId != -99) {
-            if( this instanceof ParentalApprovalFragment){
-                int count = fragment.getChildFragmentManager().getBackStackEntryCount();
-                Fragment regFragment = fragment.getChildFragmentManager().getFragments().get(count);
+            if (this instanceof ParentalApprovalFragment) {
+                final int count = fragment.getChildFragmentManager().getBackStackEntryCount();
+                final Fragment regFragment = fragment.getChildFragmentManager().
+                        getFragments().get(count);
                 if (regFragment != null && regFragment instanceof RegistrationFragment) {
-                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(((RegistrationFragment)regFragment).getCurrentTitleResource());
+                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(((
+                            RegistrationFragment) regFragment).getCurrentTitleResource());
                 }
-
-            }else {
+            } else {
                 if (null != fragment) {
                     if (fragment.getFragmentBackStackCount() > 2) {
                         fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
                                 mPrevTitleResourceId);
                     } else {
-                        fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);
+                        fragment.getUpdateTitleListener().updateRegistrationTitle(
+                                mPrevTitleResourceId);
                     }
 
                     trackBackActionPage();
-                    fragment.setResourceID(mPrevTitleResourceId);
+                    fragment.setResourceId(mPrevTitleResourceId);
                 }
             }
-        }else{
-            if( this instanceof ParentalApprovalFragment){
+        } else {
+            if (this instanceof ParentalApprovalFragment) {
 
-                int count = fragment.getChildFragmentManager().getBackStackEntryCount();
+                final int count = fragment.getChildFragmentManager().getBackStackEntryCount();
 
-                Fragment regFragment = fragment.getChildFragmentManager().getFragments().get(count);
+                final Fragment regFragment = fragment.getChildFragmentManager().
+                        getFragments().get(count);
                 if (regFragment != null && regFragment instanceof RegistrationFragment) {
-                    if(null != fragment.getUpdateTitleListener()){
-                        fragment.getUpdateTitleListener().updateRegistrationTitle(((RegistrationFragment)regFragment).getCurrentTitleResource());
+                    if (null != fragment.getUpdateTitleListener()) {
+                        fragment.getUpdateTitleListener().updateRegistrationTitle(((
+                                RegistrationFragment) regFragment).getCurrentTitleResource());
                     }
                 }
-
             }
         }
     }
@@ -196,27 +201,28 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
     private void setCurrentTitle() {
 
-        RegistrationCoppaFragment fragment = (RegistrationCoppaFragment) getParentFragment();
+        final RegistrationCoppaFragment fragment = (RegistrationCoppaFragment) getParentFragment();
         if (null != fragment && null != fragment.getUpdateTitleListener()
                 && -99 != fragment.getResourceID()) {
-            mPrevTitleResourceId =  fragment.getResourceID();
+            mPrevTitleResourceId = fragment.getResourceID();
         }
         if (null != fragment) {
             if (fragment.getFragmentBackStackCount() > 1) {
-                if(null!=fragment.getUpdateTitleListener()){
-                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
+                if (null != fragment.getUpdateTitleListener()) {
+                    fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+                            getTitleResourceId());
                 }
             } else {
-                if(null!=fragment.getUpdateTitleListener()){
+                if (null != fragment.getUpdateTitleListener()) {
                     fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
                 }
             }
-            fragment.setResourceID(getTitleResourceId());
+            fragment.setResourceId(getTitleResourceId());
         }
     }
 
     public RegistrationCoppaFragment getRegistrationFragment() {
-        Fragment fragment = getParentFragment();
+        final Fragment fragment = getParentFragment();
         if (fragment != null && (fragment instanceof RegistrationCoppaFragment)) {
             return (RegistrationCoppaFragment) fragment;
         }
@@ -235,10 +241,9 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         });
     }
 
-
     protected void applyParams(Configuration config, View view, int width) {
 
-        LayoutParams mParams = (LayoutParams) view.getLayoutParams();
+        final LayoutParams mParams = (LayoutParams) view.getLayoutParams();
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             if (getResources().getBoolean(R.bool.isTablet)) {
                 mParams.leftMargin = mParams.rightMargin = width / 5;
@@ -262,7 +267,6 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
     protected void trackActionStatus(String state, String key, String value) {
         AppTagging.trackAction(state, key, value);
     }
-
 
     protected void handleOrientationOnView(final View view) {
         if (null == view) {
@@ -290,16 +294,14 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
                 }
             });
         } else {
-            Configuration config = getResources().getConfiguration();
+            final Configuration config = getResources().getConfiguration();
             if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 setViewParams(getResources().getConfiguration(), mWidth);
             } else {
                 setViewParams(getResources().getConfiguration(), mHeight);
             }
-
         }
     }
-
 
     public void setCustomParams(Configuration config) {
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -307,9 +309,7 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
         } else {
             setViewParams(config, mHeight);
         }
-
     }
-
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -338,5 +338,4 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
             }
         });
     }
-
 }

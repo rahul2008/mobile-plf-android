@@ -1,9 +1,9 @@
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ *
  */
 
 package com.philips.cdp.registration.coppa.ui.customviews;
@@ -44,8 +44,8 @@ public class XNumberPickerDialog implements NumberPicker.OnValueChangeListener
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.reg_dialog_coppa_age_verification);
         dialog.setCancelable(false);
-        Button ok = (Button) dialog.findViewById(R.id.reg_btn_ok);
-        Button cancel = (Button) dialog.findViewById(R.id.reg_btn_cancel);
+        final Button ok = (Button) dialog.findViewById(R.id.reg_btn_ok);
+        final Button cancel = (Button) dialog.findViewById(R.id.reg_btn_cancel);
         mTvSelctedTitleAge = (TextView) dialog.findViewById(R.id.tv_reg_coppa_header_title);
         mTvSelctedTitleAge.setText(String.valueOf(maxVal));
         mNumberPicker= (NumberPicker) dialog.findViewById(R.id.reg_age_picker);
@@ -88,8 +88,8 @@ public void setInitialValue(int value){
 
     private void setDividerColor(NumberPicker picker, int color) {
 
-        java.lang.reflect.Field[] pickerFields = NumberPicker.class.getDeclaredFields();
-        for (java.lang.reflect.Field pf : pickerFields) {
+        final java.lang.reflect.Field[] pickerFields = NumberPicker.class.getDeclaredFields();
+        for (final java.lang.reflect.Field pf : pickerFields) {
             if (pf.getName().equals("mSelectionDivider")) {
                 pf.setAccessible(true);
                 try {

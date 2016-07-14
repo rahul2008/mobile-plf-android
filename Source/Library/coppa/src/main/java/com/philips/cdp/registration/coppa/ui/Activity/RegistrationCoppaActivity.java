@@ -1,10 +1,9 @@
-
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
  *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ *
  */
 
 package com.philips.cdp.registration.coppa.ui.Activity;
@@ -33,7 +32,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 public class RegistrationCoppaActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
 
-    private  boolean isAccountSettings = true;
+    private boolean isAccountSettings = true;
     private boolean isParentalConsent;
     private TextView ivBack;
     private Handler mSiteCatalistHandler = new Handler();
@@ -59,9 +58,9 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS,true);
-            isParentalConsent = bundle.getBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT,false);
-            int orientation = bundle.getInt(RegConstants.ORIENTAION,-1);
+            isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
+            isParentalConsent = bundle.getBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, false);
+            final int orientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -83,7 +82,7 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         ivBack.setOnClickListener(this);
 
         if (alwaysFinishActivity == 0) {
-            initUI();
+            initUi();
         }
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity  Register: NetworStateListener");
     }
@@ -92,14 +91,16 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         RLog.i("Exception ", " RegistrationActivity protected onSaveInstanceState");
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(),
+                Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         bundle.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
+        int alwaysFinishActivity = Settings.System.getInt(getContentResolver(),
+                Settings.System.ALWAYS_FINISH_ACTIVITIES, 0);
         savedInstanceState.putInt("ALWAYS_FINISH_ACTIVITIES", alwaysFinishActivity);
     }
 
@@ -134,10 +135,10 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     @Override
     protected void onDestroy() {
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationCoppaActivity : onDestroy");
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity Unregister: NetworStateListener,Context");
+        RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaActivity Unregister:" +
+                " NetworStateListener,Context");
         super.onDestroy();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -148,29 +149,30 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
         }
     }
 
-    private void initUI() {
-        launchRegistrationFragment(isAccountSettings,isParentalConsent);
+    private void initUi() {
+        launchRegistrationFragment(isAccountSettings, isParentalConsent);
     }
 
     private void launchRegistrationFragment(boolean isAccountSettings, boolean isParentalConsent) {
         try {
-            FragmentManager mFragmentManager = getSupportFragmentManager();
-            RegistrationCoppaFragment registrationFragment = new RegistrationCoppaFragment();
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS,isAccountSettings);
-            bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT,isParentalConsent);
+            final FragmentManager mFragmentManager = getSupportFragmentManager();
+            final RegistrationCoppaFragment registrationFragment = new RegistrationCoppaFragment();
+            final Bundle bundle = new Bundle();
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, isAccountSettings);
+            bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, isParentalConsent);
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(this);
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
+            final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
+                    RegConstants.REGISTRATION_COPPA_FRAGMENT_TAG);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
-                    "RegistrationCoppaActivity :FragmentTransaction Exception occured in addFragment  :"
+                    "RegistrationCoppaActivity :FragmentTransaction Exception occured in " +
+                            "addFragment  :"
                             + e.getMessage());
         }
     }
-
 
     @Override
     public void onClick(View v) {
@@ -180,27 +182,27 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
     }
 
     @Override
-    public void updateRegistrationTitle(int titleResourceID) {
+    public void updateRegistrationTitle(int titleResourceId) {
         // Update title and show hamberger
         //ivBack.setVisibility(View.INVISIBLE);
         ivBack.setVisibility(View.VISIBLE);
-        TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-        tvTitle.setText(getString(titleResourceID));
+        final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
+        tvTitle.setText(getString(titleResourceId));
     }
 
     @Override
-    public void updateRegistrationTitleWithBack(int titleResourceID) {
+    public void updateRegistrationTitleWithBack(int titleResourceId) {
         // update title and show back
         ivBack.setVisibility(View.VISIBLE);
-        TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-        tvTitle.setText(getString(titleResourceID));
+        final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
+        tvTitle.setText(getString(titleResourceId));
     }
 
     @Override
-    public void updateRegistrationTitleWithOutBack(int titleResourceID) {
+    public void updateRegistrationTitleWithOutBack(int titleResourceId) {
         // update title and show back
         //ivBack.setVisibility(View.INVISIBLE);
-        TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-        tvTitle.setText(getString(titleResourceID));
+        final TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
+        tvTitle.setText(getString(titleResourceId));
     }
 }
