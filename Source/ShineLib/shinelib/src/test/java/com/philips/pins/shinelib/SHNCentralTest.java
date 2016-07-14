@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.concurrent.FutureTask;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -135,7 +137,7 @@ public class SHNCentralTest extends RobolectricTest {
 
             @Override
             SHNUserConfiguration createUserConfiguration() {
-               return mock(SHNUserConfiguration.class);
+                return mock(SHNUserConfiguration.class);
             }
         };
 
@@ -288,5 +290,13 @@ public class SHNCentralTest extends RobolectricTest {
         shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(TEST_DEVICE_MAC_ADDRESS, shnDeviceDefinitionInfoMock);
         verify(shnDeviceDefinitionMock, times(2)).createDeviceFromDeviceAddress(anyString(), isA(SHNDeviceDefinitionInfo.class), isA(SHNCentral.class));
         assertEquals(alternateShnDeviceMock, shnDevice);
+    }
+
+    @Test
+    public void verifyVersionIsPresent() throws SHNBluetoothHardwareUnavailableException {
+        String version = shnCentral.getVersion();
+
+        assertNotNull(version);
+        assertTrue(version.contains(BuildConfig.VERSION_NAME));
     }
 }
