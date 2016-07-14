@@ -25,7 +25,7 @@ import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 /**
  * Created by 310238114 on 5/5/2016.
  */
-public class AppInfra implements AppInfraInterface{
+public class AppInfra implements AppInfraInterface {
 
 
     private SecureStorageInterface secureStorage;
@@ -50,13 +50,13 @@ public class AppInfra implements AppInfraInterface{
     public static class Builder {
 
         private SecureStorageInterface secStor;
-        private LoggingInterface       logger; // builder logger
-        private LoggingInterface    aiLogger; // app infra logger
+        private LoggingInterface logger; // builder logger
+        private LoggingInterface aiLogger; // app infra logger
         private AIAppTaggingInterface tagging;
         private AppIdentityInterface appIdentity;
         private InternationalizationInterface local;
         private ServiceDiscoveryInterface mServiceDiscoveryInterface;
-        private TimeSyncInterface mTimeSyncInterface;
+        private TimeSyncInterface mTimeSyncInterfaceBuilder;
 
         /**
          * Instantiates a new Builder.
@@ -69,7 +69,7 @@ public class AppInfra implements AppInfraInterface{
             appIdentity = null;
             local = null;
             mServiceDiscoveryInterface = null;
-            mTimeSyncInterface = null;
+            mTimeSyncInterfaceBuilder = null;
         }
 
 
@@ -85,9 +85,9 @@ public class AppInfra implements AppInfraInterface{
         }
 
 
-
         /**
          * Sets Builder logging.
+         *
          * @param log the log
          * @return the logging
          */
@@ -98,6 +98,7 @@ public class AppInfra implements AppInfraInterface{
 
         /**
          * Sets Builder secure storage.
+         *
          * @param secureStorage the secure storage
          * @return the secure storage
          */
@@ -116,19 +117,26 @@ public class AppInfra implements AppInfraInterface{
             return this;
         }
 
+        public Builder setTimeSynce(TimeSyncSntpClient timeSyncSntpClient) {
+            mTimeSyncInterfaceBuilder = timeSyncSntpClient;
+            return this;
+        }
+
+
         /**
          * Build App Infra instance with give feature instances overriding the default implementation.
-         * @param pContext  context
+         *
+         * @param pContext context
          * @return the app infra
          */
-        public AppInfra build(Context pContext ) {
+        public AppInfra build(Context pContext) {
 
             AppInfra ai = new AppInfra(pContext);
-            ai.setTimeSync(mTimeSyncInterface == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterface);
+            ai.setTimeSync(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
             //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
-            // ai.setLogging(new AppInfraLogging(ai));
+            ai.setLogging(new AppInfraLogging(ai));
 
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
@@ -138,7 +146,6 @@ public class AppInfra implements AppInfraInterface{
             return ai;
         }
     }
-
 
 
     public Context getAppInfraContext() {
@@ -174,7 +181,6 @@ public class AppInfra implements AppInfraInterface{
     public ServiceDiscoveryInterface getServiceDiscoveryInterface() {
         return mServiceDiscoveryInterface;
     }
-
 
 
     public AppInfra(Context pContext) {
@@ -223,7 +229,6 @@ public class AppInfra implements AppInfraInterface{
     public LoggingInterface getAppInfraLogInstance() { // this log should be used withing App Infra library
         return appInfraLogger;
     }
-
 
 
 }

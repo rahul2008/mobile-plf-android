@@ -15,6 +15,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraSingleton;
 import com.philips.platform.appinfra.R;
 
 import java.net.DatagramPacket;
@@ -33,22 +34,14 @@ import java.util.TimeZone;
 public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInterface {
 
 
-    private static final String TAG = "TimeSyncSntpClient";
-    private static final int ORIGINTIME_OFFSET = 24;
-    private static final int RECEIVETIME_OFFSET = 32;
-    private static final int TRANSMIT_TIME_OFFSET = 40;
-    private static final int NTP_PACKET_SIZE = 48;
-
-    private static final int NTP_PORT = 123;
-    private static final int NTP_CLIENT = 3;
-    private static final int NTP_VERSION = 3;
+    private final String TAG = "TimeSyncSntpClient";
 
     // Number of seconds between Jan 1, 1900 and Jan 1, 1970
     // 70 years plus 17 leap days
-    private static final long OFFSET_BETWEEN_1900_TO_1970 = ((365L * 70L) + 17L) * 24L * 60L * 60L;
+    private final long OFFSET_BETWEEN_1900_TO_1970 = ((365L * 70L) + 17L) * 24L * 60L * 60L;
 
     // system time computed from NTP server response
-    private static long mNtpTime = 0;
+    private long mNtpTime = 0l;
 
     // value of SystemClock.elapsedRealtime() corresponding to mNtpTime
     private long mNtpTimeReference;
@@ -56,7 +49,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
     // round trip time in milliseconds
     private long mRoundTripTime;
 
-    private static Context mContext;
+    private Context mContext;
 
     private static SharedPreferences mSharedPreferences;
 
@@ -66,7 +59,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
 
     private static String[] serverPool;
 
-    private static AppInfra mAppInfra;
+    private AppInfra mAppInfra;
 
     private boolean isRefreshInProgress;
 
@@ -75,7 +68,7 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
         mAppInfra = aAppInfra;
         mContext = aAppInfra.getAppInfraContext();
         serverPool = mContext.getResources().getStringArray(R.array.server_pool);
-        init(mContext);
+        init();
         refreshTime();
         syncWithDayandDateSettingChange();
     }
@@ -84,13 +77,12 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
 
     }
 
-    public synchronized static void init(final Context pContext) {
-        mContext = pContext;
+    public synchronized void init() {
         mSharedPreferences = mContext.getSharedPreferences(SERVERTIME_PREFERENCE, Context.MODE_PRIVATE);
     }
 
 
-    public static synchronized TimeSyncSntpClient getInstance() {
+    public synchronized TimeSyncSntpClient getInstance() {
         if (serverTimeInstance == null) {
             synchronized (TimeSyncSntpClient.class) {
                 if (serverTimeInstance == null) {
@@ -230,6 +222,15 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
      * @return true if the transaction was successful.
      */
     private boolean requestTime(String host, int timeout) {
+        final int ORIGINTIME_OFFSET = 24;
+        final int RECEIVETIME_OFFSET = 32;
+        final int TRANSMIT_TIME_OFFSET = 40;
+        final int NTP_PACKET_SIZE = 48;
+
+        final int NTP_PORT = 123;
+        final int NTP_CLIENT = 3;
+        final int NTP_VERSION = 3;
+
         DatagramSocket socket = null;
         try {
             socket = new DatagramSocket();
@@ -390,6 +391,8 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeSyncInt
     @Override
     public void onReceive(Context context, Intent intent) {
         mNtpTime = 0L;
-        refreshTime();
+        if (AppInfraSingleton.getInstance() != null) {
+            refreshTime();
+        }
     }
 }
