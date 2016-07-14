@@ -18,7 +18,7 @@ import javax.net.ssl.X509TrustManager;
  */
 public class SSLCertificateManager {
 
-    public static void setSSLSocketFactory() {
+    public static void disableAllServerCertificateChecking() { // renaming setSSLSocketFactory() to disableAllServerCertificateChecking()MAIL-253
         HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
 
             @Override
