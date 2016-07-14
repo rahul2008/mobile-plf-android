@@ -39,5 +39,7 @@ public class AnalyticsHelper {
         AppInfra appInfra = new AppInfra.Builder().build(context);
         mAIAppTaggingInterface = appInfra.getTagging().
                 createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
+        mAIAppTaggingInterface.setPreviousPage("IAPDemo");
+//        mAIAppTaggingInterface.setPrivacyConsent(AIAppTaggingInterface.PrivacyStatus.OPTIN);
     }
 }

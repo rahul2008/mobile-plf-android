@@ -4,42 +4,44 @@
  */
 package com.philips.cdp.di.iap.analytics;
 
-import com.philips.cdp.tagging.Tagging;
+import com.adobe.mobile.Config;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class IAPAnalytics {
 
-    private static String sPreviousPage;
-
     public static void trackPage(String currentPage) {
-        if (sPreviousPage == null) {
-            sPreviousPage = Tagging.getLaunchingPageName();
+        if (AnalyticsHelper.getInstance().getAIAppTaggingInterface() != null) {
+            Map<String, String> map = new HashMap<>();
+            AnalyticsHelper.getInstance().getAIAppTaggingInterface().
+                    trackPageWithInfo(currentPage, map);
+            AnalyticsHelper.getInstance().getAIAppTaggingInterface().setPreviousPage(currentPage);
         }
-        Map<String, String> map = new HashMap<>();
-        AnalyticsHelper.getInstance().getAIAppTaggingInterface().
-                trackPageWithInfo(currentPage, map);
-        sPreviousPage = currentPage;
     }
 
     public static void trackAction(String state, String key, Object value) {
         String valueObject = (String) value;
-        if(AnalyticsHelper.getInstance().getAIAppTaggingInterface()!=null)
-        AnalyticsHelper.getInstance().getAIAppTaggingInterface().
-                trackActionWithInfo(state, key, valueObject);
+        if (AnalyticsHelper.getInstance().getAIAppTaggingInterface() != null)
+            AnalyticsHelper.getInstance().getAIAppTaggingInterface().
+                    trackActionWithInfo(state, key, valueObject);
     }
 
     public static void trackMultipleActions(String state, Map<String, String> map) {
-        AnalyticsHelper.getInstance().getAIAppTaggingInterface().
-                trackActionWithInfo(state, map);
+        if (AnalyticsHelper.getInstance().getAIAppTaggingInterface() != null)
+            AnalyticsHelper.getInstance().getAIAppTaggingInterface().
+                    trackActionWithInfo(state, map);
     }
 
-    public static void pauseCollectingLifecycleData(){
-        AnalyticsHelper.getInstance().getAIAppTaggingInterface().pauseCollectingLifecycleData();
+    public static void pauseCollectingLifecycleData() {
+//        if (AnalyticsHelper.getInstance().getAIAppTaggingInterface() != null)
+//            AnalyticsHelper.getInstance().getAIAppTaggingInterface().;
+        Config.pauseCollectingLifecycleData();
     }
 
-    public static void collectLifecycleData(){
-        AnalyticsHelper.getInstance().getAIAppTaggingInterface().collectLifecycleData();
+    public static void collectLifecycleData() {
+//        if (AnalyticsHelper.getInstance().getAIAppTaggingInterface() != null)
+//            AnalyticsHelper.getInstance().getAIAppTaggingInterface().collectLifecycleInfo(activity);
+        Config.collectLifecycleData();
     }
 }

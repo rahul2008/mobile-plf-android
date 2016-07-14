@@ -149,13 +149,12 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
 
     //3rd party
-    compile 'com.mcxiaoke.volley:library:1.0.17'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.googlecode.libphonenumber:libphonenumber:7.1.1'
 
     //Coco
     compile 'com.philips.cdp:uikitLib:3.2.1'
-    compile 'com.philips.cdp:AppInfra:1.0.0'
+    compile 'com.philips.cdp:AppInfra:1.1.0-rc.6'
 
     compile('com.philips.cdp:registrationApi:6.0.2') {
         exclude group: 'com.android.support'
