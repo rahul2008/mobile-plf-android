@@ -136,7 +136,7 @@ public class AppInfra implements AppInfraInterface {
             //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
-            ai.setLogging(new AppInfraLogging(ai));
+           // ai.setLogging(new AppInfraLogging(ai));
 
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
