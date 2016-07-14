@@ -3,7 +3,9 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-package com.philips.platform.appinfra.servicediscovery;
+package com.philips.platform.appinfra.internationalization;
+
+import java.util.Locale;
 
 /**
  * The interface Local interface.
@@ -22,6 +24,6 @@ public interface InternationalizationInterface {
      *
      * @return the local
      */
-    public String getUILocal();
+    public Locale getUILocale();
 
 }

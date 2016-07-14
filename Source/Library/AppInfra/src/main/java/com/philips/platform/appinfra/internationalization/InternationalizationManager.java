@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-package com.philips.platform.appinfra.servicediscovery;
+package com.philips.platform.appinfra.internationalization;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +11,7 @@ import android.telephony.TelephonyManager;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.RequestManager;
 
 import java.util.Locale;
 
@@ -33,14 +34,13 @@ public class InternationalizationManager implements InternationalizationInterfac
     }
 
     @Override
-    public String getUILocal() {
+    public Locale getUILocale() {
         if (Locale.getDefault() != null) {
-//            mAppInfra.getTagging().createInstanceForComponent("key", "value");
             if (mAppInfra.getTagging() != null) {
                 mAppInfra.getTagging().trackActionWithInfo("LocalPage", "KeyLocal", "ValueLocal");
             }
 
-            return Locale.getDefault().toString();
+            return Locale.getDefault();
         } else {
             return null;
         }

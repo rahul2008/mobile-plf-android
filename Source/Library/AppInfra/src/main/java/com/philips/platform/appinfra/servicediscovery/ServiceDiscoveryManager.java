@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
+import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.net.MalformedURLException;
@@ -70,7 +71,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface, Servi
         AppIdentityManager idntityManager = new AppIdentityManager(mAppInfra);
         idntityManager.loadJSONFromAsset();
         InternationalizationManager localmanager= new InternationalizationManager(mAppInfra);
-        localmanager.getUILocal();
+        localmanager.getUILocale();
         String mState = idntityManager.getAppState();
         String mEnvironment = idntityManager.getServiceDiscoveryEnvironment();
         String tags = null;
@@ -105,14 +106,16 @@ if(mState!=null && mEnvironment!=null){
     }
 }
 
-        if(idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getUILocal() != null && tags!=null && environment!=null ){
+        if(idntityManager.getSector() != null && idntityManager.getMicrositeId() != null && localmanager.getUILocale() != null && tags!=null && environment!=null ){
             if(localmanager.getCountry() == null){
-                URL = "https://"+environment+"/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getUILocal()+"&tags="+tags;
+                URL = "https://"+environment+"/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getUILocale()+"&tags="+tags;
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev";
+                Log.i("URL", ""+URL);
             }
             if(localmanager.getCountry() != null ){
-                URL = "https://"+environment+"/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getUILocal()+"&tags="+tags+"&country="+ localmanager.getCountry();
+                URL = "https://"+environment+"/api/v1/discovery/"+idntityManager.getSector()+"/"+idntityManager.getMicrositeId()+"?locale="+ localmanager.getUILocale()+"&tags="+tags+"&country="+ localmanager.getCountry();
 //                URL = "https://tst.philips.com/api/v1/discovery/B2C/12345?locale=en_US&tags=apps%2b%2benv%2bdev&country=US";
+                Log.i("URL", ""+URL);
             }
         }
         return URL;

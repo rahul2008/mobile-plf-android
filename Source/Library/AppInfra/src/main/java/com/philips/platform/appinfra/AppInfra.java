@@ -9,12 +9,12 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
+import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.appinfra.servicediscovery.InternationalizationInterface;
-import com.philips.platform.appinfra.servicediscovery.InternationalizationManager;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 import com.philips.platform.appinfra.tagging.AppTagging;
@@ -168,7 +168,7 @@ public class AppInfra implements AppInfraInterface {
     }
 
     @Override
-    public InternationalizationInterface getLocal() {
+    public InternationalizationInterface getInternationalization() {
         return local;
     }
 
