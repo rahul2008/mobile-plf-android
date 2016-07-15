@@ -189,7 +189,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'adobeMobileLibrary:adobeMobileLibrary:4.8.3'
-    compile('com.philips.cdp:prx:2.2.0-rc.1@aar') {
+    compile('com.philips.cdp:prx:2.1.0@aar') {
        exclude group: 'com.android.support'
         transitive = true
     }
