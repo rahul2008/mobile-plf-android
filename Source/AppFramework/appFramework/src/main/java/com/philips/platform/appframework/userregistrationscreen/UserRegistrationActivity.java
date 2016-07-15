@@ -56,6 +56,12 @@ public class UserRegistrationActivity extends AppFrameworkBaseActivity implement
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(UserRegistrationActivity.this, HomeActivity.class));
+    }
+
+    @Override
     public void updateRegistrationTitle(int i) {
 
     }
