@@ -81,18 +81,6 @@ public class TimeSyncSntpClient extends BroadcastReceiver implements TimeInterfa
         mSharedPreferences = mContext.getSharedPreferences(SERVERTIME_PREFERENCE, Context.MODE_PRIVATE);
     }
 
-
-    public synchronized TimeSyncSntpClient getInstance() {
-        if (serverTimeInstance == null) {
-            synchronized (TimeSyncSntpClient.class) {
-                if (serverTimeInstance == null) {
-                    serverTimeInstance = new TimeSyncSntpClient(mAppInfra);
-                }
-            }
-        }
-        return serverTimeInstance;
-    }
-
     private void saveElapsedOffset(final long offSetMilliseconds) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putLong(TimeConstants.OFFSET_ELAPSED, offSetMilliseconds);
