@@ -67,8 +67,6 @@
                 android:id="@+id/date_edit_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/pr_left_padding_sm"
-                android:layout_marginRight="@dimen/pr_right_padding_sm"
                 android:orientation="horizontal">
 
                 <TextView
@@ -76,7 +74,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginLeft="@dimen/pr_left_padding_sm"
                     android:layout_weight="1"
                     android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
                     android:textColor="?attr/uikit_baseColor"
@@ -87,7 +85,8 @@
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="@dimen/pr_right_padding_sm"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="right"
@@ -113,15 +112,13 @@
                 android:id="@+id/serial_edit_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/pr_left_padding_sm"
-                android:layout_marginRight="@dimen/pr_right_padding_sm"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginLeft="@dimen/pr_left_padding_sm"
                     android:layout_weight="1"
                     android:gravity="left"
                     android:text="@string/PPR_SerialNum_Lbltxt"
@@ -134,7 +131,8 @@
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="@dimen/pr_right_padding_sm"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="right"
